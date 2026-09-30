@@ -8,8 +8,10 @@ import {
 import {
   msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, type Stato,
 } from '../motore/personaggio';
-import { anteprima, puoEntrare, type Risultato } from '../motore/azioni';
-import { inPiedi, CURE, type StatoCombattimento } from '../motore/combattimento';
+import { anteprima, puoEntrare, correggibile, type Risultato } from '../motore/azioni';
+import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
+import { NOMI_TRADIZIONI } from '../motore/contenuto';
+import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
 import {
   tavola, prosa, primaFrase, candelaGrande, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
@@ -20,7 +22,7 @@ export type Scheda = 'storia' | 'personaggio' | 'averi' | 'bazar' | 'mappa';
 export type Vista =
   | { tipo: 'area' }
   | { tipo: 'storylet'; id: string }
-  | { tipo: 'risultato'; id: string; risultato: Risultato }
+  | { tipo: 'risultato'; id: string; risultato: Risultato; indice?: number; prima?: Stato }
   | { tipo: 'combattimento'; id: string; indice: number; cs: StatoCombattimento };
 
 export interface Contesto {
@@ -32,6 +34,7 @@ export interface Contesto {
   confermaNuovo: boolean;
   avviso: string;
   ora: number;
+  bersaglio?: string;
 }
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
@@ -231,11 +234,15 @@ function vistaStorylet(x: Contesto, id: string): string {
     }
     const mancanti = a.mancanti.map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
     const costo = a.costo === 0 ? 'Gratis' : `${a.costo} ${a.costo === 1 ? 'candela' : 'candele'}`;
+    const inc = a.incantesimo;
+    const magia = inc ? `<p class="nota-incantesimo">${etichetta(`Incantesimo · ${inc.nome}`, 'precursore')}
+      <span>Senza successi c'è la Dissonanza (+½ Tormento).${inc.prezzo ? ` La formula costa ${Object.entries(inc.prezzo).map(([k, v]) => `${mezzi(v)} ${nome(k, c)}`).join(' e ')} a ogni lancio.` : ''}</span></p>` : '';
     return `<li class="ramo${a.disponibile ? '' : ' chiuso'}">
       ${tavola(o.immagine ?? st.immagine, { classe: 'ritratto piccolo' })}
       <div class="corpo">
         <h3>${h(o.testo)}</h3>
         ${o.descrizione ? `<p class="descrizione">${h(o.descrizione)}</p>` : ''}
+        ${magia}
         ${sfida}
         ${mancanti ? `<ul class="mancanti">${mancanti}</ul>` : ''}
         ${a.motivo ? `<p class="mancanti">${h(a.motivo)}</p>` : ''}
@@ -312,6 +319,8 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       ${soglia ? barraVariazione(cr.nuovoLivello ? 0 : Math.max(0, ora - cr.pe), ora, soglia, 'pe', [String(liv), String(liv + 1)]) : ''}</div>
     </li>`);
   }
+  if (r.dissonanza) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⟡</span><p>Nessun successo, e il Mana ti torna indietro (Dissonanza).</p></li>`);
+  const puoiCorreggere = !!x.vista && x.vista.tipo === 'risultato' && x.vista.prima && x.vista.indice !== undefined && correggibile(s, r);
   const ancora = st && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
   const segue = r.segue ? trova(c, r.segue) : undefined;
   const titolo = r.titolo ?? (r.riuscito === undefined ? st?.titolo ?? '' : r.riuscito ? 'Riuscito' : 'Fallito');
@@ -319,13 +328,14 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     <header class="scena-testa">
       ${tavola(r.immagine ?? st?.immagine, { classe: 'ritratto grande', taglio: 'l' })}
       <div class="scena-titoli">
-        <div class="testa">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}</div>
+        <div class="testa">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}${r.corretto ? etichetta('Corretto', 'velo') : ''}</div>
         <h2>${h(titolo)}</h2>
         ${prosa(r.testo)}
       </div>
     </header>
     ${righe.length ? `<ul class="esiti">${righe.join('')}</ul>` : ''}
     <div class="azioni-fondo">
+      ${puoiCorreggere ? `<button type="button" class="bottone" data-az="correggi" title="Una candela e una prova Media di Magia; costa ½ Tormento">Correzione</button>` : ''}
       ${ancora ? `<button type="button" class="bottone" data-az="apri" data-id="${st!.id}">Riprova</button>` : ''}
       ${segue ? `<button type="button" class="bottone primario" data-az="apri" data-id="${segue.id}">Prosegui</button>` : ''}
       <button type="button" class="bottone${segue ? '' : ' primario'}" data-az="area">Torna: ${h(areaDi(x).nome)}</button>
@@ -335,49 +345,91 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
 
 function barraPF(p: { pf: number; pfMax: number }): string {
   const q = p.pf / p.pfMax;
-  return `<span class="barra pf${q < 0.4 ? ' bassa' : ''}"><i style="width:${(q * 100).toFixed(1)}%"></i></span><b class="pf-num">${p.pf}/${p.pfMax}</b>`;
+  return `<span class="barra pf${q < 0.4 ? ' bassa' : ''}"><i style="width:${(q * 100).toFixed(1)}%"></i></span><b class="pf-num">${p.pf}/${p.pfMax} PF</b>`;
+}
+
+function barraEnergia(p: { energia: number; energiaMax: number }): string {
+  const q = p.energiaMax ? Math.min(1, p.energia / p.energiaMax) : 0;
+  return `<span class="barra energia"><i style="width:${(q * 100).toFixed(1)}%"></i></span><b class="pf-num">${p.energia}/${p.energiaMax} Energia</b>`;
+}
+
+function chipEffetti(cb: Combattente, c: TContenuti): string {
+  const nomi = (cb.effetti ?? []).map((e) => {
+    const fonte = e.fonte === 'intimidire' ? 'Intimidito' : c.incantesimi.find((i) => i.id === e.fonte)?.nome ?? e.fonte;
+    return `<span class="chip ${e.valore >= 0 && e.tipo !== 'salta' ? 'buono' : 'cattivo'}" title="${h(descriviModifica(e))}">${h(fonte)}${e.tipo === 'salta' ? '' : ` · ${e.round}`}</span>`;
+  });
+  for (const v of cb.veleni ?? []) nomi.push(`<span class="chip cattivo">Avvelenato · ${v.round}</span>`);
+  return nomi.length ? `<div class="chips">${nomi.join('')}</div>` : '';
 }
 
 function vistaCombattimento(x: Contesto, cs: StatoCombattimento): string {
   const { c } = x;
   const pg = cs.combattenti.find((z) => z.lato === 'pg')!;
   const nemici = cs.combattenti.filter((z) => z.lato === 'nemico');
+  const vivi = nemici.filter(inPiedi);
+  const bersaglio = vivi.find((n) => n.id === x.bersaglio) ?? vivi[0];
   const usatiTot = Object.values(cs.usati).reduce((a, b) => a + b, 0);
   const nemicoImg = (id: string) => c.nemici.find((n) => id.startsWith(n.id + '#'))?.immagine;
   const righe = nemici.map((n) => {
     const attivo = inPiedi(n) && !cs.finito;
-    const stato = n.fuggito ? 'Fuggito' : n.pf === 0 ? 'A terra' : n.malus ? 'Esita' : '';
-    return `<li class="combattente${attivo ? '' : ' fuori'}">
-      ${tavola(nemicoImg(n.id), { classe: 'ritratto piccolo' })}
+    const scelto = attivo && n.id === bersaglio?.id;
+    const stato = n.fuggito ? 'Fuggito' : n.pf === 0 ? 'A terra' : scelto ? 'Bersaglio' : '';
+    const contenuto = `${tavola(nemicoImg(n.id), { classe: 'ritratto piccolo' })}
       <div class="corpo">
-        <div class="testa"><h3>${h(n.nome)}</h3>${stato ? etichetta(stato, n.pf === 0 || n.fuggito ? 'dim' : 'velo') : ''}</div>
+        <div class="testa"><h3>${h(n.nome)}</h3>${stato ? etichetta(stato, scelto ? 'mana' : 'dim') : ''}</div>
         <div class="pf-riga">${barraPF(n)}</div>
-      </div>
-      ${attivo ? `<div class="mosse">
-        <button type="button" class="bottone primario" data-az="attacca" data-id="${n.id}">Attacca</button>
-        <button type="button" class="bottone" data-az="intimidisci" data-id="${n.id}">Intimidisci</button>
-      </div>` : ''}
-    </li>`;
+        ${chipEffetti(n, c)}
+      </div>`;
+    return attivo
+      ? `<li><button type="button" class="combattente${scelto ? ' scelto' : ''}" data-az="bersaglio" data-id="${n.id}" aria-pressed="${scelto}">${contenuto}</button></li>`
+      : `<li><div class="combattente fuori">${contenuto}</div></li>`;
   }).join('');
-  const cure = Object.keys(CURE).map((k) => {
+
+  const incantesimi = (cs.incantesimi ?? []).map((inc) => {
+    const aSe = inc.tipo === 'potenziamento' || inc.tipo === 'cura';
+    const motivo = perchéNonLanciabile(cs, inc, aSe ? undefined : bersaglio);
+    const proibito = inc.prezzo ? ` · ${Object.entries(inc.prezzo).map(([k, v]) => `+${mezzi(v)} ${nome(k, c)}`).join(', ')}` : '';
+    return `<button type="button" class="bottone incantesimo" data-az="lancia" data-id="${inc.id}" ${motivo ? `disabled title="${h(motivo)}"` : `title="${h(inc.descrizione)}"`}>
+      ${h(inc.nome)} <small>${inc.livello} En${h(proibito)}</small></button>`;
+  }).join('');
+  const consumabili = Object.entries(CONSUMABILI).map(([k, e]) => {
     const rimasti = (cs.consumabili[k] ?? 0) - (cs.usati[k] ?? 0);
-    const ok = rimasti > 0 && usatiTot < MAX_CONSUMABILI_IN_COMBATTIMENTO && !cs.finito;
-    return `<button type="button" class="bottone" data-az="cura" data-id="${k}" ${ok ? '' : 'disabled'}>${h(nome(k, c))} +${CURE[k]} PF <small>(${rimasti})</small></button>`;
+    if ((cs.consumabili[k] ?? 0) === 0) return '';
+    const ok = rimasti > 0 && usatiTot < MAX_CONSUMABILI_IN_COMBATTIMENTO;
+    const cosa = e.pf ? `+${e.pf} PF` : `+${e.energia} Energia`;
+    return `<button type="button" class="bottone" data-az="cura" data-id="${k}" ${ok ? '' : 'disabled'}>${h(nome(k, c))} ${cosa} <small>(${rimasti})</small></button>`;
   }).join('');
+
+  const azioni = cs.finito
+    ? `<p class="verdetto ${cs.vinto ? 'vinto' : 'perso'}">${cs.vinto ? 'Vittoria' : 'Sconfitta'}</p>
+       <div class="azioni-fondo"><button type="button" class="bottone primario" data-az="concludi">Prosegui</button></div>`
+    : `<div class="barra-azioni">
+        <p class="etichetta">Contro ${h(bersaglio?.nome ?? '')}</p>
+        <div class="gruppo">
+          <button type="button" class="bottone primario" data-az="attacca">Attacca</button>
+          <button type="button" class="bottone" data-az="intimidisci">Intimidisci</button>
+        </div>
+        ${incantesimi ? `<p class="etichetta">Incantesimi</p><div class="gruppo">${incantesimi}</div>` : ''}
+        ${consumabili ? `<p class="etichetta">Consumabili · ${usatiTot}/${MAX_CONSUMABILI_IN_COMBATTIMENTO}</p><div class="gruppo">${consumabili}</div>` : ''}
+      </div>`;
+
   return `<article class="scena combattimento">
     <div class="testa">${etichetta(`Combattimento · round ${Math.min(cs.round, 99)}`, 'mana')}</div>
     <h2>${h(cs.nome)}</h2>
     <ul class="combattenti">
-      <li class="combattente pg">
+      <li><div class="combattente pg">
         ${tavola(x.c.origini.find((o) => o.id === x.s.origine)?.immagine, { classe: 'ritratto piccolo' })}
-        <div class="corpo"><div class="testa"><h3>${h(pg.nome)}</h3>${etichetta('Tu', 'velo')}</div><div class="pf-riga">${barraPF(pg)}</div></div>
-      </li>
+        <div class="corpo">
+          <div class="testa"><h3>${h(pg.nome)}</h3>${etichetta('Tu', 'velo')}</div>
+          <div class="pf-riga">${barraPF(pg)}</div>
+          ${pg.energiaMax > 0 && (cs.incantesimi ?? []).length ? `<div class="pf-riga">${barraEnergia(pg)}</div>` : ''}
+          ${chipEffetti(pg, c)}
+        </div>
+      </div></li>
       ${righe}
     </ul>
-    ${cs.finito
-      ? `<p class="verdetto ${cs.vinto ? 'vinto' : 'perso'}">${cs.vinto ? 'Vittoria' : 'Sconfitta'}</p>
-         <div class="azioni-fondo"><button type="button" class="bottone primario" data-az="concludi">Prosegui</button></div>`
-      : `<div class="cure"><span class="etichetta">Curarsi · ${usatiTot}/${MAX_CONSUMABILI_IN_COMBATTIMENTO}</span>${cure}</div>`}
+    ${!cs.finito && vivi.length > 1 ? '<p class="suggerimento">Tocca un nemico per sceglierlo come bersaglio.</p>' : ''}
+    ${azioni}
     <ol class="registro" aria-live="polite">${cs.log.slice(-12).map((l) => `<li>${h(l)}</li>`).join('')}</ol>
   </article>`;
 }
@@ -405,6 +457,21 @@ export function personaggio(x: Contesto): string {
     return `<li class="${v === 0 ? 'zero' : v < 0 ? 'neg' : 'pos'}">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}</span><b>${segno(v)}</b></li>`;
   }).join('');
   const piste = c.quality.filter((q) => q.categoria === 'pista' && (s.quality[q.id] ?? 0) > 0);
+  const conosciuti = incantesimiConosciuti(s, c);
+  const rep = repertorio(s, c).map((i) => i.id);
+  const limite = limiteRepertorio(s);
+  const energia = s.attributi.mentale + (s.abilita['magia'] ?? 0);
+  const incantesimi = conosciuti.map((i) => {
+    const daCombattimento = i.uso.includes('combattimento');
+    const dentro = rep.includes(i.id);
+    const uso = i.uso.map((u) => (u === 'combattimento' ? 'Combattimento' : 'Storie')).join(' · ');
+    return `<li class="incantesimo-riga${dentro ? ' nel-repertorio' : ''}">
+      ${tavola(i.immagine, { classe: 'icona' })}
+      <div><div class="testa"><b>${h(i.nome)}</b>${etichetta(`${NOMI_TRADIZIONI[i.tradizione]} · livello ${i.livello} · ${uso}`, i.tradizione === 'precuriane' ? 'mana' : 'dim')}</div>
+      <p>${h(i.descrizione)}</p></div>
+      ${daCombattimento ? `<button type="button" class="bottone piccolo${dentro ? ' primario' : ''}" data-az="repertorio" data-id="${i.id}" aria-pressed="${dentro}" ${!dentro && rep.length >= limite ? 'disabled' : ''}>${dentro ? 'Nel repertorio' : 'Porta in combattimento'}</button>` : '<span></span>'}
+    </li>`;
+  }).join('');
   return `<article class="scheda-pg">
     <header class="scena-testa">
       ${tavola(origine?.immagine, { classe: 'ritratto grande' })}
@@ -418,6 +485,8 @@ export function personaggio(x: Contesto): string {
     <h2 class="titolo-sezione">Attributi e abilità</h2>
     <div class="attributi-griglia">${colonne}</div>
     ${piste.length ? `<h2 class="titolo-sezione">Storie in corso</h2><ul class="elenco-piste">${piste.map((q) => `<li>${tavola(q.immagine, { classe: 'icona' })}<div><b>${h(q.nome)}</b><p>${h(q.descrizione ?? '')}</p></div><span class="etichetta velo">Capitolo ${mezzi(s.quality[q.id]!)}</span></li>`).join('')}</ul>` : ''}
+    <h2 class="titolo-sezione">Incantesimi ${conosciuti.length ? `<small>repertorio ${rep.length}/${limite} · Energia ${energia}</small>` : ''}</h2>
+    ${conosciuti.length ? `<ul class="incantesimi">${incantesimi}</ul>` : '<p class="vuoto">Non conosci ancora nessun incantesimo. Alla Locanda di Ilka, Besk Dravec insegna le basi a chi vuole imparare.</p>'}
     <h2 class="titolo-sezione">Statistiche negative</h2>
     <ul class="negative-dettaglio">${negative}</ul>
     <h2 class="titolo-sezione">Reputazione</h2>

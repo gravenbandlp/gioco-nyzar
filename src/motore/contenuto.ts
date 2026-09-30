@@ -31,6 +31,7 @@ export const Opzione = z
     immagine: Immagine.optional(),
     testo: z.string(),
     descrizione: z.string().optional(),
+    incantesimo: Id.optional(), // l'opzione richiede questo incantesimo e ne applica Dissonanza e prezzo
     requisiti: z.array(z.string()).optional(),
     costo: z.number().int().min(0).max(3).optional(), // candele, default 1
     prova: Prova.optional(),
@@ -47,6 +48,12 @@ export const Opzione = z
     if (o.prova && (!o.successo || !o.fallimento)) ctx.addIssue({ code: 'custom', message: 'la prova richiede successo e fallimento' });
     if (o.combattimento && (!o.vittoria || !o.sconfitta)) ctx.addIssue({ code: 'custom', message: 'il combattimento richiede vittoria e sconfitta' });
     if (!o.prova && !o.combattimento && !o.esito) ctx.addIssue({ code: 'custom', message: 'un\'opzione senza prova né combattimento richiede esito' });
+    if (o.incantesimo) {
+      const ab = o.prova ? (Array.isArray(o.prova.abilita) ? o.prova.abilita : [o.prova.abilita]) : [];
+      if (!o.prova || o.prova.attributo !== 'mentale' || ab.join() !== 'magia') {
+        ctx.addIssue({ code: 'custom', message: 'un\'opzione con incantesimo richiede una prova di Mentale + Magia' });
+      }
+    }
   });
 
 export const Storylet = z.object({
@@ -77,7 +84,7 @@ export const Quality = z.object({
   id: Id,
   nome: z.string(),
   immagine: Immagine.optional(),
-  categoria: z.enum(['moneta', 'bene', 'pista', 'negativa', 'reputazione', 'accesso', 'consumabile', 'equipaggiamento', 'stato']),
+  categoria: z.enum(['moneta', 'bene', 'pista', 'negativa', 'reputazione', 'accesso', 'consumabile', 'equipaggiamento', 'stato', 'incantesimo']),
   descrizione: z.string().optional(),
   valore: z.number().optional(), // valore in monete (beni)
   famiglia: z.string().optional(), // famiglia di beni: cristalli, informazioni, reliquie
@@ -97,6 +104,7 @@ export const Nemico = z.object({
   riduzione: z.number().int().min(0).default(0),
   iniziativa: z.number().int().min(0),
   puoFuggire: z.boolean().default(false),
+  tratti: z.array(z.string()).default([]), // es. animale, non-morto, eco
 });
 
 export const Scontro = z.object({
@@ -148,6 +156,52 @@ export const Origine = z.object({
   armatura: Id,
 });
 
+// ---------------------------------------------------------------- incantesimi (Regolamento, sezione 7)
+
+export const TRADIZIONI = ['cristalli', 'albero', 'respiro', 'precuriane'] as const;
+export const NOMI_TRADIZIONI: Record<(typeof TRADIZIONI)[number], string> = {
+  cristalli: 'Arte dei cristalli',
+  albero: "Liturgia dell'Albero",
+  respiro: 'Via del Respiro',
+  precuriane: 'Formule precuriane',
+};
+
+/** Modifica a tempo sui tiri di un combattente. `tutti` vale per ogni tiro; `salta` fa perdere il turno. */
+export const Modifica = z.object({
+  tipo: z.enum(['attacco', 'difesa', 'riduzione', 'tutti', 'salta']),
+  valore: z.number().int(),
+  round: z.number().int().min(1),
+});
+
+export const Incantesimo = z
+  .object({
+    id: Id,
+    nome: z.string(),
+    tradizione: z.enum(TRADIZIONI),
+    livello: z.number().int().min(1).max(5),
+    uso: z.array(z.enum(['combattimento', 'storie'])).min(1),
+    descrizione: z.string(),
+    immagine: Immagine.optional(),
+    // effetto in combattimento
+    tipo: z.enum(['attacco', 'automatico', 'area', 'potenziamento', 'indebolimento', 'cura', 'fuga', 'nessuno']).default('nessuno'),
+    difesa: z.enum(['acrobazia', 'resilienza', 'resistenza']).optional(),
+    danno: z.number().int().default(0), // si somma al margine
+    successi: z.number().int().optional(), // incantesimi automatici
+    modifica: Modifica.optional(), // potenziamento (su di te) o indebolimento (sul bersaglio)
+    veleno: z.object({ valore: z.number().int(), round: z.number().int() }).optional(),
+    doppioContro: z.array(z.string()).default([]), // tratti del nemico che subiscono danno doppio
+    solo: z.array(z.string()).default([]), // tratti richiesti al bersaglio (es. Richiamo: animale)
+    margineFuga: z.number().int().optional(),
+    prezzo: z.record(z.string(), z.number()).optional(), // formule proibite: costo a ogni lancio
+  })
+  .superRefine((x, ctx) => {
+    const combatte = x.uso.includes('combattimento');
+    if (combatte && x.tipo === 'nessuno') ctx.addIssue({ code: 'custom', message: 'un incantesimo da combattimento richiede un tipo' });
+    if (['attacco', 'automatico', 'area', 'indebolimento', 'fuga'].includes(x.tipo) && !x.difesa) ctx.addIssue({ code: 'custom', message: `il tipo ${x.tipo} richiede la difesa` });
+    if (x.tipo === 'automatico' && !x.successi) ctx.addIssue({ code: 'custom', message: 'un incantesimo automatico richiede i successi fissi' });
+    if ((x.tipo === 'potenziamento' || x.tipo === 'indebolimento') && !x.modifica) ctx.addIssue({ code: 'custom', message: `il tipo ${x.tipo} richiede la modifica` });
+  });
+
 /** Frammenti del Codex: brevi voci di ambientazione mostrate a margine. Solo informazioni pubbliche. */
 export const Frammento = z.object({
   id: Id,
@@ -168,6 +222,7 @@ export const Contenuti = z.object({
   negozi: z.array(Negozio),
   origini: z.array(Origine),
   frammenti: z.array(Frammento).default([]),
+  incantesimi: z.array(Incantesimo).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -183,5 +238,7 @@ export type TArma = z.infer<typeof Arma>;
 export type TArmatura = z.infer<typeof Armatura>;
 export type TNegozio = z.infer<typeof Negozio>;
 export type TOrigine = z.infer<typeof Origine>;
+export type TIncantesimo = z.infer<typeof Incantesimo>;
+export type TModifica = z.infer<typeof Modifica>;
 export type TFrammento = z.infer<typeof Frammento>;
 export type TContenuti = z.infer<typeof Contenuti>;

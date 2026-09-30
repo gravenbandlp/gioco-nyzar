@@ -23,6 +23,7 @@ export interface Stato {
   area: string;
   arma: string;
   armatura: string;
+  repertorio: string[]; // incantesimi scelti per il combattimento (vuoto: scelta automatica)
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {
@@ -45,6 +46,7 @@ export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, a
     area: areaIniziale,
     arma: origine.arma,
     armatura: origine.armatura,
+    repertorio: [],
   };
 }
 

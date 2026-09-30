@@ -6,7 +6,8 @@ import type { TFrammento } from '../motore/contenuto';
 import {
   nuovoPersonaggio, aggiornaTempo, msAllaProssimaCandela, msAllaProssimaCarta, pesca, scarta, type Stato,
 } from '../motore/personaggio';
-import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi } from '../motore/azioni';
+import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi } from '../motore/azioni';
+import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
 import { durata } from './formato';
 import {
@@ -25,6 +26,7 @@ let origineScelta = c.origini[0]!.id;
 let confermaNuovo = false;
 let avviso = '';
 let frammentoId: string | null = null;
+let bersaglio: string | undefined;
 
 const app = document.getElementById('app')!;
 
@@ -47,6 +49,7 @@ function carica(dati?: Partial<Salvataggio>): void {
   }
   if (s?.stato?.versione === 1 && c.aree.some((a) => a.id === s!.stato!.area)) {
     stato = s.stato;
+    stato.repertorio ??= [];
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';
   }
@@ -87,7 +90,7 @@ function render(): void {
   document.body.classList.remove('in-creazione');
   const ora = Date.now();
   aggiornaTempo(stato, ora);
-  const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora };
+  const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio };
   const centro = scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
     : scheda === 'bazar' ? bazar(x)
@@ -141,19 +144,36 @@ function azione(az: string, el: HTMLElement): void {
       const st = c.storylet.find((z) => z.id === id);
       if (!st) break;
       const indice = Number(el.dataset['i']);
+      const prima = structuredClone(s);
       const r = scegli(s, st, indice, c, ora);
       if (r.tipo === 'errore') { avviso = r.messaggio; render(); }
-      else if (r.tipo === 'combattimento') cambia({ tipo: 'combattimento', id, indice, cs: r.combattimento });
-      else cambia({ tipo: 'risultato', id, risultato: r.risultato });
+      else if (r.tipo === 'combattimento') { bersaglio = undefined; cambia({ tipo: 'combattimento', id, indice, cs: r.combattimento }); }
+      else cambia({ tipo: 'risultato', id, risultato: r.risultato, indice, prima });
       break;
     }
-    case 'attacca': case 'intimidisci': case 'cura': {
+    case 'bersaglio': bersaglio = id; render(); break;
+    case 'attacca': case 'intimidisci': case 'cura': case 'lancia': {
       if (vista.tipo !== 'combattimento') break;
-      const a = az === 'cura'
-        ? { tipo: 'cura' as const, consumabile: id }
-        : { tipo: az === 'attacca' ? ('attacco' as const) : ('intimidire' as const), bersaglio: id };
+      const b = bersaglio ?? '';
+      const a = az === 'cura' ? { tipo: 'cura' as const, consumabile: id }
+        : az === 'lancia' ? { tipo: 'incantesimo' as const, incantesimo: id, bersaglio: b }
+        : { tipo: az === 'attacca' ? ('attacco' as const) : ('intimidire' as const), bersaglio: b };
       round(vista.cs, a);
       salva(); render();
+      break;
+    }
+    case 'repertorio': {
+      if (!cambiaRepertorio(s, id, c)) avviso = `Puoi portare al massimo ${limiteRepertorio(s)} incantesimi in combattimento.`;
+      salva(); render();
+      break;
+    }
+    case 'correggi': {
+      if (vista.tipo !== 'risultato' || !vista.prima || vista.indice === undefined) break;
+      const st = c.storylet.find((z) => z.id === (vista as { id: string }).id)!;
+      const indice = vista.indice;
+      const r = correggi(s, vista.prima, st, indice, c, ora);
+      if (r.tipo === 'errore') { avviso = r.messaggio; render(); }
+      else if (r.tipo === 'risultato') cambia({ tipo: 'risultato', id: st.id, risultato: r.risultato, indice }); // una sola Correzione per esito
       break;
     }
     case 'concludi': {

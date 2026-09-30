@@ -167,6 +167,47 @@ storylet:
             contaminazione comincia così.
           effetti: { contaminazione: 0.5 }
 
+      - testo: "Leggere il Mana nei cumuli"
+        incantesimo: leggere-il-mana
+        descrizione: "Passi le dita sui cristalli scartati e senti quali hanno ancora una carica."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Uno ancora vivo
+          testo: |
+            Molti cristalli sono freddi e muti sotto le dita. Uno, in fondo a un
+            sacco di scarti della Gilda, ha ancora un battito lento. I
+            Raschiatori lo hanno buttato perché dall'esterno sembra sterile, e
+            nessuno di loro sa leggere il Mana.
+
+            Lo prendi insieme a due frammenti che valgono poco ma qualcosa.
+          effetti: { cristalli.cristallo-sterile: 1, cristalli.frammento-esausto: 2 }
+        fallimento:
+          titolo: Troppo rumore
+          testo: |
+            Il campo è pieno di cariche deboli e disordinate, e non riesci a
+            distinguerne nessuna. Dopo un'ora ti fanno male le tempie e hai
+            le mani sporche di polvere grigia.
+          effetti: { contaminazione: 0.5 }
+
+      - testo: "Frugare di notte con la Luce fredda"
+        incantesimo: luce-fredda
+        descrizione: "Di notte gli spazzini non ci sono. Con una luce che non fa fumo nessuno ti vede dalla riva."
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Il turno di notte
+          testo: |
+            La luce del cristallo è bianca e illumina un paio di passi attorno
+            a te. Fra le lamiere trovi due schegge incise e una borsa di cuoio
+            che qualcuno ha perso durante la razzia, con dentro una lettera.
+            La lettera parla di un debito con la Pignatta.
+          effetti: { reliquie.scheggia: 2, informazioni.voce: 1 }
+        fallimento:
+          titolo: Buio pesto
+          testo: |
+            La luce trema e si spegne due volte. Alla terza rinunci e torni a
+            casa inciampando nei cavi.
+          effetti: {}
+
   - id: rissa-pignatta
     immagine: personaggi/mauro-scrocco
     titolo: Una scommessa dietro la Pignatta
@@ -961,3 +1002,185 @@ storylet:
             ma non riesci a leggere niente. Chi ha usato quel carboncino sapeva
             il fatto suo.
           effetti: {}
+
+  # ------------------------------------------------------------ magia
+
+  - id: rimarginare-da-se
+    titolo: Una preghiera sulle ferite
+    area: citta-bassa
+    ripetibile: true
+    immagine: fazioni/confraternita-del-velo
+    requisiti: [incantesimo.rimarginare >= 1, ferite >= 0.5]
+    sommario: "Le mani sulla ferita e la preghiera dei guaritori della Cattedrale."
+    testo: |
+      Trovi un angolo tranquillo, ti togli la benda e appoggi le mani sulla
+      ferita. La preghiera dei guaritori è lunga, e va detta tutta senza
+      fermarsi.
+    opzioni:
+      - testo: "Recitare Rimarginare"
+        incantesimo: rimarginare
+        descrizione: "Se la preghiera riesce, la ferita si chiude di mezza tacca."
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Una riga rosa
+          testo: "Sotto le mani la pelle si scalda e la ferita si chiude, lasciando una riga rosa."
+          effetti: { ferite: -0.5 }
+        fallimento:
+          titolo: Parole senza peso
+          testo: "Arrivi alla fine della preghiera, ma la ferita resta com'era."
+          effetti: {}
+  - id: locanda-di-ilka
+    titolo: La Locanda di Ilka
+    luogo: Locanda di Ilka
+    area: citta-bassa
+    ripetibile: true
+    immagine: ambientazione/locanda-di-ilka
+    sommario: "Sidro, patate speziate e, dopo la chiusura, lezioni di magia al tavolo di cucina."
+    testo: |
+      La Locanda di Ilka è uno degli edifici più vecchi di Qir-Azel. Ha un
+      solo piano, dipinto a colori vivaci con i motivi dei carri olvari, e
+      sull'insegna c'è la Vecchia Luce fra tende e carri attorno a un falò.
+      Sta in una strada appartata e ci vengono quasi solo quelli del
+      quartiere.
+
+      Ilka Dravec siede vicino al fuoco con gli occhi lattiginosi rivolti
+      alla porta. Dietro il banco sua figlia Besk serve sidro e patate
+      speziate. Besk studia magia all'Accademia di Torvessa con Orvald
+      Temmerin, e la sera, quando i clienti se ne vanno, apre i suoi
+      quaderni sul tavolo di cucina per chi vuole imparare.
+    opzioni:
+      - testo: "Una seduta di studio con Besk"
+        immagine: personaggi/besk-dravec
+        descrizione: "Besk ti mostra come si tiene un cristallo e come si respira mentre lo si ascolta."
+        prova: { attributo: mentale, abilita: magia, difficolta: Molto facile }
+        successo:
+          titolo: Un filo di luce
+          testo: |
+            Per un momento il cristallo sul tavolo si scalda sotto le tue dita
+            e una luce azzurra gli attraversa le venature. Besk annota
+            qualcosa sul quaderno e ti dice di tornare.
+          effetti: {}
+        fallimento:
+          titolo: Un sasso sul tavolo
+          testo: |
+            Il cristallo resta freddo per tutta la sera. Besk dice che
+            succede a tutti le prime volte e ti versa un sidro.
+          effetti: {}
+
+      - testo: "Chiedere a Besk la sua prima formula"
+        immagine: personaggi/besk-dravec
+        requisiti: [magia >= 1, incantesimo.luce-fredda == 0, monete >= 15]
+        costo: 2
+        descrizione: "Besk insegna la Luce fredda a chi ha già sentito il cristallo rispondere. Chiede quindici monete per i quaderni."
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Luce fredda
+          testo: |
+            Besk ti fa ripetere la formula finché non la dici senza guardare il
+            quaderno. Alla fine il cristallo si accende di una luce bianca che
+            non scalda e non fa ombra. Ilka, dal suo angolo, dice che la
+            stanza è diventata più fredda.
+          effetti: { monete: -15, incantesimo.luce-fredda: 1 }
+        fallimento:
+          titolo: Domani
+          testo: |
+            La formula ti si confonde in bocca al terzo verso. Besk chiude il
+            quaderno e ti dice di tornare domani, senza farti pagare.
+          effetti: {}
+
+      - testo: "Farsi insegnare il Dardo"
+        immagine: personaggi/besk-dravec
+        requisiti: [magia >= 1, incantesimo.luce-fredda >= 1, incantesimo.dardo == 0, monete >= 25]
+        costo: 2
+        descrizione: "Il primo incantesimo da combattimento che Orvald insegna ai suoi allievi. Besk lo insegna per venticinque monete, nel cortile sul retro."
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Il segno sul muro
+          testo: |
+            Nel cortile, Besk ha disegnato un cerchio col gesso su un muro
+            vecchio. Al decimo tentativo il tuo dardo lascia nel cerchio un
+            segno nero che fuma ancora. Besk ti dice di non usarlo mai nella
+            locanda.
+          effetti: { monete: -25, incantesimo.dardo: 1 }
+        fallimento:
+          titolo: Il muro è ancora lì
+          testo: |
+            Il cristallo scalda e poi non fa niente. Ci provate fino a
+            mezzanotte, poi Besk va a dormire.
+          effetti: {}
+
+      - testo: "Ascoltare le storie di Ilka"
+        immagine: personaggi/ilka-dravec
+        descrizione: "Ilka racconta i miti di Qir-Azel a chi si siede vicino al fuoco. A volte li confonde."
+        prova: { attributo: sociale, abilita: [empatia, espressivita], difficolta: Facile }
+        successo:
+          titolo: La Vecchia Luce
+          testo: |
+            Ilka racconta del falò attorno a cui si fermarono i primi carri,
+            dove oggi sorge la città, e di una luce che veniva dalla terra
+            prima ancora che qualcuno la chiamasse Mana. A metà si ferma e dice
+            che forse sta confondendo due storie. Una delle due, però, parla
+            della Cicatrice in un modo che non hai mai sentito.
+          effetti: { informazioni.voce: 1 }
+        fallimento:
+          titolo: Il sonno di Ilka
+          testo: |
+            Ilka si addormenta a metà del racconto. Besk le mette una coperta
+            sulle gambe e ti fa segno di parlare piano.
+          effetti: {}
+
+  - id: carta-cane-del-ricettatore
+    titolo: Il cane del ricettatore
+    tipo: carta
+    area: citta-bassa
+    immagine: ambientazione/orlo-dei-rottami
+    sommario: "Un magazzino sprangato e un mastino alla catena che non ha ancora deciso cosa fare di te."
+    testo: |
+      Dietro la Conceria c'è il magazzino di un ricettatore che dopo la
+      razzia non si è più visto. La porta è sprangata, ma la finestra sul
+      retro è aperta, e dentro si vedono casse con il marchio della Gilda.
+
+      Nel cortile c'è un mastino a pelo corto legato a una catena lunga. Ti
+      guarda senza abbaiare e senza muoversi, con il collare di cuoio teso.
+      La catena, ti accorgi, arriva fino alla finestra.
+    opzioni:
+      - testo: "Parlargli con il Richiamo"
+        incantesimo: richiamo
+        descrizione: "Nella lingua che il Circolo insegna ai bambini, gli spieghi che non sei un ladro. Almeno non oggi."
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Un amico per un'ora
+          testo: |
+            Il mastino abbassa le orecchie e si sdraia. Mentre passi ti annusa
+            la mano e ti lascia entrare. Nelle casse ci sono schegge
+            precuriane e un registro con nomi che qualcuno pagherebbe per
+            leggere.
+          effetti: { reliquie.scheggia: 1, informazioni.voce: 2 }
+        fallimento:
+          titolo: Denti
+          testo: |
+            Il cane ascolta, poi ti salta addosso. Riesci a scavalcare il muro
+            con un morso sulla gamba.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Affrontarlo"
+        combattimento: cane-del-ricettatore
+        descrizione: "È grosso, ma è solo un cane."
+        vittoria:
+          titolo: Il magazzino
+          testo: |
+            Il mastino scappa guaendo in fondo al cortile. Dentro trovi schegge
+            precuriane e un registro con nomi che qualcuno pagherebbe per
+            leggere.
+          effetti: { reliquie.scheggia: 1, informazioni.voce: 2 }
+        sconfitta:
+          titolo: Ritirata
+          testo: |
+            Scavalchi il muro con il cane attaccato alla manica e ti lasci
+            dietro metà della giacca.
+          effetti: {}
+
+      - testo: "Lasciar perdere"
+        costo: 0
+        esito:
+          testo: "Il mastino ti segue con lo sguardo finché non giri l'angolo."

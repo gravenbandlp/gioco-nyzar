@@ -12,7 +12,7 @@ const RADICE = new URL('..', import.meta.url).pathname;
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -60,6 +60,10 @@ export function caricaContenuti(opzioni: { tavole?: boolean } = {}): { contenuti
     return { contenuti: grezzo as unknown as TContenuti, errori, avvisi };
   }
   const c = esito.data;
+  // Ogni incantesimo è anche una quality (incantesimo.<id>) usabile in requisiti ed effetti.
+  for (const i of c.incantesimi) {
+    c.quality.push({ id: `incantesimo.${i.id}`, nome: i.nome, categoria: 'incantesimo', descrizione: i.descrizione, immagine: i.immagine });
+  }
   errori.push(...controlliIncrociati(c, avvisi));
   if (opzioni.tavole !== false) errori.push(...controllaTavole(c));
   return { contenuti: c, errori, avvisi };
@@ -124,12 +128,25 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
         for (const a of lista) if (!TUTTE_LE_ABILITA.includes(a)) errori.push(`${d}: abilità sconosciuta "${a}"`);
       }
       if (o.combattimento && !scontri.has(o.combattimento)) errori.push(`${d}: scontro sconosciuto "${o.combattimento}"`);
+      if (o.incantesimo && !c.incantesimi.some((i) => i.id === o.incantesimo)) errori.push(`${d}: incantesimo sconosciuto "${o.incantesimo}"`);
       esito(`${d} (successo)`, o.successo);
       esito(`${d} (fallimento)`, o.fallimento);
       esito(`${d} (vittoria)`, o.vittoria);
       esito(`${d} (sconfitta)`, o.sconfitta);
       esito(`${d} (esito)`, o.esito);
     });
+  }
+
+  for (const i of c.incantesimi) {
+    for (const k of Object.keys(i.prezzo ?? {})) if (!quality.has(k)) errori.push(`incantesimo ${i.id}: prezzo su quality sconosciuta "${k}"`);
+    if (i.tradizione === 'precuriane' && !i.prezzo) errori.push(`incantesimo ${i.id}: le formule precuriane hanno sempre un prezzo`);
+  }
+  // Origini: gli incantesimi di partenza devono rispettare il livello di Magia.
+  for (const o of c.origini) {
+    for (const k of Object.keys(o.quality).filter((q) => q.startsWith('incantesimo.'))) {
+      const inc = c.incantesimi.find((i) => `incantesimo.${i.id}` === k);
+      if (inc && inc.livello > (o.abilita['magia'] ?? 0)) errori.push(`origine ${o.id}: ${inc.nome} richiede Magia ${inc.livello}`);
+    }
   }
 
   for (const f of c.frammenti) if (f.area && !aree.has(f.area)) errori.push(`frammento ${f.id}: area sconosciuta "${f.area}"`);
