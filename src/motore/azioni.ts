@@ -4,6 +4,7 @@ import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
 import type { TContenuti, TEsito, TIncantesimo, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
 import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
+import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
 import {
   abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, spendiCandele, scarta, aggiornaTempo,
   type Crescita, type Stato, type Variazione,
@@ -28,7 +29,7 @@ function migliorAbilita(s: Stato, opz: TOpzione, c: TContenuti): { abilita: stri
   const lista = Array.isArray(prova.abilita) ? prova.abilita : [prova.abilita];
   let best = { abilita: lista[0]!, pool: -1 };
   for (const a of lista) {
-    const pool = s.attributi[prova.attributo] + abilitaEffettiva(s, a, c) + talento(s, c, a);
+    const pool = s.attributi[prova.attributo] + abilitaEffettiva(s, a, c) + talento(s, c, a) + (a === 'magia' ? sommaMutazioni(s, c, 'magiaFuori') : 0);
     if (pool > best.pool) best = { abilita: a, pool };
   }
   return best;
@@ -98,6 +99,13 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato): void {
   if (e.titolo) r.titolo = e.titolo;
   if (e.immagine) r.immagine = e.immagine;
   r.variazioni.push(...applicaEffetti(s, e.effetti, c));
+  // valori fissati (es. la statistica che scende a 3 all'uscita da un'area di penalità)
+  for (const [k, v] of Object.entries(e.imposta ?? {})) {
+    if (k.startsWith('pe.')) { s.pe[k.slice(3)] = v; continue; }
+    const prima = s.quality[k] ?? 0;
+    if (prima !== v) { s.quality[k] = v; r.variazioni.push({ chiave: k, prima, dopo: v }); }
+  }
+  for (const [ab, n] of Object.entries(e.pe ?? {})) r.crescite.push(...assegnaPE(s, ab, n));
   // un reperto appena decifrato parte con tutte le cariche
   for (const k of Object.keys(e.effetti ?? {})) {
     if (k.startsWith('decifrato.') && (s.quality[k] ?? 0) >= 1) {
@@ -153,7 +161,7 @@ export function scegli(
     if (ante.incantesimo) {
       // prezzo delle formule proibite a ogni lancio; Dissonanza con zero successi
       const costi: Record<string, number> = { ...(ante.incantesimo.prezzo ?? {}) };
-      if (t.successi === 0) { costi['tormento'] = (costi['tormento'] ?? 0) + 0.5; r.dissonanza = true; }
+      if (t.successi === 0) { costi['tormento'] = (costi['tormento'] ?? 0) + tormentoDissonanza(s, c); r.dissonanza = true; }
       r.variazioni.push(...applicaEffetti(s, costi, c));
     }
   } else if (opz.esito) {
@@ -192,6 +200,8 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
 export function puoEntrare(s: Stato, areaId: string, c: TContenuti): { ok: boolean; motivo?: string; gabella: number } {
   const area = c.aree.find((a) => a.id === areaId);
   if (!area) return { ok: false, motivo: 'Area sconosciuta.', gabella: 0 };
+  if (inPenalita(s, c)) return { ok: false, motivo: 'Da qui si esce solo con le storie.', gabella: 0 };
+  if (area.penalita) return { ok: false, motivo: 'Non ci si va di propria volontà.', gabella: 0 };
   const mancanti = requisitiMancanti(s, area.accesso, c);
   const esente = (s.quality['licenza-gilda'] ?? 0) > 0;
   const gabella = esente ? 0 : area.gabella;
@@ -249,7 +259,7 @@ export function correggi(
   const p = probabilita(pool, richiesti);
   const t = tira(pool, rng);
   const costi: Record<string, number> = { ...(inc.prezzo ?? {}) };
-  if (t.successi === 0) costi['tormento'] = (costi['tormento'] ?? 0) + 0.5;
+  if (t.successi === 0) costi['tormento'] = (costi['tormento'] ?? 0) + tormentoDissonanza(s, c);
   const crescite = assegnaPE(s, 'magia', peDaProbabilita(p));
   if (t.successi < richiesti) {
     const variazioni = applicaEffetti(s, costi, c);

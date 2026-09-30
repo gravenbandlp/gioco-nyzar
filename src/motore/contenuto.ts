@@ -5,6 +5,9 @@ import { ATTRIBUTI, ETICHETTE_DIFFICOLTA } from './regole';
 
 const Id = z.string().regex(/^[a-z0-9][a-z0-9.-]*$/, 'id in minuscolo, con trattini o punti');
 
+/** Area speciale per le carte che valgono ovunque (tranne che nelle aree di penalità). */
+export const OVUNQUE = 'ovunque';
+
 /** Tavola del Codex: "collezione/slug", es. "ambientazione/pignatta-grassa". */
 export const Immagine = z.string().regex(/^[a-z]+\/[a-z0-9-]+$/, 'immagine nel formato collezione/slug');
 
@@ -15,6 +18,8 @@ export const Esito = z.object({
   immagine: Immagine.optional(),
   titolo: z.string().optional(), // intestazione dell'esito, alla Fallen London
   testo: z.string(),
+  imposta: z.record(z.string(), z.number()).optional(), // fissa un valore (quality o pe.<abilità>), es. { ferite: 3 }
+  pe: z.record(z.string(), z.number().min(0)).optional(), // PE regalati a un'abilità, es. { resistenza: 10 }
   effetti: Effetti.optional(),
   vai: Id.optional(), // cambia area
   segue: Id.optional(), // apre subito un altro storylet (concatenazione)
@@ -63,12 +68,14 @@ export const Storylet = z.object({
   titolo: z.string(),
   sommario: z.string().optional(), // una riga, mostrata nell'elenco
   area: Id,
-  tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita', 'oggetto']).default('fisso'), // oggetto: si apre dagli Averi
+  // oggetto: si apre dagli Averi; seguito: si apre solo da un altro storylet (segue)
+  tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita', 'oggetto', 'seguito']).default('fisso'),
   ripetibile: z.boolean().default(false),
   luogo: z.string().optional(), // sottotitolo: dove avviene
   requisiti: z.array(z.string()).default([]),
   testo: z.string(),
   opzioni: z.array(Opzione).min(1),
+  mostra: z.number().int().min(1).optional(), // mostra solo N opzioni disponibili, scelte a caso
 });
 
 export const Area = z.object({
@@ -79,13 +86,14 @@ export const Area = z.object({
   accesso: z.array(z.string()).default([]),
   gabella: z.number().int().min(0).default(0),
   negozi: z.array(Id).default([]),
+  penalita: z.boolean().default(false), // area di penalità: nascosta dalla mappa, si esce solo con le storie
 });
 
 export const Quality = z.object({
   id: Id,
   nome: z.string(),
   immagine: Immagine.optional(),
-  categoria: z.enum(['moneta', 'bene', 'pista', 'negativa', 'reputazione', 'accesso', 'consumabile', 'equipaggiamento', 'stato', 'incantesimo']),
+  categoria: z.enum(['moneta', 'bene', 'pista', 'negativa', 'reputazione', 'accesso', 'consumabile', 'equipaggiamento', 'stato', 'incantesimo', 'mutazione']),
   descrizione: z.string().optional(),
   valore: z.number().optional(), // valore in monete (beni)
   famiglia: z.string().optional(), // famiglia di beni: cristalli, informazioni, reliquie
@@ -284,6 +292,25 @@ export const Incantesimo = z
     if ((x.tipo === 'potenziamento' || x.tipo === 'indebolimento') && !x.modifica) ctx.addIssue({ code: 'custom', message: `il tipo ${x.tipo} richiede la modifica` });
   });
 
+// ---------------------------------------------------------------- mutazioni (Regolamento 5.5)
+
+export const Mutazione = z.object({
+  id: Id,
+  nome: z.string(),
+  descrizione: z.string(), // come si vede e si sente
+  vantaggio: z.string(),
+  svantaggio: z.string(),
+  immagine: Immagine.optional(),
+  abilita: z.record(z.string(), z.number().int()).default({}), // ±N alle abilità, sempre
+  energia: z.number().int().default(0),
+  riduzione: z.number().int().default(0),
+  pf: z.number().int().default(0),
+  dannoManiNude: z.number().int().default(0),
+  magiaFuori: z.number().int().default(0), // dadi a Magia fuori dal combattimento
+  schermata: z.boolean().default(false), // Contaminazione per esposizione dimezzata
+  dissonanza: z.number().default(0), // Tormento in più a ogni Dissonanza
+});
+
 /** Frammenti del Codex: brevi voci di ambientazione mostrate a margine. Solo informazioni pubbliche. */
 export const Frammento = z.object({
   id: Id,
@@ -306,6 +333,7 @@ export const Contenuti = z.object({
   frammenti: z.array(Frammento).default([]),
   incantesimi: z.array(Incantesimo).default([]),
   scudi: z.array(Scudo).default([]),
+  mutazioni: z.array(Mutazione).default([]),
   oggetti: z.array(Oggetto).default([]),
 });
 
@@ -322,6 +350,7 @@ export type TArma = z.infer<typeof Arma>;
 export type TArmatura = z.infer<typeof Armatura>;
 export type TNegozio = z.infer<typeof Negozio>;
 export type TOrigine = z.infer<typeof Origine>;
+export type TMutazione = z.infer<typeof Mutazione>;
 export type TOggetto = z.infer<typeof Oggetto>;
 export type TScudo = z.infer<typeof Scudo>;
 export type TIncantesimo = z.infer<typeof Incantesimo>;

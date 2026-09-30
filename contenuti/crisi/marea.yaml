@@ -1,0 +1,337 @@
+# Crisi della Contaminazione (Regolamento v0.4 §5 e integrazione, 5.5).
+# Chi accetta non entra in un'area di penalità: la Marea lo cambia. Lo storylet
+# scelta-mutazione mostra due mutazioni a caso fra quelle che non ha ancora.
+# Più le carte della fascia 5–7.
+
+storylet:
+  - id: crisi-contaminazione
+    titolo: Il sapore del ferro
+    tipo: crisi
+    area: citta-bassa
+    requisiti: [contaminazione >= 8]
+    immagine: ambientazione/marea-grigia
+    sommario: "La Marea che ti porti addosso è arrivata al punto in cui il Velo non può più limitarsi a contenerla."
+    testo: |
+      Da qualche giorno fai fatica a tenere insieme due pensieri. Cominci una
+      frase e a metà l'hai già persa, e il sapore di ferro sotto la lingua
+      resta anche quando mangi. Stamattina lo specchio ti ha restituito due
+      occhi di un grigio che non riconosci, con un riflesso metallico sul
+      fondo.
+
+      Ieri un accolito velato ti ha fermato sul Ponte delle Mille Corde e ti
+      ha guardato a lungo gli occhi e la mano sinistra. Poi ha scritto
+      qualcosa sul suo registro e ti ha detto di presentarti alla Cripta della
+      Cattedrale prima di sera. Chi arriva a questo punto non può più
+      cavarsela con l'offerta di tutti i giorni. Il Velo officia allora una
+      purificazione straordinaria nella sala più bassa della Cripta, e la fa
+      pagare centocinquanta monete.
+
+      I Raschiatori conoscono un'altra via. Un cristallo carico ceduto al Velo
+      alimenta il rito al posto delle monete, perché il campo che ti ripulisce
+      deve pur bere da qualche parte. Chi non ha né l'uno né le altre lascia
+      che la Marea finisca il suo lavoro. Di solito ne esce vivo e cambiato,
+      come certi veterani dei turni di scavo che al Grifone di Ferro nessuno
+      fissa troppo a lungo.
+    opzioni:
+      - testo: "Pagare la purificazione straordinaria"
+        costo: 0
+        requisiti: [monete >= 150]
+        descrizione: "Centocinquanta monete al Velo, e una notte nella sala più bassa della Cripta."
+        esito:
+          titolo: La sala più bassa
+          immagine: ambientazione/cattedrale-del-velo
+          testo: |
+            Gli accoliti ti fanno scendere oltre la sala dell'offerta, per una
+            scala più stretta che odora di calce fresca, fino a una stanza
+            senza finestre. Ti stendono su una lastra di pietra grigia e per
+            tutta la notte ti lavano con un'acqua di resina, recitando a turno
+            la Preghiera del Battito. Verso l'alba, da dietro una tenda, parla
+            una voce di donna con un secondo sussurro sotto le parole, e gli
+            accoliti tacciono.
+
+            Quando risali hai la testa sgombra, e il sapore di ferro è sceso in
+            fondo alla gola. Il Velo, come sempre, si guarda bene dal parlare di
+            guarigione.
+          effetti: { monete: -150 }
+          imposta: { contaminazione: 4 }
+      - testo: "Cedere un cristallo carico al Velo"
+        costo: 0
+        requisiti: [cristalli.cristallo-carico >= 1]
+        descrizione: "Il cristallo alimenta il rito al posto delle monete, e alla fine del rito non ne resta niente."
+        esito:
+          titolo: Il cristallo spento
+          immagine: ambientazione/cristalli-conduttori
+          testo: |
+            L'accolito prende il cristallo con le mani fasciate e lo incastona
+            in un bracciale di rame, che poi ti chiude al polso. Per tutta la
+            notte il cristallo ronza contro la pelle e si scalda, mentre la sua
+            luce si fa sempre più fioca. Tu intanto senti la testa schiarirsi
+            un pensiero alla volta.
+
+            All'alba il cristallo è opaco e freddo. L'accolito ti sfila il
+            bracciale e getta il cristallo spento in una cesta dove ce ne sono
+            già molti altri.
+          effetti: { cristalli.cristallo-carico: -1 }
+          imposta: { contaminazione: 4 }
+      - testo: "Lasciare che la Marea finisca il suo lavoro"
+        costo: 0
+        descrizione: "Niente monete e niente cristalli. Ti chiudi in casa ad aspettare che passi la febbre, e quando sarà passata non sarai più come prima."
+        esito:
+          titolo: La febbre
+          testo: |
+            Non ti presenti alla Cripta. Rientri a casa prima del tramonto e
+            sprangi la porta, poi ti stendi sul letto senza spogliarti. La
+            febbre arriva con il buio e ti sale lungo la schiena, e dietro le
+            palpebre chiuse vedi una luce grigia che non viene dalla finestra.
+          segue: scelta-mutazione
+
+  - id: scelta-mutazione
+    titolo: Quello che la Marea lascia
+    tipo: seguito
+    area: citta-bassa
+    mostra: 2
+    immagine: ambientazione/marea-grigia
+    sommario: "La febbre della Marea arriva al culmine, e il tuo corpo comincia a cambiare."
+    testo: |
+      Verso mezzanotte la febbre arriva al culmine. Il lenzuolo è fradicio di
+      sudore, e ogni volta che chiudi gli occhi la stanza si riempie di una
+      nebbia lattiginosa che riaprendoli non trovi più. Senti la Marea
+      muoversi sotto la pelle e cercare un punto dove fermarsi a lavorare.
+      Dalla strada arrivano i passi della ronda, e tu li usi per contare il
+      tempo fra un'ondata di febbre e l'altra. Hai sete, ma la brocca sul
+      tavolo è troppo lontana, e dopo un poco smetti di pensarci.
+
+      I Raschiatori più vecchi dicono che la Marea cambia un corpo una volta
+      sola, e per sempre. Dicono anche che chi resta lucido fino in fondo può
+      ancora spingerla un poco da una parte o dall'altra, come si spinge una
+      barca con il remo. Tu sei lucido abbastanza. La senti premere in due
+      punti diversi del corpo, e sai che puoi lasciarle soltanto uno dei due.
+    opzioni:
+      - testo: "La luce negli occhi"
+        costo: 0
+        requisiti: [mutazione.occhi-luminescenti == 0]
+        descrizione: "Al buio le tue iridi manderanno una luce grigia. Vedrai meglio (+1 a Percezione) e ti vedranno prima (−1 a Furtività)."
+        esito:
+          titolo: Occhi luminescenti
+          testo: |
+            All'alba ti avvicini allo specchio e a prima vista non noti niente.
+            Poi chiudi le imposte, e nella penombra i tuoi occhi si accendono di
+            una luce grigia e fredda, la stessa che manda la Marea quando
+            risale dalla Cicatrice al tramonto. Vedi le venature del legno sul
+            soffitto e la polvere sospesa nell'aria. Chi entra nella stanza vede
+            prima di tutto due punti di luce all'altezza del tuo viso, e nei
+            vicoli di Qir-Azel impari presto a tenere lo sguardo basso.
+          effetti: { mutazione.occhi-luminescenti: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "Il fuoco sotto i polsi"
+        costo: 0
+        requisiti: [mutazione.vene-di-luce == 0]
+        descrizione: "Le vene dei polsi e del collo brilleranno quando sei agitato. Avrai più fiato nei momenti difficili (+2 Energia) e meno credito nei salotti (−1 a Galateo)."
+        esito:
+          titolo: Vene di luce
+          testo: |
+            Te ne accorgi quando il vicino bussa alla porta per chiederti se
+            stai bene. Il cuore ti salta in gola, e sotto la pelle dei polsi le
+            vene si accendono di una luce perlacea che pulsa al ritmo del
+            battito. Si spengono da sole quando ti calmi. Nei giorni seguenti
+            scopri che quella luce porta con sé una riserva di forza che prima
+            non avevi. Chi ti incontra nei salotti buoni, però, guarda i tuoi
+            polsi invece della tua faccia e ti porge la mano con esitazione.
+          effetti: { mutazione.vene-di-luce: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "La scorza"
+        costo: 0
+        requisiti: [mutazione.pelle-increspata == 0]
+        descrizione: "Sulle spalle e sulle braccia la pelle diventerà spessa e rugosa. Ti proteggerà dai colpi (+1 alla riduzione del danno) e ti renderà più rigido (−1 ad Acrobazia)."
+        esito:
+          titolo: Pelle increspata
+          testo: |
+            La pelle ti tira sulle spalle fin dalle prime ore del mattino.
+            Quando ti guardi allo specchio la trovi grigia e rugosa dalle
+            scapole ai gomiti, dura al tatto come la scorza di un albero
+            vecchio. Se ci passi sopra un coltello, la lama scivola via
+            lasciando appena un graffio bianco. Piegare le braccia sopra la
+            testa invece ti costa fatica, e quando ti arrampichi senti la pelle
+            nuova tendersi e resistere a ogni movimento.
+          effetti: { mutazione.pelle-increspata: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "Una voce nuova"
+        costo: 0
+        requisiti: [mutazione.gola-roca == 0]
+        descrizione: "La voce ti diventerà bassa e graffiata. Metterai paura più facilmente (+1 a Intimidire) e convincerai con più fatica (−1 a Persuasione)."
+        esito:
+          titolo: Gola roca
+          testo: |
+            Al mattino provi a chiamare il padrone di casa, e dalla gola ti esce
+            un suono basso e graffiato che non riconosci, come una lama
+            trascinata sulla pietra. Bevi un sorso d'acqua e ti schiarisci la voce, ma resta
+            quella. Nei giorni seguenti noti che la gente si volta quando parli,
+            e che al mercato i venditori abbassano il prezzo prima che tu abbia
+            finito la frase. Quando invece provi a chiedere un favore con garbo,
+            anche le parole più gentili ti escono minacciose.
+          effetti: { mutazione.gola-roca: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "Il sangue che la Marea riconosce"
+        costo: 0
+        requisiti: [mutazione.sangue-grigio == 0]
+        descrizione: "Il tuo sangue diventerà scuro e denso. La Marea ti scivolerà addosso (Contaminazione per esposizione dimezzata), e il corpo reggerà un colpo in meno (−1 PF)."
+        esito:
+          titolo: Sangue grigio
+          testo: |
+            Te ne accorgi la prima volta che ti tagli, pulendo una scheggia dal
+            palmo. Il sangue esce quasi grigio e si rapprende sulla pelle prima
+            di arrivare a colare. Da quel giorno, quando attraversi una
+            sacca di Marea, senti la nebbia sfiorarti e passare oltre come se ti
+            conoscesse. Il corpo però è più debole di prima. Ti stanchi in
+            fretta, e una ferita che una volta avresti ignorato adesso ti
+            costringe a sederti.
+          effetti: { mutazione.sangue-grigio: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "Il silenzio nei pensieri"
+        costo: 0
+        requisiti: [mutazione.mente-silenziosa == 0]
+        descrizione: "Una parte dei tuoi pensieri si spegnerà. Avrai meno paura (+1 a Resilienza) e capirai peggio quella degli altri (−1 a Empatia)."
+        esito:
+          titolo: Mente silenziosa
+          testo: |
+            Ti svegli riposato come non ti capitava da mesi. Ci metti un po' a
+            capire che cosa manca, poi lo trovi. La voce che di notte ti
+            elencava tutto quello che poteva andare storto si è zittita, e al
+            suo posto c'è una calma piatta. Nei giorni seguenti guardi i
+            Raschiatori tremare prima di un turno di scavo e non ne capisci il
+            motivo. Quando un'amica ti racconta un suo dispiacere, ti accorgi
+            di ascoltarla come si ascolta la pioggia.
+          effetti: { mutazione.mente-silenziosa: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "Mani di lega"
+        costo: 0
+        requisiti: [mutazione.unghie-di-metallo == 0]
+        descrizione: "Le unghie diventeranno dure e grigie come una lega dei Precursori. Colpirai più forte a mani nude (+1 al danno) e nessuno vorrà stringerti la mano (−1 a Galateo)."
+        esito:
+          titolo: Unghie di metallo
+          testo: |
+            Le unghie cominciano a farti male verso l'alba, come se te le
+            stessero strappando. Quando la luce entra dalla finestra le trovi
+            grigie e lucide, con il riflesso della lega che si vede sui reperti
+            dei Precursori. Picchiettate sul tavolo mandano un suono metallico.
+            Con un'unghia riesci a incidere il legno, e un pugno dato bene
+            adesso lascia il segno. Alla prima stretta di mano, però, vedi
+            l'altro ritrarre le dita e guardarsi il palmo.
+          effetti: { mutazione.unghie-di-metallo: 1 }
+          imposta: { contaminazione: 3 }
+      - testo: "Il ronzio dei cristalli"
+        costo: 0
+        requisiti: [mutazione.orecchio-per-il-mana == 0]
+        descrizione: "Sentirai i cristalli attraverso i muri, sempre. La magia ti verrà più facile fuori dal combattimento (+1 dado a Magia) e ogni Dissonanza ti costerà 1 Tormento invece di ½."
+        esito:
+          titolo: Orecchio per il Mana
+          testo: |
+            Poco prima dell'alba comincia un ronzio lontano, che cresce finché
+            non riesci più a ignorarlo. Ci metti un'ora a capire che viene dalle
+            lanterne della strada e da ogni cristallo carico nel raggio di cento
+            passi. Ognuno ha la sua nota. Quando provi un incantesimo le
+            correnti del Mana ti vengono incontro con una facilità che non
+            conoscevi. Di notte però il ronzio continua, e ogni volta che la
+            magia ti sfugge di mano lo senti diventare un fischio dentro la
+            testa.
+          effetti: { mutazione.orecchio-per-il-mana: 1 }
+          imposta: { contaminazione: 3 }
+
+  # ------------------------------------------------------------ carte della fascia 5–7
+
+  - id: carta-contaminazione-cantina
+    titolo: La cantina crollata
+    tipo: carta
+    area: ovunque
+    requisiti: [contaminazione >= 5, contaminazione < 8]
+    immagine: fazioni/raschiatori
+    sommario: "Un vecchio Raschiatore sa dove c'è un cristallo carico, in una cantina piena di Marea. Secondo lui, a te ormai cambia poco."
+    testo: |
+      Il vecchio Raschiatore ti si siede accanto senza chiedere il permesso.
+      Ha la barba grigia e, sul dorso delle mani, le macchie argentate che i
+      veterani dei turni si portano addosso dopo troppi anni di scavo. Ti
+      guarda negli occhi un po' più a lungo del dovuto.
+
+      «Ce l'hai già addosso, si vede» dice. «Un po' in più, a questo punto,
+      ti cambia poco.»
+
+      Dopo le ultime piogge, racconta, è crollata una cantina in fondo alla
+      sua strada, e sotto le macerie si è aperta una sacca piccola. Lui ci ha
+      visto brillare un cristallo carico, ma alla sua età non scende più da
+      nessuna parte. Te lo regala volentieri, basta che tu abbia il fegato di
+      andarlo a prendere.
+    opzioni:
+      - testo: "Scendere fino in fondo"
+        descrizione: "Attraversare la sacca e liberare il cristallo carico. Ne esci con un cristallo in tasca e con un po' di Marea in più."
+        esito:
+          titolo: Nella nebbia
+          testo: |
+            La sacca si vede già dalle scale, una nebbia lattiginosa ferma a
+            mezz'altezza con un riflesso metallico. La attraversi trattenendo
+            il fiato più a lungo che puoi. Il cristallo è incastrato fra due
+            travi ed è caldo al tatto, e liberarlo ti prende più tempo del
+            previsto. Quando risali hai la testa piena di pensieri che non
+            riesci a finire, mentre in tasca il cristallo ronza.
+          effetti: { contaminazione: 1, cristalli.cristallo-carico: 1 }
+      - testo: "Fermarti sul bordo della sacca"
+        descrizione: "Lavorare dal bordo con un bastone, senza entrare nella nebbia. Si trova meno, e si respira meno Marea."
+        esito:
+          titolo: Dal bordo
+          testo: |
+            Scendi fino al punto in cui comincia la nebbia e non fai un passo di
+            più. Lavorando con un bastone dal bordo della sacca, tiri fuori
+            dalle macerie due cristalli sterili. Il cristallo carico resta
+            laggiù a brillare. Il vecchio ti aspetta in cima alle scale e scuote
+            la testa quando vede che cosa porti.
+          effetti: { contaminazione: 0.5, cristalli.cristallo-sterile: 2 }
+
+  - id: carta-contaminazione-muschi
+    titolo: I muschi di Tuarmir
+    tipo: carta
+    area: ovunque
+    requisiti: [contaminazione >= 5, contaminazione < 8]
+    immagine: ambientazione/tuarmir
+    sommario: "Una raccoglitrice di Tuarmir vende i muschi che il Velo usa nei suoi riti. Per chi ha addosso poca Marea, dice, bastano i fumi."
+    testo: |
+      La raccoglitrice viene da Tuarmir e porta ancora al collo, abbassata, la
+      maschera di stoffa impregnata d'erbe che al suo villaggio si indossa per
+      uscire. Ha steso su un telo i muschi umidi della gola e ogni tanto li
+      bagna con una fiaschetta. Dice che sono gli stessi che il Velo compra
+      per i riti di purificazione, e che il Velo li paga poco e li rivende
+      cari.
+
+      Vede che la tua mano sinistra trema appena e capisce prima che tu apra
+      bocca. «A te bastano i fumi» dice, e ti offre di prepararli lei per
+      venti monete, oppure di venderti il muschio perché tu li prepari da
+      solo, se sai come si fa.
+    opzioni:
+      - testo: "Farti preparare i fumi"
+        requisiti: [monete >= 20]
+        descrizione: "Venti monete, e un'ora con la testa sotto un telo."
+        esito:
+          titolo: Sotto il telo
+          testo: |
+            La raccoglitrice brucia il muschio in un braciere di coccio e ti fa
+            respirare il fumo sotto un telo, con la testa china, finché non ti
+            lacrimano gli occhi. Il fumo è amaro e ha l'odore della pietra
+            bagnata. Quando togli il telo il sapore di ferro sotto la lingua si
+            è fatto più lontano.
+          effetti: { monete: -20, contaminazione: -1 }
+      - testo: "Comprare il muschio e prepararlo da solo"
+        requisiti: [monete >= 5]
+        descrizione: "Cinque monete per una manciata di muschio. Il resto dipende da quello che sai delle erbe."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: La brace coperta
+          testo: |
+            Fai seccare il muschio sulla finestra per un giorno, poi lo bruci a
+            piccole dosi come ti ha spiegato lei, coprendo la brace perché
+            faccia fumo senza prendere fuoco. Alla terza dose il sapore di ferro
+            comincia a ritirarsi. Ti è costato poco, e adesso sai come si fa.
+          effetti: { monete: -5, contaminazione: -1 }
+        fallimento:
+          titolo: Fumo nero
+          testo: |
+            Bruci il muschio troppo in fretta, e la stanza si riempie di un fumo
+            nero che ti fa tossire fino a sera. Il sapore di ferro resta dov'era.
+          effetti: { monete: -5 }

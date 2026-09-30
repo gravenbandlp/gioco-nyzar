@@ -186,6 +186,12 @@ function azione(az: string, el: HTMLElement): void {
       else if (r.tipo === 'risultato') cambia({ tipo: 'risultato', id: st.id, risultato: r.risultato, indice }); // una volta per esito
       break;
     }
+    case 'fine-mutazioni': {
+      // nessuna mutazione rimasta da proporre: la Marea si ritira comunque
+      s.quality['contaminazione'] = Math.min(s.quality['contaminazione'] ?? 0, 3);
+      salva(); cambia({ tipo: 'area' });
+      break;
+    }
     case 'repertorio': {
       if (!cambiaRepertorio(s, id, c)) avviso = `Puoi portare al massimo ${limiteRepertorio(s)} incantesimi in combattimento.`;
       salva(); render();

@@ -7,6 +7,8 @@ import {
 import type { TContenuti, TEffetti, TOrigine, TStorylet } from './contenuto';
 import type { Rng } from './dadi';
 import { haProprieta, indossati, migraOggetti, penalita, repertiAttivi, valoreOggetti } from './oggetti';
+import { mutazioniAbilita, mutazioneSchermata } from './crisi';
+import { OVUNQUE } from './contenuto';
 
 export interface Stato {
   versione: 1;
@@ -64,6 +66,7 @@ function creaStato(nome: string, origine: TOrigine, ora: number, areaIniziale: s
 // ---------------------------------------------------------------- valori
 
 export function valore(s: Stato, chiave: string, c?: TContenuti): number {
+  if (chiave.startsWith('pe.')) return s.pe[chiave.slice(3)] ?? 0;
   if (c) { const v = valoreOggetti(s, c, chiave); if (v !== undefined) return v; }
   if ((ATTRIBUTI as readonly string[]).includes(chiave)) return s.attributi[chiave as Attributo];
   if (chiave in s.abilita) return s.abilita[chiave] ?? 0;
@@ -73,7 +76,7 @@ export function valore(s: Stato, chiave: string, c?: TContenuti): number {
 
 /** Abilità al netto delle penalità di armatura e scudo, che valgono anche fuori dal combattimento (8.5). */
 export function abilitaEffettiva(s: Stato, abilita: string, c: TContenuti): number {
-  return Math.max(0, (s.abilita[abilita] ?? 0) + penalita(s, c, abilita));
+  return Math.max(0, (s.abilita[abilita] ?? 0) + penalita(s, c, abilita) + mutazioniAbilita(s, c, abilita));
 }
 
 // ---------------------------------------------------------------- requisiti
@@ -127,7 +130,8 @@ function protezioni(s: Stato, chiave: string, delta: number, c: TContenuti): num
   const dimezza = (d: number) => Math.floor(d) / 2; // metà, al mezzo punto inferiore
   if (chiave === 'tormento' && haProprieta(s, c, 'lucida')) return dimezza(delta);
   if (chiave === 'contaminazione') {
-    const fonti = [...indossati(s, c), ...repertiAttivi(s, c).filter((o) => o.reperto!.tipo === 'passivo')].filter((o) => o.proprieta.schermata).length;
+    const fonti = [...indossati(s, c), ...repertiAttivi(s, c).filter((o) => o.reperto!.tipo === 'passivo')].filter((o) => o.proprieta.schermata).length
+      + (mutazioneSchermata(s, c) ? 1 : 0);
     if (fonti >= 2) return 0;
     if (fonti === 1) return dimezza(delta);
   }
@@ -224,8 +228,10 @@ export function storyletDisponibili(s: Stato, c: TContenuti): TStorylet[] {
 }
 
 export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {
+  const penalita = !!c.aree.find((a) => a.id === s.area)?.penalita;
   return c.storylet.filter(
-    (st) => st.tipo === 'carta' && st.area === s.area && !s.mano.includes(st.id) && requisitiSoddisfatti(s, st.requisiti, c),
+    (st) => st.tipo === 'carta' && (st.area === s.area || (st.area === OVUNQUE && !penalita)) && !s.mano.includes(st.id)
+      && requisitiSoddisfatti(s, st.requisiti, c),
   );
 }
 

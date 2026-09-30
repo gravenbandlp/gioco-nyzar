@@ -11,6 +11,7 @@ import {
 import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
+import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
 import { NOMI_TRADIZIONI } from '../motore/contenuto';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
@@ -40,7 +41,7 @@ export interface Contesto {
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
 const areaDi = (x: Contesto) => x.c.aree.find((a) => a.id === x.s.area)!;
-const tipoStorylet = (st: TStorylet) => (st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia');
+const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia');
 
 // ================================================================ impianto
 
@@ -150,7 +151,10 @@ export function storia(x: Contesto): string {
     case 'storylet': return vistaStorylet(x, x.vista.id);
     case 'risultato': return vistaRisultato(x, x.vista.id, x.vista.risultato);
     case 'combattimento': return vistaCombattimento(x, x.vista.cs);
-    default: return vistaArea(x);
+    default: {
+      const crisi = crisiAttiva(x.s, x.c);
+      return crisi ? vistaStorylet(x, crisi.id) : vistaArea(x);
+    }
   }
 }
 
@@ -161,7 +165,7 @@ function vistaArea(x: Contesto): string {
   const ripetibili = disponibili.filter((st) => st.ripetibile);
   const crisi = NEGATIVE.filter((k) => (s.quality[k] ?? 0) >= MAX_NEGATIVA);
   return `
-    ${crisi.length ? `<p class="avviso crisi">${crisi.map((k) => h(nome(k, c))).join(', ')} al massimo. Nel gioco completo qui si apre una crisi; nel prototipo non è ancora scritta, ma conviene rimediare.</p>` : ''}
+    ${crisi.length ? `<p class="avviso crisi">${crisi.map((k) => h(nome(k, c))).join(', ')} al massimo. La crisi ti aspetta all'uscita da quest'area.</p>` : ''}
     ${occasioni(x)}
     ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
     <h2 class="titolo-sezione">Cose da fare</h2>
@@ -212,7 +216,9 @@ function vistaStorylet(x: Contesto, id: string): string {
   const { s, c } = x;
   const st = trova(c, id);
   if (!st) return vistaArea(x);
+  const visibili = opzioniVisibili(s, st, c);
   const rami = st.opzioni.map((o, i) => {
+    if (!visibili.includes(i)) return '';
     const a = anteprima(s, o, c);
     let sfida = '';
     if (a.prova) {
@@ -264,7 +270,8 @@ function vistaStorylet(x: Contesto, id: string): string {
       </div>
     </header>
     <ul class="rami">${rami}</ul>
-    <button type="button" class="bottone indietro" data-az="area">← Non ora</button>
+    ${st.mostra && visibili.length === 0 ? `<div class="azioni-fondo"><button type="button" class="bottone primario" data-az="fine-mutazioni">Prosegui</button></div>` : ''}
+    ${st.tipo === 'crisi' || st.tipo === 'seguito' ? '' : '<button type="button" class="bottone indietro" data-az="area">← Non ora</button>'}
   </article>`;
 }
 
@@ -465,6 +472,7 @@ export function personaggio(x: Contesto): string {
     return `<li class="${v === 0 ? 'zero' : v < 0 ? 'neg' : 'pos'}">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}</span><b>${segno(v)}</b></li>`;
   }).join('');
   const piste = c.quality.filter((q) => q.categoria === 'pista' && (s.quality[q.id] ?? 0) > 0);
+  const mutazioni = mutazioniDi(s, c);
   const conosciuti = incantesimiConosciuti(s, c);
   const rep = repertorio(s, c).map((i) => i.id);
   const limite = limiteRepertorio(s);
@@ -495,6 +503,11 @@ export function personaggio(x: Contesto): string {
     ${piste.length ? `<h2 class="titolo-sezione">Storie in corso</h2><ul class="elenco-piste">${piste.map((q) => `<li>${tavola(q.immagine, { classe: 'icona' })}<div><b>${h(q.nome)}</b><p>${h(q.descrizione ?? '')}</p></div><span class="etichetta velo">Capitolo ${mezzi(s.quality[q.id]!)}</span></li>`).join('')}</ul>` : ''}
     <h2 class="titolo-sezione">Incantesimi ${conosciuti.length ? `<small>repertorio ${rep.length}/${limite} · Energia ${energia}</small>` : ''}</h2>
     ${conosciuti.length ? `<ul class="incantesimi">${incantesimi}</ul>` : '<p class="vuoto">Non conosci ancora nessun incantesimo. Alla Locanda di Ilka, Besk Dravec insegna le basi a chi vuole imparare.</p>'}
+    ${mutazioni.length ? `<h2 class="titolo-sezione">Mutazioni</h2><ul class="incantesimi">${mutazioni.map((m) => `<li class="incantesimo-riga">
+      ${tavola(m.immagine, { classe: 'icona' })}
+      <div><div class="testa"><b>${h(m.nome)}</b></div><p>${h(m.descrizione)}</p>
+      <div class="chips"><span class="chip buono">${h(m.vantaggio)}</span><span class="chip cattivo">${h(m.svantaggio)}</span></div></div><span></span>
+    </li>`).join('')}</ul>` : ''}
     <h2 class="titolo-sezione">Statistiche negative</h2>
     <ul class="negative-dettaglio">${negative}</ul>
     <h2 class="titolo-sezione">Reputazione</h2>
@@ -622,7 +635,9 @@ export function bazar(x: Contesto): string {
 
 export function mappa(x: Contesto): string {
   const { s, c } = x;
-  return `<ul class="mappa">${c.aree.map((a) => {
+  const qui = c.aree.find((a) => a.id === s.area);
+  const avviso = qui?.penalita ? `<p class="avviso">Sei in ${h(qui.nome)}. Da qui si esce solo con le storie, quando il recupero è completo.</p>` : '';
+  return `${avviso}<ul class="mappa">${c.aree.filter((a) => !a.penalita || a.id === s.area).map((a) => {
     const qui = a.id === s.area;
     const p = puoEntrare(s, a.id, c);
     const info = qui ? 'Sei qui.' : !p.ok ? p.motivo! : p.gabella ? `Gabella: ${p.gabella} monete.` : 'Nessuna gabella.';

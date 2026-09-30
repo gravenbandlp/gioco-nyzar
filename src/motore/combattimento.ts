@@ -4,6 +4,7 @@ import { ETICHETTE_COMBATTIMENTO, MAX_CONSUMABILI_IN_COMBATTIMENTO, ROUND_MAX } 
 import type { TContenuti, TIncantesimo, TNemico, TScontro, TModifica } from './contenuto';
 import { abilitaEffettiva, type Stato } from './personaggio';
 import { baseArma, baseArmatura, dadiDifesa, dadiIniziativa, energiaExtra, haProprieta, repertiAttivi } from './oggetti';
+import { sommaMutazioni, tormentoDissonanza } from './crisi';
 
 /** Consumabili usabili in combattimento e il loro effetto. */
 export const CONSUMABILI: Record<string, { pf?: number; energia?: number }> = {
@@ -48,6 +49,7 @@ export interface Combattente {
   ricarica?: boolean;
   ricaricando?: boolean;
   portata?: boolean;
+  dissonanza?: number; // Tormento dato da una Dissonanza (½, di più con certe mutazioni)
 }
 
 export interface RepertoInCombattimento {
@@ -106,8 +108,9 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
   const pa = ogArma?.proprieta;
   const ignora = (arma?.proprieta.includes('Perforante') ? 2 : 0) + (arma?.proprieta.includes('Contundente') ? 1 : 0) + (pa?.penetrante ?? 0);
   const eff = (a: string) => abilitaEffettiva(s, a, c);
-  const energia = s.attributi.mentale + (s.abilita['magia'] ?? 0) + energiaExtra(s, c);
-  const pf = 5 + s.attributi.fisico + (s.abilita['resistenza'] ?? 0);
+  const energia = s.attributi.mentale + (s.abilita['magia'] ?? 0) + energiaExtra(s, c) + sommaMutazioni(s, c, 'energia');
+  const pf = Math.max(1, 5 + s.attributi.fisico + (s.abilita['resistenza'] ?? 0) + sommaMutazioni(s, c, 'pf'));
+  const maniNude = !arma || arma.id === 'mani-nude' ? sommaMutazioni(s, c, 'dannoManiNude') : 0;
   return {
     id: 'pg',
     nome: s.nome,
@@ -122,8 +125,8 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
     energiaMax: energia,
     pf,
     pfMax: pf,
-    danno: (arma?.danno ?? 0) + (pa?.affilata ?? 0),
-    riduzione: (armatura?.riduzione ?? 0) + (ogArm?.proprieta.robusta ?? 0),
+    danno: (arma?.danno ?? 0) + (pa?.affilata ?? 0) + maniNude,
+    riduzione: (armatura?.riduzione ?? 0) + (ogArm?.proprieta.robusta ?? 0) + sommaMutazioni(s, c, 'riduzione'),
     ignora,
     iniziativa: eff('atletica') + eff('percezione') + dadiIniziativa(s, c),
     sommaIniziativa: eff('atletica') + eff('percezione'),
@@ -139,6 +142,7 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
     inceppamento: !!ogArma?.difetti.includes('inceppamento'),
     ricarica: !!arma?.proprieta.includes('Ricarica') && !pa?.caricatore,
     portata: !!arma?.proprieta.includes('Portata'),
+    dissonanza: tormentoDissonanza(s, c),
   };
 }
 
@@ -302,8 +306,8 @@ function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | un
   for (const [k, v] of Object.entries(inc.prezzo ?? {})) cs.costi[k] = (cs.costi[k] ?? 0) + v;
   const s = tira(pool(att.magia, modifica(att, 'magia')), rng).successi;
   if (s === 0) {
-    cs.costi['tormento'] = (cs.costi['tormento'] ?? 0) + 0.5;
-    log.push(`${inc.nome}: nessun successo, il Mana ti torna indietro (Dissonanza, +½ Tormento).`);
+    cs.costi['tormento'] = (cs.costi['tormento'] ?? 0) + (att.dissonanza ?? 0.5);
+    log.push(`${inc.nome}: nessun successo, il Mana ti torna indietro (Dissonanza).`);
     return;
   }
   const nemiciVivi = cs.combattenti.filter((x) => x.lato !== att.lato && inPiedi(x));

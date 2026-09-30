@@ -1,0 +1,887 @@
+# Crisi del Sospetto e dello Scandalo, con le loro aree di penalità
+# (Regolamento v0.4 §5 e integrazione): prigione (carcere interrato della Caserma)
+# e ostracismo (i sottoponti, sotto i Ponti Sospesi). Più le carte della fascia 5–7.
+
+aree:
+  - id: prigione
+    nome: Prigione
+    immagine: ambientazione/guarnigione-di-qir-azel
+    penalita: true
+    testo: |
+      Le celle della Caserma stanno al piano interrato, sotto il cortile dove
+      la Guardia e i Raschiatori si addestrano insieme. Di giorno senti sopra
+      la testa i passi delle reclute e gli ordini del sergente d'addestramento,
+      che scendono fin qui attraverso le grate di sfiato. Di notte resta
+      soltanto l'acqua che cola lungo il muro, insieme alla tosse di qualcuno
+      due celle più in là.
+
+      La tua cella misura quattro passi per tre. Ci sono un pagliericcio e un
+      secchio, e in alto una finestrella a bocca di lupo che dà sul cortile
+      all'altezza degli stivali. La porta è di quercia borchiata, e lo
+      spioncino si apre soltanto da fuori.
+
+      Il carceriere si chiama Borso. È un uomo massiccio, con il naso rotto
+      più volte e mai raddrizzato, e porta un grembiule di cuoio sopra la
+      divisa scura. Alla cintura tiene una clava corta che non gli hai ancora
+      visto togliere. Conosce le abitudini e le bugie di ogni detenuto, e alza
+      la voce di rado. Nella cella in fondo al corridoio c'è Karn, il
+      tagliagole degli Scuri preso sui tetti di Via dei Rasoi, che ogni sera
+      fischia la stessa canzone finché Borso non batte la clava contro la sua
+      porta.
+
+      Da qui si esce quando la Caserma decide che il tuo nome può tornare in
+      strada. Fino ad allora conviene che Borso ti trovi sempre in ordine.
+
+  - id: ostracismo
+    nome: Ostracismo
+    immagine: ambientazione/ponti-sospesi
+    penalita: true
+    testo: |
+      Sopra la tua testa passa il Ponte delle Mille Corde, e da quaggiù lo
+      conosci per il rumore. Senti le ruote dei carretti sulle assi e le voci
+      dei Custodi di Passaggio che chiedono la gabella all'imbocco. Di sopra
+      nessuno guarda in basso. In città il tuo nome è diventato una
+      barzelletta e le porte a cui bussavi restano chiuse, così sei sceso dove
+      nessuno chiede chi sei.
+
+      I sottoponti sono una città appesa sotto l'altra. Fra le travi maestre
+      la gente ha teso reti da pesca e tavolati di recupero, e ci ha costruito
+      sopra ripari di tela cerata e lamiera che il vento fa sbattere tutta la
+      notte. Da un riparo all'altro si passa su passerelle larghe una spanna,
+      con una mano sempre sulla fune. Quaggiù vivono mendicanti e mutati
+      della Marea insieme a gente caduta in disgrazia come te. Dal fondo della
+      Cicatrice sale un vento che sa di ferro.
+
+      Qui sotto non importa che cosa si racconta di te sul ponte. Conta se
+      sai tenerti a una corda e se dividi quello che trovi. Per tornare di
+      sopra ti serve che la città trovi un altro argomento, e intanto devi
+      restare vivo e farti un posto fra chi abita le travi.
+
+quality:
+  - { id: recupero.prigione, nome: Buona condotta, categoria: stato, descrizione: "Le righe buone che Borso ha scritto su di te nel registro del carcere. A quattro, la Caserma è pronta a lasciarti andare." }
+  - { id: recupero.ostracismo, nome: Oblio, categoria: stato, descrizione: "Quanto la città si è dimenticata di te mentre vivevi sotto i Ponti. A quattro, puoi tornare di sopra." }
+  - { id: debito.scuri, immagine: fazioni/scuri, nome: Debito con gli Scuri, categoria: stato, descrizione: "Gli Scuri ti hanno tirato fuori dal carcere della Caserma, e alla Pignatta Grassa il tuo nome è scritto sul registro dei favori da riscuotere." }
+
+storylet:
+  # ------------------------------------------------------------ Sospetto
+
+  - id: crisi-sospetto
+    titolo: Il mandato
+    tipo: crisi
+    area: citta-bassa
+    requisiti: [sospetto >= 8]
+    immagine: personaggi/toren-galdrick
+    sommario: "La Caserma ha scritto il tuo nome per intero su un foglio con il sigillo dello sceriffo."
+    testo: |
+      Li vedi prima che loro vedano te. Sono due guardie della Caserma con il
+      cappuccio di maglia, ferme all'angolo della tua strada, e guardano la
+      tua porta. Da giorni ti pare di ritrovare le stesse facce dovunque vai,
+      al banco della locanda e sui ponti, e adesso sai di non esserti
+      sbagliato.
+
+      Il sergente che le comanda ti raggiunge prima che tu possa cambiare
+      direzione. Ha in mano un foglio con il sigillo dello sceriffo Toren
+      Galdrick, e sul foglio c'è il tuo nome scritto per intero, seguito da due
+      righe di motivi e da uno spazio bianco per quelli che troveranno. Lo
+      sceriffo lavora da anni sulle sue liste e non arresta mai in fretta.
+      Se ha firmato, vuol dire che la tua pratica è pronta.
+
+      Il sergente non ti mette le mani addosso. Ti dice che la Caserma vuole
+      sentirti oggi stesso e ti lascia il tempo di capire che cosa significa.
+      A Qir-Azel un'accusa si può ancora far dimenticare, se sai a chi
+      rivolgerti e che cosa sei disposto a perdere. In alternativa, al piano
+      interrato della Caserma c'è una cella libera.
+    opzioni:
+      - testo: "Pagare il sergente"
+        costo: 0
+        requisiti: [monete >= 80]
+        descrizione: "Ottanta monete di tangente, perché il foglio finisca in fondo a un cassetto invece che sul tavolo dello sceriffo."
+        esito:
+          titolo: In fondo al cassetto
+          testo: |
+            Il sergente conta le monete senza toglierle dalla borsa, pesandole
+            con il palmo. Poi piega il foglio in quattro e se lo infila nella
+            giubba. «Le pratiche si perdono» dice. «In Caserma ne arrivano
+            tante.»
+
+            Le due guardie all'angolo se ne vanno prima di sera. Lo sceriffo
+            non sa niente di questo accordo, e ti conviene che resti così,
+            perché a Qir-Azel si dice che Galdrick chi prova a comprarlo se lo
+            segna e non lo dimentica.
+          effetti: { monete: -80 }
+          imposta: { sospetto: 4 }
+      - testo: "Consegnare un nome degli Scuri"
+        costo: 0
+        descrizione: "La Caserma vuole gli Scuri più di quanto voglia te. Puoi darle il corriere che porta i cristalli non registrati dalla Pignatta al Mercato delle Ombre."
+        esito:
+          titolo: Un nome per un altro
+          immagine: fazioni/scuri
+          testo: |
+            Dici il nome a bassa voce e aggiungi l'ora e la strada. Il sergente
+            lo scrive nello spazio bianco sotto il tuo, poi cancella il tuo con
+            due righe dritte.
+
+            Due sere dopo il corriere viene preso con il sacco addosso. Alla
+            Pignatta Grassa Mauro Scrocco ha cominciato a chiedere a tutti chi
+            l'abbia venduto, con la sua voce gentile.
+          effetti: { rep.scuri: -2, rep.caserma: 1 }
+          imposta: { sospetto: 4 }
+      - testo: "Bruciare il tuo contatto nell'ombra"
+        costo: 0
+        requisiti: [contatto-ombra >= 1]
+        descrizione: "Dai alla Caserma la porta che usi per scendere al Mercato delle Ombre. Chi te l'ha insegnata non vorrà più vederti."
+        esito:
+          titolo: Una porta murata
+          immagine: ambientazione/mercato-delle-ombre
+          testo: |
+            Descrivi la porta al sergente, e anche il colpo da battere e la
+            parola da dire. Lui prende nota e ti fa firmare in fondo alla
+            pagina.
+
+            Una settimana dopo passi davanti al vicolo e trovi la porta murata
+            con mattoni ancora freschi. L'uomo che ti aveva insegnato la strada
+            non si fa più trovare, e le voci della Città Bassa dicono che il
+            Mercato ha già cambiato stanza.
+          effetti: { contatto-ombra: -1 }
+          imposta: { sospetto: 4 }
+      - testo: "Seguire il sergente in Caserma"
+        costo: 0
+        descrizione: "Nessun accordo e nessun nome. Scendi nelle celle del piano interrato e aspetti che la Caserma si stanchi di te."
+        esito:
+          titolo: Il piano interrato
+          testo: |
+            Il sergente ti accompagna fino al portone della Caserma, nei
+            Quartieri Alti. Due guardie in armatura pesante lo presidiano giorno
+            e notte. Al banco ti tolgono la cintura e i lacci degli
+            stivali, e un uomo massiccio con il naso storto ti porta giù nelle
+            celle, reggendo la lanterna.
+
+            La porta di quercia si chiude alle tue spalle. Il carceriere apre
+            lo spioncino, ti guarda un momento e dice che si chiama Borso.
+          vai: prigione
+
+  - id: prigione-cortile
+    titolo: I secchi del cortile
+    area: prigione
+    ripetibile: true
+    luogo: Cortile della Caserma
+    immagine: ambientazione/guarnigione-di-qir-azel
+    sommario: "All'alba Borso fa lavorare nel cortile chi vuole una riga buona nel registro."
+    testo: |
+      All'alba Borso apre le celle una alla volta e mette i detenuti in fila
+      nel corridoio. Chi vuole lavora nel cortile finché le reclute non hanno
+      finito l'addestramento del mattino, e chi lavora bene si guadagna una
+      riga buona nel registro del carceriere. Oggi bisogna portare l'acqua
+      dalla cisterna agli abbeveratoi delle stalle, un secchio per mano, da un
+      capo all'altro del cortile. Le reclute ti guardano passare fra un
+      assalto e l'altro. Dragna Gro-Malog è appoggiata al muro con i fogli dei
+      turni in mano e non ti degna di un'occhiata.
+    opzioni:
+      - testo: "Portare i secchi fino all'ultima campana"
+        descrizione: "Il lavoro è lungo, e Borso conta i viaggi."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Facile }
+        successo:
+          titolo: Una riga buona
+          testo: |
+            Porti l'ultimo secchio mentre suona la campana e le reclute
+            rompono le righe. Hai le spalle in fiamme e le mani segnate dai
+            manici. Borso ti riaccompagna in cella e, prima di chiudere, scrive
+            qualcosa nel registro con una matita che sembra minuscola nella sua
+            mano.
+          effetti: { recupero.prigione: 1 }
+        fallimento:
+          titolo: Sugli stivali
+          testo: |
+            A metà mattina un secchio ti scivola e si rovescia sugli stivali di
+            una recluta, che ti insulta davanti a tutto il cortile. Finisci il
+            turno lo stesso, zoppicando. Borso scrive nel registro anche oggi,
+            ma la riga è più corta.
+          effetti: { recupero.prigione: 0.5 }
+
+  - id: prigione-borso
+    titolo: La scatola di latta
+    area: prigione
+    ripetibile: true
+    luogo: Carcere della Caserma
+    immagine: personaggi/borso
+    sommario: "La sera Borso conta le monete in una scatola di latta, al tavolo in fondo al corridoio."
+    testo: |
+      La sera, quando il rancio è finito, Borso siede al tavolo in fondo al
+      corridoio sotto l'unica lanterna. Tira fuori da sotto il grembiule una
+      scatola di latta e conta le monete che ci tiene dentro, impilandole per
+      dieci. Le conta due volte, poi le rimette via. Non le spende mai in
+      niente, nemmeno nel tabacco che i detenuti gli offrono per un secchio
+      d'acqua in più.
+
+      Dal tuo spioncino lo vedi di profilo. È il momento della giornata in cui
+      Borso è più disposto ad ascoltare, e quello che pensa di te finisce nel
+      registro.
+    opzioni:
+      - testo: "Parlargli attraverso lo spioncino"
+        descrizione: "Borso non è un uomo di conversazione. Devi trovare le parole giuste, e poche."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Ghoran
+          testo: |
+            Della scatola non gli chiedi niente. Gli domandi di dove viene, e
+            dopo un lungo silenzio Borso nomina Ghoran, la città dei mercati di
+            schiavi. Poi torna a contare le monete, e tu lasci cadere il
+            discorso.
+
+            Quando ti porta il rancio, la mattina dopo, nella scodella c'è un
+            pezzo di pane in più. Nel registro, alla voce che ti riguarda, ha
+            scritto «tranquillo».
+          effetti: { recupero.prigione: 1 }
+        fallimento:
+          titolo: Lo spioncino
+          testo: |
+            Borso ti lascia parlare un poco. Poi si alza, viene fino alla tua
+            porta e chiude lo spioncino senza dire una parola. Lo senti tornare
+            al tavolo e ricominciare a contare dall'inizio.
+
+            Quella sera nel registro, alla tua voce, non compare nessuna riga
+            nuova.
+          effetti: { recupero.prigione: 0.5 }
+
+  - id: prigione-verbale
+    titolo: Il verbale d'accusa
+    area: prigione
+    ripetibile: true
+    luogo: Carcere della Caserma
+    immagine: ambientazione/guarnigione-di-qir-azel
+    sommario: "Prima dell'interrogatorio il sergente ti lascia leggere il verbale. Se ci trovi un errore, la tua pratica si accorcia."
+    testo: |
+      Un vice-sceriffo ti porta il verbale d'accusa e te lo lascia per
+      un'ora, come vuole la regola, prima di chiamarti all'interrogatorio.
+      Sono quattro fogli fitti, scritti in quella lingua di scartoffie che la
+      Gilda ha insegnato a mezza città. Ci sono le ore e i luoghi, con i nomi
+      delle guardie che ti hanno visto e la firma di ciascuna. Le accuse
+      sono tante, e alcune le hanno messe per fare numero. Chi le ha scritte
+      aveva fretta, e uno scrivano che ha fretta sbaglia.
+    opzioni:
+      - testo: "Cercare le contraddizioni"
+        descrizione: "Confrontare le ore con i luoghi e le firme con i turni di guardia, finché qualcosa non torna."
+        prova: { attributo: mentale, abilita: [accademiche, politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Un'ora di troppo
+          testo: |
+            Al terzo foglio lo trovi. Una guardia giura di averti visto sul
+            Ponte delle Mille Corde alla stessa ora in cui un'altra ti mette in
+            Città Bassa, e le due firme sono dello stesso turno. All'interrogatorio
+            lo fai notare con calma. Il vice-sceriffo rilegge, e poi cancella
+            mezza pagina con due righe incrociate.
+          effetti: { recupero.prigione: 1 }
+        fallimento:
+          titolo: La lingua delle scartoffie
+          testo: |
+            Leggi e rileggi, ma fra i commi e le formule ti perdi prima della
+            fine del primo foglio. All'interrogatorio rispondi a tutte le
+            domande senza sbagliare e senza guadagnare terreno.
+          effetti: { recupero.prigione: 0.5 }
+
+  - id: prigione-uscita
+    titolo: La porta di quercia
+    area: prigione
+    requisiti: [recupero.prigione >= 4]
+    luogo: Carcere della Caserma
+    immagine: ambientazione/guarnigione-di-qir-azel
+    sommario: "Il registro di Borso è pieno di righe buone. La Caserma è pronta a lasciarti andare, e non sei il solo a saperlo."
+    testo: |
+      Da una settimana il sergente non ti chiama più all'interrogatorio, e il
+      registro di Borso alla tua voce è pieno di righe buone. Stamattina il
+      carceriere ti ha detto che la tua pratica è arrivata in fondo. Per
+      uscire serve la firma di qualcuno che risponda di te, oppure qualche
+      giorno di lavoro per la Gilda sui Ponti, che la Caserma presta i detenuti
+      ai Custodi di Passaggio per le riparazioni delle corde. Borso te l'ha
+      detto con la stessa voce con cui annuncia il rancio.
+
+      Più tardi, con il rancio, trovi sul vassoio un biglietto piegato senza
+      firma. In un angolo c'è disegnata a inchiostro una pentola panciuta, e
+      alla Pignatta Grassa sanno sempre chi sta per uscire.
+
+      Nel pomeriggio Borso torna con una notizia. Lo sceriffo Galdrick passa
+      dalle celle prima di cena, e se hai un invito per i Quartieri Alti vuole
+      vederti di persona prima di farti uscire dal portone principale.
+    opzioni:
+      - testo: "Presentarti allo sceriffo"
+        descrizione: "Toren Galdrick ti riceve nel suo ufficio. Firmi davanti a lui la promessa di buona condotta ed esci dal portone principale, nei Quartieri Alti."
+        requisiti: [invito >= 1]
+        esito:
+          titolo: Il portone principale
+          immagine: personaggi/toren-galdrick
+          testo: |
+            Lo sceriffo è un uomo imponente, con la pelle scura e la testa
+            rasata. Ti riceve senza togliersi il cappuccio di maglia e parla
+            poco, lentamente. Ti mette davanti la promessa di buona condotta,
+            aspetta che tu la legga fino in fondo e ti guarda firmare.
+
+            «Il tuo nome resta nelle mie carte» dice mentre ripone la penna.
+            «Vedi di non darmi motivo di rileggerle.»
+
+            Le guardie del portone si scostano per farti passare. Fuori c'è la
+            luce dei Quartieri Alti, e senti l'odore dell'incenso.
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { galateo: 10 }
+          vai: quartieri-alti
+      - testo: "Farti tirare fuori dagli Scuri"
+        descrizione: "Rispondi al biglietto della Pignatta. Gli Scuri sanno come si esce da una cella senza firmare niente, e poi se lo ricordano."
+        esito:
+          titolo: Un ordine con il sigillo giusto
+          immagine: personaggi/rozalia-marga
+          testo: |
+            La notte dopo una guardia che non hai mai visto apre la tua cella
+            con un foglio in mano. È un ordine di scarcerazione con il sigillo
+            dello sceriffo e la firma del sergente, così perfetti che il
+            sergente stesso li giurerebbe suoi. In fondo al foglio, accanto al
+            timbro, c'è una macchia d'inchiostro che sembra un'impronta di
+            pollice.
+
+            Esci dalla porta delle cucine e scendi le scale fino alla Città
+            Bassa senza che nessuno ti fermi. Alla Pignatta Grassa Mauro Scrocco
+            ti versa da bere e non ti fa pagare. Il tuo nome, dice, adesso è
+            scritto in un registro che Rozalia tiene molto in ordine.
+          effetti: { rep.scuri: 1, debito.scuri: 1 }
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { conoscenze-della-strada: 10 }
+          vai: citta-bassa
+      - testo: "Scontare il resto sui Ponti"
+        descrizione: "Qualche giorno a riparare corde per i Custodi di Passaggio, sotto gli occhi di una guardia. Poi ti lasciano andare dove hai finito il lavoro."
+        esito:
+          titolo: Corde nuove
+          immagine: ambientazione/ponti-sospesi
+          testo: |
+            Per cinque giorni sostituisci le funi sfilacciate sotto il Ponte
+            delle Mille Corde, appeso a un'imbracatura, mentre una guardia della
+            Caserma fuma sulla piattaforma di sopra e ti tiene d'occhio. Il
+            Custode di Passaggio che dirige i lavori sa riconoscere dal cigolio
+            una corda buona da una che cederà, e alla fine lo impari anche tu.
+
+            L'ultimo giorno la guardia spegne la pipa, ti restituisce la cintura
+            e se ne torna in Caserma senza voltarsi.
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { atletica: 10 }
+          vai: ponti-sospesi
+
+  # ------------------------------------------------------------ Scandalo
+
+  - id: crisi-scandalo
+    titolo: Il tuo nome sul ponte
+    tipo: crisi
+    area: citta-bassa
+    requisiti: [scandalo >= 8]
+    immagine: ambientazione/mercato-dei-nodi
+    sommario: "Il tuo nome passa di bocca in bocca per tutta Qir-Azel, e a ogni passaggio la storia si allunga."
+    testo: |
+      Te ne accorgi al Mercato dei Nodi, quando il venditore di funi ti dice
+      il prezzo e poi lo ripete più forte perché lo sentano anche i banchi
+      vicini. Da qualche giorno il tuo nome gira per Qir-Azel insieme alle tue
+      ultime figuracce, e la storia si allunga a ogni passaggio. Alla Pignatta
+      Grassa ci hanno fatto sopra una strofa. Nei Quartieri Alti la raccontano
+      a cena, abbassando la voce quel tanto che basta perché i domestici la
+      sentano lo stesso. Un ragazzo ti cammina dietro per un tratto imitando il
+      tuo passo, e sua madre non lo richiama.
+
+      Le porte hanno cominciato a chiudersi. Il fornitore che ti faceva credito
+      ha cambiato idea, e una lettera che aspettavi è tornata indietro con il
+      sigillo intatto. Sui Ponti si dice che il prezzo dipende da chi ti guarda
+      mentre paghi, e adesso ti guardano tutti.
+
+      Una storia così si spegne in fretta se la città trova qualcosa di meglio
+      da raccontare, o se ci si mette a tavola la gente giusta. Qualcuno che ti
+      stima può anche metterci la faccia per te, e rimetterci un poco. Chi non
+      ha niente da spendere di solito sparisce sotto i Ponti Sospesi, dove
+      nessuno legge i nomi, e aspetta che la città si dimentichi.
+    opzioni:
+      - testo: "Offrire cene e regali"
+        costo: 0
+        requisiti: [monete >= 60]
+        descrizione: "Sessanta monete in cene e regali, finché chi rideva di te non si ritrova tuo ospite."
+        esito:
+          titolo: Il conto delle cene
+          testo: |
+            Per sette giorni inviti a cena, una alla volta, le persone che
+            parlavano di te. A chi non accetta mandi una bottiglia buona.
+            Chi è stato tuo ospite fa fatica a ridere di te il giorno dopo, e
+            chi ha bevuto il tuo vino preferisce cambiare argomento.
+
+            Il conto è salato. La strofa della Pignatta però si canta sempre
+            meno, e il fornitore ti ha rimandato un biglietto molto cortese.
+          effetti: { monete: -60 }
+          imposta: { scandalo: 4 }
+      - testo: "Dare in pasto un pettegolezzo migliore"
+        costo: 0
+        requisiti: [informazioni.pettegolezzo >= 2]
+        descrizione: "Due pettegolezzi verificati, fatti girare nei posti giusti. La città ha bisogno di una storia, e può anche non essere la tua."
+        esito:
+          titolo: Un'altra storia
+          testo: |
+            Scegli con cura a chi raccontare le due storie, perché certe bocche
+            portano più lontano di altre. Nel giro di tre giorni al Mercato dei
+            Nodi non si parla d'altro, e le stesse persone che ridevano di te
+            adesso abbassano la voce su qualcun altro.
+
+            Ti rimane addosso una sensazione sgradevole, quella di chi ha
+            spostato un peso sulle spalle di un vicino. Il tuo nome, intanto,
+            ha smesso di girare.
+          effetti: { informazioni.pettegolezzo: -2 }
+          imposta: { scandalo: 4 }
+      - testo: "Chiedere al Velo di coprirti"
+        costo: 0
+        requisiti: [rep.velo >= 1]
+        descrizione: "Padre Vantes può farsi vedere al tuo fianco sui gradini della Cattedrale. È un favore che la Confraternita non dimentica."
+        esito:
+          titolo: Una mano sul braccio
+          immagine: personaggi/padre-vantes
+          testo: |
+            Dopo la funzione della sera Padre Aurelio Vantes scende con te i
+            gradini della Cattedrale, davanti alla folla che esce. Ha l'abitudine
+            di toccare chi gli parla, e ti tiene la mano sul braccio per tutta la
+            scalinata, parlandoti come a un fedele di vecchia data.
+
+            In città non serve altro. Alla Cattedrale però ogni favore finisce
+            negli archivi di Ottilia Sanvel, e il tuo adesso è scritto lì.
+          effetti: { rep.velo: -2 }
+          imposta: { scandalo: 4 }
+      - testo: "Chiedere alla Gilda di coprirti"
+        costo: 0
+        requisiti: [rep.gilda >= 1]
+        descrizione: "Un funzionario della Casa dei Nodi può accompagnarti per il Mercato e far sapere che i tuoi conti sono in ordine."
+        esito:
+          titolo: I conti in ordine
+          immagine: fazioni/gilda-dei-mercanti
+          testo: |
+            Il funzionario della Casa dei Nodi ti accompagna lungo il Mercato
+            dei Nodi a metà mattina, quando i banchi sono più affollati. Si
+            ferma da ogni mercante che ti ha negato credito e gli ricorda, con
+            la cortesia della Gilda, che i tuoi conti sono in regola.
+
+            I mercanti capiscono al volo, e il credito torna. La Casa dei Nodi
+            però registra ogni favore che fa, e adesso ne ha uno a tuo nome.
+          effetti: { rep.gilda: -2 }
+          imposta: { scandalo: 4 }
+      - testo: "Chiedere ai Castaldi di coprirti"
+        costo: 0
+        requisiti: [rep.castaldi >= 1]
+        descrizione: "Marella Castaldi decide chi siede alle cene del Maniero nei giorni di consiglio. Un posto a quella tavola chiude molte bocche."
+        esito:
+          titolo: Un posto a tavola
+          immagine: personaggi/marella-castaldi
+          testo: |
+            Marella Castaldi ti fa sedere alla cena del giorno di consiglio, due
+            posti più in là della Rappresentante, sotto gli occhi delle famiglie
+            dei Quartieri Alti. Non accenna mai alla tua storia, e nessuno dei
+            commensali ha il coraggio di farlo al posto suo.
+
+            Il giorno dopo la tua storia vale molto meno. Marella, congedandoti,
+            ti ricorda senza sorridere che a quella tavola si parla di Stato e
+            mai dei Castaldi, e che da stasera tu sei una faccenda dei Castaldi.
+          effetti: { rep.castaldi: -2 }
+          imposta: { scandalo: 4 }
+      - testo: "Chiedere alla Maison di coprirti"
+        costo: 0
+        requisiti: [rep.maison >= 1]
+        descrizione: "Nerissa Dalvane conosce i pettegolezzi di mezza città e sa come correggerli. La discrezione della Maison, però, ha un prezzo."
+        esito:
+          titolo: La versione della Maison
+          immagine: personaggi/nerissa-dalvane
+          testo: |
+            Nerissa Dalvane ti ascolta nel salotto rosso della Maison des Lunes
+            senza interromperti. Poi ti dice che la tua storia ha un buco, e che
+            la gente dimentica più volentieri quello che non torna.
+
+            Nei giorni seguenti i clienti della Maison cominciano a raccontarne
+            un'altra versione più noiosa e più credibile, e le due storie si
+            consumano a vicenda. Nerissa non ti chiede niente in cambio. Alla
+            Maison però il tuo nome è finito fra quelli che le devono qualcosa.
+          effetti: { rep.maison: -2 }
+          imposta: { scandalo: 4 }
+      - testo: "Sparire sotto i Ponti"
+        costo: 0
+        descrizione: "Niente da spendere e nessuno da cui farti coprire. Scendi fra le travi dei sottoponti e aspetti che la città trovi un altro argomento."
+        esito:
+          titolo: Fra le travi
+          testo: |
+            Scendi per una scala di corda dietro un banco del Mercato dei Nodi,
+            dove nessun Custode di Passaggio guarda. Sotto le assi c'è un'altra
+            città fatta di reti e di tela cerata. Il vento della Cicatrice ti
+            arriva addosso senza niente che lo fermi.
+
+            Una donna seduta davanti a un braciere ti squadra e ti fa segno di
+            sederti. Qui nessuno ha sentito la strofa della Pignatta.
+          vai: ostracismo
+
+  - id: ostracismo-reti
+    titolo: Le reti sotto il Mercato
+    area: ostracismo
+    ripetibile: true
+    luogo: Sottoponti
+    immagine: ambientazione/mercato-dei-nodi
+    sommario: "Sotto il Mercato dei Nodi le reti raccolgono quello che cade dai banchi. Chi ci arriva prima se lo tiene."
+    testo: |
+      Sotto il Mercato dei Nodi gli abitanti dei sottoponti hanno teso reti
+      larghe fra una trave e l'altra, e ci finisce dentro tutto quello che cade
+      dai banchi di sopra. Mele ammaccate, rocchetti di filo, a volte una
+      moneta e una volta, dicono, un anello con la pietra. Le reti però sono
+      lontane dalle passerelle e oscillano a ogni raffica. Per arrivarci bisogna
+      camminare sulle travi con le braccia larghe e fidarsi dei nodi di chi le
+      ha legate. Chi riporta qualcosa lo divide con il braciere comune e si
+      guadagna un posto più vicino al fuoco.
+    opzioni:
+      - testo: "Camminare fino alle reti"
+        descrizione: "Una trave, il vento di traverso e niente sotto per un bel tratto."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Facile }
+        successo:
+          titolo: Un sacco pieno
+          testo: |
+            Arrivi alla rete più lontana e ci trovi una forma di formaggio
+            quasi intera, rotolata giù da un banco durante la notte. Torni sulla
+            passerella con il sacco in spalla, e al braciere qualcuno ti fa posto
+            senza che tu debba chiederlo.
+          effetti: { recupero.ostracismo: 1 }
+        fallimento:
+          titolo: Mezza trave
+          testo: |
+            A metà trave una raffica ti piega sulle ginocchia e resti
+            aggrappato al legno finché non passa. Torni indietro con le mani
+            vuote. Al braciere nessuno ti prende in giro, e qualcuno ti passa lo
+            stesso una mela ammaccata.
+          effetti: { recupero.ostracismo: 0.5 }
+
+  - id: ostracismo-braciere
+    titolo: Il braciere di Mamma Tesh
+    area: ostracismo
+    ripetibile: true
+    luogo: Sottoponti
+    immagine: ambientazione/ponti-sospesi
+    sommario: "La sera, intorno al braciere di Mamma Tesh, ognuno paga il suo posto con una storia o con un favore."
+    testo: |
+      Sulla piattaforma più larga dei sottoponti, dove un pilone del Ponte
+      delle Mille Corde fa da riparo contro il vento, Mamma Tesh tiene acceso
+      un braciere ricavato da un vecchio elmo rovesciato. È una donna piccola,
+      con le mani annerite, che ha vissuto sotto le travi più a lungo di
+      chiunque altro. La sera ci si siede intorno al fuoco e ognuno paga il suo
+      posto come può. Qualcuno porta legna, qualcun altro racconta cosa ha
+      sentito di sopra. Chi non porta niente si siede più lontano.
+    opzioni:
+      - testo: "Guadagnarti un posto vicino al fuoco"
+        descrizione: "Raccontare bene una storia, oppure sapere a chi chiedere quello che manca."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, espressivita], difficolta: Media }
+        successo:
+          titolo: Vicino al fuoco
+          testo: |
+            Racconti la storia di come sei finito quaggiù, e la racconti in modo
+            da far ridere anche te. Mamma Tesh ride più forte di tutti, poi ti
+            indica il posto accanto al suo. Nei giorni seguenti la gente dei
+            sottoponti ti saluta per nome, e il tuo nome quaggiù non ha niente a
+            che fare con quello che si dice sul ponte.
+          effetti: { recupero.ostracismo: 1 }
+        fallimento:
+          titolo: In fondo al cerchio
+          testo: |
+            La storia ti esce storta, e a metà ti accorgi che nessuno ascolta
+            più. Resti in fondo al cerchio, dove il calore arriva appena. Mamma
+            Tesh però ti passa la scodella per ultimo, piena come quella degli
+            altri.
+          effetti: { recupero.ostracismo: 0.5 }
+
+  - id: ostracismo-assi
+    titolo: Quello che passa fra le assi
+    area: ostracismo
+    ripetibile: true
+    luogo: Sottoponti
+    immagine: ambientazione/ponti-sospesi
+    sommario: "Dal sottoponte si sente tutto quello che si dice sul Ponte delle Mille Corde. Anche di te."
+    testo: |
+      Se ti stendi su un tavolato proprio sotto il Ponte delle Mille Corde,
+      senti ogni parola che si dice di sopra. Le assi sono vecchie e le fessure
+      larghe un dito, e fra una fessura e l'altra passano i prezzi del Mercato,
+      le liti dei carrettieri e i pettegolezzi dei Quartieri Alti portati giù
+      dalle serve. Ogni tanto passa anche il tuo nome. Ascoltando con pazienza
+      puoi capire chi continua a raccontare la tua storia e quando la gente
+      comincia a stancarsene.
+    opzioni:
+      - testo: "Ascoltare il ponte"
+        descrizione: "Distinguere le voci, ricordare chi dice cosa e seguire la tua storia mentre si consuma."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Un'altra storia di sopra
+          testo: |
+            Dopo mezza giornata sul tavolato hai capito due cose. La tua storia
+            la tiene viva un solo venditore di funi, che la racconta a ogni
+            cliente, e da ieri sul ponte si parla soprattutto di un carico di
+            sale sparito dai magazzini della Casa dei Nodi. Il tuo nome passa
+            sempre più di rado.
+          effetti: { recupero.ostracismo: 1 }
+        fallimento:
+          titolo: Voci confuse
+          testo: |
+            Il vento copre metà delle parole e i carretti l'altra metà. Senti il
+            tuo nome un paio di volte, ma non riesci a capire chi lo dice né in
+            che tono. Scendi dal tavolato con il collo indolenzito.
+          effetti: { recupero.ostracismo: 0.5 }
+
+  - id: ostracismo-uscita
+    titolo: Un altro argomento
+    area: ostracismo
+    requisiti: [recupero.ostracismo >= 4]
+    luogo: Sottoponti
+    immagine: ambientazione/ponti-sospesi
+    sommario: "Sul ponte non si parla più di te. È il momento di tornare di sopra."
+    testo: |
+      Stamattina hai ascoltato il ponte per un'ora intera e il tuo nome non è
+      passato nemmeno una volta. La strofa della Pignatta l'hanno sostituita con
+      un'altra, sul sale sparito dalla Casa dei Nodi, e il venditore di funi ha
+      trovato un nuovo cliente da prendere in giro. La città ha un altro
+      argomento.
+
+      Mamma Tesh se n'è accorta prima di te. Ti ha lavato la camicia buona nel
+      secchio della pioggia e l'ha stesa ad asciugare su una fune, al vento
+      della Cicatrice. «Di sopra si torna una volta sola» dice, «quindi scegli
+      bene la scala.»
+
+      Ci sono tre modi per risalire. La scala di corda dietro il Mercato porta
+      dritta al Ponte delle Mille Corde, in mezzo alla gente. Le funi dei
+      carrettieri scendono fino alla Città Bassa, dove nessuno ti ha mai
+      cantato una strofa. E se hai ancora un invito per i Quartieri Alti, puoi
+      presentarti lassù vestito di nuovo.
+    opzioni:
+      - testo: "Risalire sul Ponte delle Mille Corde"
+        descrizione: "In pieno giorno e a faccia scoperta, in mezzo ai banchi che ridevano di te."
+        esito:
+          titolo: A faccia scoperta
+          immagine: ambientazione/ponti-sospesi
+          testo: |
+            Sbuchi da dietro il banco del venditore di funi a mezzogiorno, con
+            la camicia pulita e le mani ancora nere di corda. Lui ti riconosce e
+            apre la bocca, poi la richiude. Attraversi il Mercato dei Nodi senza
+            fretta, e nessuno intona la strofa della Pignatta.
+          imposta: { scandalo: 3, recupero.ostracismo: 0 }
+          pe: { resilienza: 10 }
+          vai: ponti-sospesi
+      - testo: "Scendere per le funi fino alla Città Bassa"
+        descrizione: "Le funi dei carrettieri calano fino alle rocce bluastre della Città Bassa. È una discesa lunga, ma in fondo nessuno ti aspetta."
+        esito:
+          titolo: Giù per le funi
+          immagine: ambientazione/citta-bassa
+          testo: |
+            Ti cali lungo le funi dei carrettieri con i piedi incrociati sulla
+            corda, come ti hanno insegnato sotto le travi. A metà discesa senti
+            già i martelli della Città Bassa, e quando tocchi la roccia calda
+            nessuno si volta a guardarti.
+          imposta: { scandalo: 3, recupero.ostracismo: 0 }
+          pe: { acrobazia: 10 }
+          vai: citta-bassa
+      - testo: "Presentarti ai Quartieri Alti"
+        descrizione: "Con l'invito in tasca e un abito nuovo, ti fai vedere alle campane della sera come se non fossi mai sparito."
+        requisiti: [invito >= 1]
+        esito:
+          titolo: Alle campane della sera
+          immagine: ambientazione/quartieri-alti
+          testo: |
+            Spendi quello che hai per un abito decente e sali ai Quartieri Alti
+            all'ora delle campane della sera, quando tutti escono a farsi
+            vedere. Saluti per nome le persone che ti avevano chiuso la porta, e
+            loro, colte di sorpresa, ti rispondono. Nessuno ti chiede dove sei
+            stato.
+          imposta: { scandalo: 3, recupero.ostracismo: 0 }
+          pe: { galateo: 10 }
+          vai: quartieri-alti
+
+  # ------------------------------------------------------------ carte della fascia 5–7
+
+  - id: carta-sospetto-cassetta
+    titolo: Una cassetta da tenere
+    tipo: carta
+    area: ovunque
+    requisiti: [sospetto >= 5, sospetto < 8]
+    immagine: personaggi/mauro-scrocco
+    sommario: "Mauro Scrocco ha una cassetta da nascondere, e secondo lui la casa di chi è già sorvegliato è il posto più sicuro."
+    testo: |
+      Un garzone della Pignatta Grassa ti porta un invito di Mauro Scrocco, e
+      Mauro ti riceve al suo tavolo con un bicchiere già versato. È un uomo
+      obeso, vestito di colori che non si abbinano, e parla con una gentilezza
+      che mette a disagio.
+
+      «Ti tengono d'occhio, e lo sa mezza città» dice Mauro facendo girare il
+      vino nel bicchiere. «Però una casa che la Caserma ha già rivoltato da
+      tutte le parti, per un po', non la guarda più nessuno.»
+
+      Con il piede spinge verso di te, sotto il tavolo, una cassetta di legno
+      chiusa con un lucchetto, e ti chiede di tenerla qualche settimana senza
+      aprirla e senza domandargli che cosa contiene.
+    opzioni:
+      - testo: "Prendere la cassetta"
+        descrizione: "Quindici monete e la gratitudine degli Scuri. Se la Caserma bussa, però, la cassetta è in casa tua."
+        esito:
+          titolo: Sotto il pavimento
+          testo: |
+            Nascondi la cassetta sotto un'asse del pavimento. La notte, quando
+            giri nel letto, ti pare di sentirla. Due volte in una settimana
+            incroci la stessa guardia all'angolo della tua strada, e la seconda
+            volta ti saluta.
+
+            Mauro ti manda le monete in un sacchetto di spezie, con un biglietto
+            di ringraziamento scritto da un'altra mano.
+          effetti: { monete: 15, rep.scuri: 0.5, sospetto: 1 }
+      - testo: "Rimandare indietro la cassetta"
+        descrizione: "Hai già abbastanza guardie alla porta. Mauro la prenderà male, anche se è uno che non alza mai la voce."
+        esito:
+          titolo: Gentilezza
+          testo: |
+            Spingi la cassetta indietro con il piede. Mauro la guarda tornare
+            verso di lui come si guarda un piatto rimandato in cucina. Poi
+            sorride e ti riempie di nuovo il bicchiere. Ti accompagna fino alla
+            porta tenendoti una mano sulla spalla, e la mano pesa più del
+            necessario.
+          effetti: { rep.scuri: -0.5 }
+
+  - id: carta-sospetto-due-parole
+    titolo: Due parole in Caserma
+    tipo: carta
+    area: ovunque
+    requisiti: [sospetto >= 5, sospetto < 8]
+    immagine: ambientazione/guarnigione-di-qir-azel
+    sommario: "Un vice-sceriffo ti propone di passare in Caserma a chiarire la tua posizione, finché sei in tempo."
+    testo: |
+      Un vice-sceriffo ti affianca per strada e cammina al tuo passo per un
+      tratto, come se foste vecchi conoscenti. È giovane, con l'armatura
+      troppo lucida, e parla guardando davanti a sé.
+
+      «Il tuo nome è sulla lista dello sceriffo, per adesso verso il fondo»
+      dice. «Se passi in Caserma e rispondi a qualche domanda, magari scende
+      ancora. Se ci porti qualcosa di utile, scende di sicuro.»
+
+      Si ferma all'angolo e ti lascia andare avanti da solo. Sai dove trovarlo,
+      e lui sa dove trovare te.
+    opzioni:
+      - testo: "Rispondere alle domande del sergente"
+        descrizione: "Un'ora al banco della Caserma, a raccontare la tua versione senza contraddirti."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: Più in basso nella lista
+          testo: |
+            Il sergente ti fa sedere e scrive mentre parli. A ogni risposta fa
+            una domanda in più, e tu le reggi tutte. Alla fine gira il foglio
+            verso di te perché tu firmi, e intanto borbotta che almeno tu non
+            gli hai fatto perdere tempo.
+          effetti: { sospetto: -1 }
+        fallimento:
+          titolo: Una domanda di troppo
+          testo: |
+            Alla terza domanda ti contraddici su un orario, e il sergente se ne
+            accorge subito. Resta zitto e scrive più a lungo di quanto abbia
+            parlato tu. Esci dalla Caserma senza sapere se la tua
+            posizione sia migliorata o peggiorata.
+          effetti: {}
+      - testo: "Portare qualche voce di vicolo"
+        requisiti: [informazioni.voce >= 3]
+        descrizione: "Tre voci raccolte in giro valgono qualcosa, per una Caserma che conta i passi degli Scuri."
+        esito:
+          titolo: Voci utili
+          testo: |
+            Il vice-sceriffo ascolta le tue voci in un angolo del cortile,
+            annuendo a ognuna. Due le conosceva già, e la terza lo fa
+            sorridere. Ti riaccompagna al portone e ti dice che per un po' non
+            vedrai guardie sotto casa tua.
+          effetti: { informazioni.voce: -3, sospetto: -1 }
+
+  - id: carta-scandalo-farsa
+    titolo: Una parte per te
+    tipo: carta
+    area: ovunque
+    requisiti: [scandalo >= 5, scandalo < 8]
+    immagine: personaggi/orazio-belcanto
+    sommario: "Orazio Belcanto vuole mettere in scena la tua storia al Teatro delle Meraviglie. Paga bene, e ti offre anche la parte."
+    testo: |
+      Orazio Belcanto ti ferma in mezzo alla strada con tutte e due le mani,
+      e ogni dito porta un anello. È l'impresario del Teatro delle Meraviglie e
+      parla con la voce un poco più alta del naturale, come se recitasse anche
+      adesso.
+
+      «La tua storia la conosce tutta la città, e la città la racconta male»
+      dice. «Io ne faccio una farsa in tre atti e la racconto bene.»
+
+      Ti mette in mano un biglietto da visita profumato e ti spiega che paga
+      chi gli porta i dettagli giusti, e il doppio a chi ha il coraggio di
+      interpretare sé stesso.
+    opzioni:
+      - testo: "Raccontargli tutto"
+        descrizione: "Venti monete per i dettagli. Poi la città riderà di te a teatro, e con i dettagli giusti."
+        esito:
+          titolo: Tutto esaurito
+          testo: |
+            Orazio ti ascolta prendendo appunti, ride nei punti sbagliati e
+            ti paga sull'unghia. Due settimane dopo la farsa è in cartellone, e
+            per tutta la stagione si fa sempre il tutto esaurito. Da allora la
+            gente per strada ti saluta con le battute del secondo atto.
+          effetti: { monete: 20, scandalo: 1 }
+      - testo: "Recitare la tua parte"
+        descrizione: "Salire sul palco del Teatro delle Meraviglie e fare di te stesso un personaggio. Se il pubblico ride con te, forse smette di ridere di te."
+        prova: { attributo: sociale, abilita: [espressivita, ingannare], difficolta: Media }
+        successo:
+          titolo: Applausi
+          testo: |
+            Sul palco scopri che sai prenderti in giro meglio di chiunque altro.
+            Il pubblico ride con te dall'inizio alla fine, e al terzo atto ti
+            applaude. Orazio ti paga il doppio come promesso e ti chiede se hai
+            altre disgrazie da raccontare. La storia ormai gira lo stesso, ma
+            adesso è una commedia.
+          effetti: { monete: 40, scandalo: 0.5 }
+        fallimento:
+          titolo: Fischi
+          testo: |
+            A metà del primo atto dimentichi una battuta, e il pubblico capisce
+            che non stai recitando. Ridono più forte che mai. Orazio ti paga lo
+            stesso, perché la serata è stata un successo, e ti dice che gli
+            attori veri si trovano, mentre le disgrazie vere no.
+          effetti: { monete: 20, scandalo: 1 }
+
+  - id: carta-scandalo-feriti
+    titolo: Le cure pubbliche
+    tipo: carta
+    area: ovunque
+    requisiti: [scandalo >= 5, scandalo < 8]
+    immagine: fazioni/confraternita-del-velo
+    sommario: "Il Velo cerca braccia per le cure pubbliche della Cattedrale. Una buona azione, sotto gli occhi di tutti."
+    testo: |
+      Sulla porta di una cappella è inchiodato un avviso della Confraternita
+      del Velo. Padre Vantes cerca volontari per le cure pubbliche della
+      settimana, quando la Cattedrale apre le porte a chi non può pagare un
+      medico. Servono braccia per portare le barelle e per tenere fermi i
+      feriti mentre le sorelle li ricuciono, e servono monete per le bende.
+
+      In fondo all'avviso c'è una riga aggiunta a mano. I nomi dei volontari e
+      dei benefattori saranno letti alla liturgia della sera, davanti a tutta
+      la navata.
+    opzioni:
+      - testo: "Portare le barelle"
+        descrizione: "Una giornata intera fra i feriti, sotto gli occhi della città."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Facile }
+        successo:
+          titolo: Il tuo nome in navata
+          testo: |
+            Passi la giornata fra barelle e bacinelle, e alla sera hai le
+            maniche macchiate fino al gomito. Un vecchio Raschiatore ti stringe
+            la mano per averlo tenuto fermo mentre gli cucivano la gamba. Alla
+            liturgia leggono il tuo nome, e chi ti conosceva per la tua storia
+            adesso ti conosce anche per questa.
+          effetti: { scandalo: -1, rep.velo: 0.5 }
+        fallimento:
+          titolo: Riconosciuto
+          testo: |
+            A metà mattina una donna in fila ti riconosce e lo dice ad alta
+            voce, e per il resto del giorno i feriti ti guardano più di quanto
+            guardino le sorelle. Finisci il lavoro comunque. Alla liturgia
+            leggono il tuo nome, e dalla navata sale una risatina.
+          effetti: {}
+      - testo: "Pagare le bende"
+        requisiti: [monete >= 25]
+        descrizione: "Venticinque monete di offerta, e il tuo nome letto fra quelli dei benefattori."
+        esito:
+          titolo: Fra i benefattori
+          testo: |
+            Lasci l'offerta a una sorella con i capelli rasati, che la conta
+            sull'abaco e scrive il tuo nome in un registro. Alla liturgia della
+            sera il tuo nome viene letto fra quelli dei benefattori, subito dopo
+            un mercante della Gilda che ha dato il doppio.
+          effetti: { monete: -25, scandalo: -1 }

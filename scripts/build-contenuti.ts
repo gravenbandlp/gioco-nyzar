@@ -4,7 +4,7 @@
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parse } from 'yaml';
-import { Contenuti, COSTI_PROPRIETA, DIFETTI, type TContenuti } from '../src/motore/contenuto';
+import { Contenuti, COSTI_PROPRIETA, DIFETTI, OVUNQUE, type TContenuti } from '../src/motore/contenuto';
 import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
 import { parseRequisito } from '../src/motore/personaggio';
 
@@ -12,7 +12,7 @@ const RADICE = new URL('..', import.meta.url).pathname;
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -65,6 +65,7 @@ export function caricaContenuti(opzioni: { tavole?: boolean } = {}): { contenuti
     c.quality.push({ id: `incantesimo.${i.id}`, nome: i.nome, categoria: 'incantesimo', descrizione: i.descrizione, immagine: i.immagine });
   }
   completaOggetti(c);
+  for (const m of c.mutazioni) c.quality.push({ id: `mutazione.${m.id}`, nome: m.nome, categoria: 'mutazione', descrizione: m.descrizione, immagine: m.immagine });
   errori.push(...controlliIncrociati(c, avvisi));
   if (opzioni.tavole !== false) errori.push(...controllaTavole(c));
   return { contenuti: c, errori, avvisi };
@@ -112,7 +113,8 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   const chiaviOggetti = c.oggetti.flatMap((o) => o.proprieta.chiave.map((k) => `chiave.${k}`));
   const tratti = [...Object.keys(COSTI_PROPRIETA), ...DIFETTI].map((k) => `indossa.${k}`);
-  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality, ...chiaviOggetti, ...tratti]);
+  const pe = TUTTE_LE_ABILITA.map((a) => `pe.${a}`);
+  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality, ...chiaviOggetti, ...tratti, ...pe]);
   const requisiti = (dove: string, reqs: string[] | undefined) => {
     for (const r of reqs ?? []) {
       try {
@@ -129,11 +131,13 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
       else if (Math.abs((eff![k]! * 2) % 1) > 1e-9) errori.push(`${dove}: "${k}" deve variare a mezzi punti`);
     }
   };
-  const esito = (dove: string, e?: { effetti?: Record<string, number>; vai?: string; segue?: string }) => {
+  const esito = (dove: string, e?: { effetti?: Record<string, number>; vai?: string; segue?: string; imposta?: Record<string, number>; pe?: Record<string, number> }) => {
     if (!e) return;
     effetti(dove, e.effetti);
     if (e.vai && !aree.has(e.vai)) errori.push(`${dove}: "vai" verso area sconosciuta "${e.vai}"`);
     if (e.segue && !storylet.has(e.segue)) errori.push(`${dove}: "segue" verso storylet sconosciuto "${e.segue}"`);
+    for (const k of Object.keys(e.imposta ?? {})) if (!quality.has(k) && !pe.includes(k)) errori.push(`${dove}: "imposta" su chiave sconosciuta "${k}"`);
+    for (const k of Object.keys(e.pe ?? {})) if (!TUTTE_LE_ABILITA.includes(k)) errori.push(`${dove}: PE a un'abilità sconosciuta "${k}"`);
   };
 
   for (const a of c.aree) {
@@ -143,9 +147,11 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   for (const st of c.storylet) {
     const dove = `storylet ${st.id}`;
-    if (!aree.has(st.area)) errori.push(`${dove}: area sconosciuta "${st.area}"`);
+    if (!aree.has(st.area) && !(st.area === OVUNQUE && st.tipo === 'carta')) errori.push(`${dove}: area sconosciuta "${st.area}"`);
+    if (st.tipo === 'crisi' && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di una crisi costano 0 candele`);
     requisiti(dove, st.requisiti);
-    if (st.tipo === 'fisso' && !st.ripetibile && !st.requisiti.some((r) => r.startsWith('pista.') || /==\s*0\s*$/.test(r))) {
+    const inAreaPenalita = !!c.aree.find((a) => a.id === st.area)?.penalita;
+    if (st.tipo === 'fisso' && !st.ripetibile && !inAreaPenalita && !st.requisiti.some((r) => r.startsWith('pista.') || /==\s*0\s*$/.test(r))) {
       avvisi.push(`${dove}: non è ripetibile ma nessun requisito lo chiude dopo la prima volta (serve una pista o un "== 0")`);
     }
     st.opzioni.forEach((o, i) => {
@@ -164,6 +170,8 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
       esito(`${d} (esito)`, o.esito);
     });
   }
+
+  for (const m of c.mutazioni) for (const k of Object.keys(m.abilita)) if (!TUTTE_LE_ABILITA.includes(k)) errori.push(`mutazione ${m.id}: abilità sconosciuta "${k}"`);
 
   for (const i of c.incantesimi) {
     for (const k of Object.keys(i.prezzo ?? {})) if (!quality.has(k)) errori.push(`incantesimo ${i.id}: prezzo su quality sconosciuta "${k}"`);
