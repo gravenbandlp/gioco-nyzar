@@ -5,10 +5,15 @@ import { ATTRIBUTI, ETICHETTE_DIFFICOLTA } from './regole';
 
 const Id = z.string().regex(/^[a-z0-9][a-z0-9.-]*$/, 'id in minuscolo, con trattini o punti');
 
+/** Tavola del Codex: "collezione/slug", es. "ambientazione/pignatta-grassa". */
+export const Immagine = z.string().regex(/^[a-z]+\/[a-z0-9-]+$/, 'immagine nel formato collezione/slug');
+
 /** Effetti: chiave → variazione numerica ("+1", -2, 0.5). */
 export const Effetti = z.record(z.string(), z.number());
 
 export const Esito = z.object({
+  immagine: Immagine.optional(),
+  titolo: z.string().optional(), // intestazione dell'esito, alla Fallen London
   testo: z.string(),
   effetti: Effetti.optional(),
   vai: Id.optional(), // cambia area
@@ -23,6 +28,7 @@ export const Prova = z.object({
 
 export const Opzione = z
   .object({
+    immagine: Immagine.optional(),
     testo: z.string(),
     descrizione: z.string().optional(),
     requisiti: z.array(z.string()).optional(),
@@ -45,7 +51,9 @@ export const Opzione = z
 
 export const Storylet = z.object({
   id: Id,
+  immagine: Immagine.optional(),
   titolo: z.string(),
+  sommario: z.string().optional(), // una riga, mostrata nell'elenco
   area: Id,
   tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita']).default('fisso'),
   ripetibile: z.boolean().default(false),
@@ -57,6 +65,7 @@ export const Storylet = z.object({
 
 export const Area = z.object({
   id: Id,
+  immagine: Immagine.optional(),
   nome: z.string(),
   testo: z.string(),
   accesso: z.array(z.string()).default([]),
@@ -67,6 +76,7 @@ export const Area = z.object({
 export const Quality = z.object({
   id: Id,
   nome: z.string(),
+  immagine: Immagine.optional(),
   categoria: z.enum(['moneta', 'bene', 'pista', 'negativa', 'reputazione', 'accesso', 'consumabile', 'equipaggiamento', 'stato']),
   descrizione: z.string().optional(),
   valore: z.number().optional(), // valore in monete (beni)
@@ -77,6 +87,7 @@ export const Quality = z.object({
 export const Nemico = z.object({
   id: Id,
   nome: z.string(),
+  immagine: Immagine.optional(),
   descrizione: z.string().optional(),
   attacco: z.number().int().min(0),
   difesa: z.number().int().min(0),
@@ -98,6 +109,7 @@ export const Scontro = z.object({
 export const Arma = z.object({
   id: Id,
   nome: z.string(),
+  immagine: Immagine.optional(),
   abilita: z.string(), // armi-da-mischia, armi-da-distanza, rissa
   danno: z.number().int(),
   qualita: z.number().int().min(0).max(5).default(0),
@@ -108,6 +120,7 @@ export const Arma = z.object({
 export const Armatura = z.object({
   id: Id,
   nome: z.string(),
+  immagine: Immagine.optional(),
   riduzione: z.number().int().min(0),
   qualita: z.number().int().min(0).max(5).default(0),
   penalita: z.record(z.string(), z.number()).default({}),
@@ -117,6 +130,7 @@ export const Armatura = z.object({
 export const Negozio = z.object({
   id: Id,
   nome: z.string(),
+  immagine: Immagine.optional(),
   testo: z.string(),
   compra: z.array(z.object({ quality: Id, prezzo: z.number().int().min(1) })).default([]), // il negozio compra dal giocatore
   vende: z.array(z.object({ quality: Id, prezzo: z.number().int().min(1) })).default([]), // il giocatore compra
@@ -125,12 +139,22 @@ export const Negozio = z.object({
 export const Origine = z.object({
   id: Id,
   nome: z.string(),
+  immagine: Immagine.optional(),
   testo: z.string(),
   attributi: z.record(z.enum(ATTRIBUTI), z.number().int().min(1).max(3)),
   abilita: z.record(z.string(), z.number().int().min(0).max(3)),
   quality: z.record(z.string(), z.number()).default({}),
   arma: Id,
   armatura: Id,
+});
+
+/** Frammenti del Codex: brevi voci di ambientazione mostrate a margine. Solo informazioni pubbliche. */
+export const Frammento = z.object({
+  id: Id,
+  titolo: z.string(),
+  testo: z.string(),
+  immagine: Immagine.optional(),
+  area: Id.optional(), // se presente, compare solo in quell'area
 });
 
 export const Contenuti = z.object({
@@ -143,6 +167,7 @@ export const Contenuti = z.object({
   armature: z.array(Armatura),
   negozi: z.array(Negozio),
   origini: z.array(Origine),
+  frammenti: z.array(Frammento).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -158,4 +183,5 @@ export type TArma = z.infer<typeof Arma>;
 export type TArmatura = z.infer<typeof Armatura>;
 export type TNegozio = z.infer<typeof Negozio>;
 export type TOrigine = z.infer<typeof Origine>;
+export type TFrammento = z.infer<typeof Frammento>;
 export type TContenuti = z.infer<typeof Contenuti>;

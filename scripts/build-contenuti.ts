@@ -1,7 +1,7 @@
 // Legge tutti i file YAML in contenuti/, li valida (schema + controlli incrociati)
 // e scrive src/generato/contenuti.json. Se qualcosa non torna, il build si ferma
 // con un elenco di errori leggibili: meglio qui che a metà partita.
-import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parse } from 'yaml';
 import { Contenuti, type TContenuti } from '../src/motore/contenuto';
@@ -12,7 +12,7 @@ const RADICE = new URL('..', import.meta.url).pathname;
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -24,7 +24,7 @@ function fileYaml(dir: string): string[] {
     });
 }
 
-export function caricaContenuti(): { contenuti: TContenuti; errori: string[]; avvisi: string[] } {
+export function caricaContenuti(opzioni: { tavole?: boolean } = {}): { contenuti: TContenuti; errori: string[]; avvisi: string[] } {
   const grezzo: Record<string, unknown[]> = Object.fromEntries(CHIAVI.map((k) => [k, []]));
   const errori: string[] = [];
   const avvisi: string[] = [];
@@ -61,6 +61,7 @@ export function caricaContenuti(): { contenuti: TContenuti; errori: string[]; av
   }
   const c = esito.data;
   errori.push(...controlliIncrociati(c, avvisi));
+  if (opzioni.tavole !== false) errori.push(...controllaTavole(c));
   return { contenuti: c, errori, avvisi };
 }
 
@@ -131,6 +132,8 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     });
   }
 
+  for (const f of c.frammenti) if (f.area && !aree.has(f.area)) errori.push(`frammento ${f.id}: area sconosciuta "${f.area}"`);
+
   for (const sc of c.scontri) for (const n of sc.nemici) if (!nemici.has(n)) errori.push(`scontro ${sc.id}: nemico sconosciuto "${n}"`);
 
   for (const a of c.armi) if (!TUTTE_LE_ABILITA.includes(a.abilita)) errori.push(`arma ${a.id}: abilità sconosciuta "${a.abilita}"`);
@@ -163,6 +166,32 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   }
 
   return errori;
+}
+
+/** Ogni tavola citata deve essere già stata importata (npm run tavole). */
+export function controllaTavole(c: TContenuti): string[] {
+  const errori: string[] = [];
+  for (const t of tavoleCitate(c)) {
+    for (const taglio of ['s', 'l']) {
+      if (!existsSync(join(RADICE, 'public', 'tavole', `${t}-${taglio}.webp`))) {
+        errori.push(`tavola "${t}" non importata: esegui npm run tavole`);
+        break;
+      }
+    }
+  }
+  return errori;
+}
+
+/** Tutte le tavole citate nei contenuti (campo `immagine` a qualsiasi profondità). */
+export function tavoleCitate(dati: unknown, out = new Set<string>()): Set<string> {
+  if (Array.isArray(dati)) dati.forEach((x) => tavoleCitate(x, out));
+  else if (dati && typeof dati === 'object') {
+    for (const [k, v] of Object.entries(dati)) {
+      if (k === 'immagine' && typeof v === 'string') out.add(v);
+      else tavoleCitate(v, out);
+    }
+  }
+  return out;
 }
 
 // ---------------------------------------------------------------- esecuzione diretta

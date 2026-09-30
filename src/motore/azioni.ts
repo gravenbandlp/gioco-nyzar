@@ -60,6 +60,8 @@ export function anteprima(s: Stato, opz: TOpzione, c: TContenuti): Anteprima {
 }
 
 export interface Risultato {
+  titolo?: string;
+  immagine?: string;
   testo: string;
   riuscito?: boolean;
   tiro?: { facce: number[]; successi: number; richiesti: number; abilita: string; probabilita: number };
@@ -71,6 +73,8 @@ export interface Risultato {
 
 function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato): void {
   r.testo = e.testo;
+  if (e.titolo) r.titolo = e.titolo;
+  if (e.immagine) r.immagine = e.immagine;
   r.variazioni.push(...applicaEffetti(s, e.effetti, c));
   if (e.vai) { s.area = e.vai; r.area = e.vai; }
   if (e.segue) r.segue = e.segue;

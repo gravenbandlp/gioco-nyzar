@@ -16,8 +16,28 @@ npm install
 npm run dev        # gioca in locale su http://localhost:5173
 npm test           # valida i contenuti e prova il motore
 npm run simula     # tabella di vittoria: origini × scontri
-npm run build      # un solo file: dist/index.html
+npm run build      # dist/index.html (un solo file) più dist/tavole/
+npm run tavole     # importa dal Codex le tavole citate nei contenuti
 ```
+
+## Tavole
+
+Le illustrazioni vengono dalle tavole del Codex. Nei YAML basta scrivere
+`immagine: collezione/slug` (per esempio `immagine: personaggi/marko-thessel`) su un'area, uno
+storylet, un'opzione, un esito, una quality, un nemico, un negozio o un'origine. Poi
+`npm run tavole` le converte in WebP in due tagli (`public/tavole/…-s.webp` da 360px e `-l.webp`
+da 1280px), senza metadati. Il build si ferma se una tavola citata non è stata importata. Dove
+manca un'immagine l'interfaccia mostra il segnaposto "Tavola non catalogata".
+
+Lo script cerca il Codex in `../codex-nyzar/src/assets/tavole`; si può passare un altro percorso:
+`npm run tavole -- /percorso/tavole`.
+
+## Interfaccia
+
+Impianto alla Fallen London con la lingua visiva del Codex: candela e statistiche a sinistra,
+schede Storia · Personaggio · Averi · Bazar · Mappa al centro, luogo e frammenti del Codex a destra
+(`contenuti/frammenti.yaml`, solo informazioni pubbliche). Su telefono le colonne si impilano e
+candele e monete restano nella barra delle schede.
 
 ## Come è fatto
 
@@ -27,12 +47,15 @@ contenuti/            tutto il testo e i numeri del gioco, in YAML
   nemici/             nemici e scontri
   quality.yaml        monete, beni, negative, reputazioni, accessi, piste
   origini.yaml        le build di partenza
+  frammenti.yaml      brevi voci del Codex mostrate a margine
   equipaggiamento.yaml, negozi.yaml
 scripts/
   build-contenuti.ts  valida i YAML e scrive src/generato/contenuti.json
   simula.ts           bilanciamento dei combattimenti
+  importa-tavole.ts   tavole del Codex → public/tavole
 src/motore/           regole pure, senza interfaccia (testabili e riusabili sul server)
-src/ui/               interfaccia in TypeScript senza framework
+src/ui/               interfaccia in TypeScript senza framework (viste.ts, componenti.ts, stile.css)
+public/tavole/        illustrazioni importate dal Codex
 test/                 Vitest
 ```
 
@@ -45,13 +68,18 @@ test/                 Vitest
   area: citta-bassa
   ripetibile: true            # azione d'area; se false serve una pista che lo chiuda
   requisiti: [monete >= 1]    # chiave, operatore, numero
-  testo: >
+  sommario: "Qui le notizie arrivano prima dei banditori."   # una riga per l'elenco
+  immagine: ambientazione/pignatta-grassa
+  testo: |
     Tavoli di carte, sidro torbido…
+
+    Una riga vuota separa i paragrafi; *asterischi* per il corsivo.
   opzioni:
     - testo: "Offrire da bere e ascoltare"
       costo: 1                # candele (default 1)
       prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
-      successo: { testo: "…", effetti: { informazioni.voce: 2 } }
+      descrizione: "Una frase su cosa tenti."
+      successo: { titolo: "Cose che non dovevi sentire", testo: "…", effetti: { informazioni.voce: 2 } }
       fallimento: { testo: "…", effetti: { monete: -1 } }
 ```
 
