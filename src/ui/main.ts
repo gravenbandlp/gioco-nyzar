@@ -4,7 +4,7 @@ import { CONTENUTI as c } from '../dati/contenuti';
 import { CANDELE_MAX, CODA_MAX } from '../motore/regole';
 import type { TFrammento } from '../motore/contenuto';
 import {
-  nuovoPersonaggio, aggiornaTempo, msAllaProssimaCandela, msAllaProssimaCarta, pesca, scarta, type Stato,
+  nuovoPersonaggio, aggiornaTempo, msAllaProssimaCandela, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi, secondaScelta } from '../motore/azioni';
 import { ritirati } from '../motore/spedizioni';
@@ -12,6 +12,8 @@ import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } 
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
 import { durata } from './formato';
+import { impostaGlossario } from './componenti';
+import { avviaSchede, nascondiScheda } from './tooltip';
 import {
   pagina, storia, personaggio, averi, bazar, mappa, creazione, type Contesto, type Scheda, type Vista,
 } from './viste';
@@ -91,6 +93,9 @@ function render(): void {
     return;
   }
   document.body.classList.remove('in-creazione');
+  const s = stato;
+  impostaGlossario(c.glossario, (v) => requisitiSoddisfatti(s, v.requisiti, c));
+  nascondiScheda();
   const ora = Date.now();
   aggiornaTempo(stato, ora);
   const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio };
@@ -292,6 +297,7 @@ setInterval(() => {
 interface Hot { snapshot?: (f: () => unknown) => void; ready?: (f: (d: unknown) => void) => void; data?: unknown }
 const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
 hot?.snapshot?.(() => ({ stato, vista, scheda }));
+avviaSchede(c.glossario);
 const avvia = (dati: unknown) => { carica(dati as Partial<Salvataggio> | undefined); render(); };
 if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data);

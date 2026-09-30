@@ -6,7 +6,9 @@ E5–E7 di Capomozzo) le scriviamo noi, seguendo quello che c'è prima e dopo.
 **Avanzamento.** Blocco 1 fatto: prologhi per origine (`contenuti/prologo/`), il Grifone come casa
 (`contenuti/grifone.yaml`), il sistema delle spedizioni (`src/motore/spedizioni.ts`). Blocco 2 fatto: la Dama
 d'Argento arriva a 11 (`contenuti/piste/`), con tre strade per il passo 9 e quattro carte della Città Bassa; un
-seguito lasciato a metà resta in cima alla storia finché non lo giochi.
+seguito lasciato a metà resta in cima alla storia finché non lo giochi. Il 1° ottobre: più voce nei testi
+(sezione "La voce" di `docs/stile-dei-testi.md`) e il glossario dei tooltip (`contenuti/glossario/`), con la
+prima occorrenza di ogni nome sottolineata in ogni blocco di prosa.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.

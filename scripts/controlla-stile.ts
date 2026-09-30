@@ -61,7 +61,12 @@ export const REGOLE: Regola[] = [
   {
     nome: 'formule consumate',
     spiegazione: 'Cliché della prosa generata.',
-    trova: tutte(/(non (gli|le) arriva(va)? agli occhi|calma studiata|qualcosa di più \p{L}+|per un istante|sorprendentemente|come chi ha già|che nessuno (sa|osa|vuole)|un silenzio che|il peso di|sa di \p{L}+ e di|il tipo di \p{L}+ che)/giu),
+    trova: tutte(/(non (gli|le) arriva(va)? agli occhi|calma studiata|qualcosa di più \p{L}+|per un istante|sorprendentemente|come chi ha già|che nessuno (sa|osa|vuole)|un silenzio che|il peso di|sa di \p{L}+ e di|il tipo di \p{L}+ che|con (?:la|il|lo|l')\s?\p{L}+ di chi|come chi\b)/giu),
+  },
+  {
+    nome: 'pensiero in chiusa',
+    spiegazione: 'Il pensiero in corsivo non chiude il paragrafo: dopo, torna ai fatti.',
+    trova: (t) => t.trim().split(/\n\s*\n/).map((p) => p.trim()).filter((p) => /\*[^*]+\*$/.test(p) && frasi(p).length >= 2).map((p) => p.slice(-80)),
   },
   { nome: 'trattino lungo', spiegazione: 'Inciso con trattino lungo.', trova: tutte(/[—–]/g) },
 ];

@@ -12,7 +12,7 @@ const RADICE = new URL('..', import.meta.url).pathname;
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -184,6 +184,24 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     });
   }
 
+  // Glossario: ogni forma (nome o alias) appartiene a una sola voce; le voci mai citate sono sospette.
+  const forme = new Map<string, string>();
+  for (const v of c.glossario) {
+    requisiti(`glossario ${v.id}`, v.requisiti);
+    for (const f of [v.nome, ...v.alias]) {
+      if (forme.has(f) && forme.get(f) !== v.id) errori.push(`glossario ${v.id}: "${f}" è già una forma di ${forme.get(f)}`);
+      forme.set(f, v.id);
+    }
+  }
+  if (c.glossario.length) {
+    const tutto = testiNarrativi(c);
+    for (const v of c.glossario) {
+      if (![v.nome, ...v.alias].some((f) => new RegExp(`(?<![\\p{L}\\p{N}])${escapa(f)}(?![\\p{L}\\p{N}])`, 'u').test(tutto))) {
+        avvisi.push(`glossario ${v.id}: "${v.nome}" non compare in nessun testo`);
+      }
+    }
+  }
+
   for (const m of c.mutazioni) for (const k of Object.keys(m.abilita)) if (!TUTTE_LE_ABILITA.includes(k)) errori.push(`mutazione ${m.id}: abilità sconosciuta "${k}"`);
 
   for (const i of c.incantesimi) {
@@ -295,3 +313,18 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       `${contenuti.quality.length} quality, ${contenuti.scontri.length} scontri, ${contenuti.origini.length} origini.`,
   );
 }
+
+function escapa(s: string): string { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+/** Tutti i testi che il giocatore legge come prosa (dove compaiono i tooltip). */
+export function testiNarrativi(c: TContenuti): string {
+  const parti: string[] = [];
+  for (const a of c.aree) parti.push(a.testo);
+  for (const f of c.frammenti) parti.push(f.testo);
+  for (const st of c.storylet) {
+    parti.push(st.testo);
+    for (const o of st.opzioni) for (const e of [o.successo, o.fallimento, o.vittoria, o.sconfitta, o.esito]) if (e) parti.push(e.testo);
+  }
+  return parti.join('\n').replace(/[ \t]*\n[ \t]*(?!\n)/g, ' '); // gli a capo dentro un paragrafo contano come spazi
+}
+

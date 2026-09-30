@@ -55,6 +55,49 @@ Cosa funziona:
    «Rennick Dole», dice Mauro, «lo trovi alla Segheria». Mai la virgola dentro le caporali.
 10. **Il trattino lungo** per gli incisi: usa le virgole o le parentesi.
 
+## La voce (dal 1° ottobre 2026: un po' di Disco Elysium)
+
+Tolti i tic, la prosa era diventata troppo asciutta: corretta, ma senza qualcuno dentro. Il riferimento per
+la voce è Disco Elysium, preso con misura. Le regole di "Da evitare" valgono tutte, e la lunghezza resta
+quella di prima con un margine del 10–25%.
+
+- **Il narratore sta dentro la testa del protagonista.** Il corpo reagisce prima del pensiero (le mani che
+  cercano la cintura, lo stomaco che si chiude, il sudore che si raffredda sulla nuca). La mente associa:
+  un odore riporta un ricordo, un gesto fa venire in mente qualcuno. Sempre seconda persona e presente.
+- **Un pensiero in corsivo, ogni tanto.** Una riga che il protagonista dice a se stesso, al massimo una per
+  storylet, mai in chiusura di paragrafo. *Questa donna non si pulisce le unghie per igiene.*
+- **La città guardata con affetto e con un po' di amarezza.** Un dettaglio umano, specifico e un po'
+  storto per scena: il cartello corretto a mano, la tazza sbeccata tenuta per affetto, la guardia che ha
+  cucito la toppa dello stemma al rovescio. Dice qualcosa di chi vive lì.
+- **L'ironia sta dentro la frase, asciutta.** Un aggettivo, un accostamento, un dettaglio che stona. Non
+  diventa mai la battuta finale del paragrafo.
+- **I periodi possono allungarsi.** Nelle descrizioni una frase lunga, con subordinate e un inciso, che
+  segue lo sguardo; poi frasi di media lunghezza. Niente raffiche.
+- **I PNG parlano ciascuno a modo proprio.** Un intercalare, una parola che ripetono, qualcosa che
+  evitano di dire, un gesto tra una battuta e l'altra. Le battute possono essere un po' più lunghe.
+- **Lo stato del protagonista si sente.** Stanchezza, ferite, soldi che mancano entrano nella percezione
+  quando c'entrano, senza che il testo ne faccia un tema.
+
+Un esempio, dalla scena degli Scuri in Via dei Rasoi.
+
+Prima:
+
+> A quest'ora Via dei Rasoi è quasi vuota. Al gomito della strada, con la schiena appoggiata al cristallo
+> spento, c'è una donna snella con i capelli scuri raccolti in un nodo sulla nuca e una piuma da scrivere
+> infilata dietro l'orecchio. Si pulisce le unghie con un coltellino da ufficio, e ha le dita macchiate
+> d'inchiostro.
+
+Dopo:
+
+> A quest'ora Via dei Rasoi è quasi vuota, e i pochi rumori scendono dalle finestre socchiuse, una pentola
+> che sbatte e un bambino che non ne vuole sapere di dormire. Al gomito della strada, con la schiena
+> appoggiata al cristallo spento, c'è una donna snella con i capelli raccolti sulla nuca e una piuma da
+> scrivere dietro l'orecchio. Si pulisce le unghie con un coltellino da ufficio, senza fretta, un'unghia
+> alla volta. L'inchiostro le arriva fino alla seconda falange.
+>
+> *Una falsaria. O una che scrive molte lettere d'amore.* Le tue mani, per conto loro, tornano vicino alla
+> cintura.
+
 ## Cosa resta
 
 Seconda persona, presente. Dettagli concreti del mondo del Codex. I PNG parlano ciascuno a modo

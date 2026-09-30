@@ -1,5 +1,5 @@
 // Pezzi grafici riutilizzati da tutte le viste. Restituiscono stringhe HTML.
-import type { TContenuti, TOggetto } from '../motore/contenuto';
+import type { TContenuti, TOggetto, TVoce } from '../motore/contenuto';
 import { NOMI_DIFETTI } from '../motore/contenuto';
 import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, CANDELE_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
@@ -22,10 +22,43 @@ export function tavola(t: string | undefined, opz: { classe?: string; taglio?: '
   return `<figure class="${cls}"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i>${img}${opz.didascalia ? `<figcaption>${opz.didascalia}</figcaption>` : ''}</figure>`;
 }
 
-/** Testo narrativo: paragrafi separati da una riga vuota, *corsivo* con asterischi. */
+// ---------------------------------------------------------------- glossario
+
+const glossario: { voci: TVoce[] | null; rx: RegExp | null; forme: Map<string, TVoce>; visibile: (v: TVoce) => boolean } = {
+  voci: null, rx: null, forme: new Map(), visibile: () => true,
+};
+
+/**
+ * Prepara il riconoscimento dei nomi del glossario nella prosa. `visibile` decide, a ogni render,
+ * quali voci si possono già mostrare (requisiti soddisfatti).
+ */
+export function impostaGlossario(voci: TVoce[], visibile: (v: TVoce) => boolean): void {
+  if (voci !== glossario.voci) {
+    glossario.voci = voci;
+    glossario.forme = new Map();
+    for (const v of voci) for (const f of [v.nome, ...v.alias]) glossario.forme.set(h(f), v);
+    const forme = [...glossario.forme.keys()].sort((a, b) => b.length - a.length).map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    glossario.rx = forme.length ? new RegExp(`(?<![\\p{L}\\p{N}&#])(?:${forme.join('|')})(?![\\p{L}\\p{N}])`, 'gu') : null;
+  }
+  glossario.visibile = visibile;
+}
+
+/** Sottolinea la prima occorrenza di ogni voce del glossario in un pezzo di HTML già escapato. */
+function annota(html: string, viste: Set<string>): string {
+  if (!glossario.rx) return html;
+  return html.replace(glossario.rx, (m) => {
+    const v = glossario.forme.get(m);
+    if (!v || viste.has(v.id) || !glossario.visibile(v)) return m;
+    viste.add(v.id);
+    return `<span class="voce" tabindex="0" role="button" data-voce="${v.id}">${m}</span>`;
+  });
+}
+
+/** Testo narrativo: paragrafi separati da una riga vuota, *corsivo* con asterischi, nomi del glossario. */
 export function prosa(testo: string, classe = 'prosa'): string {
   const paragrafi = testo.trim().split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
-  return `<div class="${classe}">${paragrafi.map((p) => `<p>${h(p).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p>`).join('')}</div>`;
+  const viste = new Set<string>();
+  return `<div class="${classe}">${paragrafi.map((p) => `<p>${annota(h(p), viste).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p>`).join('')}</div>`;
 }
 
 /** Prima frase di un testo, per gli elenchi quando manca il sommario. */

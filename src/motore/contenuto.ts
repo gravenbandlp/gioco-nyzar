@@ -328,6 +328,18 @@ export const Frammento = z.object({
   area: Id.optional(), // se presente, compare solo in quell'area
 });
 
+// Glossario: le voci che compaiono come tooltip sui nomi nei testi (personaggi, luoghi, fazioni…).
+export const TIPI_VOCE = ['personaggio', 'luogo', 'fazione', 'creatura', 'cosa'] as const;
+export const Voce = z.object({
+  id: Id,
+  nome: z.string(), // la forma che si cerca nei testi
+  alias: z.array(z.string()).default([]), // altre forme (solo il cognome, il nome breve…)
+  tipo: z.enum(TIPI_VOCE),
+  sottotitolo: z.string().optional(), // una riga: ruolo, quartiere
+  testo: z.string(), // 25–70 parole, senza segreti
+  requisiti: z.array(z.string()).default([]), // se non soddisfatti, il nome resta testo semplice
+});
+
 export const Contenuti = z.object({
   aree: z.array(Area),
   storylet: z.array(Storylet),
@@ -343,6 +355,7 @@ export const Contenuti = z.object({
   scudi: z.array(Scudo).default([]),
   mutazioni: z.array(Mutazione).default([]),
   oggetti: z.array(Oggetto).default([]),
+  glossario: z.array(Voce).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -364,4 +377,5 @@ export type TScudo = z.infer<typeof Scudo>;
 export type TIncantesimo = z.infer<typeof Incantesimo>;
 export type TModifica = z.infer<typeof Modifica>;
 export type TFrammento = z.infer<typeof Frammento>;
+export type TVoce = z.infer<typeof Voce>;
 export type TContenuti = z.infer<typeof Contenuti>;
