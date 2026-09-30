@@ -6,7 +6,8 @@ import type { TFrammento } from '../motore/contenuto';
 import {
   nuovoPersonaggio, aggiornaTempo, msAllaProssimaCandela, msAllaProssimaCarta, pesca, scarta, type Stato,
 } from '../motore/personaggio';
-import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi } from '../motore/azioni';
+import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi, secondaScelta } from '../motore/azioni';
+import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
 import { durata } from './formato';
@@ -50,6 +51,7 @@ function carica(dati?: Partial<Salvataggio>): void {
   if (s?.stato?.versione === 1 && c.aree.some((a) => a.id === s!.stato!.area)) {
     stato = s.stato;
     stato.repertorio ??= [];
+    migraOggetti(stato);
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';
   }
@@ -152,14 +154,36 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'bersaglio': bersaglio = id; render(); break;
-    case 'attacca': case 'intimidisci': case 'cura': case 'lancia': {
+    case 'attacca': case 'intimidisci': case 'cura': case 'lancia': case 'reperto': {
       if (vista.tipo !== 'combattimento') break;
       const b = bersaglio ?? '';
       const a = az === 'cura' ? { tipo: 'cura' as const, consumabile: id }
         : az === 'lancia' ? { tipo: 'incantesimo' as const, incantesimo: id, bersaglio: b }
+        : az === 'reperto' ? { tipo: 'reperto' as const, reperto: id, bersaglio: b }
         : { tipo: az === 'attacca' ? ('attacco' as const) : ('intimidire' as const), bersaglio: b };
       round(vista.cs, a);
       salva(); render();
+      break;
+    }
+    case 'indossa': {
+      const motivo = perchéNonIndossabile(s, c, id);
+      if (motivo) avviso = motivo; else indossa(s, c, id);
+      salva(); render();
+      break;
+    }
+    case 'togli': togli(s, id); salva(); render(); break;
+    case 'ricarica-reperto': {
+      if (!ricaricaReperto(s, c, id)) avviso = 'Non puoi ricaricarlo adesso.';
+      salva(); render();
+      break;
+    }
+    case 'seconda-scelta': {
+      if (vista.tipo !== 'risultato' || !vista.prima || vista.indice === undefined) break;
+      const st = c.storylet.find((z) => z.id === (vista as { id: string }).id)!;
+      const indice = vista.indice;
+      const r = secondaScelta(s, vista.prima, st, indice, c, ora);
+      if (r.tipo === 'errore') { avviso = r.messaggio; render(); }
+      else if (r.tipo === 'risultato') cambia({ tipo: 'risultato', id: st.id, risultato: r.risultato, indice }); // una volta per esito
       break;
     }
     case 'repertorio': {

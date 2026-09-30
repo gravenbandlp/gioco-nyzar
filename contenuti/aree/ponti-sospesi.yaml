@@ -25,7 +25,7 @@ aree:
       della Gilda non contano. Sui ponti si dice che una corda può essere un
       ponte o un cappio, a seconda di chi la tiene.
     gabella: 2
-    negozi: [dispensa-di-gramm]
+    negozi: [dispensa-di-gramm, nodo-d-ossidiana]
 
 storylet:
   - id: bacheca-grifone
@@ -263,3 +263,82 @@ storylet:
             ferma. Adesso il tuo nome è in due registri, e solo quello di carta
             si può bruciare.
           effetti: { monete: -200, licenza-gilda: 1, rep.gilda: 1 }
+
+  - id: il-nodo-d-ossidiana
+    titolo: Il Nodo d'Ossidiana
+    luogo: Mercato dei Nodi
+    area: ponti-sospesi
+    ripetibile: true
+    immagine: personaggi/ambrin-qell
+    sommario: "Ambrin Qell vende oggetti che non hanno un prezzo scritto. Il corvo sul bancone decide se sei un cliente."
+    testo: |
+      Il Nodo d'Ossidiana è una bottega stretta sul Mercato dei Nodi, con
+      gli scaffali fino al soffitto. Ambrin Qell ha i capelli rossi lunghi
+      e gli occhi azzurri, e ti saluta senza alzarsi. Sul bancone c'è un
+      corvo che non ti perde di vista.
+
+      «Entra» dice Ambrin. «Lasciati cercare prima di cercare tu.» Sotto il
+      vetro del bancone c'è un anello d'argento, appeso a un gancio dietro
+      di lui un mantello color petrolio. In un cofanetto chiuso a chiave,
+      con un'etichetta scritta a mano, c'è uno specchio grande come un
+      palmo.
+    opzioni:
+      - testo: "L'anello del respiro misurato"
+        immagine: reliquie/anello-respiro-misurato
+        requisiti: [oggetto.anello-del-respiro-misurato == 0, monete >= 1200]
+        descrizione: "Ti tiene in piedi una volta per scontro, quando dovresti cadere."
+        esito:
+          titolo: Sotto il vetro
+          testo: |
+            Ambrin apre il vetro e ti mette l'anello nel palmo. Il corvo lo fissa
+            finché non lo infili al dito, poi si gira dall'altra parte.
+          effetti: { monete: -1200, oggetto.anello-del-respiro-misurato: 1 }
+      - testo: "Il mantello delle correnti laterali"
+        immagine: reliquie/mantello-correnti-laterali
+        requisiti: [oggetto.mantello-delle-correnti-laterali == 0, monete >= 1800]
+        descrizione: "Vibra di lato anche quando l'aria è ferma. Ti aiuta a sottrarti ai pericoli."
+        esito:
+          titolo: Di lato
+          testo: |
+            Quando lo indossi senti il mantello tirarti leggermente verso
+            sinistra. Ambrin dice che ti sta misurando e che fra un giorno smette.
+          effetti: { monete: -1800, oggetto.mantello-delle-correnti-laterali: 1 }
+      - testo: "Lo specchio della seconda scelta"
+        immagine: reliquie/specchio-seconda-scelta
+        requisiti: [oggetto.specchio-della-seconda-scelta == 0, monete >= 1500]
+        descrizione: "Una volta per esito ti lascia ripetere una prova fallita. Se la seconda riesce, qualcosa ti costa."
+        esito:
+          titolo: Il riflesso in ritardo
+          testo: |
+            Ambrin ti legge l'avvertenza sull'etichetta prima di aprire il
+            cofanetto. Nello specchio il tuo riflesso sbatte le palpebre un
+            attimo dopo di te.
+          effetti: { monete: -1500, oggetto.specchio-della-seconda-scelta: 1 }
+      - testo: "Chiedere cosa tiene sotto il bancone"
+        immagine: personaggi/ambrin-qell
+        requisiti: [nodo.sotto-il-bancone == 0]
+        descrizione: "Ambrin non mostra tutto. Alcune cose bisogna chiederle, e nel modo giusto."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Una piuma nera
+          testo: |
+            Ambrin ti guarda a lungo prima di chinarsi a prendere un amuleto da
+            sotto il bancone. È una piuma nera su un gancio di bronzo. Il corvo
+            arruffa le penne. «Questo lo vendo solo a chi lo chiede» dice.
+          effetti: { nodo.sotto-il-bancone: 1 }
+        fallimento:
+          titolo: Gli scaffali
+          testo: |
+            Ambrin sorride e ti indica gli scaffali. Qualunque cosa ci sia
+            sotto il bancone, oggi resta lì.
+          effetti: {}
+      - testo: "L'amuleto del corvo vigile"
+        immagine: reliquie/amuleto-corvo-vigile
+        requisiti: [oggetto.amuleto-del-corvo-vigile == 0, monete >= 1300, nodo.sotto-il-bancone >= 1]
+        descrizione: "Gracchia prima di un'imboscata. Ambrin lo vende solo a chi lo ha chiesto."
+        esito:
+          titolo: Tiepida
+          testo: |
+            La piuma è tiepida anche se fuori fa freddo. Mentre esci, il corvo
+            sul bancone gracchia una volta, e l'amuleto risponde.
+          effetti: { monete: -1300, oggetto.amuleto-del-corvo-vigile: 1 }

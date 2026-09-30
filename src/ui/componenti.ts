@@ -1,5 +1,6 @@
 // Pezzi grafici riutilizzati da tutte le viste. Restituiscono stringhe HTML.
-import type { TContenuti } from '../motore/contenuto';
+import type { TContenuti, TOggetto } from '../motore/contenuto';
+import { NOMI_DIFETTI } from '../motore/contenuto';
 import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, CANDELE_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
 import { h, mezzi } from './formato';
@@ -82,18 +83,42 @@ export function etichetta(testo: string, tono: 'velo' | 'precursore' | 'mana' | 
   return `<span class="etichetta ${tono}">${h(testo)}</span>`;
 }
 
-export function descriviArma(id: string, c: TContenuti): { nome: string; dettagli: string; immagine?: string } {
-  const a = c.armi.find((x) => x.id === id);
-  if (!a) return { nome: id, dettagli: '' };
-  return { nome: a.nome, dettagli: [NOMI[a.abilita], `danno +${a.danno}`, ...a.proprieta].join(' · '), immagine: a.immagine };
+/** Descrizione leggibile di un oggetto: statistiche di base, grado, proprietà e difetti. */
+export function descriviOggetto(id: string, c: TContenuti): { nome: string; dettagli: string; immagine?: string; difetti: string[]; og?: TOggetto } {
+  const og = c.oggetti.find((o) => o.id === id);
+  const parti: string[] = [];
+  const base = og?.base ?? id;
+  const arma = og?.slot === 'arma' || !og ? c.armi.find((a) => a.id === base) : undefined;
+  const armatura = og?.slot === 'armatura' || !og ? c.armature.find((a) => a.id === base) : undefined;
+  const scudo = og?.slot === 'scudo' ? c.scudi.find((a) => a.id === base) : undefined;
+  if (arma) parti.push(NOMI[arma.abilita]!, `danno +${arma.danno + (og?.proprieta.affilata ?? 0)}`, ...arma.proprieta);
+  if (armatura) {
+    parti.push(`riduzione ${armatura.riduzione + (og?.proprieta.robusta ?? 0)}`);
+    for (const [k, v] of Object.entries(armatura.penalita)) if (!(k === 'furtivita' && og?.proprieta.silenziosa)) parti.push(`${NOMI[k]} ${v}`);
+  }
+  if (scudo) { parti.push(`+${scudo.dadi} ${scudo.dadi === 1 ? 'dado' : 'dadi'} in difesa`); for (const [k, v] of Object.entries(scudo.penalita)) parti.push(`${NOMI[k]} ${v}`); }
+  if (og) {
+    if (og.grado) parti.push(`magico +${og.grado}`);
+    if (og.dadi && og.slot !== 'scudo') parti.push(`+${og.dadi} ${og.dadi === 1 ? 'dado' : 'dadi'} ${og.slot === 'arma' ? 'in attacco' : 'in difesa'}`);
+    const p = og.proprieta;
+    if (p.penetrante) parti.push(`ignora ${p.penetrante} di armatura`);
+    if (p.riserva) parti.push(`+${p.riserva * 2} Energia`);
+    if (p.rapida) parti.push(`+${p.rapida} iniziativa`);
+    if (p.assetata) parti.push('Assetata');
+    if (p.schermata) parti.push('Schermata');
+    if (p.lucida) parti.push('Lucida');
+    if (p.ultimoRespiro) parti.push('Ultimo respiro');
+    if (p.secondaScelta) parti.push('Seconda scelta');
+    if (p.ostinata) parti.push('Ostinata');
+    if (p.caricatore) parti.push('Caricatore');
+    for (const [k, v] of Object.entries(p.talento)) parti.push(`+${v} ${NOMI[k]} fuori dal combattimento`);
+  }
+  return { nome: og?.nome ?? arma?.nome ?? armatura?.nome ?? id, dettagli: parti.length ? parti.join(' · ') : og?.descrizione ?? '', immagine: og?.immagine, og,
+    difetti: (og?.difetti ?? []).map((d) => NOMI_DIFETTI[d]) };
 }
 
-export function descriviArmatura(id: string, c: TContenuti): { nome: string; dettagli: string; immagine?: string } {
-  const a = c.armature.find((x) => x.id === id);
-  if (!a) return { nome: id, dettagli: '' };
-  const pen = Object.entries(a.penalita).map(([k, v]) => `${NOMI[k]} ${v}`);
-  return { nome: a.nome, dettagli: [`riduzione ${a.riduzione}`, ...pen].join(' · '), immagine: a.immagine };
-}
+export function descriviArma(id: string, c: TContenuti) { return descriviOggetto(id, c); }
+export function descriviArmatura(id: string, c: TContenuti) { return descriviOggetto(id, c); }
 
 /** Il rombo del Codex, usato come marchio. */
 export const ROMBO = `<svg class="rombo" viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="6" width="20" height="20" transform="rotate(45 16 16)" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="12" y="12" width="8" height="8" transform="rotate(45 16 16)" fill="currentColor"/></svg>`;

@@ -195,9 +195,10 @@ describe('spostamenti e negozi', () => {
     s.quality['informazioni.voce'] = 1;
     expect(vendi(s, 'banco-di-grusk', 'informazioni.voce', c)).toBe(true);
     expect(s.quality['monete']).toBe(16);
-    expect(compra(s, 'armeria-di-irsa', 'arma.pugnale', c)).toBe(true);
-    expect(s.arma).toBe('pugnale');
+    expect(compra(s, 'armeria-di-irsa', 'oggetto.pugnale', c)).toBe(true);
+    expect(s.quality['oggetto.pugnale']).toBe(1);
+    expect(s.arma).toBe('tirapugni'); // lo slot era occupato: finisce nella sacca
     expect(s.quality['monete']).toBe(6);
-    expect(compra(s, 'armeria-di-irsa', 'arma.spada-lunga', c)).toBe(false);
+    expect(compra(s, 'armeria-di-irsa', 'oggetto.spada-lunga', c)).toBe(false);
   });
 });

@@ -1,0 +1,220 @@
+# Storylet che si aprono dagli Averi (tipo: oggetto): oggetti usabili e decifrazione dei reperti.
+storylet:
+  - id: usare-registro
+    titolo: Il registro del ricettatore
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/orlo-dei-rottami
+    requisiti: [oggetto.registro-del-ricettatore >= 1]
+    sommario: "Un quaderno di conti che qualcuno pagherebbe per leggere, e qualcun altro per farlo sparire."
+    testo: |
+      Il registro è un quaderno di conti dalla copertina unta. Le pagine
+      sono fitte di nomi e di cifre scritte con una grafia piccola e
+      regolare. Molti nomi non ti dicono niente. Alcuni li hai sentiti alla
+      Pignatta, e uno è di un funzionario della Gilda.
+
+      Non è un oggetto che conviene tenere a lungo in tasca.
+    opzioni:
+      - testo: "Venderlo a Mauro Scrocco"
+        descrizione: "Gli Scuri pagano bene le informazioni sui ricettatori della Città Bassa, soprattutto su quelli che non pagano loro."
+        esito:
+          titolo: Si parla di tutto
+          testo: |
+            Mauro sfoglia il registro dietro il bancone della Pignatta e si
+            ferma su una pagina. Ti paga senza contrattare e ti offre anche da
+            bere, cosa che da lui non ti aspettavi.
+          effetti: { oggetto.registro-del-ricettatore: -1, monete: 15, rep.scuri: 1, rep.caserma: -0.5 }
+      - testo: "Consegnarlo alla Caserma"
+        descrizione: "Il capitano di turno sarà contento. Gli Scuri, quando lo sapranno, molto meno."
+        esito:
+          titolo: Un verbale
+          testo: |
+            Il sergente al banco della Caserma ti fa firmare un verbale e mette
+            il registro in un cassetto chiuso a chiave. Ti ringrazia a nome
+            dello sceriffo e ti chiede di non parlarne in giro.
+          effetti: { oggetto.registro-del-ricettatore: -1, rep.caserma: 1, rep.scuri: -1 }
+      - testo: "Studiarlo con calma"
+        descrizione: "Incrociando i nomi con quello che hai sentito in giro, forse qualcosa viene fuori."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Un nome ricorre
+          testo: |
+            Dopo un'ora di confronti un nome torna su quattro pagine, sempre
+            accanto a una partita di cristalli non registrati. Lo annoti e bruci
+            il registro nella stufa della locanda.
+          effetti: { oggetto.registro-del-ricettatore: -1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Solo cifre
+          testo: |
+            I conti non tornano, o forse sono scritti in un codice che non
+            conosci. Rimetti il registro in tasca per un'altra volta.
+          effetti: {}
+
+  - id: usare-iniettore
+    titolo: L'iniettore
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.iniettore >= 1, decifrato.iniettore >= 1, guasto.iniettore == 0, cariche.iniettore >= 1, ferite >= 0.5]
+    sommario: "Un cilindro che punge e richiude le ferite."
+    testo: |
+      Appoggi il cilindro all'avambraccio e senti la puntura, fredda. Dopo
+      un attimo il calore si allarga lungo il braccio fino alle ferite.
+    opzioni:
+      - testo: "Usare una carica"
+        reperto: iniettore
+        descrizione: "Una prova di Mentale + Tecnologia. Con zero successi il reperto si guasta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto facile }
+        successo:
+          titolo: Il calore
+          testo: "Le ferite si chiudono sotto la pelle, e per un'ora ti senti la bocca piena di metallo."
+          effetti: { cariche.iniettore: -1, ferite: -1 }
+        fallimento:
+          titolo: La puntura sbagliata
+          testo: "Il cilindro punge nel punto sbagliato e ti lascia soltanto un livido."
+          effetti: { cariche.iniettore: -1 }
+
+  - id: decifrare-iniettore
+    titolo: Decifrare l'iniettore
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.iniettore >= 1, decifrato.iniettore == 0]
+    sommario: "Capire come funziona un reperto dei Precursori prima che sia lui a capire te."
+    testo: |
+      Il cilindro è lungo come un dito, di un metallo che non si scalda in
+      mano. Su un lato ha una fila di segni che si spostano quando provi a
+      leggerli, sull'altro un ago sottile che esce e rientra da solo.
+    opzioni:
+      - testo: "Studiare il reperto"
+        reperto: iniettore
+        descrizione: "Una prova di Mentale + Tecnologia. Il contatto con la tecnologia precuriana lascia il segno."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Decifrato
+          testo: |
+            Capisci quali segni indicano le cariche e dove si appoggia. L'ago
+            esce e rientra, e il cilindro si scalda per un attimo come se ti
+            avesse riconosciuto.
+          effetti: { decifrato.iniettore: 1 }
+        fallimento:
+          titolo: Il reperto non risponde
+          testo: |
+            Passi un'ora a girarlo fra le dita. Quando lo posi hai la sensazione
+            di aver dimenticato qualcosa, e non sai che cosa.
+          effetti: { tormento: 0.5 }
+
+  - id: decifrare-arma-a-impulsi
+    titolo: Decifrare l'arma a impulsi
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.arma-a-impulsi >= 1, decifrato.arma-a-impulsi == 0]
+    sommario: "Capire come funziona un reperto dei Precursori prima che sia lui a capire te."
+    testo: |
+      Il tubo di metallo è freddo e pesante, con un'impugnatura fatta per
+      mani più lunghe delle tue. In fondo c'è una fessura che si illumina
+      quando la tieni puntata verso qualcosa di vivo.
+    opzioni:
+      - testo: "Studiare il reperto"
+        reperto: arma-a-impulsi
+        descrizione: "Una prova di Mentale + Tecnologia. Il contatto con la tecnologia precuriana lascia il segno."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Decifrato
+          testo: |
+            Trovi la posizione giusta per le dita e il tubo si accende con un
+            ronzio basso. Sul muro davanti a te resta un segno bruciato.
+          effetti: { decifrato.arma-a-impulsi: 1 }
+        fallimento:
+          titolo: Il reperto non risponde
+          testo: |
+            La fessura si illumina e si spegne. Per tutta la notte ti sembra di
+            sentire il ronzio anche a occhi chiusi.
+          effetti: { tormento: 0.5 }
+
+  - id: decifrare-respiratore
+    titolo: Decifrare il respiratore
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.respiratore >= 1, decifrato.respiratore == 0]
+    sommario: "Capire come funziona un reperto dei Precursori prima che sia lui a capire te."
+    testo: |
+      La maschera di lega grigia è più leggera di quanto sembri. Quando la
+      avvicini al viso i bordi si muovono da soli per adattarsi.
+    opzioni:
+      - testo: "Studiare il reperto"
+        reperto: respiratore
+        descrizione: "Una prova di Mentale + Tecnologia. Il contatto con la tecnologia precuriana lascia il segno."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Decifrato
+          testo: |
+            La maschera si chiude sul viso e l'aria che respiri sa di pietra
+            bagnata. La Marea, con questa addosso, fa meno paura.
+          effetti: { decifrato.respiratore: 1 }
+        fallimento:
+          titolo: Il reperto non risponde
+          testo: |
+            La maschera ti si stringe addosso e per un momento non riesci a
+            togliertela. Quando cede hai il fiato corto e le mani che tremano.
+          effetti: { tormento: 0.5 }
+
+  - id: decifrare-campo-di-forza
+    titolo: Decifrare il campo di forza
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.campo-di-forza >= 1, decifrato.campo-di-forza == 0]
+    sommario: "Capire come funziona un reperto dei Precursori prima che sia lui a capire te."
+    testo: |
+      Il disco ha un incavo al centro, grande come un pollice. Quando lo
+      appoggi sul petto senti la pelle formicolare.
+    opzioni:
+      - testo: "Studiare il reperto"
+        reperto: campo-di-forza
+        descrizione: "Una prova di Mentale + Tecnologia. Il contatto con la tecnologia precuriana lascia il segno."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Decifrato
+          testo: |
+            Premi l'incavo e l'aria attorno a te si fa densa e luminosa. Un sasso
+            che lanci contro il tuo braccio cade a terra prima di toccarlo.
+          effetti: { decifrato.campo-di-forza: 1 }
+        fallimento:
+          titolo: Il reperto non risponde
+          testo: |
+            Il disco si scalda fino a scottare e poi si spegne. Il formicolio ti
+            resta nelle dita fino a sera.
+          effetti: { tormento: 0.5 }
+
+  - id: decifrare-visore
+    titolo: Decifrare il visore
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.visore >= 1, decifrato.visore == 0]
+    sommario: "Capire come funziona un reperto dei Precursori prima che sia lui a capire te."
+    testo: |
+      La lente è montata su un archetto che si aggancia dietro l'orecchio.
+      Attraverso il cristallo le cose sembrano più vicine, e un poco in
+      anticipo.
+    opzioni:
+      - testo: "Studiare il reperto"
+        reperto: visore
+        descrizione: "Una prova di Mentale + Tecnologia. Il contatto con la tecnologia precuriana lascia il segno."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Decifrato
+          testo: |
+            Impari a guardare attraverso la lente senza perdere l'equilibrio. Il
+            gatto sul muretto si muove, e tu lo avevi visto muoversi un attimo
+            prima.
+          effetti: { decifrato.visore: 1 }
+        fallimento:
+          titolo: Il reperto non risponde
+          testo: |
+            Guardi troppo a lungo attraverso la lente e ti gira la testa. Per un
+            po' non riesci a capire in che ordine succedono le cose.
+          effetti: { tormento: 0.5 }

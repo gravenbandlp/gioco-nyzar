@@ -6,6 +6,7 @@ import {
 } from './regole';
 import type { TContenuti, TEffetti, TOrigine, TStorylet } from './contenuto';
 import type { Rng } from './dadi';
+import { haProprieta, indossati, migraOggetti, penalita, repertiAttivi, valoreOggetti } from './oggetti';
 
 export interface Stato {
   versione: 1;
@@ -24,9 +25,17 @@ export interface Stato {
   arma: string;
   armatura: string;
   repertorio: string[]; // incantesimi scelti per il combattimento (vuoto: scelta automatica)
+  scudo: string; // '' se nessuno
+  accessori: string[]; // al massimo 2
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {
+  const s = creaStato(nome, origine, ora, areaIniziale);
+  migraOggetti(s); // l'arma e l'armatura di partenza sono anche oggetti posseduti
+  return s;
+}
+
+function creaStato(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {
   const abilita: Record<string, number> = {};
   for (const a of TUTTE_LE_ABILITA) abilita[a] = origine.abilita[a] ?? 0;
   const attributi = { fisico: 1, sociale: 1, mentale: 1, ...origine.attributi } as Record<Attributo, number>;
@@ -47,22 +56,24 @@ export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, a
     arma: origine.arma,
     armatura: origine.armatura,
     repertorio: [],
+    scudo: '',
+    accessori: [],
   };
 }
 
 // ---------------------------------------------------------------- valori
 
-export function valore(s: Stato, chiave: string): number {
+export function valore(s: Stato, chiave: string, c?: TContenuti): number {
+  if (c) { const v = valoreOggetti(s, c, chiave); if (v !== undefined) return v; }
   if ((ATTRIBUTI as readonly string[]).includes(chiave)) return s.attributi[chiave as Attributo];
   if (chiave in s.abilita) return s.abilita[chiave] ?? 0;
   if (chiave === 'candele') return s.candele;
   return s.quality[chiave] ?? 0;
 }
 
-/** Abilità al netto delle penalità dell'armatura, che valgono anche fuori dal combattimento (8.5). */
+/** Abilità al netto delle penalità di armatura e scudo, che valgono anche fuori dal combattimento (8.5). */
 export function abilitaEffettiva(s: Stato, abilita: string, c: TContenuti): number {
-  const armatura = c.armature.find((a) => a.id === s.armatura);
-  return Math.max(0, (s.abilita[abilita] ?? 0) + (armatura?.penalita[abilita] ?? 0));
+  return Math.max(0, (s.abilita[abilita] ?? 0) + penalita(s, c, abilita));
 }
 
 // ---------------------------------------------------------------- requisiti
@@ -77,9 +88,9 @@ export function parseRequisito(r: string): Requisito {
   return { chiave: m[1]!, op: m[2]!, n: Number(m[3]) };
 }
 
-export function requisitoSoddisfatto(s: Stato, r: string): boolean {
+export function requisitoSoddisfatto(s: Stato, r: string, c?: TContenuti): boolean {
   const { chiave, op, n } = parseRequisito(r);
-  const v = valore(s, chiave);
+  const v = valore(s, chiave, c);
   switch (op) {
     case '>=': return v >= n;
     case '<=': return v <= n;
@@ -91,12 +102,12 @@ export function requisitoSoddisfatto(s: Stato, r: string): boolean {
   return false;
 }
 
-export function requisitiSoddisfatti(s: Stato, reqs: string[] | undefined): boolean {
-  return (reqs ?? []).every((r) => requisitoSoddisfatto(s, r));
+export function requisitiSoddisfatti(s: Stato, reqs: string[] | undefined, c?: TContenuti): boolean {
+  return (reqs ?? []).every((r) => requisitoSoddisfatto(s, r, c));
 }
 
-export function requisitiMancanti(s: Stato, reqs: string[] | undefined): string[] {
-  return (reqs ?? []).filter((r) => !requisitoSoddisfatto(s, r));
+export function requisitiMancanti(s: Stato, reqs: string[] | undefined, c?: TContenuti): string[] {
+  return (reqs ?? []).filter((r) => !requisitoSoddisfatto(s, r, c));
 }
 
 // ---------------------------------------------------------------- effetti
@@ -110,9 +121,23 @@ function limita(chiave: string, v: number, contenuti: TContenuti): number {
   return Math.max(0, v);
 }
 
+/** Lucida dimezza il Tormento in arrivo, Schermata la Contaminazione; due fonti di Schermata la azzerano. */
+function protezioni(s: Stato, chiave: string, delta: number, c: TContenuti): number {
+  if (delta <= 0) return delta;
+  const dimezza = (d: number) => Math.floor(d) / 2; // metà, al mezzo punto inferiore
+  if (chiave === 'tormento' && haProprieta(s, c, 'lucida')) return dimezza(delta);
+  if (chiave === 'contaminazione') {
+    const fonti = [...indossati(s, c), ...repertiAttivi(s, c).filter((o) => o.reperto!.tipo === 'passivo')].filter((o) => o.proprieta.schermata).length;
+    if (fonti >= 2) return 0;
+    if (fonti === 1) return dimezza(delta);
+  }
+  return delta;
+}
+
 export function applicaEffetti(s: Stato, effetti: TEffetti | undefined, contenuti: TContenuti): Variazione[] {
   const out: Variazione[] = [];
-  for (const [chiave, delta] of Object.entries(effetti ?? {})) {
+  for (const [chiave, grezzo] of Object.entries(effetti ?? {})) {
+    const delta = protezioni(s, chiave, grezzo, contenuti);
     const prima = s.quality[chiave] ?? 0;
     const dopo = limita(chiave, prima + delta, contenuti);
     s.quality[chiave] = dopo;
@@ -195,12 +220,12 @@ export function spendiCandele(s: Stato, n: number, ora: number): boolean {
 }
 
 export function storyletDisponibili(s: Stato, c: TContenuti): TStorylet[] {
-  return c.storylet.filter((st) => st.area === s.area && st.tipo === 'fisso' && requisitiSoddisfatti(s, st.requisiti));
+  return c.storylet.filter((st) => st.area === s.area && st.tipo === 'fisso' && requisitiSoddisfatti(s, st.requisiti, c));
 }
 
 export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {
   return c.storylet.filter(
-    (st) => st.tipo === 'carta' && st.area === s.area && !s.mano.includes(st.id) && requisitiSoddisfatti(s, st.requisiti),
+    (st) => st.tipo === 'carta' && st.area === s.area && !s.mano.includes(st.id) && requisitiSoddisfatti(s, st.requisiti, c),
   );
 }
 

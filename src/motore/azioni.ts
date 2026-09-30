@@ -3,12 +3,13 @@ import { probabilita, tira, type Rng } from './dadi';
 import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
 import type { TContenuti, TEsito, TIncantesimo, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
+import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
 import {
   abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, spendiCandele, scarta, aggiornaTempo,
   type Crescita, type Stato, type Variazione,
 } from './personaggio';
 import {
-  combattenteDaStato, feriteDopo, iniziaCombattimento, probabilitaVittoria, etichettaCombattimento, CONSUMABILI,
+  combattenteDaStato, feriteDopo, iniziaCombattimento, probabilitaVittoria, etichettaCombattimento, CONSUMABILI, repertiDaStato,
   type StatoCombattimento,
 } from './combattimento';
 
@@ -27,7 +28,7 @@ function migliorAbilita(s: Stato, opz: TOpzione, c: TContenuti): { abilita: stri
   const lista = Array.isArray(prova.abilita) ? prova.abilita : [prova.abilita];
   let best = { abilita: lista[0]!, pool: -1 };
   for (const a of lista) {
-    const pool = s.attributi[prova.attributo] + abilitaEffettiva(s, a, c);
+    const pool = s.attributi[prova.attributo] + abilitaEffettiva(s, a, c) + talento(s, c, a);
     if (pool > best.pool) best = { abilita: a, pool };
   }
   return best;
@@ -40,7 +41,8 @@ function vittoria(s: Stato, scontroId: string, c: TContenuti): number {
   const pg = combattenteDaStato(s, c);
   const rep = repertorio(s, c);
   const chiave = [scontroId, pg.attacco, pg.difesa, pg.difesaMentale, pg.difesaFisica, pg.pfMax, pg.danno, pg.riduzione,
-    pg.ignora, pg.iniziativa, pg.magia, rep.map((i) => i.id).join('+')].join('|');
+    pg.ignora, pg.iniziativa, pg.magia, pg.energiaMax, pg.ultimoRespiro, pg.ostinata, pg.assetata, pg.inceppamento, pg.ricarica,
+    pg.portata, rep.map((i) => i.id).join('+')].join('|');
   let p = cacheVittoria.get(chiave);
   if (p === undefined) { p = probabilitaVittoria(pg, sc, c, 2000, 1, rep); cacheVittoria.set(chiave, p); }
   return p;
@@ -49,7 +51,7 @@ function vittoria(s: Stato, scontroId: string, c: TContenuti): number {
 export function anteprima(s: Stato, opz: TOpzione, c: TContenuti): Anteprima {
   const costo = opz.costo ?? 1;
   const requisiti = [...(opz.requisiti ?? []), ...(opz.incantesimo ? [`${chiaveIncantesimo(opz.incantesimo)} >= 1`] : [])];
-  const mancanti = requisitiMancanti(s, requisiti);
+  const mancanti = requisitiMancanti(s, requisiti, c);
   const a: Anteprima = { disponibile: mancanti.length === 0 && s.candele >= costo, mancanti, costo };
   if (mancanti.length === 0 && s.candele < costo) a.motivo = 'Non hai abbastanza candele.';
   if (opz.prova) {
@@ -77,13 +79,33 @@ export interface Risultato {
   area?: string;
   dissonanza?: boolean;
   corretto?: boolean;
+  guasto?: string; // reperto guastato da zero successi
 }
 
 function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato): void {
   r.testo = e.testo;
+  // oggetti ricevuti: passano da ricevi() per indossarli se lo slot è vuoto e inizializzare i reperti
+  const effetti = { ...(e.effetti ?? {}) };
+  for (const [k, v] of Object.entries(effetti)) {
+    if (k.startsWith('oggetto.') && v > 0) {
+      const prima = s.quality[k] ?? 0;
+      for (let i = 0; i < v; i++) ricevi(s, c, k.slice(8));
+      r.variazioni.push({ chiave: k, prima, dopo: s.quality[k] ?? 0 });
+      delete effetti[k];
+    }
+  }
+  e = { ...e, effetti };
   if (e.titolo) r.titolo = e.titolo;
   if (e.immagine) r.immagine = e.immagine;
   r.variazioni.push(...applicaEffetti(s, e.effetti, c));
+  // un reperto appena decifrato parte con tutte le cariche
+  for (const k of Object.keys(e.effetti ?? {})) {
+    if (k.startsWith('decifrato.') && (s.quality[k] ?? 0) >= 1) {
+      const id = k.slice(10);
+      const og = c.oggetti.find((o) => o.id === id);
+      if (og?.reperto && s.quality[`cariche.${id}`] === undefined) s.quality[`cariche.${id}`] = og.reperto.cariche;
+    }
+  }
   if (e.vai) { s.area = e.vai; r.area = e.vai; }
   if (e.segue) r.segue = e.segue;
 }
@@ -108,7 +130,10 @@ export function scegli(
     const sc = c.scontri.find((x) => x.id === opz.combattimento)!;
     spendiCandele(s, ante.costo, ora);
     const consumabili = Object.fromEntries(Object.keys(CONSUMABILI).map((k) => [k, s.quality[k] ?? 0]));
-    return { tipo: 'combattimento', combattimento: iniziaCombattimento(combattenteDaStato(s, c), sc, c, consumabili, rng, repertorio(s, c)) };
+    return {
+      tipo: 'combattimento',
+      combattimento: iniziaCombattimento(combattenteDaStato(s, c), sc, c, consumabili, rng, repertorio(s, c), repertiDaStato(s, c)),
+    };
   }
 
   spendiCandele(s, ante.costo, ora);
@@ -121,6 +146,10 @@ export function scegli(
     r.tiro = { facce: t.facce, successi: t.successi, richiesti: ante.prova.richiesti, abilita: ante.prova.abilita, probabilita: ante.prova.probabilita };
     r.crescite.push(...assegnaPE(s, ante.prova.abilita, peDaProbabilita(ante.prova.probabilita)));
     applicaEsito(s, riuscito ? opz.successo! : opz.fallimento!, c, r);
+    if (opz.reperto && t.successi === 0) {
+      r.variazioni.push(...applicaEffetti(s, { [`guasto.${opz.reperto}`]: 1 }, c));
+      r.guasto = opz.reperto;
+    }
     if (ante.incantesimo) {
       // prezzo delle formule proibite a ogni lancio; Dissonanza con zero successi
       const costi: Record<string, number> = { ...(ante.incantesimo.prezzo ?? {}) };
@@ -141,7 +170,11 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   const usati: Record<string, number> = {};
   for (const [k, n] of Object.entries(cs.usati)) usati[k] = -n;
   r.variazioni.push(...applicaEffetti(s, usati, c));
-  if (Object.keys(cs.costi ?? {}).length) r.variazioni.push(...applicaEffetti(s, cs.costi, c));
+  // difetti: Inquieta dà Tormento se l'hai usata, Stancante dà Ferite se l'hai indossata
+  const costi: Record<string, number> = { ...(cs.costi ?? {}) };
+  if (haDifetto(s, c, 'inquieta')) costi['tormento'] = (costi['tormento'] ?? 0) + 0.5;
+  if (haDifetto(s, c, 'stancante')) costi['ferite'] = (costi['ferite'] ?? 0) + 0.5;
+  if (Object.keys(costi).length) r.variazioni.push(...applicaEffetti(s, costi, c));
   const ferite = feriteDopo(cs, sc.feriteSconfitta);
   if (ferite > 0) r.variazioni.push(...applicaEffetti(s, { ferite }, c));
   const arma = c.armi.find((a) => a.id === s.arma);
@@ -159,7 +192,7 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
 export function puoEntrare(s: Stato, areaId: string, c: TContenuti): { ok: boolean; motivo?: string; gabella: number } {
   const area = c.aree.find((a) => a.id === areaId);
   if (!area) return { ok: false, motivo: 'Area sconosciuta.', gabella: 0 };
-  const mancanti = requisitiMancanti(s, area.accesso);
+  const mancanti = requisitiMancanti(s, area.accesso, c);
   const esente = (s.quality['licenza-gilda'] ?? 0) > 0;
   const gabella = esente ? 0 : area.gabella;
   if (mancanti.length) return { ok: false, motivo: 'Non hai accesso.', gabella };
@@ -187,17 +220,9 @@ export function compra(s: Stato, negozioId: string, quality: string, c: TContenu
   const n = c.negozi.find((x) => x.id === negozioId);
   const voce = n?.vende.find((x) => x.quality === quality);
   if (!voce || (s.quality['monete'] ?? 0) < voce.prezzo) return false;
-  if (voce.quality.startsWith('arma.')) {
-    s.arma = voce.quality.slice(5);
-    applicaEffetti(s, { monete: -voce.prezzo }, c);
-    return true;
-  }
-  if (voce.quality.startsWith('armatura.')) {
-    s.armatura = voce.quality.slice(9);
-    applicaEffetti(s, { monete: -voce.prezzo }, c);
-    return true;
-  }
-  applicaEffetti(s, { [quality]: 1, monete: -voce.prezzo }, c);
+  applicaEffetti(s, { monete: -voce.prezzo }, c);
+  if (quality.startsWith('oggetto.')) ricevi(s, c, quality.slice(8));
+  else applicaEffetti(s, { [quality]: 1 }, c);
   return true;
 }
 
@@ -245,6 +270,30 @@ export function correggi(
     rifatta.risultato.variazioni.unshift(...variazioni);
     rifatta.risultato.crescite.unshift(...crescite);
     rifatta.risultato.corretto = true;
+  }
+  return rifatta;
+}
+
+// ---------------------------------------------------------------- Seconda scelta (Specchio della Seconda Scelta)
+
+export function secondaSceltaDisponibile(s: Stato, r: Risultato, c: TContenuti): boolean {
+  return !!r.tiro && r.riuscito === false && haProprieta(s, c, 'secondaScelta');
+}
+
+/**
+ * Ripete una prova fallita: le quality tornano a prima della prova e la prova si ripete gratis.
+ * Se la nuova prova riesce, +½ Tormento. Una volta per esito.
+ */
+export function secondaScelta(
+  s: Stato, prima: Stato, st: TStorylet, indice: number, c: TContenuti, ora: number, rng: Rng = Math.random,
+): Scelta {
+  if (!haProprieta(s, c, 'secondaScelta')) return { tipo: 'errore', messaggio: 'Non hai niente che ti dia una seconda scelta.' };
+  s.quality = structuredClone(prima.quality);
+  if (st.tipo === 'carta' && !s.mano.includes(st.id)) s.mano.push(st.id);
+  const rifatta = scegli(s, st, indice, c, ora, rng, { gratis: true });
+  if (rifatta.tipo === 'risultato') {
+    rifatta.risultato.corretto = true;
+    if (rifatta.risultato.riuscito) rifatta.risultato.variazioni.push(...applicaEffetti(s, { tormento: 0.5 }, c));
   }
   return rifatta;
 }

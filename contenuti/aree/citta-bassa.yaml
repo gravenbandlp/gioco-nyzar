@@ -25,7 +25,7 @@ aree:
 
       Sei arrivato da poco. Il lavoro non manca, e dopo la razzia c'è anche
       molto da chiedere.
-    negozi: [banco-di-grusk, armeria-di-irsa]
+    negozi: [banco-di-grusk, armeria-di-irsa, fucina-dei-due-mastini]
 
 storylet:
   # ------------------------------------------------------------ azioni ripetibili
@@ -1155,7 +1155,7 @@ storylet:
             la mano e ti lascia entrare. Nelle casse ci sono schegge
             precuriane e un registro con nomi che qualcuno pagherebbe per
             leggere.
-          effetti: { reliquie.scheggia: 1, informazioni.voce: 2 }
+          effetti: { reliquie.scheggia: 1, oggetto.registro-del-ricettatore: 1 }
         fallimento:
           titolo: Denti
           testo: |
@@ -1172,7 +1172,7 @@ storylet:
             Il mastino scappa guaendo in fondo al cortile. Dentro trovi schegge
             precuriane e un registro con nomi che qualcuno pagherebbe per
             leggere.
-          effetti: { reliquie.scheggia: 1, informazioni.voce: 2 }
+          effetti: { reliquie.scheggia: 1, oggetto.registro-del-ricettatore: 1 }
         sconfitta:
           titolo: Ritirata
           testo: |
@@ -1184,3 +1184,208 @@ storylet:
         costo: 0
         esito:
           testo: "Il mastino ti segue con lo sguardo finché non giri l'angolo."
+
+  # ------------------------------------------------------------ oggetti: reliquie in vendita
+  - id: dietro-il-banco-di-irsa
+    titolo: Dietro il banco di Irsa
+    luogo: Armeria di Irsa
+    area: citta-bassa
+    ripetibile: true
+    immagine: personaggi/irsa-valbrun
+    sommario: "Le armi migliori Irsa non le espone. Le tiene dietro il banco e le vende a chi sa rispondere."
+    testo: |
+      Irsa Valbrun non ha una forgia e lavora sui pezzi che le fornisce
+      Bram Halgast. I lavori migliori li tiene avvolti nel feltro dietro il
+      banco, e prima di farteli vedere ti guarda le mani e il modo in cui
+      stai in piedi.
+
+      «Prima ti guardo, poi ti vendo» dice. Sul banco appoggia un arco
+      composito con due ghiere a vite sul ventre e una balestra con il
+      calcio d'avorio, e accanto un set di tre asce da lancio. Al centro
+      della bottega, su un manichino, c'è una cotta di maglia con le spalle a
+      ventaglio.
+    opzioni:
+      - testo: "L'arco composito: «Mira»"
+        immagine: reliquie/arco-lungo-composito
+        requisiti: [oggetto.arco-lungo-composito-mira == 0, oggetto.arco-lungo-composito-forza == 0, monete >= 1600]
+        descrizione: "Irsa vende l'arco solo a chi risponde alla sua domanda: «Mira o forza?». Tu rispondi mira."
+        esito:
+          titolo: Mira
+          testo: |
+            Irsa gira le ghiere di un quarto di giro e prova la corda con il pollice.
+            «Per chi vuole passare le armature» dice, e te lo consegna.
+          effetti: { monete: -1600, oggetto.arco-lungo-composito-mira: 1 }
+      - testo: "L'arco composito: «Forza»"
+        immagine: reliquie/arco-lungo-composito
+        requisiti: [oggetto.arco-lungo-composito-mira == 0, oggetto.arco-lungo-composito-forza == 0, monete >= 1600]
+        descrizione: "Irsa vende l'arco solo a chi risponde alla sua domanda: «Mira o forza?». Tu rispondi forza."
+        esito:
+          titolo: Forza
+          testo: |
+            Irsa stringe le ghiere fino in fondo e l'arco scricchiola.
+            «Per chi vuole che la freccia arrivi e resti» dice, e te lo consegna.
+          effetti: { monete: -1600, oggetto.arco-lungo-composito-forza: 1 }
+      - testo: "La balestra Vansaya"
+        immagine: reliquie/balestra-vansaya
+        requisiti: [oggetto.balestra-vansaya == 0, monete >= 2600]
+        descrizione: "Caricatore a leva da sei dardi. L'ha venduta un avventuriero diretto alle Rovine dei Precursori, che non è mai tornato."
+        esito:
+          titolo: Vansaya
+          testo: |
+            Irsa ti mostra come si arma la leva e come si sblocca il caricatore
+            quando si inceppa. Sul nome inciso nel calcio non sa dirti niente.
+            «Il ragazzo che me l'ha venduta diceva che non smette di aspettare.»
+          effetti: { monete: -2600, oggetto.balestra-vansaya: 1 }
+      - testo: "Le asce da lancio"
+        immagine: reliquie/asce-da-lancio-set
+        requisiti: [oggetto.asce-da-lancio == 0, monete >= 1400]
+        descrizione: "Tre asce gemelle. Irsa le vende solo tutte insieme."
+        esito:
+          titolo: Tre asce
+          testo: |
+            Irsa te le lega alla cintura e ti fa lanciare la prima contro il
+            ceppo in fondo alla bottega. Dopo il lancio ti ritrovi l'ascia in
+            mano senza sapere come.
+          effetti: { monete: -1400, oggetto.asce-da-lancio: 1 }
+      - testo: "La cotta di maglia di Irsa"
+        immagine: reliquie/cotta-di-maglia-irsa
+        requisiti: [oggetto.cotta-di-maglia-di-irsa == 0, monete >= 1800]
+        descrizione: "Anelli e cuoio sottile, spalle a ventaglio. Regge i colpi meglio di qualsiasi cotta in città, ma si fa sentire la sera."
+        esito:
+          titolo: Il manichino è vuoto
+          testo: |
+            Irsa ti aiuta a infilarla e stringe le cinghie sui fianchi.
+            «Ti stancherà di più la sera» dice. «Ma ci arriverai, alla sera.»
+          effetti: { monete: -1800, oggetto.cotta-di-maglia-di-irsa: 1 }
+      - testo: "Il giaco di maglia"
+        immagine: reliquie/giaco-di-maglia-irsa
+        requisiti: [oggetto.giaco-di-maglia-di-irsa == 0, monete >= 2100]
+        descrizione: "Maglia fitta con il zig-zag di anelli di bronzo, che attutisce il rumore della maglia."
+        esito:
+          titolo: Il bronzo
+          testo: |
+            Fai qualche passo nella bottega. La maglia non tintinna e Irsa
+            annuisce. Ti fa vedere il nodo a sei passi degli anelli di bronzo,
+            che serve a riconoscere i falsi.
+          effetti: { monete: -2100, oggetto.giaco-di-maglia-di-irsa: 1 }
+      - testo: "Ordinare il cuoio borchiato"
+        immagine: reliquie/armatura-cuoio-borchiato
+        requisiti: [oggetto.cuoio-borchiato-di-irsa == 0, attesa.cuoio-borchiato == 0, monete >= 1500]
+        descrizione: "L'armatura personale di Irsa. Prima di venderla deve adattarla sul tuo corpo, e ci vuole tempo."
+        esito:
+          titolo: Le misure
+          testo: |
+            Irsa ti prende le misure con una cordicella annodata e segna tutto su
+            un foglio. «Torna quando vuoi. Prima di domani non sarà pronta.»
+          effetti: { monete: -1500, attesa.cuoio-borchiato: 1 }
+      - testo: "Ritirare il cuoio borchiato"
+        immagine: reliquie/armatura-cuoio-borchiato
+        requisiti: [attesa.cuoio-borchiato >= 1]
+        descrizione: "Irsa ha finito di adattare l'armatura."
+        esito:
+          titolo: Su misura
+          testo: |
+            L'armatura ti calza come se l'avessi sempre portata. La spirale di
+            filo cremisi sul petto ha cinque rune, e Irsa te le fa toccare una
+            per una prima di lasciarti andare.
+          effetti: { attesa.cuoio-borchiato: -1, oggetto.cuoio-borchiato-di-irsa: 1 }
+
+  - id: la-fucina-dei-due-mastini
+    titolo: La Fucina dei Due Mastini
+    luogo: Fucina dei Due Mastini
+    area: citta-bassa
+    ripetibile: true
+    immagine: ambientazione/fucina-dei-due-mastini
+    sommario: "Bram Halgast tiene tre pezzi appesi alla parete, e non sono in vendita per chiunque."
+    testo: |
+      La Fucina dei Due Mastini è calda anche d'inverno. Bram Halgast lavora
+      a torso nudo con due cani sdraiati vicino all'incudine, e firma ogni
+      pezzo con un martello di pietra inciso.
+
+      Sulla parete di fondo sono appesi tre lavori che non stanno con gli
+      altri. C'è uno spadone con la lama larga e scura, un martello con il
+      marchio delle incudini sulla testa e una corazza di piastre
+      irregolari, rifatta più volte. Bram dice che sono in vendita, ma ti
+      guarda come se volesse sapere a cosa ti servono.
+    opzioni:
+      - testo: "Il Re della Collina"
+        immagine: reliquie/spadone-re-della-collina
+        requisiti: [oggetto.re-della-collina == 0, monete >= 1700]
+        descrizione: "Uno spadone che colpisce più forte quando sei ferito."
+        esito:
+          titolo: Un round in più
+          testo: |
+            Bram lo stacca dalla parete e te lo porge dall'elsa. Ti racconta del
+            mercenario che con quella spada è rimasto in piedi un round più del
+            dovuto, e del nome che gli hanno dato i clienti dopo.
+          effetti: { monete: -1700, oggetto.re-della-collina: 1 }
+      - testo: "Il martello dei Due Mastini"
+        immagine: reliquie/martello-due-mastini
+        requisiti: [oggetto.martello-dei-due-mastini == 0, monete >= 2100]
+        descrizione: "Un vecchio martello da fucina riforgiato per la guerra. Sfonda porte e gusci."
+        esito:
+          titolo: Il marchio delle incudini
+          testo: |
+            Bram lo soppesa un'ultima volta prima di dartelo. «Era il martello di
+            mio padre» dice. «Tienilo lontano dalle incudini, non gli piace
+            tornare indietro.»
+          effetti: { monete: -2100, oggetto.martello-dei-due-mastini: 1 }
+      - testo: "La corazza ostinata"
+        immagine: reliquie/corazza-ostinata
+        requisiti: [oggetto.corazza-ostinata == 0, monete >= 2300]
+        descrizione: "Piastre rifatte tre volte. Ti tiene in piedi quando dovresti cadere, e la sera te lo fa pagare."
+        esito:
+          titolo: Rifatta tre volte
+          testo: |
+            Bram ti aiuta a indossarla e ti fa vedere i punti in cui è stata
+            rifatta. Il pettorale era di un cliente morto, le spalliere di un
+            Raschiatore tornato vivo dal Labirinto.
+          effetti: { monete: -2300, oggetto.corazza-ostinata: 1 }
+
+  - id: carta-guscio-che-ronza
+    titolo: Un guscio che ronza
+    tipo: carta
+    area: citta-bassa
+    immagine: ambientazione/rovine-dei-precursori
+    requisiti: [oggetto.iniettore == 0]
+    sommario: "Qualcosa fra i rottami emette un ronzio che non viene da nessuna macchina della città."
+    testo: |
+      All'Orlo dei Rottami un gruppo di ragazzi si è radunato attorno a un
+      guscio di metallo grande come un pugno, mezzo sepolto nella terra.
+      Ronza, e ogni tanto una luce azzurra passa sotto la superficie. Uno
+      dei ragazzi ha un bastone in mano e sta decidendo se colpirlo.
+
+      I Raschiatori dicono che le cose dei Precursori vanno lasciate dove
+      sono. I ricettatori dicono che vanno vendute subito.
+    opzioni:
+      - testo: "Comprarlo dai ragazzi"
+        requisiti: [monete >= 5]
+        descrizione: "Cinque monete e i ragazzi se ne vanno contenti."
+        esito:
+          titolo: Il guscio
+          testo: |
+            I ragazzi prendono le monete e scappano prima che tu cambi idea.
+            Il guscio si apre fra le tue mani come un frutto maturo. Dentro c'è
+            un cilindro lungo come un dito, con un ago che esce e rientra.
+          effetti: { monete: -5, oggetto.iniettore: 1 }
+      - testo: "Mandarli via e prenderlo"
+        prova: { attributo: sociale, abilita: [intimidire, conoscenze-della-strada], difficolta: Facile }
+        descrizione: "Sono ragazzi, e non hanno voglia di discutere con un adulto."
+        successo:
+          titolo: Il guscio
+          testo: |
+            I ragazzi se ne vanno borbottando. Il guscio si apre fra le tue mani
+            come un frutto maturo. Dentro c'è un cilindro lungo come un dito,
+            con un ago che esce e rientra.
+          effetti: { oggetto.iniettore: 1 }
+        fallimento:
+          titolo: Il bastone
+          testo: |
+            Il ragazzo col bastone colpisce il guscio prima che tu arrivi. Il
+            ronzio si ferma, e i pezzi finiscono nelle tasche di tutti tranne
+            che nelle tue.
+          effetti: {}
+      - testo: "Lasciarlo dove sta"
+        costo: 0
+        esito:
+          testo: "Te ne vai, e dopo qualche passo senti il colpo del bastone e poi più niente."

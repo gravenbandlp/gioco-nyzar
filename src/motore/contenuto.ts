@@ -32,6 +32,7 @@ export const Opzione = z
     testo: z.string(),
     descrizione: z.string().optional(),
     incantesimo: Id.optional(), // l'opzione richiede questo incantesimo e ne applica Dissonanza e prezzo
+    reperto: Id.optional(), // l'opzione usa questo reperto: con zero successi si guasta
     requisiti: z.array(z.string()).optional(),
     costo: z.number().int().min(0).max(3).optional(), // candele, default 1
     prova: Prova.optional(),
@@ -62,7 +63,7 @@ export const Storylet = z.object({
   titolo: z.string(),
   sommario: z.string().optional(), // una riga, mostrata nell'elenco
   area: Id,
-  tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita']).default('fisso'),
+  tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita', 'oggetto']).default('fisso'), // oggetto: si apre dagli Averi
   ripetibile: z.boolean().default(false),
   luogo: z.string().optional(), // sottotitolo: dove avviene
   requisiti: z.array(z.string()).default([]),
@@ -135,6 +136,93 @@ export const Armatura = z.object({
   prezzo: z.number().int().min(0).optional(),
 });
 
+/** Modifica a tempo sui tiri di un combattente. `tutti` vale per ogni tiro; `salta` fa perdere il turno. */
+export const Modifica = z.object({
+  tipo: z.enum(['attacco', 'difesa', 'riduzione', 'tutti', 'salta']),
+  valore: z.number().int(),
+  round: z.number().int().min(1),
+});
+
+export const Scudo = z.object({
+  id: Id,
+  nome: z.string(),
+  immagine: Immagine.optional(),
+  dadi: z.number().int().min(1).max(3), // dadi in difesa
+  penalita: z.record(z.string(), z.number()).default({}),
+  prezzo: z.number().int().min(0).optional(),
+});
+
+// ---------------------------------------------------------------- oggetti (Regolamento 8.7–8.9)
+
+export const DIFETTI = ['pesante', 'rumorosa', 'riconoscibile', 'inquieta', 'stancante', 'inceppamento', 'legata'] as const;
+export const NOMI_DIFETTI: Record<(typeof DIFETTI)[number], string> = {
+  pesante: 'Pesante', rumorosa: 'Rumorosa', riconoscibile: 'Riconoscibile', inquieta: 'Inquieta',
+  stancante: 'Stancante', inceppamento: 'Inceppamento', legata: 'Legata',
+};
+
+/** Proprietà degli oggetti magici e il loro costo in punti di grado. */
+export const COSTI_PROPRIETA = {
+  affilata: 1, penetrante: 1, riserva: 1, rapida: 1, robusta: 2, assetata: 2, schermata: 2, lucida: 2,
+  ultimoRespiro: 2, secondaScelta: 3, ostinata: 1, silenziosa: 1, caricatore: 1,
+} as const;
+
+export const Proprieta = z.object({
+  affilata: z.number().int().min(0).default(0), // +N danno
+  penetrante: z.number().int().min(0).default(0), // ignora N armatura
+  riserva: z.number().int().min(0).default(0), // +2 Energia per punto
+  rapida: z.number().int().min(0).default(0), // +N dadi iniziativa
+  robusta: z.number().int().min(0).default(0), // +N riduzione (armature)
+  assetata: z.boolean().default(false), // 1 PF ogni colpo a segno
+  schermata: z.boolean().default(false), // Contaminazione dimezzata
+  lucida: z.boolean().default(false), // Tormento dimezzato
+  ultimoRespiro: z.boolean().default(false), // a 0 PF resti a 1, una volta per scontro
+  secondaScelta: z.boolean().default(false), // ripeti una prova fallita per esito
+  ostinata: z.boolean().default(false), // +2 danno sotto metà PF
+  silenziosa: z.boolean().default(false), // niente penalità di Furtività
+  caricatore: z.boolean().default(false), // ignora Ricarica
+  talento: z.record(z.string(), z.number().int().min(1)).default({}), // +N dadi a un'abilità fuori dal combattimento
+  chiave: z.array(z.string()).default([]), // apre opzioni negli storylet (chiave.<nome>)
+});
+
+export const Reperto = z.object({
+  tipo: z.enum(['attacco', 'difesa', 'cura', 'passivo']),
+  cariche: z.number().int().min(0), // cariche massime (0 per i passivi)
+  danno: z.number().int().default(0), // attacco: si somma al margine
+  ignora: z.number().int().default(0), // attacco: armatura ignorata
+  modifica: Modifica.optional(), // difesa
+  cura: z.number().int().default(0), // PF in combattimento
+  decifra: Id, // storylet che lo decifra
+});
+
+export const Oggetto = z
+  .object({
+    id: Id,
+    nome: z.string(),
+    descrizione: z.string().optional(),
+    immagine: Immagine.optional(),
+    slot: z.enum(['arma', 'armatura', 'scudo', 'accessorio', 'nessuno']),
+    base: Id.optional(), // arma, armatura o scudo di base
+    grado: z.number().int().min(0).max(5).default(0),
+    dadi: z.number().int().min(0).max(5).default(0), // in attacco (armi) o in difesa (armature e scudi)
+    proprieta: Proprieta.default({}),
+    difetti: z.array(z.enum(DIFETTI)).default([]),
+    usa: Id.optional(), // storylet aperto dal pulsante "Usa"
+    reperto: Reperto.optional(),
+    prezzo: z.number().int().min(0).optional(),
+  })
+  .superRefine((o, ctx) => {
+    if (['arma', 'armatura', 'scudo'].includes(o.slot) && !o.base) ctx.addIssue({ code: 'custom', message: `un oggetto nello slot ${o.slot} richiede una base` });
+    if (o.slot === 'accessorio' && (o.dadi > 0 || o.grado > 3)) ctx.addIssue({ code: 'custom', message: 'gli accessori arrivano a +3 e non danno dadi' });
+    const p = o.proprieta;
+    let punti = o.dadi + Object.values(p.talento).reduce((a, b) => a + b, 0);
+    for (const [k, costo] of Object.entries(COSTI_PROPRIETA)) {
+      const v = p[k as keyof typeof COSTI_PROPRIETA];
+      punti += typeof v === 'boolean' ? (v ? costo : 0) : (v as number) * costo;
+    }
+    if (o.base && o.grado === 0 && punti - o.dadi > 0) ctx.addIssue({ code: 'custom', message: 'le proprietà richiedono un grado' });
+    if (o.grado > 0 && punti > o.grado + o.difetti.length) ctx.addIssue({ code: 'custom', message: `troppi punti: ${punti} su ${o.grado} + ${o.difetti.length} difetti` });
+  });
+
 export const Negozio = z.object({
   id: Id,
   nome: z.string(),
@@ -156,6 +244,7 @@ export const Origine = z.object({
   armatura: Id,
 });
 
+
 // ---------------------------------------------------------------- incantesimi (Regolamento, sezione 7)
 
 export const TRADIZIONI = ['cristalli', 'albero', 'respiro', 'precuriane'] as const;
@@ -165,13 +254,6 @@ export const NOMI_TRADIZIONI: Record<(typeof TRADIZIONI)[number], string> = {
   respiro: 'Via del Respiro',
   precuriane: 'Formule precuriane',
 };
-
-/** Modifica a tempo sui tiri di un combattente. `tutti` vale per ogni tiro; `salta` fa perdere il turno. */
-export const Modifica = z.object({
-  tipo: z.enum(['attacco', 'difesa', 'riduzione', 'tutti', 'salta']),
-  valore: z.number().int(),
-  round: z.number().int().min(1),
-});
 
 export const Incantesimo = z
   .object({
@@ -223,6 +305,8 @@ export const Contenuti = z.object({
   origini: z.array(Origine),
   frammenti: z.array(Frammento).default([]),
   incantesimi: z.array(Incantesimo).default([]),
+  scudi: z.array(Scudo).default([]),
+  oggetti: z.array(Oggetto).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -238,6 +322,8 @@ export type TArma = z.infer<typeof Arma>;
 export type TArmatura = z.infer<typeof Armatura>;
 export type TNegozio = z.infer<typeof Negozio>;
 export type TOrigine = z.infer<typeof Origine>;
+export type TOggetto = z.infer<typeof Oggetto>;
+export type TScudo = z.infer<typeof Scudo>;
 export type TIncantesimo = z.infer<typeof Incantesimo>;
 export type TModifica = z.infer<typeof Modifica>;
 export type TFrammento = z.infer<typeof Frammento>;

@@ -3,6 +3,7 @@ import { tira, rngConSeme, type Rng } from './dadi';
 import { ETICHETTE_COMBATTIMENTO, MAX_CONSUMABILI_IN_COMBATTIMENTO, ROUND_MAX } from './regole';
 import type { TContenuti, TIncantesimo, TNemico, TScontro, TModifica } from './contenuto';
 import { abilitaEffettiva, type Stato } from './personaggio';
+import { baseArma, baseArmatura, dadiDifesa, dadiIniziativa, energiaExtra, haProprieta, repertiAttivi } from './oggetti';
 
 /** Consumabili usabili in combattimento e il loro effetto. */
 export const CONSUMABILI: Record<string, { pf?: number; energia?: number }> = {
@@ -38,12 +39,33 @@ export interface Combattente {
   effetti: Effetto[];
   veleni: Veleno[];
   fuggito: boolean;
+  tecnologia?: number; // Mentale + Tecnologia, per i reperti
+  // proprietà e difetti degli oggetti
+  ultimoRespiro?: boolean;
+  ostinata?: boolean;
+  assetata?: boolean;
+  inceppamento?: boolean;
+  ricarica?: boolean;
+  ricaricando?: boolean;
+  portata?: boolean;
+}
+
+export interface RepertoInCombattimento {
+  id: string;
+  nome: string;
+  tipo: 'attacco' | 'difesa' | 'cura';
+  cariche: number;
+  danno: number;
+  ignora: number;
+  cura: number;
+  modifica?: TModifica;
 }
 
 export type Azione =
   | { tipo: 'attacco'; bersaglio: string }
   | { tipo: 'intimidire'; bersaglio: string }
   | { tipo: 'incantesimo'; incantesimo: string; bersaglio?: string }
+  | { tipo: 'reperto'; reperto: string; bersaglio?: string }
   | { tipo: 'cura'; consumabile: string }; // usare un consumabile
 
 export interface StatoCombattimento {
@@ -58,12 +80,13 @@ export interface StatoCombattimento {
   consumabili: Record<string, number>; // disponibili all'inizio
   usati: Record<string, number>;
   incantesimi: TIncantesimo[]; // il repertorio portato nello scontro
-  costi: Record<string, number>; // Dissonanza e prezzi delle formule, applicati alla fine
+  costi: Record<string, number>; // Dissonanza, prezzi delle formule, cariche e guasti: applicati alla fine
+  reperti?: RepertoInCombattimento[];
 }
 
 export const inPiedi = (c: Combattente) => c.pf > 0 && !c.fuggito;
 
-type TipoTiro = 'attacco' | 'difesa' | 'riduzione' | 'magia' | 'mentale' | 'fisica' | 'sociale';
+type TipoTiro = 'attacco' | 'difesa' | 'riduzione' | 'magia' | 'mentale' | 'fisica' | 'sociale' | 'tecnologia';
 
 /** Somma delle modifiche attive per un tiro. Le modifiche "tutti" valgono per ogni tiro tranne la riduzione. */
 export function modifica(c: Combattente, tipo: TipoTiro): number {
@@ -77,39 +100,56 @@ export function modifica(c: Combattente, tipo: TipoTiro): number {
 const pool = (base: number, mod: number) => Math.max(0, base + mod);
 
 export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
-  const arma = c.armi.find((a) => a.id === s.arma);
-  const armatura = c.armature.find((a) => a.id === s.armatura);
+  const { arma, og: ogArma } = baseArma(s, c);
+  const { armatura, og: ogArm } = baseArmatura(s, c);
   const abilArma = arma?.abilita ?? 'rissa';
-  const leggera = arma?.proprieta.includes('Leggera') ? 1 : 0;
-  const ignora = (arma?.proprieta.includes('Perforante') ? 2 : 0) + (arma?.proprieta.includes('Contundente') ? 1 : 0);
+  const pa = ogArma?.proprieta;
+  const ignora = (arma?.proprieta.includes('Perforante') ? 2 : 0) + (arma?.proprieta.includes('Contundente') ? 1 : 0) + (pa?.penetrante ?? 0);
   const eff = (a: string) => abilitaEffettiva(s, a, c);
-  const energia = s.attributi.mentale + (s.abilita['magia'] ?? 0);
+  const energia = s.attributi.mentale + (s.abilita['magia'] ?? 0) + energiaExtra(s, c);
   const pf = 5 + s.attributi.fisico + (s.abilita['resistenza'] ?? 0);
   return {
     id: 'pg',
     nome: s.nome,
     lato: 'pg',
-    attacco: s.attributi.fisico + eff(abilArma) + (arma?.qualita ?? 0),
-    difesa: s.attributi.fisico + eff('acrobazia') + (armatura?.qualita ?? 0),
+    attacco: s.attributi.fisico + eff(abilArma) + (ogArma?.dadi ?? 0),
+    difesa: s.attributi.fisico + eff('acrobazia') + dadiDifesa(s, c),
     difesaMentale: s.attributi.mentale + eff('resilienza'),
     difesaFisica: s.attributi.fisico + eff('resistenza'),
     intimidire: s.attributi.sociale + eff('intimidire'),
-    magia: energia,
+    magia: s.attributi.mentale + (s.abilita['magia'] ?? 0),
     energia,
     energiaMax: energia,
     pf,
     pfMax: pf,
-    danno: arma?.danno ?? 0,
-    riduzione: armatura?.riduzione ?? 0,
+    danno: (arma?.danno ?? 0) + (pa?.affilata ?? 0),
+    riduzione: (armatura?.riduzione ?? 0) + (ogArm?.proprieta.robusta ?? 0),
     ignora,
-    iniziativa: eff('atletica') + eff('percezione') + leggera,
+    iniziativa: eff('atletica') + eff('percezione') + dadiIniziativa(s, c),
     sommaIniziativa: eff('atletica') + eff('percezione'),
     puoFuggire: false,
     tratti: [],
     effetti: [],
     veleni: [],
     fuggito: false,
+    tecnologia: s.attributi.mentale + eff('tecnologia'),
+    ultimoRespiro: haProprieta(s, c, 'ultimoRespiro'),
+    ostinata: !!pa?.ostinata,
+    assetata: !!pa?.assetata,
+    inceppamento: !!ogArma?.difetti.includes('inceppamento'),
+    ricarica: !!arma?.proprieta.includes('Ricarica') && !pa?.caricatore,
+    portata: !!arma?.proprieta.includes('Portata'),
   };
+}
+
+/** I reperti decifrati e carichi che si possono usare in combattimento. */
+export function repertiDaStato(s: Stato, c: TContenuti): RepertoInCombattimento[] {
+  return repertiAttivi(s, c)
+    .filter((o) => o.reperto!.tipo !== 'passivo' && (s.quality[`cariche.${o.id}`] ?? 0) > 0)
+    .map((o) => ({
+      id: o.id, nome: o.nome, tipo: o.reperto!.tipo as 'attacco' | 'difesa' | 'cura', cariche: s.quality[`cariche.${o.id}`] ?? 0,
+      danno: o.reperto!.danno, ignora: o.reperto!.ignora, cura: o.reperto!.cura, modifica: o.reperto!.modifica,
+    }));
 }
 
 export function combattenteDaNemico(n: TNemico, indice: number): Combattente {
@@ -156,7 +196,7 @@ function nemiciDelloScontro(sc: TScontro, c: TContenuti): Combattente[] {
 
 export function iniziaCombattimento(
   pg: Combattente, sc: TScontro, c: TContenuti, consumabili: Record<string, number>, rng: Rng = Math.random,
-  incantesimi: TIncantesimo[] = [],
+  incantesimi: TIncantesimo[] = [], reperti: RepertoInCombattimento[] = [],
 ): StatoCombattimento {
   const combattenti = [{ ...pg, effetti: [], veleni: [] }, ...nemiciDelloScontro(sc, c)];
   const tiri = combattenti.map((x) => ({ id: x.id, s: tira(x.iniziativa, rng).successi, somma: x.sommaIniziativa, r: rng() }));
@@ -174,6 +214,7 @@ export function iniziaCombattimento(
     usati: {},
     incantesimi: incantesimi.filter((i) => i.uso.includes('combattimento')),
     costi: {},
+    reperti: reperti.map((r) => ({ ...r })),
   };
 }
 
@@ -181,6 +222,12 @@ export function iniziaCombattimento(
 
 function infliggi(dif: Combattente, danno: number, log: string[], prefisso: string): void {
   dif.pf = Math.max(0, dif.pf - danno);
+  if (dif.pf === 0 && dif.ultimoRespiro) {
+    dif.pf = 1;
+    dif.ultimoRespiro = false;
+    log.push(`${prefisso}, ${danno} ${danno === 1 ? 'danno' : 'danni'}. Stai per cadere, ma resti in piedi (Ultimo respiro).`);
+    return;
+  }
   const fuori = dif.pf === 0 ? (dif.lato === 'pg' ? ' Crolli a terra.' : ` ${dif.nome} è fuori combattimento.`) : '';
   log.push(`${prefisso}, ${danno} ${danno === 1 ? 'danno' : 'danni'}.${fuori}`);
 }
@@ -190,9 +237,15 @@ function attacca(att: Combattente, dif: Combattente, rng: Rng, log: string[]): v
   const d = tira(pool(dif.difesa, modifica(dif, 'difesa')), rng).successi;
   const soggetto = att.lato === 'pg' ? 'Colpisci' : `${att.nome} colpisce`;
   const oggetto = dif.lato === 'pg' ? 'te' : dif.nome;
+  if (a === 0 && att.inceppamento) {
+    aggiungiEffetto(att, { tipo: 'salta', valore: 0, round: 1 }, 'inceppamento');
+    log.push(`${att.lato === 'pg' ? "L'arma" : `L'arma di ${att.nome}`} si inceppa: perdi il prossimo round per sbloccarla.`);
+  }
   if (a > d) {
     const rid = Math.max(0, dif.riduzione + modifica(dif, 'riduzione') - att.ignora);
-    infliggi(dif, Math.max(1, a - d + att.danno - rid), log, `${soggetto} ${oggetto}: ${a} contro ${d}`);
+    const ostinata = att.ostinata && att.pf < att.pfMax / 2 ? 2 : 0;
+    infliggi(dif, Math.max(1, a - d + att.danno + ostinata - rid), log, `${soggetto} ${oggetto}: ${a} contro ${d}`);
+    if (att.assetata && att.pf < att.pfMax) { att.pf += 1; log.push('L\'arma beve: recuperi 1 PF.'); }
   } else {
     log.push(att.lato === 'pg' ? `Attacchi ${oggetto}: ${a} contro ${d}, parato.` : `${att.nome} attacca ${oggetto}: ${a} contro ${d}, schivato.`);
   }
@@ -307,6 +360,36 @@ function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | un
   }
 }
 
+function usaReperto(att: Combattente, rid: string, bersaglio: Combattente | undefined, cs: StatoCombattimento, rng: Rng): void {
+  const r = (cs.reperti ?? []).find((x) => x.id === rid);
+  if (!r || r.cariche <= 0) { cs.log.push('Il reperto non ha cariche.'); return; }
+  const s = tira(pool(att.tecnologia ?? 0, modifica(att, 'tecnologia')), rng).successi;
+  if (s === 0) {
+    cs.costi[`guasto.${r.id}`] = 1;
+    cs.reperti = (cs.reperti ?? []).filter((x) => x.id !== r.id);
+    cs.log.push(`${r.nome}: nessun successo. Il reperto emette un sibilo e si spegne (guasto).`);
+    return;
+  }
+  r.cariche--;
+  cs.costi[`cariche.${r.id}`] = (cs.costi[`cariche.${r.id}`] ?? 0) - 1;
+  if (r.tipo === 'attacco') {
+    const b = bersaglio && inPiedi(bersaglio) ? bersaglio : cs.combattenti.find((x) => x.lato === 'nemico' && inPiedi(x));
+    if (!b) return;
+    const d = tira(pool(b.difesa, modifica(b, 'difesa')), rng).successi;
+    if (s > d) {
+      const rid = Math.max(0, b.riduzione + modifica(b, 'riduzione') - r.ignora);
+      infliggi(b, Math.max(1, s - d + r.danno - rid), cs.log, `${r.nome} su ${b.nome}: ${s} contro ${d}`);
+    } else cs.log.push(`${r.nome} su ${b.nome}: ${s} contro ${d}, mancato.`);
+  } else if (r.tipo === 'difesa' && r.modifica) {
+    aggiungiEffetto(att, r.modifica, r.id);
+    cs.log.push(`${r.nome}: ${descriviModifica(r.modifica)}.`);
+  } else if (r.tipo === 'cura') {
+    const prima = att.pf;
+    att.pf = Math.min(att.pfMax, att.pf + r.cura);
+    cs.log.push(`${r.nome}: recuperi ${att.pf - prima} PF.`);
+  }
+}
+
 function usaConsumabile(cs: StatoCombattimento, pg: Combattente, k: string): void {
   const disponibili = (cs.consumabili[k] ?? 0) - (cs.usati[k] ?? 0);
   const totUsati = Object.values(cs.usati).reduce((a, b) => a + b, 0);
@@ -331,7 +414,9 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
   cs.incantesimi ??= [];
   cs.costi ??= {};
   const pg = cs.combattenti.find((x) => x.lato === 'pg')!;
-  for (const id of cs.ordine) {
+  // Portata: nel primo round attacchi per primo
+  const ordine = cs.round === 1 && pg.portata && azione.tipo === 'attacco' ? ['pg', ...cs.ordine.filter((x) => x !== 'pg')] : cs.ordine;
+  for (const id of ordine) {
     const att = cs.combattenti.find((x) => x.id === id)!;
     if (!inPiedi(att)) continue;
     att.effetti ??= []; att.veleni ??= [];
@@ -349,9 +434,13 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
         const inc = cs.incantesimi.find((i) => i.id === azione.incantesimo);
         if (inc) lancia(att, inc, b, cs, rng);
         else cs.log.push('Quell\'incantesimo non è nel tuo repertorio.');
+      } else if (azione.tipo === 'reperto') {
+        usaReperto(att, azione.reperto, b, cs, rng);
       } else if (b) {
-        if (azione.tipo === 'attacco') attacca(att, b, rng, cs.log);
-        else intimidisci(att, b, rng, cs.log);
+        if (azione.tipo === 'attacco') {
+          if (att.ricaricando) { att.ricaricando = false; cs.log.push('Ricarichi l\'arma.'); }
+          else { attacca(att, b, rng, cs.log); if (att.ricarica) att.ricaricando = true; }
+        } else intimidisci(att, b, rng, cs.log);
       }
     } else {
       attacca(att, pg, rng, cs.log);

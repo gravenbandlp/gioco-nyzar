@@ -6,16 +6,17 @@ import {
   SOGLIE_PE,
 } from '../motore/regole';
 import {
-  msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, type Stato,
+  msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, type Stato,
 } from '../motore/personaggio';
-import { anteprima, puoEntrare, correggibile, type Risultato } from '../motore/azioni';
+import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
+import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { NOMI_TRADIZIONI } from '../motore/contenuto';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
 import {
   tavola, prosa, primaFrase, candelaGrande, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
-  descriviArma, descriviArmatura, srcTavola, ROMBO,
+  descriviArma, descriviArmatura, descriviOggetto, srcTavola, ROMBO,
 } from './componenti';
 
 export type Scheda = 'storia' | 'personaggio' | 'averi' | 'bazar' | 'mappa';
@@ -320,6 +321,8 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     </li>`);
   }
   if (r.dissonanza) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⟡</span><p>Nessun successo, e il Mana ti torna indietro (Dissonanza).</p></li>`);
+  if (r.guasto) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⚙</span><p>Nessun successo, e il reperto si è guastato.</p></li>`);
+  const puoiSecondaScelta = !!x.vista && x.vista.tipo === 'risultato' && !!x.vista.prima && x.vista.indice !== undefined && secondaSceltaDisponibile(s, r, c);
   const puoiCorreggere = !!x.vista && x.vista.tipo === 'risultato' && x.vista.prima && x.vista.indice !== undefined && correggibile(s, r);
   const ancora = st && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
   const segue = r.segue ? trova(c, r.segue) : undefined;
@@ -335,6 +338,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     </header>
     ${righe.length ? `<ul class="esiti">${righe.join('')}</ul>` : ''}
     <div class="azioni-fondo">
+      ${puoiSecondaScelta ? `<button type="button" class="bottone" data-az="seconda-scelta" title="Lo specchio ti lascia ripetere la prova; se riesce, +½ Tormento">Seconda scelta</button>` : ''}
       ${puoiCorreggere ? `<button type="button" class="bottone" data-az="correggi" title="Una candela e una prova Media di Magia; costa ½ Tormento">Correzione</button>` : ''}
       ${ancora ? `<button type="button" class="bottone" data-az="apri" data-id="${st!.id}">Riprova</button>` : ''}
       ${segue ? `<button type="button" class="bottone primario" data-az="apri" data-id="${segue.id}">Prosegui</button>` : ''}
@@ -355,7 +359,8 @@ function barraEnergia(p: { energia: number; energiaMax: number }): string {
 
 function chipEffetti(cb: Combattente, c: TContenuti): string {
   const nomi = (cb.effetti ?? []).map((e) => {
-    const fonte = e.fonte === 'intimidire' ? 'Intimidito' : c.incantesimi.find((i) => i.id === e.fonte)?.nome ?? e.fonte;
+    const fonte = e.fonte === 'intimidire' ? 'Intimidito' : e.fonte === 'inceppamento' ? 'Arma inceppata'
+      : c.incantesimi.find((i) => i.id === e.fonte)?.nome ?? c.oggetti.find((o) => o.id === e.fonte)?.nome ?? e.fonte;
     return `<span class="chip ${e.valore >= 0 && e.tipo !== 'salta' ? 'buono' : 'cattivo'}" title="${h(descriviModifica(e))}">${h(fonte)}${e.tipo === 'salta' ? '' : ` · ${e.round}`}</span>`;
   });
   for (const v of cb.veleni ?? []) nomi.push(`<span class="chip cattivo">Avvelenato · ${v.round}</span>`);
@@ -392,6 +397,8 @@ function vistaCombattimento(x: Contesto, cs: StatoCombattimento): string {
     return `<button type="button" class="bottone incantesimo" data-az="lancia" data-id="${inc.id}" ${motivo ? `disabled title="${h(motivo)}"` : `title="${h(inc.descrizione)}"`}>
       ${h(inc.nome)} <small>${inc.livello} En${h(proibito)}</small></button>`;
   }).join('');
+  const reperti = (cs.reperti ?? []).map((r) => `<button type="button" class="bottone incantesimo" data-az="reperto" data-id="${r.id}" ${r.cariche > 0 ? '' : 'disabled'}>
+      ${h(r.nome)} <small>${r.cariche} ${r.cariche === 1 ? 'carica' : 'cariche'}</small></button>`).join('');
   const consumabili = Object.entries(CONSUMABILI).map(([k, e]) => {
     const rimasti = (cs.consumabili[k] ?? 0) - (cs.usati[k] ?? 0);
     if ((cs.consumabili[k] ?? 0) === 0) return '';
@@ -410,6 +417,7 @@ function vistaCombattimento(x: Contesto, cs: StatoCombattimento): string {
           <button type="button" class="bottone" data-az="intimidisci">Intimidisci</button>
         </div>
         ${incantesimi ? `<p class="etichetta">Incantesimi</p><div class="gruppo">${incantesimi}</div>` : ''}
+        ${reperti ? `<p class="etichetta">Reperti · Mentale + Tecnologia, con zero successi si guastano</p><div class="gruppo">${reperti}</div>` : ''}
         ${consumabili ? `<p class="etichetta">Consumabili · ${usatiTot}/${MAX_CONSUMABILI_IN_COMBATTIMENTO}</p><div class="gruppo">${consumabili}</div>` : ''}
       </div>`;
 
@@ -498,11 +506,56 @@ export function personaggio(x: Contesto): string {
 
 export function averi(x: Contesto): string {
   const { s, c } = x;
-  const arma = descriviArma(s.arma, c);
-  const armatura = descriviArmatura(s.armatura, c);
-  const slot = (etich: string, d: { nome: string; dettagli: string; immagine?: string }) => `<li class="slot">
-    ${tavola(d.immagine, { classe: 'ritratto piccolo' })}
-    <div><span class="etichetta">${etich}</span><b>${h(d.nome)}</b><small>${h(d.dettagli)}</small></div></li>`;
+  const nomeSlot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio' };
+  const riga = (id: string, azioni: string, etich?: string) => {
+    const d = descriviOggetto(id, c);
+    return `<li class="slot">
+      ${tavola(d.immagine, { classe: 'ritratto piccolo' })}
+      <div>${etich ? `<span class="etichetta">${h(etich)}</span>` : ''}<b>${h(d.nome)}</b>
+        <small>${h(d.dettagli)}</small>
+        ${d.difetti.length ? `<span class="chips">${d.difetti.map((x) => `<span class="chip cattivo">${h(x)}</span>`).join('')}</span>` : ''}
+        ${azioni ? `<span class="azioni-oggetto">${azioni}</span>` : ''}
+      </div></li>`;
+  };
+  const vuoto = (nome: string) => `<li class="slot vuoto-slot">${tavola(undefined, { classe: 'ritratto piccolo' })}<div><span class="etichetta">${nome}</span><b>Niente</b></div></li>`;
+  const togli = (id: string, legata = false) => legata ? '' : `<button type="button" class="bottone piccolo" data-az="togli" data-id="${id}">Togli</button>`;
+  const slots = [
+    s.arma && s.arma !== NIENTE_ARMA ? riga(s.arma, togli(s.arma, oggetto(c, s.arma)?.difetti.includes('legata')), 'Arma') : riga(NIENTE_ARMA, '', 'Arma'),
+    s.armatura && s.armatura !== NIENTE_ARMATURA ? riga(s.armatura, togli(s.armatura), 'Armatura') : riga(NIENTE_ARMATURA, '', 'Armatura'),
+    s.scudo ? riga(s.scudo, togli(s.scudo), 'Scudo') : vuoto('Scudo'),
+    ...[0, 1].map((k) => (s.accessori ?? [])[k] ? riga(s.accessori[k]!, togli(s.accessori[k]!), 'Accessorio') : vuoto('Accessorio')),
+  ].join('');
+
+  const posseduti = c.oggetti.filter((o) => possiede(s, o.id) && !indossato(s, o.id));
+  const sacca = posseduti.filter((o) => o.slot !== 'nessuno').map((o) => {
+    const motivo = perchéNonIndossabile(s, c, o.id);
+    const n = s.quality[`oggetto.${o.id}`] ?? 0;
+    return riga(o.id, `<button type="button" class="bottone piccolo" data-az="indossa" data-id="${o.id}" ${motivo ? `disabled title="${h(motivo)}"` : ''}>Indossa</button>${motivo ? `<small class="motivo">${h(motivo)}</small>` : ''}`,
+      `${nomeSlot[o.slot]}${n > 1 ? ` · ${n}` : ''}`);
+  }).join('');
+
+  const reperti = c.oggetti.filter((o) => o.reperto && possiede(s, o.id)).map((o) => {
+    const decifrato = (s.quality[`decifrato.${o.id}`] ?? 0) >= 1;
+    const guasto = (s.quality[`guasto.${o.id}`] ?? 0) >= 1;
+    const cariche = s.quality[`cariche.${o.id}`] ?? 0;
+    const passivo = o.reperto!.tipo === 'passivo';
+    const stato = !decifrato ? 'Da decifrare' : guasto ? 'Guasto' : passivo ? 'Attivo' : `${cariche}/${o.reperto!.cariche} cariche`;
+    const azioni = !decifrato
+      ? `<button type="button" class="bottone piccolo" data-az="apri" data-id="${o.reperto!.decifra}">Decifra</button>`
+      : guasto ? '<small class="motivo">Serve qualcuno che sappia ripararlo.</small>'
+      : [
+          o.usa ? `<button type="button" class="bottone piccolo" data-az="apri" data-id="${o.usa}" ${requisitiSoddisfatti(s, c.storylet.find((z) => z.id === o.usa)?.requisiti, c) ? '' : 'disabled'}>Usa</button>` : '',
+          !passivo ? `<button type="button" class="bottone piccolo" data-az="ricarica-reperto" data-id="${o.id}" ${(s.quality['cella'] ?? 0) >= 1 && cariche < o.reperto!.cariche ? '' : 'disabled'}>Ricarica con una cella (${mezzi(s.quality['cella'] ?? 0)})</button>` : '',
+        ].join('');
+    return `<li class="slot">
+      ${tavola(o.immagine, { classe: 'ritratto piccolo' })}
+      <div><span class="etichetta">${h(stato)}</span><b>${h(o.nome)}</b><small>${h(o.descrizione ?? '')}</small>
+      <span class="azioni-oggetto">${azioni}</span></div></li>`;
+  }).join('');
+
+  const usabili = posseduti.filter((o) => o.slot === 'nessuno' && !o.reperto && o.usa).map((o) =>
+    riga(o.id, `<button type="button" class="bottone piccolo" data-az="apri" data-id="${o.usa}">Usa</button>`, 'Oggetto')).join('');
+
   const famiglie = new Map<string, string[]>();
   for (const q of c.quality.filter((z) => z.categoria === 'bene')) {
     const f = q.famiglia ?? 'Altro';
@@ -513,8 +566,11 @@ export function averi(x: Contesto): string {
   const altri = c.quality.filter((q) => (q.categoria === 'consumabile' || q.categoria === 'accesso') && (s.quality[q.id] ?? 0) > 0)
     .map((q) => `<li class="oggetto">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}<small>${h(q.descrizione ?? '')}</small></span><b>${q.categoria === 'accesso' ? '✓' : mezzi(s.quality[q.id]!)}</b></li>`).join('');
   return `<article class="averi">
-    <h2 class="titolo-sezione primo">Equipaggiamento</h2>
-    <ul class="slot-equip">${slot('Arma', arma)}${slot('Armatura', armatura)}</ul>
+    <h2 class="titolo-sezione primo">Indossato <small>cambiare non costa candele</small></h2>
+    <ul class="slot-equip">${slots}</ul>
+    ${sacca ? `<h2 class="titolo-sezione">Nella sacca</h2><ul class="slot-equip">${sacca}</ul>` : ''}
+    ${reperti ? `<h2 class="titolo-sezione">Reperti dei Precursori</h2><ul class="slot-equip">${reperti}</ul>` : ''}
+    ${usabili ? `<h2 class="titolo-sezione">Oggetti</h2><ul class="slot-equip">${usabili}</ul>` : ''}
     <h2 class="titolo-sezione">Con te</h2>
     ${altri ? `<ul class="oggetti">${altri}</ul>` : '<p class="vuoto">Niente di utile in tasca.</p>'}
     ${[...famiglie].map(([f, li]) => `<h2 class="titolo-sezione">${h(f)} <small>scala 5:1</small></h2><ul class="oggetti">${li.join('')}</ul>`).join('')}
@@ -530,14 +586,19 @@ export function bazar(x: Contesto): string {
   if (!area.negozi.length) return `<p class="vuoto">In ${h(area.nome)} non ci sono botteghe. Prova altrove in città.</p>`;
   return area.negozi.map((id) => c.negozi.find((n) => n.id === id)!).map((n) => {
     const vende = n.vende.map((v) => {
-      let d: { nome: string; dettagli: string; immagine?: string }; let posseduto = false;
-      if (v.quality.startsWith('arma.')) { d = descriviArma(v.quality.slice(5), c); posseduto = s.arma === v.quality.slice(5); }
-      else if (v.quality.startsWith('armatura.')) { d = descriviArmatura(v.quality.slice(9), c); posseduto = s.armatura === v.quality.slice(9); }
-      else { const q = c.quality.find((z) => z.id === v.quality); d = { nome: q?.nome ?? v.quality, dettagli: `${q?.descrizione ?? ''} Ne hai ${mezzi(s.quality[v.quality] ?? 0)}.`, immagine: q?.immagine }; }
-      const ok = monete >= v.prezzo && !posseduto;
-      return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}</small></span>
+      let d: { nome: string; dettagli: string; immagine?: string };
+      let nota = '';
+      if (v.quality.startsWith('oggetto.')) {
+        const id = v.quality.slice(8);
+        d = descriviOggetto(id, c);
+        const n = s.quality[v.quality] ?? 0;
+        if (indossato(s, id)) nota = 'In uso';
+        else if (n > 0) nota = `Ne hai ${n}`;
+      } else { const q = c.quality.find((z) => z.id === v.quality); d = { nome: q?.nome ?? v.quality, dettagli: `${q?.descrizione ?? ''} Ne hai ${mezzi(s.quality[v.quality] ?? 0)}.`, immagine: q?.immagine }; }
+      const ok = monete >= v.prezzo;
+      return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}${nota ? ` · ${h(nota)}` : ''}</small></span>
         <span class="prezzo">${v.prezzo}</span>
-        <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>${posseduto ? 'In uso' : 'Compra'}</button></li>`;
+        <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>Compra</button></li>`;
     }).join('');
     const compra = n.compra.map((v) => {
       const q = c.quality.find((z) => z.id === v.quality);

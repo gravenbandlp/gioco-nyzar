@@ -4,7 +4,7 @@
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parse } from 'yaml';
-import { Contenuti, type TContenuti } from '../src/motore/contenuto';
+import { Contenuti, COSTI_PROPRIETA, DIFETTI, type TContenuti } from '../src/motore/contenuto';
 import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
 import { parseRequisito } from '../src/motore/personaggio';
 
@@ -12,7 +12,7 @@ const RADICE = new URL('..', import.meta.url).pathname;
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -64,9 +64,35 @@ export function caricaContenuti(opzioni: { tavole?: boolean } = {}): { contenuti
   for (const i of c.incantesimi) {
     c.quality.push({ id: `incantesimo.${i.id}`, nome: i.nome, categoria: 'incantesimo', descrizione: i.descrizione, immagine: i.immagine });
   }
+  completaOggetti(c);
   errori.push(...controlliIncrociati(c, avvisi));
   if (opzioni.tavole !== false) errori.push(...controllaTavole(c));
   return { contenuti: c, errori, avvisi };
+}
+
+/**
+ * Ogni arma, armatura e scudo di base è anche un oggetto comune con lo stesso id.
+ * Ogni oggetto è una quality (oggetto.<id>); i reperti hanno cariche, guasto e decifrato.
+ */
+export function completaOggetti(c: TContenuti): void {
+  const esiste = new Set(c.oggetti.map((o) => o.id));
+  const vuoto = { affilata: 0, penetrante: 0, riserva: 0, rapida: 0, robusta: 0, assetata: false, schermata: false, lucida: false,
+    ultimoRespiro: false, secondaScelta: false, ostinata: false, silenziosa: false, caricatore: false, talento: {}, chiave: [] };
+  const aggiungi = (id: string, nome: string, slot: 'arma' | 'armatura' | 'scudo', dadi: number, prezzo?: number, immagine?: string) => {
+    if (esiste.has(id)) return;
+    c.oggetti.push({ id, nome, slot, base: id, grado: 0, dadi, proprieta: { ...vuoto }, difetti: [], prezzo, immagine });
+  };
+  for (const a of c.armi) aggiungi(a.id, a.nome, 'arma', a.qualita, a.prezzo, a.immagine);
+  for (const a of c.armature) aggiungi(a.id, a.nome, 'armatura', a.qualita, a.prezzo, a.immagine);
+  for (const a of c.scudi) aggiungi(a.id, a.nome, 'scudo', a.dadi, a.prezzo, a.immagine);
+  for (const o of c.oggetti) {
+    c.quality.push({ id: `oggetto.${o.id}`, nome: o.nome, categoria: 'equipaggiamento', descrizione: o.descrizione, immagine: o.immagine });
+    if (o.reperto) {
+      c.quality.push({ id: `cariche.${o.id}`, nome: `Cariche: ${o.nome}`, categoria: 'stato', nascosta: true });
+      c.quality.push({ id: `guasto.${o.id}`, nome: `${o.nome} guasto`, categoria: 'stato', nascosta: true });
+      c.quality.push({ id: `decifrato.${o.id}`, nome: `${o.nome} decifrato`, categoria: 'stato', nascosta: true });
+    }
+  }
 }
 
 export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
@@ -84,7 +110,9 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     }
   }
 
-  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality]);
+  const chiaviOggetti = c.oggetti.flatMap((o) => o.proprieta.chiave.map((k) => `chiave.${k}`));
+  const tratti = [...Object.keys(COSTI_PROPRIETA), ...DIFETTI].map((k) => `indossa.${k}`);
+  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality, ...chiaviOggetti, ...tratti]);
   const requisiti = (dove: string, reqs: string[] | undefined) => {
     for (const r of reqs ?? []) {
       try {
@@ -149,6 +177,26 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     }
   }
 
+  // Oggetti
+  const scudiIds = new Set(c.scudi.map((x) => x.id));
+  for (const o of c.oggetti) {
+    const d = `oggetto ${o.id}`;
+    if (o.base) {
+      const ok = o.slot === 'arma' ? armi.has(o.base) : o.slot === 'armatura' ? armature.has(o.base) : o.slot === 'scudo' ? scudiIds.has(o.base) : false;
+      if (!ok) errori.push(`${d}: base "${o.base}" non valida per lo slot ${o.slot}`);
+    }
+    if (o.usa) {
+      const st = c.storylet.find((x) => x.id === o.usa);
+      if (!st) errori.push(`${d}: storylet "usa" sconosciuto "${o.usa}"`);
+      else if (st.tipo !== 'oggetto') errori.push(`${d}: lo storylet "${o.usa}" deve avere tipo: oggetto`);
+    }
+    if (o.reperto && !c.storylet.some((x) => x.id === o.reperto!.decifra && x.tipo === 'oggetto')) errori.push(`${d}: storylet di decifrazione "${o.reperto.decifra}" mancante o non di tipo oggetto`);
+    for (const k of Object.keys(o.proprieta.talento)) if (!TUTTE_LE_ABILITA.includes(k)) errori.push(`${d}: talento su abilità sconosciuta "${k}"`);
+  }
+  for (const st of c.storylet) st.opzioni.forEach((op, i) => {
+    if (op.reperto && !c.oggetti.some((o) => o.id === op.reperto && o.reperto)) errori.push(`storylet ${st.id}, opzione ${i + 1}: reperto sconosciuto "${op.reperto}"`);
+  });
+
   for (const f of c.frammenti) if (f.area && !aree.has(f.area)) errori.push(`frammento ${f.id}: area sconosciuta "${f.area}"`);
 
   for (const sc of c.scontri) for (const n of sc.nemici) if (!nemici.has(n)) errori.push(`scontro ${sc.id}: nemico sconosciuto "${n}"`);
@@ -161,9 +209,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   for (const n of c.negozi) {
     for (const v of n.compra) if (!quality.has(v.quality)) errori.push(`negozio ${n.id}: compra quality sconosciuta "${v.quality}"`);
     for (const v of n.vende) {
-      if (v.quality.startsWith('arma.')) { if (!armi.has(v.quality.slice(5))) errori.push(`negozio ${n.id}: arma sconosciuta "${v.quality}"`); }
-      else if (v.quality.startsWith('armatura.')) { if (!armature.has(v.quality.slice(9))) errori.push(`negozio ${n.id}: armatura sconosciuta "${v.quality}"`); }
-      else if (!quality.has(v.quality)) errori.push(`negozio ${n.id}: vende quality sconosciuta "${v.quality}"`);
+      if (!quality.has(v.quality)) errori.push(`negozio ${n.id}: vende quality sconosciuta "${v.quality}"`);
     }
   }
 
@@ -178,8 +224,9 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     if (somma !== 10) errori.push(`${d}: le abilità devono sommare 10 (ora ${somma})`);
     if (ab.filter(([, v]) => v === 3).length > 2) errori.push(`${d}: al massimo due abilità a 3`);
     effetti(d, o.quality);
-    if (!armi.has(o.arma)) errori.push(`${d}: arma sconosciuta "${o.arma}"`);
-    if (!armature.has(o.armatura)) errori.push(`${d}: armatura sconosciuta "${o.armatura}"`);
+    const og = (id: string) => c.oggetti.find((x) => x.id === id);
+    if (og(o.arma)?.slot !== 'arma') errori.push(`${d}: arma sconosciuta "${o.arma}"`);
+    if (og(o.armatura)?.slot !== 'armatura') errori.push(`${d}: armatura sconosciuta "${o.armatura}"`);
   }
 
   return errori;
