@@ -5,6 +5,7 @@ import type { TContenuti, TEsito, TIncantesimo, TOpzione, TStorylet } from './co
 import { chiaveIncantesimo, repertorio } from './magia';
 import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
+import { cambiaArea, inSpedizione } from './spedizioni';
 import {
   abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, spendiCandele, scarta, aggiornaTempo,
   type Crescita, type Stato, type Variazione,
@@ -114,7 +115,7 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato): void {
       if (og?.reperto && s.quality[`cariche.${id}`] === undefined) s.quality[`cariche.${id}`] = og.reperto.cariche;
     }
   }
-  if (e.vai) { s.area = e.vai; r.area = e.vai; }
+  if (e.vai) { cambiaArea(s, e.vai, c); r.area = e.vai; }
   if (e.segue) r.segue = e.segue;
 }
 
@@ -201,7 +202,9 @@ export function puoEntrare(s: Stato, areaId: string, c: TContenuti): { ok: boole
   const area = c.aree.find((a) => a.id === areaId);
   if (!area) return { ok: false, motivo: 'Area sconosciuta.', gabella: 0 };
   if (inPenalita(s, c)) return { ok: false, motivo: 'Da qui si esce solo con le storie.', gabella: 0 };
+  if (inSpedizione(s, c)) return { ok: false, motivo: 'Prima devi tornare indietro.', gabella: 0 };
   if (area.penalita) return { ok: false, motivo: 'Non ci si va di propria volontà.', gabella: 0 };
+  if (area.spedizione) return { ok: false, motivo: 'Ci si arriva solo con le storie.', gabella: 0 };
   const mancanti = requisitiMancanti(s, area.accesso, c);
   const esente = (s.quality['licenza-gilda'] ?? 0) > 0;
   const gabella = esente ? 0 : area.gabella;
@@ -214,7 +217,7 @@ export function muovi(s: Stato, areaId: string, c: TContenuti): boolean {
   const p = puoEntrare(s, areaId, c);
   if (!p.ok) return false;
   if (p.gabella) applicaEffetti(s, { monete: -p.gabella }, c);
-  s.area = areaId;
+  cambiaArea(s, areaId, c);
   return true;
 }
 

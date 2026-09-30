@@ -5,7 +5,11 @@ import { crisiAttiva, opzioniVisibili, mutazioniDi, tormentoDissonanza } from '.
 import { combattenteDaStato } from '../src/motore/combattimento';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 
-const figlio = (): Stato => nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === 'figlio-della-citta-bassa')!, 0, 'citta-bassa');
+const figlio = (): Stato => {
+  const s = nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === 'figlio-della-citta-bassa')!, 0, 'citta-bassa');
+  delete s.quality['prologo'];
+  return s;
+};
 const st = (id: string) => c.storylet.find((x) => x.id === id)!;
 const opzione = (id: string, pred: (o: (typeof c.storylet)[number]['opzioni'][number]) => boolean) => st(id).opzioni.findIndex(pred);
 

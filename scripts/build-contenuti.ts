@@ -65,6 +65,7 @@ export function caricaContenuti(opzioni: { tavole?: boolean } = {}): { contenuti
     c.quality.push({ id: `incantesimo.${i.id}`, nome: i.nome, categoria: 'incantesimo', descrizione: i.descrizione, immagine: i.immagine });
   }
   completaOggetti(c);
+  for (const a of c.aree) if (a.spedizione) c.quality.push({ id: `profondita.${a.id}`, nome: `Profondità: ${a.nome}`, categoria: 'stato' });
   for (const m of c.mutazioni) c.quality.push({ id: `mutazione.${m.id}`, nome: m.nome, categoria: 'mutazione', descrizione: m.descrizione, immagine: m.immagine });
   errori.push(...controlliIncrociati(c, avvisi));
   if (opzioni.tavole !== false) errori.push(...controllaTavole(c));
@@ -114,7 +115,8 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   const chiaviOggetti = c.oggetti.flatMap((o) => o.proprieta.chiave.map((k) => `chiave.${k}`));
   const tratti = [...Object.keys(COSTI_PROPRIETA), ...DIFETTI].map((k) => `indossa.${k}`);
   const pe = TUTTE_LE_ABILITA.map((a) => `pe.${a}`);
-  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality, ...chiaviOggetti, ...tratti, ...pe]);
+  const origini = c.origini.map((o) => `origine.${o.id}`);
+  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality, ...chiaviOggetti, ...tratti, ...pe, ...origini]);
   const requisiti = (dove: string, reqs: string[] | undefined) => {
     for (const r of reqs ?? []) {
       try {
@@ -142,15 +144,22 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   for (const a of c.aree) {
     requisiti(`area ${a.id}`, a.accesso);
+    if (a.spedizione) {
+      const r = c.aree.find((x) => x.id === a.spedizione!.ritorno);
+      if (!r) errori.push(`area ${a.id}: ritorno verso area sconosciuta "${a.spedizione.ritorno}"`);
+      else if (r.penalita || r.spedizione) errori.push(`area ${a.id}: il ritorno deve essere un'area della città`);
+      if (a.penalita) errori.push(`area ${a.id}: un'area non può essere insieme di penalità e spedizione`);
+    }
     for (const n of a.negozi) if (!negozi.has(n)) errori.push(`area ${a.id}: negozio sconosciuto "${n}"`);
   }
 
   for (const st of c.storylet) {
     const dove = `storylet ${st.id}`;
     if (!aree.has(st.area) && !(st.area === OVUNQUE && st.tipo === 'carta')) errori.push(`${dove}: area sconosciuta "${st.area}"`);
-    if (st.tipo === 'crisi' && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di una crisi costano 0 candele`);
+    if ((st.tipo === 'crisi' || st.tipo === 'prologo') && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di ${st.tipo === 'crisi' ? 'una crisi' : 'un prologo'} costano 0 candele`);
     requisiti(dove, st.requisiti);
-    const inAreaPenalita = !!c.aree.find((a) => a.id === st.area)?.penalita;
+    const areaSt = c.aree.find((a) => a.id === st.area);
+    const inAreaPenalita = !!areaSt?.penalita || !!areaSt?.spedizione;
     if (st.tipo === 'fisso' && !st.ripetibile && !inAreaPenalita && !st.requisiti.some((r) => r.startsWith('pista.') || /==\s*0\s*$/.test(r))) {
       avvisi.push(`${dove}: non è ripetibile ma nessun requisito lo chiude dopo la prima volta (serve una pista o un "== 0")`);
     }
@@ -162,7 +171,11 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
         for (const a of lista) if (!TUTTE_LE_ABILITA.includes(a)) errori.push(`${d}: abilità sconosciuta "${a}"`);
       }
       if (o.combattimento && !scontri.has(o.combattimento)) errori.push(`${d}: scontro sconosciuto "${o.combattimento}"`);
-      if (o.incantesimo && !c.incantesimi.some((i) => i.id === o.incantesimo)) errori.push(`${d}: incantesimo sconosciuto "${o.incantesimo}"`);
+      if (o.incantesimo) {
+        const inc = c.incantesimi.find((i) => i.id === o.incantesimo);
+        if (!inc) errori.push(`${d}: incantesimo sconosciuto "${o.incantesimo}"`);
+        else if (!inc.uso.includes('storie')) errori.push(`${d}: ${inc.nome} si usa solo in combattimento`);
+      }
       esito(`${d} (successo)`, o.successo);
       esito(`${d} (fallimento)`, o.fallimento);
       esito(`${d} (vittoria)`, o.vittoria);

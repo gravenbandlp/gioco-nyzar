@@ -4,14 +4,19 @@ import { requisitiSoddisfatti, type Stato } from './personaggio';
 
 export const inPenalita = (s: Stato, c: TContenuti) => !!c.aree.find((a) => a.id === s.area)?.penalita;
 
-/** La crisi da risolvere adesso, se c'è. Nelle aree di penalità le crisi aspettano l'uscita. */
+/**
+ * Lo storylet che si apre da solo adesso, se c'è: prima il prologo, poi la crisi.
+ * Nelle aree di penalità le crisi aspettano l'uscita.
+ */
 export function crisiAttiva(s: Stato, c: TContenuti): TStorylet | undefined {
+  const prologo = c.storylet.find((st) => st.tipo === 'prologo' && requisitiSoddisfatti(s, st.requisiti, c));
+  if (prologo) return prologo;
   if (inPenalita(s, c)) return undefined;
   return c.storylet.find((st) => st.tipo === 'crisi' && requisitiSoddisfatti(s, st.requisiti, c));
 }
 
 /** Semplice hash di una stringa, per scelte a caso ripetibili. */
-function hash(t: string): number {
+export function hash(t: string): number {
   let x = 2166136261;
   for (let i = 0; i < t.length; i++) x = Math.imul(x ^ t.charCodeAt(i), 16777619);
   return x >>> 0;

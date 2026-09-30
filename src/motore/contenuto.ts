@@ -69,7 +69,8 @@ export const Storylet = z.object({
   sommario: z.string().optional(), // una riga, mostrata nell'elenco
   area: Id,
   // oggetto: si apre dagli Averi; seguito: si apre solo da un altro storylet (segue)
-  tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita', 'oggetto', 'seguito']).default('fisso'),
+  // prologo: si apre da solo a inizio partita, come le crisi
+  tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita', 'oggetto', 'seguito', 'prologo']).default('fisso'),
   ripetibile: z.boolean().default(false),
   luogo: z.string().optional(), // sottotitolo: dove avviene
   requisiti: z.array(z.string()).default([]),
@@ -87,6 +88,13 @@ export const Area = z.object({
   gabella: z.number().int().min(0).default(0),
   negozi: z.array(Id).default([]),
   penalita: z.boolean().default(false), // area di penalità: nascosta dalla mappa, si esce solo con le storie
+  // spedizione: luogo fuori città o sotterraneo. Ci si entra da uno storylet, i ripetibili sono stanze
+  // mostrate a caso, la profondità sale con le stanze superate e si azzera quando si esce.
+  spedizione: z.object({
+    ritorno: Id, // dove porta la ritirata
+    soglia: z.number().int().min(1), // profondità a cui si apre il cuore della spedizione (per la barra)
+    stanze: z.number().int().min(1).default(3), // quante stanze si vedono alla volta
+  }).optional(),
 });
 
 export const Quality = z.object({

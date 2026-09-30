@@ -33,6 +33,7 @@ export interface Stato {
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {
   const s = creaStato(nome, origine, ora, areaIniziale);
+  s.quality['prologo'] = 1; // prologo da giocare; i salvataggi di prima non lo hanno e lo saltano
   migraOggetti(s); // l'arma e l'armatura di partenza sono anche oggetti posseduti
   return s;
 }
@@ -67,6 +68,7 @@ function creaStato(nome: string, origine: TOrigine, ora: number, areaIniziale: s
 
 export function valore(s: Stato, chiave: string, c?: TContenuti): number {
   if (chiave.startsWith('pe.')) return s.pe[chiave.slice(3)] ?? 0;
+  if (chiave.startsWith('origine.')) return s.origine === chiave.slice(8) ? 1 : 0;
   if (c) { const v = valoreOggetti(s, c, chiave); if (v !== undefined) return v; }
   if ((ATTRIBUTI as readonly string[]).includes(chiave)) return s.attributi[chiave as Attributo];
   if (chiave in s.abilita) return s.abilita[chiave] ?? 0;
@@ -228,9 +230,11 @@ export function storyletDisponibili(s: Stato, c: TContenuti): TStorylet[] {
 }
 
 export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {
-  const penalita = !!c.aree.find((a) => a.id === s.area)?.penalita;
+  // le carte "ovunque" valgono in città: non nelle aree di penalità né nelle spedizioni
+  const qui = c.aree.find((a) => a.id === s.area);
+  const chiusa = !!qui && (qui.penalita || !!qui.spedizione);
   return c.storylet.filter(
-    (st) => st.tipo === 'carta' && (st.area === s.area || (st.area === OVUNQUE && !penalita)) && !s.mano.includes(st.id)
+    (st) => st.tipo === 'carta' && (st.area === s.area || (st.area === OVUNQUE && !chiusa)) && !s.mano.includes(st.id)
       && requisitiSoddisfatti(s, st.requisiti, c),
   );
 }

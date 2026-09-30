@@ -1,5 +1,11 @@
 # Piano dei contenuti · Capitolo I
 
+Approvato il 30 settembre 2026. Le parti che mancano nel verbale (Atto II di *Sotto la pelle*, stanze C25–C26 ed
+E5–E7 di Capomozzo) le scriviamo noi, seguendo quello che c'è prima e dopo.
+
+**Avanzamento.** Blocco 1 fatto: prologhi per origine (`contenuti/prologo/`), il Grifone come casa
+(`contenuti/grifone.yaml`), il sistema delle spedizioni (`src/motore/spedizioni.ts`).
+
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.
 
@@ -35,6 +41,15 @@ Le prime tre piste corrono in parallelo fin dall'inizio. La discesa all'ascensor
 
 - **Spedizioni.** Nuovo tipo di area per i luoghi fuori città e i sotterranei, costruito sulla meccanica delle aree di penalità (non compaiono sulla mappa, ci entri da uno storylet). Ogni spedizione ha un mazzo proprio di carte-stanza e un contatore `profondita.<id>`; il boss si apre a una soglia, e la ritirata è sempre possibile ma azzera il contatore.
 - **Documenti leggibili.** I diari di Isvaro e di Aurenne, il registro cifrato, il registro dei Malgrani e le registrazioni di Ashvarre diventano frammenti da leggere in Averi, come quelli che esistono già.
+
+**Come funzionano (blocco 1).** Un'area con `spedizione: { ritorno, soglia, stanze }` non compare sulla mappa;
+ci si entra con `vai` da uno storylet. I suoi ripetibili sono stanze: se ne vedono `stanze` alla volta (3 di
+default), estratte a caso e rimescolate a ogni punto di `profondita.<area>`, quality generata dal build. In cima
+alla pagina c'è la barra della profondità e il pulsante per tornare verso l'area di ritorno, che azzera la
+profondità; si azzera anche uscendo con un `vai`. Gli storylet non ripetibili dell'area (il cuore, il boss) si
+aprono con requisiti sulla profondità. Le carte "ovunque" non si pescano in spedizione, le crisi scattano lo
+stesso. Il prologo usa il tipo `prologo`, che si apre da solo come una crisi: `prologo` vale 1 alla creazione
+del personaggio, 2 dopo la scena dell'origine, 0 dopo *Tre giorni dopo*.
 
 ## Qualità nuove
 

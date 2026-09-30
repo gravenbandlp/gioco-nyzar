@@ -7,6 +7,7 @@ import {
   nuovoPersonaggio, aggiornaTempo, msAllaProssimaCandela, msAllaProssimaCarta, pesca, scarta, type Stato,
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi, secondaScelta } from '../motore/azioni';
+import { ritirati } from '../motore/spedizioni';
 import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
@@ -222,6 +223,10 @@ function azione(az: string, el: HTMLElement): void {
     case 'vai': {
       if (muovi(s, id, c)) { frammentoId = null; cambia({ tipo: 'area' }); }
       else { avviso = puoEntrare(s, id, c).motivo ?? 'Non puoi andarci.'; render(); }
+      break;
+    }
+    case 'ritirata': {
+      if (ritirati(s, c)) { salva(); frammentoId = null; cambia({ tipo: 'area' }); }
       break;
     }
     case 'compra': {

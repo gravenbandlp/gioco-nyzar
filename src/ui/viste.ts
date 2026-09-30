@@ -12,7 +12,8 @@ import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, type Ris
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
-import { NOMI_TRADIZIONI } from '../motore/contenuto';
+import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
+import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
 import {
@@ -41,7 +42,7 @@ export interface Contesto {
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
 const areaDi = (x: Contesto) => x.c.aree.find((a) => a.id === x.s.area)!;
-const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia');
+const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia');
 
 // ================================================================ impianto
 
@@ -162,14 +163,32 @@ function vistaArea(x: Contesto): string {
   const { s, c } = x;
   const disponibili = storyletDisponibili(s, c);
   const storie = disponibili.filter((st) => !st.ripetibile);
-  const ripetibili = disponibili.filter((st) => st.ripetibile);
+  const ripetibili = stanzeVisibili(s, c);
   const crisi = NEGATIVE.filter((k) => (s.quality[k] ?? 0) >= MAX_NEGATIVA);
+  const sped = areaAttuale(s, c)?.spedizione;
   return `
     ${crisi.length ? `<p class="avviso crisi">${crisi.map((k) => h(nome(k, c))).join(', ')} al massimo. La crisi ti aspetta all'uscita da quest'area.</p>` : ''}
+    ${sped ? testataSpedizione(x) : ''}
     ${occasioni(x)}
     ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
-    <h2 class="titolo-sezione">Cose da fare</h2>
-    <ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(st)).join('')}</ul>`;
+    <h2 class="titolo-sezione">${sped ? 'Davanti a te' : 'Cose da fare'}</h2>
+    <ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(st, !!sped)).join('')}</ul>`;
+}
+
+function testataSpedizione(x: Contesto): string {
+  const { s, c } = x;
+  const a = areaAttuale(s, c)!;
+  const sped = a.spedizione!;
+  const p = profondita(s, a.id);
+  const ritorno = c.aree.find((z) => z.id === sped.ritorno)?.nome ?? sped.ritorno;
+  return `<section class="spedizione">
+    <div class="profondita">
+      <span class="etichetta">Profondità</span>
+      <span class="barra pe${p >= sped.soglia ? ' piena' : ''}"><i style="width:${Math.min(100, (p / sped.soglia) * 100).toFixed(1)}%"></i></span>
+      <b>${mezzi(p)} / ${sped.soglia}</b>
+    </div>
+    <button type="button" class="bottone" data-az="ritirata" title="Si perde la profondità raggiunta">Torna verso ${h(ritorno)}</button>
+  </section>`;
 }
 
 function occasioni(x: Contesto): string {
@@ -180,8 +199,10 @@ function occasioni(x: Contesto): string {
   const slot = Array.from({ length: MANO_MAX }, (_, i) => {
     const st = mano[i];
     if (!st) return `<li class="carta vuota" aria-hidden="true"><span></span></li>`;
-    return `<li class="carta">
-      <button type="button" class="apri-carta" data-az="apri" data-id="${st.id}" aria-label="${h(st.titolo)}">
+    const altrove = st.area !== s.area && !(st.area === OVUNQUE && !areaChiusa(areaAttuale(s, c)));
+    const dove = altrove ? (c.aree.find((a) => a.id === st.area)?.nome ?? 'in città') : '';
+    return `<li class="carta${altrove ? ' altrove' : ''}">
+      <button type="button" class="apri-carta" data-az="apri" data-id="${st.id}" aria-label="${h(st.titolo)}" ${altrove ? `disabled title="Si gioca in ${h(dove)}"` : ''}>
         ${tavola(st.immagine, { classe: 'ritratto' })}
         <span class="titolo-carta">${h(st.titolo)}</span>
       </button>
@@ -199,8 +220,8 @@ function occasioni(x: Contesto): string {
   </section>`;
 }
 
-function rigaStorylet(st: TStorylet): string {
-  const tipo = tipoStorylet(st);
+function rigaStorylet(st: TStorylet, stanza = false): string {
+  const tipo = stanza ? 'Stanza' : tipoStorylet(st);
   return `<li class="storylet-riga ${st.ripetibile ? 'ripetibile' : 'storia'}">
     ${tavola(st.immagine, { classe: 'ritratto' })}
     <div class="corpo">
@@ -271,7 +292,7 @@ function vistaStorylet(x: Contesto, id: string): string {
     </header>
     <ul class="rami">${rami}</ul>
     ${st.mostra && visibili.length === 0 ? `<div class="azioni-fondo"><button type="button" class="bottone primario" data-az="fine-mutazioni">Prosegui</button></div>` : ''}
-    ${st.tipo === 'crisi' || st.tipo === 'seguito' ? '' : '<button type="button" class="bottone indietro" data-az="area">← Non ora</button>'}
+    ${st.tipo === 'crisi' || st.tipo === 'seguito' || st.tipo === 'prologo' ? '' : '<button type="button" class="bottone indietro" data-az="area">← Non ora</button>'}
   </article>`;
 }
 
@@ -636,8 +657,9 @@ export function bazar(x: Contesto): string {
 export function mappa(x: Contesto): string {
   const { s, c } = x;
   const qui = c.aree.find((a) => a.id === s.area);
-  const avviso = qui?.penalita ? `<p class="avviso">Sei in ${h(qui.nome)}. Da qui si esce solo con le storie, quando il recupero è completo.</p>` : '';
-  return `${avviso}<ul class="mappa">${c.aree.filter((a) => !a.penalita || a.id === s.area).map((a) => {
+  const avviso = qui?.penalita ? `<p class="avviso">Sei in ${h(qui.nome)}. Da qui si esce solo con le storie, quando il recupero è completo.</p>`
+    : qui?.spedizione ? `<p class="avviso">Sei in ${h(qui.nome)}. Per tornare in città usa il pulsante in cima alla pagina della spedizione.</p>` : '';
+  return `${avviso}<ul class="mappa">${c.aree.filter((a) => !areaChiusa(a) || a.id === s.area).map((a) => {
     const qui = a.id === s.area;
     const p = puoEntrare(s, a.id, c);
     const info = qui ? 'Sei qui.' : !p.ok ? p.motivo! : p.gabella ? `Gabella: ${p.gabella} monete.` : 'Nessuna gabella.';
