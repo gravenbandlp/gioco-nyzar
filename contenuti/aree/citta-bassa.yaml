@@ -1,0 +1,321 @@
+aree:
+  - id: citta-bassa
+    nome: Città Bassa
+    testo: >
+      Rocce bluastre, fenditure calde, fumo che non si alza mai del tutto. Quaggiù il martello
+      batte sempre. Se smette di battere, è perché qualcuno è morto.
+    negozi: [banco-di-grusk, armeria-di-irsa]
+
+storylet:
+  # ------------------------------------------------------------ azioni ripetibili
+  - id: turno-acciaieria
+    titolo: Un turno all'Acciaieria
+    luogo: Acciaieria dei Tarvelin
+    area: citta-bassa
+    ripetibile: true
+    testo: >
+      Operai mascherati, colata azzurrastra. Il lyssan si convince, non si forgia, e il capoturno
+      ha sempre bisogno di braccia che non tremano.
+    opzioni:
+      - testo: "Spingere i carrelli di scoria fino all'alba"
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Facile }
+        successo:
+          testo: "Alla fine del turno hai le spalle in fiamme e quattro monete in tasca."
+          effetti: { monete: 4 }
+        fallimento:
+          testo: "Un getto di colata ti sfiora il braccio. Ti pagano lo stesso, un po' meno."
+          effetti: { monete: 2, ferite: 0.5 }
+
+  - id: orecchie-pignatta
+    titolo: Orecchie aperte alla Pignatta Grassa
+    luogo: Pignatta Grassa
+    area: citta-bassa
+    ripetibile: true
+    testo: >
+      Tavoli di carte, sidro torbido, Mauro Scrocco dietro il bancone. Qui le notizie arrivano
+      prima dei banditori. Basta sapere quando stare zitti.
+    opzioni:
+      - testo: "Offrire da bere e ascoltare"
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          testo: "Due storie che non dovevi sentire. Le metti via con cura."
+          effetti: { informazioni.voce: 2 }
+        fallimento:
+          testo: "Paghi il giro e ricevi solo lamentele sul prezzo del grano."
+          effetti: { monete: -1 }
+
+  - id: orlo-rottami
+    titolo: Frugare all'Orlo dei Rottami
+    luogo: Orlo dei Rottami
+    area: citta-bassa
+    ripetibile: true
+    testo: >
+      Terra battuta tra le ultime baracche e il bordo della Cicatrice. Qui finiscono gli scarti
+      dei Raschiatori: pezzi precuriani sfregiati, cristalli sterili, carichi falliti.
+    opzioni:
+      - testo: "Setacciare i cumuli prima degli spazzini"
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          testo: "Sotto una lamiera annerita, qualcosa pulsa ancora, debole."
+          effetti: { cristalli.frammento-esausto: 2, reliquie.scheggia: 1 }
+        fallimento:
+          testo: "Scavi a mani nude in un mucchio che sa di ferro e ozono. Per ore senti un sapore di metallo sotto la lingua."
+          effetti: { contaminazione: 0.5 }
+
+  - id: rissa-pignatta
+    titolo: Una scommessa dietro la Pignatta
+    luogo: Cortile della Pignatta Grassa
+    area: citta-bassa
+    ripetibile: true
+    testo: >
+      Un cerchio di gesso, una dozzina di scommettitori, un tipo con le nocche spaccate che cerca
+      qualcuno da spaccare.
+    opzioni:
+      - testo: "Entrare nel cerchio"
+        combattimento: rissa-pignatta
+        vittoria:
+          testo: "Il tipo resta a terra. Qualcuno ti mette in mano la tua parte della posta."
+          effetti: { monete: 8 }
+        sconfitta:
+          testo: "Ti risvegli contro il muro. La tua quota di scommessa è sparita, e con lei un dente."
+          effetti: { monete: -3 }
+
+  - id: ricucire-gramm
+    titolo: Farsi ricucire da Nestor Gramm
+    luogo: Vicolo della Dispensa
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [ferite >= 0.5]
+    testo: >
+      Dal vicolo, non dalla porta principale. Nestor ti guarda le ferite come si guarda un conto
+      da saldare.
+    opzioni:
+      - testo: "Pagare dieci monete"
+        requisiti: [monete >= 10]
+        esito:
+          testo: "Ago, filo, un'erba che brucia. Non ringrazi, e lui non se lo aspetta."
+          effetti: { monete: -10, ferite: -1 }
+
+  - id: spalmare-unguento
+    titolo: Un unguento dal barattolo
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [unguento >= 1, ferite >= 0.5]
+    testo: "Odore di resina e di qualcosa di più vecchio. Pizzica, poi smette."
+    opzioni:
+      - testo: "Usare l'unguento"
+        esito:
+          testo: "La pelle si tende, il dolore si fa lontano."
+          effetti: { unguento: -1, ferite: -0.5 }
+
+  - id: cucire-voci
+    titolo: Cucire insieme le voci
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [informazioni.voce >= 5]
+    testo: >
+      Cinque voci, cinque bocche diverse. Se le metti in fila, qualcuna smette di essere una voce.
+    opzioni:
+      - testo: "Confrontarle e tenere solo ciò che regge"
+        esito:
+          testo: "Resta una cosa sola, ma è vera."
+          effetti: { informazioni.voce: -5, informazioni.pettegolezzo: 1 }
+
+  # ------------------------------------------------------------ la pista della Dama d'Argento
+  - id: parola-orchesca
+    titolo: Una parola orchesca
+    luogo: Città Bassa, tre giorni dopo il Festival
+    area: citta-bassa
+    requisiti: [pista.dama-argento == 0, informazioni.voce >= 2]
+    testo: >
+      Dopo la razzia delle Foglie Alate la Città Bassa ripete una parola che nessuno sa pronunciare.
+      Gli orchi la gridavano mentre si gettavano nella Cicatrice pur di non farsi prendere.
+      Mawrak'Thur. Chi la dice abbassa la voce.
+    opzioni:
+      - testo: "Scambiare le tue voci con chi ha sentito di più"
+        requisiti: [informazioni.voce >= 2]
+        esito:
+          testo: "Una vecchia che vende castagne giura che nella lingua degli orchi vuol dire «Dama d'Argento». Non sa chi gliel'ha detto. Sa che era spaventato."
+          effetti: { informazioni.voce: -2, pista.dama-argento: 1 }
+      - testo: "Fare domande in giro, con discrezione"
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          testo: "La parola torna tre volte, e tre volte con la stessa traduzione: la Dama d'Argento."
+          effetti: { pista.dama-argento: 1 }
+        fallimento:
+          testo: "Troppe domande sulla stessa parola. Qualcuno ti guarda andar via un po' troppo a lungo."
+          effetti: { sospetto: 0.5 }
+
+  - id: lingua-dei-chiodi
+    titolo: Chi parla la lingua dei Nove Chiodi
+    luogo: Pignatta Grassa
+    area: citta-bassa
+    requisiti: [pista.dama-argento == 1]
+    testo: >
+      Una traduzione non basta. Qualcuno in città conosce la lingua delle tribù abbastanza bene da
+      aver capito cosa gridava il capoguerra sul cinghiale corazzato.
+    opzioni:
+      - testo: "Chiedere tra i carovanieri"
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, persuasione], difficolta: Media }
+        successo:
+          testo: "Un nome: Rennick Dole, caposquadra alla Segheria Malgrani. Suo padre commerciava pelli al Bosco della Forca. Da tre giorni nessuno lo vede."
+          effetti: { pista.dama-argento: 1 }
+        fallimento:
+          testo: "I carovanieri parlano di dazi, di ponti, di tutto tranne che di orchi."
+          effetti: { sospetto: 0.5 }
+      - testo: "Pagare Mauro Scrocco perché si ricordi di qualcosa"
+        requisiti: [monete >= 10]
+        esito:
+          testo: "Mauro conta le monete due volte. «Rennick Dole. Segheria. Beveva qui, prima di avere paura.»"
+          effetti: { monete: -10, pista.dama-argento: 1, rep.scuri: 1 }
+
+  - id: segheria-malgrani
+    titolo: La Segheria Malgrani
+    luogo: Segheria Malgrani, sul canale
+    area: citta-bassa
+    requisiti: [pista.dama-argento == 2]
+    testo: >
+      Il canale gira, spinto da un cristallo romboidale. Le lame mordono il legno. Nessuno canta,
+      nessuno scherza. Sotto il porticato, Marko Thessel sorride come chi ha già deciso.
+    opzioni:
+      - testo: "Chiedere di Rennick Dole"
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          testo: "«È a Laresh, per una trattativa sul legname.» Mente, e lo sa fare male: la mano destra scivola verso la cintura."
+          effetti: { pista.dama-argento: 1 }
+        fallimento:
+          testo: "«A Laresh, per legname.» Gli credi. Per ora."
+          effetti: { sospetto: 0.5 }
+      - testo: "Insistere, davanti ai suoi uomini"
+        requisiti: [intimidire >= 1]
+        combattimento: rissa-segheria
+        vittoria:
+          testo: "Marko sputa sangue sulla segatura. «Maison des Lunes. È lì dall'alba, e non vuole essere trovato. Neanche da te.»"
+          effetti: { pista.dama-argento: 2, rep.malgrani: -2 }
+        sconfitta:
+          testo: "Ti buttano fuori dal cancello con la livrea dei Malgrani ben in vista. Il messaggio è chiaro."
+          effetti: { rep.malgrani: -1 }
+      - testo: "Andarsene"
+        costo: 0
+        esito:
+          testo: "Il rumore delle seghe ti accompagna fino al ponte."
+
+  - id: sorriso-di-marko
+    titolo: Il sorriso di Marko
+    luogo: Città Bassa, al calar della sera
+    area: citta-bassa
+    requisiti: [pista.dama-argento == 3]
+    testo: >
+      Rennick non è a Laresh, e Marko lo sa. A fine turno il caporeparto esce dal cancello laterale
+      e non prende la strada di casa.
+    opzioni:
+      - testo: "Seguirlo tra i vicoli"
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          testo: "Marko si ferma davanti a una porta con una luna crescente incisa. Parla con la portinaia, poi se ne va. Rennick è lì dentro."
+          effetti: { pista.dama-argento: 1 }
+        fallimento:
+          testo: "Al terzo angolo Marko si volta. Ti sorride. Domani lo saprà mezza segheria."
+          effetti: { sospetto: 1 }
+      - testo: "Fingerti un creditore di Rennick con la portinaia della segheria"
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
+        successo:
+          testo: "«Se deve soldi, li chieda alla Maison des Lunes. Lì li spende.» Poi si morde la lingua."
+          effetti: { pista.dama-argento: 1 }
+        fallimento:
+          testo: "La bugia non regge. Il tuo nome gira per la segheria prima di sera."
+          effetti: { scandalo: 0.5 }
+
+  - id: luna-crescente
+    titolo: La lanterna accesa
+    luogo: Via dei Rasoi, tre porte dopo il cristallo spento
+    area: citta-bassa
+    requisiti: [pista.dama-argento == 4]
+    testo: >
+      Via dei Rasoi non taglia mai dritto: fa un gomito attorno a un vecchio cristallo conduttore
+      esaurito. Tre porte dopo, una luna crescente incisa sul legno. La lanterna è accesa: le
+      ragazze ricevono. Dentro, qualcuno aspetta da due giorni che qualcuno lo trovi.
+    opzioni:
+      - testo: "Bussare"
+        esito:
+          testo: >
+            Apre Sara Beck. «La Maison non riceve gruppi senza appuntamento.» Poi guarda meglio.
+            «Ma forse lei è l'appuntamento che aspetta qualcuno.»
+            — Qui finisce il prototipo. La storia prosegue come nel Capitolo I.
+          effetti: { pista.dama-argento: 1, rep.maison: 1 }
+
+  # ------------------------------------------------------------ carte
+  - id: carta-borseggiatore
+    titolo: Una mano leggera
+    tipo: carta
+    area: citta-bassa
+    testo: "Una spinta nella calca, una mano che si ritira troppo in fretta. La tua borsa è più leggera."
+    opzioni:
+      - testo: "Afferrarlo prima che sparisca"
+        prova: { attributo: fisico, abilita: [acrobazia, rissa], difficolta: Facile }
+        successo:
+          testo: "Lo prendi per il bavero. Ti restituisce le tue monete, e qualcuna in più per farti dimenticare la sua faccia."
+          effetti: { monete: 3 }
+        fallimento:
+          testo: "Sparisce nella folla. Addio a quattro monete."
+          effetti: { monete: -4 }
+      - testo: "Inseguirlo fino in fondo al vicolo"
+        combattimento: borseggio
+        vittoria:
+          testo: "Nel vicolo cieco non ha più dove andare. Oltre alle tue, ha le monete di mezza piazza."
+          effetti: { monete: 6 }
+        sconfitta:
+          testo: "Era meno sprovveduto di quanto sembrasse."
+          effetti: { monete: -4 }
+
+  - id: carta-lanterna
+    titolo: Una lanterna che si accende da sola
+    tipo: carta
+    area: citta-bassa
+    testo: >
+      Dal fondo della Città Bassa si vede il Ponte dei Morti, con le lanterne dei Raschiatori
+      dispersi. Stanotte una lanterna spenta da anni si è accesa. Nessuno l'ha toccata.
+    opzioni:
+      - testo: "Restare a guardarla finché si spegne"
+        prova: { attributo: mentale, abilita: [resilienza, percezione], difficolta: Media }
+        successo:
+          testo: "Si spegne all'alba. Hai contato: ha pulsato come un cuore. Qualcuno pagherebbe per saperlo."
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          testo: "A un certo punto ti sembra che guardi te. Non dormi."
+          effetti: { tormento: 0.5 }
+
+  - id: carta-favore-scuri
+    titolo: Un favore per gli Scuri
+    tipo: carta
+    area: citta-bassa
+    requisiti: [rep.scuri >= 1]
+    testo: >
+      Rozalia Marga, piuma dietro l'orecchio, ti ferma all'angolo. «Un pacco dal Mercato delle
+      Ombre alla Pignatta. Niente domande, niente guardie.»
+    opzioni:
+      - testo: "Portare il pacco"
+        esito:
+          testo: "Il pacco è pesante e tintinna. Rozalia ti paga senza contare."
+          effetti: { monete: 6, rep.scuri: 1, rep.caserma: -1, sospetto: 0.5 }
+      - testo: "Rifiutare, guardandola in faccia"
+        esito:
+          testo: "«Peccato.» Lo dice come se se lo segnasse."
+          effetti: { rep.scuri: -1 }
+
+  - id: carta-bollettino
+    titolo: Il bollettino delle sacche
+    tipo: carta
+    area: citta-bassa
+    testo: >
+      Ogni autunno il Velo affigge i bollettini delle sacche di Marea risalite. Stavolta la lista
+      è più lunga, e qualcuno ha cancellato una riga a carboncino.
+    opzioni:
+      - testo: "Ricostruire la riga cancellata"
+        prova: { attributo: mentale, abilita: [accademiche, natura], difficolta: Facile }
+        successo:
+          testo: "Una sacca sotto l'Orlo dei Rottami. Qualcuno non vuole che si sappia."
+          effetti: { informazioni.voce: 2 }
+        fallimento:
+          testo: "Il carboncino ha fatto il suo lavoro."
+          effetti: {}
