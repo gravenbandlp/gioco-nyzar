@@ -532,7 +532,7 @@ export function creazione(c: TContenuti, scelta: string): string {
     <div class="fondale-testo">
       <span class="etichetta precursore">Superficie Fratturata · 150 D.C.</span>
       <h1>Qir-Azel</h1>
-      <p>Tre giorni dopo il Festival delle Foglie Alate. La Città Bassa ripete una parola che nessuno sa pronunciare.</p>
+      <p>Sono passati tre giorni dal Festival delle Foglie Alate e dalla razzia degli orchi.</p>
     </div>
   </div>
   <main class="creazione">
