@@ -162,7 +162,10 @@ export function storia(x: Contesto): string {
 function vistaArea(x: Contesto): string {
   const { s, c } = x;
   const disponibili = storyletDisponibili(s, c);
-  const storie = disponibili.filter((st) => !st.ripetibile);
+  // un seguito lasciato a metà (chiudendo il risultato invece di proseguire) torna in cima alla storia
+  const sospeso = s.sospeso ? trova(c, s.sospeso) : undefined;
+  const riprendi = sospeso && !disponibili.includes(sospeso) && requisitiSoddisfatti(s, sospeso.requisiti, c) ? [sospeso] : [];
+  const storie = [...riprendi, ...disponibili.filter((st) => !st.ripetibile)];
   const ripetibili = stanzeVisibili(s, c);
   const crisi = NEGATIVE.filter((k) => (s.quality[k] ?? 0) >= MAX_NEGATIVA);
   const sped = areaAttuale(s, c)?.spedizione;

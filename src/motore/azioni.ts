@@ -84,8 +84,9 @@ export interface Risultato {
   guasto?: string; // reperto guastato da zero successi
 }
 
-function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato): void {
+function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
   r.testo = e.testo;
+  if (s.sospeso === da) delete s.sospeso; // il seguito in sospeso è stato giocato
   // oggetti ricevuti: passano da ricevi() per indossarli se lo slot è vuoto e inizializzare i reperti
   const effetti = { ...(e.effetti ?? {}) };
   for (const [k, v] of Object.entries(effetti)) {
@@ -116,7 +117,8 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato): void {
     }
   }
   if (e.vai) { cambiaArea(s, e.vai, c); r.area = e.vai; }
-  if (e.segue) r.segue = e.segue;
+  // il seguito resta in sospeso finché non lo giochi, anche se chiudi il risultato
+  if (e.segue) { r.segue = e.segue; s.sospeso = e.segue; }
 }
 
 export type Scelta =
@@ -154,7 +156,7 @@ export function scegli(
     r.riuscito = riuscito;
     r.tiro = { facce: t.facce, successi: t.successi, richiesti: ante.prova.richiesti, abilita: ante.prova.abilita, probabilita: ante.prova.probabilita };
     r.crescite.push(...assegnaPE(s, ante.prova.abilita, peDaProbabilita(ante.prova.probabilita)));
-    applicaEsito(s, riuscito ? opz.successo! : opz.fallimento!, c, r);
+    applicaEsito(s, riuscito ? opz.successo! : opz.fallimento!, c, r, st.id);
     if (opz.reperto && t.successi === 0) {
       r.variazioni.push(...applicaEffetti(s, { [`guasto.${opz.reperto}`]: 1 }, c));
       r.guasto = opz.reperto;
@@ -166,7 +168,7 @@ export function scegli(
       r.variazioni.push(...applicaEffetti(s, costi, c));
     }
   } else if (opz.esito) {
-    applicaEsito(s, opz.esito, c, r);
+    applicaEsito(s, opz.esito, c, r, st.id);
   }
   return { tipo: 'risultato', risultato: r };
 }
@@ -192,7 +194,7 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   r.crescite.push(...assegnaPE(s, arma?.abilita ?? 'rissa', peDaProbabilita(p)));
   if (cs.log.some((l) => cs.incantesimi.some((i) => l.startsWith(`${i.nome}`)))) r.crescite.push(...assegnaPE(s, 'magia', peDaProbabilita(p)));
   if (st.tipo === 'carta') scarta(s, st.id);
-  applicaEsito(s, cs.vinto ? opz.vittoria! : opz.sconfitta!, c, r);
+  applicaEsito(s, cs.vinto ? opz.vittoria! : opz.sconfitta!, c, r, st.id);
   return r;
 }
 

@@ -29,6 +29,7 @@ export interface Stato {
   repertorio: string[]; // incantesimi scelti per il combattimento (vuoto: scelta automatica)
   scudo: string; // '' se nessuno
   accessori: string[]; // al massimo 2
+  sospeso?: string; // seguito aperto da un esito e non ancora giocato
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {
