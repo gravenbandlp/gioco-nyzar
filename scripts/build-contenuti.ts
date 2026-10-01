@@ -22,9 +22,11 @@ function catalogo(): Record<string, { body: string }> {
   return catalogoIcone;
 }
 /** Le icone citate nei contenuti, con il loro disegno. */
+/** Icone usate direttamente dall'interfaccia (ripieghi per le quality senza immagine). */
+export const ICONE_INTERFACCIA = ['icone/scroll-quill', 'icone/stairs'];
 export function iconeCitate(c: TContenuti): { icone: Record<string, string>; errori: string[] } {
   const icone: Record<string, string> = {}; const errori: string[] = [];
-  for (const t of tavoleCitate(c)) {
+  for (const t of [...tavoleCitate(c), ...ICONE_INTERFACCIA]) {
     if (!t.startsWith(ICONE)) continue;
     const nome = t.slice(ICONE.length);
     const ic = catalogo()[nome];

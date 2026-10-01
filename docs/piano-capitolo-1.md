@@ -21,7 +21,11 @@ a 5 (`contenuti/piste/registro.yaml`, con tre strade per decifrarlo, una senza i
 tribù fino a 4 (`contenuti/piste/tribu*.yaml`) con la Palude Acquanera. Blocco 6 fatto: Acciaio e Ira fino a 8
 (`contenuti/piste/acciaio-*.yaml`), con due spedizioni (l'Acciaieria e le Segrete dell'Ira), Isvaro che può
 fuggire, essere preso o morire (`isvaro` 1/2/3), Uzgreth facoltativo e il Pozzo dei Sigilli da svuotare; il diario
-di Isvaro e il cilindro di lyssan si rileggono dagli Averi.
+di Isvaro e il cilindro di lyssan si rileggono dagli Averi. Blocco 7 fatto: Capomozzo fino a 10
+(`contenuti/piste/capomozzo-*.yaml`), con quattro spedizioni in fila (Rovolungo, la fortezza, il livello I, il
+livello II) e le stanze mancanti del verbale scritte da noi (C25–C26, E5–E7); il protagonista sceglie una sola
+Maschera fra le quattro; il capitolo si chiude sull'orlo della Cicatrice, con la discesa vera rimandata al
+Capitolo II, e la città resta giocabile.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.

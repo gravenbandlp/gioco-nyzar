@@ -52,6 +52,7 @@ export function requisitoLeggibile(r: string, s: Stato, c: TContenuti): string {
   if (q?.categoria === 'pista') return 'La storia non è ancora a questo punto.';
   if (op === '==' && n === 0) return `Non devi avere: ${nm}.`;
   if (q?.categoria === 'accesso' && op === '>=' && n === 1) return `Serve: ${nm}.`;
+  if (q?.nascosta && op === '>=' && n === 1) return `${nm}.`; // le condizioni nascoste hanno un nome che si legge da solo
   const verbo: Record<string, string> = {
     '>=': `almeno ${mezzi(n)}`, '>': `più di ${mezzi(n)}`, '<=': `al massimo ${mezzi(n)}`,
     '<': `meno di ${mezzi(n)}`, '==': `esattamente ${mezzi(n)}`, '!=': `diverso da ${mezzi(n)}`,

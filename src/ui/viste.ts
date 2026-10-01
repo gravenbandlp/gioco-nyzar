@@ -412,7 +412,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     }
     const buono = q?.categoria === 'negativa' ? d < 0 : d > 0;
     righe.push(`<li class="esito-riga ${buono ? 'bene' : 'male'}">
-      ${tavola(q?.immagine, { classe: 'icona icona-riga' })}
+      ${tavola(q?.immagine ?? (v.chiave.startsWith('profondita.') ? 'icone/stairs' : 'icone/scroll-quill'), { classe: 'icona icona-riga' })}
       <div><p>${frase}</p>${barra}</div>
     </li>`);
   }

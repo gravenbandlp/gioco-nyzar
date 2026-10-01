@@ -84,7 +84,9 @@ export function prosa(testo: string, classe = 'prosa'): string {
 /** Prima frase di un testo, per gli elenchi quando manca il sommario. */
 export function primaFrase(testo: string): string {
   const t = testo.trim().replace(/\s+/g, ' ').replace(/\*/g, '');
-  return (t.match(/^.+?[.!?»](?=\s|$)/)?.[0] ?? t).slice(0, 160);
+  const f = t.match(/^.+?[.!?»](?=\s|$)/)?.[0] ?? t;
+  if (f.length <= 170) return f;
+  return `${f.slice(0, 160).replace(/\s+\S*$/, '')}…`; // taglia a parola intera
 }
 
 /** La candela grande della colonna laterale: la cera cala con le candele rimaste. */

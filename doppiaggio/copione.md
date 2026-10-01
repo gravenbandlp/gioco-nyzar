@@ -1,6 +1,6 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 452 pezzi, 293.926 caratteri.
+Generato da `npm run doppiaggio`. 605 pezzi, 384.197 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
 
 ## Altro
@@ -584,6 +584,922 @@ Ogni file audio si salva come `<id>.mp3`.
 > Ti inginocchi davanti al pulpito, e Yoggoth scende i gradini con gli occhi accesi. Le mani piccole ti si posano sulle tempie, e senti la rabbia che ti esce dalla testa, tutta quella che hai raccolto da quando sei a Qir-Azel. Lui la lascia cadere nella vasca triangolare. L'aria si crepa, e la Colata che ne esce è fatta della tua rabbia, che in questo momento ce l'ha con chi ti sta frugando nella testa. Gli salta alla gola con tutte le mani della bocca, l'altra Colata le va dietro, e Yoggoth cade all'indietro nella vasca triangolare con tutte e due addosso. Il liquido si richiude sopra le chele, e nessuno dei tre riemerge.
 >
 > Sui gradini, caduto dalla sua cintura, trovi un cilindro di lyssan ammaccato. Torni in Città Bassa leggero e vuoto, e per giorni, quando qualcuno ti spinge al mercato, non ti viene nemmeno voglia di spingere indietro.
+
+### La strada per Capomozzo
+
+**`la-strada-per-capomozzo`** · scena · 1481 caratteri
+
+> Galdrick è tornato da Ghoran ieri sera, e gli si legge addosso. Ha gli stivali ancora grigi del fango dei clan e la barba di quattro giorni, e nel cortile, sotto la finestra, una trentina di mercenari con la faccia cotta dal sole litiga con il furiere per le brande. Sul muro dell'ufficio il calendario è fermo al giorno della sua partenza, perché in sua assenza nessuno si è preso la responsabilità di girare la pagina.
+>
+> Il tavolo è coperto dal rapporto sulla cripta di Sollen e dalla copia del diario di Isvaro, aperta sulle mappe. Galdrick li rilegge davanti a te, muovendo le labbra.
+>
+> “Ho messo in fila quello che mi hai portato” dice, con i pollici nella cintura. “Dalla Biblioteca è sparita ogni riga su Capomozzo, e il mezzelfo se ne vanta nel suo diario. La sua donna, Aurenne, tiene in pugno gli orchi e cerca un Costruttore sotto la fortezza. Nelle mappe gli orchi sono quattrocento.”
+>
+> Batte un dito sulla carta della costa nord, dove il Rovolungo è un tratteggio di spine e Capomozzo una macchia d'inchiostro nel mare. “Da Ghoran ho portato trenta lance, e mi servono tutte sulle mura. Una squadra sulla costa la vedono arrivare da un giorno di distanza, una persona sola forse no. Sono due giorni e mezzo di cammino. Voglio sapere che cosa c'è su quell'isola prima che quelli dell'isola vengano da noi.”
+>
+> [whispers] Ti sta chiedendo di andarci da solo, e lo sa benissimo. Lo stomaco ti si stringe, e intanto le dita hanno già cominciato a contare le fibbie dello zaino.
+
+**`la-strada-per-capomozzo__1-esito`** · esito «Due giorni e mezzo» · opzione «Partire a piedi» · esito · 491 caratteri
+
+> Il furiere ti riempie lo zaino di gallette e di carne secca, e ti fa firmare la ricevuta per ogni galletta. Esci dalla porta nord all'alba. Il primo giorno cammini fra i campi, il secondo fra colline sempre più spoglie, e la notte dormi con la schiena contro una roccia e il mantello tirato fin sopra le orecchie. La mattina del terzo giorno il vento comincia a sapere di sale. A mezzogiorno hai le vesciche ai talloni, e davanti a te, alto come una casa, c'è il muro di spine del Rovolungo.
+
+**`la-strada-per-capomozzo__2-esito`** · esito «In sella» · opzione «Partire a cavallo» · esito · 479 caratteri
+
+> Il cavallo prende la strada del nord prima al passo e poi al trotto, e le colline ti scorrono accanto senza che le gambe se ne accorgano. Dormi una notte sola all'aperto, con le redini legate al polso, e il cavallo ti sbuffa nell'orecchio ogni volta che un gufo si fa sentire. A metà del secondo giorno l'aria diventa salmastra e gli alberi cominciano a piegarsi verso l'interno. Leghi il cavallo a un pino storto lontano dai rovi, e mentre ti allontani lui ti guarda masticando.
+
+**`la-strada-per-capomozzo__3-esito`** · esito «Hagra» · opzione «Farti accompagnare da una guida» · esito · 576 caratteri
+
+> Si chiama Hagra, ha la faccia segnata da tre righe di argilla secca e mastica resina dalla mattina alla sera. Conta le monete due volte e le fa sparire nello stivale. Ti porta per sentieri da capre che sulla carta di Galdrick non ci sono, e la notte ti fa dormire in una grotta asciutta, dove i cacciatori lasciano la legna pronta per chi viene dopo.
+>
+> “Ai rovi ti lascio, eh” dice il terzo giorno, sputando la resina. “Le foche le cacciavo io. Gli orchi li lascio a te, eh.”
+>
+> Arrivi al muro di spine con le gambe riposate, e quando ti volti lei è già un puntino sulla collina.
+
+### La grotta sotto il Buco
+
+**`la-grotta-del-ghermitore`** · scena · 1140 caratteri
+
+> Leghi la corda al paletto del gabbiano e ti cali nel Buco Ululante, con il vento che ti sale addosso a ogni onda. Il pozzo è lungo una ventina di metri e si apre nella volta di una grotta, tre metri sopra l'acqua. Ti lasci scivolare fino a una sporgenza di roccia larga un passo e lunga quattro, che sul lato sud è l'unico punto asciutto.
+>
+> La grotta scintilla. Le pareti bagnate sono coperte di ricci di mare e di anemoni. L'acqua sale e scende fra gli scogli senza mai fermarsi. Sulla sporgenza ci sono ossa di foca e lo scheletro di un uomo, con la cintura degli attrezzi da Raschiatore ancora allacciata in vita. Accanto al teschio c'è una maschera di metallo grigio, liscia, che la salsedine non ha nemmeno sfiorato.
+>
+> Poi l'acqua gorgoglia. Si apre una schiuma scura, e dalla schiuma esce una testa lucida fatta per metà di carne e per metà di metallo, con le scaglie d'acciaio corroso e due occhi dorati senza pupilla che si accendono nella penombra. La bocca si apre a scatti su due file di denti d'acciaio ricurvi, e dalle giunture escono sbuffi di vapore che sanno di olio bruciato. Senti la corda che ti scivola fra le dita sudate.
+
+**`la-grotta-del-ghermitore__1-vittoria`** · esito «La maschera grigia» · opzione «Affrontarlo» · vittoria · 400 caratteri
+
+> Il Ghermitore si getta sulla sporgenza tre volte, e alla terza la tua lama trova la carne fra due scaglie. Si ritira sott'acqua lasciando una scia scura e oleosa, e non torna più a galla. Fra i denti d'acciaio che ha perso sulla roccia c'è un cristallo grezzo che pulsa ancora. Lo prendi, poi prendi la maschera grigia accanto al teschio del Raschiatore, e risali la corda con le braccia che tremano.
+
+**`la-grotta-del-ghermitore__1-sconfitta`** · esito «Sott'acqua» · opzione «Affrontarlo» · sconfitta · 340 caratteri
+
+> Il Ghermitore ti prende per una caviglia e ti tira giù, e per un tempo lungo quanto il fiato che hai vedi soltanto bolle e una luce dorata. Riesci a liberarti con un calcio e riemergi sotto la volta, e con le ultime forze ti aggrappi alla corda. Risali a mani vuote, e in cima ti stendi accanto al cerchio di sassi a vomitare acqua di mare.
+
+**`la-grotta-del-ghermitore__2-successo`** · esito «Il gabbiano del paletto» · opzione «Gettargli un'esca lontano dalla sporgenza» · successo · 369 caratteri
+
+> Aspetti che l'onda si ritiri e lanci il gabbiano che hai staccato dal paletto contro la parete opposta, dove l'acqua è più bassa. Il Ghermitore ci si gira contro con uno scatto di metallo, e mentre lo sbrana ti chini sullo scheletro e prendi la maschera grigia. È fredda e più leggera di quanto sembrava. Quando torna a guardare la sporgenza sei già a metà della corda.
+
+**`la-grotta-del-ghermitore__2-fallimento`** · esito «L'onda» · opzione «Gettargli un'esca lontano dalla sporgenza» · fallimento · 402 caratteri
+
+> Lanci il gabbiano verso la parete opposta, e l'onda lo riporta indietro fino ai piedi della sporgenza. Il Ghermitore lo prende, e con lo stesso slancio prende anche il tuo stivale. Ti trascina nell'acqua fino alle ginocchia prima che tu riesca ad aggrapparti alla corda, e risali con il polpaccio aperto e senza la maschera. In cima ti fasci la gamba con la camicia, seduto accanto al cerchio di sassi.
+
+**`la-grotta-del-ghermitore__3-successo`** · esito «L'ordine» · opzione «Ordinargli di fermarsi» · successo · 355 caratteri
+
+> Dici l'ordine nella lingua delle macchine, e gli occhi dorati del Ghermitore si spengono uno dopo l'altro. Resta a galla immobile, con il vapore che gli esce piano dalle giunture, finché la corrente lo porta sott'acqua. Prendi la maschera grigia accanto al teschio e un cristallo che pulsa fra le ossa di foca, e risali con un gusto di ferro sulla lingua.
+
+**`la-grotta-del-ghermitore__3-fallimento`** · esito «L'eco storta» · opzione «Ordinargli di fermarsi» · fallimento · 316 caratteri
+
+> Dici l'ordine e il Ghermitore si ferma. Inclina la testa da un lato e ripete il suono più forte e più storto con la sua bocca di metallo, e il suono ti rimbomba dentro il cranio finché non vedi più niente. Quando ti si schiarisce la vista sei già sulla corda, a metà strada, con il naso che sanguina e le mani vuote.
+
+**`la-grotta-del-ghermitore__4-successo`** · esito «Quattro passi» · opzione «Strisciare fino allo scheletro quando si immerge» · successo · 332 caratteri
+
+> Aspetti che il Ghermitore si immerga e strisci sulla sporgenza a pancia in giù, con l'acqua che ti bagna i gomiti. Sfili la maschera da sotto il teschio piano, perché le ossa non facciano rumore, e torni indietro allo stesso modo. Sei già sulla corda quando l'acqua si apre alle tue spalle e i denti d'acciaio si chiudono sul vuoto.
+
+**`la-grotta-del-ghermitore__4-fallimento`** · esito «L'osso di foca» · opzione «Strisciare fino allo scheletro quando si immerge» · fallimento · 346 caratteri
+
+> A metà della sporgenza il ginocchio fa rotolare un osso di foca nell'acqua, e l'acqua si apre subito. I denti d'acciaio ti prendono di striscio sul braccio. Torni alla corda strisciando all'indietro e risali a forza di gomiti, lasciando sulla roccia una scia di sangue. Sotto di te il Ghermitore gira in tondo ancora per un pezzo, poi si immerge.
+
+### La tana di Borgoth
+
+**`borgoth-e-cenerascura`** · scena · 1348 caratteri
+
+> Fra i tunnel e il ponte c'è un'ultima camera doppia, e per arrivare alla scogliera devi attraversarla. Dal soffitto di spine scende un groviglio di rampicanti, e ai viticci sono appesi scheletri di uccelli e mascelle di volpe che tintinnano quando passa l'aria. A sud c'è un grosso nido di ortiche, e dai topi mezzi mangiati che lo circondano si capisce che chi ci dorme ha l'abitudine di mangiare a letto.
+>
+> L'inquilino del nido è sveglio, e ti guarda. È un orco più alto di qualunque orco tu abbia mai visto, e a Fondobosco raccontano che sua madre fosse un'ogre. Ha la pelle spessa e venata di muschio, e fra le cicatrici gli crescono fili d'erba. Al collo porta denti e ossa infilati in uno spago. Accanto a lui, sdraiato, c'è un puma dal pelo color brace, che apre la bocca e lascia uscire un filo di vapore caldo.
+>
+> “Borgoth sa perché sei qui” dice l'orco, e si alza. “L'odore di Qir-Azel, Borgoth lo sente da tre stanze, e anche Cenerascura.”
+>
+> Alza le braccia e grida parole in una lingua che non è l'orchesco. Dalle cicatrici gli filtrano fiammelle dorate, e dalle spalle gli spuntano rami carbonizzati che si piegano all'indietro. Quando ha finito è alto quasi tre metri, con la pelle diventata corteccia nera, e il corpo per metà è fuoco e per metà sottobosco. Il caldo ti arriva in faccia, e le gambe vorrebbero tornare da sole nel tunnel.
+
+**`borgoth-e-cenerascura__1-vittoria`** · esito «In ginocchio» · opzione «Affrontarli» · vittoria · 374 caratteri
+
+> Il puma ti arriva addosso per primo, e quando lo ricacci indietro con un taglio sul muso si ritira in un angolo della camera, soffiando. Borgoth è più lento. Il fuoco gli si spegne addosso un colpo alla volta, e quando cade in ginocchio fra le ortiche è di nuovo un orco grande e ansante, con il fumo che gli sale dalle spalle. Gli metti la lama alla gola, e lui ride piano.
+
+**`borgoth-e-cenerascura__1-sconfitta`** · esito «Le ortiche» · opzione «Affrontarli» · sconfitta · 379 caratteri
+
+> L'ultima cosa che vedi è il braccio di corteccia che cala, e poi le ortiche contro la faccia. Quando riapri gli occhi la camera è vuota e fredda, e del fuoco restano soltanto i segni neri sui rampicanti. Borgoth e il puma se ne sono andati verso Fondobosco e ti hanno lasciato vivo in mezzo alle ortiche. Ti trascini fino al ponte con le costole che scricchiolano a ogni respiro.
+
+**`borgoth-e-cenerascura__2-successo`** · esito «Il puma accucciato» · opzione «Calmare il puma» · successo · 369 caratteri
+
+> Ti abbassi sui talloni e porgi al puma il dorso della mano, parlando piano, mentre il calore ti arriccia le sopracciglia. Il puma ti annusa a lungo e poi si stende fra te e il suo padrone, con il mento sulle zampe. Borgoth abbassa le braccia. Il fuoco gli si ritira sotto la pelle con un sibilo, e resta un orco grande, che guarda il suo puma come se lo avesse tradito.
+
+**`borgoth-e-cenerascura__2-fallimento`** · esito «La zampata» · opzione «Calmare il puma» · fallimento · 391 caratteri
+
+> Il puma ti annusa la mano e poi la prende fra i denti, e mentre cerchi di liberarti ti apre la spalla con una zampata. Borgoth fischia una volta. Il puma ti lascia e corre da lui, e il gigante di fuoco ti guarda a lungo dall'alto. Poi si gira e sparisce nei tunnel verso est. Resti fra le ortiche a tamponarti la spalla con la manica, e quando la manica è zuppa ti alzi e vai verso il ponte.
+
+**`borgoth-e-cenerascura__3-successo`** · esito «La parola del Circolo» · opzione «Chiamare il puma con il Richiamo» · successo · 384 caratteri
+
+> Dici la parola del Richiamo, e il puma si ferma a metà del salto e atterra di fianco, scrollando la testa. Lo chiami ancora, e lui viene a strusciarsi contro le tue gambe con un rumore di brace che si spegne. Borgoth guarda prima il suo puma e poi te, e abbassa le braccia. Il fuoco gli si ritira sotto la pelle, e resta un orco grande e offeso, con il fumo che gli esce dalle spalle.
+
+**`borgoth-e-cenerascura__3-fallimento`** · esito «La parola storta» · opzione «Chiamare il puma con il Richiamo» · fallimento · 374 caratteri
+
+> La parola ti esce storta, e il puma la prende per una sfida. Ti salta addosso e ti butta a terra, e senti il suo fiato caldo sulla faccia prima che Borgoth lo richiami con un fischio. Il gigante ti scavalca senza degnarti di uno sguardo e se ne va nei tunnel verso est, con il puma alle calcagna. Ti rialzi con il petto rigato di graffi e cominci a camminare verso il ponte.
+
+**`borgoth-e-cenerascura__4-successo`** · esito «Lo sputo» · opzione «Parlargli di Balthog» · successo · 362 caratteri
+
+> Gli dici che sei venuto per Balthog e per chi gli dà gli ordini, e che con Fondobosco non hai niente da spartire. Borgoth resta fermo, con le fiamme che gli corrono sulle braccia. Poi sputa per terra, e lo sputo sfrigola. Il fuoco gli si ritira sotto la pelle un poco alla volta, e resta un orco grande che si siede su una radice e fa cenno al puma di stare giù.
+
+**`borgoth-e-cenerascura__4-fallimento`** · esito «Il dorso della mano» · opzione «Parlargli di Balthog» · fallimento · 360 caratteri
+
+> Gli dici che sei venuto per Balthog, e Borgoth ride. Poi ti colpisce con il dorso della mano, senza nemmeno chiudere il pugno, e ti manda a sbattere contro il muro di spine.
+>
+> “Borgoth non parla con chi viene da Qir-Azel” dice, e se ne va nei tunnel verso est con il puma.
+>
+> Ci metti un pezzo a staccarti le spine dalla schiena, e poi prendi la strada del ponte.
+
+**`borgoth-e-cenerascura__5-esito`** · esito «Verso Fondobosco» · opzione «Farti da parte e lasciarli passare» · esito · 396 caratteri
+
+> Ti sposti contro la parete con le mani lontane dalla cintura e lasci libero il passaggio. Borgoth ti guarda a lungo, con il fuoco che gli scorre sulle braccia. Poi grugnisce, abbassa la testa sotto i rampicanti e se ne va nel tunnel verso est, e il puma gli trotta dietro voltandosi due volte. Lo senti allontanarsi fra i rovi per un pezzo. Quando non senti più niente prendi la strada del ponte.
+
+### Borgoth parla
+
+**`borgoth-parla`** · scena · 1118 caratteri
+
+> Borgoth siede fra le ortiche con le mani aperte sulle ginocchia, e dalle spalle gli sale ancora un filo di fumo. Da vicino ha un odore di terra bagnata e di resina, e sotto c'è il pelo bruciato. Il puma è accucciato a qualche passo, con le orecchie basse, e non ti stacca gli occhi di dosso.
+>
+> “Borgoth sa perché sei qui. Per quello che gli orchi hanno fatto a Qir-Azel” dice, e sputa per terra. “È colpa della Mawrak'Thur e delle sue macchine che camminano.”
+>
+> Si gratta il muschio sul petto. “Il Capotribù Balthog adesso ascolta lei. È una donna molto arrabbiata, con i capelli d'argento e gli occhi strani, e una cicatrice che le taglia la pancia. Borgoth pensa che il Capotribù Balthog se ne sia innamorato, perché fa tutto quello che lei dice. È stata lei a volere l'attacco a Qir-Azel.” Batte il pugno sul terreno. “Allora Borgoth si è tenuto lontano dal Capotribù Balthog e dai suoi amici nuovi, perché quella donna porta guai a tutta la stirpe degli orchi.”
+>
+> [whispers] I ritratti di Isvaro avevano i capelli chiari e una mano posata sul ventre. Borgoth ti guarda di sotto in su, e aspetta la domanda successiva.
+
+**`borgoth-parla__1-esito`** · esito «Le dita» · opzione «Chiedergli chi c'è con lei» · esito · 356 caratteri
+
+> Borgoth mostra i denti in un ghigno storto perché la domanda gli piace, e alza la mano con le dita chiuse. Sulle nocche ha ancora qualche scaglia di corteccia nera, che gli cade sulle ginocchia mentre apre il primo dito. Il puma alza la testa al rumore e la riabbassa. Ti accorgi che anche tu stai contando, piegando le dita contro la coscia senza volerlo.
+
+**`borgoth-parla__2-esito`** · esito «Gli sciamani a pescare» · opzione «Chiedergli di Balthog» · esito · 343 caratteri
+
+> “Il Capotribù Balthog non ha mai perso” dice Borgoth. “Combatte con le mani, e non ha una cicatrice. Prima ascoltava gli sciamani di Capomozzo. Adesso ascolta la donna, e gli sciamani li ha mandati a pescare.”
+>
+> Ci pensa sopra grattandosi il mento, dove il muschio è più fitto, e poi alza la mano con le dita chiuse. “Però la donna non è sola.”
+
+### Gli amici nuovi
+
+**`borgoth-e-gli-alleati`** · scena · 1227 caratteri
+
+> “Non è finita” dice Borgoth, e apre un dito alla volta. “Con la donna ci sono altri quattro. Zagrath il predone, che ha la madre ogre come Borgoth e nient'altro come Borgoth. Un uomo che non parla mai e gira chiuso in un'armatura pesante. Una donna con la pelle scura, che ha bruciato con il fuoco gli orchi che le andavano troppo vicino. Poi un mezzelfo che ride sempre e tira con l'arco meglio di un orco.” Abbassa la mano e se la pulisce sul ginocchio, come dopo aver mangiato. “E una trentina di fedeli suoi, che dicono di essere del Culto dell'Anonimo e che lei è la loro capa.”
+>
+> [whispers] Il mezzelfo che ride l'hai visto alla fornace, con una bottiglia accanto al gomito. Borgoth intanto ha ricominciato a ghignare, e si passa la lingua sulle zanne prima di continuare.
+>
+> “Il mezzelfo e la donna, Borgoth li ha visti nel bosco fare come i ratti. Quando lo ha detto al Capotribù Balthog, per tornare nelle sue grazie, il Capotribù Balthog ha cacciato via Borgoth.” Sputa ancora per terra, e poi ti guarda dritto con gli occhi gialli come l'ambra.
+>
+> “Borgoth è pronto, ed è fiero guerriero della tribù di Fondobosco. Tornerà alla terra, a cui tutto appartiene” dice, e resta ad aspettare con le mani aperte sulle ginocchia.
+
+**`borgoth-e-gli-alleati__1-esito`** · esito «I rampicanti» · opzione «Lasciarlo legato» · esito · 395 caratteri
+
+> Gli leghi i polsi dietro la schiena con i rampicanti più grossi, e poi le caviglie, e Borgoth ti lascia fare guardando il soffitto. Quando stringi l'ultimo nodo ride piano.
+>
+> “Le radici si slegano” dice. “Ma Borgoth aspetta.”
+>
+> Il puma ti segue con gli occhi fino all'uscita, accucciato accanto al suo padrone. Fuori il vento del mare ti asciuga il sudore sulla fronte, e il ponte è a cento passi.
+
+**`borgoth-e-gli-alleati__2-esito`** · esito «Alla terra» · opzione «Finirlo» · esito · 367 caratteri
+
+> Borgoth chiude gli occhi prima che tu ti muova, e non li riapre più. Quando è finita il puma esce dall'angolo e gli si stende accanto, con il muso sul suo petto, e non si sposta nemmeno quando gli passi vicino. Ti pulisci la lama su un ciuffo d'erba e resti un momento a guardarli. Poi vai verso il ponte, e il tintinnio delle ossa d'uccello lo senti fino all'uscita.
+
+**`borgoth-e-gli-alleati__3-esito`** · esito «Verso est» · opzione «Lasciarlo andare» · esito · 396 caratteri
+
+> Gli dici di andarsene, e Borgoth ti guarda come se non avesse capito. Poi si alza piano e fischia al puma. Sulla soglia del tunnel si ferma.
+>
+> “Il ponte cade sotto chi corre” dice senza voltarsi. “Borgoth lo ha visto cadere sotto due orchi di Capomozzo, e ha riso.”
+>
+> Lo senti allontanarsi fra i rovi verso est, con il puma che gli trotta dietro, finché il vento del mare copre il rumore dei passi.
+
+### Il ponte di osservazione
+
+**`aurenne-sul-ponte`** · scena · 1427 caratteri
+
+> Le pareti della sala si curvano ad arco e finiscono su due cornicioni di marmo rosso. Nei quattro angoli bruciano quattro teschi infilati su spuntoni di ferro, e la loro fiamma non fa fumo. I cornicioni sono carichi di libri e di vasi con dentro creature deformi in salamoia, e fra un vaso e l'altro c'è un braccio imbalsamato con le unghie ancora dipinte. Al centro ci sono tre sedie girate verso nord, dove una fontana piena d'acqua bluastra gorgoglia e fa schiuma.
+>
+> Accanto alla fontana c'è una donna. Ha i capelli lunghi e d'argento, che le scivolano sulle spalle come il mercurio quando lo versi, e la pelle bianca attraversata da vene che si accendono di viola a ogni battito. Porta un'armatura di metallo nero e di cuoio che sembra crescerle addosso, con una luce rossa che filtra dalle giunture. Il ventre è scoperto, e una cicatrice profonda lo attraversa da un fianco all'altro. La mano destra è un artiglio nero, con le dita lunghe il doppio di quelle di una mano. [whispers] È la donna dei ritratti di Isvaro. Nei ritratti, però, la cicatrice non c'era.
+>
+> Al suo fianco sta una macchina a quattro zampe grande quanto un cavallo, magra fino alle ossa di metallo. Al posto della testa ha una maschera ovale senza occhi da cui esce una luce pallida.
+>
+> La donna ti guarda con due occhi color ametista e ti sorride a labbra strette. “Sei arrivato fin qui da solo” dice. “Avvicinati, mio dolce. Voglio che tu mi veda bene.”
+
+**`aurenne-sul-ponte__1-esito`** · esito «Mio dolce» · opzione «Lasciarla parlare» · esito · 300 caratteri
+
+> Resti dove sei, con la mano vicina alla cintura. Lei fa due passi verso di te, e la macchina la segue con le zampe che non fanno rumore sul marmo. Si ferma a metà sala, accanto alle sedie. Da vicino ha un profumo di incenso e di metallo caldo, e la luce dei teschi le accende i capelli a ogni guizzo.
+
+**`aurenne-sul-ponte__2-vittoria`** · esito «La bambina sul pavimento» · opzione «Non lasciarle finire la frase» · vittoria · 439 caratteri
+
+> La macchina cade per prima, in un mucchio di piastre che ronzano ancora. Aurenne finisce in ginocchio accanto alla fontana con l'artiglio incrinato, e si mette a parlare come una bambina che ha perso al gioco. “Questa volta non conta” dice, “ricominciamo da capo.” Tu la chiami per nome. Alza gli occhi, e per il tempo di un respiro sono gli occhi di una ragazza spaventata che non sa dove si trova. Poi si affloscia su un fianco, svenuta.
+
+**`aurenne-sul-ponte__2-sconfitta`** · esito «Il corpo che cede» · opzione «Non lasciarle finire la frase» · sconfitta · 404 caratteri
+
+> L'artiglio ti apre il fianco e la macchina ti schiaccia contro il cornicione, e un vaso ti si rompe addosso. Aurenne alza l'artiglio per finirti. In quel momento le vene sotto la sua pelle si spengono tutte insieme. Resta con il braccio alzato e la bocca aperta. Poi crolla, e la macchina si accuccia accanto a lei e non si muove più. Ci metti un pezzo a rialzarti, con il sapore della salamoia in bocca.
+
+### La mia vera madre
+
+**`aurenne-la-mia-vera-madre`** · scena · 1317 caratteri
+
+> “Tu non puoi capirlo, e non te ne faccio una colpa” dice Aurenne, e si siede sul bracciolo di una sedia con l'artiglio posato in grembo. “Questa faccia che piace tanto a tutti è un errore degli dei, una malformazione sacra fatta con tutta la cura possibile. A Qir-Azel ogni occhiata che mi davano era una lama. Li ho pregati di volermi bene come una mendicante sui gradini di un tempio chiuso, e nessuno ha mai voluto vedere chi ero davvero.”
+>
+> Si tocca la cicatrice sul ventre con la mano buona, senza guardarla. “Poi mi ha parlato lei. Nhar'Kael, la Regina delle Ali Spezzate, la mia vera madre.” La voce le si scalda sul nome, e le vene sotto la pelle si accendono tutte insieme. “Mi ha spiegato che sono nata per fare paura. La mia carne è un seme, e quando avrà finito di germogliare sarò quello che dovevo essere fin dall'inizio, un mostro.”
+>
+> Ride piano, con le dita sulla bocca. “Gli orchi si inginocchiano quando passo. La tua pietà tienila, mio dolce. Voglio i tuoi occhi addosso mentre salgo, e quando la Marea ti avrà preso voglio che tu pensi a me, a quello che divento e a quello che avrei potuto essere.”
+>
+> Si sfila dal collo un disco di metallo con una corona di cristalli e ci preme sopra il pollice. La macchina abbassa la maschera e piega le zampe per saltare, e Aurenne si alza con l'artiglio aperto.
+
+**`aurenne-la-mia-vera-madre__1-vittoria`** · esito «La bambina sul pavimento» · opzione «Combatterla» · vittoria · 439 caratteri
+
+> La macchina cade per prima, in un mucchio di piastre che ronzano ancora. Aurenne finisce in ginocchio accanto alla fontana con l'artiglio incrinato, e si mette a parlare come una bambina che ha perso al gioco. “Questa volta non conta” dice, “ricominciamo da capo.” Tu la chiami per nome. Alza gli occhi, e per il tempo di un respiro sono gli occhi di una ragazza spaventata che non sa dove si trova. Poi si affloscia su un fianco, svenuta.
+
+**`aurenne-la-mia-vera-madre__1-sconfitta`** · esito «Il corpo che cede» · opzione «Combatterla» · sconfitta · 404 caratteri
+
+> L'artiglio ti apre il fianco e la macchina ti schiaccia contro il cornicione, e un vaso ti si rompe addosso. Aurenne alza l'artiglio per finirti. In quel momento le vene sotto la sua pelle si spengono tutte insieme. Resta con il braccio alzato e la bocca aperta. Poi crolla, e la macchina si accuccia accanto a lei e non si muove più. Ci metti un pezzo a rialzarti, con il sapore della salamoia in bocca.
+
+**`aurenne-la-mia-vera-madre__2-successo`** · esito «Gli uccellini» · opzione «Parlarle della ragazza del diario» · successo · 398 caratteri
+
+> Le parli degli uccellini di legno del signor Wren, di quello senza un'ala che teneva sulla scrivania, e dei corridoi dell'Accademia. Lei si ferma con l'artiglio a mezz'aria. “Come fai a saperlo?” La voce le esce piccola. Il disco le si spegne in mano, e la macchina si blocca a metà del salto. Aurenne piange senza fare rumore, poi le gambe le cedono e la prendi prima che batta la testa sul marmo.
+
+**`aurenne-la-mia-vera-madre__2-fallimento`** · esito «Stai zitto» · opzione «Parlarle della ragazza del diario» · fallimento · 409 caratteri
+
+> “Stai zitto!” grida, e la macchina ti salta addosso. Prendi i suoi artigli sull'avambraccio e continui a parlarle del signor Wren e degli uccellini, con il sangue che ti cola fino al gomito. Le parole arrivano tardi, ma arrivano. Aurenne barcolla con le mani sulle orecchie, e il disco le scivola dalle dita. La macchina si ferma sopra di te. Lei crolla accanto alla fontana con le mani ancora sulle orecchie.
+
+**`aurenne-la-mia-vera-madre__3-successo`** · esito «Le ali» · opzione «Scacciare la voce che le parla» · successo · 386 caratteri
+
+> Dici le parole della Liturgia guardandola negli occhi, e a ogni frase lei fa un passo indietro. Senti qualcosa che si ritira dentro di lei con un rumore d'ali, giù, nel fondo, dove le tue parole non arrivano. Le vene viola si spengono una alla volta. Aurenne ti guarda come se ti vedesse per la prima volta e apre la bocca per dire qualcosa, poi cade in ginocchio e si accascia di lato.
+
+**`aurenne-la-mia-vera-madre__3-fallimento`** · esito «La madre risponde» · opzione «Scacciare la voce che le parla» · fallimento · 341 caratteri
+
+> A metà della Liturgia la cosa che le sta dentro ti risponde, e lo fa con la sua bocca, in una voce che non è la sua. Il Mana ti torna indietro dietro gli occhi e ti butta in ginocchio. Ma la lotta è costata anche a lei. Aurenne si porta le mani alle tempie, grida una parola sola, poi crolla sul marmo, e la macchina si spegne accanto a lei.
+
+**`aurenne-la-mia-vera-madre__4-successo`** · esito «Il cordino» · opzione «Strapparle il disco dal collo» · successo · 358 caratteri
+
+> Ti butti sotto l'artiglio quando lo alza e afferri il cordino del disco con tutte e due le mani. Il cordino si spezza. La macchina si ferma a metà del salto e ricade sul marmo come un mucchio di pentole. Aurenne graffia l'aria dove un momento prima c'eri tu, poi barcolla, come se il disco l'avesse tenuta in piedi fino a quel momento, e crolla fra le sedie.
+
+**`aurenne-la-mia-vera-madre__4-fallimento`** · esito «Il prezzo del disco» · opzione «Strapparle il disco dal collo» · fallimento · 322 caratteri
+
+> Il disco lo prendi, ma l'artiglio ti prende a sua volta, dalla spalla al fianco, e il dolore ti toglie la vista per un momento. Rotoli lontano con il disco stretto al petto. La macchina si ferma. Aurenne fa due passi verso di te con l'artiglio gocciolante, poi si guarda la mano vuota e cade in ginocchio, e da lì a terra.
+
+**`aurenne-la-mia-vera-madre__5-esito`** · esito «Chi cede prima» · opzione «Resistere» · esito · 406 caratteri
+
+> Ti ripari dietro le sedie, poi dietro la fontana, e prendi i colpi che non riesci a schivare. Ogni volta che lei preme il disco la macchina si fa più veloce, e Aurenne più pallida. Dopo un tempo che non sai misurare hai le braccia aperte in tre punti e l'acqua della fontana ti brucia nelle ferite. Lei preme il disco un'ultima volta, e le cede il corpo prima della volontà. Crolla, e la macchina si ferma.
+
+### La porta della stella
+
+**`la-prigione-del-costruttore`** · scena · 1187 caratteri
+
+> Aurenne pesa meno di quanto pensavi. Te la carichi sulle spalle, e l'artiglio ti batte contro la schiena a ogni passo. Al collo aveva un cordino con quattro cristalli che ronzano piano, e te lo sei legato al polso. Il disco con la corona di cristalli ce l'hai in tasca. Alla cintura lei portava una stella a sette punte d'oro e d'argento, piatta da una parte e con un'impugnatura sottile e ricurva dall'altra.
+>
+> In fondo al ponte c'è una porta di pietra senza maniglie. Al loro posto c'è un incavo a forma di stella, con fessure più piccole tutto intorno. La stella ci entra di misura, e la porta si apre verso l'interno senza un rumore.
+>
+> Dentro bruciano candele dorate su candelabri di legno scolpito, e la cera è fresca. [whispers] Qualcuno scendeva qui ogni giorno a cambiarle. Sulla parete sud è incisa una grande stella a sette punte, così precisa che nessuno scalpello può averla toccata. Al centro c'è una piattaforma rotonda di metallo liscio, con incisioni minuscole che si accendono e si spengono, e in mezzo una placca rialzata attraversata da linee di luce. Al Grifone ne hai sentito parlare dai Raschiatori più vecchi. Quella piattaforma è uno degli ascensori dei Precursori.
+
+**`la-prigione-del-costruttore__1-esito`** · esito «La discesa» · opzione «Posare la mano sulla placca» · esito · 370 caratteri
+
+> Appena tocchi la placca la sala manda un suono basso e profondo, e la placca si abbassa sotto il palmo. Sotto i piedi si accende una luce bianca e fredda che disegna linee sul metallo. Poi la piattaforma si muove senza uno scossone, e capisci che stai scendendo. Le pareti di pietra umida scorrono accanto a te per un minuto e poi per un altro, finché smetti di contare.
+
+### La rovina sommersa
+
+**`la-rovina-sommersa`** · scena · 1207 caratteri
+
+> Le pareti si aprono tutte insieme, e davanti a te c'è una distesa che non finisce. Ci sono torri spezzate e ponti sospesi che non portano più da nessuna parte, immersi in una Marea Grigia così densa che la luce fredda della rovina ci si impiglia dentro. Da certe colonne colano fili di liquido luminoso che cadono senza rumore. Lungo i muri più vicini corrono linee di luce che disegnano figure, e ogni tanto un intero settore si accende e si spegne.
+>
+> A quattrocento metri, forse meno, pulsa una luce rossa con un ritmo lento e regolare. Viene da dietro una fenditura alta decine di metri e larga quanto due uomini affiancati, aperta in una parete nera e lucida. È Magnistruttura, il metallo dei Precursori che niente riesce a scalfire.
+>
+> Sei a metà del passaggio sospeso quando da ogni parte comincia un rumore di ferro. Dalle pareti e dai condotti escono macchine della Salvaguardia, alcune non più grandi di un pugno e altre alte quanto un cavallo, e ti chiudono in cerchio con i sensori rossi accesi. Nella Marea si muovono senza fatica. Poi il ronzio cambia nota, le luci rosse tremano e si spengono, e le macchine restano immobili con la testa girata verso di te, in attesa di un ordine che non arriva.
+
+**`la-rovina-sommersa__1-esito`** · esito «Il disco muto» · opzione «Provare il disco di Aurenne» · esito · 367 caratteri
+
+> Tiri fuori il disco e premi il pollice dove lo premeva lei. I cristalli della corona si accendono uno dopo l'altro, e le macchine non girano nemmeno la testa. Provi ancora, e poi una terza volta. Sulla tua spalla Aurenne mormora qualcosa nel sonno. Rimetti il disco in tasca e passi in mezzo al cerchio, verso la luce rossa, con la Marea che ti si attacca ai vestiti.
+
+**`la-rovina-sommersa__2-esito`** · esito «Il cerchio» · opzione «Passare in mezzo alle macchine» · esito · 388 caratteri
+
+> Passi fra due macchine alte quanto te, così vicino che senti il freddo del loro metallo sulla guancia, e ti sforzi di tenere il passo regolare. Nessuna si muove, nemmeno quando Aurenne geme nel sonno. Arrivi alla fenditura con la Marea attaccata ai vestiti, e la parete di Magnistruttura ti rimanda la tua faccia storta e allungata, e sulla spalla quella di Aurenne, bianca, senza tratti.
+
+### Il titano dormiente
+
+**`il-costruttore-di-capomozzo`** · scena · 1113 caratteri
+
+> La fenditura si apre su una cavità enorme. All'inizio vedi soltanto la luce rossa che pulsa piano, poi gli occhi si abituano e capisci da dove viene.
+>
+> È una forma colossale, mezza sepolta fra detriti e rottami, e non riesci a dire dove finisca la macchina e dove cominci la pietra. Il torace è squarciato, e dentro batte un nucleo rosso. Mentre lo guardi la testa si muove, un cilindro senza faccia con due fessure verticali che si accendono e si girano verso di te. Senti quella luce passarti addosso e pesarti, come la mano di un mercante sulla bilancia.
+>
+> Poi si alza. Le lastre e i cavi si tendono con un gemito di metallo, e dalle giunture piovono scintille. In piedi è alto quanto quattro case una sopra l'altra. Un braccio gli pende inerte, piegato su se stesso, e da certe fessure del corpo escono fili di vapore. Gli appunti sulla lavagna della sala della guerra lo chiamavano il titano dormiente, e adesso si è svegliato.
+>
+> Posi Aurenne dietro un blocco di pietra. Il colosso alza il braccio buono e la sua ombra copre te e lei insieme. Ti accorgi che le ginocchia ti tremano, e che non riesci a fermarle.
+
+**`il-costruttore-di-capomozzo__1-vittoria`** · esito «Il ginocchio di ferro» · opzione «Affrontarlo» · vittoria · 367 caratteri
+
+> Lo colpisci dove le lastre si aprono, alle giunture delle gambe, e scappi ogni volta che il braccio buono scende. Al quinto colpo un ginocchio cede con uno schianto che ti arriva nello stomaco, e il colosso si piega su se stesso. La luce del nucleo trema e cambia colore. Lui pianta la mano a terra per non cadere, e il pavimento si crepa tutto intorno alle sue dita.
+
+**`il-costruttore-di-capomozzo__1-sconfitta`** · esito «La mano» · opzione «Affrontarlo» · sconfitta · 327 caratteri
+
+> La mano del colosso scende piatta e ti prende in pieno. Ti ritrovi nella polvere, con la bocca piena di sangue e una gamba che non ti risponde. Lui alza di nuovo il braccio, lentamente, per finire il lavoro. A metà del gesto il nucleo gli sfarfalla nel petto e lui vacilla, come se dentro qualcosa si fosse rotto per conto suo.
+
+**`il-costruttore-di-capomozzo__2-successo`** · esito «La corona accesa» · opzione «Confonderlo con il disco» · successo · 354 caratteri
+
+> Corri sotto il colosso con il disco alzato verso il nucleo, e i cristalli della corona si accendono tutti insieme, bianchi. Le fessure del suo volto lampeggiano. Il braccio buono si ferma a metà del colpo e resta lì, tremante, mentre dentro il petto il nucleo perde il ritmo. Il colosso fa un passo indietro e vacilla, e i cristalli ti scottano il palmo.
+
+**`il-costruttore-di-capomozzo__2-fallimento`** · esito «Il disco che brucia» · opzione «Confonderlo con il disco» · fallimento · 306 caratteri
+
+> Il disco ti si scalda in mano finché non riesci più a tenerlo, e il colosso è rallentato appena. Il braccio scende a un passo da te e spacca il pavimento, e una pioggia di schegge ti apre la fronte e le braccia. Però il nucleo ha perso il ritmo. Mentre raccogli il disco con la manica, il colosso barcolla.
+
+**`il-costruttore-di-capomozzo__3-successo`** · esito «Fermati» · opzione «Dargli un ordine nella sua lingua» · successo · 348 caratteri
+
+> Pianti i piedi e gli gridi l'ordine nella lingua delle macchine, una parola sola che ti raschia la gola uscendo. Il colosso si ferma. Le fessure del suo volto si abbassano su di te, e per un tempo lunghissimo lui guarda te e tu guardi lui. Poi il nucleo trema, e lui vacilla, con due ordini diversi nel petto e nessuno dei due più forte dell'altro.
+
+**`il-costruttore-di-capomozzo__3-fallimento`** · esito «La risposta» · opzione «Dargli un ordine nella sua lingua» · fallimento · 363 caratteri
+
+> L'ordine gli arriva storto, e lui ti risponde. È un suono che ti arriva nei denti e nelle ossa del cranio prima che nelle orecchie, e ti butta a terra con il naso che sanguina. Il colosso fa due passi verso di te, e il pavimento sobbalza a ogni passo. Al terzo il nucleo gli sfarfalla nel petto e lui vacilla, come se la parola sbagliata gli fosse rimasta dentro.
+
+**`il-costruttore-di-capomozzo__4-successo`** · esito «Il petto aperto» · opzione «Arrampicarti fino al nucleo» · successo · 395 caratteri
+
+> Corri su per il mucchio di detriti mentre il braccio buono spazza l'aria sopra la tua testa, e dalla cima salti. Ti aggrappi al bordo del torace squarciato, con il metallo caldo che ti brucia le mani, e colpisci il nucleo una volta, con tutto quello che hai. Il colosso barcolla all'indietro. Tu cadi nella polvere da un'altezza che ti toglie il fiato, e ti rialzi con le mani piene di vesciche.
+
+**`il-costruttore-di-capomozzo__4-fallimento`** · esito «La caduta» · opzione «Arrampicarti fino al nucleo» · fallimento · 339 caratteri
+
+> Arrivi al nucleo e lo colpisci, ma il colosso si gira e ti scrolla via come una mosca dalla manica. Cadi da un'altezza che non vuoi sapere, e la schiena prende i detriti per prima. Resti a terra senza fiato, con la bocca aperta e i polmoni che non vogliono saperne. Sopra di te il nucleo sfarfalla dove l'hai colpito, e il colosso vacilla.
+
+### La maschera spaccata
+
+**`la-maschera-spaccata`** · scena · 1126 caratteri
+
+> Il Costruttore vacilla. Le giunture incandescenti si piegano, e la luce del nucleo trema fra il rosso e il viola, sempre più in fretta. Eppure non cade. Si raddrizza un'altra volta, e in quel momento il tempo si ferma.
+>
+> Le scintille restano sospese a mezz'aria e la polvere si ferma a metà della caduta. Non senti più il ronzio della rovina, e nemmeno il tuo respiro. Davanti a te, nel buio, sorge una figura altissima e incappucciata, con il corpo coperto di occhi. L'hai già vista una volta, la notte prima del Festival, in un sogno che al mattino avevi messo da parte. Ha le proporzioni del colosso che hai davanti, ed è com'era lui prima di diventare questa carcassa.
+>
+> Fra te e la figura galleggia una maschera spaccata in due, come nel sogno. Le due metà vibrano e si cercano finché si toccano e diventano un volto solo, che cambia forma ogni volta che sbatti le palpebre. Dentro di te parla una voce che è la tua, moltiplicata in un coro lontano. “Ti abbiamo cercato in fondo a ogni tuo respiro, e adesso ti abbiamo trovato, Portatore dell'Alba.”
+>
+> Il volto smette di cambiare. Ha preso la forma che hai deciso di vedere.
+
+**`la-maschera-spaccata__1-esito`** · esito «La Maschera della Forza» · opzione «Vedere una maschera di ferro brunito» · esito · 403 caratteri
+
+> La maschera è di ferro brunito, con un volto di donna inciso a linee sottili, e dalle fessure scende una nebbia rossa. Te la senti addosso senza averla toccata. Il tempo riparte. Ti lanci in avanti prima ancora di deciderlo, e il colpo lascia nell'aria una scia scarlatta. Trapassi la corazza del colosso all'altezza del petto e arrivi al nucleo. La luce rossa esplode e ti travolge, e poi c'è silenzio.
+
+**`la-maschera-spaccata__2-esito`** · esito «La Maschera della Rottura» · opzione «Vedere una maschera d'oro opaco» · esito · 432 caratteri
+
+> La maschera è d'oro opaco e non ha bocca, e dagli occhi le scendono due rivoli di luce bianca. Ti vengono in mente i forni della Città Bassa all'alba, e le mani infarinate di chi impasta il pane. Il tempo riparte. Avanzi contro il colosso con il braccio alzato a farti da scudo, e gli vai addosso con un urlo che si mescola al clangore del metallo. Il colpo arriva al nucleo. La luce rossa esplode e ti travolge, e poi c'è silenzio.
+
+**`la-maschera-spaccata__3-esito`** · esito «La Maschera della Distorsione» · opzione «Vedere una maschera di vetro incrinato» · esito · 355 caratteri
+
+> La maschera è di vetro incrinato, e dietro si muovono ombre che sembrano mani giunte. In ogni scheggia c'è un pensiero, e non sai se è tuo. Il tempo riparte. Allunghi la mano verso il colosso e dal palmo ti esce un raggio di luce dorata che incide la corazza come vetro fuso, dritto fino al nucleo. La luce rossa esplode e ti travolge, e poi c'è silenzio.
+
+**`la-maschera-spaccata__4-esito`** · esito «La Maschera della Natura» · opzione «Vedere una maschera di corteccia nera» · esito · 417 caratteri
+
+> La maschera è di corteccia nera e muschio, attraversata da vene di metallo in cui scorre una linfa lucente. Ha un odore di bosco dopo la pioggia. Il tempo riparte. Alzi il braccio, e dal pavimento esplodono radici e tubi di metallo che si intrecciano intorno alle gambe del colosso e lo inchiodano a terra. Una radice gli sale nel petto e si chiude sul nucleo. La luce rossa esplode e ti travolge, e poi c'è silenzio.
+
+### La corsa
+
+**`la-corsa-all-ascensore`** · scena · 913 caratteri
+
+> Il colosso è immobile, mezzo distrutto, con il nucleo spento. Davanti al tuo viso galleggia la maschera, grande tre volte la tua faccia. È trasparente, e ogni suo tratto è perfetto.
+>
+> Il primo tremore sembra l'eco del colpo. Il secondo ti butta in ginocchio. Dal soffitto piove polvere mescolata a schegge di metallo, e lungo le giunture del pavimento si accendono linee rosse che corrono in tutte le direzioni. Le pareti di Magnistruttura si incrinano con il rumore del ghiaccio che si rompe sotto i piedi, e lo stomaco ti si chiude, perché al Grifone dicono che quel metallo non si rompe.
+>
+> La maschera trema e svanisce. Il corpo del Costruttore si spezza in due e si porta dietro un pezzo di pavimento. Aurenne è dove l'hai lasciata, dietro il blocco di pietra, con la faccia bianca di polvere, e respira ancora. Fino all'ascensore ci sono quattrocento metri di passaggio sospeso, e il passaggio si sta piegando.
+
+**`la-corsa-all-ascensore__1-esito`** · esito «La risalita» · opzione «Prenderla in braccio e correre» · esito · 647 caratteri
+
+> Te la prendi in braccio e corri. Il passaggio si apre in fenditure incandescenti, e pezzi di Magnistruttura si staccano dalle pareti e cadono nel buio. Salti sulla piattaforma con le ginocchia che cedono, e le incisioni si accendono, poi non succede niente. Poi l'ascensore sale. Sotto di te la rovina crolla con un tuono che non finisce più.
+>
+> Quando la piattaforma si ferma sei di nuovo fra le candele dorate, e tutto tace. Ti lasci cadere sulla pietra accanto ad Aurenne e aspetti che le mani smettano di tremare. Sopra di te ci sono le rovine, i sotterranei degli orchi e la fortezza, e dopo ancora due giorni e mezzo di strada fino a Qir-Azel.
+
+### Il cavallo in gabbia
+
+**`ombrafosca-in-gabbia`** · scena · 1170 caratteri
+
+> In fondo al cortile ci sono due capanni di legno grezzo. Il primo è aperto ed è il capanno degli attrezzi, con le mensole cariche di reti e di guinzagli per i cinghiali e, nell'angolo, una gabbia a forma di elle piena di conigli che si ammucchiano tutti dalla parte più lontana. Il secondo ha la porta inchiodata, con altre assi inchiodate di traverso, e il legno della porta è crepato dall'interno in tre punti.
+>
+> Davanti alla porta inchiodata ci sono due orchi morti, con la testa schiacciata, e anche senza guardarli da vicino capisci che è stato qualcosa con gli zoccoli. Le mosche si alzano quando ti avvicini e si posano di nuovo subito.
+>
+> Attraverso le fessure vedi un cavallo nero come la pece, con il manto che manda riflessi verdi dove lo prende la luce. Ha gli occhi grigio argento, e dalle narici gli esce un fumo leggero, come d'inverno, anche se non fa freddo. Le corde che lo legavano alle pareti sono morse e strappate in più punti. È magro, con le costole che si contano, e quando ti sente sbatte uno zoccolo così forte che la porta trema sui cardini. [whispers] Ha fame, e i conigli sono per lui. Ti accorgi di aver fatto un passo indietro senza volerlo.
+
+**`ombrafosca-in-gabbia__1-successo`** · esito «La mano sul muso» · opzione «Parlargli piano e avvicinarti» · successo · 388 caratteri
+
+> Schiodi le assi una alla volta e apri la porta di una spanna. Poi resti sulla soglia a parlargli a voce bassa, senza dire niente di preciso, per un tempo che ti fa formicolare le gambe. Il cavallo sbuffa fumo e scalcia due volte contro la parete. Alla fine allunga il collo e ti annusa la mano, e lascia che tu gli appoggi il palmo sul muso. Sotto il palmo il muso è caldo come una stufa.
+
+**`ombrafosca-in-gabbia__1-fallimento`** · esito «Lo zoccolo» · opzione «Parlargli piano e avvicinarti» · fallimento · 380 caratteri
+
+> Schiodi le assi e apri la porta di una spanna, e il cavallo ci mette contro il petto prima che tu abbia finito di parlare. La porta ti prende in pieno e ti butta per terra, e uno zoccolo ti passa a un dito dalla testa e ti pesta la mano. Riesci a richiudere e a puntellare la porta con la schiena, e resti seduto lì contro, con la mano gonfia, mentre lui scalcia dall'altra parte.
+
+**`ombrafosca-in-gabbia__2-successo`** · esito «I conigli» · opzione «Portargli i conigli e aspettare che mangi» · successo · 412 caratteri
+
+> Prendi un coniglio per le orecchie e lo butti dentro dalla fessura più larga. Il cavallo lo prende al volo e lo mastica con un rumore che ti fa voltare la faccia. Al terzo coniglio smette di scalciare, al quinto si lascia toccare il collo attraverso la fessura, e intanto gli guardi i garretti, dove le ferite si sono già chiuse da sole. Quando schiodi la porta lui resta fermo ad aspettarti, con il muso sporco.
+
+**`ombrafosca-in-gabbia__2-fallimento`** · esito «La gabbia aperta» · opzione «Portargli i conigli e aspettare che mangi» · fallimento · 375 caratteri
+
+> Apri la gabbia per prendere un coniglio, e ne escono venti tutti insieme, in mezzo al cortile, fra i piedi dei cinghiali. I cinghiali impazziscono. Il cavallo sente l'odore del sangue e sfonda con lo zoccolo un'asse della porta, a un palmo dalla tua faccia, e una scheggia ti si pianta nella guancia. Ti ritiri nel capanno degli attrezzi ad aspettare che il cortile si calmi.
+
+**`ombrafosca-in-gabbia__3-successo`** · esito «La lingua delle bestie» · opzione «Parlargli nella lingua del Circolo» · successo · 383 caratteri
+
+> Appoggi la fronte alle assi e gli parli nella lingua del Circolo, con le parole che si usano per le bestie spaventate. Dall'altra parte il respiro del cavallo rallenta piano piano, finché il fumo dalle narici si fa sottile e il suo occhio d'argento si accosta alla fessura a guardarti. Quando schiodi la porta lui abbassa la testa sulla tua spalla e ce la lascia appoggiata, pesante.
+
+**`ombrafosca-in-gabbia__3-fallimento`** · esito «La parola storta» · opzione «Parlargli nella lingua del Circolo» · fallimento · 361 caratteri
+
+> Gli parli nella lingua del Circolo, ma la parola per calma ti esce storta e diventa quella per fuga. Il cavallo scalcia le pareti fino a far saltare due chiodi della porta, e a te torna indietro tutta la sua paura in una volta, così forte che ti si piegano le ginocchia. Resti seduto contro il capanno degli attrezzi, con i conigli che ti guardano dalla gabbia.
+
+**`ombrafosca-in-gabbia__4-esito`** · esito «Il cavallo nel cortile» · opzione «Schiodare la porta e farti da parte» · esito · 464 caratteri
+
+> Togli l'ultima asse e ti butti di lato. La porta si spalanca e il cavallo esce al galoppo in mezzo ai cinghiali, che si sparpagliano strillando, e uno lo manda a gambe all'aria contro la staccionata. Poi prende la rincorsa verso la palizzata e la salta dove è più bassa, e dalla torre la vedetta lo guarda passare con la bocca aperta. Nel trambusto attraversi il cortile senza che nessuno ti veda, e ti resta nelle orecchie il rumore dei suoi zoccoli sugli scogli.
+
+### Fuori dalla gabbia
+
+**`ombrafosca-fuori-dalla-gabbia`** · scena · 802 caratteri
+
+> Il cavallo esce adagio dal capanno e si ferma in mezzo al cortile con la testa alta a guardare il cielo. Da vicino è più grande di quanto sembrava dalle fessure. Ha una cicatrice fresca sulla spalla, larga come una mano, e dove gli orchi l'hanno legato il pelo è venuto via e la pelle sotto è grigia come cenere. I cinghiali si sono ammucchiati nell'angolo più lontano e non fiatano, e dalla torre est una vedetta si sporge a guardare con le carte ancora in mano.
+>
+> Gira il collo verso di te e soffia, e il fumo ti arriva in faccia caldo, con un odore di brace. Non porta sella né briglie, e ha tutta l'aria di non averle mai portate. Ti guarda come se adesso toccasse a te dire la prossima cosa. Dietro la palizzata il mare batte sugli scogli, e oltre il mare ci sono la costa e la strada per Qir-Azel.
+
+**`ombrafosca-fuori-dalla-gabbia__1-esito`** · esito «Ombrafosca» · opzione «Tenerlo con te» · esito · 398 caratteri
+
+> Gli passi una corda larga intorno al collo senza stringerla, e lui ti lascia fare. Lo porti fuori dalla palizzata e lo leghi fra gli scogli dove il ponte di corda tocca l'isola, con un mucchio di alghe davanti che annusa con disprezzo. Gli dai il nome che ti viene in mente guardando il fumo che gli esce dalle narici, Ombrafosca. Lui gira un orecchio verso di te quando lo dici, e lo tiene girato.
+
+**`ombrafosca-fuori-dalla-gabbia__2-esito`** · esito «Il salto» · opzione «Lasciarlo andare» · esito · 455 caratteri
+
+> Ti fai da parte e gli indichi la palizzata con il braccio, anche se ti senti un po' ridicolo a farlo. Il cavallo ti guarda ancora un momento, poi prende la rincorsa attraverso il cortile e salta la palizzata dove è più bassa, con un rumore di zoccoli sul legno che fa affacciare tutte e due le vedette. Lo senti scendere fra gli scogli verso la riva. Quando le vedette smettono di guardare il punto dove è sparito, tu sei già dall'altra parte del cortile.
+
+### La camera del capotribù
+
+**`la-tesoreria-di-balthog`** · scena · 1124 caratteri
+
+> La camera di Balthog sta dietro la sala riunioni, dove un tavolo rotondo e quattro sedie prendono polvere. Il pavimento è di terra battuta, coperto di tappeti di pelle di cinghiale e di cavallo. Sulla parete nord sono inchiodate, uno accanto all'altro, decine di ferri di cavallo, in file dritte come i libri di una biblioteca. Contro il muro est c'è una scrivania con le gambe intagliate, che un tempo doveva valere parecchio, e accanto una sedia imbottita di stracci.
+>
+> Nell'angolo c'è un letto a baldacchino con le tende di seta e la testata scolpita a ninfe e caprai che ballano in un bosco. Le lenzuola sono nere di terra. Qualcuno ha raschiato via col coltello la faccia di tutte le ninfe, mentre i caprai hanno ancora la loro.
+>
+> Una porticina accanto al letto dà sulla latrina, una stanzetta con un buco nel pavimento e il bordo incrostato. Dal buco sale una puzza che ti chiude la gola, e dalla parete di fondo arriva una corrente d'aria fredda che in una latrina non ci dovrebbe essere. [whispers] Qui dentro Balthog tiene qualcosa che non vuole far vedere. Ti copri la bocca con la manica e respiri dentro la stoffa.
+
+**`la-tesoreria-di-balthog__1-successo`** · esito «La chiave sotto la sedia» · opzione «Cercare la chiave e la porta» · successo · 856 caratteri
+
+> Passi le dita sotto la seduta della sedia imbottita e trovi una chiave di ferro grossa come un dito, legata con lo spago. Nella latrina segui la corrente d'aria fino a un'asse che suona vuota, e dietro l'asse c'è uno stanzino con un forziere rinforzato chiuso da un lucchetto. Sul coperchio c'è una fessura sottile, troppo dritta per essere una crepa. Giri la chiave piano, e il coperchio si alza senza che dalla fessura esca niente.
+>
+> Dentro c'è il bottino di anni di razzie, buttato alla rinfusa. Ci sono circa duecento monete di tutte le zecche, e un giaco di maglia fine piegato con cura sotto una tunica di seta blu orlata d'oro. In un sacchetto di cuoio trovi una collana d'oro e un simbolo sacro di platino del Grande Albero Rosso, pesante come un sasso. Sul fondo restano una scimitarra arrugginita e un paio di manette, e quelle le lasci dove sono.
+
+**`la-tesoreria-di-balthog__1-fallimento`** · esito «La lama nel coperchio» · opzione «Cercare la chiave e la porta» · fallimento · 442 caratteri
+
+> Trovi la porta segreta seguendo la corrente d'aria, ma della chiave nessuna traccia, e allora provi il lucchetto con la punta del coltello. Al secondo giro qualcosa scatta nel coperchio. Una lama arrugginita esce da una fessura e ti apre l'avambraccio dal polso al gomito. Il lucchetto tiene. Nella sala riunioni qualcuno trascina una sedia, e tu esci dalla latrina con il braccio stretto contro il petto e il sangue che gocciola sui tappeti.
+
+**`la-tesoreria-di-balthog__2-esito`** · esito «Il coperchio sfondato» · opzione «Sfondare il coperchio» · esito · 583 caratteri
+
+> Trovi la porta seguendo la corrente d'aria, e con un'ascia presa in prestito dall'armeria sfondi le assi del coperchio. Al terzo colpo una lama arrugginita scatta fuori dal legno e ti si pianta nella coscia. La tiri fuori stringendo i denti. Poi infili il braccio nel buco e tiri fuori duecento monete di tutte le zecche e un giaco di maglia fine, piegato sotto una tunica di seta blu orlata d'oro. In fondo, in un sacchetto di cuoio, ci sono una collana d'oro e un simbolo sacro di platino del Grande Albero Rosso. La ferita sulla coscia brucia, e i bordi sono già rossi di ruggine.
+
+### Balthog il Prescelto
+
+**`balthog-il-prescelto`** · scena · 1379 caratteri
+
+> La sala del trono è la stanza più grande della fortezza, e l'aria è ferma e sa di ferro. Le pareti sono coperte di pellicce striate di rosso e di nero, e quattro pilastri irti di spuntoni reggono il soffitto annerito dalle torce. Ai piedi dei pilastri ci sono le mani mozzate, infilzate sugli spuntoni bassi, alcune secche come foglie e altre no. In fondo, su una pedana di legno, c'è un trono coperto di pelli di cinghiale con un teschio di cavallo sopra lo schienale.
+>
+> Balthog il Prescelto ci siede sopra, con quattro orchi armati ai lati. Ha i lineamenti regolari, quasi belli per un orco, e in tutto il corpo non ha una cicatrice. Le mani appoggiate sulle ginocchia sono vuote.
+>
+> “Fermo lì. Non ti sei ancora guadagnato il diritto di avvicinarti” dice a voce bassa, e si sporge in avanti con i gomiti sulle ginocchia. “So chi sei, macellaio di Qir-Azel. Hai ammazzato la mia gente in città e sotto la città, eppure non sei venuto fin qui per me.” Alza piano le mani aperte. “C'è una donna che vive sotto questa fortezza, o qualcosa che ha preso la forma di una donna. Ha i capelli come il mercurio. Lei e i suoi incappucciati hanno provato a piegarmi. Potremmo avere un nemico in comune, macellaio. Io posso darti rifugio e i tesori di anni di razzie, e tu mi dici che cosa vuoi.”
+>
+> Sorride, e gli occhi restano fermi su di te. I tuoi piedi, intanto, sono rimasti sulla soglia.
+
+**`balthog-il-prescelto__1-vittoria`** · esito «Il Prescelto» · opzione «Affrontarlo» · vittoria · 593 caratteri
+
+> Balthog scende i tre gradini della pedana senza fretta e si mette in guardia con le mani aperte all'altezza del petto. Combatte meglio di chiunque tu abbia mai visto, e per un pezzo ogni tuo colpo trova soltanto aria. Poi sbaglia di poco l'appoggio di un piede sulla pelle di cavallo stesa davanti al trono, e tu ci entri dentro. Quando cade contro un pilastro gli spuntoni fanno il resto. I quattro orchi guardano il loro Prescelto per terra, poi si guardano fra loro, e scappano dalla porta grande senza una parola. Dietro il trono una tenda di pelle copre una scala che scende nella roccia.
+
+**`balthog-il-prescelto__1-sconfitta`** · esito «Scendi da lei» · opzione «Affrontarlo» · sconfitta · 538 caratteri
+
+> Balthog non spreca un movimento. Ti prende il polso e ti fa girare su te stesso, e ti manda a sbattere contro un pilastro a un palmo dagli spuntoni. Quando provi a rialzarti ti rimette giù con un colpo solo sotto lo sterno. Ti trascina per il collo della camicia fino alla tenda dietro il trono, dove una scala scende nel buio.
+>
+> “Scendi da lei, macellaio” dice senza alzare la voce. “Se torni su ti finisco io. Se resti giù ti finisce lei, e a me va bene uguale.” Ti spinge, e rotoli per una rampa intera prima di fermarti contro il muro.
+
+**`balthog-il-prescelto__2-successo`** · esito «Il ginocchio» · opzione «Stare al gioco e aspettare che scenda dal trono» · successo · 599 caratteri
+
+> Gli rispondi che vuoi la donna di sotto e che il resto si può discutere. Balthog annuisce piano, come se avessi detto la cosa giusta, e scende dalla pedana per venirti incontro, e tu vedi il momento in cui il peso gli passa sulla gamba davanti. Lo colpisci lì, al ginocchio, con tutto quello che hai. Cade su un fianco con un verso di sorpresa, e il secondo colpo lo prende alla tempia. I quattro orchi vedono il loro Prescelto a terra e scappano. Lo lasci lì davanti al trono senza finirlo, vivo, con un rivolo di sangue nell'orecchio. Dietro il trono una tenda di pelle copre una scala che scende.
+
+**`balthog-il-prescelto__2-fallimento`** · esito «Troppo presto» · opzione «Stare al gioco e aspettare che scenda dal trono» · fallimento · 527 caratteri
+
+> Gli rispondi con le parole giuste, ma gli guardi le ginocchia troppo presto, e Balthog se ne accorge. “Ti avevo avvertito. Non sei pronto a stare davanti a me” dice, e in un attimo è giù dalla pedana. Il primo colpo non lo vedi nemmeno. Ti ritrovi contro un pilastro, con uno spuntone che ti ha aperto la spalla, e scappi dalla porta laterale verso la chiesa in cima all'isola con i passi degli orchi dietro. Dietro l'altare la porta bassa è aperta. Ti butti giù per la scala nella roccia, e nessuno ti segue oltre le lanterne.
+
+**`balthog-il-prescelto__3-successo`** · esito «Le macchine si girano» · opzione «Dirgli che lei lo sta usando» · successo · 762 caratteri
+
+> Gli racconti del diario di Isvaro, dove il mezzelfo chiama Aurenne la sua amata e scrive che gli orchi di Capomozzo li comanda lei. Poi gli chiedi se le macchine della sala dei trofei si girano verso di lui, quando entra. Balthog guarda a lungo le sue mani vuote, e alla fine manda via i quattro orchi con un cenno.
+>
+> “Borgoth me l'aveva detto del mezzelfo, e io l'ho cacciato per questo” dice. “Quando entra lei le macchine si girano. Verso di me non si sono girate mai.” Si alza e si butta sulle spalle una pelliccia presa dallo schienale. “Capomozzo adesso è roba tua e sua, macellaio. Io porto via la mia gente prima che lei finisca di consumarla.” Esce dalla porta grande senza voltarsi, e dietro il trono resta una tenda di pelle sopra una scala che scende.
+
+**`balthog-il-prescelto__3-fallimento`** · esito «Il palmo aperto» · opzione «Dirgli che lei lo sta usando» · fallimento · 585 caratteri
+
+> Gli racconti del diario di Isvaro e di quello che il mezzelfo scriveva di lei, e Balthog ti lascia arrivare fino in fondo. Poi ride piano. “Anche Borgoth parlava così, e adesso Borgoth dorme nei rovi” dice, e scende dalla pedana. Ti colpisce una volta sola, al fianco, con la mano aperta, e ti sembra di aver preso un tronco. Quando riesci a respirare sei carponi sulla roccia fuori dalla porta laterale. Gli orchi restano dentro, perché lui li ha fermati con una parola che somiglia a una risata. Ti trascini fino alla chiesa in cima all'isola, e poi giù per la scala dietro l'altare.
+
+**`balthog-il-prescelto__4-successo`** · esito «Le parole di Borgoth» · opzione «Ripetergli quello che ti ha detto Borgoth» · successo · 617 caratteri
+
+> Gli ripeti quello che ti ha detto Borgoth fra i rovi, che è stata lei a volere l'attacco a Qir-Azel e che lui, Balthog, fa tutto quello che lei dice. Balthog ascolta con la testa piegata. Quando arrivi al mezzelfo stringe i braccioli del trono fino a farli scricchiolare, e poi li lascia andare.
+>
+> “Borgoth parla troppo, e quasi sempre ha ragione” dice. Fa un cenno, e i quattro orchi escono. Raccoglie una pelliccia dallo schienale e se la butta sulle spalle. “Tienila tu, la fortezza. Io porto via chi mi vuole seguire.” Se ne va senza voltarsi, e dietro il trono resta una tenda di pelle sopra una scala che scende.
+
+**`balthog-il-prescelto__4-fallimento`** · esito «Le storie di Borgoth» · opzione «Ripetergli quello che ti ha detto Borgoth» · fallimento · 527 caratteri
+
+> Fai il nome di Borgoth, e la faccia di Balthog si chiude. “Borgoth racconta storie a chiunque lo stia a sentire” dice. “Adesso ne ha trovato uno che gli crede.” Scende dalla pedana in due passi e ti colpisce al petto con il palmo aperto, e ti ritrovi sulla schiena con la bocca piena del sapore del sangue. Ti rialzi soltanto perché lui te lo lascia fare. Con il mento ti indica la porta laterale, quella che porta alla chiesa e alla scala nella roccia, e ci vai tenendoti le costole mentre lui ti guarda uscire senza muoversi.
+
+**`balthog-il-prescelto__5-esito`** · esito «La strada lunga» · opzione «Tornare indietro e scendere dalla scala della chiesa» · esito · 499 caratteri
+
+> Fai un passo indietro e poi un altro, e Balthog ti guarda andare senza alzarsi. “Va' pure da lei, macellaio” dice alle tue spalle. “Ci arrivi lo stesso.” Fuori ti metti a correre, e ti fermi soltanto in cima all'isola, nella chiesa senza tetto, a scostare la pelle di cinghiale dalla porta bassa dietro l'altare. Scendi la scala nella roccia giro dopo giro, oltre le lanterne accese e poi nel buio, con la sua voce ancora in testa, e a ogni giro alzi gli occhi a guardare la scala vuota sopra di te.
+
+### Il ritorno a Qir-Azel
+
+**`il-ritorno-a-qir-azel`** · scena · 1371 caratteri
+
+> Per due giorni di strada Aurenne non apre gli occhi. La porti a tratti sulle spalle e a tratti su una lettiga di rami che trascini con la cinghia della bisaccia, e la notte, accanto al fuoco, il suo respiro è così lento che ti chini più volte ad ascoltarlo. Sotto la pelle le pulsano chiazze scarlatte simili a braci coperte di cenere, e ogni volta che la tocchi ti strofini le mani sui calzoni senza volerlo.
+>
+> Le porte della Cattedrale del Velo si aprono con un colpo sordo. Dentro c'è odore d'incenso e di cera, e sotto c'è quello di ferro bruciato che ti porti addosso dalle rovine. In fondo alla navata Padre Vantes e Julia Castaldi parlano a bassa voce con Toren Galdrick, che è salito dalla Caserma con gli stivali ancora sporchi della ronda, e al rumore delle porte si voltano tutti insieme.
+>
+> Julia ti viene incontro per prima, con le mani strette al petto, e la voce roca le si rompe a metà di un ringraziamento al Grande Albero. Galdrick guarda la donna che hai steso su una panca e ti chiede soltanto se è viva. Vantes le si inginocchia accanto, le posa due dita sulla fronte e le tiene lì a lungo.
+>
+> “È contaminata” dice piano. “C'è una presenza dentro di lei, e la sento sotto le dita.” Ritira la mano e si pulisce le dita sulla tonaca, senza accorgersene. [whispers] Allora non succede solo a me. Le tue mani, intanto, hanno già trovato la stoffa dei calzoni.
+
+**`il-ritorno-a-qir-azel__1-esito`** · esito «Il trono vuoto» · opzione «Dire a Galdrick com'è finita con Balthog» · esito · 554 caratteri
+
+> Gli dici che Balthog il Prescelto è morto nella sua sala del trono, sotto il teschio di cavallo dello schienale. Julia respira piano, come se se lo concedesse solo adesso. “Allora è finita” dice, “o quasi.”
+>
+> Galdrick non sorride. Tiene i pollici nella cintura e scuote la testa una volta sola. “Ci sono ancora bande sparse per le campagne, e a Fondobosco sono più di quanti ne potremmo contare” dice. “Senza un capo, però, non ci verranno più addosso tutti insieme. Il fronte si spezza lì.” Tira fuori il taccuino dalla giubba e ci scrive una riga corta.
+
+**`il-ritorno-a-qir-azel__2-esito`** · esito «Battuto davanti ai suoi» · opzione «Dire a Galdrick com'è finita con Balthog» · esito · 630 caratteri
+
+> Gli dici che hai battuto Balthog davanti ai suoi orchi e che l'hai lasciato a terra davanti al trono, vivo. Galdrick ti guarda a lungo con i pollici nella cintura, e alla fine annuisce. “Un orco battuto davanti alla sua tribù non comanda più nessuno” dice. “Forse è meglio di un morto da vendicare.”
+>
+> Julia respira piano, come se se lo concedesse solo adesso, e dice che allora è finita, o quasi. Lo sceriffo la corregge senza alzare la voce. Restano bande sparse per le campagne, e a Fondobosco gli orchi sono tanti, ma senza un capo non verranno più tutti insieme. Tira fuori il taccuino dalla giubba e ci scrive una riga corta.
+
+**`il-ritorno-a-qir-azel__3-esito`** · esito «Ancora vivo» · opzione «Dire a Galdrick com'è finita con Balthog» · esito · 673 caratteri
+
+> Gli dici che Balthog è ancora vivo, anche se non sai dove sia adesso, e che sotto la fortezza ci sei sceso lo stesso. Galdrick aggrotta la fronte e ci pensa su con i pollici nella cintura. “Un capotribù a cui hanno tolto chi gli dava gli ordini” dice alla fine. “Torna a essere un orco come gli altri, solo più grosso.”
+>
+> Julia respira piano, come se se lo concedesse solo adesso, e dice che allora è finita, o quasi. Lo sceriffo la corregge senza alzare la voce. Restano bande sparse per le campagne, e a Fondobosco gli orchi sono tanti, ma senza la donna che li teneva in fila non verranno più tutti insieme. Tira fuori il taccuino dalla giubba e ci scrive una riga corta.
+
+**`il-ritorno-a-qir-azel__4-esito`** · esito «Nhar'Kael» · opzione «Dire chi serviva Aurenne» · esito · 587 caratteri
+
+> Racconti della cappella sotto la fortezza con la statua dalla testa di sciacallo, e delle trenta maschere bianche dei cultisti dell'Anonimo, che Aurenne ha sacrificato uno dopo l'altro. Quando dici il nome di Nhar'Kael nella navata si sentono sfrigolare le candele. Julia sbianca, e Galdrick stringe il pugno sulla cintura.
+>
+> Vantes si fa il segno del velo. “Nhar'Kael” ripete piano, e ti posa due dita sul polso, come per sentire se il nome ha lasciato un segno anche su di te. “Allora tutto questo viene da più in basso di una setta” dice, “e da molto più lontano di quanto pensassimo.”
+
+**`il-ritorno-a-qir-azel__5-esito`** · esito «Le storie erano vere» · opzione «Raccontare della maschera» · esito · 679 caratteri
+
+> Racconti del Costruttore e della maschera spaccata che si è ricomposta davanti a te, e del coro che ti ha chiamato Portatore dell'Alba con la tua stessa voce. Mentre parli ti accorgi di toccarti il viso, nel punto dove la maschera si è posata.
+>
+> Julia si porta una mano alla bocca. Galdrick chiude gli occhi e mormora soltanto “Allora le storie erano vere…” Quando li riapre ti parla come parla alle guardie in Caserma, con il taccuino già in mano. “Domani sera la Madre del Velo vorrà vederti nella Cripta.”
+>
+> Julia indica il congegno che hai posato sul tavolo. “Quello non toccarlo e non usarlo” dice con la voce roca. “Aspetta che lei si svegli, è l'unica che sa come funziona.”
+
+**`il-ritorno-a-qir-azel__6-esito`** · esito «Servirà tempo» · opzione «Parlare soltanto del congegno» · esito · 649 caratteri
+
+> Posi il congegno sul tavolo accanto alla panca e spieghi che Aurenne lo usava per comandare le macchine della Salvaguardia. Galdrick sposta due libri per guardarlo meglio e scuote la testa. “Un disco che comanda quelle cose” dice. “Sembra una follia.”
+>
+> “Forse, ma è l'unica pista che abbiamo” dice Julia con la voce roca. “Non toccarlo e non usarlo. Aspetta che si svegli, lei sa come funziona.”
+>
+> Vantes annuisce senza staccare le dita dalla fronte di Aurenne. “La terrò in vita, ma servirà tempo.” Quando sei già sulla porta ti richiama, e ti dice che la Madre del Velo ti aspetta domani sera nella Cripta, e lo dice come una cosa decisa da giorni.
+
+### La Madre del Velo
+
+**`la-madre-del-velo`** · scena · 1271 caratteri
+
+> La sera dopo Padre Vantes ti accompagna fino alla scala della Cripta e si ferma sul primo gradino. “Io resto qui” dice, e ti posa due dita sul polso più a lungo del solito. Scendi gli ultimi gradini da solo. La Cripta è una sala bassa sotto l'altare dove l'aria è ferma e densa d'incenso, e il velo che copre l'altare si muove appena anche se non c'è vento.
+>
+> Le torce si spengono una alla volta, da quella più vicina alla scala fino all'ultima. Nella penombra resta un chiarore d'oro e d'argento, e al centro della sala c'è una figura avvolta in veli che alla luce delle torce sarebbero di seta nera e grigia, e che adesso sembrano fatti di quel chiarore. Il volto resta nascosto, e le mani che sporgono dai veli hanno le unghie tinte di cenere.
+>
+> La voce non ha inflessioni e ti arriva dentro le orecchie senza passare dall'aria. Dietro ce n'è un'altra più bassa, che dice le stesse parole con un attimo di ritardo, e ti si drizzano i peli sulle braccia.
+>
+> “Portatore dell'Alba” dice la Madre del Velo. “I tuoi passi hanno rotto il silenzio di secoli. La Magnistruttura ha tremato, e le rovine si sono ricordate i loro nomi. Il Costruttore è caduto, e il tuo cammino comincia da lì.” I veli smettono di muoversi, e la seconda voce finisce la frase un attimo dopo la prima.
+
+**`la-madre-del-velo__1-esito`** · esito «Le mani dei Precursori» · opzione «Chiedere dei Costruttori» · esito · 634 caratteri
+
+> “I Costruttori erano le mani dei Precursori” dice la Madre. “Edificavano e custodivano. Quando i loro signori scomparvero rimasero prigionieri del loro lavoro e continuarono a costruire e a difendere senza più sapere per chi. Adesso sono semidivinità spezzate. Alcuni fanno la guardia, altri distruggono quello che giudicano imperfetto. Ne restano nove, forse dieci.”
+>
+> La seconda voce, dietro la sua, si fa più vicina. “Uno di loro ti aspetta nel Labirinto di Darn-Morakh. È un Costruttore Redento, l'unico che ricorda ancora che cosa fosse la Luce. Se puoi, non distruggerlo. Attraverso di lui la tua maschera potrà crescere ancora.”
+
+**`la-madre-del-velo__2-esito`** · esito «Il Nido» · opzione «Chiedere del Labirinto» · esito · 673 caratteri
+
+> “Il Labirinto di Darn-Morakh era un cantiere divino” dice la Madre, “dove i Precursori forgiavano mondi. Adesso è una prigione viva di pietra e metallo che pensano, con corridoi che cambiano direzione. Ci si muovono cose che non dovrebbero esistere. La più pericolosa è quella che vi si nasconde.” La seconda voce dice il nome un attimo dopo la prima. “Nhar'Kael. La chiamano la Regina delle Ali Spezzate, o la Covatrice di Orrori. Ogni culto che la serve cerca di somigliarle, e fonde la carne con la macchina finché la differenza si perde.”
+>
+> Fa una pausa. “La donna che hai riportato dalle rovine, quella che gli orchi chiamavano la Dama d'Argento, era solo un preludio.”
+
+**`la-madre-del-velo__3-esito`** · esito «Il cammino è tracciato» · opzione «Dirle che scenderai nel Labirinto» · esito · 723 caratteri
+
+> Le dici che scenderai nel Labirinto, quando sarai pronto. La Madre resta immobile così a lungo che ti chiedi se ti abbia sentito. Poi le torce si riaccendono partendo dall'ultima, e quando la luce arriva alla scala la figura in mezzo alla sala è soltanto una donna velata di nero e di grigio, più piccola di come ti era sembrata.
+>
+> “Il tuo cammino è tracciato, Portatore” dice la Madre quando sei già sul primo gradino. “Va', adesso.” In cima alla scala Vantes ti aspetta con le mani infilate nelle maniche, e ti dice che per Aurenne ci vorrà ancora una settimana. Le ferite del corpo si sono già chiuse, e per il resto lui può soltanto pregare. Ti accompagna fino al portale con una candela in mano, senza chiederti niente.
+
+**`la-madre-del-velo__4-esito`** · esito «La vita che resta» · opzione «Dirle che il Labirinto non è affar tuo» · esito · 543 caratteri
+
+> Le dici che non scenderai, perché per la Confraternita hai già fatto abbastanza. Per un po' non succede niente. Poi la voce torna più bassa di prima, e per la prima volta ti sembra quasi umana.
+>
+> “Da quello che hai dentro non si scappa” dice. “Nhar'Kael è nell'aria che respiri, e nella memoria di chiunque sia nato dopo la Caduta. Ti chiedo di servire la vita che resta.”
+>
+> Le torce si riaccendono una alla volta. In cima alla scala Vantes ti dice che per Aurenne ci vorrà ancora una settimana, e non ti chiede che cosa hai risposto alla Madre.
+
+### Aurenne si risveglia
+
+**`aurenne-si-risveglia`** · scena · 1349 caratteri
+
+> Una settimana dopo un novizio ti ferma per strada e ti dice, con il fiato corto per la corsa, che Padre Vantes ti manda a chiamare. In Cattedrale la luce entra a fasci dalle vetrate e colora di rosso e d'oro la pietra. Vantes ti accompagna lungo la navata senza parlare e ti lascia davanti alla porta della sala di preghiera più interna.
+>
+> Aurenne è in ginocchio davanti all'altare. Al posto dell'armatura nera che portava sul ponte ha una semplice corazza a scaglie color ferro, con le braccia scoperte, e i capelli d'argento legati in una coda alta. La mano destra è ancora l'artiglio, con le dita lunghe e nere, e la tiene aperta sulla coscia come una cosa che non le appartiene. I tuoi piedi si fermano sulla soglia prima che tu lo decida.
+>
+> “Nessun ramo dell'Albero rimane secco per sempre” dice senza voltarsi. “Anche il più annerito, se nessuno lo spezza, può fiorire ancora.” Si alza piano e si gira. Ha gli occhi viola e stanchi, e la luce che avevano sul ponte se n'è andata.
+>
+> “È un passo delle Scritture, parla di perdono. Padre Vantes mi ha accolta, e dice che per tornare indietro non è mai troppo tardi. Io questo non lo so. Non cercherò di giustificarmi con quello che ho subito, né con le voci che mi hanno guidata. Voglio soltanto espiare.” Ti guarda quasi supplicando. “Per questo ti risponderò, Portatore. Chiedimi quello che vuoi.”
+
+**`aurenne-si-risveglia__1-esito`** · esito «Figlia imperfetta» · opzione «Chiedere di Nhar'Kael e della Marea Grigia» · esito · 706 caratteri
+
+> “Mi ha parlato fin da quando ero bambina” dice Aurenne, con gli occhi sulla luce delle vetrate. “Mi chiamava figlia imperfetta, e mi diceva che potevo essere la prima di una stirpe nuova, che potevo riaprire il nido. Credevo che fosse un dono.” Si passa la mano buona fra i capelli. “La Marea Grigia è lei. La genera un po' per caso e un po' per difendersi, e così nasconde i segreti dei Precursori. Ogni ondata cancella un pezzo della memoria del mondo.”
+>
+> Poi abbassa gli occhi sull'artiglio. Con tutto quello che ha fatto per Nhar'Kael, dice, adesso alla Regina riesce più facile generare i suoi figli, le bestie mutate che i Raschiatori trovano nelle rovine, e la voce le si fa piatta mentre lo ammette.
+
+**`aurenne-si-risveglia__2-esito`** · esito «L'ultima testimone» · opzione «Chiedere del Culto dell'Anonimo» · esito · 636 caratteri
+
+> “L'ho fondato io, per servirla” dice. “Nhar'Kael mi aveva mostrato il tuo volto prima che ti incontrassi, e mi aveva detto che avresti portato la rovina travestita da redenzione. Io l'ho ripetuto agli altri, e loro mi hanno creduto. Portavamo maschere bianche senza tratti, perché la salvezza stava nel non essere più nessuno.”
+>
+> La voce le si incrina appena. “Uccidevamo chi si opponeva, e quando abbiamo finito ho sacrificato loro, uno dopo l'altro, sull'altare della Regina delle Ali Spezzate. Credevo che mi avrebbe trasformata in qualcosa di potente. Il Culto dell'Anonimo è finito con loro, e io sono l'ultima che può raccontarlo.”
+
+**`aurenne-si-risveglia__3-esito`** · esito «Un modulatore» · opzione «Chiedere del congegno» · esito · 610 caratteri
+
+> “È un relitto dei Precursori” dice Aurenne, e guarda il disco senza toccarlo. “Manda un segnale che confonde le loro macchine. Per qualche minuto non sanno più chi sono, e quindi nemmeno chi è il nemico. Poi si scarica, e si ricarica con i cristalli conduttori oppure da solo, col tempo.”
+>
+> Stringe l'artiglio fino a farsi scricchiolare le nocche. “Può anche comandarle, se gli dai abbastanza volontà. Io ne ho comandate a decine, e a ogni ordine dentro di me si spegneva un ricordo, oppure un respiro. Un giorno mi sono accorta che non provavo più niente, e ancora adesso non so se quella parte di me tornerà.”
+
+**`aurenne-si-risveglia__4-esito`** · esito «La grafia di una ragazza» · opzione «Mostrarle il diario» · esito · 433 caratteri
+
+> Le porgi il diario aperto sulla prima pagina. Aurenne lo riconosce dalla copertina e non lo prende. Lo guarda nelle tue mani, e le labbra le si muovono appena, come se rileggesse a memoria una riga.
+>
+> “Quella ragazza scriveva a qualcuno che non la ascoltava” dice dopo un po'. “Al Grande Albero, credeva lei.” Poi scuote la testa piano e ti chiede di tenerlo tu, perché se lo tenesse lei finirebbe per rileggerlo, e per darle ragione.
+
+**`aurenne-si-risveglia__5-esito`** · esito «Una donna» · opzione «Lasciarla alle sue preghiere» · esito · 632 caratteri
+
+> Dopo un lungo silenzio Aurenne torna a inginocchiarsi davanti all'altare. La luce delle vetrate le scivola sulla corazza e disegna sul pavimento una macchia rossa, che le arriva fino alle ginocchia.
+>
+> “Lasciami alle mie preghiere” dice. “Non tornerò a combattere, e non voglio più essere la guida di nessuno, né un simbolo. Sono solo una donna che ha perso se stessa nel tentativo di diventare un dio.” Abbassa la testa sull'artiglio. “Ti auguro ogni fortuna, Portatore. Spero di rivederti.”
+>
+> Quando esci Vantes è seduto sull'ultima panca della navata, con il breviario chiuso sulle ginocchia, e ti saluta con un cenno senza alzarsi.
+
+### I Raschiatori
+
+**`i-raschiatori`** · scena · 1314 caratteri
+
+> Il Grifone di Ferro è pieno a metà. Il camino tira male come sempre e sputa faville sul pavimento, e alle pareti pendono corde e carrucole recuperate dai cantieri sotterranei, che Liaren chiama la sua collezione d'arte. Brunella ti mette davanti una scodella di zuppa prima che tu la chieda. Al tavolo vicino alla finestra siedono Tenebra e Ferro.
+>
+> Tenebra sta seduto di taglio, e la bruciatura sulla guancia è una filigrana di vetro sotto la pelle. Davanti ha un boccale che non tocca. Ferro, cioè Dragna Gro-Malog, stringe il suo come se fosse un elmo, con le nocche bianche e le due dita che le mancano alla mano sinistra, e i lati rasati della testa le luccicano di sudore. Quando ti siedi, gli occhi gialli ti squadrano dagli stivali in su.
+>
+> Chiedi a Ferro di portarti giù, fino al Labirinto di Darn-Morakh.
+>
+> “No” dice lei. Poi, visto che non ti alzi, si appoggia allo schienale. “Hai chiesto e ti ho risposto. La Salvaguardia si chiude sugli intrusi ogni volta più in fretta, e il primo strato l'abbiamo raschiato fino all'osso. Ci sono rimasti corridoi vuoti e nidi di macchine sveglie. In fondo non si va. Punto.”
+>
+> Tenebra non ha ancora aperto bocca. Ti guarda prima le mani e poi gli occhi, con il modo dei maestri d'armi, che pesano l'acciaio prima dell'uomo. “Hai qualcosa che noi non sappiamo?” chiede.
+
+**`i-raschiatori__1-esito`** · esito «Odio quelli che parlano come me» · opzione «Mostrare il congegno» · esito · 743 caratteri
+
+> Posi il congegno sul tavolo, fra il boccale di Tenebra e la tua zuppa, e racconti delle macchine di Capomozzo che si fermavano a metà passo. Ferro si piega in avanti a cercarti una bugia negli occhi, e quando non la trova sbuffa lo stesso. “Diglielo tu” dice a Tenebra, senza staccarti gli occhi di dosso. “Digli che non abbiamo uomini. Sono morti o feriti, e quelli rimasti sono già giù nelle rovine qui intorno. Quel poco che resta lo tengo per la città.”
+>
+> Le rispondi che ti basta qualcuno che sappia dov'è l'argano e come si libera il freno, e che al resto pensi tu. Ferro ti fissa a lungo. “Odio quelli che parlano come me” dice alla fine, e allenta la presa sul boccale.
+>
+> Tenebra alza il boccale e ci bagna appena le labbra, poi lo posa.
+
+**`i-raschiatori__2-esito`** · esito «Uno dei suoi» · opzione «Ripeterle la frase degli obelischi» · esito · 547 caratteri
+
+> Le ripeti la frase che fa imparare alle reclute, quella incisa sugli obelischi della Strada Antica, che discendere è fatale e che non discendere è morire incompleti. Ferro grugnisce e si passa la mano sui lati rasati della testa. “I miei non li mando a morire” dice, e guarda Tenebra. “Diglielo tu che non abbiamo uomini.”
+>
+> Tenebra la guarda a sua volta senza dire niente, finché Ferro non batte il boccale sul tavolo. “Odio quelli che parlano come me” dice, e scuote la testa. Tenebra alza il suo boccale e ci bagna appena le labbra, poi lo posa.
+
+**`i-raschiatori__3-successo`** · esito «Con lei o senza» · opzione «Insistere finché Ferro cede» · successo · 551 caratteri
+
+> Le dici che sotto Capomozzo sei sceso da solo e che hai lasciato un Costruttore sotto le macerie. Nel Labirinto ci scenderai comunque, magari da un pozzo cieco dei contrabbandieri se l'argano lei non te lo dà. Ferro ti ascolta senza mollare il boccale. “Diglielo tu” dice a Tenebra, senza voltarsi. “Digli che non abbiamo uomini.” Tenebra resta zitto e continua a guardarti le mani.
+>
+> Alla fine a Ferro scappa una specie di risata dal naso. “Odio quelli che parlano come me” dice, e scuote la testa. Tenebra alza il boccale e ci bagna appena le labbra.
+
+**`i-raschiatori__3-fallimento`** · esito «Punto» · opzione «Insistere finché Ferro cede» · fallimento · 325 caratteri
+
+> Ferro ti lascia parlare fino in fondo, poi batte il boccale sul tavolo una volta sola, e mezza sala si gira. “Ho detto no” dice. “Torna quando hai qualcosa da mostrarmi oltre alla faccia tosta.” Tenebra ha smesso di guardarti, e capisci che per stasera è finita. Ti alzi con le orecchie che scottano e la zuppa ancora a metà.
+
+### L'orlo della Cicatrice
+
+**`l-orlo-della-cicatrice`** · scena · 1316 caratteri
+
+> Fuori la sera ha l'odore della pioggia sul ferro. Tenebra e Ferro ti guidano per i vicoli dei Ponti, oltre i magazzini della Gilda dei Mercanti con le saracinesche già abbassate, e giù fino ai piloni, dove il vento sale dalla Cicatrice e fischia fra le funi. Un custode del Velo vi guarda passare dalla sua garitta e, quando riconosce Tenebra, torna a scaldarsi le mani sul braciere. Il ponte sospeso che porta all'argano pende sopra un vuoto color piombo, e il legno scricchiola a ogni passo.
+>
+> La piattaforma è una ruota di acciaio annerito larga quanto una stanza, percorsa da incisioni dei Precursori che sembrano vene spente. Ferro le gira intorno e controlla le catene una per una, contando a mezza voce, e quando arriva alla leva del freno si sputa sulle mani. “La sera prima si prova sempre” dice. “Chi non prova l'argano lo prova il giorno dopo, quando ormai è tardi.”
+>
+> Libera il freno. L'argano geme e la piattaforma scende di un palmo sotto i tuoi stivali, e laggiù, lungo la parete della voragine, la Strada Antica si accende per un attimo in una linea di luce fredda che corre verso il basso e si spegne. Ti si chiude lo stomaco. All'orizzonte di pietra, nel mezzo della Cicatrice, si vedono le sagome sospese del Labirinto di Darn-Morakh.
+>
+> Ferro tira la leva, e la piattaforma si ferma con uno scossone.
+
+**`l-orlo-della-cicatrice__1-esito`** · esito «Sull'orlo» · opzione «Restare a guardare il Labirinto» · esito · 611 caratteri
+
+> Resti sulla piattaforma finché il vento non ti fa lacrimare. Ferro ripassa le catene con il palmo, poi si pulisce la mano sui calzoni. “L'argano è qui” dice. “Vieni al Grifone quando sei pronto e me lo dici, e io libero il freno per davvero.”
+>
+> Tenebra ti aspetta in cima al ponte sospeso, con la bruciatura che luccica appena nel buio. Quando gli passi accanto ti tocca la spalla una volta sola, come si fa con le reclute, e ti augura “Buona caccia” a voce bassa, senza fermarsi.
+>
+> Dal ponte ti volti indietro. La piattaforma dondola piano sulle catene, vuota, sopra il buio della Cicatrice.
+>
+> Fine del Capitolo I
+
+### Le gabbie dei cuccioli
+
+**`le-gabbie-dei-cuccioli`** · scena · 1112 caratteri
+
+> La stanza è più calda delle altre e puzza di paglia marcia e di piscio. Lungo le pareti ci sono una dozzina di gabbie basse, fatte di assi grezze inchiodate con chiodi di nave, e quasi tutte sono vuote. In tre c'è qualcosa che si muove. Sono cuccioli d'orco alti mezzo metro, con la pelle verde smorta e gli occhi gialli iniettati di sangue, e il più grande ha un orecchio mangiato a metà, da un fratello, a giudicare dai segni dei denti.
+>
+> Appena ti vedono si buttano contro le sbarre e ringhiano, con una voce a metà fra quella di un bambino e quella di un cane. Sul pavimento fra le gabbie ci sono ossa spolpate e una ciotola sola, rovesciata. Li tengono affamati e insieme perché imparino a strapparsi il cibo di mano, e quelli che crescono diventano guerrieri.
+>
+> Il più piccolo smette di ringhiare per primo. Ti guarda con la testa piegata e allunga una mano fra le sbarre, aperta, con il palmo in su. [whispers] Vuole da mangiare, o vuole vedere se mordi. Le dita ti vanno da sole alla tasca dove tieni la carne secca. Accanto alla porta, appesa a un chiodo con un pezzo di spago, c'è la chiave delle gabbie.
+
+**`le-gabbie-dei-cuccioli__1-successo`** · esito «Tre parti uguali» · opzione «Dar loro da mangiare e aprire le gabbie» · successo · 418 caratteri
+
+> Spezzi la carne secca in tre parti uguali, perché hai visto la ciotola sola, e apri le gabbie una alla volta cominciando dal più piccolo. Ognuno prende il suo pezzo e corre in un angolo a mangiarlo con la faccia verso il muro. Poi escono dalla porta in fila, il più grande per ultimo, e li senti correre verso il rumore del mare. Il più piccolo si ferma sulla soglia e ti guarda ancora un momento con la testa piegata.
+
+**`le-gabbie-dei-cuccioli__1-fallimento`** · esito «I denti» · opzione «Dar loro da mangiare e aprire le gabbie» · fallimento · 367 caratteri
+
+> Apri la prima gabbia e il più grande ti salta sul braccio prima che tu abbia tirato fuori la carne. Ha già i denti di un adulto. Te lo stacchi di dosso e lui scappa dalla porta, e gli altri due lo seguono appena apri le loro gabbie, senza toccare la carne che gli hai buttato dentro. Ti fasci il braccio con un lembo di camicia, e la ciotola resta rovesciata dov'era.
+
+**`le-gabbie-dei-cuccioli__2-esito`** · esito «Un braccio e mezzo» · opzione «Aprire le gabbie da lontano» · esito · 355 caratteri
+
+> In un angolo trovi una lancia rotta, ci leghi la chiave in cima con lo spago e apri le gabbie una per una, tenendoti a un braccio e mezzo dalle sbarre. I cuccioli escono ringhiando, ti girano intorno due volte annusandoti gli stivali e poi spariscono dalla porta, verso il rumore del mare. Rimetti la chiave al suo chiodo con lo spago, come l'hai trovata.
+
+**`le-gabbie-dei-cuccioli__3-esito`** · esito «La ciotola» · opzione «Lasciarli dove sono» · esito · 383 caratteri
+
+> Raddrizzi la ciotola rovesciata e ci metti dentro tutta la carne secca che hai in tasca. Poi esci e richiudi la porta. Da dietro il legno senti i ringhi che ricominciano, tre voci che si azzuffano intorno a una ciotola sola. Resti fermo nel corridoio ad ascoltarli finché smettono. Quando riparti ti accorgi di avere ancora in mano lo spago della chiave, e lo lasci cadere per terra.
+
+### La tana del Pungitore
+
+**`la-tana-del-pungitore`** · scena · 876 caratteri
+
+> Oltre il terreno di caccia, dove la caverna fa una curva verso il mare, c'è la tana. Il pavimento è coperto da centinaia di carcasse di gabbiani e di falchi pescatori, e fra gli uccelli ci sono una decina di orchi. Sono tutti vuoti. La pelle si è seccata intorno alle ossa, e dentro non è rimasto niente, come in un uovo bevuto da un buco.
+>
+> Uno degli orchi è più grosso degli altri. Ha ancora addosso un'armatura di pelle di cinghiale cucita a strati, con le borchie fatte di chiodi di nave, e la mano stretta sull'elsa di una spada larga e ricurva. Sulla lama qualcuno ha inciso Druzk a punta di coltello, in lettere comuni tutte storte. Al collo porta un anello di ferro con una dozzina di chiavi da carceriere.
+>
+> Lo stomaco ti si chiude, e cominci a respirare dalla bocca. Dall'apertura sul mare arriva il fruscio delle liane, e a ogni fruscio ti giri a guardare l'apertura.
+
+**`la-tana-del-pungitore__1-successo`** · esito «Strato per strato» · opzione «Sfilargli l'armatura a forza» · successo · 319 caratteri
+
+> Punti un piede sul petto del morto e tiri, e l'armatura viene via con un rumore di carta strappata. La spada invece non la vuole lasciare. Gli apri le dita una per una, e sono leggere come rametti secchi. Prendi anche le chiavi, ed esci dalla tana con l'armatura sotto il braccio prima che le liane si muovano di nuovo.
+
+**`la-tana-del-pungitore__1-fallimento`** · esito «Il padrone di casa» · opzione «Sfilargli l'armatura a forza» · fallimento · 345 caratteri
+
+> Tiri troppo forte, l'armatura si strappa via di colpo e tu cadi all'indietro fra i gabbiani secchi con un rumore di paglia. Dall'apertura sul mare entra il Pungitore. Afferri la spada e le chiavi e corri, e il pungiglione ti prende alla coscia proprio sulla soglia. L'armatura te la trascini dietro per una cinghia fino al corridoio, zoppicando.
+
+**`la-tana-del-pungitore__2-successo`** · esito «Le cinghie» · opzione «Tagliare le cinghie con calma» · successo · 322 caratteri
+
+> Hai visto abbastanza morti per sapere dove la pelle si stacca da sola. Tagli le cinghie sotto le ascelle e lungo i fianchi, e l'armatura si apre come un guscio. La spada gliela sfili dalla mano girandogli il polso piano, anche se a lui ormai non importa, e le chiavi gliele togli per ultime, dalla testa, come una collana.
+
+**`la-tana-del-pungitore__2-fallimento`** · esito «Dentro» · opzione «Tagliare le cinghie con calma» · fallimento · 400 caratteri
+
+> Tagli una cinghia di troppo, e il torace del morto si apre insieme all'armatura. Dentro è vuoto e pulito, liscio come l'interno di una conchiglia. Prendi tutto quello che c'è da prendere senza guardare più giù, e ti accorgi che stai trattenendo il fiato soltanto quando sei di nuovo nel corridoio. Respiri a bocca aperta contro il muro, con l'armatura fra i piedi, finché le mani smettono di tremare.
+
+**`la-tana-del-pungitore__3-esito`** · esito «Il tempo che ci vuole» · opzione «Prendere tutto con le mani nel marcio» · esito · 324 caratteri
+
+> Ti inginocchi fra i gabbiani e lavori a mani nude, slacciando quello che si slaccia e strappando il resto, e ogni pochi respiri il fruscio delle liane ti fa voltare. Ci metti un'ora. Esci con l'armatura fra le braccia, la spada infilata nella cintura e le chiavi al collo, e con un odore addosso che ti resta per due giorni.
+
+### L'harem di Dorbak
+
+**`zagrath-nell-harem`** · scena · 1269 caratteri
+
+> La stanza puzza di aceto e di fiori marci, così forte che ti lacrimano gli occhi, e ci metti un momento a capire che quell'odore è un profumo. Lo portano quattro orchesse grosse e sgraziate, con collane di denti e le guance dipinte di rosso, sedute in cerchio fra decine di cuscini bitorzoluti e di pellicce di cavallo. Erano le mogli di Dorbak, il capoguerra che cavalcava il cinghiale corazzato alla razzia del Festival, e da quando è morto a Qir-Azel nessuno viene più a trovarle.
+>
+> Al centro del cerchio siede un uomo enorme che è mezzo orco e mezzo ogre, con la pelle grigia e spessa e il naso rotto tante volte che non ha più una direzione. Porta soltanto un paio di brache di cuoio sfilacciate e un amuleto d'ossa. Una delle orchesse gli pettina i capelli con un pettine d'osso, un'altra lo imbocca con dei datteri. Contro i cuscini c'è un arco composito più alto di te, con una faretra di frecce nere.
+>
+> [whispers] Zagrath, con l'arco lungo quanto Ilvaena. Lui ti fissa con gli occhi piccoli, più offeso che sorpreso, e si toglie un dattero di bocca.
+>
+> “Hai scelto il momento sbagliato per morire” dice con la voce impastata, e allunga la mano verso l'arco. Le quattro orchesse si girano verso di te tutte insieme, e quella col pettine lo stringe come un coltello.
+
+**`zagrath-nell-harem__1-vittoria`** · esito «Dillo all'elfa» · opzione «Affrontarlo» · vittoria · 578 caratteri
+
+> Tira due frecce prima che tu arrivi ai cuscini, e la seconda ti passa così vicino che senti le piume. Da vicino l'arco non gli serve più, e la vedova con la mazza finisce lunga sulle pellicce. Quando Zagrath cade in ginocchio sanguina dal naso per l'ennesima volta, e ride.
+>
+> “Dillo all'elfa” dice, e sputa un dente. “Dille che questa per noi due conta zero. Lei qui non c'era.” Le orchesse gli si buttano addosso a strillare, e lui ne approfitta per strisciare fuori dalla porta sul retro con l'arco in mano. Lo lasci andare. Sul pavimento, delle sue frecce nere ne restano tre.
+
+**`zagrath-nell-harem__1-sconfitta`** · esito «Le frecce nere» · opzione «Affrontarlo» · sconfitta · 315 caratteri
+
+> La prima freccia ti prende alla spalla prima che tu abbia fatto tre passi, e la seconda ti inchioda il mantello allo stipite. Lo strappi e scappi nel corridoio, con le orchesse che ti tirano dietro i cuscini e Zagrath che ride sdraiato, senza nemmeno alzarsi. Quando ti volti, la porta è chiusa con il chiavistello.
+
+**`zagrath-nell-harem__2-successo`** · esito «Il capoguerra» · opzione «Raccontare alle vedove come è morto Dorbak» · successo · 548 caratteri
+
+> Alzi le mani vuote e cominci a raccontare il giorno del Festival e il cinghiale corazzato di Dorbak, e di come è caduto alla porta nord senza fare un passo indietro. Ci metti un po' di quello che si racconta in città e parecchio di quello che vogliono sentire. La più vecchia comincia a piangere a voce altissima, le altre le vanno dietro, e in mezzo al lamento si ricordano che sui cuscini del marito c'è un estraneo. Zagrath a una cosa del genere non era preparato. Raccoglie l'arco e se ne va borbottando, e nessuno bada a te quando passi oltre.
+
+**`zagrath-nell-harem__2-fallimento`** · esito «Il pettine» · opzione «Raccontare alle vedove come è morto Dorbak» · fallimento · 393 caratteri
+
+> Cominci a parlare di Dorbak, e la più giovane delle vedove ti tira il pettine in faccia prima che tu arrivi al cinghiale. Come è morto non lo vogliono sentire da uno che stava dall'altra parte. Zagrath tende l'arco ridendo, e la freccia ti apre il fianco mentre ti butti fuori dalla porta. Nel corridoio ti premi la mano sulla ferita, e da dentro senti le vedove che ricominciano a pettinarlo.
+
+**`zagrath-nell-harem__3-successo`** · esito «La bilancia» · opzione «Parlargli della bilancia di Ghoran» · successo · 382 caratteri
+
+> Gli dici che a Ghoran sei salito sulla bilancia anche tu, e che dalla bilancia sei sceso da solo, senza chiedere il permesso a nessuno. Lo dici piano guardandogli le mani invece della faccia, come guardavi i sorveglianti dei recinti. Zagrath smette di masticare. Poi si sdraia di nuovo sui cuscini con la faccia verso il muro, e una delle orchesse ti indica la porta con il pettine.
+
+**`zagrath-nell-harem__3-fallimento`** · esito «Il doppio» · opzione «Parlargli della bilancia di Ghoran» · fallimento · 364 caratteri
+
+> Zagrath ti ascolta e si mette a ridere piano, poi sempre più forte. “Uno scappato da Ghoran” dice, “vale il doppio a riportarcelo.” Le orchesse ti vengono addosso tutte insieme, e ti liberi soltanto lasciando nelle loro mani mezza camicia e un po' di pelle del collo. Da dietro la porta Zagrath ti grida quanto varresti a Ghoran, e le orchesse ridono a ogni cifra.
+
+**`zagrath-nell-harem__4-esito`** · esito «Stanza sbagliata» · opzione «Richiudere la porta» · esito · 330 caratteri
+
+> Chiedi scusa a voce alta, come in una locanda, e richiudi la porta. Da dentro arriva una risata grassa di Zagrath, poi quelle delle orchesse, e nessuno si alza. Prima di andartene incidi una croce sul legno con la punta del coltello, per ricordarti di non riaprirla, e l'odore di aceto ti resta nei vestiti per tutto il corridoio.
+
+### La guerra privata
+
+**`la-guerra-privata`** · scena · 918 caratteri
+
+> Ilvaena Sorathe ha preso il tavolo d'angolo, come la sera della cena, con l'arco senza corda appoggiato al muro e la faretra sulla sedia accanto. Ha di nuovo il fango sugli stivali fino al ginocchio, e mangia lo stufato di Brunella con l'attenzione che si dà ai lavori difficili. Quando ti vede sposta la faretra con un piede, e la sedia è tua. Sul tavolo, accanto alla scodella, c'è una corda d'arco nuova arrotolata, che lei tocca ogni tanto con il pollice.
+>
+> “Mi dicono che sei stato a Capomozzo” dice senza alzare gli occhi dalla scodella. “Mi dicono anche che sei tornato. Questa è la parte interessante.”
+>
+> Brunella ti mette davanti un boccale senza chiederti cosa vuoi e resta lì con lo strofinaccio in mano, perché le storie le piacciono quanto a Liaren. Ilvaena posa il cucchiaio. [whispers] Il mezzo ogre glielo devo raccontare bene, o non me lo perdona. Ti guarda e aspetta, con il mento appoggiato sul pugno.
+
+**`la-guerra-privata__1-esito`** · esito «Conta zero» · opzione «Raccontarle di Zagrath» · esito · 607 caratteri
+
+> Le racconti dell'harem e dei datteri, e Ilvaena ride così forte che al bancone due Raschiatori si girano. Poi le racconti lo scontro, e smette di ridere. Quando arrivi alle parole di Zagrath in ginocchio si tocca la cicatrice sotto la clavicola, senza accorgersene.
+>
+> “Ha ragione lui” dice alla fine, girando il cucchiaio nella scodella. “Conta zero.” Beve un sorso lungo e posa il boccale con cura, al centro esatto del cerchio umido che aveva lasciato sul legno. “Però adesso so che sanguina dal naso come tutti gli altri” dice, e alza il boccale verso di te. “Grazie. Glielo ricorderò, la prossima volta.”
+
+### Il letto buono
+
+**`isvaro-negli-alloggi`** · scena · 804 caratteri
+
+> La stanza ordinata degli alloggi stavolta ha la porta accostata, e dentro c'è odore di vino. Sul comodino ci sono quattro bottiglie vuote in fila per altezza, con l'etichetta in fuori. Isvaro Tarvelin dorme sul letto buono sopra le coperte, con gli stivali ancora ai piedi.
+>
+> È più magro di quando è scappato dalla fornace dell'Acciaieria, e la barba gli è cresciuta a chiazze. Dorme con un coltello in mano, e quando la tua ombra gli passa sulla faccia apre gli occhi di colpo e lo alza. Ti riconosce. Il coltello resta a mezz'aria un momento, e poi torna giù piano sulla coperta.
+>
+> “Tu” dice, con la voce impastata e un sorriso che gli viene storto. “Ti prego, non dirlo a Kessa. Se sa che sono tornato mi riporta giù da lei.” Si mette a sedere, e le bottiglie tintinnano. “Io giù non ci voglio tornare.”
+
+**`isvaro-negli-alloggi__1-esito`** · esito «Il ponte» · opzione «Chiedergli di Aurenne» · esito · 564 caratteri
+
+> “Sta sul ponte, al livello di sotto, dove le macchine dei Precursori guardano nel buio” dice Isvaro, e si stringe le ginocchia al petto. “Sale soltanto per parlare con la statua della cappella, e poi torna giù senza guardare nessuno.” Si guarda la mano sinistra e la apre e la chiude. “L'ultima volta che mi ha toccato aveva già quella mano nuova. Era fredda come una pietra di fiume.”
+>
+> Quando esci si è già girato verso il muro. [whispers] Gli ho lasciato il coltello, e lui non se n'è nemmeno accorto. Richiudi la porta piano, come si fa nelle stanze dei malati.
+
+**`isvaro-negli-alloggi__2-esito`** · esito «La porta accostata» · opzione «Lasciarlo dormire e andartene» · esito · 333 caratteri
+
+> Gli lasci il coltello e le bottiglie e richiudi la porta come l'hai trovata, accostata. Da dentro lo senti ridere piano e poi tirare su col naso, e poi più niente. Nel corridoio la lanterna in fondo fa fumo, e lo stoppino andrebbe tagliato. Resti un momento con la mano sulla maniglia, poi te ne vai prima che lui dica qualcos'altro.
+
+### La stanza pulita
+
+**`gli-alloggi-di-aurenne`** · scena · 1012 caratteri
+
+> È l'unica porta di tutto il livello con i cardini oliati, e si apre senza un rumore. Dentro c'è una stanza grande e pulita, e dopo le tane degli orchi il pulito ti mette a disagio. A nord c'è un letto di buona fattura con le lenzuola di seta color crema, rimboccate strette. A sud una scrivania e una sedia stanno sotto una lanterna appesa che non fa fumo, perché qualcuno ne ha pareggiato lo stoppino con le forbici.
+>
+> Sulla parete accanto al letto c'è uno specchio alto, girato contro il muro. Sul pavimento, sotto lo specchio, ci sono dei capelli lunghi e sottili, e alla luce della lanterna hanno il colore dell'argento. Ti si gela la nuca, e ti torna in mente Mawrak'Thur, la parola che la Città Bassa ripete sottovoce dalla sera del Festival.
+>
+> Sulla scrivania non c'è niente fuori posto. In un angolo, girato verso il letto, c'è un uccellino di legno intagliato a mano, grande quanto un pollice, a cui manca un'ala. La punta del becco è consumata a forza di toccarla. Tutto il resto deve stare nei cassetti.
+
+**`gli-alloggi-di-aurenne__1-successo`** · esito «Il quaderno di stoffa» · opzione «Frugare nella scrivania» · successo · 427 caratteri
+
+> Nel cassetto di mezzo, sotto una pila di fazzoletti piegati in quattro, c'è un quaderno dalla copertina di stoffa azzurra, consumata agli angoli. La prima pagina è scritta in una calligrafia tonda da ragazzina, con un cerchietto al posto del puntino sulle i, e comincia con Caro Albero. Le ultime sono in una grafia dritta e appuntita che sembra di un'altra persona. Te lo infili sotto la giubba e richiudi il cassetto com'era.
+
+**`gli-alloggi-di-aurenne__1-fallimento`** · esito «I passi nel corridoio» · opzione «Frugare nella scrivania» · fallimento · 337 caratteri
+
+> Il quaderno lo trovi nel cassetto di mezzo, sotto i fazzoletti, ma mentre lo sfogli arrivano dei passi nel corridoio. Ti butti dietro il letto e resti lì con la guancia sulla seta, mentre qualcuno si ferma sulla soglia a guardare dentro e poi se ne va senza entrare. Ti rialzi con il quaderno stretto al petto e le ginocchia che tremano.
+
+**`gli-alloggi-di-aurenne__2-successo`** · esito «Il cuscino» · opzione «Sederti sul letto e guardare la stanza da lì» · successo · 391 caratteri
+
+> Ti siedi sul bordo del letto, e la seta è fredda sotto le mani. Da qui l'uccellino di legno è l'ultima cosa che si vede prima di spegnere la lanterna, e lo specchio girato è l'unica che non si vede mai. Infili la mano sotto il cuscino senza pensarci. C'è un quaderno dalla copertina di stoffa azzurra, consumata agli angoli, con la prima pagina scritta in una calligrafia tonda da ragazzina.
+
+**`gli-alloggi-di-aurenne__2-fallimento`** · esito «La seta» · opzione «Sederti sul letto e guardare la stanza da lì» · fallimento · 352 caratteri
+
+> Ti siedi sul letto e la seta scivola, e per non cadere ti aggrappi al lenzuolo e lo tiri via per metà. Sotto il cuscino, scoperto, c'è un quaderno dalla copertina di stoffa azzurra. Lo prendi, poi passi un tempo lunghissimo a rifare il letto con gli angoli tirati come li avevi trovati. Non ci riesci, e alla fine lo lasci com'è con lo stomaco stretto.
+
+### Garin e Kessa
+
+**`garin-e-kessa`** · scena · 1412 caratteri
+
+> Dalla sala della guerra, con la spalla contro lo stipite, senti le voci chiare attraverso il legno della porta.
+>
+> “Cercare Isvaro, adesso” dice l'uomo con una voce bassa da caserma, e una sedia stride sotto di lui. “Senti, Kessa, quel mezzelfo non vale la pelle che ci lasciamo. Io sono qui per la paga, e la paga non basta più.”
+>
+> “Isvaro ha pensato la razzia dalla prima freccia all'ultima” risponde la donna, piano, pesando ogni parola prima di lasciarla andare. “Aurenne ci ha dato un compito, Garin.”
+>
+> “Aurenne è pazza” dice lui. “Hai visto cos'ha fatto a quelli con le maschere, e cosa fa con quell'aggeggio. Senti, mettiamola così. Il tuo mezzelfo è in una fossa di Qir-Azel, e i vermi gli stanno già facendo festa.”
+>
+> “Ripetilo e ti brucio la lingua” dice lei, e di là cala un silenzio breve e sgradevole.
+>
+> Spingi la porta. La sala è piena di tavolette di pietra coperte di rune aguzze e di pezzi di bassorilievo staccati a scalpello, e sulle mensole ci sono picconi e spazzole da scavo. Garin è un uomo massiccio con l'elmo ammaccato e una tunica verde lisa sopra la maglia, e imbraccia uno scudo di ferro dipinto con una faccia che urla. Davanti a lui Kessa, con la pelle ambrata e un mantello chiaro, stringe un bastone che manda bagliori viola, e ai suoi piedi un gatto bianco ti guarda senza scomporsi.
+>
+> Si girano insieme verso di te. Garin alza lo scudo e guarda prima Kessa e poi te, facendo i conti.
+
+**`garin-e-kessa__1-vittoria`** · esito «La faccia che urla» · opzione «Affrontarli tutti e due» · vittoria · 730 caratteri
+
+> Kessa apre il fuoco per prima, e la fiammata viola ti brucia le sopracciglia e incendia una mensola di pergamene. Garin ti viene addosso dietro lo scudo con passo pesante e metodico, e ci vuole tempo prima che lo scudo si abbassi di un palmo. Quando finalmente cade, finisce lungo disteso sopra la faccia dipinta. Kessa brucia fino all'ultimo, finché il bastone le scivola di mano e si spegne.
+>
+> Il gatto bianco esce dalla porta senza correre. Sul tavolo, fra le tavolette annerite, c'è un foglio di Kessa con il disegno preciso di un disco rotondo coronato di cristalli, e sotto, nella sua calligrafia, risponde soltanto a lei. Dietro le mensole una scala scende nel buio, e dal basso sale un'aria fredda che sa di ferro bruciato.
+
+**`garin-e-kessa__1-sconfitta`** · esito «Il fuoco viola» · opzione «Affrontarli tutti e due» · sconfitta · 592 caratteri
+
+> Il fuoco di Kessa ti prende al petto e ti butta contro le mensole, che ti rovesciano addosso picconi e tavolette. Garin non ti finisce. Abbassa lo scudo, prende Kessa per un braccio e la trascina fuori verso la scala che risale alla fortezza, e lei si lascia trascinare con il gatto in braccio, guardando indietro verso di te finché non sparisce.
+>
+> Ti rialzi dopo un tempo che non sai misurare, con l'odore dei capelli bruciati nel naso e una mano che non si chiude bene. Dietro le mensole rovesciate c'è una scala che scende nel buio, e dal basso sale un'aria fredda che sa di ferro bruciato.
+
+**`garin-e-kessa__2-successo`** · esito «Siamo in due» · opzione «Metterli uno contro l'altro» · successo · 709 caratteri
+
+> Parli a Garin e non a lei. Gli dici che di sopra la strada è libera e che a Qir-Azel nessuno corre dietro a un mercenario che si arrende. Garin ti ascolta con lo scudo alzato. Poi lo abbassa e si sposta di fianco a te, davanti a Kessa. “Senti, Kessa” dice. “Adesso siamo in due.” Lei guarda a lungo Garin e poi il gatto, e alla fine posa il bastone sul tavolo.
+>
+> Li chiudi in due celle della prigione e spranghi le porte da fuori. Mentre lo fai Garin ti parla del disco rotondo e antico con cui Aurenne comanda le macchine del livello di sotto. “Quando la Guardia viene a prenderci” dice dalla cella, “dille di portare il pane.” Torni nella sala della ricerca, dove dietro le mensole una scala scende nel buio.
+
+**`garin-e-kessa__2-fallimento`** · esito «Vuole dividerci» · opzione «Metterli uno contro l'altro» · fallimento · 429 caratteri
+
+> Parli a Garin, ma Kessa capisce prima di lui dove vuoi arrivare. “Vuole dividerci, Garin” dice, e il bastone le si accende in mano. Garin esita un momento di troppo e poi alza lo scudo dalla sua parte. Il fuoco ti arriva addosso di lato, e mentre rotoli dietro il tavolo li senti uscire di corsa verso la scala che risale alla fortezza. Ti rialzi con la manica bruciata. Dietro le mensole c'è un'altra scala, che scende nel buio.
+
+**`garin-e-kessa__3-successo`** · esito «Lo scudo per terra» · opzione «Farli arrendere» · successo · 750 caratteri
+
+> Per un po' non dici niente. Prendi uno sgabello, ti siedi davanti alla porta da cui dovrebbero uscire e appoggi le mani sul tavolo, bene in vista. Poi gli racconti con calma la strada che hai fatto, dal ponte di corda sopra le onde fino alla fortezza di Balthog, e quante porte hai aperto per arrivare qui. Garin posa lo scudo per primo, piano, con la faccia dipinta verso il pavimento. Kessa resiste un momento in più, finché il gatto le si struscia contro la caviglia e lei abbassa il bastone.
+>
+> Li chiudi in due celle della prigione e spranghi le porte. Garin, da dietro le sbarre, ti racconta del disco rotondo e antico con cui Aurenne comanda le macchine del livello di sotto. Dietro le mensole della sala della ricerca una scala scende nel buio.
+
+**`garin-e-kessa__3-fallimento`** · esito «La porta» · opzione «Farli arrendere» · fallimento · 394 caratteri
+
+> Garin ti ascolta e per un momento abbassa lo scudo, ma Kessa ha già acceso il bastone. La fiammata viola esplode sul tavolo davanti a te, e mentre ti ripari dietro il piano rovesciato Garin la afferra per il mantello e la trascina fuori. Li senti correre su per i corridoi, sempre più lontano. Ti rialzi con le mani scottate e la faccia che tira, e dietro le mensole trovi una scala che scende.
+
+**`garin-e-kessa__4-esito`** · esito «Gli stivali addosso» · opzione «Dire a Kessa dove dorme Isvaro» · esito · 562 caratteri
+
+> “Isvaro è negli alloggi” dici dalla porta, “nel suo letto, con gli stivali addosso.” Kessa ti guarda come si guarda un cane che parla, poi prende in braccio il gatto e ti passa accanto di corsa senza bruciare nessuno. Garin resta solo con lo scudo alzato, e lo abbassa piano.
+>
+> “Senti, io me ne vado di sopra” dice, e si sistema l'elmo con due dita. “Tu però stai attento al disco rotondo che lei porta al collo. Con quello le macchine di sotto fanno quello che vuole lei.” Ti passa accanto rasente il muro, e dietro le mensole resta la scala che scende nel buio.
+
+**`garin-e-kessa__5-esito`** · esito «La porta libera» · opzione «Lasciarli passare» · esito · 529 caratteri
+
+> Ti sposti di lato e tieni le mani bene in vista. Garin capisce per primo, prende Kessa per il gomito e la tira verso l'uscita, e lei si lascia portare, con il gatto che le trotterella dietro e gli occhi fissi su di te finché non è fuori. Sulla soglia Garin si ferma e si volta a mezzo. “Senti” dice, “se scendi, guarda il disco rotondo che lei porta al collo. Con quello comanda le macchine.” Poi spariscono tutti e due verso la scala che risale alla fortezza, e dietro le mensole resta l'altra scala, quella che scende nel buio.
 
 ## I prologhi
 
