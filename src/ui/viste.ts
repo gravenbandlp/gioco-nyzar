@@ -15,6 +15,7 @@ import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
+import { piede } from './pagine';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
 import {
@@ -69,10 +70,7 @@ export function pagina(x: Contesto, centro: string): string {
     </main>
     <aside class="colonna destra" aria-label="Luogo e frammenti del Codex">${destra(x)}</aside>
   </div>
-  <footer class="crediti">Tavole dal Codex di Ny'Zar. Icone di Lorc, Delapouite e altri autori di
-    <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, con licenza
-    <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.
-    Ambienti sonori di Andrea Baroni (<a href="https://andreabaroni.com" target="_blank" rel="noopener">andreabaroni.com</a>).</footer>`;
+  ${piede()}`;
 }
 
 function topbar(x: Contesto): string {
@@ -833,5 +831,6 @@ export function creazione(c: TContenuti, scelta: string): string {
         </form>
       </div>
     </section>
-  </main>`;
+  </main>
+  ${piede()}`;
 }

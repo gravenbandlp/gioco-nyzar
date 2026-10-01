@@ -18,6 +18,7 @@ import { avviaSchede, nascondiScheda } from './tooltip';
 import { precaricaIntorno, precaricaMiniature } from './precarica';
 import { Lettore, montaControlli } from './audio';
 import { sceltaAudio } from './colonna';
+import { paginaInfo, PAGINE_INFO, type PaginaInfo } from './pagine';
 import { crisiAttiva } from '../motore/crisi';
 import {
   pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
@@ -37,6 +38,7 @@ let avviso = '';
 let frammentoId: string | null = null;
 let bersaglio: string | undefined;
 let luogo: string | undefined; // il mini-hub aperto dentro l'area
+let info: PaginaInfo | null = null; // aiuto, termini o crediti, aperti dal piè di pagina
 
 const app = document.getElementById('app')!;
 const lettore = new Lettore(c.tracce);
@@ -94,10 +96,19 @@ function prossimoFrammento(): void {
 
 // ---------------------------------------------------------------- rendering
 
+/** Le pagine informative prima di creare il personaggio: stesso impianto della creazione. */
+function creazioneInfo(id: PaginaInfo): string {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = creazione(c, origineScelta);
+  const main = tmp.querySelector('main.creazione');
+  if (main) main.innerHTML = paginaInfo(id);
+  return tmp.innerHTML;
+}
+
 function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
-    app.innerHTML = creazione(c, origineScelta);
+    app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
     lettore.imposta(sceltaAudio(c, { creazione: true }));
     return;
   }
@@ -109,8 +120,9 @@ function render(): void {
   precaricaIntorno(s, c);
   const ora = Date.now();
   aggiornaTempo(stato, ora);
-  const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, luogo };
-  const centro = scheda === 'personaggio' ? personaggio(x)
+  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, luogo };
+  const centro = info ? paginaInfo(info)
+    : scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
     : scheda === 'bazar' ? bazar(x)
     : scheda === 'mappa' ? mappa(x)
@@ -137,6 +149,7 @@ function suona(s: Stato): void {
 /** Cambia vista e riporta lo sguardo sul pannello centrale. */
 function cambia(v: Vista, nuovaScheda: Scheda = 'storia'): void {
   vista = v;
+  info = null;
   scheda = nuovaScheda;
   confermaNuovo = false;
   salva();
@@ -163,11 +176,14 @@ function azione(az: string, el: HTMLElement): void {
     if (inp) inp.value = nomeAttuale;
     return;
   }
+  if (az === 'pagina' && (PAGINE_INFO as string[]).includes(id)) { info = id as PaginaInfo; render(); if (stato) scorriAlPannello(); else window.scrollTo({ top: 0 }); return; }
+  if (az === 'chiudi-pagina') { info = null; render(); scorriAlPannello(); return; }
   const s = stato;
   if (!s) return;
   const ora = Date.now();
   switch (az) {
     case 'scheda': {
+      info = null;
       scheda = id as Scheda;
       confermaNuovo = false; salva(); render(); scorriAlPannello();
       break;

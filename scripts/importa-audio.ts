@@ -3,8 +3,8 @@
 //
 // - musica: gli MP3 in loop si copiano così come sono (ricomprimerli peggiorerebbe il suono); un WAV si
 //   comprime a 160 kbps.
-// - ambienti: si comprimono a 128 kbps. Quelli più lunghi di LOOP_MAX secondi diventano loop più corti con la
-//   dissolvenza già cotta nel file (la coda sfuma dentro l'inizio), così il gioco ne tiene in memoria meno.
+// - ambienti: si comprimono a 128 kbps e si livellano a LUFS_AMBIENTI. Quelli più lunghi di LOOP_MAX secondi diventano
+//   loop più corti con la dissolvenza già cotta nel file (la coda sfuma dentro l'inizio), così il gioco ne tiene in memoria meno.
 //
 // Ogni MP3 porta l'intestazione Info/LAME con ritardo e riempimento dell'encoder: il lettore la legge per far
 // girare il loop senza scatti.
@@ -12,7 +12,7 @@
 // Uso: npm run audio [-- /percorso/a/audio-nyzar]   (di default ../audio-nyzar accanto al repository)
 import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { caricaContenuti } from './build-contenuti';
 
 const RADICE = new URL('..', import.meta.url).pathname;
@@ -21,6 +21,14 @@ const DESTINAZIONE = join(RADICE, 'public', 'audio');
 const CARTELLE = { musica: 'musica', ambiente: 'ambienti' } as const;
 const LOOP_MAX = 150; // secondi
 const DISSOLVENZA = 4; // secondi
+const LUFS_AMBIENTI = -30; // gli ambienti arrivano con volumi molto diversi (da -26 a -46): li porto tutti qui
+
+/** Volume integrato (LUFS) misurato da FFmpeg. */
+function lufs(file: string): number {
+  const out = spawnSync('ffmpeg', ['-v', 'info', '-i', file, '-af', 'ebur128', '-f', 'null', '-'], { encoding: 'utf8' }).stderr; // il resoconto esce su stderr
+  const valori = [...out.matchAll(/I:\s+(-?[\d.]+) LUFS/g)]; // l'ultimo è quello del riepilogo finale
+  return Number(valori.at(-1)?.[1] ?? NaN);
+}
 
 function trova(tipo: keyof typeof CARTELLE, sorgente: string): string | null {
   const dir = join(SORGENTE, CARTELLE[tipo]);
@@ -53,9 +61,11 @@ for (const t of contenuti.tracce) {
     else ffmpeg(['-i', src, '-c:a', 'libmp3lame', '-b:a', '160k', out]);
   } else {
     const d = durata(src);
+    const misura = lufs(src);
+    const guadagno = Number.isFinite(misura) ? Math.min(20, LUFS_AMBIENTI - misura) : 0;
+    const livella = `volume=${guadagno.toFixed(1)}dB,alimiter=limit=0.95:level=disabled`;
     if (d <= LOOP_MAX + DISSOLVENZA) {
-      if (mp3) copyFileSync(src, out);
-      else ffmpeg(['-i', src, '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '128k', out]);
+      ffmpeg(['-i', src, '-af', livella, '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '128k', out]);
     } else {
       const T = LOOP_MAX; const X = DISSOLVENZA;
       const grafo = [
@@ -64,7 +74,7 @@ for (const t of contenuti.tracce) {
         `[b]atrim=0:${X},asetpts=PTS-STARTPTS,afade=t=in:d=${X}:curve=qsin[testa]`,
         '[coda][testa]amix=inputs=2:normalize=0[giunta]',
         `[c]atrim=${X}:${T},asetpts=PTS-STARTPTS[corpo]`,
-        '[giunta][corpo]concat=n=2:v=0:a=1[out]',
+        `[giunta][corpo]concat=n=2:v=0:a=1,${livella}[out]`,
       ].join(';');
       ffmpeg(['-i', src, '-filter_complex', grafo, '-map', '[out]', '-ar', '44100', '-c:a', 'libmp3lame', '-b:a', '128k', out]);
     }
