@@ -129,18 +129,11 @@ quando ne hanno uno; l'Acciaieria diventa luogo nel blocco 6, quando ha più di 
 gli storylet che nominano gli Scuri come forza attiva (Rozalia, Mauro all'oste, la Dispensa di Gramm con Nestor
 arrestato) vanno ripassati. `nomea.citta-bassa` per ora si imposta e basta: deve colorare le carte del quartiere.
 
-## Audio da completare
+## Audio
 
-Annotato il 1° ottobre 2026. In gioco ci sono le dieci musiche di Lisette Amago e cinque ambienti di Andrea Baroni
-(Temple-Mystical, Temple-Quiet, Forest-Night, Forest-WindyAndCreepy, Campfire). Mancano questi ambienti, già
-assegnati in `contenuti/audio.yaml` e per ora muti:
-
-- **Village** (Ponti Sospesi, Ostracismo) e **Mines**: gli MP3 su Drive sono a 270–300 kbps e superano il limite di
-  download del collegamento; vanno riesportati a 96 kbps costanti.
-- **HellishDungeonI** (crisi, Delirio) e **DungeonI** (Prigione): stesso problema, da riesportare a 96 kbps.
-- **Minetown** (Città Bassa) e **Cave**: non ancora convertiti.
-
-I file vanno in `../audio-nyzar/ambienti/` con il nome originale; poi `npm run audio` li livella e li importa.
+Completo dal 1° ottobre 2026: le dieci musiche di Lisette Amago e diciassette ambienti di Andrea Baroni, tutti
+assegnati in `contenuti/audio.yaml`. Gli ambienti nuovi vanno in `../audio-nyzar/ambienti/` con il nome
+originale; poi `npm run audio` li livella e li importa.
 
 ## Ordine di produzione
 

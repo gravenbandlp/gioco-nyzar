@@ -102,6 +102,22 @@ export function perLaVoce(testo: string): string {
     .join('\n\n');
 }
 
+// ---------------------------------------------------------------- pronunce
+
+/** Nomi e luoghi riscritti per ElevenLabs (doppiaggio/pronuncia.yaml), a parola intera e i più lunghi prima. */
+export const PRONUNCE: Record<string, string> = (() => {
+  const f = join(RADICE, 'doppiaggio', 'pronuncia.yaml');
+  return existsSync(f) ? (parse(readFileSync(f, 'utf8'))?.pronunce ?? {}) : {};
+})();
+const RE_PRONUNCE = (() => {
+  const chiavi = Object.keys(PRONUNCE).sort((a, b) => b.length - a.length).map((k) => k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+  return chiavi.length ? new RegExp(`(?<![\\p{L}'’])(${chiavi.join('|')})(?![\\p{L}'’])`, 'gu') : null;
+})();
+export function pronuncia(testo: string): string {
+  const t = testo.replace(/’/g, "'");
+  return RE_PRONUNCE ? t.replace(RE_PRONUNCE, (m) => PRONUNCE[m] ?? m) : t;
+}
+
 // ---------------------------------------------------------------- selezione
 
 function fileDegliStorylet(): Map<string, string> {
@@ -133,8 +149,10 @@ export function copione(): Pezzo[] {
 
   const pezzi: Pezzo[] = [];
   const aggiungi = (p: Omit<Pezzo, 'voce' | 'caratteri' | 'impronta'>) => {
-    const voce = perLaVoce(p.testo);
-    pezzi.push({ ...p, voce, caratteri: voce.length, impronta: createHash('sha1').update(voce).digest('hex').slice(0, 10) });
+    const base = perLaVoce(p.testo);
+    const voce = pronuncia(base);
+    // l'impronta segue il testo della scena, non le pronunce: cambiare una pronuncia non rende "da rifare" i pezzi
+    pezzi.push({ ...p, voce, caratteri: voce.length, impronta: createHash('sha1').update(base).digest('hex').slice(0, 10) });
   };
   for (const s of scelti) {
     const g = gruppo(file.get(s.id) ?? '');
