@@ -8,6 +8,7 @@ import {
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi, secondaScelta } from '../motore/azioni';
 import { ritirati } from '../motore/spedizioni';
+import { annota, strappa } from '../motore/diario';
 import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
@@ -15,7 +16,7 @@ import { durata } from './formato';
 import { impostaGlossario } from './componenti';
 import { avviaSchede, nascondiScheda } from './tooltip';
 import {
-  pagina, storia, personaggio, averi, bazar, mappa, creazione, type Contesto, type Scheda, type Vista,
+  pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
 } from './viste';
 
 interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda }
@@ -103,6 +104,7 @@ function render(): void {
     : scheda === 'averi' ? averi(x)
     : scheda === 'bazar' ? bazar(x)
     : scheda === 'mappa' ? mappa(x)
+    : scheda === 'diario' ? diario(x)
     : storia(x);
   app.innerHTML = pagina(x, centro);
   avviso = '';
@@ -230,6 +232,21 @@ function azione(az: string, el: HTMLElement): void {
       else { avviso = puoEntrare(s, id, c).motivo ?? 'Non puoi andarci.'; render(); }
       break;
     }
+    case 'annota': {
+      const v = vista;
+      if (v.tipo !== 'risultato') break;
+      const r = v.risultato;
+      const st = c.storylet.find((z) => z.id === v.id);
+      const titolo = r.titolo ?? (r.riuscito === undefined ? st?.titolo ?? '' : r.riuscito ? 'Riuscito' : 'Fallito');
+      annota(s, {
+        quando: Date.now(), storylet: v.id, scena: st?.titolo ?? '', titolo, testo: r.testo, prima: st?.testo,
+        luogo: c.aree.find((a) => a.id === st?.area)?.nome ?? c.aree.find((a) => a.id === s.area)?.nome ?? '',
+        immagine: r.immagine ?? st?.immagine, esito: r.riuscito === undefined ? undefined : r.riuscito ? 'successo' : 'fallimento',
+      });
+      salva(); render();
+      break;
+    }
+    case 'strappa': strappa(s, Number(id)); salva(); render(); break;
     case 'ritirata': {
       if (ritirati(s, c)) { salva(); frammentoId = null; cambia({ tipo: 'area' }); }
       break;

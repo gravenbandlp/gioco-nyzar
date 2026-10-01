@@ -9,6 +9,7 @@ import type { Rng } from './dadi';
 import { haProprieta, indossati, migraOggetti, penalita, repertiAttivi, valoreOggetti } from './oggetti';
 import { mutazioniAbilita, mutazioneSchermata } from './crisi';
 import { OVUNQUE } from './contenuto';
+import type { PaginaDiario } from './diario';
 
 export interface Stato {
   versione: 1;
@@ -30,6 +31,7 @@ export interface Stato {
   scudo: string; // '' se nessuno
   accessori: string[]; // al massimo 2
   sospeso?: string; // seguito aperto da un esito e non ancora giocato
+  diario?: PaginaDiario[]; // le pagine che il giocatore ha scelto di conservare
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {

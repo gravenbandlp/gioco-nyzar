@@ -98,6 +98,17 @@ Dopo:
 > *Una falsaria. O una che scrive molte lettere d'amore.* Le tue mani, per conto loro, tornano vicino alla
 > cintura.
 
+## I tre registri sullo schermo
+
+Il gioco distingue da solo tre registri, quindi nel testo bastano le convenzioni di scrittura:
+- **la narrazione** è il testo normale (Lora);
+- **il parlato** è tutto ciò che sta fra caporali «…», e compare in Cormorant, più grande e più chiaro;
+- **il pensiero** del protagonista è una frase intera in corsivo che finisce con un segno di punteggiatura,
+  *Questa donna sa chi sei.*, e compare in corsivo azzurro.
+
+Il corsivo senza punteggiatura finale (*Ospiti Benvenuti*, *Mawrak'Thur*) resta enfasi o scritta, in oro.
+Per questo un titolo, un'insegna o una parola straniera in corsivo non va chiusa dal punto dentro gli asterischi.
+
 ## Cosa resta
 
 Seconda persona, presente. Dettagli concreti del mondo del Codex. I PNG parlano ciascuno a modo

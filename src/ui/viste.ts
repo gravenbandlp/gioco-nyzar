@@ -13,6 +13,7 @@ import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/m
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
+import { nelDiario } from '../motore/diario';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
@@ -21,7 +22,7 @@ import {
   descriviArma, descriviArmatura, descriviOggetto, srcTavola, ROMBO,
 } from './componenti';
 
-export type Scheda = 'storia' | 'personaggio' | 'averi' | 'bazar' | 'mappa';
+export type Scheda = 'storia' | 'personaggio' | 'averi' | 'bazar' | 'mappa' | 'diario';
 export type Vista =
   | { tipo: 'area' }
   | { tipo: 'storylet'; id: string }
@@ -86,7 +87,7 @@ function fondale(x: Contesto): string {
 }
 
 function schede(x: Contesto): string {
-  const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa']];
+  const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa'], ['diario', 'Diario']];
   const prossima = msAllaProssimaCandela(x.s, x.ora);
   return `<div class="barra-schede">
     <p class="mini-stato" aria-label="Candele e monete">
@@ -358,6 +359,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
   const ancora = st && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
   const segue = r.segue ? trova(c, r.segue) : undefined;
   const titolo = r.titolo ?? (r.riuscito === undefined ? st?.titolo ?? '' : r.riuscito ? 'Riuscito' : 'Fallito');
+  const annotato = nelDiario(s, { storylet: id, titolo, testo: r.testo });
   return `<article class="scena risultato">
     <header class="scena-testa">
       ${tavola(r.immagine ?? st?.immagine, { classe: 'ritratto grande', taglio: 'l' })}
@@ -369,6 +371,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     </header>
     ${righe.length ? `<ul class="esiti">${righe.join('')}</ul>` : ''}
     <div class="azioni-fondo">
+      <button type="button" class="bottone diario-btn" data-az="annota" ${annotato ? 'disabled' : ''} title="Conserva questa pagina per rileggerla">${annotato ? 'Nel diario' : 'Annota nel diario'}</button>
       ${puoiSecondaScelta ? `<button type="button" class="bottone" data-az="seconda-scelta" title="Lo specchio ti lascia ripetere la prova; se riesce, +½ Tormento">Seconda scelta</button>` : ''}
       ${puoiCorreggere ? `<button type="button" class="bottone" data-az="correggi" title="Una candela e una prova Media di Magia; costa ½ Tormento">Correzione</button>` : ''}
       ${ancora ? `<button type="button" class="bottone" data-az="apri" data-id="${st!.id}">Riprova</button>` : ''}
@@ -656,6 +659,37 @@ export function bazar(x: Contesto): string {
 }
 
 // ================================================================ MAPPA
+
+// ================================================================ DIARIO
+
+export function diario(x: Contesto): string {
+  const pagine = [...(x.s.diario ?? [])].reverse();
+  const data = (n: number) => new Date(n).toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
+  const elenco = pagine.map((p) => `<li class="pagina-diario">
+      <details>
+        <summary>
+          ${tavola(p.immagine, { classe: 'icona' })}
+          <span class="pagina-testa">
+            <span class="etichetta">${h(p.luogo)} · ${h(data(p.quando))}${p.esito ? ` · ${p.esito === 'successo' ? 'riuscito' : 'fallito'}` : ''}</span>
+            <b>${h(p.titolo)}</b>
+            <small>${h(p.scena)}</small>
+          </span>
+        </summary>
+        <div class="pagina-corpo">
+          ${p.prima ? `<details class="pagina-scena"><summary>La scena</summary>${prosa(p.prima, 'prosa piccola')}</details>` : ''}
+          ${prosa(p.testo)}
+          <button type="button" class="link" data-az="strappa" data-id="${p.quando}">Togli dal diario</button>
+        </div>
+      </details>
+    </li>`).join('');
+  return `<section class="diario">
+    <h2 class="titolo-sezione primo">Diario</h2>
+    <p class="nota">${pagine.length
+      ? `${pagine.length} ${pagine.length === 1 ? 'pagina' : 'pagine'}, dalla più recente. Per aggiungerne una, usa «Annota nel diario» sotto un esito.`
+      : 'Il diario è vuoto. Sotto ogni esito trovi «Annota nel diario»: le pagine che conservi restano qui, da rileggere quando vuoi.'}</p>
+    ${pagine.length ? `<ol class="pagine">${elenco}</ol>` : ''}
+  </section>`;
+}
 
 export function mappa(x: Contesto): string {
   const { s, c } = x;

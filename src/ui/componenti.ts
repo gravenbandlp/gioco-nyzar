@@ -54,11 +54,21 @@ function annota(html: string, viste: Set<string>): string {
   });
 }
 
+/**
+ * I tre registri della prosa: la narrazione resta com'è, il parlato «…» e i pensieri *frase intera.* hanno
+ * ciascuno il suo carattere. Il corsivo breve senza punto finale (*Ospiti Benvenuti*) è solo enfasi o scritta.
+ */
+function registri(html: string): string {
+  return html
+    .replace(/«[^«»]*»/g, (m) => `<span class="parlato">${m}</span>`)
+    .replace(/\*([^*]+)\*/g, (_, t: string) => (/[.!?…]\s*$/.test(t) ? `<span class="pensiero">${t}</span>` : `<em>${t}</em>`));
+}
+
 /** Testo narrativo: paragrafi separati da una riga vuota, *corsivo* con asterischi, nomi del glossario. */
 export function prosa(testo: string, classe = 'prosa'): string {
   const paragrafi = testo.trim().split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
   const viste = new Set<string>();
-  return `<div class="${classe}">${paragrafi.map((p) => `<p>${annota(h(p), viste).replace(/\*([^*]+)\*/g, '<em>$1</em>')}</p>`).join('')}</div>`;
+  return `<div class="${classe}">${paragrafi.map((p) => `<p>${registri(annota(h(p), viste))}</p>`).join('')}</div>`;
 }
 
 /** Prima frase di un testo, per gli elenchi quando manca il sommario. */
