@@ -18,7 +18,10 @@ spedizione ha un'opzione a cavallo che costa una candela in meno. Dopo il blocco
 invariata, una ogni 10 minuti) e c'è l'allenamento di base (`contenuti/allenamento.yaml`): ogni abilità si allena
 da zero in città fino a 2, con prove Molto facili su una sola abilità. Blocco 5 fatto: il registro del custode fino
 a 5 (`contenuti/piste/registro.yaml`, con tre strade per decifrarlo, una senza invito alla Pignatta) e le cinque
-tribù fino a 4 (`contenuti/piste/tribu*.yaml`) con la Palude Acquanera.
+tribù fino a 4 (`contenuti/piste/tribu*.yaml`) con la Palude Acquanera. Blocco 6 fatto: Acciaio e Ira fino a 8
+(`contenuti/piste/acciaio-*.yaml`), con due spedizioni (l'Acciaieria e le Segrete dell'Ira), Isvaro che può
+fuggire, essere preso o morire (`isvaro` 1/2/3), Uzgreth facoltativo e il Pozzo dei Sigilli da svuotare; il diario
+di Isvaro e il cilindro di lyssan si rileggono dagli Averi.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.

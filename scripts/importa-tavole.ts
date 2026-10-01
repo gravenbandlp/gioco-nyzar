@@ -26,7 +26,7 @@ function trovaSorgente(tavola: string): string | null {
 
 async function main() {
   const { contenuti } = caricaContenuti({ tavole: false });
-  const tavole = [...tavoleCitate(contenuti)].sort();
+  const tavole = [...tavoleCitate(contenuti)].filter((t) => !t.startsWith('icone/')).sort(); // le icone sono SVG, non tavole
   if (!existsSync(SORGENTE)) {
     console.error(`Non trovo le tavole del Codex in ${SORGENTE}`);
     process.exit(1);

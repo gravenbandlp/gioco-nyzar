@@ -1,7 +1,589 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 368 pezzi, 239.749 caratteri.
+Generato da `npm run doppiaggio`. 452 pezzi, 293.926 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
+
+## Altro
+
+### L'ultimatum
+
+**`ondrel-al-grifone`** · scena · 1696 caratteri
+
+> A metà sera il Grifone è pieno fino alle scale. I Raschiatori del turno lungo giocano a dadi su una coperta stesa fra due tavoli, mentre Brunella gira fra le sedie con la pentola della zuppa. Sopra il bancone, appeso a due chiodi, c'è il mestolo ammaccato che la mattina del Festival è arrivato sulla testa di Ondrel subito dopo il pentolone di stufato, e sul cartellino che ci ha legato Liaren qualcuno ha scritto a carbone non in vendita.
+>
+> La porta sbatte contro il muro e la sala si zittisce un tavolo alla volta. Sulla soglia c'è Ondrel Tarvelin, pallido, nelle vesti scure di buon taglio che porta sempre uguali, con un bastone di legno nero dal puntale d'acciaio. Batte il puntale sulle assi prima di parlare. “Liaren Tarvelin” dice, come se leggesse il nome da un registro. “Domattina all'alba parte una carrozza per Laresh, e c'è un posto pagato a tuo nome. È l'ultima volta che te lo offro.”
+>
+> Liaren posa il boccale che stava asciugando. “Non potevi aspettare domani, vero? Tu non puoi mai aspettare domani” dice, e dal tavolo dei dadi parte una risatina che si spegne subito.
+>
+> Ondrel però ha visto te. Viene al tuo tavolo, e da vicino gli senti addosso un odore di carbone, mentre sul polsino destro ha un velo di fuliggine che arriva fino all'anello con il sigillo dei Tarvelin. “Tu eri in piazza con quella masnada di spacconi che al Festival ha voluto fare bella mostra di sé contro gli orchi” dice. “Potevate far bruciare mezza città, e adesso la città vi offre da bere. Una banda di combinaguai attira soltanto altre disgrazie.” Le mani ti si chiudono sul bordo del tavolo per conto loro. [whispers] Ha fretta di farla partire. Il pomo del bastone, sotto le sue dita, trema appena.
+
+**`ondrel-al-grifone__1-successo`** · esito «Il boccale sul tavolo» · opzione «Rispondergli davanti a tutta la sala» · successo · 709 caratteri
+
+> Gli ricordi che la notte della razzia in piazza le guardie erano poche e gli orchi tanti, e che chi c'era non aveva il tempo di aspettare il permesso della Caserma. Lo dici senza alzare la voce. Quando hai finito un Raschiatore batte il boccale sul tavolo, e dopo di lui lo fanno tutti gli altri.
+>
+> Ondrel aspetta che il rumore si spenga. Poi si gira verso Liaren e le parla piano in elfico, e lei gli risponde nella stessa lingua con una sfilza di parole che fa arrossire l'unico elfo seduto al bancone.
+>
+> “Per me, da oggi, sei morta” dice Ondrel. “Proprio come tua madre.”
+>
+> Esce lasciando la porta aperta alle sue spalle. Liaren va a chiuderla e ci resta appoggiata con la fronte, mentre le spalle le tremano.
+
+**`ondrel-al-grifone__1-fallimento`** · esito «Una parola di troppo» · opzione «Rispondergli davanti a tutta la sala» · fallimento · 634 caratteri
+
+> Cominci bene, poi ti scappa una parola grossa e Ondrel la raccoglie al volo. “Ecco come parlano gli eroi della piazza” dice alla sala battendo il puntale, e al tavolo dei dadi qualcuno abbassa gli occhi. Senti il collo che ti si scalda fino alle orecchie.
+>
+> Il vecchio torna dalla figlia e le parla in elfico, a voce bassa. Lei gli risponde forte nella stessa lingua, e dal tono capisci anche le parole che non conosci.
+>
+> “Per me, da oggi, sei morta” dice Ondrel. “Proprio come tua madre.”
+>
+> Esce senza chiudere la porta. Liaren va a chiuderla lei, e ci resta appoggiata con la fronte finché Brunella non le mette una mano sulla schiena.
+
+**`ondrel-al-grifone__2-esito`** · esito «Il polso del vecchio» · opzione «Metterti fra lui e Liaren» · esito · 741 caratteri
+
+> Quando Ondrel alza il bastone verso la figlia ti alzi anche tu, e gli prendi il polso a mezz'aria. È sottile e leggero, un fascio di ossa dentro una manica di buon panno, e per un momento hai paura di fargli male. Lui ti guarda la mano come guarderebbe una macchia sul vestito.
+>
+> Poi parla a Liaren in elfico sopra la tua spalla, e lei gli risponde nella stessa lingua senza abbassare la voce. Ondrel libera il polso con uno strattone e si tira giù la manica.
+>
+> “Per me, da oggi, sei morta” dice Ondrel alla figlia, senza più guardarti. “Proprio come tua madre.”
+>
+> Esce lasciando la porta aperta alle sue spalle. Liaren va a chiuderla e ci resta appoggiata con la fronte, e per un pezzo in sala nessuno ha il coraggio di ricominciare a parlare.
+
+**`ondrel-al-grifone__3-esito`** · esito «Il mestolo sul muro» · opzione «Lasciare che sia Liaren a rispondere» · esito · 727 caratteri
+
+> Resti seduto, e Liaren esce da dietro il bancone e si pianta davanti al padre a braccia incrociate. “Questa è la mia locanda, e qui tu non sei il benvenuto” dice. “Il mestolo è ancora appeso lassù, se ti serve.” Dalla sala parte una risata, e Ondrel diventa ancora più pallido.
+>
+> Ondrel le parla a voce bassa in elfico. Lei gli risponde nella stessa lingua, abbastanza forte perché l'unico elfo seduto al bancone arrossisca e si metta a fissare il fondo del boccale.
+>
+> “Per me, da oggi, sei morta” dice Ondrel, battendo il puntale sulle assi una volta sola. “Proprio come tua madre.”
+>
+> Liaren chiude la porta dietro di lui con un colpo che fa tremare le lanterne, e ci resta appoggiata con la fronte finché non smette di piangere.
+
+**`ondrel-al-grifone__4-successo`** · esito «La fuliggine sul polsino» · opzione «Guardarlo bene mentre parla» · successo · 628 caratteri
+
+> Lo lasci parlare e intanto lo guardi. Ha le occhiaie scure di tre notti senza sonno, e le dita gli tremano sul pomo del bastone. La fuliggine del polsino è fresca, e quando si appoggia al tuo tavolo lascia sul legno un segno grigio. Mentre parla con la figlia gira due volte gli occhi verso la porta.
+>
+> Poi le dice qualcosa in elfico, e lei gli risponde nella stessa lingua.
+>
+> “Per me, da oggi, sei morta” dice Ondrel. “Proprio come tua madre.”
+>
+> Esce in fretta, e Liaren va a chiudere la porta e ci resta appoggiata con la fronte. Tu resti a guardare il segno grigio sul tavolo finché Brunella non passa a pulirlo con lo straccio.
+
+**`ondrel-al-grifone__4-fallimento`** · esito «I bottoni» · opzione «Guardarlo bene mentre parla» · fallimento · 554 caratteri
+
+> Lo guardi troppo, e Ondrel se ne accorge a metà frase. “Hai finito di contarmi i bottoni?” chiede, e al tavolo dei dadi qualcuno ride di te. Senti la bocca che ti si secca mentre cerchi qualcosa da rispondere.
+>
+> Il vecchio torna dalla figlia e le parla in elfico, e lei gli risponde a tono nella stessa lingua.
+>
+> “Per me, da oggi, sei morta” dice Ondrel. “Proprio come tua madre.”
+>
+> Esce lasciando la porta aperta, e Liaren va a chiuderla con le spalle che le tremano. Per il resto della sera i Raschiatori giocano a dadi senza contare i punti ad alta voce.
+
+### La taverniera scomparsa
+
+**`la-taverniera-scomparsa`** · scena · 1415 caratteri
+
+> La mattina dopo scendi le scale e ti accorgi subito che manca qualcosa. Il camino è acceso e i tavoli sono apparecchiati, ma dalla cucina non arriva nessun odore, e i Raschiatori seduti ad aspettare fissano la porta della cucina come si fissa un pozzo.
+>
+> Brunella ti viene incontro prima che tu arrivi in fondo alle scale. Si asciuga le mani sul grembiule pulito e continua ad asciugarle anche quando sono già asciutte. “Vieni di là” dice. “Un momento solo.”
+>
+> Il retrobottega è una stanza lunga piena di botti e di sacchi di farina, con una branda pieghevole contro il muro e il samisen di riserva appeso a un chiodo. Brunella chiude la porta e ci si appoggia con la schiena.
+>
+> “Liaren non ha fatto la colazione” dice. “In tutti questi anni non è mai successo, nemmeno il giorno dopo il Festival. Ho bussato alla sua stanza, e quando non ha risposto sono entrata. Il letto è fatto, e stanotte non ci ha dormito nessuno.” Fruga nella tasca del grembiule e tira fuori un foglio di pergamena accartocciato e poi lisciato con il palmo. “Era per terra accanto al letto. È di suo fratello Isvaro, ed è scritto in elfico.”
+>
+> Il foglio ti passa fra le dita ancora tiepido della sua tasca. La grafia è stretta e inclinata, tirata in fretta. In fondo c'è un nome solo. [whispers] Ieri sera il padre, stanotte il fratello. La pergamena ha l'odore della cera di candela, e su un angolo c'è l'impronta di un pollice sporco di nero.
+
+**`la-taverniera-scomparsa__1-successo`** · esito «Alla porta delle consegne» · opzione «Leggere la lettera da te» · successo · 694 caratteri
+
+> Isvaro apre la lettera con un salve, sorella pieno di riccioli e poi va al punto. Scrive che il loro padre potrebbe avere a che fare con i guai che Qir-Azel ha avuto con gli orchi, e che non vuole andare dalle autorità, perché Ondrel ne uscirebbe pulito con qualche mazzetta sottobanco. Le dà appuntamento all'Acciaieria a mezzanotte, alla porta delle consegne, dove bisogna bussare due volte e poi tre, e dopo una pausa ancora una volta.
+>
+> Le raccomanda di non dirlo a nessuno, perché i bifolchi di quaggiù penserebbero subito che sono coinvolti anche loro, e accenna ad altre complicazioni di cui vuole parlarle di persona. Sopra la firma ha scritto non tardare, e l'ha sottolineato due volte.
+
+**`la-taverniera-scomparsa__1-fallimento`** · esito «Il cesto del pane» · opzione «Leggere la lettera da te» · fallimento · 664 caratteri
+
+> Alla seconda riga ti perdi fra lettere che si somigliano tutte. Brunella ti riprende il foglio e lo legge lei, piano, muovendo le labbra. L'elfico gliel'ha insegnato Liaren da ragazzina, dice, quando le lettere per suo fratello all'Accademia gliele portava lei nel cesto del pane.
+>
+> Isvaro scrive che il loro padre potrebbe avere a che fare con gli orchi, e che non vuole andare dalle autorità, perché Ondrel se la caverebbe con qualche mazzetta. Dà appuntamento alla sorella all'Acciaieria, a mezzanotte, alla porta delle consegne, dove bisogna bussare due volte e poi tre, e dopo una pausa ancora una volta. Le chiede di non parlarne con nessuno e di non tardare.
+
+**`la-taverniera-scomparsa__2-esito`** · esito «Gli occhiali di Brunella» · opzione «Chiedere a Brunella di leggerla» · esito · 742 caratteri
+
+> Brunella tira fuori dal grembiule un paio di occhiali con una stanghetta legata con lo spago. L'elfico gliel'ha insegnato Liaren da ragazzina, dice, quando le lettere per suo fratello all'Accademia gliele portava lei nel cesto del pane. Poi legge a voce bassa, una riga alla volta, traducendo.
+>
+> Isvaro scrive che il loro padre potrebbe avere a che fare con gli orchi della razzia, e che non vuole andare dalle autorità, perché Ondrel se la caverebbe con qualche mazzetta. Dà appuntamento alla sorella all'Acciaieria, a mezzanotte, alla porta delle consegne, dove bisogna bussare due volte e poi tre, e dopo una pausa ancora una volta. Le chiede di non parlarne con nessuno e di non tardare. Brunella si toglie gli occhiali e li tiene in mano.
+
+### I figli di Ondrel
+
+**`la-storia-dei-tarvelin`** · scena · 1493 caratteri
+
+> Brunella si siede su un sacco di farina, e per la prima volta da quando la conosci la vedi senza niente da fare con le mani. “Ti racconto dei Tarvelin” dice. “Così almeno sai in mezzo a chi ti metti.”
+>
+> Isvaro è nato un anno prima di Liaren, mezzelfo, in una casa dove né il padre né la madre avevano una goccia di sangue elfico. Per mesi a Qir-Azel non si parlò d'altro, e al Maniero Ondrel gridava tanto che dalle cucine si sentiva ogni parola. La signora Maerith non disse mai chi fosse il padre, e Ondrel se la tenne in casa lo stesso, per testardaggine. Il bambino lo mandarono a crescere lontano dalla famiglia, all'Accademia di Torvessa. Alla madre vietarono di andarlo a trovare.
+>
+> “Liaren l'ha scoperto a dieci anni, o forse a dodici. Andava a trovarlo di nascosto con il pane e le castagne.” Da grandi litigarono, e Isvaro la colpì in faccia. Il motivo Brunella non l'ha mai saputo, e Liaren non ne ha mai voluto parlare.
+>
+> Dieci anni fa morì Maerith, e in città dissero una febbre. Al funerale Isvaro gridò davanti a tutti che suo padre l'aveva spinta giù dalla scogliera, e Ondrel per poco non gli spaccò la mascella con il bastone. Isvaro lo maledisse e sparì, e da allora Liaren non è mai riuscita a ritrovarlo.
+>
+> “Mi dispiace per quello che ha passato quel ragazzo” dice Brunella. “Però ha l'animo storto, e se torna adesso non porta niente di buono. Galdrick è fuori città con le pattuglie, e al sergente di turno questa lettera non la faccio leggere. Non so a chi altro chiedere.”
+
+**`la-storia-dei-tarvelin__1-esito`** · esito «Due notti sul registro» · opzione «Prometterle che la riporterai a casa» · esito · 448 caratteri
+
+> Glielo prometti, e Brunella annuisce come se le avessi detto il prezzo delle uova. Ti spiega la strada. L'Acciaieria sta in Città Bassa, è un edificio grande di pietra con la ciminiera più alta di tutta la città, e non puoi sbagliarti.
+>
+> Poi esce dal retrobottega, apre il registro sul bancone e segna due notti accanto al tuo nome con la sua grafia tonda. Quando torni in sala i Raschiatori hanno davanti la colazione, e Brunella è già ai fornelli.
+
+**`la-storia-dei-tarvelin__2-esito`** · esito «Venti monete» · opzione «Accettare i soldi della cassa» · esito · 444 caratteri
+
+> Le monete sono in quattro pile da cinque, ordinate come le scodelle sullo scaffale. Brunella te le spinge verso la mano con il dorso delle dita, e quando le prendi sembra sollevata.
+>
+> “Sono della cassa” dice. “Liaren te le avrebbe date lo stesso, e più in fretta di me.” Ti spiega la strada per l'Acciaieria, in Città Bassa, sotto la ciminiera più alta della città. Poi torna in cucina, e dopo poco dalla porta socchiusa arriva l'odore del pane.
+
+**`la-storia-dei-tarvelin__3-esito`** · esito «Le gare d'arco» · opzione «Chiederle com'era Isvaro da ragazzo» · esito · 500 caratteri
+
+> Brunella ci pensa un po' prima di rispondere. Era un ragazzo alto e magro, dice, con le orecchie a punta che da piccolo nascondeva sotto i capelli. Parlava poco e ascoltava tutto, e quando Liaren gli portava il pane lo divideva in due parti uguali con il coltello.
+>
+> All'Accademia vinceva tutte le gare d'arco, e i maestri dicevano che non sbagliava mai un colpo. “Se ha un arco in mano, non stargli davanti” dice, e ti spiega la strada per l'Acciaieria, sotto la ciminiera più alta della Città Bassa.
+
+### L'Acciaieria chiusa
+
+**`davanti-all-acciaieria`** · scena · 1451 caratteri
+
+> L'Acciaieria dei Tarvelin occupa un isolato intero ai piedi della sua ciminiera, e da qualunque vicolo tu arrivi te la trovi davanti. Sulla facciata le vetrine della sala dei clienti sono coperte da persiane di legno sprangate dall'interno, come tutte le finestre dei due piani, e il cancello del cortile è chiuso con una catena. Dalla ciminiera sale un fumo denso. Sotto il fumo non si sente un martello, e nemmeno la voce di un caposquadra.
+>
+> Una donna stende il bucato su una corda tesa fra due finestre di fronte, e quando vede che guardi l'Acciaieria ti parla dall'alto con una molletta fra i denti. Da due settimane là dentro non entra e non esce nessuno, dice, eppure il forno va giorno e notte. “Il vecchio starà facendo qualcosa di grosso per la Gilda. Quando lavora alle cose grosse non vuole gente intorno.”
+>
+> Giri intorno al muro di cinta fino alla parte del forno. Il rombo della fornace passa attraverso la pietra, e in mezzo al rombo ogni tanto senti delle voci gutturali che ridono in una lingua sentita la notte della razzia. Le spalle ti si irrigidiscono prima che tu abbia finito di riconoscerla. [whispers] Orchi, a due vicoli dal mercato. Sul retro, in un vicolo stretto, c'è una porta di ferro bassa con la scritta consegne dipinta a mano e la n rovesciata. Accanto al cancello c'è la porticina degli operai, con una serratura vecchia, e sul tetto della sala dei clienti c'è un lucernaio che nessuno si è preso la briga di coprire.
+
+**`davanti-all-acciaieria__1-esito`** · esito «La spranga» · opzione «Bussare alla porta delle consegne» · esito · 543 caratteri
+
+> Nel vicolo dietro la fornace non passa nessuno. Bussi alla porta di ferro due volte e poi tre, e dopo un respiro bussi ancora una volta. Per un po' non succede niente. Poi dall'altra parte una spranga scorre nei ganci, e la porta si apre di un palmo con un cigolio lungo.
+>
+> Dietro non c'è nessuno. C'è un corridoio buio che puzza di cenere bagnata, e in fondo dei passi pesanti si allontanano verso il rombo del forno. Chi ha aperto aspettava qualcun altro, oppure non gli importa chi entra. Ti infili dentro e accosti la porta alle tue spalle.
+
+**`davanti-all-acciaieria__2-successo`** · esito «Il vetro scoperto» · opzione «Salire al lucernaio» · successo · 494 caratteri
+
+> Sali dalla grondaia della casa accanto, con le tegole che scricchiolano sotto le suole, e salti sul tetto della sala dei clienti. Il telaio del lucernaio è vecchio, e una lastra si solleva con la punta del coltello. Sotto c'è la sala al buio, con le spade appese alle pareti e le vetrine coperte da teli. Ti cali appeso al telaio e atterri su un tappeto piegando le ginocchia.
+>
+> Resti accucciato ad ascoltare. Dal fondo dell'edificio arrivano il rombo del forno e, di tanto in tanto, una risata.
+
+**`davanti-all-acciaieria__2-fallimento`** · esito «La grondaia» · opzione «Salire al lucernaio» · fallimento · 479 caratteri
+
+> A metà salita la grondaia si stacca da un gancio e ti lascia appeso per le mani, con il gomito che sbatte contro il muro. Arrivi sul tetto con la manica strappata e il braccio che pulsa, e la lastra del lucernaio ti scivola dalle dita e si rompe sul pavimento di sotto.
+>
+> Resti fermo a lungo, senza respirare, ma nessuno viene a guardare, perché il rombo del forno copre tutto. Alla fine ti cali fra i vetri rotti e atterri male su una caviglia, in una sala piena di spade appese.
+
+**`davanti-all-acciaieria__3-successo`** · esito «Uno pagato a giornata» · opzione «Forzare la porticina degli operai» · successo · 524 caratteri
+
+> Al secondo colpo di spalla la serratura salta, e in un momento hai intorno un capannello di vicini con la donna del bucato in prima fila. Racconti che la famiglia ti paga a giornata per dare un'occhiata, perché il vecchio Tarvelin non risponde da ieri sera e potrebbe essersi sentito male. Lo dici sbadigliando e grattandoti la nuca, e i vicini tornano alle loro porte uno alla volta.
+>
+> La donna del bucato è l'ultima ad andarsene. Prima di rientrare ti raccomanda di dire al vecchio che il suo fumo le annerisce le lenzuola.
+
+**`davanti-all-acciaieria__3-fallimento`** · esito «Il capannello» · opzione «Forzare la porticina degli operai» · fallimento · 439 caratteri
+
+> La serratura cede, ma il capannello che ti si forma intorno non ha nessuna voglia di andarsene. Un ragazzo con il grembiule da garzone giura di averti riconosciuto fra quelli della piazza, e una vecchia vuole sapere chi ti paga. Le rispondi male e ti infili dentro.
+>
+> Mentre accosti la porta senti il ragazzo che corre verso il mercato a raccontarlo, e la vecchia che ripete a chi arriva la tua descrizione, aggiungendo ogni volta qualcosa.
+
+### La fornace
+
+**`la-fornace`** · scena · 1524 caratteri
+
+> La sala della fornace occupa tutto il fondo dell'Acciaieria, e il caldo ti prende in faccia appena apri la porta. La fornace principale è una camera di pietra alta due piani che manda una luce azzurra, e nelle fondamenta i cristalli conduttori pulsano a intervalli regolari e tengono in moto i mantici. Al centro, su una fila di incudini, sono rimasti i martelli degli operai.
+>
+> Per terra ci sono gli operai, otto, alcuni ancora con il grembiule da forno addosso. Gli orchi hanno dato alla fornace quello che si poteva staccare, e sul resto hanno colato l'acciaio fuso. Lo stomaco ti sale in gola e tu lo rimandi giù.
+>
+> Nell'alcova di mezzo, su una sedia dallo schienale alto, siede un uomo coperto da strati di acciaio colato e indurito, lucido come una statua da fontana. Contro il bracciolo è appoggiato un bastone di legno nero con il puntale d'acciaio, lo stesso che al Grifone batteva sulle assi. L'acciaio non ha coperto la mano destra, e al dito c'è l'anello con il sigillo dei Tarvelin. [whispers] È Ondrel, e l'hanno messo in posa. Ti accorgi che stai stringendo lo stipite della porta.
+>
+> Accanto alla sedia, in piedi, un mezzelfo ben vestito scrive su un libretto rilegato in pelle appoggiato a un'incudine. Ha un arco di legno chiaro sulla schiena e gli stivali da combattimento, e vicino al gomito tiene una bottiglia mezza vuota. Quando alza la testa verso il fuoco vedi che ha gli occhi di Liaren. Tre orchi caricano la fornace con le pale e ridono nella loro lingua, e nessuno si è ancora girato verso la porta.
+
+**`la-fornace__1-vittoria`** · esito «La scala» · opzione «Affrontarli» · vittoria · 663 caratteri
+
+> Un orco cade contro la bocca della fornace, e gli altri due lasciano le pale e scappano verso la sala di carico. Isvaro tira due frecce, e la seconda ti passa sopra la spalla. Poi corre dietro agli orchi tenendosi il fianco dove l'hai preso. Lo raggiungi in cima alla scala dei magazzini. Si gira per dirti qualcosa, mette il piede nel vuoto e rotola fino in fondo, e quando arrivi giù ha il collo storto contro l'ultimo gradino e non respira più.
+>
+> Nella tasca della sua cintura c'è il libretto rilegato in pelle, e l'arco è intatto. Gli orchi sono spariti oltre un muro abbattuto in fondo ai magazzini, e da lì arriva il rumore dei loro passi che si allontanano.
+
+**`la-fornace__1-sconfitta`** · esito «La bocca della fornace» · opzione «Affrontarli» · sconfitta · 488 caratteri
+
+> Una pala ti prende alle gambe e finisci a terra, e due orchi ti trascinano per le caviglie verso la bocca della fornace mentre il calore ti brucia la nuca. Ti liberi a calci. Quando ti rimetti in piedi, con le mani scottate e il fiato corto, la sala è vuota. Isvaro e gli orchi sono scappati per la sala di carico, e dal fondo della scala arriva il rumore dei loro passi.
+>
+> Sull'incudine accanto alla sedia, dove Isvaro l'ha lasciato per prendere l'arco, c'è il libretto rilegato in pelle.
+
+**`la-fornace__2-successo`** · esito «La lama sotto il mento» · opzione «Coglierlo di sorpresa» · successo · 613 caratteri
+
+> Giri intorno alle incudini nell'ombra dei mantici, con il rombo della fornace che copre ogni passo, e gli arrivi alle spalle mentre scrive. Gli passi il braccio intorno al collo e gli metti la lama sotto il mento. Isvaro si irrigidisce, poi ride piano senza muovere la testa.
+>
+> “Poco ma sicuro, tu non sei mia sorella” dice. “Lei a quest'ora mi avrebbe già rotto il naso.”
+>
+> Gli orchi lasciano cadere le pale e scappano verso la sala di carico. Leghi Isvaro a un'incudine con le cinghie di un mantice e gli togli l'arco dalla schiena. Il libretto rilegato in pelle è rimasto aperto sul ferro, con la penna in mezzo.
+
+**`la-fornace__2-fallimento`** · esito «La tenaglia» · opzione «Coglierlo di sorpresa» · fallimento · 461 caratteri
+
+> A metà strada urti una tenaglia appoggiata a un'incudine, e la tenaglia cade sulla pietra con un suono che passa sopra il rombo della fornace. Isvaro si gira con l'arco già in mano. La freccia ti prende alla spalla e ti butta contro il montante di un mantice, e quando riesci a rimetterti in piedi lui e gli orchi sono già spariti verso la sala di carico.
+>
+> Il libretto rilegato in pelle è caduto dietro l'incudine, dove Isvaro l'ha lasciato per prendere l'arco.
+
+**`la-fornace__3-successo`** · esito «L'ultimo dito di vino» · opzione «Farlo parlare» · successo · 689 caratteri
+
+> Avanzi a mani aperte e lo chiami per nome. Isvaro alza gli occhi dal libretto e fa segno agli orchi di stare fermi. Parla volentieri, e mentre parla beve. Suo padre lo chiama sempre “quell'uomo”, e su di sé resta sul vago.
+>
+> “Mia sorella è di sotto a riflettere sulle sue scelte” dice. “Poco ma sicuro, le farà bene.”
+>
+> Lo lasci parlare e gli versi tu l'ultimo dito dalla bottiglia. Quando si siede sull'incudine per finirlo gli togli l'arco dalla schiena, e lui ti guarda fare con un mezzo sorriso. Appena vedono l'arco nelle tue mani gli orchi scappano verso la sala di carico senza aspettare un suo ordine. Leghi Isvaro con le cinghie di un mantice e prendi il libretto rilegato in pelle.
+
+**`la-fornace__3-fallimento`** · esito «Il bifolco» · opzione «Farlo parlare» · fallimento · 545 caratteri
+
+> Lo chiami per nome e lui alza gli occhi dal libretto, ti guarda dalla testa ai piedi e sospira.
+>
+> “Un altro bifolco con le buone intenzioni” dice. “Poco ma sicuro, questa città ne produce più che acciaio.”
+>
+> Fa un cenno con il mento. Un orco ti arriva addosso di fianco con le pinze del forno, e mentre ti difendi Isvaro prende l'arco e va verso la sala di carico senza correre. Quando fischia dalla scala l'orco ti lascia e gli corre dietro. Il libretto rilegato in pelle è rimasto sull'incudine, con l'inchiostro dell'ultima riga ancora bagnato.
+
+**`la-fornace__4-esito`** · esito «L'offerta» · opzione «Lasciarlo andare e correre da Liaren» · esito · 592 caratteri
+
+> Dalla soglia gli dici che sei venuto per Liaren e per nient'altro. Isvaro ti guarda a lungo con la penna sospesa sulla pagina, poi ride.
+>
+> “La trovi di sotto, nel magazzino in fondo” dice. “Viva, poco ma sicuro. Salutamela, e dille che l'offerta resta valida.”
+>
+> Fischia agli orchi, e se ne vanno tutti verso la sala di carico senza fretta, passandoti a due braccia di distanza. Tu resti fermo con le mani lontane dalla cintura e le guardi tremare. Solo quando i passi si spengono in fondo alla scala vedi che il libretto rilegato in pelle è rimasto sull'incudine, accanto alla bottiglia vuota.
+
+### La cella
+
+**`liaren-nella-cella`** · scena · 1115 caratteri
+
+> La scala della sala di carico scende in un magazzino basso, dove un tempo tenevano la sabbia. Due carriole sono appoggiate al muro. Accanto alle scale un muro di mattoni è stato abbattuto a colpi di mazza, e dal buco esce un'aria fredda che sa di terra.
+>
+> In fondo al magazzino c'è una porta chiusa a chiave. La chiave è appesa a un chiodo lì accanto, dove la terrebbe un magazziniere, sotto una lavagnetta con l'inventario scritto col gesso. Ci si legge ancora sbarre, quaranta, e il resto l'ha cancellato una manica.
+>
+> Dentro, la stanza è stata svuotata e trasformata in una cella. Liaren è stesa sul pavimento su un fianco. Le hanno legato con la corda i polsi e le caviglie, e i tatuaggi delle braccia sono grigi di polvere. Ha gli occhi bendati e la bocca chiusa da una cinghia di cuoio. Ha un taglio sopra l'occhio e il labbro gonfio, e la camicia è rigida di sangue sul fianco sinistro.
+>
+> Ti inginocchi accanto a lei e tagli le corde, e le dita sbagliano il nodo due volte. Le togli la benda e la cinghia. [whispers] Respira, almeno respira. Il polso sotto le tue dita è debole ma regolare, e la pelle è fredda.
+
+**`liaren-nella-cella__1-successo`** · esito «Il fianco» · opzione «Medicarla con quello che sai» · successo · 432 caratteri
+
+> Le pulisci il taglio con l'acqua della borraccia e lo chiudi con una striscia della tua camicia, stretta, mentre lei geme senza svegliarsi. Poi le sollevi la testa e le bagni le labbra. Liaren apre gli occhi di colpo, e con l'energia che le hai visto al Grifone si tira su a sedere da sola. Si tiene il fianco e si guarda intorno, e alla fine guarda te.
+>
+> “Portami fuori da qui” dice, e ti stringe il braccio con tutte e due le mani.
+
+**`liaren-nella-cella__1-fallimento`** · esito «Le mani che scivolano» · opzione «Medicarla con quello che sai» · fallimento · 361 caratteri
+
+> Il taglio è più profondo di quanto credevi, e quando stringi la fascia il sangue ricomincia a uscire. Ci metti troppo a fermarlo, con le mani che scivolano. Liaren si sveglia a metà con un gemito e ti afferra il polso con una forza che non ti aspettavi.
+>
+> “Lascia stare. Portami fuori, e il resto me lo ricuce Brunella” dice fra i denti, senza mollarti il polso.
+
+**`liaren-nella-cella__2-successo`** · esito «Sotto le mani» · opzione «Chiudere la ferita con la Liturgia» · successo · 363 caratteri
+
+> Appoggi le mani sul fianco di Liaren e dici le parole della Liturgia, e senti la ferita stringersi sotto i palmi. Il colore le torna in faccia un poco alla volta. Apre gli occhi e si tira su a sedere, con una mano sul fianco dove la pelle è nuova e tirata.
+>
+> “Questa me la segni sul conto” dice, aggrappandosi alla tua spalla per alzarsi, “e adesso portami fuori.”
+
+**`liaren-nella-cella__2-fallimento`** · esito «La parola storta» · opzione «Chiudere la ferita con la Liturgia» · fallimento · 320 caratteri
+
+> A metà della formula la voce ti si incrina, e la ferita si chiude solo in superficie, storta, lasciandoti nelle mani un freddo che sale fino ai gomiti. Liaren si sveglia con un sussulto e si piega in avanti.
+>
+> “Che cosa mi hai fatto?” chiede, ma prima che tu risponda scuote la testa e ti tende la mano perché la tiri su.
+
+**`liaren-nella-cella__3-esito`** · esito «Tre giri» · opzione «Fasciarla con le tue bende» · esito · 388 caratteri
+
+> Le giri le bende intorno al fianco per due volte, poi per una terza, finché il sangue smette di passare. Le bagni le labbra con la borraccia. Liaren apre gli occhi e li richiude subito. Quando li riapre ti guarda come se dovesse metterti a fuoco da lontano.
+>
+> “Sei tu. Allora sono ancora viva. Tirami su, che qui dentro puzza” dice con un filo di voce, cercando il tuo braccio con la mano.
+
+**`liaren-nella-cella__4-esito`** · esito «Il tonico» · opzione «Darle un tonico» · esito · 346 caratteri
+
+> Le sollevi la testa e le versi il tonico fra le labbra, poco alla volta, perché non le vada di traverso. Al terzo sorso tossisce e apre gli occhi. Il colore le torna in faccia, e la mano le va da sola al fianco.
+>
+> “Sa di piedi. Grazie lo stesso, e adesso portami fuori da questa stanza” dice con la voce arrochita, pulendosi la bocca con il polso.
+
+**`liaren-nella-cella__5-esito`** · esito «Di peso» · opzione «Portarla fuori di peso» · esito · 379 caratteri
+
+> Te la carichi sulle spalle come un sacco di grano e sali la scala un gradino alla volta, con le cosce che bruciano. Attraversi la sala di carico e i corridoi, e lei non si sveglia nemmeno quando le sbatti la testa contro uno stipite. Fuori la metti a sedere sul gradino della porta delle consegne. L'aria della strada la sveglia, e la prima cosa che fa è vomitarti sugli stivali.
+
+### Sul gradino
+
+**`liaren-sul-gradino`** · scena · 1156 caratteri
+
+> Liaren si siede sul gradino della porta delle consegne, con la schiena contro lo stipite e una mano premuta sul fianco sinistro, e per un po' si limita a respirare. In strada passa un carretto di cavoli. Il carrettiere alza gli occhi alla ciminiera che fuma, poi guarda voi due e tira dritto. Mandi di corsa alla Caserma un ragazzino che gioca con un cerchio, e gli prometti una moneta per quando torna.
+>
+> “Mi ha raccontato tutto lui, di nostro padre” dice Liaren. “Con tutti i particolari, come se mi leggesse una lettera. L'ultima cosa che quel vecchio mi ha detto è che per lui ero morta.” Si passa il dorso della mano sulla bocca. “Isvaro dice che lui e gli altri li guida Aurenne, la sua amata, che ha grandi progetti per Qir-Azel. Mi ha detto di non farmi trovare in città quando cominciano. Poi quel coglione ha avuto la faccia di chiedermi se volevo unirmi a quelli di Capomozzo.”
+>
+> Resta zitta a guardare la strada, con la mascella stretta.
+>
+> “Gli ho tirato un pugno nello stomaco. Non credevo che arrivasse così in basso, e lui ha chiamato i suoi orchi. Il resto lo hai visto.” Poi alza gli occhi su di te, e la voce le si fa piatta. “L'hai ucciso?”
+
+**`liaren-sul-gradino__1-esito`** · esito «Scappato» · opzione «Dirle che è scappato» · esito · 593 caratteri
+
+> Le dici che è scappato con i suoi orchi, dal muro abbattuto in fondo ai magazzini. Liaren annuisce piano, come se se lo aspettasse.
+>
+> “Da ragazzo scappava anche dalle lezioni di scherma” dice. “Poi la sera tornava e diceva che il maestro era un bifolco.” Ride, e la risata le fa male al fianco.
+>
+> Vuole tornare al Grifone a piedi, e non c'è verso di farle cambiare idea. All'imbocco del Ponte del Pesce ti toglie il braccio dalle spalle. “Da qui ci arrivo da sola. Brunella mi deve veder entrare sulle mie gambe.” La guardi salire verso i Ponti fermandosi a ogni lanterna, finché la strada gira.
+
+**`liaren-sul-gradino__2-esito`** · esito «Di sopra» · opzione «Dirle che è legato di sopra» · esito · 649 caratteri
+
+> Le dici che Isvaro è di sopra, legato a un'incudine con le cinghie di un mantice. Liaren guarda la porta per un pezzo, e vedi che sta pesando se ha le forze per le scale.
+>
+> “Il secondo pugno glielo do quando sto in piedi” dice alla fine. “Dallo alla Caserma, e che lo chiudano dove non può scrivere lettere.”
+>
+> La ronda arriva poco dopo. Sono due guardie e un sergente con il fiatone, e quando vede la sala della fornace il sergente si siede su una cassa. Isvaro lo segue in silenzio, a testa alta. Liaren vuole tornare al Grifone a piedi, e all'imbocco del Ponte del Pesce ti toglie il braccio dalle spalle e sale da sola, fermandosi a ogni lanterna.
+
+**`liaren-sul-gradino__3-esito`** · esito «Le pesche» · opzione «Dirle che è morto» · esito · 597 caratteri
+
+> Le dici che è caduto dalla scala dei magazzini mentre scappava, e che non si è più rialzato. Liaren guarda la strada, poi si guarda le mani e le gira piano, come se dovesse riconoscerle.
+>
+> “Gli portavo le pesche all'Accademia. Le sbucciava con il coltello, tutte in un pezzo solo, e la buccia la lasciava a me” dice, senza smettere di guardarsi le mani.
+>
+> Vuole tornare al Grifone a piedi, e all'imbocco del Ponte del Pesce ti toglie il braccio dalle spalle. “Da qui ci arrivo da sola” dice, e la guardi salire verso i Ponti con la mano sul fianco, fermandosi a ogni lanterna, finché la strada gira.
+
+### La vasca asciutta
+
+**`la-vasca-asciutta`** · scena · 586 caratteri
+
+> Il fondo della vasca triangolare è una crosta arancione che si sbriciola sotto le dita, tiepida come la cenere del giorno prima. La luce sul soffitto si è spenta, e senza quella l'Aula dell'Ira torna a essere una cantina enorme e fredda, con una fila di teschi in bilico che nessuno guarda più.
+>
+> Il pozzo è vuoto ma intero. Sul bordo, sotto la crosta, le incisioni a sette punte sono ancora nette, e quando ci passi sopra il pollice senti un formicolio leggero, quello di una gamba addormentata. Per chiuderlo davvero servono l'acqua benedetta e qualcuno del Velo che sappia cosa farne.
+
+**`la-vasca-asciutta__1-esito`** · esito «Fuori» · opzione «Risalire in città» · esito · 260 caratteri
+
+> Risali la galleria senza fretta, con la lanterna che sbatte contro il fianco. Quando esci dalla porta delle consegne dell'Acciaieria in Città Bassa è sera, e l'aria della strada sa di cavolo bollito e di pioggia, e ti fermi un momento sul gradino a respirarla.
+
+### Il pozzo prosciugato
+
+**`il-pozzo-prosciugato`** · scena · 1211 caratteri
+
+> Padre Aurelio Vantes ti riceve in sagrestia fra due armadi di paramenti, con un accolito che finge di contare le candele in un angolo. Ti ascolta senza interromperti. Gli racconti dell'Aula dell'Ira e della vasca triangolare, e a metà racconto ti posa due dita sul polso e le lascia lì fino alla fine, leggere. Ti accorgi di parlare più piano.
+>
+> Quando hai finito resta zitto a lungo. Poi si alza, ti chiede di aspettare e scende nella Cripta. Torna dopo il tempo di un vespro con un foglio piegato in quattro, scritto in una grafia sottile che non è la sua. In cima al foglio c'è scritto Pozzo dei Sigilli.
+>
+> “La Madre dice che quando è vuota una vasca così si rompe con l'acqua benedetta” spiega. “Va riempita fino all'orlo e fatta bollire per un giorno intero, senza che il fuoco cali mai. La pietra a un certo punto cede.” Rilegge il foglio, come per assicurarsi di averlo capito bene. “Un demone sotto la Città Bassa, da prima che ci fosse la città. Quando dubiti, tocca, dico ai novizi. Stavolta preferirei aver dubitato un po' di più.”
+>
+> [whispers] Un giorno intero accanto a quella vasca, al freddo. Ti tornano in mente le mani piccole della Colata, e ti strofini il polso dove Vantes ti ha posato le dita.
+
+**`il-pozzo-prosciugato__1-successo`** · esito «Il fuoco che non cala» · opzione «Chiedergli di scendere con te» · successo · 597 caratteri
+
+> Il giorno dopo Vantes scende con te insieme a quattro accoliti, e dietro di voi i carretti portano sei barili d'acqua benedetta. Nel tunnel si sporca l'orlo della veste e non ci fa caso. Riempite la vasca a secchi e accendete il carbone tutto intorno, e per un giorno intero vi date il cambio a tenere alto il fuoco mentre lui prega a voce bassa, senza mai sedersi.
+>
+> All'alba del giorno dopo la vasca si spacca da un angolo all'altro con un rumore di ghiaccio che cede sul fiume. L'acqua scende nella crepa e sparisce. Nell'Aula il gelo se ne va, e Vantes ti stringe il polso più forte del solito.
+
+**`il-pozzo-prosciugato__1-fallimento`** · esito «Due novizi» · opzione «Chiedergli di scendere con te» · fallimento · 658 caratteri
+
+> Vantes ti ascolta, poi scuote la testa con dolcezza. Dice che la Cattedrale ha bisogno di lui, e che di questi tempi in sagrestia non lo può sostituire nessuno. Ti manda sei barili d'acqua benedetta e due novizi magri che tremano dal primo passo nel tunnel. Il fuoco intorno alla vasca lo tieni alto tu, per un giorno intero, mentre loro due pregano accucciati sulla scalinata.
+>
+> All'alba del giorno dopo la vasca si spacca da un angolo all'altro con un rumore di ghiaccio sul fiume, e l'acqua sparisce nella crepa. Risali con le mani nere di carbone e la schiena a pezzi, e sulle scale uno dei novizi ti chiede come ti chiami, per ricordarti nelle preghiere.
+
+**`il-pozzo-prosciugato__2-esito`** · esito «In prima persona» · opzione «Ricordargli quello che hai fatto per il Velo» · esito · 571 caratteri
+
+> Non fai in tempo a finire la frase che Vantes ha già chiamato l'accolito dall'angolo per far preparare i carretti. Il giorno dopo scende nel tunnel insieme a te e a quattro accoliti, che spingono i carretti con sei barili d'acqua benedetta. Per un giorno intero il fuoco intorno alla vasca non cala mai, e lui prega in piedi senza sedersi.
+>
+> All'alba del giorno dopo la vasca si spacca da un angolo all'altro con un rumore di ghiaccio sul fiume. L'acqua scende nella crepa, e dall'Aula il gelo se ne va. Risalendo Vantes ti tiene una mano sulla spalla per tutto il tunnel.
+
+**`il-pozzo-prosciugato__3-esito`** · esito «Un giorno intero» · opzione «Pagare l'acqua e il carbone, e fare da te» · esito · 545 caratteri
+
+> Vantes accetta l'offerta e ti benedice i barili uno per uno sul sagrato. I due facchini ti lasciano all'imbocco del tunnel e non vogliono sapere dove porta. Riempi la vasca a secchi da solo, e per un giorno intero tieni il fuoco alto, mangiando il pane seduto sul carbone per non perdere tempo.
+>
+> All'alba del giorno dopo la vasca si spacca da un angolo all'altro con un rumore di ghiaccio sul fiume, e l'acqua sparisce nella crepa. Risali con le ciglia bruciacchiate e le gambe che non reggono, e ti fermi a dormire contro il muro del magazzino.
+
+### Il diario di Isvaro
+
+**`il-diario-di-isvaro`** · scena · 1447 caratteri
+
+> Liaren passa i giorni dopo l'Acciaieria a letto, nella stanza in fondo al corridoio del Grifone, con il fianco sinistro fasciato stretto e due cuscini dietro la schiena. Si è fatta portare il samisen e non lo suona. Lo tiene sulle ginocchia e gira un pirolo avanti e indietro, senza accordare niente. Brunella ha chiuso la porta a chiave e si è seduta sulla cassapanca con il mestolo in grembo, anche se di zuppa non ce n'è. Dalle assi del pavimento sale il rumore della sala, con qualcuno che ride troppo forte.
+>
+> Sul comodino c'è il diario di Isvaro, rilegato in pelle, due dozzine di pagine piene per metà di mappe di Qir-Azel e per l'altra metà di ritratti di una donna. Le righe scritte sono in elfico, in una calligrafia minuta che pende tutta a destra. Accanto c'è il mazzo di chiavi di Ondrel, che stamattina la Caserma ha riportato in un sacchetto di tela con sopra scritto a gesso Tarvellin, con due elle. Liaren te le ha messe in mano appena sei entrato, senza guardarle.
+>
+> “L'elfico l'ho imparato a undici anni, per scrivergli all'Accademia” dice Liaren, e allunga la mano verso il diario. “Leggo io. Tu tienimi la lampada vicino, e tu, Brunella, non dici niente finché non ho finito.”
+>
+> Brunella annuisce e stringe il mestolo con tutte e due le mani. [whispers] Undici anni, e già scriveva a un fratello che in casa non si poteva nominare. Ti siedi sul bordo del letto con la lampada fra le ginocchia, e il vetro caldo ti scalda le dita.
+
+**`il-diario-di-isvaro__1-esito`** · esito «Quaranta e quattrocento» · opzione «Sfogliare le mappe» · esito · 599 caratteri
+
+> Le mappe sono fatte bene, con i ponti contati a uno a uno e la Città Bassa disegnata casa per casa. La prima serie mostra piani d'attacco per una banda di quaranta orchi, e una delle pagine è cerchiata due volte. Liaren ci passa sopra il dito. Le frecce partono dall'Acciaieria e salgono fino alla piazza del Festival, per le stesse strade dove c'eri anche tu quel giorno.
+>
+> Le pagine dopo sono per quattrocento orchi. Nessuna è cerchiata, e molte sono coperte di croci tracciate così forte che il pennino ha bucato la carta. Brunella guarda le croci a lungo, con il mestolo premuto contro le labbra.
+
+**`il-diario-di-isvaro__2-esito`** · esito «La razzia» · opzione «Farle leggere la prima pagina scritta» · esito · 761 caratteri
+
+> “La razzia è andata come doveva” legge Liaren. “Abbiamo perso pochi orchi di Capomozzo, e la bara di Sollen l'abbiamo presa senza fatica, mentre i bifolchi guardavano da un'altra parte. Non vedo l'ora del vero assalto. Questa città merita di bruciare. Quel bastardo di mio padre l'ho costretto a tacere sull'Acciaieria, che ci serviva come base, altrimenti avrei raccontato a tutti come ha tolto di mezzo la mamma con l'aiuto di Vesh e dei suoi tagliagole. Gli ho fatto sparire anche ogni carta che in città nomini Capomozzo, così abbiamo più tempo.”
+>
+> Arrivata alla mamma la voce le si incrina, e Liaren ricomincia la frase da capo, più piano, come se la prima volta avesse letto male. Brunella si alza dalla cassapanca, va fino alla finestra e torna a sedersi.
+
+**`il-diario-di-isvaro__3-esito`** · esito «Il tunnel dei contrabbandieri» · opzione «Farle leggere la seconda pagina» · esito · 836 caratteri
+
+> “Balthog vuole un assalto in massa, via terra” legge Liaren. “Per me è un errore. Dovremmo farci aiutare dal demone delle Segrete e mandare su i suoi mostri da sotto, per il tunnel dei contrabbandieri che sbuca nell'Acciaieria di mio padre, e poi entrare dal fiume con assalti piccoli e mirati. Gli altri sono tutti d'accordo tranne Zagrath. Il mezzogre dice di no solo per farmi arrabbiare. La mia adorata Aurenne è troppo presa dai livelli inferiori per decidere. Dice che quando avrà liberato il Costruttore lo metterà ai suoi ordini, e allora la prudenza non ci servirà più. Spero che abbia ragione. Quell'idiota di Garin crede ancora che serviamo il Culto dell'Anonimo, e Kessa comincia a sospettare qualcosa.”
+>
+> Liaren alza gli occhi dalla pagina. “Da bambina mio padre mi diceva che sotto l'Acciaieria ci sono soltanto topi” dice.
+
+**`il-diario-di-isvaro__4-esito`** · esito «La mano nuova» · opzione «Farle leggere l'ultima pagina» · esito · 893 caratteri
+
+> “La mia amata vuole andare fino in fondo” legge Liaren, con la voce che si è fatta più bassa. “Qualunque cosa le dica, resta convinta di essere brutta. Vuole togliersi di dosso quella che chiama la sua corruzione celestiale e metterci la grazia della sua nuova madre, la Regina delle Ali Spezzate. Quando ha bruciato i resti di suo padre al santuario di Capomozzo è cominciata la trasformazione, e la sua mano nuova a me piace poco. Spero che quando offrirà Qir-Azel alle fiamme di Nhar'Kael sia meno orrenda. Anche le succubi sono demoni, no?”
+>
+> Liaren gira pagina e avvicina il diario alla lampada. La donna è disegnata a carboncino come nelle altre, con i capelli lunghi e chiari, ma qui ha due ali da pipistrello che le escono dalle scapole e una mano nera e artigliata posata sul ventre. In questo ritratto come in tutti gli altri, Isvaro le ha ripassato gli occhi con un inchiostro viola.
+
+**`il-diario-di-isvaro__5-esito`** · esito «La finestra del dormitorio» · opzione «Raccontarle di Isvaro» · esito · 412 caratteri
+
+> Le racconti com'è scappato dalla fornace, e Liaren ti ascolta senza staccare gli occhi dal samisen. “All'Accademia scappava dalla finestra del dormitorio tutte le settimane” dice dopo un po'. “La sera era sempre di ritorno per cena, perché i ragazzi tornano quando hanno fame. Adesso c'è qualcun altro che gli dà da mangiare.” Gira il pirolo finché la corda geme, e Brunella allunga una mano a fermarle il polso.
+
+**`il-diario-di-isvaro__6-esito`** · esito «Il pane dolce» · opzione «Raccontarle di Isvaro» · esito · 438 caratteri
+
+> Le racconti che Isvaro è ancora chiuso in una cella della Caserma, con le mani legate dietro la schiena, e Liaren annuisce piano a ogni parola. “Quando torna, Galdrick proverà a farlo parlare” dice, e si sistema il cuscino dietro la schiena. “Io a trovarlo non ci vado. Una volta ci andavo ogni settimana, con il pane dolce di Brunella nel cestino, e lui lo mangiava tutto senza dire grazie.” Sulla cassapanca, Brunella si guarda le mani.
+
+**`il-diario-di-isvaro__7-esito`** · esito «I mozziconi» · opzione «Raccontarle di Isvaro» · esito · 408 caratteri
+
+> Liaren ti chiede se ha detto qualcosa prima di morire, e tu le racconti che si è girato per parlarti, in cima alla scala, e non ha fatto in tempo. Ascolta con gli occhi sul samisen. “Da piccolo aveva paura del buio” dice alla fine. “All'Accademia i maestri gli spegnevano la candela tutte le sere, e io gli portavo i mozziconi di nascosto.” Poi stringe il pirolo finché la corda si spezza con un suono acuto.
+
+**`il-diario-di-isvaro__8-esito`** · esito «Le copie dei novizi» · opzione «Portare il diario alla Cattedrale del Velo» · esito · 555 caratteri
+
+> Sali ai Quartieri Alti con il diario sotto la giubba. Padre Vantes ti riceve in sacrestia e legge muovendo le labbra la traduzione che Liaren ti ha scritto su un foglio a parte. Quando arriva alla Regina delle Ali Spezzate la voce gli si abbassa. Chiama due novizi e gli fa copiare le mappe per tutta la notte, e la mattina dopo ti restituisce il diario legato con un nastro bianco.
+>
+> “Il Velo pregherà” dice, con la mano sul tuo braccio. “Lei intanto guardi in quel tunnel prima che ci guardi qualcun altro.” Le chiavi di Ondrel ce le hai ancora in tasca.
+
+**`il-diario-di-isvaro__9-esito`** · esito «Un rapporto per lo sceriffo» · opzione «Tenerlo per Galdrick» · esito · 482 caratteri
+
+> Scendi alla Caserma e chiedi carta e penna al sergente di guardia, che te le dà dopo averti guardato due volte. Scrivi tutto quello che sai, dalle mappe ai nomi, e ti ci vuole un'ora buona. Il sergente piega il foglio in quattro e lo infila nel cassetto con l'etichetta Galdrick, accanto a una crosta di pane che è lì da prima della razzia.
+>
+> Il diario lo tieni tu finché lo sceriffo non torna. Le chiavi di Ondrel le hai ancora in tasca, e il tunnel è sempre lì, sotto l'Acciaieria.
+
+**`il-diario-di-isvaro__10-esito`** · esito «Roba di famiglia» · opzione «Tenerlo e non parlarne con nessuno» · esito · 513 caratteri
+
+> “Mio padre è morto” dice Liaren. “Se in città si sa di mia madre e di Vesh, domani il Grifone si riempie di gente venuta a guardarmi in faccia.” Chiude il diario e te lo mette in mano. “Tienilo tu. Io adesso non lo voglio vicino.”
+>
+> Brunella si schiarisce la voce dalla cassapanca. “Adesso posso parlare?” chiede, e senza aspettare risposta scende a prendere la zuppa per tutti e due. Le chiavi di Ondrel ce le hai in tasca, e il tunnel dei contrabbandieri è ancora là sotto, oltre il muro abbattuto dei magazzini.
+
+### Il tunnel dei contrabbandieri
+
+**`il-tunnel-dei-contrabbandieri`** · scena · 1382 caratteri
+
+> La porta delle consegne si apre con la chiave più grossa del mazzo di Ondrel. Dentro fa freddo per la prima volta da quando l'Acciaieria esiste, perché la fornace è spenta, e l'odore di metallo bruciato è rimasto attaccato ai muri. Dalla sala di carico una scala di pietra scende al magazzino sotterraneo dove si teneva la sabbia. Contro il muro ci sono due carriole, e accanto alla scala c'è il muro di mattoni abbattuto a colpi di mazza. Qualcuno, dopo, ha raccolto i mattoni e li ha impilati in ordine contro le carriole, come si fa con la merce. Dietro il buco un passaggio vecchio scende verso sud.
+>
+> In fondo al passaggio c'è la stanza dove i contrabbandieri facevano i loro conti, e dove Isvaro ha passato le ultime notti. Ci sono una branda con la coperta per terra e un tavolo con le gambe incise di tacche. Sulla mensola le bottiglie vuote sono allineate per altezza, tutte con l'etichetta in fuori. [whispers] Anche ubriaco, le bottiglie le ha messe in fila. La mano ti va da sola al diario che hai in tasca.
+>
+> Oltre la stanza comincia il tunnel, scavato nella roccia delle fondamenta. Lo segui con la lampada per quasi un chilometro verso nord-est, con il soffitto che ti sfiora i capelli e l'aria che si fa più fredda a ogni curva. Alla fine c'è un muro di roccia liscia e il tunnel si ferma lì. Sul pavimento, davanti al muro, la polvere è battuta da molti piedi larghi.
+
+**`il-tunnel-dei-contrabbandieri__1-successo`** · esito «Il masso finto» · opzione «Cercare le giunture nella roccia» · successo · 509 caratteri
+
+> Passi la lampada sulla roccia palmo per palmo, e in basso a sinistra la luce non fa ombra dove dovrebbe farla. Ci appoggi la mano e la mano entra nella pietra, fredda come l'acqua di un pozzo. Il masso è un'illusione. Dall'altra parte c'è una caverna con un mucchio di giacigli d'orco e gli avanzi dei loro pasti, e a destra una porta di legno rinforzato, chiusa. A sinistra si aprono due gallerie. Quella a est finisce in un crollo dopo centoventi metri, e quella a ovest passa per un muro abbattuto da poco.
+
+**`il-tunnel-dei-contrabbandieri__1-fallimento`** · esito «La roccia» · opzione «Cercare le giunture nella roccia» · fallimento · 402 caratteri
+
+> Per un'ora tasti la roccia in ginocchio e poi in punta di piedi, finché le dita non sentono più niente e l'olio della lampada si abbassa di un dito. La pietra è liscia e fredda dappertutto. Torni indietro per il tunnel con la lampada che sfrigola, e nella stanza dei contrabbandieri ti siedi sulla branda di Isvaro a riprendere fiato prima di risalire, davanti alle sue bottiglie in fila sulla mensola.
+
+**`il-tunnel-dei-contrabbandieri__2-successo`** · esito «Il formicolio» · opzione «Sentire il Mana nella roccia» · successo · 454 caratteri
+
+> Appoggi le dita alla roccia e lasci andare il Mana, e in basso a sinistra senti un formicolio fitto, come di un arto che si risveglia. Il masso è un incantesimo, e ci passi attraverso con gli occhi chiusi. Dall'altra parte c'è una caverna con i giacigli degli orchi e gli avanzi dei loro pasti, e a destra una porta di legno rinforzato, chiusa. A sinistra la galleria a est finisce in un crollo, mentre quella a ovest passa per un muro abbattuto da poco.
+
+**`il-tunnel-dei-contrabbandieri__2-fallimento`** · esito «Il ronzio» · opzione «Sentire il Mana nella roccia» · fallimento · 421 caratteri
+
+> Il Mana ti torna indietro tutto insieme, e per un momento senti la roccia ronzare dentro i denti. Ti ritrovi seduto per terra, con la lampada rovesciata e un sapore di rame in bocca. Il muro liscio è sempre lì, e ti ci vuole un pezzo prima di avere voglia di toccarlo di nuovo. Risali il tunnel con il ronzio ancora nelle gengive, e in cima alla scala ti accorgi che stai stringendo le chiavi di Ondrel fino a farti male.
+
+**`il-tunnel-dei-contrabbandieri__3-esito`** · esito «Dall'altra parte» · opzione «Appoggiarti al muro e spingere» · esito · 416 caratteri
+
+> Ti appoggi al muro con la spalla per riprendere fiato, e la spalla ci affonda dentro. Cadi in avanti attraverso la pietra, e per un momento lungo non hai più né sopra né sotto. Atterri sui gomiti in una caverna che puzza d'orco, in mezzo ai giacigli di paglia e agli ossi spolpati. Delle due gallerie che partono dalla caverna, quella a est finisce in un crollo, e quella a ovest passa per un muro abbattuto da poco.
+
+### Di nuovo nel tunnel
+
+**`di-nuovo-nel-tunnel`** · scena · 537 caratteri
+
+> L'Acciaieria è chiusa e fredda come l'hai lasciata. Nella stanza dei contrabbandieri le bottiglie di Isvaro sono ancora in fila sulla mensola, e una si è rovesciata, forse per un topo. La rimetti dritta senza pensarci, prima di accorgerti di averlo fatto. Poi c'è il tunnel, lungo quasi un chilometro, e in fondo il masso che non c'è.
+>
+> Ci passi attraverso con il fiato trattenuto, come l'ultima volta. Nella caverna i giacigli degli orchi sono come li hai lasciati, e oltre il muro abbattuto a ovest c'è sempre il mattone scritto a pece.
+
+**`di-nuovo-nel-tunnel__1-esito`** · esito «La statua» · opzione «Scendere nelle Segrete» · esito · 371 caratteri
+
+> Sali per la galleria dritta fino alla sala della statua e passi davanti alla donna di marmo rosso, con la faccia storta dalla rabbia e il libro della stella stretto nella sinistra. Il freddo ti entra sotto i vestiti come l'altra volta, a cominciare dai polsi. Controlli che la lampada abbia olio, ti allacci la giubba fino al collo e ti incammini verso le gallerie basse.
+
+### Uzgreth alle fosse
+
+**`uzgreth-alle-fosse`** · scena · 1074 caratteri
+
+> La camera è più fredda delle altre, con il soffitto ad arco che sale a sei metri. Sul pavimento ci sono undici portelli di legno sparsi senza ordine, ognuno sopra una fossa larga un metro e mezzo, e dal buio sotto i portelli salgono rumori soffocati. Ogni tanto si sente un gemito sordo, e poi niente.
+>
+> In mezzo ai portelli c'è un orco più tozzo e più largo di qualunque orco tu abbia visto, con la pelle di un colore malato e gli occhi rossi di sangue. Regge con tutte e due le mani uno spadone enorme di ottima fattura, appoggiato alla spalla. [whispers] La spada da ogre dei Nove Chiodi, quella che secondo Ilvaena era troppo grande anche per lui. Adesso gli sta in mano come se l'avessero forgiata su misura.
+>
+> Quando parla, la sua voce è più bassa di quella di qualunque orco, e sembra salire dal fondo delle fosse insieme ai gemiti.
+>
+> “Il Demone ha chiesto a Uzgreth di guardare il suo gregge” dice. “Uzgreth fa quello che dice il Demone, e il Demone dice di squartare gli intrusi insolenti.” Sposta il peso da un piede all'altro, e un portello sotto di lui scricchiola.
+
+**`uzgreth-alle-fosse__1-vittoria`** · esito «Lo spadone» · opzione «Affrontarlo» · vittoria · 357 caratteri
+
+> Uzgreth mena colpi che spaccano i portelli e fanno volare le schegge, e dalle fosse aperte si alzano mani grigie. Tu resti sempre dove lui non arriva. Quando finalmente cade lungo disteso, lo spadone gli scivola dalle dita. Lo raccogli con tutte e due le mani, e pesa quanto un bambino. Sotto i portelli rotti i morti delle fosse si agitano, ma non salgono.
+
+**`uzgreth-alle-fosse__1-sconfitta`** · esito «Il gregge» · opzione «Affrontarlo» · sconfitta · 319 caratteri
+
+> Lo spadone ti prende di piatto e ti manda a sbattere contro un portello, che si apre sotto di te. Per un attimo hai le gambe nel buio della fossa e qualcosa di freddo ti stringe la caviglia. Ti tiri fuori a forza di braccia e scappi dalla camera, e Uzgreth non ti insegue. Lo senti ripetere che il Demone sarà contento.
+
+**`uzgreth-alle-fosse__2-successo`** · esito «Il portello marcio» · opzione «Fargli mettere il piede su un portello» · successo · 433 caratteri
+
+> Guardi i portelli uno per uno finché trovi quello con i cardini mangiati dalla ruggine, e ti metti dall'altra parte, a provocarlo. Uzgreth ti viene incontro dritto, perché è così che fa tutto. Il portello scatta sotto il suo piede e lui va giù nella fossa fino alle spalle, e lo spadone, troppo largo, resta di traverso sul bordo. Dal fondo i morti lo tirano per le gambe. Prendi lo spadone e te ne vai prima di sentire come finisce.
+
+**`uzgreth-alle-fosse__2-fallimento`** · esito «Il portello sbagliato» · opzione «Fargli mettere il piede su un portello» · fallimento · 361 caratteri
+
+> Il portello che hai scelto regge, e Uzgreth ti arriva addosso con lo spadone alto. La lama ti apre la coscia mentre ti butti di lato, e scappi dalla camera trascinando la gamba. Da dietro arriva la sua voce profonda, che conta i portelli uno per uno mentre tu li scavalchi. Ti fermi a stringere la coscia con la cintura soltanto quando la voce non si sente più.
+
+**`uzgreth-alle-fosse__3-successo`** · esito «Gli ordini del Demone» · opzione «Dirgli che ti manda il Demone» · successo · 338 caratteri
+
+> Gli dici che il Demone ti ha chiamato giù, e che è arrabbiato perché lo fanno aspettare. Uzgreth ti guarda a lungo con i suoi occhi rossi, poi abbassa lo spadone. “Il Demone è sempre arrabbiato” dice, e si sposta di lato, attento a dove mette i piedi. Passi fra i portelli senza correre, e senti il suo sguardo sulla nuca fino alla porta.
+
+**`uzgreth-alle-fosse__3-fallimento`** · esito «Insolente» · opzione «Dirgli che ti manda il Demone» · fallimento · 372 caratteri
+
+> Uzgreth ti ascolta fino alla fine. “Il Demone non manda nessuno” dice, scandendo le parole come un maestro con un allievo lento. “Il Demone chiama Uzgreth.” Lo spadone arriva dal basso, e ti prende al fianco mentre già corri verso la porta. Ti fermi due gallerie più in là a tamponarti la ferita con la camicia, e senti ancora la sua voce che ripete la lezione alle fosse.
+
+**`uzgreth-alle-fosse__4-successo`** · esito «Lungo il muro» · opzione «Passare lungo il muro mentre parla» · successo · 385 caratteri
+
+> Uzgreth ricomincia a parlare del Demone e del suo gregge, con gli occhi rossi rivolti all'arco del soffitto. Ti muovi lungo il muro mettendo i piedi solo sulla pietra lontano dai portelli. Quando da una fossa sale un gemito più forte degli altri trattieni il fiato. Arrivato alla porta ti volti, e lui sta ancora parlando, con la testa all'indietro e lo spadone appoggiato alla spalla.
+
+**`uzgreth-alle-fosse__4-fallimento`** · esito «Il portello che scricchiola» · opzione «Passare lungo il muro mentre parla» · fallimento · 357 caratteri
+
+> Metti il piede su un portello che sembrava pietra, e il legno scricchiola. Uzgreth abbassa gli occhi su di te, lentamente, come se la cosa lo annoiasse. Ti butti verso la porta, e lo spadone ti passa così vicino che senti il vento sul collo, poi la punta ti prende la spalla. Esci dalla camera con il braccio che pende e la sua voce che ti chiama insolente.
+
+### L'Aula dell'Ira
+
+**`l-aula-dell-ira`** · scena · 1423 caratteri
+
+> La galleria sbuca in una sala così alta che la lampada non arriva al soffitto, grande come la navata di una cattedrale. Le pareti sono coperte di rune incise a punta, e al centro c'è una vasca larga, circondata da un cerchio di teschi levigati in equilibrio su spuntoni di pietra. In fondo due scalinate salgono a un pulpito, e sul pulpito c'è una seconda vasca, triangolare, piena di un liquido arancione e trasparente che gorgoglia. Ne sale vapore, eppure nella sala fa un freddo che ti morde le dita.
+>
+> Accanto al pulpito sta il demone. È alto più di tre metri e ha la pelle coriacea color ruggine, con quattro braccia. Le due di sopra finiscono in chele grandi abbastanza da stritolare un cavallo, quelle di sotto sono sottili come mani d'uomo e si muovono di continuo. Ha la testa di un coccodrillo, e gli occhi sono intelligenti e completamente pazzi.
+>
+> “Maledetti! Avete osato violare il santuario della Covatrice di Orrori!” urla, con una voce che ti vibra nello sterno. Con una mano piccola si taglia il polso e lo tiene sopra la vasca triangolare. La luce sul soffitto si mette a tremare, e accanto a lui l'aria si crepa come uno specchio. Ne esce una figura glabra sulle gambe piegate al contrario, e la crepa si richiude.
+>
+> “Dona la tua anima colma di rancore al possente Yoggoth, e proteggi la sacra Regina!” Intanto la vasca si è abbassata di un dito, e per un momento la faccia da coccodrillo si fa preoccupata.
+
+**`l-aula-dell-ira__1-vittoria`** · esito «Il possente Yoggoth» · opzione «Affrontarli tutti e due» · vittoria · 702 caratteri
+
+> La Colata ti viene addosso per prima e cola sul pavimento in una pozza grigia, poi c'è soltanto Yoggoth, con le chele che spaccano i teschi del cerchio. Quando finalmente cade sui gradini del pulpito non si rialza più, e la luce della vasca triangolare si abbassa e poi torna piano quella di prima. Alla sua cintura c'è un cilindro di lyssan inciso con grande cura e pieno di ammaccature, con dentro un rotolo di pergamena coperto di simboli senza senso. Nella cintura ha altri rotoli, ma l'inchiostro è sbiadito.
+>
+> Prima di andartene ti volti verso il pulpito, e la vasca è ancora piena fino all'orlo. Risali per le Segrete e per il tunnel con il cilindro nella camicia, e in Città Bassa è notte fonda.
+
+**`l-aula-dell-ira__1-sconfitta`** · esito «L'ultimo taglio» · opzione «Affrontarli tutti e due» · sconfitta · 607 caratteri
+
+> La Colata la abbatti, ma Yoggoth ti prende con una chela e ti scaraventa contro il cerchio di teschi. Mentre ti rialzi lui si taglia di nuovo il polso sopra la vasca, e poi ancora, per chiamare un'altra Colata che ti finisca. Al quarto taglio la vasca non gli risponde più. Yoggoth la guarda con le mani piccole che tremano, e taglia ancora, finché si accascia sui gradini del pulpito in una pozza del suo sangue e non si muove più.
+>
+> Dalla sua cintura prendi un cilindro di lyssan ammaccato. Mentre ti trascini verso l'uscita la vasca riprende a gorgogliare, e torni in Città Bassa all'alba, piegato in due.
+
+**`l-aula-dell-ira__2-successo`** · esito «Il possente» · opzione «Provocarlo finché svuota la vasca» · successo · 533 caratteri
+
+> Gli ridi in faccia e gli dai del lucertolone. Yoggoth ruggisce e si taglia il polso, e tu corri intorno al cerchio di teschi con la Colata dietro. Ogni insulto gli costa un taglio, e ogni taglio abbassa la vasca. Le ultime Colate escono a metà e si sfanno dopo tre passi. Alla fine Yoggoth cade sui gradini, morto, svuotato del suo sangue, e la luce della vasca torna piano quella di prima.
+>
+> Dalla sua cintura prendi un cilindro di lyssan ammaccato, con un rotolo di pergamena dentro. In Città Bassa arrivi a notte fonda, senza voce.
+
+**`l-aula-dell-ira__2-fallimento`** · esito «Troppe» · opzione «Provocarlo finché svuota la vasca» · fallimento · 465 caratteri
+
+> Lo provochi, e lui ti prende in parola. Le Colate escono una dopo l'altra e tu corri intorno al cerchio di teschi finché una ti prende alla schiena e un'altra alla gamba. Yoggoth continua a tagliarsi anche quando la vasca non gli risponde più, e alla fine si accascia sui gradini del pulpito con le mani piccole aperte e non respira più.
+>
+> Gli sfili dalla cintura un cilindro di lyssan ammaccato e risali le Segrete trascinandoti. Arrivi in Città Bassa che è giorno.
+
+**`l-aula-dell-ira__3-successo`** · esito «Le parole dell'Albero» · opzione «Scacciarlo con l'esorcismo» · successo · 531 caratteri
+
+> Dici le parole della Liturgia a voce alta, e la voce ti esce più ferma delle gambe. A ogni frase Yoggoth si fa più piccolo dentro la sua pelle color ruggine, come un vestito che resta vuoto, e la Colata accanto a lui si scioglie sul pavimento. All'ultima parola il demone si accascia sui gradini del pulpito e non si muove più. Fra le pieghe della pelle vuota trovi un cilindro di lyssan ammaccato, con un rotolo di pergamena dentro.
+>
+> Torni in Città Bassa a notte fonda, con la gola secca. La vasca, dietro di te, gorgoglia ancora.
+
+**`l-aula-dell-ira__3-fallimento`** · esito «Mezza Liturgia» · opzione «Scacciarlo con l'esorcismo» · fallimento · 516 caratteri
+
+> A metà formula sbagli una parola, e il Mana ti torna indietro come una frustata dietro gli occhi. Yoggoth barcolla lo stesso, ferito da quello che è arrivato, e per la rabbia si apre il polso sopra la vasca, e poi di nuovo, e di nuovo, finché la vasca non gli dà più niente e lui crolla sui gradini svuotato, senza più rialzarsi. La sua Colata ti ha lasciato il segno delle sue piccole mani su tutto il braccio.
+>
+> Dalla sua cintura prendi un cilindro di lyssan ammaccato, e torni in Città Bassa con il sangue al naso.
+
+**`l-aula-dell-ira__4-esito`** · esito «Il patto» · opzione «Offrirgli la tua rabbia» · esito · 847 caratteri
+
+> Ti inginocchi davanti al pulpito, e Yoggoth scende i gradini con gli occhi accesi. Le mani piccole ti si posano sulle tempie, e senti la rabbia che ti esce dalla testa, tutta quella che hai raccolto da quando sei a Qir-Azel. Lui la lascia cadere nella vasca triangolare. L'aria si crepa, e la Colata che ne esce è fatta della tua rabbia, che in questo momento ce l'ha con chi ti sta frugando nella testa. Gli salta alla gola con tutte le mani della bocca, l'altra Colata le va dietro, e Yoggoth cade all'indietro nella vasca triangolare con tutte e due addosso. Il liquido si richiude sopra le chele, e nessuno dei tre riemerge.
+>
+> Sui gradini, caduto dalla sua cintura, trovi un cilindro di lyssan ammaccato. Torni in Città Bassa leggero e vuoto, e per giorni, quando qualcuno ti spinge al mercato, non ti viene nemmeno voglia di spingere indietro.
 
 ## I prologhi
 
