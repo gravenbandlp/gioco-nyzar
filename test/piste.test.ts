@@ -78,6 +78,9 @@ describe('piste', () => {
   it('Acciaio e Ira arriva a 8, passando dall\'Acciaieria e dalle Segrete dell\'Ira', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.acciaio', 8, { 'pista.tribu': 4, invito: 1, bende: 2 })).toBeGreaterThan(7);
   });
+  it('Capomozzo arriva a 10, attraverso le quattro spedizioni', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.capomozzo', 10, { 'pista.acciaio': 8, 'pista.sepolcro': 7, 'pista.tribu': 4, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(9);
+  }, 30000);
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
     s.quality['pista.dama-argento'] = 11;

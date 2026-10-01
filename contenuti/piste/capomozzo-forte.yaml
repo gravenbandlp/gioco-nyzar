@@ -1,0 +1,1199 @@
+# Capomozzo, la fortezza (pista.capomozzo 2 → 3).
+# Si entra dal cuore di Rovolungo (`borgoth-e-cenerascura`, capomozzo-1.yaml) o, dopo una ritirata, da
+# `ritorno-alla-fortezza` alle Scuderie della Zanna Rotta.
+# - area `capomozzo`: sette stanze ripetibili (C10 la palizzata, C11 la sala dei trofei, C12–C13 la torre dei
+#   sottaceti, C14–C15 la torre di guardia est, C16 il cortile dei cinghiali, C25 la chiesa senza tetto,
+#   C26 la scala nella roccia), se ne vedono tre a caso.
+# - storie non ripetibili: `ombrafosca-in-gabbia` (C17–C18) con il seguito `ombrafosca-fuori-dalla-gabbia`
+#   (ombrafosca 1 liberato, 2 con te) e `la-tesoreria-di-balthog` (C23–C24, tesoro.capomozzo).
+# - il cuore `balthog-il-prescelto` (C19): in ogni ramo pista.capomozzo 3 e `vai: sotto-capomozzo`.
+#   balthog vale 1 se muore nello scontro, 2 se lo atterri a sorpresa e lo lasci legato; resta 0 se lo
+#   convinci (se ne va con la sua gente), se lo aggiri o se ti batte e ti butta giù per la scala.
+aree:
+  - id: capomozzo
+    immagine: ambientazione/capomozzo
+    nome: Capomozzo
+    sommario: "La fortezza di Balthog in cima all'isola, dietro una palizzata fatta con le navi che il mare ha buttato sugli scogli."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      Visto dal ponte di corda, il profilo dell'isola è quello di una testa
+      tagliata, e la fortezza le sta in cima come una corona messa storta.
+      Il sentiero sale fra gli scogli bagnati fino alla palizzata, alta
+      quattro uomini, fatta di travi nere di catrame e di salsedine, e in
+      mezzo alle travi spuntano gli alberi maestri di navi che in porto non
+      sono mai arrivate. Il vento dal mare porta fumo di legna umida e odore
+      di stalla.
+
+      Dalla porta socchiusa si vede un cortile di terra battuta, e intorno al
+      cortile i tetti bassi dei dormitori e della sala dei trofei. Sul lato a
+      monte, più grande degli altri edifici, c'è la sala del trono di Balthog
+      il Prescelto. In cima alla roccia resta in piedi una chiesa di pietra
+      grigia senza tetto, molto più vecchia di ogni asse della palizzata.
+
+      Su una trave accanto alla porta è rimasta inchiodata la targa d'ottone
+      di una nave, *Brezza di Laresh*, e sotto qualcuno ha inciso col
+      coltello una fila di tacche. Ti accorgi di avere i polpacci duri per la
+      salita e di respirare a bocca chiusa, piano, per non fare rumore.
+
+storylet:
+  # ------------------------------------------------------------ 2 · rientrare dopo una ritirata
+  - id: ritorno-alla-fortezza
+    presso: scuderie-della-zanna-rotta
+    immagine: ambientazione/scuderie-della-zanna-rotta
+    titolo: Di nuovo verso Capomozzo
+    sommario: "Balthog è ancora sul suo trono, sull'isola oltre il ponte di corda. Per arrivarci ci vogliono due giorni e mezzo di strada verso la costa."
+    luogo: Città Bassa, davanti alle Scuderie della Zanna Rotta
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2]
+    testo: |
+      Davanti alle Scuderie della Zanna Rotta Dolovan Stroud sta ferrando un
+      cavallo pezzato, con lo zoccolo stretto fra le ginocchia e tre chiodi
+      fra le labbra. Quando gli dici dove torni smette di battere, e si toglie
+      i chiodi di bocca uno alla volta.
+
+      «Capomozzo» dice, e sputa di lato. «L'isola con la testa mozzata. Mio
+      nonno diceva che lassù c'era una chiesa già prima degli orchi, e che i
+      pescatori ci giravano al largo anche allora. Io i cavalli li affitto per
+      andare nei boschi. Per andare dagli orchi li affitto a prezzo doppio.»
+
+      La strada la conosci. Sono due giorni e mezzo verso nord fino alla
+      costa, e poi il roveto di Rovolungo e il ponte di corda sopra le onde.
+      Ti accorgi che le dita ti sono già andate alle cinghie dello zaino, a
+      stringerle di un buco.
+    opzioni:
+      - testo: "Partire a piedi"
+        descrizione: "Due giorni e mezzo di cammino, e le gambe se li ricordano ancora."
+        esito:
+          titolo: A piedi
+          testo: |
+            Parti all'alba con il pane nello zaino e cammini per due giorni e
+            mezzo, prima fra le colline e poi lungo la costa, dove il vento ti
+            secca le labbra e ti lascia il sale sulle ciglia. Il roveto di
+            Rovolungo è come l'hai lasciato, e il ponte di corda regge ancora
+            sui nodi che gli orchi hanno fatto per il cavallo. Sull'isola la
+            palizzata di relitti è nera contro il cielo, e sulle torri ci sono
+            le vedette.
+          vai: capomozzo
+      - testo: "Andare a cavallo"
+        descrizione: "A cavallo la costa arriva un giorno prima."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Lungo la costa
+          testo: |
+            Il cavallo prende la strada del nord senza bisogno di essere
+            guidato, e la costa grigia arriva il giorno dopo, piena di
+            gabbiani. Lo lasci legato fra gli scogli all'ingresso del roveto,
+            con una bracciata d'erba davanti, e prosegui a piedi per il tunnel
+            di cardi fino al ponte di corda. Quando ti volti dall'altra parte
+            del ponte lui sta ancora guardando verso di te, con le orecchie
+            dritte.
+          vai: capomozzo
+      - testo: "Affittare un cavallo da Dolovan"
+        descrizione: "A prezzo doppio, come ha detto lui. Dieci monete."
+        requisiti: [monete >= 10]
+        costo: 0
+        esito:
+          titolo: Il pezzato
+          testo: |
+            Dolovan conta le dieci monete due volte e ti dà il pezzato che
+            stava ferrando, con il ferro nuovo che ancora luccica sotto lo
+            zoccolo. «Riportamelo intero, che con gli orchi ho già pagato
+            abbastanza» dice, e ti batte una mano sul ginocchio. Il pezzato è
+            lento e testardo, ma alla costa ci arrivi un giorno prima. Lo lasci
+            legato fra gli scogli all'ingresso del roveto e prosegui a piedi
+            verso il ponte di corda.
+          effetti: { monete: -10 }
+          vai: capomozzo
+
+  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  - id: capomozzo-palizzata
+    immagine: ambientazione/capomozzo
+    titolo: La palizzata di relitti
+    sommario: "Una palizzata fatta di fasciame e di alberi di nave. Le porte sono socchiuse, e da dentro arriva il vociare degli orchi."
+    luogo: Capomozzo, la palizzata
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      La palizzata gira intorno alla cima dell'isola, e da vicino si vede di
+      che cosa è fatta. Le travi sono fasciame di navi, ancora curvo, con i
+      chiodi di rame diventati verdi, e ogni tanto fra un'asse e l'altra c'è
+      un albero maestro piantato nella roccia con la sua coffa in cima.
+      Accanto alla porta è inchiodata la polena di una nave, che raffigura
+      una donna con i capelli scolpiti a onde, e gli orchi le hanno dipinto
+      due zanne col sangue di qualche animale.
+
+      Le porte principali sono socchiuse, e da dentro arriva un vociare
+      gutturale, una lite su chi deve andare a prendere l'acqua. Sulle due
+      torri ai lati della porta ci sono le vedette. Ti appiattisci contro
+      gli scogli e senti il freddo della pietra bagnata passarti attraverso
+      la camicia.
+    opzioni:
+      - testo: "Passare sotto gli occhi delle vedette"
+        descrizione: "Sono distratte, però da lassù vedono tutto il sentiero."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: La porta socchiusa
+          testo: |
+            Aspetti che la vedetta della torre di sinistra si giri a sputare di
+            sotto, poi corri chino lungo la palizzata e ti infili nella porta
+            socchiusa. Dentro c'è un androne di terra battuta con una botte
+            d'acqua e un mestolo legato con lo spago. Resti dietro la botte
+            finché il cuore smette di martellarti nelle orecchie, e dalla torre
+            arriva soltanto il rumore di uno che si soffia il naso con le dita.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: Il sasso
+          testo: |
+            A metà strada un sasso ti rotola via da sotto lo stivale e scende
+            per gli scogli saltando fino al mare. La vedetta si sporge e tira
+            una lancia a caso nel buio, che ti apre la spalla di striscio prima
+            di piantarsi nel terreno accanto a te. Resti immobile, con il sangue
+            che ti scende caldo nella manica, finché lassù qualcuno ride e la
+            vedetta torna a sedersi.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare un'asse che ceda"
+        descrizione: "Una palizzata fatta di relitti ha gli stessi difetti delle navi da cui viene."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: Lo scafo marcio
+          testo: |
+            Passi le dita lungo il fasciame, un'asse dopo l'altra, finché ne
+            trovi una che sotto il pollice si sfalda come pane bagnato. Il tarlo
+            di mare ha fatto quasi tutto il lavoro. La stacchi piano dai chiodi
+            verdi e ti infili nel varco, e dall'altra parte ti ritrovi fra un
+            mucchio di reti e il muro dei dormitori, con la puzza di sudore
+            d'orco che passa dalle fessure. Rimetti l'asse al suo posto dietro
+            di te.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: Il chiodo di rame
+          testo: |
+            Provi un'asse dopo l'altra, e tutte reggono. All'ultima tiri troppo
+            forte, e il chiodo di rame viene via di colpo e ti si pianta nel
+            palmo. Ti mordi il polso per non gridare. Quando ritiri la mano il
+            buco sanguina poco e fa male parecchio. Te lo fasci con un lembo
+            della camicia, e intanto sulle torri le vedette continuano a
+            litigare sulla storia dell'acqua.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare il cambio della guardia fra gli scogli"
+        descrizione: "Prima o poi le vedette scendono a mangiare. Gli scogli sono bagnati, e la marea sale."
+        costo: 2
+        esito:
+          titolo: La marea
+          testo: |
+            Ti rannicchi fra gli scogli sotto la palizzata e aspetti. La marea
+            sale piano fino alle ginocchia, e un granchio decide che il tuo
+            stivale è casa sua. Quando finalmente le vedette scendono a mangiare
+            hai le gambe intirizzite e i denti che battono, e passi la porta con
+            i calzoni che gocciolano, lasciandoti dietro una scia scura sulla
+            terra battuta.
+          effetti: { profondita.capomozzo: 1, ferite: 0.5 }
+
+  - id: capomozzo-sala-dei-trofei
+    immagine: bestiario/orco
+    titolo: La sala dei trofei
+    sommario: "Due ali d'arpia inchiodate al muro con sette pugnali. Sotto, quattro orchi giocano con le selle dei cinghiali e una macchina senza volto aspetta in un angolo."
+    luogo: Capomozzo, la sala dei trofei
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      La sala dei trofei ha il pavimento di terra battuta, come se a chi l'ha
+      costruita fosse finito il legname dopo il tetto. Lungo la parete est
+      sono appese teste di cavallo e di cane conservate male, e a quelle che
+      avevano perso gli occhi di vetro qualcuno ha cucito dei bottoni. Sulla
+      parete sud c'è un paio di grandi ali dalle piume nere, inchiodate al
+      muro con sette pugnali. Uno ha l'impugnatura di madreperla, e anche
+      nella penombra manda una luce lattiginosa.
+
+      Intorno a un braciere quattro orchi fanno a gara a chi solleva più in
+      alto la sella del proprio cinghiale, e ridono a ogni tentativo. In un
+      angolo, immobile, c'è una figura alta quanto un uomo e sottile, con la
+      testa girata all'indietro sulle spalle. È una macchina della
+      Salvaguardia, e ti accorgi che trattieni il fiato da quando l'hai vista.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Gli orchi sono scesi di sella e hanno le mani occupate. La macchina è un'altra faccenda."
+        combattimento: sala-dei-trofei
+        vittoria:
+          titolo: La sella
+          testo: |
+            Il primo orco ti arriva addosso con la sella ancora in mano, e la
+            sella è la prima cosa che rompi. Gli altri scappano verso i
+            dormitori a chiamare aiuto e non tornano, perché a svegliare gli
+            altri non ci tiene nessuno. La macchina invece si gira tutta insieme
+            con la testa, e ti viene incontro camminando all'indietro con una
+            precisione che ti stringe lo stomaco. Quando finalmente cade, il
+            nucleo che ha nel petto ronza ancora un poco e poi si spegne.
+          effetti: { profondita.capomozzo: 1 }
+        sconfitta:
+          titolo: Il polso
+          testo: |
+            Senza voltarsi, la macchina ti prende il polso da dietro e ti torce
+            il braccio finché le ginocchia toccano terra. L'orco ti colpisce con
+            la sella in piena faccia. Ti ritrovi fuori dalla sala, steso dietro
+            un mucchio di reti, con il naso che sanguina e le risate degli orchi
+            che passano dalla porta. Nessuno ti viene a cercare, perché la gara
+            delle selle è ricominciata.
+      - testo: "Passare lungo la parete delle teste"
+        descrizione: "Gli orchi guardano la sella. La macchina guarda altrove, se una testa girata al contrario guarda da qualche parte."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Contato
+          testo: |
+            Ti muovi lungo la parete est, sotto le teste di cavallo, mentre gli
+            orchi urlano per una sella che è caduta sul piede di qualcuno. Passi
+            a tre braccia dalla macchina. La sua testa girata all'indietro resta
+            puntata verso di te per tutto il tempo, ma il corpo non si muove, e
+            arrivi alla porta di fondo con le spalle rigide e la sensazione di
+            essere stato contato.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: La testa di cane
+          testo: |
+            Urti con la spalla una testa di cane, e la testa si stacca dal chiodo
+            e rotola fra i piedi degli orchi con i suoi bottoni al posto degli
+            occhi. Per un momento la guardano tutti, e poi guardano te. Esci
+            dalla porta da cui sei entrato con due orchi alle calcagna, e ti
+            salvi soltanto perché il primo inciampa nella sella. Ti fermi dietro
+            i dormitori con una fitta alla milza che ti piega in due.
+          effetti: { ferite: 0.5 }
+      - testo: "Staccare il pugnale di madreperla"
+        descrizione: "È in alto, e il suo chiodo regge mezza ala. Bisogna arrampicarsi sulle teste di cavallo."
+        immagine: icone/curvy-knife
+        requisiti: [oggetto.pugnale-dell-arpia == 0]
+        prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Media }
+        successo:
+          titolo: La madreperla
+          testo: |
+            Aspetti che gli orchi escano nel cortile a sellare i cinghiali, poi
+            ti arrampichi usando le teste di cavallo come gradini. Il pugnale
+            viene via con uno strappo, e metà dell'ala si stacca e ti scivola
+            addosso in una pioggia di piume nere che sanno di polvere.
+            L'impugnatura di madreperla è fredda e liscia, e la lama non ha un
+            filo di ruggine. Te lo infili nello stivale e scendi prima che gli
+            orchi tornino.
+          effetti: { oggetto.pugnale-dell-arpia: 1, profondita.capomozzo: 1 }
+        fallimento:
+          titolo: L'ala
+          testo: |
+            Ti arrampichi sulle teste di cavallo, e la terza cede sotto il tuo
+            peso con un rumore di paglia secca. Cadi di schiena sulla terra
+            battuta e l'ala intera ti viene giù addosso con tutti i suoi
+            pugnali, e uno ti apre il polpaccio. Senti gli orchi che tornano dal
+            cortile. Ti trascini fuori dalla porta di fondo lasciandoti dietro
+            una scia di piume, e il pugnale di madreperla resta per terra in
+            mezzo agli altri.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare dietro il braciere"
+        descrizione: "Il fumo copre bene, e scotta."
+        costo: 2
+        esito:
+          titolo: Il fumo
+          testo: |
+            Ti metti carponi e passi dietro il braciere, dove il fumo è così
+            fitto che gli occhi ti si riempiono di lacrime. Le braci schioccano,
+            e una ti salta sul dorso della mano e ci resta. Arrivi alla porta di
+            fondo con la mano che pulsa e la gola che raschia, trattieni la
+            tosse finché sei fuori, e lì tossisci dentro la manica fino a vedere
+            le stelle.
+          effetti: { profondita.capomozzo: 1, ferite: 0.5 }
+
+  - id: capomozzo-torre-dei-sottaceti
+    immagine: fazioni/tribu-capomozzo
+    titolo: La torre dei sottaceti
+    sommario: "Una dispensa inchiodata che sa d'aceto, e in cima alla torre ovest due vedette che da ieri sera non danno più segni di vita."
+    luogo: Capomozzo, la dispensa e la torre ovest
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      Alla base della torre ovest c'è la dispensa, con la porta inchiodata da
+      fuori con tre assi di traverso. Dalle fessure esce un odore d'aceto così
+      forte che ti pizzica il naso. Dentro, in mezzo ai sacchi di sale, un
+      barile di sottaceti ha un buco tondo nella parte bassa, fatto con un
+      dito o con una zanna, e la salamoia ha disegnato sul pavimento una
+      macchia a forma di continente.
+
+      Accanto alla dispensa una scala a pioli senza ringhiera sale fino a una
+      botola, nove metri più in alto. Da lassù arriva soltanto, ogni tanto, il
+      lamento basso di qualcuno che sta male. Lo stomaco ti si stringe per riflesso, come
+      quando senti qualcuno vomitare dietro una porta.
+    opzioni:
+      - testo: "Salire in cima alla torre"
+        descrizione: "Nove metri di pioli unti, e in cima qualcuno che si lamenta."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Le vedette
+          testo: |
+            Sali piolo dopo piolo con le braccia che tremano e spingi la botola
+            con la testa. In cima ci sono due orchi stesi sulla schiena, gonfi
+            come otri, in mezzo a vasetti vuoti e a bucce di cetriolo. Accanto a
+            loro una macchina della Salvaguardia sta in piedi e guarda il mare,
+            in attesa di un ordine che non arriva. Da lassù vedi tutta la
+            fortezza, la sala del trono con il fumo che esce dal tetto e, sulla
+            cima dell'isola, la chiesa senza tetto con una lanterna accesa dentro.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: Il piolo unto
+          testo: |
+            A metà scala un piolo unto di salamoia ti scivola dalla mano, e gli
+            ultimi quattro metri li scendi molto più in fretta dei primi cinque.
+            Atterri su un sacco di sale che ti salva le gambe, mentre la schiena
+            prende tutto il colpo. La botola resta chiusa, e da lassù arriva di
+            nuovo il lamento di prima, più lungo. Ti rialzi tenendoti il fianco
+            con tutte e due le mani.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire la scia di salamoia"
+        descrizione: "Chi ha bucato il barile non si è preoccupato di cancellare le tracce."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: La scia
+          testo: |
+            La salamoia ha lasciato impronte di piedi nudi fino alla scala a
+            pioli, e sui pioli ci sono ditate unte che salgono fino alla botola.
+            Dalle ditate capisci che erano in due, e che sono saliti con le
+            braccia piene. *Da lassù quei due stanotte non sono scesi.* La torre
+            ovest è senza vedette da una notte intera, e passi sotto la scala
+            verso il cortile senza nemmeno abbassare la testa.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: La salamoia
+          testo: |
+            Ti chini sulla macchia per guardare le impronte, e il sale ti entra
+            in un taglio sulla mano che non sapevi di avere e brucia come fuoco.
+            Ti scappa un sibilo fra i denti, e da sopra la botola il lamento si
+            interrompe di colpo. Resti piegato e immobile per un tempo che non
+            finisce più, finché il lamento riprende, e quando ti rialzi le
+            ginocchia ti fanno male.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare fra i sacchi di sale"
+        descrizione: "Sui sacchi di sale i passi si sentono poco. Però il sale entra dappertutto."
+        costo: 2
+        esito:
+          titolo: Il sale
+          testo: |
+            Ti apri la strada fra i sacchi di sale accatastati contro il muro
+            della dispensa, carponi, un palmo alla volta. Il sale ti entra nelle
+            maniche e nei graffi, e ogni graffio si fa sentire per conto suo.
+            Sopra la tua testa il lamento continua con la sua cadenza regolare. Esci
+            dall'altra parte vicino al cortile con le mani bianche fino ai polsi
+            e il sapore del sale in bocca.
+          effetti: { profondita.capomozzo: 1, ferite: 0.5 }
+
+  - id: capomozzo-torre-di-guardia
+    immagine: bestiario/orco
+    titolo: La torre di guardia est
+    sommario: "Sotto la torre est dormono sei orchi. In cima due vedette giocano a carte puntando denti, e non vogliono essere disturbate."
+    luogo: Capomozzo, i dormitori e la torre est
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      La torre est si sale dai dormitori, una stanza bassa con sei amache
+      appese a telai che ondeggiano a ogni respiro di chi ci dorme sopra. Le
+      coperte sono piene di pulci, e i cuscini sono mucchi di paglia. Sei orchi
+      dormono con la bocca aperta, e uno stringe nel sonno un pupazzo di stracci
+      con due bottoni per occhi, consumato sul collo a forza di carezze.
+
+      In fondo ai dormitori una scala a pioli sale alla torre, e dalla torre il
+      camminamento della palizzata gira dietro il cortile fino alla sala del
+      trono. Da lassù arriva il rumore delle carte sbattute su una cassa, con
+      due voci che litigano su una mano e ogni tanto un pugno sul legno. Per
+      arrivare alla scala devi passare fra le amache, e le gambe ti si fanno
+      pesanti prima ancora di muoverti.
+    opzioni:
+      - testo: "Affrontare le vedette"
+        descrizione: "Sono due, e guardano le carte. Sotto ce ne sono sei che dormono, ed è meglio che continuino."
+        combattimento: torre-di-guardia
+        vittoria:
+          titolo: La posta
+          testo: |
+            Spingi la botola e sei in cima prima che posino le carte. Il primo
+            orco cerca l'ascia sotto la cassa, e l'altro pensa a salvare la
+            posta. Li metti giù tutti e due, uno contro il parapetto e l'altro
+            in mezzo alle carte sparse, e dai dormitori sale un russare che non
+            cambia ritmo. Sulla cassa restano una manciata di denti e un mazzo
+            con i re disegnati a mano. Passi sul camminamento con il fiato corto.
+          effetti: { profondita.capomozzo: 1 }
+        sconfitta:
+          titolo: In mezzo alle amache
+          testo: |
+            Uno dei due ti pesta le dita sul bordo della botola mentre l'altro
+            ti prende per i capelli, e insieme ti rimandano giù per la scala. Cadi in mezzo alle amache. Sei orchi si svegliano insieme, e
+            quello del pupazzo è il più arrabbiato di tutti. Esci dai dormitori
+            correndo, con le dita gonfie e un morso sul braccio, e alla porta
+            loro rinunciano a inseguirti per tornare a dormire.
+      - testo: "Passare fra le amache e salire senza farsi sentire"
+        descrizione: "Sei orchi addormentati, e poi due svegli. Il russare copre i passi, finché copre."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il camminamento
+          testo: |
+            Passi fra le amache con le braccia strette al corpo, e un orco nel
+            sonno ti afferra la manica e poi la lascia andare. Sali i pioli uno
+            alla volta. Dalla botola socchiusa vedi le due vedette chine sulla
+            cassa, una con un re in mano e l'altra con un dente, e scivoli fuori
+            dall'apertura sul camminamento alle loro spalle. Nessuno dei due
+            alza la testa dalla partita.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: Lo stivale
+          testo: |
+            A metà delle amache inciampi in uno stivale abbandonato e ti
+            aggrappi al telaio più vicino. Il telaio oscilla e rovescia il suo
+            orco per terra. L'orco si tira su a sedere e ti dà un pugno in pieno
+            stomaco senza nemmeno aprire gli occhi, poi si gira dall'altra parte
+            e riprende a dormire sul pavimento. Ti ci vuole un pezzo per
+            ritrovare il fiato, piegato in due fra le amache.
+          effetti: { ferite: 0.5 }
+      - testo: "Gridare da sotto che li vuole Balthog"
+        descrizione: "Le vedette di Capomozzo hanno paura di una cosa sola più che di perdere a carte."
+        prova: { attributo: sociale, abilita: [intimidire, ingannare], difficolta: Media }
+        successo:
+          titolo: Il Prescelto chiama
+          testo: |
+            Ti metti sotto la botola e gridi nella lingua degli orchi le due
+            parole che hai sentito più spesso da quando sei sull'isola, il nome
+            di Balthog e quella che deve voler dire *subito*. Lassù le carte
+            cadono. Le due vedette scendono così in fretta che una salta gli
+            ultimi pioli, e corrono fuori verso la sala del trono allacciandosi
+            le brache. Sali tu al loro posto, e sulla cassa trovi la partita
+            lasciata a metà.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: L'accento
+          testo: |
+            Gridi il nome di Balthog nella lingua degli orchi, e ti viene fuori
+            con l'accento sbagliato. Lassù le carte si fermano, e una faccia con
+            le zanne si affaccia alla botola e scoppia a ridere quando ti vede.
+            L'altra vedetta ti tira dietro la cassa. La prendi sulla spalla e
+            scappi fuori dai dormitori con le risate alle spalle, e fino alla
+            porta ti insegue un orco in mutande che vuole sapere che cosa
+            succede.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che la partita finisca"
+        descrizione: "Prima o poi uno dei due perde tutti i denti che ha da giocare."
+        costo: 2
+        esito:
+          titolo: L'ultimo dente
+          testo: |
+            Ti rannicchi sotto la scala, nell'angolo dietro l'ultima amaca, e
+            aspetti ascoltando la partita. Va avanti per ore. Due volte un orco dei
+            dormitori si alza a bere da un secchio a un braccio dalla tua
+            faccia. Quando lassù uno dei due scoppia a piangere per l'ultimo
+            dente perso, sali piano la scala. Li trovi abbracciati sulla cassa a
+            consolarsi, e passi sul camminamento alle loro spalle.
+          effetti: { profondita.capomozzo: 1, tormento: 0.5 }
+
+  - id: capomozzo-cortile-dei-cinghiali
+    immagine: bestiario/cinghiale-crudele-mutato
+    titolo: Il cortile dei cinghiali
+    sommario: "Un cortile di terra dura dove quattro cinghiali da guerra corrono liberi e prendono a testate il capanno in fondo, da cui arrivano nitriti."
+    luogo: Capomozzo, il cortile delle esercitazioni
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      Il cortile delle esercitazioni è un quadrato di terra pressata, chiazzata
+      di sangue vecchio e solcata dagli zoccoli, dove qualche ciuffo d'erba
+      resiste ancora vicino ai muri. Quattro cinghiali da guerra corrono
+      liberi, con le zanne cerchiate di ferro, e si inseguono fra loro
+      mordendosi le orecchie. Ogni tanto uno si stacca dal gioco e va a dare
+      una testata contro un capanno in fondo al cortile. Da dentro risponde un
+      nitrito furioso, e i cinghiali grugniscono contenti.
+
+      Alla staccionata qualcuno ha appeso un cartello di legno con il disegno
+      di un cinghiale e una croce sopra, e non è chiaro a chi sia rivolto. Per
+      arrivare dall'altra parte devi attraversare il cortile, e senti le gambe
+      che si preparano a correre per conto loro.
+    opzioni:
+      - testo: "Affrontare i cinghiali"
+        descrizione: "Sono quattro, ma arrivano due alla volta, perché gli altri due sono occupati col capanno."
+        combattimento: cortile-dei-cinghiali
+        vittoria:
+          titolo: La staccionata
+          testo: |
+            Il primo cinghiale ti carica a testa bassa, e tu lo lasci passare
+            all'ultimo momento, e lui va a piantare le zanne nella staccionata.
+            Il secondo è più furbo e ci mette di più. Quando è finita hai la
+            coscia graffiata e il fiato che fischia, e gli altri due si sono
+            rifugiati in un angolo a guardarti con gli occhietti rossi.
+            Attraversi il cortile senza mai voltargli le spalle.
+          effetti: { profondita.capomozzo: 1 }
+        sconfitta:
+          titolo: Il volo
+          testo: |
+            Un cinghiale ti prende alle gambe da dietro mentre guardi l'altro, e
+            ti ritrovi a volare sopra la staccionata. Atterri sulla schiena
+            dall'altra parte, nel fango del recinto vuoto, con un buco nei
+            calzoni e uno nella coscia. I cinghiali ti grugniscono dietro
+            attraverso le assi, poi tornano a giocare fra loro. Ci metti un
+            pezzo a rialzarti, e zoppichi fino al riparo dei dormitori.
+      - testo: "Correre lungo il muro mentre giocano"
+        descrizione: "Quando due cinghiali si mordono le orecchie, non guardano altro."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Lungo il muro
+          testo: |
+            Aspetti che due cinghiali si azzuffino nel mezzo del cortile e
+            parti, con la schiena contro il muro e i piedi sui ciuffi d'erba,
+            dove la terra non rimbomba. Uno dei quattro alza il muso dal capanno
+            e ti segue con gli occhi per tutto il tragitto, senza muoversi.
+            Arrivi dall'altra parte, e soltanto lì ti accorgi di aver corso
+            senza respirare.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: Le zanne
+          testo: |
+            Parti troppo presto. Un cinghiale ti vede e ti carica di sbieco, e
+            tu salti sulla staccionata in tempo per salvare le gambe, ma il
+            polpaccio no. Le zanne ti aprono la carne attraverso lo stivale.
+            Resti appollaiato sulla staccionata finché i cinghiali si stancano
+            di aspettarti sotto, e scendi dall'altra parte con lo stivale pieno
+            di sangue che fa un rumore molle a ogni passo.
+          effetti: { ferite: 0.5 }
+      - testo: "Fischiare come gli orchi"
+        descrizione: "Sono bestie addestrate, e chi le addestra usa sempre gli stessi due o tre suoni."
+        prova: { attributo: sociale, abilita: [addestrare-animali, intimidire], difficolta: Media }
+        successo:
+          titolo: Il fischio
+          testo: |
+            Ascolti i cinghiali finché senti il richiamo che usano gli orchi, un
+            fischio corto seguito da uno schiocco di lingua. Lo rifai uguale. I
+            quattro cinghiali si fermano e si mettono in fila davanti a te,
+            aspettando la carne che non arriva. Passi in mezzo a loro grattando
+            il primo dietro l'orecchio, e lui ti spinge la mano con il muso per
+            averne ancora.
+          effetti: { profondita.capomozzo: 1 }
+          pe: { addestrare-animali: 5 }
+        fallimento:
+          titolo: Lo schiocco sbagliato
+          testo: |
+            Fai un fischio che ti sembra quello degli orchi, e i cinghiali alzano
+            la testa tutti insieme. Deve voler dire un'altra cosa, perché ti
+            caricano. Ti butti dietro un abbeveratoio di pietra, e la prima
+            zanna lo prende di striscio e ti graffia l'avambraccio. Resti
+            rannicchiato lì dietro finché i cinghiali perdono interesse e
+            tornano a prendersela con il capanno.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare dietro il capanno, nel fango"
+        descrizione: "Fra il capanno e la palizzata c'è un passaggio stretto dove i cinghiali non entrano."
+        costo: 2
+        esito:
+          titolo: Il fango
+          testo: |
+            Ti infili nel passaggio fra il capanno e la palizzata, dove il fango
+            ti arriva alle caviglie e puzza di letame. Dall'altra parte delle
+            assi qualcosa di grosso ti sente e scalcia contro la parete, a un
+            palmo dalla tua testa, e ogni calcio ti fa tremare i denti. Esci in
+            fondo al passaggio coperto di fango fino alle ginocchia, con un
+            orecchio che ancora fischia.
+          effetti: { profondita.capomozzo: 1, tormento: 0.5 }
+
+  - id: capomozzo-cappella
+    immagine: bestiario/orco-sacerdote-guerriero
+    titolo: La chiesa senza tetto
+    sommario: "In cima all'isola, una chiesa di pietra più vecchia degli orchi. Dentro, un vecchio orco insegna ai giovani una litania che nessuno di loro capisce."
+    luogo: Capomozzo, la chiesa in cima all'isola
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      Sulla cima dell'isola, dietro la sala del trono, c'è una chiesa di pietra
+      grigia molto più vecchia della palizzata. Il tetto è crollato da chissà
+      quanto, e gli orchi l'hanno sostituito con una vela di nave tesa fra i
+      muri, che col vento si gonfia e si sgonfia. Sull'altare c'è un
+      bassorilievo preso a colpi di mazza, e della figura sono rimasti
+      soltanto due piedi d'uccello e il bordo di un'ala spezzata.
+
+      Davanti all'altare c'è un orco vecchio con la faccia dipinta di bianco e
+      una rete da pesca ancora umida sulle spalle. Recita una litania, e sei
+      giovani orchi in ginocchio la ripetono dopo di lui una riga alla volta,
+      sbagliando sempre le stesse parole. Accanto
+      alla porta c'è una statua senza testa, e sulle sue braccia qualcuno ha
+      steso ad asciugare un paio di brache. Le parole della litania non sono
+      orchesche, e ti si rizzano i peli delle braccia prima ancora di capire
+      perché.
+    opzioni:
+      - testo: "Ascoltare le parole della litania"
+        descrizione: "Gli orchi le ripetono a memoria. Chi le ha scritte, invece, sapeva bene quello che diceva."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: La Madre che cova
+          testo: |
+            Ti accucci dietro una colonna e ascolti. Gli orchi storpiano le
+            parole, ma la litania è incisa anche sul muro, sotto la vela, in una
+            lingua antica che conosci appena, abbastanza per seguirne il senso.
+            È una preghiera alla Regina delle Ali Spezzate, la Madre che cova,
+            perché scelga un figlio fra quelli che la servono e gli dia la sua
+            voce. *Questi orchi pregano lei, e non lo sanno.* Ti allontani lungo
+            il muro con la bocca secca.
+          effetti: { profondita.capomozzo: 1, informazioni.segreto: 0.5 }
+        fallimento:
+          titolo: La cadenza
+          testo: |
+            Ascolti la litania per capirne le parole, e dopo un po' ti accorgi
+            che la stai ripetendo anche tu, sottovoce, con la stessa cadenza
+            degli orchi. Ti tappi la bocca con la mano. Il vecchio dipinto di
+            bianco si interrompe e gira la testa verso la tua colonna, e tu resti
+            immobile finché riprende. Esci dalla chiesa all'indietro, e la
+            cadenza ti resta in testa fino a sera.
+          effetti: { tormento: 0.5 }
+      - testo: "Inginocchiarti in fondo alla fila"
+        descrizione: "Con il cappuccio in testa, in fondo alla chiesa, sei soltanto un'altra schiena curva."
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Media }
+        successo:
+          titolo: L'ultima fila
+          testo: |
+            Ti inginocchi in fondo alla fila con il cappuccio sulla testa e muovi
+            le labbra quando le muovono gli altri. Il giovane orco accanto a te
+            sbaglia una parola e tu sbagli la stessa, e lui ti fa un mezzo
+            sorriso complice con le zanne. Quando la litania finisce gli orchi
+            si alzano e se ne vanno senza guardarti, e resti solo davanti
+            all'altare con le ginocchia indolenzite.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: L'odore
+          testo: |
+            Ti inginocchi in fondo alla fila, e il giovane orco accanto a te
+            comincia ad annusare l'aria, e poi annusa te. Si alza di scatto con
+            un grido, e tu sei già fuori dalla porta quando una pietra lanciata
+            dal vecchio ti prende fra le scapole e ti toglie il fiato. Corri
+            piegato in avanti giù per la roccia fino ai dormitori, e ti fermi
+            soltanto quando senti di nuovo la litania.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare la fine della litania dietro i muri"
+        descrizione: "La litania è lunga, e lassù il vento dal mare è freddo."
+        costo: 2
+        esito:
+          titolo: Il vento
+          testo: |
+            Ti rannicchi fuori dalla chiesa, contro il muro esposto al mare, e
+            aspetti che la litania finisca. Va avanti per un'ora intera. Il
+            vento ti entra sotto i vestiti, e le parole passano attraverso le
+            pietre una alla volta finché le conosci tutte senza averlo voluto.
+            Quando gli orchi escono hai le mani viola e in testa una litania che
+            non ti appartiene.
+          effetti: { profondita.capomozzo: 1, tormento: 0.5 }
+
+  - id: capomozzo-scala
+    immagine: ambientazione/capomozzo
+    titolo: La scala nella roccia
+    sommario: "Dietro l'altare della chiesa una scala scavata nella roccia scende dentro l'isola. Qualcuno ha appeso le lanterne per chi al buio non ci vede."
+    luogo: Capomozzo, la scala sotto la chiesa
+    area: capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    testo: |
+      Dietro l'altare della chiesa, coperta da una pelle di cinghiale
+      inchiodata allo stipite, c'è una porta bassa. Oltre la porta una scala
+      scavata nella roccia scende a spirale dentro l'isola, con i gradini
+      consumati al centro come in tutte le chiese vecchie. Ogni dieci gradini
+      c'è una lanterna appesa a un gancio, schermata da un lato, e sono accese
+      soltanto quelle dei primi due giri.
+
+      Gli orchi vedono al buio, e queste lanterne le hanno appese per gente
+      che al buio non ci vede. Su una il vetro rotto è stato riparato con la
+      cera e con una pagina di libro. Dal fondo sale un'aria fredda che sa di
+      mare, e con l'aria arriva a tratti una risata di donna. Ti ritrovi con
+      una mano sul muro e l'altra sul coltello, senza averlo deciso.
+    opzioni:
+      - testo: "Scendere i primi giri ad ascoltare"
+        descrizione: "Fin dove arrivano le lanterne accese, e non un gradino di più."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: Il rumore di sotto
+          testo: |
+            Scendi due giri di scala con la schiena contro il muro, contando i
+            gradini. Al terzo giro le lanterne sono spente, e dal buio di sotto
+            arrivano una risata di donna e un tintinnio di stoviglie. Più sotto
+            ancora c'è un rumore lento e regolare, che ti arriva nei piedi prima
+            che nelle orecchie. Torni su prima che il buio ti chiuda la strada,
+            con la forma della scala fissata in testa.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: La lanterna
+          testo: |
+            Al secondo giro sfiori una lanterna con la spalla, e la lanterna
+            gira sul gancio e sbatte contro la roccia con un rumore di vetro che
+            scende per tutta la scala. Da sotto la risata si ferma. Risali di
+            corsa sui gradini consumati, che ti scivolano sotto gli stivali, e
+            batti il ginocchio contro uno spigolo così forte che ti si annebbia
+            la vista. Ti fermi soltanto dietro l'altare, a massaggiarti il
+            ginocchio.
+          effetti: { ferite: 0.5 }
+      - testo: "Studiare le lanterne"
+        descrizione: "Qualcuno sale ad accenderle e a spegnerle. Sapere come lo fa può tornare utile."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: Gli stoppini
+          testo: |
+            Apri lo sportello di una lanterna spenta e annusi lo stoppino, che è
+            stato spento da poche ore e tagliato dritto con le forbici. Gli orchi
+            non tagliano gli stoppini. A ogni gancio è annodato un nastrino
+            bianco, sempre alla stessa altezza, come un segno per chi sale e
+            scende senza conoscere la strada. Li segui con gli occhi giù per la
+            spirale e ti fai un'idea di quanto è profonda, almeno tre piani
+            sotto la chiesa.
+          effetti: { profondita.capomozzo: 1 }
+        fallimento:
+          titolo: La cera
+          testo: |
+            Apri lo sportello della lanterna riparata, e la cera calda ti cola
+            sulle dita perché è accesa da poco. Ti scotti e la lasci andare di
+            colpo. La lanterna dondola sul gancio e illumina a scatti la scala
+            sotto di te, giro dopo giro, per chiunque stia guardando in su.
+            Richiudi lo sportello e ti appiattisci contro la roccia, con il
+            cuore in gola, finché la luce smette di oscillare.
+          effetti: { ferite: 0.5 }
+      - testo: "Nasconderti dietro la pelle di cinghiale e guardare chi passa"
+        descrizione: "La porta è stretta, e chi passa ti sfiora."
+        costo: 2
+        esito:
+          titolo: La maschera bianca
+          testo: |
+            Ti nascondi nell'angolo fra l'altare e la porta, dietro la pelle di
+            cinghiale, e conti chi passa. In un'ora sale un orco con un secchio
+            vuoto e scende una donna umana con una maschera bianca senza tratti
+            sulla faccia, che si ferma a un palmo da te per sistemarsi una
+            scarpa. Resti immobile con la pelle che ti puzza sotto il naso,
+            finché i suoi passi spariscono giù per la spirale.
+          effetti: { profondita.capomozzo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ Ombrafosca (C17–C18, non ripetibile)
+  - id: ombrafosca-in-gabbia
+    immagine: ambientazione/capomozzo
+    titolo: Il cavallo in gabbia
+    sommario: "Nel capanno inchiodato in fondo al cortile c'è un cavallo che ha già ammazzato due orchi. Accanto, nel capanno degli attrezzi, c'è una gabbia piena di conigli."
+    luogo: Capomozzo, i capanni in fondo al cortile
+    area: capomozzo
+    requisiti: [pista.capomozzo == 2, ombrafosca == 0, profondita.capomozzo >= 1]
+    testo: |
+      In fondo al cortile ci sono due capanni di legno grezzo. Il primo è
+      aperto ed è il capanno degli attrezzi, con le mensole cariche di reti e
+      di guinzagli per i cinghiali e, nell'angolo, una gabbia a forma di elle
+      piena di conigli che si ammucchiano tutti dalla parte più lontana. Il
+      secondo ha la porta inchiodata, con altre assi inchiodate di traverso, e
+      il legno della porta è crepato dall'interno in tre punti.
+
+      Davanti alla porta inchiodata ci sono due orchi morti, con la testa
+      schiacciata, e anche senza guardarli da vicino capisci che è stato
+      qualcosa con gli zoccoli. Le mosche si alzano quando ti avvicini e si
+      posano di nuovo subito.
+
+      Attraverso le fessure vedi un cavallo nero come la pece, con il manto
+      lucido che assorbe la poca luce invece di rifletterla. Ha gli occhi
+      grigio argento, e dalle narici gli esce un fumo leggero, come d'inverno,
+      anche se non fa freddo. Le corde che lo legavano alle pareti sono morse
+      e strappate in più punti. È magro, con le costole che si contano, e
+      quando ti sente sbatte uno zoccolo così forte che la porta trema sui
+      cardini. *Ha fame, e i conigli sono per lui.* Ti accorgi di aver fatto
+      un passo indietro senza volerlo.
+    opzioni:
+      - testo: "Parlargli piano e avvicinarti"
+        descrizione: "Schiodare la porta e restare sulla soglia con le mani aperte, finché decide lui."
+        prova: { attributo: sociale, abilita: [addestrare-animali, empatia], difficolta: Difficile }
+        successo:
+          titolo: La mano sul muso
+          testo: |
+            Schiodi le assi una alla volta e apri la porta di una spanna. Poi
+            resti sulla soglia a parlargli a voce bassa, senza dire niente di
+            preciso, per un tempo che ti fa formicolare le gambe. Il cavallo
+            sbuffa fumo e scalcia due volte contro la parete. Alla fine allunga
+            il collo e ti annusa la mano, e lascia che tu gli appoggi il palmo
+            sul muso. Sotto il palmo il muso è caldo come una stufa.
+          pe: { addestrare-animali: 5 }
+          segue: ombrafosca-fuori-dalla-gabbia
+        fallimento:
+          titolo: Lo zoccolo
+          testo: |
+            Schiodi le assi e apri la porta di una spanna, e il cavallo ci mette
+            contro il petto prima che tu abbia finito di parlare. La porta ti
+            prende in pieno e ti butta per terra, e uno zoccolo ti passa a un
+            dito dalla testa e ti pesta la mano. Riesci a richiudere e a
+            puntellare la porta con la schiena, e resti seduto lì contro, con la
+            mano gonfia, mentre lui scalcia dall'altra parte.
+          effetti: { ferite: 1 }
+      - testo: "Portargli i conigli e aspettare che mangi"
+        descrizione: "Un animale affamato ascolta chi gli porta da mangiare. Questo, a quanto pare, mangia carne."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: I conigli
+          testo: |
+            Prendi un coniglio per le orecchie e lo butti dentro dalla fessura
+            più larga. Il cavallo lo prende al volo e lo mastica con un rumore
+            che ti fa voltare la faccia. Al terzo coniglio smette di scalciare,
+            al quinto si lascia toccare il collo attraverso la fessura, e intanto
+            gli guardi i garretti, dove le ferite si sono già chiuse da sole. Quando
+            schiodi la porta lui resta fermo ad aspettarti, con il muso sporco.
+          pe: { natura: 5 }
+          segue: ombrafosca-fuori-dalla-gabbia
+        fallimento:
+          titolo: La gabbia aperta
+          testo: |
+            Apri la gabbia per prendere un coniglio, e ne escono venti tutti
+            insieme, in mezzo al cortile, fra i piedi dei cinghiali. I cinghiali
+            impazziscono. Il cavallo sente l'odore del sangue e sfonda con lo
+            zoccolo un'asse della porta, a un palmo dalla tua faccia, e una
+            scheggia ti si pianta nella guancia. Ti ritiri nel capanno degli
+            attrezzi ad aspettare che il cortile si calmi.
+          effetti: { ferite: 0.5 }
+      - testo: "Parlargli nella lingua del Circolo"
+        descrizione: "Le parole che il Circolo insegna ai bambini per le bestie arrivano anche a quelle che hanno fame."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La lingua delle bestie
+          testo: |
+            Appoggi la fronte alle assi e gli parli nella lingua del Circolo,
+            con le parole che si usano per le bestie spaventate. Dall'altra
+            parte il respiro del cavallo rallenta piano piano, finché il fumo
+            dalle narici si fa sottile e il suo occhio d'argento si accosta alla
+            fessura a guardarti. Quando schiodi la porta lui abbassa la testa
+            sulla tua spalla e ce la lascia appoggiata, pesante.
+          segue: ombrafosca-fuori-dalla-gabbia
+        fallimento:
+          titolo: La parola storta
+          testo: |
+            Gli parli nella lingua del Circolo, ma la parola per *calma* ti esce
+            storta e diventa quella per *fuga*. Il cavallo scalcia le pareti
+            fino a far saltare due chiodi della porta, e a te torna indietro
+            tutta la sua paura in una volta, così forte che ti si piegano le
+            ginocchia. Resti seduto contro il capanno degli attrezzi, con i
+            conigli che ti guardano dalla gabbia.
+          effetti: { tormento: 0.5 }
+      - testo: "Schiodare la porta e farti da parte"
+        descrizione: "Lui vuole uscire. Basta trovarsi da un'altra parte quando succede."
+        esito:
+          titolo: Il cavallo nel cortile
+          testo: |
+            Togli l'ultima asse e ti butti di lato. La porta si spalanca e il
+            cavallo esce al galoppo in mezzo ai cinghiali, che si sparpagliano
+            strillando, e uno lo manda a gambe all'aria contro la staccionata.
+            Poi prende la rincorsa verso la palizzata e la salta dove è più
+            bassa, e dalla torre la vedetta lo guarda passare con la bocca
+            aperta. Nel trambusto attraversi il cortile senza che nessuno ti
+            veda, e ti resta nelle orecchie il rumore dei suoi zoccoli sugli
+            scogli.
+          imposta: { ombrafosca: 1 }
+          effetti: { profondita.capomozzo: 1 }
+
+  - id: ombrafosca-fuori-dalla-gabbia
+    immagine: ambientazione/capomozzo
+    titolo: Fuori dalla gabbia
+    tipo: seguito
+    luogo: Capomozzo, il cortile delle esercitazioni
+    area: capomozzo
+    testo: |
+      Il cavallo esce adagio dal capanno e si ferma in mezzo al cortile con la
+      testa alta a guardare il cielo. Da vicino è più grande di
+      quanto sembrava dalle fessure. Ha una cicatrice fresca sulla spalla,
+      larga come una mano, e dove gli orchi l'hanno legato il pelo è venuto via
+      e la pelle sotto è grigia come cenere. I cinghiali si sono ammucchiati
+      nell'angolo più lontano e non fiatano, e dalla torre est una vedetta si
+      sporge a guardare con le carte ancora in mano.
+
+      Gira il collo verso di te e soffia, e il fumo ti arriva in faccia caldo,
+      con un odore di brace. Non porta sella né briglie, e ha tutta l'aria di
+      non averle mai portate. Ti guarda come se adesso toccasse a te dire la
+      prossima cosa. Dietro la palizzata il mare batte sugli scogli, e oltre il
+      mare ci sono la costa e la strada per Qir-Azel.
+    opzioni:
+      - testo: "Tenerlo con te"
+        descrizione: "Un cavallo così vale più di un forziere, se si lascia portare."
+        costo: 0
+        esito:
+          titolo: Ombrafosca
+          testo: |
+            Gli passi una corda larga intorno al collo senza stringerla, e lui
+            ti lascia fare. Lo porti fuori dalla palizzata e lo leghi fra gli
+            scogli dove il ponte di corda tocca l'isola, con un mucchio di alghe
+            davanti che annusa con disprezzo. Gli dai il nome che ti viene in
+            mente guardando il fumo che gli esce dalle narici, Ombrafosca. Lui
+            muove un orecchio verso di te, e decidi che gli va bene.
+          imposta: { ombrafosca: 2 }
+          effetti: { oggetto.ombrafosca: 1 }
+      - testo: "Lasciarlo andare"
+        descrizione: "Ha ucciso due orchi per uscire da lì. Forse si è guadagnato anche il resto."
+        costo: 0
+        esito:
+          titolo: Il salto
+          testo: |
+            Ti fai da parte e gli indichi la palizzata con il braccio, anche se
+            ti senti un po' ridicolo a farlo. Il cavallo ti guarda ancora un
+            momento, poi prende la rincorsa attraverso il cortile e salta la
+            palizzata dove è più bassa, con un rumore di zoccoli sul legno che
+            fa affacciare tutte e due le vedette. Lo senti scendere fra gli
+            scogli verso la riva. Quando le vedette smettono di guardare il
+            punto dove è sparito, tu sei già dall'altra parte del cortile.
+          imposta: { ombrafosca: 1 }
+          effetti: { profondita.capomozzo: 1 }
+
+  # ------------------------------------------------------------ la tesoreria (C22–C24, non ripetibile)
+  - id: la-tesoreria-di-balthog
+    immagine: fazioni/tribu-capomozzo
+    titolo: La camera del capotribù
+    sommario: "La camera da letto di Balthog, con un letto a baldacchino venuto da chissà dove, e accanto una latrina da cui arriva un filo d'aria che non dovrebbe esserci."
+    luogo: Capomozzo, la camera del capotribù
+    area: capomozzo
+    requisiti: [pista.capomozzo == 2, tesoro.capomozzo == 0, profondita.capomozzo >= 2]
+    testo: |
+      La camera di Balthog sta dietro la sala riunioni, dove un tavolo rotondo
+      e quattro sedie prendono polvere. Il pavimento è di terra battuta,
+      coperto di tappeti di pelle di cinghiale e di cavallo. Sulla parete nord
+      sono inchiodate, uno accanto all'altro, decine di ferri di cavallo, in
+      file dritte come i libri di una biblioteca. Contro il muro est c'è una
+      scrivania con le gambe intagliate, che un tempo doveva valere parecchio,
+      e accanto una sedia imbottita di stracci.
+
+      Nell'angolo c'è un letto a baldacchino con le tende di seta e la testata
+      scolpita a ninfe e caprai che ballano in un bosco. Le lenzuola sono nere
+      di terra. Qualcuno ha raschiato via col coltello la faccia di tutte le
+      ninfe, mentre i caprai hanno ancora la loro.
+
+      Una porticina accanto al letto dà sulla latrina, una stanzetta con un
+      buco nel pavimento e il bordo incrostato. Dal buco sale una puzza che ti
+      chiude la gola, e dalla parete di fondo arriva una corrente d'aria fredda
+      che in una latrina non ci dovrebbe essere. *Qui dentro Balthog tiene
+      qualcosa che non vuole far vedere.* Ti copri la bocca con la manica e
+      respiri dentro la stoffa.
+    opzioni:
+      - testo: "Cercare la chiave e la porta"
+        descrizione: "Una porta segreta vuol dire un forziere, e un forziere vuol dire una chiave da qualche parte qui intorno."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La chiave sotto la sedia
+          testo: |
+            Passi le dita sotto la seduta della sedia imbottita e trovi una
+            chiave di ferro grossa come un dito, legata con lo spago. Nella
+            latrina segui la corrente d'aria fino a un'asse che suona vuota, e
+            dietro l'asse c'è uno stanzino con un forziere rinforzato chiuso da
+            un lucchetto. Sul coperchio c'è una fessura sottile, troppo dritta
+            per essere una crepa. Giri la chiave piano, e il coperchio si alza
+            senza che dalla fessura esca niente.
+
+            Dentro c'è il bottino di anni di razzie, buttato alla rinfusa. Ci
+            sono circa duecento monete di tutte le zecche, e un giaco di maglia
+            fine piegato con cura sotto una tunica di seta blu orlata d'oro. In
+            un sacchetto di cuoio trovi una collana d'oro e un simbolo sacro di
+            platino del Grande Albero Rosso, pesante come un sasso. Sul fondo
+            restano una scimitarra arrugginita e un paio di manette, e quelle
+            le lasci dove sono.
+          effetti: { monete: 200, oggetto.giaco-di-balthog: 1, bottino.tunica-di-seta: 1, bottino.collana-d-oro: 1, bottino.simbolo-del-grande-albero: 1, tesoro.capomozzo: 1, racconto: 1 }
+          pe: { percezione: 5 }
+        fallimento:
+          titolo: La lama nel coperchio
+          testo: |
+            Trovi la porta segreta seguendo la corrente d'aria, ma della chiave
+            nessuna traccia, e allora provi il lucchetto con la punta del
+            coltello. Al secondo giro qualcosa scatta nel coperchio. Una lama
+            arrugginita esce da una fessura e ti apre l'avambraccio dal polso al
+            gomito. Il lucchetto tiene. Nella sala riunioni qualcuno trascina una
+            sedia, e tu esci dalla latrina con il braccio stretto contro il petto
+            e il sangue che gocciola sui tappeti.
+          effetti: { ferite: 1 }
+      - testo: "Sfondare il coperchio"
+        descrizione: "Il coperchio è di assi vecchie, e un'ascia lo apre. Se dentro c'è una trappola, scatterà."
+        esito:
+          titolo: Il coperchio sfondato
+          testo: |
+            Trovi la porta seguendo la corrente d'aria, e con un'ascia presa in
+            prestito dall'armeria sfondi le assi del coperchio. Al terzo colpo
+            una lama arrugginita scatta fuori dal legno e ti si pianta nella
+            coscia. La tiri fuori stringendo i denti. Poi infili il braccio nel
+            buco e tiri fuori duecento monete di tutte le zecche e un giaco di
+            maglia fine, piegato sotto una tunica di seta blu orlata d'oro. In
+            fondo, in un sacchetto di cuoio, ci sono una collana d'oro e un
+            simbolo sacro di platino del Grande Albero Rosso. La ferita sulla
+            coscia brucia in un modo che non ti piace per niente.
+          effetti: { monete: 200, oggetto.giaco-di-balthog: 1, bottino.tunica-di-seta: 1, bottino.collana-d-oro: 1, bottino.simbolo-del-grande-albero: 1, tesoro.capomozzo: 1, ferite: 1.5 }
+
+  # ------------------------------------------------------------ il cuore · 2 → 3 (C19)
+  - id: balthog-il-prescelto
+    immagine: personaggi/balthog-il-prescelto
+    titolo: Balthog il Prescelto
+    sommario: "La sala del trono di Capomozzo, con le pellicce alle pareti e le mani mozzate ai piedi dei pilastri. Sul trono un orco senza nemmeno una cicatrice ti aspetta."
+    luogo: Capomozzo, la sala del trono
+    area: capomozzo
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo >= 4]
+    testo: |
+      La sala del trono è la stanza più grande della fortezza, e l'aria è
+      ferma e sa di ferro. Le pareti sono coperte di pellicce striate di rosso
+      e di nero, e quattro pilastri irti di spuntoni reggono il soffitto
+      annerito dalle torce. Ai piedi dei pilastri ci sono le mani mozzate,
+      infilzate sugli spuntoni bassi, alcune secche come foglie e altre no. In
+      fondo, su una pedana di legno, c'è un trono coperto di pelli di cinghiale
+      con un teschio di cavallo sopra lo schienale.
+
+      Balthog il Prescelto ci siede sopra, con quattro orchi armati ai lati.
+      Ha i lineamenti regolari, quasi belli per un orco, e in tutto il corpo
+      non ha una cicatrice. Le mani appoggiate sulle ginocchia sono vuote.
+
+      «Fermo lì. Non ti sei ancora guadagnato il diritto di avvicinarti» dice
+      a voce bassa, e si sporge in avanti con i gomiti sulle ginocchia. «So
+      chi sei, macellaio di Qir-Azel. Hai ammazzato la mia gente in città e
+      sotto la città, eppure non sei venuto fin qui per me.» Alza piano le mani aperte. «C'è
+      una donna che vive sotto questa fortezza, o qualcosa che ha preso la
+      forma di una donna. Ha i capelli come il mercurio. Lei e i suoi
+      incappucciati hanno provato a piegarmi. Potremmo avere un nemico in
+      comune, macellaio. Io posso darti rifugio e i tesori di anni di razzie,
+      e tu mi dici che cosa vuoi.»
+
+      Sorride, e gli occhi restano fermi su di te. I tuoi piedi, intanto,
+      sono rimasti sulla soglia.
+    opzioni:
+      - testo: "Affrontarlo"
+        descrizione: "Le mani vuote gli bastano. I quattro orchi ai lati del trono aspettano un suo cenno."
+        combattimento: balthog
+        vittoria:
+          titolo: Il Prescelto
+          testo: |
+            Balthog scende i tre gradini della pedana senza fretta e si mette in
+            guardia con le mani aperte all'altezza del petto. Combatte meglio di
+            chiunque tu abbia mai visto, e per un pezzo ogni tuo colpo trova
+            soltanto aria. Poi sbaglia di poco l'appoggio di un piede sulla
+            pelle di cavallo stesa davanti al trono, e tu ci entri dentro. Quando
+            cade contro un pilastro gli spuntoni fanno il resto. I quattro orchi
+            guardano il loro Prescelto per terra, poi si guardano fra loro, e
+            scappano dalla porta grande senza una parola. Dietro il trono una
+            tenda di pelle copre una scala che scende nella roccia.
+          effetti: { pista.capomozzo: 1, racconto: 1 }
+          imposta: { balthog: 1 }
+          vai: sotto-capomozzo
+        sconfitta:
+          titolo: Scendi da lei
+          testo: |
+            Balthog non spreca un movimento. Ti prende il polso e ti fa girare
+            su te stesso, e ti manda a sbattere contro un pilastro a un palmo
+            dagli spuntoni. Quando provi a rialzarti ti rimette giù con un colpo
+            solo sotto lo sterno. Ti trascina per il collo della camicia fino
+            alla tenda dietro il trono, dove una scala scende nel buio.
+
+            «Scendi da lei, macellaio» dice senza alzare la voce. «Se torni su
+            ti finisco io. Se resti giù ti finisce lei, e a me va bene uguale.»
+            Ti spinge, e rotoli per una rampa intera prima di fermarti contro
+            il muro.
+          effetti: { pista.capomozzo: 1, tormento: 1 }
+          vai: sotto-capomozzo
+      - testo: "Stare al gioco e aspettare che scenda dal trono"
+        descrizione: "Ha voglia di trattare, o di fartelo credere. Prima o poi dovrà avvicinarsi, e tu potrai colpire per primo."
+        prova: { attributo: sociale, abilita: [ingannare, galateo], difficolta: Media }
+        successo:
+          titolo: Il ginocchio
+          testo: |
+            Gli rispondi che vuoi la donna di sotto e che il resto si può
+            discutere. Balthog annuisce piano, come se avessi detto la cosa
+            giusta, e scende dalla pedana per venirti incontro, e tu vedi il
+            momento in cui il peso gli passa sulla gamba davanti. Lo colpisci lì,
+            al ginocchio, con tutto quello che hai. Cade su un fianco con un
+            verso di sorpresa, e il secondo colpo lo prende alla tempia. I
+            quattro orchi vedono il loro Prescelto a terra e scappano. Lo lasci lì
+            davanti al trono senza finirlo, vivo, con un rivolo di
+            sangue nell'orecchio. Dietro il trono una tenda di pelle copre una
+            scala che scende.
+          effetti: { pista.capomozzo: 1, racconto: 1 }
+          pe: { ingannare: 5 }
+          imposta: { balthog: 2 }
+          vai: sotto-capomozzo
+        fallimento:
+          titolo: Troppo presto
+          testo: |
+            Gli rispondi con le parole giuste, ma gli guardi le ginocchia troppo
+            presto, e Balthog se ne accorge. «Ti avevo avvertito. Non sei pronto
+            a stare davanti a me» dice, e in un attimo è giù dalla pedana. Il
+            primo colpo non lo vedi nemmeno. Ti ritrovi contro un pilastro, con
+            uno spuntone che ti ha aperto la spalla, e scappi dalla porta
+            laterale verso la chiesa in cima all'isola con i passi degli orchi
+            dietro. Dietro l'altare la porta bassa è aperta. Ti butti giù per la
+            scala nella roccia, e nessuno ti segue oltre le lanterne.
+          effetti: { pista.capomozzo: 1, ferite: 2 }
+          vai: sotto-capomozzo
+      - testo: "Dirgli che lei lo sta usando"
+        descrizione: "Le macchine della fortezza dovrebbero obbedire a lui. Forse è ora che si chieda a chi obbediscono davvero."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Le macchine si girano
+          testo: |
+            Gli racconti del diario di Isvaro, dove il mezzelfo chiama Aurenne
+            la sua amata e scrive che gli orchi di Capomozzo li comanda lei. Poi
+            gli chiedi se le macchine della sala dei trofei si girano verso di
+            lui, quando entra. Balthog guarda a lungo le sue mani vuote, e alla
+            fine manda via i quattro orchi con un cenno.
+
+            «Borgoth me l'aveva detto del mezzelfo, e io l'ho cacciato per
+            questo» dice. «Quando entra lei le macchine si girano. Verso di me
+            non si sono girate mai.» Si alza e si butta sulle spalle una
+            pelliccia presa dallo schienale. «Capomozzo adesso è roba tua e sua,
+            macellaio. Io porto via la mia gente prima che lei finisca di
+            consumarla.» Esce dalla porta grande senza voltarsi, e dietro il
+            trono resta una tenda di pelle sopra una scala che scende.
+          effetti: { pista.capomozzo: 1, racconto: 1 }
+          pe: { empatia: 5 }
+          vai: sotto-capomozzo
+        fallimento:
+          titolo: Il palmo aperto
+          testo: |
+            Gli racconti del diario di Isvaro e di quello che il mezzelfo
+            scriveva di lei, e Balthog ti lascia arrivare fino in fondo. Poi ride
+            piano. «Anche Borgoth parlava così, e adesso Borgoth dorme nei rovi»
+            dice, e scende dalla pedana. Ti colpisce una volta sola, al fianco,
+            con la mano aperta, e ti sembra di aver preso un tronco. Quando
+            riesci a respirare sei carponi sulla roccia fuori dalla porta
+            laterale. Gli orchi restano dentro, perché lui li ha fermati con una
+            parola che somiglia a una risata. Ti trascini fino alla chiesa in
+            cima all'isola, e poi giù per la scala dietro l'altare.
+          effetti: { pista.capomozzo: 1, ferite: 1.5 }
+          vai: sotto-capomozzo
+      - testo: "Ripetergli quello che ti ha detto Borgoth"
+        descrizione: "Borgoth conosceva Balthog da prima che arrivasse lei, e fra i rovi ti ha detto parecchio."
+        requisiti: [borgoth >= 1, borgoth <= 2]
+        prova: { attributo: sociale, abilita: [empatia, persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Le parole di Borgoth
+          testo: |
+            Gli ripeti quello che ti ha detto Borgoth fra i rovi, che è stata
+            lei a volere l'attacco a Qir-Azel e che lui, Balthog, fa tutto
+            quello che lei dice. Balthog ascolta con la testa piegata.
+            Quando arrivi al mezzelfo stringe i braccioli del trono fino a farli
+            scricchiolare, e poi li lascia andare.
+
+            «Borgoth parla troppo, e quasi sempre ha ragione» dice. Fa un cenno,
+            e i quattro orchi escono. Raccoglie una pelliccia dallo schienale e
+            se la butta sulle spalle. «Tienila tu, la fortezza. Io porto via chi
+            mi vuole seguire.» Se ne va senza voltarsi, e dietro il trono resta
+            una tenda di pelle sopra una scala che scende.
+          effetti: { pista.capomozzo: 1, racconto: 1 }
+          pe: { empatia: 5 }
+          vai: sotto-capomozzo
+        fallimento:
+          titolo: Le storie di Borgoth
+          testo: |
+            Fai il nome di Borgoth, e la faccia di Balthog si chiude. «Borgoth
+            racconta storie a chiunque lo stia a sentire» dice. «Adesso ne ha
+            trovato uno che gli crede.» Scende dalla pedana in due passi e ti
+            colpisce al petto con il palmo aperto, e ti ritrovi sulla schiena
+            con la bocca piena del sapore del sangue. Ti rialzi soltanto perché
+            lui te lo lascia fare. Con il mento ti indica la porta laterale,
+            quella che porta alla chiesa e alla scala nella roccia, e ci vai
+            tenendoti le costole mentre lui ti guarda uscire senza muoversi.
+          effetti: { pista.capomozzo: 1, ferite: 1.5 }
+          vai: sotto-capomozzo
+      - testo: "Tornare indietro e scendere dalla scala della chiesa"
+        descrizione: "Il trono non è l'unica strada per scendere. Dietro l'altare della chiesa senza tetto c'è una scala che porta sotto la fortezza."
+        esito:
+          titolo: La strada lunga
+          testo: |
+            Fai un passo indietro e poi un altro, e Balthog ti guarda andare
+            senza alzarsi. «Va' pure da lei, macellaio» dice alle tue spalle.
+            «Ci arrivi lo stesso.» Fuori ti metti a correre, e ti fermi soltanto
+            in cima all'isola, nella chiesa senza tetto, a scostare la pelle di
+            cinghiale dalla porta bassa dietro l'altare. Scendi la scala nella
+            roccia giro dopo giro, oltre le lanterne accese e poi nel buio, con
+            la sua voce ancora in testa e la sensazione di aver lasciato una
+            porta aperta alle tue spalle.
+          effetti: { pista.capomozzo: 1, tormento: 1 }
+          vai: sotto-capomozzo

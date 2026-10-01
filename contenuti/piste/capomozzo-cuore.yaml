@@ -1,0 +1,1351 @@
+# Capomozzo, il livello II (pista.capomozzo 4 → 6): le rovine dei Precursori sotto la fortezza, Aurenne sul
+# ponte di osservazione, la prigione del Costruttore e la scena delle Maschere.
+#
+# - `di-nuovo-verso-capomozzo` (pista 4, ripetibile, Scuderie della Zanna Rotta): il rientro dopo una ritirata.
+#   Sta in città perché la ritirata riporta in Città Bassa e da lì il livello I non si raggiunge più.
+# - area `cuore-di-capomozzo`: la porta antica (E1) è il testo dell'area; sette stanze ripetibili (E2, E3, le tre
+#   nuove E5–E7, E8, E9) e il cuore `aurenne-sul-ponte` (E4), che si apre a profondità 3 e porta al seguito
+#   `aurenne-la-mia-vera-madre`.
+# - in ogni ramo Aurenne crolla svenuta: aurenne 1, congegno, stella, cristalli anti-Marea, pista 5, poi i seguiti
+#   `la-prigione-del-costruttore` (E10) → `la-rovina-sommersa` → `il-costruttore-di-capomozzo` →
+#   `la-maschera-spaccata` (una delle quattro maschere) → `la-corsa-all-ascensore`, che porta pista.capomozzo a 6
+#   e riporta ai Quartieri Alti.
+aree:
+  - id: cuore-di-capomozzo
+    immagine: ambientazione/rovine-dei-precursori
+    nome: Il cuore di Capomozzo
+    sommario: "Sotto i sotterranei degli orchi c'è una porta più vecchia della fortezza, e oltre la porta le rovine dei Precursori. Più avanti, qualcuno tiene accese le lanterne."
+    spedizione: { ritorno: citta-bassa, soglia: 3, stanze: 3 }
+    testo: |
+      Gli ultimi gradini girano a sinistra, e dietro l'angolo c'è una porta di
+      pietra socchiusa, larga abbastanza da passarci di fianco. Un tempo era
+      coperta di incisioni dalla soglia all'architrave. Qualcuno le ha
+      cancellate a colpi di scalpello e di martello con molta pazienza. Di tutto
+      quel lavoro restano gemme e corone sparse sulla pietra, senza più le teste
+      che le portavano.
+
+      Nella bocca di una corona è piantato un chiodo, e dal chiodo pende una
+      lanterna schermata con la fiamma tenuta bassa. *Qualcuno, quaggiù, al buio
+      non ci vede.* Oltre la porta l'aria si fa fredda e asciutta e porta un
+      odore di ferro bruciato che ti resta sul palato. In fondo al corridoio la
+      luce della lanterna diventa lattiginosa, e lì comincia la Marea Grigia.
+
+storylet:
+  # ------------------------------------------------------------ 4 · rientrare dopo una ritirata
+  - id: di-nuovo-verso-capomozzo
+    presso: scuderie-della-zanna-rotta
+    immagine: ambientazione/scuderie-della-zanna-rotta
+    titolo: Di nuovo verso Capomozzo
+    sommario: "Sotto la fortezza di Balthog, oltre la porta con le corone scalpellate, il secondo livello ti aspetta dove l'hai lasciato."
+    luogo: Città Bassa, Scuderie della Zanna Rotta
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4]
+    testo: |
+      Dolovan Stroud ti vede arrivare dal fondo del cortile e posa il secchio
+      prima che tu apra bocca. Ha le maniche arrotolate e un livido giallo
+      sull'avambraccio, dove un cavallo l'ha morso senza che lui gliela facesse
+      pagare.
+
+      «Di nuovo a Capomozzo» dice, senza chiedertelo. «Due giorni e mezzo di
+      strada per tornare a infilarti in un buco pieno di orchi. Alla tua età io
+      gli orchi li cacciavo con l'arco, e da lontano.» Si pulisce le mani sui
+      calzoni e indica con il mento il box in fondo. «La grigia è paziente e il
+      mare non la spaventa. Le bestie, almeno, hanno giudizio.»
+
+      Sopra la porta della stalla, fra le due metà della zanna spezzata, un
+      ragno ha teso la sua tela. Pensi alla porta di pietra con le corone
+      scalpellate e alla sala che pende verso ovest, e alle lanterne che
+      qualcuno, laggiù, continua a tenere accese. Le gambe ti si fanno pesanti
+      al solo pensiero della strada.
+    opzioni:
+      - testo: "Noleggiare la grigia"
+        descrizione: "Quindici monete per la cavalla di Stroud. Va al passo, ma non si ferma mai."
+        requisiti: [monete >= 15]
+        costo: 1
+        esito:
+          titolo: La grigia
+          testo: |
+            La grigia va al passo per due giorni e mezzo fra le montagne basse e
+            la costa, e ogni sera mangia la sua biada guardandoti come se fossi
+            tu ad averla portata fin lì. La leghi davanti alla palizzata di
+            relitti. Rovolungo, il ponte di corda e la fortezza vuota li
+            attraversi senza fermarti, e scendi le due rampe di scale fino alla
+            porta con le corone, dove la lanterna è ancora accesa.
+          effetti: { monete: -15 }
+          vai: cuore-di-capomozzo
+      - testo: "Partire sul tuo cavallo"
+        descrizione: "La strada la conosce anche lui, e fra i rovi di Rovolungo ci entra senza farsi pregare."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 1
+        esito:
+          titolo: In sella
+          testo: |
+            Il tuo cavallo prende la costa al trotto e il secondo giorno, quando
+            dal mare sale la nebbia, ti porta fino al roveto senza che tu debba
+            cercare la strada. Lo lasci all'ombra della palizzata con la
+            bisaccia del fieno aperta. Attraversi la fortezza vuota con la mano
+            sulla cintura, poi scendi i due livelli dei sotterranei. Davanti
+            alla porta con le corone ti fermi a riprendere fiato, e senti il
+            freddo della Marea che sale dal corridoio.
+          vai: cuore-di-capomozzo
+      - testo: "Andare a piedi"
+        descrizione: "Due giorni e mezzo di cammino, con le montagne in mezzo."
+        costo: 2
+        esito:
+          titolo: A piedi
+          testo: |
+            Cammini due giorni e mezzo fra le montagne basse e la costa, e la
+            seconda notte dormi sotto una barca rovesciata che sa di catrame.
+            Quando arrivi al roveto di Rovolungo hai i piedi pieni di vesciche e
+            le spalle segnate dalle cinghie dello zaino. Attraversi la fortezza
+            vuota e scendi fino alla porta con le corone. La lanterna è ancora
+            accesa, e la fiamma si piega verso di te.
+          vai: cuore-di-capomozzo
+
+  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  - id: cuore-la-sala-delle-statue
+    immagine: ambientazione/marea-grigia
+    titolo: La sala delle statue inclinate
+    sommario: "Una sala che pende verso ovest, con le statue scivolate contro il muro e la Marea Grigia ferma fra le colonne."
+    luogo: Sotto Capomozzo, la sala della bestia
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      Due colonne reggono il soffitto di una sala incrostata di fuliggine, e
+      tutta la sala pende verso ovest, abbastanza da farti cercare il muro con
+      la mano. Nelle alcove ci sono statue di una donna con le ali e la testa
+      d'uccello che stringe un kukri in ogni mano. Quando la sala si è storta le
+      statue si sono staccate dalle basi, e adesso stanno appoggiate al lato
+      ovest delle nicchie, tutte nello stesso verso.
+
+      Fra le colonne c'è una nebbia lattiginosa ferma a mezz'aria, con un
+      riflesso di metallo che si accende e si spegne senza un ritmo che tu
+      riesca a seguire. C'è odore di ozono. Sulla soglia est gli orchi hanno
+      lasciato un mucchietto di ossa di coniglio e un dente di cinghiale
+      bruciato, e la fuliggine del pavimento è segnata da graffi lunghi quanto
+      il tuo braccio.
+    opzioni:
+      - testo: "Attraversare la sala da una colonna all'altra"
+        descrizione: "Trattenendo il fiato più che puoi, e con la mano sempre su qualcosa di solido."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il fiato
+          testo: |
+            Riempi i polmoni sulla soglia e vai alla prima colonna, poi alla
+            seconda, con la guancia contro la pietra fredda. La nebbia ti passa
+            davanti agli occhi e ti sfiora le ciglia, e il pavimento in pendenza
+            ti tira verso le statue. Arrivi alla porta est con il petto che
+            brucia e lasci andare l'aria tutta insieme, piegato in due.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: Il filo
+          testo: |
+            A metà sala respiri senza volerlo, e la nebbia ti entra in gola con
+            un sapore di moneta. Da quel momento non riesci più a tenere in
+            testa due cose insieme. Ti ritrovi seduto ai piedi di una statua,
+            con il kukri di pietra sopra la testa, e non sai da quanto sei lì.
+            Ci metti un pezzo a ricordarti da che parte stavi andando.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Leggere i graffi nella fuliggine"
+        descrizione: "Qualcosa di grosso è passato di qui, e gli orchi gli lasciano ancora le offerte."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il Fuoco Lungo
+          testo: |
+            Sono artigli di felino, ma il felino doveva essere grande quanto un
+            toro, e la pietra intorno ai graffi è annerita come se le zampe
+            scottassero. I segni sono vecchi di generazioni e vanno tutti verso
+            le scale. A Capomozzo hai sentito gli orchi parlare a mezza voce di
+            una bestia che chiamano il Fuoco Lungo. *Allora il Fuoco Lungo è
+            uscito da qui.* Scavalchi le offerte senza toccarle.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: La pendenza
+          testo: |
+            Ti chini sui graffi e il pavimento in pendenza ti porta via un
+            piede. Scivoli fino alla statua più vicina e ci sbatti contro con la
+            spalla, e il kukri di pietra ti apre il dorso della mano. Resti
+            fermo ad ascoltare. La statua non si è mossa, e il sangue che cola
+            nella fuliggine fa una pozza scura che non si allarga.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare lungo il muro, sotto la nebbia"
+        descrizione: "Raso terra la Marea è più rada, almeno così dicono."
+        costo: 2
+        esito:
+          titolo: Raso terra
+          testo: |
+            Ti metti pancia a terra e strisci lungo il muro, con la fuliggine
+            che ti entra nel colletto e la nebbia una spanna sopra la nuca.
+            Dicono che raso terra la Marea sia più rada, ma non dicono quanto.
+            Quando ti rialzi davanti alla porta est hai le mani nere e un ronzio
+            sottile nelle orecchie che non se ne vuole andare.
+          effetti: { profondita.cuore-di-capomozzo: 1, contaminazione: 0.5 }
+
+  - id: cuore-il-corridoio-dei-falcioni
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il corridoio dei falcioni
+    sommario: "Un corridoio in salita con due statue armate di falcione. In mezzo il pavimento è pulito, come se qualcuno lo lavasse ogni mattina."
+    luogo: Sotto Capomozzo, il corridoio dei falcioni
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      Il corridoio sale piano verso est, e la Marea ci scorre dentro bassa,
+      all'altezza delle ginocchia. A un passo e mezzo dalla porta il pavimento
+      cambia. Per un tratto è lucido e pulito, senza un granello della polvere
+      che copre il resto. Ai due lati, nelle alcove, stanno due statue di uomini
+      severi con il falcione alla spalla. In fondo ci sono due porte di pietra
+      coperte di rune, e accanto una terza alcova dove della statua resta
+      soltanto il troncone, mozzato alla vita.
+
+      Nel soffitto, sopra il tratto lucido, corrono due fessure diritte da una
+      parete all'altra. Ti accorgi di avere le mani strette a pugno.
+    opzioni:
+      - testo: "Trovare il punto dove scatta"
+        descrizione: "Una trappola ha sempre un punto in cui la pietra non è pietra."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La giuntura
+          testo: |
+            Ti accucci e guardi il tratto lucido controluce, finché vedi la
+            giuntura sottile come un capello che lo separa dal resto. È una
+            piastra. Passi sul bordo polveroso rasente ai basamenti, e la lama
+            di un falcione ti resta a un palmo dall'orecchio per tutto il
+            tragitto. Dall'altra parte ti accorgi che stavi contando i passi a
+            voce alta, e che sei arrivato a ventitré senza ricordarti di averli
+            fatti.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: Le saracinesche
+          testo: |
+            Provi la pietra con la punta dello stivale e la pietra si abbassa.
+            Le saracinesche scendono dal soffitto con un tonfo che ti arriva
+            nelle ginocchia, e tu ti butti indietro mentre la seconda ti passa
+            davanti alla faccia. Il primo colpo di falcione ti prende il
+            polpaccio di striscio. Le statue continuano a menare fendenti nel
+            vuoto per un bel pezzo, poi le saracinesche risalgono piano.
+          effetti: { ferite: 0.5 }
+      - testo: "Saltare il tratto lucido"
+        descrizione: "È lungo poco più di un uomo steso. Con un po' di rincorsa, nel corridoio in salita."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Il salto
+          testo: |
+            Prendi la rincorsa dalla porta e salti, e la Marea si apre intorno
+            alle gambe come acqua. Atterri sulla polvere oltre il tratto lucido
+            e scivoli di un palmo verso le porte di pietra, con le braccia
+            larghe per tenerti in equilibrio. Le statue restano ferme con il
+            falcione alla spalla. Ti pulisci le mani sui calzoni e ti accorgi
+            che sono fradice.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: Il tallone
+          testo: |
+            Il salto è corto di un tallone. Senti la pietra che si abbassa e ti
+            butti in avanti con tutto il corpo, mentre la saracinesca alle tue
+            spalle cade con un tonfo e la lama di un falcione ti apre la camicia
+            sulla schiena. Rotoli fino alle porte di pietra con il sangue che ti
+            scende caldo lungo la spina dorsale.
+          effetti: { ferite: 0.5 }
+      - testo: "Chiudere la trappola con il Sigillo"
+        descrizione: "Le saracinesche si muovono con il Mana dei Precursori, e il Mana ha le sue serrature."
+        incantesimo: sigillo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La serratura
+          testo: |
+            Appoggi il palmo sulla parete e cerchi il punto dove il Mana corre
+            verso le fessure del soffitto. Lo trovi, caldo come una vena, e lo
+            chiudi. Dentro il muro qualcosa scatta. Attraversi il tratto lucido
+            camminando piano, con il palmo che ti formicola ancora, e le statue
+            restano dove sono, con il falcione alla spalla e la faccia severa
+            rivolta all'alcova di fronte.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: La serratura al contrario
+          testo: |
+            Il Sigillo prende la serratura dal verso sbagliato e invece di
+            chiuderla la apre. Le saracinesche cadono davanti a te senza che
+            nessuno abbia toccato la piastra, e i falcioni tagliano l'aria per
+            un tempo lunghissimo. Il Mana ti torna indietro dietro gli occhi.
+            Aspetti con la testa fra le mani che tutto si fermi, poi riprovi a
+            passare dal bordo.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare sui basamenti delle alcove"
+        descrizione: "Schiacciato contro le statue, dove il pavimento è ancora polveroso. È lento, e la Marea è lì."
+        costo: 2
+        esito:
+          titolo: Fra le gambe di pietra
+          testo: |
+            Sali sul basamento della prima statua e ti infili fra le sue gambe
+            di pietra e il muro. Poi scendi dall'altra parte e risali su quello
+            di fronte. È un lavoro lento, e la Marea ti arriva al petto ogni
+            volta che ti chini. Arrivi alle porte di pietra con le ginocchia
+            sbucciate e un ronzio sottile nelle orecchie, e ti volti a guardare
+            il tratto lucido che non hai toccato.
+          effetti: { profondita.cuore-di-capomozzo: 1, contaminazione: 0.5 }
+
+  - id: cuore-il-deposito-delle-macchine
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Il deposito delle macchine
+    sommario: "Una sala lunga con le nicchie piene di macchine della Salvaguardia spente. Quasi tutte."
+    luogo: Sotto Capomozzo, il deposito della Salvaguardia
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      La sala è lunga e stretta, e ai lati si aprono nicchie alte quanto due
+      uomini. In ogni nicchia c'è una macchina della Salvaguardia ripiegata su
+      se stessa, come un attrezzo riposto dopo il lavoro. Ce ne sono di forme
+      diverse, ragni dalle molte braccia e figure sottili con la testa girata
+      all'indietro, e le fessure al posto degli occhi sono spente.
+
+      Il culto ci aveva preso confidenza. Al braccio teso del ragno più vicino è
+      appesa una sacca da viaggio, e sulla maschera bianca di un altro qualcuno
+      ha disegnato a carbone due baffi all'insù. In fondo, nella penultima
+      nicchia, una fessura rossa si accende ogni tanto e poi si spegne. Lo
+      stomaco ti si chiude ogni volta che succede.
+    opzioni:
+      - testo: "Passare in mezzo senza fare rumore"
+        descrizione: "Sono spente. Basta non dare loro un motivo per accendersi."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: La penultima nicchia
+          testo: |
+            Cammini nel mezzo della sala, lontano dalle braccia ripiegate, e
+            metti i piedi uno davanti all'altro come sul bordo di un tetto.
+            Quando passi davanti alla penultima nicchia la fessura rossa si
+            accende e ti segue per tre passi. Poi si spegne. Esci dall'altra
+            parte con la camicia incollata alla schiena e senza esserti voltato
+            nemmeno una volta, perché avevi paura di trovarla ancora accesa.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: La sacca
+          testo: |
+            La manica ti si impiglia nella sacca appesa al ragno, e il braccio
+            del ragno si abbassa con un clangore che rimbomba per tutta la sala.
+            Nella penultima nicchia la fessura rossa si apre del tutto e la
+            macchina sposta in avanti una zampa. Scappi verso la porta, e una
+            lama ti segna la coscia prima che tu riesca a uscire.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire se dormono davvero"
+        descrizione: "Una macchina spenta e una che aspetta si somigliano. Ascoltandole, un po' meno."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il cristallo incrinato
+          testo: |
+            Ti avvicini alla penultima nicchia e ascolti. Il ronzio arriva da
+            una linea di cristallo sottile che corre nel muro e si ferma in ogni
+            nicchia, ed è lo stesso dappertutto. In quella macchina il cristallo
+            del petto è incrinato, e ogni tanto scarica a vuoto. Le macchine
+            dormono tutte. Stacchi una scheggia di cristallo da un ragno rotto e
+            la metti in tasca.
+          effetti: { profondita.cuore-di-capomozzo: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Le fessure
+          testo: |
+            Ti pianti davanti alla penultima nicchia e guardi la fessura rossa
+            troppo a lungo, aspettando che si accenda, finché ti bruciano gli
+            occhi. Quando finalmente ti stacchi e chiudi gli occhi, la vedi
+            ancora stampata sulle palpebre, e ti sembra che sia diventata due.
+            Esci dalla sala camminando all'indietro, urtando con la spalla un
+            ragno ripiegato, e quella luce ti resta negli occhi per un'ora.
+          effetti: { tormento: 0.5 }
+      - testo: "Ordinare alle macchine di restare ferme"
+        descrizione: "La lingua delle macchine ha una parola per dormire. Bisogna dirla bene."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La parola giusta
+          testo: |
+            Dici la parola nella lingua delle macchine, e la senti uscire dalla
+            bocca più dura di come l'avevi pensata. Tutte le fessure della sala
+            si accendono insieme una volta sola e poi si spengono. Anche quella
+            della penultima nicchia smette di lampeggiare. Attraversi il
+            deposito al passo, e l'unico rumore è quello dei tuoi stivali. In
+            gola ti resta un gusto di ferro, come dopo aver morso una moneta.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: In attesa
+          testo: |
+            A metà della parola la lingua ti si inceppa e sbagli una sillaba. Le
+            macchine alzano la testa tutte insieme e restano così, con le
+            fessure accese, ad aspettare un ordine che non sai dare. Attraversi
+            la sala sotto quegli sguardi rossi, un passo alla volta, e quando
+            esci senti ancora sulla nuca il calore di quella luce, e le gambe ti
+            tremano per tutto il corridoio.
+          effetti: { tormento: 0.5 }
+      - testo: "Prendere il condotto dietro le nicchie"
+        descrizione: "Un cunicolo di servizio basso e buio, dove le macchine non entrano."
+        costo: 2
+        esito:
+          titolo: Il condotto
+          testo: |
+            Dietro l'ultima nicchia c'è un condotto di servizio alto quanto un
+            cane. Ci strisci dentro sui gomiti al buio, e il metallo è così
+            freddo che dopo un po' non senti più le mani. A metà strada il
+            condotto si stringe e devi buttare fuori tutta l'aria per passare.
+            Quando ne esci tremi, e non è solo per il freddo.
+          effetti: { profondita.cuore-di-capomozzo: 1, tormento: 0.5 }
+
+  - id: cuore-il-pozzo-grigio
+    immagine: ambientazione/marea-grigia
+    titolo: Il pozzo grigio
+    sommario: "Una passerella di Magnistruttura senza parapetto, sopra un pozzo dove la Marea Grigia si è fatta densa."
+    luogo: Sotto Capomozzo, il pozzo grigio
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      Il pavimento finisce sull'orlo di un pozzo largo quanto una piazza e
+      riprende dall'altra parte. In mezzo passa una passerella di Magnistruttura
+      nera e lucida, senza parapetto, larga quanto due piedi accostati. In fondo
+      al pozzo la Marea Grigia si è depositata fino a diventare densa come latte
+      cagliato, e ogni tanto la superficie si increspa senza che niente la
+      tocchi.
+
+      Sulla prima metà della passerella il culto aveva teso una corda, legata a
+      pioli piantati nel metallo con chissà quanta fatica. Al terzo piolo la
+      corda è tagliata di netto, e il capo libero pende giù verso il grigio. Più
+      ti avvicini all'orlo, più ti costa tenere in testa due pensieri insieme.
+    opzioni:
+      - testo: "Attraversare la passerella"
+        descrizione: "Un piede davanti all'altro e gli occhi sull'altra sponda. Senza guardare giù."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: L'altra sponda
+          testo: |
+            Tieni gli occhi sull'altra sponda e metti un piede davanti
+            all'altro, con le braccia larghe. Sotto di te la Marea si solleva
+            mentre passi e si ferma a un palmo dalla passerella, poi ricade
+            senza che tu abbia abbassato gli occhi. Quando arrivi dall'altra
+            parte le ginocchia ti cedono e ti siedi sul pavimento, e ci resti
+            finché il cuore non rallenta.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: A quattro zampe
+          testo: |
+            A metà passerella ti dimentichi quale piede hai appena mosso. Resti
+            fermo con il vuoto da tutte e due le parti, poi ti metti a quattro
+            zampe e fai il resto così, con la Marea che lambisce il bordo del
+            metallo e ti bagna le dita di freddo. Dall'altra parte ti ci vuole
+            un pezzo per ricordarti il tuo nome intero.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Tenere la mente sopra la Marea"
+        descrizione: "La Marea prende prima la testa. Bisogna darle qualcosa da fare mentre i piedi camminano."
+        prova: { attributo: mentale, abilita: [resilienza, accademiche], difficolta: Media }
+        successo:
+          titolo: I ponti di Qir-Azel
+          testo: |
+            Ti metti a recitare i ponti di Qir-Azel in ordine, dal Ponte del
+            Conciatore al Ponte dei Morti, e poi le vie della Città Bassa una
+            per una. La Marea cerca di infilarsi fra un nome e l'altro e non
+            trova posto. Arrivi dall'altra parte a metà di Via del Salmone, e ti
+            accorgi di averla detta a voce alta.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: La mano tesa
+          testo: |
+            Cominci a recitare i ponti di Qir-Azel e al terzo ti fermi, perché
+            non ti ricordi il quarto. Ti ritrovi in ginocchio sull'orlo della
+            passerella, con la mano tesa verso la superficie grigia come per
+            prendere qualcosa. Ritiri la mano di colpo e ti trascini dall'altra
+            parte senza più recitare niente. Le dita sono fredde e bianche fino
+            alla seconda falange, e ci metti un'ora a scaldarle sotto le
+            ascelle.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Strisciare sulla passerella"
+        descrizione: "Pancia a terra e le mani sui bordi. Nessuno ti vede, e ci vuole il triplo del tempo."
+        costo: 2
+        esito:
+          titolo: Pancia a terra
+          testo: |
+            Ti stendi sulla passerella e la abbracci con le ginocchia, e avanzi
+            tirandoti con le mani sui bordi. Il metallo è liscio e non dà
+            appiglio, e ogni volta che scivoli di un dito lo stomaco ti sale in
+            gola. Ci metti il triplo del tempo, e quando arrivi dall'altra parte
+            hai il respiro della Marea nei polmoni e un sapore di ferro sotto la
+            lingua.
+          effetti: { profondita.cuore-di-capomozzo: 1, contaminazione: 0.5 }
+
+  - id: cuore-gli-alloggi-del-presidio
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Gli alloggi del presidio
+    sommario: "Le brande e le ciotole di un culto che se n'è andato vent'anni fa, e la lavagna dei turni ancora appesa al muro."
+    luogo: Sotto Capomozzo, gli alloggi del presidio
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      È una sala bassa, ricavata dentro le rovine con muri di mattoni che i
+      Precursori non avrebbero mai tirato su così storti. Lungo le pareti ci
+      sono una dozzina di brande di legno con le coperte piegate. In fondo,
+      accanto a una stufa di ghisa, c'è un tavolo lungo con le ciotole
+      capovolte, una per posto, pronte per una cena che nessuno ha servito.
+      Sopra il tavolo pende una lavagna con i turni scritti in gesso, e le date
+      sono di vent'anni fa.
+
+      Accanto alla porta, su una fila di ganci, sono rimasti i mantelli grigi
+      con il cappuccio. Uno ha una toppa cucita al gomito con il filo rosso,
+      l'unico che qualcuno doveva avere. Su tutto c'è una polvere chiara che si
+      alza appena respiri.
+    opzioni:
+      - testo: "Leggere la lavagna"
+        descrizione: "I turni divisi per nome, e in fondo una riga scritta con un'altra mano."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: L'ultima riga
+          testo: |
+            Ci sono i turni di guardia e quelli di cucina, e una colonna intera
+            per la *porta della stella*. L'ultima riga è scritta con un'altra
+            mano, in fretta, con il gesso che si è spezzato a metà parola,
+            *partiamo stanotte, i Portatori del Tramonto scendono a cercarci*.
+            Sotto c'è la data, centotrent'anni dalla Caduta. Ti viene da
+            guardare le ciotole capovolte sul tavolo, e le conti.
+          effetti: { profondita.cuore-di-capomozzo: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il gesso
+          testo: |
+            Sollevi la lavagna dal chiodo per leggerla meglio e il chiodo viene
+            via con lei. La lavagna ti cade sul piede e si spacca in tre pezzi
+            con un rumore che fa il giro delle rovine. Resti immobile. Da
+            lontano, molto più in basso, qualcosa risponde con un colpo sordo, e
+            poi non si sente più niente. Lasci i pezzi dove sono e vai avanti
+            zoppicando.
+          effetti: { tormento: 0.5 }
+      - testo: "Cercare quello che hanno lasciato"
+        descrizione: "In una camerata ognuno ha il suo nascondiglio, e chi scappa di notte non torna a prenderlo."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          titolo: Il mattone
+          testo: |
+            Guardi le brande e ti chiedi chi dormiva dove. Quella del mantello
+            con la toppa rossa è vicino alla stufa, e sotto, nel muro storto,
+            c'è un mattone che si muove. Dietro ci sono dodici monete legate in
+            un fazzoletto e il ritratto di una bambina, disegnato male. Le
+            monete le prendi. Il ritratto lo rimetti dietro il mattone, con la
+            faccia verso il muro.
+          effetti: { profondita.cuore-di-capomozzo: 1, monete: 12 }
+        fallimento:
+          titolo: Il nido
+          testo: |
+            Sotto la terza branda c'è un mattone che si muove. Lo tiri via, e
+            dietro c'è un nido di millepiedi pallidi lunghi come un dito, che ti
+            corrono su per il braccio prima che tu riesca a ritirarlo. Uno ti
+            morde all'interno del polso. Te li scrolli di dosso battendo il
+            braccio contro il muro, e il morso brucia per un'ora e diventa viola
+            come una prugna.
+          effetti: { ferite: 0.5 }
+      - testo: "Attraversare la sala e basta"
+        descrizione: "Senza toccare niente, e senza guardare le ciotole."
+        costo: 2
+        esito:
+          titolo: La cena
+          testo: |
+            Attraversi la sala lungo il muro, senza toccare niente. La polvere
+            si alza a ogni passo e ti si posa sulle ciglia. Passando accanto al
+            tavolo vedi che sotto una delle ciotole capovolte c'è ancora un
+            cucchiaio messo di traverso, e per tutto il corridoio dopo non
+            riesci a pensare ad altro che alla mano che ce l'ha lasciato, sicura
+            di tornare a sedersi.
+          effetti: { profondita.cuore-di-capomozzo: 1, tormento: 0.5 }
+
+  - id: cuore-il-trono-di-marmo
+    immagine: ambientazione/mito-regina-ali-spezzate
+    titolo: Il trono di marmo
+    sommario: "Su un trono di marmo siede una donna fatta di luce, e parla a una sala vuota in una lingua che non conosci."
+    luogo: Sotto Capomozzo, la sala comunicazioni
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      La camera è spoglia, e al centro c'è una pedana con un trono di marmo. Ai
+      lati stanno due statue della donna con le ali e la testa d'uccello che
+      stringono un kukri in ogni mano. Sul trono siede una figura trasparente,
+      del colore della luce sulla neve, con le fattezze delle statue rese umane
+      e il viso disteso. Muove le mani mentre parla, e gli anelli che porta alle
+      dita brillano più di lei. Guarda un punto davanti alla pedana dove non c'è
+      nessuno.
+
+      La lingua non la conosci. Dopo un po' ti accorgi che ripete sempre le
+      stesse frasi con le stesse pause, e che a ogni giro la luce di cui è fatta
+      si abbassa un poco.
+    opzioni:
+      - testo: "Capire che cosa dice"
+        descrizione: "È la lingua delle iscrizioni dei Precursori. Qualche parola, chi ha studiato, la riconosce."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: Ve lo giuro
+          testo: |
+            Riconosci prima una parola e poi un'altra, e al quarto giro le frasi
+            ti si compongono in testa. «…incombe, ma vi ordino di rimanere. La
+            impediremo. Salveremo la Rete Cristallina e torneremo a prosperare.
+            Ve lo giuro.» La donna sul trono sorride a qualcuno che non c'è più
+            da secoli. Ti viene in mente la statua della cappella al piano di
+            sopra, e ti si gela la nuca.
+          effetti: { profondita.cuore-di-capomozzo: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le pause
+          testo: |
+            Più ascolti, meno capisci. Le pause della donna cadono sempre nello
+            stesso punto, e dopo un po' ti accorgi che stai respirando dentro
+            quelle pause al suo stesso ritmo, e non riesci a smettere. Esci
+            dalla camera tenendoti la gola con tutte e due le mani. Le sue
+            parole senza senso ti girano in testa per tutto il corridoio, e ogni
+            tanto ti accorgi di muovere le labbra insieme a lei.
+          effetti: { tormento: 0.5 }
+      - testo: "Ascoltare l'eco"
+        descrizione: "Non è un fantasma. È un Eco di Mana, e un Eco di Mana risponde a chi sa chiamarlo."
+        incantesimo: eco
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La sala piena
+          testo: |
+            Per un momento la camera si riempie di uomini e donne in piedi con
+            le vesti grigie, la faccia girata verso il trono. La donna parla, e
+            adesso la capisci. «…incombe, ma vi ordino di rimanere. La
+            impediremo. Salveremo la Rete Cristallina e torneremo a prosperare.
+            Ve lo giuro.» Dal soffitto viene un boato. Poi la gente sparisce, e
+            lei ricomincia dall'inizio.
+          effetti: { profondita.cuore-di-capomozzo: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il giuramento
+          testo: |
+            Chiami l'eco, e l'eco invece di parlarti ti entra in testa e si
+            sistema dietro gli occhi. Per un'ora, mentre cammini, continui a
+            ripetere sottovoce l'ultima parola della donna nella sua lingua, e
+            non sai che cosa vuol dire. Quando finalmente smetti hai la bocca
+            secca e le mani che ti tremano, e la sala del trono è già lontana.
+          effetti: { tormento: 0.5 }
+      - testo: "Guardarle le mani"
+        descrizione: "Le parole non le capisci. I gesti di chi parla a una folla, quelli sì."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Le mani aperte
+          testo: |
+            Le mani della donna stanno aperte, con i palmi in giù, e si
+            abbassano piano a ogni frase. Sono le mani di Padre Vantes quando la
+            Cattedrale è piena e qualcuno ha cominciato a gridare. Sta calmando
+            gente spaventata. Alla fine di ogni giro si porta una mano al petto,
+            e quella mano trema un poco. Te ne vai prima che ricominci, perché
+            guardarla una seconda volta ti costerebbe.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: Lo sguardo
+          testo: |
+            Ti metti davanti alla pedana per vederle meglio le mani, nel punto
+            che lei guarda, e per un momento i suoi occhi di luce sono dentro i
+            tuoi. Lei non ti vede. Eppure, da quel momento, ti senti addosso lo
+            sguardo di qualcuno che aspetta una risposta, e quella sensazione ti
+            resta piantata fra le scapole fino alla stanza dopo.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare dietro il trono senza guardarla"
+        descrizione: "Dietro la pedana c'è un passaggio, e lei guarda sempre dall'altra parte."
+        costo: 2
+        esito:
+          titolo: Dietro il trono
+          testo: |
+            Passi dietro il trono con gli occhi sul pavimento. La sua voce ti
+            arriva da sopra la spalla, e da vicino è più dolce di quanto
+            sembrasse. Ti accorgi di aver rallentato per ascoltarla e ti
+            costringi ad andare avanti. Nel corridoio la senti ancora, ogni
+            volta un poco più debole, e a ogni pausa ti si stringe lo stomaco
+            come se toccasse a te rispondere.
+          effetti: { profondita.cuore-di-capomozzo: 1, tormento: 0.5 }
+
+  - id: cuore-i-tavoli-bassi
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: I tavoli bassi
+    sommario: "Una camera con tre tavoli pieni di seghe e coltelli. Su uno c'è uno scheletro con due teschi."
+    luogo: Sotto Capomozzo, la camera di trasmutazione
+    area: cuore-di-capomozzo
+    ripetibile: true
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo < 3]
+    testo: |
+      Tre tavoli bassi occupano quasi tutta la camera. Sopra ci sono seghe e
+      coltelli dalla lama lunga, messi in fila per misura come nella bottega di
+      un buon artigiano, e in mezzo attrezzi di cui non sapresti dire da che
+      parte si impugnano. Lo stomaco ti si stringe prima che tu abbia capito a
+      che cosa servivano.
+
+      Sul tavolo a sud qualcuno ha composto uno scheletro. Le ossa sono troppe
+      per un uomo solo e troppo poche per due, e i teschi sono due, uno accanto
+      all'altro sulle stesse spalle. Accanto al tavolo, su uno sgabello, c'è un
+      grembiule di cuoio piegato in quattro, con le macchie ancora scure.
+    opzioni:
+      - testo: "Esaminare lo scheletro"
+        descrizione: "Senza toccarlo. Le ossa così vecchie si guardano e basta."
+        prova: { attributo: mentale, abilita: [medicina, accademiche], difficolta: Media }
+        successo:
+          titolo: L'uomo sulla schiena
+          testo: |
+            Ti chini sul tavolo con le mani dietro la schiena. È un uomo adulto
+            con due teste, e dalle sue scapole esce lo scheletro incompleto di
+            un uomo più piccolo, con le ossa saldate alle sue. Sono cresciute
+            insieme quando lui era vivo, ed è stato un lavoro lungo. Quando ti
+            raddrizzi l'aria che smuovi basta, e lo scheletro si affloscia in un
+            mucchio di polvere grigia.
+          effetti: { profondita.cuore-di-capomozzo: 1 }
+        fallimento:
+          titolo: La polvere
+          testo: |
+            Sfiori una vertebra con la punta di un dito, e lo scheletro intero
+            si sbriciola. La polvere si alza in una nuvola che ti entra in bocca
+            e nel naso, e ha un sapore dolciastro. Esci dalla camera tossendo e
+            sputando, e continui a sputare per tutto il corridoio dopo, con la
+            mano contro il muro, finché la bocca non sa soltanto di pietra.
+          effetti: { tormento: 0.5 }
+      - testo: "Cercare fra gli attrezzi qualcosa che serva"
+        descrizione: "Chi taglia la carne tiene anche qualcosa per chiuderla."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La scatola di lyssan
+          testo: |
+            Sotto il tavolo di mezzo c'è una scatola di lyssan chiusa con un
+            gancio, e dentro, sigillate nella cera, ci sono bende di lino
+            pulite. Le hanno messe via vent'anni fa e sono bianche come il primo
+            giorno. Ne prendi un rotolo e te lo infili nella camicia, contro la
+            pelle. Il grembiule sullo sgabello lo lasci dov'è, e passando cerchi
+            di non sfiorarlo nemmeno con il mantello.
+          effetti: { profondita.cuore-di-capomozzo: 1, bende: 1 }
+        fallimento:
+          titolo: La lama
+          testo: |
+            Sposti una sega per guardare sotto, e il coltello che c'era accanto
+            scivola giù dal tavolo. Lo prendi al volo per la lama, senza
+            pensarci. Il taglio ti attraversa tutto il palmo, pulito come quello
+            di un chirurgo, e il sangue gocciola sul pavimento accanto alle
+            macchie vecchie che nessuno ha mai lavato. Ti fasci la mano con un
+            lembo della camicia.
+          effetti: { ferite: 0.5 }
+      - testo: "Attraversare la camera guardando il pavimento"
+        descrizione: "C'è un'altra porta, dall'altra parte dei tavoli."
+        costo: 2
+        esito:
+          titolo: Il pavimento
+          testo: |
+            Tieni gli occhi sul pavimento e passi fra i tavoli. Così però vedi
+            le macchie, e le canalette scavate nella pietra che portano tutte
+            verso un buco in mezzo alla camera. All'altra porta hai la bocca
+            piena di saliva e devi fermarti, con la fronte contro lo stipite,
+            finché lo stomaco non torna al suo posto e riesci di nuovo a
+            respirare dal naso.
+          effetti: { profondita.cuore-di-capomozzo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · Aurenne sul ponte (E4)
+  - id: aurenne-sul-ponte
+    immagine: ambientazione/mito-regina-ali-spezzate
+    titolo: Il ponte di osservazione
+    sommario: "Oltre le porte di pietra c'è una sala ad arco illuminata da quattro teschi che bruciano. Accanto alla fontana qualcuno ti aspetta."
+    luogo: Sotto Capomozzo, il ponte di osservazione
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 4, profondita.cuore-di-capomozzo >= 3]
+    testo: |
+      Le pareti della sala si curvano ad arco e finiscono su due cornicioni di
+      marmo rosso. Nei quattro angoli bruciano quattro teschi infilati su
+      spuntoni di ferro, e la loro fiamma non fa fumo. I cornicioni sono carichi
+      di libri e di vasi con dentro creature deformi in salamoia, e fra un vaso
+      e l'altro c'è un braccio imbalsamato con le unghie ancora dipinte. Al
+      centro ci sono tre sedie girate verso nord, dove una fontana piena d'acqua
+      bluastra gorgoglia e fa schiuma.
+
+      Accanto alla fontana c'è una donna. Ha i capelli lunghi e d'argento, che
+      le scivolano sulle spalle come il mercurio quando lo versi, e la pelle
+      bianca attraversata da vene che si accendono di viola a ogni battito.
+      Porta un'armatura di metallo nero e di cuoio che sembra crescerle addosso,
+      con una luce rossa che filtra dalle giunture. Il ventre è scoperto, e una
+      cicatrice profonda lo attraversa da un fianco all'altro. La mano destra è
+      un artiglio cremisi e traslucido, lungo quanto un avambraccio. *È la donna
+      dei ritratti di Isvaro.* Nei ritratti, però, la cicatrice non c'era.
+
+      Al suo fianco sta una macchina a quattro zampe grande quanto un cavallo,
+      magra fino alle ossa di metallo. Al posto della testa ha una maschera
+      ovale senza occhi da cui esce una luce pallida.
+
+      La donna ti guarda con due occhi color ametista e ti sorride a labbra
+      strette. «Sei arrivato fin qui da solo» dice. «Avvicinati, mio dolce.
+      Voglio che tu mi veda bene.»
+    opzioni:
+      - testo: "Lasciarla parlare"
+        descrizione: "Ha aspettato a lungo qualcuno a cui dirlo. Finché parla, la macchina resta ferma."
+        costo: 0
+        esito:
+          titolo: Mio dolce
+          testo: |
+            Resti dove sei, con la mano vicina alla cintura. Lei fa due passi
+            verso di te, e la macchina la segue con le zampe che non fanno
+            rumore sul marmo. Si ferma a metà sala, accanto alle sedie. Da
+            vicino ha un profumo di incenso e di metallo caldo, e la luce dei
+            teschi le accende i capelli a ogni guizzo.
+          segue: aurenne-la-mia-vera-madre
+      - testo: "Non lasciarle finire la frase"
+        descrizione: "Lei e la macchina insieme. Aurenne è più veloce di quanto sembri, e l'artiglio non è un ornamento."
+        combattimento: aurenne
+        vittoria:
+          immagine: personaggi/aurenne
+          titolo: La bambina sul pavimento
+          testo: |
+            La macchina cade per prima, in un mucchio di piastre che ronzano
+            ancora. Aurenne finisce in ginocchio accanto alla fontana con
+            l'artiglio incrinato, e si mette a parlare come una bambina che ha
+            perso al gioco. «Questa volta non conta» dice, «ricominciamo da
+            capo.» Tu la chiami per nome. Alza gli occhi, e per il tempo di un
+            respiro sono gli occhi di una ragazza spaventata che non sa dove si
+            trova. Poi si affloscia su un fianco, svenuta.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1 }
+          segue: la-prigione-del-costruttore
+        sconfitta:
+          immagine: personaggi/aurenne
+          titolo: Il corpo che cede
+          testo: |
+            L'artiglio ti apre il fianco e la macchina ti schiaccia contro il
+            cornicione, e un vaso ti si rompe addosso. Aurenne alza l'artiglio
+            per finirti. In quel momento le vene sotto la sua pelle si spengono
+            tutte insieme. Resta con il braccio alzato e la bocca aperta. Poi
+            crolla, e la macchina si accuccia accanto a lei e non si muove più.
+            Ci metti un pezzo a rialzarti, con il sapore della salamoia in
+            bocca.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1, tormento: 0.5 }
+          segue: la-prigione-del-costruttore
+
+  - id: aurenne-la-mia-vera-madre
+    tipo: seguito
+    immagine: personaggi/aurenne
+    titolo: La mia vera madre
+    sommario: "Aurenne ti dice chi è, e che cosa vuole diventare."
+    luogo: Sotto Capomozzo, il ponte di osservazione
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 4]
+    testo: |
+      «Tu non puoi capirlo, e non te ne faccio una colpa» dice Aurenne, e si
+      siede sul bracciolo di una sedia con l'artiglio posato in grembo. «Questa
+      faccia che vi piace tanto è un errore degli dei, una malformazione sacra
+      fatta con tutta la cura possibile. A Qir-Azel ogni occhiata che mi davano
+      era una lama. Li ho pregati di volermi bene come una mendicante sui
+      gradini di un tempio chiuso, e nessuno ha mai voluto vedere chi ero
+      davvero.»
+
+      Si tocca la cicatrice sul ventre con la mano buona, senza guardarla. «Poi
+      mi ha parlato lei. Nhar'Kael, la Regina delle Ali Spezzate, la mia vera
+      madre.» La voce le si scalda sul nome, e le vene sotto la pelle si
+      accendono tutte insieme. «Mi ha spiegato che sono nata per fare paura. La
+      mia carne è un seme, e quando avrà finito di germogliare sarò quello che
+      dovevo essere fin dall'inizio, un mostro.»
+
+      Ride piano, con le dita sulla bocca. «Gli orchi mi chiamano Mawrak'Thur e
+      si inginocchiano quando passo. La tua pietà tienila, mio dolce. Voglio i
+      tuoi occhi addosso mentre salgo, e quando la Marea ti avrà preso voglio
+      che tu pensi a me, a quello che divento e a quello che avrei potuto
+      essere.»
+
+      Si sfila dal collo un disco di metallo con una corona di cristalli e ci
+      preme sopra il pollice. La macchina abbassa la maschera e piega le zampe
+      per saltare, e Aurenne si alza con l'artiglio aperto.
+    opzioni:
+      - testo: "Combatterla"
+        descrizione: "Lei e la macchina insieme. Aurenne è più veloce di quanto sembri, e l'artiglio non è un ornamento."
+        combattimento: aurenne
+        vittoria:
+          titolo: La bambina sul pavimento
+          testo: |
+            La macchina cade per prima, in un mucchio di piastre che ronzano
+            ancora. Aurenne finisce in ginocchio accanto alla fontana con
+            l'artiglio incrinato, e si mette a parlare come una bambina che ha
+            perso al gioco. «Questa volta non conta» dice, «ricominciamo da
+            capo.» Tu la chiami per nome. Alza gli occhi, e per il tempo di un
+            respiro sono gli occhi di una ragazza spaventata che non sa dove si
+            trova. Poi si affloscia su un fianco, svenuta.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1 }
+          segue: la-prigione-del-costruttore
+        sconfitta:
+          titolo: Il corpo che cede
+          testo: |
+            L'artiglio ti apre il fianco e la macchina ti schiaccia contro il
+            cornicione, e un vaso ti si rompe addosso. Aurenne alza l'artiglio
+            per finirti. In quel momento le vene sotto la sua pelle si spengono
+            tutte insieme. Resta con il braccio alzato e la bocca aperta. Poi
+            crolla, e la macchina si accuccia accanto a lei e non si muove più.
+            Ci metti un pezzo a rialzarti, con il sapore della salamoia in
+            bocca.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1, tormento: 0.5 }
+          segue: la-prigione-del-costruttore
+      - testo: "Parlarle della ragazza del diario"
+        descrizione: "Nel suo diario c'è una ragazza che conservava gli uccellini di legno di Osric Wren e piangeva per Amyll e per Rennick Dole. Forse ne è rimasto un pezzo."
+        requisiti: [oggetto.diario-di-aurenne >= 1]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Gli uccellini
+          testo: |
+            Le parli degli uccellini di legno del signor Wren, di quello con
+            l'ala storta che teneva sul davanzale, e dei corridoi
+            dell'Accademia. Lei si ferma con l'artiglio a mezz'aria. «Come fai a
+            saperlo?» La voce le esce piccola. Il disco le si spegne in mano, e
+            la macchina si blocca a metà del salto. Aurenne piange senza fare
+            rumore, poi le gambe le cedono e la prendi prima che batta la testa
+            sul marmo.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1 }
+          pe: { empatia: 10 }
+          segue: la-prigione-del-costruttore
+        fallimento:
+          titolo: Stai zitto
+          testo: |
+            «Stai zitto!» grida, e la macchina ti salta addosso. Prendi i suoi
+            artigli sull'avambraccio e continui a parlarle del signor Wren e
+            degli uccellini, con il sangue che ti cola fino al gomito. Le parole
+            arrivano tardi, ma arrivano. Aurenne barcolla con le mani sulle
+            orecchie, e il disco le scivola dalle dita. La macchina si ferma
+            sopra di te. Lei crolla accanto alla fontana con le mani ancora
+            sulle orecchie.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1, ferite: 1.5, tormento: 0.5 }
+          segue: la-prigione-del-costruttore
+      - testo: "Scacciare la voce che le parla"
+        descrizione: "Quella che lei chiama madre le sta dentro. La Liturgia dell'Albero ha parole per ciò che non dovrebbe restare."
+        incantesimo: esorcismo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Le ali
+          testo: |
+            Dici le parole della Liturgia guardandola negli occhi, e a ogni
+            frase lei fa un passo indietro. Senti qualcosa che si ritira dentro
+            di lei con un rumore d'ali, giù, nel fondo, dove le tue parole non
+            arrivano. Le vene viola si spengono una alla volta. Aurenne ti
+            guarda come se ti vedesse per la prima volta e apre la bocca per
+            dire qualcosa, poi cade in ginocchio e si accascia di lato.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1 }
+          pe: { magia: 10 }
+          segue: la-prigione-del-costruttore
+        fallimento:
+          titolo: La madre risponde
+          testo: |
+            A metà della Liturgia la cosa che le sta dentro ti risponde, e lo fa
+            con la sua bocca, in una voce che non è la sua. Il Mana ti torna
+            indietro dietro gli occhi e ti butta in ginocchio. Ma la lotta è
+            costata anche a lei. Aurenne si porta le mani alle tempie, grida una
+            parola sola, poi crolla sul marmo, e la macchina si spegne accanto a
+            lei.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1, tormento: 1, ferite: 0.5 }
+          segue: la-prigione-del-costruttore
+      - testo: "Strapparle il disco dal collo"
+        descrizione: "La macchina obbedisce al disco. Se riesci a passare sotto l'artiglio, forse senza disco si ferma."
+        prova: { attributo: fisico, abilita: [acrobazia, rissa, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il cordino
+          testo: |
+            Ti butti sotto l'artiglio quando lo alza e afferri il cordino del
+            disco con tutte e due le mani. Il cordino si spezza. La macchina si
+            ferma a metà del salto e ricade sul marmo come un mucchio di
+            pentole. Aurenne graffia l'aria dove un momento prima c'eri tu, poi
+            barcolla, come se il disco l'avesse tenuta in piedi fino a quel
+            momento, e crolla fra le sedie.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1 }
+          pe: { acrobazia: 10 }
+          segue: la-prigione-del-costruttore
+        fallimento:
+          titolo: Il prezzo del disco
+          testo: |
+            Il disco lo prendi, ma l'artiglio ti prende a sua volta, dalla
+            spalla al fianco, e il dolore ti toglie la vista per un momento.
+            Rotoli lontano con il disco stretto al petto. La macchina si ferma.
+            Aurenne fa due passi verso di te con l'artiglio gocciolante, poi si
+            guarda la mano vuota e cade in ginocchio, e da lì a terra.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1, ferite: 2 }
+          segue: la-prigione-del-costruttore
+      - testo: "Resistere"
+        descrizione: "Non attaccarla e non scappare. Ogni ordine che dà alla macchina le costa qualcosa, e il suo corpo può cedere prima del tuo."
+        esito:
+          titolo: Chi cede prima
+          testo: |
+            Ti ripari dietro le sedie, poi dietro la fontana, e prendi i colpi
+            che non riesci a schivare. Ogni volta che lei preme il disco la
+            macchina si fa più veloce, e Aurenne più pallida. Dopo un tempo che
+            non sai misurare hai le braccia aperte in tre punti e l'acqua della
+            fontana ti brucia nelle ferite. Lei preme il disco un'ultima volta,
+            e le cede il corpo prima della volontà. Crolla, e la macchina si
+            ferma.
+          imposta: { aurenne: 1, pista.capomozzo: 5 }
+          effetti: { oggetto.congegno-di-controllo: 1, oggetto.stella-a-sette-punte: 1, oggetto.cristalli-anti-marea: 1, ferite: 2, tormento: 1 }
+          segue: la-prigione-del-costruttore
+
+  # ------------------------------------------------------------ 5 · la prigione del Costruttore (E10)
+  - id: la-prigione-del-costruttore
+    tipo: seguito
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La porta della stella
+    sommario: "Una stella d'oro e d'argento apre una porta senza maniglie, e oltre la porta c'è una sala piena di candele."
+    luogo: Sotto Capomozzo, la prigione del Costruttore
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 5]
+    testo: |
+      Aurenne pesa meno di quanto pensavi. Te la carichi sulle spalle, e
+      l'artiglio ti batte contro la schiena a ogni passo. Al collo aveva un
+      cordino con quattro cristalli che ronzano piano, e te lo sei legato al
+      polso. Il disco con la corona di cristalli ce l'hai in tasca. Alla cintura
+      lei portava una stella a sette punte d'oro e d'argento, piatta da una
+      parte e con un'impugnatura sottile e ricurva dall'altra.
+
+      In fondo al ponte c'è una porta di pietra senza maniglie. Al loro posto
+      c'è un incavo a forma di stella, con fessure più piccole tutto intorno. La
+      stella ci entra di misura, e la porta si apre verso l'interno senza un
+      rumore.
+
+      Dentro bruciano candele dorate su candelabri di legno scolpito, e la cera
+      è fresca. *Qualcuno scendeva qui ogni giorno a cambiarle.* Sulla parete
+      sud è incisa una grande stella a sette punte, così precisa che nessuno
+      scalpello può averla toccata. Al centro c'è una piattaforma rotonda di
+      metallo liscio, con incisioni minuscole che si accendono e si spengono, e
+      in mezzo una placca rialzata attraversata da linee di luce. Al Grifone ne
+      hai sentito parlare dai Raschiatori più vecchi. Quella piattaforma è uno
+      degli ascensori dei Precursori.
+    opzioni:
+      - testo: "Posare la mano sulla placca"
+        descrizione: "Con Aurenne sulle spalle, perché qui sopra da sola non la lasci."
+        costo: 0
+        esito:
+          titolo: La discesa
+          testo: |
+            Appena tocchi la placca la sala manda un suono basso e profondo, e
+            la placca si abbassa sotto il palmo. Sotto i piedi si accende una
+            luce bianca e fredda che disegna linee sul metallo. Poi la
+            piattaforma si muove senza uno scossone, e capisci che stai
+            scendendo. Le pareti di pietra umida scorrono accanto a te per un
+            minuto e poi per un altro, finché smetti di contare.
+          segue: la-rovina-sommersa
+
+  - id: la-rovina-sommersa
+    tipo: seguito
+    immagine: ambientazione/marea-grigia
+    titolo: La rovina sommersa
+    sommario: "In fondo all'ascensore c'è una rovina dei Precursori grande come una città, sommersa dalla Marea Grigia."
+    luogo: Sotto Capomozzo, la rovina sommersa
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 5]
+    testo: |
+      Le pareti si aprono tutte insieme, e davanti a te c'è una distesa che non
+      finisce. Ci sono torri spezzate e ponti sospesi che non portano più da
+      nessuna parte, immersi in una Marea Grigia così densa che la luce fredda
+      della rovina ci si impiglia dentro. Da certe colonne colano fili di
+      liquido luminoso che cadono senza rumore. Lungo i muri più vicini corrono
+      linee di luce che disegnano figure, e ogni tanto un intero settore si
+      accende e si spegne.
+
+      A quattrocento metri, forse meno, pulsa una luce rossa con un ritmo lento
+      e regolare. Viene da dietro una fenditura alta decine di metri e larga
+      quanto due uomini affiancati, aperta in una parete nera e lucida. È
+      Magnistruttura, il metallo dei Precursori che niente riesce a scalfire.
+
+      Sei a metà del passaggio sospeso quando da ogni parte comincia un rumore
+      di ferro. Dalle pareti e dai condotti escono macchine della Salvaguardia,
+      alcune non più grandi di un pugno e altre alte quanto un cavallo, e ti
+      chiudono in cerchio con i sensori rossi accesi. Nella Marea si muovono
+      senza fatica. Poi il ronzio cambia nota, le luci rosse tremano e si
+      spengono, e le macchine restano immobili con la testa girata verso di te,
+      in attesa di un ordine che non arriva.
+    opzioni:
+      - testo: "Provare il disco di Aurenne"
+        descrizione: "Lei le comandava con quello. Basta premere dove premeva lei."
+        requisiti: [oggetto.congegno-di-controllo >= 1]
+        costo: 0
+        esito:
+          titolo: Il disco muto
+          testo: |
+            Tiri fuori il disco e premi il pollice dove lo premeva lei. I
+            cristalli della corona si accendono uno dopo l'altro, e le macchine
+            non girano nemmeno la testa. Provi ancora, e poi una terza volta.
+            Sulla tua spalla Aurenne mormora qualcosa nel sonno. Rimetti il
+            disco in tasca e passi in mezzo al cerchio, verso la luce rossa, con
+            la Marea che ti si attacca ai vestiti.
+          effetti: { contaminazione: 0.5 }
+          segue: il-costruttore-di-capomozzo
+      - testo: "Passare in mezzo alle macchine"
+        descrizione: "Si sono spente da sole. Non è detto che restino spente."
+        costo: 0
+        esito:
+          titolo: Il cerchio
+          testo: |
+            Passi fra due macchine alte quanto te, così vicino che senti il
+            freddo del loro metallo sulla guancia, e ti sforzi di tenere il
+            passo regolare. Nessuna si muove, nemmeno quando Aurenne geme nel
+            sonno. Arrivi alla fenditura con la Marea attaccata ai vestiti, e la
+            parete di Magnistruttura ti rimanda la tua faccia storta e
+            allungata, e sulla spalla quella di Aurenne, bianca, senza tratti.
+          effetti: { contaminazione: 0.5 }
+          segue: il-costruttore-di-capomozzo
+
+  - id: il-costruttore-di-capomozzo
+    tipo: seguito
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Il titano dormiente
+    sommario: "Dietro la fenditura c'è un colosso dei Precursori con un nucleo rosso nel petto squarciato. Si sta alzando."
+    luogo: Sotto Capomozzo, oltre la fenditura
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 5]
+    testo: |
+      La fenditura si apre su una cavità enorme. All'inizio vedi soltanto la
+      luce rossa che pulsa piano, poi gli occhi si abituano e capisci da dove
+      viene.
+
+      È una forma colossale, mezza sepolta fra detriti e rottami, e non riesci a
+      dire dove finisca la macchina e dove cominci la pietra. Il torace è
+      squarciato, e dentro batte un nucleo rosso. Mentre lo guardi la testa si
+      muove, un cilindro senza faccia con due fessure verticali che si accendono
+      e si girano verso di te. Senti quella luce passarti addosso e pesarti,
+      come la mano di un mercante sulla bilancia.
+
+      Poi si alza. Le lastre e i cavi si tendono con un gemito di metallo, e
+      dalle giunture piovono scintille. In piedi è alto quanto quattro case una
+      sopra l'altra. Un braccio gli pende inerte, piegato su se stesso, e da
+      certe fessure del corpo escono fili di vapore. Gli appunti sulla lavagna
+      della sala della guerra lo chiamavano il titano dormiente, e adesso si è
+      svegliato.
+
+      Posi Aurenne dietro un blocco di pietra. Il colosso alza il braccio buono
+      e la sua ombra copre te e lei insieme. Ti accorgi che le ginocchia ti
+      tremano, e che non riesci a fermarle.
+    opzioni:
+      - testo: "Affrontarlo"
+        descrizione: "Il nucleo è nel petto, e il petto è molto in alto. Però si muove piano, e un braccio non lo usa più."
+        combattimento: costruttore
+        vittoria:
+          titolo: Il ginocchio di ferro
+          testo: |
+            Lo colpisci dove le lastre si aprono, alle giunture delle gambe, e
+            scappi ogni volta che il braccio buono scende. Al quinto colpo un
+            ginocchio cede con uno schianto che ti arriva nello stomaco, e il
+            colosso si piega su se stesso. La luce del nucleo trema e cambia
+            colore. Lui pianta la mano a terra per non cadere, e il pavimento si
+            crepa tutto intorno alle sue dita.
+          segue: la-maschera-spaccata
+        sconfitta:
+          titolo: La mano
+          testo: |
+            La mano del colosso scende piatta e ti prende in pieno. Ti ritrovi
+            nella polvere, con la bocca piena di sangue e una gamba che non ti
+            risponde. Lui alza di nuovo il braccio, lentamente, per finire il
+            lavoro. A metà del gesto il nucleo gli sfarfalla nel petto e lui
+            vacilla, come se dentro qualcosa si fosse rotto per conto suo.
+          segue: la-maschera-spaccata
+      - testo: "Confonderlo con il disco"
+        descrizione: "Il disco parla ai nuclei delle macchine, e questo è il nucleo più grande che tu abbia mai visto. Più ti avvicini, più il disco scalda."
+        requisiti: [oggetto.congegno-di-controllo >= 1]
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La corona accesa
+          testo: |
+            Corri sotto il colosso con il disco alzato verso il nucleo, e i
+            cristalli della corona si accendono tutti insieme, bianchi. Le
+            fessure del suo volto lampeggiano. Il braccio buono si ferma a metà
+            del colpo e resta lì, tremante, mentre dentro il petto il nucleo
+            perde il ritmo. Il colosso fa un passo indietro e vacilla, e i
+            cristalli ti scottano il palmo.
+          pe: { tecnologia: 10 }
+          segue: la-maschera-spaccata
+        fallimento:
+          titolo: Il disco che brucia
+          testo: |
+            Il disco ti si scalda in mano finché non riesci più a tenerlo, e il
+            colosso è rallentato appena. Il braccio scende a un passo da te e
+            spacca il pavimento, e una pioggia di schegge ti apre la fronte e le
+            braccia. Però il nucleo ha perso il ritmo. Mentre raccogli il disco
+            con la manica, il colosso barcolla.
+          effetti: { ferite: 1.5, contaminazione: 0.5 }
+          segue: la-maschera-spaccata
+      - testo: "Dargli un ordine nella sua lingua"
+        descrizione: "È la macchina più grande della Salvaguardia, e anche lei ha imparato a obbedire, una volta."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Fermati
+          testo: |
+            Pianti i piedi e gli gridi l'ordine nella lingua delle macchine, una
+            parola sola che ti raschia la gola uscendo. Il colosso si ferma. Le
+            fessure del suo volto si abbassano su di te, e per un tempo
+            lunghissimo restate a guardarvi. Poi il nucleo trema, e lui vacilla,
+            con due ordini diversi nel petto e nessuno dei due più forte
+            dell'altro.
+          pe: { magia: 10 }
+          segue: la-maschera-spaccata
+        fallimento:
+          titolo: La risposta
+          testo: |
+            L'ordine gli arriva storto, e lui ti risponde. È un suono che ti
+            arriva nei denti e nelle ossa del cranio prima che nelle orecchie, e
+            ti butta a terra con il naso che sanguina. Il colosso fa due passi
+            verso di te, e il pavimento sobbalza a ogni passo. Al terzo il
+            nucleo gli sfarfalla nel petto e lui vacilla, come se la parola
+            sbagliata gli fosse rimasta dentro.
+          effetti: { tormento: 1, ferite: 1 }
+          segue: la-maschera-spaccata
+      - testo: "Arrampicarti fino al nucleo"
+        descrizione: "I detriti salgono fino al suo petto. È una follia, e potrebbe essere l'unica cosa che funziona."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Il petto aperto
+          testo: |
+            Corri su per il mucchio di detriti mentre il braccio buono spazza
+            l'aria sopra la tua testa, e dalla cima salti. Ti aggrappi al bordo
+            del torace squarciato, con il metallo caldo che ti brucia le mani, e
+            colpisci il nucleo una volta, con tutto quello che hai. Il colosso
+            barcolla all'indietro. Tu cadi nella polvere da un'altezza che ti
+            toglie il fiato, e ti rialzi con le mani piene di vesciche.
+          pe: { atletica: 10 }
+          segue: la-maschera-spaccata
+        fallimento:
+          titolo: La caduta
+          testo: |
+            Arrivi al nucleo e lo colpisci, ma il colosso si gira e ti scrolla
+            via come una mosca dalla manica. Cadi da un'altezza che non vuoi
+            sapere, e la schiena prende i detriti per prima. Resti a terra senza
+            fiato, con la bocca aperta e i polmoni che non vogliono saperne.
+            Sopra di te il nucleo sfarfalla dove l'hai colpito, e il colosso
+            vacilla.
+          effetti: { ferite: 2 }
+          segue: la-maschera-spaccata
+
+  - id: la-maschera-spaccata
+    tipo: seguito
+    immagine: ambientazione/le-maschere
+    titolo: La maschera spaccata
+    sommario: "Il tempo si ferma, e davanti a te una maschera spaccata in due si ricompone."
+    luogo: Sotto Capomozzo, oltre la fenditura
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 5]
+    testo: |
+      Il Costruttore vacilla. Le giunture incandescenti si piegano, e la luce
+      del nucleo trema fra il rosso e il viola, sempre più in fretta. Eppure non
+      cade. Si raddrizza un'altra volta, e in quel momento il tempo si ferma.
+
+      Le scintille restano sospese a mezz'aria e la polvere si ferma a metà
+      della caduta. Non senti più il ronzio della rovina, e nemmeno il tuo
+      respiro. Davanti a te, nel buio, sorge una figura altissima e
+      incappucciata, con il corpo coperto di occhi. L'hai già vista una volta,
+      la notte prima del Festival, in un sogno che al mattino avevi messo da
+      parte. Ha le proporzioni del colosso che hai davanti, ed è com'era lui
+      prima di diventare questa carcassa.
+
+      Fra te e la figura galleggia una maschera spaccata in due, come nel sogno.
+      Le due metà vibrano e si cercano finché si toccano e diventano un volto
+      solo, che cambia forma ogni volta che sbatti le palpebre. Dentro di te
+      parla una voce che è la tua, moltiplicata in un coro lontano. «Ti abbiamo
+      cercato in fondo a ogni tuo respiro, e adesso ti abbiamo trovato,
+      Portatore dell'Alba.»
+
+      Il volto smette di cambiare. Ha preso la forma che hai deciso di vedere.
+    opzioni:
+      - testo: "Vedere una maschera di ferro brunito"
+        descrizione: "Un volto di donna impassibile, e dalle fessure scende una nebbia rossa. È la volontà di restare in piedi."
+        costo: 0
+        esito:
+          titolo: La Maschera della Forza
+          testo: |
+            La maschera è di ferro brunito, con un volto di donna inciso a linee
+            sottili, e dalle fessure scende una nebbia rossa. Te la senti
+            addosso senza averla toccata. Il tempo riparte. Ti lanci in avanti
+            prima ancora di deciderlo, e il colpo lascia nell'aria una scia
+            scarlatta. Trapassi la corazza del colosso all'altezza del petto e
+            arrivi al nucleo. La luce rossa esplode e ti travolge, e poi c'è
+            silenzio.
+          effetti: { oggetto.maschera-della-forza: 1 }
+          segue: la-corsa-all-ascensore
+      - testo: "Vedere una maschera d'oro opaco"
+        descrizione: "Liscia e senza bocca, con due rivoli di luce bianca che scendono dagli occhi. È di chi ha perso il divino e l'ha ritrovato nelle cose di ogni giorno."
+        costo: 0
+        esito:
+          titolo: La Maschera della Rottura
+          testo: |
+            La maschera è d'oro opaco e non ha bocca, e dagli occhi le scendono
+            due rivoli di luce bianca. Ti vengono in mente i forni della Città
+            Bassa all'alba, e le mani infarinate di chi impasta il pane. Il
+            tempo riparte. Avanzi contro il colosso con il braccio alzato a
+            farti da scudo, e gli vai addosso con un urlo che si mescola al
+            clangore del metallo. Il colpo arriva al nucleo. La luce rossa
+            esplode e ti travolge, e poi c'è silenzio.
+          effetti: { oggetto.maschera-della-rottura: 1 }
+          segue: la-corsa-all-ascensore
+      - testo: "Vedere una maschera di vetro incrinato"
+        descrizione: "Trasparente, con dietro ombre che si muovono come mani giunte. Ogni scheggia riflette una convinzione che forse non è tua."
+        costo: 0
+        esito:
+          titolo: La Maschera della Distorsione
+          testo: |
+            La maschera è di vetro incrinato, e dietro si muovono ombre che
+            sembrano mani giunte. In ogni scheggia c'è un pensiero, e non sai se
+            è tuo. Il tempo riparte. Allunghi la mano verso il colosso e dal
+            palmo ti esce un raggio di luce dorata che incide la corazza come
+            vetro fuso, dritto fino al nucleo. La luce rossa esplode e ti
+            travolge, e poi c'è silenzio.
+          effetti: { oggetto.maschera-della-distorsione: 1 }
+          segue: la-corsa-all-ascensore
+      - testo: "Vedere una maschera di corteccia nera"
+        descrizione: "Corteccia e muschio, con vene di metallo e linfa lucente. Lega quello che cresce a quello che è stato costruito."
+        costo: 0
+        esito:
+          titolo: La Maschera della Natura
+          testo: |
+            La maschera è di corteccia nera e muschio, attraversata da vene di
+            metallo in cui scorre una linfa lucente. Ha un odore di bosco dopo
+            la pioggia. Il tempo riparte. Alzi il braccio, e dal pavimento
+            esplodono radici e tubi di metallo che si intrecciano intorno alle
+            gambe del colosso e lo inchiodano a terra. Una radice gli sale nel
+            petto e si chiude sul nucleo. La luce rossa esplode e ti travolge, e
+            poi c'è silenzio.
+          effetti: { oggetto.maschera-della-natura: 1 }
+          segue: la-corsa-all-ascensore
+
+  - id: la-corsa-all-ascensore
+    tipo: seguito
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La corsa
+    sommario: "Il Costruttore è caduto, e la rovina gli sta crollando dietro."
+    luogo: Sotto Capomozzo, la rovina che crolla
+    area: cuore-di-capomozzo
+    requisiti: [pista.capomozzo == 5]
+    testo: |
+      Il colosso è immobile, mezzo distrutto, con il nucleo spento. Davanti al
+      tuo viso galleggia la maschera, grande tre volte la tua faccia. È
+      trasparente, e ogni suo tratto è perfetto.
+
+      Il primo tremore sembra l'eco del colpo. Il secondo ti butta in ginocchio.
+      Dal soffitto piove polvere mescolata a schegge di metallo, e lungo le
+      giunture del pavimento si accendono linee rosse che corrono in tutte le
+      direzioni. Le pareti di Magnistruttura si incrinano con il rumore del
+      ghiaccio che si rompe sotto i piedi, e lo stomaco ti si chiude, perché al
+      Grifone dicono che quel metallo non si rompe.
+
+      La maschera trema e svanisce. Il corpo del Costruttore si spezza in due e
+      si porta dietro un pezzo di pavimento. Aurenne è dove l'hai lasciata,
+      dietro il blocco di pietra, con la faccia bianca di polvere, e respira
+      ancora. Fino all'ascensore ci sono quattrocento metri di passaggio
+      sospeso, e il passaggio si sta piegando.
+    opzioni:
+      - testo: "Prenderla in braccio e correre"
+        descrizione: "Quattrocento metri. Meglio non pensare a quanti sono."
+        costo: 0
+        esito:
+          titolo: La risalita
+          testo: |
+            Te la prendi in braccio e corri. Il passaggio si apre in fenditure
+            incandescenti, e pezzi di Magnistruttura si staccano dalle pareti e
+            cadono nel buio. Salti sulla piattaforma con le ginocchia che
+            cedono, e le incisioni si accendono, poi non succede niente. Poi
+            l'ascensore sale. Sotto di te la rovina crolla con un tuono che non
+            finisce più.
+
+            Quando la piattaforma si ferma sei di nuovo fra le candele dorate, e
+            tutto tace. Ti lasci cadere sulla pietra accanto ad Aurenne e
+            aspetti che le mani smettano di tremare. Sopra di te ci sono due
+            livelli di sotterranei e una fortezza vuota, e dopo ancora due
+            giorni e mezzo di strada fino a Qir-Azel.
+          imposta: { pista.capomozzo: 6 }
+          vai: quartieri-alti
