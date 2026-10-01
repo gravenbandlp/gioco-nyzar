@@ -1,6 +1,6 @@
 // Le viste del gioco. Ogni funzione riceve lo stato e restituisce HTML; gli eventi
 // sono gestiti in main.ts tramite attributi data-az.
-import type { TContenuti, TStorylet, TFrammento } from '../motore/contenuto';
+import type { TContenuti, TStorylet, TFrammento, TLuogo, TNegozio } from '../motore/contenuto';
 import {
   ATTRIBUTI, ABILITA, NEGATIVE, MAX_NEGATIVA, CANDELE_MAX, CODA_MAX, MANO_MAX, MAX_CONSUMABILI_IN_COMBATTIMENTO, NOMI,
   SOGLIE_PE,
@@ -39,10 +39,19 @@ export interface Contesto {
   avviso: string;
   ora: number;
   bersaglio?: string;
+  luogo?: string; // il luogo (mini-hub) aperto dentro l'area, se c'è
 }
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
 const areaDi = (x: Contesto) => x.c.aree.find((a) => a.id === x.s.area)!;
+/** I luoghi dell'area attuale che il personaggio può vedere. */
+export function luoghiQui(s: Stato, c: TContenuti): TLuogo[] {
+  return c.luoghi.filter((l) => l.area === s.area && requisitiSoddisfatti(s, l.requisiti, c));
+}
+/** Il luogo aperto, se è ancora valido (stessa area, requisiti soddisfatti). */
+export function luogoAperto(x: Pick<Contesto, 's' | 'c' | 'luogo'>): TLuogo | undefined {
+  return x.luogo ? luoghiQui(x.s, x.c).find((l) => l.id === x.luogo) : undefined;
+}
 const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia');
 
 // ================================================================ impianto
@@ -59,7 +68,10 @@ export function pagina(x: Contesto, centro: string): string {
       <div class="pannello">${centro}</div>
     </main>
     <aside class="colonna destra" aria-label="Luogo e frammenti del Codex">${destra(x)}</aside>
-  </div>`;
+  </div>
+  <footer class="crediti">Tavole dal Codex di Ny'Zar. Icone di Lorc, Delapouite e altri autori di
+    <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, con licenza
+    <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</footer>`;
 }
 
 function topbar(x: Contesto): string {
@@ -135,7 +147,7 @@ function destra(x: Contesto): string {
   return `
     <div class="dove">
       <span class="etichetta">Ti trovi a</span>
-      <p class="luogo-attuale">${h(a.nome)}</p>
+      <p class="luogo-attuale">${h(a.nome)}${luogoAperto(x) ? `<small>${h(luogoAperto(x)!.nome)}</small>` : ''}</p>
       <button type="button" class="bottone" data-az="scheda" data-id="mappa">Apri la mappa</button>
     </div>
     ${f ? `<article class="frammento">
@@ -167,16 +179,68 @@ function vistaArea(x: Contesto): string {
   const sospeso = s.sospeso ? trova(c, s.sospeso) : undefined;
   const riprendi = sospeso && !disponibili.includes(sospeso) && requisitiSoddisfatti(s, sospeso.requisiti, c) ? [sospeso] : [];
   const storie = [...riprendi, ...disponibili.filter((st) => !st.ripetibile)];
-  const ripetibili = stanzeVisibili(s, c);
   const crisi = NEGATIVE.filter((k) => (s.quality[k] ?? 0) >= MAX_NEGATIVA);
+  const avvisoCrisi = crisi.length ? `<p class="avviso crisi">${crisi.map((k) => h(nome(k, c))).join(', ')} al massimo. La crisi ti aspetta all'uscita da quest'area.</p>` : '';
   const sped = areaAttuale(s, c)?.spedizione;
+  if (sped) {
+    return `${avvisoCrisi}${testataSpedizione(x)}${occasioni(x)}
+      ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
+      <h2 class="titolo-sezione">Davanti a te</h2>
+      <ul class="elenco-storylet">${stanzeVisibili(s, c).map((st) => rigaStorylet(st, true)).join('')}</ul>`;
+  }
+  const qui = luogoAperto(x);
+  if (qui) return avvisoCrisi + vistaLuogo(x, qui, storie);
+  const luoghi = luoghiQui(s, c);
+  const ids = new Set(luoghi.map((l) => l.id));
+  const inGiro = stanzeVisibili(s, c).filter((st) => !st.presso || !ids.has(st.presso));
+  const schede = luoghi.map((l) => {
+    const ripetibili = disponibili.filter((st) => st.ripetibile && st.presso === l.id).length;
+    const nuove = storie.filter((st) => st.presso === l.id).length;
+    if (!ripetibili && !nuove && !l.negozi.length) return '';
+    const segni = [
+      nuove ? `<span class="segno storia">${nuove === 1 ? 'Una storia' : `${nuove} storie`}</span>` : '',
+      ripetibili ? `<span class="segno">${ripetibili === 1 ? 'Una cosa da fare' : `${ripetibili} cose da fare`}</span>` : '',
+      l.negozi.length ? `<span class="segno bottega">${l.negozi.length === 1 ? 'Bottega' : `${l.negozi.length} botteghe`}</span>` : '',
+    ].join('');
+    return `<li><button type="button" class="scheda-luogo${nuove ? ' con-storia' : ''}" data-az="luogo" data-id="${l.id}">
+      ${tavola(l.immagine, { classe: 'paesaggio' })}
+      <span class="corpo">
+        <span class="nome-luogo">${h(l.nome)}</span>
+        <span class="sommario">${h(l.sommario)}</span>
+        <span class="segni">${segni}</span>
+      </span>
+    </button></li>`;
+  }).join('');
   return `
-    ${crisi.length ? `<p class="avviso crisi">${crisi.map((k) => h(nome(k, c))).join(', ')} al massimo. La crisi ti aspetta all'uscita da quest'area.</p>` : ''}
-    ${sped ? testataSpedizione(x) : ''}
+    ${avvisoCrisi}
     ${occasioni(x)}
     ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
-    <h2 class="titolo-sezione">${sped ? 'Davanti a te' : 'Cose da fare'}</h2>
-    <ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(st, !!sped)).join('')}</ul>`;
+    ${schede ? `<h2 class="titolo-sezione">I luoghi</h2><ul class="griglia-luoghi">${schede}</ul>` : ''}
+    ${inGiro.length ? `<h2 class="titolo-sezione">In giro per ${h(areaDi(x).nome)}</h2><ul class="elenco-storylet">${inGiro.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}`;
+}
+
+function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[]): string {
+  const { s, c } = x;
+  const storie = storieArea.filter((st) => st.presso === l.id);
+  const ripetibili = stanzeVisibili(s, c).filter((st) => st.presso === l.id);
+  const botteghe = l.negozi.map((id) => c.negozi.find((n) => n.id === id)).filter((n): n is TNegozio => !!n).map((n) => bottega(x, n)).join('');
+  const vuoto = !storie.length && !ripetibili.length && !botteghe;
+  return `<article class="scena pagina-luogo">
+    <button type="button" class="bottone indietro in-cima" data-az="esci-luogo">← ${h(areaDi(x).nome)}</button>
+    <header class="scena-testa">
+      ${tavola(l.immagine, { classe: 'ritratto grande', taglio: 'l' })}
+      <div class="scena-titoli">
+        <div class="testa">${etichetta('Luogo', 'velo')}<span class="luogo">${h(areaDi(x).nome)}</span></div>
+        <h2>${h(l.nome)}</h2>
+        ${prosa(l.testo)}
+      </div>
+    </header>
+    ${occasioni(x)}
+    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
+    ${ripetibili.length ? `<h2 class="titolo-sezione">Cose da fare</h2><ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
+    ${botteghe}
+    ${vuoto ? '<p class="vuoto">Per ora qui non c\'è niente per te. Torna più avanti.</p>' : ''}
+  </article>`;
 }
 
 function testataSpedizione(x: Contesto): string {
@@ -620,42 +684,45 @@ export function averi(x: Contesto): string {
 // ================================================================ BAZAR
 
 export function bazar(x: Contesto): string {
-  const { s, c } = x;
+  const { c } = x;
   const area = areaDi(x);
-  const monete = s.quality['monete'] ?? 0;
   if (!area.negozi.length) return `<p class="vuoto">In ${h(area.nome)} non ci sono botteghe. Prova altrove in città.</p>`;
-  return area.negozi.map((id) => c.negozi.find((n) => n.id === id)!).map((n) => {
-    const vende = n.vende.map((v) => {
-      let d: { nome: string; dettagli: string; immagine?: string };
-      let nota = '';
-      if (v.quality.startsWith('oggetto.')) {
-        const id = v.quality.slice(8);
-        d = descriviOggetto(id, c);
-        const n = s.quality[v.quality] ?? 0;
-        if (indossato(s, id)) nota = 'In uso';
-        else if (n > 0) nota = `Ne hai ${n}`;
-      } else { const q = c.quality.find((z) => z.id === v.quality); d = { nome: q?.nome ?? v.quality, dettagli: `${q?.descrizione ?? ''} Ne hai ${mezzi(s.quality[v.quality] ?? 0)}.`, immagine: q?.immagine }; }
-      const ok = monete >= v.prezzo;
-      return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}${nota ? ` · ${h(nota)}` : ''}</small></span>
-        <span class="prezzo">${v.prezzo}</span>
-        <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>Compra</button></li>`;
-    }).join('');
-    const compra = n.compra.map((v) => {
-      const q = c.quality.find((z) => z.id === v.quality);
-      const hai = s.quality[v.quality] ?? 0;
-      return `<li class="${hai < 1 ? 'assente' : ''}">${tavola(q?.immagine, { classe: 'icona' })}<span class="merce"><b>${h(q?.nome ?? v.quality)}</b><small>Ne hai ${mezzi(hai)}</small></span>
-        <span class="prezzo">${v.prezzo}</span>
-        <span class="doppio"><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="1" ${hai >= 1 ? '' : 'disabled'}>Vendi 1</button><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="tutti" ${hai >= 2 ? '' : 'disabled'}>Tutti</button></span></li>`;
-    }).join('');
-    return `<section class="bottega">
-      <header class="scena-testa">
-        ${tavola(n.immagine, { classe: 'ritratto' })}
-        <div class="scena-titoli">${etichetta('Bottega', 'velo')}<h2>${h(n.nome)}</h2>${prosa(n.testo)}</div>
-      </header>
-      ${vende ? `<h3 class="titolo-sezione">In vendita</h3><ul class="listino">${vende}</ul>` : ''}
-      ${compra ? `<h3 class="titolo-sezione">Compra da te</h3><ul class="listino">${compra}</ul>` : ''}
-    </section>`;
+  return area.negozi.map((id) => c.negozi.find((n) => n.id === id)!).map((n) => bottega(x, n)).join('');
+}
+
+function bottega(x: Contesto, n: TNegozio): string {
+  const { s, c } = x;
+  const monete = s.quality['monete'] ?? 0;
+  const vende = n.vende.map((v) => {
+    let d: { nome: string; dettagli: string; immagine?: string };
+    let nota = '';
+    if (v.quality.startsWith('oggetto.')) {
+      const id = v.quality.slice(8);
+      d = descriviOggetto(id, c);
+      const n = s.quality[v.quality] ?? 0;
+      if (indossato(s, id)) nota = 'In uso';
+      else if (n > 0) nota = `Ne hai ${n}`;
+    } else { const q = c.quality.find((z) => z.id === v.quality); d = { nome: q?.nome ?? v.quality, dettagli: `${q?.descrizione ?? ''} Ne hai ${mezzi(s.quality[v.quality] ?? 0)}.`, immagine: q?.immagine }; }
+    const ok = monete >= v.prezzo;
+    return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}${nota ? ` · ${h(nota)}` : ''}</small></span>
+      <span class="prezzo">${v.prezzo}</span>
+      <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>Compra</button></li>`;
   }).join('');
+  const compra = n.compra.map((v) => {
+    const q = c.quality.find((z) => z.id === v.quality);
+    const hai = s.quality[v.quality] ?? 0;
+    return `<li class="${hai < 1 ? 'assente' : ''}">${tavola(q?.immagine, { classe: 'icona' })}<span class="merce"><b>${h(q?.nome ?? v.quality)}</b><small>Ne hai ${mezzi(hai)}</small></span>
+      <span class="prezzo">${v.prezzo}</span>
+      <span class="doppio"><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="1" ${hai >= 1 ? '' : 'disabled'}>Vendi 1</button><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="tutti" ${hai >= 2 ? '' : 'disabled'}>Tutti</button></span></li>`;
+  }).join('');
+  return `<section class="bottega">
+    <header class="scena-testa">
+      ${tavola(n.immagine, { classe: 'ritratto' })}
+      <div class="scena-titoli">${etichetta('Bottega', 'velo')}<h2>${h(n.nome)}</h2>${prosa(n.testo)}</div>
+    </header>
+    ${vende ? `<h3 class="titolo-sezione">In vendita</h3><ul class="listino">${vende}</ul>` : ''}
+    ${compra ? `<h3 class="titolo-sezione">Compra da te</h3><ul class="listino">${compra}</ul>` : ''}
+  </section>`;
 }
 
 // ================================================================ MAPPA

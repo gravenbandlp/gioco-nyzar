@@ -92,6 +92,23 @@ Orchi delle cinque tribù, il sacerdote-guerriero col tamburo, il cinghiale muta
 
 Raccontare storie a Liaren, per uno sconto e PE in Espressività; le ricerche in Biblioteca, che danno informazioni; le serate alla Maison, per voci e fiducia di Nerissa; i falsi di Rozalia alla Pignatta; le pattuglie con la milizia, che fanno salire `rep.caserma`; le prove al Teatro; l'Arena.
 
+## Dopo la trama: la città viva
+
+Deciso il 1° ottobre 2026. Chiusa la trama principale del Capitolo I (blocchi 6–8), si fa un passaggio "città
+viva", un luogo alla volta. Ogni luogo importante riceve un'attività ripetibile tipica, un servizio (negozio,
+maestro, cure), una reputazione propria a gradini e due o tre storie secondarie che si aprono con quella
+reputazione. Per la magia: l'Arte dei cristalli all'Accademia di Torvessa, la Liturgia dell'Albero in Cattedrale,
+la Via del Respiro al Circolo, le Formule precuriane con Ambrin e i reperti. I villaggi fuori città diventano zone
+vere solo dal Capitolo II, quando la storia lascia Qir-Azel.
+
+**I luoghi (fatto il 1° ottobre 2026).** Il passaggio poggia sui mini-hub già pronti: `contenuti/luoghi.yaml`
+definisce i luoghi di ogni quartiere (immagine, una riga per la scheda, una presentazione, le botteghe che vi si
+aprono), e gli storylet vi si agganciano con `presso: <luogo>`. Il quartiere mostra le occasioni, *La tua
+storia* (tutte le storie disponibili, ovunque siano), la griglia dei luoghi con il conto di storie e cose da fare,
+e *In giro per…* con i ripetibili senza luogo. Un luogo senza niente di disponibile non compare. I luoghi sono
+solo presentazione: entrarci non costa candele. Le storie nuove dei blocchi 6–8 vanno agganciate a un luogo
+quando ne hanno uno; l'Acciaieria diventa luogo nel blocco 6, quando ha più di un ripetibile.
+
 ## Ordine di produzione
 
 1. Prologhi per origine, il Grifone come casa, il sistema delle spedizioni.

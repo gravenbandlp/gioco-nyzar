@@ -73,6 +73,7 @@ export const Storylet = z.object({
   tipo: z.enum(['fisso', 'carta', 'crisi', 'penalita', 'oggetto', 'seguito', 'prologo']).default('fisso'),
   ripetibile: z.boolean().default(false),
   luogo: z.string().optional(), // sottotitolo: dove avviene
+  presso: Id.optional(), // il luogo dell'area (mini-hub) dove si trova; senza, resta "in giro per il quartiere"
   requisiti: z.array(z.string()).default([]),
   testo: z.string(),
   opzioni: z.array(Opzione).min(1),
@@ -96,6 +97,19 @@ export const Area = z.object({
     soglia: z.number().int().min(1), // profondità a cui si apre il cuore della spedizione (per la barra)
     stanze: z.number().int().min(1).default(3), // quante stanze si vedono alla volta
   }).optional(),
+});
+
+// Luoghi: edifici e angoli di un quartiere che raccolgono le loro storie e le loro botteghe (mini-hub,
+// come in Fallen London). Sono solo presentazione: entrarci non costa nulla e non cambia lo stato.
+export const Luogo = z.object({
+  id: Id,
+  area: Id,
+  nome: z.string(),
+  immagine: Immagine.optional(),
+  sommario: z.string(), // una riga sulla scheda del quartiere
+  testo: z.string(), // la presentazione in cima alla pagina del luogo
+  negozi: z.array(Id).default([]), // botteghe che si aprono qui (devono stare anche nell'area)
+  requisiti: z.array(z.string()).default([]), // se non soddisfatti, il luogo non compare
 });
 
 export const Quality = z.object({
@@ -357,6 +371,7 @@ export const Contenuti = z.object({
   mutazioni: z.array(Mutazione).default([]),
   oggetti: z.array(Oggetto).default([]),
   glossario: z.array(Voce).default([]),
+  luoghi: z.array(Luogo).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -379,4 +394,5 @@ export type TIncantesimo = z.infer<typeof Incantesimo>;
 export type TModifica = z.infer<typeof Modifica>;
 export type TFrammento = z.infer<typeof Frammento>;
 export type TVoce = z.infer<typeof Voce>;
+export type TLuogo = z.infer<typeof Luogo>;
 export type TContenuti = z.infer<typeof Contenuti>;

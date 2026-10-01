@@ -3,6 +3,7 @@
 // con un elenco di errori leggibili: meglio qui che a metà partita.
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { createRequire } from 'node:module';
 import { parse } from 'yaml';
 import { Contenuti, COSTI_PROPRIETA, DIFETTI, OVUNQUE, type TContenuti } from '../src/motore/contenuto';
 import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
@@ -11,8 +12,28 @@ import { parseRequisito } from '../src/motore/personaggio';
 const RADICE = new URL('..', import.meta.url).pathname;
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
+const USCITA_ICONE = join(RADICE, 'src', 'generato', 'icone.json');
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario'] as const;
+/** Prefisso delle icone di game-icons.net (CC BY 3.0): "icone/<nome>", disegnate in SVG e colorate dal CSS. */
+export const ICONE = 'icone/';
+let catalogoIcone: Record<string, { body: string }> | null = null;
+function catalogo(): Record<string, { body: string }> {
+  catalogoIcone ??= (createRequire(import.meta.url)('@iconify-json/game-icons/icons.json') as { icons: Record<string, { body: string }> }).icons;
+  return catalogoIcone;
+}
+/** Le icone citate nei contenuti, con il loro disegno. */
+export function iconeCitate(c: TContenuti): { icone: Record<string, string>; errori: string[] } {
+  const icone: Record<string, string> = {}; const errori: string[] = [];
+  for (const t of tavoleCitate(c)) {
+    if (!t.startsWith(ICONE)) continue;
+    const nome = t.slice(ICONE.length);
+    const ic = catalogo()[nome];
+    if (ic) icone[nome] = ic.body; else errori.push(`icona "${nome}" non trovata in game-icons.net`);
+  }
+  return { icone, errori };
+}
+
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -184,6 +205,28 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     });
   }
 
+  // Luoghi (mini-hub): stanno in un'area della città, aprono botteghe di quell'area, raccolgono storylet della stessa area.
+  for (const l of c.luoghi) {
+    const dove = `luogo ${l.id}`;
+    const a = c.aree.find((x) => x.id === l.area);
+    if (!a) { errori.push(`${dove}: area sconosciuta "${l.area}"`); continue; }
+    if (a.penalita || a.spedizione) errori.push(`${dove}: i luoghi stanno nelle aree della città, non in ${a.id}`);
+    requisiti(dove, l.requisiti);
+    for (const n of l.negozi) {
+      if (!negozi.has(n)) errori.push(`${dove}: negozio sconosciuto "${n}"`);
+      else if (!a.negozi.includes(n)) errori.push(`${dove}: il negozio "${n}" non è fra quelli di ${a.id}`);
+    }
+    const dentro = c.storylet.filter((st) => st.presso === l.id && st.tipo !== 'seguito').length + l.negozi.length;
+    if (dentro < 2) avvisi.push(`${dove}: contiene solo ${dentro} ${dentro === 1 ? 'cosa' : 'cose'}, forse non serve un luogo a parte`);
+  }
+  for (const st of c.storylet) {
+    if (!st.presso) continue;
+    const l = c.luoghi.find((x) => x.id === st.presso);
+    if (!l) errori.push(`storylet ${st.id}: luogo sconosciuto "${st.presso}"`);
+    else if (l.area !== st.area) errori.push(`storylet ${st.id}: il luogo ${l.id} sta in ${l.area}, lo storylet in ${st.area}`);
+    if (st.tipo === 'carta' || st.tipo === 'crisi' || st.tipo === 'prologo') errori.push(`storylet ${st.id}: ${st.tipo === 'carta' ? 'le occasioni' : st.tipo === 'crisi' ? 'le crisi' : 'i prologhi'} non stanno in un luogo`);
+  }
+
   // Glossario: ogni forma (nome o alias) appartiene a una sola voce; le voci mai citate sono sospette.
   const forme = new Map<string, string>();
   for (const v of c.glossario) {
@@ -274,7 +317,9 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 /** Ogni tavola citata deve essere già stata importata (npm run tavole). */
 export function controllaTavole(c: TContenuti): string[] {
   const errori: string[] = [];
+  errori.push(...iconeCitate(c).errori);
   for (const t of tavoleCitate(c)) {
+    if (t.startsWith(ICONE)) continue;
     for (const taglio of ['s', 'l']) {
       if (!existsSync(join(RADICE, 'public', 'tavole', `${t}-${taglio}.webp`))) {
         errori.push(`tavola "${t}" non importata: esegui npm run tavole`);
@@ -308,6 +353,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
   mkdirSync(join(RADICE, 'src', 'generato'), { recursive: true });
   writeFileSync(USCITA, JSON.stringify(contenuti, null, 1));
+  writeFileSync(USCITA_ICONE, JSON.stringify(iconeCitate(contenuti).icone));
   console.log(
     `Contenuti validi: ${contenuti.storylet.length} storylet, ${contenuti.aree.length} aree, ` +
       `${contenuti.quality.length} quality, ${contenuti.scontri.length} scontri, ${contenuti.origini.length} origini.`,

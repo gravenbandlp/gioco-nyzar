@@ -9,7 +9,7 @@ import { srcTavola } from './componenti';
 const tenute = new Map<string, HTMLImageElement>(); // i riferimenti tengono le immagini decodificate in memoria
 
 function carica(url: string): void {
-  if (tenute.has(url)) return;
+  if (tenute.has(url) || url.startsWith('tavole/icone/')) return; // le icone sono SVG in linea
   const img = new Image();
   img.decoding = 'async';
   img.src = url;
@@ -56,4 +56,5 @@ export function precaricaIntorno(s: Stato, c: TContenuti): void {
   for (const st of vicini) for (const t of tavoleDi(st)) grandi.add(t);
   for (const t of grandi) { carica(srcTavola(t, 'l')); carica(srcTavola(t, 's')); }
   for (const a of c.aree) if (a.immagine) carica(srcTavola(a.immagine, 'l')); // le copertine della mappa
+  for (const l of c.luoghi) if (l.area === s.area && l.immagine) carica(srcTavola(l.immagine, 'l')); // le pagine dei luoghi
 }

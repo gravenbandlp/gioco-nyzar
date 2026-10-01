@@ -1,9 +1,18 @@
 // Pezzi grafici riutilizzati da tutte le viste. Restituiscono stringhe HTML.
+import ICONE from '../generato/icone.json';
 import type { TContenuti, TOggetto, TVoce } from '../motore/contenuto';
 import { NOMI_DIFETTI } from '../motore/contenuto';
 import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, CANDELE_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
 import { h, mezzi } from './formato';
+
+/** Le icone minori (game-icons.net, CC BY 3.0) sono SVG in linea, colorati dal CSS. */
+export const èIcona = (t: string): boolean => t.startsWith('icone/');
+function iconaSvg(t: string, classe = ''): string {
+  const nome = t.slice(6);
+  const corpo = (ICONE as Record<string, string>)[nome] ?? '';
+  return `<figure class="tavola icona-svg ${classe}" data-icona="${nome}"><svg viewBox="0 0 512 512" aria-hidden="true">${corpo}</svg></figure>`;
+}
 
 /** Percorso di una tavola importata dal Codex. */
 export function srcTavola(t: string, taglio: 's' | 'l' = 's'): string {
@@ -15,6 +24,7 @@ export function srcTavola(t: string, taglio: 's' | 'l' = 's'): string {
  * "Tavola non catalogata", così si vede dove andrà un'illustrazione.
  */
 export function tavola(t: string | undefined, opz: { classe?: string; taglio?: 's' | 'l'; alt?: string; didascalia?: string } = {}): string {
+  if (t && èIcona(t)) return iconaSvg(t, opz.classe);
   const cls = `tavola ${opz.classe ?? ''}`.trim();
   const img = t
     ? `<img src="${srcTavola(t, opz.taglio)}" alt="${h(opz.alt ?? '')}" decoding="sync">`

@@ -20,7 +20,7 @@ import {
   pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
 } from './viste';
 
-interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda }
+interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string }
 
 const CHIAVE = 'gioco-nyzar/prototipo/v1';
 const AREA_INIZIALE = 'citta-bassa';
@@ -33,6 +33,7 @@ let confermaNuovo = false;
 let avviso = '';
 let frammentoId: string | null = null;
 let bersaglio: string | undefined;
+let luogo: string | undefined; // il mini-hub aperto dentro l'area
 
 const app = document.getElementById('app')!;
 
@@ -40,7 +41,7 @@ const app = document.getElementById('app')!;
 
 function salva(): void {
   try {
-    if (stato) localStorage.setItem(CHIAVE, JSON.stringify({ stato, vista, scheda } satisfies Salvataggio));
+    if (stato) localStorage.setItem(CHIAVE, JSON.stringify({ stato, vista, scheda, luogo } satisfies Salvataggio));
     else localStorage.removeItem(CHIAVE);
   } catch { /* senza memoria del browser si gioca lo stesso, solo senza salvare */ }
 }
@@ -59,6 +60,7 @@ function carica(dati?: Partial<Salvataggio>): void {
     migraOggetti(stato);
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';
+    luogo = s.luogo;
   }
 }
 
@@ -96,12 +98,13 @@ function render(): void {
   }
   document.body.classList.remove('in-creazione');
   const s = stato;
+  if (luogo && !c.luoghi.some((l) => l.id === luogo && l.area === s.area)) luogo = undefined; // cambiata area da una storia
   impostaGlossario(c.glossario, (v) => requisitiSoddisfatti(s, v.requisiti, c));
   nascondiScheda();
   precaricaIntorno(s, c);
   const ora = Date.now();
   aggiornaTempo(stato, ora);
-  const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio };
+  const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, luogo };
   const centro = scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
     : scheda === 'bazar' ? bazar(x)
@@ -151,6 +154,8 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'area': cambia({ tipo: 'area' }); break;
+    case 'luogo': luogo = id; cambia({ tipo: 'area' }); break;
+    case 'esci-luogo': luogo = undefined; cambia({ tipo: 'area' }); break;
     case 'apri': if (c.storylet.some((z) => z.id === id)) cambia({ tipo: 'storylet', id }); break;
     case 'scegli': {
       const st = c.storylet.find((z) => z.id === id);
@@ -230,7 +235,7 @@ function azione(az: string, el: HTMLElement): void {
     }
     case 'scarta': scarta(s, id); salva(); render(); break;
     case 'vai': {
-      if (muovi(s, id, c)) { frammentoId = null; cambia({ tipo: 'area' }); }
+      if (muovi(s, id, c)) { frammentoId = null; luogo = undefined; cambia({ tipo: 'area' }); }
       else { avviso = puoEntrare(s, id, c).motivo ?? 'Non puoi andarci.'; render(); }
       break;
     }
@@ -250,7 +255,7 @@ function azione(az: string, el: HTMLElement): void {
     }
     case 'strappa': strappa(s, Number(id)); salva(); render(); break;
     case 'ritirata': {
-      if (ritirati(s, c)) { salva(); frammentoId = null; cambia({ tipo: 'area' }); }
+      if (ritirati(s, c)) { luogo = undefined; salva(); frammentoId = null; cambia({ tipo: 'area' }); }
       break;
     }
     case 'compra': {
@@ -268,7 +273,7 @@ function azione(az: string, el: HTMLElement): void {
     case 'ricarica': s.candele = CANDELE_MAX; s.candeleAl = ora; s.coda = CODA_MAX; s.codaAl = ora; salva(); render(); break;
     case 'nuovo': {
       if (!confermaNuovo) { confermaNuovo = true; render(); break; }
-      stato = null; vista = { tipo: 'area' }; scheda = 'storia'; confermaNuovo = false; salva(); render();
+      stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; salva(); render();
       window.scrollTo({ top: 0 });
       break;
     }
@@ -315,7 +320,7 @@ setInterval(() => {
 // ---------------------------------------------------------------- avvio
 interface Hot { snapshot?: (f: () => unknown) => void; ready?: (f: (d: unknown) => void) => void; data?: unknown }
 const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
-hot?.snapshot?.(() => ({ stato, vista, scheda }));
+hot?.snapshot?.(() => ({ stato, vista, scheda, luogo }));
 avviaSchede(c.glossario);
 const avvia = (dati: unknown) => { carica(dati as Partial<Salvataggio> | undefined); render(); precaricaMiniature(c); };
 if (hot?.ready) hot.ready(avvia);
