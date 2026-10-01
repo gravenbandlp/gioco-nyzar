@@ -1,0 +1,74 @@
+# Audio del gioco. Due canali che suonano insieme, ciascuno in loop e con il suo volume:
+# la musica (la colonna sonora) e l'ambiente (rumori di fondo).
+#
+# Le tracce originali stanno fuori dal repository, in ../audio-nyzar/musica e ../audio-nyzar/ambienti, perché
+# il repository è pubblico e le licenze non permettono di ridistribuire i file sciolti. `npm run audio` le
+# importa in public/audio/<tipo>/<id>.mp3 (cartella ignorata da git) e le include nel gioco pubblicato.
+#
+# `volume` livella le tracce fra loro: la musica è portata a circa -20 LUFS, gli ambienti a circa -26.
+#
+# La colonna sonora dice cosa suona dove. Vince la voce più specifica:
+#   combattimento > crisi > prologo > luogo > area > predefinita (e creazione, prima di avere un personaggio).
+# Una voce può dare solo la musica o solo l'ambiente: il resto si eredita dal livello sotto.
+# `ambiente: nessuno` spegne l'ambiente ereditato.
+
+tracce:
+  # ------------------------------------------------------------ musica (colonna sonora dark fantasy, due volumi)
+  - { id: elkmire-keep, tipo: musica, titolo: Elkmire Keep, sorgente: "Elkmire Keep (LOOP).mp3", volume: 0.52 }
+  - { id: distant-journey, tipo: musica, titolo: Distant Journey, sorgente: "Distant Journey (LOOP).mp3", volume: 0.72 }
+  - { id: desolate-march, tipo: musica, titolo: Desolate March, sorgente: "Desolate March (LOOP).mp3", volume: 0.85 }
+  - { id: unsettling-paths, tipo: musica, titolo: Unsettling Paths, sorgente: "Unsettling Paths (LOOP).mp3", volume: 0.92 }
+  - { id: arathots-keep, tipo: musica, titolo: "Arathot's Keep", sorgente: "Arathots Keep - (LOOP).mp3", volume: 0.8 }
+  - { id: kingdom-of-branevil, tipo: musica, titolo: Kingdom of Branevil, sorgente: "Kingdom of Branevil - (LOOP).mp3", volume: 0.79 }
+  - { id: chapel-of-nyx, tipo: musica, titolo: Chapel of Nyx, sorgente: "Chapel of Nyx (LOOP).mp3", volume: 1 }
+  - { id: library-of-veles, tipo: musica, titolo: Library of Veles, sorgente: "Library of Veles (LOOP).mp3", volume: 0.62 }
+  - { id: nefarious-schemes, tipo: musica, titolo: Nefarious Schemes, sorgente: "Nefarious Schemes (LOOP).mp3", volume: 0.58 }
+  - { id: goblin-ritual, tipo: musica, titolo: Goblin Ritual, sorgente: "Goblin Ritual (LOOP).mp3", volume: 0.74 }
+
+  # ------------------------------------------------------------ ambienti (Andrea Baroni, Cyberleaf Studio, Fantasy Ambiences)
+  - { id: temple-mystical, tipo: ambiente, titolo: Temple - Mystical, autore: Andrea Baroni, sorgente: Temple-Mystical.wav, volume: 0.8 }
+  - { id: temple-quiet, tipo: ambiente, titolo: Temple - Quiet, autore: Andrea Baroni, sorgente: Temple-Quiet }
+  - { id: village, tipo: ambiente, titolo: Village, autore: Andrea Baroni, sorgente: Village }
+  - { id: minetown, tipo: ambiente, titolo: Minetown, autore: Andrea Baroni, sorgente: Minetown }
+  - { id: forest-night, tipo: ambiente, titolo: Forest - Night, autore: Andrea Baroni, sorgente: Forest-Night }
+  - { id: forest-creepy, tipo: ambiente, titolo: Forest - Windy and Creepy, autore: Andrea Baroni, sorgente: Forest-WindyAndCreepy }
+  - { id: cave, tipo: ambiente, titolo: Cave, autore: Andrea Baroni, sorgente: Cave }
+  - { id: dungeon, tipo: ambiente, titolo: Dungeon I, autore: Andrea Baroni, sorgente: DungeonI }
+  - { id: hellish-dungeon, tipo: ambiente, titolo: Hellish Dungeon I, autore: Andrea Baroni, sorgente: HellishDungeonI }
+  - { id: mines, tipo: ambiente, titolo: Mines, autore: Andrea Baroni, sorgente: Mines }
+  - { id: campfire, tipo: ambiente, titolo: Campfire, autore: Andrea Baroni, sorgente: ExtraLayer-Campfire }
+
+colonna:
+  # ------------------------------------------------------------ contesti generali
+  - { contesto: predefinita, musica: elkmire-keep }
+  - { contesto: creazione, musica: distant-journey }
+  - { contesto: prologo, musica: goblin-ritual, ambiente: nessuno }
+  - { contesto: combattimento, musica: arathots-keep }
+  - { contesto: crisi, musica: unsettling-paths, ambiente: hellish-dungeon }
+
+  # ------------------------------------------------------------ quartieri
+  - { contesto: area, id: citta-bassa, musica: elkmire-keep, ambiente: minetown }
+  - { contesto: area, id: ponti-sospesi, musica: kingdom-of-branevil, ambiente: village }
+  - { contesto: area, id: quartieri-alti, musica: chapel-of-nyx, ambiente: temple-quiet }
+
+  # ------------------------------------------------------------ luoghi
+  - { contesto: luogo, id: pignatta-grassa, musica: nefarious-schemes }
+  - { contesto: luogo, id: via-dei-rasoi, musica: nefarious-schemes }
+  - { contesto: luogo, id: cimitero-di-qir-azel, musica: chapel-of-nyx, ambiente: forest-night }
+  - { contesto: luogo, id: grifone-di-ferro, musica: distant-journey, ambiente: campfire }
+  - { contesto: luogo, id: ponte-dei-morti, musica: desolate-march }
+  - { contesto: luogo, id: cattedrale-del-velo, musica: chapel-of-nyx, ambiente: temple-mystical }
+  - { contesto: luogo, id: biblioteca-di-qir-azel, musica: library-of-veles, ambiente: nessuno }
+  - { contesto: luogo, id: accademia-di-torvessa, musica: library-of-veles, ambiente: nessuno }
+  - { contesto: luogo, id: teatro-delle-meraviglie, musica: kingdom-of-branevil, ambiente: nessuno }
+
+  # ------------------------------------------------------------ fuori città
+  - { contesto: area, id: foresta-strisciante, musica: unsettling-paths, ambiente: forest-creepy }
+  - { contesto: area, id: roccia-di-wren, musica: unsettling-paths, ambiente: forest-night }
+  - { contesto: area, id: palude-acquanera, musica: desolate-march, ambiente: forest-night }
+
+  # ------------------------------------------------------------ aree di penalità
+  - { contesto: area, id: prigione, musica: desolate-march, ambiente: dungeon }
+  - { contesto: area, id: ostracismo, musica: desolate-march, ambiente: village }
+  - { contesto: area, id: convalescenza, musica: chapel-of-nyx, ambiente: temple-quiet }
+  - { contesto: area, id: delirio, musica: unsettling-paths, ambiente: hellish-dungeon }

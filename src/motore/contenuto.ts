@@ -355,6 +355,27 @@ export const Voce = z.object({
   requisiti: z.array(z.string()).default([]), // se non soddisfatti, il nome resta testo semplice
 });
 
+// Audio: tracce (musica e ambienti in loop) e la colonna sonora, cioè quale traccia suona dove.
+// I file stanno in public/audio/<tipo>/<id>.mp3, importati con npm run audio.
+export const Traccia = z.object({
+  id: Id,
+  tipo: z.enum(['musica', 'ambiente']),
+  titolo: z.string(),
+  autore: z.string().optional(),
+  sorgente: z.string(), // nome del file originale nella cartella audio-nyzar
+  volume: z.number().min(0).max(1).default(1), // livellamento fra tracce (1 = com'è)
+});
+export const CONTESTI_AUDIO = ['predefinita', 'creazione', 'prologo', 'combattimento', 'crisi', 'area', 'luogo'] as const;
+export const VoceColonna = z.object({
+  contesto: z.enum(CONTESTI_AUDIO),
+  id: Id.optional(), // l'area o il luogo, per i contesti area e luogo
+  musica: Id.optional(),
+  ambiente: Id.optional(), // "nessuno" spegne l'ambiente ereditato
+}).superRefine((v, ctx) => {
+  if ((v.contesto === 'area' || v.contesto === 'luogo') && !v.id) ctx.addIssue({ code: 'custom', message: `il contesto ${v.contesto} richiede l'id` });
+  if (!v.musica && !v.ambiente) ctx.addIssue({ code: 'custom', message: 'serve almeno la musica o l\'ambiente' });
+});
+
 export const Contenuti = z.object({
   aree: z.array(Area),
   storylet: z.array(Storylet),
@@ -372,6 +393,8 @@ export const Contenuti = z.object({
   oggetti: z.array(Oggetto).default([]),
   glossario: z.array(Voce).default([]),
   luoghi: z.array(Luogo).default([]),
+  tracce: z.array(Traccia).default([]),
+  colonna: z.array(VoceColonna).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -395,4 +418,6 @@ export type TModifica = z.infer<typeof Modifica>;
 export type TFrammento = z.infer<typeof Frammento>;
 export type TVoce = z.infer<typeof Voce>;
 export type TLuogo = z.infer<typeof Luogo>;
+export type TTraccia = z.infer<typeof Traccia>;
+export type TVoceColonna = z.infer<typeof VoceColonna>;
 export type TContenuti = z.infer<typeof Contenuti>;

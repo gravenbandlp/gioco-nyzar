@@ -33,7 +33,7 @@ export function iconeCitate(c: TContenuti): { icone: Record<string, string>; err
   return { icone, errori };
 }
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -126,6 +126,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   // id duplicati
   for (const k of CHIAVI) {
+    if (k === 'colonna') continue; // le voci della colonna sonora si riconoscono da contesto e id
     const visti = new Set<string>();
     for (const x of c[k] as { id: string }[]) {
       if (visti.has(x.id)) errori.push(`${k}: id duplicato "${x.id}"`);
@@ -227,6 +228,23 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     if (st.tipo === 'carta' || st.tipo === 'crisi' || st.tipo === 'prologo') errori.push(`storylet ${st.id}: ${st.tipo === 'carta' ? 'le occasioni' : st.tipo === 'crisi' ? 'le crisi' : 'i prologhi'} non stanno in un luogo`);
   }
 
+  // Colonna sonora: tracce del tipo giusto, aree e luoghi esistenti, una voce per contesto.
+  const voci = new Set<string>();
+  for (const v of c.colonna) {
+    const chiave = `${v.contesto}${v.id ? `:${v.id}` : ''}`;
+    if (voci.has(chiave)) errori.push(`colonna: "${chiave}" compare due volte`);
+    voci.add(chiave);
+    if (v.contesto === 'area' && !aree.has(v.id!)) errori.push(`colonna ${chiave}: area sconosciuta`);
+    if (v.contesto === 'luogo' && !c.luoghi.some((l) => l.id === v.id)) errori.push(`colonna ${chiave}: luogo sconosciuto`);
+    for (const tipo of ['musica', 'ambiente'] as const) {
+      const t = v[tipo];
+      if (!t || (tipo === 'ambiente' && t === 'nessuno')) continue;
+      const tr = c.tracce.find((x) => x.id === t);
+      if (!tr) errori.push(`colonna ${chiave}: traccia sconosciuta "${t}"`);
+      else if (tr.tipo !== tipo) errori.push(`colonna ${chiave}: "${t}" non è ${tipo === 'musica' ? 'una musica' : 'un ambiente'}`);
+    }
+  }
+
   // Glossario: ogni forma (nome o alias) appartiene a una sola voce; le voci mai citate sono sospette.
   const forme = new Map<string, string>();
   for (const v of c.glossario) {
@@ -318,6 +336,10 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 export function controllaTavole(c: TContenuti): string[] {
   const errori: string[] = [];
   errori.push(...iconeCitate(c).errori);
+  // l'audio è facoltativo: senza file la traccia resta muta, quindi è solo un avviso
+  for (const t of c.tracce) {
+    if (!existsSync(join(RADICE, 'public', 'audio', t.tipo, `${t.id}.mp3`))) console.warn(`avviso: traccia "${t.id}" non importata (npm run audio)`);
+  }
   for (const t of tavoleCitate(c)) {
     if (t.startsWith(ICONE)) continue;
     for (const taglio of ['s', 'l']) {

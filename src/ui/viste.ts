@@ -71,7 +71,8 @@ export function pagina(x: Contesto, centro: string): string {
   </div>
   <footer class="crediti">Tavole dal Codex di Ny'Zar. Icone di Lorc, Delapouite e altri autori di
     <a href="https://game-icons.net" target="_blank" rel="noopener">game-icons.net</a>, con licenza
-    <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.</footer>`;
+    <a href="https://creativecommons.org/licenses/by/3.0/" target="_blank" rel="noopener">CC BY 3.0</a>.
+    Ambienti sonori di Andrea Baroni (<a href="https://andreabaroni.com" target="_blank" rel="noopener">andreabaroni.com</a>).</footer>`;
 }
 
 function topbar(x: Contesto): string {

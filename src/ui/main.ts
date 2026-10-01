@@ -16,6 +16,9 @@ import { durata } from './formato';
 import { impostaGlossario } from './componenti';
 import { avviaSchede, nascondiScheda } from './tooltip';
 import { precaricaIntorno, precaricaMiniature } from './precarica';
+import { Lettore, montaControlli } from './audio';
+import { sceltaAudio } from './colonna';
+import { crisiAttiva } from '../motore/crisi';
 import {
   pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
 } from './viste';
@@ -36,6 +39,7 @@ let bersaglio: string | undefined;
 let luogo: string | undefined; // il mini-hub aperto dentro l'area
 
 const app = document.getElementById('app')!;
+const lettore = new Lettore(c.tracce);
 
 // ---------------------------------------------------------------- salvataggio
 
@@ -94,6 +98,7 @@ function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
     app.innerHTML = creazione(c, origineScelta);
+    lettore.imposta(sceltaAudio(c, { creazione: true }));
     return;
   }
   document.body.classList.remove('in-creazione');
@@ -113,6 +118,20 @@ function render(): void {
     : storia(x);
   app.innerHTML = pagina(x, centro);
   avviso = '';
+  suona(s);
+}
+
+/** La musica e l'ambiente del momento: la scena aperta, il luogo, l'area. */
+function suona(s: Stato): void {
+  const idScena = vista.tipo === 'area' ? crisiAttiva(s, c)?.id : vista.id;
+  const st = idScena ? c.storylet.find((z) => z.id === idScena) : undefined;
+  lettore.imposta(sceltaAudio(c, {
+    area: s.area,
+    luogo: st?.presso ?? (luogo && c.luoghi.some((l) => l.id === luogo && l.area === s.area) ? luogo : undefined),
+    prologo: st?.tipo === 'prologo',
+    crisi: st?.tipo === 'crisi',
+    combattimento: vista.tipo === 'combattimento',
+  }));
 }
 
 /** Cambia vista e riporta lo sguardo sul pannello centrale. */
@@ -322,9 +341,10 @@ interface Hot { snapshot?: (f: () => unknown) => void; ready?: (f: (d: unknown) 
 const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
 hot?.snapshot?.(() => ({ stato, vista, scheda, luogo }));
 avviaSchede(c.glossario);
+montaControlli(lettore);
 const avvia = (dati: unknown) => { carica(dati as Partial<Salvataggio> | undefined); render(); precaricaMiniature(c); };
 if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data);
 
 // Per il debug dalla console del browser: window.nyzar.stato
-(window as unknown as Record<string, unknown>)['nyzar'] = { get stato() { return stato; }, contenuti: c };
+(window as unknown as Record<string, unknown>)['nyzar'] = { get stato() { return stato; }, contenuti: c, lettore };
