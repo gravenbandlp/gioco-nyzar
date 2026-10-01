@@ -102,7 +102,7 @@ Dopo:
 
 Il gioco distingue da solo tre registri, quindi nel testo bastano le convenzioni di scrittura:
 - **la narrazione** è il testo normale (Lora);
-- **il parlato** è tutto ciò che sta fra caporali «…», e compare in Cormorant semigrassetto, un po' più grande, dello stesso colore della narrazione;
+- **il parlato** è tutto ciò che sta fra caporali «…», e compare in Cormorant semigrassetto, un po' più grande, color oro (#d4a55a);
 - **il pensiero** del protagonista è una frase intera in corsivo che finisce con un segno di punteggiatura,
   *Questa donna sa chi sei.*, e compare in corsivo azzurro.
 
