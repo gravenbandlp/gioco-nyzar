@@ -1,6 +1,6 @@
 // Percorsi casuali lungo le piste: nessuna combinazione di scelte deve lasciare il giocatore bloccato.
 import { nuovoPersonaggio, requisitiSoddisfatti, storyletDisponibili, type Stato } from '../src/motore/personaggio';
-import { scegli, concludiCombattimento } from '../src/motore/azioni';
+import { scegli, concludiCombattimento, anteprima } from '../src/motore/azioni';
 import { round } from '../src/motore/combattimento';
 import { crisiAttiva } from '../src/motore/crisi';
 import { CONTENUTI as c } from '../src/dati/contenuti';
@@ -9,7 +9,7 @@ import { CANDELE_MAX } from '../src/motore/regole';
 import type { TStorylet } from '../src/motore/contenuto';
 
 function passo(s: Stato, st: TStorylet, rng: Rng): void {
-  const ok = st.opzioni.map((o, i) => i).filter((i) => requisitiSoddisfatti(s, st.opzioni[i]!.requisiti, c));
+  const ok = st.opzioni.map((o, i) => i).filter((i) => anteprima(s, st.opzioni[i]!, c).mancanti.length === 0);
   if (!ok.length) throw new Error(`${st.id}: nessuna opzione disponibile`);
   const i = ok[Math.floor(rng() * ok.length)]!;
   const r = scegli(s, st, i, c, 0, rng);
@@ -29,7 +29,7 @@ function percorri(origine: string, seme: number, pista: string, fine: number): n
   s.quality['informazioni.voce'] = 2;
   s.quality['monete'] = 60;
   const rng = rngConSeme(seme);
-  for (let n = 0; n < 200; n++) {
+  for (let n = 0; n < 400; n++) {
     s.candele = CANDELE_MAX;
     for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
     if ((s.quality[pista] ?? 0) >= fine) return n;
@@ -39,9 +39,14 @@ function percorri(origine: string, seme: number, pista: string, fine: number): n
     const sospeso = s.sospeso ? c.storylet.find((x) => x.id === s.sospeso) : undefined;
     if (sospeso && requisitiSoddisfatti(s, sospeso.requisiti, c) && rng() < 0.5) { passo(s, sospeso, rng); continue; }
     const v = (s.quality[pista] ?? 0);
-    const st = c.storylet.find((x) => x.tipo !== 'carta' && requisitiSoddisfatti(s, x.requisiti, c)
+    const tutti = c.storylet.filter((x) => x.tipo !== 'carta' && requisitiSoddisfatti(s, x.requisiti, c)
       && x.requisiti.some((r) => r.replace(/\s/g, '') === `${pista}==${v}`));
+    // si gioca nell'area in cui si è (in spedizione si resta dentro); altrimenti ci si sposta
+    const qui = tutti.filter((x) => x.area === s.area);
+    const scelta = qui.length ? qui : tutti;
+    const st = scelta[Math.floor(rng() * scelta.length)];
     if (!st) throw new Error(`${origine}/${seme}: bloccato a ${pista} = ${v} (area ${s.area})`);
+    if (st.area !== s.area && c.aree.find((a) => a.id === s.area)?.spedizione) throw new Error(`${origine}/${seme}: uscito dalla spedizione senza storia`);
     s.area = st.area;
     passo(s, st, rng);
   }
@@ -51,6 +56,9 @@ function percorri(origine: string, seme: number, pista: string, fine: number): n
 describe('piste', () => {
   it('la Dama d\'Argento arriva a 11 con ogni origine e scelte a caso', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.dama-argento', 11)).toBeGreaterThan(5);
+  });
+  it('il Sepolcro violato arriva a 7, passando dalla Roccia di Wren', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.sepolcro', 7)).toBeGreaterThan(6);
   });
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');

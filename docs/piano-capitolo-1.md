@@ -8,7 +8,10 @@ E5–E7 di Capomozzo) le scriviamo noi, seguendo quello che c'è prima e dopo.
 d'Argento arriva a 11 (`contenuti/piste/`), con tre strade per il passo 9 e quattro carte della Città Bassa; un
 seguito lasciato a metà resta in cima alla storia finché non lo giochi. Il 1° ottobre: più voce nei testi
 (sezione "La voce" di `docs/stile-dei-testi.md`) e il glossario dei tooltip (`contenuti/glossario/`), con la
-prima occorrenza di ogni nome sottolineata in ogni blocco di prosa.
+prima occorrenza di ogni nome sottolineata in ogni blocco di prosa. Blocco 3 fatto: il Sepolcro violato fino
+a 7 (`contenuti/piste/sepolcro-*.yaml`), con la Roccia di Wren come prima spedizione; il passo della cripta dà
+l'invito ai Quartieri Alti, così la Biblioteca è raggiungibile da ogni origine. Ogni stanza di spedizione ha una
+via senza prova che costa due candele e un po' di Ferite o Tormento.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.
@@ -24,12 +27,12 @@ Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno so
 | Pista | Contenuto (dal verbale) | Dove | Si apre con | Porta a |
 |---|---|---|---|---|
 | **Dama d'Argento** (`pista.dama-argento`, 0–11) | Via dei Rasoi e gli Scuri (patto con Rozalia, minaccia o rissa con Squiggor); il Ponte del Pesce; interrogare un morto (con la magia o pagando un sacerdote); Jass e le sue tre vie | CB, Ponti | già attiva | Registro, Tribù |
-| **Il Sepolcro violato** (`pista.sepolcro`, 0–8) | Galdrick e Borso in Caserma; cimitero e cripta; Biblioteca (Stanne, Mattias, Padre Walter: il nucleo della macchina, Balthog, le Notti Cucite); Roccia di Wren e lo spettro del Cucitore; secondo giro in Biblioteca (gli archivi mutilati su Capomozzo) | QA, CB, spedizione breve | bacheca del Grifone | Tribù, Capomozzo |
+| **Il Sepolcro violato** (`pista.sepolcro`, 0–7) | Galdrick e Borso in Caserma; cimitero e cripta; Biblioteca (Stanne, Mattias, Padre Walter: il nucleo della macchina, Balthog, le Notti Cucite); Roccia di Wren e lo spettro del Cucitore; secondo giro in Biblioteca (gli archivi mutilati su Capomozzo) | QA, CB, spedizione breve | bacheca del Grifone | Tribù, Capomozzo |
 | **La caccia di Corin** (`pista.corin`, 0–6) | Corin al Grifone; Stroud alle Scuderie della Zanna Rotta; la Foresta Strisciante (Spiumatori, fossa, vermi-carogna, cinghiale mutato); il banchetto; gli organi portati in Biblioteca | Ponti, CB, spedizione | carta o bacheca | Sepolcro (prova), Gilda |
 | **Il registro del custode** (`pista.registro`, 0–6) | Maedric Holl al Ponte dei Morti (fingerti cliente, trattare o combattere); decifrare il registro (Lira Demos o Mattias Crenn); rapporto a Galdrick; i mulini bruciati dei Malgrani | Ponti, QA | `indizio.custode-notturno` (Dama 9 → 10) | Sotto la pelle |
-| **Le cinque tribù** (`pista.tribu`, 0–6) | Municipio con Galdrick, Julia e Ilvaena; cena con Ilvaena (tribù ed eroi orchi); Palude Acquanera con Bolgrum e Skarr | QA, spedizione | Dama 11 e Sepolcro ≥ 6 | Acciaio e Ira |
+| **Le cinque tribù** (`pista.tribu`, 0–6) | Municipio con Galdrick, Julia e Ilvaena; cena con Ilvaena (tribù ed eroi orchi); Palude Acquanera con Bolgrum e Skarr | QA, spedizione | Dama 11 e Sepolcro 7 | Acciaio e Ira |
 | **Acciaio e Ira** (`pista.acciaio`, 0–8) | Ondrel irrompe al Grifone; la taverniera scomparsa e la lettera di Isvaro; l'Acciaieria (i curiosi davanti, gli orchi alla fornace, Isvaro); il diario di Isvaro; Liaren salvata; le Segrete dell'Ira (Uzgreth, Yoggoth, il Pozzo da prosciugare) | CB, spedizione | Tribù ≥ 4 | Capomozzo |
-| **Capomozzo** (`pista.capomozzo`, 0–10) | Rovolungo e Borgoth; la fortezza (Balthog, Ombrafosca); primo livello (Zagrath, i cuccioli d'orco, il diario di Aurenne, Garin e Kessa); secondo livello (Aurenne e il congegno, il Costruttore, la Maschera); ritorno in Cattedrale, la Madre del Velo, Aurenne che si risveglia; i Raschiatori e la discesa verso la Strada Antica | spedizione, QA, Ponti | Acciaio ≥ 8 e Sepolcro 8 | fine del Capitolo I |
+| **Capomozzo** (`pista.capomozzo`, 0–10) | Rovolungo e Borgoth; la fortezza (Balthog, Ombrafosca); primo livello (Zagrath, i cuccioli d'orco, il diario di Aurenne, Garin e Kessa); secondo livello (Aurenne e il congegno, il Costruttore, la Maschera); ritorno in Cattedrale, la Madre del Velo, Aurenne che si risveglia; i Raschiatori e la discesa verso la Strada Antica | spedizione, QA, Ponti | Acciaio ≥ 8 e Sepolcro 7 | fine del Capitolo I |
 
 Le prime tre piste corrono in parallelo fin dall'inizio. La discesa all'ascensore della Cicatrice chiude il capitolo; tutto il resto della città rimane giocabile.
 
