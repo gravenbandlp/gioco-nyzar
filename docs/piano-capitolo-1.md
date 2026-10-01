@@ -133,7 +133,15 @@ ognuna che porta al gradino dopo; una carta del quartiere che porta al luogo. Le
 Caserma, la Gilda, la Maison) si usa la sua reputazione. Il brief comune è nello scratchpad di lavoro
 (`brief-citta-viva.md`), e un test di percorso controlla che la catena di ogni luogo si possa chiudere.
 
-**Ordine dei luoghi.** 1. Accademia di Torvessa (fatto: l'Arte dei cristalli da zero, Tobol e Orvald, il
+**Fatto il 1° ottobre 2026: tutti i luoghi.** File in `contenuti/citta/`: accademia, cattedrale (rep.velo), nodo
+(le Formule precuriane di Ambrin, che prima nessuno insegnava), grifone (con la branda gratis dopo la chiave),
+botteghe (Fucina e Armeria, rep.botteghe), guarnigione (rep.caserma, la lista dei vice-sceriffi), municipio
+(rep.castaldi), biblioteca, teatro, maison (rep.maison), cimitero (Gundo Marl è vivo e nascosto: per la città resta
+sparito, il giocatore lo scopre nella storia a 2), ponti (il passo dei Ponti esenta dalla gabella come la licenza),
+macerie (il nuovo luogo dopo la notte della Pignatta, con `nomea.citta-bassa`), minori (Scuderie, Orlo, Segheria,
+Acciaieria: una storia ciascuno) e carte (sei carte di quartiere). La Via del Respiro resta per il Bosco di Velthar.
+
+**Ordine seguito.** 1. Accademia di Torvessa (l'Arte dei cristalli da zero, Tobol e Orvald, il
 registro delle allieve con Aurenne, la cattedra); 2. Cattedrale del Velo (la Liturgia); 3. Mercato dei Nodi e il
 banco di Ambrin (le Formule precuriane); 4. Grifone di Ferro; 5. Fucina dei Due Mastini e Armeria di Irsa;
 6. Guarnigione; 7. Municipio; 8. Biblioteca; 9. Teatro delle Meraviglie; 10. Via dei Rasoi e la Maison;

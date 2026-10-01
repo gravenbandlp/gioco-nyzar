@@ -208,7 +208,7 @@ export function puoEntrare(s: Stato, areaId: string, c: TContenuti): { ok: boole
   if (area.penalita) return { ok: false, motivo: 'Non ci si va di propria volontà.', gabella: 0 };
   if (area.spedizione) return { ok: false, motivo: 'Ci si arriva solo con le storie.', gabella: 0 };
   const mancanti = requisitiMancanti(s, area.accesso, c);
-  const esente = (s.quality['licenza-gilda'] ?? 0) > 0;
+  const esente = (s.quality['licenza-gilda'] ?? 0) > 0 || (s.quality['ponti.passo'] ?? 0) > 0; // il passo dei Ponti vale quanto la licenza
   const gabella = esente ? 0 : area.gabella;
   if (mancanti.length) return { ok: false, motivo: 'Non hai accesso.', gabella };
   if ((s.quality['monete'] ?? 0) < gabella) return { ok: false, motivo: `Serve la gabella: ${gabella} monete.`, gabella };

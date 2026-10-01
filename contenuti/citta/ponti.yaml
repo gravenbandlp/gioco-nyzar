@@ -1,0 +1,1082 @@
+# La città viva, luogo 12: i Ponti (presso: ponte-delle-mille-corde e ponte-dei-morti, area ponti-sospesi).
+# L'attività sulle assi, le tre storie di rep.ponti (2 il braciere di Mamma Tesh, 4 le lanterne del Ponte dei
+# Morti, 6 il passo dei Ponti, ognuna con il suo flag) e la carta del carro bloccato. Il servizio c'è già:
+# il poligono dei Custodi (contenuti/allenamento.yaml) e le lanterne del Ponte dei Morti
+# (contenuti/aree/ponti-sospesi.yaml).
+# Reputazione: le storie la portano a 3, 5 e 7; l'attività la fa salire fino a 4 e, con tre opzioni fra 4 e 6
+# su attributi diversi, fino a 6.
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: sulle-assi
+    presso: ponte-delle-mille-corde
+    immagine: ambientazione/ponti-sospesi
+    titolo: Sulle assi
+    sommario: "All'imbocco del Ponte delle Mille Corde c'è sempre una gabella da contare o un'asse da cambiare, e sotto le travi un braciere che vuole legna."
+    luogo: Ponte delle Mille Corde, l'imbocco
+    area: ponti-sospesi
+    ripetibile: true
+    testo: |
+      All'imbocco del Ponte delle Mille Corde il gabbiotto dei Custodi di
+      Passaggio fa da dogana e da riparo contro la pioggia, e dalla
+      finestrella esce a ogni carro la stessa domanda sulla gabella. Sulla
+      porta è appesa la tavoletta dei turni scritta a gesso. Qualcuno ha
+      disegnato un paio di baffi accanto al nome di un Custode, e il Custode,
+      invece di cancellarli, li ha ripassati con il gesso buono.
+
+      Da qui il ponte parte sopra il vuoto e vibra di continuo sotto le ruote.
+      I ponteggiatori della Gilda ci lavorano a ogni ora, appesi alle funi con
+      il martello alla cintura, a cambiare le assi marce prima che le trovi un
+      piede. Fra le fessure del tavolato sale un filo di fumo. Viene dai
+      sottoponti, dove Mamma Tesh tiene acceso il suo braciere, e chi passa di
+      sopra lo annusa senza domandarsi da dove arrivi.
+
+      Le assi ti si muovono sotto le suole a ogni carro, e alle ginocchia
+      serve un po' di tempo per smettere di opporsi. Un Custode con il
+      cappello della Gilda calcato sugli occhi ti guarda dalla finestrella e
+      alza due dita, che sui ponti è il segno per dire che una mano in più
+      serve sempre.
+    opzioni:
+      - testo: "Dare il cambio al gabbiotto"
+        descrizione: "Contare la gabella dei carri e tenere il registro in ordine mentre il ponte balla."
+        requisiti: [rep.ponti < 2]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Il conto torna
+          testo: |
+            Ti siedi nel gabbiotto al posto del Custode, che va a mangiare sulla
+            piattaforma di fronte senza perderti d'occhio. Conti la gabella di
+            ogni carro sul palmo e la segni sul registro incatenato al banco.
+            Quando un carrettiere ti allunga una moneta tosata gliela rendi e
+            tieni il palmo aperto, finché non ne tira fuori una buona. Al cambio del turno
+            il Custode rifà il conto con il dito, e gli torna. Ti dà due monete e
+            il permesso di tornare domani.
+          effetti: { monete: 2, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Una moneta in meno
+          testo: |
+            Ti siedi nel gabbiotto e conti la gabella dei carri, ma all'ora di
+            punta ne arrivano tre insieme e il registro ti scappa di mano. Al
+            cambio del turno il Custode rifà il conto e trova una moneta in meno.
+            La mette di tasca sua sospirando, ti paga una moneta per la mattinata
+            e ti dice che domani i carri li conta lui.
+          effetti: { monete: 1 }
+
+      - testo: "Dare il cambio al gabbiotto"
+        descrizione: "Varn Kett ti lascia il registro e va a fare il giro dei ponti. Quando torna lo controlla riga per riga, a memoria."
+        immagine: personaggi/varn-kett
+        requisiti: [rep.ponti >= 2, rep.ponti < 4]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Riga per riga
+          testo: |
+            Varn Kett ti lascia il gabbiotto per tutta la mattina e va a fare il
+            giro dei ponti con le mani dietro la schiena. Quando torna il registro
+            nemmeno lo guarda. Ti recita in ordine i carri della mattina con l'ora
+            e il carico di ciascuno, e tu segui sulle tue righe con il dito.
+            Coincidono tutte. Varn chiude la mano destra su una penna che non c'è
+            e scrive qualcosa nell'aria, poi ti conta tre monete sul banco.
+          effetti: { monete: 3, rep.ponti: 0.5 }
+        fallimento:
+          titolo: L'ora sbagliata
+          testo: |
+            Varn torna dal giro e ti recita a memoria i carri della mattina con
+            l'ora e il carico di ciascuno. Al quarto si ferma, perché sul tuo
+            registro quel carro è passato un'ora prima. Ha ragione lui, e lo sapete tutti e due.
+            Corregge la riga con la sua grafia da notaio e ti paga una moneta,
+            mentre la mano destra continua a scrivere nell'aria.
+          effetti: { monete: 1 }
+
+      - testo: "Fermare un carro che non vuole pagare"
+        descrizione: "Un carrettiere dice che lui la gabella non la paga, perché alla Pignatta Grassa gli hanno promesso che non l'avrebbe pagata."
+        requisiti: [rep.ponti < 4, pista.pelle < 6]
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: L'accordo per iscritto
+          testo: |
+            Ti pianti davanti al mulo con le braccia incrociate, e il carrettiere
+            ti ripete che ha un accordo con la Pignatta. Gli chiedi di mostrarti
+            l'accordo per iscritto. Lui ci pensa e lancia un'occhiata al Custode
+            alle tue spalle, poi al vuoto oltre il parapetto, e alla fine conta
+            due monete sul palmo come se gli costassero un dente. Il Custode le
+            infila nella cassetta e te ne passa altre due, per il disturbo.
+          effetti: { monete: 2, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Il mulo passa
+          testo: |
+            Gli dici che la gabella la pagano tutti, e lui ti risponde che allora
+            puoi andare a riscuoterla alla Pignatta Grassa, dove ti aspettano. Il
+            mulo intanto avanza di un passo, poi di un altro, e tu ti scansi prima
+            di accorgertene. Il Custode segna sulla lavagnetta una gabella persa
+            e poi, sotto, una crocetta accanto al tuo nome.
+
+      - testo: "Fermare un carro che non vuole pagare"
+        descrizione: "Dopo la notte della Pignatta i carrettieri che si dicevano protetti hanno smesso di dirlo. Qualcuno ci prova ancora."
+        requisiti: [rep.ponti < 4, pista.pelle >= 6]
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: Le travi bruciate
+          testo: |
+            Il carrettiere comincia a dire che lui ha un accordo, poi si ricorda
+            con chi era l'accordo e si ferma a metà della frase. Gli fai notare
+            che della Pignatta Grassa sono rimaste le travi bruciate, e che a
+            protestare con le travi si fa poca strada. Lui paga la gabella intera
+            e chiede pure la ricevuta, che il Custode gli scrive con molta cura.
+            Per il disturbo il Custode ti passa due monete.
+          effetti: { monete: 2, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Un protettore nuovo
+          testo: |
+            Il carrettiere ti dice che adesso il suo protettore è un altro, e che
+            gli conviene non fare il nome. Mentre cerchi di capire se è una
+            bugia il mulo avanza, e tu ti scansi. Il Custode segna la gabella
+            persa sulla lavagnetta e ti dice di lasciar perdere, perché quel carro
+            lo conosce e domani ripassa.
+
+      - testo: "Cambiare un'asse con i ponteggiatori"
+        descrizione: "Ormun Pell, il caposquadra dei ponteggiatori, cerca sempre braccia per tenere la fune mentre i suoi cambiano le assi marce."
+        requisiti: [rep.ponti < 4]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Entro la settimana
+          testo: |
+            Ormun Pell è un nano largo quanto la porta del gabbiotto, sudato anche
+            nel vento, con la barba chiusa in una fascia di cuoio e un martello da
+            carpentiere alla cintura. Cammina piano sull'asse marcia e si ferma
+            dove le suole gli dicono di fermarsi. «Entro la settimana» dice. Tu
+            tieni la fune mentre due dei suoi tolgono l'asse e ne inchiodano una
+            nuova sopra il vuoto. Alla fine Ormun ti guarda le mani spellate e ti
+            dà due monete, una per mano.
+          effetti: { monete: 2, rep.ponti: 0.5 }
+        fallimento:
+          titolo: La fune
+          testo: |
+            Tieni la fune mentre i ponteggiatori di Ormun Pell tolgono un'asse
+            marcia, ma una raffica te la strappa dalle mani e l'asse vecchia se ne
+            va nella Cicatrice prima che qualcuno la leghi. Nessuno si fa male.
+            Ormun guarda il buco nel tavolato e poi te, e dice che un'asse caduta
+            almeno non c'è da schiodarla. Ti paga una moneta lo stesso e ti
+            consiglia un paio di guanti.
+          effetti: { monete: 1 }
+
+      - testo: "Cercare chi è caduto"
+        descrizione: "Un facchino è scivolato dal ponte con la gerla, e da sopra nessuno lo vede. Sotto le assi ci sono le reti dei sottoponti."
+        immagine: ambientazione/cicatrice-del-mondo
+        prova: { attributo: mentale, abilita: [percezione, acrobazia], difficolta: Facile }
+        successo:
+          titolo: Nella rete
+          testo: |
+            Ti cali dalla scala a pioli del poligono e cerchi fra le travi,
+            seguendo le reti tese dalla gente dei sottoponti. Il facchino è nella
+            terza, avvolto nella maglia come un pesce, con la gerla rovesciata
+            sulla pancia e una caviglia storta. Gli parli finché arrivano due
+            uomini di Mamma Tesh con una fune, e insieme lo tirate su. Il suo
+            padrone, al Mercato dei Nodi, ti paga due monete per la gerla e una
+            per il facchino.
+          effetti: { monete: 3 }
+        fallimento:
+          titolo: Le reti vuote
+          testo: |
+            Cerchi fra le travi per tutto il pomeriggio, chinato sulle reti dei
+            sottoponti, e trovi un cavolo e un cappello che non è del facchino. Il
+            facchino l'hanno già tirato su da un'altra parte, ti dice una
+            ragazzina seduta su una trave, e il padrone ha pagato chi l'ha
+            trovato. Risali la scala con le mani nere di pece.
+
+      - testo: "Portare la legna al braciere di Mamma Tesh"
+        descrizione: "Una fascina sulle spalle giù per la scala a pioli, fino alla piattaforma dove il fuoco dei sottoponti non si spegne mai."
+        requisiti: [ponti.braciere == 0]
+        esito:
+          titolo: Il Capitano
+          testo: |
+            Scendi la scala a pioli con la fascina sulle spalle e le schegge che
+            ti entrano nel collo. Sulla piattaforma più larga dei sottoponti
+            Mamma Tesh, una donna piccola con le mani annerite, sta rimproverando
+            il suo braciere perché fa troppo fumo. È un vecchio elmo rovesciato,
+            e lei lo chiama il Capitano. Prende la legna e la soppesa, poi te ne
+            restituisce un ramo verde. «Questo al Capitano no, che poi tossisce»
+            dice. Ti fa sedere un momento accanto al fuoco, e quando risali il
+            ponte ti sembra meno freddo.
+          pe: { resistenza: 2 }
+
+      - testo: "Portare la legna al braciere di Mamma Tesh"
+        descrizione: "Di sotto ormai ti aspettano, e la sera intorno al Capitano si raccontano le notizie della settimana."
+        requisiti: [ponti.braciere >= 1]
+        esito:
+          titolo: Il posto buono
+          testo: |
+            Scendi con la fascina sulle spalle. Mamma Tesh ti vede arrivare dalla
+            scala e batte due volte la mano sull'asse accanto a sé, dalla parte
+            dove il Capitano scalda meglio. Mentre la legna prende ti racconta a
+            voce bassa chi è passato sotto le travi questa settimana e che cosa
+            cercava di sopra. Risali con l'odore del fumo nei vestiti e una
+            notizia da vendere.
+          pe: { resistenza: 2 }
+          effetti: { informazioni.voce: 1 }
+
+      - testo: "Leggere le corde con Ormun Pell"
+        descrizione: "Ormun sente le corde dalle suole. Vuole sapere se ci riesci anche tu, o se almeno sai leggere i nodi."
+        requisiti: [rep.ponti >= 4, rep.ponti < 6]
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Entro il mese
+          testo: |
+            Percorri con Ormun il tratto che va dal gabbiotto al Mercato, una
+            corda di sostegno alla volta. Lui si ferma ad ascoltare con i piedi e
+            ti chiede il verdetto prima di dare il suo. Alla sesta corda gli dici
+            che va cambiata entro l'anno, perché il nodo all'attacco è lucido dove
+            dovrebbe essere ruvido, e lui si gratta la barba nella fascia di
+            cuoio. «Entro il mese, ma l'hai vista» dice. A fine giro segna la
+            corda con il gesso e ti paga quattro monete.
+          effetti: { monete: 4, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Una corda buona
+          testo: |
+            Percorri il tratto con Ormun e a ogni corda gli dai il tuo verdetto.
+            Alla sesta gli dici che è buona. Lui ci sale sopra con tutta la sua
+            mole e ascolta, poi ti mostra con il pollice un trefolo spezzato sotto il
+            nodo. «Un ponte che cade dopo aver avvisato è un'occasione» dice. «Uno
+            che cade senza avvisare è una sciagura, e questa corda avvisava.» Ti
+            paga due monete e ti manda a prendere il gesso.
+          effetti: { monete: 2 }
+
+      - testo: "Mettere pace fra un Custode e i sottoponti"
+        descrizione: "Un Custode giovane ha l'ordine di tagliare una rete che la gente di sotto ha teso sotto il Mercato, e ha già il coltello in mano."
+        requisiti: [rep.ponti >= 4, rep.ponti < 6]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Rinviato
+          testo: |
+            Il Custode ha l'ordine scritto in tasca, e sotto la trave una vecchia
+            dei sottoponti tiene il capo della rete con tutte e due le mani. Gli
+            fai notare che quella rete raccoglie anche i dardi del poligono, e che
+            senza di lei la Gilda dovrebbe ricomprarli tutti. Il Custode ci pensa,
+            rimette il coltello alla cintura e scrive sull'ordine *rinviato*. La
+            vecchia ti saluta per nome, anche se il nome non gliel'hai mai detto.
+            Varn Kett ha visto tutto dalla finestrella, e ti paga quattro monete.
+          effetti: { monete: 4, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Il primo nodo
+          testo: |
+            Provi a spiegare al Custode a che cosa serve la rete, ma lui ha
+            l'ordine in tasca e Varn Kett alle spalle, e taglia il primo nodo
+            mentre parli. La vecchia dei sottoponti lascia andare la corda prima
+            di farsi tagliare le dita. Metà della rete se ne va nel vuoto, insieme
+            a un cesto di mele appena ripescato. Per qualche giorno, quando scendi
+            dalla scala a pioli, di sotto ti salutano un po' meno.
+
+      - testo: "Recuperare un carico caduto"
+        descrizione: "Una cassa del Mercato è scivolata dal ponte e si è incastrata fra due travi, sopra il vuoto. Il mercante paga chi la tira su intera."
+        immagine: ambientazione/cicatrice-del-mondo
+        requisiti: [rep.ponti >= 4, rep.ponti < 6]
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Fra due travi
+          testo: |
+            Ti leghi in vita la fune che ti passa un ponteggiatore e scendi lungo
+            la trave maestra, con il vento che ti spinge di lato e la luce della
+            Cicatrice che sale dal fondo. La cassa è incastrata di sbieco, con un
+            angolo già fuori dalla trave. La liberi un palmo alla volta e la leghi
+            alla fune, poi la guardi salire. Quando risali il mercante sta già
+            contando le stoviglie dentro, e ti paga quattro monete senza alzare
+            gli occhi dai piatti.
+          effetti: { monete: 4, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Un rumore di piatti
+          testo: |
+            Scendi lungo la trave maestra con la fune in vita, e a metà strada una
+            raffica ti costringe ad abbracciare il legno. Arrivi alla cassa con le
+            braccia che tremano. Mentre la leghi l'angolo scivola, e la cassa se
+            ne va nel vuoto con un rumore di piatti che dura molto più del
+            previsto. Il mercante non ti paga. Ormun Pell, dal ponte, ti dà una
+            moneta perché almeno la fune l'hai riportata indietro.
+          effetti: { monete: 1 }
+
+      - testo: "Fare il giro dei ponti con il passo"
+        descrizione: "Sopra e sotto le assi ti conoscono. Dal gabbiotto ai sottoponti, ognuno ha qualcosa da chiederti o da raccontarti."
+        requisiti: [ponti.passo >= 1]
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, persuasione], difficolta: Media }
+        successo:
+          titolo: Il giro lungo
+          testo: |
+            Fai il giro lungo, dal gabbiotto di Varn alla piattaforma di Mamma
+            Tesh e ritorno, e a ogni tratto qualcuno ti ferma. Un Custode ti
+            chiede di portare un messaggio ai sottoponti, e di sotto ti affidano
+            la risposta, incisa con un chiodo su un pezzo di lamiera. Un
+            ponteggiatore ti dice quale magazzino del Mercato paga i facchini in
+            ritardo, e una venditrice di funi chi ha comprato corda nuova di
+            notte. Torni al gabbiotto con sei monete di commissioni e una notizia
+            che vale qualcosa.
+          effetti: { monete: 6, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Troppi messaggi
+          testo: |
+            Fai il giro lungo, e a ogni tratto qualcuno ti affida un messaggio o
+            una commissione. A metà giornata li hai confusi. Porti ai sottoponti
+            la risposta di un Custode che era per un mercante, e al mercante il
+            prezzo delle reti. Ti ridono dietro con affetto da tutte e due le
+            parti del tavolato, e ti pagano tre monete lo stesso.
+          effetti: { monete: 3 }
+
+  # ------------------------------------------------------------ storia a 2 · il braciere di Mamma Tesh
+  - id: il-braciere-di-mamma-tesh
+    presso: ponte-delle-mille-corde
+    immagine: ambientazione/ponti-sospesi
+    titolo: Il braciere di Mamma Tesh
+    sommario: "La Casa dei Nodi ha deciso che sotto le assi del Ponte delle Mille Corde non si accendono più fuochi, e Mamma Tesh non ha nessuna intenzione di spegnere il suo."
+    luogo: Sotto il Ponte delle Mille Corde, i sottoponti
+    area: ponti-sospesi
+    requisiti: [rep.ponti >= 2, ponti.braciere == 0]
+    testo: |
+      Sulla porta del gabbiotto, sopra la tavoletta dei turni, è inchiodato un
+      foglio nuovo con il sigillo di cera della Casa dei Nodi. Dice che sotto
+      le assi del Ponte delle Mille Corde è vietato tenere fuochi accesi, e che
+      quelli che ci sono vanno spenti entro tre giorni. In fondo c'è la firma
+      di Varn Kett, con un ricciolo sulla K che da lui non ti saresti
+      aspettato.
+
+      Scendi la scala a pioli fino alla piattaforma più larga dei sottoponti,
+      dove un pilone del ponte fa riparo contro il vento. Mamma Tesh è seduta
+      accanto al suo braciere, un elmo di ferro rovesciato e annerito da anni
+      di fuoco, e gli parla a mezza voce. Intorno c'è più gente del solito, e
+      una ragazzina tiene in mano una copia del foglio, lontano dalle fiamme.
+
+      «Il Capitano l'ho ripescato da una rete la notte che il ponte bruciò, e
+      scottava ancora» dice Tesh senza alzare gli occhi. «Sono ventitré anni,
+      e di sopra il fuoco se lo ricordano ancora. Lo capisco, lo capisco.» Ci
+      soffia sopra, e il Capitano risponde con una nuvola di fumo. «Però
+      quaggiù l'inverno arriva prima, e senza di lui la gente va a dormire al
+      freddo. Qualcuno poi non si sveglia.»
+
+      Ti guarda per la prima volta. *Mi ha già trovato un posto in questa
+      storia.* Il calore del Capitano ti arriva sulle ginocchia, e le mani ti
+      si allungano verso il fuoco per conto loro.
+    opzioni:
+      - testo: "Parlare con Varn Kett"
+        descrizione: "L'ordine l'ha firmato lui, e Varn non firma niente che non abbia letto due volte. Bisogna dargli una ragione che possa scrivere."
+        immagine: personaggi/varn-kett
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: Un nome che ne risponde
+          testo: |
+            Varn ti ascolta in piedi nel gabbiotto, e la mano destra scrive
+            nell'aria per tutto il tempo. Gli dici che il braciere sta accanto al
+            pilone, a quattro braccia dalle assi, e che i sottoponti lo
+            sorvegliano giorno e notte meglio di qualunque Custode. Gli dici anche
+            chi dorme intorno a quel fuoco d'inverno. Quando hai finito la mano si
+            ferma. «Una lamiera sotto e un secchio di sabbia accanto» dice. «Poi
+            ci vuole un nome che ne risponda, e il nome è il tuo.» Stacca il
+            foglio dalla porta e lo piega in quattro.
+          pe: { persuasione: 5 }
+          imposta: { ponti.braciere: 1 }
+          effetti: { rep.ponti: 1 }
+        fallimento:
+          titolo: Il ricciolo sulla K
+          testo: |
+            Varn ti ascolta con la mano che scrive nell'aria, e a metà ti
+            interrompe. «Ventitré anni fa ho visto bruciare questo ponte dalla
+            piazza, con la divisa della milizia addosso» dice. «Da allora un fuoco
+            vicino alle assi non lo firmo per nessuno.» Ti augura buona giornata
+            con la stessa voce con cui elenca i pedaggi e chiude la finestrella.
+            L'ordine resta inchiodato alla porta, con il suo ricciolo sulla K.
+
+      - testo: "Mettere il Capitano in sicurezza"
+        descrizione: "Una lamiera sotto e una cappa sopra, per le scintille. Se il fuoco non arriva alle assi, l'ordine della Gilda perde la sua ragione."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La cappa
+          testo: |
+            Ti fai dare da un ponteggiatore di Ormun una lamiera vecchia e un
+            secchio di sabbia della Città Bassa, e passi il pomeriggio a
+            costruire sotto il Capitano un letto che non scotta. Poi pieghi
+            un'altra lamiera a cappa e la appendi sopra con il fil di ferro,
+            inclinata in modo che il fumo vada verso il vuoto e le scintille
+            ricadano nella sabbia. Mamma Tesh guarda il lavoro a braccia conserte
+            e dice al Capitano di stare dritto. A sera Varn scende la scala a
+            pioli, cosa che non fa mai. Gira due volte intorno alla cappa con
+            le mani dietro la schiena, poi risale a staccare l'ordine dalla
+            porta.
+          pe: { tecnologia: 5 }
+          imposta: { ponti.braciere: 1 }
+          effetti: { rep.ponti: 1 }
+        fallimento:
+          titolo: Il fumo
+          testo: |
+            Costruisci sotto il Capitano un letto di sabbia e sopra una cappa di
+            lamiera, ma la pieghi storta, e il fumo invece di andare verso il
+            vuoto torna giù sulla piattaforma. Per un'ora i sottoponti tossiscono,
+            e Mamma Tesh rimprovera prima il Capitano e poi te, con la stessa
+            voce. Smonti tutto prima di sera. Il foglio sulla porta del gabbiotto
+            resta dov'è.
+
+      - testo: "Spostare il braciere sul pilone"
+        descrizione: "Il pilone che ripara la piattaforma è di ferro dei Precursori, e il ferro non brucia. Ci vuole una giornata intera, e Mamma Tesh va convinta."
+        costo: 2
+        esito:
+          titolo: Sulla cengia
+          testo: |
+            Ci vuole tutta la giornata. Mamma Tesh fa il giro della piattaforma
+            tre volte prima di dire di sì, e intanto con due ragazzi dei
+            sottoponti sistemi sulla cengia del pilone un anello di pietre di
+            zavorra. Il pilone è di ferro precuriano, freddo al tatto anche a
+            mezzogiorno. Il Capitano ci sale per ultimo, portato da Tesh in persona con due
+            stracci bagnati. Da lassù il fuoco scalda la piattaforma come prima, e
+            le assi del ponte restano a cinque braccia di distanza. A sera Varn
+            guarda giù dalla finestrella, poi esce a staccare l'ordine dalla
+            porta.
+          pe: { atletica: 5 }
+          imposta: { ponti.braciere: 1 }
+          effetti: { rep.ponti: 1 }
+
+      - testo: "Pagare il lavoro ai ponteggiatori"
+        descrizione: "Ormun Pell ha lamiere e sabbia, e i suoi uomini sanno montarle. Per i ponteggiatori un fuoco sicuro è un appalto come un altro."
+        requisiti: [monete >= 12]
+        esito:
+          titolo: Un appalto
+          testo: |
+            Ormun ascolta e si gratta la barba nella fascia di cuoio, poi fa un
+            prezzo, dodici monete con il lavoro compreso. «Un lavoro pagato in
+            anticipo è il migliore che ci sia» ti dice mentre le conta. Il
+            giorno dopo due dei suoi montano sotto il Capitano un letto di
+            sabbia e sopra una cappa di lamiera, con la cura che si mette nei
+            lavori pagati prima. Ormun porta la ricevuta a Varn, che la legge
+            due volte e stacca l'ordine dalla porta.
+          pe: { politica-ed-economia: 5 }
+          imposta: { ponti.braciere: 1 }
+          effetti: { monete: -12, rep.ponti: 1 }
+
+      - testo: "Farti raccontare la notte del Capitano"
+        descrizione: "Un elmo caduto nella notte in cui bruciò il ponte. Mamma Tesh lo racconta di rado, e a te potrebbe raccontarlo."
+        costo: 0
+        esito:
+          titolo: La notte del ponte
+          testo: |
+            «Bruciava da metà in su, e da quaggiù sembrava giorno» dice Tesh, e
+            muove le mani nell'aria per farti vedere dove. Racconta delle bande
+            con le livree che si inseguivano sulle assi, e delle travi accese che
+            cadevano nella Cicatrice e per un momento ne illuminavano il fondo. Il
+            Capitano è caduto in una rete verso l'alba, con un'ammaccatura sulla
+            fronte. Sulla tesa c'era uno stemma, e qualcuno l'aveva già grattato
+            via con il coltello prima che cadesse. «Nessuno è mai venuto a
+            riprenderselo» dice, e gli dà un colpetto affettuoso. «Così adesso è
+            mio, e comanda soltanto il fumo.»
+          segue: il-braciere-di-mamma-tesh
+
+  # ------------------------------------------------------------ storia a 4 · le lanterne del Ponte dei Morti
+  - id: le-lanterne-del-ponte-dei-morti
+    presso: ponte-dei-morti
+    immagine: ambientazione/ponte-dei-morti
+    titolo: Le lanterne in fondo al ponte
+    sommario: "In fondo al Ponte dei Morti c'è una fila di lanterne che nessuna squadra cura più, e che non si spengono mai."
+    luogo: Ponte dei Morti, all'imbrunire
+    area: ponti-sospesi
+    requisiti: [rep.ponti >= 4, ponti.lanterne == 0]
+    testo: |
+      All'imbrunire, quando sui Ponti Sospesi si accendono le lanterne di
+      Mana, il Ponte dei Morti ha già le sue. Ogni squadra di Raschiatori cura
+      le proprie, toglie la fuliggine dal vetro e cambia il cristallo quando si
+      spegne. Le lanterne dei dispersi più recenti hanno ancora i nastri nuovi
+      e i nomi scritti in bella grafia.
+
+      In fondo al ponte, oltre il gabbiotto dei Custodi, c'è un tratto di
+      parapetto che nessuno sembra curare. Le lanterne lì sono vecchie, con il
+      ferro mangiato dalla ruggine e i nomi sul vetro ormai illeggibili, e
+      appartengono a squadre che non esistono più da anni. Dovrebbero essere
+      spente da un pezzo, e invece sono accese tutte, con il vetro pulito.
+      Sulla solita cassa un vecchio Raschiatore della veglia e una donna
+      della sua squadra si passano la borraccia. La donna ti vede guardare e
+      alza le spalle. «Quelle si accendono da
+      sole, dicono» fa. «Io dico che qualcuno le pulisce, perché la fuliggine
+      da sola non se ne va.»
+
+      Ti avvicini. Sotto la più vecchia, sulle assi umide di nebbia, ci sono
+      impronte di piedi nudi, piccole, che arrivano dal parapetto e al
+      parapetto tornano. *Da quella parte c'è soltanto il vuoto.* Lo stomaco ti
+      si stringe come quando guardi giù da un tetto, e ti tieni con una mano al
+      metallo freddo.
+    opzioni:
+      - testo: "Aspettare nascosto fra le lanterne"
+        descrizione: "Chi le pulisce aspetta che il ponte sia vuoto. Basta sembrarlo per un'ora o due, nascosto dietro una trave."
+        prova: { attributo: mentale, abilita: [percezione, furtivita], difficolta: Media }
+        successo:
+          titolo: Dal parapetto
+          testo: |
+            Ti siedi nella nebbia dietro una trave e lasci passare la seconda
+            campana. Poco dopo due mani piccole si aggrappano al bordo del
+            parapetto, e sul ponte sale un bambino scalzo con un sacco di tela
+            legato sulla schiena. Va dritto alla lanterna più
+            vecchia e la apre. Cambia il cristallo con uno preso dal sacco, poi
+            passa alla successiva, e intanto muove le labbra come se contasse.
+            Quando arriva alla tua trave ti vede e resta immobile, con il
+            cristallo in mano.
+          segue: lo-stoppino
+        fallimento:
+          titolo: Le impronte nuove
+          testo: |
+            Ti siedi dietro una trave e aspetti, ma la nebbia sale fitta e a un
+            certo punto ti assopisci. Quando riapri gli occhi
+            le lanterne in fondo al ponte sono pulite, e sulle assi ci sono
+            impronte nuove, piccole, che passano a un palmo dai tuoi stivali. Chi
+            è venuto ti ha visto dormire e ti ha lasciato stare. Te ne vai
+            all'alba con le ossa umide.
+
+      - testo: "Chiedere ai Raschiatori della veglia"
+        descrizione: "Passano qui tutte le notti. Se qualcuno pulisce quelle lanterne lo sanno, e forse lo proteggono."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Un bambino dei sottoponti
+          testo: |
+            Ti siedi sulla cassa con loro e accetti la borraccia. Il vecchio non
+            vuole parlare, e la donna lo lascia fare per un pezzo, poi gli dà una
+            gomitata. «È un bambino dei sottoponti, lo chiamano Stoppino» dice
+            lei, e si pulisce la bocca con il dorso della mano. «Sale dal
+            parapetto dopo la seconda campana e accende le lanterne che non hanno
+            più nessuno. Noi lo lasciamo fare e non lo diciamo in giro, perché
+            alla Gilda i bambini sui parapetti non piacciono.» Con il mento ti
+            indica un punto del parapetto, e ti avverte che se stanotte lo
+            spaventi da domani la borraccia te la porti da casa.
+          segue: lo-stoppino
+        fallimento:
+          titolo: Una lanterna per nome
+          testo: |
+            Ti siedi con loro e fai domande, e il vecchio ti risponde con il
+            detto dei Raschiatori, una lanterna per nome e una per quello che
+            pensavi di sapere di lui. Lo ripete ogni volta che chiedi qualcosa,
+            sempre con la stessa voce, finché la donna si mette a ridere e ti
+            riprende la borraccia. Delle lanterne in fondo al ponte non ti dicono
+            una parola.
+
+      - testo: "Guardare da vicino i cristalli"
+        descrizione: "Un cristallo conduttore dura anni, poi si spegne. Se queste lanterne sono ancora accese, qualcuno ha cambiato i cristalli."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: Spago da pacchi
+          testo: |
+            Apri la porticina della lanterna più vecchia, con il permesso dei
+            Raschiatori della veglia, e il cristallo dentro è un frammento
+            esausto dell'Orlo dei Rottami. È di quelli che la Gilda paga una
+            moneta, e che fanno ancora un mese di luce se li tieni al riparo dal
+            vento. Qualcuno l'ha incastrato da poco con un nodo di spago da pacchi.
+            Lo stesso nodo c'è in tutte le lanterne del tratto, e anche sul
+            parapetto, dove una corda annodata scende nel vuoto fino ai
+            sottoponti. Ti siedi accanto alla corda e aspetti che qualcuno salga.
+          segue: lo-stoppino
+        fallimento:
+          titolo: Le dita sul vetro
+          testo: |
+            Apri la porticina della lanterna più vecchia e guardi il cristallo
+            controluce, e ti sembra un conduttore come gli altri. Dici alla
+            Raschiatrice della veglia che allora è vero, e la lanterna si
+            accende da sola. Lei ride nella borraccia e ti fa notare che hai
+            lasciato le impronte delle dita sul vetro pulito. Lo ripassi con la
+            manica prima di andartene.
+
+      - testo: "Passare le notti sul ponte"
+        descrizione: "Senza nasconderti e senza fare domande. Prima o poi chi pulisce le lanterne si abitua a vederti."
+        costo: 2
+        esito:
+          titolo: La terza notte
+          testo: |
+            Torni per tre notti di fila e ti siedi sempre allo stesso posto, sulle
+            assi, con la schiena al parapetto e le mani in vista. Le prime due fa
+            soltanto freddo. La terza, dopo la seconda campana,
+            un bambino scalzo si arrampica dal vuoto sul parapetto a dieci passi
+            da te. Ti studia per un pezzo, e poi decide che sei parte del ponte. Si
+            mette a cambiare i cristalli delle lanterne vecchie senza fretta, e
+            quando ha finito viene a sedersi accanto a te.
+          segue: lo-stoppino
+
+  - id: lo-stoppino
+    immagine: ambientazione/ponte-dei-morti
+    titolo: Lo Stoppino
+    tipo: seguito
+    luogo: Ponte dei Morti, dopo la seconda campana
+    area: ponti-sospesi
+    requisiti: [ponti.lanterne == 0]
+    testo: |
+      Il bambino avrà dieci anni. Ha i piedi neri di pece e una camicia da
+      uomo arrotolata sui gomiti, e il sacco di tela che porta sulla schiena
+      tintinna piano quando si muove. Si siede sul parapetto con le gambe
+      sopra il vuoto, come gli altri bambini si siedono su un muretto, e tu
+      devi trattenerti dall'allungare una mano per tenerlo.
+
+      «Stoppino, mi chiamano. Il nome vero ce l'ho, ma qui non serve» dice.
+      Apre il sacco e ti mostra i frammenti di cristallo grigi e opachi che
+      raccoglie all'Orlo dei Rottami e nelle reti sotto il Mercato. «Questi la
+      Gilda li butta. Dentro una lanterna, con la porticina chiusa, fanno un
+      mese, a volte due.»
+
+      Ti racconta che suo padre stava in una squadra di cinque, scesa nel
+      Labirinto quattro inverni fa e mai risalita, e che di sopra non era
+      rimasto nessuno ad appendergli una lanterna. Gliel'ha appesa lui, con un
+      cristallo dell'Orlo. Poi ha cominciato a guardare quelle accanto, che
+      nessuno curava più. «Se ne accendo una, posso accenderne anche sei»
+      dice, e alza le spalle.
+
+      Indica l'ultima della fila, una lanterna di ferro nero quasi senza
+      vetro. «Quella non la tocco» dice, più piano. «Si accende da sola. Ci ho
+      guardato dentro una volta, e da allora ci passo alla larga.»
+    opzioni:
+      - testo: "Dirlo ai Raschiatori"
+        descrizione: "Le lanterne dei dispersi sono dei Raschiatori, e ai Raschiatori ci pensa il Ferro. Dragna Gro-Malog compila i turni al Grifone."
+        immagine: personaggi/dragna-gro-malog
+        esito:
+          titolo: Nel registro del Ferro
+          testo: |
+            Il giorno dopo racconti tutto a Dragna Gro-Malog, al Grifone, mentre
+            compila i turni. Ti ascolta con la penna ferma. Poi apre il registro
+            all'ultima pagina, dove ci sono le squadre che non scendono più, e
+            accanto a sei nomi scrive *Ponte dei Morti, tratto in fondo*. «Da
+            adesso i cristalli buoni li mette la bacheca, uno al mese per
+            lanterna» dice. «Se il bambino vuole, li porta lui dalla scala come la
+            gente, di giorno.» La settimana dopo trovi Stoppino sul ponte in pieno
+            giorno, con un sacco nuovo e un cristallo buono in mano, e lo tiene
+            come una cosa presa in prestito.
+          pe: { persuasione: 5 }
+          imposta: { ponti.lanterne: 1 }
+          effetti: { rep.ponti: 1, rep.raschiatori: 0.5 }
+
+      - testo: "Dargli i tuoi frammenti"
+        descrizione: "Nella bisaccia hai frammenti esausti che al Mercato valgono poco. In una lanterna valgono un mese di luce ciascuno."
+        requisiti: [cristalli.frammento-esausto >= 2]
+        esito:
+          titolo: La Brontolona e la Gobba
+          testo: |
+            Svuoti la bisaccia sul parapetto. Stoppino conta i frammenti con il
+            dito e per ognuno ti dice a quale lanterna andrà, chiamandole con i
+            nomi che ha dato lui, perché quelli veri li ha mangiati la ruggine.
+            C'è la Brontolona, che ha la porticina che cigola, e c'è la Gobba, che
+            pende a destra. Poi lega il sacco e ti chiede se vuoi vedere come si
+            fa. Gli tieni il sacco mentre lui gira sull'esterno del parapetto, e
+            per tutto il tempo eviti di guardare giù.
+          pe: { empatia: 5 }
+          imposta: { ponti.lanterne: 1 }
+          effetti: { cristalli.frammento-esausto: -2, rep.ponti: 1 }
+
+      - testo: "Comprare un cristallo buono per suo padre"
+        descrizione: "Al banco delle lanterne del Mercato un cristallo conduttore costa quattro monete e dura anni. Per quella lanterna il bambino non dovrebbe più arrampicarsi."
+        requisiti: [monete >= 4]
+        esito:
+          titolo: Una luce bianca
+          testo: |
+            Al mattino compri al banco delle lanterne un cristallo conduttore
+            piccolo, di quelli che durano anni, e la sera lo porti a Stoppino. Lui
+            lo gira contro la luce prima di prenderlo. Insieme aprite la
+            lanterna di suo padre, appesa fra due delle vecchie con un nastro di
+            spago al posto di quello di stoffa, e ci mettete il cristallo nuovo.
+            Fa una luce bianca, più forte delle altre. Stoppino appoggia la fronte
+            al vetro per un po', poi torna alle altre lanterne, perché il sacco è
+            ancora pieno.
+          pe: { empatia: 5 }
+          imposta: { ponti.lanterne: 1 }
+          effetti: { monete: -4, rep.ponti: 1 }
+
+      - testo: "Aiutarlo a cambiare i cristalli"
+        descrizione: "Le lanterne vecchie sono appese fuori dal parapetto. Lui ci gira intorno come su un marciapiede, e tu dovresti provarci."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Dall'altra parte
+          testo: |
+            Scavalchi il parapetto dietro di lui e ti muovi sul bordo esterno, con
+            una mano sempre sul metallo freddo e la nebbia fino alle ginocchia.
+            Stoppino ti passa i frammenti e tu li incastri nelle lanterne del
+            tratto più lontano, dove lui non arriva. Ti spiega dove mettere i
+            piedi senza voltarsi, con la pazienza che si usa con un bambino più
+            piccolo. A fine giro ti regala il frammento più chiaro del suo sacco,
+            e ti dice di tenerlo per la tua lanterna, quando servirà.
+          pe: { acrobazia: 5 }
+          imposta: { ponti.lanterne: 1 }
+          effetti: { cristalli.frammento-esausto: 1, rep.ponti: 1 }
+        fallimento:
+          titolo: Per il colletto
+          testo: |
+            Scavalchi il parapetto, ma la lamiera del bordo è bagnata e alla terza
+            lanterna ti scivola un piede. Resti appeso con le mani al metallo e le
+            gambe nel vuoto, finché Stoppino ti afferra per il colletto con una
+            forza che non ti aspettavi e ti aiuta a tornare di qua. Il resto del
+            giro lo fa lui, e tu lo guardi dal ponte con le ginocchia che tremano.
+            Quando ha finito ti racconta che la prima volta è caduto anche lui,
+            nella rete di Mamma Tesh, e che lei l'ha sgridato per una settimana.
+          imposta: { ponti.lanterne: 1 }
+          effetti: { ferite: 0.5, rep.ponti: 1 }
+
+      - testo: "Chiedergli del custode di notte"
+        descrizione: "In fondo al ponte c'è il gabbiotto dei Custodi, e dopo la seconda campana ci sta un uomo pallido con un mantello cerato."
+        requisiti: [maedric == 0]
+        costo: 0
+        esito:
+          titolo: I carri di notte
+          testo: |
+            Stoppino abbassa la voce senza accorgersene. «Quello alle lanterne non
+            tocca niente, e a me nemmeno» dice, con gli occhi sul gabbiotto.
+            «Però i carri che passano di notte li guarda lui, e quando passano io
+            sto sotto, che di sopra non mi vede nessuno.» Si tira il sacco sulle
+            ginocchia e aggiunge che Mamma Tesh gli ha insegnato a non contare i
+            carri di notte, e infatti lui li lascia passare senza guardarli.
+          segue: lo-stoppino
+
+      - testo: "Chiedergli del custode di notte"
+        descrizione: "Il gabbiotto in fondo al ponte ha un custode nuovo, da quando Maedric Holl non c'è più."
+        requisiti: [maedric >= 1]
+        costo: 0
+        esito:
+          titolo: Il custode nuovo
+          testo: |
+            «Quello nuovo è giovane e ha paura del buio» dice Stoppino, e lo dice
+            con rispetto. «Mi lascia salire anche prima della seconda campana, e
+            una volta mi ha dato mezza pagnotta.» Ti racconta che di notte i carri
+            con le ruote fasciate non passano più, e che adesso sul ponte si
+            sentono soltanto le lanterne che sbattono e il custode nuovo che canta
+            per farsi coraggio. Canta male, dice, però le canzoni le sa tutte.
+          segue: lo-stoppino
+
+      - testo: "Guardare nella lanterna nera"
+        descrizione: "L'ultima della fila. Stoppino non ci si avvicina, e ti guarda mentre ti avvicini tu."
+        costo: 0
+        esito:
+          titolo: La lanterna nera
+          testo: |
+            La lanterna è di ferro nero, con un solo vetro rimasto, e dentro c'è
+            un cristallo grande come un'unghia, coperto di polvere. Nessuno lo
+            cambia da anni, e fa luce lo stesso. La luce batte piano, e quando ti
+            avvicini ti sembra che il battito rallenti, o forse è il tuo che
+            accelera. Sulla porticina c'è un nome inciso, mangiato dalla ruggine
+            fino a metà, e le lettere che restano non bastano a leggerlo. Torni da
+            Stoppino con la pelle d'oca sulle braccia, e lui annuisce.
+          effetti: { tormento: 0.5 }
+          segue: lo-stoppino
+
+  # ------------------------------------------------------------ storia a 6 · il passo dei Ponti
+  - id: il-passo-dei-ponti
+    presso: ponte-delle-mille-corde
+    immagine: personaggi/varn-kett
+    titolo: Il passo dei Ponti
+    sommario: "Varn Kett ti fa chiamare nel gabbiotto. Sulla panca, con le mani in grembo, c'è Mamma Tesh, salita dai sottoponti per l'occasione."
+    luogo: Ponte delle Mille Corde, il gabbiotto dei Custodi
+    area: ponti-sospesi
+    requisiti: [rep.ponti >= 6, ponti.passo == 0]
+    testo: |
+      Il Custode di turno ti ferma all'imbocco e ti dice che Varn Kett ti
+      aspetta. Nel gabbiotto, sulla panca dove si siedono i carrettieri che
+      contestano la gabella, c'è Mamma Tesh con lo scialle buono e le mani
+      annerite in grembo, ed è la prima volta che la vedi di sopra. Accanto a
+      lei Ormun Pell occupa da solo mezzo gabbiotto, e suda.
+
+      «Chi lavora sui ponti non paga la gabella per andare a lavorare» dice
+      Varn con la sua voce da sportello. «Lo dice il regolamento della Casa
+      dei Nodi, e io non faccio distinzioni. Sulle assi lo chiamano il passo.»
+      La mano destra comincia a scrivere nell'aria. «Ormun dice che lavori per
+      lui da abbastanza tempo da stare sul suo ruolo, e io dico che i tuoi
+      conti tornano. Tesh dice altre cose, e le dica lei.»
+
+      «Dico che di sotto c'è un posto vicino al Capitano, e che è tuo» dice
+      Tesh.
+
+      «Sul ruolo però ci va chi ha fatto il giro» dice Ormun, e si asciuga la
+      fronte con il dorso della mano. «Un giro intero del ponte, da una sponda
+      all'altra, sopra le corde con me o sotto le assi con la gente di Tesh.
+      Se le corde non fanno per te, Varn ti fa le sue domande, e quelle sono
+      peggio.»
+
+      *Tre persone che non vanno d'accordo su niente hanno trovato un accordo
+      su di me.* Le mani ti sono finite in tasca, e le tiri fuori.
+    opzioni:
+      - testo: "Il giro delle corde con Ormun"
+        descrizione: "Da una sponda all'altra, corda per corda. Ormun vuole il tuo verdetto su ciascuna, prima del suo."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il verdetto
+          testo: |
+            Partite all'alba dalla sponda dei Quartieri Alti, e Ormun cammina
+            lento come sempre, con le suole che ascoltano. A ogni corda di
+            sostegno si ferma e aspetta. Gli dai il tuo verdetto, e a metà
+            mattina smette di dare il suo, perché è lo stesso. Vicino alla
+            sponda della Città Bassa una sola corda vi divide, e ne discutete
+            fino a mezzogiorno. Poi Ormun ci sale sopra con tutto il suo peso e
+            ammette che hai ragione tu, e lo dice soltanto a te.
+          pe: { tecnologia: 5 }
+          segue: il-ruolo-dei-ponteggiatori
+        fallimento:
+          titolo: Mezzo ponte
+          testo: |
+            Partite all'alba, e per mezzo ponte i tuoi verdetti sono quelli di
+            Ormun. Poi una corda che giuri buona gli si sfilaccia sotto il
+            pollice, e la successiva che dici marcia è nuova di un mese. Ormun
+            segna le due corde con il gesso e ti dice che il giro finisce qui per
+            oggi. Dice anche che il ruolo resta aperto e le corde non scappano.
+
+      - testo: "Il giro sotto le assi"
+        descrizione: "La strada della gente dei sottoponti, da una trave all'altra con una mano sempre sulla fune. Da una sponda all'altra, senza mai salire."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Da una trave all'altra
+          testo: |
+            Due ragazzi di Mamma Tesh ti fanno strada sotto le assi, sulle
+            passerelle larghe una spanna e poi sulle travi nude, con il vento che
+            arriva dal basso. A metà strada uno dei due si ferma su una trave e
+            aspetta di vedere cosa fai, e tu passi oltre senza guardarlo. Quando
+            arrivi alla sponda della Città Bassa hai le mani nere di pece e le
+            braccia che non senti più. Tesh è lì ad aspettarti, scesa per la scala
+            dei carrettieri, e ti batte una mano sul braccio.
+          pe: { acrobazia: 5 }
+          segue: il-ruolo-dei-ponteggiatori
+        fallimento:
+          titolo: La rete
+          testo: |
+            Due ragazzi di Mamma Tesh ti fanno strada sotto le assi. Per un buon
+            tratto tieni il passo, poi una raffica ti prende su una trave nuda e
+            finisci nella rete sotto il Mercato, fra le mele ammaccate. I ragazzi
+            ti tirano fuori ridendo, e uno di loro ti dice che a lui era successo
+            tre volte. Il giro, però, va rifatto da capo un altro giorno.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Le domande di Varn"
+        descrizione: "Varn ricorda ogni giorno passato sui ponti. Vuole sapere quanto ne ricordi tu, e quanto conosci il regolamento."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Il martedì di tre settimane fa
+          testo: |
+            Varn ti chiede quanti carri di sale sono passati il martedì di tre
+            settimane fa, quando eri al gabbiotto, e tu te lo ricordi perché uno
+            aveva il mulo zoppo. Poi vuole sapere che cosa dice il regolamento
+            sui carichi caduti nelle reti, e tu sai che sono di chi li ripesca,
+            se nessuno li reclama entro sera. L'ultima domanda è chi paga la
+            gabella sui funerali, e la risposta è nessuno. La mano destra si
+            ferma a metà di una riga. «Basta così» dice, e Ormun fa un fischio
+            lungo.
+          pe: { politica-ed-economia: 5 }
+          segue: il-ruolo-dei-ponteggiatori
+        fallimento:
+          titolo: I carri di sale
+          testo: |
+            Varn ti chiede quanti carri di sale sono passati il martedì di tre
+            settimane fa, e tu dici un numero. Lui ti dice quello giusto, con
+            l'ora di ciascun carro e il colore del mulo. Alla seconda domanda,
+            sul regolamento, ti confondi fra le reti e i parapetti. Varn non
+            alza la voce. Scrive ancora un poco nell'aria e ti dice di tornare
+            quando avrai deciso quale delle tre strade fa per te.
+
+      - testo: "Farti garantire dalla gente di sotto"
+        descrizione: "Al braciere ognuno paga il posto con una storia. Se quelli dei sottoponti garantiscono per te, Ormun non ha niente da obiettare."
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Media }
+        successo:
+          titolo: Intorno al Capitano
+          testo: |
+            La sera scendi al braciere e racconti ai sottoponti come hai
+            conosciuto i ponti, dalla prima gabella pagata fino a oggi, e la
+            racconti come se fosse successa a un altro, sbagli compresi. Ridono nei punti giusti. Alla fine Mamma Tesh chiede chi
+            garantisce, e si alzano in sei, fra cui la vecchia della rete e un
+            ragazzino con i piedi neri di pece. Il giorno dopo i loro nomi sono
+            sul ruolo di Ormun, accanto al tuo, scritti dalla mano di Varn.
+          pe: { espressivita: 5 }
+          segue: il-ruolo-dei-ponteggiatori
+        fallimento:
+          titolo: In fondo al cerchio
+          testo: |
+            La sera scendi al braciere e racconti la tua storia, ma ti viene
+            fuori troppo lunga e troppo seria, e a metà la gente intorno al fuoco
+            comincia a parlare d'altro. Quando Mamma Tesh chiede chi garantisce
+            si alza soltanto lei. «Una non basta, e lo dico io per prima» dice,
+            e ti passa la scodella lo stesso. Torna, ti dice, quando avrai una
+            storia più corta.
+
+      - testo: "Fare il giro piano, con Ormun"
+        descrizione: "Al passo di Ormun ci vuole una giornata intera e nessuna fretta. Le corde le legge lui, mentre tu cammini al suo fianco e impari."
+        costo: 2
+        esito:
+          titolo: Al passo di Ormun
+          testo: |
+            Il giro al passo di Ormun dura dall'alba al tramonto. Lui si ferma a
+            ogni corda e ascolta con i piedi, e ogni tanto ti dice il verdetto
+            ad alta voce, perché tu lo impari. A mezzogiorno vi sedete su una
+            trave a mangiare pane e lardo, e lui ti racconta di un ponte crollato
+            vent'anni fa con un carro sopra, e di come lo aveva detto una
+            settimana prima. Arrivate alla sponda della Città Bassa con il sole
+            basso. Ormun ti guarda e dice che per il ruolo conta anche la
+            pazienza.
+          pe: { resilienza: 5 }
+          segue: il-ruolo-dei-ponteggiatori
+
+      - testo: "Dire che non è il momento"
+        descrizione: "Il passo è un impegno con tre persone diverse. Puoi chiedere tempo, e il ruolo resta lì."
+        costo: 0
+        esito:
+          titolo: Il ruolo aperto
+          testo: |
+            Dici che ti fa onore, e che per adesso non sei sicuro di poterlo
+            meritare tutti i giorni. Ormun alza le spalle e dice che le corde
+            sanno aspettare. Varn scrive una riga corta nell'aria e la chiude
+            con un punto, e Mamma Tesh si alza dalla panca, si sistema lo scialle
+            e ti dice che il posto vicino al Capitano intanto non lo dà a
+            nessuno.
+
+  - id: il-ruolo-dei-ponteggiatori
+    immagine: personaggi/varn-kett
+    titolo: Il ruolo dei ponteggiatori
+    tipo: seguito
+    luogo: Ponte delle Mille Corde, il gabbiotto dei Custodi
+    area: ponti-sospesi
+    requisiti: [ponti.passo == 0]
+    testo: |
+      Il giorno dopo il gabbiotto è di nuovo pieno. Ormun ha posato sul banco
+      il ruolo della sua squadra, un registro con la copertina unta di pece e
+      una ventina di nomi dentro, molti scritti con una grafia incerta, perché
+      parecchi dei suoi uomini hanno imparato a firmare in cella. Accanto al
+      banco Varn tiene la penna vera sospesa sul foglio, ed è la prima volta
+      che gliene vedi una in mano.
+      Mamma Tesh guarda il vuoto fuori dalla finestrella e intanto tiene
+      sulle ginocchia un pezzo di lamiera piegato.
+
+      «Una riga sul ruolo, e da domani la gabella non la paghi» dice Varn.
+      «Quando Ormun ti chiama devi venire, di notte come con la pioggia. Se un
+      ponte ha bisogno di te tu ci sei, e questo per la Casa dei Nodi vale più
+      di una gabella.»
+
+      Ormun annuisce e si asciuga la fronte. Tesh si gira dalla finestrella e
+      ti mostra la lamiera. Sopra, inciso con un chiodo, c'è un segno che
+      somiglia al tuo nome. *Una vita intera sotto le travi, e ha imparato a
+      scrivere il mio nome.* La mano che tieni sul banco ti si stringe a pugno
+      senza che tu lo decida.
+    opzioni:
+      - testo: "Mettere il tuo nome sul ruolo"
+        descrizione: "Una riga sul registro di Ormun, scritta dalla mano di Varn, e un posto vicino al Capitano."
+        requisiti: [licenza-gilda == 0]
+        esito:
+          titolo: Il passo
+          testo: |
+            Varn scrive il tuo nome sul ruolo con la sua grafia da notaio, e
+            accanto aggiunge *ausiliario*. Poi asciuga l'inchiostro con il
+            palmo. «Da oggi i ponti non ti costano niente» dice, «e non perché ti
+            faccio un favore.» Ormun ti stringe la mano con la sua, che è dura
+            come una trave. Mamma Tesh ti dà la lamiera e ti dice di appenderla
+            al chiodo accanto al braciere, quando scendi, così tutti sanno che
+            quel posto è occupato.
+          imposta: { ponti.passo: 1 }
+          effetti: { rep.ponti: 1 }
+
+      - testo: "Mettere il tuo nome sul ruolo"
+        descrizione: "La gabella non la paghi già, perché la licenza della Gilda l'hai comprata. Il passo invece non si compra."
+        requisiti: [licenza-gilda >= 1]
+        esito:
+          titolo: Quello che non si compra
+          testo: |
+            Varn scrive il tuo nome sul ruolo con la sua grafia da notaio, e
+            accanto aggiunge *ausiliario*. «La gabella non la pagavi già, perché
+            la licenza l'hai comprata con duecento monete e un sigillo» dice.
+            «Sul ruolo invece ci sei perché ti ci abbiamo messo noi, e alla Casa
+            dei Nodi questa riga non conta niente.» Asciuga l'inchiostro con il
+            palmo. Ormun ti stringe la mano, e Mamma Tesh ti dà la lamiera da
+            appendere al chiodo accanto al braciere, perché di sotto la licenza
+            non la legge nessuno.
+          imposta: { ponti.passo: 1 }
+          effetti: { rep.ponti: 1 }
+
+      - testo: "Chiedere ancora tempo"
+        descrizione: "Venire ogni volta che Ormun chiama, anche di notte. Forse adesso non puoi promettere tanto."
+        esito:
+          titolo: La lamiera sul chiodo
+          testo: |
+            Gli dici che per adesso non puoi promettere di venire ogni volta che
+            Ormun chiama, e che preferisci non firmare una cosa che rischi di non
+            mantenere. Varn appoggia la penna sul banco e annuisce una volta,
+            come se avesse annotato anche questo. Ormun richiude il ruolo. Mamma
+            Tesh si tiene la lamiera e dice che la appende lei, al chiodo accanto
+            al Capitano, così il posto resta tuo finché non ti decidi.
+
+  # ------------------------------------------------------------ la carta
+  - id: carta-un-carro-bloccato-sul-ponte
+    immagine: ambientazione/ponti-sospesi
+    titolo: Un carro bloccato sul ponte
+    sommario: "A metà del Ponte delle Mille Corde un'asse ha ceduto sotto la ruota di un carro, e dietro si è fermato mezzo Mercato."
+    luogo: Ponte delle Mille Corde, a metà campata
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [rep.ponti < 2]
+    testo: |
+      A metà del Ponte delle Mille Corde il traffico è fermo. Un carro carico
+      di botti ha sfondato un'asse marcia con la ruota destra, e adesso pende
+      di sbieco, con la ruota infilata nel tavolato fino al mozzo e il mulo
+      puntato sulle zampe davanti. Dietro si sono fermati due carretti del
+      Mercato e una fila di facchini, e un ragazzo ha già cominciato a vendere
+      castagne a chi aspetta.
+
+      Il carrettiere tira la cavezza e bestemmia il Grande Albero con una
+      fantasia che in un altro momento ammireresti. Da sotto le assi, per la
+      fessura dell'asse rotta, una voce di donna chiede se lassù qualcuno ha
+      intenzione di farle cadere una botte in cucina. Il Custode più vicino è
+      all'imbocco, e da lì si sbraccia senza muoversi.
+
+      Ti fermi anche tu. Il ponte trema a ogni scalciata del mulo, e la
+      vibrazione ti sale dalle suole fino ai denti.
+    opzioni:
+      - testo: "Sollevare la ruota"
+        descrizione: "Una spalla sotto il pianale e due facchini dall'altra parte. Se la ruota esce dal buco, il carro riparte."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Fuori dal buco
+          testo: |
+            Ti metti sotto il pianale con la spalla, e due facchini fanno lo
+            stesso dall'altra parte. Al tre spingete, e la ruota esce dal buco
+            con un rumore di legno strappato. Il mulo riparte da solo, e il
+            carrettiere quasi gli cade dietro. Il Custode arriva quando è tutto
+            finito e si segna il tuo nome, perché i ponteggiatori di Ormun Pell
+            cercano sempre spalle buone.
+          effetti: { rep.ponti: 0.5 }
+        fallimento:
+          titolo: Il pianale
+          testo: |
+            Ti metti sotto il pianale con la spalla e spingi, ma il carro è più
+            pesante di quanto sembrava e la ruota affonda ancora di un palmo.
+            Una botte rotola indietro, e la fermi con il ginocchio. Alla fine
+            arrivano i ponteggiatori con una leva, e tu resti a massaggiarti la
+            spalla mentre tirano fuori la ruota in due colpi.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Calmare il mulo"
+        descrizione: "Finché il mulo scalcia la ruota affonda sempre di più. Prima bisogna fermare lui."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Facile }
+        successo:
+          titolo: La cavezza
+          testo: |
+            Prendi la cavezza dalle mani del carrettiere, che te la lascia per lo
+            stupore, e parli al mulo piano, con la mano aperta sul muso. Il mulo
+            smette di scalciare e il ponte smette di tremare. Il carrettiere ne
+            approfitta per mettere un'asse di traverso sotto la ruota, e il carro
+            esce dal buco al primo tiro. Ti dà una moneta e ti chiede se il mulo
+            lo vuoi comprare.
+          effetti: { monete: 1 }
+        fallimento:
+          titolo: Lo zoccolo
+          testo: |
+            Prendi la cavezza e parli al mulo, ma il mulo ha deciso che la colpa è
+            tua e ti pesta un piede con lo zoccolo davanti. Quando smetti di
+            saltellare i ponteggiatori di Ormun Pell hanno già infilato una leva
+            sotto il mozzo e liberato la ruota. Il carro riparte, e passandoti
+            accanto il mulo ti guarda con un occhio solo, soddisfatto. Il piede ti
+            fa male fino a sera.
+
+      - testo: "Scendere a tranquillizzare la cucina di sotto"
+        descrizione: "Sotto le assi qualcuno cucina, e una botte che cade da lassù è una disgrazia. La scala a pioli è lì vicino."
+        esito:
+          titolo: La cucina sotto le assi
+          testo: |
+            Scendi la scala a pioli e trovi la cucina, una piattaforma di tavole
+            con un fornello di mattoni e una pentola di zuppa. La donna che ha
+            gridato tiene un coperchio sopra la testa per ripararsi dalla segatura
+            che piove dall'asse rotta. Le tieni la pentola mentre lei sposta il
+            fornello di due braccia, lontano dal buco. Quando il carro di sopra
+            riparte ti offre una scodella di zuppa, e ti chiede come ti chiami,
+            per sapere a chi deve un favore.
+          effetti: { rep.ponti: 0.5 }
+
+      - testo: "Passare oltre"
+        descrizione: "Ci sono i Custodi, ci sono i ponteggiatori. Prima o poi qualcuno quella ruota la tira fuori."
+        costo: 0
+        esito:
+          titolo: Il giro largo
+          testo: |
+            Ti infili fra i facchini e passi accanto al carro, tenendoti lontano
+            dalla ruota e dal mulo. Il ragazzo delle castagne prova a venderti un
+            cartoccio, e per liberartene gli dici che hai appena mangiato. Quando
+            ti volti, a metà strada, il carro è ancora lì e il Custode si sbraccia
+            ancora dall'imbocco. Da sotto le assi la donna della cucina si è messa
+            a cantare, forte, per coprire i ragli.

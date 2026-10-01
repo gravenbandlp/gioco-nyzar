@@ -1,0 +1,846 @@
+# La città viva, luogo 4: la Locanda del Grifone di Ferro (presso: grifone-di-ferro, area ponti-sospesi).
+# L'attività della sala, le tre storie di rep.grifone (2 la storia di Brunella, 4 l'insegna, 6 la chiave,
+# ognuna con il suo flag), la branda di chi ha la chiave e la carta dei Ponti. Il servizio (l'alloggio a
+# pagamento, la cucina di Brunella, le canzoni e le storie per Liaren, la bacheca) sta già in
+# contenuti/grifone.yaml, contenuti/allenamento.yaml e contenuti/aree/ponti-sospesi.yaml.
+# Reputazione: le storie la portano a 3, 5 e 7; la sala la fa salire fino a 4, il bancone e le travi fino
+# a 6 solo dopo pista.acciaio >= 8, così la chiave arriva sempre con Liaren salva e Ondrel morto.
+# Liaren: con pista.acciaio da 1 a 4 è sparita, a 5 è a letto ferita. Le scene che la vogliono in sala
+# escludono quei passi; la sala ha una variante senza di lei.
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: una-sera-al-grifone
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: Una sera al Grifone
+    sommario: "La sera il Grifone di Ferro si riempie fino alle scale, e a Brunella due mani in più servono sempre."
+    luogo: Locanda del Grifone di Ferro, la sala
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [conosci.liaren >= 1]
+    testo: |
+      La sera la sala del Grifone si riempie un tavolo alla volta, prima con
+      i mercanti che hanno chiuso i banchi sul Mercato dei Nodi e poi con i
+      Raschiatori del turno lungo, che si scrollano sulla soglia la polvere
+      delle rovine e la lasciano lì per Brunella. Il camino tira male e ogni
+      tanto sputa una favilla sulle assi, e qualcuno la spegne col tacco
+      senza smettere di parlare. Quando sul Ponte delle Mille Corde passa un
+      carro carico, il pavimento vibra appena sotto le sedie.
+
+      Dragna Gro-Malog occupa il suo tavolo con i fogli dei turni, e a quello
+      accanto quattro Raschiatori giocano a Zekar con un mazzo così unto che
+      le carte si attaccano fra loro. Sopra il bancone, appeso a due chiodi,
+      c'è il mestolo ammaccato con il cartellino *non in vendita*. Brunella
+      esce dalla cucina con tre scodelle per braccio e ti passa accanto
+      guardandoti le mani, per vedere se sono libere.
+
+      L'odore dello stufato ti arriva allo stomaco prima che al naso. *Se
+      resto qui con le mani in tasca, me le riempie lei.* Ti tiri su le
+      maniche prima ancora di aver deciso da dove cominciare.
+    opzioni:
+      - testo: "Servire ai tavoli mentre Liaren suona"
+        descrizione: "Quando Liaren prende il samisen la sala si alza in piedi per il ritornello, e i vassoi devono passare lo stesso."
+        immagine: personaggi/liaren-tarvelin
+        requisiti: [rep.grifone < 4, pista.acciaio == 0]
+        prova: { attributo: fisico, abilita: [atletica, galateo], difficolta: Media }
+        successo:
+          titolo: Le gambe di una ballerina
+          testo: |
+            Liaren attacca una canzone dei Raschiatori e la sala si mette a
+            battere i piedi, mentre tu passi fra i tavoli con il vassoio alto
+            sopra le teste. Impari presto a girarti di fianco quando un boccale
+            si alza per il ritornello. A fine sera non hai versato una goccia,
+            e Brunella ti mette in mano due monete prese dal grembiule. Liaren
+            ti indica alla sala con il manico del samisen e annuncia che hai le
+            gambe di una ballerina.
+          effetti: { monete: 2, rep.grifone: 0.5 }
+        fallimento:
+          titolo: La camicia del Raschiatore
+          testo: |
+            Liaren attacca una canzone dei Raschiatori, e al primo ritornello un
+            Raschiatore si alza di scatto per battere le mani proprio mentre gli
+            passi dietro. Il vassoio fa un mezzo giro in aria. Tre scodelle di
+            zuppa finiscono sul pavimento e una sulla sua schiena, e la sala
+            applaude più forte che per la canzone. Brunella ti porta lo straccio
+            senza commenti, e il Raschiatore vuole sapere chi gli paga la
+            camicia.
+
+      - testo: "Servire ai tavoli"
+        descrizione: "Stasera Liaren non c'è, e in sala nessuno chiede una canzone. Brunella manda avanti la locanda da sola."
+        immagine: personaggi/brunella-fennick
+        requisiti: [rep.grifone < 4, pista.acciaio >= 1, pista.acciaio <= 5]
+        prova: { attributo: fisico, abilita: [atletica, galateo], difficolta: Media }
+        successo:
+          titolo: La sala a voce bassa
+          testo: |
+            Porti le scodelle ai tavoli due alla volta, e stasera la sala mangia
+            a voce bassa, come in una casa dove c'è un malato. Un Raschiatore
+            anziano guarda il bancone vuoto e poi guarda te, e tu ti stringi
+            nelle spalle. A fine servizio Brunella conta le scodelle sporche,
+            poi conta due monete e te le mette in mano, chiudendoti sopra le
+            dita una alla volta. «Domani ancora» dice, e torna in cucina.
+          effetti: { monete: 2, rep.grifone: 0.5 }
+        fallimento:
+          titolo: La scala
+          testo: |
+            Porti le scodelle ai tavoli con la testa altrove, e a metà sera
+            sbagli tavolo due volte di fila. Al secondo errore Brunella ti prende
+            il vassoio di mano e lo porta lei, svelta, senza far tintinnare una
+            scodella. Più tardi la trovi seduta su una cassa in cucina, con il
+            mestolo in grembo e gli occhi sulla scala che porta al piano di
+            sopra. Quando ti vede si alza subito e torna ai fornelli.
+
+      - testo: "Servire ai tavoli mentre Liaren suona"
+        descrizione: "Liaren è tornata al samisen. Adesso suona seduta, e la sala ha più sete del solito."
+        immagine: personaggi/liaren-tarvelin
+        requisiti: [rep.grifone < 4, pista.acciaio >= 6]
+        prova: { attributo: fisico, abilita: [atletica, galateo], difficolta: Media }
+        successo:
+          titolo: Il cenno del plettro
+          testo: |
+            Liaren suona seduta sullo sgabello alto, come fa da quando è tornata
+            dall'Acciaieria, e attacca le canzoni dei Raschiatori una dopo
+            l'altra senza lasciar respirare la sala. Tu passi fra i tavoli con
+            il vassoio sopra le teste, e quando un boccale si alza per il
+            ritornello ti giri di fianco. A fine sera Brunella ti mette in mano
+            due monete prese dal grembiule. Fra una canzone e l'altra Liaren
+            alza il plettro verso di te come si alza un boccale.
+          effetti: { monete: 2, rep.grifone: 0.5 }
+        fallimento:
+          titolo: Musica allegra
+          testo: |
+            Liaren suona seduta sullo sgabello alto, come fa da quando è tornata
+            dall'Acciaieria. A metà di una canzone un mercante ubriaco le chiede
+            ad alta voce qualcosa di allegro, e tu ti giri a guardarlo con il
+            vassoio in mano. Il vassoio va per conto suo. Liaren smette di
+            suonare per ridere, con una mano sul fianco, e dice al mercante che
+            la musica allegra stasera l'hai fatta tu. Brunella intanto è già
+            arrivata con lo straccio.
+
+      - testo: "Mettere pace fra due Raschiatori"
+        descrizione: "Due Raschiatori si sono alzati in piedi sopra una partita di Zekar finita male. Conviene mettersi in mezzo prima che si alzi Dragna."
+        immagine: personaggi/dragna-gro-malog
+        requisiti: [rep.grifone < 2]
+        prova: { attributo: sociale, abilita: [intimidire, empatia], difficolta: Media }
+        successo:
+          titolo: Le sedie di Brunella
+          testo: |
+            Ti metti fra i due con le mani aperte e chiedi a quello più grosso
+            quanto ha perso. Sono tre monete. Gli fai notare che una sedia rotta
+            Brunella la mette sul conto, e che una sedia costa più di tre
+            monete. Il Raschiatore ci pensa contando sulle dita, poi si rimette
+            a sedere. Al tavolo dei turni Dragna si era già alzata a metà, e
+            adesso torna a sedersi con la penna in mano.
+          effetti: { rep.grifone: 0.5 }
+        fallimento:
+          titolo: La zuppa del vicino
+          testo: |
+            Ti metti fra i due con le mani aperte, e quello più grosso ti scosta
+            con una spinta che ti fa sedere sul tavolo accanto, in mezzo a una
+            zuppa. La lite finisce un momento dopo, quando Dragna si alza dal
+            suo tavolo e i due si risiedono senza che lei abbia aperto bocca.
+            Brunella ti porta uno straccio per i pantaloni e una zuppa nuova
+            per il cliente.
+
+      - testo: "Mettere pace fra due Raschiatori"
+        descrizione: "Ormai in sala ti conoscono, e quando volano le prime parole grosse qualcuno si gira a guardare te."
+        immagine: personaggi/tenebra
+        requisiti: [rep.grifone >= 2, rep.grifone < 4]
+        prova: { attributo: sociale, abilita: [intimidire, empatia], difficolta: Media }
+        successo:
+          titolo: Un turno saltato
+          testo: |
+            Stavolta la lite è fra due della stessa squadra, per un turno che
+            uno dei due ha saltato. Li fai sedere allo stesso tavolo e lasci
+            parlare per primo quello che è sceso da solo, fino in fondo. Viene
+            fuori che l'altro aveva la figlia con la febbre. Alla fine si
+            dividono un boccale, e Tenebra, seduto contro il muro vicino alla
+            finestra, ti guarda per un momento. Sotto la pelle bruciata del viso
+            le vene gli brillano piano. Poi torna al suo boccale, che non tocca.
+          effetti: { rep.grifone: 0.5 }
+        fallimento:
+          titolo: D'accordo su di te
+          testo: |
+            La lite è fra due della stessa squadra, per un turno saltato, e tu
+            provi a farli ragionare tutti e due insieme. Finisce che se la
+            prendono con te, e su questo almeno vanno d'accordo. Tenebra si alza
+            dal tavolo vicino alla finestra e resta in piedi senza dire una
+            parola. Gli basta quello. I due si risiedono, e tu torni al bancone
+            con le orecchie che scottano.
+
+      - testo: "Giocare a Zekar con chi torna dagli scavi"
+        descrizione: "Al Grifone si gioca a puntate basse, perché Liaren le altre non le tollera. I Raschiatori dicono che a Zekar si leggono le pause e non le carte."
+        requisiti: [monete >= 3]
+        prova: { attributo: mentale, abilita: [percezione, ingannare], difficolta: Media }
+        successo:
+          titolo: Il sopracciglio
+          testo: |
+            Si pesca dal mazzo comune e si cerca di arrivare il più vicino
+            possibile a venti senza superarlo, e il resto lo fanno le facce. Il
+            Raschiatore di fronte a te si gratta il sopracciglio ogni volta che
+            ha una carta alta, e tu te ne accorgi alla seconda mano. Chiudi la
+            serata con quattro monete in più. Mentre le raccogli lui ti racconta,
+            per consolarsi, che Liaren il Grifone l'ha vinto a Zekar, e che lei
+            non lo smentisce mai.
+          effetti: { monete: 4 }
+        fallimento:
+          titolo: Le facce
+          testo: |
+            Si pesca dal mazzo comune e si cerca di arrivare il più vicino
+            possibile a venti senza superarlo, e il resto lo fanno le facce. La
+            faccia del Raschiatore di fronte a te resta ferma per tutta la sera,
+            mentre la tua, a quanto pare, racconta moltissimo. Perdi tre monete
+            in cinque mani. Lui le impila con cura e ti offre un sorso dal suo
+            boccale, per educazione.
+          effetti: { monete: -3 }
+
+      - testo: "Aggiustare le imposte del piano di sopra"
+        descrizione: "Nella locanda più antica di Qir-Azel c'è sempre un'asse che cigola o un'imposta che sbatte. Brunella paga in notti sul registro."
+        immagine: personaggi/brunella-fennick
+        requisiti: [rep.grifone < 4]
+        prova: { attributo: fisico, abilita: [atletica, tecnologia], difficolta: Media }
+        successo:
+          titolo: I cardini nuovi
+          testo: |
+            Brunella ti porta davanti alla stanza che ha *Gufo* scritto a gesso
+            sulla porta, dove le imposte sbattono tutta la notte e i clienti si
+            lamentano a colazione. Lavori sporgendoti sul vuoto della Cicatrice,
+            con il vento che ti gonfia la camicia, e cambi i cardini arrugginiti
+            con due presi dal magazzino. Adesso le imposte si chiudono con un
+            colpo solo. Brunella le prova tre volte, poi scende a segnare una
+            notte sul registro accanto al tuo nome.
+          effetti: { alloggio.grifone: 1, rep.grifone: 0.5 }
+        fallimento:
+          titolo: Lo scalpello del nonno
+          testo: |
+            Brunella ti porta davanti alla stanza che ha *Gufo* scritto a gesso
+            sulla porta. Ti sporgi sul vuoto per smontare il cardine di sopra, e
+            il cardine ti resta in mano mentre lo scalpello scende nella
+            Cicatrice, girando su se stesso finché lo perdi di vista. Per il
+            resto della sera l'imposta la tiene chiusa un cuneo di legno.
+            Brunella sospira che lo scalpello era di suo nonno, poi ammette che
+            non è vero e ti versa la zuppa lo stesso.
+
+      - testo: "Asciugare i boccali al bancone"
+        descrizione: "Uno straccio, una pila di boccali bagnati e le chiacchiere della sala che passano davanti al bancone."
+        esito:
+          titolo: Dietro il bancone
+          testo: |
+            Ti metti dietro il bancone con lo straccio sulla spalla e asciughi
+            boccali finché la pila finisce, e quando finisce ne arriva un'altra.
+            Da lì si sente tutta la sala. Un mercante si lamenta della gabella
+            dei Custodi, e due Raschiatori discutono a bassa voce di un cunicolo
+            che per uno è crollato e per l'altro no. A fine sera Brunella ti
+            allunga una fetta di pane e ti chiede che cosa hai sentito, e alla
+            tua risposta annuisce come se lo sapesse già.
+          pe: { percezione: 2 }
+          effetti: { informazioni.voce: 1 }
+
+      - testo: "Tenere il bancone mentre Liaren è in Gilda"
+        descrizione: "La Casa dei Nodi vuole Liaren a un tavolo per tutto il pomeriggio. Il bancone e il registro li lascia a te."
+        immagine: personaggi/liaren-tarvelin
+        requisiti: [rep.grifone >= 4, rep.grifone < 6, pista.acciaio >= 8]
+        prova: { attributo: sociale, abilita: [galateo, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il sottobicchiere
+          testo: |
+            Liaren ti lascia il registro e la chiave della cassa, e sulla porta
+            si gira a dirti che a credito beve soltanto chi ha la faccia di uno
+            che torna. Per tutto il pomeriggio segni le stanze e spilli il
+            sidro, e a un mercante che vorrebbe pagare in promesse rispondi come
+            risponderebbe Brunella, mettendogli davanti il conto. Liaren rientra
+            scura in faccia, con una lettera della Gilda in mano, e controlla il
+            registro riga per riga. Poi ti conta cinque monete sul legno e usa
+            la lettera come sottobicchiere.
+          effetti: { monete: 5, rep.grifone: 0.5 }
+        fallimento:
+          titolo: La Volpe
+          testo: |
+            Liaren ti lascia il registro e la chiave della cassa. A metà
+            pomeriggio arriva una squadra di Raschiatori che vuole le stanze per
+            la notte, e tu dai la *Volpe* a due clienti diversi. Quando si
+            incontrano sulla porta in mutande, la discussione scende fino in
+            sala. Liaren rientra dalla Casa dei Nodi proprio in quel momento e
+            sistema tutto con una battuta e una pinta offerta. Poi ti paga metà
+            della giornata e ti spiega che la Volpe porta sfortuna da sempre.
+          effetti: { monete: 2 }
+
+      - testo: "Rinforzare le travi sotto la sala"
+        descrizione: "Quando sul ponte passa un carro il pavimento del Grifone vibra. Le travi che lo reggono stanno sospese sul vuoto, e ci si arriva da una botola."
+        immagine: ambientazione/locanda-del-grifone-di-ferro
+        requisiti: [rep.grifone >= 4, rep.grifone < 6, pista.acciaio >= 8]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Sotto il pavimento
+          testo: |
+            Scendi da una botola nel pavimento della dispensa con una corda in
+            vita e una borsa di cunei, e ti ritrovi a cavalcioni di una trave
+            con la Cicatrice sotto gli stivali. Batti un cuneo dove il legno si
+            è ritirato, poi passi alla trave dopo, mentre di sopra Brunella ti
+            grida di non guardare giù. Risali con le mani piene di schegge. La
+            sera passa sul ponte un carro carico di ferro, e i boccali sul
+            bancone restano fermi. Liaren ti mette in mano cinque monete e una
+            pinta.
+          effetti: { monete: 5, rep.grifone: 0.5 }
+        fallimento:
+          titolo: La borsa dei cunei
+          testo: |
+            Scendi dalla botola della dispensa con una corda in vita e una
+            borsa di cunei, e alla seconda trave il vento della Cicatrice ti fa
+            girare su te stesso. Per tenerti al legno lasci andare la borsa, che
+            sparisce nella nebbia senza un rumore. Liaren e due Raschiatori ti
+            tirano su di peso, e Brunella ti mette in mano una tazza di brodo
+            caldo. Per stasera, quando passa un carro, i boccali sul bancone
+            continuano a tremare.
+
+  # ------------------------------------------------------------ storia a 2 · la storia di Brunella
+  - id: la-storia-di-brunella
+    presso: grifone-di-ferro
+    immagine: personaggi/brunella-fennick
+    titolo: La storia di Brunella
+    sommario: "A locanda chiusa Brunella impasta il pane dolce per il giorno dopo, e stasera ha voglia di compagnia."
+    luogo: Locanda del Grifone di Ferro, la cucina, a notte fonda
+    area: ponti-sospesi
+    requisiti: [rep.grifone >= 2, grifone.brunella == 0, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
+    testo: |
+      Dopo la chiusura la cucina del Grifone è l'unica stanza accesa.
+      Brunella ha spento i fornelli tranne uno, e sul tavolo infarinato lavora
+      una pasta gialla che profuma di burro e di scorza d'arancia. Ha le
+      maniche rimboccate fino ai gomiti e la farina anche sui gomiti, e per
+      arrivare al tavolo sta in piedi su una cassetta rovesciata. Quando ti
+      affacci alla porta non alza la testa. Con il mento ti indica il catino
+      per le mani, e poi una seconda ciotola di pasta.
+
+      «Il pane dolce del Maniero» dice. «Lo faccio di notte, perché di giorno
+      qui non si respira. La ricetta era della vecchia cuoca dei Tarvelin, e
+      la vecchia cuoca adesso sono io.» Ride piano da sola e ti mostra come
+      si piega la pasta su se stessa, con il palmo, tenendo le dita alzate.
+
+      Sulla mensola sopra il fornello, fra i barattoli delle spezie, c'è un
+      cucchiaio di legno con il manico consumato e una tacca incisa vicino
+      alla punta. In cucina è l'unico attrezzo che Brunella non usa mai, e
+      l'unico che non ha un velo di farina. *Stasera, per una volta, è lei
+      che ha voglia di parlare.* Ti lavi le mani nel catino e tiri a te la
+      ciotola, e la pasta è ancora tiepida.
+    opzioni:
+      - testo: "Chiederle come è arrivata al Maniero"
+        descrizione: "Brunella sa tutto di tutti quelli che entrano al Grifone. Di sé non racconta quasi niente."
+        costo: 0
+        esito:
+          titolo: La sguattera
+          testo: |
+            «Avevo quindici anni e venivo da una fattoria sul Torvessa. Eravamo
+            nove fratelli e avevamo una gallina sola» dice Brunella, piegando la
+            pasta. Al Maniero l'avevano presa come sguattera, perché sotto i
+            fornelli le cuoche grandi non arrivavano a pulire, mentre lei ci
+            entrava intera.
+            Ci è rimasta più di quarant'anni, fino a diventare la cuoca. «Il
+            signor Ondrel voleva la cena alle sette, e alle sette la cena c'era.
+            In tutti quegli anni non mi ha mai detto se era buona.» Lo dice
+            senza rancore, come si dice il prezzo della farina.
+
+      - testo: "Chiederle di Liaren bambina"
+        descrizione: "La conosce da quando aveva i capelli troppo corti per legarli."
+        costo: 0
+        esito:
+          titolo: Sotto il tavolo
+          testo: |
+            Brunella sorride alla pasta e la piega un'altra volta prima di
+            rispondere. Da bambina Liaren scappava dalle lezioni di galateo e
+            veniva a nascondersi sotto il tavolo grande della cucina, con le
+            ginocchia contro il mento e un libro preso nella biblioteca del
+            padre. La maestra la cercava per tutto il Maniero, e Brunella le
+            diceva di no con il mestolo in mano, senza voltarsi dai fornelli. A
+            otto anni Liaren le ha chiesto di insegnarle a tagliare le cipolle,
+            e lei le ha spostato le dita sul coltello una per una, nocche in
+            fuori. «Adesso le taglia più in fretta di me, e ci piange anche
+            meno» dice Brunella, soffiando via la farina dal tavolo.
+
+      - testo: "Chiederle della notte in cui morì Maerith"
+        descrizione: "Brunella era al Maniero, quella notte. Di sicuro sa più di quello che c'è scritto nel diario di Isvaro."
+        requisiti: [pista.acciaio >= 6]
+        costo: 0
+        esito:
+          titolo: Di Liaren
+          testo: |
+            Brunella smette di impastare e si pulisce le mani sul grembiule,
+            piano, finché fra le dita non resta più farina. Per un po' guarda il
+            cucchiaio di legno sulla mensola. «Questa no. È di Liaren, e se un
+            giorno vorrà raccontarla la racconterà lei. Io starò zitta anche
+            quel giorno» dice alla fine, con la voce di sempre. Poi riprende la
+            pasta dal punto in cui l'aveva lasciata, e per un pezzo in cucina si
+            sente soltanto il tavolo che scricchiola sotto i suoi palmi.
+
+      - testo: "Chiederle perché ha seguito Liaren"
+        descrizione: "Quarant'anni nella stessa cucina, e poi una locanda sopra il vuoto. Qualcosa l'ha convinta."
+        esito:
+          titolo: La porta della cucina
+          testo: |
+            Brunella mette le due paste a lievitare sotto un panno, e solo
+            allora risponde. Liaren se n'era andata dal Maniero da anni quando
+            una sera si è presentata alla porta di servizio della cucina con i
+            capelli corti e un tatuaggio nuovo sul braccio, e le ha detto che
+            si era comprata una locanda e che la zuppa non la sapeva fare. «Ho preso i
+            miei coltelli e quel cucchiaio lì» dice Brunella, indicando la
+            mensola. «Il resto l'ho lasciato sul tavolo con il grembiule. Da
+            quella sera al Maniero il pane dolce non l'ha più fatto nessuno.»
+            Lo dice con una punta di soddisfazione, e sistema meglio il panno
+            sulle paste.
+          pe: { empatia: 5 }
+          imposta: { grifone.brunella: 1 }
+          effetti: { rep.grifone: 1 }
+
+      - testo: "Impastare come le cuoche del Maniero"
+        descrizione: "Brunella dice che il pane dolce viene buono se lo si lavora finché le braccia protestano, e poi ancora un po'."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il cucchiaio della vecchia cuoca
+          testo: |
+            Pieghi la pasta come ti ha mostrato, con il palmo, finché le braccia
+            ti bruciano e l'impasto diventa liscio e tiepido come una guancia.
+            Brunella lo tasta con due dita e annuisce. Poi prende dalla mensola
+            il cucchiaio di legno e ci gira l'impasto una volta sola, per buona
+            sorte. Ti racconta che era della cuoca che le ha insegnato il
+            mestiere. La tacca vicino alla punta l'ha incisa lei la sera in cui
+            ha seguito Liaren, per ricordarsi la data. «Domattina il primo pezzo
+            è tuo» dice.
+          imposta: { grifone.brunella: 1 }
+          effetti: { rep.grifone: 1 }
+        fallimento:
+          titolo: Le pieghe svelte
+          testo: |
+            Pieghi la pasta come ti ha mostrato, finché le braccia ti si
+            stancano e cominci a schiacciarla con le dita. Brunella ti guarda
+            lavorare per un po' senza dire niente, poi ti toglie la ciotola e la
+            rimette a posto con quattro pieghe svelte. «Se la tratti male, si
+            stanca prima la pasta di te» dice. Ti manda a letto con una fetta di
+            quello di ieri, e la storia del Maniero per stasera resta dov'era.
+
+  # ------------------------------------------------------------ storia a 4 · l'insegna
+  - id: l-insegna-del-grifone
+    presso: grifone-di-ferro
+    immagine: personaggi/liaren-tarvelin
+    titolo: L'insegna del Grifone
+    sommario: "Liaren ha staccato l'insegna dalla facciata e l'ha stesa su due cavalletti in mezzo alla sala. Sul bancone si accumulano le lettere della Gilda."
+    luogo: Locanda del Grifone di Ferro, la sala, di mattina
+    area: ponti-sospesi
+    requisiti: [rep.grifone >= 4, grifone.insegna == 0, pista.acciaio >= 8]
+    testo: |
+      La mattina il Grifone è vuoto e odora di sapone, e la luce entra a
+      strisce fra le assi inchiodate alle finestre, dove in queste settimane
+      i clienti hanno inciso nomi e date con la punta dei coltelli. In mezzo
+      alla sala, su due cavalletti, c'è l'insegna che fino a ieri stava sopra
+      la porta, una tavola di quercia lunga quanto un uomo con un grifone
+      nero su un fondo che un tempo era rosso. Le fiamme della razzia le
+      hanno mangiato un angolo, e della scritta resta *Locanda del Grifone di
+      F*.
+
+      Liaren è seduta a cavalcioni di una panca, con un barattolo di vernice
+      aperto accanto e il pennello asciutto in mano. Alle sue spalle, sul
+      bancone, c'è una pila di lettere con la cera verde della Casa dei Nodi,
+      tutte chiuse. «La Gilda scrive ogni mattina» dice senza voltarsi.
+      «Vogliono che firmi e riaccenda la fornace, perché senza il lyssan di
+      mio padre mezza Qir-Azel sta ferma. Mi offrono un amministratore e la
+      sedia che lui aveva nel consiglio della Gilda.» Indica la pila con il
+      pennello. «Con quello che rende l'Acciaieria in un mese, questa la rifaccio di pietra, con i
+      vetri alle finestre e un grifone dorato sopra la porta.»
+
+      *Vogliono che riaccenda la fornace davanti alla quale hanno messo in
+      posa suo padre.* La mascella ti si è serrata da sola. Dalla porta
+      della cucina Brunella guarda la vernice con le labbra serrate, e torna
+      dentro. «Tu che cosa terresti?» chiede Liaren, e per la prima volta da
+      quando sei entrato si gira a guardarti.
+    opzioni:
+      - testo: "Chiederle che cosa ne pensa davvero dell'Acciaieria"
+        descrizione: "La Gilda ne parla come di un affare. Liaren, per adesso, ne ha parlato soltanto con il pennello."
+        costo: 0
+        esito:
+          titolo: Il registro della paga
+          testo: |
+            «Penso che là dentro sono morti otto operai, e che la Gilda me ne
+            scrive come di un guasto alla fornace» dice Liaren. Con la prima
+            lettera le hanno mandato il registro della paga, con i nomi degli
+            operai in colonna, e lei ci ha riconosciuto due famiglie della Città
+            Bassa che vengono a bere qui il sabato. «Se firmo, domani la
+            riaccendono con gente nuova, e il primo lingotto esce con il mio
+            nome sopra.» Gira il pennello fra le dita, e la vernice secca si
+            sbriciola sul pavimento.
+
+      - testo: "Dirle che potrebbe prendere i soldi e basta"
+        descrizione: "L'Acciaieria può andare avanti senza di lei. Una rendita non chiede di sporcarsi le mani."
+        costo: 0
+        esito:
+          titolo: Nemmeno un chiodo
+          testo: |
+            Liaren ti ascolta fino in fondo, e intanto il pennello le gocciola
+            sul ginocchio senza che se ne accorga. «Quei soldi li ha fatti un
+            uomo che con l'aiuto di Vesh ha tolto di mezzo mia madre. Con i suoi
+            soldi non ci compro nemmeno un chiodo per questa tavola, e la Gilda
+            può andare a farsi friggere con la sua sedia» dice a voce piatta.
+            Si pulisce il ginocchio con il pollice, e la vernice si allarga.
+            «Però grazie di avermelo detto in faccia. Alle spalle me lo
+            dicono tutti» aggiunge, e quasi sorride.
+
+      - testo: "Ridipingere l'insegna con lei"
+        descrizione: "La tavola è buona, e l'angolo bruciato si può lasciare com'è. Serve una mano ferma per il grifone e la pazienza di un copista per la scritta."
+        prova: { attributo: sociale, abilita: [espressivita, tecnologia], difficolta: Media }
+        successo:
+          titolo: L'angolo bruciato
+          testo: |
+            Liaren ripassa il fondo rosso e tu il grifone, penna per penna, con
+            il pennello più piccolo che trovate in cucina. Le lettere della
+            scritta che mancano non le rifate, e lasciate com'è anche l'angolo
+            bruciato. Liaren ci passa sopra una mano di vernice chiara perché il
+            carbone non si sbricioli più. A mezzogiorno due Raschiatori vi
+            aiutano a riappenderla sopra la porta. Liaren la guarda dal ponte a
+            braccia conserte. Quando rientra prende la pila di lettere della
+            Gilda e la porta in cucina, dove il fuoco è acceso.
+          imposta: { grifone.insegna: 1 }
+          effetti: { rep.grifone: 1 }
+        fallimento:
+          titolo: La coda
+          testo: |
+            Cominci dal grifone, e alla terza penna il pennello ti scappa e
+            lascia sul fondo rosso una riga nera lunga una spanna. Provi a
+            coprirla e la allarghi. Liaren guarda la macchia a lungo con la
+            testa piegata, e dice che adesso il grifone ha una coda che prima
+            non aveva. Ride, però per oggi mette giù il pennello, e l'insegna
+            resta sui cavalletti ad asciugare, coda compresa.
+
+      - testo: "Aiutarla a rispondere alla Casa dei Nodi"
+        descrizione: "Dire di no alla Gilda si può, se lo si scrive nel modo giusto. Liaren da sola risponderebbe con due righe e una parolaccia."
+        immagine: fazioni/gilda-dei-mercanti
+        prova: { attributo: mentale, abilita: [politica-ed-economia, galateo], difficolta: Media }
+        successo:
+          titolo: Il nome intero
+          testo: |
+            Scrivete la risposta al bancone, due pagine, con Liaren che detta e
+            tu che togli le parolacce. Nella lettera c'è scritto che l'erede dei
+            Tarvelin non firmerà, e che la Gilda può trattare con lei qualunque
+            altra cosa purché non riguardi la fornace. Ci mettete la gratitudine
+            che serve a una Gilda che ha bisogno di sentirsi ringraziata, e
+            nemmeno un grammo di più. Liaren firma con il suo nome intero, cosa
+            che non faceva da anni. Poi manda la lettera alla Casa dei Nodi con
+            un ragazzino e si mette a ridipingere l'insegna da sola.
+          imposta: { grifone.insegna: 1 }
+          effetti: { rep.grifone: 1 }
+        fallimento:
+          titolo: Cortese e scortese
+          testo: |
+            Scrivete la risposta al bancone, con Liaren che detta e tu che provi
+            a togliere le parolacce. Ogni volta che ne togli una lei ne aggiunge
+            due, e alla fine la lettera è così cortese da sembrare una presa in
+            giro e così scortese da sembrare una dichiarazione di guerra. Liaren
+            la rilegge ad alta voce e ride fino a tenersi il fianco. Poi la
+            strappa in quattro e la butta nel camino, insieme alla lettera della
+            Gilda arrivata stamattina, e dice che per oggi può bastare.
+
+      - testo: "Dirle di tenere tutto com'è"
+        descrizione: "L'insegna bruciata, le assi con i nomi incisi sopra. Forse il Grifone va bene così, con i segni della razzia addosso."
+        esito:
+          titolo: I nomi sulle assi
+          testo: |
+            Le dici che l'insegna bruciata racconta la notte della razzia meglio
+            di qualunque grifone dorato, e che le assi incise sono le finestre
+            più care di Qir-Azel. Liaren ci pensa con il pennello fra i denti,
+            poi va alla finestra e legge i nomi uno per uno, muovendo le labbra.
+            Ce n'è uno di un Raschiatore che dall'ultimo turno non è tornato.
+            Rimette il coperchio sul barattolo, e nel pomeriggio l'insegna torna
+            sopra la porta con l'angolo bruciato. La sera Brunella accende il
+            camino con le lettere della Gilda, una alla volta.
+          pe: { empatia: 5 }
+          imposta: { grifone.insegna: 1 }
+          effetti: { rep.grifone: 1 }
+
+  # ------------------------------------------------------------ storia a 6 · la chiave
+  - id: una-chiave-del-grifone
+    presso: grifone-di-ferro
+    immagine: personaggi/liaren-tarvelin
+    titolo: Una chiave del Grifone
+    sommario: "È tardi e la sala si svuota, e Liaren ti chiede di restare. Al Grifone chi ha la chiave chiude la sala, e stasera tocca a te."
+    luogo: Locanda del Grifone di Ferro, a chiusura
+    area: ponti-sospesi
+    requisiti: [rep.grifone >= 6, grifone.chiave == 0, pista.acciaio >= 8]
+    testo: |
+      Dopo l'ultima campana Liaren appende il samisen al chiodo dietro il
+      bancone e non torna a sedersi. Brunella è già salita a dormire, e in
+      sala restano le lanterne accese e un ultimo Raschiatore addormentato
+      con la guancia sul tavolo, accanto a un boccale vuoto.
+
+      Dalla tasca Liaren tira fuori una chiave di ferro lunga quanto un dito,
+      con un nastro azzurro sbiadito legato all'anello, e la posa sul bancone
+      fra voi due. «Le chiavi del Grifone sono tre. Una è mia e una è di
+      Brunella» dice. «Questa l'ho fatta fare il giorno che ho comprato la
+      locanda, per mio fratello, così la sera poteva rientrare senza
+      bussare.» Passa il pollice sul nastro. «È rimasta su un chiodo in
+      cucina per sei anni, e Brunella la spolverava il sabato senza dirmi
+      niente. A lui adesso non serve.»
+
+      *Sei anni su un chiodo, e adesso la mette davanti a me.* Le dita ti
+      restano ferme sul legno, lontane dalla chiave.
+
+      Liaren indica il Raschiatore addormentato con il mento. «Qui la regola
+      è che chi ha la chiave chiude la sala, e stasera la chiudi tu» dice.
+      «Lui si chiama Orso. Quando dorme così non lo sveglia neanche un ponte
+      che crolla, e gli altri ci hanno sempre rinunciato.» Si appoggia al
+      bancone a braccia conserte, e aspetta.
+    opzioni:
+      - testo: "Chiederle perché proprio tu"
+        descrizione: "In città ci sono Raschiatori che bevono qui da vent'anni. Quella chiave poteva darla a uno di loro."
+        costo: 0
+        esito:
+          titolo: La prima faccia
+          testo: |
+            «Perché quando mi hai tirata fuori dall'Acciaieria la prima faccia
+            che ho visto era la tua, e io le facce me le ricordo male, a
+            differenza di Brunella» dice Liaren. «E perché Brunella ha detto di
+            sì prima che finissi la domanda.» Si stringe nelle spalle, e il
+            fianco le tira un poco. «In questa città ho un padre morto e un
+            fratello che è meglio non nominare. Mi serve una locanda piena di
+            gente, e qualcuno che la chiuda quando io non ce la faccio.»
+
+      - testo: "Svegliarlo con le buone"
+        descrizione: "Orso è un Raschiatore, e i Raschiatori si svegliano male. Bisogna arrivarci piano."
+        immagine: ambientazione/locanda-del-grifone-di-ferro
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La canzone a metà
+          testo: |
+            Ti siedi accanto a Orso e aspetti che il respiro gli cambi, poi gli
+            parli piano del vento sul ponte e della zuppa di domani, finché apre
+            un occhio. Ti chiede se è già mattina. Gli dici che non lo è, e che
+            il suo letto è più comodo del tavolo. Si alza da solo, ti dà sulla
+            spalla una pacca che ti lascia il segno ed esce cantando sottovoce
+            una canzone che si interrompe a metà.
+          segue: la-chiave-sul-bancone
+        fallimento:
+          titolo: Il caposquadra
+          testo: |
+            Gli posi una mano sulla spalla e lo chiami per nome. Orso si sveglia
+            di colpo, ti scambia per il suo caposquadra e ti giura che il turno
+            di domani lo fa lui, poi si riaddormenta sull'ultima parola. Dal
+            bancone Liaren ride senza fare rumore. Ti dice che la sala si chiude
+            anche domani sera, e che con ogni probabilità Orso sarà ancora lì.
+
+      - testo: "Portarlo a casa di peso"
+        descrizione: "Abita in una baracca sul margine dei Ponti. Pesa quanto una botte, ma una botte non scalcia."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La baracca sul margine
+          testo: |
+            Ti carichi un braccio di Orso sulle spalle e lo tiri su. Pesa come
+            una botte piena, e a metà sala si sveglia abbastanza da aiutarti con
+            le gambe. Lo porti fino alla sua baracca sul margine dei Ponti, che
+            ti indica a gesti, e lo lasci seduto sulla soglia con la porta
+            aperta e la chiave in mano. Quando torni Liaren ha già spento metà
+            delle lanterne.
+          segue: la-chiave-sul-bancone
+        fallimento:
+          titolo: Sotto il tavolo
+          testo: |
+            Ti carichi un braccio di Orso sulle spalle e lo tiri su. Pesa come
+            una botte piena, e a metà sala ti cedono le gambe e finite tutti e
+            due sotto un tavolo, con Orso che continua a dormire. Liaren vi
+            guarda da sopra il bancone. Dice che per stasera Orso dorme lì sotto
+            con una coperta addosso, e che la sala la chiudete un'altra volta.
+
+      - testo: "Svegliarlo con la canzone della buonanotte"
+        descrizione: "I Raschiatori chiudono le serate con una canzone sola, sempre la stessa. Chi la sente di solito si alza e va a casa."
+        immagine: personaggi/liaren-tarvelin
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: L'ultimo verso
+          testo: |
+            Attacchi a voce bassa la canzone con cui i Raschiatori chiudono le
+            serate, quella della corda che tiene e della moglie che aspetta in
+            cima. Alla seconda strofa Liaren riprende il samisen dal chiodo e ti
+            viene dietro. Al ritornello Orso alza la testa, e l'ultimo verso lo
+            canta con voi a occhi chiusi, stonato come una campana crepata. Poi
+            si alza e vi augura la buonanotte con un inchino, prima di uscire
+            camminando dritto.
+          segue: la-chiave-sul-bancone
+        fallimento:
+          titolo: Un'altra pinta
+          testo: |
+            Attacchi la canzone con cui i Raschiatori chiudono le serate, e alla
+            seconda strofa sbagli le parole e fai sposare la moglie con la
+            corda. Orso si sveglia ridendo così forte che deve tenersi al
+            tavolo, e per festeggiare chiede un'altra pinta. Liaren gliela
+            versa, perché a una risata così non si dice di no, e la sala resta
+            aperta fino a tardi.
+
+      - testo: "Aspettare che si svegli da solo"
+        descrizione: "Prima o poi si sveglierà. Nel frattempo la sala si può mettere in ordine intorno a lui."
+        costo: 2
+        esito:
+          titolo: L'alba
+          testo: |
+            Metti le sedie sui tavoli intorno a Orso senza fare rumore, poi
+            spazzi la sala e ti siedi sul gradino della scala. Liaren sale a
+            dormire dopo un'ora, lasciandoti una lanterna. Orso si sveglia
+            quando dalle assi alle finestre comincia a filtrare la luce grigia.
+            Si guarda intorno, vede la sala in ordine e te seduto sul gradino, e
+            ti chiede se hai chiuso tu. Gli dici di sì. Lui annuisce come se
+            fosse la cosa più normale del mondo ed esce.
+          pe: { resilienza: 5 }
+          segue: la-chiave-sul-bancone
+
+  - id: la-chiave-sul-bancone
+    immagine: personaggi/liaren-tarvelin
+    titolo: La chiave sul bancone
+    tipo: seguito
+    luogo: Locanda del Grifone di Ferro, a sala chiusa
+    area: ponti-sospesi
+    requisiti: [grifone.chiave == 0]
+    testo: |
+      Quando la sala è vuota Liaren chiude la porta d'ingresso con un solo
+      giro di chiave e la sfila dalla serratura. Poi prende dal bancone
+      quella con il nastro azzurro e te la mette sul palmo, chiudendoti le
+      dita sopra con le sue, che hanno i polpastrelli duri delle corde.
+
+      «Si entra dal retro, come quelli di casa» dice. «La branda al piano di
+      sopra non la paghi più. Se di notte senti rumore in sala non scendere a
+      guardare, perché sono io che non dormo.» Sale due gradini e si ferma.
+      «Il nastro toglilo, se vuoi. Era di quando lui aveva dieci anni.»
+
+      Sul bancone, sotto il mestolo appeso, Brunella ha lasciato una
+      scodella coperta con un piatto e un cucchiaio accanto. *Brunella sapeva
+      già come sarebbe finita la serata.* Il samisen dondola appena sul suo
+      chiodo, per lo spiffero che passa dalle finestre inchiodate.
+    opzioni:
+      - testo: "Tenere la chiave"
+        descrizione: "Con il nastro o senza. Da stasera al Grifone entri dal retro."
+        esito:
+          titolo: Quelli di casa
+          testo: |
+            Infili la chiave con tutto il nastro nella tasca interna della
+            giubba, e la senti contro il petto per tutta la scodella di zuppa,
+            che è fredda ed è buonissima. Prima di salire spegni l'ultima
+            lanterna, e al buio la sala sembra più grande. Dal piano di sopra
+            arriva la voce di Liaren che canticchia piano, e smette quando
+            arrivi in cima alle scale.
+          imposta: { grifone.chiave: 1 }
+          effetti: { rep.grifone: 1 }
+      - testo: "Rifiutare con garbo"
+        descrizione: "Quella chiave era di qualcun altro, e forse non spetta a te portarla."
+        esito:
+          titolo: Il chiodo in cucina
+          testo: |
+            Le dici che quella chiave è di qualcun altro, e che non te la senti
+            di portarla tu. Liaren la guarda sul tuo palmo per un momento. Poi
+            la riprende senza dire niente e va a riappenderla al chiodo della
+            cucina, accanto ai mestoli. «Resta lì, allora. Brunella la spolvera
+            il sabato, e io non le dico niente» dice dalla porta. Ti spinge
+            davanti la scodella, e la zuppa è fredda e buonissima lo stesso.
+
+  # ------------------------------------------------------------ la branda di chi ha la chiave
+  - id: la-tua-branda
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: La tua branda
+    sommario: "Entri dal retro con la tua chiave, come quelli di casa, e la branda al piano di sopra ti aspetta."
+    luogo: Locanda del Grifone di Ferro, la tua stanza
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [grifone.chiave >= 1]
+    testo: |
+      La porta del retro si apre con la tua chiave al secondo giro, perché
+      la serratura è vecchia quanto la locanda. In cucina il fuoco è coperto
+      di cenere, e sul tavolo Brunella lascia sempre qualcosa sotto un panno,
+      un pezzo di pane dolce o una scodella che si può mangiare anche fredda.
+      Sali la scala di servizio al buio contando i gradini, e quello che
+      cigola lo scavalchi.
+
+      La tua branda è nella stanza in fondo al corridoio, quella che sulla
+      porta ha scritto a gesso il nome di un animale che hai scelto tu. Dalla
+      finestra arriva il vento che passa fra le corde del ponte, e se è
+      ancora presto, dalla sala, il samisen di Liaren.
+    opzioni:
+      - testo: "Dormire fino a giorno"
+        descrizione: "Una notte intera sotto il tetto del Grifone, con la porta che si apre al tuo giro di chiave."
+        esito:
+          titolo: L'odore del pane
+          testo: |
+            Ti togli gli stivali seduto sulla branda, e non ricordi di esserti
+            steso. Ti sveglia l'odore del pane che sale dalle assi del
+            pavimento, e scendendo le scale ti accorgi che le ferite tirano meno
+            e che hai la testa più sgombra di ieri. Brunella ti mette davanti la
+            colazione e ti chiede soltanto se il cuscino va bene.
+          effetti: { ferite: -1, tormento: -0.5 }
+
+  # ------------------------------------------------------------ la carta
+  - id: carta-il-grifone-ti-cerca
+    immagine: personaggi/brunella-fennick
+    titolo: Il Grifone ti cerca
+    sommario: "Sul Ponte delle Mille Corde un ragazzino con un grembiule troppo lungo ti corre dietro chiamandoti per nome."
+    luogo: Ponti Sospesi, il Ponte delle Mille Corde
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [rep.grifone < 2, conosci.liaren >= 1]
+    testo: |
+      Sul Ponte delle Mille Corde è l'ora in cui i mercanti smontano i
+      banchi, e le assi vibrano sotto i carretti vuoti che tornano verso il
+      Mercato dei Nodi. Un venditore di castagne tiene il fornello acceso
+      sopra una lastra di pietra, per paura del legno, e ogni tanto si china
+      a controllare che la lastra sia ancora al suo posto. Senti chiamare il
+      tuo nome due volte prima di capire che chiamano proprio te.
+
+      È un ragazzino di dieci anni al massimo, con un grembiule che gli
+      arriva alle caviglie anche dopo due giri di laccio intorno alla vita.
+      Lo hai già visto al Grifone, a portare la legna in cucina per un pezzo
+      di pane. Ti raggiunge di corsa e riprende fiato con le mani sulle
+      ginocchia. «Mi manda Brunella» dice. «Dice che sono tre giorni che non
+      ti vede, e che quando non vede una faccia per tre giorni manda qualcuno
+      a cercarla. Stasera c'è lo stufato.»
+
+      *Non pensavo che qualcuno tenesse il conto dei miei giorni.* Il ragazzino si tira su e
+      aggiunge, più piano, che Brunella avrebbe anche una botte da far
+      portare su dal mercato, e che lui da solo non ce la fa.
+    opzioni:
+      - testo: "Andare a mangiare lo stufato"
+        descrizione: "Il ragazzino ti fa strada. Brunella, a quanto pare, ti tiene una scodella in caldo."
+        esito:
+          titolo: La scodella tenuta in caldo
+          testo: |
+            Il ragazzino ti fa strada fino al Grifone camminando all'indietro,
+            per controllare che tu lo segua. In cucina Brunella ti guarda dalla
+            testa ai piedi, poi tira fuori dal forno una scodella coperta con un
+            piatto, che teneva lì chissà da quanto. Mentre mangi si siede sulla
+            cassetta rovesciata e non ti chiede niente. Quando hai finito ti
+            riempie la scodella un'altra volta, e solo allora vuole sapere dove
+            sei stato.
+          effetti: { rep.grifone: 0.5 }
+      - testo: "Portare su la botte dal Mercato dei Nodi"
+        descrizione: "Una botte di sidro, il ponte in salita e un ragazzino che corre davanti a gridare di fare largo."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Facile }
+        successo:
+          titolo: Fate largo
+          testo: |
+            La botte è di sidro e pesa più del ragazzino e di te messi insieme.
+            La fai rotolare lungo il Ponte delle Mille Corde frenandola con il
+            piede a ogni discesa, mentre il ragazzino corre davanti a gridare di
+            fare largo. Al Grifone Brunella ti fa trovare lo stufato e due
+            monete sul bordo della scodella, e il ragazzino racconta a tutta la
+            cucina che la botte l'avete portata insieme.
+          effetti: { monete: 2, rep.grifone: 0.5 }
+        fallimento:
+          titolo: Il mulo spaventato
+          testo: |
+            La botte è di sidro e pesa più di quanto pensavi. Alla prima discesa
+            del ponte ti scappa di mano e rotola via, e per fermarla contro un
+            parapetto ci vogliono tre Raschiatori e un mulo spaventato. Arriva
+            al Grifone ammaccata ma intera. Brunella guarda prima la botte e poi
+            te, e ti mette davanti lo stufato lo stesso, con una striscia di
+            tela per la mano.
+      - testo: "Mandarle a dire che stasera non puoi"
+        descrizione: "Il ragazzino ha fatto tutta quella strada di corsa. Almeno una castagna se la merita."
+        costo: 0
+        esito:
+          titolo: Una castagna calda
+          testo: |
+            Compri al venditore una castagna calda per il ragazzino e gli dici
+            di riferire a Brunella che stasera non puoi. Lui ci pensa su, con la
+            castagna fra le mani, e ti chiede se può dirle che hai mangiato. Gli
+            dici di sì. Riparte di corsa verso il Grifone, e a metà ponte si
+            gira a farti un cenno, con il grembiule che gli sbatte intorno alle
+            gambe.

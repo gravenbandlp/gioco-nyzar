@@ -1,0 +1,905 @@
+# La città viva, luogo 8: la Biblioteca di Qir-Azel (presso: biblioteca-di-qir-azel, area quartieri-alti).
+# L'attività del tavolo lungo, le tre storie di rep.biblioteca (2 gli scaffali sigillati, 4 i cristalli che
+# pensano, 6 la chiave degli scaffali, ognuna con il suo flag) e la carta del libro in prestito. Il servizio
+# (le ricerche fra gli scaffali, da pista.sepolcro >= 4) sta già in contenuti/piste/sepolcro-1.yaml.
+# Reputazione: le storie la portano a 3, 5 e 7. Le opzioni dell'attività la fanno salire fino a 4 (catalogo,
+# topi, Mattias) e da 4 a 6 (i visitatori, sociale Media; la tavoletta, mentale Media; il tetto, fisico
+# Difficile). Con la chiave (biblioteca.tessera) si aprono gli scaffali sigillati, che ogni tanto danno un
+# Segreto.
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: il-tavolo-lungo
+    presso: biblioteca-di-qir-azel
+    immagine: ambientazione/biblioteca-di-qir-azel
+    titolo: Il tavolo lungo
+    sommario: "Ulric Stanne paga poco chi lavora per la Biblioteca. Al tavolo lungo, però, c'è sempre qualcosa da fare."
+    luogo: Biblioteca di Qir-Azel, la sala di lettura
+    area: quartieri-alti
+    ripetibile: true
+    testo: |
+      La mattina presto, prima che arrivino i lettori, il tavolo lungo sotto il
+      lampadario grande della Biblioteca di Qir-Azel diventa il banco di chi fa
+      i lavori per Ulric Stanne. Ci sono le casse dei libri tornati dalle
+      spedizioni, ancora legate con lo spago, e una pila di schede di catalogo
+      da ricopiare. Il vasetto della colla di pesce Ulric lo tiene in un
+      cassetto chiuso a chiave, perché costa quanto un pranzo. La luce scende
+      color ambra dalle vetrate opache, e sul legno del tavolo ci sono due
+      avvallamenti chiari, lasciati da generazioni di gomiti.
+
+      Ulric sta dietro il bancone con il panciotto rosso e la barba bianca
+      lunga, che si pettina con le dita mentre legge. Ha il monocolo sull'occhio
+      destro, e alle sue spalle è appoggiato un liuto con una corda rotta
+      arrotolata intorno al pirolo. Ai visitatori che non sanno un po' di storia
+      risponde con cortesia senza alzare gli occhi dal libro. Chi lavora per lui
+      riceve una paga piccola e puntuale, accompagnata ogni volta da una lamentela
+      sul prezzo della carta.
+
+      Accanto al bancone è appeso l'elenco dei lavori del giorno, scritto con la
+      sua grafia piccola e diritta, e in fondo un'altra mano ha aggiunto a
+      matita *la paga non si chiede in anticipo*. L'odore della carta vecchia ti
+      riporta a una soffitta e a un baule di libri di cui non ricordi più i
+      titoli.
+    opzioni:
+      - testo: "Ricopiare le schede del catalogo"
+        descrizione: "Le schede vecchie sono macchiate e scritte da mani diverse. Ulric le vuole nuove e tutte uguali, con la segnatura in alto a destra."
+        requisiti: [rep.biblioteca < 2, indizio.archivi-mutilati == 0]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Facile }
+        successo:
+          titolo: Le schede nuove
+          testo: |
+            Passi la mattina a ricopiare schede, una dopo l'altra, con la segnatura in
+            alto a destra e il titolo in mezzo, come vuole Ulric. Su una scheda
+            vecchia trovi un errore di trent'anni fa, un volume di cronache segnato
+            due volte con due numeri diversi, e lo correggi. Ulric passa, guarda la
+            correzione attraverso il monocolo e fa un piccolo verso con la gola. A
+            mezzogiorno ti mette in mano una moneta, e ci pensa un poco prima di
+            lasciarla andare.
+          effetti: { monete: 1, rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: Le grafie
+          testo: |
+            Le schede vecchie sono scritte da mani diverse, e una di quelle mani fa le
+            stesse curve per la elle e per la esse, e a metà mattina hai segnato un
+            trattato di agrimensura fra i bestiari. Ulric se ne accorge prima di te e
+            rifà la scheda lui, con un sospiro lungo che gli muove la barba, e per
+            quella mattina non ti dà niente.
+
+      - testo: "Ricontare le schede del catalogo"
+        descrizione: "Da quando sono spariti i libri della costa nord, Ulric vuole sapere se manca qualcos'altro. Il catalogo ha quattordici cassetti."
+        immagine: personaggi/ulric-stanne
+        requisiti: [rep.biblioteca < 2, indizio.archivi-mutilati >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Facile }
+        successo:
+          titolo: I conti tornano
+          testo: |
+            Conti le schede del settimo cassetto contro il registro degli acquisti,
+            una per una, con un dito sul registro e uno sulle schede. Ci vuole tutta
+            la mattina, e alla fine i numeri tornano. Manca soltanto quello che
+            sapevate già. Ulric scrive *completo* e la data sul frontalino del
+            cassetto e ti paga una moneta, poi resta a guardare il cassetto della
+            costa nord con il monocolo in mano.
+          effetti: { monete: 1, rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: La scheda dietro l'altra
+          testo: |
+            A metà del settimo cassetto perdi il conto, e quando ricominci ti viene un
+            numero diverso. Al terzo conteggio ti convinci che manca una scheda, e
+            Ulric diventa bianco come la sua barba finché la ritrovate infilata dietro
+            un'altra. Ti ringrazia lo stesso con la voce stanca, e il cassetto lo
+            riconta lui.
+
+      - testo: "Catalogare un lascito"
+        descrizione: "Una vedova dei Quartieri Alti ha lasciato alla Biblioteca i libri del marito. Ulric vuole sapere che cosa c'è prima di decidere dove metterli."
+        requisiti: [rep.biblioteca >= 2, rep.biblioteca < 4]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: L'erbario
+          testo: |
+            Apri le casse una per una e scrivi un foglio per ogni volume. Sono quasi
+            tutti libri di conti e trattati di navigazione fluviale, ma in fondo alla
+            terza cassa trovi un erbario con le piante seccate fra le pagine, e fra le
+            piante una lettera d'amore indirizzata a un'altra donna. Ulric la legge e
+            se la mette nel taschino del panciotto, ripiegata in quattro. «Questa
+            effettivamente a catalogo non ci va» dice, e ti paga due monete.
+          effetti: { monete: 2, rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: Il fondo umido
+          testo: |
+            La terza cassa ha preso l'umido in una cantina, e le pagine si sono
+            incollate a blocchi. Quando provi a staccarle una si strappa in due con un
+            rumore che fa voltare tutta la sala. Ulric arriva con la spatola d'osso e
+            ti mostra come si stacca una pagina con il vapore della teiera. Il resto
+            della cassa lo finite insieme. Per la giornata Ulric non ti dà niente, e
+            ti fa notare che la spatola d'osso l'ha pagata lui.
+
+      - testo: "Dare la caccia ai topi delle casse"
+        descrizione: "Nel deposito sotto la sala qualcosa rosicchia le rilegature. Ulric giura che è sempre lo stesso topo, e che ha gusti raffinati."
+        requisiti: [rep.biblioteca < 4]
+        prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Media }
+        successo:
+          titolo: Il topo del salterio
+          testo: |
+            Scendi nel deposito con una lanterna schermata e una scopa, e resti fermo
+            fra le casse finché senti il rosicchio. Il topo è grosso come un gatto
+            giovane e sta mangiando la costola di un salterio. Lo stani e lo insegui
+            fino al tombino, dove sparisce con un pezzo di cuoio in bocca, e ci metti
+            sopra una pietra. Ulric ti dà una moneta e ti chiede che libro stesse
+            mangiando, per segnarlo nel registro dei danni.
+          effetti: { monete: 1, rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: La pila di casse
+          testo: |
+            Scendi nel deposito con una lanterna e una scopa. Al primo rumore ti butti
+            fra le casse, e il manico della scopa ne fa cadere una pila che ti finisce
+            sulle caviglie. Il topo ti passa sopra il piede senza fretta e se ne va
+            dal tombino. Quando risali, Ulric guarda la polvere che hai addosso e ti
+            chiede con molta educazione se il topo stia bene, poi ti porta un panno
+            bagnato per le caviglie.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Aiutare Mattias con un'iscrizione"
+        descrizione: "Al primo piano Mattias Crenn ha una pietra precuriana con tre righe incise, e gli serve qualcuno che regga la lente senza fare domande sciocche."
+        immagine: personaggi/mattias-crenn
+        requisiti: [rep.biblioteca < 4]
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: La terza riga
+          testo: |
+            Reggi la lente sopra la pietra mentre Mattias Crenn, uno studioso
+            stempiato con gli occhiali spessi, ricalca i segni su un foglio sottile. A
+            un certo punto noti che la terza riga è incisa più a fondo delle
+            altre, come se qualcuno l'avesse ripassata. Quando glielo dici, Mattias si
+            pulisce le lenti sulla manica e si mette a parlare a raffica di correzioni
+            e di scalpellini precuriani pentiti. «Si fa, si fa» dice alla fine, e
+            scrive il tuo nome a margine del foglio, molto piccolo.
+          effetti: { rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: La lente
+          testo: |
+            Reggi la lente sopra la pietra mentre Mattias Crenn ricalca i segni su un
+            foglio sottile. Dopo un'ora il braccio comincia a tremarti, e la luce
+            riflessa gli finisce dritta negli occhiali. Mattias alza la testa senza
+            dire niente, ti prende la lente di mano e la appoggia su una pila di
+            monografie, che la regge meglio di te. Per il resto del pomeriggio ti
+            manda a prendere l'acqua.
+
+      - testo: "Rifare le capolettere di un salterio"
+        descrizione: "Un salterio è finito sotto una goccia del tetto, e metà delle capolettere miniate sono sbavate. Ulric paga a pagina, e poco."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Facile }
+        successo:
+          titolo: La vite sulla prima lettera
+          testo: |
+            Ti siedi accanto alla finestra con un pennello fine e i vecchi colori di
+            Ulric. Rifai le capolettere sbavate sul modello di quelle intatte, una
+            vite che si arrampica sulla prima lettera di ogni salmo, e alla quinta
+            pagina la mano va da sola. Ulric controlla con il monocolo e conta le
+            pagine due volte. Poi ti paga tre monete, tirandole fuori dal borsellino
+            una alla volta.
+          effetti: { monete: 3 }
+        fallimento:
+          titolo: Il serpente
+          testo: |
+            Rifai le capolettere sbavate sul modello di quelle intatte, una vite che
+            si arrampica sulla prima lettera di ogni salmo. Alla terza pagina la vite
+            ti viene storta, e alla quarta somiglia a un serpente. Ulric la studia
+            attraverso il monocolo, poi dice che il salterio era brutto anche
+            prima e ti paga una moneta per le pagine venute bene.
+          effetti: { monete: 1 }
+
+      - testo: "Restare dopo la chiusura"
+        descrizione: "Chi ha la pazienza di restare quando la sala si svuota, qualche volta sente Ulric suonare."
+        esito:
+          titolo: La canzone del mulo
+          testo: |
+            Aiuti il custode a spegnere i lampadari uno per uno, e quando resta accesa
+            soltanto la lampada del bancone Ulric prende il liuto. Lo accorda per un
+            quarto d'ora senza la corda rotta e suona una canzone caldrese su un passo
+            di montagna e un mulo testardo. Fra una strofa e l'altra racconta della
+            sua prima spedizione, un inverno passato in una grotta con un orso che
+            dormiva in fondo. Quando parla di casa l'accento gli scivola indietro di
+            cinquant'anni.
+          pe: { natura: 2 }
+
+      - testo: "Ricevere i visitatori che Ulric ignora"
+        descrizione: "Al bancone arriva chi di storia non sa niente, e Ulric non alza gli occhi. Adesso li manda da te, e tocca a te trovargli quello che cercano."
+        immagine: personaggi/ulric-stanne
+        requisiti: [rep.biblioteca >= 4, rep.biblioteca < 6]
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Il bisnonno conciatore
+          testo: |
+            Il primo è il figlio di un mercante che vuole dimostrare di discendere da
+            un fondatore della città. Gli trovi il registro dove il bisnonno risulta
+            conciatore, e lo convinci che anche i conciatori hanno fondato qualcosa.
+            La seconda è una cuoca che cerca una ricetta del secolo scorso, e la trovi
+            in un trattato di medicina sotto la voce *febbri*. A sera Ulric ti dà due
+            monete e si fa raccontare del figlio del mercante, ridendo dentro la
+            barba.
+          effetti: { monete: 2, rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: Il figlio del mercante
+          testo: |
+            Il primo è il figlio di un mercante che vuole dimostrare di discendere da
+            un fondatore della città. Gli trovi il registro giusto, e il bisnonno
+            risulta conciatore. Glielo dici troppo in fretta, e lui alza la voce
+            finché metà della sala smette di leggere. Ulric lo accompagna alla porta
+            tenendolo per il gomito, con un garbo che non gli avevi mai visto. Quando
+            torna ti dice che la verità si porge dal manico come le pentole, e ti
+            manda a riordinare il carrello dei resi.
+
+      - testo: "Leggere una tavoletta con Mattias"
+        descrizione: "Mattias ha avuto in prestito per tre giorni una tavoletta precuriana della Casa dei Nodi. Da solo non ce la fa, e lo ammette soltanto con te."
+        immagine: personaggi/mattias-crenn
+        requisiti: [rep.biblioteca >= 4, rep.biblioteca < 6]
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: La bolla di consegna
+          testo: |
+            La tavoletta è di metallo grigio, con i segni in rilievo, e Mattias la
+            tiene sul tavolo come un piatto che scotta. Lavorate fino a sera, e sei
+            tu a notare che i segni si ripetono ogni sette, come le righe di un
+            registro, e lui da lì ricostruisce che è un elenco di carichi. «Una bolla
+            di consegna» dice, e per un po' non sai se sia deluso o contento. «Prima
+            della Caduta, e già contavano le casse come la Gilda.» Poi ti versa mezzo
+            bicchiere del vino di Ulric, che lì dentro vale più di una paga.
+          effetti: { rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: Il metallo freddo
+          testo: |
+            La tavoletta è di metallo grigio, con i segni in rilievo. Passi il
+            pomeriggio a contarli, finché senti il metallo farsi freddo sotto le dita,
+            come l'acqua di un pozzo. Lo dici a Mattias, che ritira le
+            mani e copre la tavoletta con un panno. Ti dice che per oggi basta senza
+            spiegarti perché. A te resta un formicolio sui polpastrelli fino a notte.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Rattoppare il tetto della galleria"
+        descrizione: "L'edificio ha perso il tetto in due incendi, e quello nuovo lascia passare l'acqua sugli scaffali alti. Il conciatetti costa caro, e Ulric preferisce te."
+        requisiti: [rep.biblioteca >= 4, rep.biblioteca < 6]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Sui coppi
+          testo: |
+            Esci dall'abbaino della galleria con un rotolo di tela incatramata e un
+            martello, e ti ritrovi sui coppi con la Cicatrice a ovest che riflette il
+            sole. La perdita è vicino al colmo, dove un coppo si è spostato. Lo
+            rimetti a posto strisciando sulla pancia e ci inchiodi sopra la tela.
+            Quando rientri hai le ginocchia nere di catrame. Ulric ti paga quattro
+            monete e ti fa sapere con grande soddisfazione che sono la metà di quanto
+            chiedeva il conciatetti.
+          effetti: { monete: 4, rep.biblioteca: 0.5 }
+        fallimento:
+          titolo: La grondaia
+          testo: |
+            Esci dall'abbaino con un rotolo di tela incatramata, e al terzo passo un
+            coppo ti scivola sotto il piede. Scivoli giù per la falda fino alla
+            grondaia, che per fortuna regge, e resti lì aggrappato finché il garzone
+            di Ulric ti cala una corda. Dentro, sugli scaffali alti, l'acqua continua
+            a gocciolare. Ulric ti mette un panno sul gomito sbucciato e un secchio
+            sotto la perdita.
+          effetti: { ferite: 1 }
+
+      - testo: "Aprire uno scaffale sigillato"
+        descrizione: "Hai la chiave, e il tuo nome è sul registro. Ulric rifà il sigillo quando hai finito, e ti chiede soltanto di non leggere a voce alta."
+        immagine: personaggi/ulric-stanne
+        requisiti: [biblioteca.tessera >= 1]
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: Dietro la cera nera
+          testo: |
+            Ulric sale con te al secondo piano e rompe il sigillo davanti ai tuoi
+            occhi, poi scrive l'ora sul registro. Dietro le ante ci sono le cronache
+            delle Notti Cucite e quattro diari di pescatori, con una nota del Velo
+            sulla copertina, *non rispondano*. Tu scegli un fascio di frammenti
+            precuriani e leggi fino a sera. In fondo al fascio trovi la traduzione di
+            un'iscrizione, fatta tanti anni fa da un cronista del Velo, dove il nome del
+            Torvessa, il fiume dei pescatori, torna tre volte in sei righe. La ricopi con la mano che suda, e
+            Ulric rifà il sigillo senza chiederti niente.
+          effetti: { informazioni.segreto: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Il diario del pescatore
+          testo: |
+            Ulric rompe il sigillo davanti a te e scrive l'ora sul registro. Apri uno
+            dei diari dei pescatori, che per sessanta pagine parla con calma di reti e
+            di correnti. Nelle ultime dieci c'è una parola sola, in una lingua che
+            somiglia al precuriano, ripetuta riga dopo riga con una grafia sempre più
+            grande. Chiudi il diario e resti seduto a guardare la copertina. Al
+            bancone, mentre ti riprendi, Ulric ti racconta di chi l'aveva portato in
+            Biblioteca.
+          effetti: { informazioni.pettegolezzo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ storia a 2 · gli scaffali sigillati
+  - id: gli-scaffali-sigillati
+    presso: biblioteca-di-qir-azel
+    immagine: personaggi/ulric-stanne
+    titolo: Gli scaffali sigillati
+    sommario: "Su uno degli scaffali sigillati la cera nera si è sciolta per la terza volta in un mese, e Ulric Stanne non ci dorme più."
+    luogo: Biblioteca di Qir-Azel, il secondo piano
+    area: quartieri-alti
+    requisiti: [rep.biblioteca >= 2, biblioteca.scaffali == 0]
+    testo: |
+      Ulric Stanne ti porta su per la scala di pietra fino al secondo piano,
+      dove i lettori non salgono. Il corridoio è stretto e alto, e da una parte
+      e dall'altra gli scaffali hanno le ante chiuse con la cera nera della
+      Confraternita e un nastro rosso passato fra le maniglie. Su ogni sigillo è
+      impresso l'Albero. Ulric si ferma davanti al quarto scaffale a sinistra e
+      alza la lanterna.
+
+      La cera del sigillo è colata giù per l'anta in tre righe lucide, fino al
+      pavimento, mentre il nastro rosso è intatto. «Terza volta in un mese» dice
+      Ulric, e si toglie il monocolo. «Lo rifacciamo, e la mattina dopo lo
+      ritroviamo così. Effettivamente non so più che cosa pensare.»
+
+      Accanto allo scaffale c'è Ottilia Sanvel, la monaca del Velo che tiene le
+      chiavi di questi corridoi insieme a Ulric. È bassa e robusta, con i
+      capelli corti e le maniche rimboccate, e guarda la cera senza toccarla.
+      «Se qualcuno apre gli scaffali lo devo dire alla Madre» dice. «Prima
+      voglio sapere se è così.»
+
+      Sul cartellino dello scaffale, nella grafia di un bibliotecario morto da
+      tempo, c'è scritto *pietre dei pellegrini, sette*. *Sette pietre chiuse a
+      chiave, come se potessero scappare.* Stai trattenendo il fiato, e lo lasci
+      andare piano.
+    opzioni:
+      - testo: "Esaminare la cera colata"
+        descrizione: "Chi apre uno scaffale di nascosto lascia un segno sul legno. Bisogna guardare da vicino, con la lanterna."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Dal di dentro
+          testo: |
+            Avvicini la lanterna all'anta e guardi le colature da vicino. La cera è
+            uscita soltanto dalla fessura fra le ante, e sul legno intorno al sigillo
+            non c'è un graffio. Chi apre uno scaffale di nascosto rompe il sigillo,
+            mentre questo si è sciolto, e il caldo arrivava da dentro. Ottilia guarda
+            le colature e poi te, e tira fuori dalla manica un mazzo di chiavi legato
+            con lo spago.
+          pe: { percezione: 5 }
+          segue: le-pietre-dei-pellegrini
+        fallimento:
+          titolo: La quarta colatura
+          testo: |
+            Ti avvicini troppo con la lanterna, e la cera del sigillo comincia ad
+            ammorbidirsi sotto i tuoi occhi. Quando te ne accorgi c'è una quarta
+            colatura, e questa l'hai fatta tu. Ottilia stringe le labbra. Ulric va a
+            prendere il sigillo d'ottone e il bastoncino di cera, e ti chiede
+            gentilmente di tenere la lanterna un po' più lontano.
+
+      - testo: "Confrontare le date con i registri dei cronisti"
+        descrizione: "I cronisti della Biblioteca annotano ogni notte il cielo e la Cicatrice. Le tre notti delle colature sono segnate anche lì."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Luna chiara
+          testo: |
+            Scendi a prendere i registri dei cronisti, quelli che annotano ogni notte
+            il cielo e i bagliori della Cicatrice, e cerchi le tre date che ti dà
+            Ulric. Il cronista di turno ha la mano pesante e scrive sempre le stesse
+            parole. Nelle tre notti ha scritto *luna chiara, nessun bagliore*. Lo
+            leggi ad alta voce. Ulric resta con il monocolo a mezz'aria, poi si batte
+            la fronte con il palmo e dice a Ottilia che adesso sa quali sono le due
+            pietre.
+          pe: { accademiche: 5 }
+          segue: le-pietre-dei-pellegrini
+        fallimento:
+          titolo: Le sigle
+          testo: |
+            Scendi a prendere i registri dei cronisti e cerchi le tre date. Il
+            cronista di quelle notti scrive in un'abbreviazione tutta sua, e quello
+            che annota sul cielo e sulla Cicatrice è un muro di sigle. Passi il
+            pomeriggio a decifrarle senza venirne a capo. Quando chiedi di lui, Ulric
+            ti dice che è morto l'inverno scorso, e che il suo successore sta ancora
+            cercando di capirle.
+
+      - testo: "Chiedere a Ottilia di aprire lo scaffale"
+        descrizione: "Le chiavi le ha lei, e Ottilia apre soltanto a chi ha un motivo. Bisogna dargliene uno."
+        immagine: personaggi/ottilia-sanvel
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La richiesta motivata
+          testo: |
+            Le dici che basta un'occhiata dentro lo scaffale per sapere se manca
+            qualcosa, mentre fare la guardia di notte costa una settimana di sonno a
+            due persone che ne hanno poco. Ottilia ci pensa con le mani dietro la
+            schiena. «È motivata» dice, e scioglie il nastro rosso con due dita. Le
+            ante si aprono con un odore di polvere e di pietra calda.
+          pe: { persuasione: 5 }
+          segue: le-pietre-dei-pellegrini
+        fallimento:
+          titolo: Un motivo e una firma
+          testo: |
+            Le dici che basterebbe un'occhiata dentro lo scaffale per sapere se manca
+            qualcosa. Ottilia ti ascolta, e poi ti domanda a che titolo lo chiedi. La
+            risposta che le dai non le basta. Ti spiega con calma che gli scaffali si
+            aprono per chi ha un motivo scritto e una firma, e che tu oggi non hai né
+            l'uno né l'altra.
+
+      - testo: "Vegliare con Ulric la prossima notte serena"
+        descrizione: "Se qualcuno sale di notte, lo vedrete. Ci vuole una notte intera seduti sul pavimento del corridoio."
+        costo: 2
+        esito:
+          titolo: La goccia nera
+          testo: |
+            Aspettate la prima notte serena seduti sul pavimento del corridoio, con la
+            lanterna schermata e una coperta in due. Ulric ti racconta a mezza voce di
+            un passo di montagna e si addormenta a metà della salita. Verso l'alba
+            senti odore di cera calda. Il sigillo del quarto scaffale suda, e una
+            goccia nera scende lenta lungo l'anta, senza che nessuno ci sia passato
+            davanti. Svegli Ulric, che guarda la goccia e poi manda il garzone di
+            corsa a chiamare Ottilia.
+          pe: { resilienza: 5 }
+          segue: le-pietre-dei-pellegrini
+
+      - testo: "Chiedergli se c'entrano i libri spariti"
+        descrizione: "I libri della costa nord sono spariti senza lasciare traccia. Adesso si scioglie un sigillo."
+        requisiti: [indizio.archivi-mutilati >= 1]
+        costo: 0
+        esito:
+          titolo: Due ladri in un mese
+          testo: |
+            «Ci ho pensato la prima notte, e anche la seconda» dice Ulric. «I libri
+            della costa nord stavano in galleria, dove sale chiunque abbia un posto al
+            tavolo. Questi scaffali invece hanno il sigillo, e per aprirli ci vuole la
+            chiave di Ottilia o la mia.» Si rimette il monocolo. «Chi ha preso quei
+            libri è stato attento a non lasciare segni, e questo sigillo è un
+            disastro. Due ladri diversi in un mese mi sembrano troppi,
+            anche per Qir-Azel.»
+
+  - id: le-pietre-dei-pellegrini
+    immagine: ambientazione/superficie-fratturata
+    titolo: Le pietre dei pellegrini
+    tipo: seguito
+    luogo: Biblioteca di Qir-Azel, il quarto scaffale
+    area: quartieri-alti
+    requisiti: [biblioteca.scaffali == 0]
+    testo: |
+      Ottilia apre le ante con una chiave lunga. Dentro lo scaffale c'è un
+      vassoio di legno foderato di feltro verde con sette incavi, e in ogni
+      incavo una pietra grigia e qualunque, grande come un uovo, con un
+      cartellino legato con lo spago. Sotto due di loro il feltro è
+      bruciacchiato e scuro, e la parete di fondo dello scaffale, alle loro
+      spalle, si è annerita.
+
+      «Sono dei pellegrini che dicono di essere caduti verso l'alto mentre
+      sognavano, e di essere tornati con questi in tasca» dice Ulric. «Due si
+      scaldano nelle notti di luna chiara, e lo sapevamo. Che si scaldassero
+      fino a sciogliere la cera non lo sapeva nessuno.» Si gratta
+      la barba. «Chi li ha catalogati li ha messi qui dentro, e da allora qui
+      sono rimasti.»
+
+      Ottilia tocca piano una delle due pietre con il dorso delle dita, e la
+      trova fredda. «Non le ha prese nessuno. Va bene» dice, e ritira la mano
+      dentro la manica. «Resta da decidere dove metterle.» Ulric guarda prima
+      lei e poi te, e capisci che la decisione l'hanno lasciata a te perché
+      nessuno dei due vuole toccare quelle pietre un'altra volta.
+    opzioni:
+      - testo: "Metterle in una nicchia di pietra"
+        descrizione: "Nel muro del corridoio c'è una nicchia dei Precursori, vuota. Lì la pietra non brucia e la cera non serve."
+        esito:
+          titolo: La nicchia
+          testo: |
+            Nel muro del corridoio, fra due scaffali, c'è una nicchia vuota scavata
+            nella pietra dai Precursori, liscia come l'interno di una conchiglia. Ci
+            porti le due pietre una alla volta, tenendole nel palmo aperto, e
+            Ottilia ci mette davanti una grata di ferro con un lucchetto, senza
+            sigillo. Ulric riscrive il cartellino con la sua grafia piccola e diritta,
+            *cinque*, e ne fa un altro per la nicchia. Poi ti conta in mano tre
+            monete, lentamente.
+          pe: { accademiche: 5 }
+          imposta: { biblioteca.scaffali: 1 }
+          effetti: { rep.biblioteca: 1, monete: 3 }
+      - testo: "Battere l'unghia su una delle due pietre"
+        descrizione: "Nelle cronache della Superficie si dice che certe pietre rispondano ai colpi. Ulric fa una smorfia, però non ti ferma."
+        esito:
+          titolo: Un secondo dopo
+          testo: |
+            Prendi una delle due pietre e ci batti sopra l'unghia del medio, piano. Il
+            colpo non fa rumore, e un secondo dopo dalla pietra arriva un ticchettio
+            identico, come se qualcuno lo restituisse dall'altra parte. Ti si gela la
+            nuca. Ottilia non dice niente. Ulric ti toglie la pietra di mano con tutte
+            e due le mani, la posa nel vassoio e lo porta di persona fino alla nicchia
+            vuota del corridoio, dove Ottilia ci chiude davanti una grata di ferro.
+          pe: { resilienza: 5 }
+          imposta: { biblioteca.scaffali: 1 }
+          effetti: { rep.biblioteca: 1, tormento: 0.5, informazioni.pettegolezzo: 1 }
+      - testo: "Lasciarle dov'erano e cambiare il sigillo"
+        descrizione: "Le pietre non hanno fatto niente di male, a parte la cera. Basta un sigillo che non si sciolga."
+        esito:
+          titolo: Il sigillo di piombo
+          testo: |
+            Proponi di lasciare le pietre dove sono e di chiudere lo scaffale con un
+            sigillo di piombo, come quelli che la Gilda mette sulle casse dei dazi. Il
+            piombo non si scioglie per così poco, e costa meno della cera nera. Ulric
+            sente la parola *meno* e annuisce prima che tu abbia finito. Ottilia ci
+            pensa di più, poi va a prendere la pinza da sigilli della Confraternita e
+            ti lascia stringere il primo, che prende l'impronta dell'Albero un poco storta. Ulric scrive
+            sul cartellino la data del sigillo nuovo e ti dà due monete.
+          pe: { tecnologia: 5 }
+          imposta: { biblioteca.scaffali: 1 }
+          effetti: { rep.biblioteca: 1, monete: 2 }
+
+  # ------------------------------------------------------------ storia a 4 · i cristalli che pensano
+  - id: i-cristalli-che-pensano
+    presso: biblioteca-di-qir-azel
+    immagine: ambientazione/cristalli-conduttori
+    titolo: I cristalli che pensano
+    sommario: "Ulric Stanne ti chiede di restare dopo la chiusura. Stasera suona, e Mattias Crenn vuole che tu ti sieda vicino alle vetrine."
+    luogo: Biblioteca di Qir-Azel, l'ingresso, di sera
+    area: quartieri-alti
+    requisiti: [rep.biblioteca >= 4, biblioteca.cristalli == 0]
+    testo: |
+      Dopo la chiusura il custode spegne i lampadari, e resta accesa soltanto la
+      lampada del bancone. Ulric ha tirato fuori il liuto e ci ha messo una
+      corda nuova comprata apposta, e ti dice due volte quanto l'ha pagata.
+      Mattias Crenn è sceso dal primo piano con una bottiglia di vino delle
+      colline di Laresh e tre bicchieri spaiati.
+
+      All'ingresso ci sono le vetrine, due armadi di legno scuro con il vetro
+      ondulato. Dentro, su cuscini di velluto spelacchiato, stanno i cristalli
+      antichi che si sono spenti con l'Eclisse di Sangue e non si sono più
+      riaccesi. Sono undici cristalli opachi, alcuni della grandezza di un
+      pugno, e sotto ognuno c'è un cartellino con l'anno del ritrovamento. Su
+      uno un visitatore ha scritto a matita *dorme*.
+
+      «In città dicono che li si sente pensare» dice Mattias, e si pulisce le
+      lenti sulla manica. «Io ci passo davanti da trent'anni e non ho mai sentito
+      niente. Però chi lo racconta si era sempre fermato qui davanti mentre
+      Ulric suonava.» Ulric accorda il liuto e non alza gli occhi.
+
+      Ti siedi sullo sgabello accanto alla vetrina con il bicchiere in mano, e
+      Ulric suona una nota bassa e la tiene. *Questo vino costa più della mia
+      giubba.* Un secondo dopo la stessa frase ti torna indietro dal vetro, con
+      le tue parole e una voce che non riconosci.
+    opzioni:
+      - testo: "Pensare di proposito una cosa sola"
+        descrizione: "Se il vetro ti restituisce i pensieri, puoi scegliere tu che cosa dargli. Serve una testa ferma."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Il numero
+          testo: |
+            Chiudi gli occhi e pensi un numero, centoquarantatré, scandendolo come una
+            parola d'ordine, e un secondo dopo ti torna dalla vetrina uguale. Ci provi
+            con il nome della tua strada, e torna anche quello. Poi pensi una domanda,
+            chi sei. Dal vetro torna soltanto la domanda, con la tua voce di prima e
+            senza nient'altro. Lo racconti a Mattias, che scrive tutto su un quaderno
+            con la mano che gli trema. Ulric smette di suonare e si versa il resto del
+            vino.
+          pe: { resilienza: 5 }
+          imposta: { biblioteca.cristalli: 1 }
+          effetti: { rep.biblioteca: 1, tormento: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Tutto insieme
+          testo: |
+            Provi a pensare una cosa sola, e ti vengono in mente tutte le altre. Dal
+            vetro ti tornano, a un secondo di distanza, il nome di una persona che non
+            vedi da anni e una frase cattiva che avevi detto a qualcuno e speravi di
+            aver dimenticato. Ti alzi così in fretta che lo sgabello cade. Ulric
+            smette di suonare, e nella vetrina torna il silenzio.
+          effetti: { tormento: 1 }
+
+      - testo: "Lasciare che Mattias misuri"
+        descrizione: "Mattias ha in tasca un cristallo conduttore e un filo di rame. Gli serve una mano sul vetro mentre Ulric suona."
+        immagine: personaggi/mattias-crenn
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Media }
+        successo:
+          titolo: La venatura
+          testo: |
+            Mattias appoggia il filo di rame sul vetro e ti dice di tenerci sopra il
+            palmo. Fai passare il Mana piano, come quando accendi una lanterna, e
+            Ulric riprende la nota bassa. Nel cristallo più grande si illumina
+            d'azzurro una venatura sottile, e resta accesa per il tempo di tre
+            respiri. Mattias la guarda a bocca aperta e poi scrive per mezz'ora senza
+            alzare la testa. «La sesta monografia» dice alla fine, «e me la
+            respingeranno come le altre cinque. Si fa, si fa.»
+          pe: { magia: 5 }
+          imposta: { biblioteca.cristalli: 1 }
+          effetti: { rep.biblioteca: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Il filo di rame
+          testo: |
+            Mattias appoggia il filo di rame sul vetro e ti dice di tenerci sopra il
+            palmo. Spingi il Mana troppo in fretta, e il filo si scalda fino a
+            bruciarti la pelle. Nella testa ti si accende un ronzio che dura fino a
+            mezzanotte, pieno di frasi tue lasciate a metà. Mattias ti fa tenere la
+            mano in una bacinella d'acqua e richiude il quaderno senza scriverci
+            niente.
+          effetti: { tormento: 0.5, ferite: 0.5 }
+
+      - testo: "Chiedere a Ulric di smettere di suonare"
+        descrizione: "Forse basta la musica a svegliarli. Ulric lo sa, e forse sa anche altro."
+        immagine: personaggi/ulric-stanne
+        esito:
+          titolo: Eren Solmir
+          testo: |
+            Ulric posa il liuto sul bancone, e il vetro tace. Si toglie il monocolo e
+            lo pulisce sul panciotto. Racconta che l'ultima volta che ha visto
+            accendersi un cristallo di quelle vetrine c'era Eren Solmir, il più
+            giovane dei tre che risalirono dal Labirinto con le Maschere. Negli anni
+            dopo il Rito Eren veniva ancora a leggere al tavolo lungo e non dormiva mai, e
+            quando passava davanti alle vetrine i cristalli pulsavano per qualche
+            minuto. «Rideva di tutto, anche dopo» dice Ulric, e Mattias riempie i
+            bicchieri senza chiedere.
+          pe: { accademiche: 5 }
+          imposta: { biblioteca.cristalli: 1 }
+          effetti: { rep.biblioteca: 1, tormento: 0.5 }
+
+      - testo: "Non dire niente a nessuno"
+        descrizione: "Mattias aspetta di sapere se hai sentito qualcosa. Puoi tenerti la risposta."
+        esito:
+          titolo: L'eco che non arriva
+          testo: |
+            Bevi il vino e resti accanto alla vetrina finché Ulric non finisce di
+            suonare, e ogni pensiero lo senti tornare indietro un secondo dopo. Impari
+            presto a pensare piano. Quando Mattias ti chiede se hai sentito qualcosa
+            gli dici di no. Lui annuisce soddisfatto e dice a Ulric che aveva ragione
+            lui. Tornando a casa per le strade buie ti sorprendi ad aspettare l'eco di
+            ogni pensiero, e l'eco non arriva più.
+          pe: { resilienza: 5 }
+          imposta: { biblioteca.cristalli: 1 }
+          effetti: { rep.biblioteca: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ storia a 6 · la chiave degli scaffali
+  - id: la-chiave-degli-scaffali
+    presso: biblioteca-di-qir-azel
+    immagine: personaggi/ulric-stanne
+    titolo: La chiave degli scaffali
+    sommario: "Sul bancone di Ulric Stanne c'è un registro nuovo, e sopra una chiave legata a un nastro rosso. Ottilia Sanvel vuole sapere perché dovrebbe essere tua."
+    luogo: Biblioteca di Qir-Azel, il bancone
+    area: quartieri-alti
+    requisiti: [rep.biblioteca >= 6, biblioteca.tessera == 0]
+    testo: |
+      Ulric ti aspetta al bancone con il panciotto abbottonato dritto, che per
+      lui vuol dire un'occasione. Davanti ha un registro nuovo, con la copertina
+      ancora rigida e le pagine che scricchiolano, e sopra il registro una
+      chiave di ferro lunga quanto una mano, legata a un nastro rosso come
+      quelli dei sigilli. «È una copia della chiave del secondo piano» dice. «In
+      quarant'anni non l'ho mai data a nessuno, e questa la do a te, se Ottilia
+      firma.»
+
+      Ottilia Sanvel è in piedi accanto al bancone con le mani dietro la
+      schiena. Ha davanti il calamaio e la penna, e non li tocca. «Gli scaffali
+      si aprono per chi ha un motivo» dice. «Ulric dice che ce l'hai. Voglio
+      sentirlo da te, oppure vedere qualcosa che me lo dica.»
+
+      Al tavolo in fondo siede da solo un monaco enorme, con il saio chiuso fino
+      al collo e le mani appoggiate su un libro chiuso. È Padre Walter, della
+      Confraternita del Velo. Alza gli occhi su di te una volta sola, poi torna
+      al libro. Ulric intanto si toglie il monocolo e lo rimette, e poi ti fa un
+      cenno con il mento verso Ottilia per farti coraggio. *Quarant'anni e una
+      chiave sola, e tocca a me.* Ti asciughi le mani sui calzoni senza farti
+      vedere.
+    opzioni:
+      - testo: "Spiegare a Ottilia il tuo motivo"
+        descrizione: "Ottilia vuole un motivo vero, detto in poche parole. Le parole lunghe le piacciono poco."
+        immagine: personaggi/ottilia-sanvel
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Difficile }
+        successo:
+          titolo: Senza aggettivi
+          testo: |
+            Le dici che in città succedono cose che non si vedevano da cinquant'anni,
+            e che chi se le trova davanti di solito non ha il tempo di salire da lei a
+            chiedere il permesso. Poi le racconti quello che hai visto in questa sala,
+            senza aggettivi. Ottilia ti ascolta fino in fondo, poi intinge la penna e
+            firma l'ultima riga della pagina bianca, con una grafia piccola e senza
+            svolazzi.
+          pe: { persuasione: 5 }
+          segue: il-registro-delle-chiavi
+        fallimento:
+          titolo: Troppe parole
+          testo: |
+            Le parli a lungo della storia della città e dell'importanza dei libri, e a
+            metà vedi che Ottilia ha smesso di ascoltarti da un pezzo. «Mi hai
+            detto perché i libri sono importanti, e lo sapevo» dice quando hai finito.
+            «Perché a te serve la chiave invece non me l'hai detto.» Rimette la penna
+            accanto al calamaio, e Ulric sospira dentro la barba.
+
+      - testo: "Rispondere alle domande di Ulric"
+        descrizione: "Ulric propone di farti tre domande di storia davanti a lei. A lui sono sempre bastate per capire una persona."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Il poeta caldrese
+          testo: |
+            Ulric ti chiede in che anno è stata fondata la Biblioteca, e tu rispondi
+            il centodiciotto, lo stesso anno del Patto delle Corde. Poi ti chiede
+            quanti tetti ha avuto l'edificio, e tu dici tre, contando quello dei
+            Precursori. All'ultima domanda, su un poeta caldrese, ammetti di non
+            averlo mai sentito nominare. Ulric batte la mano sul bancone.
+            «Effettivamente non lo sa nessuno, perché me l'ero inventato» dice, e
+            Ottilia prende la penna e firma.
+          pe: { accademiche: 5 }
+          segue: il-registro-delle-chiavi
+        fallimento:
+          titolo: La risposta inventata
+          testo: |
+            Le prime due domande le sbagli tutte e due. Alla terza, su un poeta
+            caldrese di cui non hai mai sentito parlare, inventi una risposta con
+            molta sicurezza. Ulric si toglie il monocolo. «Il poeta me l'ero inventato
+            io» dice, con la voce dispiaciuta. Ottilia lascia la penna dov'è, e Ulric
+            rimette la chiave nel cassetto senza girare la serratura.
+
+      - testo: "Chiedere a Padre Walter di garantire per te"
+        descrizione: "Walter è della Confraternita, e Ottilia lo ascolta. Ti conosce abbastanza per dire una parola, se vuole."
+        immagine: personaggi/padre-walter
+        requisiti: [rep.velo >= 3]
+        esito:
+          titolo: Una parola
+          testo: |
+            Vai al tavolo in fondo e chiedi a Walter se vuole dire una parola per te.
+            Il monaco ti squadra da sotto le sopracciglia, poi si alza, ed è più
+            alto di chiunque altro nella sala. Va al bancone senza fretta e a Ottilia dice soltanto «Lo
+            conosco», a voce bassa. Poi torna a sedersi e rimette le mani sul libro
+            chiuso. Ottilia prende la penna e firma il registro senza fare altre
+            domande.
+          pe: { galateo: 5 }
+          segue: il-registro-delle-chiavi
+
+      - testo: "Lasciare che Ottilia ti guardi lavorare"
+        descrizione: "Una giornata al tavolo lungo, con Ottilia seduta di fronte. Se le basta quello che vede, firma."
+        costo: 2
+        esito:
+          titolo: Una giornata
+          testo: |
+            Passi la giornata al tavolo lungo a fare quello che fai di solito, le
+            schede da ricopiare e un visitatore che cerca un libro che non esiste.
+            Ottilia resta seduta di fronte a te con un breviario aperto, e per tutto
+            il giorno non gira una pagina. All'ora di chiusura chiude il breviario e
+            va al bancone. «Lavora e non si lamenta» dice a Ulric, che si lamenta per
+            due. Poi prende la penna e firma il registro in fondo alla pagina bianca.
+          pe: { resilienza: 5 }
+          segue: il-registro-delle-chiavi
+
+      - testo: "Chiedere perché un registro nuovo"
+        descrizione: "Quarant'anni di chiavi senza scrivere niente, e adesso un registro. Ulric deve avere un motivo anche lui."
+        requisiti: [indizio.archivi-mutilati >= 1]
+        costo: 0
+        esito:
+          titolo: Chi ha le chiavi
+          testo: |
+            «L'ho comprato il giorno dopo che ho trovato vuoti i ripiani della costa
+            nord» dice Ulric, e accarezza la copertina rigida. «Chi ha preso quei
+            libri conosceva questa Biblioteca meglio di me, che ci vivo dentro. Da
+            allora voglio sapere chi ha in tasca una chiave di qui, e a che ora la
+            usa.» Ottilia non dice niente, e continua a guardare il calamaio.
+
+      - testo: "Chiedere perché un registro nuovo"
+        descrizione: "Quarant'anni di chiavi senza scrivere niente, e adesso un registro. Ulric deve avere un motivo anche lui."
+        requisiti: [indizio.archivi-mutilati == 0]
+        costo: 0
+        esito:
+          titolo: Una porta aperta
+          testo: |
+            «È un'idea di Ottilia» dice Ulric, e lo dice come si confessa un debito.
+            «Secondo lei una chiave senza un nome scritto è una porta aperta.» Ottilia
+            annuisce una volta. Ulric aggiunge che il registro è costato quanto tre
+            mesi di colla, e che spera di riempirlo lentamente, così dura. Poi ti
+            mostra la prima pagina, ancora bianca, con le colonne già tirate a
+            righello.
+
+      - testo: "Dire che non è il momento"
+        descrizione: "Una chiave così è un impegno. Puoi rimandare, e Ulric sa aspettare."
+        costo: 0
+        esito:
+          titolo: Nel cassetto
+          testo: |
+            Lo ringrazi, e dici che per adesso preferisci chiedere ogni volta.
+            Ulric ci resta un po' male, e si vede da come arrotola il nastro rosso
+            intorno alla chiave prima di rimetterla nel cassetto. Ottilia invece
+            annuisce, come se la risposta le piacesse più di un sì. «Quando lo vuoi,
+            il registro è qui» dice Ulric, e lo chiude con tutte e due le mani.
+
+  - id: il-registro-delle-chiavi
+    immagine: personaggi/ottilia-sanvel
+    titolo: Il registro delle chiavi
+    tipo: seguito
+    luogo: Biblioteca di Qir-Azel, il bancone
+    area: quartieri-alti
+    requisiti: [biblioteca.tessera == 0]
+    testo: |
+      Ulric scrive il tuo nome sulla prima riga del registro nuovo, lettera per
+      lettera, con la lingua fra i denti. Accanto mette la data e lascia in
+      bianco la colonna dell'ora, che sarà tua da riempire ogni volta. Sotto c'è
+      la firma di Ottilia, ancora lucida. Poi ti spiega le regole contando sulle
+      dita. Gli scaffali si aprono soltanto nelle ore d'apertura, il sigillo lo
+      rifà lui, e lì dentro non si legge mai a voce alta, perché certe cose
+      lette ad alta voce restano nell'aria.
+
+      Ottilia aspetta che abbia finito. Prima di andarsene ti si avvicina e, a
+      voce più bassa, ti chiede se Mattias Crenn mangia abbastanza e se gli
+      hanno respinto un'altra monografia. Quando le rispondi annuisce. «A
+      Mattias non dire che te l'ho chiesto» dice, e se ne va verso la porta con
+      il suo passo regolare, senza voltarsi.
+
+      Ulric ti porge la chiave dalla parte del nastro. Il ferro è freddo, più
+      pesante di come sembrava sul registro, e il nastro rosso ha già l'odore
+      della cera.
+    opzioni:
+      - testo: "Prendere la chiave"
+        descrizione: "Gli scaffali sigillati del secondo piano, e ogni volta una riga tua sul registro."
+        esito:
+          titolo: La prima riga
+          testo: |
+            Chiudi la mano sulla chiave e te la leghi alla cintura con il nastro
+            rosso. Ulric ti stringe la mano più a lungo del necessario e ti dice che
+            adesso sei uno dei due che possono salire al secondo piano
+            senza chiedere a Ottilia, e che l'altro è lui. Poi tira fuori da sotto il
+            bancone la bottiglia di Laresh, quella che tiene per Mattias, e ne versa
+            due dita in due bicchieri. Dalla sala di lettura Padre Walter alza la
+            testa al rumore del vetro.
+          imposta: { biblioteca.tessera: 1 }
+          effetti: { rep.biblioteca: 1 }
+      - testo: "Restituirgli la chiave"
+        descrizione: "Per adesso preferisci che resti nel cassetto. La riga con il tuo nome può aspettare."
+        esito:
+          titolo: La riga in sospeso
+          testo: |
+            Gli rendi la chiave e gli dici che per adesso preferisci che resti nel
+            cassetto. Ulric la guarda sul palmo, poi la rimette dov'era senza chiudere
+            a chiave. Non cancella il tuo nome dal registro, e accanto ci scrive a
+            matita *in sospeso*. «Una riga scritta è già mezza fatta» dice, e ti
+            accompagna fino alla porta parlandoti del prezzo della cera.
+
+  # ------------------------------------------------------------ la carta
+  - id: carta-un-libro-in-prestito
+    immagine: ambientazione/quartieri-alti
+    titolo: Un libro in prestito
+    sommario: "Sui gradini di un portico un vecchio precettore stringe un libro della Biblioteca, e non ha il coraggio di riportarlo."
+    luogo: Quartieri Alti, sotto un portico
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [rep.biblioteca < 2, invito >= 1]
+    testo: |
+      Sotto il portico di un palazzo dei Quartieri Alti, seduto sul gradino più
+      basso, c'è un vecchio vestito di nero con il colletto liso, che tiene in
+      grembo un libro rilegato in pelle verde. Sul taglio delle pagine si vede
+      ancora il timbro della Biblioteca di Qir-Azel, sbiadito. Un garzone gli
+      passa davanti con un cesto di pane e lo saluta, e lui risponde senza
+      alzare la testa.
+
+      Quando ti fermi, il vecchio ti guarda come se lo avessi colto a rubare. Ti
+      dice che fa il precettore in una casa qui vicino, e che il libro l'ha
+      preso in prestito per i ragazzi del padrone. Sono passati undici anni, e
+      adesso i ragazzi hanno la barba. «Ulric Stanne si ricorda di tutti» dice,
+      e accarezza la copertina con il pollice. «Se glielo porto io mi fa la
+      predica fino a sera, e alla mia età una predica di Ulric non so se la
+      reggo.»
+
+      Il libro è un'antologia dei poeti dei primi anni della città, con un
+      nastrino fra le pagine fermo sempre allo stesso punto. *Undici anni sulla
+      stessa poesia.* Il precettore te lo porge con tutte e due le mani, e
+      intanto guarda la strada per vedere se passa qualcuno che conosce.
+    opzioni:
+      - testo: "Riportarlo tu alla Biblioteca"
+        descrizione: "Ulric non ti conosce, e una predica a uno sconosciuto dura meno."
+        esito:
+          titolo: Il nastrino
+          testo: |
+            Ulric Stanne prende il libro dalle tue mani senza dire niente e lo apre al
+            nastrino. Legge la poesia muovendo le labbra, con il monocolo sull'occhio,
+            e la barba bianca gli trema un poco. «Si fermava sempre qui anche da
+            ragazzo» dice. «Era un allievo effettivamente pessimo, e questa gli
+            piaceva lo stesso.» Rimette il libro sul carrello dei resi e ti guarda per
+            la prima volta con attenzione. Poi ti dice che al tavolo lungo c'è sempre
+            bisogno di qualcuno, e che paga poco.
+          effetti: { rep.biblioteca: 0.5 }
+      - testo: "Leggere la poesia del nastrino"
+        descrizione: "Undici anni fermo alla stessa pagina. Prima di decidere, vale la pena sapere che cosa c'è scritto."
+        esito:
+          titolo: La poesia
+          testo: |
+            Apri il libro al nastrino e leggi la poesia a mezza voce, seduto sul
+            gradino accanto al precettore. Parla di un ponte di corde e di una ragazza
+            che lo attraversa ogni sera senza guardare giù. Quando finisci il vecchio
+            ha gli occhi lucidi e si soffia il naso in un fazzoletto rammendato. Ti
+            riprende il libro, dice che a quel punto la predica se la merita, e si
+            avvia verso la Biblioteca con il libro sotto il braccio.
+          pe: { espressivita: 2 }
+      - testo: "Dirgli che tocca a lui"
+        descrizione: "Il libro l'ha preso lui, e la predica è sua."
+        costo: 0
+        esito:
+          titolo: La predica
+          testo: |
+            Gli dici che il libro l'ha preso lui, e che la predica è sua. Il
+            precettore resta in silenzio con il libro sulle ginocchia. Poi sospira e si
+            alza tenendosi alla colonna del portico. Lo guardi allontanarsi verso la
+            Biblioteca a passi piccoli, e a metà strada si ferma davanti a una fontana
+            a bere, per prendere tempo. Tu resti sotto il portico finché lo vedi
+            salire i gradini della Biblioteca.

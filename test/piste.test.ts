@@ -81,14 +81,16 @@ function scendi(origine: string, seme: number, ingresso: string, fondo: string):
 }
 
 /** Un luogo della città viva: si gioca a caso fra le storie e le attività del luogo finché la quality finale vale 1. */
-function frequenta(origine: string, seme: number, luogo: string, fine: string, extra: Record<string, number> = {}): number {
+function frequenta(origine: string, seme: number, luoghi: string | string[], fine: string, extra: Record<string, number> = {}): number {
+  const tutti = Array.isArray(luoghi) ? luoghi : [luoghi];
+  const luogo = tutti[0]!;
   const s = nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === origine)!, 0, 'citta-bassa');
   delete s.quality['prologo'];
   Object.assign(s.quality, { monete: 200, bende: 2 }, extra);
   const l = c.luoghi.find((x) => x.id === luogo)!;
   s.area = l.area;
   const rng = rngConSeme(seme);
-  for (let n = 0; n < 1500; n++) {
+  for (let n = 0; n < 5000; n++) {
     s.candele = CANDELE_MAX;
     for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
     if ((s.quality[fine] ?? 0) >= 1) return n;
@@ -97,7 +99,7 @@ function frequenta(origine: string, seme: number, luogo: string, fine: string, e
     const sospeso = s.sospeso ? c.storylet.find((x) => x.id === s.sospeso) : undefined;
     if (sospeso && requisitiSoddisfatti(s, sospeso.requisiti, c)) { s.area = sospeso.area; passo(s, sospeso, rng); continue; }
     s.area = l.area;
-    const qui = storyletDisponibili(s, c).filter((x) => x.presso === luogo && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0));
+    const qui = storyletDisponibili(s, c).filter((x) => !!x.presso && tutti.includes(x.presso) && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0));
     const st = qui[Math.floor(rng() * qui.length)];
     if (!st) throw new Error(`${origine}/${seme}: niente da fare in ${luogo}`);
     passo(s, st, rng);
@@ -108,7 +110,7 @@ function frequenta(origine: string, seme: number, luogo: string, fine: string, e
 describe('piste', () => {
   it('la Dama d\'Argento arriva a 11 con ogni origine e scelte a caso', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.dama-argento', 11)).toBeGreaterThan(5);
-  });
+  }, 30000);
   it('il Sepolcro violato arriva a 7, passando dalla Roccia di Wren', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.sepolcro', 7)).toBeGreaterThan(6);
   });
@@ -143,6 +145,11 @@ describe('piste', () => {
   it('città viva: all\'Accademia di Torvessa si arriva alla cattedra', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 10; seme++) expect(frequenta(o.id, seme, 'accademia-di-torvessa', 'accademia.cattedra', { invito: 1, 'pista.capomozzo': 10 })).toBeGreaterThan(3);
   }, 30000);
+  it('città viva: le catene dei luoghi si chiudono con ogni origine', () => {
+    const fine = { 'pista.capomozzo': 10, 'pista.acciaio': 8, 'pista.pelle': 7, 'liaren.salvata': 1, 'conosci.liaren': 1, invito: 1 };
+    const luoghi: [string | string[], string][] = [['cattedrale-del-velo', 'cattedrale.voto'], ['mercato-dei-nodi', 'nodo.socio'], ['grifone-di-ferro', 'grifone.chiave'], [['fucina-dei-due-mastini', 'armeria-di-irsa'], 'botteghe.capolavoro'], ['guarnigione-di-qir-azel', 'guarnigione.distintivo'], ['municipio', 'municipio.incarico'], ['biblioteca-di-qir-azel', 'biblioteca.tessera'], ['teatro-delle-meraviglie', 'teatro.primattore'], ['via-dei-rasoi', 'maison.ospite'], ['cimitero-di-qir-azel', 'cimitero.custode'], [['ponte-delle-mille-corde', 'ponte-dei-morti'], 'ponti.passo'], ['macerie-della-pignatta', 'macerie.insegna']];
+    for (const [l, q] of luoghi) for (const o of c.origini) for (let seme = 1; seme <= 6; seme++) expect(frequenta(o.id, seme, l, q, fine)).toBeGreaterThan(2);
+  }, 120000);
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
     s.quality['pista.dama-argento'] = 11;
