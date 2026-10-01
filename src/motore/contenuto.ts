@@ -83,6 +83,7 @@ export const Area = z.object({
   id: Id,
   immagine: Immagine.optional(),
   nome: z.string(),
+  sommario: z.string().optional(), // due righe per la mappa; il testo intero si apre a richiesta
   testo: z.string(),
   accesso: z.array(z.string()).default([]),
   gabella: z.number().int().min(0).default(0),

@@ -704,7 +704,8 @@ export function mappa(x: Contesto): string {
       ${tavola(a.immagine, { classe: 'paesaggio', taglio: 'l' })}
       <div class="corpo">
         <h3>${h(a.nome)}</h3>
-        ${prosa(a.testo, 'prosa piccola')}
+        <p class="sommario-luogo">${h(a.sommario ?? primaFrase(a.testo))}</p>
+        <details class="descrizione-luogo"><summary>Leggi la descrizione</summary>${prosa(a.testo, 'prosa piccola')}</details>
         <div class="piede">${etichetta(info, qui ? 'precursore' : p.ok ? 'dim' : 'mana')}
         ${qui ? '' : `<button type="button" class="bottone primario" data-az="vai" data-id="${a.id}" ${p.ok ? '' : 'disabled'}>Vai</button>`}</div>
       </div>
