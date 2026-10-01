@@ -137,10 +137,9 @@ function crediti(): string {
   return `
   <header><span class="etichetta velo">Crediti</span><h2>Chi ha fatto cosa</h2></header>
 
-  <h3>Ideazione, ambientazione e scrittura</h3>
-  <p><b>Luca Pasini</b>. L'ambientazione di Ny'Zar, la cronaca da cui nasce la trama, il Codex, il regolamento, la direzione
-  del gioco e del sito. I testi delle scene e il codice del gioco sono scritti a partire dal Codex e dalla cronaca con
-  l'assistenza di Claude (Anthropic).</p>
+  <h3>Ideazione, scrittura e sviluppo</h3>
+  <p><b>Luca Pasini</b>. L'ambientazione di Ny'Zar, la cronaca da cui nasce la trama, il Codex, il regolamento, i testi
+  delle scene e il browser game. Il codice del browser game è realizzato con l'assistenza di Claude (Anthropic).</p>
 
   <h3>Musica</h3>
   <p>Colonna sonora di <b>${a('https://itch.io/profile/lisetteamago', 'Lisette Amago')}</b>.</p>

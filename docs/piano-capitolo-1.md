@@ -109,6 +109,19 @@ e *In giro per…* con i ripetibili senza luogo. Un luogo senza niente di dispon
 solo presentazione: entrarci non costa candele. Le storie nuove dei blocchi 6–8 vanno agganciate a un luogo
 quando ne hanno uno; l'Acciaieria diventa luogo nel blocco 6, quando ha più di un ripetibile.
 
+## Audio da completare
+
+Annotato il 1° ottobre 2026. In gioco ci sono le dieci musiche di Lisette Amago e cinque ambienti di Andrea Baroni
+(Temple-Mystical, Temple-Quiet, Forest-Night, Forest-WindyAndCreepy, Campfire). Mancano questi ambienti, già
+assegnati in `contenuti/audio.yaml` e per ora muti:
+
+- **Village** (Ponti Sospesi, Ostracismo) e **Mines**: gli MP3 su Drive sono a 270–300 kbps e superano il limite di
+  download del collegamento; vanno riesportati a 96 kbps costanti.
+- **HellishDungeonI** (crisi, Delirio) e **DungeonI** (Prigione): stesso problema, da riesportare a 96 kbps.
+- **Minetown** (Città Bassa) e **Cave**: non ancora convertiti.
+
+I file vanno in `../audio-nyzar/ambienti/` con il nome originale; poi `npm run audio` li livella e li importa.
+
 ## Ordine di produzione
 
 1. Prologhi per origine, il Grifone come casa, il sistema delle spedizioni.
