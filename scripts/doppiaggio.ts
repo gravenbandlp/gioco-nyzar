@@ -8,7 +8,7 @@
 //
 // Uso: npm run doppiaggio   →  doppiaggio/copione.json e doppiaggio/copione.md
 import { createHash } from 'node:crypto';
-import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { parse } from 'yaml';
 import { caricaContenuti } from './build-contenuti';
@@ -160,5 +160,13 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const per = new Map<string, number>();
   for (const p of pezzi) per.set(p.gruppo, (per.get(p.gruppo) ?? 0) + 1);
   console.log(`${pezzi.length} pezzi, ${pezzi.reduce((a, p) => a + p.caratteri, 0)} caratteri`);
+  // le voci già registrate su un testo che poi è cambiato
+  const registro = join(USCITA, 'registrati.json');
+  if (existsSync(registro)) {
+    const reg = JSON.parse(readFileSync(registro, 'utf8')) as Record<string, string>;
+    const attuali = new Map(pezzi.map((p) => [p.id, p.impronta]));
+    const cambiati = Object.entries(reg).filter(([id, imp]) => attuali.get(id) !== imp).map(([id]) => id);
+    console.log(`${Object.keys(reg).length} pezzi registrati${cambiati.length ? `, da riregistrare perché il testo è cambiato o non c'è più:\n  ${cambiati.join('\n  ')}` : ', tutti aggiornati.'}`);
+  }
   for (const [k, v] of per) console.log(`  ${k}: ${v}`);
 }

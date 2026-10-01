@@ -74,9 +74,10 @@ export function confiniLoop(lunghezza: number, frequenzaBuffer: number, g: InfoG
 // ---------------------------------------------------------------- preferenze
 
 type Canale = 'musica' | 'ambiente';
-interface Preferenze { musica: number; ambiente: number; muto: boolean }
+interface Preferenze { musica: number; ambiente: number; voce: number; lettura: boolean; muto: boolean }
 const CHIAVE = 'gioco-nyzar/audio';
-const PREDEFINITE: Preferenze = { musica: 0.6, ambiente: 0.5, muto: false };
+const PREDEFINITE: Preferenze = { musica: 0.6, ambiente: 0.5, voce: 1, lettura: true, muto: false };
+const ABBASSA = { musica: 0.3, ambiente: 0.55 }; // mentre parla la voce, musica e ambiente scendono a questa frazione
 
 function leggiPreferenze(): Preferenze {
   try { return { ...PREDEFINITE, ...JSON.parse(localStorage.getItem(CHIAVE) ?? '{}') as Partial<Preferenze> }; } catch { return { ...PREDEFINITE }; }
@@ -100,7 +101,13 @@ export class Lettore {
   private attuale: Record<Canale, InCorso | null> = { musica: null, ambiente: null };
   private cache: Record<Canale, Map<string, Promise<Caricata | null>>> = { musica: new Map(), ambiente: new Map() };
   prefs = leggiPreferenze();
-  onCambio: (() => void) | null = null;
+  private ascoltatori: (() => void)[] = [];
+  private voceGuadagno: GainNode | null = null;
+  private voce: { id: string; sorgente: AudioBufferSourceNode } | null = null;
+  private cacheVoce = new Map<string, Promise<AudioBuffer | null>>();
+  /** Chi vuole sapere quando cambia qualcosa (il pannello, i pulsanti Ascolta). */
+  set onCambio(f: (() => void) | null) { if (f) this.ascoltatori.push(f); }
+  private avvisa(): void { for (const f of this.ascoltatori) f(); }
 
   constructor(private tracce: TTraccia[]) {}
 
@@ -120,9 +127,61 @@ export class Lettore {
       this.principale[k].gain.value = this.prefs[k];
       this.principale[k].connect(this.ctx.destination);
     }
+    this.voceGuadagno = this.ctx.createGain();
+    this.voceGuadagno.gain.value = this.prefs.voce;
+    this.voceGuadagno.connect(this.ctx.destination);
     void this.ctx.resume();
     this.applica();
   }
+
+  // ---------------------------------------------------------------- voce (il doppiaggio delle storie)
+
+  /** Il pezzo doppiato che sta parlando adesso. */
+  voceInCorso(): string | null { return this.voce?.id ?? null; }
+
+  /** Fa leggere un pezzo; musica e ambiente si abbassano finché parla. */
+  async parla(id: string): Promise<void> {
+    this.taci();
+    if (!this.ctx || this.prefs.muto) return;
+    const ctx = this.ctx;
+    let p = this.cacheVoce.get(id);
+    if (!p) {
+      p = fetch(`audio/voce/${id}.mp3`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(String(r.status)))))
+        .then((d) => ctx.decodeAudioData(d)).catch(() => null);
+      this.cacheVoce.set(id, p);
+      for (const k of [...this.cacheVoce.keys()]) { if (this.cacheVoce.size <= 3) break; if (k !== id) this.cacheVoce.delete(k); }
+    }
+    this.voce = { id, sorgente: ctx.createBufferSource() }; // segnaposto: il pulsante passa subito a "Ferma"
+    const mio = this.voce;
+    this.avvisa();
+    const buffer = await p;
+    if (this.voce !== mio) return; // nel frattempo si è passati ad altro
+    if (!buffer) { this.voce = null; this.avvisa(); return; }
+    mio.sorgente.buffer = buffer;
+    mio.sorgente.connect(this.voceGuadagno!);
+    mio.sorgente.onended = () => { if (this.voce === mio) { this.voce = null; this.abbassa(false); this.avvisa(); } };
+    this.abbassa(true);
+    mio.sorgente.start(ctx.currentTime + 0.25);
+  }
+
+  /** Ferma la voce, se sta parlando. */
+  taci(): void {
+    const v = this.voce;
+    if (!v) return;
+    this.voce = null;
+    try { v.sorgente.onended = null; v.sorgente.stop(); } catch { /* non ancora partita */ }
+    this.abbassa(false);
+    this.avvisa();
+  }
+
+  private abbassa(si: boolean): void {
+    if (!this.ctx || !this.principale) return;
+    for (const k of ['musica', 'ambiente'] as Canale[]) {
+      this.principale[k].gain.setTargetAtTime(this.prefs[k] * (si ? ABBASSA[k] : 1), this.ctx.currentTime, si ? 0.15 : 0.6);
+    }
+  }
+
+  lettura(si: boolean): void { this.prefs.lettura = si; salvaPreferenze(this.prefs); this.avvisa(); }
 
   /** Chiamata a ogni render: se la zona è cambiata, sfuma verso le tracce nuove. */
   imposta(s: Scelta): void {
@@ -131,17 +190,19 @@ export class Lettore {
     this.applica();
   }
 
-  volume(k: Canale, v: number): void {
+  volume(k: Canale | 'voce', v: number): void {
     this.prefs[k] = v; salvaPreferenze(this.prefs);
-    if (this.ctx && this.principale) this.principale[k].gain.setTargetAtTime(v, this.ctx.currentTime, 0.05);
+    if (!this.ctx) return;
+    if (k === 'voce') this.voceGuadagno?.gain.setTargetAtTime(v, this.ctx.currentTime, 0.05);
+    else this.principale?.[k].gain.setTargetAtTime(v * (this.voce ? ABBASSA[k] : 1), this.ctx.currentTime, 0.05);
   }
 
   silenzia(muto: boolean): void {
     this.prefs.muto = muto; salvaPreferenze(this.prefs);
-    if (muto) void this.ctx?.suspend();
+    if (muto) { this.taci(); void this.ctx?.suspend(); }
     else if (this.ctx) void this.ctx.resume();
     else this.avvia();
-    this.onCambio?.();
+    this.avvisa();
   }
 
   /** Quando la scheda va in secondo piano l'audio si ferma, e riparte al ritorno. */
@@ -188,7 +249,7 @@ export class Lettore {
       vecchio.sorgente.stop(ora + DISSOLVENZA + 0.1);
       this.attuale[k] = null;
     }
-    if (!id) { this.onCambio?.(); return; }
+    if (!id) { this.avvisa(); return; }
     const t = this.traccia(id);
     const caricata = await this.carica(k, id);
     if (!caricata || this.desiderato[k] !== id || this.attuale[k]) return; // nel frattempo è cambiato tutto
@@ -204,7 +265,7 @@ export class Lettore {
     sorgente.connect(guadagno).connect(this.principale![k]);
     sorgente.start(ora, caricata.inizio);
     this.attuale[k] = { id, sorgente, guadagno };
-    this.onCambio?.();
+    this.avvisa();
   }
 }
 
@@ -222,6 +283,8 @@ export function montaControlli(l: Lettore): void {
       <p class="etichetta velo">Audio</p>
       <label><span>Musica</span><input type="range" min="0" max="1" step="0.05" data-canale="musica"></label>
       <label><span>Ambiente</span><input type="range" min="0" max="1" step="0.05" data-canale="ambiente"></label>
+      <label><span>Voce</span><input type="range" min="0" max="1" step="0.05" data-canale="voce"></label>
+      <label class="audio-spunta"><input type="checkbox" data-audio="lettura"> Leggi le storie ad alta voce</label>
       <button type="button" class="bottone piccolo" data-audio="muto"></button>
       <p class="audio-ora"></p>
     </div>
@@ -232,6 +295,7 @@ export function montaControlli(l: Lettore): void {
   const muto = box.querySelector<HTMLButtonElement>('[data-audio=muto]')!;
   const ora = box.querySelector<HTMLElement>('.audio-ora')!;
   const cursori = box.querySelectorAll<HTMLInputElement>('input[type=range]');
+  const lettura = box.querySelector<HTMLInputElement>('[data-audio=lettura]')!;
 
   const aggiorna = () => {
     const icona = l.prefs.muto ? SILENZIO : NOTA;
@@ -239,7 +303,8 @@ export function montaControlli(l: Lettore): void {
     tasto.classList.toggle('muto', l.prefs.muto);
     tasto.setAttribute('aria-label', l.prefs.muto ? 'Audio spento' : 'Audio');
     muto.textContent = l.prefs.muto ? 'Accendi l\'audio' : 'Spegni l\'audio';
-    cursori.forEach((c) => { c.value = String(l.prefs[c.dataset['canale'] as Canale]); c.disabled = l.prefs.muto; });
+    cursori.forEach((c) => { c.value = String(l.prefs[c.dataset['canale'] as Canale | 'voce']); c.disabled = l.prefs.muto; });
+    lettura.checked = l.prefs.lettura; lettura.disabled = l.prefs.muto;
     const a = l.inAscolto();
     const nomi = [l.traccia(a.musica), l.traccia(a.ambiente)].filter((t): t is TTraccia => !!t).map((t) => t.titolo);
     ora.textContent = l.prefs.muto ? '' : nomi.length ? `In ascolto: ${nomi.join(' · ')}` : l.avviato() ? '' : 'Parte al primo clic nella pagina.';
@@ -252,7 +317,8 @@ export function montaControlli(l: Lettore): void {
     aggiorna();
   });
   muto.addEventListener('click', () => l.silenzia(!l.prefs.muto));
-  cursori.forEach((c) => c.addEventListener('input', () => l.volume(c.dataset['canale'] as Canale, Number(c.value))));
+  cursori.forEach((c) => c.addEventListener('input', () => l.volume(c.dataset['canale'] as Canale | 'voce', Number(c.value))));
+  lettura.addEventListener('change', () => l.lettura(lettura.checked));
   document.addEventListener('click', (e) => {
     if (!pannello.hidden && !e.composedPath().includes(box)) { pannello.hidden = true; tasto.setAttribute('aria-expanded', 'false'); }
   });
