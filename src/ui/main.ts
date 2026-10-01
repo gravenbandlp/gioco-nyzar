@@ -15,6 +15,7 @@ import { round } from '../motore/combattimento';
 import { durata } from './formato';
 import { impostaGlossario } from './componenti';
 import { avviaSchede, nascondiScheda } from './tooltip';
+import { precaricaIntorno, precaricaMiniature } from './precarica';
 import {
   pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
 } from './viste';
@@ -97,6 +98,7 @@ function render(): void {
   const s = stato;
   impostaGlossario(c.glossario, (v) => requisitiSoddisfatti(s, v.requisiti, c));
   nascondiScheda();
+  precaricaIntorno(s, c);
   const ora = Date.now();
   aggiornaTempo(stato, ora);
   const x: Contesto = { s: stato, c, vista, scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio };
@@ -315,7 +317,7 @@ interface Hot { snapshot?: (f: () => unknown) => void; ready?: (f: (d: unknown) 
 const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
 hot?.snapshot?.(() => ({ stato, vista, scheda }));
 avviaSchede(c.glossario);
-const avvia = (dati: unknown) => { carica(dati as Partial<Salvataggio> | undefined); render(); };
+const avvia = (dati: unknown) => { carica(dati as Partial<Salvataggio> | undefined); render(); precaricaMiniature(c); };
 if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data);
 

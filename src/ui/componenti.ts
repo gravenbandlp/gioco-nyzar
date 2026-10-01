@@ -17,7 +17,7 @@ export function srcTavola(t: string, taglio: 's' | 'l' = 's'): string {
 export function tavola(t: string | undefined, opz: { classe?: string; taglio?: 's' | 'l'; alt?: string; didascalia?: string } = {}): string {
   const cls = `tavola ${opz.classe ?? ''}`.trim();
   const img = t
-    ? `<img src="${srcTavola(t, opz.taglio)}" alt="${h(opz.alt ?? '')}" loading="lazy" decoding="async">`
+    ? `<img src="${srcTavola(t, opz.taglio)}" alt="${h(opz.alt ?? '')}" decoding="sync">`
     : `<span class="vuota"><span>Tavola non catalogata</span></span>`;
   return `<figure class="${cls}"><i class="k k1"></i><i class="k k2"></i><i class="k k3"></i><i class="k k4"></i>${img}${opz.didascalia ? `<figcaption>${opz.didascalia}</figcaption>` : ''}</figure>`;
 }

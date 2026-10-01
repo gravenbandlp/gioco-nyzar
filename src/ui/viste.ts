@@ -77,7 +77,7 @@ function topbar(x: Contesto): string {
 function fondale(x: Contesto): string {
   const a = areaDi(x);
   return `<div class="fondale">
-    ${a.immagine ? `<img src="${srcTavola(a.immagine, 'l')}" alt="" decoding="async">` : ''}
+    ${a.immagine ? `<img src="${srcTavola(a.immagine, 'l')}" alt="" decoding="sync">` : ''}
     <div class="fondale-testo">
       <span class="etichetta precursore">Qir-Azel · 150 D.C.</span>
       <h1>${h(a.nome)}</h1>
@@ -733,7 +733,7 @@ export function creazione(c: TContenuti, scelta: string): string {
   return `
   <header class="topbar"><div class="marchio">${ROMBO}<span class="nome-marchio"><span><b>NY'ZAR</b> · <em>QIR-AZEL</em></span><small>Cronache della Città Bassa</small></span></div></header>
   <div class="fondale alto">
-    ${copertina ? `<img src="${srcTavola(copertina, 'l')}" alt="" decoding="async">` : ''}
+    ${copertina ? `<img src="${srcTavola(copertina, 'l')}" alt="" decoding="sync">` : ''}
     <div class="fondale-testo">
       <span class="etichetta precursore">Superficie Fratturata · 150 D.C.</span>
       <h1>Qir-Azel</h1>
