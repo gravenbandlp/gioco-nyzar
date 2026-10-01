@@ -1,0 +1,1109 @@
+# La casa nel Vicolo dei Cardatori (economia, strato 2; quality, luogo e bottega in economia.yaml).
+# C1 la soffitta in affitto (casa 0 → 1); C2 i cinque lavori, uno storylet fisso per livello (casa 1 → 6),
+# ognuno con il suo prezzo nei requisiti e un "Non ancora"; C3 la sera a casa (riposo, opzioni con `quando`
+# sugli arredi); C4 gli otto arredi (`arredo.*`); C5 il banco della bottega (casa >= 4); C6 il tavolo da
+# lavoro e il banco della cantina, le conversioni migliori della città; C7 gli ospiti, il Lustro senza tetto;
+# C8 i quattro ospiti di riguardo (Lustro 10, 30, 60, 100), chiusi ciascuno dal proprio flag `ospite.*`.
+# Nomi nuovi, che il Codex non dà: Edda (la vedova che affitta la soffitta e poi vende la casa; dopo casa 3
+# si tiene la stanza sul cortile), Dorn (l'ultimo cardatore del vicolo, intercalare «Mah»), Tecla (la
+# dirimpettaia che fa candele di sego alla finestra). Mastro Fenzi, il pittore, viene da municipio.yaml.
+# Il Lustro sale solo da casa 3 in su (cene, tappeto, ritratto, cannocchiale): gli ospiti di riguardo
+# trovano sempre la stanza degli ospiti, ma non per forza la bottega o l'altana.
+# I prezzi stanno negli effetti e nei requisiti, mai nella prosa (docs/stile-dei-testi.md, regola 11).
+storylet:
+  # ------------------------------------------------------------ C1 · la soffitta
+  - id: una-stanza-nel-vicolo
+    immagine: icone/hanging-sign
+    titolo: Una stanza nel vicolo
+    sommario: "Alla finestra di una casa nel Vicolo dei Cardatori un cartello scritto a mano dice che la soffitta si affitta."
+    luogo: Città Bassa, il Vicolo dei Cardatori
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [casa == 0]
+    testo: |
+      Il Vicolo dei Cardatori sale dalla Città Bassa verso i Ponti a scalini
+      sbilenchi, e di cardatori ormai ne è rimasto uno solo, in fondo, che
+      lavora con la porta aperta e la barba piena di lanugine. Dopo la fontana
+      secca, alla terza casa a sinistra, c'è un cartello infilato fra il vetro
+      e la tendina, *si affitta soffitta a persona seria, chiedere di Edda*.
+      La parola *seria* è stata ripassata a inchiostro più di una volta.
+
+      Ti apre una donna minuta e anziana, vestita di un nero portato così a
+      lungo che sui gomiti è diventato grigio. Ha un gomitolo di lana nella
+      tasca del grembiule e lo arrotola mentre ti squadra dalla testa agli
+      stivali. «Edda, vedova. La soffitta ha un tetto buono e una finestra che
+      chiude» dice. «L'affitto si paga prima, e le scale si fanno piano,
+      perché sotto dormo io.»
+
+      *Un tetto mio, finalmente, anche se è il suo.* Ti accorgi che stai già
+      contando gli scalini.
+    opzioni:
+      - testo: "Prendere la soffitta"
+        descrizione: "Edda vuole l'affitto in anticipo, contato sul tavolo di cucina."
+        requisiti: [monete >= 40]
+        esito:
+          titolo: La chiave grande
+          testo: |
+            Conti le monete sul tavolo di cucina sotto gli occhi di Edda, che
+            le rimette in fila con un dito e le fa sparire nel grembiule
+            insieme al gomitolo. Poi ti dà una chiave lunga quanto una mano,
+            troppo grande per la serratura che apre. La soffitta ha il
+            soffitto in pendenza e un pagliericcio sotto la trave, con una
+            finestrella sul vicolo da cui si vedono i panni della
+            dirimpettaia. La sera Edda batte il manico della scopa contro il
+            soffitto della sua stanza, e capisci che è il suo modo di dire
+            buonanotte.
+          effetti: { monete: -40 }
+          imposta: { casa: 1 }
+
+      - testo: "Tornare quando avrai il denaro"
+        descrizione: "La soffitta resta lì, e il cartello alla finestra pure."
+        costo: 0
+        esito:
+          titolo: Il cartello
+          testo: |
+            Dici a Edda che tornerai. Lei annuisce senza smettere di
+            arrotolare il gomitolo e richiude la porta piano, per non
+            svegliare il vicolo. Il cartello resta fra il vetro e la tendina,
+            con la parola *seria* ripassata a inchiostro.
+
+  # ------------------------------------------------------------ C2 · i lavori, uno per livello
+  - id: le-stanze-accanto
+    presso: casa-nel-vicolo
+    immagine: icone/wooden-door
+    titolo: Le stanze accanto
+    sommario: "Accanto alla soffitta ci sono due stanze chiuse da anni, ed Edda le affitta soltanto a un inquilino serio."
+    luogo: La tua casa, l'ultimo piano
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [casa == 1]
+    testo: |
+      Accanto alla soffitta ci sono due stanze chiuse a chiave, e da sotto la
+      porta esce un filo d'aria che odora di canfora. Edda te le fa vedere una
+      mattina, con il gomitolo in tasca e la chiave sul palmo. Dentro c'è un
+      tavolo da lavoro lungo quanto la parete, con il piano bucherellato dai
+      denti dei pettini da cardare, e una seconda finestra che dà sul cortile.
+      Era il laboratorio di suo marito, quando nel vicolo si cardava ancora.
+
+      «Le affitto a un inquilino serio» dice. «Uno che sa chi abita in questa
+      strada e chi ci vorrebbe abitare, perché di gente che bussa ne viene
+      parecchia.» Arrotola il gomitolo e aspetta.
+
+      Dalla finestra di fronte la dirimpettaia, una donna larga che fa candele
+      di sego sul davanzale, segue la conversazione senza nemmeno fingere di
+      non sentire.
+    opzioni:
+      - testo: "Prendere le stanze"
+        descrizione: "Edda vuole l'affitto e qualche notizia verificata su chi le ha chiesto le stanze prima di te."
+        requisiti: [monete >= 100, informazioni.pettegolezzo >= 2]
+        esito:
+          titolo: Il tavolo dei pettini
+          testo: |
+            Le racconti di chi ha bussato prima di te, l'uomo con i debiti al
+            Mercato dei Nodi e la coppia che subaffitta le brande ai
+            Raschiatori, ed Edda ascolta fino in fondo con il gomitolo fermo.
+            Poi prende le monete e ti dà la seconda chiave. Il tavolo da
+            lavoro resta dov'è, perché nessuno saprebbe farlo passare dalla
+            porta, e tu ci stendi sopra quello che hai raccolto in città.
+            Dalla finestra di fronte Tecla, la dirimpettaia, ti saluta alzando
+            una candela ancora tiepida.
+          effetti: { monete: -100, informazioni.pettegolezzo: -2 }
+          imposta: { casa: 2 }
+
+      - testo: "Non ancora"
+        descrizione: "Le stanze restano chiuse, con la loro canfora."
+        costo: 0
+        esito:
+          titolo: La porta chiusa
+          testo: |
+            Dici a Edda che ci devi pensare. Lei rimette la chiave nel
+            grembiule accanto al gomitolo e chiude la porta delle stanze con
+            due giri di chiave ben rumorosi, perché si sentano anche dalla
+            soffitta.
+
+  - id: la-casa-e-tua
+    presso: casa-nel-vicolo
+    immagine: icone/house-keys
+    titolo: La casa è tua
+    sommario: "Edda vorrebbe venderti la casa, e il notaio ha già scritto l'atto. Il nipote però non vuole firmare."
+    luogo: La tua casa, la cucina di Edda
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [casa == 2]
+    testo: |
+      Una sera Edda ti chiama in cucina e ti mette davanti un piatto di zuppa
+      d'orzo che non hai chiesto. Dice che le scale le pesano e che vorrebbe
+      vendere la casa a qualcuno che ci viva davvero, tenendosi la stanza sul
+      cortile finché campa. Il notaio della Città Bassa ha già scritto l'atto.
+      Manca la firma del nipote, che ha un banco di pesatore sui Ponti e conta
+      di ereditare tutto, e che alla parola *vendere* ha battuto il pugno sul
+      tavolo.
+
+      «È testardo come suo nonno» dice Edda, e tira il filo del gomitolo
+      finché non si tende. «Al banco dei pesi ha qualche conto che non torna,
+      e tu di queste cose ne sai. Io non voglio sapere quale.»
+
+      *Mi sta chiedendo di ricattare suo nipote, con la zuppa.* Mangi lo
+      stesso, perché la zuppa è buona e la giornata è stata lunga.
+    opzioni:
+      - testo: "Comprare la casa"
+        descrizione: "Il notaio vuole il suo prezzo, e il nipote un buon motivo per firmare. Tu ne conosci uno che lui non vorrebbe sentire in giro."
+        requisiti: [monete >= 250, informazioni.segreto >= 1]
+        esito:
+          titolo: La firma del nipote
+          testo: |
+            Vai al banco dei pesi sui Ponti e dici al nipote di Edda, a bassa
+            voce, che cosa sai della sua bilancia. Lui diventa rosso fino alle
+            orecchie, e il giorno dopo firma l'atto davanti al notaio senza
+            mai guardarti. La casa adesso è tua, con le sue scale storte e il
+            tetto che hai già imparato a conoscere. Edda scende nella stanza
+            sul cortile con le sue tovaglie e il ritratto del marito, e la
+            stanza buona del primo piano resta libera per gli ospiti. La sera
+            stessa Tecla attraversa il vicolo per farti gli auguri, con una
+            candela per la stanza nuova.
+          effetti: { monete: -250, informazioni.segreto: -1 }
+          imposta: { casa: 3 }
+
+      - testo: "Non ancora"
+        descrizione: "Il nipote può aspettare, e la zuppa anche."
+        costo: 0
+        esito:
+          titolo: La zuppa d'orzo
+          testo: |
+            Dici a Edda che ci devi pensare. Lei ti riempie di nuovo il piatto
+            senza insistere, e ti parla del marito e dei pettini da cardare
+            finché la candela sul tavolo non si consuma.
+
+  - id: la-bottega-al-pianterreno
+    presso: casa-nel-vicolo
+    immagine: icone/shop
+    titolo: La bottega al pianterreno
+    sommario: "Sul lato della strada c'è la vecchia bottega del marito di Edda, con le imposte inchiodate. Per riaprirla servono luce e un bancone."
+    luogo: La tua casa, il pianterreno
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [casa == 3]
+    testo: |
+      Sul lato della strada il pianterreno è una bottega chiusa da quando il
+      marito di Edda è morto, con le imposte inchiodate e un'insegna di legno
+      così sbiadita che il disegno dei pettini si indovina appena. Dentro la
+      polvere di lana copre il pavimento, e del vecchio bancone resta soltanto
+      il segno sulle piastrelle, perché in un inverno lontano è finito nella
+      stufa. Le lampade sono sparite da anni insieme ai ganci.
+
+      Dorn, il cardatore in fondo al vicolo, l'ultimo rimasto, si ferma sulla
+      soglia con le braccia incrociate e la lanugine nella barba. «Mah. Qui
+      una volta c'era la fila» dice. «Adesso la lana la comprano già cardata,
+      giù a Laresh.» Guarda il soffitto annerito dal fumo. «Con un po' di luce
+      come si deve, la gente torna.»
+
+      Edda, dalla stanza sul cortile, ti domanda se hai intenzione di vendere
+      lana. Le rispondi di no, e lei sembra quasi delusa.
+    opzioni:
+      - testo: "Riaprire la bottega"
+        descrizione: "I falegnami vogliono il loro prezzo per un bancone di noce, e le lampade vogliono cristalli sterili, che spargono la luce di una fiamma fino alla strada."
+        requisiti: [monete >= 450, cristalli.cristallo-sterile >= 4]
+        esito:
+          titolo: Le imposte aperte
+          testo: |
+            Per una settimana in casa ci sono falegnami che fischiano, e la
+            polvere di lana sale fino alla soffitta. Il bancone di noce costa
+            più di quanto volessi. Poi togli i chiodi alle imposte, e la luce
+            delle lampade, rifratta dai cristalli, arriva fino ai gradini del
+            vicolo. Il primo cliente è Tecla, che compra una cosa qualsiasi
+            per vedere com'è dentro. Il secondo lo manda Dorn. Sull'insegna
+            hai fatto ridipingere i pettini, perché a Edda piacevano, e sotto
+            hai aggiunto il tuo nome.
+          effetti: { monete: -450, cristalli.cristallo-sterile: -4 }
+          imposta: { casa: 4 }
+
+      - testo: "Non ancora"
+        descrizione: "Le imposte restano inchiodate, e Dorn resta sulla soglia."
+        costo: 0
+        esito:
+          titolo: La polvere di lana
+          testo: |
+            Richiudi la porta della bottega e rimetti il chiavistello. Dorn
+            alza le spalle, dice «Mah» e torna in fondo al vicolo ai suoi
+            pettini, che a quest'ora cardano più polvere che lana.
+
+  - id: la-cantina
+    presso: casa-nel-vicolo
+    immagine: icone/cellar-barrels
+    titolo: La cantina
+    sommario: "Sotto la bottega c'è una cantina con una parete che nessuno ha costruito. Edda dice che il marito ci teneva il vino."
+    luogo: La tua casa, la cantina
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [casa == 4]
+    testo: |
+      Quando i falegnami hanno sollevato le assi dietro il bancone è venuta
+      fuori una botola, e sotto la botola una scala di pietra che scende più
+      del dovuto. La cantina ha la volta di mattoni ed è larga quanto la casa.
+      La parete in fondo invece è di una pietra grigia e liscia, senza giunti,
+      con un incavo all'altezza del petto e sotto un ripiano segnato da solchi
+      fini e regolari. Accanto all'incavo c'è l'alone annerito di un cristallo
+      rimasto montato lì per molto tempo.
+
+      Edda scende fino al terzo gradino e non oltre. «Mio marito ci teneva il
+      vino, e il vino l'ha bevuto tutto lui» dice. «Quella parete c'era già
+      quando abbiamo comprato. Lui diceva che teneva su la strada.»
+
+      *La casa di Edda è appoggiata a un muro dei Precursori.* Nell'incavo
+      starebbe giusto un meccanismo, e il ripiano, rimesso in funzione,
+      sarebbe il banco migliore che tu abbia visto in città.
+    opzioni:
+      - testo: "Rimettere in funzione il banco"
+        descrizione: "Nell'incavo va un meccanismo dei Precursori, e accanto un cristallo carico che lo svegli. Servono anche muratori che non facciano domande."
+        requisiti: [monete >= 700, reliquie.meccanismo-spento >= 1, cristalli.cristallo-carico >= 1]
+        esito:
+          titolo: La parete che ronza
+          testo: |
+            I muratori puntellano la volta e allargano la scala, e si fanno
+            pagare anche il silenzio. Quando incastri il meccanismo
+            nell'incavo e ci appoggi accanto il cristallo carico, la pietra
+            grigia comincia a ronzare piano, e lungo i solchi del ripiano
+            corre una luce del colore dell'acqua. Il ronzio si sente fino in
+            cucina. Edda dice che le ricorda il marito quando russava, e da
+            quella sera dorme meglio.
+          effetti: { monete: -700, reliquie.meccanismo-spento: -1, cristalli.cristallo-carico: -1 }
+          imposta: { casa: 5 }
+
+      - testo: "Non ancora"
+        descrizione: "La botola si richiude, e l'aria fredda resta di sotto."
+        costo: 0
+        esito:
+          titolo: La botola
+          testo: |
+            Rimetti le assi sopra la botola e ci spingi contro il bancone. Per
+            qualche notte ti sembra di sentire l'aria fredda salire dalle
+            fessure del pavimento, anche se Edda dice che è soltanto il
+            vicolo.
+
+  - id: l-altana
+    presso: casa-nel-vicolo
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: L'altana
+    sommario: "Sopra il tetto c'è posto per una terrazza di legno da cui si vedrebbe la Cicatrice. In Municipio però il permesso non lo firma nessuno."
+    luogo: La tua casa, il tetto
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [casa == 5]
+    testo: |
+      Dalla finestrella della soffitta, se ti sporgi più di quanto sia
+      prudente, si vede un pezzo di cielo sopra i tetti e il bordo della
+      Cicatrice, dove la luce delle lanterne dei Ponti si perde nel vuoto. Un
+      falegname dei Ponti ti ha disegnato un'altana di legno sul tetto, con
+      una scaletta che parte dalla soffitta e un parapetto di corda
+      intrecciata. Il disegno è bello, e il preventivo occupa tutto il retro
+      del foglio.
+
+      Il guaio è il permesso. In Municipio l'ispettore dei tetti della Città
+      Bassa non firma niente che superi la linea delle grondaie, a meno che
+      qualcuno non lo convinca, e la sua famiglia ha da sempre un tetto basso
+      e parecchi nemici.
+
+      Tecla, dalla finestra di fronte, dice che se fai l'altana lei ci viene a
+      stendere i panni. Dorn dice «Mah», e guarda in su.
+    opzioni:
+      - testo: "Costruire l'altana"
+        descrizione: "Il falegname vuole il suo prezzo, e l'ispettore dei tetti qualche buona ragione per firmare. Tu ne conosci di quelle che non si dicono ad alta voce."
+        requisiti: [monete >= 1000, informazioni.segreto >= 2]
+        esito:
+          titolo: Sopra le grondaie
+          testo: |
+            L'ispettore legge i biglietti che gli lasci sul tavolo, li brucia
+            nella candela e firma senza alzare gli occhi. In un mese l'altana
+            è su, con la scaletta che parte dalla soffitta e il parapetto di
+            corda che scricchiola quando ti ci appoggi. Da lassù la Cicatrice
+            taglia la città da una parte all'altra, con i Ponti tesi sopra
+            come punti di sutura. La prima sera ci sali con una tazza in mano,
+            e giù nel vicolo i ragazzi si mettono a contare le finestre accese
+            fino al Municipio.
+          effetti: { monete: -1000, informazioni.segreto: -2 }
+          imposta: { casa: 6 }
+
+      - testo: "Non ancora"
+        descrizione: "Il disegno resta arrotolato sul tavolo, e il permesso in un cassetto del Municipio."
+        costo: 0
+        esito:
+          titolo: Il disegno arrotolato
+          testo: |
+            Arrotoli il disegno del falegname e lo leghi con lo spago. Quella
+            notte ti sporgi dalla finestrella più di quanto sia prudente, e
+            resti a lungo a guardare il bordo della Cicatrice fra due
+            comignoli.
+
+  # ------------------------------------------------------------ C3 · la sera a casa
+  - id: una-sera-a-casa
+    presso: casa-nel-vicolo
+    immagine: icone/fireplace
+    titolo: Una sera a casa
+    sommario: "La sera torni nel Vicolo dei Cardatori, chiudi la porta con la tua chiave e decidi come passare la notte."
+    luogo: La tua casa
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [casa >= 1]
+    testo: |
+      A sera il vicolo si svuota dal basso verso l'alto. Dorn chiude per
+      primo, sbattendo i pettini sullo stipite per togliere la lanugine, e
+      l'ultimo rumore è l'acqua che qualcuno butta dalla finestra senza
+      guardare. La tua chiave entra nella
+      serratura con il solito scatto storto. Dentro trovi le cose dove le
+      avevi lasciate, che in Città Bassa è già un lusso.
+
+      Edda batte il manico della scopa contro il soffitto della sua stanza, e
+      tu rispondi con un colpo di tacco sul pavimento. È il vostro modo di
+      dirvi che anche oggi siete tornati tutti e due. Hai le gambe pesanti
+      della giornata, e nella testa ti girano ancora le voci della città.
+    opzioni:
+      - testo: "Dormire nella soffitta"
+        descrizione: "Il pagliericcio sotto la trave, e la trave sopra la fronte."
+        quando: [arredo.letto == 0]
+        esito:
+          titolo: Il pagliericcio
+          testo: |
+            Ti stendi sul pagliericcio sotto la trave, attento a non alzare la
+            testa di colpo, e la paglia si sistema intorno alle spalle con un
+            fruscio. Dalla finestrella entra la luce di una candela che Tecla
+            ha dimenticato accesa sul davanzale. Dormi male e a pezzi,
+            svegliandoti a ogni carretto, eppure la mattina le ossa ti fanno
+            un po' meno male di ieri.
+          effetti: { ferite: -0.5 }
+
+      - testo: "Dormire nel letto vero"
+        descrizione: "Un materasso riempito da Dorn con la lana migliore, e lenzuola pulite."
+        quando: [arredo.letto >= 1]
+        esito:
+          titolo: Il letto vero
+          testo: |
+            Il materasso l'ha riempito Dorn con la lana migliore che aveva, e
+            quando ti ci stendi sopra la schiena si arrende prima della testa.
+            Le lenzuola profumano di sapone. Ti addormenti senza accorgertene,
+            cosa che non ti succedeva da prima di arrivare a Qir-Azel, e la
+            mattina ti svegli con la faccia schiacciata sul cuscino e i
+            pensieri di ieri lontani come un altro quartiere.
+          effetti: { ferite: -1, tormento: -0.5 }
+
+      - testo: "Un bagno caldo nella vasca di rame"
+        descrizione: "Il cristallo murato sotto il fondo scalda l'acqua da solo."
+        quando: [arredo.vasca >= 1]
+        esito:
+          titolo: L'acqua nel rame
+          testo: |
+            Il cristallo murato sotto il fondo scalda l'acqua in poco tempo, e
+            il rame diventa tiepido al tocco. Ti ci cali dentro fino al mento
+            e lasci che il calore ti sciolga i nodi delle spalle. Le immagini
+            della giornata galleggiano per un po' davanti agli occhi chiusi,
+            poi vanno a fondo una dopo l'altra. Quando esci hai la pelle rossa
+            fino ai gomiti e i pensieri hanno smesso di girare in tondo.
+          effetti: { tormento: -1, ferite: -0.5 }
+
+      - testo: "Rileggere i tuoi appunti"
+        descrizione: "Sulla libreria i quaderni si sono accumulati in pile storte, pieni dei tuoi conti con la città."
+        quando: [arredo.libreria >= 1]
+        esito:
+          titolo: Le pile storte
+          testo: |
+            Tiri giù i quaderni dei primi mesi e li rileggi alla luce della
+            candela. Certi nomi che allora ti sembravano importanti adesso non
+            ti dicono niente, mentre altri, scritti in fretta a margine, sono
+            diventati gente che saluti per strada. Fai collegamenti che allora
+            ti erano sfuggiti e li segni con l'inchiostro rosso. A mezzanotte
+            hai le dita macchiate e un'idea più chiara di come gira il denaro
+            in questa città.
+          pe: { accademiche: 3, politica-ed-economia: 2 }
+
+      - testo: "Allenarti in cortile"
+        descrizione: "Nel cortile c'è la rastrelliera, con il palo piantato fra le pietre."
+        quando: [arredo.rastrelliera >= 1]
+        prova: { attributo: fisico, abilita: [armi-da-mischia, atletica], difficolta: Facile }
+        successo:
+          titolo: Il palo del cortile
+          testo: |
+            Prendi un'arma dalla rastrelliera e lavori sul palo finché la
+            camicia non ti si incolla alla schiena. I colpi vengono puliti uno
+            dopo l'altro, e i piedi trovano da soli il posto giusto sulle
+            pietre sconnesse del cortile. Dalla sua finestra Edda conta i
+            colpi a mezza voce, e quando smetti ti fa sapere che suo marito,
+            alla tua età, cardava più in fretta.
+        fallimento:
+          titolo: Le pietre sconnesse
+          testo: |
+            Prendi un'arma dalla rastrelliera e cominci a lavorare sul palo,
+            finché il piede destro trova una pietra sconnessa e ti ritrovi per
+            terra con il gomito sbucciato. Riprovi, e i colpi arrivano storti.
+            Edda apre la finestra per dirti di fare rumore almeno a tempo, e
+            la richiude.
+
+      - testo: "Guardare la città dall'altana"
+        descrizione: "Sali la scaletta della soffitta e ti appoggi al parapetto di corda, con tutta Qir-Azel sotto di te."
+        quando: [casa >= 6]
+        esito:
+          titolo: I tetti
+          testo: |
+            Ti appoggi al parapetto di corda, che scricchiola come sempre, e
+            guardi la città accendersi un pezzo alla volta. Sui Ponti le
+            lanterne di Mana restano accese giorno e notte, mentre in Città
+            Bassa le finestre si spengono presto, perché le candele costano.
+            Più in là la Cicatrice è un buio senza fondo. Resti lassù finché
+            il freddo non ti entra nelle maniche, e scendi con la testa più
+            leggera di quando sei salito.
+          effetti: { tormento: -1 }
+
+      - testo: "Puntare il cannocchiale sulla Cicatrice"
+        descrizione: "La lente fatta con i meccanismi dei Precursori arriva più giù di qualunque lente della Biblioteca."
+        quando: [arredo.cannocchiale >= 1]
+        esito:
+          titolo: La parete di fronte
+          testo: |
+            Punti il cannocchiale sulla parete opposta della Cicatrice, e la
+            lente si mette a fuoco da sola con un ticchettio sottile dentro
+            l'ottone. Vedi le radici che escono dalla roccia a grappoli, e
+            molto più in basso una cengia con i resti di una scala scavata
+            nella pietra, che scende verso il buio e si interrompe di colpo.
+            Prendi appunti finché c'è luce, e quando scendi hai le dita fredde
+            e il quaderno pieno di schizzi della parete.
+          pe: { percezione: 3, natura: 2 }
+          effetti: { tormento: -0.5 }
+
+  # ------------------------------------------------------------ C4 · gli arredi
+  - id: arredare-la-casa
+    presso: casa-nel-vicolo
+    immagine: icone/table
+    titolo: Arredare la casa
+    sommario: "Le stanze sono più grandi dei mobili che hai, e in Città Bassa i mobili si trovano, se sai dove guardare."
+    luogo: La tua casa
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [casa >= 1]
+    testo: |
+      La casa ha più spazio che mobili, e i passi rimbombano nelle stanze
+      vuote in un modo che a Edda non piace. In Città Bassa i mobili passano
+      da una casa all'altra senza mai uscire dal quartiere, e il mercato vero
+      si fa il giovedì sulla piazzetta in fondo alla discesa, dove i carretti
+      dei traslochi si fermano a vendere quello che nella casa nuova non
+      entra. Ci trovi specchi con l'argento che si sfoglia e un armadio intero
+      con dentro ancora i vestiti del vecchio padrone.
+
+      Per le cose buone bisogna salire ai Ponti, dove i falegnami della Gilda
+      vendono a prezzi da Gilda. Tecla dice di avere un cugino per ogni cosa
+      che ti serve, e il cugino è sempre lo stesso.
+
+      Edda ti raccomanda di non comprare niente che abbia i tarli, perché i
+      tarli poi passano di casa in casa come i pettegolezzi.
+    opzioni:
+      - testo: "Comprare un letto vero"
+        descrizione: "Un letto di legno con il materasso di lana. Dorn dice che il materasso lo riempie lui."
+        quando: [casa >= 1, arredo.letto == 0]
+        requisiti: [monete >= 30]
+        esito:
+          titolo: Il materasso di Dorn
+          testo: |
+            Il letto lo trovi al mercato dei traslochi già smontato e legato
+            con lo spago, e lo porti su per le scale un pezzo alla volta. Dorn
+            ti riempie il materasso con la lana migliore della sua bottega e
+            non vuole niente in cambio, perché dice che la lana buona ormai la
+            compra soltanto chi deve imbottire una bara. Tecla ti regala una
+            federa con il bordo a punto croce. Quella sera il pagliericcio
+            finisce arrotolato in un angolo della soffitta.
+          effetti: { monete: -30 }
+          imposta: { arredo.letto: 1 }
+
+      - testo: "Far montare una stufa a cristalli"
+        descrizione: "Una stufa di ghisa con i cristalli sterili nella griglia, che tengono il calore della brace per tutta la notte."
+        quando: [casa >= 2, arredo.stufa == 0]
+        requisiti: [monete >= 40, cristalli.cristallo-sterile >= 2]
+        esito:
+          titolo: Il calore della notte
+          testo: |
+            Il fumista arriva con la stufa su un carretto e la monta nella
+            stanza dove dormi, con il tubo che esce dalla finestra e i
+            cristalli sterili incastrati nella griglia. La sera ci metti una
+            palata di brace, e i cristalli la tengono calda fino al mattino
+            restando limpidi, appena tiepidi al tocco. Dormi più caldo di
+            quanto ti ricordi. Edda sale a vedere, ci tiene sopra le mani a
+            lungo e se ne torna giù senza commentare.
+          effetti: { monete: -40, cristalli.cristallo-sterile: -2 }
+          imposta: { arredo.stufa: 1 }
+
+      - testo: "Comprare una libreria"
+        descrizione: "Il rigattiere che vende gli scaffali li cede per poco a chi gli porta notizie verificate sul suo isolato."
+        quando: [casa >= 2, arredo.libreria == 0]
+        requisiti: [monete >= 80, informazioni.pettegolezzo >= 3]
+        esito:
+          titolo: Gli scaffali di noce
+          testo: |
+            Il rigattiere ti cede la libreria per poco, in cambio di quello
+            che sai sulle case vuote del suo isolato e su chi le sta
+            comprando. Gli scaffali arrivano su un carro, e con loro una cassa
+            di almanacchi vecchi che nessuno ha voluto, con in fondo un
+            trattato sui cristalli dalle pagine incollate per l'umido. Li
+            sistemi accanto ai tuoi quaderni, e la stanza comincia a somigliare
+            allo studio di un notaio.
+          effetti: { monete: -80, informazioni.pettegolezzo: -3 }
+          imposta: { arredo.libreria: 1 }
+
+      - testo: "Far montare una rastrelliera in cortile"
+        descrizione: "Una rastrelliera di quercia e un palo piantato fra le pietre, per allenarti senza uscire di casa."
+        quando: [casa >= 3, arredo.rastrelliera == 0]
+        requisiti: [monete >= 100]
+        esito:
+          titolo: Il palo fra le pietre
+          testo: |
+            Due garzoni piantano il palo fra le pietre del cortile a colpi di
+            mazza, e per mezza giornata il vicolo trema. La rastrelliera è di
+            quercia, con i ganci di ferro battuto e il posto per una lancia
+            che non hai. Dalla stanza sul cortile Edda segue il lavoro con il
+            gomitolo in mano, e quando i garzoni se ne vanno ti fa notare che
+            il palo è storto. Lo è davvero, anche se di poco, e d'ora in poi
+            te ne accorgerai a ogni colpo.
+          effetti: { monete: -100 }
+          imposta: { arredo.rastrelliera: 1 }
+
+      - testo: "Comprare un tappeto di Pannion"
+        descrizione: "Lana tinta con le cortecce del Bosco di Velthar e annodata a mano a Pannion. Chi entra lo nota."
+        quando: [casa >= 3, arredo.tappeto == 0]
+        requisiti: [monete >= 180]
+        esito:
+          titolo: I nodi di Pannion
+          testo: |
+            Il tappeto arriva arrotolato sulla groppa di un mulo, insieme a un
+            mercante di Pannion che parla soltanto di legname. Lo stendi nella
+            stanza degli ospiti, e il rosso delle cortecce si prende tutta la
+            luce della finestra. Dorn si inginocchia a contare i nodi con il
+            pollice e dice che sono fitti come non se ne vedono più. Per una
+            settimana chi passa nel vicolo trova una scusa per affacciarsi
+            alla tua porta.
+          effetti: { monete: -180, lustro: 1 }
+          imposta: { arredo.tappeto: 1 }
+
+      - testo: "Farti ritrarre da Mastro Fenzi"
+        descrizione: "Il pittore dei Quartieri Alti scende fin qui per il suo prezzo e per una storia vera da raccontare nelle case dove dipinge."
+        quando: [casa >= 4, arredo.ritratto == 0]
+        requisiti: [monete >= 300, informazioni.segreto >= 1]
+        esito:
+          titolo: Le sedute
+          testo: |
+            Mastro Fenzi scende dai Quartieri Alti con il cavalletto in spalla e
+            si lamenta delle scale a ogni seduta. Mentre dipinge ascolta il
+            segreto che gli hai promesso, e a ogni frase la pennellata si fa
+            più lenta. Il ritratto ti somiglia più di quanto vorresti, con
+            un'ombra di stanchezza sotto gli occhi che lui si rifiuta di
+            togliere. Lo appendi nella stanza degli ospiti. Tecla viene a
+            vederlo due volte, la seconda con la sorella.
+          effetti: { monete: -300, informazioni.segreto: -1, lustro: 2 }
+          imposta: { arredo.ritratto: 1 }
+
+      - testo: "Comprare una vasca di rame"
+        descrizione: "Una vasca di rame battuto, con un cristallo carico murato sotto il fondo che scalda l'acqua."
+        quando: [casa >= 5, arredo.vasca == 0]
+        requisiti: [monete >= 350, cristalli.cristallo-carico >= 1]
+        esito:
+          titolo: Il rame battuto
+          testo: |
+            La vasca arriva dai Ponti su un carro coperto, e ci vogliono
+            quattro uomini e parecchie bestemmie per farla girare sul
+            pianerottolo. La sistemi nella stanza in fondo al pianterreno,
+            dove il pavimento è di pietra, e il calderaio mura il cristallo
+            carico sotto il fondo con una malta che puzza di uova marce. La
+            prima volta che l'acqua si scalda da sola Tecla attraversa il
+            vicolo per vederlo con i suoi occhi.
+          effetti: { monete: -350, cristalli.cristallo-carico: -1 }
+          imposta: { arredo.vasca: 1 }
+
+      - testo: "Montare un cannocchiale sull'altana"
+        descrizione: "Con i meccanismi dei Precursori rimontati a dovere si ottiene una lente che vede più lontano di qualunque altra in città."
+        quando: [casa >= 6, arredo.cannocchiale == 0]
+        requisiti: [monete >= 400, reliquie.meccanismo-spento >= 2]
+        esito:
+          titolo: La lente che si mette a fuoco
+          testo: |
+            Lo costruisce un ottico dei Ponti che ha studiato all'Accademia
+            senza mai finire, smontando i meccanismi sul tavolo della tua
+            cucina per tre notti di fila. Il tubo è d'ottone, montato su un
+            perno che gira con un dito, e la lente si mette a fuoco da sola
+            con un ticchettio sottile. Quando lo provi, la parete opposta
+            della Cicatrice ti viene così vicina che fai un passo indietro. Il
+            giorno dopo mezzo vicolo chiede di guardarci dentro.
+          effetti: { monete: -400, reliquie.meccanismo-spento: -2, lustro: 3 }
+          imposta: { arredo.cannocchiale: 1 }
+
+      - testo: "Guardarti intorno"
+        descrizione: "Fare il giro delle stanze e vedere che cosa manca."
+        costo: 0
+        esito:
+          titolo: Il giro delle stanze
+          testo: |
+            Fai il giro della casa con le mani in tasca, dalla porta fino al
+            punto più alto dove puoi arrivare, e tieni a mente quello che
+            manca. È più di quanto pensassi. Edda ti incrocia sul pianerottolo
+            e ti racconta che anche a lei e al marito ci sono voluti anni, e
+            che i mobili migliori li avevano comprati per ultimi.
+
+  # ------------------------------------------------------------ C5 · la bottega
+  - id: il-banco-della-bottega
+    presso: casa-nel-vicolo
+    immagine: icone/receive-money
+    titolo: Il banco della bottega
+    sommario: "Al pianterreno c'è la tua bottega, con il bancone di noce e i pettini sull'insegna, e qualcuno deve pur starci dietro."
+    luogo: La tua casa, la bottega
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [casa >= 4]
+    testo: |
+      La bottega apre quando apri tu, e il vicolo se n'è accorto. Le lampade a
+      cristallo spargono una luce bianca fino ai gradini, e la sera i ragazzi
+      della strada ci si siedono sotto a giocare a dadi, perché è l'unico
+      punto del vicolo dove si leggono i punti. Sul bancone di noce c'è la
+      bilancia, e accanto un piattino di caramelle d'orzo che Tecla ti ha
+      consigliato per tenere buoni i clienti, e su questo aveva ragione lei.
+
+      Chi entra viene per curiosità più che per bisogno, e di solito parla più
+      di quanto compri. Dorn passa ogni pomeriggio a chiederti se hai della
+      lana, per il gusto di sentirti rispondere di no. *Sono finito dietro un
+      bancone a pesare il sale, e la cosa non mi dispiace.* Ti allacci il
+      grembiule e accendi le lampade.
+    opzioni:
+      - testo: "Stare al banco un pomeriggio"
+        descrizione: "Un pomeriggio dietro il bancone a pesare e incartare per i clienti del vicolo."
+        esito:
+          titolo: Il pomeriggio al banco
+          testo: |
+            Il pomeriggio passa fra la bilancia e il registro. Vendi le
+            candele di sego che Tecla ti lascia in conto vendita, e a un orafo
+            dei Ponti che ha sbagliato strada una lente rimasta nel cassetto
+            da mesi. Verso sera conti l'incasso alla luce delle lampade e lo
+            chiudi nel cassetto, che scatta con un rumore che ti piace più di
+            quanto ammetteresti.
+          effetti: { monete: 3 }
+
+      - testo: "Convincere un cliente difficile"
+        descrizione: "Una signora dei Quartieri Alti è scesa fin qui per lamentarsi, e se si calma potrebbe comprare parecchio."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La signora del cappello
+          testo: |
+            La signora entra con un cappello piumato e la convinzione di
+            essere stata truffata, perché la lente che le hai venduto ieri
+            ingrandisce troppo. La lasci parlare fino in fondo, poi le fai
+            notare che con quella lente si leggono i registri dei dazi
+            dall'altra parte del tavolo, senza che nessuno se ne accorga. Lei
+            ci pensa sopra a lungo. Esce con la lente nella borsetta e una
+            seconda per il marito, e dalla porta ti fa sapere che tornerà.
+          effetti: { monete: 6 }
+        fallimento:
+          titolo: Il cappello piumato
+          testo: |
+            La signora entra con un cappello piumato e si lamenta perché la
+            lente che le hai venduto, secondo lei, ingrandisce troppo. Provi a
+            spiegarle che è un pregio, e più parli più lei si convince di
+            avere ragione. Alla fine le rendi una parte del prezzo per farla
+            uscire. Tecla, dalla finestra di fronte, ti fa segno con la mano
+            che la prossima volta una cliente così la devi mandare da lei.
+          effetti: { monete: 2 }
+
+  # ------------------------------------------------------------ C6 · il tavolo da lavoro
+  - id: il-tavolo-da-lavoro
+    presso: casa-nel-vicolo
+    immagine: icone/toolbox
+    titolo: Il tavolo da lavoro
+    sommario: "Il vecchio tavolo dei pettini e, più tardi, il banco della cantina. A casa tua le cose si mettono in ordine meglio che altrove."
+    luogo: La tua casa, il laboratorio
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [casa >= 2]
+    testo: |
+      Il tavolo dei pettini occupa tutta la parete del vecchio laboratorio, e
+      ormai ci stendi sopra quello che porti a casa dalla città. Il legno è
+      segnato da file di forellini lasciate dai denti dei pettini, e tu ci
+      metti in fila le voci come una volta ci si metteva la lana. Sotto il
+      piano c'è un cassetto con la serratura, che Edda giura di non aver mai
+      aperto, e dentro ci tieni le carte da non lasciare in giro.
+
+      Lavorare qui rende più che altrove, perché in casa tua nessuno ti guarda
+      le mani mentre lavori. Quando la cantina è aperta scendi anche al banco
+      di pietra, che ronza piano sotto le fondamenta. Tecla sostiene di
+      sentirlo fino a casa sua, e che le mette voglia di pane.
+    opzioni:
+      - testo: "Riordinare le voci sul tavolo"
+        descrizione: "Stendere le voci raccolte in città e vedere quali stanno in piedi da sole."
+        quando: [casa >= 2]
+        requisiti: [informazioni.voce >= 5]
+        esito:
+          titolo: Le voci in fila
+          testo: |
+            Scrivi ogni voce su un foglietto e li infili in fila nei forellini
+            del tavolo. Alcune parlano dello stesso carico sparito ai Ponti,
+            raccontato da persone che non si conoscono, e quando le metti
+            vicine si confermano a vicenda. Le altre le butti nel fuoco,
+            oppure le tieni da parte per quando avranno un fratello. A notte
+            fonda sul tavolo restano soltanto le storie che reggono.
+          effetti: { informazioni.voce: -5, informazioni.pettegolezzo: 2 }
+
+      - testo: "Tirare le fila dei pettegolezzi"
+        descrizione: "Incrociare i pettegolezzi verificati finché uno non diventa una cosa che si vende cara."
+        quando: [casa >= 3]
+        requisiti: [informazioni.pettegolezzo >= 4]
+        esito:
+          titolo: Il filo rosso
+          testo: |
+            Apri il cassetto con la serratura e tiri fuori i pettegolezzi
+            della settimana, ricopiati in bella sul quaderno. Li incroci con
+            le date e con i nomi, finché diverse storie che sembravano lontane
+            puntano allo stesso magazzino sotto i Ponti e allo stesso uomo che
+            ci entra di notte. Le unisci con un filo di lana rossa fissato
+            agli spilli. Quando richiudi il cassetto dentro c'è un segreto
+            vero con tanto di nome e di data.
+          effetti: { informazioni.pettegolezzo: -4, informazioni.segreto: 1 }
+
+      - testo: "Ricaricare un cristallo al banco della cantina"
+        descrizione: "Sui solchi del ripiano i cristalli sterili tornano a prendere luce, uno alla volta."
+        quando: [casa >= 5]
+        requisiti: [cristalli.cristallo-sterile >= 3]
+        esito:
+          titolo: La luce del colore dell'acqua
+          testo: |
+            Scendi in cantina con una candela e appoggi i cristalli sterili
+            sui solchi del ripiano, uno accanto all'altro. Il ronzio della
+            parete cambia nota. Per un'ora la luce del meccanismo corre lungo
+            i solchi e si raccoglie in un cristallo solo, che si fa sempre più
+            chiaro mentre gli altri si opacizzano e si sbriciolano. Quando lo
+            prendi in mano è caldo e pulsa appena, e ti viene da tenerlo
+            lontano dalla faccia.
+          effetti: { cristalli.cristallo-sterile: -3, cristalli.cristallo-carico: 1 }
+
+      - testo: "Rimontare un meccanismo al banco della cantina"
+        descrizione: "Sul ripiano di pietra i frammenti incisi trovano il loro posto, se sai dove guardare."
+        quando: [casa >= 5]
+        requisiti: [reliquie.frammento-inciso >= 3]
+        esito:
+          titolo: I solchi del ripiano
+          testo: |
+            Stendi i frammenti incisi sul ripiano e cominci a provare gli
+            incastri. I solchi della pietra corrispondono alle incisioni, e
+            ogni volta che un pezzo trova il suo posto la luce nell'incavo si
+            fa più forte per un momento. Lavori fino a tardi, con le dita
+            intorpidite dal freddo della cantina. Alla fine sul ripiano c'è un
+            congegno intero e senza vita, ed Edda dall'alto della scala ti
+            domanda se hai finito di far ronzare la casa.
+          effetti: { reliquie.frammento-inciso: -3, reliquie.meccanismo-spento: 1 }
+
+  # ------------------------------------------------------------ C7 · gli ospiti
+  - id: ricevere-ospiti
+    presso: casa-nel-vicolo
+    immagine: icone/wine-glass
+    titolo: Ricevere ospiti
+    sommario: "La stanza buona del primo piano è fatta per gli ospiti, e a Qir-Azel chi riceve bene si fa un nome."
+    luogo: La tua casa, la stanza degli ospiti
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [casa >= 3]
+    testo: |
+      La stanza buona del primo piano ha la finestra più grande della casa e
+      un tavolo che si allunga con due assi in più. A Qir-Azel ci si conosce a
+      tavola, e nelle case che contano un nome si fa più con le cene che con
+      le imprese. Tecla ti ha già spiegato chi si offende se lo metti vicino
+      alla porta e chi beve troppo dopo il dolce.
+
+      Edda ti presta le sue tovaglie buone, quelle del matrimonio, con le
+      iniziali ricamate in un angolo, e ti fa promettere che nessuno ci
+      verserà sopra il vino. Dorn si offre di portare le sedie dalla sua
+      bottega. Da quando in casa tua si riceve, la sera prima di una cena le
+      donne del vicolo spazzano i gradini fino alla fontana secca, e qualcuno
+      ha perfino lavato l'insegna della bottega di Dorn.
+    opzioni:
+      - testo: "Una cena semplice"
+        descrizione: "La zuppa d'orzo di Edda e il vino dell'oste in fondo alla discesa, per i vicini di casa."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: La zuppa di Edda
+          testo: |
+            Edda cucina la zuppa d'orzo nella pentola grande e non permette a
+            nessuno di toccare il sale. Vengono Dorn, con la camicia della
+            domenica, e Tecla con il marito, che apre bocca per la prima volta
+            da quando lo conosci. Arrivano anche un paio di conoscenti della
+            città con il loro vino. Si parla del prezzo della legna fino a
+            tardi, e a fine serata hai sentito qualche voce nuova sul
+            quartiere. Il giorno dopo nel vicolo si parla della tua cena.
+          effetti: { monete: -30, lustro: 1, informazioni.voce: 2 }
+
+      - testo: "Una cena con il vino di Pannion"
+        descrizione: "Il vino rosso di Pannion e una lampada a cristallo sulla tavola, per ospiti che scendono dai Ponti."
+        quando: [casa >= 4]
+        requisiti: [monete >= 80, cristalli.cristallo-sterile >= 1]
+        esito:
+          titolo: Il vino di Pannion
+          testo: |
+            Il vino di Pannion è scuro e sa di resina, e la lampada a
+            cristallo lo fa sembrare più caro di quanto sia. Vengono un
+            mercante della Gilda con la moglie e una cantante del Teatro delle
+            Meraviglie che ride forte e fuma alla finestra. Tecla serve in
+            tavola senza che nessuno gliel'abbia chiesto. A fine serata il
+            mercante ti domanda se la casa è tua o in affitto, e quando glielo
+            dici ti stringe la mano più a lungo. Sulla porta la cantante ti
+            racconta, ridendo, una cosa vera su Orazio Belcanto.
+          effetti: { monete: -80, cristalli.cristallo-sterile: -1, lustro: 3, informazioni.pettegolezzo: 1 }
+
+      - testo: "Una serata per i notabili"
+        descrizione: "Gente dei Quartieri Alti sull'altana, sotto una lanterna a cristallo carico, con la Cicatrice per sfondo."
+        quando: [casa >= 6]
+        requisiti: [monete >= 200, cristalli.cristallo-carico >= 1]
+        esito:
+          titolo: La serata sull'altana
+          testo: |
+            Per una sera il Vicolo dei Cardatori si riempie di portantine, e i
+            portatori si siedono sui gradini della fontana secca a giocare a
+            dadi con i ragazzi. Sull'altana il cristallo carico tiene accesa
+            una lanterna che si vede dai Ponti. Salgono un notabile della
+            Gilda e la vedova di un armatore, che si conoscono da trent'anni e
+            non si salutano. A mezzanotte, appoggiato al parapetto di corda,
+            il notabile ti racconta a bassa voce il perché. Il giorno dopo il
+            tuo nome gira nelle case dei Quartieri Alti, e Tecla vende tutte
+            le candele.
+          effetti: { monete: -200, cristalli.cristallo-carico: -1, lustro: 8, informazioni.segreto: 1 }
+
+  # ------------------------------------------------------------ C8 · gli ospiti di riguardo
+  - id: ospite-primo
+    presso: casa-nel-vicolo
+    immagine: personaggi/tobol-aspern
+    titolo: La fontana secca
+    sommario: "Il preside dell'Accademia di Torvessa e un cartografo gnomo bussano alla tua porta, già nel mezzo di una lite."
+    luogo: La tua casa, la stanza degli ospiti
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [lustro >= 10, ospite.primo == 0]
+    testo: |
+      Bussano mentre stai sparecchiando, e sulla soglia ci sono due vecchi che
+      litigano. Il primo è alto e largo di spalle, con un corvo appollaiato
+      sul braccio e le mani piene di cicatrici di scavo. Il secondo è uno
+      gnomo con gli occhiali tondi e un geco verde brillante che gli dorme sul
+      colletto del gilet ricamato a fiori.
+
+      «Orvald Temmerin» dice il primo. «Lui è Tobol Aspern, e ha torto.»
+
+      «In città dicono che nel Vicolo dei Cardatori c'è una casa dove si
+      mangia bene e si discute meglio» dice Tobol, sistemandosi gli occhiali.
+      «Orvald sostiene che la vostra fontana secca è un pozzo dei Precursori.
+      Io ce l'ho sulla mia mappa del centodieci, con il nome dei cardatori che
+      l'hanno pagata. Siamo venuti a vedere, e già che c'eravamo a cena.»
+
+      Si siedono senza aspettare l'invito. Edda porta la zuppa, e i due ne
+      mangiano due piatti a testa senza smettere di litigare un momento. Il
+      corvo Pett scende sulla tavola e si serve del tuo pane. *Mi hanno scelto
+      come testimone, e nessuno dei due mi ha chiesto il nome.* Alla fine si
+      voltano verso di te tutti e due.
+    opzioni:
+      - testo: "Scendere con loro alla fontana"
+        descrizione: "Con una lanterna e una corda, a guardare che cosa c'è davvero in fondo alla fontana secca."
+        esito:
+          titolo: Il fondo della fontana
+          testo: |
+            Ti cali nella fontana con la lanterna, mentre Orvald tiene la
+            corda e Tobol ti dà istruzioni che nessuno ha chiesto. In fondo
+            trovi un pettine da cardare arrugginito, e sotto il fango un
+            canale di pietra grigia senza giunti che sparisce nella roccia
+            verso le fondamenta delle case. Quando risali Orvald annuisce
+            soddisfatto, e Tobol prende appunti a una velocità furiosa.
+            Litigano fino a mezzanotte su chi dei due debba correggere la
+            mappa, e il pettine se lo porta via Tobol.
+          pe: { percezione: 6 }
+          imposta: { ospite.primo: 1 }
+
+      - testo: "Versare ancora vino e lasciarli litigare"
+        descrizione: "Due vecchi che hanno girato le rovine per trent'anni, alla tua tavola. Basta ascoltare."
+        esito:
+          titolo: Trent'anni di rovine
+          testo: |
+            Versi ancora vino e ti metti comodo. Per tutta la sera i due si
+            contraddicono su ogni scavo che hanno fatto insieme, e a forza di
+            correggersi a vicenda raccontano più di quanto direbbero in
+            un'aula. Verso mezzanotte Orvald scrive due righe su un foglietto
+            e te lo lascia sotto il bicchiere. «Per una Raschiatrice che scava
+            con me da vent'anni» dice. «Le scrivo che sai ascoltare, e fra le
+            rovine è una dote rara.» Tobol aggiunge una riga di suo pugno
+            sotto la firma, e la legge ad alta voce mentre Orvald finge di non
+            sentire.
+          effetti: { rep.raschiatori: 0.5 }
+          imposta: { ospite.primo: 1 }
+
+  - id: ospite-secondo
+    presso: casa-nel-vicolo
+    immagine: personaggi/ambrin-qell
+    titolo: Il mercante del Nodo
+    sommario: "Ambrin Qell lascia per una sera il bancone del Nodo d'Ossidiana e scende fino al Vicolo dei Cardatori, con un pacchetto sotto il braccio."
+    luogo: La tua casa, la stanza degli ospiti
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [lustro >= 30, ospite.secondo == 0]
+    testo: |
+      Ambrin Qell arriva al tramonto, con i lunghi capelli rossi legati sulla
+      nuca e un pacchetto avvolto in un panno di lana sotto il braccio. Il
+      corvo gli sta su una spalla e guarda il vicolo come se dovesse
+      comprarlo. Tecla, alla finestra di fronte, lascia cadere una candela nel
+      vuoto e non va a raccoglierla.
+
+      «Eccoti» dice Ambrin, con il suo sorriso largo. «Al Mercato dei Nodi non
+      si parla d'altro che delle tue cene, e io volevo vedere la casa prima
+      che diventasse cara.» Entra e fa il giro della casa senza chiedere il
+      permesso. Tocca gli stipiti e i mobili con la punta delle dita, e di
+      ogni cosa ti dice da dove viene e quanto l'hai pagata troppo.
+
+      A tavola mangia poco e ascolta molto. Il corvo, che in pubblico non
+      parla, becca le briciole sul pavimento e ti fissa con un occhio solo.
+      *Mi sta facendo il prezzo, e il prezzo gli piace.* Prima del dolce Ambrin posa il pacchetto sulla tovaglia e lo
+      scosta verso di te con due dita.
+
+      «Un regalo per la casa» dice. «Oppure, se preferisci, una presentazione.
+      Alla Gilda ci sono compratori che vorrebbero conoscerti, e io non
+      presento mai nessuno due volte.»
+    opzioni:
+      - testo: "Accettare il regalo"
+        descrizione: "Nel panno di lana c'è qualcosa di pesante e tiepido. Ambrin non regala mai cose da poco."
+        esito:
+          titolo: Il pacchetto di lana
+          testo: |
+            Sciogli il panno e dentro c'è un cristallo carico, limpido, che
+            manda una luce azzurra sulla tovaglia di Edda. Ambrin ti spiega da
+            quale pozzo viene e chi l'ha tagliato, con la voce che usa per i
+            clienti buoni. Poi si alza, si rimette il corvo sulla spalla e
+            ringrazia Edda per la zuppa con un inchino da Quartieri Alti.
+            Dalla porta ti raccomanda di non venderlo al primo che te lo
+            chiede.
+          effetti: { cristalli.cristallo-carico: 1 }
+          imposta: { ospite.secondo: 1 }
+
+      - testo: "Chiedere la presentazione"
+        descrizione: "Il cristallo resta nel panno. Un nome detto da Ambrin alla Gilda vale di più, a lungo andare."
+        esito:
+          titolo: Una parola alla Gilda
+          testo: |
+            Spingi il pacchetto di nuovo verso di lui e gli chiedi la
+            presentazione. Ambrin ride piano e se lo rimette sotto il braccio,
+            soddisfatto, come se avessi superato un esame. Una settimana dopo
+            un mercante della Gilda con le dita grosse bussa alla tua porta,
+            ti chiama per nome e ti dice che lo manda il Nodo. Da allora alla
+            Casa dei Nodi qualcuno ti saluta per primo, e i prezzi che ti
+            fanno sono un po' meno da forestiero.
+          effetti: { rep.gilda: 0.5 }
+          imposta: { ospite.secondo: 1 }
+
+  - id: ospite-terzo
+    presso: casa-nel-vicolo
+    immagine: personaggi/nerissa-dalvane
+    titolo: Una visita dalla Maison
+    sommario: "Nerissa Dalvane, la padrona della Maison des Lunes, chiede di essere ricevuta nella tua casa, per il tempo di una tazza di tè."
+    luogo: La tua casa, la stanza degli ospiti
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [lustro >= 60, ospite.terzo == 0]
+    testo: |
+      Il biglietto arriva il mattino, portato da un ragazzo che non sa chi
+      l'ha mandato, con una grafia minuta e senza firma. Chiede se la padrona
+      di casa della Maison des Lunes può prendere il tè da te nel pomeriggio,
+      e se la porta sul vicolo si può lasciare accostata.
+
+      Nerissa Dalvane arriva puntuale, in un abito scuro di buona fattura, e
+      Churl Bra'aak resta fuori, appoggiato al muro accanto alla fontana
+      secca. Dorn smette di cardare. Tecla chiude la finestra per la prima
+      volta da quando la conosci, e poi la riapre di uno spiraglio.
+
+      Nerissa si siede nella stanza degli ospiti con la schiena dritta, guarda
+      il ritratto alla parete o il punto vuoto dove starebbe bene, e beve il
+      tè di Edda senza fare commenti. Ti dice, senza mai alzare la voce, che
+      in città il tuo nome comincia a girare nelle case dove gira il suo, e
+      che a lei piace sapere chi c'è dall'altra parte di una conversazione
+      prima che la conversazione cominci. *Questa donna non è venuta per il
+      tè.* La sua mano sfiora una volta sola il medaglione sotto la stoffa,
+      poi torna sul piattino.
+    opzioni:
+      - testo: "Raccontarle del vicolo"
+        descrizione: "Le cose del Vicolo dei Cardatori che sai solo tu. Lei paga le notizie con altre notizie."
+        esito:
+          titolo: Uno scambio
+          testo: |
+            Le racconti del nipote di Edda e della sua bilancia, del magazzino
+            sotto i Ponti e di chi ci entra di notte. Nerissa ascolta senza
+            prendere appunti. Quando hai finito posa la tazza e ti dice, con
+            la stessa voce con cui si parla del tempo, il nome di un cliente
+            della Gilda che sta per perdere tutto e il nome di chi glielo sta
+            prendendo. Sulla porta ti stringe la mano, e Churl si stacca dal
+            muro per seguirla giù per il vicolo.
+          effetti: { informazioni.segreto: 1 }
+          imposta: { ospite.terzo: 1 }
+
+      - testo: "Chiederle come si tiene una casa"
+        descrizione: "Nerissa ne tiene una dove decidono gli altri, e nessuno ha mai trovato la porta sbarrata."
+        esito:
+          titolo: Le regole della casa
+          testo: |
+            Le chiedi come si tiene una casa dove la gente parla. Nerissa ci
+            pensa a lungo, girando il cucchiaino nella tazza. Poi ti spiega
+            dove si mette chi arriva per ultimo e come si fa capire a un
+            ospite che è ora di andare senza che se ne accorga. Ti spiega
+            anche che una porta accostata dice più di una porta aperta. Quando
+            se ne va lascia sul tavolo il fazzoletto con cui ha preso la
+            tazza, e capisci che è un modo di dire che tornerà.
+          pe: { galateo: 7 }
+          imposta: { ospite.terzo: 1 }
+
+  - id: ospite-quarto
+    presso: casa-nel-vicolo
+    immagine: personaggi/marella-castaldi
+    titolo: La padrona di casa dei Castaldi
+    sommario: "Marella Castaldi decide chi siede alla tavola del Maniero nei giorni di consiglio, e prima di decidere va a vedere di persona."
+    luogo: La tua casa, la stanza degli ospiti
+    area: citta-bassa
+    tipo: fisso
+    requisiti: [lustro >= 100, ospite.quarto == 0]
+    testo: |
+      Il Vicolo dei Cardatori non ha mai visto una carrozza con il sigillo
+      delle bilance, e quando ne arriva una si fermano anche i ragazzi sui
+      gradini. Davanti scende un uomo in armatura di cuoio, con una cicatrice
+      sotto il mento, che controlla le finestre una per una prima di aprire
+      lo sportello. Quintus Vael non si
+      toglie la spada nemmeno sulla tua soglia.
+
+      Dalla carrozza scende una donna vestita con sobrietà, che si guarda
+      intorno come se stesse già disponendo i posti a tavola. «Marella
+      Castaldi» dice. «Mia cognata riceve in Municipio, e mai a casa. Io
+      invece le case le guardo, prima di invitare chi ci abita.»
+
+      Si fa accompagnare per tutte le stanze, e di ognuna ti chiede se l'hai
+      scelta tu o il caso. Davanti alla finestra della stanza buona si ferma,
+      poi tocca la tovaglia di Edda e domanda chi l'ha ricamata. Edda risponde
+      dalla porta della cucina che l'ha ricamata lei per il suo matrimonio, e
+      Marella le fa un piccolo inchino. *Ha fatto più complimenti alla
+      tovaglia che a me.* Alla fine si siede con un bicchiere in mano e
+      aspetta che sia tu a parlare.
+    opzioni:
+      - testo: "Parlarle di come si riceve nel vicolo"
+        descrizione: "Della zuppa di Edda e dei vicini che spazzano i gradini prima di una cena. Lei se ne intende."
+        esito:
+          titolo: I posti a tavola
+          testo: |
+            Le racconti come si riceve nel Vicolo dei Cardatori, con la zuppa
+            di Edda, e di come Tecla sa già prima di te chi si offenderà. Marella ascolta con attenzione vera, e due volte ti
+            corregge sull'ordine dei posti, con gentilezza. Prima di andarsene
+            ti dice che alla sua tavola la gente del vicolo non siede, e che è
+            un errore, e che ci penserà. Quintus Vael richiude lo sportello
+            senza un rumore.
+          pe: { galateo: 8 }
+          imposta: { ospite.quarto: 1 }
+
+      - testo: "Parlarle di Stato, come si fa alla sua tavola"
+        descrizione: "Al Maniero si parla di Stato e mai dei Castaldi. Si può cominciare anche qui."
+        esito:
+          titolo: Di Stato e mai di noi
+          testo: |
+            Le parli dei dazi sui Ponti e delle case vuote della Città Bassa,
+            che qualcuno compra a una a una con denaro di fuori. Marella
+            ascolta, fa una domanda precisa e poi un'altra. Quando provi a
+            chiederle della Rappresentante ti ferma con un gesto. «Si parla di
+            Stato a tavola, e mai di noi» dice. Poi, quasi per ricambiare, ti
+            dice quale consigliere non sarà più invitato al Maniero, e perché.
+            Sulla soglia Quintus Vael ti saluta con un cenno del mento, e
+            controlla le finestre del vicolo un'ultima volta prima di salire a
+            cassetta.
+          effetti: { informazioni.segreto: 1 }
+          imposta: { ospite.quarto: 1 }

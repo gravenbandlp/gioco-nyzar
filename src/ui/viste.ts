@@ -8,7 +8,7 @@ import {
 import {
   msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato,
 } from '../motore/personaggio';
-import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, type Risultato } from '../motore/azioni';
+import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino, negozioAperto, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
@@ -218,11 +218,12 @@ function vistaArea(x: Contesto): string {
   const schede = luoghi.map((l) => {
     const ripetibili = disponibili.filter((st) => st.ripetibile && st.presso === l.id).length;
     const nuove = storie.filter((st) => st.presso === l.id).length;
-    if (!ripetibili && !nuove && !l.negozi.length) return '';
+    const aperti = negoziAperti(x, l.negozi).length;
+    if (!ripetibili && !nuove && !aperti) return '';
     const segni = [
       nuove ? `<span class="segno storia">${nuove === 1 ? 'Una storia' : `${nuove} storie`}</span>` : '',
       ripetibili ? `<span class="segno">${ripetibili === 1 ? 'Una cosa da fare' : `${ripetibili} cose da fare`}</span>` : '',
-      l.negozi.length ? `<span class="segno bottega">${l.negozi.length === 1 ? 'Bottega' : `${l.negozi.length} botteghe`}</span>` : '',
+      aperti ? `<span class="segno bottega">${aperti === 1 ? 'Bottega' : `${aperti} botteghe`}</span>` : '',
     ].join('');
     return `<li><button type="button" class="scheda-luogo${nuove ? ' con-storia' : ''}" data-az="luogo" data-id="${l.id}">
       ${tavola(l.immagine, { classe: 'paesaggio' })}
@@ -246,7 +247,7 @@ function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: T
   // un seguito in sospeso si riprende anche da dentro il luogo
   const storie = [...riprendi, ...storieArea.filter((st) => st.presso === l.id && !riprendi.includes(st))];
   const ripetibili = stanzeVisibili(s, c).filter((st) => st.presso === l.id);
-  const botteghe = l.negozi.map((id) => c.negozi.find((n) => n.id === id)).filter((n): n is TNegozio => !!n).map((n) => bottega(x, n)).join('');
+  const botteghe = negoziAperti(x, l.negozi).map((n) => bottega(x, n)).join('');
   // la prossima storia della serie del luogo, se non è ancora aperta: si vede chiusa, con quello che manca
   const inAttesa = serieDi(c).serie.filter((z) => z.tipo === 'luogo').map((z) => {
     const id = prossimaTappa(s, z);
@@ -770,17 +771,29 @@ export function averi(x: Contesto): string {
 
 // ================================================================ BAZAR
 
+/** Le botteghe di una lista che hanno qualcosa da mostrare adesso. */
+function negoziAperti(x: Pick<Contesto, 's' | 'c'>, ids: string[]): TNegozio[] {
+  return ids.map((id) => x.c.negozi.find((n) => n.id === id)).filter((n): n is TNegozio => !!n && negozioAperto(x.s, n, x.c));
+}
+
 export function bazar(x: Contesto): string {
-  const { c } = x;
   const area = areaDi(x);
-  if (!area.negozi.length) return `<p class="vuoto">In ${h(area.nome)} non ci sono botteghe. Prova altrove in città.</p>`;
-  return area.negozi.map((id) => c.negozi.find((n) => n.id === id)!).map((n) => bottega(x, n)).join('');
+  const aperti = negoziAperti(x, area.negozi);
+  if (!aperti.length) return `<p class="vuoto">In ${h(area.nome)} non ci sono botteghe. Prova altrove in città.</p>`;
+  return aperti.map((n) => bottega(x, n)).join('');
+}
+
+/** "Con Il Nodo d'Ossidiana 7: 35": il prezzo migliore che si apre più avanti. */
+function suggerimentoPrezzo(x: Pick<Contesto, 's' | 'c'>, meglio?: { prezzo: number; requisiti?: string[] }): string {
+  if (!meglio) return '';
+  const manca = requisitiMancanti(x.s, meglio.requisiti, x.c).map((r) => requisitoLeggibile(r, x.s, x.c)).join(' ');
+  return `<small class="prezzo-migliore">Prezzo migliore ${meglio.prezzo}, con ${h(manca)}</small>`;
 }
 
 function bottega(x: Contesto, n: TNegozio): string {
   const { s, c } = x;
   const monete = s.quality['monete'] ?? 0;
-  const vende = n.vende.map((v) => {
+  const vende = listino(s, n.vende, c, 'vende').map(({ voce: v, meglio }) => {
     let d: { nome: string; dettagli: string; immagine?: string };
     let nota = '';
     if (v.quality.startsWith('oggetto.')) {
@@ -791,14 +804,14 @@ function bottega(x: Contesto, n: TNegozio): string {
       else if (n > 0) nota = `Ne hai ${n}`;
     } else { const q = c.quality.find((z) => z.id === v.quality); d = { nome: q?.nome ?? v.quality, dettagli: `${q?.descrizione ?? ''} Ne hai ${mezzi(s.quality[v.quality] ?? 0)}.`, immagine: q?.immagine }; }
     const ok = monete >= v.prezzo;
-    return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}${nota ? ` · ${h(nota)}` : ''}</small></span>
+    return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}${nota ? ` · ${h(nota)}` : ''}</small>${suggerimentoPrezzo(x, meglio)}</span>
       <span class="prezzo">${v.prezzo}</span>
       <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>Compra</button></li>`;
   }).join('');
-  const compra = n.compra.map((v) => {
+  const compra = listino(s, n.compra, c, 'compra').map(({ voce: v, meglio }) => {
     const q = c.quality.find((z) => z.id === v.quality);
     const hai = s.quality[v.quality] ?? 0;
-    return `<li class="${hai < 1 ? 'assente' : ''}">${tavola(q?.immagine, { classe: 'icona' })}<span class="merce"><b>${h(q?.nome ?? v.quality)}</b><small>Ne hai ${mezzi(hai)}</small></span>
+    return `<li class="${hai < 1 ? 'assente' : ''}">${tavola(q?.immagine, { classe: 'icona' })}<span class="merce"><b>${h(q?.nome ?? v.quality)}</b><small>Ne hai ${mezzi(hai)}</small>${suggerimentoPrezzo(x, meglio)}</span>
       <span class="prezzo">${v.prezzo}</span>
       <span class="doppio"><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="1" ${hai >= 1 ? '' : 'disabled'}>Vendi 1</button><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="tutti" ${hai >= 2 ? '' : 'disabled'}>Tutti</button></span></li>`;
   }).join('');

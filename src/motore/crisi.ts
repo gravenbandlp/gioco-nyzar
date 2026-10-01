@@ -27,7 +27,8 @@ export function hash(t: string): number {
  * scelte a caso ma sempre le stesse finché lo stato del personaggio non cambia.
  */
 export function opzioniVisibili(s: Stato, st: TStorylet, c: TContenuti): number[] {
-  const tutte = st.opzioni.map((_, i) => i);
+  // le opzioni con `quando` non soddisfatto non compaiono
+  const tutte = st.opzioni.map((_, i) => i).filter((i) => requisitiSoddisfatti(s, st.opzioni[i]!.quando, c));
   if (!st.mostra) return tutte;
   const disponibili = tutte.filter((i) => requisitiSoddisfatti(s, st.opzioni[i]!.requisiti, c));
   const seme = hash(`${s.nome}|${st.id}|${mutazioniDi(s, c).map((m) => m.id).join(',')}`);

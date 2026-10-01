@@ -34,7 +34,15 @@ spedizioni ripetibili dal Grifone (`contenuti/piste/rovine.yaml`); Topi in canti
 sua bottega (`contenuti/piste/topi.yaml`). L'Arena e Sotto la pelle si aprono dopo il ritorno da Capomozzo
 (`pista.capomozzo >= 6`), perché Galdrick è a Ghoran durante Acciaio e Ira. Dopo l'assalto la Pignatta Grassa
 sparisce dai luoghi e i suoi ripetibili si chiudono. Mentre un seguito aspetta, la scena che l'ha aperto non si
-può rigiocare.
+può rigiocare. Il 2 ottobre l'economia, strati 1 e 2 (`contenuti/economia/`): conversioni
+ripetibili che fanno salire di scalino Informazioni, Cristalli e Reliquie (con il nuovo Meccanismo spento in cima alle
+Reliquie), un compratore per famiglia che paga di più con la reputazione del luogo a 3 e a 7 (il salotto di Nerissa,
+il Nodo d'Ossidiana, la collezione di Orvald), il Mercato delle Ombre che paga più di tutti con il Sospetto, e la casa
+nel Vicolo dei Cardatori (sei livelli, otto arredi, la bottega al pianterreno, il banco della cantina, gli ospiti e
+il Lustro senza tetto, con quattro visite di riguardo). Nel motore: le voci dei negozi accettano `requisiti` (vale il
+prezzo migliore aperto, il successivo si mostra come suggerimento) e le opzioni accettano `quando` (se non è
+soddisfatto l'opzione non compare); gli storylet di un luogo nascosto non si vedono. Lo strato 3, i congegni dei
+Precursori da assemblare, è a progetto in `docs/progetto-reperti.md`.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.

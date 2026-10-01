@@ -38,7 +38,8 @@ export const Opzione = z
     descrizione: z.string().optional(),
     incantesimo: Id.optional(), // l'opzione richiede questo incantesimo e ne applica Dissonanza e prezzo
     reperto: Id.optional(), // l'opzione usa questo reperto: con zero successi si guasta
-    requisiti: z.array(z.string()).optional(),
+    requisiti: z.array(z.string()).optional(), // se mancano, l'opzione si vede chiusa con quello che manca
+    quando: z.array(z.string()).optional(), // se mancano, l'opzione non compare affatto (es. il passo successivo dei lavori di casa)
     costo: z.number().int().min(0).max(3).optional(), // candele, default 1
     prova: Prova.optional(),
     successo: Esito.optional(),
@@ -254,13 +255,17 @@ export const Oggetto = z
     if (o.grado > 0 && punti > o.grado + o.difetti.length) ctx.addIssue({ code: 'custom', message: `troppi punti: ${punti} su ${o.grado} + ${o.difetti.length} difetti` });
   });
 
+export const VoceNegozio = z.object({ quality: Id, prezzo: z.number().int().min(1), requisiti: z.array(z.string()).optional() });
+
 export const Negozio = z.object({
   id: Id,
   nome: z.string(),
   immagine: Immagine.optional(),
   testo: z.string(),
-  compra: z.array(z.object({ quality: Id, prezzo: z.number().int().min(1) })).default([]), // il negozio compra dal giocatore
-  vende: z.array(z.object({ quality: Id, prezzo: z.number().int().min(1) })).default([]), // il giocatore compra
+  // Una merce può comparire più volte con requisiti diversi (es. la reputazione del luogo): vale il prezzo migliore
+  // fra le voci aperte, e la voce migliore ancora chiusa si mostra come suggerimento.
+  compra: z.array(VoceNegozio).default([]), // il negozio compra dal giocatore
+  vende: z.array(VoceNegozio).default([]), // il giocatore compra
 });
 
 export const Origine = z.object({

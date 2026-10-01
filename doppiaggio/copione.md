@@ -1,6 +1,6 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 1383 pezzi, 804.392 caratteri.
+Generato da `npm run doppiaggio`. 1419 pezzi, 824.307 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
 
 ## I prologhi
@@ -7197,31 +7197,31 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > I muri sono gli stessi, anneriti fino all'altezza del tetto vecchio, ma sopra adesso c'è un tetto nuovo di travi chiare e di tegole spaiate, recuperate un po' da tutta la Città Bassa. Il bancone di quercia è ancora al suo posto, raschiato fino al legno buono, e sopra ci sono già le scodelle impilate. Nel cortile il cerchio di gesso è stato ripassato da qualcuno con la mano ferma.
 >
-> Sulla porta nuova manca soltanto l'insegna. Mastro Fenzi, il pittore che di solito fa i ritratti in Municipio, aspetta in cima a una scala con un'asse bianca e i pennelli in tasca, e da un'ora la strada gli grida nomi da sotto. Orsola ne vuole uno, i taglialegna un altro, e Tìbo, dal bancone, propone soltanto nomi di cose che si mangiano.
+> Sulla porta nuova manca soltanto l'insegna. Mastro Fènzi, il pittore che di solito fa i ritratti in Municipio, aspetta in cima a una scala con un'asse bianca e i pennelli in tasca, e da un'ora la strada gli grida nomi da sotto. Orsola ne vuole uno, i taglialegna un altro, e Tìbo, dal bancone, propone soltanto nomi di cose che si mangiano.
 >
-> Mastro Fenzi ti vede arrivare e appoggia il pennello sul piolo. “Hanno deciso che decidi tu, e io ho fame” dice. “Dimmelo prima che si secchi il colore.” La strada si zittisce un poco alla volta, cominciando dalle prime file.
+> Mastro Fènzi ti vede arrivare e appoggia il pennello sul piolo. “Hanno deciso che decidi tu, e io ho fame” dice. “Dimmelo prima che si secchi il colore.” La strada si zittisce un poco alla volta, cominciando dalle prime file.
 >
 > [whispers] La Pignatta la chiamavano grassa perché ingrassava Mìrko. Ti scappa un sorriso, e non lo nascondi.
 
 **`l-insegna-nuova__1-esito`** · esito «Le Cipolle Storte» · opzione «Chiamarla *Le Cipolle Storte*» · esito · 471 caratteri
 
-> Mastro Fenzi dipinge sull'asse tre cipolle verdi, tutte piegate dalla stessa parte, e sotto il nome in lettere tonde. Orsola dice che la cipolla di mezzo è venuta troppo dritta, e Fenzi la corregge senza protestare. La sera i quattro bambini che dormivano sotto il bancone dormono nella stanza di dietro, su materassi di paglia nuova, e Tìbo tiene il secchio dei chiodi accanto al letto. I due vecchi hanno una panca ciascuno vicino al fuoco, e continuano a non parlarsi.
+> Mastro Fènzi dipinge sull'asse tre cipolle verdi, tutte piegate dalla stessa parte, e sotto il nome in lettere tonde. Orsola dice che la cipolla di mezzo è venuta troppo dritta, e Fènzi la corregge senza protestare. La sera i quattro bambini che dormivano sotto il bancone dormono nella stanza di dietro, su materassi di paglia nuova, e Tìbo tiene il secchio dei chiodi accanto al letto. I due vecchi hanno una panca ciascuno vicino al fuoco, e continuano a non parlarsi.
 
 **`l-insegna-nuova__2-esito`** · esito «La Pignatta Magra» · opzione «Chiamarla *La Pignatta Magra*» · esito · 389 caratteri
 
-> Quando lo dici la strada resta zitta un momento, poi ride tutta insieme, e i taglialegna più forte di tutti. Mastro Fenzi dipinge una pentola stretta e alta, con un manico solo, e sotto il nome in lettere nere. La prima sera le cuoche del Comune servono zuppa di farro a pochi spiccioli la scodella. Orsola mangia in piedi, perché dice che seduta le viene sonno, e chiede il bis due volte.
+> Quando lo dici la strada resta zitta un momento, poi ride tutta insieme, e i taglialegna più forte di tutti. Mastro Fènzi dipinge una pentola stretta e alta, con un manico solo, e sotto il nome in lettere nere. La prima sera le cuoche del Comune servono zuppa di farro a pochi spiccioli la scodella. Orsola mangia in piedi, perché dice che seduta le viene sonno, e chiede il bis due volte.
 
 **`l-insegna-nuova__3-esito`** · esito «Il Cerchio di Gesso» · opzione «Chiamarla *Il Cerchio di Gesso*» · esito · 416 caratteri
 
-> Il capomastro della Gilda voleva un nome con dentro la parola mercanti, e la strada gli ha gridato contro per un'ora. Il cerchio di gesso invece piace a tutti. Mastro Fenzi lo dipinge bianco su fondo nero e perfettamente tondo, e la sera il locandiere della Gilda lascia che i bambini ci giochino dentro finché non si accendono le lanterne. Orsola beve il primo bicchiere e lo trova annacquato, come ai vecchi tempi.
+> Il capomastro della Gilda voleva un nome con dentro la parola mercanti, e la strada gli ha gridato contro per un'ora. Il cerchio di gesso invece piace a tutti. Mastro Fènzi lo dipinge bianco su fondo nero e perfettamente tondo, e la sera il locandiere della Gilda lascia che i bambini ci giochino dentro finché non si accendono le lanterne. Orsola beve il primo bicchiere e lo trova annacquato, come ai vecchi tempi.
 
 **`l-insegna-nuova__4-esito`** · esito «Conti in Pari» · opzione «Lasciare le lettere a Rozalia» · esito · 393 caratteri
 
-> Rozàlia sale sulla scala al posto di Fenzi, che glielo lascia fare con sollievo, e scrive Conti in Pari in una grafia così bella che la strada smette di gridare per guardarla. Quando scende si pulisce il pennello su uno straccio. “I conti li chiudo sempre in pari, tesoro” dice. “Questo era il più lungo.” Mastro Fenzi studia le lettere con il naso quasi sull'asse, e la sera le offre da bere.
+> Rozàlia sale sulla scala al posto di Fènzi, che glielo lascia fare con sollievo, e scrive Conti in Pari in una grafia così bella che la strada smette di gridare per guardarla. Quando scende si pulisce il pennello su uno straccio. “I conti li chiudo sempre in pari, tesoro” dice. “Questo era il più lungo.” Mastro Fènzi studia le lettere con il naso quasi sull'asse, e la sera le offre da bere.
 
 **`l-insegna-nuova__5-esito`** · esito «Il Chiodo» · opzione «Lasciare che lo scelga Tibo» · esito · 375 caratteri
 
-> Tìbo ci pensa con la serietà di un consigliere e poi dice Il Chiodo, perché senza i chiodi il tetto non stava su. La strada ci prova a protestare, ma Orsola dà ragione a lui, e Fenzi dipinge un chiodo grosso come un remo, un po' piegato in punta. Sotto l'insegna, la sera stessa, Tìbo inchioda l'ultimo chiodo del suo secchio, e da allora chiunque entri lo tocca per fortuna.
+> Tìbo ci pensa con la serietà di un consigliere e poi dice Il Chiodo, perché senza i chiodi il tetto non stava su. La strada ci prova a protestare, ma Orsola dà ragione a lui, e Fènzi dipinge un chiodo grosso come un remo, un po' piegato in punta. Sotto l'insegna, la sera stessa, Tìbo inchioda l'ultimo chiodo del suo secchio, e da allora chiunque entri lo tocca per fortuna.
 
 ### Il quaderno di Sara
 
@@ -7605,7 +7605,7 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Stamattina la parete sopra la panca è vuota, con un rettangolo più chiaro dove stava il ritratto e un chiodo piegato in mezzo. Il quadro è appoggiato alla panca, con la cornice spaccata in un angolo, e chi arriva per le udienze ci gira intorno come intorno a un ferito.
 >
-> A reggerlo dritto c'è un uomo alto e robusto, con la barba curata e un panciotto scuro. È Èttore Castàldi, il cugino della Rappresentante, che passava di qui per caso, e alle dieci del mattino ha già l'alito dolce dell'idromele. Accanto a lui una donna vestita con sobrietà detta a Tullio una lettera. “Mastro Fenzi ne dipinge uno nuovo in tre sedute” dice Marella Castàldi. “Il Municipio non può restare senza la faccia della sua Rappresentante. Tullio, scriva che bastano tre sedute, e che il quadro vecchio l'abbiamo tenuto anche troppo.”
+> A reggerlo dritto c'è un uomo alto e robusto, con la barba curata e un panciotto scuro. È Èttore Castàldi, il cugino della Rappresentante, che passava di qui per caso, e alle dieci del mattino ha già l'alito dolce dell'idromele. Accanto a lui una donna vestita con sobrietà detta a Tullio una lettera. “Mastro Fènzi ne dipinge uno nuovo in tre sedute” dice Marella Castàldi. “Il Municipio non può restare senza la faccia della sua Rappresentante. Tullio, scriva che bastano tre sedute, e che il quadro vecchio l'abbiamo tenuto anche troppo.”
 >
 > Dalla porta chiusa dell'ufficio arriva la voce roca di Iùlia. “Ho le udienze, Marella. Quello che c'era andava benissimo.”
 >
@@ -7651,7 +7651,7 @@ Ogni file audio si salva come `<id>.mp3`.
 
 **`la-faccia-della-rappresentante__1-esito`** · esito «Tre sedute» · opzione «Un ritratto nuovo, con le pratiche» · esito · 531 caratteri
 
-> Iùlia ci pensa il tempo di impilare due pergamene con gli angoli pari. “Le pratiche le porto io, così le leggo mentre lui dipinge” dice, e ne aggiunge una terza alla pila. Mastro Fenzi arriva la settimana dopo e per tre mattine dipinge in un angolo dell'ufficio mentre lei riceve. Nel quadro nuovo Iùlia ha i capelli corti e la penna in mano, e sul registro aperto davanti a lei c'è una cifra sottolineata che il pittore ha copiato senza capirla. Marella lo trova severo, e Iùlia paga il pittore di tasca sua senza dirlo a nessuno.
+> Iùlia ci pensa il tempo di impilare due pergamene con gli angoli pari. “Le pratiche le porto io, così le leggo mentre lui dipinge” dice, e ne aggiunge una terza alla pila. Mastro Fènzi arriva la settimana dopo e per tre mattine dipinge in un angolo dell'ufficio mentre lei riceve. Nel quadro nuovo Iùlia ha i capelli corti e la penna in mano, e sul registro aperto davanti a lei c'è una cifra sottolineata che il pittore ha copiato senza capirla. Marella lo trova severo, e Iùlia paga il pittore di tasca sua senza dirlo a nessuno.
 
 **`la-faccia-della-rappresentante__2-esito`** · esito «Più ottimismo che somiglianza» · opzione «Rimettere su quello vecchio» · esito · 457 caratteri
 
@@ -8266,3 +8266,217 @@ Ogni file audio si salva come `<id>.mp3`.
 **`il-nome-sul-cartellone__6-esito`** · esito «Il sostituto» · opzione «Dire a Orazio che stasera non ce la fai» · esito · 444 caratteri
 
 > Glielo dici dietro il sipario, a voce bassa. Oràzio ti guarda, poi chiama l'attor giovane e gli mette in mano la tua spada di legno senza una parola di rimprovero. Guardi lo spettacolo dalla quinta, e l'attor giovane fa la tua parte con un entusiasmo che ti mette un po' di imbarazzo. Il giorno dopo sul cartellone, sopra il tuo nome, c'è una striscia di carta. “Il tuo nome resta lì sotto” dice Oràzio, “e la carta la togliamo quando vuoi tu.”
+
+## Commerci e casa
+
+### Una stanza nel vicolo
+
+**`una-stanza-nel-vicolo`** · scena · 896 caratteri
+
+> Il Vicolo dei Cardatori sale dalla Città Bassa verso i Ponti a scalini sbilenchi, e di cardatori ormai ne è rimasto uno solo, in fondo, che lavora con la porta aperta e la barba piena di lanugine. Dopo la fontana secca, alla terza casa a sinistra, c'è un cartello infilato fra il vetro e la tendina, si affitta soffitta a persona seria, chiedere di Èdda. La parola seria è stata ripassata a inchiostro più di una volta.
+>
+> Ti apre una donna minuta e anziana, vestita di un nero portato così a lungo che sui gomiti è diventato grigio. Ha un gomitolo di lana nella tasca del grembiule e lo arrotola mentre ti squadra dalla testa agli stivali. “Èdda, vedova. La soffitta ha un tetto buono e una finestra che chiude” dice. “L'affitto si paga prima, e le scale si fanno piano, perché sotto dormo io.”
+>
+> [whispers] Un tetto mio, finalmente, anche se è il suo. Ti accorgi che stai già contando gli scalini.
+
+**`una-stanza-nel-vicolo__1-esito`** · esito «La chiave grande» · opzione «Prendere la soffitta» · esito · 507 caratteri
+
+> Conti le monete sul tavolo di cucina sotto gli occhi di Èdda, che le rimette in fila con un dito e le fa sparire nel grembiule insieme al gomitolo. Poi ti dà una chiave lunga quanto una mano, troppo grande per la serratura che apre. La soffitta ha il soffitto in pendenza e un pagliericcio sotto la trave, con una finestrella sul vicolo da cui si vedono i panni della dirimpettaia. La sera Èdda batte il manico della scopa contro il soffitto della sua stanza, e capisci che è il suo modo di dire buonanotte.
+
+**`una-stanza-nel-vicolo__2-esito`** · esito «Il cartello» · opzione «Tornare quando avrai il denaro» · esito · 224 caratteri
+
+> Dici a Èdda che tornerai. Lei annuisce senza smettere di arrotolare il gomitolo e richiude la porta piano, per non svegliare il vicolo. Il cartello resta fra il vetro e la tendina, con la parola seria ripassata a inchiostro.
+
+### Le stanze accanto
+
+**`le-stanze-accanto`** · scena · 774 caratteri
+
+> Accanto alla soffitta ci sono due stanze chiuse a chiave, e da sotto la porta esce un filo d'aria che odora di canfora. Èdda te le fa vedere una mattina, con il gomitolo in tasca e la chiave sul palmo. Dentro c'è un tavolo da lavoro lungo quanto la parete, con il piano bucherellato dai denti dei pettini da cardare, e una seconda finestra che dà sul cortile. Era il laboratorio di suo marito, quando nel vicolo si cardava ancora.
+>
+> “Le affitto a un inquilino serio” dice. “Uno che sa chi abita in questa strada e chi ci vorrebbe abitare, perché di gente che bussa ne viene parecchia.” Arrotola il gomitolo e aspetta.
+>
+> Dalla finestra di fronte la dirimpettaia, una donna larga che fa candele di sego sul davanzale, segue la conversazione senza nemmeno fingere di non sentire.
+
+**`le-stanze-accanto__1-esito`** · esito «Il tavolo dei pettini» · opzione «Prendere le stanze» · esito · 470 caratteri
+
+> Le racconti di chi ha bussato prima di te, l'uomo con i debiti al Mercato dei Nodi e la coppia che subaffitta le brande ai Raschiatori, ed Èdda ascolta fino in fondo con il gomitolo fermo. Poi prende le monete e ti dà la seconda chiave. Il tavolo da lavoro resta dov'è, perché nessuno saprebbe farlo passare dalla porta, e tu ci stendi sopra quello che hai raccolto in città. Dalla finestra di fronte Tècla, la dirimpettaia, ti saluta alzando una candela ancora tiepida.
+
+**`le-stanze-accanto__2-esito`** · esito «La porta chiusa» · opzione «Non ancora» · esito · 196 caratteri
+
+> Dici a Èdda che ci devi pensare. Lei rimette la chiave nel grembiule accanto al gomitolo e chiude la porta delle stanze con due giri di chiave ben rumorosi, perché si sentano anche dalla soffitta.
+
+### La casa è tua
+
+**`la-casa-e-tua`** · scena · 773 caratteri
+
+> Una sera Èdda ti chiama in cucina e ti mette davanti un piatto di zuppa d'orzo che non hai chiesto. Dice che le scale le pesano e che vorrebbe vendere la casa a qualcuno che ci viva davvero, tenendosi la stanza sul cortile finché campa. Il notaio della Città Bassa ha già scritto l'atto. Manca la firma del nipote, che ha un banco di pesatore sui Ponti e conta di ereditare tutto, e che alla parola vendere ha battuto il pugno sul tavolo.
+>
+> “È testardo come suo nonno” dice Èdda, e tira il filo del gomitolo finché non si tende. “Al banco dei pesi ha qualche conto che non torna, e tu di queste cose ne sai. Io non voglio sapere quale.”
+>
+> [whispers] Mi sta chiedendo di ricattare suo nipote, con la zuppa. Mangi lo stesso, perché la zuppa è buona e la giornata è stata lunga.
+
+**`la-casa-e-tua__1-esito`** · esito «La firma del nipote» · opzione «Comprare la casa» · esito · 549 caratteri
+
+> Vai al banco dei pesi sui Ponti e dici al nipote di Èdda, a bassa voce, che cosa sai della sua bilancia. Lui diventa rosso fino alle orecchie, e il giorno dopo firma l'atto davanti al notaio senza mai guardarti. La casa adesso è tua, con le sue scale storte e il tetto che hai già imparato a conoscere. Èdda scende nella stanza sul cortile con le sue tovaglie e il ritratto del marito, e la stanza buona del primo piano resta libera per gli ospiti. La sera stessa Tècla attraversa il vicolo per farti gli auguri, con una candela per la stanza nuova.
+
+**`la-casa-e-tua__2-esito`** · esito «La zuppa d'orzo» · opzione «Non ancora» · esito · 175 caratteri
+
+> Dici a Èdda che ci devi pensare. Lei ti riempie di nuovo il piatto senza insistere, e ti parla del marito e dei pettini da cardare finché la candela sul tavolo non si consuma.
+
+### La bottega al pianterreno
+
+**`la-bottega-al-pianterreno`** · scena · 858 caratteri
+
+> Sul lato della strada il pianterreno è una bottega chiusa da quando il marito di Èdda è morto, con le imposte inchiodate e un'insegna di legno così sbiadita che il disegno dei pettini si indovina appena. Dentro la polvere di lana copre il pavimento, e del vecchio bancone resta soltanto il segno sulle piastrelle, perché in un inverno lontano è finito nella stufa. Le lampade sono sparite da anni insieme ai ganci.
+>
+> Dòrn, il cardatore in fondo al vicolo, l'ultimo rimasto, si ferma sulla soglia con le braccia incrociate e la lanugine nella barba. “Mah. Qui una volta c'era la fila” dice. “Adesso la lana la comprano già cardata, giù a Làresh.” Guarda il soffitto annerito dal fumo. “Con un po' di luce come si deve, la gente torna.”
+>
+> Èdda, dalla stanza sul cortile, ti domanda se hai intenzione di vendere lana. Le rispondi di no, e lei sembra quasi delusa.
+
+**`la-bottega-al-pianterreno__1-esito`** · esito «Le imposte aperte» · opzione «Riaprire la bottega» · esito · 481 caratteri
+
+> Per una settimana in casa ci sono falegnami che fischiano, e la polvere di lana sale fino alla soffitta. Il bancone di noce costa più di quanto volessi. Poi togli i chiodi alle imposte, e la luce delle lampade, rifratta dai cristalli, arriva fino ai gradini del vicolo. Il primo cliente è Tècla, che compra una cosa qualsiasi per vedere com'è dentro. Il secondo lo manda Dòrn. Sull'insegna hai fatto ridipingere i pettini, perché a Èdda piacevano, e sotto hai aggiunto il tuo nome.
+
+**`la-bottega-al-pianterreno__2-esito`** · esito «La polvere di lana» · opzione «Non ancora» · esito · 180 caratteri
+
+> Richiudi la porta della bottega e rimetti il chiavistello. Dòrn alza le spalle, dice “Mah” e torna in fondo al vicolo ai suoi pettini, che a quest'ora cardano più polvere che lana.
+
+### La cantina
+
+**`la-cantina`** · scena · 873 caratteri
+
+> Quando i falegnami hanno sollevato le assi dietro il bancone è venuta fuori una botola, e sotto la botola una scala di pietra che scende più del dovuto. La cantina ha la volta di mattoni ed è larga quanto la casa. La parete in fondo invece è di una pietra grigia e liscia, senza giunti, con un incavo all'altezza del petto e sotto un ripiano segnato da solchi fini e regolari. Accanto all'incavo c'è l'alone annerito di un cristallo rimasto montato lì per molto tempo.
+>
+> Èdda scende fino al terzo gradino e non oltre. “Mio marito ci teneva il vino, e il vino l'ha bevuto tutto lui” dice. “Quella parete c'era già quando abbiamo comprato. Lui diceva che teneva su la strada.”
+>
+> [whispers] La casa di Èdda è appoggiata a un muro dei Precursori. Nell'incavo starebbe giusto un meccanismo, e il ripiano, rimesso in funzione, sarebbe il banco migliore che tu abbia visto in città.
+
+**`la-cantina__1-esito`** · esito «La parete che ronza» · opzione «Rimettere in funzione il banco» · esito · 400 caratteri
+
+> I muratori puntellano la volta e allargano la scala, e si fanno pagare anche il silenzio. Quando incastri il meccanismo nell'incavo e ci appoggi accanto il cristallo carico, la pietra grigia comincia a ronzare piano, e lungo i solchi del ripiano corre una luce del colore dell'acqua. Il ronzio si sente fino in cucina. Èdda dice che le ricorda il marito quando russava, e da quella sera dorme meglio.
+
+**`la-cantina__2-esito`** · esito «La botola» · opzione «Non ancora» · esito · 196 caratteri
+
+> Rimetti le assi sopra la botola e ci spingi contro il bancone. Per qualche notte ti sembra di sentire l'aria fredda salire dalle fessure del pavimento, anche se Èdda dice che è soltanto il vicolo.
+
+### L'altana
+
+**`l-altana`** · scena · 776 caratteri
+
+> Dalla finestrella della soffitta, se ti sporgi più di quanto sia prudente, si vede un pezzo di cielo sopra i tetti e il bordo della Cicatrice, dove la luce delle lanterne dei Ponti si perde nel vuoto. Un falegname dei Ponti ti ha disegnato un'altana di legno sul tetto, con una scaletta che parte dalla soffitta e un parapetto di corda intrecciata. Il disegno è bello, e il preventivo occupa tutto il retro del foglio.
+>
+> Il guaio è il permesso. In Municipio l'ispettore dei tetti della Città Bassa non firma niente che superi la linea delle grondaie, a meno che qualcuno non lo convinca, e la sua famiglia ha da sempre un tetto basso e parecchi nemici.
+>
+> Tècla, dalla finestra di fronte, dice che se fai l'altana lei ci viene a stendere i panni. Dòrn dice “Mah”, e guarda in su.
+
+**`l-altana__1-esito`** · esito «Sopra le grondaie» · opzione «Costruire l'altana» · esito · 478 caratteri
+
+> L'ispettore legge i biglietti che gli lasci sul tavolo, li brucia nella candela e firma senza alzare gli occhi. In un mese l'altana è su, con la scaletta che parte dalla soffitta e il parapetto di corda che scricchiola quando ti ci appoggi. Da lassù la Cicatrice taglia la città da una parte all'altra, con i Ponti tesi sopra come punti di sutura. La prima sera ci sali con una tazza in mano, e giù nel vicolo i ragazzi si mettono a contare le finestre accese fino al Municipio.
+
+**`l-altana__2-esito`** · esito «Il disegno arrotolato» · opzione «Non ancora» · esito · 198 caratteri
+
+> Arrotoli il disegno del falegname e lo leghi con lo spago. Quella notte ti sporgi dalla finestrella più di quanto sia prudente, e resti a lungo a guardare il bordo della Cicatrice fra due comignoli.
+
+### La fontana secca
+
+**`ospite-primo`** · scena · 1066 caratteri
+
+> Bussano mentre stai sparecchiando, e sulla soglia ci sono due vecchi che litigano. Il primo è alto e largo di spalle, con un corvo appollaiato sul braccio e le mani piene di cicatrici di scavo. Il secondo è uno gnomo con gli occhiali tondi e un geco verde brillante che gli dorme sul colletto del gilet ricamato a fiori.
+>
+> “Òrvald Tèmmerin” dice il primo. “Lui è Tòbol Àspern, e ha torto.”
+>
+> “In città dicono che nel Vicolo dei Cardatori c'è una casa dove si mangia bene e si discute meglio” dice Tòbol, sistemandosi gli occhiali. “Òrvald sostiene che la vostra fontana secca è un pozzo dei Precursori. Io ce l'ho sulla mia mappa del centodieci, con il nome dei cardatori che l'hanno pagata. Siamo venuti a vedere, e già che c'eravamo a cena.”
+>
+> Si siedono senza aspettare l'invito. Èdda porta la zuppa, e i due ne mangiano due piatti a testa senza smettere di litigare un momento. Il corvo Pèt scende sulla tavola e si serve del tuo pane. [whispers] Mi hanno scelto come testimone, e nessuno dei due mi ha chiesto il nome. Alla fine si voltano verso di te tutti e due.
+
+**`ospite-primo__1-esito`** · esito «Il fondo della fontana» · opzione «Scendere con loro alla fontana» · esito · 476 caratteri
+
+> Ti cali nella fontana con la lanterna, mentre Òrvald tiene la corda e Tòbol ti dà istruzioni che nessuno ha chiesto. In fondo trovi un pettine da cardare arrugginito, e sotto il fango un canale di pietra grigia senza giunti che sparisce nella roccia verso le fondamenta delle case. Quando risali Òrvald annuisce soddisfatto, e Tòbol prende appunti a una velocità furiosa. Litigano fino a mezzanotte su chi dei due debba correggere la mappa, e il pettine se lo porta via Tòbol.
+
+**`ospite-primo__2-esito`** · esito «Trent'anni di rovine» · opzione «Versare ancora vino e lasciarli litigare» · esito · 526 caratteri
+
+> Versi ancora vino e ti metti comodo. Per tutta la sera i due si contraddicono su ogni scavo che hanno fatto insieme, e a forza di correggersi a vicenda raccontano più di quanto direbbero in un'aula. Verso mezzanotte Òrvald scrive due righe su un foglietto e te lo lascia sotto il bicchiere. “Per una Raschiatrice che scava con me da vent'anni” dice. “Le scrivo che sai ascoltare, e fra le rovine è una dote rara.” Tòbol aggiunge una riga di suo pugno sotto la firma, e la legge ad alta voce mentre Òrvald finge di non sentire.
+
+### Il mercante del Nodo
+
+**`ospite-secondo`** · scena · 1117 caratteri
+
+> Àmbrin Kel arriva al tramonto, con i lunghi capelli rossi legati sulla nuca e un pacchetto avvolto in un panno di lana sotto il braccio. Il corvo gli sta su una spalla e guarda il vicolo come se dovesse comprarlo. Tècla, alla finestra di fronte, lascia cadere una candela nel vuoto e non va a raccoglierla.
+>
+> “Eccoti” dice Àmbrin, con il suo sorriso largo. “Al Mercato dei Nodi non si parla d'altro che delle tue cene, e io volevo vedere la casa prima che diventasse cara.” Entra e fa il giro della casa senza chiedere il permesso. Tocca gli stipiti e i mobili con la punta delle dita, e di ogni cosa ti dice da dove viene e quanto l'hai pagata troppo.
+>
+> A tavola mangia poco e ascolta molto. Il corvo, che in pubblico non parla, becca le briciole sul pavimento e ti fissa con un occhio solo. [whispers] Mi sta facendo il prezzo, e il prezzo gli piace. Prima del dolce Àmbrin posa il pacchetto sulla tovaglia e lo scosta verso di te con due dita.
+>
+> “Un regalo per la casa” dice. “Oppure, se preferisci, una presentazione. Alla Gilda ci sono compratori che vorrebbero conoscerti, e io non presento mai nessuno due volte.”
+
+**`ospite-secondo__1-esito`** · esito «Il pacchetto di lana» · opzione «Accettare il regalo» · esito · 389 caratteri
+
+> Sciogli il panno e dentro c'è un cristallo carico, limpido, che manda una luce azzurra sulla tovaglia di Èdda. Àmbrin ti spiega da quale pozzo viene e chi l'ha tagliato, con la voce che usa per i clienti buoni. Poi si alza, si rimette il corvo sulla spalla e ringrazia Èdda per la zuppa con un inchino da Quartieri Alti. Dalla porta ti raccomanda di non venderlo al primo che te lo chiede.
+
+**`ospite-secondo__2-esito`** · esito «Una parola alla Gilda» · opzione «Chiedere la presentazione» · esito · 421 caratteri
+
+> Spingi il pacchetto di nuovo verso di lui e gli chiedi la presentazione. Àmbrin ride piano e se lo rimette sotto il braccio, soddisfatto, come se avessi superato un esame. Una settimana dopo un mercante della Gilda con le dita grosse bussa alla tua porta, ti chiama per nome e ti dice che lo manda il Nodo. Da allora alla Casa dei Nodi qualcuno ti saluta per primo, e i prezzi che ti fanno sono un po' meno da forestiero.
+
+### Una visita dalla Maison
+
+**`ospite-terzo`** · scena · 1056 caratteri
+
+> Il biglietto arriva il mattino, portato da un ragazzo che non sa chi l'ha mandato, con una grafia minuta e senza firma. Chiede se la padrona di casa della Mesòn de Lün può prendere il tè da te nel pomeriggio, e se la porta sul vicolo si può lasciare accostata.
+>
+> Nerìssa Dalvàne arriva puntuale, in un abito scuro di buona fattura, e Ciùrl Bràak resta fuori, appoggiato al muro accanto alla fontana secca. Dòrn smette di cardare. Tècla chiude la finestra per la prima volta da quando la conosci, e poi la riapre di uno spiraglio.
+>
+> Nerìssa si siede nella stanza degli ospiti con la schiena dritta, guarda il ritratto alla parete o il punto vuoto dove starebbe bene, e beve il tè di Èdda senza fare commenti. Ti dice, senza mai alzare la voce, che in città il tuo nome comincia a girare nelle case dove gira il suo, e che a lei piace sapere chi c'è dall'altra parte di una conversazione prima che la conversazione cominci. [whispers] Questa donna non è venuta per il tè. La sua mano sfiora una volta sola il medaglione sotto la stoffa, poi torna sul piattino.
+
+**`ospite-terzo__1-esito`** · esito «Uno scambio» · opzione «Raccontarle del vicolo» · esito · 428 caratteri
+
+> Le racconti del nipote di Èdda e della sua bilancia, del magazzino sotto i Ponti e di chi ci entra di notte. Nerìssa ascolta senza prendere appunti. Quando hai finito posa la tazza e ti dice, con la stessa voce con cui si parla del tempo, il nome di un cliente della Gilda che sta per perdere tutto e il nome di chi glielo sta prendendo. Sulla porta ti stringe la mano, e Ciùrl si stacca dal muro per seguirla giù per il vicolo.
+
+**`ospite-terzo__2-esito`** · esito «Le regole della casa» · opzione «Chiederle come si tiene una casa» · esito · 431 caratteri
+
+> Le chiedi come si tiene una casa dove la gente parla. Nerìssa ci pensa a lungo, girando il cucchiaino nella tazza. Poi ti spiega dove si mette chi arriva per ultimo e come si fa capire a un ospite che è ora di andare senza che se ne accorga. Ti spiega anche che una porta accostata dice più di una porta aperta. Quando se ne va lascia sul tavolo il fazzoletto con cui ha preso la tazza, e capisci che è un modo di dire che tornerà.
+
+### La padrona di casa dei Castaldi
+
+**`ospite-quarto`** · scena · 1074 caratteri
+
+> Il Vicolo dei Cardatori non ha mai visto una carrozza con il sigillo delle bilance, e quando ne arriva una si fermano anche i ragazzi sui gradini. Davanti scende un uomo in armatura di cuoio, con una cicatrice sotto il mento, che controlla le finestre una per una prima di aprire lo sportello. Quìntus Vàel non si toglie la spada nemmeno sulla tua soglia.
+>
+> Dalla carrozza scende una donna vestita con sobrietà, che si guarda intorno come se stesse già disponendo i posti a tavola. “Marella Castàldi” dice. “Mia cognata riceve in Municipio, e mai a casa. Io invece le case le guardo, prima di invitare chi ci abita.”
+>
+> Si fa accompagnare per tutte le stanze, e di ognuna ti chiede se l'hai scelta tu o il caso. Davanti alla finestra della stanza buona si ferma, poi tocca la tovaglia di Èdda e domanda chi l'ha ricamata. Èdda risponde dalla porta della cucina che l'ha ricamata lei per il suo matrimonio, e Marella le fa un piccolo inchino. [whispers] Ha fatto più complimenti alla tovaglia che a me. Alla fine si siede con un bicchiere in mano e aspetta che sia tu a parlare.
+
+**`ospite-quarto__1-esito`** · esito «I posti a tavola» · opzione «Parlarle di come si riceve nel vicolo» · esito · 394 caratteri
+
+> Le racconti come si riceve nel Vicolo dei Cardatori, con la zuppa di Èdda, e di come Tècla sa già prima di te chi si offenderà. Marella ascolta con attenzione vera, e due volte ti corregge sull'ordine dei posti, con gentilezza. Prima di andarsene ti dice che alla sua tavola la gente del vicolo non siede, e che è un errore, e che ci penserà. Quìntus Vàel richiude lo sportello senza un rumore.
+
+**`ospite-quarto__2-esito`** · esito «Di Stato e mai di noi» · opzione «Parlarle di Stato, come si fa alla sua tavola» · esito · 528 caratteri
+
+> Le parli dei dazi sui Ponti e delle case vuote della Città Bassa, che qualcuno compra a una a una con denaro di fuori. Marella ascolta, fa una domanda precisa e poi un'altra. Quando provi a chiederle della Rappresentante ti ferma con un gesto. “Si parla di Stato a tavola, e mai di noi” dice. Poi, quasi per ricambiare, ti dice quale consigliere non sarà più invitato al Maniero, e perché. Sulla soglia Quìntus Vàel ti saluta con un cenno del mento, e controlla le finestre del vicolo un'ultima volta prima di salire a cassetta.
+
+### Chi sa dove si è spostato
+
+**`chi-sa-dove-si-e-spostato`** · scena · 780 caratteri
+
+> In Città Bassa del Mercato delle Ombre parlano tutti, dai facchini alle lavandaie, e nessuno ti sa dire dove sia. Ogni due o tre mesi la piazza sotterranea cambia stanza, e gli ingressi vecchi si ritrovano murati con mattoni freschi, oppure danno su una cantina vuota. Quelli nuovi li conoscono in pochi, e chi li conosce li dice solo a chi gli conviene.
+>
+> Alla fontana una donna strizza i panni nel secchio e ti racconta, senza aspettare domande, che suo cognato ci è sceso una volta ed è tornato con un anello che gli ha annerito il dito. Da quale porta fosse sceso lei non se lo ricorda, e lui beveva troppo per ricordarselo. [whispers] Mi serve uno che ci scenda tutte le settimane. Ringrazi, e intanto guardi la strada cercando chi abbia l'aria di saperlo e di fartelo pagare.
+
+**`chi-sa-dove-si-e-spostato__1-esito`** · esito «Il colpo giusto» · opzione «Chiedere agli Scuri» · esito · 475 caratteri
+
+> Al bancone della Pignatta Grassa chiedi del Mercato a mezza voce, e il garzone ti fa aspettare finché arriva un uomo con il cappuccio abbassato e una cicatrice sul labbro. Ti guarda a lungo, poi ti descrive la porta di una cantina in fondo a un vicolo, con il colpo da battere e la parola da dire, e te li fa ripetere finché li sai. “Gli Scuri si ricordano di chi aiutano” dice, mentre si rialza il cappuccio. “Un giorno ti chiederanno qualcosa, e tu lo farai senza domande.”
+
+**`chi-sa-dove-si-e-spostato__2-esito`** · esito «L'ingranaggio al collo» · opzione «Pagare un ragazzo dell'Orlo dei Rottami» · esito · 524 caratteri
+
+> Il capo dei ragazzi dell'Orlo, quello con l'ingranaggio appeso al collo, ascolta i tuoi pettegolezzi seduto su una ruota spaccata, e alla fine fa sì con la testa. Li avrà rivenduti prima di sera. In cambio ti porta fino a un tombino dietro le baracche e scosta la grata con il piede. Sotto c'è una scala di ferro che scende nel buio, e da lì sale un odore di muffa e di cera bruciata. “Al terzo pianerottolo bussi due volte” dice, rigirandosi l'ingranaggio fra le dita. “Se ti chiedono chi ti manda, io non ti ho mai visto.”
+
+**`chi-sa-dove-si-e-spostato__3-successo`** · esito «La luce verde» · opzione «Seguire i cristalli non registrati» · successo · 433 caratteri
+
+> Per due sere stai seduto sul bordo della fontana a guardare le gerle che passano. La terza sera vedi un facchino con una gerla coperta, e dalla trama della tela filtra una luce più verde di quella delle lanterne della Gilda. Lo segui a distanza per una serie di vicoli, finché scende i gradini di una cantina e bussa in un modo che ti stampi in testa. Aspetti che risalga a mani vuote, e poi te ne vai anche tu, sapendo dove bussare.
+
+**`chi-sa-dove-si-e-spostato__3-fallimento`** · esito «Il facchino si volta» · opzione «Seguire i cristalli non registrati» · fallimento · 473 caratteri
+
+> Segui per mezza notte un facchino con una gerla che manda una luce verdognola dalla tela, e lui ti porta in giro per la Città Bassa senza fretta, da un vicolo all'altro. Alla fine si ferma sotto un lampione e ti chiede, voltandosi appena, se hai perso qualcosa. Nella gerla ci sono cristalli con il timbro della Gilda bene in vista, e sopra una lanterna da carrettiere con il vetro verde. Il giorno dopo un miliziano vuole sapere perché ti piace tanto passeggiare di notte.
+
+**`chi-sa-dove-si-e-spostato__4-esito`** · esito «Per ora» · opzione «Lasciar perdere, per ora» · esito · 320 caratteri
+
+> Lasci la lavandaia ai suoi panni e torni sui tuoi passi. Il Mercato delle Ombre resta dov'è, sotto i tuoi piedi o sotto quelli di qualcun altro, e fra un paio di mesi sarà comunque da un'altra parte. Ti segni a mente le facce di questa strada che potrebbero saperne qualcosa, per quando avrai qualcosa da dare in cambio.

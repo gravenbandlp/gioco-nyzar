@@ -190,6 +190,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     st.opzioni.forEach((o, i) => {
       const d = `${dove}, opzione ${i + 1}`;
       requisiti(d, o.requisiti);
+      requisiti(d, o.quando);
       if (o.prova) {
         const lista = Array.isArray(o.prova.abilita) ? o.prova.abilita : [o.prova.abilita];
         for (const a of lista) if (!TUTTE_LE_ABILITA.includes(a)) errori.push(`${d}: abilità sconosciuta "${a}"`);
@@ -309,9 +310,13 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   }
 
   for (const n of c.negozi) {
-    for (const v of n.compra) if (!quality.has(v.quality)) errori.push(`negozio ${n.id}: compra quality sconosciuta "${v.quality}"`);
+    for (const v of n.compra) {
+      if (!quality.has(v.quality)) errori.push(`negozio ${n.id}: compra quality sconosciuta "${v.quality}"`);
+      requisiti(`negozio ${n.id}, compra ${v.quality}`, v.requisiti);
+    }
     for (const v of n.vende) {
       if (!quality.has(v.quality)) errori.push(`negozio ${n.id}: vende quality sconosciuta "${v.quality}"`);
+      requisiti(`negozio ${n.id}, vende ${v.quality}`, v.requisiti);
     }
   }
 

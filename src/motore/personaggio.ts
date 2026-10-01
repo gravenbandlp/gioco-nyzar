@@ -230,7 +230,13 @@ export function spendiCandele(s: Stato, n: number, ora: number): boolean {
 }
 
 export function storyletDisponibili(s: Stato, c: TContenuti): TStorylet[] {
-  return c.storylet.filter((st) => st.area === s.area && st.tipo === 'fisso' && requisitiSoddisfatti(s, st.requisiti, c));
+  // uno storylet presso un luogo che non si vede (requisiti del luogo non soddisfatti) non è disponibile
+  const chiuso = (id?: string) => {
+    if (!id) return false;
+    const l = c.luoghi.find((x) => x.id === id);
+    return !!l && !requisitiSoddisfatti(s, l.requisiti, c);
+  };
+  return c.storylet.filter((st) => st.area === s.area && st.tipo === 'fisso' && !chiuso(st.presso) && requisitiSoddisfatti(s, st.requisiti, c));
 }
 
 export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {

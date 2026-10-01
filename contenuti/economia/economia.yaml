@@ -1,0 +1,91 @@
+# L'economia della città (strati 1 e 2, ottobre 2026).
+# Strato 1, il giro delle merci: le tre famiglie (Informazioni, Cristalli, Reliquie) salgono di scalino con le
+# conversioni ripetibili sparse per la città (contenuti/economia/informazioni.yaml e cristalli-reliquie.yaml), e
+# si vendono a compratori diversi. Ogni famiglia ha il suo compratore principale, che paga di più a chi ha
+# finito le storie del luogo (reputazione 3 dopo la prima storia, 7 dopo l'ultima). Il Mercato delle Ombre paga
+# più di tutti, con il Sospetto.
+# Strato 2, la casa nel Vicolo dei Cardatori (contenuti/economia/casa.yaml): sei livelli, gli arredi, la bottega
+# al pianterreno, il banco della cantina e il Lustro, che si spende senza tetto ricevendo ospiti.
+# I prezzi stanno solo qui e negli effetti: mai nella prosa (docs/stile-dei-testi.md, regola 11).
+
+quality:
+  - { id: reliquie.meccanismo-spento, immagine: icone/clockwork, nome: Meccanismo spento, categoria: bene, famiglia: Reliquie, valore: 25, descrizione: "Un congegno dei Precursori rimontato pezzo per pezzo, intero ma senza vita. Chi lo compra non sa ancora a cosa servisse." }
+
+  # --- la casa
+  - { id: casa, immagine: icone/family-house, nome: La tua casa, categoria: stato, descrizione: "Quanto è cresciuta la tua casa nel Vicolo dei Cardatori, dalla soffitta in affitto all'altana sui tetti." }
+  - { id: lustro, immagine: icone/laurels, nome: Lustro, categoria: stato, descrizione: "Quanto il tuo nome conta nelle case di Qir-Azel. Sale con gli ospiti che ricevi, e non ha un tetto." }
+  - { id: arredo.letto, nome: Un letto vero, categoria: stato, nascosta: true }
+  - { id: arredo.stufa, nome: La stufa a cristalli, categoria: stato, nascosta: true }
+  - { id: arredo.libreria, nome: La libreria, categoria: stato, nascosta: true }
+  - { id: arredo.rastrelliera, nome: La rastrelliera in cortile, categoria: stato, nascosta: true }
+  - { id: arredo.tappeto, nome: Il tappeto di Pannion, categoria: stato, nascosta: true }
+  - { id: arredo.ritratto, nome: Il ritratto, categoria: stato, nascosta: true }
+  - { id: arredo.vasca, nome: La vasca di rame, categoria: stato, nascosta: true }
+  - { id: arredo.cannocchiale, nome: Il cannocchiale sull'altana, categoria: stato, nascosta: true }
+  - { id: ospite.primo, nome: Il primo ospite di riguardo, categoria: stato, nascosta: true }
+  - { id: ospite.secondo, nome: Il secondo ospite di riguardo, categoria: stato, nascosta: true }
+  - { id: ospite.terzo, nome: Il terzo ospite di riguardo, categoria: stato, nascosta: true }
+  - { id: ospite.quarto, nome: Il quarto ospite di riguardo, categoria: stato, nascosta: true }
+
+luoghi:
+  - id: casa-nel-vicolo
+    area: citta-bassa
+    nome: La tua casa nel Vicolo dei Cardatori
+    immagine: ambientazione/citta-bassa
+    sommario: "La porta con la tua chiave, in un vicolo che sale verso i Ponti."
+    negozi: [la-tua-bottega]
+    requisiti: [casa >= 1]
+    testo: |
+      Il Vicolo dei Cardatori sale dalla Città Bassa verso i Ponti con una scalinata ogni tanto, e le case
+      si appoggiano l'una all'altra come se avessero paura di cadere nella Cicatrice. La tua è la terza a
+      sinistra dopo la fontana secca, e cresce con te, una stanza alla volta.
+
+  - id: mercato-delle-ombre
+    area: citta-bassa
+    nome: Mercato delle Ombre
+    immagine: ambientazione/mercato-delle-ombre
+    sommario: "La piazza sotterranea dove si vende senza timbro della Gilda."
+    requisiti: [contatto-ombra >= 1]
+    testo: |
+      Il Mercato delle Ombre è una piazza sotto la Città Bassa che ogni due o tre mesi cambia stanza, e il
+      segreto peggio custodito di Qir-Azel. Le luci sono quelle verdognole dei cristalli non registrati, e
+      sui banchi ci sono reliquie senza il timbro della Gilda. Qui si paga di più e si domanda di meno, ma
+      chi ti vede scendere se lo ricorda.
+
+negozi:
+  - id: il-salotto-di-nerissa
+    nome: Il salotto di Nerissa
+    immagine: personaggi/nerissa-dalvane
+    testo: "Nerissa Dalvane riceve chi ha qualcosa da raccontarle nel salotto del primo piano, con la porta accostata e una tazza di tè per l'ospite. Ascolta senza prendere appunti e paga meglio chi conosce da tempo."
+    compra:
+      - { quality: informazioni.pettegolezzo, prezzo: 5 }
+      - { quality: informazioni.pettegolezzo, prezzo: 6, requisiti: [rep.maison >= 3] }
+      - { quality: informazioni.pettegolezzo, prezzo: 7, requisiti: [rep.maison >= 7] }
+      - { quality: informazioni.segreto, prezzo: 25 }
+      - { quality: informazioni.segreto, prezzo: 30, requisiti: [rep.maison >= 3] }
+      - { quality: informazioni.segreto, prezzo: 35, requisiti: [rep.maison >= 7] }
+
+  - id: la-collezione-di-orvald
+    nome: La collezione di Orvald
+    immagine: personaggi/orvald-temmerin
+    testo: "Orvald Temmerin compra per il seminterrato tutto quello che viene dalle rovine, e lo paga di tasca sua. Ai suoi allievi e ai vecchi amici offre di più, perché sa che non andranno a venderlo altrove."
+    compra:
+      - { quality: reliquie.scheggia, prezzo: 1 }
+      - { quality: reliquie.frammento-inciso, prezzo: 5 }
+      - { quality: reliquie.frammento-inciso, prezzo: 6, requisiti: [rep.accademia >= 3] }
+      - { quality: reliquie.frammento-inciso, prezzo: 7, requisiti: [rep.accademia >= 7] }
+      - { quality: reliquie.meccanismo-spento, prezzo: 25 }
+      - { quality: reliquie.meccanismo-spento, prezzo: 30, requisiti: [rep.accademia >= 3] }
+      - { quality: reliquie.meccanismo-spento, prezzo: 35, requisiti: [rep.accademia >= 7] }
+
+  - id: la-tua-bottega
+    nome: La tua bottega
+    immagine: ambientazione/emporio-generale
+    testo: "Al pianterreno della tua casa, dietro un bancone di noce che hai pagato più di quanto volessi. Quello che porti a casa lo rivendi ai clienti del vicolo, con un piccolo guadagno."
+    compra:
+      - { quality: informazioni.pettegolezzo, prezzo: 6, requisiti: [casa >= 4] }
+      - { quality: informazioni.segreto, prezzo: 27, requisiti: [casa >= 4] }
+      - { quality: cristalli.cristallo-sterile, prezzo: 6, requisiti: [casa >= 4] }
+      - { quality: cristalli.cristallo-carico, prezzo: 27, requisiti: [casa >= 4] }
+      - { quality: reliquie.frammento-inciso, prezzo: 6, requisiti: [casa >= 4] }
+      - { quality: reliquie.meccanismo-spento, prezzo: 27, requisiti: [casa >= 4] }

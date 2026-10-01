@@ -1,13 +1,13 @@
 // Risoluzione delle opzioni degli storylet, spostamenti e negozi.
 import { probabilita, tira, type Rng } from './dadi';
 import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
-import type { TContenuti, TEsito, TIncantesimo, TOpzione, TStorylet } from './contenuto';
+import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
 import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
 import { cambiaArea, inSpedizione } from './spedizioni';
 import {
-  abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, spendiCandele, scarta, aggiornaTempo,
+  abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiCandele, scarta, aggiornaTempo,
   type Crescita, type Stato, type Variazione,
 } from './personaggio';
 import {
@@ -52,7 +52,7 @@ function vittoria(s: Stato, scontroId: string, c: TContenuti): number {
 
 export function anteprima(s: Stato, opz: TOpzione, c: TContenuti): Anteprima {
   const costo = opz.costo ?? 1;
-  const requisiti = [...(opz.requisiti ?? []), ...(opz.incantesimo ? [`${chiaveIncantesimo(opz.incantesimo)} >= 1`] : [])];
+  const requisiti = [...(opz.quando ?? []), ...(opz.requisiti ?? []), ...(opz.incantesimo ? [`${chiaveIncantesimo(opz.incantesimo)} >= 1`] : [])];
   const mancanti = requisitiMancanti(s, requisiti, c);
   const a: Anteprima = { disponibile: mancanti.length === 0 && s.candele >= costo, mancanti, costo };
   if (mancanti.length === 0 && s.candele < costo) a.motivo = 'Non hai abbastanza candele.';
@@ -223,9 +223,36 @@ export function muovi(s: Stato, areaId: string, c: TContenuti): boolean {
   return true;
 }
 
+type TVoceNegozio = TNegozio['compra'][number];
+
+/**
+ * Le merci di un listino con il prezzo che vale adesso: per ogni merce la voce aperta più conveniente per il
+ * giocatore (il prezzo più alto quando il negozio compra, il più basso quando vende) e, se c'è, la voce ancora
+ * chiusa che conviene di più, da mostrare come suggerimento.
+ */
+export function listino(s: Stato, voci: TVoceNegozio[], c: TContenuti, verso: 'compra' | 'vende'): { voce: TVoceNegozio; meglio?: TVoceNegozio }[] {
+  const meglio = (a: TVoceNegozio, b: TVoceNegozio) => (verso === 'compra' ? a.prezzo > b.prezzo : a.prezzo < b.prezzo);
+  const ordine = [...new Set(voci.map((v) => v.quality))];
+  return ordine.flatMap((q) => {
+    const tutte = voci.filter((v) => v.quality === q);
+    const aperte = tutte.filter((v) => requisitiSoddisfatti(s, v.requisiti, c));
+    if (!aperte.length) return [];
+    const voce = aperte.reduce((a, b) => (meglio(b, a) ? b : a));
+    const chiuse = tutte.filter((v) => !aperte.includes(v) && meglio(v, voce));
+    // fra le chiuse, la più vicina: quella con il prezzo meno lontano da quello di adesso
+    const prossima = chiuse.length ? chiuse.reduce((a, b) => (meglio(a, b) ? b : a)) : undefined;
+    return [{ voce, meglio: prossima }];
+  });
+}
+
+/** Un negozio è aperto se ha almeno una merce che si vede. */
+export function negozioAperto(s: Stato, n: TNegozio, c: TContenuti): boolean {
+  return listino(s, n.compra, c, 'compra').length > 0 || listino(s, n.vende, c, 'vende').length > 0;
+}
+
 export function vendi(s: Stato, negozioId: string, quality: string, c: TContenuti): boolean {
   const n = c.negozi.find((x) => x.id === negozioId);
-  const voce = n?.compra.find((x) => x.quality === quality);
+  const voce = n && listino(s, n.compra, c, 'compra').find((x) => x.voce.quality === quality)?.voce;
   if (!voce || (s.quality[quality] ?? 0) < 1) return false;
   applicaEffetti(s, { [quality]: -1, monete: voce.prezzo }, c);
   return true;
@@ -233,7 +260,7 @@ export function vendi(s: Stato, negozioId: string, quality: string, c: TContenut
 
 export function compra(s: Stato, negozioId: string, quality: string, c: TContenuti): boolean {
   const n = c.negozi.find((x) => x.id === negozioId);
-  const voce = n?.vende.find((x) => x.quality === quality);
+  const voce = n && listino(s, n.vende, c, 'vende').find((x) => x.voce.quality === quality)?.voce;
   if (!voce || (s.quality['monete'] ?? 0) < voce.prezzo) return false;
   applicaEffetti(s, { monete: -voce.prezzo }, c);
   if (quality.startsWith('oggetto.')) ricevi(s, c, quality.slice(8));
