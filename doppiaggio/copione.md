@@ -1,6 +1,6 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 1381 pezzi, 802.461 caratteri.
+Generato da `npm run doppiaggio`. 1383 pezzi, 804.392 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
 
 ## I prologhi
@@ -1297,9 +1297,9 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Anche i due che Gàldrik tiene a bada esitano, e lui ne approfitta. Quando è finita lo sceriffo si tocca la fronte con il segno dell'Albero, in fretta, quasi di nascosto.
 
-**`sepolcro-cripta__2-fallimento`** · esito «La parola sbagliata» · opzione «Scacciarli con l'esorcismo» · fallimento · 507 caratteri
+**`sepolcro-cripta__2-fallimento`** · esito «La parola sbagliata» · opzione «Scacciarli con l'esorcismo» · fallimento · 587 caratteri
 
-> A metà della seconda riga la lingua ti si inceppa, e il Mana ti torna indietro come una frustata dietro gli occhi. Il morto più vicino ti è addosso prima che tu ricominci. Gàldrik chiama giù le guardie, e quando la stanza torna ferma sei seduto sui gradini con il sangue al naso e una spalla che non si alza.
+> A metà della seconda riga la lingua ti si inceppa, e il Mana ti torna indietro come una frustata dietro gli occhi. Il morto più vicino ti è addosso prima che tu ricominci, e dove le sue dita ti stringono il collo la pelle diventa fredda e insensibile. Gàldrik chiama giù le guardie, e quando la stanza torna ferma sei seduto sui gradini con il sangue al naso e una spalla che non si alza.
 >
 > Prima di sera una guardia ti porta un lasciapassare per i Quartieri Alti con la firma dello sceriffo e un sacco di tela con il nucleo di una delle macchine della razzia, da portare alla Biblioteca.
 
@@ -1309,9 +1309,9 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Quando l'ultimo cade il braccio non vuole più scendere, e devi abbassarlo aiutandoti con l'altra mano.
 
-**`sepolcro-cripta__3-fallimento`** · esito «La lanterna» · opzione «Tenere la porta e la lanterna» · fallimento · 536 caratteri
+**`sepolcro-cripta__3-fallimento`** · esito «La lanterna» · opzione «Tenere la porta e la lanterna» · fallimento · 625 caratteri
 
-> Il sibilo dei morti ti entra nelle orecchie e ti scende nelle ginocchia, e a un certo punto la lanterna non è più nella tua mano. Rotola giù per i gradini e si spegne. Nel buio senti Gàldrik imprecare a denti stretti e le guardie scendere di corsa. Quando riaccendono la luce sei seduto sul primo gradino con un taglio sulla fronte che non ricordi di esserti fatto.
+> Il sibilo dei morti ti entra nelle orecchie e ti scende nelle ginocchia, e a un certo punto la lanterna non è più nella tua mano. Rotola giù per i gradini e si spegne. Nel buio senti Gàldrik imprecare a denti stretti e le guardie scendere di corsa, e un morto risale i gradini fino a te prima di loro. Quando riaccendono la luce sei seduto sul primo gradino, con il collo freddo dove ti ha preso e un taglio sulla fronte che non ricordi di esserti fatto.
 >
 > Prima di sera una guardia ti porta un lasciapassare per i Quartieri Alti e un sacco di tela con il nucleo di una delle macchine della razzia, da portare alla Biblioteca.
 
@@ -2119,9 +2119,9 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Poi fa un passo indietro nella nebbia e sparisce. Senti una corda tendersi sotto le assi, e i suoi uomini se ne vanno senza correre. La porta del gabbiotto è rimasta aperta, e appesa al chiodo dietro il banco c'è la sua borsa di cuoio con dentro il registro di pelle. Te la metti a tracolla e torni verso l'imbocco camminando al centro delle assi.
 
-**`maedric-holl-il-prezzo__2-fallimento`** · esito «Un incidente sul ponte» · opzione «Dirgli che Cordani e lo sceriffo lo aspettano» · fallimento · 556 caratteri
+**`maedric-holl-il-prezzo__2-fallimento`** · esito «Un incidente sul ponte» · opzione «Dirgli che Cordani e lo sceriffo lo aspettano» · fallimento · 607 caratteri
 
-> Gli parli di Cordàni e dello sceriffo, ma a metà frase la voce ti sale di un tono, e Mèdrik lo sente. Fa un cenno piccolo con due dita. Il primo dardo si pianta nel parapetto accanto alla tua mano, il secondo ti prende di striscio sul fianco mentre ti butti sulle assi.
+> Gli parli di Cordàni e dello sceriffo, ma a metà frase la voce ti sale di un tono, e Mèdrik lo sente. Fa un cenno piccolo con due dita. Il primo dardo si pianta nel parapetto accanto alla tua mano, il secondo ti entra nel fianco mentre ti butti sulle assi, e te lo strappi da solo con le dita che non vogliono chiudersi.
 >
 > Quando rialzi la testa Mèdrik è sparito, e i suoi uomini con lui. Nel gabbiotto hanno rovesciato tutto in fretta. La borsa di cuoio è caduta dietro la stufa, con dentro il registro di pelle, e nella fretta nessuno l'ha trovata. Fino all'imbocco cammini con una mano premuta sul fianco.
 
@@ -4347,37 +4347,49 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli ti rimette in piedi, ma le mani che hai tenuto sul cristallo restano rosse e gonfie, e il ronzio nelle orecchie non se ne va.
 
-**`una-leggenda__4-successo`** · esito «La maschera della Marea» · opzione «Leggere la bestia» · successo · 528 caratteri
+**`una-leggenda__4-successo`** · esito «La testa a destra» · opzione «Leggere la bestia» · successo · 517 caratteri
+
+> Aspetti che giri la testa a destra come faceva nella radura, e gridi a Tènebra il lato giusto prima ancora che parta. Fai battere a Còrin la spada sulla placca, e a ogni colpo il cinghiale scarta dalla parte che ti aspettavi e ti offre il fianco. Al terzo scarto Tènebra lo apre, e la bestia si sfa in schegge pallide.
+>
+> Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno.
+
+**`una-leggenda__4-fallimento`** · esito «Il fianco sbagliato» · opzione «Leggere la bestia» · fallimento · 583 caratteri
+
+> La bestia gira la testa a destra come ricordavi, e poi scarta a sinistra, perché l'eco ha imparato qualcosa che il cinghiale vero non sapeva. La zanna ti apre la coscia. Tènebra e Bèsk la reggono mentre Còrin ti trascina via per il colletto, e la finite in quattro, a fatica.
+>
+> Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli ti chiude la pelle della coscia, ma sotto la zanna è arrivata fino all'osso, e quando provi a camminare la gamba non ne vuole sapere.
+
+**`una-leggenda__5-successo`** · esito «La maschera della Marea» · opzione «Leggere la bestia» · successo · 528 caratteri
 
 > Guardi come muove la testa e capisci che le vene d'argento sono una maschera della Marea, cucita sopra una bestia che di suo aveva paura del rumore. Fai battere a Còrin la spada sulla placca, e a ogni colpo il cinghiale scarta a destra e ti offre il fianco. Al terzo scarto Tènebra lo apre, e la bestia si sfa in schegge pallide.
 >
 > Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno.
 
-**`una-leggenda__4-fallimento`** · esito «Il fianco sbagliato» · opzione «Leggere la bestia» · fallimento · 511 caratteri
+**`una-leggenda__5-fallimento`** · esito «Il fianco sbagliato» · opzione «Leggere la bestia» · fallimento · 511 caratteri
 
 > Ti metti dove dovrebbe scartare, e la bestia scarta dall'altra parte. La zanna ti apre la coscia. Tènebra e Bèsk la reggono mentre Còrin ti trascina via per il colletto, e la finite in quattro, a fatica.
 >
 > Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli ti chiude la pelle della coscia, ma sotto la zanna è arrivata fino all'osso, e quando provi a camminare la gamba non ne vuole sapere.
 
-**`una-leggenda__5-successo`** · esito «Fermi» · opzione «Farti coprire le spalle dalla squadra» · successo · 506 caratteri
+**`una-leggenda__6-successo`** · esito «Fermi» · opzione «Farti coprire le spalle dalla squadra» · successo · 506 caratteri
 
 > Dici a ognuno dove stare e perché, e loro restano fermi anche quando la bestia carica dritta su Còrin, che tiene la spada alta con gli occhi chiusi. All'ultimo Tènebra la devia con la spalla, Bèsk le brucia il muso, e tu sei già sul fianco. L'eco si sfa in schegge pallide.
 >
 > Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno, e Còrin non smette più di ridere.
 
-**`una-leggenda__5-fallimento`** · esito «Uno si muove» · opzione «Farti coprire le spalle dalla squadra» · fallimento · 479 caratteri
+**`una-leggenda__6-fallimento`** · esito «Uno si muove» · opzione «Farti coprire le spalle dalla squadra» · fallimento · 479 caratteri
 
 > Còrin scappa un passo di lato quando la bestia carica, e il cinghiale passa dove non doveva. Ti prende in pieno. La finite in tre, con Còrin seduto per terra, quando hai già il sangue in bocca.
 >
 > Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli ti rimette in piedi, ma due costole restano dove le ha lasciate la bestia, e Còrin ti chiede scusa fino a sera.
 
-**`una-leggenda__6-successo`** · esito «Le parole dell'Albero» · opzione «Scacciare l'eco con l'esorcismo» · successo · 480 caratteri
+**`una-leggenda__7-successo`** · esito «Le parole dell'Albero» · opzione «Scacciare l'eco con l'esorcismo» · successo · 480 caratteri
 
 > Dici le parole della Liturgia mentre la bestia ti carica, e a ogni parola le vene d'argento si spengono una alla volta. Arriva a tre passi da te ridotta a una sagoma di luce grigia, e lì si sfa.
 >
 > Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi. La squadra di Gàldrik invece è intatta, e lo sceriffo ti fa un cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno. In tribuna qualche novizio del Velo si fa il segno, e Bèsk ti guarda in un modo nuovo.
 
-**`una-leggenda__6-fallimento`** · esito «Le parole a metà» · opzione «Scacciare l'eco con l'esorcismo» · fallimento · 540 caratteri
+**`una-leggenda__7-fallimento`** · esito «Le parole a metà» · opzione «Scacciare l'eco con l'esorcismo» · fallimento · 540 caratteri
 
 > Ti si inceppa la voce a metà della Liturgia, e le parole che non hai finito ti tornano in testa storte, con il grugnito della bestia sotto. Poi la bestia ti è addosso. Tènebra ti tira via per la cintura, e la finite in quattro, alla vecchia maniera, con il sangue di tutti sulla sabbia.
 >
@@ -4445,9 +4457,9 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > La folla però è in piedi, e grida il tuo nome insieme al suo. Gàldrik ti tende la mano per rialzarti e non te la lascia finché Oràzio non ha finito di parlare. “Ti ho battuto di un soffio” ti dice all'orecchio. “La prossima volta te lo ricordo io.” Òrvald ti conta il premio del secondo.
 
-**`lo-scontro-delle-ere__2-successo`** · esito «Chi capisce l'arena» · opzione «Prendere il pilone centrale» · successo · 547 caratteri
+**`lo-scontro-delle-ere__2-successo`** · esito «Chi capisce l'arena» · opzione «Prendere il pilone centrale» · successo · 735 caratteri
 
-> Il pilone si accende quando qualcuno ci posa la mano piatta su una delle placche d'ottone, e lo capisci guardando Ottìlia che ci prova. Ci arrivi un passo prima di Gàldrik. La luce ti entra nelle braccia, e per un po' la lama ti pesa la metà. Lo sceriffo si siede sul camminamento con una risata corta.
+> Il pilone si accende quando qualcuno ci posa la mano piatta su una delle placche d'ottone, e lo capisci guardando Ottìlia che ci prova. Ci arrivi un passo prima di Gàldrik. La luce ti entra nelle braccia, e per un po' la lama ti pesa la metà. Lo sceriffo para i primi colpi con il piatto, come sempre, ma sei più veloce di quanto eri un momento prima e lui sbaglia la misura di un dito. Il colpo dopo lo prende sotto la guardia, e lo sceriffo si siede sul camminamento con una risata corta.
 >
 > “Vince chi capisce l'arena” dice, quando si rialza, ed è Òrvald dal banco a ripeterlo forte. Ti allacciano in vita la cintura con la fibbia d'alloro, e ti consegnano la borsa del vincitore. Il giorno dopo il tuo nome viene inciso nella pietra.
 
@@ -4671,9 +4683,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Ti infili nel camino spento di una stanza degli ospiti e sali con la schiena e i piedi contro i mattoni, nella fuliggine. Ròldan entra, guarda sotto il letto e dietro le tende, poi esce. Lo senti dire alla guardia che era il gatto della cuoca. Quando scendi sei nero fino ai gomiti, e la casa ha ricominciato a dormire.
 
-**`roldan-kael__2-fallimento`** · esito «Sotto la cassapanca» · opzione «Nasconderti prima che arrivi alla tua porta» · fallimento · 403 caratteri
+**`roldan-kael__2-fallimento`** · esito «Sotto la cassapanca» · opzione «Nasconderti prima che arrivi alla tua porta» · fallimento · 405 caratteri
 
-> Ti butti sotto una cassapanca, e Ròldan ci si siede sopra. “Esci” dice, e quando esci lui e la guardia ti accompagnano al cancello tenendoti per le braccia, con una gentilezza che fa più male delle botte. Sulla soglia il calcio del pugnale arriva lo stesso nelle costole. La guardia aggiunge di suo uno stivale quando sei già giù. Ti ritrovi nel fango della strada sotto la pioggia, e respirare fa male.
+> Ti butti sotto una cassapanca, e Ròldan ci si siede sopra. “Esci” dice, e quando esci lui e la guardia ti accompagnano al cancello tenendoti per le braccia, con una gentilezza che fa più male delle botte. Sulla soglia il calcio del pugnale arriva lo stesso nelle costole, e la guardia aggiunge di suo uno stivale quando sei già giù. Ti ritrovi nel fango della strada sotto la pioggia, e respirare fa male.
 
 **`roldan-kael__3-successo`** · esito «Quelli della Pignatta» · opzione «Dirgli che ti manda Mauro Scrocco» · successo · 410 caratteri
 
@@ -5447,25 +5459,25 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Dici sopra di lui la formula del Velo per i morti che non riposano, piano, con la voce che si incrina al nome dell'Albero. Il Residuo si ferma a metà di un gesto. La carne secca si stacca dal metallo a scaglie e il filo di rame cede punto per punto, finché resta soltanto la macchina, che senza di lui crolla in un mucchio di pezzi. Dalle sfere ferme stacchi un cristallo carico e due placche incise, e la toppa con il nome te la metti in tasca. Uscendo, le luci si spengono una dopo l'altra dietro di te.
 
-**`la-sezione-sigillata__2-fallimento`** · esito «La formula spezzata» · opzione «Recitargli la formula dell'Esorcismo» · fallimento · 372 caratteri
+**`la-sezione-sigillata__2-fallimento`** · esito «La formula spezzata» · opzione «Recitargli la formula dell'Esorcismo» · fallimento · 475 caratteri
 
-> La formula ti si spezza in bocca, e il filo di rame sul petto del Residuo luccica nella luce delle sfere. Il Residuo si solleva tutto insieme sui cavi e ti viene addosso, e lo eviti soltanto buttandoti all'indietro oltre il portello. Risali il corridoio di corsa con le luci che si spengono alle tue spalle, e porti fuori due schegge strappate al bordo del pavimento fuso.
+> La formula ti si spezza in bocca, e il filo di rame sul petto del Residuo luccica nella luce delle sfere, e le parole che non hai finito ti restano in testa a girare con il ronzio. Il Residuo si solleva tutto insieme sui cavi e ti prende al petto con il braccio di metallo, e ti salvi soltanto buttandoti all'indietro oltre il portello. Risali il corridoio di corsa con le luci che si spengono alle tue spalle, e porti fuori due schegge strappate al bordo del pavimento fuso.
 
 **`la-sezione-sigillata__3-successo`** · esito «I cavi» · opzione «Staccare i cavi senza fare rumore» · successo · 467 caratteri
 
 > Giri lungo il muro, dove le lastre sono ancora lisce, e metti i piedi soltanto quando le sfere sul soffitto ronzano più forte. Il Residuo gira la testa a scatti, sempre verso il punto dove eri prima. Stacchi i cavi dal muro uno alla volta, e a ogni cavo lui si affloscia un poco di più, finché resta seduto sulla crosta di metallo e non si muove. Dalle sfere ferme prendi un cristallo carico e due placche incise, e risali con le luci che si spengono alle tue spalle.
 
-**`la-sezione-sigillata__3-fallimento`** · esito «La lastra» · opzione «Staccare i cavi senza fare rumore» · fallimento · 359 caratteri
+**`la-sezione-sigillata__3-fallimento`** · esito «La lastra» · opzione «Staccare i cavi senza fare rumore» · fallimento · 406 caratteri
 
-> Una lastra fusa ti scricchiola sotto lo stivale, e il Residuo si gira e ti viene incontro trascinando i cavi. Ti prende di striscio con il braccio di metallo mentre corri verso il portello, e alle tue spalle le sfere girano più forte. Risali il corridoio tenendoti il fianco, con le luci che si spengono una dopo l'altra dietro di te, senza aver preso niente.
+> Una lastra fusa ti scricchiola sotto lo stivale, e il Residuo si gira e ti viene incontro trascinando i cavi. Ti prende in pieno sul fianco con il braccio di metallo mentre corri verso il portello, e senti qualcosa cedere sotto la giubba. Alle tue spalle le sfere girano più forte. Risali il corridoio tenendoti il fianco, con le luci che si spengono una dopo l'altra dietro di te, senza aver preso niente.
 
 **`la-sezione-sigillata__4-successo`** · esito «Il pannello» · opzione «Fermare le sfere del soffitto» · successo · 405 caratteri
 
 > Accanto al portello c'è un pannello con una fila di incavi, e ogni incavo si illumina quando una sfera passa sopra di lui. Ci metti il pollice uno dopo l'altro nell'ordine giusto, e le sfere rallentano fino a fermarsi. Il Residuo si affloscia sui suoi cavi nello stesso momento. Prendi dalle sfere un cristallo carico e due placche incise, e risali con le luci che si spengono a una a una alle tue spalle.
 
-**`la-sezione-sigillata__4-fallimento`** · esito «L'incavo sbagliato» · opzione «Fermare le sfere del soffitto» · fallimento · 343 caratteri
+**`la-sezione-sigillata__4-fallimento`** · esito «L'incavo sbagliato» · opzione «Fermare le sfere del soffitto» · fallimento · 453 caratteri
 
-> Premi l'incavo sbagliato con tutto il pollice, e le sfere accelerano tutte insieme con un fischio che ti entra nelle orecchie. Il Residuo si alza sui cavi e avanza verso il portello più svelto di prima, gracchiando a ogni passo. Scappi su per il corridoio con le luci che si spengono alle tue spalle e il fischio che ti segue fino al cancello.
+> Premi l'incavo sbagliato con tutto il pollice, e le sfere accelerano tutte insieme con un fischio che ti entra nelle orecchie. Il Residuo si alza sui cavi e avanza verso il portello più svelto di prima, gracchiando a ogni passo, e ti raggiunge mentre hai ancora il pollice sul pannello. Il braccio di metallo ti sbatte contro il portello. Scappi su per il corridoio con le luci che si spengono alle tue spalle e il fischio che ti segue fino al cancello.
 
 **`la-sezione-sigillata__5-esito`** · esito «La schiena contro il portello» · opzione «Prendere quello che c'è vicino al portello» · esito · 396 caratteri
 
@@ -5501,17 +5513,17 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Ti fermi a metà di un passo e resti così, senza muovere nemmeno gli occhi. Il drone ti gira intorno per un tempo lunghissimo, e tu respiri con la pancia, piano, finché i simboli sulla console si spengono uno dopo l'altro e gli anelli tornano sul cilindro. Quando ti muovi di nuovo hai le gambe di legno. Prendi dalle file per terra una microbatteria e un pezzo di drone, ed esci.
 
-**`il-nodo-principale__3-fallimento`** · esito «Il tremito» · opzione «Stare immobile finché smette di contarti» · fallimento · 359 caratteri
+**`il-nodo-principale__3-fallimento`** · esito «Il tremito» · opzione «Stare immobile finché smette di contarti» · fallimento · 403 caratteri
 
-> Resisti a lungo, ma a un certo punto il ginocchio ti trema, e il drone se ne accorge prima di te. Il colpo ti arriva sulla coscia e ti butta a terra. Ti trascini fuori dalla camera mentre gli anelli ti girano sopra la testa, e risali il corridoio senza aver preso niente. Il drone resta sulla soglia con il nucleo puntato verso di te finché non giri l'angolo.
+> Resisti a lungo, ma a un certo punto il ginocchio ti trema, e il drone se ne accorge prima di te. Il colpo ti arriva sulla coscia e ti butta a terra, e il secondo, identico, nello stesso punto. Ti trascini fuori dalla camera mentre gli anelli ti girano sopra la testa, e risali il corridoio senza aver preso niente. Il drone resta sulla soglia con il nucleo puntato verso di te finché non giri l'angolo.
 
 **`il-nodo-principale__4-esito`** · esito «Il componente sostituito» · opzione «Dargli un pezzo di ricambio» · esito · 385 caratteri
 
-> Tiri fuori dalla bisaccia un pezzo di drone e lo lanci in mezzo agli anelli. Il drone lo prende al volo con il braccio sottile e lo misura girandolo, prima di infilarlo nel cilindro con un clic. Il terzo simbolo sulla console si spegne. Gli anelli tornano al loro posto, e il ronzio si fa basso e tranquillo. Dalle file per terra prendi due microbatterie, ed esci prima che cambi idea.
+> Tiri fuori dalla bisaccia un pezzo di drone e lo lanci in mezzo agli anelli. Il drone lo prende al volo con il braccio sottile e lo misura girandolo, prima di infilarlo nel cilindro con un clic. Il terzo simbolo sulla console si spegne. Gli anelli tornano al loro posto, e il ronzio si fa basso e tranquillo. Dalle file per terra prendi una microbatteria, ed esci prima che cambi idea.
 
-**`il-nodo-principale__5-esito`** · esito «Più dritto» · opzione «Lasciarti calibrare» · esito · 445 caratteri
+**`il-nodo-principale__5-esito`** · esito «Più dritto» · opzione «Lasciarti calibrare» · esito · 562 caratteri
 
-> Ti fermi in mezzo alla camera e allarghi le braccia. Il drone ti gira intorno per un tempo lunghissimo, ti spinge una spalla più in basso e ti raddrizza il collo con un colpetto che ti fa scricchiolare le vertebre, e la console fa il suo suono a ogni correzione. Alla fine il terzo simbolo si spegne e gli anelli tornano sul cilindro. Raccogli una microbatteria da terra ed esci, e per due giorni cammini più dritto di quanto tu abbia mai fatto.
+> Ti fermi in mezzo alla camera e allarghi le braccia. Il drone ti gira intorno per un tempo lunghissimo, ti spinge una spalla più in basso e ti raddrizza il collo con un colpetto che ti fa scricchiolare le vertebre, e la console fa il suo suono a ogni correzione. La spalla sinistra resiste, e il braccio sottile la spinge in basso un colpetto alla volta finché qualcosa schiocca. Alla fine il terzo simbolo si spegne e gli anelli tornano sul cilindro. Raccogli una microbatteria da terra ed esci, e per due giorni cammini più dritto di quanto tu abbia mai fatto.
 
 ### L'archivio di memoria
 
