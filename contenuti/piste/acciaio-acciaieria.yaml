@@ -1,0 +1,992 @@
+# Acciaio e Ira, la spedizione nell'Acciaieria dei Tarvelin (pista.acciaio 3 → 5).
+# Si entra da `davanti-all-acciaieria` (acciaio-1.yaml). Dentro sei stanze ripetibili (se ne vedono
+# tre a caso), il cuore nella sala della fornace (A17) che imposta `isvaro` (1 fuggito, 2 preso vivo,
+# 3 morto) e dà il diario in ogni ramo, poi due seguiti: la cella di Liaren (A21) e la sua domanda
+# sul gradino, che riporta in Città Bassa.
+aree:
+  - id: acciaieria
+    immagine: ambientazione/acciaieria-di-qir-azel
+    nome: Acciaieria dei Tarvelin
+    sommario: "Dentro l'Acciaieria le persiane sono chiuse da due settimane e la fornace non ha mai smesso di ruggire. Da qualche parte, oltre i magazzini, c'è Liaren."
+    spedizione: { ritorno: citta-bassa, soglia: 3, stanze: 3 }
+    testo: |
+      Dentro, la luce passa soltanto dalle fessure delle persiane e taglia il
+      pavimento a strisce, e quello che sta fra una striscia e l'altra lo
+      devi indovinare. L'aria è calda e ferma. C'è odore di metallo e di
+      carbone, e sotto ce n'è un altro, dolciastro, che lo stomaco riconosce
+      prima della testa.
+
+      Il rombo della fornace è basso e regolare, arriva da tutte le pareti
+      insieme e ti entra nei denti. Ogni tanto, in mezzo al rombo, si sente
+      una risata gutturale, e poi una voce che risponde nella stessa lingua.
+
+      L'Acciaieria dei Tarvelin è più grande di come sembra dalla strada. Fra
+      la sala dei clienti e la fornace ci sono magazzini e uffici, e un
+      corridoio che porta agli alloggi della servitù. Accanto alla prima
+      porta qualcuno ha appeso a un chiodo un grembiule di cuoio, con il nome
+      scritto dentro il colletto a lettere grandi perché nessuno se lo
+      prendesse per sbaglio, *Tobia*. Ti accorgi che stai respirando con la
+      bocca.
+
+storylet:
+  # ------------------------------------------------------------ 3 · rientrare dopo una ritirata
+  # davanti-all-acciaieria vale solo a pista 2: chi esce dalla spedizione rientra da qui.
+  - id: tornare-nell-acciaieria
+    presso: acciaieria-tarvelin
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: Di nuovo all'Acciaieria
+    sommario: "Liaren è ancora là dentro, da qualche parte oltre i magazzini, e la ciminiera continua a fumare."
+    luogo: Acciaieria dei Tarvelin, Città Bassa
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [pista.acciaio == 3]
+    testo: |
+      Dalla ciminiera dei Tarvelin il fumo sale dritto come prima, e le
+      persiane sono sprangate come le hai lasciate. Sul gradino della porta
+      degli operai qualcuno del vicinato ha messo una scodella di latte per
+      un gatto che da due settimane non si fa vedere. Il latte è andato a
+      male, e la scodella è ancora lì.
+
+      Giri intorno al muro di cinta fino al vicolo sul retro. Il rombo della
+      fornace passa attraverso la pietra, e in mezzo al rombo ogni tanto
+      arriva una risata gutturale, e poi un'altra che le risponde. La strada
+      per entrare la conosci già. Ti stringi la cintura di un buco e ti
+      accorgi che le mani, da sole, hanno già controllato due volte il
+      coltello.
+
+      Ogni ora che passi qui fuori, Liaren la passa là dentro, legata da
+      qualche parte oltre i magazzini, e il fumo della ciminiera intanto sale
+      dritto nel cielo della Città Bassa.
+    opzioni:
+      - testo: "Rientrare"
+        descrizione: "Dalla stessa strada della prima volta, sperando che nessuno l'abbia chiusa."
+        esito:
+          titolo: Di nuovo dentro
+          testo: |
+            Rientri piano dalla stessa strada della prima volta e ti richiudi
+            alle spalle la luce del vicolo. Dentro l'aria è calda e ferma come
+            la ricordavi, e l'odore dolciastro ti prende alla gola prima ancora
+            che gli occhi si abituino al buio. Resti con la schiena contro il
+            muro finché le strisce di luce delle persiane tornano a disegnare il
+            pavimento, poi ti muovi verso il rombo della fornace.
+          vai: acciaieria
+
+  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  - id: acciaieria-sala-esposizione
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: La sala dei clienti
+    sommario: "La sala dove i clienti dei Tarvelin guardavano lame e padelle. Nella polvere del pavimento ci sono impronte di piedi nudi, grandi."
+    luogo: Acciaieria dei Tarvelin, la sala esposizione
+    area: acciaieria
+    ripetibile: true
+    requisiti: [pista.acciaio == 3, profondita.acciaieria < 3]
+    testo: |
+      La sala dei clienti è lunga e bassa, con le persiane chiuse e una
+      striscia di luce che scende dal lucernaio fino al bancone. Lungo le
+      pareti ci sono le rastrelliere delle spade e i manichini con le
+      corazze, e più in basso, per chi viene a comprare una cosa sola, sono
+      appese per il manico padelle d'acciaio azzurro e falcetti da giardino.
+      Ogni oggetto ha il suo cartellino legato con lo spago, scritto sempre
+      nella stessa grafia stretta.
+
+      Sul bancone c'è una ciotola di caramelle d'orzo per i figli dei
+      clienti, che l'umido ha incollato in un blocco solo. Qualcuno ha
+      provato a staccarne una con i denti e ha lasciato nel blocco un morso
+      largo quanto il tuo palmo.
+
+      Nella polvere del pavimento ci sono impronte di ogni misura. Le più
+      grandi sono di piedi nudi e vanno tutte verso il fondo della sala, dove
+      una porta socchiusa lascia passare il rombo della fornace.
+    opzioni:
+      - testo: "Attraversare la sala senza urtare niente"
+        descrizione: "Fra le rastrelliere c'è poco spazio, e qui dentro ogni cosa è di metallo."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Fra le lame
+          testo: |
+            Ti muovi di fianco fra le rastrelliere, con le braccia strette al
+            corpo e gli occhi sulle punte delle spade, e le padelle restano
+            ferme sui loro ganci. A metà sala ti accorgi che stai trattenendo il
+            fiato. Lo lasci andare piano contro la manica e arrivi alla porta
+            di fondo con la camicia incollata alla schiena. Sul cartellino
+            dell'ultima spada c'è scritto *su ordinazione*, e qualcuno ci ha
+            disegnato sotto una faccina storta.
+          effetti: { profondita.acciaieria: 1 }
+        fallimento:
+          titolo: Le padelle
+          testo: |
+            Il gomito prende il bordo di una padella e la padella prende quella
+            accanto, e per un tempo che non finisce più la sala suona come la
+            bottega di un ramaio. Ti butti dietro il bancone e aspetti, e dalla
+            fornace arriva soltanto il rombo di sempre. Quando ti rialzi hai il
+            palmo aperto da un falcetto che hai afferrato per sbaglio cadendo, e
+            il sangue gocciola su un cartellino del prezzo.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere le impronte nella polvere"
+        descrizione: "Chi è passato di qui ha lasciato il segno, e non ha avuto la cura di cancellarlo."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: I due solchi
+          testo: |
+            Ti accovacci vicino al bancone. Le impronte dei piedi nudi sono
+            tante, e sono di orchi, con le dita aperte a ventaglio. In mezzo ne trovi
+            una fila diversa, di stivali stretti con il tacco basso, e accanto
+            due solchi lunghi e paralleli, lasciati da due tacchi trascinati.
+            *Chi portava quei tacchi a un certo punto ha smesso di camminare.* I
+            solchi vanno verso il fondo della sala, oltre la porta da cui arriva
+            il rombo della fornace.
+          effetti: { profondita.acciaieria: 1 }
+        fallimento:
+          titolo: La polvere
+          testo: |
+            Segui le impronte a testa bassa per tutta la sala, finché ti accorgi
+            che le stai pestando tu e che metà di quelle che leggi sono tue. Ti
+            raddrizzi con le ginocchia che scricchiolano. Dalla porta di fondo
+            arriva una risata gutturale molto vicina, e resti fermo con il cuore in
+            gola finché il rombo della fornace non la copre di nuovo.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare dietro il bancone, carponi"
+        descrizione: "È la strada più lunga e la più bassa, e lì dietro nessuno spazza da settimane."
+        costo: 2
+        esito:
+          titolo: Dietro il bancone
+          testo: |
+            Ti metti carponi e passi dietro il bancone, fra le casse degli
+            imballi e un secchio con dentro uno straccio diventato duro. Il
+            pavimento è coperto di trucioli di ferro che ti si piantano nei
+            palmi uno alla volta. Sotto il cassetto dei soldi c'è un gatto morto
+            da giorni, rannicchiato come se dormisse. Arrivi alla porta di fondo
+            con le mani piene di schegge lucenti.
+          effetti: { profondita.acciaieria: 1, ferite: 0.5 }
+
+  - id: acciaieria-alloggi-dei-servitori
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: Gli alloggi della servitù
+    sommario: "Una camerata con le brande in fila. I letti sono disfatti e c'è sangue sulle lenzuola, fin sulle pareti."
+    luogo: Acciaieria dei Tarvelin, gli alloggi della servitù
+    area: acciaieria
+    ripetibile: true
+    requisiti: [pista.acciaio == 3, profondita.acciaieria < 3]
+    testo: |
+      In fondo a un corridoio stretto c'è la camerata della servitù, una
+      stanza lunga con le brande in fila sotto le finestre sbarrate e un
+      baule ai piedi di ognuna. Le coperte sono a terra e i materassi sono
+      squarciati. Il sangue è sulle lenzuola e sui muri, fino all'altezza di
+      una mano alzata, ed è diventato marrone. Su un baule qualcuno ha
+      lasciato una pipa di gesso con il fornello ancora pieno, pronta per la
+      mattina dopo.
+
+      Sopra ogni branda c'è un chiodo, e da quasi tutti i chiodi pende una
+      maschera di cuoio da operaio, con le lenti affumicate girate verso la
+      stanza. Sotto la branda più vicina alla porta c'è un paio di scarpe
+      della festa ancora legate insieme con lo spago del calzolaio, e le
+      suole non hanno mai visto la strada.
+
+      Lo stomaco ti si chiude piano, e la mano ti va da sola a coprire la
+      bocca. In fondo alla camerata una seconda porta dà sul corridoio della
+      fornace.
+    opzioni:
+      - testo: "Capire che cosa è successo qui"
+        descrizione: "Il sangue racconta le cose in ordine, a chi sa leggerlo."
+        prova: { attributo: mentale, abilita: [medicina, percezione], difficolta: Media }
+        successo:
+          titolo: Nel sonno
+          testo: |
+            Ti fai forza e guardi da vicino. Il sangue è secco da almeno due
+            settimane. Le brande hanno preso i colpi dall'alto e i bauli sono
+            ancora chiusi, quindi chi dormiva qui non ha fatto in tempo ad
+            alzarsi, e chi l'ha ucciso non cercava soldi. Le strisce scure sul
+            pavimento vanno tutte nella stessa direzione, verso la porta della
+            fornace. Le segui con gli occhi fino alla soglia, e lì ti fermi.
+          effetti: { profondita.acciaieria: 1 }
+        fallimento:
+          titolo: Le maschere
+          testo: |
+            Ti avvicini alle brande, e ti sembra che le lenti affumicate delle
+            maschere ti vengano dietro una dopo l'altra, finché ne sei sicuro.
+            Esci nel corridoio e resti con la fronte contro il muro freddo,
+            contando i respiri finché il cuore rallenta. Quando ci torni dentro
+            le maschere sono ferme sui loro chiodi, girate verso la stanza come
+            prima, e la pipa di gesso è sempre sul baule.
+          effetti: { tormento: 0.5 }
+      - testo: "Ascoltare la memoria della stanza"
+        descrizione: "Le stanze dove si muore di notte ricordano bene. Ricordano anche troppo."
+        incantesimo: eco
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: L'appello
+          testo: |
+            Appoggi il palmo sul muro e la stanza ti riporta indietro di due
+            settimane, al buio. Senti il russare di una decina di uomini, e poi
+            la porta che sbatte contro il muro. In mezzo alle risate degli orchi
+            c'è una voce sola che parla in elfico. È giovane e annoiata, e conta
+            i letti uno per uno come un capomastro all'appello. Ritiri la mano di
+            colpo, e il palmo è bagnato di sudore.
+          effetti: { profondita.acciaieria: 1, informazioni.segreto: 0.5 }
+        fallimento:
+          titolo: Il russare
+          testo: |
+            La stanza ti riporta indietro di due settimane, e ci resti dentro
+            più di quanto vorresti. Senti il russare degli uomini e non riesci a
+            uscirne, e quando la porta sbatte sei ancora steso su una di quelle
+            brande. Ti ritrovi in ginocchio sul pavimento della camerata, con le
+            mani strette intorno al collo, e ci metti un pezzo a lasciarlo
+            andare.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare la camerata senza guardare"
+        descrizione: "Gli occhi sul pavimento e la spalla contro il muro, fino all'altra porta."
+        costo: 2
+        esito:
+          titolo: Lungo il muro
+          testo: |
+            Tieni gli occhi sul pavimento e la spalla contro il muro, e conti le
+            brande dal rumore dei tuoi passi sulle assi. Sono dodici. All'altra
+            porta ti accorgi di aver contato anche le maschere senza guardarle,
+            e che il numero è lo stesso. Esci nel corridoio della fornace con un
+            sapore di ferro in bocca e l'interno della guancia morso a sangue.
+          effetti: { profondita.acciaieria: 1, tormento: 0.5 }
+
+  - id: acciaieria-sala-da-pranzo
+    immagine: bestiario/orco
+    titolo: La sala da pranzo
+    sommario: "Nella sala da pranzo due orchi giocano a carte con il mazzo degli operai e litigano su ogni mano."
+    luogo: Acciaieria dei Tarvelin, la sala da pranzo
+    area: acciaieria
+    ripetibile: true
+    requisiti: [pista.acciaio == 3, profondita.acciaieria < 3]
+    testo: |
+      La sala da pranzo degli operai ha un tavolo lungo e due panche, e sul
+      tavolo sono rimasti il pane ammuffito e i boccali rovesciati della sera
+      in cui è finita. Il resto lo hanno fatto gli orchi. Le sedie sono a
+      pezzi, e qualcuno ha inciso nel legno del tavolo una fila di tacche
+      lunga un braccio.
+
+      In fondo al tavolo, seduti sulla stessa panca, ci sono due orchi. Hanno
+      in mano le carte degli operai e giocano a una partita senza regole,
+      perché a ogni mano il più grosso si prende tutti i re e l'altro
+      protesta con un grugnito. Accanto a loro, appoggiate al muro, ci sono
+      le pinze da forno che usano come mazze, ancora annerite.
+
+      Per passare devi andare lungo il muro, alle loro spalle. La mano ti è
+      già scesa alla cintura, e il cuore ti batte al ritmo delle carte
+      sbattute sul tavolo.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Sono due, e le pinze sono a portata di mano. Il rombo della fornace coprirà il rumore."
+        combattimento: orchi-della-fornace
+        vittoria:
+          titolo: Il re di coppe
+          testo: |
+            Il più grosso si alza con le carte ancora in mano e le butta in aria
+            quando gli arrivi addosso, e per un momento la stanza è piena di re
+            che cadono. Le pinze del secondo ti passano a un dito dalla faccia,
+            ancora calde di forno. Quando è finita resti appoggiato al tavolo a
+            riprendere fiato, con un re di coppe incollato sotto lo stivale.
+          effetti: { profondita.acciaieria: 1 }
+        sconfitta:
+          titolo: Il manico delle pinze
+          testo: |
+            Il manico delle pinze ti prende nel fianco e ti manda contro la
+            panca, e il secondo orco ride così forte che deve sedersi. Ti
+            trascini fuori dalla sala tenendoti le costole, e ogni respiro ti
+            punge sotto il braccio. Loro restano dove sono, perché la partita è
+            ancora aperta, e dal corridoio senti di nuovo le carte sbattute sul
+            tavolo.
+      - testo: "Passare lungo il muro, alle loro spalle"
+        descrizione: "Guardano le carte e non la porta. Basta che non si girino."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Alle spalle
+          testo: |
+            Aspetti che il più grosso sbatta sul tavolo l'ennesimo re e passi
+            mentre l'altro protesta. Le assi del pavimento reggono, e i due orchi
+            non alzano la testa dalle carte. Sulla soglia ti volti un momento a
+            guardarli. Il più piccolo ha nascosto un re sotto la coscia, e
+            sorride fra sé con tutte le zanne, contento di aver capito il gioco
+            prima dell'altro.
+          effetti: { profondita.acciaieria: 1 }
+        fallimento:
+          titolo: La carta sul pavimento
+          testo: |
+            A metà del muro pesti una carta caduta, e la carta ti scivola sotto
+            lo stivale con un fruscio. Il più grosso gira la testa. Ti tiri
+            indietro nel corridoio mentre lui si alza, e le pinze arrivano
+            contro lo stipite e ti prendono la spalla di striscio, calde come il
+            fondo di una pentola. Torni indietro di corsa con la spalla che
+            brucia.
+          effetti: { ferite: 0.5 }
+      - testo: "Far rotolare qualche moneta nel corridoio"
+        descrizione: "Cinque monete. Gli orchi delle tribù conoscono quel suono meglio di quello delle carte."
+        requisiti: [monete >= 5]
+        esito:
+          titolo: Il tintinnio
+          testo: |
+            Lanci cinque monete nel corridoio dalla parte opposta e le senti
+            rimbalzare sulla pietra una alla volta. I due orchi si alzano
+            insieme e vanno a cercarle a quattro zampe, litigando anche su
+            quelle. Tu passi lungo il muro alle loro spalle. Dalla soglia senti
+            il più grosso che le conta ad alta voce nella sua lingua, e arriva a
+            sette.
+          effetti: { monete: -5, profondita.acciaieria: 1 }
+      - testo: "Aspettare che si addormentino"
+        descrizione: "Prima o poi la partita finisce, e gli orchi dormono dove capita."
+        costo: 2
+        esito:
+          titolo: La partita lunga
+          testo: |
+            Ti siedi nel corridoio con la schiena al muro e aspetti. La partita
+            va avanti per ore fra grugniti e pugni sul tavolo, e due volte uno
+            dei due esce a pisciare a tre passi da dove sei rannicchiato, senza
+            accorgersi di te. Quando finalmente russano, con la testa sul
+            tavolo, passi alle loro spalle con le gambe addormentate e il collo
+            rigido.
+          effetti: { profondita.acciaieria: 1, tormento: 0.5 }
+
+  - id: acciaieria-dispensa
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: La cucina e la dispensa
+    sommario: "In cucina hanno cercato da mangiare con le mani e con le asce. Nell'angolo della dispensa c'è una spada da orco spezzata."
+    luogo: Acciaieria dei Tarvelin, la cucina
+    area: acciaieria
+    ripetibile: true
+    requisiti: [pista.acciaio == 3, profondita.acciaieria < 3]
+    testo: |
+      La cucina l'hanno fatta a pezzi cercando da mangiare, e con gli
+      sportelli non hanno avuto pazienza. I pensili sono strappati dal muro,
+      e sul fornello c'è una pentola di fagioli diventata un blocco nero. Su
+      una mensola rimasta in piedi c'è ancora la tazza del cuoco, sbeccata
+      sul bordo, con il manico riattaccato due volte con la colla.
+
+      La dispensa accanto è messa peggio. I barili sono sfondati e i sacchi
+      squarciati, e il grano è sparso sul pavimento fino alla porta. Delle
+      casse di pesce secco e di carne di cervo sono rimaste le assi e
+      l'odore, perché quello che non hanno mangiato l'hanno calpestato.
+
+      Nell'angolo a nord, appoggiata contro il muro, c'è una spada da orco
+      larga e corta, che si è spezzata a metà ed è coperta di ruggine. Ha l'impugnatura
+      fasciata di cuoio annodato, e la lama è di un ferro così grezzo che a
+      Qir-Azel nessun fabbro lo batterebbe.
+    opzioni:
+      - testo: "Esaminare la spada"
+        descrizione: "Un'arma dice da dove viene, se la si guarda bene."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Il nodo
+          testo: |
+            Giri la spada con la punta dello stivale. Il cuoio dell'impugnatura
+            è chiuso da un nodo a tre giri che hai già visto, la sera del
+            Festival, sulle armi degli orchi rimasti in piazza. La ruggine è
+            vecchia di settimane. *Gli orchi di quella sera sono passati di
+            qui.* Ti si drizzano i peli delle braccia, e lasci la spada dove
+            l'hai trovata.
+          effetti: { profondita.acciaieria: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La ruggine
+          testo: |
+            Prendi la spada per l'impugnatura e la sollevi. Il cuoio marcio ti
+            si sfalda in mano, e la lama gira e ti apre il polso di traverso. La
+            lasci cadere sul grano con un rumore sordo e resti in ascolto,
+            aspettando passi dalla fornace che poi non arrivano. Ti fasci il
+            polso con un pezzo di sacco, e il grano che c'era dentro ti finisce
+            nella manica.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare fra le provviste qualcosa di intatto"
+        descrizione: "Gli orchi cercavano carne. Un cuoco, di solito, tiene da parte anche altro."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La credenza del cuoco
+          testo: |
+            Dietro la stufa, in una nicchia che gli orchi non hanno visto, c'è
+            la credenza personale del cuoco, chiusa con un pezzo di filo di
+            ferro. Dentro ci sono un vaso di miele e un vasetto di unguento per
+            le scottature, con l'etichetta scritta a mano. Il miele lo lasci
+            dov'è. L'unguento te lo metti in tasca, ed è tiepido per il calore
+            che passa dal muro della fornace.
+          effetti: { profondita.acciaieria: 1, unguento: 1 }
+        fallimento:
+          titolo: I topi
+          testo: |
+            Sposti un sacco di grano sventrato e sotto trovi i topi, una
+            famiglia intera, che di te non ha nessuna paura. Uno ti corre su per
+            la manica e ti morde il dorso della mano prima che tu riesca a
+            scrollartelo di dosso. Gli altri restano sul grano a guardarti. Ti
+            succhi la mano e lasci la dispensa a loro.
+          effetti: { ferite: 0.5 }
+      - testo: "Aprirsi la strada fra i barili sfondati"
+        descrizione: "Il passaggio è pieno di doghe rotte e di chiodi, ma porta dove devi andare."
+        costo: 2
+        esito:
+          titolo: Le doghe
+          testo: |
+            Sposti i barili uno alla volta, piano, perché il rumore non arrivi
+            alla fornace, e passi in mezzo alle doghe rotte con il grano che ti
+            scricchiola sotto le suole. Un chiodo ti si pianta nel polpaccio
+            attraverso i calzoni. Lo togli stringendo i denti e lo appoggi sulla
+            mensola accanto alla tazza del cuoco, perché lì ti sembra il suo
+            posto.
+          effetti: { profondita.acciaieria: 1, ferite: 0.5 }
+
+  - id: acciaieria-archivi
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: Gli archivi
+    sommario: "Gli archivi dell'Acciaieria e l'ufficio di Ondrel Tarvelin, le sole stanze che gli orchi non hanno toccato."
+    luogo: Acciaieria dei Tarvelin, gli archivi
+    area: acciaieria
+    ripetibile: true
+    requisiti: [pista.acciaio == 3, profondita.acciaieria < 3]
+    testo: |
+      Gli archivi sono l'unica parte dell'Acciaieria che gli orchi non hanno
+      toccato. Gli scaffali arrivano al soffitto, pieni di fascicoli legati
+      con il nastro, e ogni cassetto ha un'etichetta scritta nella stessa
+      grafia stretta dei cartellini del negozio. Sono i contratti con gli
+      esportatori e con le botteghe della città e del circondario. Sullo
+      scaffale più basso c'è un cavallino di ceramica con la testa
+      incollata storta, che fa da fermacarte a una pila di fatture.
+
+      Dietro una porta a vetri c'è un ufficio piccolo, con una scrivania
+      sgombra e una sedia sola. Sulla scrivania c'è un bicchiere di vetro
+      inciso con un dito di liquore seccato sul fondo, e accanto il registro
+      delle commesse aperto all'ultima pagina. Le ultime righe sono di due
+      settimane fa, e accanto a ognuna c'è la stessa parola, *rinviata*.
+
+      Qui l'aria è più fresca. Il rombo della fornace arriva attutito dalla
+      carta, e ti accorgi che le spalle ti si sono abbassate di un dito.
+    opzioni:
+      - testo: "Leggere gli indici dei cassetti"
+        descrizione: "Un archivio tenuto così bene si accorge subito di quello che gli manca."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il buco
+          testo: |
+            Gli indici sono in ordine perfetto, e proprio per questo ti accorgi
+            del buco. Una delle schede dei fornitori è stata grattata via
+            pazientemente con un coltello, fino a lasciare la carta più sottile. In
+            controluce leggi ancora la prima sillaba, *Capo*, e il cassetto
+            corrispondente è vuoto. Ti torna in mente Capomozzo, il nome che da
+            giorni senti ripetere in città, e lo metti in fila con gli altri.
+          effetti: { profondita.acciaieria: 1, informazioni.segreto: 0.5 }
+        fallimento:
+          titolo: La valanga
+          testo: |
+            Tiri un cassetto troppo pieno e il cassetto viene via tutto insieme,
+            e cento fascicoli scivolano sul pavimento con un rumore di ali.
+            Resti immobile con il cassetto vuoto fra le mani, e dallo scaffale
+            il cavallino di ceramica ha la testa storta girata verso di te. Dalla fornace
+            non viene nessuno. Rimetti a posto la carta in ginocchio per un'ora,
+            e alla fine hai perso il filo di quello che cercavi.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprire il cassetto della scrivania"
+        descrizione: "È chiuso a chiave, e la scrivania è vecchia quanto l'Acciaieria."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il fondo che si sfila
+          testo: |
+            La serratura tiene, ma il fondo del cassetto è di legno vecchio e si
+            sfila da sotto con due dita. Dentro c'è una busta vuota con il sigillo dei Tarvelin
+            rotto e un mazzo di ricevute per un carico di carbone, pagato tre
+            volte quello che vale. In fondo al cassetto ci sono dieci monete
+            dimenticate. Le conti due volte prima di prenderle, e le ricevute le
+            rimetti dove stavano.
+          effetti: { profondita.acciaieria: 1, monete: 10 }
+        fallimento:
+          titolo: La punta del coltello
+          testo: |
+            Lavori sulla serratura con la punta del coltello finché la punta si
+            spezza dentro con uno scatto che ti fa sobbalzare. Il cassetto resta
+            chiuso, e il coltello adesso è più corto di un dito. Ti tagli il
+            pollice per togliere il pezzo di lama, e lasci una goccia di sangue
+            sul registro delle commesse, proprio accanto alla parola *rinviata*.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare fra gli scaffali al buio"
+        descrizione: "Senza toccare niente e senza accendere niente, verso il fondo."
+        costo: 2
+        esito:
+          titolo: Fra gli scaffali
+          testo: |
+            Passi fra gli scaffali al buio, con una mano tesa davanti alla
+            faccia. A metà corridoio la mano incontra un fascicolo sporgente, e
+            subito dopo la fronte incontra lo scaffale. Ti siedi sul pavimento ad
+            aspettare che le scintille smettano di girarti davanti agli occhi, e
+            poi riprendi verso il fondo, dove il rombo della fornace torna a
+            farsi sentire.
+          effetti: { profondita.acciaieria: 1, ferite: 0.5 }
+
+  - id: acciaieria-sala-di-carico
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: La sala di carico
+    sommario: "Una carriola, le mensole dei reagenti e una cassaforte spalancata sul pavimento. Una scala scende verso i magazzini di sotto."
+    luogo: Acciaieria dei Tarvelin, la sala di carico
+    area: acciaieria
+    ripetibile: true
+    requisiti: [pista.acciaio == 3, profondita.acciaieria < 3]
+    testo: |
+      La sala di carico è il retro dell'Acciaieria, dove arrivano i carri.
+      Contro una parete c'è una carriola con la ruota storta, e sulle mensole
+      sono allineati i vasi dei reagenti, ognuno con un campione di metallo
+      legato al collo con lo spago. Il cobalto dà l'acciaio azzurro e lo
+      stagno quello bianco, e sotto il vaso del rame qualcuno ha aggiunto a
+      matita *non per le posate*.
+
+      In mezzo al pavimento c'è una cassaforte di ferro alta fino al
+      ginocchio, con lo sportello spalancato. Le monete che conteneva hanno
+      lasciato sul fondo un cerchio pulito nella polvere, e accanto c'è una
+      borsa di cuoio vuota, rovesciata come un guanto.
+
+      Nell'angolo, oltre una porta con i cardini unti di fresco, una scala di
+      pietra scende verso i magazzini di sotto. Dal fondo della scala non
+      arriva nessuna luce, e qui il rombo della fornace si sente meno.
+    opzioni:
+      - testo: "Studiare la cassaforte"
+        descrizione: "Una cassaforte forzata e una cassaforte aperta non si somigliano per niente."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La combinazione
+          testo: |
+            Lo sportello non ha un graffio, e le rotelle della serratura sono
+            ferme su una combinazione precisa. Chi l'ha aperta la conosceva.
+            Sotto il ripiano interno, incastrate nella fessura, trovi sei monete
+            sfuggite a chi ha svuotato il resto, e le fai sparire in tasca. Ti
+            chiedi quante persone in tutta Qir-Azel sapessero quei numeri, e
+            quante di loro siano ancora vive.
+          effetti: { profondita.acciaieria: 1, monete: 6 }
+        fallimento:
+          titolo: Lo sportello
+          testo: |
+            Ti chini sulla cassaforte e giri le rotelle per sentire come
+            scattano, e lo sportello, che stava in equilibrio, ti si chiude
+            sulle dita con un colpo che rimbomba per tutta la sala. Ti mordi la
+            lingua per non gridare. Dalla fornace arriva una domanda in una
+            lingua gutturale, e resti piegato in due finché il rombo si richiude
+            sopra la voce.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere qualche gradino ad ascoltare"
+        descrizione: "I cardini sono unti di fresco. Qualcuno usa questa scala tutti i giorni."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il vassoio
+          testo: |
+            Scendi i primi gradini sulle punte, tenendoti al muro. In fondo alla
+            scala c'è un magazzino con due carriole, e oltre il magazzino una
+            porta chiusa, con una serratura nuova e lucida che stona sul legno
+            vecchio. Davanti alla porta c'è un vassoio con una scodella d'acqua
+            e un pezzo di pane che nessuno ha toccato da giorni, e il pane ha
+            già fatto la crosta dura. Risali piano, un gradino alla volta, con
+            il cuore che ti batte in gola.
+          effetti: { profondita.acciaieria: 1 }
+        fallimento:
+          titolo: Il terzo gradino
+          testo: |
+            Il terzo gradino è più basso degli altri e il piede ci arriva in
+            ritardo, e ti ritrovi seduto sulla scala con un rumore che sale fino
+            alla sala di carico. Resti immobile al buio. Da sotto non risponde
+            nessuno. Ti ci vuole un pezzo per convincere le gambe a risalire, e
+            quando ci riesci ti fa male tutta la schiena.
+          effetti: { ferite: 0.5 }
+      - testo: "Nascondersi dietro la carriola e aspettare"
+        descrizione: "Da qui si sentono la fornace e la scala. Prima o poi qualcuno passa, e poi se ne va."
+        costo: 2
+        esito:
+          titolo: Il secchio
+          testo: |
+            Ti rannicchi dietro la carriola con le ginocchia contro il petto e
+            aspetti. Dopo un'ora passa un orco con un secchio d'acqua e scende la
+            scala, e dopo un'altra ora risale con il secchio vuoto. In cima alla
+            scala sputa per terra prima di tornare verso la fornace. Quando ti
+            alzi hai le gambe di legno e la schiena rigida, e la sala è di nuovo
+            tua.
+          effetti: { profondita.acciaieria: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · 3 → 4
+  - id: la-fornace
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: La fornace
+    sommario: "La sala della fornace, gli operai a terra e un uomo seduto, coperto d'acciaio. Accanto a lui un mezzelfo con l'arco in spalla scrive su un libretto."
+    luogo: Acciaieria dei Tarvelin, la sala della fornace
+    area: acciaieria
+    requisiti: [pista.acciaio == 3, profondita.acciaieria >= 3]
+    testo: |
+      La sala della fornace occupa tutto il fondo dell'Acciaieria, e il caldo
+      ti prende in faccia appena apri la porta. La fornace principale è una
+      camera di pietra alta due piani che manda una luce azzurra, e nelle
+      fondamenta i cristalli conduttori pulsano a intervalli regolari e
+      tengono in moto i mantici. Al centro, su una fila di incudini, sono
+      rimasti i martelli degli operai.
+
+      Per terra ci sono gli operai, otto, alcuni con la maschera di cuoio
+      ancora sulla faccia. Gli orchi hanno dato alla fornace quello che si
+      poteva staccare, e sul resto hanno colato l'acciaio fuso. Lo stomaco ti
+      sale in gola e tu lo rimandi giù.
+
+      Nell'alcova di mezzo, su una sedia dallo schienale alto, siede un uomo
+      coperto da strati di acciaio colato e indurito, lucido come una statua
+      da fontana. Contro il bracciolo è appoggiato un bastone di legno nero
+      con il puntale d'acciaio, lo stesso che al Grifone batteva sulle assi.
+      L'acciaio non ha coperto la mano destra, e al dito c'è l'anello con il
+      sigillo dei Tarvelin. *È Ondrel, e l'hanno messo in posa.* Ti accorgi
+      che stai stringendo lo stipite della porta.
+
+      Accanto alla sedia, in piedi, un mezzelfo ben vestito scrive su un
+      libretto rilegato in pelle appoggiato a un'incudine. Ha un arco di
+      legno chiaro sulla schiena e gli stivali da combattimento, e vicino al
+      gomito tiene una bottiglia mezza vuota. Quando alza la testa verso il
+      fuoco vedi che ha gli occhi di Liaren. Tre orchi caricano la fornace
+      con le pale e ridono nella loro lingua, e nessuno si è ancora girato
+      verso la porta.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Lui ha l'arco, gli orchi le pale e le pinze del forno. La bocca della fornace è a tre passi."
+        combattimento: la-fornace
+        vittoria:
+          titolo: La scala
+          testo: |
+            Un orco cade contro la bocca della fornace, e gli altri due lasciano
+            le pale e scappano verso la sala di carico. Isvaro tira due frecce,
+            e la seconda ti passa sopra la spalla. Poi corre dietro agli orchi
+            tenendosi il fianco dove l'hai preso. Lo raggiungi in cima alla
+            scala dei magazzini. Si gira per dirti qualcosa, mette il piede nel
+            vuoto e rotola fino in fondo, e quando arrivi giù ha la testa
+            piegata in un modo che non lascia dubbi.
+
+            Nella tasca della sua cintura c'è il libretto rilegato in pelle, e
+            l'arco è intatto. Gli orchi sono spariti oltre un muro abbattuto in
+            fondo ai magazzini, e da lì arriva il rumore dei loro passi che si
+            allontanano.
+          effetti: { oggetto.diario-di-isvaro: 1, oggetto.arco-di-isvaro: 1, pista.acciaio: 1, racconto: 1 }
+          imposta: { isvaro: 3 }
+          segue: liaren-nella-cella
+        sconfitta:
+          titolo: La bocca della fornace
+          testo: |
+            Una pala ti prende alle gambe e finisci a terra, e due orchi ti
+            trascinano per le caviglie verso la bocca della fornace mentre il
+            calore ti brucia la nuca. Ti liberi a calci. Quando ti rimetti in
+            piedi, con le mani scottate e il fiato corto, la sala è vuota.
+            Isvaro e gli orchi sono scappati per la sala di carico, e dal fondo
+            della scala arriva il rumore dei loro passi.
+
+            Sull'incudine accanto alla sedia, dove Isvaro l'ha lasciato per
+            prendere l'arco, c'è il libretto rilegato in pelle.
+          effetti: { oggetto.diario-di-isvaro: 1, pista.acciaio: 1 }
+          imposta: { isvaro: 1 }
+          segue: liaren-nella-cella
+      - testo: "Coglierlo di sorpresa"
+        descrizione: "Il rombo copre i passi e lui ti dà le spalle. Gli orchi guardano il fuoco, finché guardano il fuoco."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La lama sotto il mento
+          testo: |
+            Giri intorno alle incudini nell'ombra dei mantici, con il rombo
+            della fornace che copre ogni passo, e gli arrivi alle spalle mentre
+            scrive. Gli passi il braccio intorno al collo e gli metti la lama
+            sotto il mento. Isvaro si irrigidisce, poi ride piano senza muovere
+            la testa.
+
+            «Poco ma sicuro, tu non sei mia sorella» dice. «Lei a quest'ora mi
+            avrebbe già rotto il naso.»
+
+            Gli orchi lasciano cadere le pale e scappano verso la sala di
+            carico. Leghi Isvaro a un'incudine con le cinghie di un mantice e
+            gli togli l'arco dalla schiena. Il libretto rilegato in pelle è
+            rimasto aperto sul ferro, con la penna in mezzo.
+          effetti: { oggetto.diario-di-isvaro: 1, oggetto.arco-di-isvaro: 1, pista.acciaio: 1, racconto: 1 }
+          pe: { furtivita: 5 }
+          imposta: { isvaro: 2 }
+          segue: liaren-nella-cella
+        fallimento:
+          titolo: La tenaglia
+          testo: |
+            A metà strada urti una tenaglia appoggiata a un'incudine, e la
+            tenaglia cade sulla pietra con un suono che passa sopra il rombo
+            della fornace. Isvaro si gira con l'arco già in mano. La freccia ti
+            prende alla spalla e ti butta contro il montante di un mantice, e
+            quando riesci a rimetterti in piedi lui e gli orchi sono già spariti
+            verso la sala di carico.
+
+            Il libretto rilegato in pelle è caduto dietro l'incudine, dove
+            Isvaro l'ha lasciato per prendere l'arco.
+          effetti: { oggetto.diario-di-isvaro: 1, pista.acciaio: 1, ferite: 1 }
+          imposta: { isvaro: 1 }
+          segue: liaren-nella-cella
+      - testo: "Farlo parlare"
+        descrizione: "Ha bevuto, e scrive accanto al cadavere di suo padre. Un uomo così ha voglia di essere ascoltato."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: L'ultimo dito di vino
+          testo: |
+            Avanzi a mani aperte e lo chiami per nome. Isvaro alza gli occhi dal
+            libretto e fa segno agli orchi di stare fermi. Parla volentieri, e
+            mentre parla beve. Suo padre lo chiama sempre «quell'uomo», e su di
+            sé resta sul vago.
+
+            «Mia sorella è di sotto a riflettere sulle sue scelte» dice. «Poco ma
+            sicuro, le farà bene.»
+
+            Lo lasci parlare e gli versi tu l'ultimo dito dalla bottiglia. Quando
+            si siede sull'incudine per finirlo gli togli l'arco dalla schiena, e
+            lui ti guarda fare con un mezzo sorriso. Appena vedono l'arco nelle
+            tue mani gli orchi scappano verso la sala di carico senza aspettare
+            un suo ordine. Leghi Isvaro con le cinghie di un mantice e prendi il
+            libretto rilegato in pelle.
+          effetti: { oggetto.diario-di-isvaro: 1, oggetto.arco-di-isvaro: 1, pista.acciaio: 1, racconto: 1 }
+          pe: { empatia: 5 }
+          imposta: { isvaro: 2 }
+          segue: liaren-nella-cella
+        fallimento:
+          titolo: Il bifolco
+          testo: |
+            Lo chiami per nome e lui alza gli occhi dal libretto, ti guarda dalla
+            testa ai piedi e sospira.
+
+            «Un altro bifolco con le buone intenzioni» dice. «Poco ma sicuro,
+            questa città ne produce più che acciaio.»
+
+            Fa un cenno con il mento. Un orco ti arriva addosso di fianco con le
+            pinze del forno, e mentre ti difendi Isvaro prende l'arco e va verso
+            la sala di carico senza correre. Quando fischia dalla scala l'orco
+            ti lascia e gli corre dietro. Il libretto rilegato in pelle è rimasto
+            sull'incudine, con l'inchiostro dell'ultima riga ancora bagnato.
+          effetti: { oggetto.diario-di-isvaro: 1, pista.acciaio: 1, ferite: 1 }
+          imposta: { isvaro: 1 }
+          segue: liaren-nella-cella
+      - testo: "Lasciarlo andare e correre da Liaren"
+        descrizione: "Gli dici che vuoi soltanto sua sorella. Lui sa dov'è, e forse ha fretta anche lui."
+        esito:
+          titolo: L'offerta
+          testo: |
+            Dalla soglia gli dici che sei venuto per Liaren e per nient'altro.
+            Isvaro ti guarda a lungo con la penna sospesa sulla pagina, poi ride.
+
+            «La trovi di sotto, nel magazzino in fondo» dice. «Viva, poco ma
+            sicuro. Salutamela, e dille che l'offerta resta valida.»
+
+            Fischia agli orchi, e se ne vanno tutti verso la sala di carico
+            senza fretta, passandoti a due braccia di distanza. Tu resti fermo con le
+            mani lontane dalla cintura e le guardi tremare. Solo quando i passi
+            si spengono in fondo alla scala vedi che il libretto rilegato in
+            pelle è rimasto sull'incudine, accanto alla bottiglia vuota.
+          effetti: { oggetto.diario-di-isvaro: 1, pista.acciaio: 1, tormento: 1 }
+          imposta: { isvaro: 1 }
+          segue: liaren-nella-cella
+
+  # ------------------------------------------------------------ 4 → 5 · la cella (A21)
+  - id: liaren-nella-cella
+    immagine: personaggi/liaren-tarvelin
+    titolo: La cella
+    tipo: seguito
+    luogo: Acciaieria dei Tarvelin, i magazzini di sotto
+    area: acciaieria
+    requisiti: [pista.acciaio == 4]
+    testo: |
+      La scala della sala di carico scende in un magazzino basso, dove un
+      tempo tenevano la sabbia. Due carriole sono appoggiate al muro.
+      Accanto alle scale un muro di mattoni è stato abbattuto a colpi di
+      mazza, e dal buco esce un'aria fredda che sa di terra.
+
+      In fondo al magazzino c'è una porta chiusa a chiave. La chiave è
+      appesa a un chiodo lì accanto, dove la terrebbe un magazziniere, sotto
+      una lavagnetta con l'inventario scritto col gesso. Ci si legge ancora
+      *sbarre, quaranta*, e il resto l'ha cancellato una manica.
+
+      Dentro, la stanza è stata svuotata e trasformata in una cella. Liaren
+      è stesa sul pavimento su un fianco. Le hanno legato con la corda i
+      polsi e le caviglie, e i tatuaggi delle braccia sono grigi di polvere.
+      Ha gli occhi bendati e la bocca chiusa da una cinghia di cuoio. Ha un taglio sopra
+      l'occhio e il labbro gonfio, e la camicia è rigida di sangue sul
+      fianco sinistro.
+
+      Ti inginocchi accanto a lei e tagli le corde, e le dita sbagliano il
+      nodo due volte. Le togli la benda e la cinghia. *Respira, almeno
+      respira.* Il polso sotto le tue dita è debole ma regolare, e la pelle è
+      fredda.
+    opzioni:
+      - testo: "Medicarla con quello che sai"
+        descrizione: "Il taglio sul fianco va chiuso prima di muoverla. Le mani le hai, e la borraccia anche."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: Il fianco
+          testo: |
+            Le pulisci il taglio con l'acqua della borraccia e lo chiudi con
+            una striscia della tua camicia, stretta, mentre lei geme senza
+            svegliarsi. Poi le sollevi la testa e le bagni le labbra. Liaren
+            apre gli occhi di colpo, e con l'energia che le hai visto al Grifone
+            si tira su a sedere da sola. Si tiene il fianco e si guarda intorno,
+            e alla fine guarda te.
+
+            «Portami fuori da qui» dice, e ti stringe il braccio con tutte e due
+            le mani.
+          effetti: { liaren.salvata: 1, pista.acciaio: 1 }
+          pe: { medicina: 5 }
+          segue: liaren-sul-gradino
+        fallimento:
+          titolo: Le mani che scivolano
+          testo: |
+            Il taglio è più profondo di quanto credevi, e quando stringi la
+            fascia il sangue ricomincia a uscire. Ci metti troppo a fermarlo,
+            con le mani che scivolano. Liaren si sveglia a metà con un gemito e
+            ti afferra il polso con una forza che non ti aspettavi.
+
+            «Lascia stare. Portami fuori, e il resto me lo ricuce Brunella» dice
+            fra i denti, senza mollarti il polso.
+          effetti: { liaren.salvata: 1, pista.acciaio: 1, tormento: 0.5 }
+          segue: liaren-sul-gradino
+      - testo: "Chiudere la ferita con la Liturgia"
+        descrizione: "Le parole dell'Albero chiudono le ferite sotto le mani, se le mani restano ferme."
+        incantesimo: rimarginare
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Sotto le mani
+          testo: |
+            Appoggi le mani sul fianco di Liaren e dici le parole della
+            Liturgia, e senti la ferita stringersi sotto i palmi. Il colore le
+            torna in faccia un poco alla volta. Apre gli occhi e si tira su a
+            sedere, con una mano sul fianco dove la pelle è nuova e tirata.
+
+            «Questa me la segni sul conto» dice, aggrappandosi alla tua spalla
+            per alzarsi, «e adesso portami fuori.»
+          effetti: { liaren.salvata: 1, pista.acciaio: 1 }
+          segue: liaren-sul-gradino
+        fallimento:
+          titolo: La parola storta
+          testo: |
+            A metà della formula la voce ti si incrina, e la ferita si chiude
+            solo in superficie, storta, lasciandoti nelle mani un freddo che
+            sale fino ai gomiti. Liaren si sveglia con un sussulto e si piega in
+            avanti.
+
+            «Che cosa mi hai fatto?» chiede, ma prima che tu risponda scuote la
+            testa e ti tende la mano perché la tiri su.
+          effetti: { liaren.salvata: 1, pista.acciaio: 1, tormento: 0.5 }
+          segue: liaren-sul-gradino
+      - testo: "Fasciarla con le tue bende"
+        descrizione: "Le bende che ti porti dietro per te stesso."
+        requisiti: [bende >= 1]
+        esito:
+          titolo: Tre giri
+          testo: |
+            Le giri le bende intorno al fianco per due volte, poi per una terza,
+            finché il sangue smette di passare. Le bagni le labbra con la
+            borraccia. Liaren apre gli occhi e li richiude subito. Quando li
+            riapre ti guarda come se dovesse metterti a fuoco da lontano.
+
+            «Sei tu. Allora sono ancora viva. Tirami su, che qui dentro puzza»
+            dice con un filo di voce, cercando il tuo braccio con la mano.
+          effetti: { bende: -1, liaren.salvata: 1, pista.acciaio: 1 }
+          segue: liaren-sul-gradino
+      - testo: "Darle un tonico"
+        descrizione: "Una boccetta che avevi tenuto da parte per te."
+        requisiti: [tonico >= 1]
+        esito:
+          titolo: Il tonico
+          testo: |
+            Le sollevi la testa e le versi il tonico fra le labbra, poco alla
+            volta, perché non le vada di traverso. Al terzo sorso tossisce e
+            apre gli occhi. Il colore le torna in faccia, e la mano le va da
+            sola al fianco.
+
+            «Sa di piedi. Grazie lo stesso, e adesso portami fuori da questa
+            stanza» dice con la voce arrochita, pulendosi la bocca con il polso.
+          effetti: { tonico: -1, liaren.salvata: 1, pista.acciaio: 1 }
+          segue: liaren-sul-gradino
+      - testo: "Portarla fuori di peso"
+        descrizione: "Su per la scala, e poi attraverso tutta l'Acciaieria. Pesa più di quanto sembra."
+        esito:
+          titolo: Di peso
+          testo: |
+            Te la carichi sulle spalle come un sacco di grano e sali la scala un
+            gradino alla volta, con le cosce che bruciano. Attraversi la sala di
+            carico e i corridoi, e lei non si sveglia nemmeno quando le sbatti
+            la testa contro uno stipite. Fuori la metti a sedere sul gradino
+            della porta delle consegne. L'aria della strada la sveglia, e la
+            prima cosa che fa è vomitarti sugli stivali.
+          effetti: { ferite: 0.5, liaren.salvata: 1, pista.acciaio: 1 }
+          segue: liaren-sul-gradino
+
+  - id: liaren-sul-gradino
+    immagine: personaggi/liaren-tarvelin
+    titolo: Sul gradino
+    tipo: seguito
+    luogo: Acciaieria dei Tarvelin, la porta delle consegne
+    area: acciaieria
+    requisiti: [pista.acciaio == 5]
+    testo: |
+      Liaren si siede sul gradino della porta delle consegne, con la schiena
+      contro lo stipite e una mano premuta sul fianco sinistro, e per un po'
+      si limita a respirare. In strada passa un carretto di cavoli. Il
+      carrettiere alza gli occhi alla ciminiera che fuma, poi guarda voi due
+      e tira dritto. Mandi di corsa alla Caserma un ragazzino che gioca con
+      un cerchio, e gli prometti una moneta per quando torna.
+
+      «Mi ha raccontato tutto lui, di nostro padre» dice Liaren. «Con tutti i
+      particolari, come se mi leggesse una lettera. L'ultima cosa che quel
+      vecchio mi ha detto è che per lui ero morta.» Si passa il dorso della
+      mano sulla bocca. «Isvaro dice che lui e gli altri li guida Aurenne, la
+      sua amata, che ha grandi progetti per Qir-Azel. Mi ha detto di non
+      farmi trovare in città quando cominciano. Poi quel coglione ha avuto la
+      faccia di chiedermi se volevo unirmi a quelli di Capomozzo.»
+
+      Resta zitta a guardare la strada, con la mascella stretta.
+
+      «Gli ho tirato un pugno nello stomaco. Non credevo che arrivasse così
+      in basso, e lui ha chiamato i suoi orchi. Il resto lo hai visto.» Poi
+      alza gli occhi su di te, e la voce le si fa piatta. «L'hai ucciso?»
+    opzioni:
+      - testo: "Dirle che è scappato"
+        descrizione: "Con gli orchi, dal muro abbattuto in fondo ai magazzini."
+        requisiti: [isvaro == 1]
+        esito:
+          titolo: Scappato
+          testo: |
+            Le dici che è scappato con i suoi orchi, dal muro abbattuto in fondo
+            ai magazzini. Liaren annuisce piano, come se se lo aspettasse.
+
+            «Da ragazzo scappava anche dalle lezioni di scherma» dice. «Poi la
+            sera tornava e diceva che il maestro era un bifolco.» Ride, e la
+            risata le fa male al fianco.
+
+            Vuole tornare al Grifone a piedi, e non c'è verso di farle cambiare
+            idea. All'imbocco del Ponte del Pesce ti toglie il braccio dalle
+            spalle. «Da qui ci arrivo da sola. Brunella mi deve veder entrare
+            sulle mie gambe.» La guardi salire verso i Ponti fermandosi a ogni
+            lanterna, finché la strada gira.
+          vai: citta-bassa
+      - testo: "Dirle che è legato di sopra"
+        descrizione: "A un'incudine, con le cinghie di un mantice, accanto a suo padre."
+        requisiti: [isvaro == 2]
+        esito:
+          titolo: Di sopra
+          testo: |
+            Le dici che Isvaro è di sopra, legato a un'incudine con le cinghie di
+            un mantice. Liaren guarda la porta per un pezzo, e vedi che sta
+            pesando se ha le forze per le scale.
+
+            «Il secondo pugno glielo do quando sto in piedi» dice alla fine.
+            «Dallo alla Caserma, e che lo chiudano dove non può scrivere
+            lettere.»
+
+            La ronda arriva poco dopo. Sono due guardie e un sergente con il
+            fiatone, e quando vede la sala della fornace il sergente si siede su
+            una cassa. Isvaro lo segue in silenzio, a testa alta. Liaren vuole
+            tornare al Grifone a piedi, e all'imbocco del Ponte del Pesce ti
+            toglie il braccio dalle spalle e sale da sola, fermandosi a ogni
+            lanterna.
+          effetti: { rep.caserma: 0.5 }
+          vai: citta-bassa
+      - testo: "Dirle che è morto"
+        descrizione: "In fondo alla scala dei magazzini, scappando."
+        requisiti: [isvaro == 3]
+        esito:
+          titolo: Le pesche
+          testo: |
+            Le dici che è caduto dalla scala dei magazzini mentre scappava, e che
+            non si è più rialzato. Liaren guarda la strada, poi si guarda le
+            mani e le gira piano, come se dovesse riconoscerle.
+
+            «Gli portavo le pesche all'Accademia. Le sbucciava con il coltello,
+            tutte in un pezzo solo, e la buccia la lasciava a me» dice, senza
+            smettere di guardarsi le mani.
+
+            Vuole tornare al Grifone a piedi, e all'imbocco del Ponte del Pesce
+            ti toglie il braccio dalle spalle. «Da qui ci arrivo da sola» dice,
+            e la guardi salire verso i Ponti con la mano sul fianco, fermandosi
+            a ogni lanterna, finché la strada gira.
+          vai: citta-bassa

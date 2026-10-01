@@ -1,0 +1,1365 @@
+# Acciaio e Ira, seconda metà (pista.acciaio 5 → 7): il diario di Isvaro letto al Grifone, il tunnel dei
+# contrabbandieri sotto l'Acciaieria e la spedizione nelle Segrete dell'Ira, con Uzgreth alle fosse e
+# Yoggoth nell'Aula dell'Ira.
+#
+# - `il-diario-di-isvaro` (5 → 6): Liaren legge il diario ad alta voce, una parte alla volta (quality
+#   nascoste diario.*), poi si sceglie a chi portarlo.
+# - `il-tunnel-dei-contrabbandieri` (pista 6, la prima volta): A19, A22, A23, il masso finto, la caverna
+#   degli orchi; chi trova il passaggio prende `tunnel.segrete` ed entra nelle Segrete.
+# - `di-nuovo-nel-tunnel` (pista 6, le volte dopo): rientro nella spedizione.
+# - area `segrete-dell-ira`: sette stanze ripetibili (B1, B4, B6, B7, B8, B11, B12), Uzgreth (B9) come
+#   storia facoltativa e il cuore `l-aula-dell-ira` (B13), che in ogni ramo porta pista.acciaio a 7,
+#   pozzo-dell-ira a 5, dà il cilindro di lyssan e riporta in Città Bassa.
+quality:
+  - { id: tunnel.segrete, nome: "Il passaggio del masso finto", categoria: stato, nascosta: true, descrizione: "Sai dov'è il masso finto in fondo al tunnel dei contrabbandieri." }
+  - { id: diario.mappe, nome: Hai visto le mappe del diario, categoria: stato, nascosta: true }
+  - { id: diario.razzia, nome: Liaren ti ha letto la pagina della razzia, categoria: stato, nascosta: true }
+  - { id: diario.piano, nome: Liaren ti ha letto la pagina del tunnel, categoria: stato, nascosta: true }
+  - { id: diario.amata, nome: Liaren ti ha letto la pagina dell'amata, categoria: stato, nascosta: true }
+  - { id: diario.fratello, nome: Hai parlato a Liaren di Isvaro, categoria: stato, nascosta: true }
+
+aree:
+  - id: segrete-dell-ira
+    immagine: ambientazione/rovine-dei-precursori
+    nome: Segrete dell'Ira
+    sommario: "Sotto la Città Bassa, oltre il muro abbattuto in fondo al tunnel dei contrabbandieri, si aprono gallerie di pietra più vecchie di Qir-Azel. Più si scende, più fa freddo."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      Oltre il muro abbattuto la galleria sale dritta per una trentina di
+      metri e poi si apre in una sala di pietra liscia, tagliata da mani che
+      non hanno lasciato il segno dello scalpello. Al centro c'è la statua di
+      marmo rosso di una donna bellissima, con la faccia storta dalla rabbia
+      e i capelli tenuti indietro da un copricapo di uncini e di lame. Nella
+      sinistra stringe un grosso libro con una stella a sette punte sulla
+      copertina, e nella destra una corsesca di metallo e d'avorio che
+      luccica ancora.
+
+      Da qui le Segrete si diramano in gallerie basse e in stanze mezze
+      crollate. L'aria è secca e fredda, e ogni tanto da sotto il pavimento
+      sale un rumore sordo, lontano, che ti arriva nei denti prima che nelle
+      orecchie. Su un mattone del muro abbattuto, rimasto intero, i
+      contrabbandieri hanno scritto con la pece *chiuso per sempre*, e sotto
+      hanno messo la data e le loro iniziali, come su un contratto.
+
+storylet:
+  # ------------------------------------------------------------ 5 → 6 · il diario di Isvaro
+  - id: il-diario-di-isvaro
+    presso: grifone-di-ferro
+    immagine: personaggi/liaren-tarvelin
+    titolo: Il diario di Isvaro
+    sommario: "Liaren è ancora a letto con il fianco fasciato. Brunella ha chiuso la porta a chiave, e sul comodino c'è il diario di Isvaro."
+    luogo: Locanda del Grifone di Ferro, la stanza di Liaren
+    area: ponti-sospesi
+    requisiti: [pista.acciaio == 5]
+    testo: |
+      Liaren passa i giorni dopo l'Acciaieria a letto, nella stanza in fondo
+      al corridoio del Grifone, con il fianco sinistro fasciato stretto e due
+      cuscini dietro la schiena. Si è fatta portare il samisen e non lo
+      suona. Lo tiene sulle ginocchia e gira un pirolo avanti e indietro,
+      senza accordare niente. Brunella ha chiuso la porta a chiave e si è
+      seduta sulla cassapanca con il mestolo in grembo, anche se di zuppa non
+      ce n'è. Dalle assi del pavimento sale il rumore della sala, con
+      qualcuno che ride troppo forte.
+
+      Sul comodino c'è il diario di Isvaro, rilegato in pelle, due dozzine di
+      pagine piene per metà di mappe di Qir-Azel e per l'altra metà di
+      ritratti di una donna. Le righe scritte sono in elfico, in una
+      calligrafia minuta che pende tutta a destra. Accanto c'è il mazzo di
+      chiavi di Ondrel, che stamattina la Caserma ha riportato in un
+      sacchetto di tela con sopra scritto a gesso *Tarvellin*, con due elle.
+
+      «L'elfico l'ho imparato a undici anni, per scrivergli all'Accademia»
+      dice Liaren, e allunga la mano verso il diario. «Leggo io. Tu tienimi
+      la lampada vicino, e tu, Brunella, non dici niente finché non ho
+      finito.»
+
+      Brunella annuisce e stringe il mestolo con tutte e due le mani.
+      *Undici anni, e già scriveva a un fratello che in casa non si poteva
+      nominare.* Ti siedi sul bordo del letto con la lampada fra le
+      ginocchia, e il vetro caldo ti scalda le dita.
+    opzioni:
+      - testo: "Sfogliare le mappe"
+        descrizione: "Metà del diario è Qir-Azel disegnata a inchiostro, strada per strada, con le frecce."
+        immagine: ambientazione/evento-razzia-festival-150
+        requisiti: [diario.mappe == 0]
+        costo: 0
+        esito:
+          titolo: Quaranta e quattrocento
+          testo: |
+            Le mappe sono fatte bene, con i ponti contati a uno a uno e la
+            Città Bassa disegnata casa per casa. La prima serie mostra piani
+            d'attacco per una banda di quaranta orchi, e una delle pagine è
+            cerchiata due volte. Liaren ci passa sopra il dito. Le frecce
+            partono dall'Acciaieria e salgono fino alla piazza del Festival,
+            per le stesse strade dove c'eri anche tu quel giorno.
+
+            Le pagine dopo sono per quattrocento orchi. Nessuna è cerchiata, e
+            molte sono coperte di croci tracciate così forte che il pennino ha
+            bucato la carta. Brunella guarda le croci a lungo e tiene la bocca
+            chiusa, perché le hanno detto di tenerla chiusa.
+          imposta: { diario.mappe: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Farle leggere la prima pagina scritta"
+        descrizione: "Dopo le mappe le righe si fanno fitte. Liaren si schiarisce la voce."
+        immagine: personaggi/ondrel-tarvelin
+        requisiti: [diario.razzia == 0]
+        costo: 0
+        esito:
+          titolo: La razzia
+          testo: |
+            «La razzia è andata come doveva» legge Liaren. «Abbiamo perso
+            pochi orchi di Capomozzo, e la bara di Sollen l'abbiamo presa
+            senza fatica, mentre i villani guardavano da un'altra parte. Non
+            vedo l'ora del vero assalto. Questa città merita di bruciare. Quel
+            bastardo di mio padre l'ho costretto a tacere sull'Acciaieria, che
+            ci serviva come base, altrimenti avrei raccontato a tutti come ha
+            tolto di mezzo la mamma con l'aiuto di Vesh e dei suoi tagliagole.
+            Gli ho fatto sparire anche ogni carta che in città nomini
+            Capomozzo, così abbiamo più tempo.»
+
+            Arrivata alla mamma la voce le si incrina, e Liaren ricomincia la
+            frase da capo, più piano, come se la prima volta avesse letto
+            male. Brunella si alza dalla cassapanca, va fino alla finestra e
+            torna a sedersi.
+          imposta: { diario.razzia: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Farle leggere la seconda pagina"
+        descrizione: "Qui la calligrafia è più nervosa, e c'è un nome sottolineato."
+        immagine: ambientazione/acciaieria-di-qir-azel
+        requisiti: [diario.piano == 0]
+        costo: 0
+        esito:
+          titolo: Il tunnel dei contrabbandieri
+          testo: |
+            «Balthog vuole un assalto in massa, via terra» legge Liaren. «Per
+            me è un errore. Dovremmo farci aiutare dal demone delle Segrete e
+            mandare su i suoi mostri da sotto, per il tunnel dei contrabbandieri
+            che sbuca nell'Acciaieria di mio padre, e poi entrare dal fiume
+            con assalti piccoli e mirati. Gli altri sono tutti d'accordo tranne
+            Zagrath. Il mezzogre dice di no solo per farmi arrabbiare. La mia
+            adorata Aurenne è troppo presa dai livelli inferiori per decidere.
+            Dice che quando avrà liberato il Costruttore lo metterà ai suoi
+            ordini, e allora la prudenza non ci servirà più. Spero che abbia
+            ragione. Quell'idiota di Garin crede ancora che serviamo il Culto
+            dell'Anonimo, e Kessa comincia a sospettare qualcosa.»
+
+            Liaren alza gli occhi dalla pagina. «Da bambina mio padre mi diceva
+            che sotto l'Acciaieria ci sono soltanto topi» dice.
+          imposta: { diario.piano: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Farle leggere l'ultima pagina"
+        descrizione: "L'ultima pagina scritta sta prima dell'ultimo ritratto."
+        immagine: ambientazione/mito-regina-ali-spezzate
+        requisiti: [diario.amata == 0]
+        costo: 0
+        esito:
+          titolo: La mano nuova
+          testo: |
+            «La mia amata vuole andare fino in fondo» legge Liaren, con la voce
+            che si è fatta più bassa. «Qualunque cosa le dica, resta convinta
+            di essere brutta. Vuole togliersi di
+            dosso quella che chiama la sua corruzione celestiale e metterci la
+            grazia della sua nuova madre, la Regina delle Ali Spezzate. Quando
+            ha bruciato i resti di suo padre al santuario di Capomozzo è
+            cominciata la trasformazione, e la sua mano nuova a me piace poco.
+            Spero che quando offrirà Qir-Azel alle fiamme di Nhar'Kael sia
+            meno orrenda. Anche le succubi sono demoni, no?»
+
+            Liaren gira pagina e avvicina il diario alla lampada. La donna è
+            disegnata a carboncino come nelle altre, con i capelli lunghi e
+            chiari, ma qui ha due ali da
+            pipistrello che le escono dalle scapole e una mano nera e
+            artigliata posata sul ventre. In questo ritratto come in tutti gli
+            altri, Isvaro le ha ripassato gli occhi con un inchiostro viola.
+          imposta: { diario.amata: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Raccontarle di Isvaro"
+        descrizione: "Alla fornace Isvaro ti è scappato, e Liaren non ti ha ancora chiesto niente."
+        requisiti: [diario.fratello == 0, isvaro == 1]
+        costo: 0
+        esito:
+          titolo: La finestra del dormitorio
+          testo: |
+            Le racconti com'è scappato dalla fornace, e Liaren ti ascolta
+            senza staccare gli occhi dal samisen. «All'Accademia scappava dalla
+            finestra del dormitorio tutte le settimane» dice dopo un po'. «La
+            sera era sempre di ritorno per cena, perché i ragazzi tornano quando
+            hanno fame. Adesso c'è qualcun altro che gli dà da mangiare.» Gira
+            il pirolo finché la corda geme, e Brunella allunga una mano a
+            fermarle il polso.
+          imposta: { diario.fratello: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Raccontarle di Isvaro"
+        descrizione: "Isvaro è vivo, e l'hai lasciato alle guardie. Liaren non ti ha ancora chiesto dove."
+        requisiti: [diario.fratello == 0, isvaro == 2]
+        costo: 0
+        esito:
+          titolo: Il pane dolce
+          testo: |
+            Le dici che Isvaro è vivo, chiuso in una cella della Caserma con
+            le mani legate dietro la schiena, e Liaren annuisce piano a ogni
+            parola. «Quando torna, Galdrick proverà a farlo parlare» dice, e si
+            sistema il cuscino dietro la schiena. «Io a trovarlo non ci vado. Una volta ci andavo ogni settimana, con il pane dolce di
+            Brunella nel cestino, e lui lo mangiava tutto senza dire grazie.»
+            Sulla cassapanca, Brunella si guarda le mani.
+          imposta: { diario.fratello: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Raccontarle di Isvaro"
+        descrizione: "Isvaro è morto davanti alla fornace. Liaren vuole sapere come."
+        requisiti: [diario.fratello == 0, isvaro == 3]
+        costo: 0
+        esito:
+          titolo: I mozziconi
+          testo: |
+            Liaren ti chiede se ha detto qualcosa prima di morire, e tu le
+            racconti quello che ricordi. Ascolta con gli occhi sul samisen.
+            «Da piccolo aveva paura del buio» dice alla fine. «All'Accademia i
+            maestri gli spegnevano la candela tutte le sere, e io gli portavo
+            i mozziconi di nascosto.» Poi stringe il pirolo finché la corda si
+            spezza con un suono acuto.
+          imposta: { diario.fratello: 1 }
+          segue: il-diario-di-isvaro
+      - testo: "Portare il diario alla Cattedrale del Velo"
+        descrizione: "Un demone sotto la città e la Regina delle Ali Spezzate. Al Velo queste cose devono saperle."
+        immagine: personaggi/padre-vantes
+        requisiti: [diario.mappe == 1, diario.razzia == 1, diario.piano == 1, diario.amata == 1]
+        esito:
+          titolo: Le copie dei novizi
+          testo: |
+            Sali ai Quartieri Alti con il diario sotto la giubba. Padre Vantes
+            ti riceve in sacrestia e legge muovendo le labbra la traduzione che
+            Liaren ti ha scritto su un foglio a parte. Quando arriva alla
+            Regina delle Ali Spezzate la voce gli si abbassa. Chiama due
+            novizi e gli fa copiare le mappe per tutta la notte, e la mattina
+            dopo ti restituisce il diario legato con un nastro bianco.
+
+            «Il Velo pregherà» dice, con la mano sul tuo braccio. «Lei intanto
+            guardi in quel tunnel prima che ci guardi qualcun altro.» Le chiavi
+            di Ondrel ce le hai ancora in tasca.
+          effetti: { pista.acciaio: 1, rep.velo: 1 }
+      - testo: "Tenerlo per Galdrick"
+        descrizione: "Lo sceriffo è fuori città con le pattuglie. Quando torna, deve trovare tutto pronto."
+        immagine: personaggi/toren-galdrick
+        requisiti: [diario.mappe == 1, diario.razzia == 1, diario.piano == 1, diario.amata == 1]
+        esito:
+          titolo: Un rapporto per lo sceriffo
+          testo: |
+            Scendi alla Caserma e chiedi carta e penna al sergente di guardia,
+            che te le dà dopo averti guardato due volte. Scrivi tutto quello
+            che sai, dalle mappe ai nomi, e ti ci vuole un'ora buona. Il
+            sergente piega il foglio in quattro e lo infila nel cassetto con
+            l'etichetta *Galdrick*, accanto a una crosta di pane che è lì da
+            prima della razzia.
+
+            Il diario lo tieni tu finché lo sceriffo non torna. Le chiavi di
+            Ondrel le hai ancora in tasca, e il tunnel è sempre lì, sotto
+            l'Acciaieria.
+          effetti: { pista.acciaio: 1, rep.caserma: 1 }
+      - testo: "Tenerlo e non parlarne con nessuno"
+        descrizione: "Liaren te lo chiede con la mano sul tuo polso. Ondrel è morto, e il resto è roba di famiglia."
+        immagine: personaggi/liaren-tarvelin
+        requisiti: [diario.mappe == 1, diario.razzia == 1, diario.piano == 1, diario.amata == 1]
+        esito:
+          titolo: Roba di famiglia
+          testo: |
+            «Mio padre è morto» dice Liaren. «Se in città si sa di mia madre e
+            di Vesh, domani il Grifone si riempie di gente venuta a guardarmi
+            in faccia.» Chiude il diario e te lo mette in mano. «Tienilo tu.
+            Io adesso non lo voglio vicino.»
+
+            Brunella si schiarisce la voce dalla cassapanca. «Adesso posso
+            parlare?» chiede, e senza aspettare risposta scende a prendere la
+            zuppa per tutti e due. Le chiavi di Ondrel ce le hai in tasca, e il
+            tunnel dei contrabbandieri ti aspetta sotto l'Acciaieria.
+          effetti: { pista.acciaio: 1, rep.tarvelin: 1 }
+
+  # ------------------------------------------------------------ 6 · il tunnel dei contrabbandieri (la prima volta)
+  - id: il-tunnel-dei-contrabbandieri
+    presso: acciaieria-tarvelin
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: Il tunnel dei contrabbandieri
+    sommario: "Sotto l'Acciaieria c'è un muro smontato mattone per mattone, e dietro un tunnel che corre nella roccia per quasi un chilometro."
+    luogo: Acciaieria dei Tarvelin, i sotterranei
+    area: citta-bassa
+    requisiti: [pista.acciaio == 6, tunnel.segrete == 0]
+    testo: |
+      La porta delle consegne si apre con la chiave più grossa del mazzo di
+      Ondrel. Dentro fa freddo per la prima volta da quando l'Acciaieria
+      esiste, perché la fornace è spenta, e l'odore di metallo bruciato è
+      rimasto attaccato ai muri. Dalla sala di carico una scala di pietra
+      scende al magazzino sotterraneo dove si teneva la sabbia. Contro il
+      muro ci sono due carriole, e accanto alla scala qualcuno ha smontato
+      una parete di mattoni impilandoli in ordine, come si fa con la merce.
+      Dietro, un passaggio vecchio scende verso sud.
+
+      In fondo al passaggio c'è la stanza dove i contrabbandieri facevano i
+      loro conti, e dove Isvaro ha passato le ultime notti. Ci sono una
+      branda con la coperta per terra e un tavolo con le gambe incise di
+      tacche. Sulla mensola le bottiglie vuote sono allineate per altezza,
+      tutte con l'etichetta in fuori. *Anche ubriaco, le bottiglie le ha
+      messe in fila.* La mano ti va da sola al diario che hai in tasca.
+
+      Oltre la stanza comincia il tunnel, scavato nella roccia delle
+      fondamenta. Lo segui con la lampada per quasi un chilometro verso
+      nord-est, con il soffitto che ti sfiora i capelli e l'aria che si fa
+      più fredda a ogni curva. Alla fine c'è un muro di roccia liscia e il
+      tunnel si ferma lì. Sul pavimento, davanti al muro, la polvere è
+      battuta da molti piedi larghi.
+    opzioni:
+      - testo: "Cercare le giunture nella roccia"
+        descrizione: "I piedi larghi arrivano fino al muro e lì si fermano. Gli orchi da qualche parte sono passati."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Il masso finto
+          testo: |
+            Passi la lampada sulla roccia palmo per palmo, e in basso a
+            sinistra la luce non fa ombra dove dovrebbe farla. Ci appoggi la
+            mano e la mano entra nella pietra, fredda come l'acqua di un
+            pozzo. Il masso è un'illusione. Dall'altra parte c'è una caverna
+            con un mucchio di giacigli d'orco e gli avanzi dei loro pasti, e a
+            destra una porta di legno rinforzato, chiusa. A sinistra si aprono
+            due gallerie. Quella a est finisce in un crollo dopo centoventi
+            metri, e quella a ovest passa per un muro abbattuto da poco.
+          imposta: { tunnel.segrete: 1 }
+          vai: segrete-dell-ira
+        fallimento:
+          titolo: La roccia
+          testo: |
+            Per un'ora tasti la roccia in ginocchio e poi in punta di piedi,
+            finché le dita non sentono più niente e l'olio della lampada si
+            abbassa di un dito. La pietra è liscia e fredda dappertutto. Torni
+            indietro per il tunnel con la lampada che sfrigola, e nella stanza dei contrabbandieri ti siedi sulla branda di Isvaro
+            a riprendere fiato prima di risalire, con le bottiglie in fila che
+            ti guardano dalla mensola.
+          effetti: { tormento: 0.5 }
+      - testo: "Sentire il Mana nella roccia"
+        descrizione: "Un muro dove finisce un tunnel lungo un chilometro è un muro strano. Se è fatto di Mana, le dita lo sentono."
+        incantesimo: leggere-il-mana
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il formicolio
+          testo: |
+            Appoggi le dita alla roccia e lasci andare il Mana, e in basso a
+            sinistra senti un formicolio fitto, come di un arto che si
+            risveglia. Il masso è un incantesimo, e ci passi attraverso con
+            gli occhi chiusi. Dall'altra parte c'è una caverna con i giacigli
+            degli orchi e gli avanzi dei loro pasti, e a destra una porta di
+            legno rinforzato, chiusa. A sinistra la galleria a est finisce in
+            un crollo, mentre quella a ovest passa per un muro abbattuto da
+            poco.
+          imposta: { tunnel.segrete: 1 }
+          vai: segrete-dell-ira
+        fallimento:
+          titolo: Il ronzio
+          testo: |
+            Il Mana ti torna indietro tutto insieme, e per un momento senti la
+            roccia ronzare dentro i denti. Ti ritrovi seduto per terra, con la
+            lampada rovesciata e un sapore di rame in bocca. Il muro liscio è
+            sempre lì, e ti ci vuole un pezzo prima di avere voglia di
+            toccarlo di nuovo. Risali il tunnel con il ronzio ancora nelle
+            gengive, e in cima alla scala ti accorgi che stai stringendo le
+            chiavi di Ondrel fino a farti male.
+          effetti: { tormento: 0.5 }
+      - testo: "Appoggiarti al muro e spingere"
+        descrizione: "Le impronte finiscono contro il muro. Tu sei stanco, e il muro sembra fatto apposta per appoggiarcisi."
+        costo: 2
+        esito:
+          titolo: Dall'altra parte
+          testo: |
+            Ti appoggi al muro con la spalla per riprendere fiato, e la spalla
+            ci affonda dentro. Cadi in avanti attraverso la pietra, e per un
+            momento lungo non hai più né sopra né sotto. Atterri sui gomiti in
+            una caverna che puzza d'orco, in mezzo ai giacigli di paglia e agli
+            ossi spolpati. A sinistra, oltre una galleria crollata, c'è un muro abbattuto da
+            poco, e dietro la galleria va verso ovest.
+          imposta: { tunnel.segrete: 1 }
+          effetti: { tormento: 0.5 }
+          vai: segrete-dell-ira
+
+  # ------------------------------------------------------------ 6 · il ritorno nelle Segrete
+  - id: di-nuovo-nel-tunnel
+    presso: acciaieria-tarvelin
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: Di nuovo nel tunnel
+    sommario: "Le bottiglie di Isvaro sono ancora in fila sulla mensola, e il masso finto è dove l'hai lasciato."
+    luogo: Acciaieria dei Tarvelin, i sotterranei
+    area: citta-bassa
+    requisiti: [pista.acciaio == 6, tunnel.segrete >= 1]
+    testo: |
+      L'Acciaieria è chiusa e fredda come l'hai lasciata. Nella stanza dei
+      contrabbandieri le bottiglie di Isvaro sono ancora in fila sulla
+      mensola, e una si è rovesciata, forse per un topo. La rimetti dritta
+      senza pensarci, prima di accorgerti di averlo fatto. Poi c'è il
+      tunnel, lungo quasi un chilometro, e in fondo il masso che non c'è.
+
+      Ci passi attraverso con il fiato trattenuto, come l'ultima volta.
+      Nella caverna i giacigli degli orchi sono come li hai lasciati, e il
+      muro abbattuto a ovest aspetta con il suo mattone scritto a pece.
+    opzioni:
+      - testo: "Scendere nelle Segrete"
+        descrizione: "La strada fino alla statua la sai. Il resto lo rifai da capo."
+        esito:
+          titolo: La statua
+          testo: |
+            Sali per la galleria dritta fino alla sala della statua, e la
+            donna di marmo rosso ti guarda passare con la faccia storta dalla
+            rabbia, il libro della stella stretto contro il fianco. Il freddo
+            ti entra sotto i vestiti come l'altra volta, a cominciare dai
+            polsi. Controlli che la lampada abbia olio, ti stringi la cintura
+            di un buco e ti incammini verso le gallerie basse.
+          vai: segrete-dell-ira
+
+  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  - id: segrete-la-caverna-di-guardia
+    immagine: ambientazione/marea-grigia
+    titolo: La caverna di guardia
+    sommario: "In una caverna bassa qualcosa cammina avanti e indietro sulle gambe piegate al contrario."
+    luogo: Segrete dell'Ira, la caverna di guardia
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      Dove la galleria si allarga sulla destra c'è una caverna bassa, poco
+      più grande di una stanza. Dentro cammina avanti e indietro una figura
+      glabra e magra, alta quanto un uomo, sulle gambe piegate all'indietro
+      come quelle di un cane. Si muove a scatti e barcolla, e ogni volta
+      che si gira vedi la bocca. È troppo larga per la faccia, e dentro, al
+      posto dei denti, ci sono piccole mani con tre dita che si aprono e si
+      chiudono.
+
+      In un angolo i contrabbandieri hanno lasciato un sacco di farina
+      marcito da decenni, con il timbro di un mulino che a Qir-Azel non
+      esiste più. Lo stomaco ti si chiude, e le dita cercano l'impugnatura
+      prima che tu lo decida.
+    opzioni:
+      - testo: "Affrontarla"
+        descrizione: "È una sola, ed è magra. Le mani che ha in bocca però sono parecchie."
+        combattimento: una-colata
+        vittoria:
+          titolo: La pozza grigia
+          testo: |
+            Ti viene addosso a scatti, e le mani della bocca cercano la tua
+            faccia prima delle sue braccia. Quando la colpisci si apre come
+            cera calda e cola sul pavimento in una pozza grigia che fuma, con
+            un odore di capelli bruciati. Nella pozza, per un momento, ti
+            sembra di vedere una faccia d'uomo con la bocca aperta in un urlo,
+            poi la superficie si appiana. Passi oltre senza guardarla più, e
+            le mani ti tremano soltanto adesso.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        sconfitta:
+          titolo: La manica
+          testo: |
+            Le mani della bocca ti prendono il polso e tirano, con una forza
+            che da un corpo così magro non ti aspettavi. Ti liberi lasciandoci
+            la manica e un po' di pelle, e torni indietro di corsa nella
+            galleria, con il polso che brucia dove le dita ti hanno stretto.
+            Lei non ti segue. Riprende a camminare avanti e indietro come se tu
+            non fossi mai entrato, e dal buio della galleria senti il
+            ticchettio delle sue piccole mani che non si ferma.
+      - testo: "Passarle alle spalle quando si gira"
+        descrizione: "Va avanti e indietro sempre per lo stesso tratto. Prima o poi ti dà la schiena."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Otto passi
+          testo: |
+            Da dietro lo spigolo conti i passi. Sono otto all'andata e otto al
+            ritorno, e per girarsi le servono due respiri. Al terzo giro
+            scivoli dentro rasente la parete, con gli stivali in mano, mentre
+            lei guarda il muro in fondo. Quando si volta sei già nella galleria
+            dall'altra parte, con la schiena incollata alla pietra e il cuore
+            in gola, e la senti ricominciare a contare i suoi otto passi.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Il sacco di farina
+          testo: |
+            A metà strada urti il sacco marcito, che si apre con uno sbuffo di
+            polvere grigia. La figura si gira di colpo, e le mani della bocca
+            si allungano verso di te. Ti graffiano il collo mentre torni di
+            corsa nella galleria, e la polvere della farina ti si attacca alla
+            ferita. Ti fermi solo quando non senti più il ticchettio delle
+            dita, e ti pulisci il collo con la manica finché smette di
+            sanguinare.
+          effetti: { ferite: 0.5 }
+      - testo: "Calmare il respiro e passarle accanto"
+        descrizione: "Gira la testa verso ogni rumore. Forse sente anche il fiato di chi ha paura."
+        prova: { attributo: mentale, abilita: [resilienza, percezione], difficolta: Media }
+        successo:
+          titolo: Il fiato lento
+          testo: |
+            La guardi a lungo prima di muoverti, e capisci che si volta verso
+            chi respira in fretta, più che verso chi cammina. Rallenti il
+            fiato finché lo senti appena, e attraversi la caverna a passo
+            normale contando fra te e te, come quando da bambino non riuscivi
+            a dormire. Ti passa a un braccio di distanza, con le piccole mani
+            che si aprono nell'aria, e non si gira.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Il fiato corto
+          testo: |
+            Ci provi, ma a tre passi da lei il respiro ti scappa di mano e si
+            fa corto. La testa glabra si gira verso di te tutta in una volta, e
+            le piccole mani si tendono fuori dalla bocca. Torni indietro
+            camminando all'indietro, senza toglierle gli occhi di dosso, e lei
+            ti segue fino all'imbocco della galleria. Lì si ferma e resta a
+            guardarti con la bocca aperta finché la lampada non gira l'angolo.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che si allontani"
+        descrizione: "Prima o poi andrà in fondo alla caverna. Bisogna restare accucciati al buio ad ascoltarla."
+        costo: 2
+        esito:
+          titolo: Il ticchettio
+          testo: |
+            Ti accucci nella galleria con la lampada coperta e aspetti. Per
+            un'ora senti il ticchettio delle piccole dita avvicinarsi e
+            allontanarsi, e a un certo punto ti accorgi che lo stai contando
+            a mezza voce. Quando finalmente si ferma in fondo alla caverna,
+            passi rasente il muro opposto con le ginocchia rigide, e quel
+            rumore ti resta nelle orecchie per tutta la galleria successiva.
+          effetti: { profondita.segrete-dell-ira: 1, tormento: 0.5 }
+
+  - id: segrete-la-vasca-dei-teschi
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La vasca dei teschi
+    sommario: "Sopra una vasca d'acqua ferma, con i teschi allineati sul bordo, vola una testa senza corpo."
+    luogo: Segrete dell'Ira, la vasca di purificazione
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      In una stanza rotonda c'è una vasca di pietra piena d'acqua ferma, così
+      limpida che vedi le incisioni sul fondo. Lungo il bordo corre una fila
+      di teschi, messi a distanza regolare e girati tutti verso l'acqua. Uno
+      ha nell'orbita un sasso di fiume liscio e chiaro, messo lì da un
+      contrabbandiere che aveva voglia di scherzare, o paura di essere
+      guardato.
+
+      Sopra la vasca svolazza una testa grande come quella di un cavallo,
+      senza corpo, sorretta da due ali di pipistrello che battono troppo in
+      fretta. Dal mento e dallo scalpo le pendono tentacoli lunghi un
+      braccio, e le zanne sono tante che la bocca non riesce a chiudersi. Ti
+      vede subito e si gira verso di te, e le ginocchia ti si piegano un poco
+      da sole.
+    opzioni:
+      - testo: "Aspettarla e colpirla"
+        descrizione: "Prima o poi ti viene addosso. Meglio che ti trovi pronto."
+        combattimento: testa-alata
+        vittoria:
+          titolo: Nell'acqua
+          testo: |
+            Ti piomba addosso con la bocca aperta, e i tentacoli ti si
+            avvolgono intorno al braccio con cui ti ripari. Il colpo giusto
+            arriva quando si alza per riprendere slancio. La testa cade nella
+            vasca, l'acqua si fa scura intorno alle ali e poi torna limpida,
+            come se non fosse successo niente. Ti togli dal braccio un
+            tentacolo rimasto attaccato, che si stacca con uno schiocco
+            umido, e passi oltre tenendo il braccio lontano dal corpo.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        sconfitta:
+          titolo: I tentacoli
+          testo: |
+            I tentacoli ti prendono alla faccia e le zanne ti aprono la
+            spalla. Ti butti a terra e rotoli fino alla porta, e la testa ti
+            insegue sbattendo le ali contro il soffitto. Fuori dalla stanza
+            smette di seguirti e torna a svolazzare sopra la vasca come prima.
+            Ti premi la manica sulla spalla per fermare il sangue, e dal
+            corridoio la senti respirare con un rumore di mantice bucato.
+      - testo: "Tenerla lontana con la lampada e correre"
+        descrizione: "Ha le ali di un pipistrello. Forse anche gli occhi."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: La luce in faccia
+          testo: |
+            Alzi la lampada più che puoi e gliela spingi verso gli occhi, e la
+            testa si ritrae sbattendo le ali. Corri intorno alla vasca tenendo
+            la luce alta, saltando i teschi del bordo, e quando ti ritrovi
+            dall'altra parte lei è ancora appesa al soffitto, a sbattere le
+            palpebre. Esci con il braccio che trema per il peso della lampada.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Il teschio
+          testo: |
+            Inciampi in un teschio del bordo, e la lampada ti oscilla in mano
+            facendo ballare tutta la stanza. La testa ti arriva addosso dal
+            lato buio e ti morde il polpaccio, e le zanne ti restano nella
+            carne per un momento lungo prima che riesca a strappartela via.
+            Torni alla porta zoppicando e sbattendo la lampada contro l'aria,
+            finché le ali si allontanano verso il soffitto.
+          effetti: { ferite: 0.5 }
+      - testo: "Lanciarle qualcosa che sappia di morto"
+        descrizione: "Queste creature girano dove ci sono resti. Sul bordo della vasca ce ne sono parecchi."
+        prova: { attributo: mentale, abilita: [natura, accademiche], difficolta: Media }
+        successo:
+          titolo: Il teschio dal sasso nell'occhio
+          testo: |
+            Prendi dal bordo il teschio più vicino, quello con il sasso
+            nell'orbita, e lo lanci nel corridoio da cui sei venuto. La testa
+            ci si butta dietro con un verso acuto, come un cane dietro a un
+            osso. Mentre la senti rosicchiare nel buio attraversi la stanza
+            dall'altra parte senza correre, e ti scusi a mezza voce con il
+            padrone del teschio, chiunque fosse.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Troppo pulito
+          testo: |
+            Il teschio che lanci è vecchio e pulito, e la testa non lo degna di
+            uno sguardo. Guarda te, che sei più fresco. Scende in picchiata
+            prima che tu possa prenderne un altro, e devi ritirarti nel
+            corridoio con le braccia sopra la testa, mentre le ali ti sbattono
+            contro la faccia. Il teschio rotola fino al bordo della vasca e si
+            ferma lì, con le orbite girate verso di te.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare a testa bassa e lasciarla mordere"
+        descrizione: "La stanza è piccola. Qualche morso, e sei dall'altra parte."
+        costo: 2
+        esito:
+          titolo: I morsi
+          testo: |
+            Ti tiri la giubba sopra la testa e attraversi la stanza di corsa,
+            girando intorno alla vasca. Ti morde due volte sulla spalla e una
+            sulla mano, e i tentacoli ti lasciano sulla pelle una bava che
+            pizzica. Dall'altra parte ti fasci la mano con un lembo della
+            camicia, stringendo il nodo con i denti, e vai avanti senza
+            voltarti mentre alle tue spalle le ali continuano a battere.
+          effetti: { profondita.segrete-dell-ira: 1, ferite: 0.5 }
+
+  - id: segrete-l-antica-prigione
+    immagine: ambientazione/marea-grigia
+    titolo: L'antica prigione
+    sommario: "Venti celle intorno a una sala, la piattaforma di legno marcio e, in mezzo, due figure glabre che ti hanno già visto."
+    luogo: Segrete dell'Ira, l'antica prigione
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      Esci su una piattaforma di legno che si affaccia su una sala grande,
+      tre metri più in basso. Intorno, lungo i muri, ci sono venti celle con
+      le sbarre mangiate dalla ruggine, e dalla piattaforma due scale
+      scendono fino al pavimento. Lungo il bordo nord corre una passerella
+      larga un metro e mezzo, che porta a un passaggio verso est. Il legno
+      sotto i tuoi piedi è nero e molle, e scricchiola a ogni respiro.
+
+      In mezzo alla sala ci sono due figure glabre, sulle gambe piegate al
+      contrario. Si girano verso di te insieme e vengono verso le scale a
+      passo svelto, con le piccole mani che si agitano nella bocca. Sul muro
+      di una cella, a carbone, qualcuno ha disegnato una finestra con le
+      tende e un vaso di fiori sul davanzale.
+    opzioni:
+      - testo: "Aspettarle in cima alle scale"
+        descrizione: "Sono due. Dalla piattaforma però arrivano una alla volta."
+        combattimento: due-colate
+        vittoria:
+          titolo: In cima alle scale
+          testo: |
+            La prima sale le scale a scatti e la colpisci quando mette il piede
+            sull'ultimo gradino. Cola giù sopra la seconda in una pioggia
+            grigia che fuma. La seconda ci passa attraverso, e ti ci vuole più
+            tempo, con la piattaforma che ondeggia sotto di voi. Quando è
+            finita prendi la passerella verso est, e ti fermi a riprendere
+            fiato soltanto nel passaggio.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        sconfitta:
+          titolo: La piattaforma
+          testo: |
+            Ti arrivano addosso tutte e due insieme, e le mani delle loro bocche
+            ti prendono ai vestiti. Riesci a strapparti via lasciandoci mezza
+            giubba e torni indietro nel corridoio da cui sei venuto,
+            sanguinando da un orecchio. Le figure si fermano sul bordo della
+            piattaforma e restano lì a guardare il buio dove sei sparito, una
+            accanto all'altra, con le piccole mani ferme nella bocca.
+      - testo: "Correre lungo la passerella"
+        descrizione: "Un metro e mezzo di legno vecchio fino al passaggio a est. Loro devono prima salire le scale."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La scala rotta
+          testo: |
+            Corri sulla passerella mentre loro salgono, e il legno ti si piega
+            sotto gli stivali senza rompersi. Arrivato all'imbocco del
+            passaggio ti giri e dai un calcio al montante della scala più
+            vicina, che crolla con i suoi gradini marci e si porta dietro anche
+            l'altra. Le due figure restano sotto, a graffiare il muro con le
+            dita della bocca, e il rumore ti accompagna per un pezzo lungo il
+            passaggio.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: L'asse
+          testo: |
+            A metà passerella un'asse cede, e la gamba ti va giù fino al
+            ginocchio. La tiri fuori lasciandoci un pezzo di calzone e di
+            pelle, e torni indietro di corsa mentre la prima figura arriva in
+            cima alle scale. Ti chiudi nel corridoio a respirare, con la gamba
+            che sanguina dentro lo stivale. Ogni volta che appoggi il piede
+            senti il sangue che fa un piccolo rumore bagnato.
+          effetti: { ferite: 0.5 }
+      - testo: "Farle salire sulla piattaforma e farla cedere"
+        descrizione: "Le travi sono marce. Il punto dove cedono sta a te trovarlo, e a loro arrivarci."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Le travi marce
+          testo: |
+            Guardi da dove nascono le travi e trovi quella che regge mezza
+            piattaforma, nera di muffa dove entra nel muro. Ti sposti sulla
+            passerella, che è piantata nella roccia, e aspetti. Quando le due
+            figure salgono e ti vengono incontro, la trave si spezza sotto il
+            loro peso, e precipitano di sotto in mezzo alle assi. Passi verso
+            est senza guardare giù.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: La trave sbagliata
+          testo: |
+            Scegli la trave sbagliata. La piattaforma ondeggia sotto i tuoi
+            piedi invece che sotto i loro, e per un momento lungo vedi il
+            pavimento della sala tre metri più in basso. Ti butti all'indietro
+            nel corridoio, con le mani piene di schegge e le figure che
+            arrivano in cima alle scale. Passi il resto del tempo seduto al
+            buio, a toglierti le schegge con le unghie una per una.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiuderti in una cella e aspettare"
+        descrizione: "La cella con la finestra disegnata ha ancora la porta. Le sbarre reggono, forse."
+        costo: 2
+        esito:
+          titolo: La finestra di carbone
+          testo: |
+            Scendi di corsa per la scala più lontana e ti chiudi nella cella
+            con la finestra disegnata, tenendo la porta con tutte e due le
+            mani. Le due figure graffiano le sbarre per un'ora, a un palmo dalla
+            tua faccia. Poi se ne vanno. Esci con le dita che non si aprono e
+            prendi la passerella verso est, e il vaso di fiori a carbone ti
+            resta negli occhi.
+          effetti: { profondita.segrete-dell-ira: 1, tormento: 0.5 }
+
+  - id: segrete-la-sala-degli-interrogatori
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La sala degli interrogatori
+    sommario: "Strumenti di tortura di un'epoca che non conosci, e una stella di legno piena di uncini davanti all'unica uscita."
+    luogo: Segrete dell'Ira, la sala degli interrogatori
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      La sala è piena di strumenti fatti per far male, in uno stile che non
+      hai mai visto. In un angolo c'è una gabbia sferica con le punte rivolte verso l'interno. Al centro sta un tavolo
+      lungo coperto di cinghie di cuoio, con una fila di leve che dovevano
+      farlo girare e avanzare a scatti. Una delle cinghie è stata riparata,
+      chissà quando, con un pezzo di cuoio più chiaro cucito a punti fitti e
+      regolari, da un artigiano che ci teneva al lavoro fatto bene.
+
+      L'unica uscita è un passaggio basso nella parete opposta, e davanti ci
+      sta una struttura di legno a forma di stella, alta più di te, con la
+      superficie piena di uncini. Il legno è secco e grigio, e gli uncini
+      sono arrugginiti ma ancora appuntiti. Ti accorgi di tenere le mani
+      chiuse a pugno, con i pollici dentro.
+    opzioni:
+      - testo: "Spostare la stella di legno"
+        descrizione: "È pesante, e gli uncini sono dappertutto. Bisogna prenderla dal centro."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il centro della stella
+          testo: |
+            Infili le braccia fra due punte fino al mozzo e la sollevi di un
+            palmo, con il legno che geme e gli uncini a un dito dalle guance.
+            La trascini di lato un passo alla volta. Quando la posi, il
+            passaggio è libero e tu hai le braccia che tremano e un graffio
+            sottile sul collo, che ti accorgi di avere soltanto dopo.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Gli uncini
+          testo: |
+            La stella è più pesante di quanto sembra, e quando ti scivola di
+            mano gli uncini ti prendono l'avambraccio. Ti liberi strappando la
+            manica, e il sangue ti cola fino al polso. La stella è rimasta
+            davanti al passaggio, appena storta. Torni indietro a fasciarti,
+            con il braccio tenuto contro il petto e la ruggine degli uncini
+            che ti preoccupa più del taglio.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire come si smonta"
+        descrizione: "Una cosa così non la porti dentro intera. Qualcuno l'ha montata qui, e si può smontare."
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il perno
+          testo: |
+            Dietro il braccio più basso della stella trovi un perno di ferro
+            infilato in un anello murato. Lo sfili con due colpi del palmo, e
+            la stella gira su se stessa come una porta, aprendo il passaggio.
+            Chi l'ha costruita sapeva il fatto suo, e ci teneva quanto quello
+            della cinghia. La richiudi dietro di te, perché in fondo al
+            passaggio ti sembra di sentire dei passi.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Le leve
+          testo: |
+            Tiri il perno sbagliato, che è legato con una catena alle leve del
+            tavolo. Il tavolo dà uno scatto e poi un altro, e le cinghie si
+            tendono intorno a niente, alla misura di un uomo sdraiato. Resti
+            fermo con il cuore che batte finché si fermano. Per un pezzo non
+            hai voglia di toccare nient'altro, e quando ci riprovi lo fai con
+            la punta delle dita.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare sotto, fra gli uncini"
+        descrizione: "Fra il pavimento e la punta più bassa c'è spazio per un corpo, se il corpo non ha fretta."
+        costo: 2
+        esito:
+          titolo: Sotto la stella
+          testo: |
+            Ti stendi sulla pancia e strisci sotto la punta più bassa, con la
+            guancia sulla pietra fredda. A metà un uncino ti si impiglia nella
+            giubba e un altro ti graffia la schiena, e per liberarti devi
+            tornare indietro di un palmo e ricominciare. Esci dall'altra parte
+            con la polvere in bocca e la camicia incollata alla schiena, e ti
+            ci vuole un momento prima di rimetterti in piedi.
+          effetti: { profondita.segrete-dell-ira: 1, ferite: 0.5 }
+
+  - id: segrete-lo-studio-delle-sette-punte
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Lo studio delle sette punte
+    sommario: "Sedie crollate, libri ridotti in frammenti e tre porte di pietra con la stessa stella incisa sopra."
+    luogo: Segrete dell'Ira, l'antico studio
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      Il pavimento è ingombro dei resti di un tavolo lungo e di una decina di
+      sedie crollate su se stesse, e fra il legno marcio ci sono frammenti di
+      libri e di pergamene, a centinaia, coperti di una scrittura spigolosa
+      che sembra fatta a punta di coltello. Sulla parete sud ci sono tre
+      porte di pietra basse e strette come quelle di una cella, e su ognuna
+      è incisa una stella a sette punte, la stessa del libro della
+      statua.
+
+      In mezzo ai frammenti c'è un tappo di sughero nuovo, chiaro, che
+      odora ancora di vino. Lo rigiri fra le dita. *Qui sotto qualcuno ha
+      stappato una bottiglia, e non molto tempo fa.* Le tre porte sono
+      chiuse, e dietro almeno una la strada deve continuare.
+    opzioni:
+      - testo: "Leggere i frammenti"
+        descrizione: "La scrittura è antica, ma le figure si capiscono. Fra tanti fogli ci sarà una pianta."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: La pianta
+          testo: |
+            Delle parole non capisci niente. Su un frammento più grande degli
+            altri, però, c'è il disegno di queste stanze, con la stella a sette
+            punte segnata accanto a ogni porta. Accanto a quella di destra c'è
+            un segno in più, una freccia che scende. Spingi la porta di destra
+            con la spalla e si apre su una galleria che va in basso.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Le punte di coltello
+          testo: |
+            Più guardi la scrittura spigolosa e più le lettere ti sembrano
+            muoversi sul foglio, una punta dopo l'altra. Ti viene un dolore
+            dietro gli occhi che non passa, e quando alzi la testa non sai più
+            quanto tempo è passato. La lampada ha consumato più olio di quanto
+            pensavi, e le tre porte sono ancora chiuse. Rimetti giù il foglio
+            con cura, come se qualcuno dovesse tornare a cercarlo.
+          effetti: { tormento: 0.5 }
+      - testo: "Spingere le porte una per una"
+        descrizione: "Tre porte di pietra. Una si aprirà, se le spalle reggono."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La terza porta
+          testo: |
+            La prima non si muove e la seconda nemmeno. La terza cede di un
+            dito alla prima spinta e di un palmo alla seconda, con un rumore di
+            pietra su pietra che ti fa stringere i denti. Ci passi di fianco
+            con la spalla indolenzita, e dall'altra parte trovi una galleria
+            che scende. Prima di andare ti volti a guardare le altre due porte,
+            e sei contento di non averle aperte.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: La spalla
+          testo: |
+            Spingi finché la spalla ti manda una fitta che arriva fino al
+            collo, e le tre porte restano dove sono. Ti siedi su quello che
+            resta di una sedia a massaggiarti il braccio. Da dietro la porta
+            di mezzo, mentre stai lì, arriva un colpo solo, sordo, come di
+            qualcuno che ha sentito bussare e risponde. Ti alzi e te ne vai
+            senza aspettare il secondo.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire l'odore del vino"
+        descrizione: "Chi ha perso il tappo è passato per una di queste porte, e la bottiglia l'aveva aperta."
+        costo: 2
+        esito:
+          titolo: Il vino di Isvaro
+          testo: |
+            Ti chini davanti a ogni porta e annusi la fessura, a lungo, con la
+            faccia sulla pietra. Dalla terza arriva un filo debole di vino
+            rosso, e sotto c'è un odore di pietra bagnata. Ti ci vuole tutto il
+            peso del corpo per aprirla. Il freddo che arriva dall'altra parte
+            ti entra nel petto e ti resta addosso per un pezzo, e la spalla con
+            cui hai spinto ti fa male fino a sera.
+          effetti: { profondita.segrete-dell-ira: 1, tormento: 0.5 }
+
+  - id: segrete-la-camera-sospesa
+    immagine: ambientazione/mito-occhio-nel-cristallo
+    titolo: La camera sospesa
+    sommario: "Una stanza rotonda come una bolla, dove le cose galleggiano a mezz'aria e le pareti scrivono da sole."
+    luogo: Segrete dell'Ira, la camera di meditazione
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      La stanza è una sfera larga quattro metri e mezzo, e appena ci metti
+      dentro la testa i capelli ti si alzano dalla nuca. Al primo passo i
+      piedi si staccano da terra. A mezz'aria galleggiano pigramente un corvo
+      morto, circondato da un alone di vermi che si contorcono nel vuoto, e
+      una bacchetta di ferro contorto con la punta biforcuta. C'è anche una
+      bottiglia di vino rosso con un nastro legato al collo, piena per tre
+      quarti, che gira piano su se stessa.
+
+      Le pareti sono rivestite di lamine di un metallo rosso, e ogni tanto le
+      attraversa una scarica nera, senza rumore. Le scariche prendono la
+      forma di rune, a volte di parole intere, troppo spesso perché sia un
+      caso. L'uscita è un'apertura tonda dall'altra parte della sfera, e lo
+      stomaco ti sale in gola come quando un ponte ondeggia.
+    opzioni:
+      - testo: "Afferrare la bacchetta quando ti passa vicino"
+        descrizione: "Le cose qui dentro girano sempre allo stesso modo. Basta mettersi dove passerà."
+        immagine: icone/crystal-wand
+        requisiti: [oggetto.bacchetta-della-stretta-folgorante == 0]
+        prova: { attributo: mentale, abilita: [percezione, tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: La bacchetta
+          testo: |
+            Guardi gli oggetti girare finché ne impari il giro lento e sempre
+            uguale. Poi ti spingi piano lungo la parete fino al punto dove la
+            bacchetta passerà. Ti arriva in mano da sola. È fredda e pesa più
+            di quanto sembra, e per un momento fra le due punte
+            scocca una scintilla nera. La infili nella cintura e ti lasci
+            portare fino all'uscita.
+          effetti: { oggetto.bacchetta-della-stretta-folgorante: 1, profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Il corvo
+          testo: |
+            Sbagli il giro, e invece della bacchetta ti arriva in faccia il
+            corvo morto con il suo alone di vermi. Lo respingi con il braccio,
+            e i vermi ti si attaccano alla manica e ci restano. Ti tiri fuori
+            dalla sfera per la stessa apertura da cui sei entrato, e ti ci
+            vuole un pezzo per toglierteli tutti di dosso.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversarla a bracciate"
+        descrizione: "Ti dai la spinta dalla soglia e speri di arrivare dall'altra parte senza toccare le pareti."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: La spinta
+          testo: |
+            Ti accucci sulla soglia e ti dai la spinta con tutte e due le
+            gambe. Attraversi la sfera dritto, con le braccia avanti, sfiorando
+            la bottiglia che si mette a girare più in fretta. Prendi il bordo
+            dell'uscita con le dita e ti tiri fuori, e il peso ti ricade
+            addosso tutto in una volta, fino nelle ginocchia. Resti un momento
+            a quattro zampe sulla pietra, contento di sentirla sotto le mani.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: La parete rossa
+          testo: |
+            La spinta è storta, e invece dell'uscita vai a sbattere contro la
+            parete. Una scarica nera ti corre lungo il braccio fino alla spalla
+            senza fare rumore, e ti lascia la mano addormentata. Per un attimo
+            sotto la pelle del polso vedi una runa che non è tua. Ti trascini
+            indietro lungo le lamine fino alla soglia da cui sei entrato, e la
+            mano ti torna sensibile soltanto dopo, un dito alla volta.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere i lampi sulle pareti"
+        descrizione: "Le scariche formano parole in una scrittura antica. Forse dicono qualcosa di utile."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: Le parole nere
+          testo: |
+            Le parole sono spigolose come quelle dei libri dello studio, e
+            ogni tanto ne riconosci una. Parlano di collera e di vendetta e non
+            finiscono mai una frase. Capisci però che le scariche corrono tutte
+            verso l'uscita, come acqua verso uno scolo. Ti lasci tirare piano
+            dalla loro parte e arrivi all'apertura senza fatica, e prima di
+            uscire ti accorgi che stai ancora cercando di leggere.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: La frase che manca
+          testo: |
+            Le parole ti entrano negli occhi e ci restano. Dicono rabbia e poi
+            vendetta, e poi di nuovo rabbia, sempre a un passo dal diventare
+            una frase intera. Ti accorgi di avere i pugni stretti e la mascella
+            che fa male. Esci dalla sfera all'indietro, e la frase che manca
+            ti resta in testa per tutta la galleria, con un buco in mezzo dove
+            dovrebbe esserci il verbo.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciarti andare alla deriva"
+        descrizione: "Prima o poi il giro lento ti porta dall'altra parte. Insieme al corvo."
+        costo: 2
+        esito:
+          titolo: In compagnia del corvo
+          testo: |
+            Ti lasci staccare da terra e aspetti, a mezz'aria, che il giro
+            lento ti porti dove vuoi. Ci vuole più di un'ora. Il corvo morto
+            ti passa accanto tre volte, e alla terza un verme ti si posa sulla
+            guancia. Quando le dita toccano il bordo dell'uscita ti ci
+            aggrappi forte, e il primo passo fuori ti fa barcollare come
+            quando si scende da una barca.
+          effetti: { profondita.segrete-dell-ira: 1, tormento: 0.5 }
+
+  - id: segrete-il-santuario
+    immagine: ambientazione/mito-regina-ali-spezzate
+    titolo: Il santuario
+    sommario: "In cima a pochi gradini c'è un altare di marmo nero, e nel bacile c'è un'acqua che ti fa venire sete."
+    luogo: Segrete dell'Ira, il santuario
+    area: segrete-dell-ira
+    ripetibile: true
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    testo: |
+      La galleria si allarga in quello che doveva essere un piccolo
+      santuario. Una scala di pochi gradini sale a nord-est fino a una
+      piattaforma di pietra grigia, e sulla piattaforma c'è un altare, un
+      blocco consunto di marmo nero con un bacile poco profondo al centro.
+      Nel bacile c'è un'acqua torbida e ferma che sembra sporca, e che non
+      ha nessun odore.
+
+      Sui gradini ci sono impronte d'orco nel fango secco. Salgono fino
+      all'altare con un passo normale, e scendono più larghe e trascinate,
+      come se chi le ha fatte fosse diventato più pesante lassù. Ai piedi
+      dell'altare c'è una ciotola di legno con i segni dei denti sul bordo.
+      Hai la gola secca da quando sei sceso, e adesso te ne accorgi.
+    opzioni:
+      - testo: "Capire che cosa c'è in quell'acqua"
+        descrizione: "Un'acqua senza odore non esiste. Questa ne ha uno che non si sente."
+        prova: { attributo: mentale, abilita: [medicina, resilienza], difficolta: Media }
+        successo:
+          titolo: L'acqua che lavora
+          testo: |
+            Ti avvicini quanto basta e guardi l'acqua alla luce della lampada,
+            senza respirarci sopra. Sul fondo del bacile c'è un deposito
+            grigio, come quello che resta nei bicchieri degli speziali, e
+            intorno all'altare manca ogni insetto, perfino quelli morti. In una
+            cantina di Qir-Azel le blatte non mancano mai. Ti asciughi la bocca
+            con il dorso della mano e scendi dall'altra parte senza voltarti,
+            con la sete che ti segue per un pezzo.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: La sete
+          testo: |
+            Più guardi l'acqua e più la gola ti brucia. Ti ritrovi chino sul
+            bacile con le mani a coppa, e ti fermi quando il naso è a un dito
+            dalla superficie. Torni giù per i gradini a passi lunghi e ti
+            siedi contro la parete della galleria, con la lingua che ti si
+            attacca al palato. Ci metti un pezzo a convincere le mani a
+            smettere di fare la coppa.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare di corsa, trattenendo il fiato"
+        descrizione: "Una cosa che fa venire sete si supera come si supera una cantina che puzza."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Senza fiato
+          testo: |
+            Riempi i polmoni e sali i gradini due alla volta. Giri intorno
+            all'altare senza guardare il bacile e ti butti giù dall'altra
+            parte, con il fiato che comincia a bruciare. Respiri soltanto
+            quando sei in fondo alla galleria, piegato in due con le mani sulle
+            ginocchia, e ti accorgi che la gola ti brucia meno di prima. Dietro
+            di te l'acqua del bacile non ha fatto nemmeno un'increspatura.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Il gradino
+          testo: |
+            All'ultimo gradino il piede scivola nel fango secco, e cadi con le
+            ginocchia sulla pietra, a un braccio dall'altare. Il respiro ti
+            esce tutto insieme e quello che rientra sa di ferro. Il bacile è
+            lì, all'altezza della tua faccia. Torni indietro a quattro zampe
+            senza guardarlo, con le ginocchia che sanguinano e la gola in
+            fiamme, e ti rialzi soltanto in fondo ai gradini.
+          effetti: { ferite: 0.5 }
+      - testo: "Girare largo, rasente la parete"
+        descrizione: "C'è un passaggio stretto lungo il muro, lontano dall'altare. È lungo, e l'acqua si sente lo stesso."
+        costo: 2
+        esito:
+          titolo: Rasente il muro
+          testo: |
+            Giri intorno al santuario con la schiena contro la parete e gli
+            occhi sul pavimento, un passo laterale alla volta. Ci metti un'ora,
+            e per tutto il tempo hai in bocca il pensiero dell'acqua, come una
+            canzone che non se ne va. Dall'altra parte bevi un sorso dalla tua
+            borraccia, e poi un altro, e l'acqua della città ti sembra sapere
+            di latta più del solito.
+          effetti: { profondita.segrete-dell-ira: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ Uzgreth alle fosse (facoltativo)
+  - id: uzgreth-alle-fosse
+    immagine: personaggi/uzgreth
+    titolo: Uzgreth alle fosse
+    sommario: "Una camera fredda con undici portelli nel pavimento, e un orco deforme con uno spadone da ogre che ne fa la guardia."
+    luogo: Segrete dell'Ira, le fosse dei prigionieri
+    area: segrete-dell-ira
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira >= 2, oggetto.spadone-di-uzgreth == 0]
+    testo: |
+      La camera è più fredda delle altre, con il soffitto ad arco che sale a
+      sei metri. Sul pavimento ci sono undici portelli di legno sparsi senza
+      ordine, ognuno sopra una fossa larga un metro e mezzo, e dal buio sotto
+      i portelli salgono rumori soffocati. Ogni tanto si sente un gemito
+      sordo, e poi niente.
+
+      In mezzo ai portelli c'è un orco più tozzo e più largo di qualunque
+      orco tu abbia visto, con la pelle di un colore malato e gli occhi rossi
+      di sangue. Regge con tutte e due le mani uno spadone enorme di
+      ottima fattura, che tiene come si tiene un bastone da pastore.
+      *La spada da ogre dei Nove Chiodi, quella che secondo Ilvaena era
+      troppo grande anche per lui.* Adesso gli sta in mano come se
+      l'avessero forgiata su misura.
+
+      Quando parla, la sua voce è più bassa di quella di qualunque orco, e
+      sembra salire dal fondo delle fosse insieme ai gemiti.
+
+      «Il Demone ha chiesto a Uzgreth di guardare il suo gregge» dice.
+      «Uzgreth fa quello che dice il Demone, e il Demone dice di squartare
+      gli intrusi insolenti.» Sposta il peso da un piede all'altro, e un
+      portello sotto di lui scricchiola.
+    opzioni:
+      - testo: "Affrontarlo"
+        descrizione: "È enorme, e lo spadone gli sta in mano come un giocattolo. Però è lento, e lo sa anche lui."
+        combattimento: le-fosse
+        vittoria:
+          titolo: Lo spadone
+          testo: |
+            Uzgreth mena colpi che spaccano i portelli e fanno volare le
+            schegge, e dalle fosse aperte si alzano mani grigie. Tu resti
+            sempre dove lui non arriva. Quando finalmente cade lungo disteso,
+            lo spadone gli scivola dalle dita. Lo raccogli con tutte e due le
+            mani, e pesa quanto un bambino. Sotto i portelli rotti i morti
+            delle fosse si agitano, ma non salgono.
+          effetti: { oggetto.spadone-di-uzgreth: 1, profondita.segrete-dell-ira: 1, racconto: 1 }
+        sconfitta:
+          titolo: Il gregge
+          testo: |
+            Lo spadone ti prende di piatto e ti manda a sbattere contro un
+            portello, che si apre sotto di te. Per un attimo hai le gambe nel
+            buio della fossa e qualcosa di freddo ti stringe la caviglia. Ti
+            tiri fuori a forza di braccia e scappi dalla camera, e Uzgreth non
+            ti insegue. Lo senti ripetere che il Demone sarà contento.
+      - testo: "Fargli mettere il piede su un portello"
+        descrizione: "I portelli scattano come trappole. Uno sotto quel peso deve essere il più marcio."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il portello marcio
+          testo: |
+            Guardi i portelli uno per uno finché trovi quello con i cardini
+            mangiati dalla ruggine, e ti metti dall'altra parte, a provocarlo.
+            Uzgreth ti viene incontro dritto, perché è così che fa tutto. Il
+            portello scatta sotto il suo piede e lui va giù nella fossa fino
+            alle spalle, e lo spadone, troppo largo, resta di traverso sul
+            bordo. Dal fondo i morti lo tirano per le gambe. Prendi lo spadone
+            e te ne vai prima di sentire come finisce.
+          effetti: { oggetto.spadone-di-uzgreth: 1, profondita.segrete-dell-ira: 1, racconto: 1 }
+        fallimento:
+          titolo: Il portello sbagliato
+          testo: |
+            Il portello che hai scelto regge, e Uzgreth ti arriva addosso con
+            lo spadone alto. La lama ti apre la coscia mentre ti butti di lato,
+            e scappi dalla camera trascinando la gamba. Da dietro arriva la
+            sua voce profonda, che conta i portelli uno per uno mentre tu li
+            scavalchi. Ti fermi a stringere la coscia con la cintura soltanto
+            quando la voce non si sente più.
+          effetti: { ferite: 1 }
+      - testo: "Dirgli che ti manda il Demone"
+        descrizione: "Uzgreth obbedisce al Demone. Non è detto che sappia riconoscere chi parla per lui."
+        prova: { attributo: sociale, abilita: [ingannare, persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Gli ordini del Demone
+          testo: |
+            Gli dici che il Demone ti ha chiamato giù, e che è arrabbiato
+            perché lo fanno aspettare. Uzgreth ti guarda a lungo con i suoi
+            occhi rossi, poi abbassa lo spadone. «Il Demone è sempre
+            arrabbiato» dice, e si sposta di lato, attento a dove mette i
+            piedi. Passi fra i portelli senza correre, e senti il suo sguardo
+            sulla nuca fino alla porta.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Insolente
+          testo: |
+            Uzgreth ti ascolta fino alla fine. «Il Demone non manda nessuno»
+            dice, scandendo le parole come un maestro con un allievo lento. «Il
+            Demone chiama Uzgreth.» Lo spadone arriva dal basso, e ti prende al
+            fianco mentre già corri verso la porta. Ti fermi due gallerie più
+            in là a tamponarti la ferita con la camicia, e senti ancora la sua
+            voce che ripete la lezione alle fosse.
+          effetti: { ferite: 1 }
+      - testo: "Passare lungo il muro mentre parla"
+        descrizione: "Uzgreth parla volentieri, e quando parla guarda il soffitto."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Lungo il muro
+          testo: |
+            Uzgreth ricomincia a parlare del Demone e del suo gregge, con gli
+            occhi rossi rivolti all'arco del soffitto. Ti muovi lungo il muro
+            mettendo i piedi solo sulla pietra lontano dai portelli. Quando da
+            una fossa sale un gemito più forte degli altri trattieni il fiato.
+            Alla porta ti volti, e lui sta ancora parlando, e non si è accorto che
+            nella stanza non c'è più nessuno ad ascoltarlo.
+          effetti: { profondita.segrete-dell-ira: 1 }
+        fallimento:
+          titolo: Il portello che scricchiola
+          testo: |
+            Metti il piede su un portello che sembrava pietra, e il legno
+            scricchiola. Uzgreth abbassa gli occhi su di te, lentamente, come
+            se la cosa lo annoiasse. Ti butti verso la porta, e lo spadone ti
+            passa così vicino che senti il vento sul collo, poi la punta ti
+            prende la spalla. Esci dalla camera con il braccio che pende e la
+            sua voce che ti chiama insolente.
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · 6 → 7
+  - id: l-aula-dell-ira
+    immagine: ambientazione/mito-occhio-nel-cristallo
+    titolo: L'Aula dell'Ira
+    sommario: "Una cattedrale sotto la città, due vasche, un cerchio di teschi e un demone con quattro braccia che ha perso il senno."
+    luogo: Segrete dell'Ira, l'Aula dell'Ira
+    area: segrete-dell-ira
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira >= 4]
+    testo: |
+      La galleria sbuca in una sala così alta che la lampada non arriva al
+      soffitto, grande come la navata di una cattedrale. Le pareti sono
+      coperte di rune incise a punta, e al centro c'è una vasca larga,
+      circondata da un cerchio di teschi levigati in equilibrio su spuntoni
+      di pietra. In fondo due scalinate salgono a un pulpito, e sul pulpito
+      c'è una seconda vasca, triangolare, piena di un liquido arancione che
+      gorgoglia come lava trasparente. Ne sale vapore, eppure nella sala fa
+      un freddo che ti morde le dita.
+
+      Accanto al pulpito sta il demone. È alto più di tre metri e ha la pelle
+      coriacea color ruggine, con quattro braccia. Le due di sopra finiscono
+      in chele grandi abbastanza da stritolare un cavallo, quelle di sotto
+      sono sottili come mani d'uomo e si muovono di continuo. Ha la testa di
+      un coccodrillo, e gli occhi sono intelligenti e completamente pazzi.
+
+      «Maledetti! Avete osato violare il santuario della Covatrice di
+      Orrori!» urla, con una voce che ti vibra nello sterno. Con una mano
+      piccola si taglia il polso e lo tiene sopra la vasca triangolare. La
+      luce sul soffitto si mette a tremare, e accanto a lui l'aria si crepa
+      come uno specchio. Ne esce una figura glabra sulle gambe piegate al
+      contrario, e la crepa si richiude.
+
+      «Dona la tua anima colma di rancore al possente Yoggoth, e proteggi
+      la sacra Regina!» Intanto la vasca si è abbassata di un dito, e per
+      un momento la faccia da coccodrillo si fa preoccupata.
+    opzioni:
+      - testo: "Affrontarli tutti e due"
+        descrizione: "Un demone con quattro braccia e una Colata appena nata. Alle spalle hai le Segrete."
+        combattimento: l-aula-dell-ira
+        vittoria:
+          titolo: Il possente Yoggoth
+          testo: |
+            La Colata ti viene addosso per prima e cola sul pavimento in una
+            pozza grigia, poi c'è soltanto Yoggoth, con le chele che spaccano
+            i teschi del cerchio. Quando finalmente cade sui gradini del
+            pulpito, la luce della vasca triangolare si abbassa e poi torna
+            piano quella di prima. Alla sua cintura c'è un cilindro di lyssan
+            inciso con grande cura e pieno di ammaccature, con dentro un
+            rotolo di pergamena coperto di simboli senza senso. Nelle tasche ha altri rotoli, ma
+            l'inchiostro è sbiadito.
+
+            Risali per le Segrete e per il tunnel con il cilindro nella
+            camicia, e in Città Bassa è notte fonda. La vasca è ancora piena.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1, racconto: 1 }
+          vai: citta-bassa
+        sconfitta:
+          titolo: L'ultimo taglio
+          testo: |
+            La Colata la abbatti, ma Yoggoth ti prende con una chela e ti
+            scaraventa contro il cerchio di teschi. Mentre ti rialzi lui si
+            taglia di nuovo il polso sopra la vasca, e poi ancora, per
+            chiamare un'altra Colata che ti finisca. Al quarto taglio la vasca
+            non gli risponde più. Yoggoth la guarda con le mani piccole che
+            tremano, e taglia ancora, finché si accascia sui gradini del
+            pulpito in una pozza del suo sangue.
+
+            Dalla sua cintura prendi un cilindro di lyssan ammaccato. Torni in
+            Città Bassa all'alba, piegato in due. La vasca ha ripreso a
+            gorgogliare.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1 }
+          vai: citta-bassa
+      - testo: "Provocarlo finché svuota la vasca"
+        descrizione: "Ogni Colata costa qualcosa alla vasca, e lui se n'è accorto. Bisogna fargliene chiamare troppe."
+        prova: { attributo: sociale, abilita: [intimidire, ingannare, espressivita], difficolta: Difficile }
+        successo:
+          titolo: Il possente
+          testo: |
+            Gli ridi in faccia e gli dai del lucertolone. Yoggoth ruggisce e si
+            taglia il polso, e tu corri intorno al cerchio di teschi con la
+            Colata dietro. Ogni insulto gli costa un taglio, e ogni taglio
+            abbassa la vasca. Le ultime Colate escono a metà e si sfanno dopo
+            tre passi. Alla fine Yoggoth cade sui gradini, svuotato del suo
+            sangue, e la luce della vasca torna piano quella di prima.
+
+            Dalla sua cintura prendi un cilindro di lyssan ammaccato, con un
+            rotolo di pergamena dentro. In Città Bassa arrivi a notte fonda,
+            senza voce.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1, racconto: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Troppe
+          testo: |
+            Lo provochi, e lui ti prende in parola. Le Colate escono una dopo
+            l'altra e tu corri intorno al cerchio di teschi finché una ti
+            prende alla schiena e un'altra alla gamba. Yoggoth continua a
+            tagliarsi anche quando la vasca non gli risponde più, e alla fine
+            si accascia sui gradini del pulpito con le mani piccole aperte.
+
+            Gli sfili dalla cintura un cilindro di lyssan ammaccato e risali
+            le Segrete trascinandoti. Arrivi in Città Bassa che è giorno.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1, ferite: 1.5 }
+          vai: citta-bassa
+      - testo: "Scacciarlo con l'esorcismo"
+        descrizione: "La Liturgia dell'Albero ha parole per ciò che non dovrebbe restare. Un demone non dovrebbe restare da nessuna parte."
+        incantesimo: esorcismo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Le parole dell'Albero
+          testo: |
+            Dici le parole della Liturgia a voce alta, e la voce ti esce più
+            ferma delle gambe. A ogni frase Yoggoth si fa più piccolo dentro la
+            sua pelle color ruggine, come un vestito che resta vuoto, e la
+            Colata accanto a lui si scioglie sul pavimento. All'ultima parola
+            il demone si accascia sui gradini del pulpito e non si muove più.
+            Fra le pieghe della pelle vuota trovi un cilindro di lyssan
+            ammaccato, con un rotolo di pergamena dentro.
+
+            Torni in Città Bassa a notte fonda, con la gola secca. La vasca,
+            dietro di te, gorgoglia ancora.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1, racconto: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Mezza Liturgia
+          testo: |
+            A metà formula sbagli una parola, e il Mana ti torna indietro come
+            una frustata dietro gli occhi. Yoggoth barcolla lo stesso, ferito
+            da quello che è arrivato, e per la rabbia si apre il polso sopra
+            la vasca, e poi di nuovo, e di nuovo, finché la vasca non gli dà
+            più niente e lui crolla sui gradini svuotato. La sua Colata ti ha
+            lasciato il segno delle sue piccole mani su tutto il braccio.
+
+            Dalla sua cintura prendi un cilindro di lyssan ammaccato, e torni
+            in Città Bassa con il sangue al naso.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1, ferite: 1, tormento: 1 }
+          vai: citta-bassa
+      - testo: "Offrirgli la tua rabbia"
+        descrizione: "Vuole un'anima colma di rancore. La tua ne ha, e lui non chiede di meglio."
+        esito:
+          titolo: Il patto
+          testo: |
+            Ti inginocchi davanti al pulpito, e Yoggoth scende i gradini con
+            gli occhi accesi. Le mani piccole ti si posano sulle tempie, e
+            senti la rabbia che ti esce dalla testa, tutta quella che hai
+            raccolto da quando sei a Qir-Azel. Lui la lascia cadere nella
+            vasca triangolare. L'aria si crepa, e la Colata che ne esce è fatta
+            della tua rabbia, che in questo momento ce l'ha con chi ti sta
+            frugando nella testa. Gli salta
+            alla gola con tutte le mani della bocca, e l'altra Colata le va
+            dietro. Precipitano insieme nella vasca e non riemergono.
+
+            Sui gradini trovi un cilindro di lyssan ammaccato. Torni in Città
+            Bassa leggero e vuoto, e per giorni, quando qualcuno ti spinge al
+            mercato, non ti viene nemmeno voglia di spingere indietro.
+          imposta: { pista.acciaio: 7, pozzo-dell-ira: 5 }
+          effetti: { oggetto.registratore-olografico: 1, tormento: 1.5 }
+          vai: citta-bassa

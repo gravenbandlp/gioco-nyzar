@@ -49,7 +49,7 @@ function percorri(origine: string, seme: number, pista: string, fine: number, ex
     const scelta = qui.length ? qui : tutti;
     const st = scelta[Math.floor(rng() * scelta.length)];
     if (!st) throw new Error(`${origine}/${seme}: bloccato a ${pista} = ${v} (area ${s.area})`);
-    if (st.area !== s.area && c.aree.find((a) => a.id === s.area)?.spedizione) throw new Error(`${origine}/${seme}: uscito dalla spedizione senza storia`);
+    if (st.area !== s.area && c.aree.find((a) => a.id === s.area)?.spedizione) throw new Error(`${origine}/${seme}: uscito dalla spedizione senza storia (${s.area}, ${pista}=${v}, verso ${st.id}, qui: ${tutti.map((x) => x.id).join(",")})`);
     s.area = st.area;
     passo(s, st, rng);
   }
@@ -74,6 +74,9 @@ describe('piste', () => {
   });
   it('le cinque tribù arrivano a 4, passando dalla Palude Acquanera', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.tribu', 4, { 'pista.dama-argento': 11, 'pista.sepolcro': 7, invito: 1 })).toBeGreaterThan(3);
+  });
+  it('Acciaio e Ira arriva a 8, passando dall\'Acciaieria e dalle Segrete dell\'Ira', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.acciaio', 8, { 'pista.tribu': 4, invito: 1, bende: 2 })).toBeGreaterThan(7);
   });
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
