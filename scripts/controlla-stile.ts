@@ -69,6 +69,11 @@ export const REGOLE: Regola[] = [
     trova: (t) => t.trim().split(/\n\s*\n/).map((p) => p.trim()).filter((p) => /\*[^*]+\*$/.test(p) && frasi(p).length >= 2).map((p) => p.slice(-80)),
   },
   { nome: 'trattino lungo', spiegazione: 'Inciso con trattino lungo.', trova: tutte(/[—–]/g) },
+  {
+    nome: 'cifra di denaro',
+    spiegazione: 'Prezzi, paghe e ricompense restano generici nei testi: le cifre stanno solo negli effetti, che si ribilanciano.',
+    trova: tutte(/\b(?:due|tre|quattro|cinque|sei|sette|otto|nove|dieci|undici|dodici|tredici|quattordici|quindici|sedici|diciassette|diciotto|diciannove|venti|trenta|quaranta|cinquanta|sessanta|settanta|ottanta|novanta|cento|mille|[a-zàé]+(?:uno|due|tré|tre|quattro|cinque|sei|sette|otto|nove|dici|anta|enta|cento|mila))\s+(?:monete|lyssan)\b/gi),
+  },
 ];
 
 export function analizza(testo: string): Record<string, string[]> {

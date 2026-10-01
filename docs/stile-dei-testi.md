@@ -54,6 +54,11 @@ Cosa funziona:
 9. **La punteggiatura all'inglese nei dialoghi.** In italiano: «Rennick Dole» dice. Oppure
    «Rennick Dole», dice Mauro, «lo trovi alla Segheria». Mai la virgola dentro le caporali.
 10. **Il trattino lungo** per gli incisi: usa le virgole o le parentesi.
+11. **Le cifre di denaro e delle ricompense.** Prezzi, paghe, offerte, debiti, poste e ricompense non hanno
+    cifre nei testi ("ti offre sei monete", "per cinquanta monete", "Venti monete per la lezione"): il gioco
+    le mostra già negli effetti e nei costi, e le cifre si ribilanciano spesso. Nella prosa si resta sul
+    generico: qualche moneta, una manciata di monete, una borsa pesante, il prezzo della lezione, quanto
+    chiede, meno del dovuto. Una moneta come oggetto (lanciata, rigirata fra le dita) va bene.
 
 ## La voce (dal 1° ottobre 2026: un po' di Disco Elysium)
 
