@@ -16,6 +16,7 @@ export interface Serie {
   tipo: 'pista' | 'luogo';
   quality?: string; // pista
   passi: string[]; // luogo: i flag delle storie, in ordine di reputazione
+  tappe: { flag: string; storylet: string }[]; // luogo: la storia che apre ogni passo
   massimo: number;
 }
 
@@ -47,7 +48,7 @@ export function serieDi(c: TContenuti): MappaSerie {
     let massimo = 0;
     for (const st of c.storylet) for (const r of req(st)) if (r.chiave === q.id && r.op === '==') massimo = Math.max(massimo, r.n + 1);
     for (const st of c.storylet) for (const e of esiti(st)) { const v = e.imposta?.[q.id]; if (typeof v === 'number') massimo = Math.max(massimo, v); }
-    if (massimo > 0) serie.push({ id: q.id, nome: q.nome, immagine: q.immagine, tipo: 'pista', quality: q.id, passi: [], massimo });
+    if (massimo > 0) serie.push({ id: q.id, nome: q.nome, immagine: q.immagine, tipo: 'pista', quality: q.id, passi: [], tappe: [], massimo });
   }
   const pista = new Map(serie.map((x) => [x.quality!, x]));
   for (const st of candidati) {
@@ -58,14 +59,14 @@ export function serieDi(c: TContenuti): MappaSerie {
   }
 
   // --- luoghi della città viva: una serie per reputazione (Fucina e Armeria ne condividono una, così i due ponti)
-  const perRep = new Map<string, { flag: string; gradino: number; luogo: string }[]>();
+  const perRep = new Map<string, { flag: string; gradino: number; luogo: string; storylet: string }[]>();
   for (const st of candidati.filter((x) => x.presso && !diStorylet.has(x.id))) {
     const r = req(st);
     const gradino = r.find((x) => x.op === '>=' && categoria.get(x.chiave) === 'reputazione');
     const flag = r.find((x) => x.op === '==' && x.n === 0 && categoria.get(x.chiave) === 'stato');
     if (!gradino || !flag) continue;
     const passi = perRep.get(gradino.chiave) ?? [];
-    if (!passi.some((p) => p.flag === flag.chiave)) passi.push({ flag: flag.chiave, gradino: gradino.n, luogo: st.presso! });
+    if (!passi.some((p) => p.flag === flag.chiave)) passi.push({ flag: flag.chiave, gradino: gradino.n, luogo: st.presso!, storylet: st.id });
     perRep.set(gradino.chiave, passi);
   }
   for (const [rep, passi] of perRep) {
@@ -74,7 +75,7 @@ export function serieDi(c: TContenuti): MappaSerie {
     const luoghi = [...new Set(passi.map((p) => p.luogo))];
     const nome = luoghi.length === 1 ? c.luoghi.find((l) => l.id === luoghi[0])?.nome : c.quality.find((q) => q.id === rep)?.nome;
     const immagine = c.luoghi.find((l) => l.id === luoghi[0])?.immagine;
-    const s: Serie = { id: `luogo.${rep}`, nome: nome ?? rep, immagine, tipo: 'luogo', passi: passi.map((p) => p.flag), massimo: passi.length };
+    const s: Serie = { id: `luogo.${rep}`, nome: nome ?? rep, immagine, tipo: 'luogo', passi: passi.map((p) => p.flag), tappe: passi.map((p) => ({ flag: p.flag, storylet: p.storylet })), massimo: passi.length };
     serie.push(s);
     for (const st of candidati.filter((x) => x.presso && luoghi.includes(x.presso) && !diStorylet.has(x.id)))
       if (req(st).some((r) => r.op === '==' && r.n === 0 && s.passi.includes(r.chiave))) diStorylet.set(st.id, s);
@@ -103,4 +104,9 @@ export function serieDi(c: TContenuti): MappaSerie {
 export function avanzamento(s: Stato, serie: Serie): number {
   if (serie.tipo === 'pista') return Math.min(serie.massimo, Math.floor(s.quality[serie.quality!] ?? 0));
   return serie.passi.filter((f) => (s.quality[f] ?? 0) >= 1).length;
+}
+
+/** La prossima storia da giocare in una serie di luogo, o niente se la serie è chiusa. */
+export function prossimaTappa(s: Stato, serie: Serie): string | undefined {
+  return serie.tappe.find((t) => (s.quality[t.flag] ?? 0) < 1)?.storylet;
 }

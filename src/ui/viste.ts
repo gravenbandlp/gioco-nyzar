@@ -6,7 +6,7 @@ import {
   SOGLIE_PE,
 } from '../motore/regole';
 import {
-  msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, type Stato,
+  msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato,
 } from '../motore/personaggio';
 import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
@@ -14,7 +14,7 @@ import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonI
 import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
-import { serieDi, avanzamento, type Serie } from '../motore/serie';
+import { serieDi, avanzamento, prossimaTappa, type Serie } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
@@ -247,7 +247,16 @@ function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: T
   const storie = [...riprendi, ...storieArea.filter((st) => st.presso === l.id && !riprendi.includes(st))];
   const ripetibili = stanzeVisibili(s, c).filter((st) => st.presso === l.id);
   const botteghe = l.negozi.map((id) => c.negozi.find((n) => n.id === id)).filter((n): n is TNegozio => !!n).map((n) => bottega(x, n)).join('');
-  const vuoto = !storie.length && !ripetibili.length && !botteghe;
+  // la prossima storia della serie del luogo, se non è ancora aperta: si vede chiusa, con quello che manca
+  const inAttesa = serieDi(c).serie.filter((z) => z.tipo === 'luogo').map((z) => {
+    const id = prossimaTappa(s, z);
+    const st = id ? trova(c, id) : undefined;
+    if (!st || st.presso !== l.id || storie.includes(st)) return '';
+    const mancanti = requisitiMancanti(s, st.requisiti, c);
+    if (!mancanti.length) return '';
+    return rigaChiusa(x, st, z, mancanti);
+  }).join('');
+  const vuoto = !storie.length && !ripetibili.length && !botteghe && !inAttesa;
   return `<article class="scena pagina-luogo">
     <button type="button" class="bottone indietro in-cima" data-az="esci-luogo">← ${h(areaDi(x).nome)}</button>
     <header class="scena-testa">
@@ -259,7 +268,7 @@ function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: T
       </div>
     </header>
     ${occasioni(x)}
-    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
+    ${storie.length || inAttesa ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}${inAttesa}</ul>` : ''}
     ${ripetibili.length ? `<h2 class="titolo-sezione">Cose da fare</h2><ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
     ${botteghe}
     ${vuoto ? '<p class="vuoto">Per ora qui non c\'è niente per te. Torna più avanti.</p>' : ''}
@@ -318,7 +327,9 @@ function rigaPista(s: Stato, c: TContenuti, id: string, nomeSerie: string, descr
   const speso = z ? s.tempo?.serie[z.id] ?? 0 : 0;
   const tempo = speso >= 60000 ? `<span class="tempo-serie" title="Tempo di gioco in questa storia">${h(tempoGiocato(speso))}</span>` : '';
   const segno = z ? `<span class="serie">${tacche(fatti, z.massimo)}${fatti >= z.massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}${tempo}</span>` : `<span class="etichetta velo">Capitolo ${mezzi(fatti)}</span>`;
-  return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}</div>${segno}</li>`;
+  const prossima = z?.tipo === 'luogo' ? prossimaTappa(s, z) : undefined;
+  const dopo = prossima ? `<p>Prossima storia: «${h(trova(c, prossima)?.titolo ?? '')}».</p>` : '';
+  return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}${dopo}</div>${segno}</li>`;
 }
 
 /** Le tacche di una serie: piene fino a dove sei, quella del passo in corso accesa. */
@@ -334,6 +345,28 @@ function testaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, tipo: string
   if (!serie) return `${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}${luogo}`;
   const fatti = avanzamento(x.s, serie);
   return `<span class="serie"><span class="nome-serie">${h(serie.nome)}</span>${tacche(fatti, serie.massimo, fatti < serie.massimo ? fatti : undefined)}</span>${luogo}`;
+}
+
+/** La prossima storia di un luogo, ancora chiusa: titolo, serie e che cosa manca per aprirla. */
+function rigaChiusa(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, z: Serie, mancanti: string[]): string {
+  const { s, c } = x;
+  const cosa = mancanti.map((r) => {
+    const { chiave } = parseRequisito(r);
+    const q = c.quality.find((y) => y.id === chiave);
+    if (q?.categoria === 'pista') return `Più avanti in «${q.nome}».`;
+    if (q?.categoria === 'reputazione') return `${requisitoLeggibile(r, s, c)} Sale con le cose da fare qui.`;
+    return requisitoLeggibile(r, s, c);
+  });
+  const fatti = avanzamento(s, z);
+  return `<li class="storylet-riga storia chiusa">
+    ${tavola(st.immagine, { classe: 'ritratto' })}
+    <div class="corpo">
+      <div class="testa"><span class="serie"><span class="nome-serie">${h(z.nome)}</span>${tacche(fatti, z.massimo, fatti)}</span></div>
+      <h3>${h(st.titolo)}</h3>
+      <ul class="mancanti">${cosa.map((t) => `<li>${h(t)}</li>`).join('')}</ul>
+    </div>
+    <span class="bottone vai chiuso" aria-hidden="true">Chiusa</span>
+  </li>`;
 }
 
 function rigaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, stanza = false): string {
