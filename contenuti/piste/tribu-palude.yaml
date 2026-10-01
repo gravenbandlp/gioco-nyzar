@@ -1,0 +1,832 @@
+# Le cinque tribù, la spedizione nella Palude Acquanera (pista.tribu 2 → 3).
+# Si parte dalla Città Bassa con la mappa di Ilvaena; nella palude sette stanze ripetibili (se ne
+# vedono tre a caso), una carta e il cuore nella torre di Bolgrum, che riporta in città in ogni ramo
+# e imposta `bolgrum` (1 morto, 2 fuggito; quality definita in tribu.yaml).
+aree:
+  - id: palude-acquanera
+    immagine: ambientazione/palude-acquanera
+    nome: Palude Acquanera
+    sommario: "Tre miglia di canali e di acqua nera qualche ora a sud della città, chiuse fra i pini e le colline di roccia. Ci vivono gli Spacca-ossa, una quindicina di orchi che nuotano meglio di qualunque pescatore."
+    spedizione: { ritorno: citta-bassa, soglia: 5, stanze: 3 }
+    testo: |
+      La Palude Acquanera comincia qualche ora a sud di Qir-Azel, dopo le
+      pianure brulle e i campi abbandonati delle vecchie colonie, dove i
+      muretti a secco corrono per un tratto e poi si perdono nell'erba. È
+      lunga tre miglia e larga meno di due, chiusa fra boschi di pini e
+      colline di roccia. La attraversa un fiume a cui nessuno si è mai preso
+      il disturbo di dare un nome, e qui dentro il fiume si sfilaccia in un
+      delta di canali e di isolette di fango coperte di giunchi e di felci. I
+      tassi e i pioppi crescono nell'acqua bassa.
+
+      L'acqua è nera e fredda, e la nebbia ci resta sopra fino a mezzogiorno.
+      Dopo le piogge dei giorni scorsi il fango tiene gli stivali a ogni
+      passo, e le zanzare ti trovano molto prima degli orchi.
+
+      Gli Spacca-ossa vivono qui da almeno cento anni. Sono una quindicina in
+      tutto, la più piccola delle cinque tribù, e sono gli unici orchi della
+      regione che nuotano bene. Ilvaena dice che aspettano invece di
+      inseguire, e che prima di un agguato la palude smette di fare i suoi
+      rumori. Bolgrum, il capotribù, sta in una torre di pietra su un isolotto
+      al centro, costruita da un mago molto prima che ci arrivassero loro. Ti
+      accorgi che stai ascoltando le rane.
+
+storylet:
+  # ------------------------------------------------------------ 2 · la partenza (apre la spedizione)
+  - id: verso-la-palude-acquanera
+    immagine: ambientazione/palude-acquanera
+    titolo: Verso la Palude Acquanera
+    sommario: "La palude degli Spacca-ossa è qualche ora a sud, oltre le pianure brulle. In tasca hai la mappa che Ilvaena ti ha disegnato sul retro del conto del Grifone."
+    luogo: Città Bassa, la porta sud
+    area: citta-bassa
+    requisiti: [pista.tribu == 2]
+    testo: |
+      All'uscita sud della Città Bassa le case di pietra grezza finiscono di
+      colpo, e comincia una pianura d'erba gialla e rasa che il vento pettina
+      tutta dalla stessa parte. Sull'ultimo muro qualcuno ha scritto con la
+      calce *ACQUA BUONA A DESTRA*. A destra c'è un pozzo, chiuso da una
+      tavola inchiodata di traverso.
+
+      Hai in tasca la mappa che Ilvaena ti ha disegnato a cena al Grifone,
+      a carboncino, sul retro del conto. Da una parte c'è il fiume senza nome
+      con i suoi canali, e una croce al centro della palude dove sta la torre.
+      Dall'altra c'è la cena, con la seconda caraffa di vino sottolineata due
+      volte dalla mano di Liaren. Ogni cento passi le dita ti vanno alla tasca
+      per controllare che il foglio ci sia ancora.
+
+      «Segui il fiume finché diventa fango» ha detto Ilvaena, piegando il
+      foglio in quattro con le unghie. «Poi cerca la torre, che è l'unica cosa
+      dritta in tutta la palude. E ricordati che gli Spacca-ossa aspettano
+      invece di inseguire. Nella palude gli conviene, e a te no.» Poi ti ha
+      versato da bere, e ha cambiato discorso prima che potessi farle altre
+      domande.
+
+      Verso sud, in fondo alla pianura, c'è una riga scura di pini, e sopra i
+      pini il cielo è più bianco che altrove.
+    opzioni:
+      - testo: "Partire a piedi verso sud"
+        descrizione: "Qualche ora di pianura, e il fango comincia prima della palude."
+        costo: 1
+        esito:
+          titolo: I campi delle colonie
+          testo: |
+            Cammini tutta la mattina fra campi che nessuno ara da anni, dove i
+            solchi si vedono ancora sotto l'erba. A metà strada passi accanto a una
+            casa di coloni senza tetto, con una scarpa da bambino appesa a un chiodo
+            della porta, e non ti fermi. Dopo i pini il terreno comincia a cedere
+            sotto gli stivali. Davanti a te la nebbia sta bassa sull'acqua, e il
+            fiume senza nome ci entra dentro e non ne esce.
+          vai: palude-acquanera
+      - testo: "Andare a sud sul baio"
+        descrizione: "Il baio taglia la pianura al trotto. Nella palude però non ci entra."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Il baio si ferma
+          testo: |
+            Il baio attraversa la pianura al trotto, contento di avere spazio, e a
+            metà mattina sei già sotto i pini. Dove il terreno comincia a cedere
+            pianta gli zoccoli e non va avanti, con le orecchie dritte verso la
+            nebbia. Non hai voglia di discutere con lui. Lo leghi a un pino con la
+            corda lunga e gli lasci il fieno della bisaccia, e lui ti guarda andare
+            senza smettere di masticare.
+          vai: palude-acquanera
+
+  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  - id: palude-nebbia-sul-canneto
+    immagine: ambientazione/palude-acquanera
+    titolo: La nebbia sul canneto
+    sommario: "La nebbia sale dall'acqua e ti chiude dentro il canneto. Da qualche parte suona un barattolo di latta."
+    luogo: Palude Acquanera, il canneto
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      La nebbia si alza dall'acqua tutta insieme e in pochi minuti ti chiude
+      dentro il canneto, tanto fitta che vedi la punta dei giunchi e non il
+      fango in cui sono piantati. I rumori arrivano senza direzione. Su un
+      palo infilato fra le canne qualcuno ha appeso un barattolo di latta
+      bucato con dentro un sasso, che tintinna quando il vento lo muove. È il
+      campanello di un pescatore di anguille, e del pescatore resta soltanto
+      il palo. *Se il barattolo smette di suonare, mi fermo.* Il collo ti si
+      irrigidisce a forza di girare la testa da una parte e dall'altra.
+    opzioni:
+      - testo: "Fermarti e ascoltare il fiume"
+        descrizione: "La corrente fa un rumore diverso dall'acqua ferma, se hai la pazienza di sentirlo."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: La corrente
+          testo: |
+            Resti fermo con l'acqua alle caviglie finché, sotto il tintinnio del
+            barattolo, senti un gorgoglio basso e continuo verso sinistra. È il
+            fiume che passa fra le canne. Lo segui tenendolo sempre dallo stesso
+            lato, e quando la nebbia si apre sei più avanti di quanto speravi, con i
+            piedi gelati e la mappa di Ilvaena ancora asciutta.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il barattolo
+          testo: |
+            Ascolti finché il barattolo smette di suonare, anche se il vento non è
+            cambiato. Resti immobile per un tempo lungo, con il cuore che ti batte
+            in gola, e quando riprende a tintinnare sei di nuovo davanti al palo da
+            cui eri partito. Hai camminato in cerchio, e non ricordi di averlo
+            fatto.
+          effetti: { tormento: 0.5 }
+      - testo: "Andare dritto finché il fondo regge"
+        descrizione: "Le gambe non vedono niente. Sentono però dove il fango è duro."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Dritto
+          testo: |
+            Tieni la direzione con la testa bassa e le braccia avanti, e tasti il
+            fondo con il piede prima di caricarci il peso. Dove il fondo cede giri
+            intorno, e poi riprendi la linea. Quando esci dal canneto hai le cosce
+            che bruciano e i giunchi ti hanno tagliato il dorso delle mani, ma
+            davanti c'è un isolotto di terra ferma e la nebbia comincia a diradarsi.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il canale
+          testo: |
+            Il fondo regge per venti passi, e al ventunesimo sparisce. Vai sotto
+            fino al collo in un canale che nella nebbia non avevi visto, e l'acqua
+            nera ti entra in bocca. Ti tiri fuori aggrappato alle canne, che ti
+            tagliano i palmi, e risali sulla riva da cui eri entrato a sputare
+            fango.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che la nebbia si alzi"
+        descrizione: "Prima o poi si alza. Nel frattempo l'acqua è fredda e le zanzare non aspettano."
+        costo: 2
+        esito:
+          titolo: L'attesa
+          testo: |
+            Ti siedi su una zolla appena più alta del resto e aspetti, con le
+            braccia strette intorno alle ginocchia. La nebbia ci mette quasi tutta
+            la mattina ad alzarsi, e le zanzare ti trovano anche dentro le maniche.
+            Quando finalmente vedi di nuovo i pioppi hai i denti che battono, ma la
+            strada è lì davanti e il barattolo suona sempre.
+          effetti: { profondita.palude-acquanera: 1, ferite: 0.5 }
+
+  - id: palude-il-fango
+    immagine: ambientazione/palude-acquanera
+    titolo: Il fango che risucchia
+    sommario: "Fra due canali c'è una striscia di fango color fegato, e sopra l'acqua un velo che luccica come olio."
+    luogo: Palude Acquanera, fra due canali
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      Fra due canali la palude si apre in una distesa di fango lucido color
+      fegato, che bisogna attraversare per forza. Nelle pozze l'acqua ha sopra
+      un velo viola e verde, lucido d'olio. Quando ti chini senti in bocca un
+      sapore di ferro, lo stesso di quando ti spacchi un labbro. A metà della
+      distesa c'è una ruota di carro piantata nel fango fino al mozzo. Qualche
+      colono ne aveva dipinto d'azzurro un raggio sì e uno no, e il colore
+      tiene ancora. Accanto alla ruota spunta la testa di un castoro morto
+      ancora intero, e sopra non ci gira nemmeno una mosca.
+    opzioni:
+      - testo: "Saltare da una zolla all'altra"
+        descrizione: "Dove crescono le felci c'è qualcosa sotto che regge, e fra una felce e l'altra c'è un salto."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Le felci
+          testo: |
+            Salti da un ciuffo di felci al successivo, e ogni volta il fango sotto i
+            piedi fa un risucchio offeso e ti lascia andare. Passi accanto alla
+            ruota azzurra senza guardare il castoro. Atterri sull'ultima zolla con
+            le ginocchia che tremano e il fango fino ai polpacci, e dall'altra parte
+            ti aspetta un sentiero di radici di tasso.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il risucchio
+          testo: |
+            Al terzo salto la zolla affonda sotto di te e il fango ti prende fino
+            alle cosce. Più ti muovi e più tira. Ne esci strisciando sulla pancia
+            fino alla ruota e poi indietro, e uno stivale resta giù. Lo recuperi
+            scavando con le mani, e ti ci vuole un pezzo per smettere di tremare.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere il fango prima di metterci il piede"
+        descrizione: "Il fango che regge ha un colore diverso, se sai cosa guardare."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il colore giusto
+          testo: |
+            Il fango più scuro è quello che beve, e quello grigio, con le crepe in
+            superficie, è asciutto sotto. Segui il grigio passo dopo passo, lontano
+            dalle pozze con il velo d'olio, e arrivi dall'altra parte con gli
+            stivali appena sporchi. Ti volti a guardare la ruota azzurra, e da qui
+            sembra quasi allegra.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il castoro
+          testo: |
+            Il grigio ti porta dritto accanto al castoro morto, e da vicino vedi che
+            ha gli occhi aperti e lucidi e il pelo che si muove senza vento. Torni
+            indietro di corsa, e non sai più quale fango hai calpestato all'andata.
+            Ti fermi sulla riva a respirare, con quel sapore di ferro ancora sotto
+            la lingua.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare dritto, con l'acqua alla cintola"
+        descrizione: "È la strada più corta. L'acqua con il velo d'olio però ti resta addosso."
+        costo: 2
+        esito:
+          titolo: Il velo
+          testo: |
+            Entri nella pozza più larga e la attraversi a passi lenti, con l'acqua
+            che ti sale alla cintola e il velo colorato che ti si stringe intorno ai
+            fianchi. È più calda di quanto dovrebbe. Esci dall'altra parte con la
+            pelle che pizzica e le dita che formicolano, e il sapore di ferro ti
+            resta in bocca fino a sera.
+          effetti: { profondita.palude-acquanera: 1, contaminazione: 0.5 }
+
+  - id: palude-serpenti-d-acqua
+    immagine: ambientazione/palude-acquanera
+    titolo: I serpenti d'acqua
+    sommario: "Il canale da guadare è pieno di serpenti d'acqua, attorcigliati sulle radici di un pioppo."
+    luogo: Palude Acquanera, il guado del pioppo
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      Il canale qui è largo una decina di passi e non c'è modo di girarci
+      intorno. Sulle radici di un pioppo che cresce in mezzo all'acqua ci sono
+      i serpenti, almeno una dozzina, attorcigliati l'uno sull'altro. Sono
+      lunghi un braccio e scuri come l'acqua. Ogni tanto uno scivola giù e
+      lascia una scia a forma di S che si chiude subito. Sulla riva c'è una
+      nassa da anguille rovesciata, e dentro dorme un serpente più grosso
+      degli altri, che si è trovato una casa. Ti accorgi di aver ritirato i
+      piedi dal bordo senza averlo deciso.
+    opzioni:
+      - testo: "Passare sopra, sui rami del pioppo"
+        descrizione: "Un ramo grosso attraversa il canale, a un palmo dall'acqua. E dai serpenti."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Il ramo
+          testo: |
+            Ti metti a cavalcioni del ramo e avanzi spingendoti con le mani, piano,
+            senza far vibrare il legno. Sotto di te i serpenti alzano la testa uno
+            dopo l'altro e la riabbassano. Scendi dall'altra parte con le braccia
+            indolenzite e la corteccia piantata nei calzoni, e ti allontani
+            dall'acqua prima di respirare davvero.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            A metà del ramo il legno scricchiola e ti sbilanci. Ti tieni con le
+            gambe, ma una mano finisce in acqua, e il morso arriva subito, sul
+            polso. Torni indietro a ritroso con il polso che si gonfia e ti ci leghi
+            sopra un fazzoletto stretto. Il serpente non era velenoso, e lo capisci
+            soltanto un'ora dopo.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire quali sono pericolosi"
+        descrizione: "Non tutti i serpenti d'acqua mordono, e non tutti quelli che mordono avvelenano."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: Le teste tonde
+          testo: |
+            Quasi tutti hanno la testa tonda e le pupille rotonde, bisce che
+            mangiano rane e scappano davanti a un uomo. Due soli hanno la testa a
+            punta di lancia, e stanno sulla radice più alta. Guadi dal lato opposto
+            battendo l'acqua con un bastone, e le bisce ti si aprono davanti come
+            gente in una piazza.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Tutti uguali
+          testo: |
+            Più li guardi e più si assomigliano, e alla fine non sai più distinguere
+            una testa dall'altra. Entri in acqua lo stesso. A metà guado qualcosa di
+            liscio ti si avvolge intorno al polpaccio, e torni a riva così di corsa
+            che non ti accorgi di aver perso il bastone. Sulla riva ti tremano le
+            gambe per un pezzo.
+          effetti: { tormento: 0.5 }
+      - testo: "Risalire il canale fino a dove si stringe"
+        descrizione: "Mezz'ora di fango più a monte, e l'acqua si passa con un salto."
+        costo: 2
+        esito:
+          titolo: A monte
+          testo: |
+            Risali la riva nel fango fino alla vita, fra canne che ti tagliano le
+            guance, finché il canale si stringe abbastanza da saltarlo. Salti e
+            scivoli sull'altra sponda, e nel cadere sbatti il ginocchio su una
+            radice. Quando torni all'altezza del pioppo i serpenti sono ancora
+            attorcigliati sulle radici, e nessuno di loro si è accorto di te.
+          effetti: { profondita.palude-acquanera: 1, ferite: 0.5 }
+
+  - id: palude-le-tracce
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: Le tracce degli Spacca-ossa
+    sommario: "Su un isolotto ci sono impronte larghe che escono dall'acqua e ci rientrano, e un mucchio di ossa spaccate per il midollo."
+    luogo: Palude Acquanera, un isolotto di fango
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      Sull'isolotto il fango è segnato da impronte larghe, con le dita aperte
+      a ventaglio, che escono dall'acqua da una parte e ci rientrano
+      dall'altra. Accanto a un fuoco spento e coperto di terra c'è un mucchio
+      di ossa di cervo e lische di pesce. Le ossa sono spaccate per il lungo,
+      così da tirarne fuori il midollo, e lo stomaco ti si chiude a guardarle.
+
+      In mezzo alle ossa c'è un pesce di legno intagliato male, con i segni
+      dei denti su tutta la coda. È il giocattolo che si dà ai bambini perché
+      smettano di piangere, e qualcuno l'ha dimenticato qui. *Anche gli orchi
+      hanno bambini che mordono le cose.* Ti asciughi le mani sui calzoni e ti
+      guardi intorno.
+    opzioni:
+      - testo: "Seguire le impronte"
+        descrizione: "Le impronte che entrano in acqua escono da qualche altra parte."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Dove escono
+          testo: |
+            Le impronte entrano in acqua tutte nello stesso punto, e girando
+            l'isolotto trovi dove escono, su un banco di sabbia dall'altra parte del
+            canale. Da lì una pista di canne spezzate porta verso il centro della
+            palude. Ti fermi a guardare quanto sono larghe le orme in confronto al
+            tuo stivale, e poi ricominci a camminare.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Le orme vecchie
+          testo: |
+            Segui le impronte per un'ora prima di accorgerti che sono vecchie di
+            giorni e che girano in tondo, intorno a una pozza dove gli orchi vanno a
+            pescare. Torni all'isolotto con la luce cambiata e le gambe pesanti. Il
+            pesce di legno è ancora fra le ossa, e ti sembra girato dall'altra
+            parte.
+          effetti: { tormento: 0.5 }
+      - testo: "Nasconderti nell'acqua e aspettare che passi qualcuno"
+        descrizione: "Gli Spacca-ossa tornano sempre al fuoco. Bisogna resistere al freddo finché arrivano."
+        prova: { attributo: fisico, abilita: [furtivita, resistenza], difficolta: Media }
+        successo:
+          titolo: Il pescatore
+          testo: |
+            Resti fra le canne con l'acqua al petto per quasi un'ora. Poi un orco
+            esce dall'acqua senza un rumore, con in mano una fiocina con tre pesci
+            infilati. Scava nel fuoco spento e ne tira fuori una brace ancora viva.
+            Quando si rituffa lo segui da lontano, lungo la riva, fino a vedere dove
+            va.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il freddo
+          testo: |
+            Dopo mezz'ora non senti più le gambe, e dopo un'ora i denti ti battono
+            così forte che devi stringerli fra le dita. Esci dall'acqua prima che
+            arrivi qualcuno e ti strofini le braccia finché la pelle torna rossa.
+            L'isolotto resta deserto, e il fuoco spento non lo tocca nessuno. Per il
+            resto del giorno hai le ginocchia rigide.
+          effetti: { ferite: 0.5 }
+      - testo: "Andare dove vanno le ossa"
+        descrizione: "Le ossa spaccate segnano la strada. Seguirle è lento, e non è piacevole."
+        costo: 2
+        esito:
+          titolo: Il sentiero delle ossa
+          testo: |
+            Lungo la riva, ogni tanto, c'è un osso spaccato buttato via dopo averlo
+            succhiato. Li segui uno dopo l'altro per tutta la mattina, chinandoti a
+            ogni mucchio, e verso la fine ci sono anche ossa che non sono di cervo.
+            Arrivi dove volevi arrivare, e ti accorgi di aver smesso di contarle.
+          effetti: { profondita.palude-acquanera: 1, tormento: 0.5 }
+
+  - id: palude-l-orco-nella-tagliola
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: L'orco nella tagliola
+    sommario: "Un giovane orco ha la gamba presa in una tagliola da castori. Sa dov'è la tana di Bolgrum, e ha paura."
+    luogo: Palude Acquanera, sotto un tasso
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      Sotto un tasso, con la schiena contro il tronco, c'è un orco giovane e
+      magro, con la pelle grigia e la gamba sinistra presa in una tagliola da
+      castori. La catena è inchiodata a una radice. La lancia gli è caduta a
+      due passi, e il fango intorno è scavato dove ha provato ad arrivarci.
+      Quando ti vede scopre i denti, poi guarda la lancia e poi di nuovo te.
+
+      «Tu no Spacca-ossa» dice, in una lingua comune storta. «Tu carne o tu
+      niente?» Si tiene il ginocchio con tutte e due le mani. La tagliola ha
+      ancora il cartellino di un mercante di pelli della città, con il prezzo
+      scritto sopra.
+    opzioni:
+      - testo: "Mettergli paura"
+        descrizione: "È ferito e ha già paura. Basta dargliene ancora un po'."
+        prova: { attributo: sociale, abilita: [intimidire, ingannare], difficolta: Media }
+        successo:
+          titolo: Bolgrum pesa
+          testo: |
+            Calci la lancia nel canale e ti accucci davanti a lui, e l'orco si
+            schiaccia contro il tronco. «Torre. Isolotto in mezzo, dove acqua è più
+            nera» dice in fretta. «Bolgrum pesa. Pesa tutti, con gli occhi. Chi pesa
+            poco, Skarr mangia.» Ti guarda la cintura per capire quanto pesi tu. Lo
+            lasci nella tagliola, e lui ti chiama dietro finché non sei fra le
+            canne.
+          effetti: { profondita.palude-acquanera: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: I denti
+          testo: |
+            Ti avvicini troppo, e l'orco ti salta addosso per quanto glielo concede
+            la catena. I denti ti prendono l'avambraccio e non lo mollano finché non
+            gli dai un pugno sul naso. Da quel momento l'orco non dice più una
+            parola. Ti allontani tenendoti il braccio, e lui ti guarda andare senza
+            muoversi dal tronco.
+          effetti: { ferite: 0.5 }
+      - testo: "Aprire la tagliola, e poi chiedere"
+        descrizione: "Prima la gamba. Le domande dopo, se si fida."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La gamba libera
+          testo: |
+            Gli fai vedere le mani vuote e apri la tagliola con il piede. L'orco
+            tira fuori la gamba e resta seduto, a guardarti. «Bolgrum pesa tutti»
+            dice alla fine. «Tu peso strano. Torre è in mezzo, dove acqua è più
+            nera. Bolgrum sta sempre seduto. Skarr cammina dappertutto.» Poi
+            striscia fino al canale, scivola in acqua senza un rumore e non riemerge
+            dove ti aspettavi.
+          effetti: { profondita.palude-acquanera: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il tonfo
+          testo: |
+            La tagliola si apre, e l'orco è in acqua prima che tu abbia finito la
+            prima domanda. Riemerge in mezzo al canale, ti guarda a lungo con la
+            testa appena fuori, e poi sparisce. Rimani da solo sotto il tasso, con
+            la tagliola vuota e la sensazione precisa che adesso qualcuno sappia
+            dove sei.
+          effetti: { tormento: 0.5 }
+      - testo: "Liberarlo e seguirlo da lontano"
+        descrizione: "Un orco ferito torna a casa. Basta stargli dietro, e sperare che non se ne accorga."
+        costo: 2
+        esito:
+          titolo: Dietro di lui
+          testo: |
+            Apri la tagliola e ti fai indietro. L'orco zoppica fino all'acqua, nuota
+            per un tratto e poi esce, e tu gli vai dietro nel fango per tutta la
+            mattina. A un certo punto si ferma e si gira, e ti tocca restare
+            immobile in un canale fino al collo finché non riparte. Quando lo perdi
+            di vista sei molto più dentro la palude.
+          effetti: { profondita.palude-acquanera: 1, ferite: 0.5 }
+
+  - id: palude-la-riva-degli-spacca-ossa
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: La riva degli Spacca-ossa
+    sommario: "L'unica striscia di terra ferma corre lungo un canale. Le rane smettono di cantare, e dall'acqua spuntano due teste."
+    luogo: Palude Acquanera, la riva lunga
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      L'unica striscia di terra ferma corre lungo un canale largo e lento, e
+      ci cammini sopra per un buon tratto prima di accorgerti che le rane
+      hanno smesso di cantare. La mano ti va alla cintura da sola. In mezzo al
+      canale l'acqua nera si apre appena, e spuntano due teste di orco, fino
+      agli occhi. Non si avvicinano e non si allontanano. Restano lì ad
+      aspettare, con l'acqua ferma intorno alla testa.
+
+      Sulla riva c'è uno spago teso fra due canne, con una fila di pesci messi
+      a seccare. In fondo alla fila, appeso con la stessa cura, c'è un calzino
+      di lana da uomo.
+    opzioni:
+      - testo: "Andare avanti e affrontarli"
+        descrizione: "Se escono dall'acqua, li aspetti sulla terra ferma. Sono due, e nel fango sono a casa loro."
+        combattimento: spacca-ossa-nel-fango
+        vittoria:
+          titolo: Sulla riva
+          testo: |
+            Escono dall'acqua tutti e due insieme, con le lance basse e l'acqua che
+            gli cola dalle spalle. Il primo scivola nel fango proprio quando gli
+            arrivi addosso, e il secondo, dopo averlo visto cadere, si rituffa nel
+            canale senza un rumore. Riprendi fiato con le mani sulle ginocchia. Dopo
+            un po' le rane ricominciano a cantare una alla volta, e tu riprendi la
+            riva.
+          effetti: { profondita.palude-acquanera: 1 }
+        sconfitta:
+          titolo: Nell'acqua
+          testo: |
+            Uno ti prende alle gambe e ti tira giù nel canale, e sotto l'acqua nera
+            non vedi niente. Ti ritrovi a riva più indietro, aggrappato alle canne,
+            a tossire fango. Gli orchi sono di nuovo in mezzo al canale con l'acqua
+            fino agli occhi, e ti guardano senza fretta. Ti tocchi la bocca, e le
+            dita tornano indietro sporche di sangue.
+      - testo: "Aggirarli dietro il canneto"
+        descrizione: "Loro aspettano che passi sulla riva. Basta non passarci."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Dietro le canne
+          testo: |
+            Ti abbassi nel canneto e avanzi carponi, spostando le canne con il dorso
+            della mano perché le punte non si muovano. Le due teste restano girate
+            verso la riva vuota per tutto il tempo che ti serve. Esci dall'altra
+            parte del canale con le ginocchia sbucciate e il fango fin dentro il
+            colletto, e loro sono ancora lì ad aspettare.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: La lancia
+          testo: |
+            Una canna si piega più del dovuto, e una delle teste si gira. La lancia
+            arriva dall'acqua senza che tu veda il braccio che l'ha tirata e ti apre
+            la spalla di striscio. Torni indietro di corsa fino a dove le rane
+            cantano ancora, e lì ti fermi a fasciarti. Il sangue ti è sceso lungo il
+            braccio fino alle dita, e gocciola nel fango.
+          effetti: { ferite: 0.5 }
+      - testo: "Restare fermo e aspettare che se ne vadano"
+        descrizione: "Loro aspettano te. Si può aspettare anche loro, per un pezzo."
+        costo: 2
+        esito:
+          titolo: Chi aspetta di più
+          testo: |
+            Ti siedi su una radice e aspetti, e loro aspettano te. Passa un'ora, e
+            poi un'altra. Le due teste restano ferme in mezzo al canale, e tu
+            cominci a vederle anche quando chiudi gli occhi. Verso sera spariscono
+            sott'acqua tutte e due insieme, e le rane ricominciano. Passi lungo la
+            riva in fretta, con la nuca fredda.
+          effetti: { profondita.palude-acquanera: 1, tormento: 0.5 }
+
+  - id: palude-l-isolotto-della-torre
+    immagine: ambientazione/palude-acquanera
+    titolo: L'isolotto della torre
+    sommario: "Fra i pioppi compare la torre di Bolgrum, su un isolotto circondato da acqua profonda. Sul fianco c'è una finestra sbarrata."
+    luogo: Palude Acquanera, davanti all'isolotto
+    area: palude-acquanera
+    ripetibile: true
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    testo: |
+      Fra i pioppi compare la torre, l'unica cosa dritta della palude. È di
+      pietra vecchia, con le mura sbrecciate e il tetto crollato da un lato,
+      su un isolotto di fango circondato da un'acqua più profonda e più nera
+      di quella che hai attraversato finora. Una scala di legno sale alla
+      porta, e sul fianco, a tre metri da terra, c'è una finestra chiusa da
+      sbarre di ferro. Dietro la finestra, ogni tanto, passa l'ombra di un
+      orco molto alto.
+
+      Fra i giunchi, ai tuoi piedi, galleggia una tavola dipinta con una mano
+      rossa aperta. Sotto, in lettere storte, c'è scritto *NO ENTRARE*.
+    opzioni:
+      - testo: "Attraversare a nuoto"
+        descrizione: "L'isolotto è vicino. L'acqua però è profonda, e gli Spacca-ossa ci nuotano meglio di te."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: A bracciate
+          testo: |
+            Ti togli la giacca, la leghi sulla testa e scivoli in acqua senza
+            schizzi. Nuoti a bracciate lente con la testa bassa, e a metà l'acqua è
+            così fredda che le dita smettono di chiudersi. Tocchi il fango
+            dell'isolotto dal lato opposto alla porta e resti disteso fra i giunchi
+            finché ricominci a sentire le mani.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: Il crampo
+          testo: |
+            A metà strada un crampo ti chiude il polpaccio e vai sotto. Torni su a
+            bere aria e acqua insieme, e ti trascini indietro a forza di braccia
+            fino ai giunchi da cui eri partito. Resti sdraiato sulla riva a tossire,
+            con la tavola del cartello che ti galleggia accanto. Il polpaccio ti
+            resta duro fino a sera, e ogni tanto torna a chiudersi da solo.
+          effetti: { ferite: 0.5 }
+      - testo: "Studiare l'isolotto da lontano"
+        descrizione: "Gli orchi entrano ed escono dall'acqua. Da qualche parte il fondo dev'essere basso."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Il guado degli orchi
+          testo: |
+            Resti fra i pioppi a guardare finché un orco esce dalla torre e scende
+            verso l'acqua. Entra fino alla vita e cammina, invece di nuotare, lungo
+            una linea che va storta verso est. C'è un dosso sotto, e tu lo segui con
+            gli occhi fino a impararlo. Lo passi al buio, un piede dopo l'altro, con
+            l'acqua mai sopra il petto.
+          effetti: { profondita.palude-acquanera: 1 }
+        fallimento:
+          titolo: L'orco alla finestra
+          testo: |
+            Guardi la torre troppo a lungo, e alla finestra con le sbarre compare
+            una faccia stretta, con il naso adunco e gli occhi rossi, che guarda
+            verso i pioppi. Ti abbassi nel fango e ci resti finché la faccia
+            sparisce. Quando rialzi la testa è quasi buio, e le mani non hanno
+            ancora smesso di tremare.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare una zattera con la tavola del cartello"
+        descrizione: "La tavola dovrebbe reggere un uomo. Bisogna spingere con le braccia, e l'acqua è fredda."
+        costo: 2
+        esito:
+          titolo: Il cartello
+          testo: |
+            Ti stendi sulla tavola a pancia in giù, con la mano rossa sotto il
+            petto, e spingi con le braccia nell'acqua gelata. La tavola regge appena
+            e beccheggia a ogni bracciata. Arrivi all'isolotto con le braccia di
+            legno e i gomiti sbucciati, e lasci il cartello fra i giunchi, con la
+            scritta in giù.
+          effetti: { profondita.palude-acquanera: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ la carta della spedizione
+  - id: palude-la-lanterna-nel-fango
+    immagine: ambientazione/palude-acquanera
+    titolo: La lanterna nel fango
+    sommario: "Mezza affondata nel fango c'è una lanterna da Raschiatore, e dentro il cristallo manda ancora una luce azzurra."
+    luogo: Palude Acquanera, nel fango
+    area: palude-acquanera
+    tipo: carta
+    requisiti: [pista.tribu == 2]
+    testo: |
+      Mezza affondata nel fango, con il manico all'aria, c'è una lanterna di
+      ottone da Raschiatore, di quelle che si appendono alla cintura per
+      scendere nei pozzi. Dietro il vetro rigato il cristallo manda ancora una
+      luce azzurra e debole, che nella nebbia fa un alone grande come una
+      testa. Sull'ottone qualcuno ha inciso con la punta di un chiodo *BERTO,
+      SECONDO POZZO*, e sotto ha aggiunto un cuore storto.
+
+      Fino a qui non scende nessun Raschiatore. *Gli Spacca-ossa se la sono
+      portata via dalla città, la notte della razzia.* Ti chini a tirarla
+      fuori, e il fango la lascia andare con un rumore di bacio.
+    opzioni:
+      - testo: "Aprirla e prendere il cristallo"
+        descrizione: "Lo sportello ha una chiusura a vite. Il cristallo può valere qualcosa, se non si rompe."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Facile }
+        successo:
+          titolo: Il cristallo
+          testo: |
+            Sviti lo sportello con le unghie e tiri fuori il cristallo, un prisma
+            azzurro lungo un dito che si spegne appena lo stacchi dalla base. Al
+            Mercato dei Nodi qualcuno te lo pagherà lo stesso. La lanterna vuota la
+            appendi a un ramo di tasso, con il cuore storto girato verso la città.
+          effetti: { cristalli.cristallo-sterile: 1 }
+        fallimento:
+          titolo: La scossa
+          testo: |
+            Giri la vite dalla parte sbagliata, e il cristallo ti dà una scossa che
+            ti risale fino al gomito. La lanterna ti cade di mano e torna nel fango,
+            e quando la ritrovi il vetro è rotto e la luce spenta. Per un pezzo hai
+            la mano che formicola e un sapore di rame in bocca.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere bene la scritta e lasciarla dov'è"
+        descrizione: "Berto del secondo pozzo, in Città Bassa, qualcuno lo conoscerà."
+        esito:
+          titolo: Berto
+          testo: |
+            Pulisci l'ottone con il pollice e sotto il nome trovi altre righe incise
+            più piccole, i turni di una settimana e una data, il giorno prima del
+            Festival. Rimetti la lanterna dritta sul fango con il cristallo acceso,
+            e la lasci lì. In Città Bassa, alla Pignatta, qualcuno saprà dirti se
+            Berto del secondo pozzo è ancora vivo, e la storia della sua lanterna
+            vale da bere.
+          effetti: { informazioni.voce: 1 }
+
+  # ------------------------------------------------------------ il cuore · 2 → 3
+  - id: la-torre-di-bolgrum
+    immagine: personaggi/bolgrum
+    titolo: La torre di Bolgrum
+    sommario: "Al piano terra della torre ci sono tre orchi e una coppa piena di monete. Al piano di sopra siede Bolgrum sul suo trono di teschi, con Skarr accanto."
+    luogo: Palude Acquanera, la torre sull'isolotto
+    area: palude-acquanera
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera >= 5]
+    testo: |
+      Arrivi sull'isolotto al tramonto, bagnato fino alla cintura, e ti
+      acquatti fra le radici di un tasso a venti passi dalla torre. La porta
+      in cima alla scala di legno è aperta. Il piano terra è illuminato da una
+      torcia e da una fila di candele votive accese davanti a una statua di
+      pietra grezza che raffigura un essere con due braccia e una testa,
+      lasciato a metà dallo scalpello. Tre orchi siedono a un tavolo di
+      pietra, davanti a una coppa di metallo piena di monete, a una coppa di
+      vino e a un piatto di carne cruda. Alle pareti ci sono rastrelliere
+      piene di lance e di asce appese ai ganci.
+
+      Dalla finestra con le sbarre si vede il piano di sopra. Su un trono di
+      teschi legati con cinghie di cuoio siede Bolgrum, così grasso che il
+      trono gli scompare sotto. Ha una pelliccia d'orso sulle spalle e una
+      corona d'ossa in testa, e tiene fra le ginocchia un bastone da sciamano
+      con le piume. Respira con fatica e fa schioccare la lingua fra una frase
+      e l'altra. In piedi accanto al trono c'è Skarr. È magro, arriva con la
+      testa quasi alle travi e tiene un'ascia bipenne appoggiata alla spalla.
+      Sul tavolo dietro di loro sono ammucchiati libri e pergamene coperti di
+      ragnatele, quello che resta del mago che abitava la torre.
+
+      «Skarr» dice Bolgrum con una voce acuta e roca. «Che fine ha fatto il
+      cartello che dice di non entrare?»
+
+      Skarr fa spallucce, e intanto guarda verso i tassi. *Non può vedermi da
+      lassù.* Il sudore ti si raffredda sulla nuca lo stesso.
+    opzioni:
+      - testo: "Entrare dalla porta e salire ad affrontarli"
+        descrizione: "Skarr ha l'ascia, e Bolgrum ha il bastone. Dal trono però non si alza."
+        combattimento: la-torre-di-bolgrum
+        vittoria:
+          titolo: Il trono di teschi
+          testo: |
+            I tre orchi del piano terra ti vedono sulla porta e si buttano in acqua
+            dalla scala, perché gli Spacca-ossa aspettano invece di inseguire. Di
+            sopra Bolgrum ti guarda storto. «E questa che bestia è? Una capra senza
+            corna?» Skarr ti viene addosso con l'ascia, e quando cade il pavimento
+            trema. Bolgrum muore seduto, con il bastone ancora fra le ginocchia,
+            senza essersi alzato.
+
+            Ti metti sotto la giacca le pergamene del mago e svuoti la coppa nella
+            bisaccia. Rientri in Città Bassa a notte fonda, con le braccia che
+            tremano e la storia già pronta per chi vorrà sentirla.
+          effetti: { pista.tribu: 1, monete: 35, informazioni.segreto: 1, racconto: 1 }
+          imposta: { bolgrum: 1 }
+          vai: citta-bassa
+        sconfitta:
+          titolo: Il canale
+          testo: |
+            L'ascia di Skarr ti prende di piatto e ti manda contro la parete, e
+            Bolgrum ride con la sua voce acuta, battendo il bastone sul pavimento.
+            Esci dalla torre non sai come e ti butti in acqua. Bolgrum deve aver
+            pesato che una torre trovata una volta si trova anche la seconda, perché
+            più tardi, dai giunchi, lo vedi scendere la scala di legno sulle sue
+            gambe, appoggiato a Skarr. Entrano nel canale con l'acqua alla cintola,
+            la tribù gli va dietro, e in pochi minuti spariscono nella nebbia.
+
+            Quando la torre è vuota risali piano la scala di legno, e sul tavolo di sopra trovi il fascio di pergamene del mago sotto un dito di
+            polvere, dove nessuno l'ha toccato. Torni in città all'alba
+            zoppicando su una gamba, con le pergamene dentro la camicia.
+          effetti: { pista.tribu: 1, informazioni.segreto: 1 }
+          imposta: { bolgrum: 2 }
+          vai: citta-bassa
+      - testo: "Aspettare che Skarr scenda e salire dalla finestra"
+        descrizione: "Prima o poi Skarr scenderà per la carne. Tre metri di muro, e le sbarre sono vecchie."
+        prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Le sbarre
+          testo: |
+            Quando Skarr scende per la carne ti arrampichi sulla pietra sbrecciata e
+            tiri la sbarra più rossa di ruggine, che viene via con un pezzo di
+            malta. Bolgrum ti vede entrare. «Skarr» chiama, «c'è una lucertola alla
+            finestra.» Non fa in tempo a dire altro. Skarr risale la scala a
+            chiocciola di corsa, ma nella spirale stretta la bipenne sbatte contro i
+            muri, e tu lo aspetti in cima con tutto il tempo che ti serve. Cade
+            all'indietro fino al piano terra, sopra il tavolo di pietra, e non si
+            rialza più.
+
+            I tre orchi scappano in acqua. Prendi le pergamene e la coppa, e torni
+            in Città Bassa con le mani graffiate e la storia da raccontare.
+          effetti: { pista.tribu: 1, monete: 30, informazioni.segreto: 1, racconto: 1 }
+          imposta: { bolgrum: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Nel fango
+          testo: |
+            A metà del muro una pietra ti resta in mano e cadi di schiena nel fango,
+            con un tonfo che si sente fino alla torre. Skarr esce dalla porta con
+            l'ascia prima che tu riesca a rialzarti, e la lama ti apre il fianco
+            mentre ti butti in acqua. Dai giunchi vedi Bolgrum alzarsi dal trono,
+            forse per la prima volta in anni, e scendere la scala un gradino alla
+            volta con Skarr davanti. Entrano nel canale fino alla cintola e
+            spariscono fra le canne.
+
+            Aspetti che la torre resti vuota prima di salire. Le pergamene del mago sono ancora sul tavolo sotto la polvere e le ragnatele, e te le infili sotto il braccio. Torni in città tenendoti il fianco con
+            l'altra mano.
+          effetti: { pista.tribu: 1, ferite: 1.5, informazioni.segreto: 1 }
+          imposta: { bolgrum: 2 }
+          vai: citta-bassa
+      - testo: "Dare fuoco alla scala e alla porta, e aspettarli fuori"
+        descrizione: "La scala e la porta sono di legno vecchio. Chi esce dal fumo esce nel fango, e tu sarai lì."
+        esito:
+          titolo: Il fumo
+          testo: |
+            Il legno è umido e ci mette un pezzo a prendere, poi il fuoco sale lungo
+            la scala e il fumo entra nella torre. Gli orchi escono dalle brecce
+            delle mura e si buttano in acqua. Poi dalla breccia più larga esce
+            Bolgrum sulle sue gambe, appoggiato a Skarr. Scende nel canale tossendo
+            e ci entra fino alla cintola. Skarr ti vede sulla riva e ti viene
+            addosso con l'ascia. Ti prende alla spalla, poi torna da Bolgrum senza
+            fretta, e quando il fumo si dirada sono spariti tutti fra i canali.
+
+            Sali dalla breccia e dal tavolo di sopra salvi le pergamene del mago,
+            annerite agli angoli. Torni in città con la spalla fasciata e i capelli
+            che sanno di fumo.
+          effetti: { pista.tribu: 1, ferite: 1.5, informazioni.segreto: 1 }
+          imposta: { bolgrum: 2 }
+          vai: citta-bassa
+      - testo: "Entrare a mani aperte e parlare con Bolgrum"
+        descrizione: "Chi vuole parlare con Bolgrum va da lui. Lui ascolta, e intanto pesa."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Difficile }
+        successo:
+          titolo: Il cartello
+          testo: |
+            Gli orchi ti portano di sopra per le braccia. Bolgrum ti guarda a lungo,
+            schioccando la lingua. «Che bestia è? Ha le orecchie piccole.» Gli dici
+            che il suo cartello galleggia nei giunchi, e gli chiedi chi doveva
+            tenerlo dritto. Bolgrum ti pesa con gli occhi, poi pesa Skarr allo
+            stesso modo e alla fine lo manda fuori a cercarlo. Quando allunga la
+            mano verso il bastone sei già addosso a lui, e muore sul trono senza
+            essersi alzato.
+
+            Skarr torna su per la scala di legno con il cartello sotto il braccio, e
+            tu lo aspetti sulla porta. Cade nel canale stringendo l'ascia, e l'ascia
+            lo porta a fondo. Esci con le pergamene e con la coppa, mentre i tre
+            orchi di sotto si tuffano in acqua. In città arrivi a notte, con la
+            storia di un capotribù morto per un cartello.
+          effetti: { pista.tribu: 1, monete: 25, informazioni.segreto: 1, racconto: 1 }
+          imposta: { bolgrum: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Troppo leggero
+          testo: |
+            Bolgrum ti ascolta schioccando la lingua, e alla fine allarga le mani
+            grasse. «Leggero» dice. «Skarr.» L'ascia ti arriva addosso mentre sei
+            già alla finestra, e ti prende la schiena prima che tu finisca in acqua.
+            All'alba, dai giunchi, vedi Bolgrum lasciare la torre a piedi, con Skarr
+            davanti. Entra nei canali con l'acqua alla cintola, e la tribù gli va
+            dietro. Il trono di teschi resta di sopra, vuoto.
+
+            Sali nella torre deserta e prendi dal tavolo il fascio di pergamene
+            impolverate, che gli orchi non hanno degnato di uno sguardo nemmeno
+            per portarsele via. Torni in città piegato in avanti per il dolore
+            alla schiena, con il fascio stretto contro il petto.
+          effetti: { pista.tribu: 1, ferite: 1.5, informazioni.segreto: 1 }
+          imposta: { bolgrum: 2 }
+          vai: citta-bassa

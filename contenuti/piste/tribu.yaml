@@ -1,0 +1,559 @@
+# La pista delle cinque tribù (pista.tribu 0 → 4): le brutte notizie in Municipio, la cena con
+# Ilvaena al Grifone di Ferro e, dopo la spedizione nella Palude Acquanera (passo 2 → 3, in un altro
+# file), il rapporto in Municipio. Più due carte legate alla pista.
+#
+# Per chi scrive la Palude: la quality nascosta `bolgrum` (definita qui sotto) dice com'è finita nella
+# torre e va impostata nel cuore della spedizione, in tutti i rami che portano pista.tribu a 3.
+#   bolgrum: 1  Bolgrum e Skarr sono morti (uccisi in combattimento o in qualunque altro modo)
+#   bolgrum: 2  Bolgrum e Skarr sono fuggiti nei canali della palude, vivi
+# Se resta a 0, il rapporto la tratta come 1. Il rapporto dà per scontato che dalla torre tu abbia
+# portato via le pergamene del mago che ci abitava prima degli orchi.
+quality:
+  - { id: bolgrum, immagine: personaggi/bolgrum, nome: Bolgrum, categoria: stato, nascosta: true, descrizione: "Com'è finita nella torre della Palude Acquanera. 1 Bolgrum e Skarr morti, 2 fuggiti vivi nei canali." }
+  - { id: cena.tribu, nome: Ilvaena ti ha descritto le tribù, categoria: stato, nascosta: true }
+  - { id: cena.eroi, nome: Ilvaena ti ha descritto gli eroi orchi, categoria: stato, nascosta: true }
+  - { id: cena.zagrath, nome: Ilvaena ti ha parlato di Zagrath, categoria: stato, nascosta: true }
+  - { id: cena.stroud, nome: Hai nominato Stroud a Ilvaena, categoria: stato, nascosta: true }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · le brutte notizie
+  - id: brutte-notizie-in-municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: Brutte notizie in Municipio
+    sommario: "Lo sceriffo ti manda a chiamare in Municipio. L'esploratrice che aspettava è tornata dai boschi, e le notizie che porta sono cattive."
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [pista.tribu == 0, pista.dama-argento >= 11, pista.sepolcro >= 7]
+    testo: |
+      Il biglietto dello sceriffo dice soltanto *Municipio, subito*. Il
+      Municipio sta all'incrocio fra Via del Velo e la Cattedrale, due piani
+      di pietra chiara con le sentinelle in cima alla scalinata. Nell'atrio
+      una targa d'ottone indica la scala per la banca cittadina, nel
+      seminterrato, con la parola *provvisoria* e una data di quarant'anni
+      fa.
+
+      Al piano di sopra la porta dell'ufficio della Rappresentante è aperta.
+      Julia Castaldi siede dietro la scrivania con le braccia conserte, e
+      davanti a lei Toren Galdrick ascolta un'elfa dai capelli ramati,
+      infangata fino alle ginocchia. «Entra pure» dice lei con la voce
+      roca. «Ormai queste faccende riguardano anche te.» Galdrick te la
+      presenta come Ilvaena Sorathe della guardia cittadina, poi aggiunge
+      «non ufficiale», e lei ride scuotendo la testa.
+
+      Ilvaena racconta che alla razzia c'erano tutte e cinque le tribù del
+      circondario, e a memoria d'elfo non si erano mai mosse insieme. Ieri a
+      Fondobosco ha sentito dei reduci malconci farfugliare degli eretici
+      che in città gli avevano ammazzato tanti guerrieri. «Parlavano di
+      voi difensori» dice. «Le bestiacce litigano sempre fra loro, a meno di
+      avere in testa una cosa grossa, e per le cose grosse serve un capo
+      grosso.»
+
+      Galdrick tiene i pollici nella cintura e dice un nome solo, Balthog,
+      a voce bassa. Ti si secca la bocca. *È lo stesso nome che stava nel
+      nucleo della macchina.* Julia annota il nome senza commentare, e lo
+      sceriffo si volta verso di te. «Nei prossimi giorni fatti vedere in
+      città» dice. «Se la gente ti incontra per strada si preoccupa meno.»
+    opzioni:
+      - testo: "Rispondere per primo allo sceriffo"
+        descrizione: "Galdrick chiede una cosa sola e si aspetta una risposta netta."
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: In giro per la città
+          testo: |
+            Gli dici di sì, senza giri di parole. Galdrick annuisce una volta
+            e tira fuori il taccuino dalla giubba, e ti pare di vederci il tuo
+            nome accanto a un turno di ronda. «Il mercato la mattina e i ponti
+            la sera» dice. «Basta che ti vedano.»
+
+            Ilvaena si stira la schiena e ti invita a cena stasera al
+            Grifone di Ferro. Vuole sentire la razzia da chi c'era, e in
+            cambio ti racconterà le tribù una per una. Adesso va a lavarsi e a
+            dormire un giorno intero. Julia scioglie le braccia giusto il
+            tempo di dirti che la porta del suo ufficio, per te, resta aperta.
+          effetti: { pista.tribu: 1, rep.caserma: 0.5 }
+      - testo: "Chiedere a Ilvaena degli eretici"
+        descrizione: "Gli orchi hanno trovato un nome per chi ha difeso la città, e lei l'ha sentito dire."
+        immagine: personaggi/ilvaena-sorathe
+        esito:
+          titolo: Eretici
+          testo: |
+            Ilvaena ci pensa mentre si gratta via una crosta di fango dal
+            polsino. Gli orchi di Fondobosco quella parola la dicevano a bassa
+            voce, racconta, nello stesso modo in cui si nomina una malattia.
+            «Su che cosa credano le bestiacce ne so meno di quanto vorrei»
+            dice. «So che di voi hanno paura, e un orco la paura la ammette
+            malvolentieri.»
+
+            Poi ti invita a cena al Grifone di Ferro, stasera. Vuole sentire la
+            razzia da chi c'era, e in cambio ti racconterà le tribù. Allo
+            sceriffo dici di sì, e Julia Castaldi aggiunge che per qualunque
+            cosa il suo ufficio è qui. Ilvaena, uscendo, ti batte due dita
+            sulla spalla.
+          pe: { natura: 5 }
+          effetti: { pista.tribu: 1, rep.caserma: 0.5 }
+      - testo: "Rivolgerti alla Rappresentante"
+        descrizione: "Julia Castaldi finora ha soltanto ascoltato. Le udienze, si dice, le fa brevi."
+        immagine: personaggi/julia-castaldi
+        esito:
+          titolo: Le pratiche già lette
+          testo: |
+            Julia ti ascolta con la mano posata su una pratica chiusa, e
+            risponde prima che tu abbia finito la frase. «I cittadini mi hanno
+            scelta quando nessuno aveva paura di niente» dice. «Adesso che
+            hanno paura non intendo deluderli. Se ti serve qualcosa sali qui e
+            chiedilo chiaro, che di giri di parole in questo ufficio ne sento
+            già abbastanza.»
+
+            Allo sceriffo dici di sì, e lui annuisce una volta. Ilvaena ti
+            invita a cena stasera al Grifone di Ferro, la tua razzia in cambio
+            delle sue tribù, poi esce sbadigliando nella manica.
+          effetti: { pista.tribu: 1, rep.castaldi: 0.5 }
+      - testo: "Restare in silenzio e ascoltare"
+        descrizione: "Lasci parlare loro. Da come si guardano si capisce chi decide che cosa."
+        esito:
+          titolo: Accanto alla porta
+          testo: |
+            Resti accanto alla porta e lasci parlare loro. Ilvaena dice le cose
+            come le ha viste, con le date giuste. Lo sceriffo ripete i nomi
+            a mezza voce per fissarli. Julia scrive poco, e quando Ilvaena
+            nomina Fondobosco sottolinea una riga due volte. Alla fine si
+            accorge che non hai aperto bocca, e ti ringrazia proprio per questo,
+            perché da una settimana in quell'ufficio parlano tutti.
+
+            Allo sceriffo rispondi con un cenno, che gli basta. Ilvaena ti
+            invita a cena stasera al Grifone di Ferro e se ne va a dormire.
+          pe: { percezione: 5 }
+          effetti: { pista.tribu: 1, rep.castaldi: 0.5 }
+
+  # ------------------------------------------------------------ 1 → 2 · la cena al Grifone
+  - id: cena-con-ilvaena
+    immagine: personaggi/ilvaena-sorathe
+    titolo: Cena con Ilvaena
+    sommario: "Al Grifone di Ferro Ilvaena Sorathe ti aspetta al tavolo d'angolo. Vuole la tua razzia, e in cambio ti dà le tribù."
+    luogo: Locanda del Grifone di Ferro, la sera
+    area: ponti-sospesi
+    requisiti: [pista.tribu == 1]
+    testo: |
+      La sera il Grifone di Ferro è pieno di Raschiatori appena tornati dal
+      turno, e il vapore della zuppa appanna le finestre ancora inchiodate.
+      Ilvaena Sorathe ha preso il tavolo d'angolo e quasi non la riconosci.
+      Si è lavata i capelli, che adesso sono di un rame acceso e le arrivano
+      alle scapole, e a giudicare dagli occhi ha dormito. L'arco lungo è
+      appoggiato al muro senza la corda, e la faretra occupa la sedia
+      accanto, così nessuno ci si siede.
+
+      «Prima la tua razzia» dice, e ti spinge davanti un boccale. «A
+      Fondobosco l'ho sentita raccontare dagli orchi, e raccontano male.»
+
+      Le racconti la piazza del Festival e il cinghiale corazzato, e gli
+      orchi che saltavano nella Cicatrice pur di non farsi prendere. Ilvaena
+      ascolta con il mento sul pugno e ogni tanto ti ferma per chiederti da
+      che parte soffiava il vento. Brunella Fennick vi mette davanti due
+      scodelle di stufato e resta lì finché non hai preso la prima
+      cucchiaiata. In fondo alla sala Liaren Tarvelin accorda il samisen e
+      ogni tanto guarda verso il vostro tavolo, perché Ilvaena è la sua amica
+      più vecchia.
+
+      Quando hai finito, Ilvaena posa il boccale e si pulisce la schiuma dal
+      labbro con il dorso della mano. *Adesso tocca a lei, e lo sa.*
+      «Chiedi» dice.
+    opzioni:
+      - testo: "Chiederle delle cinque tribù"
+        descrizione: "Lei le insegue da anni, e qualche volta le sfoltisce."
+        immagine: fazioni/tribu-fondobosco
+        requisiti: [cena.tribu == 0]
+        costo: 0
+        esito:
+          titolo: Cinque tribù
+          testo: |
+            Ilvaena le conta sulle dita, cominciando dal pollice. Gli
+            Spiumatori stanno nelle grotte sul versante ovest del Gradone
+            Rosso, e sono i meno aggressivi; mangiano uccelli crudi e assalgono
+            solo chi viaggia da solo. Gli Spacca-ossa vivono a sud nella
+            Palude Acquanera. Nuotano come lontre e ti aspettano sott'acqua
+            invece di inseguirti. Nel Bosco della Forca ci sono i Nove Chiodi,
+            che assaltano le carovane e con il ferro rubato si fanno armi e
+            palizzate. Più a est del Gradone c'è Fondobosco, la tribù più
+            grande, che potrebbe schiacciare la città da sola se le famiglie
+            non passassero l'anno a sgozzarsi fra loro.
+
+            «L'ultima è Capomozzo, su un'isola al largo di Rovolungo» dice, e
+            si guarda il mignolo. «Vista da nord pare una testa mozzata. È il
+            covo migliore della regione, e loro lo sanno.»
+          imposta: { cena.tribu: 1 }
+          segue: cena-con-ilvaena
+      - testo: "Chiederle degli eroi orchi"
+        descrizione: "Fra gli orchi ce ne sono pochi che si fanno un nome. Quei pochi, Ilvaena li conosce."
+        immagine: personaggi/borgoth-il-gigante
+        requisiti: [cena.eroi == 0]
+        costo: 0
+        esito:
+          titolo: Sei nomi
+          testo: |
+            «Gli orchi vivono poco e male» dice Ilvaena, «e quando uno si fa
+            un nome se l'è guadagnato.» Adesso ne conta sei. Borgoth il Gigante
+            è di Fondobosco, figlio di un orco e di una ogre, e gli interessa
+            cacciare più che comandare. Uzgreth era il campione dei Nove
+            Chiodi, con un pessimo carattere e una spada da ogre troppo grande
+            anche per lui. Mesi fa ha trovato un nascondiglio in una caverna ed
+            è sparito, e i suoi lo credono un fantasma che sgozza chi va a
+            cercarlo. Nella Palude c'è Bolgrum, il capotribù, così grasso che
+            non si alza più dal trono, e con lui Skarr, che mangia carne d'orco
+            quando non trova di meglio.
+
+            Poi c'è Balthog il Prescelto, a Capomozzo. «Dorbak, quello del
+            cinghiale corazzato, era il suo braccio destro» dice, e alza il
+            boccale verso di te. Il sesto è il mezzogre Zagrath, e quando lo
+            nomina Ilvaena abbassa la voce.
+          imposta: { cena.eroi: 1 }
+          segue: cena-con-ilvaena
+      - testo: "Chiederle di Zagrath"
+        descrizione: "Quel nome l'ha detto più piano degli altri."
+        immagine: personaggi/zagrath
+        requisiti: [cena.eroi == 1, cena.zagrath == 0]
+        costo: 0
+        esito:
+          titolo: Una guerra privata
+          testo: |
+            Zagrath vive nel nord di Rovolungo e gira fra le cinque tribù
+            con la merce rubata alle carovane, che rivende agli orchi in cambio
+            di alcol e di notizie, a volte di frecce incantate. Lo accolgono
+            dappertutto e non si fidano di lui da nessuna parte. Gli elfi li
+            odia più di qualunque altra cosa. Ilvaena si tocca una cicatrice bianca
+            sotto la clavicola, mezza nascosta dal colletto, e ti dice che si
+            sono affrontati più volte senza che nessuno dei due l'abbia mai
+            spuntata.
+
+            «Ha un arco lungo quanto me» dice, «e la mira ce l'ha migliore
+            della mia.» Beve un sorso. «Prima o poi uno dei due cade, e ho
+            deciso da un pezzo che non sarò io.»
+          imposta: { cena.zagrath: 1 }
+          segue: cena-con-ilvaena
+      - testo: "Nominare Dolovan Stroud"
+        descrizione: "I cavalli per la caccia di Corin te li ha sellati lui. Stroud gli orchi li odia quanto lei."
+        immagine: personaggi/dolovan-stroud
+        requisiti: [pista.corin >= 2, cena.stroud == 0]
+        costo: 0
+        esito:
+          titolo: Le Scuderie della Zanna Rotta
+          testo: |
+            Le dici che i cavalli per la caccia di Corin te li ha dati Dolovan
+            Stroud, e Ilvaena posa il cucchiaio nella scodella e lo riprende
+            subito dopo. «Ha ancora Squash, quel bestione?» chiede, e quando
+            le dici di sì sorride al piatto. Sono stati insieme a lungo,
+            racconta, poi lui l'ha voluta qui in città, e lei aveva già scelto
+            i confini di Velthar.
+
+            «Ci parliamo poco» dice. «Ci guardiamo parecchio, però.» Al
+            bancone Liaren ha smesso di accordare il samisen e fa finta di
+            niente con una certa fatica.
+          imposta: { cena.stroud: 1 }
+          segue: cena-con-ilvaena
+      - testo: "Chiederle che cosa si può fare"
+        descrizione: "Lo sceriffo vorrà sapere dove colpire, e Ilvaena un'idea ce l'ha già."
+        immagine: ambientazione/palude-acquanera
+        requisiti: [cena.tribu == 1, cena.eroi == 1, cena.zagrath == 1]
+        esito:
+          titolo: La Palude
+          testo: |
+            Ilvaena disegna la regione con la punta del dito nell'unto del
+            tavolo, con Qir-Azel in mezzo e le tribù tutto intorno. Andare
+            contro Capomozzo o Fondobosco adesso sarebbe un suicidio, perché
+            sono troppi. Con la Palude Acquanera è diverso. Gli Spacca-ossa
+            sono la tribù più piccola e la più isolata, e alla razzia hanno
+            perso parecchi guerrieri. Restano Bolgrum e Skarr, che insieme
+            fanno paura anche a lei, e una palude dove senza guida ci si perde
+            in mezza giornata.
+
+            «Se vuoi far capire alle bestiacce che allearsi costa caro,
+            comincia da lì» dice. Poi cancella la mappa con il palmo, e
+            Brunella arriva con lo straccio prima che abbia finito.
+          pe: { natura: 5 }
+          effetti: { pista.tribu: 1 }
+
+  # ------------------------------------------------------------ 3 → 4 · il rapporto
+  - id: rapporto-in-municipio
+    immagine: personaggi/julia-castaldi
+    titolo: Rapporto in Municipio
+    sommario: "Sei tornato dalla Palude Acquanera con il fango negli orli e un fascio di pergamene. In Municipio ti aspettano in tre."
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [pista.tribu == 3]
+    testo: |
+      Torni in città con il fango della Palude ancora negli orli dei
+      calzoni, e sui gradini del Municipio lasci delle impronte che un
+      inserviente segue con lo straccio fino al piano di sopra, una alla
+      volta, senza alzare la testa. Nell'ufficio di Julia Castaldi questa
+      volta c'è una sedia anche per te. Galdrick resta in piedi lo stesso,
+      con i pollici nella cintura. Ilvaena è seduta sul davanzale con un
+      ginocchio al petto, e appena entri ti guarda prima gli stivali e poi
+      la faccia.
+
+      Sulla scrivania posi il fascio di pergamene che hai portato via dalla
+      torre. Erano di un mago che abitava lassù prima degli orchi, chissà
+      quanti anni fa, e sono coperte di simboli e di formule che a
+      guardarle troppo a lungo ti fanno pulsare le tempie. Gli orchi non le
+      avevano mai toccate, e sopra c'era un dito di polvere. Ti accorgi di
+      avere ancora nelle narici l'odore di muffa della torre.
+
+      Julia scosta la pratica che stava leggendo e intreccia le dita sul
+      piano della scrivania. «Dall'inizio» dice. «E senza abbellire, che le
+      storie belle me le raccontano già in Consiglio.»
+    opzioni:
+      - testo: "Raccontare com'è finita nella torre"
+        descrizione: "Bolgrum e Skarr non tormenteranno più nessuno."
+        requisiti: [bolgrum != 2]
+        costo: 0
+        esito:
+          titolo: La torre vuota
+          testo: |
+            Racconti la palude e l'isola di fango con la torre in mezzo, fino
+            al trono a forma di teschio, e poi come sono morti Bolgrum e
+            Skarr. Ilvaena ti fa ripetere due volte la parte di Skarr, poi
+            scende dal davanzale. «Gli davo la caccia da anni» dice, senza
+            rancore. «Mi hai risparmiato parecchio fango.»
+
+            Galdrick scrive i due nomi sul taccuino e ci tira sopra una riga
+            ciascuno. Julia chiede quanti orchi restano nella palude e chi li
+            comanderà adesso. Ilvaena risponde che ne restano una quindicina
+            senza un capo, e che per un po' si azzanneranno fra loro.
+          segue: rapporto-in-municipio-congedo
+      - testo: "Raccontare com'è finita nella torre"
+        descrizione: "Bolgrum e Skarr sono scappati nei canali, ma la torre adesso è vuota."
+        requisiti: [bolgrum == 2]
+        costo: 0
+        esito:
+          titolo: Nei canali
+          testo: |
+            Racconti la palude e l'isola di fango con la torre in mezzo, fino
+            al trono a forma di teschio. Poi racconti come Bolgrum e Skarr sono
+            spariti fra i canali con l'acqua alla cintola. Ilvaena dice che
+            Bolgrum non l'aveva mai visto camminare, e che doveva essere uno
+            spettacolo.
+            «Senza torre e senza trono per gli Spacca-ossa è un capo a metà»
+            dice. «Skarr invece, da solo, è peggio di prima. Terrò d'occhio i
+            villaggi del sud.»
+
+            Galdrick scrive i due nomi sul taccuino e ci mette accanto un punto
+            di domanda. Quando Julia chiede se torneranno presto, Ilvaena alza
+            le spalle e dice che prima dovranno leccarsi le ferite, e che nella
+            palude ci vuole tempo anche per quello.
+          segue: rapporto-in-municipio-congedo
+
+  - id: rapporto-in-municipio-congedo
+    immagine: personaggi/toren-galdrick
+    titolo: Una tribù su cinque
+    tipo: seguito
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [pista.tribu == 3]
+    testo: |
+      Julia sfoglia le pergamene una alla volta senza leggerle, e le impila
+      con gli angoli pari. Le manderà in Biblioteca, dice, dove qualcuno saprà
+      dire di chi erano. Poi apre il registro del Consiglio.
+
+      Galdrick parla poco, come sempre. Secondo lui una tribù su cinque ha
+      avuto quello che si meritava, e le altre quattro nemmeno se ne sono
+      accorte. Il fronte resta largo, dal Bosco della Forca fino al mare di
+      Rovolungo, e la Caserma non ha gli uomini per tenerlo. Domattina parte
+      per Ghoran a prendere uomini e certi documenti che gli servono, e
+      starà via qualche giorno. «Mentre sono via tieni d'occhio la città»
+      dice. «Se succede qualcosa lo scrivi e lo lasci al sergente di turno.»
+
+      Ilvaena tornerà al confine domani all'alba, a guardare che cosa fanno
+      le altre tribù adesso che una ha perso la testa. Mentre si allaccia il
+      mantello chiede a Galdrick se ha già salutato chi doveva salutare, in
+      Via dei Rasoi, e lo sceriffo si sistema la cintura senza rispondere.
+      Julia intanto scrive una cifra sul registro, trenta monete, la
+      ricompensa del Consiglio, e la sottolinea.
+    opzioni:
+      - testo: "Accettare la ricompensa così com'è"
+        descrizione: "Sul registro ci sono trenta monete sottolineate, e Julia non ama chi discute le cifre."
+        esito:
+          titolo: Trenta monete
+          testo: |
+            Firmi la ricevuta sotto la cifra, e Julia ti conta le monete da una
+            cassetta di ferro che tiene nel cassetto, a pile di cinque. «La
+            chiarezza fa risparmiare tempo a tutti» dice, e ti guarda per la
+            prima volta senza una pratica davanti. Galdrick ti stringe la mano.
+            Ilvaena ti batte due dita sulla spalla ed esce per prima, con
+            l'arco a tracolla e il mantello ancora da allacciare.
+
+            Scendi la scalinata con la borsa più pesante, e in fondo all'atrio
+            la targa della banca provvisoria luccica come la prima volta.
+          effetti: { pista.tribu: 1, racconto: 1, monete: 30, rep.castaldi: 1 }
+      - testo: "Far notare quanto valgono le pergamene"
+        descrizione: "Il Consiglio riceve gratis le carte di un mago. Si può dirlo con garbo, a una che detesta i giri di parole."
+        prova: { attributo: sociale, abilita: [politica-ed-economia, persuasione], difficolta: Media }
+        successo:
+          titolo: Quaranta
+          testo: |
+            Le fai notare che le carte di un mago, in Biblioteca, varrebbero
+            da sole più della cifra sul registro, e che il Consiglio le riceve
+            gratis. Julia ci pensa il tempo di intingere la penna. Poi
+            corregge il trenta in quaranta e ci scrive accanto una nota
+            piccola, a margine. «Hai ragione, e mi secca» dice. «I conti si
+            fanno giusti anche quando li fa qualcun altro.»
+
+            Galdrick, alla finestra, si passa una mano sulla testa rasata.
+            Ilvaena ti strizza l'occhio dal davanzale ed esce per prima.
+          effetti: { pista.tribu: 1, racconto: 1, monete: 40, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: Venticinque
+          testo: |
+            Julia ti lascia finire, poi posa la penna. Ti spiega che le cifre
+            del Consiglio si decidono in Consiglio, e che ne ha appena tolte
+            cinque per il tempo che le hai fatto perdere. Lo dice senza
+            cattiveria, con il tono che userebbe per la data di una seduta, e
+            ti conta venticinque monete sul piano della scrivania.
+
+            Ilvaena tossisce per non ridere, e Galdrick guarda fuori dalla
+            finestra finché non hai firmato la ricevuta.
+          effetti: { pista.tribu: 1, racconto: 1, monete: 25, rep.castaldi: 0.5 }
+      - testo: "Aiutare Julia a leggere le pergamene"
+        descrizione: "I simboli non sono tutti uguali. Se capisci da dove veniva il mago, Julia saprà a chi mandarle."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: Il sigillo dell'Accademia
+          testo: |
+            In fondo a ogni foglio, ripetuto come una firma, riconosci un
+            sigillo che hai già visto inciso sui portali dell'Accademia di
+            Torvessa. Il mago della torre aveva studiato lì. Julia annota il
+            nome sul registro e decide che le pergamene andranno prima a
+            Orvald Temmerin all'Accademia e solo dopo in Biblioteca.
+
+            Ti conta la ricompensa e ci aggiunge cinque monete di tasca sua,
+            e ci tiene a dirti che sono sue. Galdrick ti stringe la mano, e
+            Ilvaena esce per prima con l'arco a tracolla.
+          effetti: { pista.tribu: 1, racconto: 1, monete: 35, rep.castaldi: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Le tempie
+          testo: |
+            Dopo un po' che guardi le formule ti sembra che le righe si
+            spostino di mezzo dito ogni volta che sbatti le palpebre. Julia ti
+            toglie il foglio di mano e lo rimette in cima alla pila, poi ti
+            conta la ricompensa del Consiglio e ti consiglia con garbo di
+            andare a dormire.
+
+            Il mal di testa ti accompagna giù per la scalinata e per tutta Via
+            del Velo, e ogni campana delle ore sacre ti batte dietro gli occhi.
+          effetti: { pista.tribu: 1, racconto: 1, monete: 30, rep.castaldi: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ carte della pista
+  - id: carta-gli-eretici
+    immagine: ambientazione/citta-bassa
+    titolo: Gli eretici
+    sommario: "In un cortile della Città Bassa i bambini giocano alla razzia, e uno di loro ti ha riconosciuto."
+    tipo: carta
+    area: citta-bassa
+    requisiti: [pista.tribu >= 1]
+    testo: |
+      In un cortile di Via del Salmone, fra una pompa dell'acqua e una fila
+      di botti vuote, quattro bambini giocano alla razzia. Due hanno una
+      pentola in testa e fanno gli orchi, e gli altri due difendono la pompa
+      con dei manici di scopa. Il più piccolo degli orchi ha la pentola che gli
+      scivola sugli occhi, e quando ti vede passare ti punta contro un
+      cucchiaio di legno.
+
+      «Eretico!» grida, con la voce grossa che secondo lui hanno gli orchi.
+      «Adesso ti mangio!»
+
+      La madre esce di corsa da una porta, con le mani ancora bagnate, e lo
+      prende per il colletto. Gli molla uno scappellotto sulla pentola, che
+      suona come una campana, e poi ti guarda e diventa rossa fino alle
+      orecchie. Sul muro dietro di lei qualcuno ha scritto col carbone
+      *ERETICI*, in lettere storte, e sotto ha disegnato un omino con la
+      spada e un sole che gli sorride.
+    opzioni:
+      - testo: "Stare al gioco"
+        descrizione: "Il bambino aspetta soltanto che tu cada morto."
+        esito:
+          titolo: Morto sul selciato
+          testo: |
+            Ti porti la mano al petto e cadi in ginocchio con un lamento
+            lunghissimo, poi ti stendi sul selciato con la lingua di fuori. I
+            bambini esultano tutti e quattro, anche i difensori, che
+            evidentemente non hanno capito da che parte stanno. La madre
+            prova a restare seria e non ci riesce.
+
+            Quando ti rialzi hai la polvere sulla schiena e le spalle più
+            leggere di stamattina.
+          effetti: { tormento: -0.5 }
+      - testo: "Chiedere alla madre dove l'ha sentita"
+        descrizione: "Una parola orchesca non arriva da sola in un cortile di Via del Salmone."
+        esito:
+          titolo: Dalla fontana
+          testo: |
+            La madre si asciuga le mani sul grembiule e ti chiede scusa due
+            volte prima di rispondere. La parola gira da qualche giorno, dice.
+            L'hanno portata le guardie della Caserma, che la sentivano
+            ripetere dagli orchi presi dopo la razzia, e alla fontana adesso la
+            usano tutti. Per la strada, aggiunge, è quasi un complimento. Lo
+            scappellotto, invece, era per il cucchiaio, che è l'unico buono
+            che ha.
+          effetti: { informazioni.voce: 1 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: "Prosegui verso Via del Salmone. Alle tue spalle il più piccolo degli orchi ricomincia a gridare, adesso contro la pompa."
+
+  - id: carta-ilvaena-al-mercato
+    immagine: ambientazione/mercato-dei-nodi
+    titolo: Penne d'oca
+    sommario: "Al Mercato dei Nodi Ilvaena Sorathe sceglie le frecce una per una, e il venditore non ne è contento."
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [pista.tribu >= 2]
+    testo: |
+      Sulla piattaforma più esposta del Mercato dei Nodi il vento fa girare
+      le penne appese ai banchi. Ilvaena Sorathe è china sul banco di un
+      vecchio impennatore e prova le frecce una per una, facendole rotolare
+      sul palmo per vedere se sono dritte. Quelle storte le mette da parte
+      senza dire niente, e il mucchio delle storte cresce più in fretta
+      dell'altro. Il vecchio la guarda fare con la pipa spenta fra i denti, e
+      ogni tanto ne tira una boccata d'aria per abitudine.
+
+      Ti vede e ti fa cenno di avvicinarti, senza smettere. «Penne d'oca
+      tagliate a mano» dice, e te ne mette una in mano perché tu senta il
+      peso. «Le frecce buone sono come gli stivali, non ci pensi finché non
+      ti mancano» aggiunge, e torna a farle rotolare.
+    opzioni:
+      - testo: "Aiutarla a contrattare"
+        descrizione: "Il vecchio ha già deciso che a un'elfa il prezzo lo alza. Forse a te no."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, persuasione], difficolta: Facile }
+        successo:
+          titolo: Il prezzo giusto
+          testo: |
+            Fai notare al vecchio che metà delle sue frecce sta nel mucchio
+            delle storte, e che un'elfa della guardia, al mercato, è una
+            pubblicità che non si compra. Lui borbotta e toglie un quarto dal
+            prezzo. Ilvaena paga e infila le frecce nella faretra una alla
+            volta. «Zagrath le compra incantate e le paga con le carovane
+            degli altri» dice intanto, «io le compro dritte e le pago in
+            monete, e mi piace pensare che la differenza si veda.»
+          effetti: { rep.caserma: 0.5 }
+        fallimento:
+          titolo: Il prezzo intero
+          testo: |
+            Il vecchio ti ascolta, poi alza il prezzo di una moneta per il
+            disturbo. Ilvaena ride e paga lo stesso. «Lascia stare» dice. «Mi
+            vende frecce da dieci anni e da dieci anni ci provo anch'io.» Ti
+            regala per ricordo una delle frecce storte e se ne va con la
+            faretra piena.
+      - testo: "Chiederle di Dolovan Stroud"
+        descrizione: "Le Scuderie della Zanna Rotta sono giù in Città Bassa, sulla strada che Ilvaena fa per salire al mercato."
+        requisiti: [pista.corin >= 2]
+        esito:
+          titolo: La strada lunga
+          testo: |
+            Ilvaena fa rotolare una freccia sul palmo più a lungo del
+            necessario. Racconta che ieri è passata davanti alle Scuderie della
+            Zanna Rotta e che Squash l'ha riconosciuta dal recinto e si è messo
+            a nitrire come un matto. Dolovan era dentro e non è uscito. Lei è
+            rimasta in strada finché Squash non si è calmato. «Siamo bravissimi tutti e due» dice, e mette la
+            freccia nel mucchio delle storte anche se era dritta.
+          pe: { empatia: 5 }
+      - testo: "Salutarla e lasciarla alle sue frecce"
+        costo: 0
+        esito:
+          testo: "Ilvaena alza una freccia storta in segno di saluto e torna a litigare con il vecchio."

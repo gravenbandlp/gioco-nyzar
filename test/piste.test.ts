@@ -23,12 +23,13 @@ function passo(s: Stato, st: TStorylet, rng: Rng): void {
   } else if (r.tipo === 'errore') throw new Error(`${st.id}: ${r.messaggio ?? 'errore'}`);
 }
 
-function percorri(origine: string, seme: number, pista: string, fine: number): number {
+function percorri(origine: string, seme: number, pista: string, fine: number, extra: Record<string, number> = {}): number {
   const s = nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === origine)!, 0, 'citta-bassa');
   delete s.quality['prologo'];
   s.quality['informazioni.voce'] = 2;
   s.quality['monete'] = 60;
   s.quality['conosci.liaren'] = 1; // il primo ingresso al Grifone apre la caccia di Corin
+  Object.assign(s.quality, extra);
   const rng = rngConSeme(seme);
   for (let n = 0; n < 400; n++) {
     s.candele = CANDELE_MAX;
@@ -41,7 +42,8 @@ function percorri(origine: string, seme: number, pista: string, fine: number): n
     if (sospeso && requisitiSoddisfatti(s, sospeso.requisiti, c) && rng() < 0.5) { passo(s, sospeso, rng); continue; }
     const v = (s.quality[pista] ?? 0);
     const tutti = c.storylet.filter((x) => x.tipo !== 'carta' && requisitiSoddisfatti(s, x.requisiti, c)
-      && x.requisiti.some((r) => r.replace(/\s/g, '') === `${pista}==${v}`));
+      && x.requisiti.some((r) => r.replace(/\s/g, '') === `${pista}==${v}`)
+      && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0)); // uno storylet senza opzioni giocabili adesso si salta
     // si gioca nell'area in cui si è (in spedizione si resta dentro); altrimenti ci si sposta
     const qui = tutti.filter((x) => x.area === s.area);
     const scelta = qui.length ? qui : tutti;
@@ -66,6 +68,12 @@ describe('piste', () => {
   });
   it('la Promessa dell\'Arpia arriva alla prima', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.teatro', 2)).toBeGreaterThan(1);
+  });
+  it('il registro del custode arriva a 5', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.registro', 5, { 'indizio.custode-notturno': 1 })).toBeGreaterThan(4);
+  });
+  it('le cinque tribù arrivano a 4, passando dalla Palude Acquanera', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.tribu', 4, { 'pista.dama-argento': 11, 'pista.sepolcro': 7, invito: 1 })).toBeGreaterThan(3);
   });
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');

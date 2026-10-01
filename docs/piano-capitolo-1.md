@@ -14,7 +14,11 @@ l'invito ai Quartieri Alti, così la Biblioteca è raggiungibile da ogni origine
 via senza prova che costa due candele e un po' di Ferite o Tormento. Blocco 4 fatto: la caccia di Corin fino a 6
 (`contenuti/piste/corin*.yaml`) con la Foresta Strisciante, e la Promessa dell'Arpia al Teatro
 (`contenuti/piste/teatro.yaml`). Le cavalcature sono accessori con la chiave `cavalcatura`: ogni ingresso in
-spedizione ha un'opzione a cavallo che costa una candela in meno.
+spedizione ha un'opzione a cavallo che costa una candela in meno. Dopo il blocco 4: le candele passano da 20 a 40 (ricarica
+invariata, una ogni 10 minuti) e c'è l'allenamento di base (`contenuti/allenamento.yaml`): ogni abilità si allena
+da zero in città fino a 2, con prove Molto facili su una sola abilità. Blocco 5 fatto: il registro del custode fino
+a 5 (`contenuti/piste/registro.yaml`, con tre strade per decifrarlo, una senza invito alla Pignatta) e le cinque
+tribù fino a 4 (`contenuti/piste/tribu*.yaml`) con la Palude Acquanera.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.
@@ -32,8 +36,8 @@ Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno so
 | **Dama d'Argento** (`pista.dama-argento`, 0–11) | Via dei Rasoi e gli Scuri (patto con Rozalia, minaccia o rissa con Squiggor); il Ponte del Pesce; interrogare un morto (con la magia o pagando un sacerdote); Jass e le sue tre vie | CB, Ponti | già attiva | Registro, Tribù |
 | **Il Sepolcro violato** (`pista.sepolcro`, 0–7) | Galdrick e Borso in Caserma; cimitero e cripta; Biblioteca (Stanne, Mattias, Padre Walter: il nucleo della macchina, Balthog, le Notti Cucite); Roccia di Wren e lo spettro del Cucitore; secondo giro in Biblioteca (gli archivi mutilati su Capomozzo) | QA, CB, spedizione breve | bacheca del Grifone | Tribù, Capomozzo |
 | **La caccia di Corin** (`pista.corin`, 0–6) | Corin al Grifone; Stroud alle Scuderie della Zanna Rotta; la Foresta Strisciante (Spiumatori, fossa, vermi-carogna, cinghiale mutato); il banchetto; gli organi portati in Biblioteca | Ponti, CB, spedizione | carta o bacheca | Sepolcro (prova), Gilda |
-| **Il registro del custode** (`pista.registro`, 0–6) | Maedric Holl al Ponte dei Morti (fingerti cliente, trattare o combattere); decifrare il registro (Lira Demos o Mattias Crenn); rapporto a Galdrick; i mulini bruciati dei Malgrani | Ponti, QA | `indizio.custode-notturno` (Dama 9 → 10) | Sotto la pelle |
-| **Le cinque tribù** (`pista.tribu`, 0–6) | Municipio con Galdrick, Julia e Ilvaena; cena con Ilvaena (tribù ed eroi orchi); Palude Acquanera con Bolgrum e Skarr | QA, spedizione | Dama 11 e Sepolcro 7 | Acciaio e Ira |
+| **Il registro del custode** (`pista.registro`, 0–5) | Maedric Holl al Ponte dei Morti (fingerti cliente, trattare o combattere); decifrare il registro (Lira Demos o Mattias Crenn); rapporto a Galdrick; i mulini bruciati dei Malgrani | Ponti, QA | `indizio.custode-notturno` (Dama 9 → 10) | Sotto la pelle |
+| **Le cinque tribù** (`pista.tribu`, 0–4) | Municipio con Galdrick, Julia e Ilvaena; cena con Ilvaena (tribù ed eroi orchi); Palude Acquanera con Bolgrum e Skarr | QA, spedizione | Dama 11 e Sepolcro 7 | Acciaio e Ira |
 | **Acciaio e Ira** (`pista.acciaio`, 0–8) | Ondrel irrompe al Grifone; la taverniera scomparsa e la lettera di Isvaro; l'Acciaieria (i curiosi davanti, gli orchi alla fornace, Isvaro); il diario di Isvaro; Liaren salvata; le Segrete dell'Ira (Uzgreth, Yoggoth, il Pozzo da prosciugare) | CB, spedizione | Tribù ≥ 4 | Capomozzo |
 | **Capomozzo** (`pista.capomozzo`, 0–10) | Rovolungo e Borgoth; la fortezza (Balthog, Ombrafosca); primo livello (Zagrath, i cuccioli d'orco, il diario di Aurenne, Garin e Kessa); secondo livello (Aurenne e il congegno, il Costruttore, la Maschera); ritorno in Cattedrale, la Madre del Velo, Aurenne che si risveglia; i Raschiatori e la discesa verso la Strada Antica | spedizione, QA, Ponti | Acciaio ≥ 8 e Sepolcro 7 | fine del Capitolo I |
 

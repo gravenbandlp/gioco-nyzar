@@ -1,3 +1,4 @@
+import { CANDELE_MAX } from '../src/motore/regole';
 import { rngConSeme } from '../src/motore/dadi';
 import { nuovoPersonaggio, cartePescabili, abilitaEffettiva, applicaEffetti, type Stato } from '../src/motore/personaggio';
 import { scegli, anteprima, puoEntrare } from '../src/motore/azioni';
@@ -28,7 +29,7 @@ describe('crisi', () => {
     expect(r.tipo).toBe('risultato');
     expect(s.quality['ferite']).toBe(4);
     expect(s.quality['monete']).toBe(10);
-    expect(s.candele).toBe(20);
+    expect(s.candele).toBe(CANDELE_MAX);
   });
   it('sacrificare richiede almeno 10 PE e li azzera', () => {
     const s = figlio();
