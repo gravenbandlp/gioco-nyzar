@@ -125,6 +125,21 @@ e *In giro per…* con i ripetibili senza luogo. Un luogo senza niente di dispon
 solo presentazione: entrarci non costa candele. Le storie nuove dei blocchi 6–8 vanno agganciate a un luogo
 quando ne hanno uno; l'Acciaieria diventa luogo nel blocco 6, quando ha più di un ripetibile.
 
+**Come si fa un luogo (dal 1° ottobre 2026).** Ogni luogo ha un file in `contenuti/citta/` con: un'attività
+ripetibile tipica (PE nelle abilità del luogo, un po' di monete, la reputazione del luogo che sale fino a un tetto);
+il servizio, spesso già presente; tre storie secondarie a gradini di reputazione (2, 4, 6), ognuna con il suo flag e
+ognuna che porta al gradino dopo; una carta del quartiere che porta al luogo. Le reputazioni dei luoghi hanno
+`famiglia: Luoghi` e nel Personaggio compaiono solo quando non sono a zero; dove c'è già una fazione (il Velo, la
+Caserma, la Gilda, la Maison) si usa la sua reputazione. Il brief comune è nello scratchpad di lavoro
+(`brief-citta-viva.md`), e un test di percorso controlla che la catena di ogni luogo si possa chiudere.
+
+**Ordine dei luoghi.** 1. Accademia di Torvessa (fatto: l'Arte dei cristalli da zero, Tobol e Orvald, il
+registro delle allieve con Aurenne, la cattedra); 2. Cattedrale del Velo (la Liturgia); 3. Mercato dei Nodi e il
+banco di Ambrin (le Formule precuriane); 4. Grifone di Ferro; 5. Fucina dei Due Mastini e Armeria di Irsa;
+6. Guarnigione; 7. Municipio; 8. Biblioteca; 9. Teatro delle Meraviglie; 10. Via dei Rasoi e la Maison;
+11. Cimitero; 12. i due ponti; 13. Scuderie, Orlo dei Rottami, Segheria, Acciaieria, Emporio, Arena; 14. le macerie
+della Pignatta dopo Vesh. La Via del Respiro del Circolo resta per quando il Bosco di Velthar diventa una zona.
+
 **Da ricordare per la città viva.** Dopo `pista.pelle >= 6` la Pignatta è bruciata e Vesh è morto: le carte e
 gli storylet che nominano gli Scuri come forza attiva (Rozalia, Mauro all'oste, la Dispensa di Gramm con Nestor
 arrestato) vanno ripassati. `nomea.citta-bassa` per ora si imposta e basta: deve colorare le carte del quartiere.

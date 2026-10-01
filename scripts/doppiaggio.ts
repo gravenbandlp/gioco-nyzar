@@ -35,6 +35,7 @@ const GRUPPI: [RegExp, string][] = [
   [/^piste\/pelle/, 'Sotto la pelle di Qir-Azel'],
   [/^piste\/rovine/, 'Le rovine dei Raschiatori'],
   [/^piste\/topi/, 'Topi in cantina'],
+  [/^citta\//, 'La città viva'],
   [/^storylet-oggetti/, 'Gli Averi'],
 ];
 const gruppo = (file: string) => GRUPPI.find(([r]) => r.test(file))?.[1] ?? 'Altro';

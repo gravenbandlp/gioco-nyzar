@@ -582,7 +582,8 @@ export function personaggio(x: Contesto): string {
     const v = s.quality[k] ?? 0;
     return `<li><div class="riga-stat"><span>${h(q?.nome ?? k)}</span><b>${mezzi(v)} / ${MAX_NEGATIVA}</b></div>${barraNegativa(v)}<p>${h(q?.descrizione ?? '')}</p></li>`;
   }).join('');
-  const reputazioni = c.quality.filter((q) => q.categoria === 'reputazione').map((q) => {
+  // le reputazioni dei luoghi (famiglia Luoghi) compaiono solo quando ne hai una
+  const reputazioni = c.quality.filter((q) => q.categoria === 'reputazione' && (q.famiglia !== 'Luoghi' || (s.quality[q.id] ?? 0) !== 0)).map((q) => {
     const v = s.quality[q.id] ?? 0;
     return `<li class="${v === 0 ? 'zero' : v < 0 ? 'neg' : 'pos'}">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}</span><b>${segno(v)}</b></li>`;
   }).join('');

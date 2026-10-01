@@ -80,6 +80,31 @@ function scendi(origine: string, seme: number, ingresso: string, fondo: string):
   throw new Error(`${origine}/${seme}: troppi passi in ${ingresso}`);
 }
 
+/** Un luogo della città viva: si gioca a caso fra le storie e le attività del luogo finché la quality finale vale 1. */
+function frequenta(origine: string, seme: number, luogo: string, fine: string, extra: Record<string, number> = {}): number {
+  const s = nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === origine)!, 0, 'citta-bassa');
+  delete s.quality['prologo'];
+  Object.assign(s.quality, { monete: 200, bende: 2 }, extra);
+  const l = c.luoghi.find((x) => x.id === luogo)!;
+  s.area = l.area;
+  const rng = rngConSeme(seme);
+  for (let n = 0; n < 1500; n++) {
+    s.candele = CANDELE_MAX;
+    for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
+    if ((s.quality[fine] ?? 0) >= 1) return n;
+    const obbligato = crisiAttiva(s, c);
+    if (obbligato) { passo(s, obbligato, rng); continue; }
+    const sospeso = s.sospeso ? c.storylet.find((x) => x.id === s.sospeso) : undefined;
+    if (sospeso && requisitiSoddisfatti(s, sospeso.requisiti, c)) { s.area = sospeso.area; passo(s, sospeso, rng); continue; }
+    s.area = l.area;
+    const qui = storyletDisponibili(s, c).filter((x) => x.presso === luogo && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0));
+    const st = qui[Math.floor(rng() * qui.length)];
+    if (!st) throw new Error(`${origine}/${seme}: niente da fare in ${luogo}`);
+    passo(s, st, rng);
+  }
+  throw new Error(`${origine}/${seme}: troppi passi in ${luogo} (${JSON.stringify(Object.fromEntries(Object.entries(s.quality).filter(([k]) => k.startsWith('rep.') || k.includes(luogo.split('-')[0]))))})`);
+}
+
 describe('piste', () => {
   it('la Dama d\'Argento arriva a 11 con ogni origine e scelte a caso', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.dama-argento', 11)).toBeGreaterThan(5);
@@ -114,6 +139,9 @@ describe('piste', () => {
   it('le tre rovine dei Raschiatori si possono raggiungere fino in fondo', () => {
     const siti: [string, string][] = [['turno-a-vhar-ul', 'rovine.vhar-ul'], ['turno-al-laboratorio', 'rovine.calibrazione'], ['turno-a-mahr-kel', 'rovine.mahr-kel']];
     for (const [ingresso, fondo] of siti) for (const o of c.origini) for (let seme = 1; seme <= 15; seme++) expect(scendi(o.id, seme, ingresso, fondo)).toBeGreaterThan(2);
+  }, 30000);
+  it('città viva: all\'Accademia di Torvessa si arriva alla cattedra', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 10; seme++) expect(frequenta(o.id, seme, 'accademia-di-torvessa', 'accademia.cattedra', { invito: 1, 'pista.capomozzo': 10 })).toBeGreaterThan(3);
   }, 30000);
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
