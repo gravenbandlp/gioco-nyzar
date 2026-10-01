@@ -1,0 +1,1673 @@
+# Sotto la pelle di Qir-Azel, Atto I: il Maniero Malgrani (pista.pelle 0 → 3).
+# - `galdrick-e-la-mappa-rossa` (0 → 1): Galdrick, la mappa coi segnalini rossi, la controprova. Il registro di
+#   Maedric dice chi ha pagato, ma un avvocato della Gilda spiega ogni riga; Ottone tiene un registro suo dei
+#   pagamenti agli Scuri. Galdrick l'ha saputo a Ghoran da Urtilia Mendion, che gli ha dato la pianta del Maniero e
+#   si fa da parte purché i tre bambini restino fuori da tutto. Si entra di notte, da soli → `vai: maniero-malgrani`.
+# - spedizione `maniero-malgrani` (soglia 4): sette stanze ripetibili (lavanderia e sgabuzzino, atrio dei
+#   fondatori, sala dei trofei, museo, cucina, biblioteca, camera dei bambini), se ne vedono tre a caso. Le prove
+#   fallite fanno salire `allarme.maniero`; a tre le stanze si chiudono e arriva `roldan-kael`.
+# - storie non ripetibili: `lo-studio-di-ottone` (registro, spartito, monete), `lucia-malgrani` (lucia 1/2/3),
+#   `roldan-kael` (con allarme.maniero >= 3; chi lo supera riporta l'allarme a 1).
+# - il cuore `il-caveau` (il pianoforte) con il seguito `la-sala-ottagonale`: in ogni ramo prove.maniero +2,
+#   pista.pelle 2, `vai: quartieri-alti`. Rientro dopo una ritirata: `tornare-al-maniero`.
+# - `una-radice` (2 → 3): Galdrick legge le lettere con l'alloro e ricava le tre casse da svuotare.
+# - `leggere-il-registro-dei-malgrani`: storylet degli Averi del registro di Ottone. La sigla *Ca* con la chiave
+#   disegnata accanto è Borso (il carceriere), che si scopre in `il-carceriere` (pelle-scuri.yaml).
+aree:
+  - id: maniero-malgrani
+    immagine: ambientazione/maniero-malgrani
+    nome: Maniero Malgrani
+    sommario: "La casa di Ottone Malgrani, a nord dei Quartieri Alti, fra i pini contorti. Piove, ed è notte fonda, eppure nello studio in cima la luce è ancora accesa."
+    spedizione: { ritorno: quartieri-alti, soglia: 4, stanze: 3 }
+    testo: |
+      Quando arrivi nella parte settentrionale dei Quartieri Alti, oltre
+      l'ultimo giro delle ronde, la notte è densa e senza luna. Alle tue spalle
+      Qir-Azel dorme sotto una foschia color ferro, e delle torce della
+      Guardia si vede soltanto qualche punto giù per le discese. Davanti a te,
+      fra gli alberi neri e i pini piegati dal vento del mare, c'è il Maniero
+      dei Malgrani. Le tegole bagnate luccicano come scaglie, e il vento
+      passa fra le grondaie con un sibilo basso.
+
+      In mezzo al cancello di ferro battuto c'è l'alloro dorato della
+      casata. Oltre le sbarre, nel cortile, le statue degli antenati stanno
+      in fila nella nebbia con le facce consumate dall'acqua, tanto che si
+      riconoscono soltanto dalle targhe. A una manca il naso, e qualcuno
+      gliel'ha rifatto di gesso più piccolo, di un bianco diverso dal resto
+      della pietra.
+
+      Comincia una pioggia sottile e fredda che ti scende nel colletto. Un
+      lampo illumina tutto l'edificio con le sue balconate
+      gotiche e le colonne sbiadite, e in cima accende le finestre dello
+      studio, dove una lampada brucia ancora e un uomo sta chino sulla
+      scrivania. Ti accorgi di avere la mascella serrata da quando hai
+      lasciato l'ultima strada lastricata.
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · la mappa coi segnalini rossi
+  - id: galdrick-e-la-mappa-rossa
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/toren-galdrick
+    titolo: La mappa coi segnalini rossi
+    sommario: "Galdrick ti ha fatto cercare, come aveva promesso. Sul suo tavolo c'è una mappa della città coperta di segnalini rossi."
+    luogo: Guarnigione di Qir-Azel, l'ufficio dello sceriffo
+    area: quartieri-alti
+    requisiti: [pista.pelle == 0, pista.registro >= 5, pista.capomozzo >= 6]
+    testo: |
+      Il ragazzo che Galdrick ha mandato a cercarti porta una divisa della
+      Guardia di due taglie più grande, con le maniche arrotolate, e ti trova
+      al terzo tentativo. In Caserma ti accompagna fino all'ufficio dello
+      sceriffo. Il calendario è ancora appeso alla toppa d'intonaco, e da
+      allora qualcuno ci ha cerchiato a matita una settimana intera.
+
+      Galdrick ha la faccia tirata e in mano una tazza di caffè nero che si è
+      raffreddato da un pezzo. Accanto ha una pila di documenti alta un palmo,
+      e sul tavolo c'è una mappa di Qir-Azel piena di segnalini rossi, fitti
+      in Città Bassa e più radi salendo verso i Quartieri Alti, con uno
+      piantato perfino sul Municipio. Ti sorprendi a cercare con gli occhi la
+      strada dove dormi.
+
+      «Mirko Vesh ha tanti uomini quanti il mio intero corpo di guardia»
+      dice, «e un quarto dei miei prende anche la sua paga.» Si alza e va alla
+      finestra con i pollici nella cintura, e indica la città con il mento.
+      «Io non posso colpirlo apertamente. Ma tu sì. Se vogliamo tagliare la
+      testa a questa bestia, dobbiamo cominciare dal basso.»
+
+      Torna al tavolo e spinge un segnalino rosso verso il bordo nord della
+      mappa, dove le strade finiscono e resta soltanto un quadrato a
+      inchiostro con un piccolo alloro disegnato dentro.
+    opzioni:
+      - testo: "Chiedere perché il registro di Maedric non basta"
+        descrizione: "Hai rischiato la pelle sul Ponte dei Morti per quel libretto. Lui l'ha chiuso nella cassa di ferro."
+        requisiti: [maedric == 2]
+        costo: 0
+        esito:
+          titolo: La controprova
+          testo: |
+            «Maedric sta in cella qui sotto, e giura a chiunque passi che i
+            suoi sacchi disegnati sono farina per i poveri» dice Galdrick. «Un
+            avvocato della Gilda spiega ogni riga di quel registro in un
+            pomeriggio. Il grano è dei Malgrani, d'accordo, ma chi dice che
+            l'abbia pagato Ottone? Il suo nome là dentro non c'è.»
+
+            Batte la matita corta sul quadrato con l'alloro. «Ottone però conta
+            i chicchi dei suoi debitori uno per uno. Uno così non paga gli
+            Scuri senza segnarselo, e infatti tiene un registro suo, con la sua
+            grafia. Quello è la controprova.»
+      - testo: "Chiedere perché il registro di Maedric non basta"
+        descrizione: "Hai rischiato la pelle sul Ponte dei Morti per quel libretto. Lui l'ha chiuso nella cassa di ferro."
+        requisiti: [maedric != 2]
+        costo: 0
+        esito:
+          titolo: La controprova
+          testo: |
+            «Maedric non è qui a dire di chi era il grano, e un registro senza
+            il suo custode è un libretto di disegnini» dice Galdrick. «Un
+            avvocato della Gilda spiega ogni riga in un pomeriggio. Il grano è
+            dei Malgrani, d'accordo, ma chi dice che l'abbia pagato Ottone? Il
+            suo nome là dentro non c'è.»
+
+            Batte la matita corta sul quadrato con l'alloro. «Ottone però conta
+            i chicchi dei suoi debitori uno per uno. Uno così non paga gli
+            Scuri senza segnarselo, e infatti tiene un registro suo, con la sua
+            grafia. Quello è la controprova.»
+      - testo: "Chiedere come fa a saperlo"
+        descrizione: "Un registro segreto in casa di un consigliere. Qualcuno glielo deve aver detto."
+        immagine: personaggi/urtilia-mendion
+        costo: 0
+        esito:
+          titolo: La zia di Ghoran
+          testo: |
+            «A Ghoran non sono andato soltanto per i mercenari» dice. «Ho
+            parlato con Urtilia Mendion, la zia di Ottone. È la sorella del
+            vecchio Brandano, e la casata tiene il suo busto nell'atrio insieme
+            a quelli dei fondatori. Di formule e cristalli ne sa più di mezza
+            Accademia.» Srotola un foglio sopra la mappa. È la
+            pianta del Maniero tirata col righello, e le stanze sono numerate in
+            una grafia minuta.
+
+            «Ha con sé i tre figli di Ottone e Lucia. Mi ha dato questa e mi ha
+            detto del registro. In cambio vuole che i bambini restino fuori da
+            tutto quello che succederà.» Arrotola la pianta e te la mette in
+            mano. «Urtilia Mendion non interverrà. Me l'ha detto proprio con
+            queste parole, e poi ha voluto stringermi la mano.» Che cosa ci
+            guadagni lei non gliel'ha chiesto, e dal tono si capisce che ci ha
+            pensato tutto il viaggio di ritorno.
+      - testo: "Chiedere perché non manda la Guardia"
+        descrizione: "Lui è lo sceriffo. Ha trenta mercenari nel cortile e un mandato a portata di firma."
+        costo: 0
+        esito:
+          titolo: Un quarto
+          testo: |
+            «Un quarto dei miei è di Vesh, e non so quale quarto» dice. «Se
+            mando dieci uomini al Maniero, prima che arrivino al cancello Ottone
+            ha già bruciato il registro nel camino. E i mercenari di Ghoran
+            sono buoni sulle mura, ma in una casa piena d'argento non li manderei
+            nemmeno a prendere l'acqua.»
+
+            Ti guarda da sotto in su. «Ci serve una persona sola che ci vada di
+            notte senza divisa. Se ti prendono io non ti ho mai visto, e lo dico
+            adesso perché dopo non potrò dirlo.» Poi si scrive qualcosa sul
+            taccuino, e lo rimette in tasca prima che tu possa leggerlo.
+      - testo: "Entrare dal cancello con l'alloro"
+        descrizione: "Il Maniero riceve molto, e mai gli stessi ospiti due volte. Un ospite in ritardo, alle guardie, è già capitato."
+        prova: { attributo: sociale, abilita: [ingannare, galateo], difficolta: Media }
+        successo:
+          titolo: L'ospite in ritardo
+          testo: |
+            La sera dopo ti presenti al cancello con il mantello buono e la
+            pioggia che ti gocciola dal cappuccio, e dici alla guardia che il
+            padrone ti aspetta da un'ora. Lui guarda la livrea verde del collega
+            come se lì sopra ci fosse la risposta, poi apre. «Il signore riceve
+            in salotto» dice. Nell'atrio ti lasciano solo per andare a chiamare
+            qualcuno, e tu prendi l'altra porta.
+          pe: { galateo: 5 }
+          effetti: { pista.pelle: 1 }
+          vai: maniero-malgrani
+        fallimento:
+          titolo: Il nome sulla lista
+          testo: |
+            La sera dopo dici alla guardia del cancello che il padrone ti
+            aspetta, e lui ti chiede il nome per la lista. Ne inventi uno, e lo
+            vedi scorrere il foglio con il dito umido di pioggia. Ti fa entrare
+            lo stesso, ma ti accompagna fino all'atrio e poi torna indietro
+            voltandosi due volte. Quando sparisci dietro una porta laterale lo
+            senti chiamare il collega.
+          effetti: { pista.pelle: 1, allarme.maniero: 1 }
+          vai: maniero-malgrani
+      - testo: "Entrare con il carro del vino"
+        descrizione: "Sulla pianta di Urtilia c'è un ingresso di servizio. Ogni sera un carrettiere porta casse di vino alla cucina, e per quindici monete fa salire chiunque."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: Fra le casse
+          testo: |
+            Il carrettiere conta le quindici monete sotto la tettoia di un
+            fienile e ti fa sedere dietro, fra le casse, con un telo cerato
+            sopra la testa. Puzza di mosto e di mulo. Alla porta di servizio
+            nessuno guarda dentro il carro, e quando i due garzoni cominciano a
+            scaricare tu sei già nel corridoio della cucina, con le ginocchia
+            rigide e un graffio di chiodo sul polso.
+          effetti: { pista.pelle: 1, monete: -15 }
+          vai: maniero-malgrani
+      - testo: "Scavalcare il muro del frutteto"
+        descrizione: "Dietro la casa c'è un frutteto, con un muro più basso degli altri. Sulla pianta, accanto, c'è disegnato un cane."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: I peri bagnati
+          testo: |
+            La notte dopo trovi il muro dove dice la pianta, coperto di edera
+            fradicia. Lo scavalchi in due movimenti e scendi dall'altra parte
+            fra i peri. Nella cuccia in fondo al frutteto tre cani da caccia
+            dormono uno sull'altro e non alzano la testa. Arrivi alla casa
+            camminando sull'erba, dove i passi non fanno rumore, e ti infili da
+            una finestra della lavanderia rimasta socchiusa per il vapore.
+          pe: { atletica: 5 }
+          effetti: { pista.pelle: 1 }
+          vai: maniero-malgrani
+        fallimento:
+          titolo: I cani
+          testo: |
+            L'edera ti resta in mano a metà salita, e cadi dall'altra parte su
+            un ramo di pero che ti apre la coscia. In fondo al frutteto uno dei
+            cani da caccia comincia ad abbaiare, poi gli altri due. Corri curvo
+            fino al muro della casa e ti infili da una finestra socchiusa,
+            mentre fuori una voce zittisce i cani e una lanterna gira per il
+            frutteto.
+          effetti: { pista.pelle: 1, allarme.maniero: 1, ferite: 0.5 }
+          vai: maniero-malgrani
+      - testo: "Andare a cavallo fino al bosco"
+        descrizione: "Dietro il Maniero comincia un bosco di pini. A cavallo ci arrivi senza passare dalle ronde."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Dal bosco
+          testo: |
+            La notte dopo esci dalla città dal lato nord e giri largo, al passo,
+            finché la strada diventa un sentiero fra i pini. Leghi il cavallo a
+            un tronco storto, con il muso nel vento, e scendi a piedi verso le
+            luci del Maniero. Da questa parte il muro di cinta è basso e mezzo
+            franato. Lo passi senza fatica e arrivi alla casa con gli aghi di
+            pino attaccati agli stivali.
+          effetti: { pista.pelle: 1 }
+          vai: maniero-malgrani
+
+  # ------------------------------------------------------------ 1 · rientrare dopo una ritirata
+  - id: tornare-al-maniero
+    immagine: ambientazione/maniero-malgrani
+    titolo: Di nuovo al Maniero
+    sommario: "Le carte di Ottone sono ancora nel Maniero, e Galdrick aspetta. Dopo qualche notte le guardie hanno smesso di guardare il frutteto."
+    luogo: Quartieri Alti, verso nord
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [pista.pelle == 1]
+    testo: |
+      La pianta di Urtilia ti si è consumata nelle pieghe a forza di aprirla
+      e richiuderla, e una delle stanze è diventata un buco. Di giorno il
+      Maniero dei Malgrani sembra una casa come le altre dei Quartieri Alti,
+      con un giardiniere che pota le siepi a squadra e un cane che lo segue
+      da una siepe all'altra. Alla taverna dei vetturini dicono che da
+      qualche notte le guardie hanno smesso di girare con le lanterne.
+
+      Ti accorgi di toccarti la tasca dove tieni la pianta ogni volta che
+      qualcuno ti passa accanto.
+    opzioni:
+      - testo: "Tornarci a piedi, di notte"
+        descrizione: "Dall'ultima ronda fino al muro del frutteto, al buio."
+        esito:
+          titolo: Il muro del frutteto
+          testo: |
+            Aspetti una notte senza luna e risali verso nord oltre l'ultimo
+            giro delle ronde. I pini gocciolano anche senza pioggia. Passi il
+            muro del frutteto nello stesso punto dell'altra volta, dove
+            l'edera è ancora strappata, e i cani da caccia dormono nella loro
+            cuccia. Nello studio in cima la luce è accesa. Ti asciughi le mani
+            sui calzoni prima di toccare il davanzale della lavanderia, perché
+            l'altra volta ti era scivolata la presa.
+          imposta: { allarme.maniero: 0 }
+          vai: maniero-malgrani
+      - testo: "Andarci a cavallo fino al bosco"
+        descrizione: "Dal lato del bosco il muro di cinta è mezzo franato."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Il pino storto
+          testo: |
+            Esci dalla città dal lato nord e leghi il cavallo allo stesso pino
+            storto dell'altra volta, che ha ancora la corteccia segnata dalle
+            redini. Il cavallo sbuffa e strappa un ciuffo d'erba bagnata.
+            Scendi a piedi fino al muro franato, e da lì vedi che nello studio
+            in cima la luce è accesa, come se dall'ultima volta nessuno
+            l'avesse mai spenta.
+          imposta: { allarme.maniero: 0 }
+          vai: maniero-malgrani
+
+  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  - id: maniero-lavanderia
+    immagine: ambientazione/maniero-malgrani
+    titolo: La lavanderia
+    sommario: "Un locale pieno di vapore e di ceste di lenzuola. Una serva lava con le braccia nell'acqua fino ai gomiti, e accanto alla porta c'è un secchio."
+    luogo: Maniero Malgrani, la lavanderia
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      La lavanderia è un locale basso pieno di vapore, con le ceste di
+      lenzuola bianche impilate contro i muri e una caldaia di rame che
+      borbotta in un angolo. Una serva lava con le braccia dentro l'acqua
+      torbida fino ai gomiti e canticchia una canzone della Città Bassa,
+      stonando sempre sulla stessa nota. Sul tavolo una bacinella di rame ti
+      rimanda la faccia allargata e storta.
+
+      Accanto alla porta c'è un secchio di latta, e dall'altra parte del
+      muro lo sgabuzzino chiuso a chiave. Il vapore ti incolla la camicia
+      alla schiena.
+    opzioni:
+      - testo: "Frugare nel secchio"
+        descrizione: "Un secchio vicino alla porta, in una stanza dove i secchi stanno tutti vicino alla caldaia."
+        prova: { attributo: mentale, abilita: [percezione, furtivita], difficolta: Media }
+        successo:
+          titolo: La chiave di bronzo
+          testo: |
+            Sotto uno straccio, in fondo al secchio, c'è una chiavetta di
+            bronzo. Apre lo sgabuzzino, dove l'odore di muffa si mescola a
+            quello dell'olio da lampade. Fra le corde e le bottiglie è appeso ad asciugare un mantello verde
+            della livrea, con l'alloro ricamato sul petto. Te lo butti sulle
+            spalle, e nel corridoio una guardia ti fa un cenno stanco senza
+            guardarti in faccia.
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: Il secchio rovesciato
+          testo: |
+            Il secchio è più leggero di quanto pensavi, e quando ci infili la
+            mano si rovescia sul pavimento con un rumore di latta. La serva si
+            gira con le braccia gocciolanti e corre fuori con il grembiule
+            sollevato a chiamare qualcuno, mentre tu ti schiacci dietro le
+            ceste. Non sai se ha visto te o soltanto un'ombra.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Parlare alla serva"
+        descrizione: "A quest'ora di notte una faccia nuova, in una casa così grande, può essere soltanto qualcuno che lavora."
+        prova: { attributo: sociale, abilita: [empatia, ingannare], difficolta: Media }
+        successo:
+          titolo: Le lenzuola del padrone
+          testo: |
+            Le dici che ti ha mandato il caposquadra a vedere se serve una mano.
+            La serva sbuffa e ti mette in braccio una pila di lenzuola. «Roldan
+            manda gente quando ho finito, mai quando comincio» dice. Poi,
+            mentre strizza una federa, ti spiega da dove passano le ronde e a
+            che ora, perché il padrone vuole le lenzuola pulite anche se nel
+            letto non ci dorme mai.
+          pe: { empatia: 5 }
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: Quale caposquadra
+          testo: |
+            Le dici che ti ha mandato il caposquadra. La serva tira fuori le
+            braccia dall'acqua e ti guarda a lungo. «Quale caposquadra?»
+            chiede, e quando non rispondi abbastanza in fretta prende la porta
+            e se ne va di corsa nel corridoio, lasciando una scia d'acqua sul
+            pavimento. Senti la sua voce chiamare qualcuno due stanze più in
+            là, e il sangue ti sale alle orecchie.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Aspettare fra le ceste che se ne vada"
+        descrizione: "Prima o poi la serva dovrà portare le lenzuola di sopra. Il vapore, intanto, è bollente."
+        costo: 2
+        esito:
+          titolo: La caldaia
+          testo: |
+            Ti accucci fra le ceste e la caldaia di rame e aspetti. La serva
+            lava e strizza le lenzuola, e canta la sua canzone tre volte da
+            capo. Quando
+            finalmente esce con una pila di lenzuola sulla testa hai il dorso
+            della mano destra rosso e lucido nel punto in cui toccava il rame,
+            e non te n'eri nemmeno accorto.
+          effetti: { profondita.maniero-malgrani: 1, ferite: 0.5 }
+
+  - id: maniero-atrio
+    immagine: fazioni/famiglia-malgrani
+    titolo: L'atrio dei fondatori
+    sommario: "Un atrio di marmo scuro con due scale curve. Tre busti di pietra guardano l'ingresso, e due guardie fanno la ronda fino al salone."
+    luogo: Maniero Malgrani, l'atrio
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      L'atrio è freddo e fermo, con il pavimento di marmo scuro lucidato al
+      punto che i candelabri ci si riflettono dentro allungati. Due scale
+      curve salgono ai lati verso il piano di sopra, e in mezzo un tappeto
+      cremisi porta alle stanze interne. Lungo le pareti ci sono tre busti di
+      pietra. Sulle targhette ci sono i nomi di Brandano e di Vermilia
+      Malgrani, e sul terzo quello di Urtilia Mendion. La zia di Ghoran ha il mento alto e una ruga sola, in
+      mezzo alla fronte.
+
+      Due guardie in livrea verde vanno e vengono fra l'ingresso e il salone,
+      senza fretta. Uno sbadiglia a ogni giro, e l'altro gli dà una gomitata.
+    opzioni:
+      - testo: "Fermare la ronda"
+        descrizione: "Due uomini, a dieci passi l'uno dall'altro. Se cadono senza un grido, nessuno li cerca fino al cambio."
+        combattimento: le-guardie-del-maniero
+        vittoria:
+          titolo: Il ripostiglio sotto la scala
+          testo: |
+            Prendi la prima guardia alle spalle mentre sbadiglia, e la seconda
+            arriva di corsa senza fiato per gridare. Quando è finita li trascini
+            tutti e due nel ripostiglio sotto la scala in mezzo alle scope, e
+            chiudi la porta. Raddrizzi il tappeto cremisi con la punta dello stivale e
+            ti accorgi che hai le nocche spellate.
+          effetti: { profondita.maniero-malgrani: 1 }
+        sconfitta:
+          titolo: Il fischio
+          testo: |
+            La seconda guardia ti colpisce al fianco con il manico della
+            lancia, e mentre sei piegato in due l'altra porta il fischietto
+            alle labbra. Scappi su per la scala di sinistra con un fiotto caldo
+            sotto la camicia, e il fischio si sente in ogni stanza della casa.
+            Ti fermi soltanto in cima, dietro una tenda, a premere la mano sul
+            fianco.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Nasconderti dietro il busto della zia"
+        descrizione: "Il piedistallo di Urtilia Mendion è il più largo dei tre. Ci sta dietro una persona, se trattiene il fiato."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Dietro la zia
+          testo: |
+            Ti schiacci fra il piedistallo e il muro, con il marmo freddo
+            contro la guancia, e le guardie ti passano accanto due volte. La
+            seconda volta quello che sbadiglia si ferma a grattarsi la schiena
+            proprio contro il busto. Quando se ne vanno verso il salone attraversi
+            l'atrio in punta di piedi lungo il bordo del tappeto.
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: La targhetta
+          testo: |
+            Mentre ti infili dietro il piedistallo urti con il gomito la
+            targhetta di ottone. Si stacca e rimbalza sul marmo, e le guardie
+            si voltano insieme. Tu sei già sulla scala quando arrivano al busto,
+            e senti una delle due raccogliere la targhetta e chiamare il
+            caposquadra. Sul pianerottolo ti accorgi di avere ancora il gomito
+            alzato, come se la targhetta potessi ancora prenderla.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Restare immobile nella nicchia sotto la scala"
+        descrizione: "Le guardie hanno un giro regolare. Basta aspettare quello giusto, anche se ci vuole un'ora."
+        costo: 2
+        esito:
+          titolo: I giri della ronda
+          testo: |
+            Ti rannicchi nella nicchia sotto la scala e conti i giri della
+            ronda, che sono dodici. Le due guardie parlano di una ragazza della
+            Città Bassa che non vuole nessuno dei due. Al tredicesimo giro
+            sgusci fuori con le gambe intorpidite e vai verso il salone,
+            mentre alle tue spalle loro parlano ancora di lei.
+          effetti: { profondita.maniero-malgrani: 1, tormento: 0.5 }
+
+  - id: maniero-sala-dei-trofei
+    immagine: ambientazione/maniero-malgrani
+    titolo: La sala dei trofei di caccia
+    sommario: "Una stanza raccolta, con l'odore dei fiori secchi. Alle pareti sono appesi corna e artigli fra i libri. Su un divano c'è qualcuno sveglio."
+    luogo: Maniero Malgrani, la sala dei trofei
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      È una stanza più raccolta delle altre, con i divani bassi e le tende
+      pesanti, e c'è odore di fiori secchi chiusi da troppo tempo. Le pareti
+      sono coperte di libri e di trofei di caccia. Le corna di cervo e gli
+      artigli d'orso stanno appesi in file ordinate, ognuno con la sua
+      targhetta e la data. Una
+      finestra dà sul giardino interno, dove la pioggia batte sulle siepi
+      potate a squadra.
+
+      Su un divano un uomo anziano in vestaglia legge al lume di una candela,
+      con una coperta sulle ginocchia. Profuma di incenso e di medicine, e
+      ogni tanto tossisce dentro un fazzoletto.
+    opzioni:
+      - testo: "Cercare dietro le mensole"
+        descrizione: "Una mensola, fra le corna, è un dito più avanti delle altre."
+        requisiti: [maniero.anello == 0]
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: L'anello col sigillo
+          testo: |
+            Aspetti che l'ospite si addormenti con il libro sul petto, poi
+            spingi la mensola sporgente. Si inclina su un perno, e dietro c'è un
+            vano grande come una scatola di sigari. Dentro, su un fazzoletto
+            piegato, c'è un anello d'oro con le iniziali di Ottone incise nel
+            sigillo, e la ceralacca verde ancora incrostata nelle lettere. Lo infili in tasca
+            e rimetti la mensola com'era.
+          pe: { percezione: 5 }
+          effetti: { profondita.maniero-malgrani: 1, prove.maniero: 1 }
+          imposta: { maniero.anello: 1 }
+        fallimento:
+          titolo: Le corna
+          testo: |
+            Spingi la mensola sbagliata, e un paio di corna di cervo scivola dal
+            chiodo e ti cade addosso. Lo afferri al volo, ma una punta sbatte
+            contro il vetro della finestra. L'ospite alza la testa dal libro e
+            guarda dritto verso di te, che sei immobile con le corna in mano. Poi
+            suona il campanello che tiene sulla coperta.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Passare dalla finestra e dal giardino"
+        descrizione: "Fuori piove, e dall'altra parte del giardino c'è una porta finestra illuminata."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Le siepi
+          testo: |
+            Apri piano la finestra e scavalchi il davanzale. Attraversi il
+            giardino lungo le siepi, abbassato, con la pioggia che ti scende
+            negli occhi. La porta finestra dall'altra parte non è chiusa a
+            chiave. Entri lasciando sul pavimento due impronte bagnate, e le
+            asciughi con la manica prima di andare avanti. I capelli ti
+            gocciolano nel collo per un pezzo.
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: La ghiaia
+          testo: |
+            Nel giardino il vialetto è di ghiaia, e lo scopri con il primo
+            passo. Dalla cuccia in fondo i tre cani da caccia rispondono tutti
+            insieme. Torni dentro dalla finestra mentre fuori si accende una
+            lanterna, e ti ritrovi bagnato fradicio davanti all'ospite, che ti
+            guarda da sopra il libro e allunga la mano verso il campanello.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Aspettare dietro le tende che l'ospite si addormenti"
+        descrizione: "È vecchio, è malato, ed è notte fonda. Prima o poi chiuderà gli occhi."
+        costo: 2
+        esito:
+          titolo: Il lettore
+          testo: |
+            Ti metti dietro le tende, dove la polvere ti entra nel naso, e
+            aspetti. L'ospite legge tossendo nel fazzoletto e ogni tanto ride
+            da solo. Passa quasi un'ora prima che il libro gli scivoli
+            sulla coperta e il respiro diventi un fischio. Quando esci ti
+            accorgi che per tutto quel tempo hai tenuto un dito sotto il naso
+            per non starnutire.
+          effetti: { profondita.maniero-malgrani: 1, tormento: 0.5 }
+
+  - id: maniero-museo
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Il museo dei fondatori
+    sommario: "Teche di vetro e vetrine di legno scuro, con le reliquie di chi ha fondato Qir-Azel. In fondo, un busto di marmo con un cristallo nella fronte."
+    luogo: Maniero Malgrani, il museo
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      Il museo è un corridoio lungo, con le teche di vetro da una parte e le
+      vetrine di legno scuro dall'altra, e ogni teca ha il suo cartellino
+      scritto a mano. Dentro ci sono le cose dei fondatori. C'è un compasso
+      d'ottone accanto a una sella consumata, e c'è una lettera del Patto
+      delle Corde con le firme sbiadite. In una teca a parte stanno un paio
+      di stivali da bambino di cui nessuno ha scritto la storia.
+
+      In fondo al corridoio c'è un busto di marmo senza nome. Nella fronte ha
+      incastonato un Cristallo Conduttore grande come un'unghia, che manda una
+      luce azzurra debole e regolare. Senti i peli delle braccia alzarsi man
+      mano che ti avvicini.
+    opzioni:
+      - testo: "Staccare il cristallo dal busto"
+        descrizione: "Piccolo, ma carico come uno grande. Chi l'ha messo lì l'avrà anche protetto."
+        requisiti: [maniero.museo == 0]
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: La luce nel pugno
+          testo: |
+            Fai leva con la punta del coltello sul bordo del castone, un
+            capello alla volta, e senti il cristallo cedere con un piccolo
+            schiocco. La luce non si spegne. Te lo chiudi nel pugno, e per
+            qualche passo il palmo ti formicola. Sulla fronte del busto resta
+            un buco pulito, e ci appoggi sopra il cartellino di una teca perché
+            da lontano non si veda.
+          pe: { furtivita: 5 }
+          effetti: { profondita.maniero-malgrani: 1, cristalli.cristallo-carico: 1 }
+          imposta: { maniero.museo: 1 }
+        fallimento:
+          titolo: La luce che si spegne
+          testo: |
+            La punta del coltello scivola sul castone e il cristallo si spegne
+            di colpo, ancora al suo posto, senza che suoni nessuna campana. Dopo
+            qualche momento al piano di sopra sbatte una porta, e dei passi
+            pesanti cominciano a scendere la scala. Lasci il busto com'è e ti
+            infili fra due vetrine, con il coltello ancora in mano e la punta
+            che trema.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Leggere il Mana del busto prima di toccarlo"
+        descrizione: "Un cristallo così piccolo non fa la guardia da solo. Le dita sul marmo ti diranno dove corre il filo."
+        requisiti: [maniero.museo == 0]
+        incantesimo: leggere-il-mana
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il filo nel marmo
+          testo: |
+            Con le dita sul marmo senti il Mana del cristallo scendere nel collo
+            del busto e poi, sottile come un capello, salire dentro il muro
+            verso il piano di sopra. Lo tieni fermo con il pollice mentre
+            stacchi il cristallo con l'altra mano, e al piano di sopra non si
+            muove niente. Per un po' il pollice ti resta intorpidito.
+          effetti: { profondita.maniero-malgrani: 1, cristalli.cristallo-carico: 1 }
+          imposta: { maniero.museo: 1 }
+        fallimento:
+          titolo: Il ritorno
+          testo: |
+            Trovi il filo che sale dentro il muro, ma lo tiri invece di
+            fermarlo. Il Mana ti torna indietro dietro gli occhi, e il cristallo
+            si spegne. Al piano di sopra una porta sbatte. Resti fra le vetrine
+            con le tempie che pulsano finché i passi non passano oltre, e
+            intanto ti accorgi di avere il sapore del ferro in bocca.
+          effetti: { allarme.maniero: 1, tormento: 0.5 }
+      - testo: "Cercare l'altra uscita fra le teche"
+        descrizione: "Il corridoio deve pur finire da qualche parte, e non dove si entra."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Gli stivali da bambino
+          testo: |
+            Dietro la teca degli stivali da bambino c'è una porticina di legno
+            dipinta come la parete, con la maniglia nascosta nello stucco. Prima
+            di aprirla leggi il cartellino della teca, dove c'è scritto soltanto
+            *suoi*, con una grafia diversa da tutte le altre. Dall'altra parte
+            un corridoio di servizio stretto e caldo sale verso le cucine, e
+            c'è odore di brodo.
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: Il vetro
+          testo: |
+            Cerchi a tastoni lungo le vetrine, e una teca che credevi fissata
+            al muro si sposta sotto la tua mano. Il vetro sbatte contro la
+            cornice con un suono lungo e limpido, che si sente per tutto il
+            corridoio. In fondo alla casa una voce chiede chi c'è. Trattieni il
+            fiato con la mano ancora sulla teca finché la voce non si
+            allontana.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Passare carponi sotto le vetrine"
+        descrizione: "È lento e scomodo, e il pavimento è pieno di schegge di una vecchia teca rotta."
+        costo: 2
+        esito:
+          titolo: Le schegge
+          testo: |
+            Attraversi il museo carponi sotto il ripiano delle vetrine, al buio,
+            fino alla porticina di servizio in fondo. A metà strada una scheggia
+            di vetro ti entra nel palmo. La tiri fuori con i denti e vai avanti
+            tenendo la mano chiusa a pugno, e lasci una goccia di sangue sul
+            marmo ogni tre o quattro passi.
+          effetti: { profondita.maniero-malgrani: 1, ferite: 0.5 }
+
+  - id: maniero-cucina
+    immagine: ambientazione/maniero-malgrani
+    titolo: La cucina
+    sommario: "È notte fonda, ma in cucina le pentole fumano. Due cuochi lavorano di fretta, e contro il muro ci sono le casse del vino."
+    luogo: Maniero Malgrani, la cucina
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      In cucina le pentole fumano anche a quest'ora, e dalle travi pendono
+      mazzi di spezie e di aglio. La luce gialla delle lampade a olio fa
+      sembrare unte anche le pareti. Due cuochi lavorano in fretta. Uno
+      impasta, e l'altro rimesta un brodo dormendo in piedi con il mestolo in
+      mano, e si sveglia ogni volta che il brodo bolle troppo.
+
+      «Il padrone mangia quando gli pare» dice quello che impasta, a nessuno
+      in particolare. Contro il muro ci sono le casse del vino arrivate
+      stasera, e una porta sul retro dà sulla dispensa.
+    opzioni:
+      - testo: "Guardare meglio le casse del vino"
+        descrizione: "Una delle casse è appoggiata più in basso delle altre, come se pesasse di più."
+        requisiti: [maniero.lingotti == 0]
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il falso fondo
+          testo: |
+            Sollevi le bottiglie della cassa più bassa e sotto trovi un fondo
+            di legno che suona vuoto. Dentro ci sono lingotti d'argento in fila,
+            con il sigillo dei Malgrani da una parte e dall'altra un segno
+            raschiato via con lo scalpello, dove si legge ancora la mezza corda
+            annodata della Gilda dei Mercanti. Ne prendi uno solo, lo avvolgi
+            nel fazzoletto e rimetti le bottiglie al loro posto.
+          pe: { politica-ed-economia: 5 }
+          effetti: { profondita.maniero-malgrani: 1, prove.maniero: 1 }
+          imposta: { maniero.lingotti: 1 }
+        fallimento:
+          titolo: Le bottiglie
+          testo: |
+            Sollevi le bottiglie una alla volta, ma la terza ti scivola dalle
+            dita e tintinna contro le altre. Il cuoco che dormiva in piedi apre
+            gli occhi e ti vede chino sulla cassa. Per un momento nessuno dei due
+            si muove. Poi lui lascia cadere il mestolo e grida il nome del
+            caposquadra verso il corridoio.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Fingerti un garzone"
+        descrizione: "Due cuochi stanchi e un padrone che mangia quando gli pare. Qualcuno dovrà pur portargli il vassoio."
+        prova: { attributo: sociale, abilita: [ingannare, galateo], difficolta: Media }
+        successo:
+          titolo: Il vassoio
+          testo: |
+            Entri come se fossi in ritardo e chiedi se il vassoio del padrone è
+            pronto. Il cuoco che impasta non alza nemmeno la testa e ti indica
+            un piatto coperto. «Brodo e pane, e non farlo raffreddare per le
+            scale» dice. Esci con il vassoio in mano dalla porta di servizio, e
+            nel corridoio lo lasci su una cassapanca.
+          pe: { ingannare: 5 }
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: Il garzone nuovo
+          testo: |
+            Chiedi del vassoio del padrone. Il cuoco che impasta si pulisce le
+            mani sul grembiule e ti chiede come ti chiami, perché i garzoni li
+            sceglie lui. Mentre cerchi un nome lui ha già preso il coltello del
+            pane, e tu sei già fuori dalla porta sul retro. Dietro di te lo
+            senti gridare al collega di andare a chiamare il caposquadra.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Strisciare dietro il bancone fino alla dispensa"
+        descrizione: "I cuochi guardano le pentole. Sotto il bancone però passa il calore della stufa."
+        costo: 2
+        esito:
+          titolo: Il bancone
+          testo: |
+            Strisci sotto il bancone fra le gambe dei sacchi di farina, e quando
+            sei a metà una goccia di brodo bollente ti cade sul collo dal bordo
+            della pentola, e stringi i denti senza fiatare. Arrivi alla dispensa con il collo che
+            brucia e le mani bianche di farina, e prima di andare avanti te le
+            pulisci sui calzoni.
+          effetti: { profondita.maniero-malgrani: 1, ferite: 0.5 }
+
+  - id: maniero-biblioteca
+    immagine: ambientazione/maniero-malgrani
+    titolo: La biblioteca
+    sommario: "Librerie di quercia fino al soffitto e una scala che scorre su una rotaia. Sul tavolo c'è una mappa della regione con dei cerchi rossi."
+    luogo: Maniero Malgrani, la biblioteca
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      La biblioteca è alta due piani. Le librerie di quercia salgono fino al
+      soffitto, e una scala di legno scorre su una rotaia d'ottone per
+      arrivare ai ripiani più alti. A metà altezza gira un ballatoio, e da
+      lassù una porta dà sul corridoio del piano di sopra, dove la ronda passa
+      ogni quarto d'ora.
+
+      Sul tavolo in mezzo alla stanza c'è una mappa antica della regione,
+      tenuta aperta da due calamai. Qualcuno ci ha cerchiato in rosso il
+      Fondobosco e il villaggio di Pannion. I
+      libri sugli scaffali hanno tutti la stessa rilegatura verde, comprata a
+      metri.
+    opzioni:
+      - testo: "Studiare la mappa"
+        descrizione: "Due cerchi rossi. Uno sul bosco degli orchi, l'altro sul villaggio che manda il legname in città."
+        prova: { attributo: mentale, abilita: [accademiche, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: I due cerchi
+          testo: |
+            Accanto al cerchio su Pannion, in piccolo, c'è scritto *legname,
+            prezzo nostro*. Vicino a quello sul Fondobosco c'è una data
+            sola, e la riconosci perché è la settimana prima della razzia degli
+            orchi su Qir-Azel. Ricopi tutte e due le annotazioni sul retro della
+            pianta di Urtilia, poi rimetti i calamai al loro posto e sali la
+            scala verso il ballatoio.
+          pe: { accademiche: 5 }
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: La rotaia
+          testo: |
+            Ti chini sulla mappa per leggere le annotazioni e ti appoggi alla
+            scala, che parte sulla rotaia d'ottone e attraversa tutta la
+            libreria con un cigolio lungo, fino a sbattere contro il muro. Sul
+            ballatoio la ronda si ferma. Uno dei due si affaccia con la lanterna
+            mentre tu sei già sotto il tavolo, con la guancia sul tappeto che
+            puzza di cane.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Salire al ballatoio con la scala"
+        descrizione: "Dalla biblioteca si arriva al piano di sopra senza passare dalle scale dell'atrio. La ronda però passa di lì."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Il ballatoio
+          testo: |
+            Fai scorrere la scala sotto il ballatoio un palmo alla volta,
+            tenendo la rotaia con la mano perché non cigoli, e sali appena la
+            ronda ha girato l'angolo. La porta del ballatoio dà su un corridoio
+            tappezzato di rosso scuro, con i ritratti di famiglia appesi in fila,
+            e lì dentro c'è odore di cera e di fiori secchi.
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: Il gradino
+          testo: |
+            A metà scala un gradino scricchiola sotto il tuo peso, e la ronda
+            che stava passando sul ballatoio si ferma proprio sopra di te.
+            Resti appeso nel buio, con le braccia che tremano, finché una delle
+            due guardie dice che ha sentito un topo e va a chiamare il
+            caposquadra per sicurezza.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Aspettare al buio fra gli scaffali"
+        descrizione: "La ronda passa ogni quarto d'ora. Basta contare."
+        costo: 2
+        esito:
+          titolo: Ogni quarto d'ora
+          testo: |
+            Ti siedi per terra fra due scaffali, con la schiena contro i libri
+            verdi, e conti i passaggi della ronda sul ballatoio. Ogni quarto
+            d'ora, sempre a quel modo. Alla quarta volta sali, e ti accorgi di
+            avere in testa la cadenza dei loro passi, che ti resta dentro anche
+            dopo, per tutto il corridoio.
+          effetti: { profondita.maniero-malgrani: 1, tormento: 0.5 }
+
+  - id: maniero-camera-dei-bambini
+    immagine: personaggi/benta-malgrani
+    titolo: La camera dei bambini
+    sommario: "Tre lettini rifatti alla perfezione e i giocattoli in fila. I bambini sono a Ghoran con la zia, e nella stanza accanto un cavallo a dondolo si muove da solo."
+    luogo: Maniero Malgrani, la camera dei bambini
+    area: maniero-malgrani
+    ripetibile: true
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    testo: |
+      La camera dei bambini ha tre lettini di legno con le coperte piegate
+      senza una grinza. I giocattoli sono allineati sulla mensola come
+      soldatini in parata, ed è un ordine che nessun bambino tiene da solo.
+      Sul tavolino c'è un disegno a carboncino della casa, e sopra la casa una
+      figura nera, lunga, con gli occhi bianchi e le mani enormi aperte sul
+      tetto.
+
+      Dalla porta della stanza accanto, una saletta tonda dal tappeto a
+      rombi, vedi una bambola di stoffa rotta in due sul pavimento e un
+      cavallo a dondolo che oscilla piano. La finestra è chiusa. Ti si
+      rizzano i capelli sulla nuca prima ancora che tu ci abbia pensato.
+    opzioni:
+      - testo: "Guardare il disegno da vicino"
+        descrizione: "Un bambino ha disegnato la sua casa. Che cosa c'è sopra, lo ha disegnato lui."
+        prova: { attributo: mentale, abilita: [resilienza, empatia], difficolta: Media }
+        successo:
+          titolo: La finestra dello studio
+          testo: |
+            Guardi il disegno con calma. È proprio questa casa con il suo
+            cancello. La testa della figura nera sta esattamente dove c'è la
+            finestra dello studio, l'unica che il bambino ha colorato di
+            giallo. In un angolo, in stampatello storto, c'è scritto *Gradon*.
+            Lo rimetti sul tavolino nello stesso verso di prima.
+          pe: { resilienza: 5 }
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: Il dondolo
+          testo: |
+            Mentre guardi il disegno il cavallo a dondolo nella stanza accanto
+            batte contro il muro, e tu fai un salto indietro e mandi per terra
+            la fila di soldatini. Rotolano sotto i letti uno dopo l'altro, e nel
+            corridoio la ronda smette di camminare. Resti in piedi in mezzo
+            alla stanza con il cuore in gola, e il cavallo dondola ancora.
+          effetti: { allarme.maniero: 1, tormento: 0.5 }
+      - testo: "Fermare il cavallo a dondolo"
+        descrizione: "Le cose non dondolano da sole. Da qualche parte c'è uno spiffero, e uno spiffero è un'uscita."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Lo spiffero
+          testo: |
+            Ti inginocchi accanto al cavallo e senti l'aria fredda sulla mano,
+            che sale da una grata nel pavimento. Sotto c'è un condotto di
+            mattoni, abbastanza largo per passare strisciando, che corre fino al
+            corridoio dei padroni. Prima di entrare fermi il cavallo con la
+            mano, e il legno della criniera è freddo come la grata. Strisci nel
+            condotto con i gomiti, e la polvere ti entra nel naso.
+          effetti: { profondita.maniero-malgrani: 1 }
+        fallimento:
+          titolo: La bambola
+          testo: |
+            Cerchi lo spiffero lungo la finestra e lungo le pareti, e intanto
+            pesti con il tallone la testa della bambola di stoffa, che fa un
+            fischio da giocattolo. Nel corridoio la ronda si ferma davanti alla
+            porta. Ti butti sotto un lettino mentre la maniglia si abbassa, e
+            resti lì con la faccia contro le assi finché i passi non riprendono.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Sederti su un lettino e aspettare la ronda"
+        descrizione: "Nella camera dei bambini le guardie non entrano. Con il disegno, però, ci resti tu."
+        costo: 2
+        esito:
+          titolo: Sul lettino
+          testo: |
+            Ti siedi sul bordo del lettino più piccolo, che scricchiola sotto il
+            tuo peso, e aspetti che la ronda passi due volte. Il disegno è lì sul tavolino,
+            girato verso di te, e non riesci a smettere di guardare le mani.
+            Quando ti alzi rifai la piega della coperta con cura, e non viene
+            dritta come prima.
+          effetti: { profondita.maniero-malgrani: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ lo studio di Ottone (non ripetibile)
+  - id: lo-studio-di-ottone
+    immagine: personaggi/ottone-malgrani
+    titolo: Lo studio di Ottone
+    sommario: "La luce che si vede dal cancello è questa. Ottone Malgrani è chino sulla scrivania, e a quanto pare non dorme mai."
+    luogo: Maniero Malgrani, lo studio del padrone
+    area: maniero-malgrani
+    requisiti: [pista.pelle == 1, oggetto.registro-dei-malgrani == 0, profondita.maniero-malgrani >= 2, allarme.maniero < 3]
+    testo: |
+      In fondo al corridoio del piano di sopra la porta dello studio è
+      socchiusa, e dalla fessura esce la luce che si vede dal cancello. Dentro
+      tutto è in ordine fino all'ossessione, con i tappeti rossi e le librerie
+      simmetriche, e perfino le penne sul tavolo sono allineate per lunghezza.
+      Ottone Malgrani scrive alla scrivania con una penna di rapace. Ha i
+      capelli biondi pettinati all'indietro e i baffi curati, e la faccia
+      stanca e dura. Accanto al calamaio d'oro c'è una tazza di tisana che
+      nessuno ha toccato.
+
+      Passi pesanti salgono dalla scala. Ti appiattisci in un vano della
+      parete, e un uomo con la barba tagliata a filo e un fischietto d'osso al
+      collo bussa allo stipite. «Il giro è fatto, signore. Tutto in ordine.»
+
+      Ottone non alza la testa. «Tutti hanno bisogno di un muro che li
+      protegga, Roldan» dice. «Io sono quel muro. E i muri, a volte, si tirano
+      su con il sangue.» Il caposquadra aspetta un momento, poi riscende.
+
+      Ottone posa la penna e si alza, e fa il giro della stanza con le mani
+      dietro la schiena. Poi esce nel corridoio e ci cammina avanti e
+      indietro prima di rientrare. *Quest'uomo fa la ronda in casa sua.* Senti il cuore
+      battere contro il muro del vano.
+    opzioni:
+      - testo: "Aspettare che esca di nuovo e frugare nei cassetti"
+        descrizione: "Ogni tanto esce nel corridoio. Bisogna sapere quanto ci resta."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: I cassetti
+          testo: |
+            Al terzo giro Ottone scende le scale, e conti i suoi passi fino in
+            fondo. Nel primo cassetto c'è un biglietto con cinque note scritte
+            a penna, *Fa due, Re quattro, Mi bemolle due, Fa tre, Do quattro*.
+            Il secondo contiene un registro rilegato in pelle con l'alloro
+            impresso, e sotto una dozzina di monete di platino in un sacchetto di velluto.
+            Prendi tutto e richiudi i cassetti nello stesso ordine. Sei di
+            nuovo nel vano quando lui risale.
+          pe: { furtivita: 5 }
+          effetti: { oggetto.registro-dei-malgrani: 1, prove.maniero: 2, spartito: 1, monete: 60 }
+        fallimento:
+          titolo: Il gradino che scricchiola
+          testo: |
+            Sei con le mani nel primo cassetto quando senti scricchiolare il
+            gradino in cima alla scala. Ottone torna molto prima del previsto.
+            Fai in tempo a richiudere e a uscire, ma lui si ferma sulla soglia
+            e annusa l'aria della stanza. Poi chiama Roldan con una voce calma,
+            senza alzarla.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Mandarlo di sotto con una scusa"
+        descrizione: "Dal corridoio, con la voce di una guardia. I cani, il cancello, qualcuno in giardino."
+        prova: { attributo: sociale, abilita: [ingannare, intimidire], difficolta: Media }
+        successo:
+          titolo: I cani in giardino
+          testo: |
+            Dalla curva del corridoio dici, con la voce rauca di una guardia
+            svegliata male, che i cani sono scappati dalla cuccia e il
+            caposquadra chiede del padrone. Ottone impreca a mezza voce e
+            scende, perché i cani sono suoi. Nei cassetti trovi un biglietto
+            con cinque note, *Fa due, Re quattro, Mi bemolle due, Fa tre, Do
+            quattro*, un registro rilegato in pelle con l'alloro e una dozzina
+            di monete di platino, e ti porti via tutto prima che lui risalga dal
+            giardino.
+          pe: { ingannare: 5 }
+          effetti: { oggetto.registro-dei-malgrani: 1, prove.maniero: 2, spartito: 1, monete: 60 }
+        fallimento:
+          titolo: Quale guardia
+          testo: |
+            Dici dal corridoio che i cani sono scappati. Ottone si alza e viene
+            alla porta, e guarda il corridoio vuoto per un lungo momento. «I
+            miei uomini mi chiamano per nome» dice al buio. Poi prende un
+            candeliere e comincia a cercare, stanza per stanza, mentre tu scendi
+            dalla scala di servizio. Ti ha sentito, e forse ti ha anche visto.
+          effetti: { allarme.maniero: 1, sospetto: 0.5 }
+      - testo: "Lasciare che Lucia lo chiami"
+        descrizione: "Lei ha detto che lo avrebbe tenuto lontano dallo studio per il tempo che serve."
+        immagine: personaggi/lucia-malgrani
+        requisiti: [lucia == 1]
+        esito:
+          titolo: La lettera da Ghoran
+          testo: |
+            Dalla camera in fondo al corridoio Lucia chiama il marito. Dice che
+            è arrivata una lettera dei figli da Ghoran, e Ottone esce dallo
+            studio a passi lunghi. Nei cassetti trovi un
+            biglietto con cinque note, *Fa due, Re quattro, Mi bemolle due, Fa
+            tre, Do quattro*, un registro rilegato in pelle con l'alloro
+            impresso, e una dozzina di monete di platino. Quando lui torna la
+            stanza è come l'ha lasciata.
+          effetti: { oggetto.registro-dei-malgrani: 1, prove.maniero: 2, spartito: 1, monete: 60 }
+      - testo: "Aspettare tutta la notte nel vano della parete"
+        descrizione: "Prima o poi anche lui dovrà scendere. All'alba, si dice, va in giardino con i cani."
+        costo: 2
+        esito:
+          titolo: L'alba
+          testo: |
+            Passi la notte nel vano della parete con le ginocchia contro il
+            mento. Ottone intanto scrive e cammina borbottando cifre a mezza
+            voce.
+            Quando la finestra diventa grigia scende in giardino a fischiare ai
+            cani. Nei cassetti trovi un biglietto con cinque note, *Fa due, Re
+            quattro, Mi bemolle due, Fa tre, Do quattro*, un registro rilegato
+            in pelle con l'alloro e una dozzina di monete di platino. Le sue
+            cifre ti girano ancora in testa.
+          effetti: { oggetto.registro-dei-malgrani: 1, prove.maniero: 2, spartito: 1, monete: 60, tormento: 1 }
+
+  # ------------------------------------------------------------ Lucia (non ripetibile)
+  - id: lucia-malgrani
+    immagine: personaggi/lucia-malgrani
+    titolo: Lucia Malgrani
+    sommario: "Nella camera dei padroni c'è una donna sveglia davanti allo specchio. Ti ha visto entrare, e non ha ancora gridato."
+    luogo: Maniero Malgrani, la camera dei padroni
+    area: maniero-malgrani
+    requisiti: [pista.pelle == 1, lucia == 0, profondita.maniero-malgrani >= 1, allarme.maniero < 3]
+    testo: |
+      La camera dei padroni è lussuosa e fredda, con un letto a baldacchino
+      che nessuno ha disfatto, un grande specchio dorato e le tende color
+      cremisi tirate. Sul comodino ci sono due bicchieri di cristallo. In uno
+      resta un fondo ambrato e appiccicoso, nell'altro una goccia di vino.
+
+      Davanti allo specchio, seduta su uno sgabello, c'è una donna in abito
+      scuro con i ricami minuti sui polsi e i capelli ancora appuntati, come
+      se la sera non fosse mai finita. Ti guarda nello specchio, e non si
+      volta. Ha la mano posata accanto a un campanello d'argento.
+
+      «Mio marito riceve di giorno» dice Lucia Malgrani. «Di notte, a quanto
+      pare, ricevo io. Le due cose, sommate, fanno una casa molto frequentata.»
+      Ha la voce bassa e piana e gli occhi cerchiati, e con il pollice fa
+      girare piano la fede intorno all'anulare. Ti accorgi di misurare
+      la distanza fra te e il campanello, e che anche lei la sta misurando.
+    opzioni:
+      - testo: "Guardare il bicchiere sul comodino"
+        descrizione: "Il fondo ambrato del primo bicchiere. Lei vede dove guardi."
+        costo: 0
+        esito:
+          titolo: Il bicchiere
+          testo: |
+            Il fondo del bicchiere ha l'odore della valeriana, e sotto c'è
+            qualcosa di amaro e più forte. È un sonnifero da cavallo, roba che si compra dal retro
+            delle botteghe del Mercato dei Nodi.
+
+            «Mi aiuta a non sentirlo camminare» dice Lucia allo specchio. «Avanti
+            e indietro, tutta la notte, sopra la mia testa. Dopo un po' una
+            impara a contare i passi, ed è peggio.»
+      - testo: "Parlarle"
+        descrizione: "Non ha ancora suonato quel campanello. Forse sta aspettando di sapere perché sei qui."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Le note del pianoforte
+          testo: |
+            Le dici chi ti manda e che cosa cerchi, e le giuri che i suoi figli
+            resteranno fuori da tutto. Lei ascolta senza voltarsi, con le mani
+            in grembo. «Non dorme mai, ultimamente» dice alla fine, a voce
+            bassa. «Forse la coscienza ha cominciato a pesargli dopo tanti
+            anni, oppure è stanco anche lui di questa vita che si vede tanto da
+            fuori ed è vuota da dentro» aggiunge, guardando il bicchiere.
+
+            Poi si volta verso di te per la prima volta. «Ogni notte suona il
+            pianoforte di sotto, sempre le stesse cinque note, Fa, Re, Mi
+            bemolle, Fa, Do» dice, e si toglie una forcina dai capelli per
+            posarla accanto al campanello. «Se ha bisogno di tenerlo lontano
+            dallo studio, mi chiami» conclude, e torna a guardarsi nello
+            specchio.
+          pe: { empatia: 5 }
+          effetti: { spartito: 1 }
+          imposta: { lucia: 1 }
+        fallimento:
+          titolo: Esca da dove è entrato
+          testo: |
+            Le parli dei figli e di Ghoran, e lei ti lascia finire. Poi si
+            sfila un orecchino e lo posa sul tavolo, e poi l'altro. «Esca da
+            dove è entrato» dice senza guardarti. «Io stanotte non ho visto
+            nessuno e lei non ha visto me.» Quando sei sulla porta la senti versare qualcosa nel bicchiere
+            del sonnifero.
+          imposta: { lucia: 2 }
+      - testo: "Farle capire che deve tacere"
+        descrizione: "Una mano sul coltello e uno sguardo al campanello. Lei sa che cosa vuol dire."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il campanello
+          testo: |
+            Ti avvicini piano, e lei ritira la mano dal campanello prima che tu
+            arrivi a metà della stanza. Ti guarda nello specchio con gli occhi
+            asciutti e la mascella dura. «In questa casa sono abituata a stare
+            zitta» dice. «Una notte in più non cambia il conto.» Esci, e il
+            campanello resta muto.
+          effetti: { sospetto: 0.5 }
+          imposta: { lucia: 2 }
+        fallimento:
+          titolo: Il grido
+          testo: |
+            Fai un passo verso di lei, e Lucia afferra il campanello e lo scuote
+            con tutta la forza che ha, poi grida il nome di Roldan, con una voce
+            che non ti aspettavi da una donna così composta. Sei in corridoio
+            prima che arrivi la prima guardia, e il campanello continua a
+            suonare dietro di te.
+          effetti: { allarme.maniero: 1 }
+          imposta: { lucia: 3 }
+      - testo: "Andartene senza dire niente"
+        descrizione: "Lei non ha suonato, e forse se te ne vai adesso non suonerà affatto."
+        esito:
+          titolo: Nello specchio
+          testo: |
+            Indietreggi fino alla porta senza voltarle le spalle, e la richiudi
+            piano. Lucia ti segue nello specchio finché la porta non si chiude,
+            con la mano ferma accanto al campanello e la schiena dritta. In
+            corridoio aspetti con il fiato sospeso di sentirlo suonare. Il
+            campanello resta muto, e dopo un po' da sotto la porta senti il
+            rumore di un bicchiere posato sul comodino.
+          imposta: { lucia: 2 }
+
+  # ------------------------------------------------------------ Roldan Kael (con allarme.maniero >= 3)
+  - id: roldan-kael
+    immagine: fazioni/famiglia-malgrani
+    titolo: Roldan Kael
+    sommario: "Il fischietto d'osso suona in tutta la casa. Il caposquadra delle guardie ti sta cercando di persona, e sta venendo dalla tua parte."
+    luogo: Maniero Malgrani, il corridoio
+    area: maniero-malgrani
+    requisiti: [pista.pelle == 1, allarme.maniero >= 3]
+    testo: |
+      Il fischietto d'osso suona una volta lunga e due corte, e in tutta la
+      casa si accendono le lampade. Da sotto arrivano passi di corsa e porte
+      che sbattono, e qualcuno fa uscire i cani dalla cuccia. Le stanze dove
+      sei passato stanotte adesso hanno ognuna una guardia sulla porta.
+
+      In fondo al corridoio compare una lanterna, e dietro la lanterna c'è
+      l'uomo con la barba tagliata a filo che hai visto salire allo studio.
+      Roldan Kael ha la spada sguainata e il fischietto stretto fra i denti, e
+      una guardia gli copre le spalle. Cammina piano e apre le porte una per
+      una, e guarda anche sotto le cassapanche. Poi si toglie il fischietto
+      di bocca.
+
+      «So che sei qui, ospite» dice, senza alzare la voce. «In questa casa ci
+      sono trentadue porte, e le conosco tutte. Fammi risparmiare tempo.» Hai
+      la bocca secca, e soltanto quando abbassi gli occhi ti accorgi di
+      stringere il manico del coltello.
+    opzioni:
+      - testo: "Affrontarlo"
+        descrizione: "Un veterano e una guardia, in un corridoio stretto. Senza Roldan la casa non sa a chi obbedire."
+        combattimento: roldan-kael
+        vittoria:
+          titolo: Il fischietto rotto
+          testo: |
+            Roldan combatte bene e senza fretta, e ti fa pagare ogni passo del
+            corridoio. Alla fine lo metti giù contro un cassettone, e il
+            fischietto d'osso gli si spezza sotto il gomito. La guardia scappa a
+            chiamare aiuto e non trova nessuno a cui dare ordini. Dopo un po'
+            nella casa le lampade si spengono una alla volta, perché senza il
+            fischio nessuno sa più che cosa cercare.
+          pe: { armi-da-mischia: 5 }
+          imposta: { allarme.maniero: 1 }
+        sconfitta:
+          titolo: Fuori dal cancello
+          testo: |
+            Roldan ti lascia attaccare per primo e schiva, poi ti colpisce di
+            piatto alla tempia con la lama. Quando riapri gli occhi ti stanno trascinando per le
+            braccia attraverso il cortile, sotto la pioggia, fra le statue degli
+            antenati. Ti buttano oltre il cancello nel fango. «La prossima volta
+            ti consegno alla Caserma, ospite» dice Roldan, e richiude il
+            lucchetto.
+          vai: quartieri-alti
+      - testo: "Nasconderti prima che arrivi alla tua porta"
+        descrizione: "Trentadue porte. Lui le conosce tutte, ma non può aprirle tutte insieme."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: La trentatreesima
+          testo: |
+            Ti infili nel camino spento di una stanza degli ospiti e sali con
+            la schiena e i piedi contro i mattoni, nella fuliggine. Roldan entra,
+            guarda sotto il letto e dietro le tende, poi esce. Lo senti dire alla
+            guardia che era il gatto della cuoca. Quando scendi sei nero fino
+            ai gomiti, e la casa ha ricominciato a dormire.
+          pe: { furtivita: 5 }
+          imposta: { allarme.maniero: 1 }
+        fallimento:
+          titolo: Sotto la cassapanca
+          testo: |
+            Ti butti sotto una cassapanca, e Roldan ci si siede sopra. «Esci»
+            dice, e quando esci lui e la guardia ti accompagnano al cancello
+            tenendoti per le braccia, con una gentilezza che fa più male delle
+            botte. Il calcio del pugnale arriva lo stesso, alle costole, sulla
+            soglia. Ti ritrovi nel fango della strada sotto la pioggia.
+          effetti: { ferite: 1 }
+          vai: quartieri-alti
+      - testo: "Dirgli che ti manda Mauro Scrocco"
+        descrizione: "Ottone paga gli Scuri, e qualcuno della Pignatta sarà pur passato da questa casa di notte."
+        prova: { attributo: sociale, abilita: [ingannare, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: Quelli della Pignatta
+          testo: |
+            Esci con le mani in vista e gli dici che ti manda Mauro per la
+            consegna del mese. Roldan sputa per terra, poco lontano dai tuoi
+            stivali. «Quelli della Pignatta entrano dal frutteto e aspettano in
+            cucina, e per i corridoi non ci girano» dice, con il fischietto che
+            gli dondola sul petto. «Glielo dirai tu, a Mauro.» Ti spinge verso
+            la scala di servizio e torna a fischiare una volta sola, per dire
+            che è finita.
+          pe: { ingannare: 5 }
+          imposta: { allarme.maniero: 1 }
+        fallimento:
+          titolo: I nomi
+          testo: |
+            Gli dici che ti manda Mauro. Roldan ti guarda dalla testa ai piedi.
+            «Quelli della Pignatta li conosco tutti per nome» dice, «e tu non
+            sei nessuno di loro.» La guardia ti torce un braccio dietro la
+            schiena, e Roldan ti accompagna al cancello e ti butta nel fango
+            della strada con un calcio nei reni.
+          effetti: { ferite: 1 }
+          vai: quartieri-alti
+      - testo: "Scappare dalla finestra"
+        descrizione: "Sotto c'è il giardino e i cani sono fuori. Si salva la pelle, e la notte è finita."
+        esito:
+          titolo: Le siepi
+          testo: |
+            Apri la finestra più vicina e salti nel giardino, sulle siepi
+            potate a squadra, che ti graffiano dappertutto. I cani ti arrivano
+            alle calcagna quando sei già sul muro del frutteto. Dall'altra
+            parte cadi nel fango, e da sopra il muro un cane ti abbaia dietro
+            finché non giri l'angolo. Ti fermi a respirare soltanto in fondo
+            alla discesa, con le mani sulle ginocchia.
+          effetti: { ferite: 0.5 }
+          vai: quartieri-alti
+
+  # ------------------------------------------------------------ il cuore · il pianoforte (1 → 2)
+  - id: il-caveau
+    immagine: ambientazione/maniero-malgrani
+    titolo: Il pianoforte dei Malgrani
+    sommario: "La sala da pranzo dei Malgrani, con il ritratto dei padroni sopra il camino. Sulla pianta di Urtilia, sotto il pianoforte, c'è una crocetta."
+    luogo: Maniero Malgrani, la sala da pranzo
+    area: maniero-malgrani
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani >= 4, allarme.maniero < 3]
+    testo: |
+      La sala da pranzo è la stanza più grande del piano terra. Un tavolo di
+      legno scuro lungo quanto la parete è coperto da un drappo purpureo, con
+      il servizio d'argento già apparecchiato per una cena che non si farà.
+      Il camino è acceso e scalda poco, e le poltrone di velluto sono girate
+      verso il fuoco come se qualcuno se ne fosse appena andato.
+
+      Sopra il camino c'è il ritratto di Ottone e Lucia, in piedi, rigidi, a
+      un palmo l'uno dall'altra. Il pittore ha dato a Lucia un sorriso che
+      non le hai visto nemmeno di sfuggita, e a Ottone i baffi di qualche
+      anno fa.
+
+      Nell'angolo c'è un pianoforte a coda nero, con il coperchio chiuso e i
+      tasti ingialliti. Sulla pianta di Urtilia, proprio in quel punto, c'è
+      una crocetta a matita e niente altro. Sotto il pianoforte il tappeto ha
+      un bordo più consumato degli altri, e ti viene in mente che i tappeti si
+      consumano dove si cammina. Le dita ti si muovono da sole, sopra la
+      coscia, come su una tastiera.
+    opzioni:
+      - testo: "Suonare la sequenza"
+        descrizione: "Fa due, Re quattro, Mi bemolle due, Fa tre, Do quattro. Piano, che di notte si sente tutto."
+        requisiti: [spartito >= 1]
+        esito:
+          titolo: L'armonia storta
+          testo: |
+            Alzi il coperchio e suoni le cinque note, piano, una alla volta. Il
+            suono che ne esce è un accordo stonato e ti allega i denti. Il
+            pavimento vibra sotto il tappeto, e un riquadro di assi si abbassa e
+            scorre di lato. Più giù c'è una botola di ferro decorata con
+            incisioni geometriche, e la botola è aperta.
+          segue: la-sala-ottagonale
+      - testo: "Trovare la sequenza a orecchio"
+        descrizione: "Un pianoforte che apre qualcosa deve suonare storto. Si tratta di sentire quale nota stona."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: A orecchio
+          testo: |
+            Premi i tasti uno alla volta con il dito sul feltro per smorzare il
+            suono, finché ne trovi cinque che fanno vibrare il pavimento sotto i
+            piedi. Li suoni in fila, e l'accordo stonato ti allega i denti. Sotto il tappeto un riquadro di assi scorre di lato e scopre
+            una botola di ferro con incisioni geometriche, aperta.
+          pe: { espressivita: 5 }
+          segue: la-sala-ottagonale
+        fallimento:
+          titolo: Il pianoforte di notte
+          testo: |
+            Provi le note una alla volta, ma il feltro non basta, e alla
+            decima il suono riempie la sala ed esce nel corridoio. Sopra la tua
+            testa i passi dello studio si fermano. Chiudi il coperchio e ti
+            nascondi dietro le poltrone, e qualcuno scende fino a metà scala e
+            poi torna su.
+          effetti: { allarme.maniero: 1 }
+      - testo: "Forzare la botola con un attizzatoio"
+        descrizione: "Sotto il tappeto il bordo delle assi si vede. Con l'attizzatoio del camino si fa leva, e si fa rumore."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: L'attizzatoio
+          testo: |
+            Arrotoli il tappeto e infili l'attizzatoio nella fessura delle assi.
+            Al terzo strattone il riquadro salta con uno schiocco secco che
+            rimbomba per tutta la casa. Sotto c'è una botola di ferro con
+            incisioni geometriche. La apri con le mani che tremano, mentre al
+            piano di sopra una porta sbatte e qualcuno chiama Roldan.
+          pe: { atletica: 5 }
+          effetti: { allarme.maniero: 1 }
+          segue: la-sala-ottagonale
+        fallimento:
+          titolo: Le assi
+          testo: |
+            L'attizzatoio scivola dalla fessura e ti finisce sulle dita, e le
+            assi non si muovono. Il rumore del ferro sul legno fa abbaiare i
+            cani in giardino. Rimetti a posto il tappeto con le dita che
+            pulsano, e ti nascondi dietro le poltrone mentre la casa si sveglia.
+            Ti succhi le nocche per non fare rumore.
+          effetti: { allarme.maniero: 1, ferite: 0.5 }
+      - testo: "Aprire la botola con il Sigillo"
+        descrizione: "Una serratura che si apre con il suono è una serratura di Mana, e il Mana ha le sue chiavi."
+        incantesimo: sigillo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La serratura del suono
+          testo: |
+            Appoggi il palmo sul legno del pianoforte e senti il Mana scendere
+            dalle corde fino al pavimento, avvolto intorno a una serratura che
+            si apre con cinque note. Gliele dai senza suonarle, e le dita ti
+            formicolano fino al gomito. Sotto il tappeto un
+            riquadro di assi scorre di lato, e sotto c'è una botola di ferro
+            con incisioni geometriche, aperta.
+          segue: la-sala-ottagonale
+        fallimento:
+          titolo: La nota sbagliata
+          testo: |
+            Il Sigillo prende la serratura dal verso sbagliato, e dentro il
+            pianoforte tutte le corde vibrano insieme con un lamento lungo.
+            Senti un ago di dolore dietro gli occhi. Al piano di sopra i passi
+            dello studio si fermano, e poi cominciano a scendere. Ti butti
+            dietro le poltrone con le mani sulle tempie e aspetti che qualcuno
+            si stanchi di cercare.
+          effetti: { allarme.maniero: 1, tormento: 0.5 }
+
+  - id: la-sala-ottagonale
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La sala ottagonale
+    sommario: "In fondo alla scala, dietro una porta di pietra con le radici scolpite, i Malgrani tengono quello che non si mostra agli ospiti."
+    luogo: Maniero Malgrani, il caveau
+    area: maniero-malgrani
+    tipo: seguito
+    testo: |
+      Una scala a chiocciola di ferro scende per dieci metri nel buio, e a
+      ogni giro l'aria si fa più fredda e prende un sapore di metallo. In
+      fondo c'è una porta di pietra scolpita a radici intrecciate, con
+      incisioni d'oro nei solchi, e la porta cede a una spinta.
+
+      La sala è ottagonale e grande, illuminata da una lanterna con dentro un
+      Cristallo Conduttore che fa una luce verde e azzurra, da acquario. Gli
+      scaffali lungo le otto pareti sono pieni di registri e di pergamene.
+      Sul pavimento sono incisi dei cerchi uno dentro l'altro, con segni che
+      non sono lettere. In mezzo, su un piedistallo di pietra, un cristallo
+      grande come un uovo pulsa lentamente di luce blu.
+
+      Sul primo scaffale ci sono le carte. Lettere chiuse con la ceralacca
+      verde e l'alloro, firmate da Ottone Malgrani, con il nome di Mirko Vesh
+      scritto a margine. Elenchi di funzionari della Casa dei Nodi, ognuno con
+      la sua cifra, e le date dei pagamenti, una colonna lunga anni. Capisci
+      subito che sono prove più pesanti di qualsiasi cosa ci fosse nello
+      studio, e che con queste carte cade Ottone e cade mezza Gilda. Il
+      resto della sala è pieno di monete e di gemme, più di quanto si possa portare su per una scala a chiocciola senza svegliare
+      la casa. Ti riempi le tasche di quello che ci sta.
+    opzioni:
+      - testo: "Prendere soltanto le carte"
+        descrizione: "Le carte sono il motivo per cui sei qui. Il cristallo sul piedistallo può restare dov'è."
+        esito:
+          titolo: Le carte di Ottone
+          testo: |
+            Infili le lettere e gli elenchi nella giubba, contro la pelle,
+            dove la carta si scalda. Al cristallo non ti avvicini. Risali la
+            scala a chiocciola e richiudi la botola, poi rimetti il tappeto al
+            suo posto. Esci dal frutteto quando sopra i pini il cielo comincia a
+            schiarire, e scendi verso la Caserma con le tasche che tintinnano a
+            ogni passo.
+          pe: { politica-ed-economia: 5 }
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+      - testo: "Prendere anche il cristallo"
+        descrizione: "Chi ha messo lì quel cristallo non l'ha lasciato senza custode. I cerchi sul pavimento lo dicono."
+        combattimento: il-guardiano-del-caveau
+        vittoria:
+          titolo: Il Guardiano
+          testo: |
+            Quando sollevi il cristallo i cerchi sul pavimento si accendono, e
+            dal centro sale una figura di metallo e di resina con le giunture
+            fatte di radici. Dalla bocca le cola una linfa verde che si
+            indurisce sul pavimento. Ci vuole molto a buttarla giù, e quando
+            cade si spezza come un ramo secco. Risali con le carte nella giubba
+            e il cristallo in tasca, che ti scalda la coscia attraverso la
+            stoffa.
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1, oggetto.cristallo-della-visione-del-vero: 1 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+        sconfitta:
+          titolo: La linfa
+          testo: |
+            Dai cerchi accesi sale una figura di metallo e di resina con le
+            giunture di radici. Ti strappa il cristallo dalla mano e lo rimette
+            sul piedistallo, poi si gira verso di te. Riesci a raggiungere la
+            scala con le carte strette al petto e la linfa verde che ti si
+            indurisce sulla camicia. In cima ti fermi a respirare, e sotto di
+            te il Guardiano rientra nei suoi cerchi.
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+      - testo: "Afferrare il cristallo e correre"
+        descrizione: "Dieci metri di scala a chiocciola. Se quello che si sveglia è lento, forse bastano."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La scala a chiocciola
+          testo: |
+            Prendi il cristallo e corri prima che i cerchi finiscano di
+            accendersi. Alle tue spalle una figura di metallo e resina si alza
+            dal pavimento e ti segue su per la scala, e una mano di radici ti
+            prende la caviglia all'ultimo giro. Tiri via il piede e chiudi la
+            botola. Sotto, il ferro rimbomba due volte, e poi più niente.
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1, oggetto.cristallo-della-visione-del-vero: 1, ferite: 1 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+        fallimento:
+          titolo: La caviglia
+          testo: |
+            Prendi il cristallo e corri, ma i cerchi si accendono prima che tu
+            arrivi alla scala. Una mano di radici ti afferra la caviglia e ti
+            sbatte contro il muro, e il cristallo ti vola via dalle dita. Sali
+            gli ultimi giri carponi, con le carte nella giubba e la caviglia che
+            non regge, e chiudi la botola con tutto il peso del corpo.
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1, ferite: 1.5 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+      - testo: "Chiudere i cerchi con il Sigillo, poi prendere il cristallo"
+        descrizione: "I cerchi sul pavimento sono una serratura. Se resta chiusa, quello che c'è dietro non esce."
+        incantesimo: sigillo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: I cerchi chiusi
+          testo: |
+            Ti inginocchi sul cerchio più esterno e cerchi il punto dove il Mana
+            gira. Lo trovi freddo e lento sotto le dita, e lo chiudi su se
+            stesso. Quando
+            sollevi il cristallo i segni sul pavimento si accendono e si
+            spengono subito. Sotto la pietra qualcosa si muove una volta sola e
+            resta dov'è. Risali con le carte e il cristallo, e sulle ginocchia
+            hai il segno dei cerchi.
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1, oggetto.cristallo-della-visione-del-vero: 1 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+        fallimento:
+          titolo: Il cerchio aperto
+          testo: |
+            Il Sigillo prende il cerchio dal verso sbagliato e lo apre. Dal
+            pavimento sale una figura di metallo e di resina, con le giunture di
+            radici e la bocca che cola linfa verde. Lasci cadere il cristallo e
+            scappi su per la scala con le carte, e il colpo che ti prende alla
+            schiena sull'ultimo gradino ti toglie il fiato.
+          effetti: { prove.maniero: 2, pista.pelle: 1, monete: 40, racconto: 1, ferite: 1, tormento: 0.5 }
+          imposta: { allarme.maniero: 0 }
+          vai: quartieri-alti
+
+  # ------------------------------------------------------------ 2 → 3 · una radice
+  - id: una-radice
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/toren-galdrick
+    titolo: Una radice
+    sommario: "Hai le carte di Ottone Malgrani nella giubba. Galdrick le aspetta da quando è sceriffo."
+    luogo: Guarnigione di Qir-Azel, l'ufficio dello sceriffo
+    area: quartieri-alti
+    requisiti: [pista.pelle == 2]
+    testo: |
+      Posi le carte sul tavolo dello sceriffo, sopra la mappa coi segnalini
+      rossi. Ci sono sigilli e colonne di cifre, e lettere chiuse con la
+      ceralacca verde e l'alloro, firmate da Ottone Malgrani, con il nome di
+      Mirko Vesh scritto a margine dalla stessa penna. Galdrick allunga la
+      mano e tocca la carta con la punta delle dita, piano, come se potesse
+      strapparsi. Poi tira il fiato e parla con la voce roca.
+
+      «Per anni ho creduto che la corruzione fosse una ragnatela. Ma
+      questa… questa è una radice. Parte da sotto la città e arriva fino
+      alle sale del Consiglio.» Si siede con i gomiti sul tavolo, e le dita
+      gli tamburellano sul legno. «Julia lo sa da sempre, e senza prove non
+      poteva muovere un dito. Adesso le prove ci sono.»
+
+      Poi scuote la testa. «Se domani arresto Ottone, stanotte Vesh lo sa da
+      uno dei miei. Con il denaro che ha da parte si compra la Città Bassa in
+      una settimana, e ce la ritroviamo tutta contro. Prima gli togliamo il
+      denaro.» Dai conti di Ottone ricava tre casse e le segna sulla mappa
+      con tre segnalini nuovi. Una è nella bisca di Nihali, all'Orlo dei
+      Rottami. Una è nel retrobottega della Dispensa di Gramm, al Mercato dei
+      Nodi, e l'ultima dentro il pilone cavo del Ponte delle Mille Corde.
+
+      In una pagina c'è una sigla, *Ca*, con una piccola chiave disegnata
+      accanto. Galdrick la guarda a lungo e volta il foglio senza dire una
+      parola.
+    opzioni:
+      - testo: "Parlargli di Lucia"
+        descrizione: "La moglie di Ottone ti ha aiutato. Lui dovrebbe saperlo prima di firmare qualunque mandato."
+        immagine: personaggi/lucia-malgrani
+        requisiti: [lucia == 1]
+        costo: 0
+        esito:
+          titolo: Una che ha deciso da tempo
+          testo: |
+            Gli racconti di Lucia e delle cinque note che ti ha dato. Galdrick
+            scrive una riga sul taccuino con la matita corta, poi lo richiude.
+            «Una moglie che tiene il marito lontano dallo studio per uno
+            sconosciuto ha deciso da tempo» dice senza alzare gli occhi. «Lo
+            dirò a Julia, e me lo ricorderò quando verrà il momento del
+            mandato» aggiunge, e rimette il taccuino in tasca.
+      - testo: "Parlargli di Lucia"
+        descrizione: "La moglie di Ottone ti ha visto, e ti ha lasciato andare."
+        immagine: personaggi/lucia-malgrani
+        requisiti: [lucia == 2]
+        costo: 0
+        esito:
+          titolo: Anche lei aspetta
+          testo: |
+            Gli racconti della donna davanti allo specchio, che ti ha visto e
+            non ha suonato il campanello. Galdrick ci pensa su con i pollici
+            nella cintura. «Allora sta aspettando anche lei di vedere come va a
+            finire» dice dopo un po', guardando la mappa. «In quella casa sono
+            tutti bravi ad aspettare» aggiunge, e sposta di un dito il
+            segnalino con l'alloro.
+      - testo: "Parlargli di Lucia"
+        descrizione: "La moglie di Ottone ha suonato il campanello e ha gridato il nome di Roldan."
+        immagine: personaggi/lucia-malgrani
+        requisiti: [lucia == 3]
+        costo: 0
+        esito:
+          titolo: Meno tempo
+          testo: |
+            Gli racconti del campanello e del grido. Galdrick si passa una mano
+            sulla faccia, dalla fronte fino al mento. «Allora Ottone sa che
+            qualcuno è entrato in casa sua» dice piano, quasi fra sé. «Chi fosse
+            e che cosa manchi lo scoprirà la prima volta che aprirà il caveau a
+            contare. Abbiamo meno tempo di quanto pensassi»
+            aggiunge, e cerchia un giorno sul calendario.
+      - testo: "Mostrargli l'anello col sigillo"
+        descrizione: "Un anello d'oro con le iniziali di Ottone, trovato dietro una mensola."
+        requisiti: [maniero.anello == 1]
+        costo: 0
+        esito:
+          titolo: O.M.
+          testo: |
+            Galdrick rigira l'anello alla luce della finestra e gratta con
+            l'unghia la ceralacca verde rimasta fra le lettere. «Con questo
+            Ottone chiude i contratti alla Casa dei Nodi» dice, tenendolo fra
+            due dita. «Se il sigillo sulle lettere del caveau è lo stesso,
+            nessun avvocato gli trova una scusa» aggiunge, e lo infila in una
+            busta su cui scrive la data.
+      - testo: "Mostrargli il lingotto della cucina"
+        descrizione: "Argento col sigillo dei Malgrani, e sotto il segno raschiato della Gilda."
+        requisiti: [maniero.lingotti == 1]
+        costo: 0
+        esito:
+          titolo: Rubato due volte
+          testo: |
+            Galdrick soppesa il lingotto e passa più volte il pollice sul segno
+            raschiato. «Argento dei magazzini della Gilda, che nei loro
+            libri non risulta mai uscito» dice a mezza voce. «Cordani vorrà
+            vederlo prima di chiunque altro» aggiunge, e lo avvolge di nuovo
+            nel fazzoletto per chiuderlo nel cassetto della scrivania, invece
+            che nella cassa di ferro.
+      - testo: "Mostrargli il cristallo del caveau"
+        descrizione: "Il cristallo del piedistallo. Da quando ce l'hai, la notte dormi male."
+        requisiti: [oggetto.cristallo-della-visione-del-vero >= 1]
+        costo: 0
+        esito:
+          titolo: Il Guardiano di Urtilia
+          testo: |
+            Galdrick non lo tocca, e tiene le mani nella cintura per tutto il
+            tempo. «Urtilia mi aveva detto del Guardiano sotto la casa. L'ha
+            messo lì lei, anni fa, quando il cristallo era ancora suo» dice,
+            guardandolo da lontano. «Mi ha detto anche che chi lo tiene troppo
+            vicino non dorme più bene.» Ti guarda le occhiaie e annuisce piano,
+            come se gli avessi dato ragione, poi ti dice di tenerlo lontano dal
+            letto.
+      - testo: "Chiedergli che cosa fa del registro di Ottone"
+        descrizione: "Il registro dello studio ce l'hai tu. In Caserma, a quanto pare, un quarto delle guardie è di Vesh."
+        requisiti: [oggetto.registro-dei-malgrani >= 1]
+        costo: 0
+        esito:
+          titolo: Una parte per uno
+          testo: |
+            Galdrick ricopia sul taccuino le pagine delle tre casse, riga per
+            riga, muovendo le labbra sulle cifre. Poi ti restituisce il
+            registro e lo spinge verso di te sul tavolo. «Tienilo tu, perché in
+            questa Caserma non lo lascerei nemmeno nella cassa di ferro» dice
+            sottovoce. «Se a me succede qualcosa, qualcuno deve averne una
+            parte» aggiunge, e chiude il taccuino.
+      - testo: "Lasciargli le carte"
+        descrizione: "Le tre casse sono segnate sulla mappa. Adesso tocca agli Scuri."
+        requisiti: [prove.maniero < 6]
+        esito:
+          titolo: Tre segnalini
+          testo: |
+            «Stanotte queste carte dormono a casa mia, e non qui» dice Galdrick,
+            e le infila in una cartella di cuoio che si lega alla cintura. Poi
+            si alza e ti stringe la mano più forte del solito. «Hai fatto una
+            cosa che in questa città non aveva osato fare nessuno. Le tre casse
+            sono tue quando vuoi, e per ognuna voglio sapere chi c'era dentro e
+            chi è scappato.» Resta in piedi a guardare i tre segnalini nuovi
+            sulla mappa.
+          effetti: { pista.pelle: 1, rep.caserma: 1 }
+      - testo: "Lasciargli le carte"
+        descrizione: "Con le carte del caveau ci sono anche l'anello e l'argento della cucina. Le tre casse sono segnate sulla mappa."
+        requisiti: [prove.maniero >= 6]
+        esito:
+          titolo: Abbastanza per Julia
+          testo: |
+            Galdrick mette in fila sul tavolo le carte del caveau accanto
+            all'anello e all'argento della cucina, e per la prima volta da
+            quando lo conosci sorride. «Con questo Julia porta in Consiglio
+            Ottone e anche i tre della Casa dei Nodi che prendevano la sua
+            paga» dice, e infila tutto in una cartella di cuoio. «Stanotte dorme
+            a casa mia, e non qui.» Poi torna serio e batte il dito sui tre
+            segnalini nuovi. «Le casse sono tue quando vuoi. Per ognuna voglio
+            sapere chi c'era dentro e chi è scappato.»
+          effetti: { pista.pelle: 1, rep.caserma: 1, rep.castaldi: 1 }
+
+  # ------------------------------------------------------------ dagli Averi · il registro di Ottone
+  - id: leggere-il-registro-dei-malgrani
+    titolo: Il registro dei Malgrani
+    tipo: oggetto
+    area: citta-bassa
+    immagine: fazioni/famiglia-malgrani
+    requisiti: [oggetto.registro-dei-malgrani >= 1]
+    sommario: "Il registro dei pagamenti di Ottone Malgrani, rilegato in pelle con l'alloro impresso. Ogni pagina finisce con una somma e una firma."
+    testo: |
+      Il registro è rilegato in pelle verde scuro, con l'alloro della casata
+      impresso a caldo sulla copertina. Dentro la grafia di Ottone è piccola
+      e diritta, e le cifre stanno in colonne tirate col righello. Ogni
+      pagina si chiude con una somma sottolineata e con la sua firma, che
+      tiene da sola mezza riga. Non c'è una cancellatura in tutto il libro.
+      Dove ha sbagliato un conto, Ottone ha strappato la pagina con cura
+      lungo la cucitura e l'ha riscritta da capo.
+
+      I nomi delle persone non ci sono quasi mai. Al loro posto ci sono
+      iniziali e piccoli disegni, e accanto a ogni voce le date e le somme
+      mese dopo mese, per nove anni. Lo sfogli con la punta delle
+      dita, tenendolo lontano dal fango del vicolo, e ti accorgi di farlo
+      con più cura di quanta ne meriti chi l'ha scritto.
+    opzioni:
+      - testo: "Le pagine degli Scuri"
+        costo: 0
+        esito:
+          titolo: Tramite la Pignatta
+          testo: |
+            La voce più lunga del registro è sempre la stessa, *M. V., tramite
+            la Pignatta*, con un totale che in nove anni è raddoppiato. I soldi
+            però non arrivano agli Scuri per una strada sola, e ogni strada ha
+            il suo nome di comodo. Ogni settimana ci sono le *perdite al gioco*
+            all'Orlo, sempre contro una N e una C, e ogni mese gli
+            *infusi per la signora* pagati alla Dispensa di Gramm. Due volte
+            all'anno, poi, una borsa va *al quarto pilone*.
+
+            Sotto, in una riga più piccola, ogni inverno c'è la stessa nota,
+            *rinegoziare*, e il mese dopo la cifra è sempre uguale o più alta.
+      - testo: "Le pagine della Gilda"
+        costo: 0
+        esito:
+          titolo: Il custode del ponte
+          testo: |
+            Tre funzionari della Casa dei Nodi, indicati con le iniziali e con
+            l'ufficio, prendono una somma fissa ogni mese. Sotto di loro c'è una
+            voce scritta per esteso, *il custode del Ponte dei Morti, turno di
+            notte*. Le cifre sono le stesse che Maedric Holl sottolineava due
+            volte in fondo alle sue pagine, mese dopo mese per sei anni.
+
+            È la controprova di cui parlava Galdrick. Ti accorgi di aver
+            contato tre volte la prima colonna, per il gusto di vederla tornare.
+      - testo: "La pagina della Caserma"
+        costo: 0
+        esito:
+          titolo: La chiave disegnata
+          testo: |
+            La pagina ha in cima una parola sola, *Caserma*. Sotto ci sono
+            diciotto nomi di guardie con somme piccole, quanto basta per non
+            vedere un carro o per dimenticarsi un turno. In fondo c'è una voce
+            senza nome, soltanto la sigla *Ca* e accanto una piccola chiave
+            disegnata a penna con molta cura, denti compresi.
+
+            È la somma più alta della pagina, e a differenza delle altre viene
+            pagata ogni settimana.
+      - testo: "Le pagine dei mulini"
+        costo: 0
+        esito:
+          titolo: Il lavoro di notte
+          testo: |
+            Tre date, a distanza di qualche mese l'una dall'altra, ognuna con lo
+            stesso pagamento alla Pignatta, *per il lavoro di notte*. Sono le
+            notti in cui sono bruciati i mulini dei concorrenti. Da allora in
+            tutta la regione è rimasto in piedi soltanto il Mulino Malgrani.
+
+            Dalla primavera dopo comincia un'altra voce mensile, più piccola, *Ghoran,
+            per i tre*. Non ha mai saltato un mese.
+      - testo: "Chiudere il registro"
+        costo: 0
+        esito:
+          titolo: La firma
+          testo: |
+            Chiudi il registro, e l'alloro sulla copertina ti resta impresso nel
+            palmo per un po'. Lo rimetti nella bisaccia sotto il resto, dove
+            non lo vede nessuno, e stringi la cinghia di un buco. Per un pezzo,
+            camminando, hai ancora davanti agli occhi la grafia diritta di
+            Ottone.

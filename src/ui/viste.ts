@@ -187,13 +187,19 @@ export function storia(x: Contesto): string {
   }
 }
 
+function portaA(st: TStorylet, id: string): boolean {
+  return st.opzioni.some((o) => [o.esito, o.successo, o.fallimento, o.vittoria, o.sconfitta].some((e) => e?.segue === id));
+}
+
 function vistaArea(x: Contesto): string {
   const { s, c } = x;
   const disponibili = storyletDisponibili(s, c);
   // un seguito lasciato a metà (chiudendo il risultato invece di proseguire) torna in cima alla storia
   const sospeso = s.sospeso ? trova(c, s.sospeso) : undefined;
-  const riprendi = sospeso && !disponibili.includes(sospeso) && requisitiSoddisfatti(s, sospeso.requisiti, c) ? [sospeso] : [];
-  const storie = [...riprendi, ...disponibili.filter((st) => !st.ripetibile)];
+  const inAttesa = sospeso && requisitiSoddisfatti(s, sospeso.requisiti, c) ? sospeso : undefined;
+  const riprendi = inAttesa && !disponibili.includes(inAttesa) ? [inAttesa] : [];
+  // finché il seguito aspetta, la scena che lo apre non si rigioca (niente effetti presi due volte)
+  const storie = [...riprendi, ...disponibili.filter((st) => !st.ripetibile && !(inAttesa && st !== inAttesa && portaA(st, inAttesa.id)))];
   const crisi = NEGATIVE.filter((k) => (s.quality[k] ?? 0) >= MAX_NEGATIVA);
   const avvisoCrisi = crisi.length ? `<p class="avviso crisi">${crisi.map((k) => h(nome(k, c))).join(', ')} al massimo. La crisi ti aspetta all'uscita da quest'area.</p>` : '';
   const sped = areaAttuale(s, c)?.spedizione;
@@ -204,7 +210,7 @@ function vistaArea(x: Contesto): string {
       <ul class="elenco-storylet">${stanzeVisibili(s, c).map((st) => rigaStorylet(st, true)).join('')}</ul>`;
   }
   const qui = luogoAperto(x);
-  if (qui) return avvisoCrisi + vistaLuogo(x, qui, storie);
+  if (qui) return avvisoCrisi + vistaLuogo(x, qui, storie, riprendi);
   const luoghi = luoghiQui(s, c);
   const ids = new Set(luoghi.map((l) => l.id));
   const inGiro = stanzeVisibili(s, c).filter((st) => !st.presso || !ids.has(st.presso));
@@ -234,9 +240,10 @@ function vistaArea(x: Contesto): string {
     ${inGiro.length ? `<h2 class="titolo-sezione">In giro per ${h(areaDi(x).nome)}</h2><ul class="elenco-storylet">${inGiro.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}`;
 }
 
-function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[]): string {
+function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: TStorylet[] = []): string {
   const { s, c } = x;
-  const storie = storieArea.filter((st) => st.presso === l.id);
+  // un seguito in sospeso si riprende anche da dentro il luogo
+  const storie = [...riprendi, ...storieArea.filter((st) => st.presso === l.id && !riprendi.includes(st))];
   const ripetibili = stanzeVisibili(s, c).filter((st) => st.presso === l.id);
   const botteghe = l.negozi.map((id) => c.negozi.find((n) => n.id === id)).filter((n): n is TNegozio => !!n).map((n) => bottega(x, n)).join('');
   const vuoto = !storie.length && !ripetibili.length && !botteghe;

@@ -25,7 +25,16 @@ di Isvaro e il cilindro di lyssan si rileggono dagli Averi. Blocco 7 fatto: Capo
 (`contenuti/piste/capomozzo-*.yaml`), con quattro spedizioni in fila (Rovolungo, la fortezza, il livello I, il
 livello II) e le stanze mancanti del verbale scritte da noi (C25–C26, E5–E7); il protagonista sceglie una sola
 Maschera fra le quattro; il capitolo si chiude sull'orlo della Cicatrice, con la discesa vera rimandata al
-Capitolo II, e la città resta giocabile.
+Capitolo II, e la città resta giocabile. Blocco 8 fatto: l'Arena fino a 5 (`contenuti/piste/arena.yaml`, con la squadra di Besk Dravec, Corin e
+Tenebra, gli echi evocati dai cristalli al posto dei mostri del verbale e la rivincita con Galdrick per chi perde
+la finale); Sotto la pelle fino a 7 (`contenuti/piste/pelle-*.yaml`), con il Maniero Malgrani come spedizione
+(allarme, prove, Lucia, il caveau), l'Atto II scritto da noi (tre colpi alle casse degli Scuri e Borso
+smascherato) e la notte della Pignatta che lascia `nomea.citta-bassa`; le tre rovine dei Raschiatori come
+spedizioni ripetibili dal Grifone (`contenuti/piste/rovine.yaml`); Topi in cantina con l'Emporio Tamberlo e la
+sua bottega (`contenuti/piste/topi.yaml`). L'Arena e Sotto la pelle si aprono dopo il ritorno da Capomozzo
+(`pista.capomozzo >= 6`), perché Galdrick è a Ghoran durante Acciaio e Ira. Dopo l'assalto la Pignatta Grassa
+sparisce dai luoghi e i suoi ripetibili si chiudono. Mentre un seguito aspetta, la scena che l'ha aperto non si
+può rigiocare.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.
@@ -54,7 +63,7 @@ Le prime tre piste corrono in parallelo fin dall'inizio. La discesa all'ascensor
 
 - **La Promessa dell'Arpia.** La prima è stata rinviata per la razzia e Belcanto cerca attori, costumisti e aiutanti. Le prove al Teatro diventano un ripetibile di Espressività, con esiti comici e un po' di fama.
 - **Topi in cantina.** Una carta di Rilla Tamberlo per l'Emporio; gli esiti vanno dal pulito allo Scandalo, e la porta dell'Emporio si può chiudere.
-- **L'Arena.** Si apre dopo le Tribù ed è un ripetibile a gradi con `fama.arena`: la mischia, poi tre ondate, poi la finale contro Galdrick, Dragna, Ilvaena e Ottilia. La squadra degli Scuri resta umiliata e prepara l'arco successivo.
+- **L'Arena.** Si apre dopo il ritorno da Capomozzo ed è una pista breve (`pista.arena`, 0–5) con i ripetibili dopo il torneo: la mischia, poi tre ondate, poi la finale contro Galdrick, Dragna, Ilvaena e Ottilia. La squadra degli Scuri resta umiliata e prepara l'arco successivo.
 - **Sotto la pelle di Qir-Azel.** Si apre dopo il Registro: l'infiltrazione notturna al Maniero Malgrani (spedizione con allarme e prove raccolte), il Municipio, l'assalto alla Pignatta, Galdrick contro Vesh. Il modo in cui tratti la folla lascia `nomea.citta-bassa`, che colora gli storylet del quartiere.
 - **Le rovine dei Raschiatori** (Vhar'Ul, il Laboratorio di Calibrazione, il Sito Mahr-Kel) come spedizioni ripetibili per chi ha il posto nei turni di scavo: reperti, celle, frammenti di memoria su Nhar'Kael.
 
@@ -74,7 +83,7 @@ del personaggio, 2 dopo la scena dell'origine, 0 dopo *Tre giorni dopo*.
 
 ## Qualità nuove
 
-Le sette piste; `fama` (quanto la città ti riconosce, chiesta da Galdrick); `fama.arena`; `nomea.citta-bassa`; `profondita.<spedizione>`; `documento.*`; `allarme.maniero`; `pozzo-dell-ira` (le colate da esaurire). `rep.caserma`, `rep.scuri`, `rep.malgrani`, `rep.tarvelin` e `debito.scuri` esistono già e vengono spostate dalle scelte.
+Le sette piste; `fama` (quanto la città ti riconosce, chiesta da Galdrick); `pista.arena` e `campione`; `nomea.citta-bassa`; `profondita.<spedizione>`; `documento.*`; `allarme.maniero`; `pozzo-dell-ira` (le colate da esaurire). `rep.caserma`, `rep.scuri`, `rep.malgrani`, `rep.tarvelin` e `debito.scuri` esistono già e vengono spostate dalle scelte.
 
 ## Oggetti dal verbale
 
@@ -115,6 +124,10 @@ storia* (tutte le storie disponibili, ovunque siano), la griglia dei luoghi con 
 e *In giro per…* con i ripetibili senza luogo. Un luogo senza niente di disponibile non compare. I luoghi sono
 solo presentazione: entrarci non costa candele. Le storie nuove dei blocchi 6–8 vanno agganciate a un luogo
 quando ne hanno uno; l'Acciaieria diventa luogo nel blocco 6, quando ha più di un ripetibile.
+
+**Da ricordare per la città viva.** Dopo `pista.pelle >= 6` la Pignatta è bruciata e Vesh è morto: le carte e
+gli storylet che nominano gli Scuri come forza attiva (Rozalia, Mauro all'oste, la Dispensa di Gramm con Nestor
+arrestato) vanno ripassati. `nomea.citta-bassa` per ora si imposta e basta: deve colorare le carte del quartiere.
 
 ## Audio da completare
 

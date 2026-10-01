@@ -31,7 +31,7 @@ function percorri(origine: string, seme: number, pista: string, fine: number, ex
   s.quality['conosci.liaren'] = 1; // il primo ingresso al Grifone apre la caccia di Corin
   Object.assign(s.quality, extra);
   const rng = rngConSeme(seme);
-  for (let n = 0; n < 400; n++) {
+  for (let n = 0; n < 1000; n++) {
     s.candele = CANDELE_MAX;
     for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
     if ((s.quality[pista] ?? 0) >= fine) return n;
@@ -54,6 +54,30 @@ function percorri(origine: string, seme: number, pista: string, fine: number, ex
     passo(s, st, rng);
   }
   throw new Error(`${origine}/${seme}: troppi passi, fermo a ${s.quality[pista]} (${JSON.stringify(Object.fromEntries(Object.entries(s.quality).filter(([k]) => /rennick|dama|monete|rep/.test(k))))})`);
+}
+
+/** Una spedizione ripetibile: si entra dall'ingresso e si gioca a caso finché la quality del fondo non vale 1. */
+function scendi(origine: string, seme: number, ingresso: string, fondo: string): number {
+  const s = nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === origine)!, 0, 'ponti-sospesi');
+  delete s.quality['prologo'];
+  Object.assign(s.quality, { raschiatore: 1, 'pista.acciaio': 8, monete: 200, bende: 2 });
+  const rng = rngConSeme(seme);
+  const entrata = c.storylet.find((x) => x.id === ingresso)!;
+  for (let n = 0; n < 400; n++) {
+    s.candele = CANDELE_MAX;
+    for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
+    if ((s.quality[fondo] ?? 0) >= 1) return n;
+    const obbligato = crisiAttiva(s, c);
+    if (obbligato) { passo(s, obbligato, rng); continue; }
+    const sospeso = s.sospeso ? c.storylet.find((x) => x.id === s.sospeso) : undefined;
+    if (sospeso && requisitiSoddisfatti(s, sospeso.requisiti, c)) { passo(s, sospeso, rng); continue; }
+    if (!c.aree.find((a) => a.id === s.area)?.spedizione) { s.area = entrata.area; passo(s, entrata, rng); continue; }
+    const qui = storyletDisponibili(s, c).filter((x) => x.area === s.area && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0));
+    const st = qui[Math.floor(rng() * qui.length)];
+    if (!st) throw new Error(`${origine}/${seme}: bloccato in ${s.area}`);
+    passo(s, st, rng);
+  }
+  throw new Error(`${origine}/${seme}: troppi passi in ${ingresso}`);
 }
 
 describe('piste', () => {
@@ -80,6 +104,16 @@ describe('piste', () => {
   }, 30000);
   it('Capomozzo arriva a 10, attraverso le quattro spedizioni', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.capomozzo', 10, { 'pista.acciaio': 8, 'pista.sepolcro': 7, 'pista.tribu': 4, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(9);
+  }, 30000);
+  it('l\'Arena arriva a 5, dalla Mischia alla finale', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.arena', 5, { 'pista.capomozzo': 6, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(4);
+  }, 30000);
+  it('Sotto la pelle arriva a 7, passando dal Maniero Malgrani', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.pelle', 7, { 'pista.capomozzo': 6, 'pista.registro': 5, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(6);
+  }, 30000);
+  it('le tre rovine dei Raschiatori si possono raggiungere fino in fondo', () => {
+    const siti: [string, string][] = [['turno-a-vhar-ul', 'rovine.vhar-ul'], ['turno-al-laboratorio', 'rovine.calibrazione'], ['turno-a-mahr-kel', 'rovine.mahr-kel']];
+    for (const [ingresso, fondo] of siti) for (const o of c.origini) for (let seme = 1; seme <= 15; seme++) expect(scendi(o.id, seme, ingresso, fondo)).toBeGreaterThan(2);
   }, 30000);
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');

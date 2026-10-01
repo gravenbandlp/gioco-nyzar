@@ -184,8 +184,8 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     requisiti(dove, st.requisiti);
     const areaSt = c.aree.find((a) => a.id === st.area);
     const inAreaPenalita = !!areaSt?.penalita || !!areaSt?.spedizione;
-    if (st.tipo === 'fisso' && !st.ripetibile && !inAreaPenalita && !st.requisiti.some((r) => r.startsWith('pista.') || /==\s*0\s*$/.test(r))) {
-      avvisi.push(`${dove}: non è ripetibile ma nessun requisito lo chiude dopo la prima volta (serve una pista o un "== 0")`);
+    if (st.tipo === 'fisso' && !st.ripetibile && !inAreaPenalita && !st.requisiti.some((r) => r.startsWith('pista.') || /==\s*\d+(\.\d+)?\s*$/.test(r))) {
+      avvisi.push(`${dove}: non è ripetibile ma nessun requisito lo chiude dopo la prima volta (serve una pista o un "== n")`);
     }
     st.opzioni.forEach((o, i) => {
       const d = `${dove}, opzione ${i + 1}`;
