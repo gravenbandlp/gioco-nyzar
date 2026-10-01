@@ -1,6 +1,6 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 915 pezzi, 552.236 caratteri.
+Generato da `npm run doppiaggio`. 1379 pezzi, 798.280 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
 
 ## I prologhi
@@ -5747,11 +5747,11 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### La lite delle mappe
 
-**`la-lite-delle-mappe`** · scena · 1425 caratteri
+**`la-lite-delle-mappe`** · scena · 1424 caratteri
 
 > Le voci ti arrivano dallo studio di Òrvald prima ancora che tu sia in fondo al corridoio, e Pèt ha lasciato lo stipite per rifugiarsi sull'architrave della finestra. Sulla scrivania, fra il teschio di cinghiale mutato e un calamaio che fa da fermacarte, è srotolata una mappa ingiallita con la grafia stretta del preside. In un angolo c'è scritto Gradone Rosso, scavo del centoventi, e lungo la scarpata scende un sentiero tratteggiato fino a una croce.
 >
-> Dall'altra parte della scrivania c'è uno gnomo anziano con i capelli rossi sbiaditi raccolti in una coda, gli occhiali tondi sul naso e un gilet ricamato a fiori arancioni. La cravatta è verde a pois gialli. Sulla spalla tiene un geco verde brillante, che guarda la mappa con un occhio solo. “Sono Tòbol Àspern, il cartografo. Lui è Whisp” dice senza voltarsi. “Tu devi essere quello che Òrvald fa lavorare per due monete. Ottimo, mi serve un testimone.”
+> Dall'altra parte della scrivania c'è uno gnomo anziano con i capelli rossi sbiaditi raccolti in una coda, gli occhiali tondi sul naso e un gilet ricamato a fiori arancioni. La cravatta è verde a pois gialli. Sulla spalla tiene un geco verde brillante, che guarda la mappa con un occhio solo. “Sono Tòbol Àspern, il cartografo. Lui è Uìsp” dice senza voltarsi. “Tu devi essere quello che Òrvald fa lavorare per due monete. Ottimo, mi serve un testimone.”
 >
 > “Il sentiero esiste” dice Òrvald. “L'ho fatto trenta volte, con un mulo carico.”
 >
@@ -5779,13 +5779,13 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Dici che una mappa disegnata da chi ci è passato trenta volte vale più di una visita di due estati, e che i muri di sabbia vanno e vengono. Òrvald annuisce una volta sola. Tòbol si toglie gli occhiali, li pulisce sulla cravatta e se li rimette, poi arrotola la mappa, che è di Òrvald, e se la porta via lo stesso. Òrvald ti versa una tazza di caffè cattivo come promesso, poi ti racconta dello scavo del centoventi finché la tazza non è vuota. “Domani Tòbol torna con una cravatta nuova” dice, soffiando sul caffè. “È il suo modo di chiedere scusa.”
 
-**`la-lite-delle-mappe__4-esito`** · esito «Il silenzio del corvo» · opzione «Dare ragione a Tobol» · esito · 525 caratteri
+**`la-lite-delle-mappe__4-esito`** · esito «Il silenzio del corvo» · opzione «Dare ragione a Tobol» · esito · 524 caratteri
 
-> Dici che una mappa vale quanto l'ultima volta che qualcuno l'ha controllata, e che il sentiero, se c'era, adesso non c'è più. Tòbol batte le mani una volta, e Whisp gli corre dalla spalla alla testa. Sull'architrave Pèt smette di lisciarsi le penne e resta immobile, e dopo un momento capisci il perché. Òrvald arrotola la mappa con molta cura e la rimette nello scaffale senza una parola. “Bene” dice soltanto. Sulla porta Tòbol ti paga la tua opinione otto monete, e ti sussurra che il silenzio del corvo vale molto di più.
+> Dici che una mappa vale quanto l'ultima volta che qualcuno l'ha controllata, e che il sentiero, se c'era, adesso non c'è più. Tòbol batte le mani una volta, e Uìsp gli corre dalla spalla alla testa. Sull'architrave Pèt smette di lisciarsi le penne e resta immobile, e dopo un momento capisci il perché. Òrvald arrotola la mappa con molta cura e la rimette nello scaffale senza una parola. “Bene” dice soltanto. Sulla porta Tòbol ti paga la tua opinione otto monete, e ti sussurra che il silenzio del corvo vale molto di più.
 
-**`la-lite-delle-mappe__5-successo`** · esito «Il percorso consigliato» · opzione «Farli ridere tutti e due» · successo · 542 caratteri
+**`la-lite-delle-mappe__5-successo`** · esito «Il percorso consigliato» · opzione «Farli ridere tutti e due» · successo · 541 caratteri
 
-> Prendi un foglio dalla scrivania e disegni in fretta una terza mappa, con la croce dello scavo in fondo alla scarpata e un sentiero che fa un giro lunghissimo intorno a due vecchi che litigano. Sotto scrivi percorso consigliato, imitando la grafia di Òrvald. Tòbol guarda il foglio e poi Òrvald, e scoppia a ridere così forte che Whisp gli scivola dalla spalla. Òrvald resiste un poco di più. Alla fine attacca il tuo disegno al muro, accanto alle mappe vere, e Tòbol ti paga cinque monete perché è il primo disegno onesto di tutto lo studio.
+> Prendi un foglio dalla scrivania e disegni in fretta una terza mappa, con la croce dello scavo in fondo alla scarpata e un sentiero che fa un giro lunghissimo intorno a due vecchi che litigano. Sotto scrivi percorso consigliato, imitando la grafia di Òrvald. Tòbol guarda il foglio e poi Òrvald, e scoppia a ridere così forte che Uìsp gli scivola dalla spalla. Òrvald resiste un poco di più. Alla fine attacca il tuo disegno al muro, accanto alle mappe vere, e Tòbol ti paga cinque monete perché è il primo disegno onesto di tutto lo studio.
 
 **`la-lite-delle-mappe__5-fallimento`** · esito «Lo scherzo sbagliato» · opzione «Farli ridere tutti e due» · fallimento · 428 caratteri
 
@@ -5916,3 +5916,2333 @@ Ogni file audio si salva come `<id>.mp3`.
 **`la-chiave-del-seminterrato__2-esito`** · esito «Il chiodo accanto alla porta» · opzione «Rifiutare con garbo» · esito · 401 caratteri
 
 > Gli dici che per adesso preferisci restare un ospite, e gli rendi la chiave. Òrvald la guarda sul palmo per un momento, poi la appende a un chiodo accanto alla porta del seminterrato, all'altezza dei tuoi occhi. “Resta lì” dice, e ci batte sopra con la nocca. “Quando la vorrai, la prova te la faccio rifare.” Risalite la scala insieme, e Pèt, dalla sua spalla, ti volta la schiena per tutto il tempo.
+
+### Gli scaffali sigillati
+
+**`gli-scaffali-sigillati`** · scena · 1215 caratteri
+
+> Ùlrik Stànne ti porta su per la scala di pietra fino al secondo piano, dove i lettori non salgono. Il corridoio è stretto e alto, e da una parte e dall'altra gli scaffali hanno le ante chiuse con la cera nera della Confraternita e un nastro rosso passato fra le maniglie. Su ogni sigillo è impresso l'Albero. Ùlrik si ferma davanti al quarto scaffale a sinistra e alza la lanterna.
+>
+> La cera del sigillo è colata giù per l'anta in tre righe lucide, fino al pavimento, mentre il nastro rosso è intatto. “Terza volta in un mese” dice Ùlrik, e si toglie il monocolo. “Lo rifacciamo, e la mattina dopo lo ritroviamo così. Effettivamente non so più che cosa pensare.”
+>
+> Accanto allo scaffale c'è Ottìlia Sànvel, la monaca del Velo che tiene le chiavi di questi corridoi insieme a Ùlrik. È bassa e robusta, con i capelli corti e le maniche rimboccate, e guarda la cera senza toccarla. “Se qualcuno apre gli scaffali lo devo dire alla Madre” dice. “Prima voglio sapere se è così.”
+>
+> Sul cartellino dello scaffale, nella grafia di un bibliotecario morto da tempo, c'è scritto pietre dei pellegrini, sette. [whispers] Sette pietre chiuse a chiave, come se potessero scappare. Stai trattenendo il fiato, e lo lasci andare piano.
+
+**`gli-scaffali-sigillati__1-successo`** · esito «Dal di dentro» · opzione «Esaminare la cera colata» · successo · 379 caratteri
+
+> Avvicini la lanterna all'anta e guardi le colature da vicino. La cera è uscita soltanto dalla fessura fra le ante, e sul legno intorno al sigillo non c'è un graffio. Chi apre uno scaffale di nascosto rompe il sigillo, mentre questo si è sciolto, e il caldo arrivava da dentro. Ottìlia guarda le colature e poi te, e tira fuori dalla manica un mazzo di chiavi legato con lo spago.
+
+**`gli-scaffali-sigillati__1-fallimento`** · esito «La quarta colatura» · opzione «Esaminare la cera colata» · fallimento · 331 caratteri
+
+> Ti avvicini troppo con la lanterna, e la cera del sigillo comincia ad ammorbidirsi sotto i tuoi occhi. Quando te ne accorgi c'è una quarta colatura, e questa l'hai fatta tu. Ottìlia stringe le labbra. Ùlrik va a prendere il sigillo d'ottone e il bastoncino di cera, e ti chiede gentilmente di tenere la lanterna un po' più lontano.
+
+**`gli-scaffali-sigillati__2-successo`** · esito «Luna chiara» · opzione «Confrontare le date con i registri dei cronisti» · successo · 438 caratteri
+
+> Scendi a prendere i registri dei cronisti, quelli che annotano ogni notte il cielo e i bagliori della Cicatrice, e cerchi le tre date che ti dà Ùlrik. Il cronista di turno ha la mano pesante e scrive sempre le stesse parole. Nelle tre notti ha scritto luna chiara, nessun bagliore. Lo leggi ad alta voce. Ùlrik resta con il monocolo a mezz'aria, poi si batte la fronte con il palmo e dice a Ottìlia che adesso sa quali sono le due pietre.
+
+**`gli-scaffali-sigillati__2-fallimento`** · esito «Le sigle» · opzione «Confrontare le date con i registri dei cronisti» · fallimento · 374 caratteri
+
+> Scendi a prendere i registri dei cronisti e cerchi le tre date. Il cronista di quelle notti scrive in un'abbreviazione tutta sua, e quello che annota sul cielo e sulla Cicatrice è un muro di sigle. Passi il pomeriggio a decifrarle senza venirne a capo. Quando chiedi di lui, Ùlrik ti dice che è morto l'inverno scorso, e che il suo successore sta ancora cercando di capirle.
+
+**`gli-scaffali-sigillati__3-successo`** · esito «La richiesta motivata» · opzione «Chiedere a Ottilia di aprire lo scaffale» · successo · 341 caratteri
+
+> Le dici che basta un'occhiata dentro lo scaffale per sapere se manca qualcosa, mentre fare la guardia di notte costa una settimana di sonno a due persone che ne hanno poco. Ottìlia ci pensa con le mani dietro la schiena. “È motivata” dice, e scioglie il nastro rosso con due dita. Le ante si aprono con un odore di polvere e di pietra calda.
+
+**`gli-scaffali-sigillati__3-fallimento`** · esito «Un motivo e una firma» · opzione «Chiedere a Ottilia di aprire lo scaffale» · fallimento · 313 caratteri
+
+> Le dici che basterebbe un'occhiata dentro lo scaffale per sapere se manca qualcosa. Ottìlia ti ascolta, e poi ti domanda a che titolo lo chiedi. La risposta che le dai non le basta. Ti spiega con calma che gli scaffali si aprono per chi ha un motivo scritto e una firma, e che tu oggi non hai né l'uno né l'altra.
+
+**`gli-scaffali-sigillati__4-esito`** · esito «La goccia nera» · opzione «Vegliare con Ulric la prossima notte serena» · esito · 458 caratteri
+
+> Aspettate la prima notte serena seduti sul pavimento del corridoio, con la lanterna schermata e una coperta in due. Ùlrik ti racconta a mezza voce di un passo di montagna e si addormenta a metà della salita. Verso l'alba senti odore di cera calda. Il sigillo del quarto scaffale suda, e una goccia nera scende lenta lungo l'anta, senza che nessuno ci sia passato davanti. Svegli Ùlrik, che guarda la goccia e poi manda il garzone di corsa a chiamare Ottìlia.
+
+**`gli-scaffali-sigillati__5-esito`** · esito «Due ladri in un mese» · opzione «Chiedergli se c'entrano i libri spariti» · esito · 439 caratteri
+
+> “Ci ho pensato la prima notte, e anche la seconda” dice Ùlrik. “I libri della costa nord stavano in galleria, dove sale chiunque abbia un posto al tavolo. Questi scaffali invece hanno il sigillo, e per aprirli ci vuole la chiave di Ottìlia o la mia.” Si rimette il monocolo. “Chi ha preso quei libri è stato attento a non lasciare segni, e questo sigillo è un disastro. Due ladri diversi in un mese mi sembrano troppi, anche per Kir-Àzel.”
+
+### Le pietre dei pellegrini
+
+**`le-pietre-dei-pellegrini`** · scena · 1065 caratteri
+
+> Ottìlia apre le ante con una chiave lunga. Dentro lo scaffale c'è un vassoio di legno foderato di feltro verde con sette incavi, e in ogni incavo una pietra grigia e qualunque, grande come un uovo, con un cartellino legato con lo spago. Sotto due di loro il feltro è bruciacchiato e scuro, e la parete di fondo dello scaffale, alle loro spalle, si è annerita.
+>
+> “Sono dei pellegrini che dicono di essere caduti verso l'alto mentre sognavano, e di essere tornati con questi in tasca” dice Ùlrik. “Due si scaldano nelle notti di luna chiara, e lo sapevamo. Che si scaldassero fino a sciogliere la cera non lo sapeva nessuno.” Si gratta la barba. “Chi li ha catalogati li ha messi qui dentro, e da allora qui sono rimasti.”
+>
+> Ottìlia tocca piano una delle due pietre con il dorso delle dita, e la trova fredda. “Non le ha prese nessuno. Va bene” dice, e ritira la mano dentro la manica. “Resta da decidere dove metterle.” Ùlrik guarda prima lei e poi te, e capisci che la decisione l'hanno lasciata a te perché nessuno dei due vuole toccare quelle pietre un'altra volta.
+
+**`le-pietre-dei-pellegrini__1-esito`** · esito «La nicchia» · opzione «Metterle in una nicchia di pietra» · esito · 439 caratteri
+
+> Nel muro del corridoio, fra due scaffali, c'è una nicchia vuota scavata nella pietra dai Precursori, liscia come l'interno di una conchiglia. Ci porti le due pietre una alla volta, tenendole nel palmo aperto, e Ottìlia ci mette davanti una grata di ferro con un lucchetto, senza sigillo. Ùlrik riscrive il cartellino con la sua grafia piccola e diritta, cinque, e ne fa un altro per la nicchia. Poi ti conta in mano tre monete, lentamente.
+
+**`le-pietre-dei-pellegrini__2-esito`** · esito «Un secondo dopo» · opzione «Battere l'unghia su una delle due pietre» · esito · 443 caratteri
+
+> Prendi una delle due pietre e ci batti sopra l'unghia del medio, piano. Il colpo non fa rumore, e un secondo dopo dalla pietra arriva un ticchettio identico, come se qualcuno lo restituisse dall'altra parte. Ti si gela la nuca. Ottìlia non dice niente. Ùlrik ti toglie la pietra di mano con tutte e due le mani, la posa nel vassoio e lo porta di persona fino alla nicchia vuota del corridoio, dove Ottìlia ci chiude davanti una grata di ferro.
+
+**`le-pietre-dei-pellegrini__3-esito`** · esito «Il sigillo di piombo» · opzione «Lasciarle dov'erano e cambiare il sigillo» · esito · 519 caratteri
+
+> Proponi di lasciare le pietre dove sono e di chiudere lo scaffale con un sigillo di piombo, come quelli che la Gilda mette sulle casse dei dazi. Il piombo non si scioglie per così poco, e costa meno della cera nera. Ùlrik sente la parola meno e annuisce prima che tu abbia finito. Ottìlia ci pensa di più, poi va a prendere la pinza da sigilli della Confraternita e ti lascia stringere il primo, che prende l'impronta dell'Albero un poco storta. Ùlrik scrive sul cartellino la data del sigillo nuovo e ti dà due monete.
+
+### I cristalli che pensano
+
+**`i-cristalli-che-pensano`** · scena · 1280 caratteri
+
+> Dopo la chiusura il custode spegne i lampadari, e resta accesa soltanto la lampada del bancone. Ùlrik ha tirato fuori il liuto e ci ha messo una corda nuova comprata apposta, e ti dice due volte quanto l'ha pagata. Mattìas Krèn è sceso dal primo piano con una bottiglia di vino delle colline di Làresh e tre bicchieri spaiati.
+>
+> All'ingresso ci sono le vetrine, due armadi di legno scuro con il vetro ondulato. Dentro, su cuscini di velluto spelacchiato, stanno i cristalli antichi che si sono spenti con l'Eclisse di Sangue e non si sono più riaccesi. Sono undici cristalli opachi, alcuni della grandezza di un pugno, e sotto ognuno c'è un cartellino con l'anno del ritrovamento. Su uno un visitatore ha scritto a matita dorme.
+>
+> “In città dicono che li si sente pensare” dice Mattìas, e si pulisce le lenti sulla manica. “Io ci passo davanti da trent'anni e non ho mai sentito niente. Però chi lo racconta si era sempre fermato qui davanti mentre Ùlrik suonava.” Ùlrik accorda il liuto e non alza gli occhi.
+>
+> Ti siedi sullo sgabello accanto alla vetrina con il bicchiere in mano, e Ùlrik suona una nota bassa e la tiene. [whispers] Questo vino costa più della mia giubba. Un secondo dopo la stessa frase ti torna indietro dal vetro, con le tue parole e una voce che non riconosci.
+
+**`i-cristalli-che-pensano__1-successo`** · esito «Il numero» · opzione «Pensare di proposito una cosa sola» · successo · 452 caratteri
+
+> Chiudi gli occhi e pensi un numero, centoquarantatré, scandendolo come una parola d'ordine, e un secondo dopo ti torna dalla vetrina uguale. Ci provi con il nome della tua strada, e torna anche quello. Poi pensi una domanda, chi sei. Dal vetro torna soltanto la domanda, con la tua voce di prima e senza nient'altro. Lo racconti a Mattìas, che scrive tutto su un quaderno con la mano che gli trema. Ùlrik smette di suonare e si versa il resto del vino.
+
+**`i-cristalli-che-pensano__1-fallimento`** · esito «Tutto insieme» · opzione «Pensare di proposito una cosa sola» · fallimento · 343 caratteri
+
+> Provi a pensare una cosa sola, e ti vengono in mente tutte le altre. Dal vetro ti tornano, a un secondo di distanza, il nome di una persona che non vedi da anni e una frase cattiva che avevi detto a qualcuno e speravi di aver dimenticato. Ti alzi così in fretta che lo sgabello cade. Ùlrik smette di suonare, e nella vetrina torna il silenzio.
+
+**`i-cristalli-che-pensano__2-successo`** · esito «La venatura» · opzione «Lasciare che Mattias misuri» · successo · 465 caratteri
+
+> Mattìas appoggia il filo di rame sul vetro e ti dice di tenerci sopra il palmo. Fai passare il Mana piano, come quando accendi una lanterna, e Ùlrik riprende la nota bassa. Nel cristallo più grande si illumina d'azzurro una venatura sottile, e resta accesa per il tempo di tre respiri. Mattìas la guarda a bocca aperta e poi scrive per mezz'ora senza alzare la testa. “La sesta monografia” dice alla fine, “e me la respingeranno come le altre cinque. Si fa, si fa.”
+
+**`i-cristalli-che-pensano__2-fallimento`** · esito «Il filo di rame» · opzione «Lasciare che Mattias misuri» · fallimento · 360 caratteri
+
+> Mattìas appoggia il filo di rame sul vetro e ti dice di tenerci sopra il palmo. Spingi il Mana troppo in fretta, e il filo si scalda fino a bruciarti la pelle. Nella testa ti si accende un ronzio che dura fino a mezzanotte, pieno di frasi tue lasciate a metà. Mattìas ti fa tenere la mano in una bacinella d'acqua e richiude il quaderno senza scriverci niente.
+
+**`i-cristalli-che-pensano__3-esito`** · esito «Eren Solmir» · opzione «Chiedere a Ulric di smettere di suonare» · esito · 526 caratteri
+
+> Ùlrik posa il liuto sul bancone, e il vetro tace. Si toglie il monocolo e lo pulisce sul panciotto. Racconta che l'ultima volta che ha visto accendersi un cristallo di quelle vetrine c'era Eren Solmìr, il più giovane dei tre che risalirono dal Labirinto con le Maschere. Negli anni dopo il Rito Eren veniva ancora a leggere al tavolo lungo e non dormiva mai, e quando passava davanti alle vetrine i cristalli pulsavano per qualche minuto. “Rideva di tutto, anche dopo” dice Ùlrik, e Mattìas riempie i bicchieri senza chiedere.
+
+**`i-cristalli-che-pensano__4-esito`** · esito «L'eco che non arriva» · opzione «Non dire niente a nessuno» · esito · 405 caratteri
+
+> Bevi il vino e resti accanto alla vetrina finché Ùlrik non finisce di suonare, e ogni pensiero lo senti tornare indietro un secondo dopo. Impari presto a pensare piano. Quando Mattìas ti chiede se hai sentito qualcosa gli dici di no. Lui annuisce soddisfatto e dice a Ùlrik che aveva ragione lui. Tornando a casa per le strade buie ti sorprendi ad aspettare l'eco di ogni pensiero, e l'eco non arriva più.
+
+### La chiave degli scaffali
+
+**`la-chiave-degli-scaffali`** · scena · 1170 caratteri
+
+> Ùlrik ti aspetta al bancone con il panciotto abbottonato dritto, che per lui vuol dire un'occasione. Davanti ha un registro nuovo, con la copertina ancora rigida e le pagine che scricchiolano, e sopra il registro una chiave di ferro lunga quanto una mano, legata a un nastro rosso come quelli dei sigilli. “È una copia della chiave del secondo piano” dice. “In quarant'anni non l'ho mai data a nessuno, e questa la do a te, se Ottìlia firma.”
+>
+> Ottìlia Sànvel è in piedi accanto al bancone con le mani dietro la schiena. Ha davanti il calamaio e la penna, e non li tocca. “Gli scaffali si aprono per chi ha un motivo” dice. “Ùlrik dice che ce l'hai. Voglio sentirlo da te, oppure vedere qualcosa che me lo dica.”
+>
+> Al tavolo in fondo siede da solo un monaco enorme, con il saio chiuso fino al collo e le mani appoggiate su un libro chiuso. È Padre Uàlter, della Confraternita del Velo. Alza gli occhi su di te una volta sola, poi torna al libro. Ùlrik intanto si toglie il monocolo e lo rimette, e poi ti fa un cenno con il mento verso Ottìlia per farti coraggio. [whispers] Quarant'anni e una chiave sola, e tocca a me. Ti asciughi le mani sui calzoni senza farti vedere.
+
+**`la-chiave-degli-scaffali__1-successo`** · esito «Senza aggettivi» · opzione «Spiegare a Ottilia il tuo motivo» · successo · 379 caratteri
+
+> Le dici che in città succedono cose che non si vedevano da cinquant'anni, e che chi se le trova davanti di solito non ha il tempo di salire da lei a chiedere il permesso. Poi le racconti quello che hai visto in questa sala, senza aggettivi. Ottìlia ti ascolta fino in fondo, poi intinge la penna e firma l'ultima riga della pagina bianca, con una grafia piccola e senza svolazzi.
+
+**`la-chiave-degli-scaffali__1-fallimento`** · esito «Troppe parole» · opzione «Spiegare a Ottilia il tuo motivo» · fallimento · 344 caratteri
+
+> Le parli a lungo della storia della città e dell'importanza dei libri, e a metà vedi che Ottìlia ha smesso di ascoltarti da un pezzo. “Mi hai detto perché i libri sono importanti, e lo sapevo” dice quando hai finito. “Perché a te serve la chiave invece non me l'hai detto.” Rimette la penna accanto al calamaio, e Ùlrik sospira dentro la barba.
+
+**`la-chiave-degli-scaffali__2-successo`** · esito «Il poeta caldrese» · opzione «Rispondere alle domande di Ulric» · successo · 445 caratteri
+
+> Ùlrik ti chiede in che anno è stata fondata la Biblioteca, e tu rispondi il centodiciotto, lo stesso anno del Patto delle Corde. Poi ti chiede quanti tetti ha avuto l'edificio, e tu dici tre, contando quello dei Precursori. All'ultima domanda, su un poeta caldrese, ammetti di non averlo mai sentito nominare. Ùlrik batte la mano sul bancone. “Effettivamente non lo sa nessuno, perché me l'ero inventato” dice, e Ottìlia prende la penna e firma.
+
+**`la-chiave-degli-scaffali__2-fallimento`** · esito «La risposta inventata» · opzione «Rispondere alle domande di Ulric» · fallimento · 344 caratteri
+
+> Le prime due domande le sbagli tutte e due. Alla terza, su un poeta caldrese di cui non hai mai sentito parlare, inventi una risposta con molta sicurezza. Ùlrik si toglie il monocolo. “Il poeta me l'ero inventato io” dice, con la voce dispiaciuta. Ottìlia lascia la penna dov'è, e Ùlrik rimette la chiave nel cassetto senza girare la serratura.
+
+**`la-chiave-degli-scaffali__3-esito`** · esito «Una parola» · opzione «Chiedere a Padre Walter di garantire per te» · esito · 384 caratteri
+
+> Vai al tavolo in fondo e chiedi a Uàlter se vuole dire una parola per te. Il monaco ti squadra da sotto le sopracciglia, poi si alza, ed è più alto di chiunque altro nella sala. Va al bancone senza fretta e a Ottìlia dice soltanto “Lo conosco”, a voce bassa. Poi torna a sedersi e rimette le mani sul libro chiuso. Ottìlia prende la penna e firma il registro senza fare altre domande.
+
+**`la-chiave-degli-scaffali__4-esito`** · esito «Una giornata» · opzione «Lasciare che Ottilia ti guardi lavorare» · esito · 434 caratteri
+
+> Passi la giornata al tavolo lungo a fare quello che fai di solito, le schede da ricopiare e un visitatore che cerca un libro che non esiste. Ottìlia resta seduta di fronte a te con un breviario aperto, e per tutto il giorno non gira una pagina. All'ora di chiusura chiude il breviario e va al bancone. “Lavora e non si lamenta” dice a Ùlrik, che si lamenta per due. Poi prende la penna e firma il registro in fondo alla pagina bianca.
+
+**`la-chiave-degli-scaffali__5-esito`** · esito «Chi ha le chiavi» · opzione «Chiedere perché un registro nuovo» · esito · 350 caratteri
+
+> “L'ho comprato il giorno dopo che ho trovato vuoti i ripiani della costa nord” dice Ùlrik, e accarezza la copertina rigida. “Chi ha preso quei libri conosceva questa Biblioteca meglio di me, che ci vivo dentro. Da allora voglio sapere chi ha in tasca una chiave di qui, e a che ora la usa.” Ottìlia non dice niente, e continua a guardare il calamaio.
+
+**`la-chiave-degli-scaffali__6-esito`** · esito «Una porta aperta» · opzione «Chiedere perché un registro nuovo» · esito · 366 caratteri
+
+> “È un'idea di Ottìlia” dice Ùlrik, e lo dice come si confessa un debito. “Secondo lei una chiave senza un nome scritto è una porta aperta.” Ottìlia annuisce una volta. Ùlrik aggiunge che il registro è costato quanto tre mesi di colla, e che spera di riempirlo lentamente, così dura. Poi ti mostra la prima pagina, ancora bianca, con le colonne già tirate a righello.
+
+**`la-chiave-degli-scaffali__7-esito`** · esito «Nel cassetto» · opzione «Dire che non è il momento» · esito · 347 caratteri
+
+> Lo ringrazi, e dici che per adesso preferisci chiedere ogni volta. Ùlrik ci resta un po' male, e si vede da come arrotola il nastro rosso intorno alla chiave prima di rimetterla nel cassetto. Ottìlia invece annuisce, come se la risposta le piacesse più di un sì. “Quando lo vuoi, il registro è qui” dice Ùlrik, e lo chiude con tutte e due le mani.
+
+### Il registro delle chiavi
+
+**`il-registro-delle-chiavi`** · scena · 956 caratteri
+
+> Ùlrik scrive il tuo nome sulla prima riga del registro nuovo, lettera per lettera, con la lingua fra i denti. Accanto mette la data e lascia in bianco la colonna dell'ora, che sarà tua da riempire ogni volta. Sotto c'è la firma di Ottìlia, ancora lucida. Poi ti spiega le regole contando sulle dita. Gli scaffali si aprono soltanto nelle ore d'apertura, il sigillo lo rifà lui, e lì dentro non si legge mai a voce alta, perché certe cose lette ad alta voce restano nell'aria.
+>
+> Ottìlia aspetta che abbia finito. Prima di andarsene ti si avvicina e, a voce più bassa, ti chiede se Mattìas Krèn mangia abbastanza e se gli hanno respinto un'altra monografia. Quando le rispondi annuisce. “A Mattìas non dire che te l'ho chiesto” dice, e se ne va verso la porta con il suo passo regolare, senza voltarsi.
+>
+> Ùlrik ti porge la chiave dalla parte del nastro. Il ferro è freddo, più pesante di come sembrava sul registro, e il nastro rosso ha già l'odore della cera.
+
+**`il-registro-delle-chiavi__1-esito`** · esito «La prima riga» · opzione «Prendere la chiave» · esito · 444 caratteri
+
+> Chiudi la mano sulla chiave e te la leghi alla cintura con il nastro rosso. Ùlrik ti stringe la mano più a lungo del necessario e ti dice che adesso sei uno dei due che possono salire al secondo piano senza chiedere a Ottìlia, e che l'altro è lui. Poi tira fuori da sotto il bancone la bottiglia di Làresh, quella che tiene per Mattìas, e ne versa due dita in due bicchieri. Dalla sala di lettura Padre Uàlter alza la testa al rumore del vetro.
+
+**`il-registro-delle-chiavi__2-esito`** · esito «La riga in sospeso» · opzione «Restituirgli la chiave» · esito · 344 caratteri
+
+> Gli rendi la chiave e gli dici che per adesso preferisci che resti nel cassetto. Ùlrik la guarda sul palmo, poi la rimette dov'era senza chiudere a chiave. Non cancella il tuo nome dal registro, e accanto ci scrive a matita in sospeso. “Una riga scritta è già mezza fatta” dice, e ti accompagna fino alla porta parlandoti del prezzo della cera.
+
+### I due mastini
+
+**`i-due-mastini`** · scena · 1211 caratteri
+
+> Te ne accorgi dal fondo della strada, prima ancora di vedere l'insegna. In Città Bassa il martello di Bràm si sente da due isolati di distanza, e stamattina non si sente. Davanti alla porta della fucina c'è Tizzone da solo, sdraiato sulla pietra con il muso verso la strada, e quando ti avvicini non alza la testa. Una donna con la cesta del bucato si ferma accanto a te a guardare la porta accostata. “L'ultima volta che quel martello è stato zitto così, gli avevano ammazzato la moglie e il figlio” dice, e se ne va senza aspettare risposta.
+>
+> Dentro, la forgia è coperta di cenere. Bràm è seduto sul ceppo dell'incudine con una bottiglia chiusa fra le ginocchia, anche se manca mezza giornata al tramonto, e la guarda. “Oggi è chiuso” dice. “Se sei qui per perdere tempo, la porta è dietro di te.”
+>
+> Il garzone più giovane ti raggiunge in cortile e ti parla all'orecchio. Scoria, la femmina, è sparita da due notti. La prima notte Bràm ha girato tutta la Città Bassa con una lanterna, e la seconda è rimasto seduto lì, dove lo vedi adesso.
+>
+> [whispers] Sta ascoltando la porta, nel caso un cane ci raspi contro. Ti ritrovi a parlare a voce bassa anche tu, e la bottiglia, fra le ginocchia di Bràm, resta chiusa.
+
+**`i-due-mastini__1-successo`** · esito «I peli rossi» · opzione «Cercare le tracce di Scoria» · successo · 467 caratteri
+
+> Parti dalla soglia della fucina e cerchi a terra, dove la cenere del cortile si mescola alla polvere della strada. Le impronte sono larghe come il tuo palmo e scendono lungo il muro, sempre dalla parte dell'ombra. Più in basso, sul chiodo di uno steccato, trovi un ciuffo di pelo rosso scuro. La pista ti porta giù per tre vicoli, fino al cortile delle vasche della Conceria Kàsselt, e al portone del seccatoio senti un guaito sottile e una voce d'uomo che bestemmia.
+
+**`i-due-mastini__1-fallimento`** · esito «La strada lavata» · opzione «Cercare le tracce di Scoria» · fallimento · 363 caratteri
+
+> Trovi due impronte nella cenere del cortile e poi più niente, perché stanotte i carri dell'acqua sono passati per la strada e l'hanno lavata. Giri per i vicoli fino a mezzogiorno guardando ogni spigolo. Trovi peli di gatto e di mulo, e un ciuffo bianco di un cane che non c'entra. Quando torni Bràm è ancora seduto sul ceppo, e Tizzone non si è mosso dalla porta.
+
+**`i-due-mastini__2-successo`** · esito «Il seccatoio» · opzione «Chiedere in giro» · successo · 399 caratteri
+
+> Alla fontana le donne hanno visto il cane rosso due notti fa, che scendeva verso le vasche con la pancia bassa. Un facchino aggiunge che gli operai della Conceria Kàsselt da due giorni non riescono a entrare nel seccatoio, perché dentro c'è una bestia che ringhia, e che il padrone è di un umore peggiore del solito, cosa che credeva impossibile. Ringrazi, e scendi verso la Conceria quasi di corsa.
+
+**`i-due-mastini__2-fallimento`** · esito «Cinque cani rossi» · opzione «Chiedere in giro» · fallimento · 362 caratteri
+
+> Tutti hanno visto un cane rosso. Una donna l'ha visto al mercato, un vecchio sul Ponte delle Mille Corde, un ragazzino giura di averlo visto volare. Passi la mattina a inseguire cinque cani diversi per cinque strade diverse, e l'unico rosso che trovi è un bastardo spelacchiato che ti segue fino alla fucina sperando in un osso. Bràm non lo degna di uno sguardo.
+
+**`i-due-mastini__3-successo`** · esito «Il naso di Tizzone» · opzione «Farti guidare da Tizzone» · successo · 481 caratteri
+
+> Ti accucci accanto a Tizzone e gli lasci annusare la mano, poi la coperta di Scoria che il garzone ti porta dal cortile. Il cane solleva la testa. Quando ti alzi si alza anche lui, e parte senza aspettarti, con il naso a un palmo da terra. Si ferma a ogni angolo per controllare che tu ci sia ancora, e ti porta giù per tre vicoli fino al cortile delle vasche della Conceria Kàsselt, dove si pianta davanti alla porta del seccatoio e abbaia per la prima volta da quando lo conosci.
+
+**`i-due-mastini__3-fallimento`** · esito «La porta» · opzione «Farti guidare da Tizzone» · fallimento · 334 caratteri
+
+> Ti accucci accanto a Tizzone e gli parli piano, e lui ti lascia parlare. Gli fai annusare la coperta della sorella, e lui la annusa a lungo e poi ci appoggia sopra il muso. Quando ti alzi resta dov'è, con gli occhi sulla strada. Dopo un po' capisci che non lo smuovi, e che sta facendo esattamente quello che fa Bràm dentro la fucina.
+
+**`i-due-mastini__4-esito`** · esito «Il ragazzo dalle mani blu» · opzione «Restare seduto con Bram» · esito · 693 caratteri
+
+> Ti siedi su una cassa vuota senza dire niente, e Bràm fa lo stesso. Dopo un'ora parla, sempre guardando la bottiglia. “Sono fratello e sorella. Lei è quella sveglia” dice, e non aggiunge altro. Verso mezzogiorno alla porta si affaccia un ragazzo della Conceria Kàsselt, con le mani tinte di blu fino ai gomiti. Mastro Kàsselt manda a dire che nel suo seccatoio c'è il cane di Àlgast, e che se nessuno viene a prenderselo gli rovina tutte le pelli della stagione. Bràm si alza così in fretta che la bottiglia rotola sul pavimento, e sulla soglia si ferma con una mano sullo stipite. “Vacci tu” dice senza voltarsi, con la voce più bassa del solito. “Io resto qui, nel caso fosse un altro cane.”
+
+### La cucciolata
+
+**`la-cucciolata`** · scena · 1120 caratteri
+
+> La Conceria Kàsselt sta più in basso, dove la strada si allarga in un cortile di vasche murate, e l'odore della concia ti prende alla gola dieci passi prima del portone. Nel seccatoio le pelli sono tese su telai di legno, una fila sopra l'altra fino al soffitto. Sotto l'ultimo telaio, in un nido di ritagli di cuoio, c'è Scoria. Ha il pelo arruffato e la pancia ancora gonfia, e contro il ventre le si muovono cinque cuccioli ciechi, rossi come lei, che si arrampicano uno sull'altro per arrivare al latte. Quando ti vede scopre i denti senza fare rumore.
+>
+> Sulla soglia del seccatoio c'è Gunter Kàsselt con le braccia incrociate sul grembiule rigido. È basso e largo di spalle, e ha le mani macchiate di bruno fino ai polsi. “Due notti che non mi fa entrare nel mio seccatoio” dice. “Si è scelta le pelli migliori della stagione, naturalmente. La bestia ha più occhio dei miei operai.” Non fa un passo per cacciarla. Accanto alla porta c'è una ciotola d'acqua, riempita da poco.
+>
+> [whispers] La ciotola l'ha messa lui, e se glielo fai notare ti caccia. Kàsselt intanto guarda te, in attesa che tu dica qualcosa di utile.
+
+**`la-cucciolata__1-esito`** · esito «Cinque» · opzione «Andare a chiamare Bram» · esito · 543 caratteri
+
+> Risali i tre vicoli di corsa. Bràm ti ascolta fino a “seccatoio” e poi è già in strada, con Tizzone che gli trotta accanto. Nel seccatoio si inginocchia sui ritagli, e Scoria smette di mostrare i denti e gli infila il muso nel palmo. Bràm conta i cuccioli a voce alta, due volte, perché la prima ha sbagliato. A Kàsselt dice che la pelle rovinata gliela paga lui. “E anche la ciotola” risponde Kàsselt. Quella sera, dal fondo della strada, il martello della fucina si sente di nuovo, e la donna del bucato si affaccia a guardare e poi rientra.
+
+**`la-cucciolata__2-successo`** · esito «La cesta» · opzione «Portare i cuccioli alla fucina» · successo · 484 caratteri
+
+> Ti siedi sui ritagli a un braccio da Scoria e aspetti che smetta di ringhiare. Poi prendi i cuccioli uno alla volta e li posi in una cesta che Kàsselt ti allunga senza commenti, e lei ti guarda fare con il muso sul bordo. Risali i vicoli con la cesta fra le braccia e la cagna alle calcagna. Davanti alla fucina Tizzone si alza in piedi per la prima volta in due giorni. Bràm esce sulla soglia, guarda dentro la cesta e si appoggia allo stipite. Poi torna dentro e riaccende il fuoco.
+
+**`la-cucciolata__2-fallimento`** · esito «I denti» · opzione «Portare i cuccioli alla fucina» · fallimento · 418 caratteri
+
+> Allunghi la mano verso il primo cucciolo un momento troppo presto, e Scoria ti morde il polso, abbastanza da farti sanguinare e non abbastanza da farti male davvero. Kàsselt manda il ragazzo dalle mani blu a chiamare Àlgast. Bràm arriva di corsa, si inginocchia sui ritagli, e la cagna gli infila il muso nel palmo. I cuccioli li porta lui nella cesta, e a te lascia lo straccio che ha al collo per fasciarti il polso.
+
+**`la-cucciolata__3-successo`** · esito «Il conto di Kasselt» · opzione «Trattare con Kasselt per le pelli» · successo · 496 caratteri
+
+> Gli fai notare che i ritagli sotto la cagna erano già ritagli, e che la pelle buona sul telaio più basso si è soltanto macchiata. Kàsselt la tocca con il pollice e ammette che si può ancora conciare per le cinture. Accetta che Scoria resti nel seccatoio finché i cuccioli aprono gli occhi, e il conto per Àlgast lo scrive su un pezzo di cuoio. Quando Bràm arriva lo legge, lo infila in tasca e resta in ginocchio davanti alla cucciolata finché Kàsselt non gli ricorda che anche lui deve lavorare.
+
+**`la-cucciolata__3-fallimento`** · esito «Il prezzo di ogni pelle» · opzione «Trattare con Kasselt per le pelli» · fallimento · 383 caratteri
+
+> Provi a discutere il danno, e Kàsselt ti elenca a memoria il prezzo di ogni pelle del seccatoio, dalla più vecchia alla più nuova, insieme al giorno in cui l'ha conciata. Smetti di discutere a metà della seconda fila. Quando Bràm arriva paga tutto senza contare, si inginocchia sui ritagli e lascia che Scoria gli infili il muso nel palmo. Kàsselt conta le monete per lui, due volte.
+
+### Il cuoio di Kasselt
+
+**`il-cuoio-di-kasselt`** · scena · 1295 caratteri
+
+> Gunter Kàsselt non esce mai dalla Conceria, e in Città Bassa si dice che ci dorma dentro, in piedi fra le vasche. Stamattina invece è all'Armeria di Ìrsa, piantato davanti al banco sotto la scala con le braccia incrociate e la camicia che era bianca venti lavaggi fa. Ìrsa Valbrùn sta dall'altra parte del banco, con la coda di cavallo buttata su una spalla, e fra loro c'è un rotolo di strisce di cuoio per le impugnature e le cinture.
+>
+> Quando entri Ìrsa prende una striscia e la piega in due davanti a te. Il cuoio si spacca lungo la piega con un rumore secco, ed è bianco dentro, come pane raffermo. “È arrivato nove giorni fa dalla Conceria, e l'ho pagato novanta monete. L'ho anche segnato” dice, e batte il dito sul registro delle rate, aperto accanto al rotolo.
+>
+> “E io non ho visto una moneta. Dalla mia bottega esce il cuoio migliore della regione, e quella roba non l'ho conciata io. Chi dice il contrario mi fa perdere la mattinata” ribatte Kàsselt senza scomporsi.
+>
+> Ìrsa si volta verso di te e ti guarda le mani, e poi gli occhi. “Tu conosci tutti e due, e non lavori per nessuno dei due. Guardaci e dimmi chi dei due ha torto” dice, e incrocia le braccia anche lei. [whispers] Per spaccarsi così, quel cuoio deve essere stato al sole per settimane. Kàsselt sbuffa dal naso e aspetta.
+
+**`il-cuoio-di-kasselt__1-successo`** · esito «Il marchio tagliato» · opzione «Esaminare il cuoio» · successo · 519 caratteri
+
+> Giri le strisce una per una contro la luce della porta. Il cuoio di Kàsselt porta sul rovescio un piccolo marchio a fuoco ogni braccio di lunghezza, e queste strisce sono rifilate proprio nei punti in cui il marchio dovrebbe stare. È cuoio da poco, seccato al sole invece che all'ombra, e chi l'ha tagliato sapeva dove tagliare. Lo dici ad alta voce, e Kàsselt smette di sbuffare. “Il posto del marchio lo conosce soltanto chi lavora da me. Nello Brusa, che ho cacciato dieci giorni fa” dice piano, guardando il rotolo.
+
+**`il-cuoio-di-kasselt__1-fallimento`** · esito «Cuoio è cuoio» · opzione «Esaminare il cuoio» · fallimento · 405 caratteri
+
+> Giri le strisce contro la luce e le pieghi fra le dita, e alla fine ti sembrano cuoio come tutti gli altri. Lo dici, e Kàsselt ti guarda come guarda un operaio al primo giorno. Ti spiega in tre frasi la differenza fra la concia all'ombra e quella al sole, e poi la ripete a Ìrsa, più forte. Ìrsa gli risponde con la pagina del registro. La lite riprende dove l'avevano lasciata, e tu esci a prendere aria.
+
+**`il-cuoio-di-kasselt__2-successo`** · esito «La croce» · opzione «Leggere il registro delle rate» · successo · 432 caratteri
+
+> La riga è precisa come tutte le altre, con la data, il peso del rotolo e la cifra, novanta monete consegnate al garzone di Kàsselt. Accanto, al posto della firma, c'è una croce tracciata con molta cura. Chiedi a Kàsselt se i suoi garzoni sanno scrivere il loro nome. “Tutti” dice lui, offeso. “Quello che non sapeva l'ho cacciato dieci giorni fa. Nello Brusa.” Poi guarda la data della riga, che viene il giorno dopo, e si zittisce.
+
+**`il-cuoio-di-kasselt__2-fallimento`** · esito «Una calligrafia da notaio» · opzione «Leggere il registro delle rate» · fallimento · 359 caratteri
+
+> Il registro delle rate è scritto così bene che leggerlo è un piacere, e ti perdi nelle pagine precedenti a contare quanta gente in Città Bassa paga una cotta di maglia a rate. Quando torni alla riga giusta Ìrsa e Kàsselt hanno ripreso a litigare sopra la tua testa, e la pagina, a guardarla bene, dice soltanto che Ìrsa ha pagato. Lo sapevano già tutti e due.
+
+**`il-cuoio-di-kasselt__3-successo`** · esito «Chi ha portato il rotolo» · opzione «Mettere pace fra i due» · successo · 501 caratteri
+
+> Chiedi a Ìrsa una sedia per Kàsselt, che non si siede, e una per te, che invece ti siedi. Poi fai la domanda che nessuno dei due ha fatto, cioè chi ha portato materialmente il rotolo all'Armeria. Ìrsa descrive un ragazzo magro con le mani bruciate dalla concia. Kàsselt chiude gli occhi e resta così per un po'. “Nello Brusa. L'ho cacciato dieci giorni fa per un taglio storto, e chi sbaglia da me non viene pagato” dice, e riapre gli occhi su Ìrsa, che chiude il registro senza aggiungere una parola.
+
+**`il-cuoio-di-kasselt__3-fallimento`** · esito «Due voci» · opzione «Mettere pace fra i due» · fallimento · 359 caratteri
+
+> Provi a farli parlare uno alla volta, e ottieni che parlino tutti e due insieme, più forte. Kàsselt ti dice che la cortesia è una perdita di tempo professionale. Ìrsa, con molta gentilezza, ti chiede di non mettere le mani sul suo registro. Alla fine la discussione la rimandano a domani di comune accordo, e ti lasciano solo davanti al rotolo di cuoio rotto.
+
+**`il-cuoio-di-kasselt__4-esito`** · esito «Nello Brusa» · opzione «Chiedere chi ha portato il cuoio» · esito · 389 caratteri
+
+> Chiedi soltanto chi ha portato il rotolo fino all'Armeria. Ìrsa dice che era un ragazzo della Conceria, magro, con le mani bruciate dalla concia, e che l'ha pagato a lui perché le consegne si pagano a chi le porta. Kàsselt si passa una mano sulla faccia. “Nello Brusa” dice. “L'ho cacciato dieci giorni fa.” Per qualche momento nessuno dei due parla, e il banco fra loro sembra meno largo.
+
+### Le due settimane di Nello
+
+**`le-due-settimane-di-nello`** · scena · 1091 caratteri
+
+> Nello Brusa abita in una stanza sopra un forno, in fondo a un vicolo che scende verso le fenditure calde, e Ìrsa ci arriva per prima perché conosce la strada. Kàsselt vi segue a tre passi senza fiatare. La porta è aperta per il caldo che sale dal forno. Dentro c'è un ragazzo di sedici anni con le mani macchiate di bruno fino ai polsi, come quelle del suo vecchio padrone, seduto su un pagliericcio accanto a una bambina che dorme. Sul tavolo ci sono una pagnotta e una borsa di tela. Nella borsa ci sono quasi tutte le novanta monete di Ìrsa.
+>
+> Nello non prova a scappare. Quando vede Kàsselt si alza in piedi per abitudine, e parla a lui. “Mi avete cacciato per un taglio storto e non mi avete pagato le ultime due settimane” dice. “Il cuoio buono l'avevo conciato io, e l'ho venduto sul Ponte delle Mille Corde. A Ìrsa ho portato gli scarti, perché lei le consegne le paga a chi le porta.” Guarda la bambina. “Mancano dodici monete. Erano per l'affitto.”
+>
+> “Lavoro pulito o non lavoro” dice Kàsselt, piano. Ìrsa invece tace e guarda te, con il registro delle rate stretto sotto il braccio.
+
+**`le-due-settimane-di-nello__1-successo`** · esito «Monete nuove» · opzione «Proporre un accordo» · successo · 507 caratteri
+
+> Dici a Kàsselt che il lavoro fatto si paga, anche quando chi l'ha fatto sbaglia dopo, e che le due settimane di Nello erano lavoro pulito. Kàsselt ci pensa a lungo, con il cipiglio che gli scende fino al naso. Poi tira fuori il borsello e conta le monete sul tavolo, scegliendo soltanto quelle coniate quest'anno. Ìrsa prende le sue dalla borsa di tela e lascia a Nello la pagnotta. “Domani all'alba al banco sotto la scala, finché le dodici monete non le hai lavorate tutte” gli dice, senza alzare la voce.
+
+**`le-due-settimane-di-nello__1-fallimento`** · esito «Lavoro pulito» · opzione «Proporre un accordo» · fallimento · 442 caratteri
+
+> Dici a Kàsselt che il lavoro fatto si paga, e lui ti risponde che le seconde occasioni le si dà al pellame e non agli operai. Se ne va senza chiamare la Caserma, ed è già molto. Ìrsa invece resta. Prende le sue monete dalla borsa, ci aggiunge di tasca sua le dodici che mancano e le lascia sul tavolo. A Nello dice di presentarsi domani all'alba al banco sotto la scala. Poi guarda te, e capisci che avrebbe voluto vederti convincere Kàsselt.
+
+**`le-due-settimane-di-nello__2-esito`** · esito «Le regole della Conceria» · opzione «Dare ragione a Kasselt» · esito · 567 caratteri
+
+> Dici che Nello ha rubato a tutti e due, e che le due settimane non lo autorizzavano a farlo. Kàsselt annuisce una volta sola. Prende il ragazzo per un braccio senza strattonarlo e lo porta giù per il vicolo, verso la Caserma. Ìrsa raccoglie le monete dalla borsa e le conta, poi ne lascia dodici sul tavolo accanto alla bambina che dorme. “Avevi ragione” ti dice sulla porta. “Avrei preferito che avessi torto.” La settimana dopo all'Armeria arriva un rotolo di cuoio nuovo, con il marchio dove deve stare e un biglietto di Kàsselt per te, che dice soltanto corretto.
+
+**`le-due-settimane-di-nello__3-esito`** · esito «Dodici monete» · opzione «Pagare tu le dodici monete» · esito · 472 caratteri
+
+> Conti dodici monete sul tavolo, accanto alla borsa di tela. Ìrsa le guarda e poi guarda te, e le prende senza discutere, insieme alle sue. Kàsselt fa un verso con il naso. “Le seconde occasioni le si dà al pellame, non agli operai” dice, e si avvia alla porta. Sulla soglia però si ferma. Torna al tavolo e ci lascia sopra una moneta coniata quest'anno, poi un'altra, finché non fanno due settimane di paga. Se ne va senza guardare il ragazzo, che le fissa senza toccarle.
+
+**`le-due-settimane-di-nello__4-esito`** · esito «Sulle scale» · opzione «Lasciare che decidano loro» · esito · 521 caratteri
+
+> Dici che il ragazzo l'hai trovato, e che il resto tocca a loro. Ìrsa e Kàsselt escono sulle scale e ci restano mezz'ora. Intanto tu e Nello vi guardate senza parlare, e a un certo punto la bambina si sveglia, ti fissa per un po' e torna a dormire. Quando rientrano hanno deciso. Nello restituisce quello che ha e Kàsselt non va alla Caserma. Le due settimane invece non le paga nessuno, e il ragazzo tiene la pagnotta. Ìrsa ti dice sulla porta che è un pessimo accordo, e che è il primo che Kàsselt accetta in dieci anni.
+
+### Il capolavoro
+
+**`il-capolavoro`** · scena · 1194 caratteri
+
+> Dopo il tramonto la Fucina dei Due Mastini dovrebbe essere chiusa, e invece il fuoco è acceso e il mantice va piano, tirato da un garzone mezzo addormentato. Bràm ha una bottiglia aperta sul ceppo dell'incudine, perché il sole è sceso, e accanto ci sono due bicchieri, che è uno in più del solito. Sulle casse del ferro grezzo è seduta Ìrsa Valbrùn, con il grembiule sopra il panciotto buono e la coda di cavallo infilata nel colletto. È la prima volta che la vedi da questa parte della strada.
+>
+> “Lei dice che ti serve un pezzo fatto da tutti e due” dice Bràm, e indica Ìrsa con il bicchiere. “Io dico che non lo so ancora. Così stasera ti guardiamo tutti e due, uno alla volta.”
+>
+> Ìrsa scende dalla cassa e ti gira intorno senza fretta. “Prima ti guardo, poi ti vendo” dice. “Stavolta non vendo niente, quindi ti guardo il doppio.” Sulla parete di fondo sono appesi i tre pezzi di Bràm che non stanno con gli altri, e sotto, su un telo steso a terra, Ìrsa ha disposto le sue pinze piccole accanto a un rotolo di filo cremisi.
+>
+> [whispers] Due fabbri che di solito si parlano attraverso un registro, adesso nella stessa stanza, per me. Ti asciughi le mani sui calzoni prima che Ìrsa te le guardi.
+
+**`il-capolavoro__1-successo`** · esito «Il suono giusto» · opzione «Battere il ferro davanti a Bram» · successo · 412 caratteri
+
+> Bràm ti dà una barra del ferro migliore e la mazza, e si siede a bere. Lavori come ti ha insegnato in questi mesi, senza fretta, con il garzone che tira il mantice al tuo ritmo. Bràm tiene gli occhi chiusi e ascolta l'incudine, e a metà barra ne apre uno. Quando hai finito si alza, prende la barra con le tenaglie e la fa suonare contro il corno. “Va bene” dice a Ìrsa, e ti versa da bere nel secondo bicchiere.
+
+**`il-capolavoro__1-fallimento`** · esito «Il braccio che scende» · opzione «Battere il ferro davanti a Bram» · fallimento · 372 caratteri
+
+> Cominci bene, ma a metà barra il braccio ti scende da solo e i colpi si fanno corti. Bràm apre gli occhi al primo colpo storto e non li richiude più. Quando ti fermi a riprendere fiato ti toglie la mazza di mano e la appende al suo chiodo. “Torna quando alla fine del lavoro ti reggi ancora in piedi” dice. Ìrsa, sulla cassa, si versa da bere dal bicchiere che era per te.
+
+**`il-capolavoro__2-successo`** · esito «La cordicella» · opzione «Farti guardare da Irsa» · successo · 469 caratteri
+
+> Ìrsa ti mette in mano un bastone zavorrato e ti chiede di muoverti come se qualcuno ti venisse addosso. Ti muovi, e dopo un po' ti dimentichi che ti sta guardando. Lei ti gira intorno con la cordicella annodata, ti misura le spalle e il passo, e segna tutto su un foglio. Poi ti chiede da che parte ti arriva di solito il colpo che ti sorprende, e tu glielo dici. “Adesso so che cosa ti serve” dice, e porge il foglio a Bràm, che lo legge tenendolo lontano dagli occhi.
+
+**`il-capolavoro__2-fallimento`** · esito «Come da un sarto» · opzione «Farti guardare da Irsa» · fallimento · 390 caratteri
+
+> Ìrsa ti mette in mano un bastone zavorrato e ti chiede di muoverti come in uno scontro. Ti muovi, ma sai che ti sta guardando, e ogni gesto ti esce rigido, preparato. Ìrsa ti fa fermare dopo un minuto. “Così ti vedo come ti vede un sarto” dice, senza cattiveria. “Torna quando ti dimentichi di me.” Bràm ride per la prima volta nella serata, e lei gli lancia un'occhiata che lo fa smettere.
+
+**`il-capolavoro__3-esito`** · esito «La risposta onesta» · opzione «Dire che non sai che cosa ti serve» · esito · 401 caratteri
+
+> Dici a Ìrsa che non sai che cosa ti serve, e che finora hai usato quello che c'era. Lei smette di girarti intorno. “In dieci anni di bottega me l'hanno detto in pochi” dice. “Gli altri mi dicono quello che hanno visto addosso a un eroe.” Ti prende le misure in silenzio con la cordicella annodata e segna tutto su un foglio. Bràm lo legge tenendolo lontano dagli occhi e si versa il secondo bicchiere.
+
+### Il pezzo su misura
+
+**`il-pezzo-su-misura`** · scena · 974 caratteri
+
+> Bràm e Ìrsa parlano fra loro a voce bassa per il tempo di un bicchiere, e tu li guardi dal fondo della fucina senza capire una parola, perché parlano di metallo. Ogni tanto Ìrsa batte il dito sul foglio delle misure, e Bràm scuote la testa e poi, alla fine, annuisce. Il garzone del mantice si è addormentato seduto, e nessuno lo sveglia.
+>
+> Alla fine Bràm si alza e va alla parete dei suoi pezzi. “Roba nuova non ne faccio per nessuno” dice. “Rifaccio quella vecchia, sulle tue misure. Io batto il ferro e lei lo finisce, e lo firmiamo tutti e due.” Ìrsa apre il telo dei suoi attrezzi, tira fuori un sacchetto di anelli di bronzo e lo soppesa. “Ci vorrà tutta la notte” dice. “Tu decidi che cosa, e poi ti siedi e non ci parli più.”
+>
+> Bràm tira fuori dalla tasca il martello di pietra inciso e lo posa sull'incudine, dove lo vedete tutti e tre. [whispers] Quello lo usa soltanto quando un pezzo è finito. Dalla porta, Tizzone alza la testa verso l'incudine e poi verso di te.
+
+**`il-pezzo-su-misura__1-esito`** · esito «Il martello del padre» · opzione «Il martello dei Due Mastini» · esito · 516 caratteri
+
+> Bràm stacca il martello dalla parete e lo soppesa a lungo, poi ne rimette la testa nel fuoco. Lo ribatte per metà notte, togliendo peso dove Ìrsa gli indica sul foglio, finché il martello sta in equilibrio sul tuo palmo. Ìrsa ne fascia il manico con il cuoio della Conceria Kàsselt e ci incide sopra una spirale di filo cremisi. All'alba Bràm prende il martello di pietra e lo batte una volta accanto al marchio delle incudini. “Era di mio padre” dice, porgendotelo dal manico. “Adesso è un po' tuo e un po' di lei.”
+
+**`il-pezzo-su-misura__2-esito`** · esito «Un assalto in più» · opzione «Il Re della Collina» · esito · 518 caratteri
+
+> Bràm stacca lo spadone dalla parete e ne sposta il peso verso l'elsa, a colpi piccoli, finché la punta smette di tirarti il polso verso terra. Ìrsa rifà l'impugnatura intrecciando stretto il cuoio della Conceria Kàsselt, e sotto la guardia ci annoda un anello di bronzo. All'alba Bràm batte il martello di pietra sul tallone della lama, accanto alla sua vecchia firma. “I clienti lo chiamano così perché un mercenario è rimasto in piedi un assalto più del dovuto. Vedi di fare lo stesso” dice, e te lo porge dall'elsa.
+
+**`il-pezzo-su-misura__3-esito`** · esito «Rifatta quattro volte» · opzione «La corazza ostinata» · esito · 618 caratteri
+
+> Bràm stacca la corazza dalla parete e la smonta piastra per piastra sul pavimento. Le ribatte una alla volta sull'incudine, mentre Ìrsa gli legge ad alta voce le misure del tuo petto e delle tue spalle. Poi tocca a Ìrsa, che rifà le cinghie con il cuoio della Conceria Kàsselt e cuce dentro un'imbottitura nuova, più spessa dove il foglio dice che prendi i colpi. All'alba Bràm batte il martello di pietra sul pettorale, accanto alle tre firme vecchie. “L'ho rifatta tre volte, e uno di quelli che l'hanno portata è tornato vivo dal Labirinto. Vedi di essere il secondo” dice, e Ìrsa ti stringe le cinghie sui fianchi.
+
+**`il-pezzo-su-misura__4-esito`** · esito «Le spalle a ventaglio» · opzione «La cotta di maglia di Irsa» · esito · 520 caratteri
+
+> Bràm passa la prima metà della notte a trafilare il filo, tirandolo attraverso la piastra forata finché è sottile e uguale. Ìrsa lo avvolge su un tondino, lo taglia in anelli e li chiude uno per uno con le pinze piccole, sul tavolo, senza alzare mai la testa. Le spalle a ventaglio le monta sulle tue misure, con il cuoio della Conceria Kàsselt sotto gli anelli. All'alba Bràm batte il martello di pietra sulla fibbia del collo. “Ti stancherà di più la sera” dice Ìrsa, stringendoti le cinghie. “Ma alla sera ci arrivi.”
+
+**`il-pezzo-su-misura__5-esito`** · esito «Tre asce gemelle» · opzione «Le asce da lancio» · esito · 554 caratteri
+
+> Bràm forgia tre lame una dopo l'altra, dallo stesso pezzo di ferro, e le confronta sul palmo finché pesano uguali. Ìrsa le monta su tre manici di frassino e incide sul dorso di ognuna le piccole rune di richiamo, con una punta sottile e la lente sull'occhio. Prima dell'alba ti porta in cortile e ti fa lanciare la prima contro il ceppo, e dopo il lancio te la ritrovi in mano senza sapere come. Bràm batte il martello di pietra sui tre manici. “È l'unica cosa che facciamo sempre in due, e adesso la fai anche tu” dice, e ti batte una mano sulla spalla.
+
+**`il-pezzo-su-misura__6-esito`** · esito «Il nodo a sei passi» · opzione «Il giaco di maglia» · esito · 494 caratteri
+
+> Bràm trafila il filo di ferro per metà notte, e Ìrsa ci intreccia dentro gli anelli di bronzo del suo sacchetto, a zig-zag, con il nodo a sei passi che usa per riconoscere i falsi. Lavora sulle tue misure, provandoti addosso il giaco ancora aperto ogni ora. Prima dell'alba te lo fa indossare e ti fa camminare per la fucina, e la maglia non tintinna. Bràm batte il martello di pietra sulla fibbia, e Ìrsa ci passa sopra il pollice. “Adesso, se qualcuno lo copia, ce ne accorgiamo in due” dice.
+
+**`il-pezzo-su-misura__7-esito`** · esito «Due firme» · opzione «Soltanto la loro firma» · esito · 541 caratteri
+
+> Dici che quello che porti ti basta, e che vorresti soltanto il loro segno sopra. Bràm ti guarda come se avessi rifiutato da bere. Ìrsa invece ride, ti prende di mano l'arma che porti al fianco e la ripassa da cima a fondo, rifacendo i punti consumati dell'impugnatura con il cuoio della Conceria Kàsselt e un anello di bronzo. All'alba Bràm batte il martello di pietra sul metallo, vicino all'impugnatura, borbottando. “È la prima volta che firmo una cosa che non ho fatto io, quindi non lo raccontare in giro” dice, e ti restituisce l'arma.
+
+### I Giardini della Linfa
+
+**`i-giardini-della-linfa`** · scena · 1125 caratteri
+
+> Sorella Giulia ti aspetta in fondo ai Giardini, davanti al cespuglio più vecchio, quello con le foglie larghe come mani che la sera si accendono per prime. Stamattina è spento per metà. Le foglie basse sono ancora verdi e tiepide, mentre quelle in cima sono diventate grigie e molli, e i passeri che ci dormivano dentro si sono spostati sulla siepe.
+>
+> “È una talea del vecchio Santuario” dice Giulia. “La notte dell'incendio Padre Vàntes l'ha portata fuori in una tasca della tonaca. Adesso guarda qui.” Scosta una foglia con due dita. Alla base dei fusti ci sono tagli sottili e diagonali, fatti con una lama piccola e con una certa cura, e da ognuno è uscita la linfa. Chi li fa sa come si incide una pianta, e ogni notte ne prende un poco dalla stessa, che a lungo andare si spegne.
+>
+> A Ottìlia, Giulia non lo vuole dire. “Ottìlia trova sempre il colpevole” dice, “e dopo non resta più niente da sistemare.” Apre la mano verso la siepe, e un passero ci salta sopra e si lascia portare all'altezza del suo viso.
+>
+> [whispers] Un ladro di linfa che ne ruba un dito per notte. Hai già le dita sui tagli, a misurarne la larghezza.
+
+**`i-giardini-della-linfa__1-successo`** · esito «Un dito per notte» · opzione «Esaminare i tagli e la linfa» · successo · 495 caratteri
+
+> Conti i tagli e li confronti. Sono ventidue, tutti della stessa larghezza, e accanto a ognuno la corteccia porta il segno di una fiala piccola appoggiata per raccogliere. Chi vende la linfa agli speziali la prende a mezzi barattoli, e dalle piante giovani, che ne danno di più. Questo ne prende un dito a notte, sempre dalla pianta più vecchia, che è anche la più vicina al dormitorio dei novizi. Giulia segue il tuo ragionamento fino in fondo, poi si gira a guardare la finestra del dormitorio.
+
+**`i-giardini-della-linfa__1-fallimento`** · esito «Gli speziali» · opzione «Esaminare i tagli e la linfa» · fallimento · 373 caratteri
+
+> Ti convinci che dietro ci sia qualcuno che vende la linfa agli speziali del Mercato dei Nodi, e lo spieghi a Giulia con molta sicurezza. Lei ti ascolta fino in fondo, poi ti fa notare che un ladro di linfa porterebbe via mezzo barattolo alla volta, mentre alla pianta vecchia ne manca sì e no un dito. Ti ringrazia lo stesso, e torna alla sua siepe a parlare con i passeri.
+
+**`i-giardini-della-linfa__2-successo`** · esito «Le gocce» · opzione «Seguire le gocce di luce» · successo · 459 caratteri
+
+> Aspetti la mattina presto, quando le piante dormono, e cammini piano per i vialetti, chino. Fra le pietre del sentiero ci sono gocce di linfa secca, piccole come capocchie di spillo, che all'ombra mandano ancora un filo di luce. Partono dal cespuglio vecchio e attraversano il chiostro fino alla porta del dormitorio dei novizi, dove sotto lo stipite qualcuno ha provato a strofinarle via con la suola. Giulia ti raggiunge e guarda la porta senza dire niente.
+
+**`i-giardini-della-linfa__2-fallimento`** · esito «Le foglie cadute» · opzione «Seguire le gocce di luce» · fallimento · 358 caratteri
+
+> Aspetti il crepuscolo e cerchi una traccia fra le pietre dei vialetti, ma a quell'ora i Giardini si accendono tutti insieme, e ogni foglia caduta brilla come la goccia che cercavi. Dopo un'ora ti fanno male gli occhi. Giulia ti porta una tazza d'infuso e ti consiglia di riprovare la mattina presto, quando le piante dormono e la linfa caduta si vede meglio.
+
+**`i-giardini-della-linfa__3-esito`** · esito «La notte dei passeri» · opzione «Passare la notte dietro la siepe» · esito · 469 caratteri
+
+> Ti siedi dietro la siepe dei passeri con il mantello sulle spalle e aspetti. Verso la terza ora il freddo ti entra nelle ginocchia, e Giulia ti porta di nascosto una coperta e una mela. Poco prima del mattutino la porta del dormitorio si apre di uno spiraglio, e una sagoma piccola attraversa il chiostro in punta di piedi con una fiala in mano. Si inginocchia davanti al cespuglio vecchio e incide il fusto con un temperino, piano, come se avesse paura di fargli male.
+
+### Il ladro di linfa
+
+**`il-ladro-di-linfa`** · scena · 1051 caratteri
+
+> Il ladro si chiama Lino. Ha quattordici anni e un velo corto da primo anno che gli scivola sempre su un orecchio. Giulia lo accompagna fuori dal dormitorio tenendogli una mano sulla spalla senza stringere, e lui non prova nemmeno a scappare. Quando gli chiedi della linfa infila una mano sotto la tunica e tira fuori una fiala tappata con la cera, piena per metà, che nel chiostro ancora buio manda una luce verdina e tranquilla.
+>
+> “Io non la bevo e non la vendo” dice, guardandosi i piedi. “La tengo sotto la coperta, la notte. Dalla razzia al buio non riesco più a dormire, e Ottìlia nel dormitorio non vuole lumi, dice che i novizi devono imparare a stare con il buio.” Si asciuga il naso con la manica. “Gli altri dormono. Io sento ancora i corni degli orchi, e con la luce verde un po' meno.”
+>
+> Giulia ti guarda sopra la testa del ragazzo. In fondo ai Giardini il cespuglio vecchio è acceso soltanto a metà. [whispers] Ventidue notti di corni, e una pianta che si spegne per farle passare. Senza averlo deciso ti sei accucciato all'altezza di Lino.
+
+**`il-ladro-di-linfa__1-esito`** · esito «Il vaso sul davanzale» · opzione «Chiedere a Giulia una pianta per lui» · esito · 487 caratteri
+
+> Giulia ci pensa il tempo di accarezzare un passero, poi va a prendere un vaso di coccio e un coltellino. Taglia una talea dal cespuglio vecchio, dalla parte ancora accesa, e la pianta nel vaso davanti a Lino, spiegandogli come si annaffia e quanto. “Così la luce te la fai da solo, e il cespuglio respira” dice. Lino tiene il vaso con tutte e due le mani. Il giorno dopo sul davanzale del dormitorio c'è una piantina che di notte brilla appena, e Ottìlia ci passa davanti senza fermarsi.
+
+**`il-ladro-di-linfa__2-successo`** · esito «Lume del dormitorio» · opzione «Parlare con Ottilia della regola dei lumi» · successo · 488 caratteri
+
+> Trovi Ottìlia nel corridoio dopo l'esercizio dell'alba e le racconti dei corni e della fiala, senza fare il nome di Lino. Lei ascolta con le mani infilate nelle maniche. Quando hai finito ti chiede se sai quanti novizi sono arrivati dopo la razzia, e dalla tua faccia capisce la risposta. “Undici” dice. Il giorno dopo in fondo al dormitorio è appesa una lanterna schermata accesa al minimo, e sulla tavoletta dei lavori c'è una riga nuova con la sua grafia, lume del dormitorio, a turno.
+
+**`il-ladro-di-linfa__2-fallimento`** · esito «Il buio si impara» · opzione «Parlare con Ottilia della regola dei lumi» · fallimento · 447 caratteri
+
+> Trovi Ottìlia nel corridoio dopo l'esercizio dell'alba e le chiedi di permettere un lume nel dormitorio. Lei ti chiede perché, e tu, per non fare il nome di Lino, ti ingarbugli in una storia di candele e di ladri che non sta in piedi. Ottìlia ti ascolta fino in fondo. “Il buio si impara come il resto” dice, e torna dai novizi. La sera Giulia mette in mano a Lino una talea in un vaso, di nascosto, perché almeno il cespuglio smetta di spegnersi.
+
+**`il-ladro-di-linfa__3-esito`** · esito «La disciplina» · opzione «Portare Lino da Ottilia» · esito · 464 caratteri
+
+> Accompagni Lino da Ottìlia, nel corridoio, con la fiala in mano. Lei lo ascolta senza interromperlo, poi prende la fiala e la vuota nel catino delle abluzioni, dove la luce si spegne in un attimo. Per un mese Lino spazzerà il chiostro prima dell'alba. Ottìlia ti ringrazia con un cenno breve, e la sera dopo sulla tavoletta dei lavori il tuo nome compare in cima. Quando ti incrocia nei Giardini, Giulia ti saluta con un passero sulla mano e non ti chiede di Lino.
+
+### Gli archivi minori
+
+**`gli-archivi-minori`** · scena · 1237 caratteri
+
+> Gli archivi minori stanno dietro il chiostro, in tre stanze basse che erano le cantine del vecchio Santuario e che l'incendio ha risparmiato. Gli scaffali arrivano al soffitto, e ogni scatola ha un cartellino scritto con la grafia piccola e diritta di Ottìlia Sànvel. Sul tavolo sotto la finestra c'è una cassetta di latta annerita, e quando Ottìlia ne solleva il coperchio senti l'odore del fumo, vecchio di cinque anni e ancora intatto.
+>
+> Dentro ci sono i registri del Santuario che si sono salvati a metà, con i bordi bruciati e le pagine che si sfaldano se le tocchi senza attenzione. “La Madre ne vuole una copia pulita per la Cripta” dice Ottìlia. “Le copie le fai qui. Gli originali non escono, e quello che leggi resta in questa stanza.” Ti porge un paio di guanti di cotone e una pinzetta d'osso per voltare i fogli. “Si comincia dall'ultimo registro, che è quello che si sbriciola prima.”
+>
+> Ti siedi e tiri verso di te la cassetta. L'odore del fumo ti riporta a un altro fuoco, quello della piazza la sera della razzia, e le mani ti restano ferme sui guanti più a lungo del necessario. [whispers] Cinque anni in una scatola di latta, e l'odore non se n'è andato. Ottìlia aspetta in piedi, con le braccia incrociate nelle maniche.
+
+**`gli-archivi-minori__1-successo`** · esito «L'ultimo foglio» · opzione «Ricopiare le pagine» · successo · 397 caratteri
+
+> Ricopi per tutto il pomeriggio, una riga alla volta, voltando i fogli con la pinzetta. Per lo più sono turni di guardia, firmati a ogni ora canonica da un sacerdote diverso. Ottìlia controlla ogni pagina in piedi e te ne passa un'altra. Verso sera arrivi all'ultimo foglio del registro, quello con i bordi più neri, e in cima, con una grafia che non conosci, c'è la data della notte dell'incendio.
+
+**`gli-archivi-minori__1-fallimento`** · esito «Cenere» · opzione «Ricopiare le pagine» · fallimento · 330 caratteri
+
+> Ricopi una pagina e mezza, poi volti un foglio con le dita invece che con la pinzetta, e un angolo ti resta in mano fatto di cenere. Ottìlia lo raccoglie in un piattino e lo guarda in silenzio. “Per oggi basta” dice, e chiude la cassetta. La prossima volta, aggiunge, le dita le tieni in grembo finché non ti servono per scrivere.
+
+**`gli-archivi-minori__2-successo`** · esito «I solchi del pennino» · opzione «Leggere le pagine controluce» · successo · 394 caratteri
+
+> Prendi i fogli più bruciati uno alla volta con la pinzetta e li alzi contro la finestra. Dove l'inchiostro se n'è andato restano i solchi del pennino, e se inclini il foglio di poco le lettere tornano fuori una per una. Ottìlia smette di guardarti le mani e comincia a guardare le pagine. Ricostruisci tre fogli che lei credeva persi, e l'ultimo porta in cima la data della notte dell'incendio.
+
+**`gli-archivi-minori__2-fallimento`** · esito «Controluce» · opzione «Leggere le pagine controluce» · fallimento · 389 caratteri
+
+> Alzi i fogli contro la finestra e cerchi i solchi del pennino, ma la carta bruciata è troppo sottile e la luce ci passa attraverso senza mostrarti niente. Dopo un'ora hai ricostruito una parola sola, candele. Ottìlia la annota in un quaderno senza commentare e ti dice di tornare quando avrai gli occhi più riposati. Sul tavolo restano i guanti di cotone, con le punte delle dita annerite.
+
+**`gli-archivi-minori__3-esito`** · esito «Un foglio al giorno» · opzione «Aiutarla un'ora al giorno» · esito · 442 caratteri
+
+> Per una settimana torni ogni giorno alla stessa ora, e ogni giorno Ottìlia ti dà un foglio solo. Lo ricopi con calma, poi lei lo controlla e te lo toglie di mano. Il quinto giorno ti chiede da dove vieni. Il sesto ti racconta che da novizia copiava anche lei, in queste cantine, quando sopra c'era ancora il Santuario. Il settimo ti porge l'ultimo foglio del registro, quello con i bordi più neri, che porta la data della notte dell'incendio.
+
+### La notte del Santuario
+
+**`la-notte-del-santuario`** · scena · 1285 caratteri
+
+> L'ultimo foglio è diviso in due colonne. A sinistra ci sono i sei sacerdoti di turno quella notte, ognuno con accanto l'ora in cui ha firmato. A destra c'è l'elenco di chi dormiva nel Santuario, i rifugiati che dopo le Notti Cucite non volevano tornare a casa e le famiglie che una casa non l'avevano più. Sono quarantuno righe, e accanto a quasi tutte c'è una crocetta, tracciata con un altro inchiostro da una mano che andava di fretta. Nella colonna dei sacerdoti le firme si fermano alla compieta. Più sotto c'era una riga a matita, e qualcuno l'ha cancellata con tanta forza da strappare la carta.
+>
+> Ottìlia è dietro di te, e non l'hai sentita arrivare. “Le crocette le ho fatte io” dice. “Stavo sulla porta del chiostro e contavo chi usciva. Allora avevo la grafia più grande.” Posa un dito guantato su tre righe senza crocetta, una dopo l'altra. Poi lo sposta in fondo alla colonna, sui nomi di Ìdrian Sòllen e di sua figlia, che la crocetta non ce l'hanno nemmeno loro. “La riga cancellata diceva a che ora sono usciti i sacerdoti. Su questo foglio la Madre ha chiesto riservatezza, e io la rispetto.”
+>
+> [whispers] Lei stava sulla porta a contare, e i sacerdoti di turno erano già fuori. Il guanto ti ha lasciato un'impronta grigia sull'angolo del foglio, e lo rimetti giù piano.
+
+**`la-notte-del-santuario__1-esito`** · esito «I nomi del mattino» · opzione «Chiederle di quella notte» · esito · 546 caratteri
+
+> Ottìlia ci mette un po' a rispondere. “Il fuoco è partito dall'ala nord, e il fumo è arrivato prima delle fiamme” dice. “La chiave della porta del chiostro ce l'avevo io, e sono rimasta lì. Ne ho contati trentasei. Cinque non sono usciti.” Ti dice i cinque nomi a memoria, senza guardare il foglio, e aggiunge che li ripete ogni mattina all'esercizio dell'alba, prima del primo respiro. “Il sapere si accumula e basta. Saggezza è quello che decidi di non dimenticare.” Poi ti toglie il foglio di mano e lo rimette nella cassetta, sopra gli altri.
+
+**`la-notte-del-santuario__2-esito`** · esito «Il rettangolo vuoto» · opzione «Ricopiare il foglio com'è, riga strappata compresa» · esito · 440 caratteri
+
+> Ricopi il foglio crocetta per crocetta senza parlare, e dove c'è la riga cancellata disegni sulla copia un rettangolo vuoto della stessa misura, con lo strappo segnato a matita. Ottìlia guarda il rettangolo a lungo. Poi piega la copia in tre, la chiude con la cera del Velo e ci preme sopra il sigillo che porta alla cintura. “Per la Madre” dice. Mentre esci la senti chiudere la porta degli archivi a chiave, cosa che di giorno non fa mai.
+
+**`la-notte-del-santuario__3-successo`** · esito «Sei nomi» · opzione «Copiare di nascosto la colonna dei sacerdoti» · successo · 454 caratteri
+
+> Mentre Ottìlia rimette in ordine la cassetta ricopi i sei nomi in fondo al tuo quaderno, fra due conti della spesa, con l'ora accanto a ognuno. Quando si volta stai scrivendo la data in cima alla copia pulita. Più tardi, sotto un lampione dei Quartieri Alti, rileggi la pagina. Due di quei nomi li hai già sentiti in Cattedrale, durante le funzioni solenni. Richiudi il quaderno in fretta, e ti accorgi di esserti voltato a guardare se qualcuno ti segue.
+
+**`la-notte-del-santuario__3-fallimento`** · esito «La pagina strappata» · opzione «Copiare di nascosto la colonna dei sacerdoti» · fallimento · 440 caratteri
+
+> Ricopi i sei nomi in fondo al tuo quaderno mentre Ottìlia rimette in ordine la cassetta, ma lei si volta prima che tu abbia finito. Ti tende la mano senza dire niente, e tu le dai il quaderno. Strappa la pagina con cura e la ripone nella cassetta, sopra il foglio bruciato. “Te l'avevo detto, quello che leggi resta qui” dice, e ti rende il quaderno. Gli archivi te li apre ancora, ma da quel giorno resta nella stanza finché non te ne vai.
+
+**`la-notte-del-santuario__4-esito`** · esito «Una crocetta da mettere» · opzione «Chiederle di Aurenne» · esito · 401 caratteri
+
+> Ottìlia resta a guardare il nome. “Quella notte non l'ho vista uscire, e dentro non l'avevo vista nemmeno prima” dice. “Per cinque anni è stata una riga senza crocetta, e la mattina la ripetevo con gli altri quattro nomi.” Si toglie un guanto e passa il pollice sulla carta accanto al nome, senza toccarlo. “Adesso la crocetta non so dove metterla.” Rimette il guanto, e per un po' non aggiunge altro.
+
+### Il voto del Velo
+
+**`il-voto-del-velo`** · scena · 1147 caratteri
+
+> Dopo la compieta la navata si svuota in fretta, e gli accoliti spengono le candele partendo dall'ingresso. Padre Vàntes ti trattiene con due dita sul polso e ti fa sedere sulla prima panca, quella dove di giorno siedono i consiglieri. Il cristallo rosso pulsa piano, al ritmo lungo delle ore di notte. Da vicino ti accorgi che nella pietra corrono venature più scure, e che il battito ci passa dentro come l'acqua in un canale.
+>
+> “Il Velo ha i suoi chierici e i suoi monaci” dice Vàntes, “e poi ha quelli come te, che ci aiutano senza portare la tonaca. A volte a uno di loro chiediamo di più.” Le dita restano sul tuo polso, leggere. “Un laico consacrato fa il suo voto di notte davanti all'altare, e da quella notte la Cripta per lui è aperta. Scende quando vuole e prega con i novizi. In cambio, quando il Velo ha bisogno, lo chiama per nome.”
+>
+> Si ferma, e per la prima volta da quando lo conosci ti sembra in imbarazzo. “La Madre è d'accordo. Il tuo nome l'ha fatto lei.”
+>
+> [whispers] Una donna che nessuno ha mai visto in faccia, e che sa come mi chiamo. Ti sei seduto con la schiena dritta senza volerlo, e la lasci andare contro lo schienale.
+
+**`il-voto-del-velo__1-esito`** · esito «La vita che resta» · opzione «Chiedere che cosa si promette» · esito · 434 caratteri
+
+> “Si promette di servire la vita che resta” dice Vàntes. “Le parole sono della Madre, e io le ho imparate da lei quando ero novizio.” Si tocca il sigillo del Velo che porta al collo, l'unico ornamento che gli hai mai visto. “Come servirla lo decidi tu giorno per giorno, e decidi tu se restare in città o partire. Il Velo chiede di sapere dove sei, e di poterti chiamare. Il resto lo chiede la tua coscienza, e a lei rispondi da solo.”
+
+**`il-voto-del-velo__2-esito`** · esito «Tre testimoni» · opzione «Chiedere chi ci sarà» · esito · 375 caratteri
+
+> “Io, che dico le parole prima di te” dice Vàntes, e conta sulle dita. “Ottìlia, che scrive il tuo nome nel registro dei laici, e lo scrive soltanto se ha visto con i suoi occhi.” Esita sul terzo dito. “E Sorella Celia con il liuto, perché me l'ha chiesto, e io a Celia dico di no di rado.” Ti lascia il polso. “La Madre resta nella Cripta. Ma la scala è aperta, e lei sente.”
+
+**`il-voto-del-velo__3-esito`** · esito «Quattro testimoni» · opzione «Chiedere chi ci sarà» · esito · 481 caratteri
+
+> “Ci saremo io e Ottìlia, con Sorella Celia che porta il liuto” dice Vàntes, e dopo una pausa aggiunge che ci sarà anche Aurènne. Ti guarda per vedere come la prendi. “Me l'ha chiesto lei ieri sera, ed è la prima cosa che chiede da quando è sveglia. Dice che al Santuario, da bambina, i voti li guardava di nascosto dal matroneo, e che stavolta ne vorrebbe vedere uno da vicino.” Ti stringe il polso per un momento. “Se preferisci di no, glielo dico io” dice, e te lo lascia andare.
+
+**`il-voto-del-velo__4-esito`** · esito «La garitta» · opzione «Dirgli dell'argano» · esito · 338 caratteri
+
+> “Lo so” dice Vàntes. “Il custode della garitta sopra i piloni è uno dei nostri, e mi ha detto chi è sceso a provare l'argano.” Ti tiene il polso un po' più a lungo del solito. “Il voto non ti trattiene. Il Velo custodisce le strade che scendono, e uno dei suoi laggiù gli serve più di uno quassù. Quando torni, la Cripta è ancora aperta.”
+
+**`il-voto-del-velo__5-esito`** · esito «Stanotte» · opzione «Accettare» · esito · 341 caratteri
+
+> Vàntes annuisce piano, e per un momento le dita sul tuo polso stringono un po' di più. “Allora stanotte” dice. “Torna quando suona l'ultima ora, e non portare niente. Le armi le lasci al portone, come tutti.” Si alza, e mentre va verso la sagrestia accende una candela per ogni panca, al contrario degli accoliti, che le hanno appena spente.
+
+**`il-voto-del-velo__6-esito`** · esito «La prima panca» · opzione «Rifiutare con garbo» · esito · 340 caratteri
+
+> Gli dici che ti fa onore, e che per adesso preferisci aiutare senza promettere. Vàntes ti ascolta con le dita sul tuo polso e alla fine le ritira. “Il Velo sa aspettare” dice. “La prima panca resta qui, e anche la domanda.” Ti accompagna al portone con una candela in mano, e sulla soglia ti benedice come ogni sera, senza aggiungere altro.
+
+### La veglia del voto
+
+**`la-veglia-del-voto`** · scena · 1223 caratteri
+
+> Quando suona l'ultima ora torni in Cattedrale. Le porte sono accostate, e dentro restano accese soltanto le candele dell'altare e una lanterna in fondo, dove Ottìlia Sànvel aspetta con un registro sotto il braccio. Su una panca laterale Sorella Celia tiene il liuto sulle ginocchia senza suonarlo, e al polso ha un nastro che stanotte nessuno le farà togliere. Padre Vàntes ti fa inginocchiare sul gradino più basso, a un braccio dal cristallo rosso, e ti mette fra le mani una candela spenta.
+>
+> “Si veglia fino al mattutino” dice. “Quando il cristallo batte l'ora accendi la candela alla sua luce e dici il voto. Se prima ti addormenti nessuno te ne farà una colpa, e si ricomincia un'altra notte.”
+>
+> Il gradino è di pietra, e il freddo ti sale nelle ginocchia attraverso la stoffa. Il cristallo pulsa a intervalli lunghi, e ogni volta la luce rossa ti scorre sulle mani e poi si ritira. Dalla scala della Cripta, alle tue spalle, sale un filo d'aria fredda che odora di rame, e capisci che il passaggio è aperto anche se da laggiù non arriva un rumore.
+>
+> [whispers] Quattro ore di qui al mattutino, e il freddo è già arrivato alle ginocchia. Ti sistemi meglio sul gradino, e accanto a te Vàntes comincia a pregare sottovoce.
+
+**`la-veglia-del-voto__1-successo`** · esito «Il mattutino» · opzione «Vegliare fino al mattutino» · successo · 501 caratteri
+
+> Vegli tutta la notte, e verso la terza ora non senti più le ginocchia. Quando il cristallo batte il mattutino accosti lo stoppino alla pietra, che è calda come una brace, e la candela si accende. Dici il voto con le parole che ti ha dato Vàntes, servire la vita che resta, e dalla scala della Cripta una voce bassa ripete l'ultima parola con un attimo di ritardo. Celia suona un accordo solo. Ottìlia scrive in piedi il tuo nome nel registro dei laici, e Vàntes ti aiuta ad alzarti tenendoti il polso.
+
+**`la-veglia-del-voto__1-fallimento`** · esito «L'alba sul gradino» · opzione «Vegliare fino al mattutino» · fallimento · 414 caratteri
+
+> Verso la terza ora il battito del cristallo comincia a cullarti, e ti svegli con la guancia sul gradino e la candela rotolata via. Dalle vetrate entra la luce grigia dell'alba. Vàntes è ancora in ginocchio accanto a te e ha continuato a pregare per tutti e due. “Succede a molti” dice, raccogliendo la candela. “Si ricomincia un'altra notte, come ti avevo detto.” Ottìlia chiude il registro senza scriverci niente.
+
+**`la-veglia-del-voto__2-esito`** · esito «La voce di Vantes» · opzione «Pregare con Vantes per restare sveglio» · esito · 479 caratteri
+
+> Vai dietro alla preghiera di Vàntes parola per parola, e quando non la conosci ripeti l'ultima frase finché lui non la cambia. Le ore passano così, una strofa dopo l'altra. Quando il cristallo batte il mattutino accosti lo stoppino alla pietra calda, e la candela si accende. Dici il voto, servire la vita che resta, e dalla scala della Cripta una voce bassa ripete l'ultima parola con un attimo di ritardo. Ottìlia scrive il tuo nome nel registro, e Celia suona un accordo solo.
+
+**`la-veglia-del-voto__3-esito`** · esito «Il gradino accanto» · opzione «Vegliare con Aurenne accanto» · esito · 551 caratteri
+
+> Aurènne si inginocchia accanto a te, con l'artiglio appoggiato sulla coscia. Verso la seconda ora ti dice sottovoce che al Santuario si addormentava sempre alla terza, e che suo padre la lasciava dormire. Alla terza ora, quando ti cade la testa, ti tocca la spalla con la mano buona. Al mattutino ti regge il polso mentre accosti lo stoppino alla pietra calda. Dici il voto, e lei lo dice con te nelle parole vecchie, mezza sillaba avanti. Ottìlia scrive il tuo nome nel registro e, dopo un momento, nella riga sotto, quello di Aurènne come testimone.
+
+**`la-veglia-del-voto__4-esito`** · esito «Un'altra notte» · opzione «Alzarti prima dell'ora» · esito · 411 caratteri
+
+> Ti alzi dal gradino prima del mattutino e posi la candela spenta sull'altare. Vàntes smette di pregare e ti guarda senza rimprovero. “Un'altra notte, allora” dice, e ti posa due dita sul polso. Celia ripone il liuto nella custodia, Ottìlia chiude il registro, e nessuno dei tre ti chiede perché. Fuori la notte è ancora fonda, e mentre scendi la scalinata senti il portone che si richiude piano alle tue spalle.
+
+### La lapide senza nome
+
+**`la-lapide-senza-nome`** · scena · 1148 caratteri
+
+> Il garzone ti aspetta al cancello con il berretto in mano, e invece di rimetterselo continua a rigirarlo fra le dita. Ti porta in fondo al cimitero, nella fila più vecchia, dove le lapidi sono di arenaria e il vento ha lisciato i nomi fino a lasciarne soltanto l'ombra. Una di queste un nome non l'ha mai avuto. È una pietra bassa senza date e senza l'Albero, con i licheni gialli grattati via a metà. Nel registro di Gùndo la riga che le corrisponde è vuota.
+>
+> Da tre notti qualcuno se ne occupa. Stamattina la ghiaia intorno era rastrellata a spina di pesce, e ai piedi della pietra c'era un mozzicone di candela di sego ancora molle.
+>
+> “La spina di pesce io non la so fare” dice il garzone, e tossisce dentro il gomito. “La faceva il vecchio. E di notte qualcuno mi corregge anche le pagine del registro, con una grafia piccola piccola.” Guarda la casetta di Gùndo con le imposte chiuse, poi guarda te. “Al Velo non lo dico. Mi rispondono che sono i morti, e poi al posto della paga mi mandano un prete.”
+>
+> [whispers] Un morto che corregge l'ortografia sarebbe un morto molto paziente. Ti volti anche tu verso la casetta, e la nuca ti si raffredda.
+
+**`la-lapide-senza-nome__1-successo`** · esito «La lanterna schermata» · opzione «Fare la posta alla lapide» · successo · 538 caratteri
+
+> Ti sistemi dietro un cipresso storto con il mantello sulle spalle e aspetti. Dopo la seconda campana la grata di una cappella si apre senza cigolare, e ne esce una figura curva che zoppica, con una lanterna schermata e un rastrello. Si inginocchia davanti alla lapide senza nome e comincia a grattare i licheni con l'unghia. Ti avvicini piano, e lui non si volta nemmeno quando la ghiaia ti scricchiola sotto i piedi. “Sei quello che dà una mano al ragazzo” dice alla pietra, continuando a grattare, “e qui fuori ci vedono. Vieni dentro.”
+
+**`la-lapide-senza-nome__1-fallimento`** · esito «Il ramo secco» · opzione «Fare la posta alla lapide» · fallimento · 397 caratteri
+
+> Ti sistemi dietro un cipresso e aspetti fino alla seconda campana, e quando senti un passo strascicato sulla ghiaia ti sporgi troppo. Sotto lo stivale ti si spezza un ramo secco. La lanterna in fondo alla fila si spegne subito, e per quanto cerchi fra le tombe non trovi nessuno. La mattina dopo la ghiaia intorno alla lapide è rastrellata di nuovo a spina di pesce, e il garzone ti guarda storto.
+
+**`la-lapide-senza-nome__2-successo`** · esito «Il sette barrato» · opzione «Confrontare le correzioni nel registro» · successo · 448 caratteri
+
+> Metti una pagina vecchia accanto a una nuova. Chi corregge di notte scrive il sette con una barretta a metà e chiude le righe con un punto tondo, come nelle pagine di Gùndo di dieci anni fa. A margine dell'ultima pagina c'è una nota fresca, fossa diciannove, il nome si scrive con due elle. Sotto la nota scrivi a matita che stanotte sarai alla lapide. Ci vai, e dopo la seconda campana la grata di una cappella poco lontana si apre senza cigolare.
+
+**`la-lapide-senza-nome__2-fallimento`** · esito «Le due grafie» · opzione «Confrontare le correzioni nel registro» · fallimento · 342 caratteri
+
+> Metti le pagine vecchie accanto alle nuove e le confronti fino a sera, e alla fine ti sembrano tutte della stessa mano minuta e ordinata. Il garzone ti guarda sfogliare con il berretto in mano e a un certo punto ti riprende il registro. Dice che se lo tocchi troppo il Velo se ne accorge, e lo rimette nel capanno sotto il barile della calce.
+
+**`la-lapide-senza-nome__3-successo`** · esito «La luce dei Vardesi» · opzione «Chiedere alla vecchia del gatto» · successo · 446 caratteri
+
+> La vecchia ti fa entrare per il gatto, che ti ha preso in simpatia, e per un po' parla soltanto di lui. Poi ti porta alla finestra. Alcune notti, dice, dentro la cappella dei Vardesi c'è una luce, e i Vardesi sono finiti tutti dentro quella cappella da prima che lei si sposasse. “Una luce piccola, da candela di sego, e dopo la seconda campana” dice. “I morti la candela non se la portano.” La notte dopo, alla seconda campana, bussi alla grata.
+
+**`la-lapide-senza-nome__3-fallimento`** · esito «Il gatto» · opzione «Chiedere alla vecchia del gatto» · fallimento · 312 caratteri
+
+> La vecchia ti fa entrare e ti parla del gatto, di come ha perso la coda e di quanto mangia. Quando porti il discorso sul cimitero cambia argomento, e quando ci riprovi lo cambia ancora. Alla fine ti accompagna alla porta con una fetta di torta avvolta in un tovagliolo, e ti chiede di tornare a trovare il gatto.
+
+**`la-lapide-senza-nome__4-esito`** · esito «La risposta» · opzione «Lasciare un biglietto sulla lapide» · esito · 425 caratteri
+
+> Scrivi su un foglio piegato che il ragazzo delle fosse ha la tosse e ha paura, e che chi pulisce questa pietra forse lo sa. Lo fermi sotto un sasso, ai piedi della lapide. Per due notti il foglio resta dov'è. La terza mattina c'è una riga in più, in una grafia minuta, dopo la seconda campana, cappella dei Vardesi, vieni solo. Il sasso è stato rimesso esattamente al suo posto, nell'impronta che aveva lasciato nella ghiaia.
+
+### Il becchino di notte
+
+**`il-becchino-di-notte`** · scena · 1221 caratteri
+
+> La cappella dei Vardesi è addossata al muro di levante, e dentro brucia una candela di sego sul coperchio di un sarcofago. I Vardesi erano mercanti di sale. L'ultimo è morto senza figli prima che il garzone nascesse, e sul muro di fondo i loro nomi occupano tre file, con la terza che si ferma a metà. Sul sarcofago, accanto alla candela, ci sono un registro aperto e una penna da scrivano.
+>
+> Gùndo Màrl è seduto su uno sgabello basso, curvo sulle pagine, con la tunica grigia da becchino e un amuleto dell'Albero Rosso che dal collo gli pende fino al registro. Ha le mani lunghe e sottili, e non smette di scrivere quando entri. “Ti ho visto dalla grata, con il ragazzo” dice alla pagina. “Quello che fai lo fai con cura.”
+>
+> Gli chiedi dov'è stato. Lui finisce la riga, asciuga la penna su uno straccio e solo allora alza gli occhi. Sono chiari e svegli, in una faccia vecchia. “Dove sono stato quella notte resta fra me e l'Albero” dice. “Di giorno per adesso non ci sono. Chi è sceso nella cripta sapeva a che ora spengo la candela, e mi va bene che adesso mi creda sparito.”
+>
+> Si tocca l'amuleto con due dita. Poi indica con il mento la fila vecchia, dalla parte della lapide senza nome, e aspetta che sia tu a chiedere.
+
+**`il-becchino-di-notte__1-esito`** · esito «Un altro mestiere» · opzione «Chiedergli della lapide» · esito · 524 caratteri
+
+> Gùndo ci mette un po' a rispondere, e intanto chiude il registro. “Quando facevo un altro mestiere lui e io portavamo la roba per strade dove la Gilda non mette dazi” dice, con gli occhi sul coperchio del sarcofago. “Una notte è caduto, e il suo nome lo cercavano in tre città. L'ho portato fin qui sulle spalle e gliel'ho tolto, il nome, così nessuno veniva a chiedere niente alla sua famiglia.” Riapre il registro alla pagina della fila vecchia. “Il giorno dopo ho chiesto al becchino di allora se gli serviva un garzone.”
+
+**`il-becchino-di-notte__2-esito`** · esito «La riga a margine» · opzione «Promettergli di tacere» · esito · 426 caratteri
+
+> Gli dici che di te può fidarsi e che non lo saprà nessuno. Gùndo ti guarda il tempo di una riga, poi annuisce una volta e intinge la penna. In margine alla pagina della fila vecchia scrive il tuo nome con la sua grafia minuta, e accanto una data. “Al ragazzo dai una mano di giorno” dice, senza smettere di scrivere. “Di notte, se serve, la grata è aperta.” Quando esci la candela è ancora accesa, e lui ha ripreso a scrivere.
+
+**`il-becchino-di-notte__3-successo`** · esito «La paga del venerdì» · opzione «Chiedergli di dirlo almeno al garzone» · successo · 433 caratteri
+
+> Gli racconti del berretto che il ragazzo rigira fra le dita e della tosse che lo piega in due sulle fosse. Gùndo ascolta fino in fondo guardando la candela. “Il ragazzo parla con tutti” dice. “Però è puntuale.” Il venerdì dopo il garzone trova la paga sotto il sasso della soglia del capanno, contata giusta, con un biglietto nella grafia minuta. Lo legge, se lo mette nel berretto e da quel giorno ti saluta togliendoselo due volte.
+
+**`il-becchino-di-notte__3-fallimento`** · esito «Non ancora» · opzione «Chiedergli di dirlo almeno al garzone» · fallimento · 343 caratteri
+
+> Gli racconti della tosse del ragazzo, e Gùndo scuote la testa prima che tu abbia finito. “Il ragazzo parla con tutti, e con la tosse parla anche più forte” dice. “Lo saprà quando lo decido io.” Ti fa promettere di tacere anche con lui, e tu prometti. Prima che tu esca ti mette in mano due monete per il ragazzo, da dargli come se fossero tue.
+
+**`il-becchino-di-notte__4-esito`** · esito «Candele di sego» · opzione «Offrirti di portargli quello che gli serve» · esito · 402 caratteri
+
+> Gli chiedi che cosa gli manca. Gùndo ci pensa sul serio, contando sulle dita lunghe. Gli servono candele di sego e inchiostro nero, e del pane dice che se lo procura da sé. Il giorno dopo glieli porti in una cesta coperta da un panno, e li lasci dietro la grata come ti ha detto. La sera nella cesta vuota trovi il resto delle tue monete contato giusto, con una ricevuta firmata da due iniziali minute.
+
+### I registri di Gundo
+
+**`i-registri-di-gundo`** · scena · 1273 caratteri
+
+> Stanotte sul sarcofago dei Vardesi i registri sono tre. A sinistra c'è quello del garzone, con le pagine della razzia scritte grosse. In mezzo c'è un foglio con il sigillo della Cattedrale, la lista dei morti che il Velo ha benedetto nelle fosse comuni. Il terzo è un quaderno piccolo rilegato in tela nera, e Gùndo lo tiene chiuso sotto la mano.
+>
+> “Il Velo ne ha benedetti cinquantuno” dice al foglio. “Il ragazzo ne ha scritti cinquanta, e non sempre dove. Io la terra della fossa grande l'ho guardata, e ha un morto in più di quelli che dice lui.” Con un dito gira verso di te il registro del garzone.
+>
+> Poi apre il quaderno nero. Dentro, a colonne, ci sono le notti dopo la razzia, ognuna con l'ora accanto al punto del muro. Ogni tre notti qualcuno scavalca dal bosso spezzato e va alla fossa grande, ci resta fino alla prima campana e se ne va da dove è venuto. “Non tocca la cripta” dice Gùndo. “Va dai morti nuovi, e io con questa gamba non lo prendo.”
+>
+> Sullo scaffale dei Vardesi, più in là, c'è un registro più vecchio con centoquarantacinque sul dorso. Gùndo vede dove guardi e non lo sposta.
+>
+> [whispers] Cinquantuno da una parte e cinquanta dall'altra, e in mezzo uno che viene a trovarli. Le dita ti si muovono da sole sul bordo del sarcofago, a rifare il conto.
+
+**`i-registri-di-gundo__1-esito`** · esito «Scuciti» · opzione «Sfogliare il registro del centoquarantacinque» · esito · 469 caratteri
+
+> Le pagine di quel mese hanno venticinque nomi scritti uno per riga. Accanto a ognuno Gùndo ha segnato la fossa e una parola sola, scucito. Gli chiedi che cosa vuol dire. “Il Cucitore li lasciava cuciti insieme, come offerte” dice, senza alzare la voce. “Io li ho scuciti, uno alla volta, perché nessuno finisse sotto terra attaccato a un altro. Ci ho messo nove notti.” Richiudi il registro, e per il resto della notte ti sembra di sentire sotto le dita il filo tirato.
+
+**`i-registri-di-gundo__2-successo`** · esito «Il quarto giorno» · opzione «Rifare i conti sulle pagine del ragazzo» · successo · 463 caratteri
+
+> Metti la lista del Velo accanto alle pagine del garzone e scorri i nomi con due dita, uno per mano. Al quarto giorno dopo la razzia la lista del Velo ha un nome che nel registro manca, Teodo Sarne, conciatore. Nel registro, quel giorno, c'è soltanto una croce senza nome accanto alla fossa grande. Gùndo ci tiene sopra il dito. “Lo ha messo giù senza sapere chi era” dice. “Chi viene di notte invece lo sa.” La notte dopo vi appostate tutti e due vicino al bosso.
+
+**`i-registri-di-gundo__2-fallimento`** · esito «I conti sbagliati» · opzione «Rifare i conti sulle pagine del ragazzo» · fallimento · 357 caratteri
+
+> Metti la lista del Velo accanto alle pagine del garzone e conti, e ogni volta ti viene un numero diverso, perché il garzone certi morti li ha scritti per nome e certi per mestiere. A mezzanotte Gùndo ti toglie i fogli di mano e ricomincia da capo con il suo dito lungo. Ti dice di tornare quando hai dormito, e intanto continua a contare muovendo le labbra.
+
+**`i-registri-di-gundo__3-successo`** · esito «Lo scialle» · opzione «Fare la posta al bosso spezzato» · successo · 373 caratteri
+
+> Ti accucci dietro il bosso con il mantello sulla testa e le ginocchia nella terra umida. Dopo la seconda campana una figura avvolta in uno scialle scuro scavalca il muro a fatica, e cade in piedi a un passo da te senza vederti. Ha in mano una lanterna spenta e un fagotto. La lasci passare e la segui fra le tombe, tenendoti nell'ombra dei cipressi, fino alla fossa grande.
+
+**`i-registri-di-gundo__3-fallimento`** · esito «Il vicolo» · opzione «Fare la posta al bosso spezzato» · fallimento · 409 caratteri
+
+> Ti accucci dietro il bosso e aspetti, e dopo la seconda campana senti qualcuno arrampicarsi dall'altra parte del muro. Ti sporgi per vedere meglio, e una testa avvolta in uno scialle si affaccia sulla cresta proprio sopra di te. Per un momento vi guardate. Poi la testa sparisce, e senti dei passi che corrono nel vicolo cieco e poi fuori. Gùndo, la mattina, scrive nel quaderno nero una riga con il tuo nome.
+
+**`i-registri-di-gundo__4-successo`** · esito «Bruciato» · opzione «Parlare con il garzone» · successo · 481 caratteri
+
+> Lo trovi seduto sulla carriola a mangiare pane e cipolla, e gli parli della fossa grande senza nominare Gùndo. Il garzone smette di masticare. Racconta che il quarto giorno è arrivato un carro con un uomo bruciato e senza nome, e che la fossa grande era ancora aperta. “L'ho messo giù la sera e la riga l'ho lasciata per dopo” dice, girandosi il berretto fra le mani. “Poi la riga non l'ho più trovata.” Gli dici di stare tranquillo, e quella notte ti apposti alla fossa con Gùndo.
+
+**`i-registri-di-gundo__4-fallimento`** · esito «Il berretto calcato» · opzione «Parlare con il garzone» · fallimento · 353 caratteri
+
+> Lo trovi seduto sulla carriola a mangiare pane e cipolla, e gli chiedi del registro della razzia in un modo che suona come un'accusa. Il garzone si calca il berretto fino alle orecchie e dice che i morti li ha messi giù tutti quanti, e che chi vuole contarli se li conti da solo. Per il resto del giorno, quando lo incroci fra le tombe, cambia vialetto.
+
+**`i-registri-di-gundo__5-esito`** · esito «Al buio» · opzione «Aspettare con Gundo alla fossa grande» · esito · 376 caratteri
+
+> Vi sedete su una lapide bassa a qualche passo dalla fossa grande, con la lanterna spenta fra i piedi. Gùndo non parla, e dopo un'ora smetti anche tu di avere voglia di farlo. La prima notte non viene nessuno, e la seconda passa soltanto la ronda del Velo. La terza, dopo la seconda campana, qualcuno scavalca dal bosso e cammina dritto fino alla fossa senza guardarsi intorno.
+
+### La fossa grande
+
+**`la-fossa-grande`** · scena · 1076 caratteri
+
+> È una ragazza sui vent'anni, con uno scialle scuro sopra il grembiule e le mani rosse delle lavandaie. Si siede sulla terra della fossa grande e accende la lanterna. Dal fagotto tira fuori una pipa di gesso con il fornello annerito, e la posa sulla terra davanti a sé. Poi comincia a raccontare alla terra, a bassa voce, dei prezzi del sapone e di un gatto del vicinato. Quando ti avvicini salta in piedi e afferra la lanterna come se volesse tirartela.
+>
+> Si chiama Mirta Sarne. Suo padre conciava pelli per la Conceria Kàsselt, ed è morto in piazza la sera del Festival. Il Velo le ha detto che sta qui nella fossa grande, benedetto insieme agli altri, però il garzone, quando gliel'ha chiesto, nel registro il suo nome non l'ha trovato. “Vengo di notte perché di giorno lavo” dice, “e perché qui di giorno c'è gente che mi guarda.” Sua madre è sepolta dall'altra parte del cimitero, sotto una tavoletta che il padre aveva inciso da sé. Lei voleva metterli vicini, sotto la stessa tavoletta.
+>
+> Alle tue spalle, al buio, senti Gùndo che si appoggia alla pala e non si fa vedere.
+
+**`la-fossa-grande__1-esito`** · esito «Fossa grande, lato muro» · opzione «Portarle il registro con il nome» · esito · 416 caratteri
+
+> Vai alla cappella e torni con il registro aperto. Gùndo ha scritto il nome con la sua grafia minuta, Teodo Sarne, conciatore, fossa grande, lato muro, il quarto, perché la terra gliel'ha detto. Mirta legge la riga con l'indice e la rilegge. Poi chiede se può tornare di giorno, e le rispondi di sì. La notte dopo nel quaderno nero non c'è nessuno al bosso, e la pipa di gesso è piantata nella terra al lato del muro.
+
+**`la-fossa-grande__2-successo`** · esito «Il grembiule di cuoio» · opzione «Aiutarla a riportarlo accanto alla moglie» · successo · 478 caratteri
+
+> Gùndo segna con la pala il punto, e scavate in tre fino alle prime luci con un fazzoletto bagnato d'aceto sulla bocca. Teodo lo riconosci dal grembiule di cuoio, che il fuoco ha indurito senza bruciarlo, e dalle mani macchiate di tannino. Lo portate su una barella di assi fino alla tavoletta della moglie, e Gùndo apre la fossa accanto con una cura che non gli avevi mai visto. All'alba Mirta ci rimette sopra la pipa. Tu ti lavi le mani nel secchio tre volte, e l'odore resta.
+
+**`la-fossa-grande__2-fallimento`** · esito «Fra cinquanta» · opzione «Aiutarla a riportarlo accanto alla moglie» · fallimento · 453 caratteri
+
+> Gùndo segna con la pala il punto, e scavate fino alle prime luci con l'aceto sulla bocca. Sotto la terra i morti della razzia sono stretti l'uno all'altro, e quelli bruciati si somigliano tutti. Né tu né Mirta riuscite a dire quale sia Teodo. Richiudete la terra con cura e Gùndo la batte con il dorso della pala. Mirta scrive il nome del padre su un sasso e lo lascia lì, e tu per il resto della notte non riesci a smettere di vedere le mani dei morti.
+
+**`la-fossa-grande__3-successo`** · esito «La prima tavoletta» · opzione «Convincerla a lasciarlo con gli altri» · successo · 386 caratteri
+
+> Le dici che suo padre è morto con la sua piazza, e che nella fossa grande ci sono i vicini con cui beveva la sera. Mirta ci pensa con la pipa fra le mani. Alla fine chiede se può mettere una tavoletta con il nome anche sopra una fossa comune. Gùndo, dal buio, dice di sì. La settimana dopo sulla fossa grande le tavolette sono quattro, e il garzone deve imparare a rastrellarci intorno.
+
+**`la-fossa-grande__3-fallimento`** · esito «Lo scialle stretto» · opzione «Convincerla a lasciarlo con gli altri» · fallimento · 370 caratteri
+
+> Le dici che suo padre sta bene dov'è, con la sua piazza, e lei si stringe lo scialle sulle spalle e ti risponde che i vicini non l'hanno mai chiamato per nome. Raccoglie la pipa e se ne va dal cancello, che Gùndo le apre senza farsi vedere. Nel quaderno nero le notti dopo il bosso resta vuoto. Gùndo scrive il nome di Teodo nel registro lo stesso, con la grafia minuta.
+
+### Le chiavi del cimitero
+
+**`le-chiavi-del-cimitero`** · scena · 1112 caratteri
+
+> Gùndo ti aspetta fuori dalla cappella dei Vardesi, ed è la prima volta che lo vedi in piedi all'aperto. Curvo com'è ti arriva alla spalla, e si appoggia alla pala come a un bastone. Dall'altra mano gli pende un anello di ferro con due chiavi, una grande per il cancello nord e una piccola, unta d'olio, per il capanno degli attrezzi.
+>
+> “Di giorno qui serve qualcuno che apra il cancello e sappia rispondere a un prete, e il ragazzo con quella tosse non ce la fa” dice. “Le chiavi però le do a chi sa dove non scavare. In questo cimitero ci sono più morti che lapidi, e alcuni li ho messi giù io dove il Velo non guarda.” Fa tintinnare l'anello. “Domattina c'è da aprire una fossa per una lavandaia dei Ponti, e il posto stanotte lo scegli tu. Se scegli male, la pala tocca uno che non va toccato.”
+>
+> Si avvia per il vialetto zoppicando, e la pala batte sulla ghiaia a ogni passo, sempre con lo stesso suono. Sotto la luna i cipressi storti fanno ombre lunghe fino al muro.
+>
+> [whispers] Venticinque anni di fosse, e la mappa ce l'ha soltanto in testa. Senza volerlo hai già cominciato a contare i passi dal cancello.
+
+**`le-chiavi-del-cimitero__1-successo`** · esito «L'erba» · opzione «Leggere il terreno» · successo · 408 caratteri
+
+> Ti chini con la lanterna bassa e cammini piano fra le tombe. Dove qualcuno ha scavato l'erba è più verde e la terra è appena più bassa, e in certi punti il trifoglio disegna un rettangolo che a guardarlo dall'alto non vedresti. Ne trovi sei fra le lapidi della fila nuova. Il settimo posto, vicino al cipresso più storto, ha la terra dura e l'erba uguale a quella intorno. Gùndo ci pianta la pala e annuisce.
+
+**`le-chiavi-del-cimitero__1-fallimento`** · esito «Il trifoglio» · opzione «Leggere il terreno» · fallimento · 366 caratteri
+
+> Ti chini con la lanterna e cerchi le differenze nell'erba, e alla fine scegli un posto vicino al cipresso più storto. Gùndo ci pianta la pala, poi la ritira. “Qui sotto c'è una donna dei Ponti, dal centotrenta” dice. “Non l'ha mai cercata nessuno, e non comincio io a disturbarla.” Ti riporta alla cappella senza fretta, e le chiavi tornano nella tasca della tunica.
+
+**`le-chiavi-del-cimitero__2-successo`** · esito «I cerchietti» · opzione «Studiare il registro di Gundo» · successo · 446 caratteri
+
+> Sfogli il registro alla luce della candela e trovi, in margine a certe pagine, un cerchietto minuscolo tracciato con la punta della penna, senza nome accanto. Sono ventitré in venticinque anni. Ognuno sta vicino alla riga di una fossa vera, come se Gùndo avesse segnato il vicino di casa. Li riporti fila per fila su un foglio e scegli un posto lontano da tutti. Gùndo guarda il foglio, poi lo brucia sulla candela e ti dice che il posto va bene.
+
+**`le-chiavi-del-cimitero__2-fallimento`** · esito «Le righe minute» · opzione «Studiare il registro di Gundo» · fallimento · 338 caratteri
+
+> Sfogli il registro alla luce della candela finché le righe minute ti ballano davanti agli occhi. Scegli un posto di cui il registro non parla. Gùndo guarda il posto e scuote la testa. “Dove il registro non dice niente è proprio dove guardare” dice, e ti riprende il libro dalle mani. Ti riaccompagna al cancello e le chiavi restano a lui.
+
+**`le-chiavi-del-cimitero__3-successo`** · esito «Le tirate d'orecchie» · opzione «Chiedere al garzone dove il vecchio non lo faceva scavare» · successo · 424 caratteri
+
+> Il garzone si gratta la testa sotto il berretto e poi si mette a contare sulle dita. Ti porta in giro per il cimitero e ti fa vedere i posti dove il vecchio lo prendeva per l'orecchio e lo tirava via, senza mai spiegargli niente, e sono molti più di quanti ne avresti trovati da solo. Quando torni da Gùndo con l'elenco lui lo ascolta tutto e corregge un posto solo. “Il ragazzo ha buona memoria, quando gli fa comodo” dice.
+
+**`le-chiavi-del-cimitero__3-fallimento`** · esito «Il berretto» · opzione «Chiedere al garzone dove il vecchio non lo faceva scavare» · fallimento · 318 caratteri
+
+> Il garzone si gratta la testa sotto il berretto e dice che il vecchio lo tirava per l'orecchio dappertutto, e che quindi dappertutto è un posto dove non si scava. Ci ride sopra, poi tossisce. Torni da Gùndo con le mani vuote, e lui ti dice che per stanotte il posto lo sceglie lui, e le chiavi restano nella sua tasca.
+
+**`le-chiavi-del-cimitero__4-successo`** · esito «Cento colpi» · opzione «Sondare il terreno con il ferro» · successo · 455 caratteri
+
+> Pianti la sbarra in terra e la tiri fuori, e poi la pianti un passo più in là, per tutta la fila nuova, finché le spalle ti bruciano. Dove la terra è vergine la sbarra si ferma a un palmo, mentre nei punti già scavati scende fino al pugno. Segni ogni punto con un sasso, e all'alba la fila è piena di sassi tranne in un rettangolo vicino al cipresso storto. Gùndo guarda i sassi e ti dice che ci hai messo una notte a fare quello che lui fa con gli occhi.
+
+**`le-chiavi-del-cimitero__4-fallimento`** · esito «Le spalle» · opzione «Sondare il terreno con il ferro» · fallimento · 323 caratteri
+
+> Pianti la sbarra in terra e la tiri fuori per metà della notte, e poi le spalle non ti rispondono più. La sbarra si incastra fra due radici e ci perdi un'ora a liberarla. All'alba hai segnato mezza fila, e la lavandaia arriva fra poche ore. Gùndo sceglie il posto da solo in un momento, e le chiavi restano nella sua tasca.
+
+**`le-chiavi-del-cimitero__5-esito`** · esito «La pala in terra» · opzione «Farti accompagnare da Gundo per tutta la notte» · esito · 369 caratteri
+
+> Gùndo cammina piano davanti a te fra le tombe, e ogni tanto si ferma a battere la pala in terra. “Qui no” dice, e qualche passo più in là batte di nuovo e dice “qui sì”. Non ti dice chi c'è sotto, e tu non lo chiedi per tutta la notte. All'alba ti fermi tu, vicino al cipresso più storto, e batti in terra con il tacco. Gùndo guarda prima il punto e poi te, e annuisce.
+
+**`le-chiavi-del-cimitero__6-esito`** · esito «Puntuale» · opzione «Farti accompagnare da Gundo per tutta la notte» · esito · 427 caratteri
+
+> Gùndo cammina davanti a te fra le tombe e ogni tanto batte la pala in terra, e dice qui sì o qui no. Lungo il muro di levante si ferma davanti alla tavoletta di Mìrko Vèsh e la raddrizza con due dita. “I funerali dei suoi uomini li ha sempre pagati in contanti e in anticipo” dice. “Puntuale.” All'alba ti fermi tu, vicino al cipresso più storto, e batti in terra con il tacco. Gùndo guarda prima il punto e poi te, e annuisce.
+
+**`le-chiavi-del-cimitero__7-esito`** · esito «Nella tasca della tunica» · opzione «Dirgli che non è il momento» · esito · 311 caratteri
+
+> Gli dici che per adesso preferisci aiutare il ragazzo senza le chiavi in tasca. Gùndo si rimette l'anello nella tasca della tunica e torna verso la cappella, zoppicando. Sulla soglia si ferma e si volta. “La lavandaia la seppellisco io” dice. “La prossima la scegli tu, quando vuoi.” La grata si richiude piano.
+
+### Il mazzo di chiavi
+
+**`il-mazzo-di-chiavi`** · scena · 982 caratteri
+
+> Il cielo sopra il muro di levante comincia a schiarire quando Gùndo ti porta alla porta del capanno degli attrezzi. Il garzone ha già cominciato a scavare nel posto che hai scelto, e la terra che viene su è gialla e pulita, senza niente dentro. Gùndo resta nel capanno dietro la porta socchiusa, dove non lo vedono né il ragazzo né chi passa per la strada.
+>
+> Ti mette l'anello di ferro nel palmo e te lo chiude dentro la mano con le sue dita lunghe e fredde. “Il cancello si apre alla prima campana e si chiude al tramonto” dice alle chiavi. “Le righe del registro le firmi con le tue iniziali scritte piccole, e di notte io ci ripasso sopra. Se un prete chiede del becchino gli dici che il registro è in ordine, ed è la verità. Dove non si scava adesso lo sai.” Si tocca l'amuleto dell'Albero. “Se le chiavi non le vuoi, le appendo al chiodo nella cappella, e la prova te la faccio rifare da capo quando le vorrai.”
+>
+> Fuori, dalla fossa, il garzone si toglie il berretto e ti saluta.
+
+**`il-mazzo-di-chiavi__1-esito`** · esito «L'olio sulle dita» · opzione «Prendere le chiavi» · esito · 476 caratteri
+
+> Chiudi la mano sulle chiavi. Quella del cancello è lunga quanto il palmo, e quella del capanno ti lascia l'olio sulle dita. Gùndo apre il registro sul barile della calce e scrive in fondo alla pagina il tuo nome con la sua grafia minuta, e accanto custode di giorno. Poi ti stringe la mano una volta, sempre senza guardarti. Quando ti volti per ringraziarlo è già uscito dal retro del capanno, e lo vedi sparire fra i cipressi, curvo sulla pala, verso la cappella dei Vardesi.
+
+**`il-mazzo-di-chiavi__2-esito`** · esito «Il chiodo nella cappella» · opzione «Rendergli le chiavi» · esito · 343 caratteri
+
+> Gli dici che per adesso preferisci restare uno che dà una mano, e gli rendi l'anello. Gùndo lo soppesa sul palmo come se contasse le chiavi, poi se lo mette nella tasca della tunica. “Al chiodo nella cappella” dice. “Quando le vuoi, la prova la rifacciamo.” Dalla fossa il garzone ti guarda, e si rimette il berretto più lentamente del solito.
+
+### La storia di Brunella
+
+**`la-storia-di-brunella`** · scena · 1141 caratteri
+
+> Dopo la chiusura la cucina del Grifone è l'unica stanza accesa. Brunèlla ha spento i fornelli tranne uno, e sul tavolo infarinato lavora una pasta gialla che profuma di burro e di scorza d'arancia. Ha le maniche rimboccate fino ai gomiti e la farina anche sui gomiti, e per arrivare al tavolo sta in piedi su una cassetta rovesciata. Quando ti affacci alla porta non alza la testa. Con il mento ti indica il catino per le mani, e poi una seconda ciotola di pasta.
+>
+> “Il pane dolce del Maniero” dice. “Lo faccio di notte, perché di giorno qui non si respira. La ricetta era della vecchia cuoca dei Tarvèlin, e la vecchia cuoca adesso sono io.” Ride piano da sola e ti mostra come si piega la pasta su se stessa, con il palmo, tenendo le dita alzate.
+>
+> Sulla mensola sopra il fornello, fra i barattoli delle spezie, c'è un cucchiaio di legno con il manico consumato e una tacca incisa vicino alla punta. In cucina è l'unico attrezzo che Brunèlla non usa mai, e l'unico che non ha un velo di farina. [whispers] Stasera, per una volta, è lei che ha voglia di parlare. Ti lavi le mani nel catino e tiri a te la ciotola, e la pasta è ancora tiepida.
+
+**`la-storia-di-brunella__1-esito`** · esito «La sguattera» · opzione «Chiederle come è arrivata al Maniero» · esito · 532 caratteri
+
+> “Avevo quindici anni e venivo da una fattoria sul Torvèssa. Eravamo nove fratelli e avevamo una gallina sola” dice Brunèlla, piegando la pasta. Al Maniero l'avevano presa come sguattera, perché sotto i fornelli le cuoche grandi non arrivavano a pulire, mentre lei ci entrava intera. Ci è rimasta più di quarant'anni, fino a diventare la cuoca. “Il signor Òndrel voleva la cena alle sette, e alle sette la cena c'era. In tutti quegli anni non mi ha mai detto se era buona.” Lo dice senza rancore, come si dice il prezzo della farina.
+
+**`la-storia-di-brunella__2-esito`** · esito «Sotto il tavolo» · opzione «Chiederle di Liaren bambina» · esito · 644 caratteri
+
+> Brunèlla sorride alla pasta e la piega un'altra volta prima di rispondere. Da bambina Liàren scappava dalle lezioni di galateo e veniva a nascondersi sotto il tavolo grande della cucina, con le ginocchia contro il mento e un libro preso nella biblioteca del padre. La maestra la cercava per tutto il Maniero, e Brunèlla le diceva di no con il mestolo in mano, senza voltarsi dai fornelli. A otto anni Liàren le ha chiesto di insegnarle a tagliare le cipolle, e lei le ha spostato le dita sul coltello una per una, nocche in fuori. “Adesso le taglia più in fretta di me, e ci piange anche meno” dice Brunèlla, soffiando via la farina dal tavolo.
+
+**`la-storia-di-brunella__3-esito`** · esito «Di Liaren» · opzione «Chiederle della notte in cui morì Maerith» · esito · 463 caratteri
+
+> Brunèlla smette di impastare e si pulisce le mani sul grembiule, piano, finché fra le dita non resta più farina. Per un po' guarda il cucchiaio di legno sulla mensola. “Questa no. È di Liàren, e se un giorno vorrà raccontarla la racconterà lei. Io starò zitta anche quel giorno” dice alla fine, con la voce di sempre. Poi riprende la pasta dal punto in cui l'aveva lasciata, e per un pezzo in cucina si sente soltanto il tavolo che scricchiola sotto i suoi palmi.
+
+**`la-storia-di-brunella__4-esito`** · esito «La porta della cucina» · opzione «Chiederle perché ha seguito Liaren» · esito · 610 caratteri
+
+> Brunèlla mette le due paste a lievitare sotto un panno, e solo allora risponde. Liàren se n'era andata dal Maniero da anni quando una sera si è presentata alla porta di servizio della cucina con i capelli corti e un tatuaggio nuovo sul braccio, e le ha detto che si era comprata una locanda e che la zuppa non la sapeva fare. “Ho preso i miei coltelli e quel cucchiaio lì” dice Brunèlla, indicando la mensola. “Il resto l'ho lasciato sul tavolo con il grembiule. Da quella sera al Maniero il pane dolce non l'ha più fatto nessuno.” Lo dice con una punta di soddisfazione, e sistema meglio il panno sulle paste.
+
+**`la-storia-di-brunella__5-successo`** · esito «Il cucchiaio della vecchia cuoca» · opzione «Impastare come le cuoche del Maniero» · successo · 483 caratteri
+
+> Pieghi la pasta come ti ha mostrato, con il palmo, finché le braccia ti bruciano e l'impasto diventa liscio e tiepido come una guancia. Brunèlla lo tasta con due dita e annuisce. Poi prende dalla mensola il cucchiaio di legno e ci gira l'impasto una volta sola, per buona sorte. Ti racconta che era della cuoca che le ha insegnato il mestiere. La tacca vicino alla punta l'ha incisa lei la sera in cui ha seguito Liàren, per ricordarsi la data. “Domattina il primo pezzo è tuo” dice.
+
+**`la-storia-di-brunella__5-fallimento`** · esito «Le pieghe svelte» · opzione «Impastare come le cuoche del Maniero» · fallimento · 397 caratteri
+
+> Pieghi la pasta come ti ha mostrato, finché le braccia ti si stancano e cominci a schiacciarla con le dita. Brunèlla ti guarda lavorare per un po' senza dire niente, poi ti toglie la ciotola e la rimette a posto con quattro pieghe svelte. “Se la tratti male, si stanca prima la pasta di te” dice. Ti manda a letto con una fetta di quello di ieri, e la storia del Maniero per stasera resta dov'era.
+
+### L'insegna del Grifone
+
+**`l-insegna-del-grifone`** · scena · 1454 caratteri
+
+> La mattina il Grifone è vuoto e odora di sapone, e la luce entra a strisce fra le assi inchiodate alle finestre, dove in queste settimane i clienti hanno inciso nomi e date con la punta dei coltelli. In mezzo alla sala, su due cavalletti, c'è l'insegna che fino a ieri stava sopra la porta, una tavola di quercia lunga quanto un uomo con un grifone nero su un fondo che un tempo era rosso. Le fiamme della razzia le hanno mangiato un angolo, e della scritta resta Locanda del Grifone di F.
+>
+> Liàren è seduta a cavalcioni di una panca, con un barattolo di vernice aperto accanto e il pennello asciutto in mano. Alle sue spalle, sul bancone, c'è una pila di lettere con la cera verde della Casa dei Nodi, tutte chiuse. “La Gilda scrive ogni mattina” dice senza voltarsi. “Vogliono che firmi e riaccenda la fornace, perché senza il lìssan di mio padre mezza Kir-Àzel sta ferma. Mi offrono un amministratore e la sedia che lui aveva nel consiglio della Gilda.” Indica la pila con il pennello. “Con quello che rende l'Acciaieria in un mese, questa la rifaccio di pietra, con i vetri alle finestre e un grifone dorato sopra la porta.”
+>
+> [whispers] Vogliono che riaccenda la fornace davanti alla quale hanno messo in posa suo padre. La mascella ti si è serrata da sola. Dalla porta della cucina Brunèlla guarda la vernice con le labbra serrate, e torna dentro. “Tu che cosa terresti?” chiede Liàren, e per la prima volta da quando sei entrato si gira a guardarti.
+
+**`l-insegna-del-grifone__1-esito`** · esito «Il registro della paga» · opzione «Chiederle che cosa ne pensa davvero dell'Acciaieria» · esito · 481 caratteri
+
+> “Penso che là dentro sono morti otto operai, e che la Gilda me ne scrive come di un guasto alla fornace” dice Liàren. Con la prima lettera le hanno mandato il registro della paga, con i nomi degli operai in colonna, e lei ci ha riconosciuto due famiglie della Città Bassa che vengono a bere qui il sabato. “Se firmo, domani la riaccendono con gente nuova, e il primo lingotto esce con il mio nome sopra.” Gira il pennello fra le dita, e la vernice secca si sbriciola sul pavimento.
+
+**`l-insegna-del-grifone__2-esito`** · esito «Nemmeno un chiodo» · opzione «Dirle che potrebbe prendere i soldi e basta» · esito · 501 caratteri
+
+> Liàren ti ascolta fino in fondo, e intanto il pennello le gocciola sul ginocchio senza che se ne accorga. “Quei soldi li ha fatti un uomo che con l'aiuto di Vèsh ha tolto di mezzo mia madre. Con i suoi soldi non ci compro nemmeno un chiodo per questa tavola, e la Gilda può andare a farsi friggere con la sua sedia” dice a voce piatta. Si pulisce il ginocchio con il pollice, e la vernice si allarga. “Però grazie di avermelo detto in faccia. Alle spalle me lo dicono tutti” aggiunge, e quasi sorride.
+
+**`l-insegna-del-grifone__3-successo`** · esito «L'angolo bruciato» · opzione «Ridipingere l'insegna con lei» · successo · 515 caratteri
+
+> Liàren ripassa il fondo rosso e tu il grifone, penna per penna, con il pennello più piccolo che trovate in cucina. Le lettere della scritta che mancano non le rifate, e lasciate com'è anche l'angolo bruciato. Liàren ci passa sopra una mano di vernice chiara perché il carbone non si sbricioli più. A mezzogiorno due Raschiatori vi aiutano a riappenderla sopra la porta. Liàren la guarda dal ponte a braccia conserte. Quando rientra prende la pila di lettere della Gilda e la porta in cucina, dove il fuoco è acceso.
+
+**`l-insegna-del-grifone__3-fallimento`** · esito «La coda» · opzione «Ridipingere l'insegna con lei» · fallimento · 372 caratteri
+
+> Cominci dal grifone, e alla terza penna il pennello ti scappa e lascia sul fondo rosso una riga nera lunga una spanna. Provi a coprirla e la allarghi. Liàren guarda la macchia a lungo con la testa piegata, e dice che adesso il grifone ha una coda che prima non aveva. Ride, però per oggi mette giù il pennello, e l'insegna resta sui cavalletti ad asciugare, coda compresa.
+
+**`l-insegna-del-grifone__4-successo`** · esito «Il nome intero» · opzione «Aiutarla a rispondere alla Casa dei Nodi» · successo · 530 caratteri
+
+> Scrivete la risposta al bancone, due pagine, con Liàren che detta e tu che togli le parolacce. Nella lettera c'è scritto che l'erede dei Tarvèlin non firmerà, e che la Gilda può trattare con lei qualunque altra cosa purché non riguardi la fornace. Ci mettete la gratitudine che serve a una Gilda che ha bisogno di sentirsi ringraziata, e nemmeno un grammo di più. Liàren firma con il suo nome intero, cosa che non faceva da anni. Poi manda la lettera alla Casa dei Nodi con un ragazzino e si mette a ridipingere l'insegna da sola.
+
+**`l-insegna-del-grifone__4-fallimento`** · esito «Cortese e scortese» · opzione «Aiutarla a rispondere alla Casa dei Nodi» · fallimento · 467 caratteri
+
+> Scrivete la risposta al bancone, con Liàren che detta e tu che provi a togliere le parolacce. Ogni volta che ne togli una lei ne aggiunge due, e alla fine la lettera è così cortese da sembrare una presa in giro e così scortese da sembrare una dichiarazione di guerra. Liàren la rilegge ad alta voce e ride fino a tenersi il fianco. Poi la strappa in quattro e la butta nel camino, insieme alla lettera della Gilda arrivata stamattina, e dice che per oggi può bastare.
+
+**`l-insegna-del-grifone__5-esito`** · esito «I nomi sulle assi» · opzione «Dirle di tenere tutto com'è» · esito · 523 caratteri
+
+> Le dici che l'insegna bruciata racconta la notte della razzia meglio di qualunque grifone dorato, e che le assi incise sono le finestre più care di Kir-Àzel. Liàren ci pensa con il pennello fra i denti, poi va alla finestra e legge i nomi uno per uno, muovendo le labbra. Ce n'è uno di un Raschiatore che dall'ultimo turno non è tornato. Rimette il coperchio sul barattolo, e nel pomeriggio l'insegna torna sopra la porta con l'angolo bruciato. La sera Brunèlla accende il camino con le lettere della Gilda, una alla volta.
+
+### Una chiave del Grifone
+
+**`una-chiave-del-grifone`** · scena · 1215 caratteri
+
+> Dopo l'ultima campana Liàren appende il samisen al chiodo dietro il bancone e non torna a sedersi. Brunèlla è già salita a dormire, e in sala restano le lanterne accese e un ultimo Raschiatore addormentato con la guancia sul tavolo, accanto a un boccale vuoto.
+>
+> Dalla tasca Liàren tira fuori una chiave di ferro lunga quanto un dito, con un nastro azzurro sbiadito legato all'anello, e la posa sul bancone fra voi due. “Le chiavi del Grifone sono tre. Una è mia e una è di Brunèlla” dice. “Questa l'ho fatta fare il giorno che ho comprato la locanda, per mio fratello, così la sera poteva rientrare senza bussare.” Passa il pollice sul nastro. “È rimasta su un chiodo in cucina per sei anni, e Brunèlla la spolverava il sabato senza dirmi niente. A lui adesso non serve.”
+>
+> [whispers] Sei anni su un chiodo, e adesso la mette davanti a me. Le dita ti restano ferme sul legno, lontane dalla chiave.
+>
+> Liàren indica il Raschiatore addormentato con il mento. “Qui la regola è che chi ha la chiave chiude la sala, e stasera la chiudi tu” dice. “Lui si chiama Orso. Quando dorme così non lo sveglia neanche un ponte che crolla, e gli altri ci hanno sempre rinunciato.” Si appoggia al bancone a braccia conserte, e aspetta.
+
+**`una-chiave-del-grifone__1-esito`** · esito «La prima faccia» · opzione «Chiederle perché proprio tu» · esito · 450 caratteri
+
+> “Perché quando mi hai tirata fuori dall'Acciaieria la prima faccia che ho visto era la tua, e io le facce me le ricordo male, a differenza di Brunèlla” dice Liàren. “E perché Brunèlla ha detto di sì prima che finissi la domanda.” Si stringe nelle spalle, e il fianco le tira un poco. “In questa città ho un padre morto e un fratello che è meglio non nominare. Mi serve una locanda piena di gente, e qualcuno che la chiuda quando io non ce la faccio.”
+
+**`una-chiave-del-grifone__2-successo`** · esito «La canzone a metà» · opzione «Svegliarlo con le buone» · successo · 376 caratteri
+
+> Ti siedi accanto a Orso e aspetti che il respiro gli cambi, poi gli parli piano del vento sul ponte e della zuppa di domani, finché apre un occhio. Ti chiede se è già mattina. Gli dici che non lo è, e che il suo letto è più comodo del tavolo. Si alza da solo, ti dà sulla spalla una pacca che ti lascia il segno ed esce cantando sottovoce una canzone che si interrompe a metà.
+
+**`una-chiave-del-grifone__2-fallimento`** · esito «Il caposquadra» · opzione «Svegliarlo con le buone» · fallimento · 337 caratteri
+
+> Gli posi una mano sulla spalla e lo chiami per nome. Orso si sveglia di colpo, ti scambia per il suo caposquadra e ti giura che il turno di domani lo fa lui, poi si riaddormenta sull'ultima parola. Dal bancone Liàren ride senza fare rumore. Ti dice che la sala si chiude anche domani sera, e che con ogni probabilità Orso sarà ancora lì.
+
+**`una-chiave-del-grifone__3-successo`** · esito «La baracca sul margine» · opzione «Portarlo a casa di peso» · successo · 349 caratteri
+
+> Ti carichi un braccio di Orso sulle spalle e lo tiri su. Pesa come una botte piena, e a metà sala si sveglia abbastanza da aiutarti con le gambe. Lo porti fino alla sua baracca sul margine dei Ponti, che ti indica a gesti, e lo lasci seduto sulla soglia con la porta aperta e la chiave in mano. Quando torni Liàren ha già spento metà delle lanterne.
+
+**`una-chiave-del-grifone__3-fallimento`** · esito «Sotto il tavolo» · opzione «Portarlo a casa di peso» · fallimento · 333 caratteri
+
+> Ti carichi un braccio di Orso sulle spalle e lo tiri su. Pesa come una botte piena, e a metà sala ti cedono le gambe e finite tutti e due sotto un tavolo, con Orso che continua a dormire. Liàren vi guarda da sopra il bancone. Dice che per stasera Orso dorme lì sotto con una coperta addosso, e che la sala la chiudete un'altra volta.
+
+**`una-chiave-del-grifone__4-successo`** · esito «L'ultimo verso» · opzione «Svegliarlo con la canzone della buonanotte» · successo · 423 caratteri
+
+> Attacchi a voce bassa la canzone con cui i Raschiatori chiudono le serate, quella della corda che tiene e della moglie che aspetta in cima. Alla seconda strofa Liàren riprende il samisen dal chiodo e ti viene dietro. Al ritornello Orso alza la testa, e l'ultimo verso lo canta con voi a occhi chiusi, stonato come una campana crepata. Poi si alza e vi augura la buonanotte con un inchino, prima di uscire camminando dritto.
+
+**`una-chiave-del-grifone__4-fallimento`** · esito «Un'altra pinta» · opzione «Svegliarlo con la canzone della buonanotte» · fallimento · 344 caratteri
+
+> Attacchi la canzone con cui i Raschiatori chiudono le serate, e alla seconda strofa sbagli le parole e fai sposare la moglie con la corda. Orso si sveglia ridendo così forte che deve tenersi al tavolo, e per festeggiare chiede un'altra pinta. Liàren gliela versa, perché a una risata così non si dice di no, e la sala resta aperta fino a tardi.
+
+**`una-chiave-del-grifone__5-esito`** · esito «L'alba» · opzione «Aspettare che si svegli da solo» · esito · 438 caratteri
+
+> Metti le sedie sui tavoli intorno a Orso senza fare rumore, poi spazzi la sala e ti siedi sul gradino della scala. Liàren sale a dormire dopo un'ora, lasciandoti una lanterna. Orso si sveglia quando dalle assi alle finestre comincia a filtrare la luce grigia. Si guarda intorno, vede la sala in ordine e te seduto sul gradino, e ti chiede se hai chiuso tu. Gli dici di sì. Lui annuisce come se fosse la cosa più normale del mondo ed esce.
+
+### La chiave sul bancone
+
+**`la-chiave-sul-bancone`** · scena · 825 caratteri
+
+> Quando la sala è vuota Liàren chiude la porta d'ingresso con un solo giro di chiave e la sfila dalla serratura. Poi prende dal bancone quella con il nastro azzurro e te la mette sul palmo, chiudendoti le dita sopra con le sue, che hanno i polpastrelli duri delle corde.
+>
+> “Si entra dal retro, come quelli di casa” dice. “La branda al piano di sopra non la paghi più. Se di notte senti rumore in sala non scendere a guardare, perché sono io che non dormo.” Sale due gradini e si ferma. “Il nastro toglilo, se vuoi. Era di quando lui aveva dieci anni.”
+>
+> Sul bancone, sotto il mestolo appeso, Brunèlla ha lasciato una scodella coperta con un piatto e un cucchiaio accanto. [whispers] Brunèlla sapeva già come sarebbe finita la serata. Il samisen dondola appena sul suo chiodo, per lo spiffero che passa dalle finestre inchiodate.
+
+**`la-chiave-sul-bancone__1-esito`** · esito «Quelli di casa» · opzione «Tenere la chiave» · esito · 347 caratteri
+
+> Infili la chiave con tutto il nastro nella tasca interna della giubba, e la senti contro il petto per tutta la scodella di zuppa, che è fredda ed è buonissima. Prima di salire spegni l'ultima lanterna, e al buio la sala sembra più grande. Dal piano di sopra arriva la voce di Liàren che canticchia piano, e smette quando arrivi in cima alle scale.
+
+**`la-chiave-sul-bancone__2-esito`** · esito «Il chiodo in cucina» · opzione «Rifiutare con garbo» · esito · 397 caratteri
+
+> Le dici che quella chiave è di qualcun altro, e che non te la senti di portarla tu. Liàren la guarda sul tuo palmo per un momento. Poi la riprende senza dire niente e va a riappenderla al chiodo della cucina, accanto ai mestoli. “Resta lì, allora. Brunèlla la spolvera il sabato, e io non le dico niente” dice dalla porta. Ti spinge davanti la scodella, e la zuppa è fredda e buonissima lo stesso.
+
+### La ronda di notte
+
+**`la-ronda-di-notte`** · scena · 1202 caratteri
+
+> Il furiere ti aspetta alla porta del magazzino con il registro aperto, e prima ancora di salutarti ti mostra una colonna di numeri. Sono i cristalli da lanterna consegnati alla ronda di notte uno per lanterna, e accanto ci sono quelli resi esauriti. Da due mesi ne manca uno ogni giovedì, e il sergente della ronda scrive esaurito con la stessa grafia tonda.
+>
+> “Un cristallo da lanterna costa quattro monete” dice il furiere, e batte il dito sulla colonna. “Otto giovedì fanno trentadue monete, e la Caserma non le trova per terra. Lo sceriffo dice che la cosa la guardi tu, perché i miei sergenti conoscono me e te no.” Ti porge la ricevuta per una lanterna, e oggi è giovedì.
+>
+> Il sergente della ronda di notte si chiama Livio Mastrèl. È un uomo magro con i baffi grigi e vent'anni di servizio, e tiene sempre fra i denti una radice di liquirizia, che offre a chiunque, detenuti compresi. Stasera esce con quattro miliziani e due reclute dei Raschiatori per il giro dei Ponti. Ti fa posto nella fila senza domande e ti allunga un pezzo di liquirizia.
+>
+> [whispers] Il furiere quelle trentadue monete le ha contate anche in sogno. Prendi la liquirizia, e intanto conti le lanterne della fila, una per una.
+
+**`la-ronda-di-notte__1-successo`** · esito «Una lanterna in più» · opzione «Contare le lanterne lungo il giro» · successo · 392 caratteri
+
+> Conti le lanterne della ronda a ogni ponte. Sul Ponte dei Morti, per qualche minuto, la fila ne ha una di meno, e una delle due reclute dei Raschiatori è rimasta indietro, china sul parapetto fra le lanterne dei compagni perduti. Quando vi raggiunge la sua lanterna fa una luce gialla e fioca, e il sergente non le chiede niente. Tu tieni la bocca chiusa e continui a contare fino al rientro.
+
+**`la-ronda-di-notte__1-fallimento`** · esito «Le lanterne del ponte» · opzione «Contare le lanterne lungo il giro» · fallimento · 313 caratteri
+
+> Conti le lanterne a ogni ponte, ma sul Ponte dei Morti i Raschiatori ne hanno appese a centinaia sopra il vuoto, e lì perdi il conto. Al rientro il sergente scrive esaurito sul registro con la sua grafia tonda, e tu non sai dire in quale punto del giro sia successo. Mastrèl ti offre un altro pezzo di liquirizia.
+
+**`la-ronda-di-notte__2-successo`** · esito «Vedi tu» · opzione «Fare parlare Mastrel» · successo · 429 caratteri
+
+> Gli chiedi di sua moglie, e lui te ne parla fino al secondo ponte. Al terzo sei tu a dirgli che il furiere conta i giovedì. Mastrèl mastica la liquirizia a lungo. “Il giovedì è il giorno che suo padre è sceso nel Labirinto, tre anni fa” dice alla fine, e con il mento indica la recluta più giovane. “Io sul registro scrivo esaurito, e vedi tu se è una bugia.” Sul Ponte dei Morti rallenta, e lascia che la recluta resti indietro.
+
+**`la-ronda-di-notte__2-fallimento`** · esito «Come gli uomini» · opzione «Fare parlare Mastrel» · fallimento · 293 caratteri
+
+> Mastrèl ti ascolta masticando e ti risponde che i cristalli si esauriscono come gli uomini, e che lui ne ha visti esaurire parecchi. Poi per tutto il resto del giro ti parla di sua moglie e delle verze che coltiva sul balcone. Al rientro scrive esaurito sul registro, e ti offre la liquirizia.
+
+**`la-ronda-di-notte__3-successo`** · esito «Il parapetto» · opzione «Restare in coda alla fila» · successo · 405 caratteri
+
+> Ti lasci scivolare in fondo alla fila e a ogni ponte rallenti un poco. Sul Ponte dei Morti la recluta più giovane si ferma al parapetto senza una parola, e tu ti schiacci dietro una trave. La vedi aprire una lanterna dei Raschiatori, appesa sopra il vuoto, e infilarci dentro il cristallo della sua. Poi richiude la porticina con due dita, piano, come si chiude la porta di una stanza dove dorme qualcuno.
+
+**`la-ronda-di-notte__3-fallimento`** · esito «La trave» · opzione «Restare in coda alla fila» · fallimento · 317 caratteri
+
+> Ti lasci scivolare in fondo alla fila, e sul Ponte dei Morti inciampi in una trave nella nebbia. La recluta più giovane si volta di scatto e torna di corsa al suo posto nella fila. Per il resto del giro non si stacca da Mastrèl nemmeno di un passo, e al rientro il registro dice esaurito come tutti gli altri giovedì.
+
+**`la-ronda-di-notte__4-esito`** · esito «Sette notti» · opzione «Fare la ronda per tutta la settimana» · esito · 376 caratteri
+
+> Fai la ronda per sette notti di fila, finché il giro dei Ponti lo sogni anche di giorno. Il giovedì successivo, sul Ponte dei Morti, la recluta più giovane resta indietro come se niente fosse, e tu sei abbastanza stanco da restare indietro con lei senza che nessuno ci faccia caso. La vedi aprire una lanterna appesa al parapetto e infilarci dentro il cristallo della Caserma.
+
+### La lanterna sul Ponte dei Morti
+
+**`la-lanterna-del-ponte`** · scena · 1122 caratteri
+
+> Sul Ponte dei Morti la nebbia sale dalla Cicatrice fino alle ginocchia, e sopra il vuoto dondolano le lanterne dei Raschiatori, ognuna con il suo piccolo cristallo acceso per qualcuno rimasto nel Labirinto. La recluta si chiama Lìnna Vàro. Ha diciassette anni e i polsi ancora troppo sottili per la mazza dei Raschiatori, e sta chiudendo la porticina di una lanterna di ferro battuto dove il cristallo della Caserma brilla più bianco di tutti gli altri. Sul vetro qualcuno ha inciso Ànsel, e sotto, più piccolo, giovedì.
+>
+> Quando ti vede non scappa. Si mette sull'attenti come le ha insegnato il sergente d'addestramento, con la sua lanterna in mano e il cristallo vecchio dentro, quasi esaurito.
+>
+> “Mio padre è sceso un giovedì, tre anni fa” dice. “Al Grifone mi hanno detto che finché la lanterna resta accesa uno può ancora risalire. Lo so che è una storia da bambini, però la paga di una recluta è di due monete al giorno, e un cristallo buono ne costa quattro.”
+>
+> Mastrèl arriva dal fondo del ponte e guarda prima te e poi la lanterna. Per la prima volta da quando lo conosci si toglie la liquirizia di bocca, e aspetta.
+
+**`la-lanterna-del-ponte__1-esito`** · esito «Una voce nuova» · opzione «Riferire tutto allo sceriffo» · esito · 473 caratteri
+
+> Il mattino dopo racconti tutto a Gàldrik, compreso il nome inciso sul vetro. Lo sceriffo ti ascolta con i pollici nella cintura e muove le labbra su giovedì. Poi chiama il furiere e gli fa aprire una voce nuova sul registro, Ponte dei Morti, un cristallo al giovedì, a carico della cassa delle spese di servizio. “Lìnna Vàro resta recluta” dice, “e il cristallo lo porta Mastrèl, che firma la ricevuta.” Il furiere scrive senza alzare la testa, e per una volta non sospira.
+
+**`la-lanterna-del-ponte__2-esito`** · esito «La veglia» · opzione «Portarla da Dragna» · esito · 469 caratteri
+
+> La sera dopo accompagni Lìnna al Grifone di Ferro, al tavolo di Dràgna Gro-Màlog, e lasci che racconti lei. Dràgna ascolta davanti al suo boccale, poi volta i fogli dei turni inumidendosi il pollice e scrive il nome di Lìnna sotto la veglia del Ponte dei Morti, quella dei due vecchi con la borraccia. “La veglia ha i suoi cristalli, e li paghiamo noi” dice con la voce roca. “La Caserma si tenga i suoi.” Lìnna arrossisce fino alle orecchie e non riesce a ringraziare.
+
+**`la-lanterna-del-ponte__3-successo`** · esito «La partita difettosa» · opzione «Coprirla con il furiere» · successo · 386 caratteri
+
+> Riporti al furiere un cristallo esaurito e gli fai notare la venatura opaca, che hanno quasi tutti i cristalli della stessa partita. Lui lo guarda contro la luce e si convince che il fornitore lo derubi da mesi, e da quel giorno conta i cristalli due volte all'arrivo invece che alla partenza. Mastrèl, passandoti accanto nel cortile, ti infila in tasca una radice di liquirizia intera.
+
+**`la-lanterna-del-ponte__3-fallimento`** · esito «La venatura» · opzione «Coprirla con il furiere» · fallimento · 371 caratteri
+
+> Il furiere guarda la venatura opaca contro la luce, poi guarda te. Ti dice che quella venatura è dell'ultima partita, e che i cristalli spariti sono di quella prima. Alla fine gli racconti la verità, e lui la scrive sul registro con la sua grafia piccola. Due giorni dopo sulla colonna dei giovedì compare la voce Ponte dei Morti, insieme a una riga di rimprovero per te.
+
+**`la-lanterna-del-ponte__4-esito`** · esito «Il conto pari» · opzione «Pagare tu i cristalli» · esito · 376 caratteri
+
+> Il mattino dopo conti trentadue monete sul leggio del furiere, che le impila per quattro e poi ti fa firmare una ricevuta alla voce cristalli, rimborso. Non ti chiede per conto di chi. Lìnna lo viene a sapere da Mastrèl, e per una settimana ti saluta nel cortile portandosi la mano alla fronte, come si fa con i sergenti. Il giovedì dopo la lanterna sul ponte è ancora accesa.
+
+### I trenta di Ghoran
+
+**`i-trenta-di-ghoran`** · scena · 1379 caratteri
+
+> Stamattina nel cortile della Caserma non si addestra nessuno. I mercenari di Gòran stanno sotto il portico tutti insieme, con le armi addosso e le facce cotte dal sole, e dall'altra parte del cortile una dozzina di miliziani tiene il mantello scarlatto aperto sull'elsa. In mezzo c'è il furiere con il registro stretto al petto, e guarda ora una parte ora l'altra senza decidersi.
+>
+> Il motivo è chiuso in una cella del piano interrato. Si chiama Màrdek, è un ragazzo dei clan con le orecchie piene di anelli di rame, e ieri al Mercato dei Nodi ha preso un prosciutto da un banco lasciando al posto delle monete un gettone d'argilla con un segno inciso. Il mercante ha chiamato la Guardia, e la Guardia l'ha portato giù.
+>
+> Per i mercenari parla Àgra, una donna con tre righe di argilla secca sulla faccia che mastica resina dalla mattina alla sera. “A Gòran il gettone vale come la moneta, eh” dice, abbastanza forte da farsi sentire fino alle finestre dell'ufficio. “Il clan paga quando torna. Qui invece la paga non la vediamo da due settimane, e per un prosciutto ci chiudono in cella, eh.” Sputa la resina sulla ghiaia.
+>
+> Lo sceriffo è in Municipio fino a sera. Il furiere ti guarda come si guarda una scala a pioli durante un incendio. [whispers] Trenta lance da una parte e dodici mantelli dall'altra, e in mezzo un prosciutto. Senti le spalle che ti salgono verso le orecchie.
+
+**`i-trenta-di-ghoran__1-successo`** · esito «Il segno del clan» · opzione «Esaminare il gettone» · successo · 521 caratteri
+
+> Il segno inciso sul gettone è una mano aperta con tre dita. Sfogli il registro del furiere fino all'ingaggio dei mercenari, che non sapevano scrivere e hanno firmato con il segno del loro clan, e la mano con tre dita la trovi cinque volte, Màrdek compreso. In fondo alla pagina il furiere stesso ha scritto che la Caserma risponde dei debiti contratti in servizio. Glielo leggi ad alta voce. Il furiere paga il prosciutto e ne scala il prezzo dalla paga di Màrdek, che esce dalla cella. Àgra ride e ti batte sulla spalla.
+
+**`i-trenta-di-ghoran__1-fallimento`** · esito «Uno sgorbio» · opzione «Esaminare il gettone» · fallimento · 358 caratteri
+
+> Giri il gettone fra le dita e il segno inciso ti sembra uno sgorbio qualsiasi. Lo dici, e sotto il portico qualcuno lo traduce agli altri nella lingua dei clan. Àgra si riprende il gettone dalla tua mano senza chiedere e se lo infila nello stivale. Per il resto della mattina i mercenari restano sotto il portico, e il furiere non si stacca dal suo registro.
+
+**`i-trenta-di-ghoran__2-successo`** · esito «Il banco del prosciutto» · opzione «Mettere d'accordo Hagra e il sergente» · successo · 443 caratteri
+
+> Porti il sergente e Àgra in mezzo al cortile, lontano dalla loro gente, e proponi la cosa più semplice. Màrdek esce oggi, e per una settimana serve al banco del mercante finché il prosciutto non è pagato. Il sergente ci pensa grattandosi il collo sotto il cappuccio, e Àgra dice che a Gòran per un prosciutto basta un giorno di lavoro. Vi accordate su tre. Quando i miliziani chiudono i mantelli, sotto il portico qualcuno ricomincia a ridere.
+
+**`i-trenta-di-ghoran__2-fallimento`** · esito «Tutti e due contro» · opzione «Mettere d'accordo Hagra e il sergente» · fallimento · 345 caratteri
+
+> Proponi al sergente e a Àgra di dividere la colpa a metà, e per la prima volta in tutta la mattina sono d'accordo, contro di te. Il sergente ti ricorda che la Guardia non tratta con chi ruba, e Àgra gli risponde che lei non tratta con chi non paga. Tornano ciascuno dalla sua parte del cortile, e il furiere stringe il registro un po' più forte.
+
+**`i-trenta-di-ghoran__3-successo`** · esito «La schiena sulla ghiaia» · opzione «Accettare la sfida di Hagra» · successo · 449 caratteri
+
+> Àgra si toglie la cintura con il coltello e la dà a un compagno, e i miliziani si fanno avanti per vedere. Ti gira intorno due volte, poi ti prende alla vita. Ti lasci tirare, poi ruoti sul piede portandola giù con te, e quando la ghiaia smette di scricchiolare lei è sotto, con la schiena per terra e la resina ancora fra i denti. “Eh” dice, e si mette a ridere. Màrdek esce dalla cella prima di mezzogiorno e paga il prosciutto lavorando al banco.
+
+**`i-trenta-di-ghoran__3-fallimento`** · esito «Nel fango di Ghoran» · opzione «Accettare la sfida di Hagra» · fallimento · 352 caratteri
+
+> Àgra ti prende alla vita e tu fai l'errore di spingere. Ti ritrovi con la schiena sulla ghiaia e il cielo che gira sopra il cortile, mentre i mercenari battono le lance per terra. Lei ti aiuta a rialzarti e ti dice che a Gòran adesso il prosciutto sarebbe suo. Qui però siamo a Kir-Àzel, aggiunge mentre si allaccia la cintura, e la cella resta chiusa.
+
+**`i-trenta-di-ghoran__4-esito`** · esito «Il gettone d'argilla» · opzione «Pagare il prosciutto di tasca tua» · esito · 372 caratteri
+
+> Scendi al Mercato dei Nodi con il furiere al seguito e paghi il mercante, che firma una ricevuta per la Caserma. Al ritorno il sergente fa aprire la cella, e Màrdek sale le scale sbattendo gli occhi alla luce, e quando Àgra gli dice chi ha pagato viene da te e ti mette in mano il gettone d'argilla. “Il clan paga quando torna” dice, con l'accento dei clan. “Tienilo, eh.”
+
+**`i-trenta-di-ghoran__5-esito`** · esito «Fino a sera» · opzione «Aspettare lo sceriffo» · esito · 444 caratteri
+
+> Passi la giornata a fare avanti e indietro fra il portico e i mantelli scarlatti con l'acqua e il pane, finché tutti mangiano dalla stessa cesta. Gàldrik rientra al tramonto e capisce tutto dal portone. Ascolta Àgra e poi il sergente, con i pollici nella cintura. “La paga arriva domani dal Consiglio” dice, “e Màrdek lavora al banco finché il prosciutto è pagato.” Poi ti fa un cenno con il mento, che vuol dire che il cortile l'hai tenuto tu.
+
+**`i-trenta-di-ghoran__6-esito`** · esito «Il gradino» · opzione «Aspettare lo sceriffo» · esito · 497 caratteri
+
+> Passi la giornata in mezzo al cortile a fare avanti e indietro con l'acqua e il pane. Gàldrik rientra al tramonto, lento, con una mano sul fianco, e invece di salire nell'ufficio si siede sul gradino del portico, in mezzo ai mercenari che la notte della Pignatta erano con lui. Nessuno alza più la voce. “La paga arriva domani” dice, “e Màrdek lavora al banco finché il prosciutto è pagato.” Poi resta seduto sul gradino anche dopo che se ne sono andati tutti, a guardare il cortile che si svuota.
+
+### La lista dello sceriffo
+
+**`la-lista-dello-sceriffo`** · scena · 1189 caratteri
+
+> Gàldrik ti fa chiamare a sera, quando il cortile è vuoto e il furiere ha già chiuso il magazzino con le sue due mandate. Sul tavolo dell'ufficio c'è una lampada sola, e il calendario appeso alla toppa d'intonaco ha i giorni passati barrati con una riga dritta. Lo sceriffo chiude la porta, ci gira la chiave e resta in piedi.
+>
+> Dalla tasca interna della divisa tira fuori il taccuino, quello che gli hai visto riempire di righe per tutto questo tempo, e lo apre alle ultime pagine. C'è una colonna di nomi, forse una dozzina, ognuno con una data accanto. “Questa lista l'ho cominciata due anni fa” dice. “Sono vice-sceriffi. Nessuno li ha mai visti in divisa, e la paga gliela conto io di persona. Vanno dove la Guardia non può andare senza farsi vedere.”
+>
+> Batte la matita corta sullo spazio bianco sotto l'ultimo nome. “Qui ci starebbe il tuo. Prima però voglio vederti lavorare una sera come lavorano loro, senza la divisa addosso e senza di me. Stanotte ho tre cose da fare, e me ne basta una.”
+>
+> Si appoggia al bordo del tavolo con i pollici nella cintura. [whispers] Quest'uomo non si fida di nessuno, e ti sta mostrando la sua lista. Respiri piano, con il naso, come prima di un salto.
+
+**`la-lista-dello-sceriffo__1-successo`** · esito «La pioggia» · opzione «Leggere i tre rapporti» · successo · 496 caratteri
+
+> I tre rapporti raccontano la stessa notte sui Ponti, con gli stessi orari e gli stessi nomi. Due però hanno la carta ondulata in un angolo e l'inchiostro un poco sbavato, e il terzo è asciutto e liscio come appena uscito dal cassetto, anche se quella notte ha piovuto dal tramonto all'alba. Metti il dito sul terzo, e Gàldrik lo gira e ti mostra la firma, che è di un miliziano rimasto a casa con la febbre. “Lo sapevo, e volevo sapere se lo vedevi anche tu” dice, e rimette i fogli nel cassetto.
+
+**`la-lista-dello-sceriffo__1-fallimento`** · esito «Il rapporto sbagliato» · opzione «Leggere i tre rapporti» · fallimento · 316 caratteri
+
+> Leggi i tre rapporti due volte e scegli quello con più errori di grammatica. Gàldrik scuote la testa piano. Quello l'ha scritto un sergente che sa leggere a fatica e c'era, e il falso è scritto meglio degli altri due. Rimette i fogli nel cassetto e ti dice che la lista aspetta, e che stanotte ha altre cose da fare.
+
+**`la-lista-dello-sceriffo__2-successo`** · esito «La cella sei» · opzione «Interrogare il detenuto della cella sei» · successo · 372 caratteri
+
+> Il ricettatore ti aspetta seduto sulla paglia, e la sua storia l'ha già raccontata a tre sergenti. Gli chiedi di sua figlia, che ogni mattina viene al portone a portargli il pane, e di quanto ci mette a salire la discesa. Dopo un po' ti dice il nome del magazzino, e anche quello del barcaiolo che ha portato la cassa. Gàldrik ascolta dalla porta e lo scrive sul taccuino.
+
+**`la-lista-dello-sceriffo__2-fallimento`** · esito «Tre sergenti» · opzione «Interrogare il detenuto della cella sei» · fallimento · 320 caratteri
+
+> Il ricettatore ti ascolta con pazienza e ti risponde con la stessa storia che ha raccontato ai sergenti, parola per parola. Quando alzi la voce si stende sulla paglia e chiude gli occhi. Gàldrik ti apre la porta della cella senza commenti. Sulle scale ti dice che con lui ci sono voluti tre mesi, e che la lista aspetta.
+
+**`la-lista-dello-sceriffo__3-successo`** · esito «La porta delle cucine» · opzione «Seguire il corriere fino ai Ponti» · successo · 440 caratteri
+
+> Il ragazzo esce dalla porta delle cucine dopo la seconda campana e prende la discesa dei Ponti a passo svelto, senza mai voltarsi. Lo segui a distanza di due lanterne, e quando sale su un ponte tu passi sull'altro e lo ritrovi dall'altra parte. Consegna la lettera a un facchino del Mercato dei Nodi, che la legge alla luce della lanterna e poi la brucia. Torni da Gàldrik con il nome del facchino, e lui lo scrive sotto quello del ragazzo.
+
+**`la-lista-dello-sceriffo__3-fallimento`** · esito «Due lanterne» · opzione «Seguire il corriere fino ai Ponti» · fallimento · 326 caratteri
+
+> Segui il ragazzo giù per la discesa, ma sul primo ponte si ferma di colpo ad allacciarsi uno stivale, e tu sei troppo vicino per fermarti anche tu. Lui ti guarda passare e torna indietro verso la Caserma fischiettando. Gàldrik ti aspetta sul portone e ti dice che stanotte il ragazzo resterà in cucina, e che la lista aspetta.
+
+**`la-lista-dello-sceriffo__4-esito`** · esito «Tutte le righe» · opzione «Lasciare parlare il taccuino» · esito · 398 caratteri
+
+> Gli chiedi di leggerti quello che ha scritto su di te, e lui si gratta la testa rasata prima di sedersi. Poi sfoglia il taccuino dall'inizio e legge ad alta voce, muovendo le labbra anche quando non serve, ogni riga con la sua data, comprese quelle che preferiresti non sentire. Ci vuole tutta la notte. All'alba chiude il taccuino e dice che una sera di lavoro non gli avrebbe detto niente di più.
+
+**`la-lista-dello-sceriffo__5-esito`** · esito «Un quarto» · opzione «Chiedergli perché adesso» · esito · 365 caratteri
+
+> “Perché un quarto dei miei prende la paga di Vèsh, e non so quale quarto” dice. “Quelli della lista li ho scelti uno per uno fuori dalla Caserma, e nessuno di loro conosce gli altri. Se ne prendono uno, gli altri restano.” Si gira verso la finestra. “E perché in questi mesi tu sei andato dove io potevo mandare soltanto qualcuno di fuori, e ne sei sempre tornato.”
+
+**`la-lista-dello-sceriffo__6-esito`** · esito «Dopo Vesh» · opzione «Chiedergli perché adesso» · esito · 455 caratteri
+
+> Gàldrik si siede piano, con una mano sul fianco, e per un po' guarda la lampada. “La lista l'ho cominciata per Vèsh, e adesso Vèsh è morto” dice alla fine, senza alzare gli occhi. “In Città Bassa chi faceva i conti per lui adesso li fa per sé, e a me serve una ragione per alzarmi la mattina che non sia lui.” Si tocca la fasciatura sotto la giubba senza accorgersene, poi dice che nella lista vuole gente capace di lavorare anche senza un nemico davanti.
+
+**`la-lista-dello-sceriffo__7-esito`** · esito «Fuori dalla lista» · opzione «Chiedergli di Gaia Acari» · esito · 424 caratteri
+
+> Gàldrik chiude il taccuino prima di rispondere. “Gàia Àcari nella lista non c'è, e non ci sarà mai” dice poi, scandendo le parole. “Ha tredici anni, e quello che fa lo fa perché l'ha deciso lei, e io non sono riuscito a farle cambiare idea. Le devo una cosa che risale a Gòran, e che cosa sia resta fra me e lei.” Si passa una mano sulla testa rasata e ti chiede, se la incontri, di offrirle da mangiare senza farle domande.
+
+**`la-lista-dello-sceriffo__8-esito`** · esito «La spada nella teca» · opzione «Chiedergli del Cucitore» · esito · 425 caratteri
+
+> Gàldrik ti guarda come se gli avessi chiesto l'ora a un funerale. “Ìvo Kàrstan è morto in un vicolo della Città Bassa, e io sono arrivato dopo” dice. “Il resto lo racconta la città, e la città racconta quello che le serve.” Poi riapre il taccuino e ti chiede se hai già deciso quale delle tre cose fare stanotte, con la stessa voce di prima. Sulla parete, dietro di lui, il giorno di oggi sul calendario non è ancora barrato.
+
+**`la-lista-dello-sceriffo__9-esito`** · esito «Lo spazio bianco» · opzione «Dirgli che non è il momento» · esito · 392 caratteri
+
+> Lo ringrazi, e gli dici che per adesso preferisci lavorare per la Caserma alla luce del giorno. Gàldrik annuisce una volta sola con il mento e rimette il taccuino nella tasca della divisa. “Lo spazio bianco resta” dice. “I nomi di questa lista li scrivo piano, e li cancello soltanto con una riga dritta.” Poi gira la chiave nella porta e ti accompagna fino al portone con la lampada in mano.
+
+### Il nome nella lista
+
+**`il-nome-nella-lista`** · scena · 985 caratteri
+
+> Quando torni nell'ufficio la lampada è quasi consumata e dalla finestra entra la prima luce grigia, insieme al rumore del furiere che apre il magazzino. Gàldrik non ha dormito. Ha la divisa slacciata al collo e il taccuino aperto sul tavolo, all'ultima pagina, con la matita corta appoggiata di traverso sullo spazio bianco.
+>
+> “Nella lista nessuno ha il suo nome vero” dice. “Scegline uno che ti ricordi, perché se un giorno qualcuno legge questa pagina non deve arrivare a te.” Gira il taccuino verso di te. “Niente divisa e niente paga dal furiere, se non alla voce spese di servizio. Se ti prendono io non ti ho mai visto, e lo dico adesso perché dopo non potrò dirlo. Quando ti serve la Caserma, la Caserma c'è.”
+>
+> Ti porge la matita. È corta come un dito, consumata dalla parte del pollice, e ha i segni dei suoi denti vicino alla punta.
+>
+> [whispers] Con questa matita ha scritto ogni riga su di te, e adesso tocca a te. La prendi, e le tue dita la tengono già dalla parte consumata.
+
+**`il-nome-nella-lista__1-esito`** · esito «Per motivi di servizio» · opzione «Scrivere un nome e firmare» · esito · 405 caratteri
+
+> Scrivi il nome che hai scelto, e Gàldrik ci mette accanto la data con la sua grafia. Poi chiude il taccuino e lo rimette nella tasca interna, contro il petto. “Di notte, se in Caserma non mi trovi, lascia detto alla Mesòn de Lün, a Sàra Bek” dice, guardando il calendario. “Per motivi di servizio.” Ti stringe la mano forte una volta sola e ti accompagna alla porta senza togliere i pollici dalla cintura.
+
+**`il-nome-nella-lista__2-esito`** · esito «Due righe dritte» · opzione «Scrivere un nome e firmare» · esito · 485 caratteri
+
+> Prima di scrivere vedi che due nomi della lista sono barrati con una riga dritta, e accanto c'è la data della notte della Pignatta. Gàldrik se ne accorge. “Le loro vedove le pago ancora io” dice, “e con la stessa matita.” Scrivi il nome che hai scelto, e lui ci mette accanto la data e rimette il taccuino contro il petto. “Di notte, se in Caserma non mi trovi, lascia detto alla Mesòn de Lün, a Sàra Bek. Per motivi di servizio.” Ti stringe la mano, e la tiene un poco più del solito.
+
+**`il-nome-nella-lista__3-esito`** · esito «La matita corta» · opzione «Rendergli la matita» · esito · 389 caratteri
+
+> Gli rendi la matita senza scrivere niente. Gàldrik la guarda sul palmo, poi la rimette dentro il taccuino a fare da segno, proprio sullo spazio bianco. “Va bene” dice, e chiude il taccuino. “Quando torni, una sera di lavoro te la chiedo di nuovo, perché anche i nomi di questa lista hanno le loro regole.” Fuori il furiere chiama il primo turno, e lo sceriffo va alla finestra a guardarlo.
+
+### Rozalia torna
+
+**`rozalia-torna`** · scena · 1264 caratteri
+
+> Te l'ha detto Orsola, la vecchia dell'orto, mentre abbassava la voce insieme alla zappa. Da tre notti una donna scava fra le macerie del retrobottega, e la Guardia non la vede perché arriva dopo la seconda ronda. Orsola lo ha detto a te perché nei vicoli il tuo nome adesso conta qualcosa.
+>
+> Aspetti seduto sul bancone di quercia, con la lanterna spenta accanto. Dopo la seconda ronda una figura snella scavalca il muro di fondo, accende una lanterna cieca e si mette a scavare con una paletta da camino dove c'erano gli scaffali delle cartelle. Ha le maniche rimboccate fino al gomito, i capelli raccolti sulla nuca e la piuma d'oca dietro l'orecchio. Dalla cenere tira fuori una cassetta di ferro annerita e ci soffia sopra.
+>
+> Quando ti alzi lei non scappa. Batte due volte la paletta sull'orlo della cassetta, come faceva con la penna sul calamaio.
+>
+> “Buonasera, tesoro. Ti aspettavo qualche notte fa, per la precisione” dice Rozàlia Màrga. “Mìrko è morto, e io sono una falsaria senza padrone. Qui dentro ci sono le firme di mezza città divise per famiglia e per mestiere. Il fuoco s'è preso gli scaffali, la cassetta no.”
+>
+> [whispers] Ha le mani nere fino al polso, e questa volta l'inchiostro non c'entra. Lei se le pulisce sulla gonna con calma, una alla volta.
+
+**`rozalia-torna__1-esito`** · esito «Parenti rumorosi» · opzione «Chiederle che fine hanno fatto gli altri» · esito · 412 caratteri
+
+> “Nèstor si è seduto per terra e ha alzato le mani, e adesso sta in catene alla Caserma e fa le tisane ai carcerieri. Bòrso è in fondo alle celle, che conosce meglio di chiunque” dice, contando sulle dita. “Niàli è partito per Pànnion con la prima carovana, e lo sentivano tossire già dalla Strada Antica.” Si ferma. “Di Màuro non chiedermi. Eravamo parenti rumorosi, e a me dei parenti piace ricordare le feste.”
+
+**`rozalia-torna__2-esito`** · esito «In pari» · opzione «Lasciarla andare» · esito · 493 caratteri
+
+> Le dici di prendere la sua cassetta e di andarsene prima della terza ronda. Rozàlia ti guarda un momento più a lungo del solito, poi si mette la cassetta sotto il braccio. “I conti li chiudo in pari” dice, e ti sussurra il nome di un funzionario della Casa dei Nodi che per sei anni le ha comprato permessi falsi, e per ogni permesso anche il giorno e la cifra. Scavalca il muro di fondo senza fretta. Dalla finestra di fronte Orsola ha visto tutto, e la mattina dopo non ne parla con nessuno.
+
+**`rozalia-torna__3-successo`** · esito «Un appuntamento» · opzione «Dirle di venire alla Caserma con te» · successo · 423 caratteri
+
+> Le dici che in città la cercano in molti, e che fra tutti Gàldrik è quello che fa meno domande a chi si presenta da sé. Rozàlia ci pensa battendo la paletta tre volte invece di due. Poi si sistema la piuma e ti cammina accanto fino alla Caserma con la cassetta sotto il braccio, come se andasse a un appuntamento. Gàldrik la riceve in piedi e scrive il suo nome sul taccuino. Lei gli fa notare che la matita è troppo corta.
+
+**`rozalia-torna__3-fallimento`** · esito «Il fumo grigio» · opzione «Dirle di venire alla Caserma con te» · fallimento · 416 caratteri
+
+> Al nome di Gàldrik Rozàlia sorride, e tu capisci tardi che sta guardando la tua mano, andata da sola alla cintura. La fiala si rompe ai tuoi piedi e il fumo grigio ti riempie la gola. Quando smetti di tossire il cortile è vuoto e la cassetta è sparita con lei. La buca però è più profonda di quanto le serviva, e sotto la cenere spunta l'angolo di una seconda cassetta. Prima o poi Rozàlia dovrà tornare a prenderla.
+
+**`rozalia-torna__4-successo`** · esito «Il polso» · opzione «Prenderla prima che scappi» · successo · 447 caratteri
+
+> Le giri intorno nel buio, dalla parte dei muri, mentre lei parla al punto dove eri prima. Quando la sua mano scende verso la mantellina tu sei già lì, e le stringi il polso con la fiala ancora intera fra le dita. Rozàlia sospira. “Per la precisione, tesoro, questo è maleducato” dice, e ti lascia la fiala. Alla Caserma Gàldrik scrive il suo nome sul taccuino senza alzare gli occhi, e Orsola, la mattina dopo, racconta la scena a tutta la strada.
+
+**`rozalia-torna__4-fallimento`** · esito «La seconda cassetta» · opzione «Prenderla prima che scappi» · fallimento · 387 caratteri
+
+> Le giri intorno nel buio, ma sotto il tuo piede una trave scricchiola. La fiala si rompe contro il bancone e il fumo grigio riempie il cortile, e quando si dirada sei in ginocchio a tossire con un graffio sul dorso della mano. Rozàlia è sparita con la sua cassetta. Nella buca, sotto la cenere, c'è l'angolo di una seconda cassetta di ferro, e la ricopri con il piede per quando tornerà.
+
+**`rozalia-torna__5-successo`** · esito «Come te» · opzione «Offrirle un lavoro» · successo · 403 caratteri
+
+> Le dici che in Città Bassa metà della gente non sa scrivere, e che dopo il fuoco tutti hanno bisogno di lettere e di ricevute vere. Rozàlia ti ascolta con la testa piegata di lato. “Io firmo come te, e firmare come qualcun altro costa il doppio” dice alla fine. Poi accetta la metà, a patto di scegliersi il tavolo. Lo sceglie accanto al bancone, e la cassetta la seppellisce di nuovo dove l'ha trovata.
+
+**`rozalia-torna__5-fallimento`** · esito «Quando avrai un'offerta» · opzione «Offrirle un lavoro» · fallimento · 332 caratteri
+
+> Rozàlia ti lascia arrivare in fondo, poi rimette la cassetta nella buca e ci spinge sopra la cenere con la punta della scarpa. “Mi offri lavoro con le tasche vuote, tesoro. Le tasche io le sento da qui” dice. “Ne riparliamo quando avrai un'offerta.” Scavalca il muro di fondo. La cassetta resta sottoterra, sotto un palmo di cenere.
+
+**`rozalia-torna__6-esito`** · esito «Trenta monete» · opzione «Pagarle il primo mese» · esito · 448 caratteri
+
+> Conti trenta monete sulla quercia bruciata, una alla volta. Rozàlia le sposta con la punta della paletta senza toccarle, e alla fine annuisce. “Puntuale nei pagamenti. Mi piace” dice. Seppellisce di nuovo la cassetta dove l'ha trovata, perché lì sotto non la cerca nessuno, e il giorno dopo arriva con un tavolo pieghevole e un calamaio. Lo mette accanto al bancone, e prima di sera ha già scritto tre lettere per tre vicine che non sanno scrivere.
+
+### Una falsaria al bancone
+
+**`rozalia-ti-cerca`** · scena · 1192 caratteri
+
+> Al tramonto, quando arrivi, i bambini lasciano il cerchio di gesso e scavalcano il muro di fondo, e la vecchia dell'orto rientra in casa con la zappa. Sul muro annerito qualcuno ha scritto a carbone assassini del governo, e sotto c'è il tuo nome, lavato a metà da una mano che si è stancata prima di finire.
+>
+> Seduta sul bancone di quercia c'è una donna snella, con i capelli raccolti sulla nuca e una piuma d'oca dietro l'orecchio. Si pulisce le unghie con un coltellino da ufficio, un'unghia alla volta. Ha le dita macchiate d'inchiostro fino alla seconda falange. È l'unica persona in tutta la strada che non si è mossa quando sei arrivato.
+>
+> “Buonasera, tesoro. Rozàlia Màrga, se te ne sei dimenticato” dice, chiudendo il coltellino. “Nei vicoli il tuo nome lo dicono a bassa voce, e a me la gente che fa paura piace, perché paga in anticipo. Mìrko è morto, e io sono una falsaria senza padrone.” Indica la scritta con il mento. “Una Città Bassa che ti vuole bene te la posso scrivere io. Sono lettere e firme, e il resto lo fa la gente, che crede a quello che legge.”
+>
+> [whispers] Mi offre di falsificare me stesso. Senti lo stomaco chiudersi, e non sai dire se di disgusto o di tentazione.
+
+**`rozalia-ti-cerca__1-esito`** · esito «La porta bruciata» · opzione «Mandarla via» · esito · 386 caratteri
+
+> Le dici di andarsene dalla Città Bassa prima che cambi idea. Rozàlia scende dal bancone senza fretta e si rimette il coltellino nella manica. “Peccato. Sarebbe stato il mio lavoro migliore” dice, e passa dalla porta bruciata invece che dal muro, perché la vedano uscire. Dietro le imposte di fronte qualcuno ha guardato tutto. La mattina dopo la scritta sul muro è lavata un po' di più.
+
+**`rozalia-ti-cerca__2-successo`** · esito «Davanti a tutti» · opzione «Portarla alla Caserma» · successo · 425 caratteri
+
+> Le dici di scendere dal bancone e di camminarti davanti fino alla Caserma, e glielo dici con la voce che in Città Bassa ricordano. Rozàlia smette di sorridere. Ti cammina davanti per tutta la discesa con le mani in vista, e dalle finestre la strada guarda una tenente di Vèsh portata via viva, senza un colpo. Gàldrik scrive il suo nome sul taccuino. Nei vicoli, quella sera, il tuo nome lo dicono con un tono un po' diverso.
+
+**`rozalia-ti-cerca__2-fallimento`** · esito «La sua offerta, per iscritto» · opzione «Portarla alla Caserma» · fallimento · 320 caratteri
+
+> Rozàlia ti lascia finire, poi rompe una fiala sulla quercia. Il fumo grigio ti brucia gli occhi, e quando si dirada sul bancone c'è un foglio piegato in due, fermato da un sasso. È la sua offerta in bella grafia con il prezzo, e in fondo c'è una riga, ripasso fra qualche sera. La scritta sul muro, intanto, è ancora lì.
+
+**`rozalia-ti-cerca__3-successo`** · esito «Lettere vere» · opzione «Accettare, ma alle tue condizioni» · successo · 412 caratteri
+
+> Le dici che vuoi lettere vere e un tavolo qui, alla luce del giorno, dove scriva per chi non sa farlo e dica a tutti chi la paga. Rozàlia ci pensa battendo il coltellino chiuso sul ginocchio. “Una reputazione onesta costa più cara, tesoro, perché ci vuole più tempo, però è anche più difficile da smascherare” dice, e accetta senza tirare sul prezzo. Il giorno dopo arriva con un tavolo pieghevole e un calamaio.
+
+**`rozalia-ti-cerca__3-fallimento`** · esito «Ripasso fra qualche sera» · opzione «Accettare, ma alle tue condizioni» · fallimento · 300 caratteri
+
+> Le spieghi le tue condizioni, e lei ti ascolta come un maestro che corregge un compito. “Le condizioni le fa chi paga” dice alla fine, e scende dal bancone. Ti lascia sulla quercia un biglietto con il suo prezzo, scritto in una grafia piccola e diritta, e in fondo una riga, ripasso fra qualche sera.
+
+**`rozalia-ti-cerca__4-esito`** · esito «Il tavolo pieghevole» · opzione «Pagarle il primo mese» · esito · 388 caratteri
+
+> Conti trenta monete sul bancone e le dici che cosa vuoi, lettere vere per chi non sa scrivere, a una moneta l'una, e il tuo nome fuori da tutto. Rozàlia sposta le monete con la punta del coltellino e le conta due volte. “Puntuale nei pagamenti. Mi piace” dice. Il giorno dopo mette un tavolo pieghevole accanto al bancone, e a sera la prima a sedersi davanti a lei è la vecchia dell'orto.
+
+### Il cantiere
+
+**`il-cantiere`** · scena · 1290 caratteri
+
+> Stamattina sulla porta bruciata c'è un avviso inchiodato con quattro chiodi nuovi, che in mezzo al legno nero luccicano. Il lotto della Pignatta Grassa, che era di Mìrko Vèsh e adesso è del Comune, va all'asta fra un mese, e il prezzo di partenza è scritto in cifre e poi in lettere perché nessuno lo possa correggere. Davanti all'avviso c'è un uomo magro con il libro dei lotti sotto il braccio e gli stivali puliti. È Cosimo Vèn, ispettore della Casa dei Nodi, e tiene gli stivali ben lontani dalla cenere.
+>
+> Intorno a lui c'è mezza strada. Orsola si appoggia alla zappa con tutte e due le mani davanti al suo orto, e Tìbo le sta dietro con il secchio dei chiodi. Due taglialegna con l'ascia in spalla sono scesi dalla Segheria a vedere, e sul muro di fondo, seduto a gambe incrociate, c'è un cappuccio blu che mastica qualcosa.
+>
+> “Il compratore della Gilda tira su una locanda con il magazzino dietro in due mesi, e paga la giornata a chi lavora” dice Vèn. “Il Comune incassa, e voi avete un lavoro. Non vedo il problema.”
+>
+> “Il problema è che qui ci dormono” dice Orsola, “e le cipolle sono mie.”
+>
+> Poi si girano tutti verso di te. [whispers] Vogliono che decida io, perché di me si fidano più che del Comune. In mano hai ancora un chiodo raccolto per strada, e le dita lo rigirano da sole.
+
+**`il-cantiere__1-esito`** · esito «Chi mi dà da mangiare» · opzione «Guardare il cappuccio blu sul muro» · esito · 346 caratteri
+
+> Gàia Àcari ti vede guardarla e smette di masticare. “Io sto con chi mi dà da mangiare” dice ad alta voce, così la sente tutta la strada, “e finora mi ha dato da mangiare la vecchia.” Orsola alza la zappa verso di lei come una benedizione. Vèn sfoglia il libro dei lotti per cercare il nome della ragazzina, e quando alza la testa il muro è vuoto.
+
+**`il-cantiere__2-successo`** · esito «Il sigillo che manca» · opzione «Leggere l'avviso e il libro dei lotti» · successo · 477 caratteri
+
+> Ti fai prestare il libro dei lotti e lo leggi davanti a tutti, con Vèn che sbuffa sopra la tua spalla. Per mettere all'asta un lotto confiscato serve il sigillo del Consiglio, e sull'avviso c'è soltanto quello della Casa dei Nodi. Vèn arrossisce fino alle orecchie e stacca l'avviso con i suoi quattro chiodi nuovi. Finché il Consiglio non si riunisce, il lotto resta a chi ci abita, e Orsola ti dà una cipolla come caparra. Il pomeriggio la strada comincia a portare le travi.
+
+**`il-cantiere__2-fallimento`** · esito «Tutto in regola» · opzione «Leggere l'avviso e il libro dei lotti» · fallimento · 349 caratteri
+
+> Ti fai prestare il libro dei lotti e lo leggi davanti a tutti, ma la scrittura della Casa dei Nodi è piena di abbreviazioni che non conosci. Vèn aspetta con le mani dietro la schiena e poi ti spiega pagina per pagina che è tutto in regola, con una pazienza che fa più male di uno schiaffo. La strada si disperde a gruppi, e nessuno ha deciso niente.
+
+**`il-cantiere__3-esito`** · esito «La caparra» · opzione «Mettere i tuoi soldi nel cantiere del quartiere» · esito · 390 caratteri
+
+> Conti venti monete nella mano di Vèn e gli dici che sono la caparra del quartiere, e che il resto lo pagherà la strada, una giornata di lavoro alla volta. Vèn le guarda, poi guarda la strada che lo guarda, e scrive una ricevuta con molta cura. Orsola fa un segno sull'avviso con il carbone. Il pomeriggio i taglialegna tornano con una trave a testa, e Tìbo conta i chiodi nuovi uno per uno.
+
+**`il-cantiere__4-esito`** · esito «La vedova Brena» · opzione «Far leggere l'atto a Rozalia» · esito · 445 caratteri
+
+> Rozàlia lascia il suo tavolo, si fa dare il libro dei lotti e lo sfoglia con l'unghia del mignolo. Si ferma a metà e batte due volte la penna sulla pagina. “Mìrko la Pignatta l'aveva intestata a una vedova rispettabile, perché a lui conveniva così” dice. “La firma, tesoro, l'ho fatta io, anni fa.” Il nome sull'atto è quello di Orsola Brena. Orsola si siede sul bancone e non riesce a smettere di ridere, e Vèn chiude il libro senza una parola.
+
+**`il-cantiere__5-esito`** · esito «Il legname e il lotto» · opzione «Chiamare i taglialegna della cooperativa» · esito · 388 caratteri
+
+> Chiami i due taglialegna, e loro ti dicono che la cooperativa il legname ce l'ha, e che le travi le porterebbe gratis se il lotto restasse del Comune. Scrivi due righe a Iùlia Castàldi, e la risposta arriva prima di sera con il sigillo del Consiglio. L'asta è sospesa, il lotto resta al Comune, e la cooperativa del grano ci farà una mensa. Vèn stacca l'avviso con una faccia da funerale.
+
+**`il-cantiere__6-esito`** · esito «La risposta del Municipio» · opzione «Scrivere a Julia Castaldi» · esito · 399 caratteri
+
+> Scrivi a Iùlia Castàldi su un foglio che ti presta Vèn, appoggiato alla porta bruciata, e un ragazzo lo porta su in Municipio di corsa. La risposta arriva prima di sera, con il sigillo del Consiglio. Il lotto resta del Comune, e appena le casse lo permettono ci si farà una mensa per la Città Bassa. Vèn stacca l'avviso e se lo porta via piegato in quattro, e Orsola gli raccomanda di non sciuparlo.
+
+**`il-cantiere__7-esito`** · esito «La provvigione» · opzione «Lasciare fare alla Gilda» · esito · 418 caratteri
+
+> Dici a Vèn che la strada ha bisogno di lavoro prima che di cipolle, a patto che il compratore assuma gente del quartiere. Vèn lo scrive sul libro dei lotti e ti fa scivolare in mano quindici monete, che chiama provvigione. Orsola stringe la zappa, poi torna a zappare senza salutarti. Nel pomeriggio il compratore manda un capomastro, che assume dodici uomini della strada e promette che l'orto per adesso resta dov'è.
+
+### L'insegna nuova
+
+**`l-insegna-nuova`** · scena · 1062 caratteri
+
+> I muri sono gli stessi, anneriti fino all'altezza del tetto vecchio, ma sopra adesso c'è un tetto nuovo di travi chiare e di tegole spaiate, recuperate un po' da tutta la Città Bassa. Il bancone di quercia è ancora al suo posto, raschiato fino al legno buono, e sopra ci sono già le scodelle impilate. Nel cortile il cerchio di gesso è stato ripassato da qualcuno con la mano ferma.
+>
+> Sulla porta nuova manca soltanto l'insegna. Mastro Fenzi, il pittore che di solito fa i ritratti in Municipio, aspetta in cima a una scala con un'asse bianca e i pennelli in tasca, e da un'ora la strada gli grida nomi da sotto. Orsola ne vuole uno, i taglialegna un altro, e Tìbo, dal bancone, propone soltanto nomi di cose che si mangiano.
+>
+> Mastro Fenzi ti vede arrivare e appoggia il pennello sul piolo. “Hanno deciso che decidi tu, e io ho fame” dice. “Dimmelo prima che si secchi il colore.” La strada si zittisce un poco alla volta, cominciando dalle prime file.
+>
+> [whispers] La Pignatta la chiamavano grassa perché ingrassava Mìrko. Ti scappa un sorriso, e non lo nascondi.
+
+**`l-insegna-nuova__1-esito`** · esito «Le Cipolle Storte» · opzione «Chiamarla *Le Cipolle Storte*» · esito · 471 caratteri
+
+> Mastro Fenzi dipinge sull'asse tre cipolle verdi, tutte piegate dalla stessa parte, e sotto il nome in lettere tonde. Orsola dice che la cipolla di mezzo è venuta troppo dritta, e Fenzi la corregge senza protestare. La sera i quattro bambini che dormivano sotto il bancone dormono nella stanza di dietro, su materassi di paglia nuova, e Tìbo tiene il secchio dei chiodi accanto al letto. I due vecchi hanno una panca ciascuno vicino al fuoco, e continuano a non parlarsi.
+
+**`l-insegna-nuova__2-esito`** · esito «La Pignatta Magra» · opzione «Chiamarla *La Pignatta Magra*» · esito · 386 caratteri
+
+> Quando lo dici la strada resta zitta un momento, poi ride tutta insieme, e i taglialegna più forte di tutti. Mastro Fenzi dipinge una pentola stretta e alta, con un manico solo, e sotto il nome in lettere nere. La prima sera le cuoche del Comune servono zuppa di farro a mezza moneta la scodella. Orsola mangia in piedi, perché dice che seduta le viene sonno, e chiede il bis due volte.
+
+**`l-insegna-nuova__3-esito`** · esito «Il Cerchio di Gesso» · opzione «Chiamarla *Il Cerchio di Gesso*» · esito · 416 caratteri
+
+> Il capomastro della Gilda voleva un nome con dentro la parola mercanti, e la strada gli ha gridato contro per un'ora. Il cerchio di gesso invece piace a tutti. Mastro Fenzi lo dipinge bianco su fondo nero e perfettamente tondo, e la sera il locandiere della Gilda lascia che i bambini ci giochino dentro finché non si accendono le lanterne. Orsola beve il primo bicchiere e lo trova annacquato, come ai vecchi tempi.
+
+**`l-insegna-nuova__4-esito`** · esito «Conti in Pari» · opzione «Lasciare le lettere a Rozalia» · esito · 393 caratteri
+
+> Rozàlia sale sulla scala al posto di Fenzi, che glielo lascia fare con sollievo, e scrive Conti in Pari in una grafia così bella che la strada smette di gridare per guardarla. Quando scende si pulisce il pennello su uno straccio. “I conti li chiudo sempre in pari, tesoro” dice. “Questo era il più lungo.” Mastro Fenzi studia le lettere con il naso quasi sull'asse, e la sera le offre da bere.
+
+**`l-insegna-nuova__5-esito`** · esito «Il Chiodo» · opzione «Lasciare che lo scelga Tibo» · esito · 375 caratteri
+
+> Tìbo ci pensa con la serietà di un consigliere e poi dice Il Chiodo, perché senza i chiodi il tetto non stava su. La strada ci prova a protestare, ma Orsola dà ragione a lui, e Fenzi dipinge un chiodo grosso come un remo, un po' piegato in punta. Sotto l'insegna, la sera stessa, Tìbo inchioda l'ultimo chiodo del suo secchio, e da allora chiunque entri lo tocca per fortuna.
+
+### Il quaderno di Sara
+
+**`il-quaderno-di-sara`** · scena · 1264 caratteri
+
+> È l'ora morta del pomeriggio, quando la Mesòn è chiusa e le ragazze dormono ancora, e Sàra Bek ti fa entrare dalla porta grande invece che da quella di servizio. Ha i capelli raccolti nel fermaglio d'argento e gli occhi arrossati, come se avesse dormito poco. Da sotto il bancone curvo tira fuori un quaderno piccolo con la copertina di cartone, legato con un nastro verde, e lo apre per te.
+>
+> Su ogni pagina c'è un'arma disegnata a matita con molta cura, qui un'elsa a canestro e là un fodero rammendato. Sotto ci sono due righe nella grafia minuta di Sara, tè senza zucchero, mancia buona. Di nomi non ce n'è nemmeno uno.
+>
+> “In città dicono che mi ricordo tutti. Me li ricordo con questo” dice, e batte un dito sulla copertina. “La signora non scrive mai un nome, e qui dentro nessuno deve scrivere niente. Io disegno le armi, perché le armi un nome non ce l'hanno.” Abbassa la voce anche se nella sala non c'è nessuno. “Stamattina il nastro era annodato in un altro modo. Qualcuno l'ha letto, e io alla signora non l'ho ancora detto.”
+>
+> [whispers] Ha paura di dimenticare, in una casa dove ricordare è il mestiere di tutti. Abbassi la voce anche tu, per farle compagnia. Accanto al quaderno il nastro verde ha ancora le pieghe di un nodo doppio, con un'asola sola.
+
+**`il-quaderno-di-sara__1-successo`** · esito «Il nodo doppio» · opzione «Scoprire chi l'ha letto» · successo · 513 caratteri
+
+> Il nodo con un'asola sola lo ritrovi in cucina, sul nastro che tiene chiuso il libro dei conti di Grècen. Grècen scende in vestaglia poco dopo, vede il quaderno nelle mani di Sara e non nega. Dice che da settimane la vedeva scrivere di nascosto con gli occhi lucidi, e che voleva sapere che cosa la teneva sveglia. Sara stringe le labbra e non risponde. Poi Grècen le rilega il quaderno con il suo nodo, e le promette che da adesso glielo terrà lei in cucina, sotto il libro dei conti, dove nessun cliente arriva.
+
+**`il-quaderno-di-sara__1-fallimento`** · esito «Un nastro qualunque» · opzione «Scoprire chi l'ha letto» · fallimento · 343 caratteri
+
+> Giri il nastro fra le dita e studi la serratura dell'armadio e la polvere sul pavimento, e non trovi niente che tu sappia leggere. Sara ti ringrazia lo stesso, con la cortesia rapida che usa con i clienti nuovi. Rilega il quaderno con un nodo semplice e lo rimette sotto il bancone, e ti accompagna alla porta di servizio chiamandoti per nome.
+
+**`il-quaderno-di-sara__2-successo`** · esito «Il primo anno» · opzione «Chiederle perché lo tiene» · successo · 512 caratteri
+
+> Sara si siede sullo sgabello alto e ti racconta del suo primo anno alla porta. Un uomo aveva fatto male a una ragazza, e la signora lo aveva fatto buttare fuori. Tre mesi dopo era tornato senza barba e con un mantello nuovo, e Sara gli aveva sorriso e lo aveva lasciato entrare. “La barba la tagli in un'ora” dice, “la spada invece te la tieni per vent'anni.” Riavvolge il nastro intorno al quaderno, piano. Decide di dirlo lei alla signora stasera stessa, e ti chiede soltanto di restare al bancone mentre sale.
+
+**`il-quaderno-di-sara__2-fallimento`** · esito «La cortesia rapida» · opzione «Chiederle perché lo tiene» · fallimento · 392 caratteri
+
+> Le chiedi perché lo tiene, e la domanda ti esce troppo diretta. Sara ti guarda con la cortesia rapida che usa con i clienti nuovi e ti dice che ognuno ha le sue abitudini. Rimette il quaderno sotto il bancone, e ti accompagna alla porta di servizio parlando del tempo e del prezzo dell'olio per la lanterna. Sulla soglia ti chiama per nome come sempre, e richiude la porta a chiave due volte.
+
+**`il-quaderno-di-sara__3-esito`** · esito «Pagina per pagina» · opzione «Aiutarla a bruciarlo» · esito · 488 caratteri
+
+> Sara ci pensa un po', poi apre lo sportello della stufa in cucina. Prima di bruciare ogni pagina ti mostra il disegno e ti dice a voce bassissima chi è, e lo indovina quasi sempre. Alla trentesima pagina si ferma con il foglio in mano e non ricorda. Lo rigira fra le dita, poi lo butta nella stufa insieme agli altri. Quando resta soltanto la copertina di cartone si asciuga gli occhi con il dorso della mano e ti dice che per vent'anni il quaderno le è servito più che altro per dormire.
+
+**`il-quaderno-di-sara__4-esito`** · esito «La scatola del tè» · opzione «Consigliarle di portarlo alla signora» · esito · 432 caratteri
+
+> Sara sale la scala curva con il quaderno stretto al petto, e tu resti al bancone a guardare la porta. Torna dopo un quarto d'ora a mani vuote, con gli occhi rossi e la schiena dritta. Ti racconta che la signora lo ha chiuso a chiave nella scatola di latta del tè buono senza aprirlo, e ha detto che da stasera è roba sua, e che se qualcuno lo legge ancora ne risponde lei. Sara ti stringe la mano con le sue mani piccole e asciutte.
+
+**`il-quaderno-di-sara__5-successo`** · esito «L'elsa incisa» · opzione «Leggerne qualche pagina mentre è voltata» · successo · 397 caratteri
+
+> La catena suona, e mentre Sara va alla porta tu sfogli il quaderno con un dito. Su una pagina c'è un'elsa con uno stemma dei Quartieri Alti disegnato fin nei dettagli, e sotto, nella grafia minuta di Sara, beve prima di entrare, la signora lo rimanda a casa. Quando Sara torna il quaderno è chiuso dove l'aveva lasciato. Le dici che il nastro si sarà allentato da solo, e lei, sollevata, ti crede.
+
+**`il-quaderno-di-sara__5-fallimento`** · esito «Il dito sulla pagina» · opzione «Leggerne qualche pagina mentre è voltata» · fallimento · 370 caratteri
+
+> La catena suona e Sara va alla porta, ma a metà strada si volta a prendere la chiave dell'armadio e ti trova con il dito sulla pagina. Riprende il quaderno senza gridare, lo rilega con un nodo stretto e ti accompagna alla porta di servizio con la cortesia che riserva ai clienti che non torneranno. Per un pezzo, la sera, alla porta della Mesòn non ti chiamerà per nome.
+
+### La lanterna spenta, di nuovo
+
+**`la-lanterna-spenta-di-nuovo`** · scena · 1284 caratteri
+
+> È passata mezzanotte, e quando giri il gomito di Via dei Rasoi la lanterna sopra la porta della Mesòn è spenta. Le finestre della via sono buie, e dietro un'imposta senti girare un chiavistello. Sàra Bek è sulla soglia con uno scialle sulle spalle, e appena ti vede ti viene incontro fino al cristallo spento, cosa che non fa mai.
+>
+> “Meno male che sei passato” dice, e ti prende per la manica. Mentre ti porta dentro ti racconta tutto a bassa voce. Un uomo è salito al primo piano con Lòre, la più minuta delle ragazze, e si è chiuso a chiave nella stanza della Luna Calante. Aveva un coltello nello stivale, e all'armadio non l'ha lasciato. Lòre ha battuto il segnale sul muro, e adesso Kanàt è davanti alla porta con la mazza in mano.
+>
+> Grècen ti aspetta in fondo alla scala, truccata come sempre, con le mani strette sul corrimano. Ti dice che la signora è fuori e che stanotte la casa la tiene lei. “Quell'uomo riscuote per Màuro Scròcco. Se Kanàt sfonda la porta, domani alla Pignatta diranno che la Mesòn ha rotto le ossa a uno degli Scuri, e laggiù aspettano proprio una scusa così” dice. “Mi serve Lòre fuori di lì senza sangue sulle scale.”
+>
+> [whispers] Una guerra intera per una porta chiusa a chiave. Stanotte Sara non ti ha chiesto le armi, e la mano ti va da sola al fianco.
+
+**`la-lanterna-spenta-di-nuovo__1-esito`** · esito «Il terzo gradino» · opzione «Salire con Gretchen» · esito · 191 caratteri
+
+> Sali la scala curva dietro Grècen, che tiene sollevato l'orlo del vestito con due dita. Il terzo gradino scricchiola sotto di te e tace sotto di lei, che sa dove mettere i piedi da vent'anni.
+
+**`la-lanterna-spenta-di-nuovo__2-esito`** · esito «La lanterna resta spenta» · opzione «Dirle che stanotte non puoi» · esito · 289 caratteri
+
+> Grècen annuisce senza discutere e torna verso la scala. Sara ti riaccompagna fuori e richiude la porta, e tu resti in strada sotto la lanterna spenta finché al primo piano qualcuno chiude una finestra. Mentre ti allontani verso il Ponte del Pesce senti le spalle rigide fino alle orecchie.
+
+### La lanterna spenta, di nuovo
+
+**`la-lanterna-spenta-dopo-la-pignatta`** · scena · 1395 caratteri
+
+> È passata mezzanotte, e quando giri il gomito di Via dei Rasoi la lanterna sopra la porta della Mesòn è spenta. Dalla notte della Pignatta non era più successo, e le finestre della via si sono riempite di facce. Sàra Bek è sulla soglia con uno scialle sulle spalle, e appena ti vede ti viene incontro fino al cristallo spento, cosa che non fa mai.
+>
+> “Meno male che sei passato” dice, e ti prende per la manica. Mentre ti porta dentro ti racconta tutto a bassa voce. Un uomo è salito al primo piano con Lòre, la più minuta delle ragazze, e si è chiuso a chiave nella stanza della Luna Calante. Aveva un coltello nello stivale, e all'armadio non l'ha lasciato. Lòre ha battuto il segnale sul muro, e adesso Kanàt è davanti alla porta con la mazza in mano.
+>
+> Grècen ti aspetta in fondo alla scala, truccata come sempre, con le mani strette sul corrimano. Ti dice che la signora è fuori e che stanotte la casa la tiene lei. “È uno dei mercenari di Gòran che lo sceriffo ha portato in città per la Pignatta. Ha la paga in tasca da settimane e nessuno contro cui usarla. Se Kanàt lo rompe, domani ne scendono venti dalla Caserma, e lo sceriffo dovrà scegliere fra i suoi uomini e questa casa” dice, e stringe di più il corrimano. “Io non voglio che debba scegliere.”
+>
+> [whispers] Una guerra intera per una porta chiusa a chiave. Stanotte Sara non ti ha chiesto le armi, e la mano ti va da sola al fianco.
+
+**`la-lanterna-spenta-dopo-la-pignatta__1-esito`** · esito «Il terzo gradino» · opzione «Salire con Gretchen» · esito · 191 caratteri
+
+> Sali la scala curva dietro Grècen, che tiene sollevato l'orlo del vestito con due dita. Il terzo gradino scricchiola sotto di te e tace sotto di lei, che sa dove mettere i piedi da vent'anni.
+
+**`la-lanterna-spenta-dopo-la-pignatta__2-esito`** · esito «La lanterna resta spenta» · opzione «Dirle che stanotte non puoi» · esito · 289 caratteri
+
+> Grècen annuisce senza discutere e torna verso la scala. Sara ti riaccompagna fuori e richiude la porta, e tu resti in strada sotto la lanterna spenta finché al primo piano qualcuno chiude una finestra. Mentre ti allontani verso il Ponte del Pesce senti le spalle rigide fino alle orecchie.
+
+### La porta della Luna Calante
+
+**`la-porta-della-luna-calante`** · scena · 1009 caratteri
+
+> Al primo piano la carta da parati è color vino, e lungo il corridoio uno degli specchi a mezzaluna è ancora girato verso il muro, come se nessuno avesse mai trovato il tempo di raddrizzarlo. Kanàt occupa il corridoio da una parete all'altra, con la mazza appoggiata alla spalla e i tatuaggi lucidi di sudore. In cima alla scala di servizio Tàchek aspetta con due dita sulla cintura.
+>
+> Dietro la porta della Luna Calante l'uomo parla forte, e da un quarto d'ora ripete che ha pagato e che la ragazza deve smetterla di piangere. Lòre invece non piange affatto. La sua voce arriva bassa e regolare, e gli sta chiedendo da dove viene.
+>
+> “Due spinte e la porta viene giù” dice Kanàt senza voltarsi. “Lui dopo esce a pezzi, e i pezzi li raccoglie la signora.”
+>
+> Grècen ti posa una mano sulla schiena. Ti dice piano che la stanza ha una finestra sul tetto della casa accanto e che la serratura è vecchia quanto la casa. Il resto lo lascia decidere a te, e intanto tiene gli occhi sulla porta senza sbattere le palpebre.
+
+**`la-porta-della-luna-calante__1-successo`** · esito «Il coltello sotto la porta» · opzione «Parlargli attraverso la porta» · successo · 480 caratteri
+
+> Ti siedi per terra con la schiena contro la porta e gli parli come a uno che conosci da anni. Gli dici che nessuno lo ha visto entrare con il coltello, e che nessuno lo vedrà uscire, se esce adesso. Lui tace per un pezzo. Poi la lama scivola sotto la porta, contro il tuo stivale, e la chiave gira. Kanàt si fa da parte, e Tàchek lo accompagna giù senza toccarlo. Lòre esce per ultima e si ferma davanti a te. “Una volta o l'altra raccontami di un mare” dice. “Anche di uno solo.”
+
+**`la-porta-della-luna-calante__1-fallimento`** · esito «La voce sbagliata» · opzione «Parlargli attraverso la porta» · fallimento · 394 caratteri
+
+> Gli parli attraverso la porta, ma usi la voce sbagliata, e lui si mette a gridare contro di te invece che contro Lòre. Mentre grida, dall'altra parte la chiave gira piano. Lòre apre la porta di una spanna e si sfila fuori sotto il suo braccio, e Kanàt entra prima che l'uomo si volti. Lo porta giù per la scala tenendolo per la collottola, con il coltello ancora nello stivale e le ossa intere.
+
+**`la-porta-della-luna-calante__2-successo`** · esito «Sul tetto accanto» · opzione «Entrare dalla finestra» · successo · 478 caratteri
+
+> Esci dalla finestra del corridoio e cammini sulle tegole della casa accanto, che scricchiolano più di quanto vorresti. La finestra della Luna Calante è socchiusa. L'uomo sta in piedi in mezzo alla stanza, voltato verso la porta, e Lòre è seduta sul letto con le mani in grembo. Lei ti vede e non cambia espressione. Gli chiede un bicchiere d'acqua, e mentre lui si gira verso la brocca tu sei già dentro con una mano sul suo polso. Il coltello cade sul tappeto senza far rumore.
+
+**`la-porta-della-luna-calante__2-fallimento`** · esito «La grondaia» · opzione «Entrare dalla finestra» · fallimento · 383 caratteri
+
+> A metà strada la grondaia cede sotto il tuo piede, e resti appeso al bordo del tetto con le gambe nel vuoto sopra Via del Salmone. L'uomo sente il rumore e corre alla finestra a guardare. Lòre apre la porta alle sue spalle, e Kanàt lo prende prima che si volti. Ti tira su Tàchek, per il colletto, con una mano sola. Hai le palme sbucciate e un ginocchio che ti farà male per giorni.
+
+**`la-porta-della-luna-calante__3-esito`** · esito «Due spinte» · opzione «Lasciar fare a Kanat» · esito · 442 caratteri
+
+> Basta un tuo cenno, e alla seconda spinta di Kanàt la porta viene giù con tutto il telaio. L'uomo esce dalla Luna Calante con il braccio piegato nel verso sbagliato, e il coltello resta sul tappeto. Lòre esce dopo di lui senza un graffio. Tre giorni dopo due ragazzi di Màuro rompono i vetri del pianterreno con i sassi, e Grècen paga il vetraio di tasca sua. Quando passi per Via dei Rasoi, adesso, ti saluta con un po' meno calore di prima.
+
+**`la-porta-della-luna-calante__4-esito`** · esito «Due spinte» · opzione «Lasciar fare a Kanat» · esito · 477 caratteri
+
+> Basta un tuo cenno, e alla seconda spinta di Kanàt la porta viene giù con tutto il telaio. Il mercenario esce dalla Luna Calante con il braccio piegato nel verso sbagliato, e Lòre esce dopo di lui senza un graffio. La mattina dopo sei mercenari scendono dalla Caserma e restano un'ora davanti al cristallo spento a guardare la porta, finché arriva lo sceriffo in persona a rimandarli su, per servizio. Grècen lo ringrazia sulla soglia, e a te non dice niente per una settimana.
+
+**`la-porta-della-luna-calante__5-esito`** · esito «Le ragazze decidono» · opzione «Aspettare davanti alla porta con Kanat» · esito · 467 caratteri
+
+> Ti siedi sul pavimento del corridoio accanto a Kanàt, e per un'ora ascoltate tutti e due la voce di Lòre dietro la porta. Gli chiede del suo paese e del fiume dove andava a pescare da bambino. La voce dell'uomo si fa più lenta, e verso le tre si spegne del tutto. Allora la chiave gira, e Lòre esce scalza con il coltello in mano, tenuto per la lama. Lo porge a Kanàt e ti guarda. “Dorme. Domattina avrà mal di testa, e Sara gli renderà il coltello sulla porta” dice.
+
+### Ospite della Maison
+
+**`ospite-della-maison`** · scena · 1279 caratteri
+
+> Questa volta, quando tiri la catena, Sàra Bek apre la porta grande e non indica l'armadio. Ti guarda prima la cintura e poi la faccia, e si sposta di lato con un mezzo inchino che non le hai mai visto fare. “La signora ti aspetta in salone. Le armi tienile, stasera sei un ospite” dice.
+>
+> Il salone a quest'ora è vuoto. Le lampade con gli schermi di vetro fumé danno la solita luce color miele, e sullo schermo crepato la carta dipinta si è staccata da un angolo. Nerìssa Dalvàne siede in una delle poltrone di cuoio, con un vestito scuro abbottonato fino al collo e la teiera sul tavolino. Accanto alla teiera c'è una seconda tazza vuota ma ancora tiepida, e sul piattino una matita corta come un dito, con i segni dei denti vicino alla punta.
+>
+> Nerìssa ti versa il tè della scatola di latta, quello buono. “In questa casa un ospite entra con le sue armi e beve il tè in salone, e Ciùrl gli apre prima che tiri la catena” dice. “Lo diventano in pochi. In cambio chiedo una cosa sola, e prima di chiederla voglio sapere se sei capace di darmela.” Posa la tazza sul piattino senza far rumore. “Dimmi il nome di un cliente che hai visto passare di qui.”
+>
+> [whispers] È la domanda che farei io, se avessi una casa da difendere. Il tè ti scotta la lingua, e lo tieni in bocca lo stesso.
+
+**`ospite-della-maison__1-esito`** · esito «La cosa sola» · opzione «Non dirle nessun nome» · esito · 440 caratteri
+
+> Bevi il tè e non dici niente. Nerìssa aspetta, e tu aspetti con lei, finché la tazza è vuota. “Bene” dice alla fine. La cosa che chiede è quella che hai appena fatto. I nomi che senti in questa casa restano tuoi anche fuori di qui, perfino davanti allo sceriffo. Ti versa una seconda tazza e ti racconta, con misura, di un consigliere che da un mese entra dalla porta di servizio. “Benvenuto” dice, e Sara, dalla soglia, ti chiama per nome.
+
+**`ospite-della-maison__2-successo`** · esito «Il signor Nessuno» · opzione «Inventarle un nome» · successo · 539 caratteri
+
+> Le dici con molta serietà che il martedì passa un certo Bertoldo Pace, mercante di bottoni, che porta sempre un garofano. Nerìssa ti osserva da sopra la tazza, e poi ride per la prima volta da quando la conosci, piano, con la mano davanti alla bocca. “Il signor Pace è sempre il benvenuto” dice. La cosa che chiede è quella che hai appena fatto, perché i nomi che senti in questa casa devono restare tuoi anche fuori di qui. Ti versa una seconda tazza e, insieme, una notizia su un consigliere che da un mese entra dalla porta di servizio.
+
+**`ospite-della-maison__2-fallimento`** · esito «Un nome vero» · opzione «Inventarle un nome» · fallimento · 342 caratteri
+
+> Le dici il primo nome che ti viene in mente, sicuro di averlo inventato. Nerìssa posa la tazza. È il nome di un mugnaio della Città Bassa che viene qui il giovedì, e tu lo avevi sentito al bancone senza farci caso. “Torna quando avrai imparato a dimenticarli” dice senza alzare la voce. Sara ti riaccompagna alla porta con un sorriso cortese.
+
+**`ospite-della-maison__3-esito`** · esito «Per servizio» · opzione «Chiederle della seconda tazza» · esito · 241 caratteri
+
+> Nerìssa guarda la tazza e poi la matita, e non le sposta. “È passato lo sceriffo, per servizio” dice. Lo dice con la voce piana con cui si dà l'ora, e ti versa il tè senza aggiungere altro. Dal fondo del salone Ciùrl tossisce una volta sola.
+
+**`ospite-della-maison__4-esito`** · esito «Due padroni» · opzione «Chiederle di Jass» · esito · 301 caratteri
+
+> “So che Giàss ti parla” dice Nerìssa prima che tu finisca la domanda. “Non ti chiedo che cosa ti dice. Le ragazze decidono, e lei ha deciso così.” Gira la tazza sul piattino di un quarto di giro. “Una ragazza che parla con te ha meno tempo per parlare con altri, e io questo lo chiamo un buon affare.”
+
+**`ospite-della-maison__5-esito`** · esito «Il tè resta caldo» · opzione «Dirle che non sei pronto» · esito · 324 caratteri
+
+> Le dici che per adesso preferisci restare uno che lavora dalla porta di servizio. Nerìssa annuisce, come se se lo aspettasse, e finisce il suo tè. “La teiera la tengo calda” dice. Sara ti accompagna fuori, e prima di richiudere ti tende la mano aperta, per abitudine, come per farsi dare le armi che stasera non ti ha preso.
+
+### L'orco al cancello
+
+**`dolovan-e-gli-orchi`** · scena · 1220 caratteri
+
+> Arrivi alle Scuderie della Zanna Rotta che il cielo è ancora grigio, e trovi Dolòvan Stràud piantato a gambe larghe in mezzo al cortile, con la forca del fieno stretta in mano. Scuòsh gli sta alle spalle e allunga il collo sopra di lui per vedere meglio. Al cancello, accucciato sui talloni, c'è un orco giovane e magro, con piume di uccello intrecciate nei capelli e un sacco di tela fra i piedi. Tiene per la cavezza il grigio vecchio del recinto, quello che al trotto si ricorda di essere stato giovane.
+>
+> “Stanotte il grigio ha saltato la staccionata, e lui me l'ha riportato dal fosso” dice Stràud senza voltarsi. “Dice che sa ferrare e che cerca lavoro. Io gli ho detto che so scuoiare.” Sputa nella paglia. “Il mio garzone è morto la notte delle Foglie Alate, e da allora i box li pulisco da solo. Lo so anch'io che mi serve qualcuno, e adesso lo sa pure lui.”
+>
+> L'orco non si muove e non abbassa gli occhi. Il grigio gli annusa le piume a lungo, poi gli appoggia il muso sulla spalla e lo lascia lì. [whispers] Il cavallo ha già deciso, e Stràud se n'è accorto. Senti le dita che si chiudono da sole intorno alla cinghia della bisaccia, mentre dietro la staccionata una cavalla batte lo zoccolo per avere la biada.
+
+**`dolovan-e-gli-orchi__1-successo`** · esito «Le capre del Gradone» · opzione «Parlare con l'orco» · successo · 549 caratteri
+
+> Ti accucci accanto a lui sui talloni, alla sua altezza. Si chiama Kàrb e parla un comune storto, con le parole messe in fila una alla volta. Al Gradone Rosso badava alle capre della tribù, e la notte della razzia l'hanno lasciato indietro con le bestie. Dopo, quando i suoi sono andati a chiedere asilo a Bàltog, lui non li ha seguiti. Lo riferisci a Stràud parola per parola. Stràud pianta la forca nella paglia e indica il box in fondo, il più lontano dalla strada. “A giornata, pagato in pane come tutti” dice. “E i clienti non ti devono vedere.”
+
+**`dolovan-e-gli-orchi__1-fallimento`** · esito «Troppe domande» · opzione «Parlare con l'orco» · fallimento · 395 caratteri
+
+> Gli fai troppe domande in fila sulla strada che ha fatto e su chi lo manda, e a un certo punto l'orco smette di rispondere. Stràud ti guarda come guarderebbe un cavallo che scalcia nel box. Poi dice all'orco di lasciare la cavezza sul palo e di tornare domani, se gli resta la voglia. L'orco obbedisce senza fretta e si siede dall'altra parte della strada, sul suo sacco, con la schiena al muro.
+
+**`dolovan-e-gli-orchi__2-successo`** · esito «L'erba del fosso» · opzione «Guardare la zampa del grigio» · successo · 502 caratteri
+
+> Ti chini sullo stinco del grigio. Il taglio è pulito, e sopra c'è un impiastro di foglie masticate tenuto fermo con un filo d'erba. Riconosci l'odore amaro della piantaggine, la stessa che Stràud fa seccare alla trave della selleria. Glielo dici, e Stràud si accovaccia accanto al cavallo e annusa l'impiastro a lungo. “Chi te l'ha insegnata?” chiede all'orco senza guardarlo. “Mia madre” risponde lui. Stràud si rialza e gli butta una striglia, che l'orco prende al volo. “Una settimana. Poi vediamo.”
+
+**`dolovan-e-gli-orchi__2-fallimento`** · esito «La zampa sbagliata» · opzione «Guardare la zampa del grigio» · fallimento · 401 caratteri
+
+> Ti chini sul grigio e gli alzi la zampa sbagliata, quella sana. Mentre la giri e la rigiri il cavallo si innervosisce e tira la cavezza, e l'orco lo calma con un suono basso della gola, che al grigio sembra bastare. Stràud vede la scena e diventa ancora più scuro in faccia. Dice all'orco di lasciare il cavallo sul palo e di tornare domani, e a te di tornare quando avrai imparato a contare le zampe.
+
+**`dolovan-e-gli-orchi__3-esito`** · esito «La carriola rossa» · opzione «Mandarlo all'Orlo da Grusk» · esito · 495 caratteri
+
+> Accompagni l'orco giù fino all'Orlo dei Rottami, e Stràud vi guarda andare via con la forca ancora in mano. Seduto sulla carriola rossa, Grùsk osserva le piume a lungo con la testa inclinata. “Grùsk una volta aveva i capelli” dice alla fine, e gli mette in mano un sacco di rottami da dividere, il ferro da una parte e il rame dall'altra. Quando ripassi dalle Scuderie, Stràud ha rimesso la forca al suo chiodo. Accanto al cancello, su un palo, ha lasciato mezza pagnotta, e non ti dice per chi.
+
+**`dolovan-e-gli-orchi__4-esito`** · esito «Tonio» · opzione «Dare ragione a Stroud» · esito · 469 caratteri
+
+> Dici all'orco che qui non c'è lavoro. Lui consegna la cavezza a Stràud e si incammina verso i boschi, con il sacco in spalla. Stràud manda un ragazzino alla Caserma ad avvisare, come fa ogni volta che vede un orco. Poi ti versa un dito di grappa nella selleria e racconta che il garzone si chiamava Tonio e aveva quattordici anni, e che la sera del Festival era salito in piazza a vedere le lanterne. Mentre parla gira il bicchiere fra le dita, e la grappa non la beve.
+
+**`dolovan-e-gli-orchi__5-esito`** · esito «Fra dieci anni» · opzione «Raccontargli dei cuccioli di Capomozzo» · esito · 476 caratteri
+
+> Gli racconti della stanza calda sotto Capomozzo, delle gabbie di assi e della ciotola sola che si contendevano in tre. Stràud ascolta fino in fondo appoggiato alla forca. “Allora fra dieci anni quei tre li caccerò io” dice, e ride senza allegria. Poi si gira verso l'orco e gli chiede se anche lui ha cominciato in una gabbia. L'orco annuisce una volta sola. Stràud resta zitto per un pezzo, poi gli indica il box in fondo fino a domani sera, e si allontana con Scuòsh dietro.
+
+### La bilancia di Grusk
+
+**`la-bilancia-di-grusk`** · scena · 1349 caratteri
+
+> La baracca di Grùsk sta in cima alla discesa dell'Orlo, fatta di lamiere inchiodate su un telaio di travi precuriane, e davanti alla porta, sotto una tettoia, c'è la bilancia. È una bilancia a due piatti alta quanto un uomo, con il giogo d'ottone annerito e i piatti ricavati da due scudi ammaccati, e anche da ferma pende un poco a sinistra. Sulla trave qualcuno ha scritto a gesso peso giusto, e qualcun altro ci ha aggiunto un punto interrogativo.
+>
+> Stamattina Grùsk non canta. Ti viene incontro con gli occhi cerchiati, e i tatuaggi sulle palpebre gli tremano. Giù dalla strada scende un uomo magro in giubba verde, con una cassetta di pesi campione sotto il braccio e un garzone dietro che gli porta il registro. “Il pesatore della Gilda” dice Grùsk. “Viene una volta all'anno, e Grùsk se lo dimentica sempre.” Ti si abbassa all'orecchio, con un fiato da cantina. “La bilancia pende dalla parte dei ragazzi. Loro portano un sacco e Grùsk gli paga un sacco e un quarto, e il quarto lo ritrova sui Raschiatori quando scaricano dall'altra parte. Se la trovano storta, a Grùsk la licenza la tolgono.”
+>
+> Il capo dei ragazzi, quello con l'ingranaggio al collo, vi guarda da sopra un mucchio di lamiere. [whispers] Grùsk ruba ai Raschiatori per pagare i bambini, e adesso vuole che lo copra io. Il ragazzino si stringe l'ingranaggio nel pugno e aspetta.
+
+**`la-bilancia-di-grusk__1-successo`** · esito «Il sigillo sbagliato» · opzione «Trattenere il pesatore lungo la discesa» · successo · 482 caratteri
+
+> Fermi il pesatore a metà discesa e gli chiedi dei suoi pesi campione, e lui ti spiega per filo e per segno quanto poco lo paga la Casa dei Nodi. Alle sue spalle i ragazzi fanno rotolare la bilancia di Grùsk dietro la baracca e al suo posto montano quella del vecchio spazzino della baracca accanto, dritta come un fuso. Il pesatore la controlla, ci batte sopra il sigillo di piombo e se ne va soddisfatto. Il capo dei ragazzi ti mette in mano una scheggia incisa, senza dire niente.
+
+**`la-bilancia-di-grusk__1-fallimento`** · esito «La multa» · opzione «Trattenere il pesatore lungo la discesa» · fallimento · 445 caratteri
+
+> Fermi il pesatore a metà discesa, ma è un uomo che non ama parlare, e ti risponde a monosillabi senza rallentare. Arriva alla tettoia mentre i ragazzi stanno ancora spingendo la bilancia, e li guarda finché la rimettono al suo posto. Prova i pesi campione due volte. Poi scrive una riga sul registro, chiude il giogo con un sigillo di piombo e lascia a Grùsk una multa di dieci monete. Quella sera i ragazzi vengono pagati un sacco per un sacco.
+
+**`la-bilancia-di-grusk__2-successo`** · esito «Il cartello» · opzione «Raddrizzare la bilancia prima che arrivi» · successo · 484 caratteri
+
+> Ti infili sotto la tettoia e trovi il trucco sotto il piatto di sinistra, un grosso dado precuriano saldato con il piombo. Lo stacchi con lo scalpello di Grùsk, e il giogo torna in squadra proprio mentre il pesatore entra sotto la tettoia. Prova i pesi campione e batte il sigillo. Quando se ne va, Grùsk dipinge un cartello da appendere alla trave, un quarto in più a chi è più basso della cariola, con una erre sola. I Raschiatori leggono il cartello e per una volta non protestano.
+
+**`la-bilancia-di-grusk__2-fallimento`** · esito «Sotto la tettoia» · opzione «Raddrizzare la bilancia prima che arrivi» · fallimento · 405 caratteri
+
+> Ti infili sotto la tettoia e cerchi il difetto nel giogo, nei ganci, nelle catene dei piatti. Quando il pesatore arriva sei ancora lì sotto, a quattro zampe, con lo scalpello in mano, e la scena non ha bisogno di spiegazioni. Prova i pesi campione e scrive una riga sul registro. Poi lascia a Grùsk una multa di dieci monete e un sigillo di piombo sul giogo, e a te un'occhiata lunga dalla testa ai piedi.
+
+**`la-bilancia-di-grusk__3-successo`** · esito «Fino a sera» · opzione «Dire la verità al pesatore» · successo · 487 caratteri
+
+> Gli racconti tutto, del quarto in più ai ragazzi e del quarto in meno ai Raschiatori. Il pesatore si chiama Fabrizio Lòdde, e da ragazzo frugava fra i rottami due baracche più in là. Prova i pesi campione e scrive sul registro pende a sinistra. Poi richiude il libro con il dito in mezzo. “Torno stasera” dice a Grùsk, “e voglio trovarla dritta. Il quarto ai ragazzi glielo paghi di tasca tua.” La sera la bilancia è dritta, e Grùsk conta le monete del quarto bestemmiando a ogni moneta.
+
+**`la-bilancia-di-grusk__3-fallimento`** · esito «Tutto sul registro» · opzione «Dire la verità al pesatore» · fallimento · 380 caratteri
+
+> Gli racconti tutto, del quarto in più ai ragazzi e del quarto in meno ai Raschiatori, e il pesatore ti ascolta con attenzione. Poi riapre il registro e scrive tutto, compreso il tuo nome, con una grafia piccola e ordinata. Lascia a Grùsk una multa di dieci monete e un sigillo di piombo sul giogo. Grùsk paga, e per il resto della giornata, quando ti incrocia, guarda la carriola.
+
+**`la-bilancia-di-grusk__4-esito`** · esito «Un sacco e un quarto» · opzione «Lasciare che il pesatore faccia il suo lavoro» · esito · 472 caratteri
+
+> Ti fai da parte. Grùsk ti guarda e ti promette che Grùsk se lo ricorderà. Il pesatore trova la bilancia storta al primo peso, scrive una riga sul registro e chiude il giogo con un sigillo di piombo. Poi lascia a Grùsk dieci monete di multa. Al prossimo carico i Raschiatori avranno il peso giusto. Quella sera ripassi dall'Orlo e vedi Grùsk seduto sulla carriola rossa, che paga i ragazzi un sacco e un quarto con le monete del suo borsello, e intanto canta la sua strofa.
+
+### La Segheria dopo i Malgrani
+
+**`la-segheria-dopo-i-malgrani`** · scena · 1234 caratteri
+
+> Sul cancello della Segheria lo stemma dei Malgràni, l'albero trafitto dalla lama, l'hanno coperto con una mano di calce, e da sotto spunta ancora la punta della lama. Sopra qualcuno ha inchiodato una tavola con scritto a carbone Cooperativa dei taglialegna, e la g è venuta più grande delle altre lettere. Nel cortile i taglialegna stanno in due gruppi, ai due lati del mucchio di trucioli, ognuno con il suo caposquadra, e in mezzo passa soltanto la portinaia con la scopa di saggina.
+>
+> Sotto il porticato Màrko Tèssel aspetta in camicia di lino pulita, con un baule chiuso ai piedi e in mano una lettera con il sigillo di un grossista di Làresh. “Stasera votano se tenermi, a paga di operaio” dice, e ti sorride come si sorride a un cliente che non ha ancora deciso. “Leggo una venatura meglio di tutti loro messi insieme, e a Làresh trattano soltanto con me. Però in tutti questi anni i loro nomi non li ho mai imparati.” Picchietta la lettera contro il baule. “A Làresh mi offrono il doppio, e là nessuno pretende che mi ricordi come si chiama.”
+>
+> La portinaia si ferma accanto a te e si appoggia alla scopa. [whispers] Vuole restare, e non lo dirà mai per primo. Il ronzio del cristallo ti sale su per le suole fino alle ginocchia.
+
+**`la-segheria-dopo-i-malgrani__1-successo`** · esito «Venti nomi» · opzione «Portarlo giù nel cortile a chiedere i nomi» · successo · 476 caratteri
+
+> Scendi i tre gradini con lui e lo porti davanti al primo taglialegna. Màrko gli chiede come si chiama, e il taglialegna glielo dice dopo un momento di sospetto. Lui lo ripete e lo scrive su un tronco con la matita da carpentiere, e così per tutti e venti, dalla prima squadra alla seconda. Al voto i due capisquadra alzano la mano insieme, e per la prima volta da settimane sono d'accordo su qualcosa. Quella sera Màrko offre da bere a tutto il cortile, e il giro lo paga lui.
+
+**`la-segheria-dopo-i-malgrani__1-fallimento`** · esito «Il terzo nome» · opzione «Portarlo giù nel cortile a chiedere i nomi» · fallimento · 393 caratteri
+
+> Scendi i tre gradini con lui. Màrko sbaglia i primi due nomi, e al terzo un taglialegna sputa nei trucioli e se ne torna al suo gruppo. Lui risale sotto il porticato con il sorriso intatto e le orecchie rosse. Il voto lo rimandano a un'altra sera, e il baule resta dov'è, ancora chiuso. La portinaia ricomincia a spazzare intorno ai tuoi piedi, e ti fa capire con la scopa che sei d'intralcio.
+
+**`la-segheria-dopo-i-malgrani__2-successo`** · esito «Un terzo in meno» · opzione «Mostrare ai taglialegna quanto vale a Laresh» · successo · 468 caratteri
+
+> Ti fai dare i registri e passi un'ora nell'ufficio con i contratti di Làresh. Il conto è semplice da fare e brutto da sentire, perché senza Màrko i grossisti pagherebbero il legname un terzo in meno, oppure andrebbero a comprarlo altrove. Lo spieghi ai due capisquadra seduti sullo stesso tronco, con le cifre scritte grandi su un'asse. Al voto lo tengono, e a paga di maestro. Màrko rilegge le tue cifre e ti chiede, offeso, dove hai imparato a contare meglio di lui.
+
+**`la-segheria-dopo-i-malgrani__2-fallimento`** · esito «Le cifre sull'asse» · opzione «Mostrare ai taglialegna quanto vale a Laresh» · fallimento · 356 caratteri
+
+> Scrivi le cifre grandi su un'asse e le spieghi ai due capisquadra, e a metà spiegazione ti accorgi di aver sommato le partite di due anni diversi. Uno dei capisquadra se ne accorge un attimo dopo di te. Da quel momento discutono dell'asse e non di Màrko, e il voto slitta a un'altra sera. Màrko, dal porticato, ha seguito tutto senza smettere di sorridere.
+
+**`la-segheria-dopo-i-malgrani__3-esito`** · esito «Il carro di Laresh» · opzione «Aiutarlo a caricare il baule» · esito · 455 caratteri
+
+> Prendi una maniglia del baule e Màrko l'altra, e lo portate fino al carro del grossista fermo sul ponte. Prima di salire, da sobrio, Màrko ti racconta a voce bassa come i Malgràni trattenevano le partite di legname perché in città il prezzo salisse. Adesso che Ottóne è finito, dice, non gli costa più niente. Parte senza salutare il cortile. La portinaia guarda il carro allontanarsi e dice il suo nome per intero, Màrko Tèssel, come si legge una lapide.
+
+**`la-segheria-dopo-i-malgrani__4-successo`** · esito «A Laresh, diceva» · opzione «Fargli dire la verità su Rennick» · successo · 520 caratteri
+
+> Glielo chiedi davanti a tutto il cortile, a voce abbastanza alta. Per un po' Màrko sorride, poi smette. Ammette che Rènnik non è mai andato a Làresh e che a dirlo glielo aveva ordinato Ottóne, con quattro uomini in livrea al cancello per ricordarglielo. I taglialegna lo ascoltano fino in fondo. Poi votano di tenerlo a paga di operaio, a spingere tronchi sulla rampa per sei mesi. Màrko piega in quattro la lettera di Làresh e se la mette in tasca, poi si toglie la camicia buona e la appende a un chiodo del porticato.
+
+**`la-segheria-dopo-i-malgrani__4-fallimento`** · esito «Il sorriso» · opzione «Fargli dire la verità su Rennick» · fallimento · 376 caratteri
+
+> Glielo chiedi davanti a tutto il cortile, e Màrko ti risponde con il sorriso che riserva ai mercanti quando il prezzo non gli piace. Dice che Rènnik a Làresh ci doveva andare davvero, e che poi le cose sono cambiate per tutti. Metà del cortile gli crede e l'altra metà no, e il voto lo rimandano. Tu resti con la sensazione di aver perso una trattativa che non sapevi di fare.
+
+### L'Acciaieria senza padrone
+
+**`l-acciaieria-senza-padrone`** · scena · 1223 caratteri
+
+> Dalla ciminiera dei Tarvèlin non esce fumo, e la Città Bassa, che se l'è vista fumare sopra i tetti per tutta la vita, ogni tanto alza gli occhi a controllarla. Sulla porta delle consegne la corona di foglie rosse per gli otto operai morti è diventata marrone. Davanti al cancello, seduti sul muretto, ci sono quelli del turno di giorno, una ventina, con le maschere di cuoio appese alla cintura. Vengono tutte le mattine all'ora del cambio, perché non sanno dove altro andare.
+>
+> Il capoturno del giorno ti viene incontro e ti guarda prima le mani e poi la faccia, come fa con chiunque. Si chiama Abele Torsi, e senza la maschera ha una faccia più giovane della voce. “Il mazzo di chiavi del vecchio ce l'hai tu, in Città Bassa lo sanno tutti” dice. “Alla Casa dei Nodi vogliono riaccendere con gente nuova e un amministratore, e la padrona non ne vuole sentir parlare. Intanto le famiglie degli otto non prendono un soldo.”
+>
+> Dal fondo della strada arriva Ìrsa Valbrùn con il panciotto buono e una cartella della Gilda sotto il braccio. Si ferma davanti al cancello e guarda gli operai, poi te. [whispers] Aspettano tutti che tiri fuori le chiavi. Il mazzo ti tira giù la tasca della giubba, e la mano ci è già andata sopra.
+
+**`l-acciaieria-senza-padrone__1-esito`** · esito «La cartella della Gilda» · opzione «Dare le chiavi a Irsa per la Gilda» · esito · 465 caratteri
+
+> Tiri fuori il mazzo. Ìrsa prima ti guarda e poi lo prende, e prima di infilarselo in tasca apre la cartella sul muretto. Con la sua calligrafia da notaio scrive che il turno di giorno sarà riassunto per primo, e che dalla prima colata una parte andrà alle famiglie degli otto. Lo fa firmare ad Abele e poi lo firma lei. Una settimana dopo la ciminiera fuma di nuovo, e l'amministratore della Gilda gira per i reparti con i guanti bianchi, che a sera sono già grigi.
+
+**`l-acciaieria-senza-padrone__2-successo`** · esito «Come i mulini» · opzione «Proporre che la mandino avanti gli operai» · successo · 502 caratteri
+
+> Ti siedi sul muretto con Abele e fate i conti sul retro di una bolla di consegna. Da una parte mettete il carbone e i cristalli delle fondamenta, dall'altra il prezzo che Ìrsa paga per il lìssan. Tornano, se la paga si divide e una quota va alle famiglie degli otto. Porti il foglio al Grifone, e Liàren lo legge due volte. Firma la concessione agli operai per un affitto di una moneta all'anno. “Purché il lìssan esca senza il nome di mio padre” dice, e ti rende il foglio con la firma ancora bagnata.
+
+**`l-acciaieria-senza-padrone__2-fallimento`** · esito «Chi prende di più» · opzione «Proporre che la mandino avanti gli operai» · fallimento · 344 caratteri
+
+> Ti siedi sul muretto con Abele a fare i conti, e prima che il foglio sia pieno gli operai cominciano a discutere se debbano prendere di più quelli della colata o quelli dei carrelli. Abele prova a farli tacere e alza la voce anche lui. Ìrsa aspetta un poco, poi richiude la cartella e se ne va. Il foglio resta sul muretto, con le cifre a metà.
+
+**`l-acciaieria-senza-padrone__3-successo`** · esito «In società» · opzione «Proporre che la mandino avanti gli operai» · successo · 464 caratteri
+
+> Ti siedi sul muretto con Abele e fate i conti sul retro di una bolla di consegna. Da una parte mettete il carbone e i cristalli delle fondamenta, dall'altra il prezzo che Ìrsa paga per il lìssan. Tornano, se la paga si divide e una quota va alle famiglie degli otto. Porti il foglio al Grifone, e Liàren lo legge due volte. Firma la concessione agli operai in società, per un affitto di una moneta all'anno. “Purché il lìssan esca senza il nome di mio padre” dice.
+
+**`l-acciaieria-senza-padrone__3-fallimento`** · esito «Chi prende di più» · opzione «Proporre che la mandino avanti gli operai» · fallimento · 344 caratteri
+
+> Ti siedi sul muretto con Abele a fare i conti, e prima che il foglio sia pieno gli operai cominciano a discutere se debbano prendere di più quelli della colata o quelli dei carrelli. Abele prova a farli tacere e alza la voce anche lui. Ìrsa aspetta un poco, poi richiude la cartella e se ne va. Il foglio resta sul muretto, con le cifre a metà.
+
+**`l-acciaieria-senza-padrone__4-successo`** · esito «Al tavolo d'angolo» · opzione «Portare Irsa da Liaren» · successo · 474 caratteri
+
+> Al Grifone Liàren vi fa sedere al tavolo d'angolo, e Brunèlla resta in piedi accanto alla cucina con il mestolo in mano. Liàren dice di no prima ancora che Ìrsa apra la cartella. Allora le parli delle famiglie degli otto e di Abele sul muretto con le mani in mano. Alla fine si accordano. L'Acciaieria resta dei Tarvèlin, la manda avanti Ìrsa con Abele alla fornace, e la parte di Liàren va alle famiglie degli otto, tutta. Ìrsa ti chiede le chiavi, e Liàren fa segno di sì.
+
+**`l-acciaieria-senza-padrone__4-fallimento`** · esito «Il mestolo» · opzione «Portare Irsa da Liaren» · fallimento · 341 caratteri
+
+> Al Grifone Liàren vi fa sedere al tavolo d'angolo, e alla parola Gilda si alza in piedi. Ìrsa prova a spiegarsi e Liàren le indica la porta. Brunèlla si avvicina con il mestolo per accompagnarvi fuori, e Ìrsa esce per prima con la cartella sotto il braccio, a testa alta. Sulla strada ti dice che ci riproverà quando la padrona avrà dormito.
+
+**`l-acciaieria-senza-padrone__5-esito`** · esito «Il muretto» · opzione «Tenerti le chiavi ancora un po'» · esito · 410 caratteri
+
+> Dici ad Abele che le chiavi restano con te finché qualcuno non avrà un'idea migliore. Abele annuisce e torna a sedersi sul muretto con gli altri. Ìrsa ti guarda a lungo, poi ti saluta toccandosi il panciotto e riprende la strada della Casa dei Nodi. Quando giri l'angolo gli operai sono ancora lì sul muretto, e qualcuno ha tirato fuori un pezzo di pane da dividere. Sopra di loro la ciminiera è ancora spenta.
+
+### Le petizioni
+
+**`le-petizioni`** · scena · 1294 caratteri
+
+> La donna in fondo alla panca l'hai già vista due volte, sempre nello stesso posto, sotto lo spiffero. È una lavandaia della Città Bassa, Ada Rùsca, con le maniche rimboccate sopra i gomiti e le mani arrossate dall'acqua del lavatoio, e tiene sulle ginocchia un foglio piegato in quattro. Quando Tullio Mèrga chiama l'ultimo nome della mattina, che è di un altro, Ada si alza lo stesso per andare al bancone.
+>
+> “Sono tre mesi” dice. “Davanti al lavatoio c'è un ponticello di assi sopra il canale di scolo, e le assi sono marce. Ci è caduta dentro una bambina, e l'abbiamo tirata fuori per i capelli.” Tullio inforca gli occhiali e cerca nel registro, poi le risponde che la sua petizione è in esame. Lo dice gentilmente, come le altre due volte.
+>
+> Ada se ne va senza discutere. Tullio prende i fogli arrivati in mattinata e li divide in due mucchi. Quelli scritti bene, che hanno il sigillo e i margini dritti, vanno nel cesto di vimini che il garzone porta nell'ufficio della Rappresentante. Gli altri, con le macchie d'inchiostro e le croci al posto delle firme, finiscono in una cassa sotto il bancone. Ti si stringe lo stomaco. [whispers] Il cesto sale al piano di sopra, e la cassa invece scende. A fine mattina il garzone si carica la cassa in spalla e prende le scale verso il seminterrato.
+
+**`le-petizioni__1-successo`** · esito «In archivio» · opzione «Chiedere a Tullio dove va la cassa» · successo · 398 caratteri
+
+> Aspetti che la panca si svuoti e gli chiedi della cassa con il tono che useresti per il tempo. Tullio si toglie gli occhiali e li pulisce sulla manica. “In archivio” dice, “in ordine, per anno.” Gli chiedi se la Rappresentante le legge, e lui resta con gli occhiali in mano, come se nessuno gliel'avesse mai domandato. Poi prende una candela dal cassetto e ti fa segno di seguirlo giù per le scale.
+
+**`le-petizioni__1-fallimento`** · esito «Davanti al pubblico» · opzione «Chiedere a Tullio dove va la cassa» · fallimento · 353 caratteri
+
+> Gli chiedi della cassa mentre la panca è ancora mezza piena, e Tullio arrossisce fino alle orecchie. Ti risponde a voce alta che le petizioni del Municipio seguono la procedura, e che la procedura non si discute davanti al pubblico. Da quel momento ti chiama per cognome e ti fa aspettare in fondo alla panca, sotto lo spiffero, accanto al posto di Ada.
+
+**`le-petizioni__2-successo`** · esito «La porta bassa» · opzione «Seguire il garzone con la cassa» · successo · 499 caratteri
+
+> Lasci che il garzone prenda un po' di vantaggio e scendi dietro di lui rasente al muro. In fondo alle scale le sentinelle guardano soltanto la grata della banca. Il garzone gira dall'altra parte, verso una porta bassa senza guardia, e ne esce a mani vuote fischiettando. Dentro ci sono casse impilate fino al soffitto, con l'anno scritto col gesso sul coperchio. Ti infili dentro anche tu, e stai ancora leggendo le date quando alle tue spalle si accende una candela, e a tenerla in mano c'è Tullio.
+
+**`le-petizioni__2-fallimento`** · esito «La grata della banca» · opzione «Seguire il garzone con la cassa» · fallimento · 352 caratteri
+
+> Scendi dietro il garzone tenendoti al muro, e in fondo alle scale sbagli corridoio. Ti ritrovi davanti alla grata della banca cittadina, con due sentinelle che ti chiedono che cosa ci fai lì. La spiegazione che dai non convince nemmeno te. Ti riaccompagnano su per le scale fino alla panca, e Tullio annota qualcosa nel registro senza alzare gli occhi.
+
+**`le-petizioni__3-successo`** · esito «La erre a margine» · opzione «Leggere il registro delle petizioni» · successo · 481 caratteri
+
+> Quando Tullio va a pranzo ti chini sul registro. Ogni petizione ha la sua riga con la data e il nome, e in fondo l'esito, che di solito è accolta oppure rinviata. Quella di Ada ha soltanto una erre piccola a margine. Ce ne sono centinaia come la sua, quasi sempre di gente della Città Bassa e mai con un esito, e sfogliando all'indietro le erre continuano per tre anni. Tullio ti trova lì quando torna, con il pane ancora in mano, e invece di arrabbiarsi va a prendere una candela.
+
+**`le-petizioni__3-fallimento`** · esito «Su richiesta scritta» · opzione «Leggere il registro delle petizioni» · fallimento · 368 caratteri
+
+> Ti chini sul registro mentre Tullio è a pranzo e trovi la riga di Ada. Stai ancora cercando di capire che cosa voglia dire la lettera piccola a margine quando Tullio rientra, con il pane avvolto nel fazzoletto. Chiude piano il registro con due dita e ti ricorda che i registri del Municipio si consultano su richiesta scritta, con i margini dritti e la firma in fondo.
+
+**`le-petizioni__4-esito`** · esito «Fino alla chiusura» · opzione «Aspettare la chiusura con Ada» · esito · 417 caratteri
+
+> Il giorno dopo ti siedi accanto ad Ada e aspetti con lei. Ti racconta della bambina caduta nel canale, e poi di sua figlia, che è a servizio nei Quartieri Alti e la domenica le scrive le petizioni. Il pomeriggio passa lento. All'ora di chiusura Tullio spegne le lampade una alla volta, si accorge che sei ancora lì e guarda la cassa sotto il bancone. Sospira a lungo, poi prende una candela e ti fa segno di seguirlo.
+
+### La cassa dei respinti
+
+**`la-cassa-dei-respinti`** · scena · 1038 caratteri
+
+> Il seminterrato del Municipio odora di carta umida e di sego. Oltre la grata della banca cittadina, in fondo al corridoio, c'è una stanza bassa senza finestre, e Tullio ci fa luce tenendo la candela sopra la testa. Le casse sono impilate contro il muro fino al soffitto, una per ogni anno, e la chiave della stanza lui la tiene legata alla cintura. Quella di quest'anno è aperta, e il foglio di Ada sta in cima.
+>
+> “Le petizioni vanno presentate in ordine” dice Tullio, e la fiamma trema un poco. “Lo diceva il Rappresentante di prima. La Rappresentante Castàldi legge tutto, e io non volevo farle perdere tempo con le macchie e con le croci.” Si toglie gli occhiali e se li rigira fra le dita. “Le tenevo da parte, in ordine, per anno. Pensavo che prima o poi qualcuno le avrebbe ricopiate bene.”
+>
+> Prendi il foglio di Ada e lo apri alla luce della candela. La grafia è quella di una ragazza che ha imparato a scrivere tardi, e in fondo alla pagina c'è il ponticello disegnato a penna, con una crocetta nel punto in cui è caduta la bambina.
+
+**`la-cassa-dei-respinti__1-esito`** · esito «Una notte di petizioni» · opzione «Portare la cassa a Julia» · esito · 502 caratteri
+
+> Porti la cassa di quest'anno su per le scale fino all'ufficio di Iùlia, con Tullio che ti viene dietro reggendo la candela. Iùlia ascolta senza interromperti. Poi apre la cassa e comincia a leggere, e alla seconda petizione dice a Tullio che domattina vuole sulla scrivania anche quelle degli anni prima. Il giorno dopo la panca è piena di gente della Città Bassa che lei ha mandato a chiamare per nome, e la prima è Ada. Tullio smista ancora i fogli in due mucchi, però adesso li porta su tutti e due.
+
+**`la-cassa-dei-respinti__2-esito`** · esito «In ordine, per anno» · opzione «Lasciare che sia Tullio a portarla su» · esito · 474 caratteri
+
+> Dici a Tullio che la cassa deve portarla su lui, e che tu lo accompagni. Lui resta zitto per un pezzo, con gli occhiali in mano. Poi se la carica in spalla e sale le scale fermandosi a ogni pianerottolo. Davanti alla porta di Iùlia bussa due volte e ti fa cenno di aspettare fuori. Esce mezz'ora dopo senza la cassa e con le orecchie rosse. Ti racconta che la Rappresentante l'ha ringraziato di avergliele tenute in ordine, e lo racconta come se non ci credesse nemmeno lui.
+
+**`la-cassa-dei-respinti__3-esito`** · esito «La bella copia» · opzione «Ricopiare in bella la petizione di Ada» · esito · 504 caratteri
+
+> Ti porti via il foglio di Ada e un foglio di carta buona del Municipio, che Tullio ti allunga senza farsi vedere. Ricopi la petizione con i margini dritti e lo spazio per il sigillo, e in fondo ridisegni il ponticello con la crocetta al suo posto. La mattina dopo la petizione sale nel cesto di vimini. Tre giorni più tardi al lavatoio arrivano due falegnami del Comune, e Ada ti manda a dire che il bucato, da lei, non lo paghi più. Nel seminterrato la cassa di quest'anno resta dov'era, sotto le altre.
+
+### Il ritratto della Rappresentante
+
+**`il-ritratto-della-rappresentante`** · scena · 1257 caratteri
+
+> Stamattina la parete sopra la panca è vuota, con un rettangolo più chiaro dove stava il ritratto e un chiodo piegato in mezzo. Il quadro è appoggiato alla panca, con la cornice spaccata in un angolo, e chi arriva per le udienze ci gira intorno come intorno a un ferito.
+>
+> A reggerlo dritto c'è un uomo alto e robusto, con la barba curata e un panciotto scuro. È Èttore Castàldi, il cugino della Rappresentante, che passava di qui per caso, e alle dieci del mattino ha già l'alito dolce dell'idromele. Accanto a lui una donna vestita con sobrietà detta a Tullio una lettera. “Mastro Fenzi ne dipinge uno nuovo in tre sedute” dice Marella Castàldi. “Il Municipio non può restare senza la faccia della sua Rappresentante. Tullio, scriva che bastano tre sedute, e che il quadro vecchio l'abbiamo tenuto anche troppo.”
+>
+> Dalla porta chiusa dell'ufficio arriva la voce roca di Iùlia. “Ho le udienze, Marella. Quello che c'era andava benissimo.”
+>
+> Èttore ti guarda da sopra la cornice e alza un sopracciglio. Nel quadro Iùlia ha i capelli lunghi fino alle spalle e una collana di perle, e sorride a qualcuno fuori dalla tela. [whispers] Non l'ho mai vista sorridere così a nessuno. Marella si volta verso di te e ti domanda se, visto che ci sei, hai un'idea migliore.
+
+**`il-ritratto-della-rappresentante__1-successo`** · esito «Un argomento» · opzione «Convincere Julia a posare» · successo · 334 caratteri
+
+> Entri nell'ufficio e le dici che chi aspetta sulla panca passa ore a guardare quel quadro, e che ha il diritto di sapere a chi sta chiedendo udienza. Iùlia posa la penna. “Questo è un argomento” dice, e lo dice come se le costasse ammetterlo. Si alza ed esce in anticamera a guardare il ritratto da vicino, per la prima volta da anni.
+
+**`il-ritratto-della-rappresentante__1-fallimento`** · esito «Gli argomenti di Marella» · opzione «Convincere Julia a posare» · fallimento · 331 caratteri
+
+> Le dici che Marella ha ragione, e lei ti chiede in che cosa, con la penna ancora in mano. Provi con la dignità del Municipio e poi con il buon nome della città, e a ogni frase la voce di Iùlia si fa più secca. “Sono argomenti di Marella, e lei li dice meglio” risponde alla fine. Ti accompagna alla porta e chiama il nome seguente.
+
+**`il-ritratto-della-rappresentante__2-successo`** · esito «Un'ora di colla» · opzione «Rimettere in sesto la cornice con Ettore» · successo · 464 caratteri
+
+> Èttore manda il garzone a prendere la colla dal falegname di Via del Velo, e per un'ora tenete stretta la cornice in due, lui da una parte e tu dall'altra, in ginocchio sul pavimento lucido. Ti tremano le braccia, e a lui no. Quando la colla ha fatto presa Èttore guarda il quadro con la testa inclinata. “Le somigliava, quando aveva vent'anni” dice. “Poco anche allora.” La porta dell'ufficio si apre, e Iùlia esce a vedere perché in anticamera nessuno parla più.
+
+**`il-ritratto-della-rappresentante__2-fallimento`** · esito «L'angolo che cede» · opzione «Rimettere in sesto la cornice con Ettore» · fallimento · 336 caratteri
+
+> Èttore manda il garzone a prendere la colla, e per un'ora tenete stretta la cornice in due. Verso la fine le braccia ti cedono, e l'angolo si riapre con uno schiocco che fa alzare mezza panca. Marella chiude gli occhi. Èttore riprende la cornice da solo senza fretta e ti dice a bassa voce che la prossima volta gli angoli li tiene lui.
+
+**`il-ritratto-della-rappresentante__3-successo`** · esito «La miniatura» · opzione «Chiedere a Ettore del quadro» · successo · 448 caratteri
+
+> Èttore ti fa sedere sulla panca accanto a lui, con il quadro fra le ginocchia. “Iùlia non ha mai posato” dice. “Il giorno che l'hanno eletta non aveva un'ora libera, e non l'ha avuta nemmeno dopo. Marella ha dato al pittore una miniatura di quando lei aveva vent'anni, e il pittore ci ha messo del suo.” Indica le perle con un dito calloso. “Quelle sono di Marella. Iùlia non ne ha mai avute.” Poi si alza, perché la porta dell'ufficio si è aperta.
+
+**`il-ritratto-della-rappresentante__3-fallimento`** · esito «Di Stato, a tavola» · opzione «Chiedere a Ettore del quadro» · fallimento · 330 caratteri
+
+> Chiedi a Èttore del quadro, e lui ti guarda con calma, come guarda un avventore che nella sua Birreria ha chiesto un bicchiere di troppo. Poi indica Marella con il mento. “Di Stato sì, dei Castàldi no” dice. “È la regola di casa.” Marella, che ha sentito, gli sorride con molta eleganza, ed Èttore torna a occuparsi della cornice.
+
+**`il-ritratto-della-rappresentante__4-esito`** · esito «L'ultimo nome» · opzione «Sederti sulla panca e aspettare» · esito · 425 caratteri
+
+> Ti siedi sulla panca accanto al quadro e aspetti. Marella se ne va a metà mattina lasciando a Tullio una lista di pittori, ed Èttore poco dopo, verso la Città Bassa. Il ritratto resta appoggiato lì, e chi si siede sulla panca lo guarda di sbieco. A mezzogiorno la porta si apre e Iùlia esce per chiamare l'ultimo nome. Lo chiama, poi si ferma davanti al quadro, e capisci che anche lei ha aspettato che se ne andassero tutti.
+
+### La faccia della Rappresentante
+
+**`la-faccia-della-rappresentante`** · scena · 1164 caratteri
+
+> Iùlia si ferma davanti al ritratto con le braccia conserte e lo guarda come guarda le pratiche, dall'alto in basso. Poi si accovaccia per vederlo meglio, e in anticamera nessuno gliel'aveva mai visto fare. “Le perle sono di Marella” dice senza staccare gli occhi dalla tela, “i capelli lunghi invece li avevo davvero, fino al primo mese in Municipio. Una notte, mentre firmavo i conti dei dazi, una ciocca mi è finita nel calamaio, e la mattina dopo li ho tagliati con le forbici di Tullio.”
+>
+> “Da ragazza mi sedevo su questa panca ad aspettare mio padre, che veniva a chiedere le cose al Rappresentante di allora. Si aspettava per ore. Anche lui aveva un ritratto, ed era peggio di questo, e io lo guardavo per non contare le ore” dice, e intanto passa un dito sul bordo spaccato della cornice per sentire quanto è profonda la crepa. [whispers] In tutte le udienze che hai visto non le hai mai sentito dire tante parole su di sé. Ti scopri seduto sul bordo della panca come lei da ragazza, con le mani fra le ginocchia.
+>
+> “Marella vuole un quadro nuovo, e Tullio vuole il muro pieno” dice Iùlia mentre si rialza spolverandosi la toga, “e tu che cosa ci metteresti?”
+
+**`la-faccia-della-rappresentante__1-esito`** · esito «Tre sedute» · opzione «Un ritratto nuovo, con le pratiche» · esito · 531 caratteri
+
+> Iùlia ci pensa il tempo di impilare due pergamene con gli angoli pari. “Le pratiche le porto io, così le leggo mentre lui dipinge” dice, e ne aggiunge una terza alla pila. Mastro Fenzi arriva la settimana dopo e per tre mattine dipinge in un angolo dell'ufficio mentre lei riceve. Nel quadro nuovo Iùlia ha i capelli corti e la penna in mano, e sul registro aperto davanti a lei c'è una cifra sottolineata che il pittore ha copiato senza capirla. Marella lo trova severo, e Iùlia paga il pittore di tasca sua senza dirlo a nessuno.
+
+**`la-faccia-della-rappresentante__2-esito`** · esito «Più ottimismo che somiglianza» · opzione «Rimettere su quello vecchio» · esito · 457 caratteri
+
+> Le dici che chi aspetta sulla panca ha bisogno di una Rappresentante che sorride, almeno sul muro. Iùlia guarda il ritratto e poi la panca. “Allora resta lui” dice, “e il sorriso lo lascio fare a lui, che gli riesce meglio.” Il giorno dopo il quadro torna al suo posto con la cornice incollata e un chiodo nuovo. Marella è contenta a metà, perché le sue perle si vedono ancora. Tullio giura di aver visto Iùlia, una mattina presto, raddrizzarlo con un dito.
+
+**`la-faccia-della-rappresentante__3-esito`** · esito «La lavagna» · opzione «Niente ritratto» · esito · 454 caratteri
+
+> Iùlia ci pensa un momento solo. “La lista delle udienze, scritta grande, che si legga dalla panca” dice. “Così chi aspetta sa quanto gli manca, e guarda quella invece di me.” Il giorno dopo al posto del quadro c'è una lavagna nera, e ogni mattina Tullio ci scrive i nomi con il gesso e li cancella uno alla volta. Il ritratto va al Maniero, e Marella lo appende nella sala da pranzo, dove si parla di Stato. Sulla panca, da allora, si litiga un po' meno.
+
+### Un incarico del Consiglio
+
+**`un-incarico-del-consiglio`** · scena · 1077 caratteri
+
+> Iùlia ti riceve a porta chiusa, che per lei è un privilegio raro, e ti fa sedere davanti alla scrivania. Le pratiche sono impilate con gli angoli pari in tre colonne, e in mezzo è aperto il registro del Consiglio, a una pagina dove ogni riga ha una data e nessuna ha una firma. Accanto c'è una tazza di tè con il piattino sopra per tenerlo caldo, e il tè si è freddato lo stesso.
+>
+> “Sono le pratiche che il Consiglio rinvia” dice con la voce roca. “Ogni volta che una scontenta un seggio, gli altri la rimandano di un mese, e il mese dopo la rimandano ancora. Sono faccende piccole. Un pozzo conteso fra due cortili, una casa che un creditore vuole togliere a una vedova.” Si sfila la penna da dietro l'orecchio. “Mi serve una persona che le sbrighi a nome mio, e che in Consiglio non abbia un seggio da difendere.”
+>
+> Scrive il tuo nome a matita, piccolo, sul margine della pagina, senza sottolinearlo. [whispers] Mi offre un lavoro con lo stesso tono di una multa. “Prima di scriverlo a inchiostro ne voglio vedere sbrigata una” dice. “Scegli tu quale, e torna quando è chiusa.”
+
+**`un-incarico-del-consiglio__1-successo`** · esito «Una dilazione» · opzione «La casa della vedova» · successo · 428 caratteri
+
+> Il creditore ha l'ufficio sui Ponti, sopra un magazzino di funi, e ti riceve senza alzarsi. Gli spieghi quanto costerebbe alla Gilda, in Consiglio, cacciare di casa la vedova di un miliziano caduto per la città, e lui fa i conti con te, ad alta voce. Alla fine firma una dilazione di due anni senza interessi, e ti chiede di riferire alla Rappresentante che l'idea è stata sua. Iùlia legge la dilazione e ci tira sopra una riga.
+
+**`un-incarico-del-consiglio__1-fallimento`** · esito «Il magazzino di funi» · opzione «La casa della vedova» · fallimento · 353 caratteri
+
+> Il creditore ti riceve sopra il suo magazzino di funi e ti lascia parlare per tutto il tempo che vuoi. Poi tira fuori il contratto, firmato dal miliziano in persona due anni prima della razzia, e ti mostra la clausola. Ha ragione lui, e lo sapete tutti e due. Iùlia ascolta il tuo resoconto e rimette la pratica in fondo alla pila, dove l'aveva trovata.
+
+**`un-incarico-del-consiglio__2-successo`** · esito «Due turni» · opzione «I taglialegna della cooperativa» · successo · 452 caratteri
+
+> Alla Segheria trovi i due capisquadra ai lati opposti del cortile, ognuno con la sua metà di uomini. Li fai sedere sullo stesso tronco e li lasci parlare finché non si accorgono di volere la stessa cosa, cioè che nessuno dei due comandi l'altro. Finisce con due turni, il primo di mattina e il secondo di pomeriggio, e con la paga contata insieme il sabato. Iùlia legge l'accordo, scritto da te su un foglio pieno di segatura, e ci tira sopra una riga.
+
+**`un-incarico-del-consiglio__2-fallimento`** · esito «Il tronco» · opzione «I taglialegna della cooperativa» · fallimento · 343 caratteri
+
+> Fai sedere i due capisquadra sullo stesso tronco, e per un quarto d'ora va bene. Poi uno nomina un vecchio debito di birra e l'altro si alza di scatto. In un momento mezzo cortile è in piedi con le asce in mano. Ne esci con la giubba piena di segatura e senza un accordo. Iùlia ascolta il tuo resoconto e rimette la pratica in fondo alla pila.
+
+**`un-incarico-del-consiglio__3-successo`** · esito «Il catasto vecchio» · opzione «Il pozzo dei due cortili» · successo · 462 caratteri
+
+> Passi due giorni nell'archivio del seminterrato con Tullio che ti porta i registri del catasto, un anno alla volta. Alla fine lo trovi in un volume di quarant'anni fa. Il pozzo l'hanno scavato insieme i nonni dei due cortili, e l'atto lo dice in una riga sbiadita che nessuno aveva più letto. Lo ricopi parola per parola e lo porti in Città Bassa, dove i due cortili lo ascoltano in silenzio e poi si spartiscono i turni dell'acqua. Iùlia ci tira sopra una riga.
+
+**`un-incarico-del-consiglio__3-fallimento`** · esito «La polvere del catasto» · opzione «Il pozzo dei due cortili» · fallimento · 341 caratteri
+
+> Passi due giorni nell'archivio del seminterrato a sfogliare i registri del catasto, e trovi tre pozzi con quel nome in tre strade diverse. Scegli quello sbagliato. In Città Bassa i due cortili ti ascoltano leggere l'atto fino in fondo, poi ti fanno notare che quel pozzo sta due vicoli più in là. Iùlia rimette la pratica in fondo alla pila.
+
+**`un-incarico-del-consiglio__4-successo`** · esito «Dall'alba al tramonto» · opzione «Raccogliere le firme del Consiglio in un giorno» · successo · 441 caratteri
+
+> Esci all'alba con la pratica in una cartella di cuoio e la attraversi tutta, la città, dalla Cattedrale ai Ponti e giù fino ai sottoponti dei Raschiatori. Le firme le raccogli una alla volta, sulle ginocchia di chi te le dà. Qualcuno firma senza leggere, un altro legge due volte prima di firmare. Rientri in Municipio al tramonto con le gambe di legno e i piedi gonfi, e Iùlia conta le firme col dito prima di tirare una riga sulla pratica.
+
+**`un-incarico-del-consiglio__4-fallimento`** · esito «L'ultima firma» · opzione «Raccogliere le firme del Consiglio in un giorno» · fallimento · 387 caratteri
+
+> Esci all'alba con la pratica in una cartella di cuoio e corri da un seggio all'altro per tutta la città. Alla penultima firma il sole è già basso, e l'ultimo consigliere lo trovi quando ha appena chiuso la porta e non la riapre per nessuno. Rientri in Municipio con una firma in meno e i piedi gonfi. Iùlia ti ringrazia e rimette la pratica in fondo alla pila, con le altre firme dentro.
+
+**`un-incarico-del-consiglio__5-esito`** · esito «Fino a notte» · opzione «Leggere tutta la pila con lei» · esito · 424 caratteri
+
+> Ti siedi dall'altra parte della scrivania e leggi con lei, una pratica dopo l'altra, mentre fuori la coda si scioglie e le campane suonano le ore. Verso mezzanotte ne trovi una di due anni fa che chiede una cosa già fatta da mesi, e che nessuno ha mai tolto dal registro. Iùlia la legge sorridendo appena e ci tira sopra una riga. Dopo quella ne saltano fuori altre uguali, e a notte fonda la pagina è più corta di un terzo.
+
+**`un-incarico-del-consiglio__6-esito`** · esito «A matita» · opzione «Dirle che non è il momento» · esito · 325 caratteri
+
+> Le dici che per adesso non potresti garantirle il tempo che serve. Iùlia annuisce una volta sola, come per la data di una seduta, e lascia il tuo nome a matita sul margine. “Detto chiaro” dice chiudendo il registro con la pagina dentro, “e a matita tenerlo costa poco. Resta lì finché non torni.” Poi chiama il nome seguente.
+
+### Il nome sul registro
+
+**`il-nome-sul-registro`** · scena · 929 caratteri
+
+> Iùlia riapre il registro alla pagina del margine e intinge la penna. Prima di scrivere ti guarda, con la penna sospesa sulla carta, e una goccia d'inchiostro le cade sul polsino senza che se ne accorga. “Chi è scritto qui parla a nome mio quando io non posso” dice. “Quello che fa lo firmo io, e se sbaglia ho sbagliato io. In Consiglio c'è chi aspetta soltanto questo.”
+>
+> Dal cassetto tira fuori una lettera già scritta e piegata in tre, con il sigillo del Consiglio in ceralacca, e la posa sulla scrivania fra te e lei. La ceralacca è colata un po' di traverso, perché il sigillo lo mette Tullio, e Tullio lo fa sempre di fretta per paura che si raffreddi. Hai le mani strette sulle ginocchia, e le apri piano.
+>
+> Fuori dalla finestra la coda sulla scalinata si allunga, e qualcuno in fondo comincia a battere i piedi per il freddo. Iùlia aspetta la tua risposta senza aggiungere altro, perché quello che c'era da dire l'ha detto.
+
+**`il-nome-sul-registro__1-esito`** · esito «A inchiostro» · opzione «Accettare l'incarico» · esito · 485 caratteri
+
+> Prendi la lettera e te la infili nella giubba. Iùlia scrive il tuo nome a inchiostro sopra quello a matita e lo sottolinea, una riga dritta, come le cifre. “Otto monete a incarico, e le pratiche te le do io, una alla volta” dice soffiando sull'inchiostro, “e con quella lettera ti apriranno la porta tutti i consiglieri, qualcuno anche controvoglia.” Mentre esci chiama il nome seguente, e Tullio dal bancone ti saluta inforcando gli occhiali, come per vedere meglio chi sei diventato.
+
+**`il-nome-sul-registro__2-esito`** · esito «Quando le casse si riempiono» · opzione «Accettare l'incarico» · esito · 486 caratteri
+
+> Prendi la lettera e te la infili nella giubba. Iùlia scrive il tuo nome a inchiostro sopra quello a matita e lo sottolinea, una riga dritta, come le cifre. “Le casse sono vuote, e te lo dico adesso perché dopo mi piacerebbe meno” dice soffiando sull'inchiostro, “quindi gli incarichi te li pago quando posso. Le altre volte ti pago con quello che so.” Mentre esci chiama il nome seguente, e Tullio dal bancone ti saluta inforcando gli occhiali, come per vedere meglio chi sei diventato.
+
+**`il-nome-sul-registro__3-esito`** · esito «La lettera nel cassetto» · opzione «Rifiutare con garbo» · esito · 347 caratteri
+
+> Le dici che per adesso preferisci salire quelle scale soltanto per chiedere. Iùlia rimette la lettera nel cassetto senza chiuderlo a chiave, e il tuo nome a matita resta sul margine. “Se torni, la prova la rifai” dice riaprendo la prima pratica della pila, “perché le regole del Consiglio le hanno scritte prima di me, e io le rispetto lo stesso.”
+
+### Il corvo del bancone
+
+**`il-corvo-del-bancone`** · scena · 1151 caratteri
+
+> Il cartello appeso alla porta del Nodo d'Ossidiana dice torno subito, e sotto, con un'altra penna, Àmbrin ha aggiunto il corvo resta. La porta è aperta. Sul bancone trovi un biglietto con il tuo nome, fermato da una moneta. Àmbrin è alla Casa dei Nodi per i dazi del mese e ti chiede di tenere d'occhio la bottega per un'ora. In fondo ha scritto se entra qualcuno, decide lui.
+>
+> Il corvo è al suo posto sul tronco del bancone e non ti degna di uno sguardo. Ti siedi sullo sgabello di Àmbrin, che è più alto di quanto pensassi, e aspetti con i piedi a penzoloni.
+>
+> Dopo poco la campanella suona, ed entra una signora anziana con un cappello a tesa larga e in mano una gabbia dorata, vuota a parte un biscotto di semi appoggiato sul fondo. Si ferma davanti al bancone e guarda il corvo a lungo, senza badare a te.
+>
+> “Trecento monete” dice alla fine, e posa la gabbia sul legno. “Mi chiamo Clèlia Varróne. Questo corvo era di mia nonna, e io sono venuta a riportarlo a casa.”
+>
+> Il corvo gira la testa verso la gabbia e poi verso di te. [whispers] Àmbrin, questa me la paghi. Le tue dita intanto hanno trovato la moneta del biglietto, e la girano senza sosta.
+
+**`il-corvo-del-bancone__1-successo`** · esito «La pergola» · opzione «Chiederle di sua nonna» · successo · 622 caratteri
+
+> Le cedi lo sgabello, e lei ci sale con un certo sforzo. Sua nonna abitava nei Quartieri Alti in una casa con la pergola, dove il corvo passava le giornate prima di rientrare la sera dalla finestra, e sotto l'ala sinistra aveva una penna bianca. Quarant'anni fa, il giorno in cui la nonna morì, uscì da quella finestra e non tornò più. Mentre lei racconta il corvo apre piano l'ala sinistra, e fra le penne nere ce n'è una bianca. Clèlia smette di parlare e resta a guardarla. Poi riprende la gabbia, ma il biscotto lo lascia sul bancone. “Da casa nostra se n'è andato da solo, e non posso comprarlo come un cappello” dice.
+
+**`il-corvo-del-bancone__1-fallimento`** · esito «Il commesso» · opzione «Chiederle di sua nonna» · fallimento · 396 caratteri
+
+> Le chiedi della nonna con troppa fretta, e lei ti guarda come si guarda un commesso che ha toccato la merce con le mani sporche. Dice che non è venuta fin qui a raccontare la sua famiglia a chi sta dietro un bancone in prestito. Lascia la gabbia sul legno e ti avverte che tornerà quando ci sarà il padrone. Il corvo tiene gli occhi socchiusi per tutto il tempo, e il biscotto resta nella gabbia.
+
+**`il-corvo-del-bancone__2-successo`** · esito «La penna bianca» · opzione «Guardare sotto l'ala del corvo» · successo · 544 caratteri
+
+> Prendi il biscotto dalla gabbia e ne posi una briciola sul bancone, poi un'altra un po' più vicino alla tua mano. Il corvo le mangia tutte senza fretta. All'ultima ti lascia sollevare l'ala sinistra con un dito, e sotto, fra le penne nere, ce n'è una bianca. Clèlia Varróne si porta una mano alla bocca. Ti racconta della casa della nonna con la pergola, e del giorno in cui il corvo è volato via dalla finestra, quarant'anni fa, mentre la nonna moriva. Poi riprende la gabbia vuota. “Se n'è andato da solo” dice. “Allora resta dove ha scelto.”
+
+**`il-corvo-del-bancone__2-fallimento`** · esito «Il dito» · opzione «Guardare sotto l'ala del corvo» · fallimento · 355 caratteri
+
+> Allunghi la mano verso l'ala, e il corvo ti pizzica il dito con il becco una volta sola e senza fare sangue, con molta precisione. Poi ti volta la schiena. Clèlia Varróne dice che anche con sua nonna faceva così con gli estranei, e che la cosa la convince ancora di più. Lascia la gabbia sul bancone e se ne va, promettendo di tornare con Àmbrin presente.
+
+**`il-corvo-del-bancone__3-esito`** · esito «Il biscotto» · opzione «Lasciare che scelga lui» · esito · 698 caratteri
+
+> Apri lo sportello della gabbia e ti metti da parte. Il corvo scende dal suo posto e va alla gabbia a piccoli salti, ci entra, prende il biscotto di semi e riesce. Poi lo lascia cadere nel tuo palmo e torna sul tronco del bancone come se non si fosse mai mosso. Clèlia Varróne guarda il biscotto nel tuo palmo, e alla fine ride piano. Dice che anche con sua nonna faceva così, portava i regali a chi gli pareva, e che quarant'anni fa, il giorno in cui la nonna morì, è volato via dalla finestra per non tornare più. Quando aggiunge che aveva una penna bianca sotto l'ala sinistra, il corvo apre l'ala quel tanto che basta a fartela vedere. Clèlia si riprende la gabbia vuota e ti lascia il biscotto.
+
+**`il-corvo-del-bancone__4-successo`** · esito «Il registro della Gilda» · opzione «Inventarti una ragione per non venderlo» · successo · 504 caratteri
+
+> Le spieghi con molta serietà che il corvo è iscritto nei registri della Gilda come arredo della bottega, e che per venderlo serve la firma dell'ispettore dei dazi Vàrn Kèt, che per i volatili chiede sei settimane. Clèlia Varróne ti squadra da sotto il cappello. Poi dice che sua nonna aveva lo stesso corvo, con una penna bianca sotto l'ala sinistra, e che quarant'anni fa se n'è andato da solo. Si riprende la gabbia, ma prima ti dice che di regolamenti ne ha visti tanti, e che il tuo è il più gentile.
+
+**`il-corvo-del-bancone__4-fallimento`** · esito «Varn Kett» · opzione «Inventarti una ragione per non venderlo» · fallimento · 311 caratteri
+
+> Le spieghi che per vendere il corvo serve la firma dell'ispettore dei dazi. Clèlia Varróne ti risponde che Vàrn Kèt cena a casa sua ogni primo del mese, e che glielo chiederà stasera stessa. Lascia la gabbia sul bancone come pegno. Quando se ne va il corvo infila il becco fra le sbarre e si prende il biscotto.
+
+### Prima di Ambrin
+
+**`prima-di-ambrin`** · scena · 949 caratteri
+
+> Àmbrin torna dalla Casa dei Nodi al tramonto, con la borsa dei dazi più leggera e una macchia d'inchiostro sul polsino. Gli racconti di Clèlia Varróne mentre lui accende le lanterne una alla volta, e a metà racconto smette di accenderle e resta con la candela di servizio in mano. Quando arrivi alla penna bianca va a sedersi sulla scaletta del retrobottega.
+>
+> “Il vecchio che teneva la bottega prima di me mi ha venduto i muri insieme agli scaffali, e con gli scaffali c'era lui” dice. “Me l'ha detto solo alla fine, quando avevo già firmato. Il corvo era compreso nel prezzo, e c'erano due regole. Niente carne, e niente domande davanti ai clienti.” Si gira verso il bancone, dove il corvo sta ritto sul tronco con gli occhi semichiusi. “Il vecchio non mi ha mai detto da dove venisse. Adesso so almeno dov'era quarant'anni fa.”
+>
+> Fuori il Mercato sta chiudendo, e qualcuno trascina una cassa sulle assi del ponte, che rimbombano sotto i tuoi piedi.
+
+**`prima-di-ambrin__1-esito`** · esito «Un'altra lanterna» · opzione «Chiedergli quando ha preso la bottega» · esito · 400 caratteri
+
+> Àmbrin sorride, come ogni volta che qualcuno gli chiede degli anni, e si alza ad accendere la lanterna che aveva lasciato spenta. Ti dice che il vecchio era un nano che vendeva chiavi e serrature, e che sul retro del bancone c'è ancora la sua tacca per i ladri, la prima. Poi ti chiede quanto avresti chiesto a Clèlia Varróne per il corvo, se fossi stato tu il padrone, e della bottega non parla più.
+
+**`prima-di-ambrin__2-esito`** · esito «La regola» · opzione «Chiedergli che cosa vuol dire niente domande davanti ai clienti» · esito · 405 caratteri
+
+> “Vuol dire quello che dice” risponde Àmbrin, e guarda la porta, che è chiusa. Il corvo apre un occhio e lo richiude. Àmbrin ti dice che in tanti anni la regola l'ha sempre rispettata, e che non ha nessuna intenzione di scoprire che cosa succede a non rispettarla. Poi ti versa un bicchiere di vino di more e cambia discorso, e per il resto della sera ti racconta dei dazi della Gilda con molto entusiasmo.
+
+**`prima-di-ambrin__3-esito`** · esito «Il regalo» · opzione «Dargli il biscotto di semi» · esito · 358 caratteri
+
+> Posi il biscotto di semi sul bancone, davanti al corvo. Lui lo guarda, poi lo spinge con il becco verso di te, finché non lo riprendi. Àmbrin ride piano e ti dice di tenerlo, perché un corvo che fa un regalo e se lo vede tornare indietro se la lega al dito. Lo metti in tasca. Lo ritroverai sbriciolato fra una settimana, e non avrai il coraggio di buttarlo.
+
+### Il cassetto chiuso
+
+**`il-cassetto-chiuso`** · scena · 1269 caratteri
+
+> Nel retrobottega il mobile a cento cassetti è quasi tutto in ordine, con le etichette nuove accanto a quelle sbiadite di Àmbrin. Uno solo, alla settima fila, non ha il pomello. Ha una serratura senza chiave e un'etichetta così vecchia che la carta ha preso il colore del legno, con scritto da lasciare chiuso, anche per me. Da qualche giorno il corvo ci passa davanti, ci batte sopra il becco piano e poi torna al bancone.
+>
+> Oggi Àmbrin è seduto sulla scaletta con una chiave annerita fra le dita, e non sorride. “Lì dentro c'è una cosa che ho rubato quando facevo un altro mestiere, e lo facevo bene” dice. “Era di un Raschiatore, Tam Òrrin, che l'aveva portata su dal Labirinto e la teneva sotto il letto. Da lei ho imparato le formule che ti insegno. Tam andò alla Gilda a denunciare il furto e nessuno gli credette, allora scese a cercarne un'altra e non tornò. Sua figlia Sèfa vende lanterne sul ponte, tre banchi più in là.”
+>
+> Ti mette la chiave nel palmo, ancora calda della sua mano. “Il corvo dice che è ora. Se lo apro io mi rimetto a leggere, quindi lo apri tu.”
+>
+> Nel cassetto c'è una tavoletta di metallo opaco grande come una mano, incisa di cerchi fittissimi. [whispers] Non guardarla di sbieco. Le linee si spostano appena, ogni volta che sposti gli occhi.
+
+**`il-cassetto-chiuso__1-successo`** · esito «Il terzo cerchio» · opzione «Leggere la tavoletta» · successo · 514 caratteri
+
+> Leggi il cerchio più esterno, e la testa te lo traduce da sola, una parola dopo l'altra. Nel secondo c'è la Maledizione che insegna Àmbrin, scritta più lunga di come la dice lui, mentre il terzo contiene un pezzo di formula che non hai mai sentito e che ti resta in testa per tutto il giorno, come una cantilena. Quando alzi gli occhi Àmbrin ha già richiuso il cassetto, e ti lascia la chiave sul palmo. “Adesso ce l'hai tu, perché io ho smesso. Quando vorrai smettere anche tu, sai dov'è il Ponte dei Morti” dice.
+
+**`il-cassetto-chiuso__1-fallimento`** · esito «Le linee» · opzione «Leggere la tavoletta» · fallimento · 363 caratteri
+
+> Provi a leggere il cerchio più esterno, e le linee ti scivolano sotto gli occhi fino a farti girare la testa. Ti siedi sul pavimento del retrobottega con un dolore sordo dietro la fronte. Àmbrin richiude il cassetto, si riprende la chiave e ti porta un bicchiere d'acqua. Ti dice che a lui la prima volta è andata uguale, e che avrebbe fatto meglio a fermarsi lì.
+
+**`il-cassetto-chiuso__2-successo`** · esito «Le lanterne di Sefa» · opzione «Portarla a Sefa Orrin» · successo · 505 caratteri
+
+> Sèfa Òrrin ha le mani nere di fuliggine e una lanterna mezza smontata sul banco. Àmbrin parla per primo e si perde dopo due frasi, e allora finisci tu, con le parole più semplici che trovi. Sèfa prende la tavoletta e la pulisce con il grembiule. Dice che l'ultimo inverno suo padre ne parlava tutte le sere, e lei pensava fosse il vino. La venderà alla Gilda, perché la Gilda paga bene i pezzi dei Precursori, e per una volta i soldi di suo padre li prenderà lei. Àmbrin annuisce e non chiede di riaverla.
+
+**`il-cassetto-chiuso__2-fallimento`** · esito «Il banco delle lanterne» · opzione «Portarla a Sefa Orrin» · fallimento · 394 caratteri
+
+> Al banco delle lanterne cominci dal furto, e Sèfa Òrrin smette di ascoltarti alla parola rubato. Àmbrin prova a spiegare e peggiora le cose. Sèfa vi dice di andarvene prima che chiami i Custodi di Passaggio, e di riportare indietro quella roba, perché suo padre è morto per colpa sua. Tornate al Nodo con la tavoletta avvolta in uno straccio, e Àmbrin la rimette nel cassetto senza dire niente.
+
+**`il-cassetto-chiuso__3-esito`** · esito «La terza lanterna» · opzione «Gettarla dal Ponte dei Morti» · esito · 490 caratteri
+
+> Àmbrin ti accompagna al Ponte dei Morti e si ferma alla terza lanterna dopo il gabbiotto dei Custodi. Il cristallo è nuovo, e capisci che lo cambia lui, ogni anno. Butti la tavoletta oltre il parapetto e la guardi sparire nella nebbia, senza sentirla toccare il fondo. Àmbrin resta appoggiato al metallo freddo per un pezzo. Poi ti dice che le formule ce le ha in testa comunque, e che almeno adesso nessuno le impara più da lì. Sulla via del ritorno ti offre da bere al Grifone e paga lui.
+
+**`il-cassetto-chiuso__4-esito`** · esito «La chiave al collo» · opzione «Richiudere il cassetto» · esito · 334 caratteri
+
+> Richiudi il cassetto e gli rendi la chiave. Àmbrin se la rimette al collo su un cordino nuovo, e tira un sospiro lungo. Il corvo vola sul mobile a battere il becco sul cassetto, come faceva prima, poi torna al bancone a lisciarsi le penne. “Lui ha pazienza, più di me di sicuro” dice Àmbrin, e ti versa un tè che si è già raffreddato.
+
+### Socio del Nodo
+
+**`socio-del-nodo`** · scena · 1050 caratteri
+
+> A metà pomeriggio Àmbrin gira il cartello sulla porta e ti fa sedere nel retrobottega, davanti al mobile a cento cassetti. Sul tavolo ci sono due tazze di tè di fiori, che lui beve bollente, e una chiave d'ottone brunito con il serpente alato dell'insegna inciso sull'impugnatura. Il corvo sta in cima al mobile, e per una volta tiene gli occhi fissi sulla chiave.
+>
+> “Mi serve un socio” dice Àmbrin, e ti spinge la tazza più vicino. “Uno che compri dai Raschiatori quando io sono al bancone, e che abbia la chiave di questa stanza. Ti do il dieci per cento su quello che porti. Il corvo dice dodici, però i conti li tengo io.” Si scosta la ciocca dalla fronte, e per la prima volta da quando lo conosci ci mette un po' a trovare le parole. “Prima lui deve vederti lavorare da solo, una giornata intera, mentre io sono alla Casa dei Nodi. Ha le sue regole e io le rispetto. Come la passi, la giornata, lo scegli tu.”
+>
+> [whispers] Ho visto fare un socio per molto meno, e senza chiedere il parere di un uccello. Il tè è troppo caldo, e lo bevi lo stesso.
+
+**`socio-del-nodo__1-successo`** · esito «Il regalo giusto» · opzione «Vendere a chi non sa cosa vuole» · successo · 394 caratteri
+
+> A metà mattina entra un ragazzo della Caserma che cerca un regalo per la madre e ha in tasca dodici monete. Gli fai raccontare della madre finché salta fuori che non dorme da quando è finita la razzia, e gli vendi un sacchetto di lavanda legato con un nastro, che costa tre monete. Il ragazzo esce contento. Il corvo lo segue con gli occhi fino alla porta e poi si gira verso di te, e lì resta.
+
+**`socio-del-nodo__1-fallimento`** · esito «L'anello sbagliato» · opzione «Vendere a chi non sa cosa vuole» · fallimento · 374 caratteri
+
+> A metà mattina entra un ragazzo della Caserma che cerca un regalo per la madre, e tu gli vendi un anello che costa tutto quello che ha in tasca. Due ore dopo torna con la madre, che te lo restituisce con molta educazione. Il corvo osserva tutta la scena dal bancone. Quando Àmbrin rientra il corvo non lo saluta, e Àmbrin ti dice che per la chiave ci sarà un'altra giornata.
+
+**`socio-del-nodo__2-successo`** · esito «La vernice verde» · opzione «Riconoscere un falso» · successo · 437 caratteri
+
+> Il Raschiatore posa sul bancone una piastra di metallo con un cerchio inciso e un prezzo già deciso. La esamini con la lente di Àmbrin. L'incisione è precisa, però nel solco del cerchio c'è un residuo di vernice verde, la stessa che usano in Città Bassa per invecchiare il ferro. Glielo fai vedere, e il Raschiatore si riprende la piastra senza discutere. Il corvo, che per tutto il tempo l'aveva guardata con il becco aperto, lo chiude.
+
+**`socio-del-nodo__2-fallimento`** · esito «La piastra» · opzione «Riconoscere un falso» · fallimento · 342 caratteri
+
+> Compri la piastra con il cerchio inciso per la metà di quanto chiedeva il Raschiatore, convinto di aver fatto un affare. Quando Àmbrin torna ci passa sopra un dito bagnato, e il dito diventa verde. Ti dice che l'ha comprata anche lui anni fa dallo stesso Raschiatore, e che adesso ne hanno due. Per la chiave il corvo vuole un'altra giornata.
+
+**`socio-del-nodo__3-successo`** · esito «La soglia» · opzione «Tenere lontani i borseggiatori» · successo · 386 caratteri
+
+> Passi la giornata appoggiato allo stipite della porta, e ogni volta che una mano si allunga verso il cesto degli amuleti in vetrina guardi il proprietario della mano finché la ritira. A un ragazzino che ci riprova tre volte offri un biscotto di semi purché vada a provarci altrove. Quando Àmbrin torna non manca niente, e nell'angolo del bancone non c'è da incidere nessuna tacca nuova.
+
+**`socio-del-nodo__3-fallimento`** · esito «La tacca» · opzione «Tenere lontani i borseggiatori» · fallimento · 365 caratteri
+
+> Passi la giornata sulla soglia, e a metà pomeriggio ti accorgi che dal cesto in vetrina manca un amuleto, senza che tu abbia visto passare nessuna mano. Quando Àmbrin torna incide una tacca nuova nell'angolo del bancone e ti presta il coltello per incidere la tua accanto. Il corvo ti volta la schiena, che è il suo modo di dire di no, e la chiave resta sul tavolo.
+
+**`socio-del-nodo__4-esito`** · esito «Il giorno del corvo» · opzione «Fare come dice il corvo» · esito · 465 caratteri
+
+> Per tutta la giornata non decidi niente. Quando entra un cliente guardi il corvo, e il corvo guarda uno scaffale, e tu porti al cliente quello che c'è su quello scaffale. Due volte su tre è la cosa giusta, e la terza il cliente la compra lo stesso per non contraddire un uccello. A sera hai venduto più di quanto vende Àmbrin in un giorno buono. Quando lui rientra legge il registro, poi guarda il corvo, che si sta lisciando le penne e non lo degna di uno sguardo.
+
+**`socio-del-nodo__5-esito`** · esito «La tazza vuota» · opzione «Dirgli che non è il momento» · esito · 292 caratteri
+
+> Gli dici che gli fa onore, e che per adesso non puoi promettergli le tue giornate. Àmbrin annuisce e finisce il suo tè. Mette la chiave in un cassetto qualunque senza etichetta, e ti dice che saprai trovarla quando ti servirà. Il corvo scende dal mobile e torna al bancone, dove c'è più luce.
+
+### La chiave del retrobottega
+
+**`la-chiave-del-retrobottega`** · scena · 882 caratteri
+
+> Àmbrin rientra dalla Casa dei Nodi quando le lanterne del Mercato sono già accese, e ascolta il racconto della tua giornata appoggiato al bancone, con il cappotto ancora addosso. Il corvo lo lascia parlare. Poi scende dal tronco, attraversa il bancone a piccoli salti fino alla chiave d'ottone che Àmbrin ha posato accanto al registro, e ci mette sopra una zampa.
+>
+> “Bene” dice Àmbrin, e per un momento sembra più sollevato che contento. “Allora le regole sono queste. Quello che sta sotto il bancone non si vende senza chiedere a me. Il mobile dei cassetti lo puoi aprire tutto, tranne quando il corvo ci sta seduto sopra. E la carne non gliela dai mai, anche quando ti fissa il piatto con tutti e due gli occhi.”
+>
+> Il corvo toglie la zampa dalla chiave e la spinge di un dito verso di te. Fuori il Mercato si svuota, e il ponte sotto la bottega vibra al passaggio dell'ultimo carro.
+
+**`la-chiave-del-retrobottega__1-esito`** · esito «Socio del Nodo» · opzione «Prendere la chiave» · esito · 472 caratteri
+
+> Prendi la chiave, che è più leggera di quanto sembrava, con l'ottone consumato nel punto dove il pollice la tiene per girarla. Àmbrin ti stringe la mano, poi apre il registro e scrive il tuo nome sotto il suo, con una riga a parte per la percentuale. Il corvo ti guarda infilare la chiave in tasca e torna al suo posto sul tronco. “Domani all'alba risale una squadra dal Labirinto, e ci vai tu. Non pagare la prima cifra che ti dicono” dice Àmbrin, già chino sul registro.
+
+**`la-chiave-del-retrobottega__2-esito`** · esito «Il gancio» · opzione «Rifiutare con garbo» · esito · 359 caratteri
+
+> Gli dici che per adesso preferisci restare uno di passaggio, e gli rendi la chiave. Àmbrin la soppesa, poi la appende a un gancio dietro il bancone, accanto al mantello color petrolio. Ti dice che resta lì, e che quando la vorrai dovrai rifare la giornata, perché le regole del corvo valgono anche per lui. Il corvo ti volta la schiena fino a quando non esci.
+
+### Il braciere di Mamma Tesh
+
+**`il-braciere-di-mamma-tesh`** · scena · 1313 caratteri
+
+> Sulla porta del gabbiotto, sopra la tavoletta dei turni, è inchiodato un foglio nuovo con il sigillo di cera della Casa dei Nodi. Dice che sotto le assi del Ponte delle Mille Corde è vietato tenere fuochi accesi, e che quelli che ci sono vanno spenti entro tre giorni. In fondo c'è la firma di Vàrn Kèt, con un ricciolo sulla K che da lui non ti saresti aspettato.
+>
+> Scendi la scala a pioli fino alla piattaforma più larga dei sottoponti, dove un pilone del ponte fa riparo contro il vento. Mamma Tèsh è seduta accanto al suo braciere, un elmo di ferro rovesciato e annerito da anni di fuoco, e gli parla a mezza voce. Intorno c'è più gente del solito, e una ragazzina tiene in mano una copia del foglio, lontano dalle fiamme.
+>
+> “Il Capitano l'ho ripescato da una rete la notte che il ponte bruciò, e scottava ancora” dice Tèsh senza alzare gli occhi. “Sono ventitré anni, e di sopra il fuoco se lo ricordano ancora. Lo capisco, lo capisco.” Ci soffia sopra, e il Capitano risponde con una nuvola di fumo. “Però quaggiù l'inverno arriva prima, e senza di lui la gente va a dormire al freddo. Qualcuno poi non si sveglia.”
+>
+> Ti guarda per la prima volta. [whispers] Mi ha già trovato un posto in questa storia. Il calore del Capitano ti arriva sulle ginocchia, e le mani ti si allungano verso il fuoco per conto loro.
+
+**`il-braciere-di-mamma-tesh__1-successo`** · esito «Un nome che ne risponde» · opzione «Parlare con Varn Kett» · successo · 511 caratteri
+
+> Vàrn ti ascolta in piedi nel gabbiotto, e la mano destra scrive nell'aria per tutto il tempo. Gli dici che il braciere sta accanto al pilone, a quattro braccia dalle assi, e che i sottoponti lo sorvegliano giorno e notte meglio di qualunque Custode. Gli dici anche chi dorme intorno a quel fuoco d'inverno. Quando hai finito la mano si ferma. “Una lamiera sotto e un secchio di sabbia accanto” dice. “Poi ci vuole un nome che ne risponda, e il nome è il tuo.” Stacca il foglio dalla porta e lo piega in quattro.
+
+**`il-braciere-di-mamma-tesh__1-fallimento`** · esito «Il ricciolo sulla K» · opzione «Parlare con Varn Kett» · fallimento · 404 caratteri
+
+> Vàrn ti ascolta con la mano che scrive nell'aria, e a metà ti interrompe. “Ventitré anni fa ho visto bruciare questo ponte dalla piazza, con la divisa della milizia addosso” dice. “Da allora un fuoco vicino alle assi non lo firmo per nessuno.” Ti augura buona giornata con la stessa voce con cui elenca i pedaggi e chiude la finestrella. L'ordine resta inchiodato alla porta, con il suo ricciolo sulla K.
+
+**`il-braciere-di-mamma-tesh__2-successo`** · esito «La cappa» · opzione «Mettere il Capitano in sicurezza» · successo · 593 caratteri
+
+> Ti fai dare da un ponteggiatore di Òrmun una lamiera vecchia e un secchio di sabbia della Città Bassa, e passi il pomeriggio a costruire sotto il Capitano un letto che non scotta. Poi pieghi un'altra lamiera a cappa e la appendi sopra con il fil di ferro, inclinata in modo che il fumo vada verso il vuoto e le scintille ricadano nella sabbia. Mamma Tèsh guarda il lavoro a braccia conserte e dice al Capitano di stare dritto. A sera Vàrn scende la scala a pioli, cosa che non fa mai. Gira due volte intorno alla cappa con le mani dietro la schiena, poi risale a staccare l'ordine dalla porta.
+
+**`il-braciere-di-mamma-tesh__2-fallimento`** · esito «Il fumo» · opzione «Mettere il Capitano in sicurezza» · fallimento · 354 caratteri
+
+> Costruisci sotto il Capitano un letto di sabbia e sopra una cappa di lamiera, ma la pieghi storta, e il fumo invece di andare verso il vuoto torna giù sulla piattaforma. Per un'ora i sottoponti tossiscono, e Mamma Tèsh rimprovera prima il Capitano e poi te, con la stessa voce. Smonti tutto prima di sera. Il foglio sulla porta del gabbiotto resta dov'è.
+
+**`il-braciere-di-mamma-tesh__3-esito`** · esito «Sulla cengia» · opzione «Spostare il braciere sul pilone» · esito · 551 caratteri
+
+> Ci vuole tutta la giornata. Mamma Tèsh fa il giro della piattaforma tre volte prima di dire di sì, e intanto con due ragazzi dei sottoponti sistemi sulla cengia del pilone un anello di pietre di zavorra. Il pilone è di ferro precuriano, freddo al tatto anche a mezzogiorno. Il Capitano ci sale per ultimo, portato da Tèsh in persona con due stracci bagnati. Da lassù il fuoco scalda la piattaforma come prima, e le assi del ponte restano a cinque braccia di distanza. A sera Vàrn guarda giù dalla finestrella, poi esce a staccare l'ordine dalla porta.
+
+**`il-braciere-di-mamma-tesh__4-esito`** · esito «Un appalto» · opzione «Pagare il lavoro ai ponteggiatori» · esito · 433 caratteri
+
+> Òrmun ascolta e si gratta la barba nella fascia di cuoio, poi fa un prezzo, dodici monete con il lavoro compreso. “Un lavoro pagato in anticipo è il migliore che ci sia” ti dice mentre le conta. Il giorno dopo due dei suoi montano sotto il Capitano un letto di sabbia e sopra una cappa di lamiera, con la cura che si mette nei lavori pagati prima. Òrmun porta la ricevuta a Vàrn, che la legge due volte e stacca l'ordine dalla porta.
+
+**`il-braciere-di-mamma-tesh__5-esito`** · esito «La notte del ponte» · opzione «Farti raccontare la notte del Capitano» · esito · 580 caratteri
+
+> “Bruciava da metà in su, e da quaggiù sembrava giorno” dice Tèsh, e muove le mani nell'aria per farti vedere dove. Racconta delle bande con le livree che si inseguivano sulle assi, e delle travi accese che cadevano nella Cicatrice e per un momento ne illuminavano il fondo. Il Capitano è caduto in una rete verso l'alba, con un'ammaccatura sulla fronte. Sulla tesa c'era uno stemma, e qualcuno l'aveva già grattato via con il coltello prima che cadesse. “Nessuno è mai venuto a riprenderselo” dice, e gli dà un colpetto affettuoso. “Così adesso è mio, e comanda soltanto il fumo.”
+
+### Le lanterne in fondo al ponte
+
+**`le-lanterne-del-ponte-dei-morti`** · scena · 1255 caratteri
+
+> All'imbrunire, quando sui Ponti Sospesi si accendono le lanterne di Mana, il Ponte dei Morti ha già le sue. Ogni squadra di Raschiatori cura le proprie, toglie la fuliggine dal vetro e cambia il cristallo quando si spegne. Le lanterne dei dispersi più recenti hanno ancora i nastri nuovi e i nomi scritti in bella grafia.
+>
+> In fondo al ponte, oltre il gabbiotto dei Custodi, c'è un tratto di parapetto che nessuno sembra curare. Le lanterne lì sono vecchie, con il ferro mangiato dalla ruggine e i nomi sul vetro ormai illeggibili, e appartengono a squadre che non esistono più da anni. Dovrebbero essere spente da un pezzo, e invece sono accese tutte, con il vetro pulito. Sulla solita cassa un vecchio Raschiatore della veglia e una donna della sua squadra si passano la borraccia. La donna ti vede guardare e alza le spalle. “Quelle si accendono da sole, dicono” fa. “Io dico che qualcuno le pulisce, perché la fuliggine da sola non se ne va.”
+>
+> Ti avvicini. Sotto la più vecchia, sulle assi umide di nebbia, ci sono impronte di piedi nudi, piccole, che arrivano dal parapetto e al parapetto tornano. [whispers] Da quella parte c'è soltanto il vuoto. Lo stomaco ti si stringe come quando guardi giù da un tetto, e ti tieni con una mano al metallo freddo.
+
+**`le-lanterne-del-ponte-dei-morti__1-successo`** · esito «Dal parapetto» · opzione «Aspettare nascosto fra le lanterne» · successo · 461 caratteri
+
+> Ti siedi nella nebbia dietro una trave e lasci passare la seconda campana. Poco dopo due mani piccole si aggrappano al bordo del parapetto, e sul ponte sale un bambino scalzo con un sacco di tela legato sulla schiena. Va dritto alla lanterna più vecchia e la apre. Cambia il cristallo con uno preso dal sacco, poi passa alla successiva, e intanto muove le labbra come se contasse. Quando arriva alla tua trave ti vede e resta immobile, con il cristallo in mano.
+
+**`le-lanterne-del-ponte-dei-morti__1-fallimento`** · esito «Le impronte nuove» · opzione «Aspettare nascosto fra le lanterne» · fallimento · 342 caratteri
+
+> Ti siedi dietro una trave e aspetti, ma la nebbia sale fitta e a un certo punto ti assopisci. Quando riapri gli occhi le lanterne in fondo al ponte sono pulite, e sulle assi ci sono impronte nuove, piccole, che passano a un palmo dai tuoi stivali. Chi è venuto ti ha visto dormire e ti ha lasciato stare. Te ne vai all'alba con le ossa umide.
+
+**`le-lanterne-del-ponte-dei-morti__2-successo`** · esito «Un bambino dei sottoponti» · opzione «Chiedere ai Raschiatori della veglia» · successo · 587 caratteri
+
+> Ti siedi sulla cassa con loro e accetti la borraccia. Il vecchio non vuole parlare, e la donna lo lascia fare per un pezzo, poi gli dà una gomitata. “È un bambino dei sottoponti, lo chiamano Stoppino” dice lei, e si pulisce la bocca con il dorso della mano. “Sale dal parapetto dopo la seconda campana e accende le lanterne che non hanno più nessuno. Noi lo lasciamo fare e non lo diciamo in giro, perché alla Gilda i bambini sui parapetti non piacciono.” Con il mento ti indica un punto del parapetto, e ti avverte che se stanotte lo spaventi da domani la borraccia te la porti da casa.
+
+**`le-lanterne-del-ponte-dei-morti__2-fallimento`** · esito «Una lanterna per nome» · opzione «Chiedere ai Raschiatori della veglia» · fallimento · 346 caratteri
+
+> Ti siedi con loro e fai domande, e il vecchio ti risponde con il detto dei Raschiatori, una lanterna per nome e una per quello che pensavi di sapere di lui. Lo ripete ogni volta che chiedi qualcosa, sempre con la stessa voce, finché la donna si mette a ridere e ti riprende la borraccia. Delle lanterne in fondo al ponte non ti dicono una parola.
+
+**`le-lanterne-del-ponte-dei-morti__3-successo`** · esito «Spago da pacchi» · opzione «Guardare da vicino i cristalli» · successo · 528 caratteri
+
+> Apri la porticina della lanterna più vecchia, con il permesso dei Raschiatori della veglia, e il cristallo dentro è un frammento esausto dell'Orlo dei Rottami. È di quelli che la Gilda paga una moneta, e che fanno ancora un mese di luce se li tieni al riparo dal vento. Qualcuno l'ha incastrato da poco con un nodo di spago da pacchi. Lo stesso nodo c'è in tutte le lanterne del tratto, e anche sul parapetto, dove una corda annodata scende nel vuoto fino ai sottoponti. Ti siedi accanto alla corda e aspetti che qualcuno salga.
+
+**`le-lanterne-del-ponte-dei-morti__3-fallimento`** · esito «Le dita sul vetro» · opzione «Guardare da vicino i cristalli» · fallimento · 352 caratteri
+
+> Apri la porticina della lanterna più vecchia e guardi il cristallo controluce, e ti sembra un conduttore come gli altri. Dici alla Raschiatrice della veglia che allora è vero, e la lanterna si accende da sola. Lei ride nella borraccia e ti fa notare che hai lasciato le impronte delle dita sul vetro pulito. Lo ripassi con la manica prima di andartene.
+
+**`le-lanterne-del-ponte-dei-morti__4-esito`** · esito «La terza notte» · opzione «Passare le notti sul ponte» · esito · 448 caratteri
+
+> Torni per tre notti di fila e ti siedi sempre allo stesso posto, sulle assi, con la schiena al parapetto e le mani in vista. Le prime due fa soltanto freddo. La terza, dopo la seconda campana, un bambino scalzo si arrampica dal vuoto sul parapetto a dieci passi da te. Ti studia per un pezzo, e poi decide che sei parte del ponte. Si mette a cambiare i cristalli delle lanterne vecchie senza fretta, e quando ha finito viene a sedersi accanto a te.
+
+### Lo Stoppino
+
+**`lo-stoppino`** · scena · 1210 caratteri
+
+> Il bambino avrà dieci anni. Ha i piedi neri di pece e una camicia da uomo arrotolata sui gomiti, e il sacco di tela che porta sulla schiena tintinna piano quando si muove. Si siede sul parapetto con le gambe sopra il vuoto, come gli altri bambini si siedono su un muretto, e tu devi trattenerti dall'allungare una mano per tenerlo.
+>
+> “Stoppino, mi chiamano. Il nome vero ce l'ho, ma qui non serve” dice. Apre il sacco e ti mostra i frammenti di cristallo grigi e opachi che raccoglie all'Orlo dei Rottami e nelle reti sotto il Mercato. “Questi la Gilda li butta. Dentro una lanterna, con la porticina chiusa, fanno un mese, a volte due.”
+>
+> Ti racconta che suo padre stava in una squadra di cinque, scesa nel Labirinto quattro inverni fa e mai risalita, e che di sopra non era rimasto nessuno ad appendergli una lanterna. Gliel'ha appesa lui, con un cristallo dell'Orlo. Poi ha cominciato a guardare quelle accanto, che nessuno curava più. “Se ne accendo una, posso accenderne anche sei” dice, e alza le spalle.
+>
+> Indica l'ultima della fila, una lanterna di ferro nero quasi senza vetro. “Quella non la tocco” dice, più piano. “Si accende da sola. Ci ho guardato dentro una volta, e da allora ci passo alla larga.”
+
+**`lo-stoppino__1-esito`** · esito «Nel registro del Ferro» · opzione «Dirlo ai Raschiatori» · esito · 573 caratteri
+
+> Il giorno dopo racconti tutto a Dràgna Gro-Màlog, al Grifone, mentre compila i turni. Ti ascolta con la penna ferma. Poi apre il registro all'ultima pagina, dove ci sono le squadre che non scendono più, e accanto a sei nomi scrive Ponte dei Morti, tratto in fondo. “Da adesso i cristalli buoni li mette la bacheca, uno al mese per lanterna” dice. “Se il bambino vuole, li porta lui dalla scala come la gente, di giorno.” La settimana dopo trovi Stoppino sul ponte in pieno giorno, con un sacco nuovo e un cristallo buono in mano, e lo tiene come una cosa presa in prestito.
+
+**`lo-stoppino__2-esito`** · esito «La Brontolona e la Gobba» · opzione «Dargli i tuoi frammenti» · esito · 454 caratteri
+
+> Svuoti la bisaccia sul parapetto. Stoppino conta i frammenti con il dito e per ognuno ti dice a quale lanterna andrà, chiamandole con i nomi che ha dato lui, perché quelli veri li ha mangiati la ruggine. C'è la Brontolona, che ha la porticina che cigola, e c'è la Gobba, che pende a destra. Poi lega il sacco e ti chiede se vuoi vedere come si fa. Gli tieni il sacco mentre lui gira sull'esterno del parapetto, e per tutto il tempo eviti di guardare giù.
+
+**`lo-stoppino__3-esito`** · esito «Una luce bianca» · opzione «Comprare un cristallo buono per suo padre» · esito · 490 caratteri
+
+> Al mattino compri al banco delle lanterne un cristallo conduttore piccolo, di quelli che durano anni, e la sera lo porti a Stoppino. Lui lo gira contro la luce prima di prenderlo. Insieme aprite la lanterna di suo padre, appesa fra due delle vecchie con un nastro di spago al posto di quello di stoffa, e ci mettete il cristallo nuovo. Fa una luce bianca, più forte delle altre. Stoppino appoggia la fronte al vetro per un po', poi torna alle altre lanterne, perché il sacco è ancora pieno.
+
+**`lo-stoppino__4-successo`** · esito «Dall'altra parte» · opzione «Aiutarlo a cambiare i cristalli» · successo · 466 caratteri
+
+> Scavalchi il parapetto dietro di lui e ti muovi sul bordo esterno, con una mano sempre sul metallo freddo e la nebbia fino alle ginocchia. Stoppino ti passa i frammenti e tu li incastri nelle lanterne del tratto più lontano, dove lui non arriva. Ti spiega dove mettere i piedi senza voltarsi, con la pazienza che si usa con un bambino più piccolo. A fine giro ti regala il frammento più chiaro del suo sacco, e ti dice di tenerlo per la tua lanterna, quando servirà.
+
+**`lo-stoppino__4-fallimento`** · esito «Per il colletto» · opzione «Aiutarlo a cambiare i cristalli» · fallimento · 486 caratteri
+
+> Scavalchi il parapetto, ma la lamiera del bordo è bagnata e alla terza lanterna ti scivola un piede. Resti appeso con le mani al metallo e le gambe nel vuoto, finché Stoppino ti afferra per il colletto con una forza che non ti aspettavi e ti aiuta a tornare di qua. Il resto del giro lo fa lui, e tu lo guardi dal ponte con le ginocchia che tremano. Quando ha finito ti racconta che la prima volta è caduto anche lui, nella rete di Mamma Tèsh, e che lei l'ha sgridato per una settimana.
+
+**`lo-stoppino__5-esito`** · esito «I carri di notte» · opzione «Chiedergli del custode di notte» · esito · 408 caratteri
+
+> Stoppino abbassa la voce senza accorgersene. “Quello alle lanterne non tocca niente, e a me nemmeno” dice, con gli occhi sul gabbiotto. “Però i carri che passano di notte li guarda lui, e quando passano io sto sotto, che di sopra non mi vede nessuno.” Si tira il sacco sulle ginocchia e aggiunge che Mamma Tèsh gli ha insegnato a non contare i carri di notte, e infatti lui li lascia passare senza guardarli.
+
+**`lo-stoppino__6-esito`** · esito «Il custode nuovo» · opzione «Chiedergli del custode di notte» · esito · 412 caratteri
+
+> “Quello nuovo è giovane e ha paura del buio” dice Stoppino, e lo dice con rispetto. “Mi lascia salire anche prima della seconda campana, e una volta mi ha dato mezza pagnotta.” Ti racconta che di notte i carri con le ruote fasciate non passano più, e che adesso sul ponte si sentono soltanto le lanterne che sbattono e il custode nuovo che canta per farsi coraggio. Canta male, dice, però le canzoni le sa tutte.
+
+**`lo-stoppino__7-esito`** · esito «La lanterna nera» · opzione «Guardare nella lanterna nera» · esito · 469 caratteri
+
+> La lanterna è di ferro nero, con un solo vetro rimasto, e dentro c'è un cristallo grande come un'unghia, coperto di polvere. Nessuno lo cambia da anni, e fa luce lo stesso. La luce batte piano, e quando ti avvicini ti sembra che il battito rallenti, o forse è il tuo che accelera. Sulla porticina c'è un nome inciso, mangiato dalla ruggine fino a metà, e le lettere che restano non bastano a leggerlo. Torni da Stoppino con la pelle d'oca sulle braccia, e lui annuisce.
+
+### Il passo dei Ponti
+
+**`il-passo-dei-ponti`** · scena · 1257 caratteri
+
+> Il Custode di turno ti ferma all'imbocco e ti dice che Vàrn Kèt ti aspetta. Nel gabbiotto, sulla panca dove si siedono i carrettieri che contestano la gabella, c'è Mamma Tèsh con lo scialle buono e le mani annerite in grembo, ed è la prima volta che la vedi di sopra. Accanto a lei Òrmun Pèl occupa da solo mezzo gabbiotto, e suda.
+>
+> “Chi lavora sui ponti non paga la gabella per andare a lavorare” dice Vàrn con la sua voce da sportello. “Lo dice il regolamento della Casa dei Nodi, e io non faccio distinzioni. Sulle assi lo chiamano il passo.” La mano destra comincia a scrivere nell'aria. “Òrmun dice che lavori per lui da abbastanza tempo da stare sul suo ruolo, e io dico che i tuoi conti tornano. Tèsh dice altre cose, e le dica lei.”
+>
+> “Dico che di sotto c'è un posto vicino al Capitano, e che è tuo” dice Tèsh.
+>
+> “Sul ruolo però ci va chi ha fatto il giro” dice Òrmun, e si asciuga la fronte con il dorso della mano. “Un giro intero del ponte, da una sponda all'altra, sopra le corde con me o sotto le assi con la gente di Tèsh. Se le corde non fanno per te, Vàrn ti fa le sue domande, e quelle sono peggio.”
+>
+> [whispers] Tre persone che non vanno d'accordo su niente hanno trovato un accordo su di me. Le mani ti sono finite in tasca, e le tiri fuori.
+
+**`il-passo-dei-ponti__1-successo`** · esito «Il verdetto» · opzione «Il giro delle corde con Ormun» · successo · 441 caratteri
+
+> Partite all'alba dalla sponda dei Quartieri Alti, e Òrmun cammina lento come sempre, con le suole che ascoltano. A ogni corda di sostegno si ferma e aspetta. Gli dai il tuo verdetto, e a metà mattina smette di dare il suo, perché è lo stesso. Vicino alla sponda della Città Bassa una sola corda vi divide, e ne discutete fino a mezzogiorno. Poi Òrmun ci sale sopra con tutto il suo peso e ammette che hai ragione tu, e lo dice soltanto a te.
+
+**`il-passo-dei-ponti__1-fallimento`** · esito «Mezzo ponte» · opzione «Il giro delle corde con Ormun» · fallimento · 334 caratteri
+
+> Partite all'alba, e per mezzo ponte i tuoi verdetti sono quelli di Òrmun. Poi una corda che giuri buona gli si sfilaccia sotto il pollice, e la successiva che dici marcia è nuova di un mese. Òrmun segna le due corde con il gesso e ti dice che il giro finisce qui per oggi. Dice anche che il ruolo resta aperto e le corde non scappano.
+
+**`il-passo-dei-ponti__2-successo`** · esito «Da una trave all'altra» · opzione «Il giro sotto le assi» · successo · 457 caratteri
+
+> Due ragazzi di Mamma Tèsh ti fanno strada sotto le assi, sulle passerelle larghe una spanna e poi sulle travi nude, con il vento che arriva dal basso. A metà strada uno dei due si ferma su una trave e aspetta di vedere cosa fai, e tu passi oltre senza guardarlo. Quando arrivi alla sponda della Città Bassa hai le mani nere di pece e le braccia che non senti più. Tèsh è lì ad aspettarti, scesa per la scala dei carrettieri, e ti batte una mano sul braccio.
+
+**`il-passo-dei-ponti__2-fallimento`** · esito «La rete» · opzione «Il giro sotto le assi» · fallimento · 339 caratteri
+
+> Due ragazzi di Mamma Tèsh ti fanno strada sotto le assi. Per un buon tratto tieni il passo, poi una raffica ti prende su una trave nuda e finisci nella rete sotto il Mercato, fra le mele ammaccate. I ragazzi ti tirano fuori ridendo, e uno di loro ti dice che a lui era successo tre volte. Il giro, però, va rifatto da capo un altro giorno.
+
+**`il-passo-dei-ponti__3-successo`** · esito «Il martedì di tre settimane fa» · opzione «Le domande di Varn» · successo · 474 caratteri
+
+> Vàrn ti chiede quanti carri di sale sono passati il martedì di tre settimane fa, quando eri al gabbiotto, e tu te lo ricordi perché uno aveva il mulo zoppo. Poi vuole sapere che cosa dice il regolamento sui carichi caduti nelle reti, e tu sai che sono di chi li ripesca, se nessuno li reclama entro sera. L'ultima domanda è chi paga la gabella sui funerali, e la risposta è nessuno. La mano destra si ferma a metà di una riga. “Basta così” dice, e Òrmun fa un fischio lungo.
+
+**`il-passo-dei-ponti__3-fallimento`** · esito «I carri di sale» · opzione «Le domande di Varn» · fallimento · 385 caratteri
+
+> Vàrn ti chiede quanti carri di sale sono passati il martedì di tre settimane fa, e tu dici un numero. Lui ti dice quello giusto, con l'ora di ciascun carro e il colore del mulo. Alla seconda domanda, sul regolamento, ti confondi fra le reti e i parapetti. Vàrn non alza la voce. Scrive ancora un poco nell'aria e ti dice di tornare quando avrai deciso quale delle tre strade fa per te.
+
+**`il-passo-dei-ponti__4-successo`** · esito «Intorno al Capitano» · opzione «Farti garantire dalla gente di sotto» · successo · 442 caratteri
+
+> La sera scendi al braciere e racconti ai sottoponti come hai conosciuto i ponti, dalla prima gabella pagata fino a oggi, e la racconti come se fosse successa a un altro, sbagli compresi. Ridono nei punti giusti. Alla fine Mamma Tèsh chiede chi garantisce, e si alzano in sei, fra cui la vecchia della rete e un ragazzino con i piedi neri di pece. Il giorno dopo i loro nomi sono sul ruolo di Òrmun, accanto al tuo, scritti dalla mano di Vàrn.
+
+**`il-passo-dei-ponti__4-fallimento`** · esito «In fondo al cerchio» · opzione «Farti garantire dalla gente di sotto» · fallimento · 355 caratteri
+
+> La sera scendi al braciere e racconti la tua storia, ma ti viene fuori troppo lunga e troppo seria, e a metà la gente intorno al fuoco comincia a parlare d'altro. Quando Mamma Tèsh chiede chi garantisce si alza soltanto lei. “Una non basta, e lo dico io per prima” dice, e ti passa la scodella lo stesso. Torna, ti dice, quando avrai una storia più corta.
+
+**`il-passo-dei-ponti__5-esito`** · esito «Al passo di Ormun» · opzione «Fare il giro piano, con Ormun» · esito · 473 caratteri
+
+> Il giro al passo di Òrmun dura dall'alba al tramonto. Lui si ferma a ogni corda e ascolta con i piedi, e ogni tanto ti dice il verdetto ad alta voce, perché tu lo impari. A mezzogiorno vi sedete su una trave a mangiare pane e lardo, e lui ti racconta di un ponte crollato vent'anni fa con un carro sopra, e di come lo aveva detto una settimana prima. Arrivate alla sponda della Città Bassa con il sole basso. Òrmun ti guarda e dice che per il ruolo conta anche la pazienza.
+
+**`il-passo-dei-ponti__6-esito`** · esito «Il ruolo aperto» · opzione «Dire che non è il momento» · esito · 337 caratteri
+
+> Dici che ti fa onore, e che per adesso non sei sicuro di poterlo meritare tutti i giorni. Òrmun alza le spalle e dice che le corde sanno aspettare. Vàrn scrive una riga corta nell'aria e la chiude con un punto, e Mamma Tèsh si alza dalla panca, si sistema lo scialle e ti dice che il posto vicino al Capitano intanto non lo dà a nessuno.
+
+### Il ruolo dei ponteggiatori
+
+**`il-ruolo-dei-ponteggiatori`** · scena · 1050 caratteri
+
+> Il giorno dopo il gabbiotto è di nuovo pieno. Òrmun ha posato sul banco il ruolo della sua squadra, un registro con la copertina unta di pece e una ventina di nomi dentro, molti scritti con una grafia incerta, perché parecchi dei suoi uomini hanno imparato a firmare in cella. Accanto al banco Vàrn tiene la penna vera sospesa sul foglio, ed è la prima volta che gliene vedi una in mano. Mamma Tèsh guarda il vuoto fuori dalla finestrella e intanto tiene sulle ginocchia un pezzo di lamiera piegato.
+>
+> “Una riga sul ruolo, e da domani la gabella non la paghi” dice Vàrn. “Quando Òrmun ti chiama devi venire, di notte come con la pioggia. Se un ponte ha bisogno di te tu ci sei, e questo per la Casa dei Nodi vale più di una gabella.”
+>
+> Òrmun annuisce e si asciuga la fronte. Tèsh si gira dalla finestrella e ti mostra la lamiera. Sopra, inciso con un chiodo, c'è un segno che somiglia al tuo nome. [whispers] Una vita intera sotto le travi, e ha imparato a scrivere il mio nome. La mano che tieni sul banco ti si stringe a pugno senza che tu lo decida.
+
+**`il-ruolo-dei-ponteggiatori__1-esito`** · esito «Il passo» · opzione «Mettere il tuo nome sul ruolo» · esito · 420 caratteri
+
+> Vàrn scrive il tuo nome sul ruolo con la sua grafia da notaio, e accanto aggiunge ausiliario. Poi asciuga l'inchiostro con il palmo. “Da oggi i ponti non ti costano niente” dice, “e non perché ti faccio un favore.” Òrmun ti stringe la mano con la sua, che è dura come una trave. Mamma Tèsh ti dà la lamiera e ti dice di appenderla al chiodo accanto al braciere, quando scendi, così tutti sanno che quel posto è occupato.
+
+**`il-ruolo-dei-ponteggiatori__2-esito`** · esito «Quello che non si compra» · opzione «Mettere il tuo nome sul ruolo» · esito · 490 caratteri
+
+> Vàrn scrive il tuo nome sul ruolo con la sua grafia da notaio, e accanto aggiunge ausiliario. “La gabella non la pagavi già, perché la licenza l'hai comprata con duecento monete e un sigillo” dice. “Sul ruolo invece ci sei perché ti ci abbiamo messo noi, e alla Casa dei Nodi questa riga non conta niente.” Asciuga l'inchiostro con il palmo. Òrmun ti stringe la mano, e Mamma Tèsh ti dà la lamiera da appendere al chiodo accanto al braciere, perché di sotto la licenza non la legge nessuno.
+
+**`il-ruolo-dei-ponteggiatori__3-esito`** · esito «La lamiera sul chiodo» · opzione «Chiedere ancora tempo» · esito · 402 caratteri
+
+> Gli dici che per adesso non puoi promettere di venire ogni volta che Òrmun chiama, e che preferisci non firmare una cosa che rischi di non mantenere. Vàrn appoggia la penna sul banco e annuisce una volta, come se avesse annotato anche questo. Òrmun richiude il ruolo. Mamma Tèsh si tiene la lamiera e dice che la appende lei, al chiodo accanto al Capitano, così il posto resta tuo finché non ti decidi.
+
+### La sartoria
+
+**`la-sartoria`** · scena · 1296 caratteri
+
+> La sartoria del Teatro è una stanza lunga sotto il tetto, con una sola finestra alta che dà sui comignoli dei Quartieri Alti. Dalle travi pendono i costumi di tutto il repertorio, infilati in sacchi di tela con il nome scritto sopra. Su un manichino senza testa c'è il corpetto della vedova, quello che Oràzio indossa nella farsa, aperto sul fianco dall'ascella alla vita. Ieri sera si è aperto così in scena sotto le lampade, e la platea ha visto la camicia di Oràzio.
+>
+> Oràzio cammina avanti e indietro fra i manichini. “È la terza volta in un mese, anima mia. C'è una mano nemica in questo teatro, e io so da dove viene” dice, e abbassa la voce di mezzo tono. “Al Grifone di Ferro le forbici non mancano di sicuro.”
+>
+> In fondo alla stanza, accanto alla finestra, è seduta Teodora Fusari, la sarta che veste Oràzio da quando lui faceva il garzone di bottega. È piccola e curva, con un cuscinetto di spilli legato al polso, e ha sulle ginocchia un altro costume da rammendare. Infila l'ago tenendolo a un braccio di distanza dagli occhi, e ci mette molto. Quando Oràzio esce sbattendo la porta lei non alza la testa.
+>
+> [whispers] Oràzio il colpevole ce l'ha già, e adesso gli serve qualcuno che glielo confermi. Ti avvicini al manichino, e la Fusari ti segue con gli occhi senza smettere di cucire.
+
+**`la-sartoria__1-successo`** · esito «Punti lunghi» · opzione «Esaminare la cucitura» · successo · 465 caratteri
+
+> Giri il corpetto verso la luce e passi il pollice lungo il fianco aperto. Il filo è intero da un capo all'altro e si è soltanto sfilato, perché i punti sono lunghi il doppio del normale e storti, e in qualche tratto l'ago è passato fuori dalla stoffa senza prenderla. Più in alto, dove la cucitura è vecchia, i punti sono piccoli e dritti come una fila di formiche. Ti volti verso la finestra. La Fusari ha smesso di cucire e ti guarda, con l'ago fermo a mezz'aria.
+
+**`la-sartoria__1-fallimento`** · esito «Un filo rosso» · opzione «Esaminare la cucitura» · fallimento · 381 caratteri
+
+> Giri il corpetto da tutte le parti e ti fermi su un filo rosso che con il costume non c'entra niente. Lo porti a Oràzio, e lui lo alza controluce fra due dita e dice, trionfante, che al Grifone le tende sono rosse. Nel giro di un'ora mezza compagnia sa che Liàren Tarvèlin taglia i costumi di notte. Quando torni in sartoria la Fusari ha ricominciato a cucire, e non ti guarda più.
+
+**`la-sartoria__2-successo`** · esito «Il rocchetto» · opzione «Parlare con la Fusari» · successo · 428 caratteri
+
+> Prendi uno sgabello, ti siedi accanto a lei e le chiedi del corpetto, e poi di Oràzio da ragazzo, che è un argomento più facile. Le cade un rocchetto di filo bianco. Quando glielo porgi lei lo cerca tastando con le dita aperte sul tuo palmo, e smette di sorridere. “Il filo me lo infila mia nipote, la mattina” dice piano, “e ne prepara venti aghi. Quando finiscono aspetto il giorno dopo, e ieri ne aveva preparati diciannove.”
+
+**`la-sartoria__2-fallimento`** · esito «Il costume da finire» · opzione «Parlare con la Fusari» · fallimento · 396 caratteri
+
+> Le chiedi del corpetto con troppa fretta, e lei capisce che cosa cerchi prima che tu finisca la domanda. “Ho trent'anni di lavoro qui dentro e un costume da finire per stasera” dice, e si gira verso la finestra. Per tutto il tempo che resti nella stanza tiene l'ago fermo in mano senza dare un punto. Quando esci senti la sedia che si sposta, e la chiave che gira nella serratura alle tue spalle.
+
+**`la-sartoria__3-esito`** · esito «La candela» · opzione «Tornare in sartoria di notte» · esito · 465 caratteri
+
+> Ti fai chiudere dentro dal macchinista e aspetti nel buio fra i sacchi dei costumi, con la naftalina che ti pizzica il naso. Verso mezzanotte la porta si apre. È la Fusari, con una candela in mano e il corpetto della vedova sotto il braccio. Si siede alla finestra, avvicina la candela finché la fiamma le scalda la faccia e prova a rifare la cucitura da capo. Dopo un'ora ha dato tre punti. Quando esci dal buio non si spaventa, e ti porge l'ago senza dire niente.
+
+### La sarta di Orazio
+
+**`la-sarta-di-orazio`** · scena · 1024 caratteri
+
+> La Fusari posa il corpetto sulle ginocchia e ci appoggia sopra le mani, che hanno i polpastrelli segnati da mille punture. “Gli occhi mi vanno via da un anno” dice. “Da vicino vedo una nebbia, e la nebbia ogni mese si allarga un poco. Mia nipote mi infila gli aghi la mattina, e le cuciture lunghe le faccio a memoria.” Guarda la porta da cui è uscito Oràzio. “Lui mi tiene perché gli ho cucito il primo costume, quando aveva quindici anni e me lo rubava per provarselo allo specchio. Se lo sa mi dà una pensione e un posto in platea, e io in platea muoio in un mese.”
+>
+> Dalle travi pendono i sacchi dei costumi, ciascuno con il suo nome scritto a mano. Molti sono di attori che hanno lasciato la compagnia da anni, e lei non ne ha buttato via nessuno. Sul tavolo, accanto al cuscinetto degli spilli, c'è una lente da orologiaio con il manico fasciato di stoffa, che lei deve aver provato e messo da parte.
+>
+> Dalla tromba delle scale sale la voce di Oràzio, che sta raccontando al macchinista delle forbici di Liàren Tarvèlin.
+
+**`la-sarta-di-orazio__1-esito`** · esito «Gli anelli sul tavolo» · opzione «Dirlo a Orazio» · esito · 546 caratteri
+
+> Trovi Oràzio nel camerino e gli racconti tutto, dalla nebbia agli aghi della nipote. Lui ascolta seduto davanti allo specchio, e a metà si sfila gli anelli uno alla volta e li allinea sulla toeletta. Poi sale in sartoria e ti lascia sul pianerottolo. Quando scende ha gli occhi rossi e un foglio in mano. La nipote verrà ogni giorno a spese del teatro, e la Fusari d'ora in poi taglierà e disegnerà, mentre i punti li daranno gli altri. “Il mio primo costume me l'ha cucito lei” ti dice, rimettendosi gli anelli. “E io stavo per accusare Liàren.”
+
+**`la-sarta-di-orazio__2-esito`** · esito «Venti aghi» · opzione «Infilarle gli aghi tu» · esito · 458 caratteri
+
+> Le prometti di passare ogni mattina. Il giorno dopo ti siedi accanto a lei alla finestra e infili venti aghi con il filo di quattro colori, poi rifai il fianco del corpetto mentre lei ti guida la mano e ti dice dove allungare il punto e dove stringerlo. La sera il corpetto regge per tutti e due gli atti. Oràzio dice a tutti che la mano nemica si è spaventata, e ne va molto fiero. La Fusari, quando passi, ti tiene da parte una caramella di zucchero cotto.
+
+**`la-sarta-di-orazio__3-esito`** · esito «Le forbici di Liaren» · opzione «Dare ragione a Orazio» · esito · 517 caratteri
+
+> Scendi nel camerino e dici a Oràzio che il filo era tagliato di netto. Lui batte le mani una volta. Per il resto della giornata racconta a chiunque passi che Liàren Tarvèlin gli manda di notte un sicario con le forbici, e la sera aggiunge alla farsa una battuta sulle taverniere che cuciono male, e in loggione ridono molto. Alla porta della sartoria mette un lucchetto. La Fusari ti ringrazia con un cenno della testa. L'ago però continua a tenerlo lontano dagli occhi, e presto un altro corpetto si aprirà in scena.
+
+### Un copione nuovo
+
+**`un-copione-nuovo`** · scena · 1165 caratteri
+
+> Il camerino di Oràzio è piccolo e caldo, e lo specchio occupa una parete intera, con una fila di lampade a olio tutto intorno che fanno sudare chiunque ci si sieda davanti. Sulla toeletta i vasetti del cerone stanno allineati per colore, e in mezzo, appoggiato a una bottiglia, c'è il ritratto a carboncino di un uomo serio in camicia bianca, l'unica cosa nella stanza che Oràzio non ha fatto incorniciare d'oro. Sul tavolo ci sono fogli pieni di cancellature e di frecce che fanno il giro del margine e tornano indietro.
+>
+> “Anima mia, la città è stanca di arpie” dice Oràzio, e ti indica la sedia davanti allo specchio. “Vuole un eroe in carne e ossa, e io ho deciso di dargli il tuo nome.” Intinge la penna e la tiene sospesa sopra il foglio. “Ho raccolto quello che dice la gente, e la gente racconta molto e racconta male. Adesso tu mi dici com'è andata, e io la racconto meglio.” Si sistema una piuma del cappello senza guardarsi allo specchio. “Meglio nel senso dell'Arte, s'intende.”
+>
+> [whispers] Il finale l'ha già scritto, e adesso cerca qualcosa da metterci prima. Le lampade ti scaldano la nuca, e senti il sudore che comincia a scendere sotto il colletto.
+
+**`un-copione-nuovo__1-esito`** · esito «Il discorso interrotto» · opzione «Raccontargli la sera del Festival» · esito · 607 caratteri
+
+> Gli racconti la sera del Festival come l'hai vissuta tu, e Oràzio scrive in fretta, annuendo, finché arrivi agli orchi che sbucano in piazza. “Io ero sul palco dei discorsi e ho continuato a parlare per tenere calma la folla, anima mia” dice, con la penna alzata. Dal corridoio Violante, che passa in quel momento, dice ad alta voce che quella sera l'ha visto saltare giù dal palco per primo. Oràzio scrive lo stesso, senza voltarsi. Nel copione gli orchi diventano trecento, e tu combatti in mezzo alla piazza mentre lui recita dal palco, finché l'ultimo orco si ferma ad ascoltarlo e scappa via piangendo.
+
+**`un-copione-nuovo__2-esito`** · esito «Grande come la Casa dei Nodi» · opzione «Raccontargli del cinghiale della Foresta» · esito · 569 caratteri
+
+> Gli racconti della Foresta Strisciante e della conca piena di carcasse, e di Còrin Àsh-deil che teneva la balestra come un ombrello chiuso. Oràzio ride fino alle lacrime e scrive Còrin così com'è, perché dice che uno così non si inventa. Il cinghiale invece cresce a ogni riga. Alla terza pagina è grande come la Casa dei Nodi, e alla quinta comincia a parlare. “Un cinghiale muto non regge un atto intero” ti spiega, “e così gli do una voce da basso e un passato tragico.” Sul margine disegna la bestia di cartapesta, con sei paia di gambe di comparse sotto la pancia.
+
+**`un-copione-nuovo__3-esito`** · esito «La principessa» · opzione «Raccontargli di Capomozzo» · esito · 571 caratteri
+
+> Gli racconti della strada per la costa e della fortezza di Bàltog, e Oràzio scrive senza alzare la testa fino ai sotterranei, dove si ferma con la penna in aria. “È la ragazza con i capelli d'argento che sta in Cattedrale, lo sa tutta la città. Ci vedo una principessa addormentata in cima a una torre, anima mia” dice, già con gli occhi lucidi. Ti si chiude lo stomaco, e gli dici che lei nel copione non entra. Oràzio ti guarda per un po', con la penna ferma, poi tira una riga sola sulla pagina. “Allora al suo posto metto un tesoro” dice, “che almeno non si offende.”
+
+**`un-copione-nuovo__4-esito`** · esito «Lo sceriffo imbottito» · opzione «Raccontargli della finale all'Arena» · esito · 554 caratteri
+
+> Gli racconti della finale vista dalla sabbia, con Gàldrik che ti saluta alzando la lama sul camminamento bagnato. Oràzio vuole sapere soprattutto che cosa si prova quando la folla grida il tuo nome, e quando glielo dici lo scrive due volte. Gàldrik, decide, lo farà lui, con un'imbottitura sulle spalle e una barba finta. “Lo sceriffo ha le spalle, e io ho il talento” spiega. Nel copione la pozza dell'Arena diventa un lago di fuoco, e al posto della cintura del campione Oràzio ti mette in testa una corona d'alloro, perché dal loggione si vede meglio.
+
+**`un-copione-nuovo__5-esito`** · esito «Sul mio palco vinci tu» · opzione «Raccontargli della finale all'Arena» · esito · 470 caratteri
+
+> Gli racconti della finale e del momento in cui hai sbagliato, e Oràzio ascolta con la penna ferma e la faccia di un uomo a un funerale. Quando arrivi al premio del secondo scuote la testa. “Sul mio palco il secondo posto non l'ho mai messo in scena, e non comincio adesso” dice, e riscrive la finale da capo. Nel copione Gàldrik scivola sul camminamento e tu lo salvi dalla pozza un attimo prima che ci cada. Poi vinci lo stesso, e la folla porta in trionfo tutti e due.
+
+**`un-copione-nuovo__6-esito`** · esito «Quello che dice la gente» · opzione «Non raccontargli niente» · esito · 430 caratteri
+
+> Gli dici che preferisci tenerti le tue storie, e Oràzio non se la prende. Sfoglia i suoi fogli e ti legge quello che dice la gente. In Città Bassa giurano che sei figlio di un nobile decaduto, e una lavandaia dei Quartieri Alti sostiene che parli con i gatti. “Prendo tutto” dice, e intinge la penna. “La gente ha già fatto metà del lavoro, e gratis.” Alla fine della pagina non riconosci più una sola cosa di te, a parte il nome.
+
+**`un-copione-nuovo__7-esito`** · esito «La penna sospesa» · opzione «Alzarti dalla sedia» · esito · 400 caratteri
+
+> Ti alzi dalla sedia davanti allo specchio e gli dici che per adesso la tua storia la tieni tu. Oràzio resta con la penna sospesa finché una goccia d'inchiostro cade sul foglio, e allora la posa. “L'Arte sa aspettare, anima mia. Io ci provo” dice. Ti accompagna alla porta del camerino e ti avverte che intanto continuerà a raccogliere quello che dice la gente, perché la gente non chiede il permesso.
+
+### La lettura del copione
+
+**`la-lettura-del-copione`** · scena · 1058 caratteri
+
+> Tre giorni dopo Oràzio raduna la compagnia nel ridotto per la lettura, con le sedie messe in cerchio sotto il lampadario e una brocca di vino annacquato che nessuno tocca. Il copione ha la copertina di cartone rosso e un titolo scritto a mano con molti svolazzi, Le imprese mirabolanti di un cittadino qualunque. Oràzio legge tutte le parti da solo, cambiando voce a ogni battuta, e si ferma soltanto per bere.
+>
+> Dentro ci sei tu, o qualcuno con il tuo nome. Hai una spada che canta quando c'è un nemico vicino, e un vecchio maestro che nel primo atto ti muore fra le braccia dicendoti una frase di quattro righe. Violante, con i piedi appoggiati su un'altra sedia, ti passa un foglio piegato. Sopra ha scritto a matita a pagina dodici ti innamori di me e a quattordici muoio, stai tranquillo. La donna delle pulizie, che Oràzio invita a tutte le letture perché dice che lei è il pubblico, ride nei punti giusti e anche in qualcuno sbagliato.
+>
+> Quando chiude il copione Oràzio guarda prima te, con la penna già in mano. “Allora, anima mia. Quanto lo tagliamo?”
+
+**`la-lettura-del-copione__1-esito`** · esito «I diritti della tua vita» · opzione «Lasciarlo esagerare» · esito · 429 caratteri
+
+> Gli dici che il teatro è suo e la spada che canta anche. Oràzio si alza e ti abbraccia, con gli anelli che ti premono nella schiena, e dalla tasca della giacca tira fuori un sacchetto di velluto. “I diritti della tua vita, anima mia. Venti monete. La vita resta a te, e la versione migliore la tengo io.” Violante applaude piano, con due dita. Nei giorni dopo, per strada, qualcuno comincia a chiederti se la spada canta davvero.
+
+**`la-lettura-del-copione__2-successo`** · esito «Una pessima coreografia» · opzione «Togliere le bugie una alla volta» · successo · 423 caratteri
+
+> Riprendi il copione dalla prima pagina, e a ogni bugia ti fermi e gli racconti com'è andata davvero. Oràzio difende la spada che canta per mezz'ora e poi la cede, purché resti almeno il maestro che muore. “La verità è una pessima coreografia” dice, e intanto taglia. Alla fine il copione è più sottile di un terzo. Oràzio lo rilegge da capo in silenzio, e a metà si mette a ridere in un punto dove prima non rideva nessuno.
+
+**`la-lettura-del-copione__2-fallimento`** · esito «La spada resta» · opzione «Togliere le bugie una alla volta» · fallimento · 346 caratteri
+
+> Provi a togliere la spada che canta, e Oràzio la difende come un figlio. Il resto della compagnia si schiera con lui, perché nel duello con la spada tutti hanno almeno una battuta. Alla fine la lettura si chiude senza un accordo. Oràzio rimette il copione nel cassetto del camerino e ti dice che l'Arte sa aspettare, e che lui per primo ci prova.
+
+**`la-lettura-del-copione__3-successo`** · esito «La fibbia» · opzione «Trovare nei fatti la scena migliore» · successo · 454 caratteri
+
+> Gli racconti una cosa piccola che non hai mai detto a nessuno. Dopo, quando era tutto finito, le mani ti tremavano tanto che non riuscivi a slacciarti una fibbia, e qualcuno ha dovuto farlo per te. Oràzio resta zitto. Poi prende la penna, cancella le quattro righe del maestro che muore e al loro posto scrive una fibbia che non si slaccia. “Questa la recito io” dice, “e la sala piangerà sul serio.” Violante ti guarda da sopra il copione, senza ridere.
+
+**`la-lettura-del-copione__3-fallimento`** · esito «Troppo vero» · opzione «Trovare nei fatti la scena migliore» · fallimento · 398 caratteri
+
+> Gli racconti una cosa vera, e la scegli male. È un ricordo che ti tiene sveglio di notte e che in bocca a te suona soltanto crudo. Oràzio ascolta con gli anelli fermi sul copione, poi ti posa una mano sul braccio. “Il pubblico paga per piangere un poco e tornare a casa, e questa è una cosa da notte insonne” dice. Chiude il copione e ti dice di tornare quando avrai voglia di raccontarne un'altra.
+
+**`la-lettura-del-copione__4-esito`** · esito «Lo sceriffo Baldracco» · opzione «Togliere i nomi veri» · esito · 445 caratteri
+
+> Gli lasci la spada che canta e tutto il resto, a patto che l'unico nome vero nel copione sia il tuo. Oràzio brontola per un po', poi ci prende gusto. Passa il resto del pomeriggio a inventare nomi nuovi per tutti quelli che compaiono nella storia, e li prova ad alta voce uno per uno finché non suonano abbastanza ridicoli. Uno sceriffo diventa Baldracco, e una Gilda intera diventa la Lega dei Bottegai. La donna delle pulizie ride a ogni nome.
+
+### Il nome sul cartellone
+
+**`il-nome-sul-cartellone`** · scena · 1121 caratteri
+
+> Sul cartellone appeso fra le colonne del Teatro c'è il titolo dello spettacolo in lettere d'oro, e sotto c'è il nome di Oràzio Belcànto, grande quanto il titolo. Sotto ancora c'è il tuo, un poco più piccolo. Il pittore l'ha ridipinto due volte, perché la prima Oràzio l'aveva trovato troppo grande e la seconda troppo piccolo per un teatro serio.
+>
+> Dietro il sipario la compagnia si muove in punta di piedi. Violante ti sistema il colletto senza chiedere, e il macchinista prova la ruota per la terza volta. Dal buco nel velluto si vede la sala piena fino al loggione, e in terza fila la donna delle pulizie ha un biglietto vero e si è messa un cappello. Oràzio guarda dal buco accanto al tuo e s'irrigidisce. “C'è Tàrkuin” dice, con una voce più bassa di un'ottava che non gli hai mai sentito. In un palco di prima fila, accanto a Isotta Cordàni, siede un uomo in camicia bianca e panciotto, lo stesso del ritratto sulla toeletta. Poi Oràzio si volta, e la voce gli risale dove sta di solito. “Anime mie, in posizione!”
+>
+> Hai le mani fredde e la bocca asciutta, e le battute del primo atto se ne sono andate tutte insieme.
+
+**`il-nome-sul-cartellone__1-successo`** · esito «Le ginocchia ricordano» · opzione «Fare come la sera della Promessa» · successo · 469 caratteri
+
+> Entri in scena, pianti i piedi sulle assi come la sera della Promessa e aspetti che la sala smetta di tossire. La prima battuta ti torna da sola, e dietro di lei tutte le altre. Oràzio recita tutti i cattivi cambiando mantello dietro le quinte, e ogni volta che rientra ti strizza l'occhio. Agli applausi la sala si alza, e dal palco di prima fila Tàrkuin Cordàni applaude per primo. Il giorno dopo il pittore torna con la scala e ripassa il tuo nome di vernice fresca.
+
+**`il-nome-sul-cartellone__1-fallimento`** · esito «La striscia di carta» · opzione «Fare come la sera della Promessa» · fallimento · 379 caratteri
+
+> Entri in scena convinto che le ginocchia sappiano la strada, e a metà del primo atto ti si piegano. Oràzio ti copre come può, ma il secondo atto lo recita quasi tutto lui. Il giorno dopo sul cartellone, sopra il tuo nome, c'è una striscia di carta incollata di traverso, come quella che c'era sul manifesto della Promessa. Oràzio ti dice che la toglierà la sera che sarai pronto.
+
+**`il-nome-sul-cartellone__2-successo`** · esito «La sala in piedi» · opzione «Recitare la parte come l'ha scritta Orazio» · successo · 418 caratteri
+
+> La prima battuta ti esce un tono troppo alta, e la seconda giusta. Da lì in avanti la sala la tieni tu, e a volte ride prima ancora che tu finisca la frase. Oràzio recita tutti i cattivi e ogni tanto si dimentica di esserlo, per guardarti. Agli applausi la sala si alza, e dal palco di prima fila Tàrkuin Cordàni applaude per primo. Il giorno dopo il pittore torna con la scala e ripassa il tuo nome di vernice fresca.
+
+**`il-nome-sul-cartellone__2-fallimento`** · esito «Il buco nel velluto» · opzione «Recitare la parte come l'ha scritta Orazio» · fallimento · 382 caratteri
+
+> A metà del primo atto ti perdi in una battuta lunga e la finisci in un altro modo, e la scena dopo non ha più senso. Oràzio la rimette in piedi improvvisando, con la voce sempre più alta. Gli applausi alla fine sono educati. Il giorno dopo sul cartellone, sopra il tuo nome, c'è una striscia di carta incollata di traverso, e Oràzio ti dice che la toglierà la sera che sarai pronto.
+
+**`il-nome-sul-cartellone__3-successo`** · esito «Tre duelli e una caduta» · opzione «Fare da te i duelli» · successo · 462 caratteri
+
+> Le battute le dici come puoi, e la sala te le perdona appena tiri fuori la spada di legno. Oràzio fa tutti i cattivi, cambiando mantello in quinta, e tu li batti uno dopo l'altro con le finte che avete provato per una settimana. Alla caduta dal ballatoio la prima fila grida davvero. Agli applausi la sala si alza, e dal palco di prima fila Tàrkuin Cordàni applaude per primo. Il giorno dopo il pittore torna con la scala e ripassa il tuo nome di vernice fresca.
+
+**`il-nome-sul-cartellone__3-fallimento`** · esito «La caduta vera» · opzione «Fare da te i duelli» · fallimento · 412 caratteri
+
+> I primi due duelli vanno bene. Al terzo sbagli una finta e colpisci Oràzio sul polso per davvero, e la caduta dal ballatoio la fai storta, con una caviglia che ti si gira sotto. Finisci lo spettacolo zoppicando, e la sala applaude il coraggio più del resto. Il giorno dopo sul cartellone, sopra il tuo nome, c'è una striscia di carta di traverso. Oràzio ti dice che la toglierà quando sarete guariti tutti e due.
+
+**`il-nome-sul-cartellone__4-successo`** · esito «La sala zitta» · opzione «Recitare pensando a com'è andata davvero» · successo · 464 caratteri
+
+> Dici le battute di Oràzio e intanto lasci che ti torni in mente quella sera vera, con le mani che tremavano. La voce ti esce più bassa di come l'avevi provata. La sala, che era venuta per ridere, a metà del secondo atto smette di farlo e ti segue in silenzio. Agli applausi c'è un momento vuoto, e poi si alzano tutti. Dal palco di prima fila Tàrkuin Cordàni applaude per primo. Il giorno dopo il pittore torna con la scala e ripassa il tuo nome di vernice fresca.
+
+**`il-nome-sul-cartellone__4-fallimento`** · esito «Troppo vicino» · opzione «Recitare pensando a com'è andata davvero» · fallimento · 399 caratteri
+
+> Ti lasci tornare in mente quello che è successo davvero, e ti torna tutto insieme. A metà del secondo atto resti fermo in mezzo al palco con il sudore che si raffredda sulla nuca, finché Oràzio non entra a prenderti per un braccio. Il giorno dopo sul cartellone, sopra il tuo nome, c'è una striscia di carta di traverso. Oràzio ti dice che la toglierà la sera che sarai pronto, e che non c'è fretta.
+
+**`il-nome-sul-cartellone__5-esito`** · esito «Come a tavola» · opzione «Salire sul palco e parlare come a tavola» · esito · 461 caratteri
+
+> Entri in scena e dici le battute di Oràzio come le diresti a una tavola di amici, con le pause dove ti viene di farle. Per un po' la sala non capisce, poi qualcuno in loggione ride nel punto giusto, e da lì in avanti ti vengono dietro. Oràzio, nei panni dei cattivi, abbassa il tono per starti accanto. Agli applausi Tàrkuin Cordàni si alza per primo nel palco di prima fila. Il giorno dopo il pittore torna con la scala e ripassa il tuo nome di vernice fresca.
+
+**`il-nome-sul-cartellone__6-esito`** · esito «Il sostituto» · opzione «Dire a Orazio che stasera non ce la fai» · esito · 444 caratteri
+
+> Glielo dici dietro il sipario, a voce bassa. Oràzio ti guarda, poi chiama l'attor giovane e gli mette in mano la tua spada di legno senza una parola di rimprovero. Guardi lo spettacolo dalla quinta, e l'attor giovane fa la tua parte con un entusiasmo che ti mette un po' di imbarazzo. Il giorno dopo sul cartellone, sopra il tuo nome, c'è una striscia di carta. “Il tuo nome resta lì sotto” dice Oràzio, “e la carta la togliamo quando vuoi tu.”
