@@ -33,6 +33,14 @@ export function durata(ms: number): string {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
+/** Il tempo di gioco, in ore e minuti. */
+export function tempoGiocato(ms: number): string {
+  const min = Math.floor(ms / 60000);
+  if (min < 1) return 'meno di un minuto';
+  if (min < 60) return `${min} min`;
+  return `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, '0')} min`;
+}
+
 export function percentuale(p: number): string {
   if (p > 0 && p < 0.01) return '<1%';
   if (p < 1 && p > 0.99) return '>99%';

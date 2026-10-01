@@ -20,6 +20,8 @@ import { Lettore, montaControlli } from './audio';
 import { sceltaAudio } from './colonna';
 import { paginaInfo, PAGINE_INFO, type PaginaInfo } from './pagine';
 import { crisiAttiva } from '../motore/crisi';
+import { segnaTempo, sospendiTempo } from '../motore/tempo';
+import { serieDi } from '../motore/serie';
 import registrati from '../../doppiaggio/registrati.json';
 import {
   idVoceEsito, pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
@@ -344,10 +346,23 @@ function azione(az: string, el: HTMLElement): void {
   }
 }
 
+/** La serie della scena aperta, per attribuirle il tempo di gioco. */
+function serieInCorso(): string | undefined {
+  return vista.tipo === 'area' ? undefined : serieDi(c).diStorylet.get(vista.id)?.id;
+}
+
 app.addEventListener('click', (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-az]');
   if (!el || (el as HTMLButtonElement).disabled) return;
+  if (stato) segnaTempo(stato, Date.now(), serieInCorso());
   azione(el.dataset['az']!, el);
+});
+
+// la pagina in background non conta: si chiude il conto e si riapre al ritorno
+document.addEventListener('visibilitychange', () => {
+  if (!stato) return;
+  if (document.hidden) { sospendiTempo(stato, Date.now(), serieInCorso()); salva(); }
+  else segnaTempo(stato, Date.now());
 });
 
 app.addEventListener('submit', (e) => {

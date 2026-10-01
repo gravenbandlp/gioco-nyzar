@@ -18,7 +18,7 @@ import { serieDi, avanzamento, type Serie } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
-import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile } from './formato';
+import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile, tempoGiocato } from './formato';
 import {
   tavola, prosa, primaFrase, candelaGrande, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
   descriviArma, descriviArmatura, descriviOggetto, srcTavola, ROMBO,
@@ -315,7 +315,9 @@ function occasioni(x: Contesto): string {
 function rigaPista(s: Stato, c: TContenuti, id: string, nomeSerie: string, descrizione?: string, immagine?: string): string {
   const z = serieDi(c).serie.find((x) => x.id === id || x.quality === id);
   const fatti = z ? avanzamento(s, z) : Math.floor(s.quality[id] ?? 0);
-  const segno = z ? `<span class="serie">${tacche(fatti, z.massimo)}${fatti >= z.massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}</span>` : `<span class="etichetta velo">Capitolo ${mezzi(fatti)}</span>`;
+  const speso = z ? s.tempo?.serie[z.id] ?? 0 : 0;
+  const tempo = speso >= 60000 ? `<span class="tempo-serie" title="Tempo di gioco in questa storia">${h(tempoGiocato(speso))}</span>` : '';
+  const segno = z ? `<span class="serie">${tacche(fatti, z.massimo)}${fatti >= z.massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}${tempo}</span>` : `<span class="etichetta velo">Capitolo ${mezzi(fatti)}</span>`;
   return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}</div>${segno}</li>`;
 }
 
@@ -637,6 +639,7 @@ export function personaggio(x: Contesto): string {
         <h2>${h(s.nome)}</h2>
         ${origine ? prosa(origine.testo) : ''}
         <p class="equip-riga"><span class="etichetta">Crescita</span> Ogni prova dà PE all'abilità usata e un quarto all'attributo. Più la prova è incerta, più insegna.</p>
+        <p class="equip-riga tempo-di-gioco"><span class="etichetta">Tempo di gioco</span> ${h(tempoGiocato(s.tempo?.totale ?? 0))}</p>
       </div>
     </header>
     <h2 class="titolo-sezione">Attributi e abilità</h2>
