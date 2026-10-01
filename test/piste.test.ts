@@ -102,7 +102,7 @@ function frequenta(origine: string, seme: number, luogo: string, fine: string, e
     if (!st) throw new Error(`${origine}/${seme}: niente da fare in ${luogo}`);
     passo(s, st, rng);
   }
-  throw new Error(`${origine}/${seme}: troppi passi in ${luogo} (${JSON.stringify(Object.fromEntries(Object.entries(s.quality).filter(([k]) => k.startsWith('rep.') || k.includes(luogo.split('-')[0]))))})`);
+  throw new Error(`${origine}/${seme}: troppi passi in ${luogo} (${JSON.stringify(Object.fromEntries(Object.entries(s.quality).filter(([k]) => k.startsWith('rep.') || k.includes(luogo.split('-')[0] ?? luogo))))})`);
 }
 
 describe('piste', () => {

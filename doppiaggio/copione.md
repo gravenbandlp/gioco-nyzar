@@ -1,6 +1,6 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 881 pezzi, 532.801 caratteri.
+Generato da `npm run doppiaggio`. 915 pezzi, 552.236 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
 
 ## I prologhi
@@ -5742,3 +5742,177 @@ Ogni file audio si salva come `<id>.mp3`.
 > Per una settimana scarichi i carri al posto suo e spazzi la bottega, e la Città Bassa ti vede farlo. Òddo ti guarda dalla panca con il polso al collo e ti corregge su tutto, da come si impila un sacco a come si saluta un cliente.
 >
 > L'ultimo giorno ti porta una fetta di torta di Berta e si siede accanto a te sullo scalino. “Lavori storto ma lavori” dice. Alle finestre di fronte le vicine hanno smesso di guardare.
+
+## La città viva
+
+### La lite delle mappe
+
+**`la-lite-delle-mappe`** · scena · 1425 caratteri
+
+> Le voci ti arrivano dallo studio di Òrvald prima ancora che tu sia in fondo al corridoio, e Pèt ha lasciato lo stipite per rifugiarsi sull'architrave della finestra. Sulla scrivania, fra il teschio di cinghiale mutato e un calamaio che fa da fermacarte, è srotolata una mappa ingiallita con la grafia stretta del preside. In un angolo c'è scritto Gradone Rosso, scavo del centoventi, e lungo la scarpata scende un sentiero tratteggiato fino a una croce.
+>
+> Dall'altra parte della scrivania c'è uno gnomo anziano con i capelli rossi sbiaditi raccolti in una coda, gli occhiali tondi sul naso e un gilet ricamato a fiori arancioni. La cravatta è verde a pois gialli. Sulla spalla tiene un geco verde brillante, che guarda la mappa con un occhio solo. “Sono Tòbol Àspern, il cartografo. Lui è Whisp” dice senza voltarsi. “Tu devi essere quello che Òrvald fa lavorare per due monete. Ottimo, mi serve un testimone.”
+>
+> “Il sentiero esiste” dice Òrvald. “L'ho fatto trenta volte, con un mulo carico.”
+>
+> “Trent'anni fa” dice Tòbol, e batte il dito sulla croce. “Io ci sono passato due estati fa, e al posto del tuo sentiero c'è un muro di sabbia rossa alto come la Cattedrale. Di solito decide Ottìlia, mio caro, ma oggi ha i novizi.” Si gira verso di te e si sistema gli occhiali. “Quindi decidi tu.”
+>
+> [whispers] Questa lite è più vecchia di me, e mi sopravviverà. Ti accorgi di avere ancora una mano sulla maniglia, e la lasci andare.
+
+**`la-lite-delle-mappe__1-successo`** · esito «La nota a margine» · opzione «Studiare la mappa e il diario di scavo» · successo · 556 caratteri
+
+> Mentre i due discutono sopra la tua testa ti chini sulla mappa con la lente del preside. In basso, quasi coperta da una macchia di tè, c'è una nota piccola con la stessa grafia del sentiero, arenaria che si sfoglia sopra la croce, non passarci dopo le piogge. La leggi ad alta voce. Òrvald si zittisce, e Tòbol batte le mani una volta sola. Avevano ragione tutti e due, ciascuno nella sua estate, e adesso devono correggere due mappe. Tòbol ti paga la scoperta cinque monete, perché dice che le notizie esatte si pagano anche quando danno ragione a Òrvald.
+
+**`la-lite-delle-mappe__1-fallimento`** · esito «Una macchia di tè» · opzione «Studiare la mappa e il diario di scavo» · fallimento · 404 caratteri
+
+> Studi la mappa a lungo, mentre i due discutono sopra la tua testa, e trovi soltanto una vecchia macchia di tè nell'angolo in basso. Quando provi a dire qualcosa di sensato sulla scala Tòbol ti corregge con tre numeri, e Òrvald gli dà ragione, sorpreso lui stesso. Per qualche minuto sono d'accordo su di te. Poi tornano a litigare fra loro, e tu esci dallo studio senza che nessuno dei due se ne accorga.
+
+**`la-lite-delle-mappe__2-successo`** · esito «Trent'anni di piogge» · opzione «Ragionare sulla roccia del Gradone» · successo · 543 caratteri
+
+> Chiedi a Tòbol com'era il muro di sabbia, e lui te lo descrive con precisione. Era a strati sottili, e in cima aveva le radici degli arbusti scoperte. È una frana, e nemmeno tanto vecchia. L'arenaria del Gradone si sfoglia a ogni pioggia, e un sentiero scavato sul fianco della scarpata in trent'anni può sparire senza che nessuno lo veda cadere. Òrvald e Tòbol ti ascoltano e poi si guardano. Avevano ragione tutti e due, e adesso devono correggere due mappe. Tòbol ti paga la spiegazione cinque monete e la scrive a margine, con il tuo nome.
+
+**`la-lite-delle-mappe__2-fallimento`** · esito «La pietra sbagliata» · opzione «Ragionare sulla roccia del Gradone» · fallimento · 391 caratteri
+
+> Spieghi con sicurezza che il Gradone è di granito e che il granito tiene, e Tòbol ti lascia arrivare in fondo con un sorriso sempre più largo. Poi tira fuori dal taschino del gilet un sasso rosso e te lo mette in mano, e il sasso ti si sbriciola fra le dita. Òrvald ride per la prima volta da quando sei entrato, e Pèt torna sullo stipite. La lite riprende subito dopo, più allegra di prima.
+
+**`la-lite-delle-mappe__3-esito`** · esito «Il sentiero del mulo» · opzione «Dare ragione a Orvald» · esito · 549 caratteri
+
+> Dici che una mappa disegnata da chi ci è passato trenta volte vale più di una visita di due estati, e che i muri di sabbia vanno e vengono. Òrvald annuisce una volta sola. Tòbol si toglie gli occhiali, li pulisce sulla cravatta e se li rimette, poi arrotola la mappa, che è di Òrvald, e se la porta via lo stesso. Òrvald ti versa una tazza di caffè cattivo come promesso, poi ti racconta dello scavo del centoventi finché la tazza non è vuota. “Domani Tòbol torna con una cravatta nuova” dice, soffiando sul caffè. “È il suo modo di chiedere scusa.”
+
+**`la-lite-delle-mappe__4-esito`** · esito «Il silenzio del corvo» · opzione «Dare ragione a Tobol» · esito · 525 caratteri
+
+> Dici che una mappa vale quanto l'ultima volta che qualcuno l'ha controllata, e che il sentiero, se c'era, adesso non c'è più. Tòbol batte le mani una volta, e Whisp gli corre dalla spalla alla testa. Sull'architrave Pèt smette di lisciarsi le penne e resta immobile, e dopo un momento capisci il perché. Òrvald arrotola la mappa con molta cura e la rimette nello scaffale senza una parola. “Bene” dice soltanto. Sulla porta Tòbol ti paga la tua opinione otto monete, e ti sussurra che il silenzio del corvo vale molto di più.
+
+**`la-lite-delle-mappe__5-successo`** · esito «Il percorso consigliato» · opzione «Farli ridere tutti e due» · successo · 542 caratteri
+
+> Prendi un foglio dalla scrivania e disegni in fretta una terza mappa, con la croce dello scavo in fondo alla scarpata e un sentiero che fa un giro lunghissimo intorno a due vecchi che litigano. Sotto scrivi percorso consigliato, imitando la grafia di Òrvald. Tòbol guarda il foglio e poi Òrvald, e scoppia a ridere così forte che Whisp gli scivola dalla spalla. Òrvald resiste un poco di più. Alla fine attacca il tuo disegno al muro, accanto alle mappe vere, e Tòbol ti paga cinque monete perché è il primo disegno onesto di tutto lo studio.
+
+**`la-lite-delle-mappe__5-fallimento`** · esito «Lo scherzo sbagliato» · opzione «Farli ridere tutti e due» · fallimento · 428 caratteri
+
+> Provi a sdrammatizzare con una battuta sull'età di tutti e due, e la sbagli di qualche decennio. Tòbol, che di anni ne ha centodieci, se la prende per Òrvald, e Òrvald se la prende per Tòbol. Per qualche minuto sono alleati contro di te e ti spiegano a due voci quanto vivono gli gnomi e quanto gli umani. Poi tornano alla mappa, e la lite ricomincia da dove l'avevano lasciata. Pèt, dall'architrave, ti guarda con compatimento.
+
+### Il registro delle allieve
+
+**`il-registro-delle-allieve`** · scena · 1331 caratteri
+
+> La sera l'Accademia è vuota, e i tuoi passi nel corridoio rimbombano come in una chiesa. Lo studio di Òrvald è illuminato da una sola lampada a cristallo, posata sulla scrivania accanto a un registro rilegato in tela grigia, con centoquarantuno scritto sul dorso. Il cassetto in basso, quello che ha sempre la chiave nella serratura, adesso è aperto. Pèt sta sulla trave con le penne raccolte e non si muove.
+>
+> Òrvald non ti fa sedere. “Ottìlia mi ha detto che Aurènne è viva, e che l'hai riportata tu” dice. “Non mi ha detto altro, e conoscendola vuol dire che c'è molto altro.” Apre il registro a una pagina d'inverno e ti mostra l'elenco delle allieve, scritto con la sua grafia. Fra due nomi c'è una riga lasciata vuota.
+>
+> “Sòllen mi chiese di non scriverla, e io obbedii perché obbedire era comodo” dice, e dal cassetto tira fuori tre fogli piegati. “Era taciturna, con i capelli d'argento, e diceva di sentire delle voci. Gli altri la tormentavano e io lo sapevo. Amyll e le sue amiche, e più di tutti Rènnik Dòl, che era il peggiore.” Si ferma, e riprende con la stessa voce. “Io le davo molti compiti. Pensavo che chi lavora non ha tempo di stare male, e non ho fatto nient'altro.”
+>
+> [whispers] Ha preparato questo discorso per nove anni, e lo dice male lo stesso. Ti accorgi di stringere il bordo della scrivania, e lo lasci.
+
+**`il-registro-delle-allieve__1-esito`** · esito «Comodo» · opzione «Chiedergli perché non ha fatto niente» · esito · 430 caratteri
+
+> “Perché era comodo” dice Òrvald, e non cerca un'altra parola. “Sòllen era il cappellano della Cattedrale e chiedeva discrezione. I ragazzi che la tormentavano avevano genitori che venivano a parlarmi una volta al mese, e lei non si lamentava mai. Io prendevo il suo silenzio per pazienza.” Si passa una mano sulla barba corta. “Era quella che costava meno lasciare sola. Te lo dico perché tu non mi trovi una scusa che io non ho.”
+
+**`il-registro-delle-allieve__2-esito`** · esito «Tanti di quei compiti» · opzione «Raccontargli del diario» · esito · 583 caratteri
+
+> Gli racconti del quaderno dalla copertina azzurra e di quella pagina d'inverno. Il Maestro Tèmmerin le dava tanti di quei compiti che lei non li avrebbe mai finiti. Intanto Amyll e le altre spingevano i banchi contro la porta del bagno dove si era chiusa. Ci è rimasta fino a notte, al buio. Òrvald ascolta fino in fondo senza interromperti, poi dice che d'inverno, la sera, lui scendeva nel seminterrato a riordinare la collezione, e che laggiù dal piano di sopra non arrivava nessun rumore. Chiude il registro con tutte e due le mani. Pèt, sulla trave, sposta la testa di un grado.
+
+**`il-registro-delle-allieve__3-esito`** · esito «Il peggiore» · opzione «Chiedergli di Rennick Dole» · esito · 485 caratteri
+
+> “Rènnik la picchiava di rado. Faceva di peggio, perché era bravo a farsi seguire” dice Òrvald. “Decideva lui come la si chiamava quella settimana, e la settimana dopo la chiamava così tutta la scuola.” Racconta che i suoi amici ridevano a ogni parola, e che gli altri ragazzi ridevano con loro per non diventare il bersaglio successivo. A lezione Rènnik era educatissimo. Òrvald lo dice guardando la riga vuota del registro, e aggiunge che a lui questo bastava per non vedere il resto.
+
+**`il-registro-delle-allieve__4-esito`** · esito «Una sera» · opzione «Dirgli che avrebbe dovuto accorgersene» · esito · 507 caratteri
+
+> Gli dici che un maestro che vede un'allieva tormentata e le dà più compiti ha già scelto da che parte stare. Òrvald ti ascolta senza distogliere lo sguardo, e alla fine annuisce piano. “Hai ragione” dice, e per un po' guarda la riga vuota. “A me sono serviti nove anni e un incendio per dirmelo da solo, e a te una sera.” Rimette i fogli nel cassetto, e questa volta lascia la chiave sul tavolo. Ti accompagna alla porta con la lampada in mano, e sul corridoio buio ti ringrazia di non essere stato gentile.
+
+**`il-registro-delle-allieve__5-esito`** · esito «Tre fogli» · opzione «Leggere le sue note su di lei» · esito · 492 caratteri
+
+> Le note sono brevi, con la data in cima a ogni foglio. Sul primo Òrvald ha scritto risponde per enigmi, dice di sentire delle voci. Nel secondo ha ricopiato una frase di Sòllen, che il mondo non era pronto per la benedizione di sua figlia, e accanto ha messo un punto interrogativo. Il terzo è quasi bianco, con una data di primavera e una parola sola, ritirata. Òrvald ti lascia leggere in silenzio. Poi riprende i fogli e li rimette nel cassetto, e questa volta lascia la chiave sul tavolo.
+
+**`il-registro-delle-allieve__6-esito`** · esito «Il compito» · opzione «Portare ad Aurenne qualcosa da parte sua» · esito · 510 caratteri
+
+> Òrvald ci pensa a lungo. Poi apre il registro all'ultima pagina, dove è rimasto infilato un foglio di quaderno piegato in quattro, e te lo porge. È un esercizio sui cristalli, con il titolo in una grafia tonda da scolara e due fiori disegnati a margine. “È l'ultimo compito che mi ha consegnato. Non l'ho mai corretto e non gliel'ho mai restituito” dice. “Sopra non ci scrivo niente, perché qualunque cosa ci scrivessi adesso la scriverei per me.” Ti accompagna fino al portone e lo chiude piano, dietro di te.
+
+### Il compito di Aurenne
+
+**`il-compito-di-aurenne`** · scena · 904 caratteri
+
+> La mattina dopo attraversi i Quartieri Alti con il foglio piegato nella giubba, e ogni tanto ci posi sopra la mano per sentire che c'è ancora. Sul sagrato della Cattedrale lo apri contro il parapetto. L'esercizio chiede di descrivere che cosa si sente quando un cristallo risponde. La ragazza che l'ha scritto ha riempito una pagina e mezza, e a un certo punto ha scritto che il cristallo le parlava come le parlavano le voci, solo più gentile. In fondo lo spazio per il voto è rimasto vuoto, e accanto c'è un fiore a matita cominciato e lasciato a metà.
+>
+> [whispers] Dall'Accademia alla Cattedrale ci sono tre strade, e a questo foglio sono serviti nove anni. Lo ripieghi lungo le pieghe vecchie.
+>
+> Dentro, la navata è fresca e odora di cera. Un novizio ti riconosce e va a chiamare Ottìlia Sànvel, che arriva dal chiostro con le maniche rimboccate e guarda il foglio che hai in mano prima di guardare te.
+
+**`il-compito-di-aurenne__1-esito`** · esito «Una pagina e mezza» · opzione «Darlo ad Aurenne» · esito · 538 caratteri
+
+> Aurènne è seduta sulla panca della sala di preghiera. Quando riconosce la grafia prende il foglio con la mano buona e tiene l'artiglio lontano, appoggiato sul ginocchio. Legge tutta la pagina e mezza muovendo appena le labbra. “Il Maestro Tèmmerin dava tanti compiti” dice alla fine, con la voce piatta, e ti chiede se ci ha scritto qualcosa. Le dici di no, e che è stato lui a non volerlo. Aurènne piega il foglio in quattro e lo infila sotto la corazza, contro il petto. Poi torna a guardare la luce delle vetrate e non ti chiede altro.
+
+**`il-compito-di-aurenne__2-esito`** · esito «Quando si sveglia» · opzione «Lasciarlo a Ottilia» · esito · 406 caratteri
+
+> Ottìlia ti dice che Aurènne dorme ancora e che per adesso non entra nessuno. Prende il foglio e lo legge in piedi nella navata, dall'inizio alla fine, poi lo ripiega lungo le stesse pieghe. “L'ho conosciuta. Pregava male, però veniva” dice. “Quando si sveglia glielo do io, e a Òrvald di' che è arrivato.” Infila il foglio nella manica della tunica nera e torna verso il chiostro con il suo passo regolare.
+
+**`il-compito-di-aurenne__3-esito`** · esito «Nella giubba» · opzione «Tenerlo per te» · esito · 369 caratteri
+
+> Dici a Ottìlia che hai sbagliato porta, e lei ti guarda il tempo che le serve per capire che non è vero. Torni sul sagrato e resti al parapetto con il foglio in mano finché le campane suonano l'ora. Poi lo rimetti nella tasca interna della giubba e torni indietro per la strada più lunga. Òrvald non ti chiederà se l'hai consegnato, e tu non avrai bisogno di mentirgli.
+
+### Una cattedra a Torvessa
+
+**`una-cattedra-a-torvessa`** · scena · 1202 caratteri
+
+> Questa volta Òrvald ti fa sedere, ed è la prima volta da quando frequenti l'Accademia. La sedia degli ospiti ha una gamba più corta delle altre, e lui ci ha messo sotto un libro di formule perché non dondoli. Sulla scrivania, fra le mappe, ci sono una chiave di ferro lunga quanto un dito e un'etichetta di cartone ancora bianca. Pèt passeggia avanti e indietro sul bordo della scrivania, e tiene d'occhio la chiave.
+>
+> “Il consiglio dei maestri ha accettato di darti una cattedra da maestro aggiunto” dice Òrvald, e picchietta l'etichetta con la nocca. “Un'ora alla settimana nell'aula piccola, e un cassetto con il tuo nome. Questa invece è la chiave del seminterrato, che finora avevamo soltanto io e Tòbol.” Si appoggia allo schienale. “Il consiglio vuole una prova, e qui le prove si scelgono. Puoi tenere una lezione al terzo anno, oppure rispondere a tre domande dei maestri, che sono cinque vecchi e si annoiano. La terza strada è una richiesta mia. Stamattina ho sgridato Pèt per una tazza rotta, e lui si è vendicato nascondendo un pezzo della collezione. Se me lo ritrovi, il consiglio lo conta come prova, visto che lo decido io.”
+>
+> Pèt smette di passeggiare e si mette a guardare il soffitto.
+
+**`una-cattedra-a-torvessa__1-successo`** · esito «L'ultimo banco» · opzione «Tenere la lezione al terzo anno» · successo · 472 caratteri
+
+> Gli allievi del terzo anno ti aspettano a braccia conserte, e Òrvald si siede all'ultimo banco con Pèt sulla spalla. Scegli la formula che a te è costata più fatica e cominci raccontando come l'hai sbagliata tu. Un allievo ride, un altro si mette a prendere appunti, e a metà ora le mani si alzano per fare domande vere. Quando suona la campana nessuno si alza subito. Òrvald esce per primo senza dire niente, e dal corridoio lo senti dire a Tòbol che la lezione è andata.
+
+**`una-cattedra-a-torvessa__1-fallimento`** · esito «La domanda difficile» · opzione «Tenere la lezione al terzo anno» · fallimento · 498 caratteri
+
+> Gli allievi del terzo anno ti aspettano a braccia conserte, e Òrvald si siede all'ultimo banco. Parti bene, poi alla prima domanda difficile ti accorgi di non sapere la risposta e provi a girarci intorno, e gli allievi se ne accorgono prima di te. La campana suona quando hai ancora mezza lavagna da riempire. Òrvald ti aspetta in corridoio e ti dice che la cattedra resta lì, e che la prossima volta alla domanda difficile si risponde che non lo sai, perché anche quella è una risposta da maestro.
+
+**`una-cattedra-a-torvessa__2-successo`** · esito «Tre domande» · opzione «Rispondere alle domande del consiglio» · successo · 566 caratteri
+
+> La prima domanda la fa la maestra di retorica, sulla storia della città, e te la cavi. La seconda è del tesoriere, che vuole sapere quanto costa all'Accademia un cristallo spezzato da un allievo, e la sai perché l'hai visto succedere. La terza la fa Tòbol. Ti chiede che cosa c'è sulla mappa della città nel punto della Cicatrice, e quando rispondi che lì la mappa è bianca, perché nessuno l'ha mai misurata, si toglie gli occhiali e dice al consiglio che lui ha finito. Gli altri quattro votano subito dopo di lui, e il consiglio si scioglie in tempo per il pranzo.
+
+**`una-cattedra-a-torvessa__2-fallimento`** · esito «La seconda domanda» · opzione «Rispondere alle domande del consiglio» · fallimento · 460 caratteri
+
+> La prima domanda la superi a fatica. Alla seconda il tesoriere vuole sapere quante monete costa all'Accademia un anno di un allievo, e tu tiri a indovinare un numero che lo fa ridere fino alla tosse. Tòbol prova ad aiutarti con la terza, una domanda facile sulle mappe, ma ormai sei così agitato che sbagli anche quella. Il consiglio si aggiorna al mese prossimo. Òrvald ti dice che i maestri hanno la memoria corta, e che per allora se ne saranno dimenticati.
+
+**`una-cattedra-a-torvessa__3-successo`** · esito «L'anello d'ottone» · opzione «Cercare quello che ha nascosto Pett» · successo · 458 caratteri
+
+> Invece di cercare l'anello guardi Pèt. Il corvo fa finta di niente, ma ogni volta che ti avvicini alla scrivania smette di lisciarsi le penne. Il teschio di cinghiale mutato è lì da sempre, e dentro l'orbita sinistra, incastrati fra due denti, trovi l'anello d'ottone insieme a tre bottoni e a una moneta che Òrvald credeva di aver perso l'anno scorso. Òrvald si infila l'anello al dito e la moneta in tasca, e Pèt va a sedersi sulla trave con l'aria offesa.
+
+**`una-cattedra-a-torvessa__3-fallimento`** · esito «Lo studio sottosopra» · opzione «Cercare quello che ha nascosto Pett» · fallimento · 420 caratteri
+
+> Cerchi l'anello fra le mappe e sotto il tappeto, e svuoti mezzo scaffale. Pèt ti segue da un ripiano all'altro e gracchia ogni volta che ti allontani dal punto giusto, sempre un attimo dopo, in modo che tu non capisca quale fosse. A sera lo studio è sottosopra e l'anello non è saltato fuori. Òrvald rimette in ordine con te senza fretta. Ti dice che domani Pèt avrà dimenticato dove l'ha messo, e allora toccherà a lui.
+
+**`una-cattedra-a-torvessa__4-successo`** · esito «Le noci» · opzione «Corrompere Pett con le noci» · successo · 424 caratteri
+
+> Ti siedi sul pavimento dello studio con una manciata di noci sgusciate e le posi sul tappeto una alla volta, ogni volta un po' più vicino a te. Pèt resiste fino alla quinta. Alla settima ti sale sul ginocchio, e all'ottava vola sulla scrivania, infila il becco nell'orbita del teschio di cinghiale e tira fuori l'anello d'ottone, che ti lascia cadere sul palmo. Òrvald ti guarda come se avessi imparato una formula proibita.
+
+**`una-cattedra-a-torvessa__4-fallimento`** · esito «Le noci finite» · opzione «Corrompere Pett con le noci» · fallimento · 349 caratteri
+
+> Ti siedi sul pavimento dello studio con una manciata di noci e le offri a Pèt una alla volta. Il corvo se le mangia tutte una dopo l'altra. Quando sono finite torna sulla trave a dormire, con la testa sotto l'ala. Òrvald ti dice che con lui ci aveva già provato. Secondo lui Pèt si lascia corrompere volentieri e poi tiene il becco chiuso lo stesso.
+
+**`una-cattedra-a-torvessa__5-esito`** · esito «La pazienza» · opzione «Aspettare che Pett si tradisca» · esito · 453 caratteri
+
+> Ti siedi nell'angolo dello studio con un libro aperto e non ti muovi più. Òrvald lavora alle sue mappe fino a sera come se tu non ci fossi, e Pèt ti tiene d'occhio per due ore. Alla terza si convince che ti sei addormentato. Scende dalla trave e va a infilare il becco nell'orbita del teschio di cinghiale. Quando alzi gli occhi dal libro ti guarda e capisce. Ti lascia prendere l'anello d'ottone senza protestare, da giocatore che ha perso onestamente.
+
+**`una-cattedra-a-torvessa__6-esito`** · esito «La sedia degli ospiti» · opzione «Dire a Orvald che non è il momento» · esito · 369 caratteri
+
+> Gli dici che ti fa onore, e che per adesso un'ora alla settimana non riusciresti a garantirla. Òrvald annuisce e rimette la chiave nel cassetto, senza chiuderlo. “Bene. La cattedra resta qui, e la sedia degli ospiti anche” dice, e ti indica il libro sotto la gamba corta. “Quando torni la trovi pari come adesso.” Pèt ricomincia a passeggiare sul bordo della scrivania.
+
+### La chiave del seminterrato
+
+**`la-chiave-del-seminterrato`** · scena · 961 caratteri
+
+> Òrvald prende la chiave dalla scrivania e ti porta giù per la scala stretta del seminterrato, con la lampada in una mano e Pèt sulla spalla. Apre la porta di ferro con la chiave sua, che porta al collo. Laggiù l'aria odora di polvere e di olio per le armi. Alle pareti ci sono le mappe di trent'anni di scavi, e fra una mappa e l'altra le lame e i teschi con i cartellini scritti a mano. In fondo c'è il bersaglio di legno con la placca di lìssan, coperta di segni vecchi e nuovi.
+>
+> Quando risalite si ferma sulla soglia, davanti alla porta di ferro, e ti mette la chiave nel palmo. “Il cassetto lo scegli tu, e l'ora anche, purché non sia il lunedì sera, perché il lunedì sera il seminterrato è mio” dice. “Il consiglio ti vorrà anche alle sue riunioni, che durano tutto il pomeriggio. Se dici di no, la porta resta aperta, ma la prova te la faccio rifare, perché qui le regole sono regole.”
+>
+> Pèt allunga il collo verso la chiave e la guarda con un occhio solo.
+
+**`la-chiave-del-seminterrato__1-esito`** · esito «Maestro aggiunto» · opzione «Accettare la cattedra» · esito · 484 caratteri
+
+> Chiudi la mano sulla chiave. È fredda, più pesante di come sembrava sulla scrivania. Òrvald scrive il tuo nome sull'etichetta di cartone con la sua grafia stretta e te la dà, perché il cassetto lo scegli tu, basta che non sia quello con la cravatta dipinta sul legno, che è di Tòbol. Poi ti stringe la mano una volta sola, e Pèt ti becca piano il dorso delle dita. “Benvenuto fra i maestri” dice Òrvald, e mentre risalite la scala ti avverte che il caffè resta cattivo anche per loro.
+
+**`la-chiave-del-seminterrato__2-esito`** · esito «Il chiodo accanto alla porta» · opzione «Rifiutare con garbo» · esito · 401 caratteri
+
+> Gli dici che per adesso preferisci restare un ospite, e gli rendi la chiave. Òrvald la guarda sul palmo per un momento, poi la appende a un chiodo accanto alla porta del seminterrato, all'altezza dei tuoi occhi. “Resta lì” dice, e ci batte sopra con la nocca. “Quando la vorrai, la prova te la faccio rifare.” Risalite la scala insieme, e Pèt, dalla sua spalla, ti volta la schiena per tutto il tempo.
