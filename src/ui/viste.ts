@@ -14,6 +14,7 @@ import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonI
 import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
+import { serieDi, avanzamento, type Serie } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
@@ -205,9 +206,9 @@ function vistaArea(x: Contesto): string {
   const sped = areaAttuale(s, c)?.spedizione;
   if (sped) {
     return `${avvisoCrisi}${testataSpedizione(x)}${occasioni(x)}
-      ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
+      ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
       <h2 class="titolo-sezione">Davanti a te</h2>
-      <ul class="elenco-storylet">${stanzeVisibili(s, c).map((st) => rigaStorylet(st, true)).join('')}</ul>`;
+      <ul class="elenco-storylet">${stanzeVisibili(s, c).map((st) => rigaStorylet(x, st, true)).join('')}</ul>`;
   }
   const qui = luogoAperto(x);
   if (qui) return avvisoCrisi + vistaLuogo(x, qui, storie, riprendi);
@@ -235,9 +236,9 @@ function vistaArea(x: Contesto): string {
   return `
     ${avvisoCrisi}
     ${occasioni(x)}
-    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
+    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
     ${schede ? `<h2 class="titolo-sezione">I luoghi</h2><ul class="griglia-luoghi">${schede}</ul>` : ''}
-    ${inGiro.length ? `<h2 class="titolo-sezione">In giro per ${h(areaDi(x).nome)}</h2><ul class="elenco-storylet">${inGiro.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}`;
+    ${inGiro.length ? `<h2 class="titolo-sezione">In giro per ${h(areaDi(x).nome)}</h2><ul class="elenco-storylet">${inGiro.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}`;
 }
 
 function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: TStorylet[] = []): string {
@@ -258,8 +259,8 @@ function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: T
       </div>
     </header>
     ${occasioni(x)}
-    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
-    ${ripetibili.length ? `<h2 class="titolo-sezione">Cose da fare</h2><ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(st)).join('')}</ul>` : ''}
+    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
+    ${ripetibili.length ? `<h2 class="titolo-sezione">Cose da fare</h2><ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
     ${botteghe}
     ${vuoto ? '<p class="vuoto">Per ora qui non c\'è niente per te. Torna più avanti.</p>' : ''}
   </article>`;
@@ -310,12 +311,35 @@ function occasioni(x: Contesto): string {
   </section>`;
 }
 
-function rigaStorylet(st: TStorylet, stanza = false): string {
+/** Una riga della scheda Personaggio per una serie: nome, descrizione, tacche e, a serie chiusa, la parola "conclusa". */
+function rigaPista(s: Stato, c: TContenuti, id: string, nomeSerie: string, descrizione?: string, immagine?: string): string {
+  const z = serieDi(c).serie.find((x) => x.id === id || x.quality === id);
+  const fatti = z ? avanzamento(s, z) : Math.floor(s.quality[id] ?? 0);
+  const segno = z ? `<span class="serie">${tacche(fatti, z.massimo)}${fatti >= z.massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}</span>` : `<span class="etichetta velo">Capitolo ${mezzi(fatti)}</span>`;
+  return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}</div>${segno}</li>`;
+}
+
+/** Le tacche di una serie: piene fino a dove sei, quella del passo in corso accesa. */
+export function tacche(fatti: number, massimo: number, ora?: number): string {
+  const segni = Array.from({ length: massimo }, (_, i) => `<i class="${i < fatti ? 'piena' : ''}${i === ora ? ' ora' : ''}"></i>`).join('');
+  return `<span class="tacche" role="img" aria-label="${fatti} passi su ${massimo}">${segni}</span><span class="conta-serie">${fatti}/${massimo}</span>`;
+}
+
+/** L'etichetta della serie di uno storylet (la storia lunga a cui appartiene e a che punto sei), o quella del tipo. */
+function testaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, tipo: string): string {
+  const serie: Serie | undefined = st.ripetibile ? undefined : serieDi(x.c).diStorylet.get(st.id);
+  const luogo = st.luogo ? `<span class="luogo">${h(st.luogo)}</span>` : '';
+  if (!serie) return `${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}${luogo}`;
+  const fatti = avanzamento(x.s, serie);
+  return `<span class="serie"><span class="nome-serie">${h(serie.nome)}</span>${tacche(fatti, serie.massimo, fatti < serie.massimo ? fatti : undefined)}</span>${luogo}`;
+}
+
+function rigaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, stanza = false): string {
   const tipo = stanza ? 'Stanza' : tipoStorylet(st);
   return `<li class="storylet-riga ${st.ripetibile ? 'ripetibile' : 'storia'}">
     ${tavola(st.immagine, { classe: 'ritratto' })}
     <div class="corpo">
-      <div class="testa">${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}${st.luogo ? `<span class="luogo">${h(st.luogo)}</span>` : ''}</div>
+      <div class="testa">${testaStorylet(x, st, tipo)}</div>
       <h3>${h(st.titolo)}</h3>
       <p class="sommario">${h(st.sommario ?? primaFrase(st.testo))}</p>
     </div>
@@ -375,7 +399,7 @@ function vistaStorylet(x: Contesto, id: string): string {
     <header class="scena-testa">
       ${tavola(st.immagine, { classe: 'ritratto grande', taglio: 'l' })}
       <div class="scena-titoli">
-        <div class="testa">${etichetta(tipoStorylet(st), st.ripetibile ? 'dim' : 'velo')}${st.luogo ? `<span class="luogo">${h(st.luogo)}</span>` : ''}</div>
+        <div class="testa">${testaStorylet(x, st, tipoStorylet(st))}</div>
         <h2>${h(st.titolo)}</h2>
         ${ascolta(x, st.id)}
         ${prosa(st.testo)}
@@ -588,6 +612,7 @@ export function personaggio(x: Contesto): string {
     return `<li class="${v === 0 ? 'zero' : v < 0 ? 'neg' : 'pos'}">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}</span><b>${segno(v)}</b></li>`;
   }).join('');
   const piste = c.quality.filter((q) => q.categoria === 'pista' && (s.quality[q.id] ?? 0) > 0);
+  const luoghiAvviati = serieDi(c).serie.filter((z) => z.tipo === 'luogo' && avanzamento(s, z) > 0);
   const mutazioni = mutazioniDi(s, c);
   const conosciuti = incantesimiConosciuti(s, c);
   const rep = repertorio(s, c).map((i) => i.id);
@@ -616,7 +641,8 @@ export function personaggio(x: Contesto): string {
     </header>
     <h2 class="titolo-sezione">Attributi e abilità</h2>
     <div class="attributi-griglia">${colonne}</div>
-    ${piste.length ? `<h2 class="titolo-sezione">Storie in corso</h2><ul class="elenco-piste">${piste.map((q) => `<li>${tavola(q.immagine, { classe: 'icona' })}<div><b>${h(q.nome)}</b><p>${h(q.descrizione ?? '')}</p></div><span class="etichetta velo">Capitolo ${mezzi(s.quality[q.id]!)}</span></li>`).join('')}</ul>` : ''}
+    ${piste.length ? `<h2 class="titolo-sezione">Le tue storie</h2><ul class="elenco-piste">${piste.map((q) => rigaPista(s, c, q.id, q.nome, q.descrizione, q.immagine)).join('')}</ul>` : ''}
+    ${luoghiAvviati.length ? `<h2 class="titolo-sezione">Nei luoghi della città</h2><ul class="elenco-piste">${luoghiAvviati.map((z) => rigaPista(s, c, z.id, z.nome, undefined, z.immagine)).join('')}</ul>` : ''}
     <h2 class="titolo-sezione">Incantesimi ${conosciuti.length ? `<small>repertorio ${rep.length}/${limite} · Energia ${energia}</small>` : ''}</h2>
     ${conosciuti.length ? `<ul class="incantesimi">${incantesimi}</ul>` : '<p class="vuoto">Non conosci ancora nessun incantesimo. Alla Locanda di Ilka, Besk Dravec insegna le basi a chi vuole imparare.</p>'}
     ${mutazioni.length ? `<h2 class="titolo-sezione">Mutazioni</h2><ul class="incantesimi">${mutazioni.map((m) => `<li class="incantesimo-riga">
