@@ -28,6 +28,7 @@ function percorri(origine: string, seme: number, pista: string, fine: number): n
   delete s.quality['prologo'];
   s.quality['informazioni.voce'] = 2;
   s.quality['monete'] = 60;
+  s.quality['conosci.liaren'] = 1; // il primo ingresso al Grifone apre la caccia di Corin
   const rng = rngConSeme(seme);
   for (let n = 0; n < 400; n++) {
     s.candele = CANDELE_MAX;
@@ -59,6 +60,12 @@ describe('piste', () => {
   });
   it('il Sepolcro violato arriva a 7, passando dalla Roccia di Wren', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.sepolcro', 7)).toBeGreaterThan(6);
+  });
+  it('la caccia di Corin arriva a 6, passando dalla Foresta Strisciante', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.corin', 6)).toBeGreaterThan(5);
+  });
+  it('la Promessa dell\'Arpia arriva alla prima', () => {
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.teatro', 2)).toBeGreaterThan(1);
   });
   it('storyletDisponibili non si rompe a pista chiusa', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');

@@ -11,7 +11,10 @@ seguito lasciato a metà resta in cima alla storia finché non lo giochi. Il 1°
 prima occorrenza di ogni nome sottolineata in ogni blocco di prosa. Blocco 3 fatto: il Sepolcro violato fino
 a 7 (`contenuti/piste/sepolcro-*.yaml`), con la Roccia di Wren come prima spedizione; il passo della cripta dà
 l'invito ai Quartieri Alti, così la Biblioteca è raggiungibile da ogni origine. Ogni stanza di spedizione ha una
-via senza prova che costa due candele e un po' di Ferite o Tormento.
+via senza prova che costa due candele e un po' di Ferite o Tormento. Blocco 4 fatto: la caccia di Corin fino a 6
+(`contenuti/piste/corin*.yaml`) con la Foresta Strisciante, e la Promessa dell'Arpia al Teatro
+(`contenuti/piste/teatro.yaml`). Le cavalcature sono accessori con la chiave `cavalcatura`: ogni ingresso in
+spedizione ha un'opzione a cavallo che costa una candela in meno.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.

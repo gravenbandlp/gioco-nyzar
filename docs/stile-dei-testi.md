@@ -107,6 +107,8 @@ Il gioco distingue da solo tre registri, quindi nel testo bastano le convenzioni
   *Questa donna sa chi sei.*, e compare in corsivo azzurro.
 
 Il corsivo senza punteggiatura finale (*Ospiti Benvenuti*, *Mawrak'Thur*) resta enfasi o scritta, in oro.
+Le caporali sono riservate al parlato: una parola scritta su un cartello, un registro o un'insegna va in
+corsivo (*defunto*, *rinviata*), mai fra «…».
 Per questo un titolo, un'insegna o una parola straniera in corsivo non va chiusa dal punto dentro gli asterischi.
 
 ## Cosa resta
