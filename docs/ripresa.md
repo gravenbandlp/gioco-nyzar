@@ -5,8 +5,8 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
-- Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 45 al 2 ottobre).
-- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 15).
+- Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 46 al 2 ottobre).
+- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 16).
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
 - Fuori dal repository (Luca li ha come file): lo schedario del Codex (`nyzar-schedario-codex.md`) e il verbale del
@@ -18,7 +18,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 `npm install`, poi:
 - `npm run contenuti`: valida gli YAML di `contenuti/` (deve dire "Contenuti validi").
 - `npm run stile`: controlla le regole di `docs/stile-dei-testi.md` (deve dare 0 segnalazioni).
-- `npx vitest run`: test (167 al 2 ottobre).
+- `npx vitest run`: test (175 al 2 ottobre).
 - `npm run build`: contenuti + tsc + build in `dist/index.html` (file unico).
 - `npm run copione`: rigenera il copione del doppiaggio (`doppiaggio/copione-pagina.html`).
 - `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati `<id>.mp3`) in `public/audio/voce/` e
