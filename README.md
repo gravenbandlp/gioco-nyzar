@@ -1,15 +1,15 @@
 # Gioco Ny'Zar
 
 Gioco narrativo a storylet ambientato a Qir-Azel, nella Superficie Fratturata di Ny'Zar.
-Le regole stanno nel *Regolamento v0.4*; l'ambientazione nella *Bibbia di gioco v0.2*.
+Per orientarsi: `docs/progetto.md` (scopo, stato, checklist), `docs/locale.md` (installazione, audio, doppiaggio,
+pubblicazione, login Google), `docs/ripresa.md` (regole operative), `CLAUDE.md` (istruzioni per Claude Code).
 
-## Il prototipo
+## Il gioco
 
-Primo traguardo: si crea un personaggio da una delle sette origini, si scende nella Città Bassa,
-si guadagna con le azioni ripetibili e si segue la pista della Dama d'Argento fino alla Segheria
-Malgrani (prova o rissa) e alla lanterna accesa in Via dei Rasoi. I rintocchi si consumano e si
-ricaricano (1 ogni 10 minuti, massimo 20); le occasioni si pescano dal mazzo (mano 3, coda 6).
-Il salvataggio sta nel browser (localStorage).
+Il Capitolo I completo: otto origini, tre quartieri di Qir-Azel e la Superficie Fratturata, dieci storie
+principali, spedizioni, città viva, economia. I rintocchi si consumano e si ricaricano (1 ogni 10 minuti,
+massimo 20); le occasioni si pescano dal mazzo (mano 3, coda 6). Il salvataggio sta nel browser, nell'account
+(claude.ai o Google) e su file.
 
 ```sh
 npm install

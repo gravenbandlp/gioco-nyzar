@@ -4,11 +4,12 @@
 // se poi il testo cambia, npm run doppiaggio lo segnala.
 //
 // Uso: npm run voci [-- /percorso/a/cartella-voci]
+import { fileURLToPath } from 'node:url';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { copione } from './doppiaggio';
 
-const RADICE = new URL('..', import.meta.url).pathname;
+const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const SORGENTE = process.argv[2] ?? join(RADICE, '..', 'audio-nyzar', 'voci');
 const DESTINAZIONE = join(RADICE, 'public', 'audio', 'voce');
 const REGISTRO = join(RADICE, 'doppiaggio', 'registrati.json');

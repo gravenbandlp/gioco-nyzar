@@ -1,10 +1,11 @@
 // Costruisce la pagina del copione (doppiaggio/pagina.html + copione.json + registrati.json) da pubblicare come
 // artifact: doppiaggio/copione-pagina.html. Va rigenerata dopo npm run doppiaggio e npm run voci.
+import { fileURLToPath } from 'node:url';
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { PRONUNCE, type Pezzo } from './doppiaggio';
 
-const DIR = join(new URL('..', import.meta.url).pathname, 'doppiaggio');
+const DIR = join(fileURLToPath(new URL('..', import.meta.url)), 'doppiaggio');
 const pezzi = JSON.parse(readFileSync(join(DIR, 'copione.json'), 'utf8')) as Pezzo[];
 const registrati = existsSync(join(DIR, 'registrati.json')) ? readFileSync(join(DIR, 'registrati.json'), 'utf8').trim() : '{}';
 const dati = pezzi.map(({ id, gruppo, storylet, titolo, tipo, opzione, ramo, voce, caratteri, impronta }) => ({ id, gruppo, storylet, titolo, tipo, opzione, ramo, voce, caratteri, impronta }));

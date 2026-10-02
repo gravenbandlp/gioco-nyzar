@@ -26,20 +26,11 @@ Regole della sincronia:
 
 ## Fuori da claude.ai, con l'accesso Google (pronto, spento)
 
-Serve un sito proprio (per esempio Cloudflare Pages, come il Codex) e un progetto Supabase gratuito. Nel gioco l'accesso
-Google compare solo se il build ha le due variabili d'ambiente, e solo fuori da claude.ai.
+Serve un sito proprio (Cloudflare Pages) e un progetto Supabase gratuito. Nel gioco l'accesso Google compare solo se il
+build ha `VITE_SUPABASE_URL` e `VITE_SUPABASE_CHIAVE` (in `.env.local`, vedi `.env.example`), e solo fuori da claude.ai.
+I passi, dalla tabella (`supabase/schema.sql`) al client OAuth e alla pubblicazione, sono in `docs/locale.md`,
+sezioni 5 e 6.
 
-1. **Supabase**: crea un progetto su supabase.com. In *SQL Editor* esegui `supabase/schema.sql`.
-2. **Google**: su console.cloud.google.com crea un client OAuth di tipo *Applicazione web*. Come URI di reindirizzamento
-   autorizzato metti `https://<progetto>.supabase.co/auth/v1/callback`.
-3. **Supabase, Authentication → Providers → Google**: attivalo e incolla Client ID e Client secret del passo 2.
-4. **Supabase, Authentication → URL Configuration**: in *Site URL* e in *Redirect URLs* metti l'indirizzo del gioco
-   (per esempio `https://gioco-nyzar.pages.dev`).
-5. **Build**: `VITE_SUPABASE_URL=https://<progetto>.supabase.co VITE_SUPABASE_CHIAVE=<chiave anon pubblica> npm run build`.
-   La chiave *anon* è pubblica per costruzione: la protezione la fanno le regole della tabella (ognuno vede solo la sua
-   riga). Non usare mai la chiave *service_role*.
-6. **Pubblicazione**: `dist/index.html` più le cartelle di `dist/` (tavole e audio). L'audio non è in git, quindi il
-   deploy va fatto da una copia che ha `public/audio/` (per esempio `npx wrangler pages deploy dist`).
-
-Il login usa il flusso implicito di Supabase: il pulsante porta a Google, il ritorno arriva con i gettoni nel frammento
-dell'indirizzo, il gioco li legge, li conserva nel browser (`gioco-nyzar/sessione`) e li rinnova da solo.
+Il login usa il flusso implicito di Supabase senza librerie: il pulsante porta a Google, il ritorno arriva con i
+gettoni nel frammento dell'indirizzo, il gioco li legge, li conserva nel browser (`gioco-nyzar/sessione`) e li
+rinnova da solo. Una riga per account nella tabella `salvataggi`, con il personaggio in jsonb.

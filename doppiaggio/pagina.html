@@ -37,6 +37,8 @@ details.istruzioni[open] summary { margin-bottom: 10px; }
   display: flex; flex-wrap: wrap; gap: 10px 14px; align-items: center; }
 .filtri select, .filtri input[type=search] { font: inherit; font-size: 0.9rem; color: var(--testo); background: var(--cella); border: 1px solid var(--filetto); padding: 7px 10px; min-width: 0; }
 .filtri input[type=search] { flex: 1 1 200px; }
+.spunte-barra { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; margin-top: 12px; font-size: 0.88rem; color: var(--spento); }
+.spunte-barra label.carica { cursor: pointer; }
 .filtri label.spunta { display: flex; gap: 6px; align-items: center; font-size: 0.88rem; color: var(--spento); cursor: pointer; }
 .gruppo { display: grid; gap: 18px; }
 .gruppo > h2 { font-family: var(--f-titolo); font-size: 1.9rem; color: var(--oro-vivo); padding-top: 18px; border-top: 1px solid var(--filetto); }
@@ -53,7 +55,7 @@ details.istruzioni[open] summary { margin-bottom: 10px; }
 .pezzo .voce { padding: 12px 14px 14px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.98rem; line-height: 1.7; max-width: 68ch; }
 .pezzo .voce .tag { font-family: var(--f-mono); font-size: 0.8rem; color: var(--teal); }
 .n { font-family: var(--f-mono); font-size: 0.72rem; color: var(--spento); font-variant-numeric: tabular-nums; }
-button.copia { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--oro-vivo); background: transparent; border: 1px solid rgba(201, 152, 74, 0.45); padding: 5px 10px; cursor: pointer; }
+button.copia, label.copia { font-family: var(--f-mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--oro-vivo); background: transparent; border: 1px solid rgba(201, 152, 74, 0.45); padding: 5px 10px; cursor: pointer; }
 button.copia:hover { background: rgba(201, 152, 74, 0.1); }
 button.copia.ok { color: var(--fatto); border-color: var(--fatto); }
 .chip { font-family: var(--f-mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border: 1px solid; }
@@ -82,6 +84,11 @@ input[type=checkbox] { accent-color: var(--fatto); width: 16px; height: 16px; }
       <span>versione del copione <b id="c-ver"></b></span>
     </div>
     <div class="avanzamento" aria-hidden="true"><i id="barra"></i></div>
+    <div class="spunte-barra">
+      <span id="dove-spunte">Le spunte restano in questo browser.</span>
+      <button type="button" class="copia" id="esporta-spunte">Scarica le spunte</button>
+      <label class="copia carica">Carica spunte<input type="file" id="importa-spunte" accept=".json,application/json" hidden></label>
+    </div>
   </header>
 
   <details class="istruzioni" open>
@@ -90,8 +97,8 @@ input[type=checkbox] { accent-color: var(--fatto); width: 16px; height: 16px; }
       <li>In ElevenLabs, Text to Speech, modello <b>Eleven v4</b>, voce <b>Luca Brasi · Intimate and Weighty</b>, con le impostazioni che usi già: velocità 1, stabilità 50, somiglianza 75.</li>
       <li>Per ogni pezzo: <b>Copia testo</b>, incolla, genera. Rigenera finché la lettura ti convince.</li>
       <li>Scarica l'MP3 e rinominalo con l'id: <b>Copia id</b> e incolla come nome, aggiungendo <code>.mp3</code>. Per esempio <code>nerissa-dalvane.mp3</code> o <code>nerissa-dalvane__2-successo.mp3</code>.</li>
-      <li>Spunta <b>Registrato</b>: la spunta resta in questo browser e ti dice a che punto sei. I pezzi che ho già importato nel gioco sono segnati <b>Nel gioco</b>. Se un testo cambia dopo che l'hai registrato o spuntato, la spunta cade e il pezzo è segnato <b>da rifare</b>: il filtro «Solo da rifare» li raccoglie tutti.</li>
-      <li>Metti tutti i file in una cartella su Drive. Con un'unica importazione li aggancio alle scene giuste.</li>
+      <li>Spunta <b>Registrato</b>: la spunta ti dice a che punto sei. In locale (<code>npm run copione:locale</code>) si salva nel repository, in <code>doppiaggio/spunte.json</code>; altrimenti resta nel browser, e con <b>Scarica le spunte</b> e <b>Carica spunte</b> la porti da una parte all'altra. I pezzi che ho già importato nel gioco sono segnati <b>Nel gioco</b>. Se un testo cambia dopo che l'hai registrato o spuntato, la spunta cade e il pezzo è segnato <b>da rifare</b>: il filtro «Solo da rifare» li raccoglie tutti.</li>
+      <li>Metti tutti i file nella cartella delle voci (<code>../audio-nyzar/voci</code>, accanto al repository) e lancia <code>npm run voci</code>: ogni file si aggancia alla sua scena e il pezzo passa a <b>Nel gioco</b>.</li>
     </ol>
     <p>Il testo è già preparato per la voce. I pensieri del protagonista, che nel gioco sono in corsivo azzurro, iniziano con il tag <code>[whispers]</code>, così Eleven v4 li sussurra. Le battute dei personaggi sono fra virgolette, i numeri sono scritti in lettere e le scritte in maiuscolo sono tornate minuscole, perché per ElevenLabs il maiuscolo vale come enfasi. Titoli e pulsanti delle scelte non si leggono: il doppiaggio copre il testo della scena e quello di ogni esito.</p>
     <p>Gli id hanno due forme: <code>&lt;scena&gt;</code> per la scena e <code>&lt;scena&gt;__&lt;opzione&gt;-&lt;esito&gt;</code> per un esito, dove l'opzione è il numero della scelta (dalla prima in alto) ed esito è successo, fallimento, vittoria, sconfitta, oppure esito per le scelte senza prova. Se un testo cambia dopo la registrazione, l'importazione se ne accorge e me lo segnala.</p>
@@ -122,7 +129,17 @@ const NEL_GIOCO = /*REGISTRATI*/{}; // id → impronta del testo registrato e gi
 const CHIAVE = 'copione-nyzar/fatti';
 let fatti = {};
 try { fatti = JSON.parse(localStorage.getItem(CHIAVE) || '{}'); } catch (e) { fatti = {}; }
-const salva = () => { try { localStorage.setItem(CHIAVE, JSON.stringify(fatti)); } catch (e) { /* senza memoria vale per questa sessione */ } };
+// In locale (npm run copione:locale) le spunte stanno anche nel repository, in doppiaggio/spunte.json.
+let locale = false;
+let invio;
+const salva = () => {
+  try { localStorage.setItem(CHIAVE, JSON.stringify(fatti)); } catch (e) { /* senza memoria vale per questa sessione */ }
+  if (!locale) return;
+  clearTimeout(invio);
+  invio = setTimeout(() => fetch('/api/spunte', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(fatti) })
+    .then((r) => { if (!r.ok) throw new Error(); document.getElementById('dove-spunte').textContent = 'Spunte salvate in doppiaggio/spunte.json.'; })
+    .catch(() => { document.getElementById('dove-spunte').textContent = 'Il server locale non risponde: le spunte restano nel browser.'; }), 400);
+};
 const chiave = (p) => p.id + '@' + p.impronta;
 const inGioco = (p) => NEL_GIOCO[p.id] === p.impronta;
 const daRifare = (p) => p.id in NEL_GIOCO && NEL_GIOCO[p.id] !== p.impronta;
@@ -209,4 +226,40 @@ document.getElementById('f-rifare').addEventListener('change', disegna);
 document.getElementById('f-cerca').addEventListener('input', disegna);
 document.getElementById('f-nascondi').addEventListener('change', disegna);
 disegna();
+
+// ---------------------------------------------------------------- spunte: server locale, file
+const FORMATO = 'nyzar-spunte';
+function unisci(altre) {
+  let nuove = 0;
+  for (const [k, v] of Object.entries(altre || {})) if (v && !fatti[k]) { fatti[k] = 1; nuove++; }
+  return nuove;
+}
+if (location.protocol.startsWith('http') && !window.claude) {
+  fetch('/api/spunte').then((r) => (r.ok ? r.json() : Promise.reject())).then((dalServer) => {
+    locale = true;
+    unisci(dalServer);
+    document.getElementById('dove-spunte').textContent = 'Spunte salvate in doppiaggio/spunte.json.';
+    disegna(); salva();
+  }).catch(() => { /* pagina pubblicata: niente server */ });
+}
+document.getElementById('esporta-spunte').addEventListener('click', async () => {
+  const testo = JSON.stringify({ formato: FORMATO, data: new Date().toISOString(), fatti }, null, 1);
+  const nome = 'spunte-copione-' + new Date().toISOString().slice(0, 10) + '.json';
+  const dl = window.claude && window.claude.use ? await window.claude.use('downloads') : null;
+  if (dl) { try { await dl.save({ filename: nome, data: testo }); } catch (e) { /* rifiutato */ } return; }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([testo], { type: 'application/json' })); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove();
+});
+document.getElementById('importa-spunte').addEventListener('change', async (e) => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const d = JSON.parse(await f.text());
+    if (d.formato !== FORMATO) throw new Error();
+    const n = unisci(d.fatti);
+    salva(); disegna();
+    document.getElementById('dove-spunte').textContent = (n === 1 ? 'Una spunta nuova caricata. ' : n + ' spunte nuove caricate. ') + (locale ? 'Salvate in doppiaggio/spunte.json.' : 'Restano in questo browser.');
+  } catch (err) { document.getElementById('dove-spunte').textContent = 'Questo file non contiene spunte del copione.'; }
+  e.target.value = '';
+});
 </script>

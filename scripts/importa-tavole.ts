@@ -5,12 +5,13 @@
 //
 // Uso: npm run tavole [-- /percorso/a/codex-nyzar/src/assets/tavole]
 // Di default cerca il Codex accanto a questo repository (../codex-nyzar).
+import { fileURLToPath } from 'node:url';
 import { existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
 import { caricaContenuti, tavoleCitate } from './build-contenuti';
 
-const RADICE = new URL('..', import.meta.url).pathname;
+const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const SORGENTE = process.argv[2] ?? join(RADICE, '..', 'codex-nyzar', 'src', 'assets', 'tavole');
 const DESTINAZIONE = join(RADICE, 'public', 'tavole');
 

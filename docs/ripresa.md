@@ -1,14 +1,16 @@
 # Ripresa del lavoro in una sessione nuova
 
 Questo file dice a una sessione nuova (Claude o altri) tutto quello che serve per lavorare sul gioco senza lo
-storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
+storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale (scopo, stato, checklist) è in
+`docs/progetto.md`; il lavoro in locale con Claude Code in `docs/locale.md`.
 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
 - Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 48 al 2 ottobre).
-- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 17).
+- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 18).
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
+- In locale le cartelle stanno accanto al repository: `../codex-nyzar`, `../audio-nyzar/{musica,ambienti,voci}`.
 - Fuori dal repository (Luca li ha come file): lo schedario del Codex (`nyzar-schedario-codex.md`) e il verbale del
   Capitolo I (`verbale-capitolo-I-rinominato.md`). Servono solo per scrivere storie nuove: chiedili se servono.
 - Audio: `public/audio/` è escluso da git (pesa troppo). Musiche e ambienti sono già dentro l'Artifact del gioco e
@@ -21,10 +23,14 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 - `npx vitest run`: test (188 al 2 ottobre).
 - `npm run build`: contenuti + tsc + build in `dist/index.html` (file unico).
 - `npm run copione`: rigenera il copione del doppiaggio (`doppiaggio/copione-pagina.html`).
+- `npm run copione:locale`: lo apre su http://localhost:5180 con le spunte salvate in `doppiaggio/spunte.json`.
+- `npm run pubblica:pages`: build e pubblicazione su Cloudflare Pages (`docs/locale.md`).
 - `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati `<id>.mp3`) in `public/audio/voce/` e
   annota l'impronta in `doppiaggio/registrati.json`; se un testo è cambiato dopo la registrazione lo segnala.
 
 ## Pubblicare
+Come Artifact su claude.ai (da una conversazione con Claude, che ha lo strumento Artifact; Claude Code in locale non
+ce l'ha). Per il sito proprio vedi `docs/locale.md`.
 1. `npm run build`.
 2. `python3 scripts/strumenti/prepara-artifact.py <cartella-temporanea>`: scrive `gioco-nyzar.html` e la mappa delle
    tavole nuove.

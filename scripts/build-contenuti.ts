@@ -1,6 +1,7 @@
 // Legge tutti i file YAML in contenuti/, li valida (schema + controlli incrociati)
 // e scrive src/generato/contenuti.json. Se qualcosa non torna, il build si ferma
 // con un elenco di errori leggibili: meglio qui che a metà partita.
+import { fileURLToPath } from 'node:url';
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { createRequire } from 'node:module';
@@ -9,7 +10,7 @@ import { Contenuti, COSTI_PROPRIETA, DIFETTI, OVUNQUE, type TContenuti } from '.
 import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
 import { parseRequisito } from '../src/motore/personaggio';
 
-const RADICE = new URL('..', import.meta.url).pathname;
+const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const CARTELLA = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'src', 'generato', 'contenuti.json');
 const USCITA_ICONE = join(RADICE, 'src', 'generato', 'icone.json');

@@ -10,12 +10,13 @@
 // girare il loop senza scatti.
 //
 // Uso: npm run audio [-- /percorso/a/audio-nyzar]   (di default ../audio-nyzar accanto al repository)
+import { fileURLToPath } from 'node:url';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
 import { join, extname } from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { caricaContenuti } from './build-contenuti';
 
-const RADICE = new URL('..', import.meta.url).pathname;
+const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const SORGENTE = process.argv[2] ?? join(RADICE, '..', 'audio-nyzar');
 const DESTINAZIONE = join(RADICE, 'public', 'audio');
 const CARTELLE = { musica: 'musica', ambiente: 'ambienti' } as const;

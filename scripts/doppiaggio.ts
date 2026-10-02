@@ -7,6 +7,7 @@
 // e un'impronta del testo: se la scena cambia dopo la registrazione, l'importazione se ne accorge.
 //
 // Uso: npm run doppiaggio   →  doppiaggio/copione.json e doppiaggio/copione.md
+import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -14,7 +15,7 @@ import { parse } from 'yaml';
 import { caricaContenuti } from './build-contenuti';
 import type { TStorylet } from '../src/motore/contenuto';
 
-const RADICE = new URL('..', import.meta.url).pathname;
+const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const CONTENUTI = join(RADICE, 'contenuti');
 const USCITA = join(RADICE, 'doppiaggio');
 
