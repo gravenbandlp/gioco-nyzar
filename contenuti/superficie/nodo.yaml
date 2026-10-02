@@ -6,6 +6,8 @@
 # se non l'hai già passata. Il cuore è il dispositivo attivo (50), che riporta sulle terrazze in ogni ramo e
 # non si chiude: la spedizione si può rifare. La prima attivazione riuscita (nodo-precursori.attivato) dà
 # l'arma a impulsi e una camera rara; dopo, parti buone e reperti sigillati.
+# Senza combattere: lo sciame si aggira con qualche moneta che rotola; al custode si porge una scheggia per la sua
+# fila (Sociale, Difficile, la scheggia si perde comunque).
 # Una stanza superata non ricompare nella stessa visita (src/motore/spedizioni.ts).
 quality:
   - { id: nodo-precursori.attivato, nome: Hai acceso il dispositivo del Nodo, categoria: stato, nascosta: true, descrizione: "1 se hai attivato il dispositivo in fondo al Nodo dei Precursori, e lui ti ha misurato la mano." }
@@ -449,6 +451,22 @@ storylet:
             tue spalle, e la sfera ti lascia cadere ai piedi una placca incisa
             prima di tornare con le altre.
           effetti: { profondita.nodo-dei-precursori: 1, reliquie.frammento-inciso: 1 }
+      - testo: "Far rotolare qualche moneta sul pavimento"
+        descrizione: "Lo sciame si gira verso ogni cosa che tocca il pavimento. Una moneta che rotola lo tocca a lungo, e laggiù fra le crepe ci resta."
+        requisiti: [monete >= 3]
+        esito:
+          titolo: La moneta che gira
+          testo: |
+            Ti chini sull'imbocco e fai rotolare una moneta di taglio verso il
+            lato sinistro della sala, poi un'altra, più forte. Lo sciame si gira
+            dietro alla prima e si accalca sulla seconda, che gira su se stessa a
+            lungo prima di cadere in una crepa. Tu intanto attraversi sul lato
+            destro, rasente il muro. A metà strada frughi nello stivale del
+            Raschiatore e ci trovi una scheggia precuriana. Quando arrivi
+            all'apertura che scende, le sfere sono ancora sopra la crepa, ad
+            aspettare che la moneta si muova di nuovo.
+          effetti: { profondita.nodo-dei-precursori: 1, monete: -3, reliquie.scheggia: 1 }
+
 
   - id: nodo-l-aria-storta
     immagine: ambientazione/cristalli-conduttori
@@ -767,4 +785,33 @@ storylet:
             fondo al pozzo la luce è tornata a salire dal basso verso l'alto,
             regolare. Esci sulle terrazze con le tasche vuote e la sensazione di
             aver lasciato a metà una conversazione.
+          vai: superficie-fratturata
+      - testo: "Porgergli un pezzo per la sua fila"
+        descrizione: "Il custode mette in ordine i pezzi per grandezza. Se gliene porti uno nel modo giusto forse ti tratta come uno che rimette a posto le cose, e se sbagli il custode corregge te."
+        requisiti: [reliquie.scheggia >= 1]
+        prova: { attributo: sociale, abilita: [galateo, empatia], difficolta: Difficile }
+        successo:
+          titolo: Al suo posto
+          testo: |
+            Giri al largo del blocco con passi lenti e le mani bene in vista, e
+            ti fermi davanti alla nicchia alla distanza a cui ci si ferma davanti
+            a un magistrato. Poi ti chini e posi la scheggia nella fila, fra due
+            pezzi di sfera che la stringono appena. Il custode allunga un braccio
+            e la sposta di un dito. Dopo un tempo lungo apre un vano che ha nel
+            petto, ne tira fuori due gusci sigillati e una placca incisa e te li
+            posa davanti agli stivali, allineati per grandezza. Risali il pozzo
+            senza che lui alzi la testa dalle ginocchia.
+          effetti: { reliquie.scheggia: -1, reperto.sigillato: 2, reliquie.frammento-inciso: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Fuori posto
+          testo: |
+            Posi la scheggia nella fila, ma nel punto sbagliato, o con la mano
+            sbagliata. Il custode si dispiega dalla nicchia tutto in una volta.
+            Rimette la scheggia dove andava, e poi rimette a posto anche te, con
+            due braccia che ti stringono le spalle e altre due che ti
+            raddrizzano la schiena finché non scricchiola. Ti posa ai piedi della
+            rampa e torna a sedersi. La scheggia resta nella sua fila, e tu
+            risali con il collo rigido e una trama grigia sotto le unghie.
+          effetti: { reliquie.scheggia: -1, ferite: 1, contaminazione: 1 }
           vai: superficie-fratturata

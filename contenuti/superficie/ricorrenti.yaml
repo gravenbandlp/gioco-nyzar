@@ -49,6 +49,8 @@
 #                                                       (2 → 3, Difficile); giragli al largo.
 #     carta-sup-cavaliere-nome   memoria 3                  ti chiede di finirlo: lo fai (involucro-3) o lo
 #                                                       mandi a casa (impugnatura-3). Racconto in tutti e due.
+#   In fondo a -cavaliere e -torna: prendere in consegna il carico (Difficile, Galateo o Persuasione), una volta sola
+#   (cavaliere.consegna): 2 reperti, la storia resta aperta; il fallimento costa ferite e tormento.
 #
 # LA FRATTURA CHE RESPIRA (9), alle terrazze di basalto
 #   frattura.respiro (0–4) e frattura.spenta sono in area.yaml; frattura.premio è qui.
@@ -67,6 +69,7 @@ quality:
   - { id: bambino.distrutto, nome: "La Marea ricorda il bambino", categoria: stato, nascosta: true, descrizione: "1 se hai distrutto il bambino senza impronte e la Marea l'ha registrato, 2 se poi il Mercante te ne ha preso il ricordo." }
   - { id: cavaliere.incontri, nome: "Il Cavaliere della Marea", categoria: stato, nascosta: true, descrizione: "Quante volte hai incontrato il Cavaliere della Marea sul sentiero." }
   - { id: cavaliere.memoria, nome: "Quello che il Cavaliere ricorda", categoria: stato, nascosta: true, descrizione: "I frammenti d'identità che hai restituito al Cavaliere della Marea, da 0 a 3. A 3 ricorda il suo nome." }
+  - { id: cavaliere.consegna, nome: "Il carico del Cavaliere", categoria: stato, nascosta: true, descrizione: "1 se hai preso in consegna dal Cavaliere della Marea il foglio di carico e i gusci che aveva raccolto lungo la strada." }
   - { id: cavaliere.fine, nome: "Com'è finita con il Cavaliere", categoria: stato, nascosta: true, descrizione: "0 se la storia è aperta, 1 se l'hai abbattuto, 2 se gli hai restituito il nome e hai fatto quello che ti ha chiesto." }
   - { id: frattura.premio, nome: "Il dono della Frattura", categoria: stato, nascosta: true, descrizione: "1 se la Frattura stabilizzata ti ha già dato il suo dono." }
 
@@ -925,6 +928,37 @@ storylet:
             Quando risali sul sentiero, nella ghiaia ci sono le sue impronte profonde,
             che tornano nella direzione da cui era venuto.
           effetti: { cavaliere.incontri: 1 }
+      - &cavaliere-consegna
+        testo: "Prendere in consegna il suo carico"
+        descrizione: "Una scorta risponde a chi riceve il grano alle porte. Bisogna parlargli con le formule della Gilda, e lui si ricorda come suonano."
+        quando: [cavaliere.consegna == 0]
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Il foglio di carico
+          testo: |
+            Ti metti dritto in mezzo al sentiero e gli chiedi il foglio di
+            carico, con le parole che usano gli scrivani della Gilda alle porte
+            quando arriva un convoglio. Il cavaliere resta fermo a lungo. Poi
+            infila due dita fra le piastre del pettorale e ne tira fuori un
+            foglio così consumato che si legge soltanto la spiga del timbro. Te
+            lo porge, e insieme al foglio ti mette in mano due gusci sigillati
+            raccolti lungo la strada, come una scorta che riconsegna anche la
+            merce caduta dai carri. Firmi il foglio con un pezzo di carbone, e
+            lui riprende il sentiero con il suo passo regolare.
+          pe: { galateo: 10 }
+          effetti: { reperto.sigillato: 2, cavaliere.incontri: 1 }
+          imposta: { cavaliere.consegna: 1 }
+        fallimento:
+          titolo: Uno che vuole il carico
+          testo: |
+            Sbagli una parola della formula, e per il cavaliere diventa la
+            richiesta di un ladro di grano. La luce nelle crepe si accende di colpo, e il cavaliere fa
+            quello che una scorta fa con chi chiede il carico senza averne il
+            diritto. Il piatto della spada ti prende sulla spalla e poi sulle
+            costole, e il secondo colpo ti toglie il fiato. Ti lascia nella
+            ghiaia a tossire e riprende la sua strada senza voltarsi.
+          effetti: { ferite: 1.5, tormento: 0.5, cavaliere.incontri: 1 }
+
 
   - id: carta-sup-cavaliere-torna
     tipo: carta
@@ -1025,6 +1059,7 @@ storylet:
             all'indirizzo sbagliato.
           effetti: { tormento: 0.5, cavaliere.incontri: 1 }
       - *cavaliere-evitare
+      - *cavaliere-consegna
 
   - id: carta-sup-cavaliere-nome
     tipo: carta

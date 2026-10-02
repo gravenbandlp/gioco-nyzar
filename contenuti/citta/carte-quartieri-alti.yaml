@@ -1,0 +1,1291 @@
+# Il mazzo dei Quartieri Alti, seconda parte (ottobre 2026): quindici carte nuove per la mano da tre.
+# Le dieci carte che c'erano già stanno in carte.yaml, accademia.yaml, biblioteca.yaml, cattedrale.yaml,
+# municipio.yaml, teatro.yaml, piste/teatro.yaml e piste/sepolcro-2.yaml.
+#
+# NOVE CARTE SINGOLE, ripetibili tranne la carrozza (visto.carta-qa-carrozza-dei-tarvelin):
+#   salotto-oresca (espressività, percezione; con rep.velo >= 2 i saluti di Nadja), levriero-dei-cordani
+#   (addestrare animali, atletica), formule-in-cortile (intimidire, magia), gradini-della-cattedrale (medicina,
+#   natura), debito-d-onore (persuasione, ingannare con la posta), lavatoio-alto (acrobazia, conoscenze della
+#   strada), carrozza-dei-tarvelin (cavalcare, tecnologia), albero-degli-antenati (accademiche),
+#   giorno-di-consiglio (galateo, furtività). Le reputazioni con una catena di storie (velo, accademia,
+#   castaldi, teatro, biblioteca) qui non salgono: le carte ripetibili danno monete, merci, PE e piccole
+#   negative; la carrozza, che si gioca una volta, dà rep.tarvelin.
+#
+# LA CATENA DI BERENGARIO LUSARDI, l'ultimo dei Lusardi del Patto (lusardi.passo):
+#   0  carta-qa-lusardi-candelabro    aiutarlo a vendere il candelabro (politica ed economia), comprarlo tu
+#                                     (lusardi.candelabro 1), stare al gioco della riparazione → passo 1.
+#   1  carta-qa-lusardi-cena          la cena con l'uomo dell'ipoteca: fare l'amico di famiglia (ingannare o
+#                                     galateo, rep.gilda), aiutare Gemma in cucina → passo 2.
+#   2  carta-qa-lusardi-ultima-stanza il palazzo è venduto: l'anello (oggetto.sigillo-dei-lusardi, accessorio
+#                                     +1 Galateo), il Patto alla Biblioteca (empatia: monete e un segreto; se
+#                                     fallisce l'anello), con lusardi.candelabro 1 restituire il candelabro
+#                                     (monete, anello, tormento -0.5) → passo 3, chiusa.
+#
+# TRE CARTE DA PIÙ AVANTI:
+#   asta-dei-malgrani (pista.pelle >= 7, una volta sola), programma-della-promessa (pista.teatro >= 2),
+#   predicatore-della-stella (pista.dama-argento >= 11).
+#
+# Nomi nuovi, che il Codex non dà: Berengario Lusardi e la sua serva Gemma, Madame Oresca (la madre di Nadja,
+# citata nel glossario), Decoro (il levriero dei Cordani), Ermes (il pellegrino di Laresh).
+# I prezzi stanno negli effetti, mai nella prosa (docs/stile-dei-testi.md, regola 11).
+
+quality:
+  - { id: lusardi.passo, nome: "Berengario Lusardi", categoria: stato, nascosta: true, descrizione: "A che punto sei con Berengario Lusardi. Vale 0 prima di incontrarlo, 1 dopo il candelabro, 2 dopo la cena e 3 dopo l'ultima stanza." }
+  - { id: lusardi.candelabro, nome: "Il candelabro dei Lusardi", categoria: stato, nascosta: true, descrizione: "1 se hai comprato tu il candelabro di Berengario Lusardi, con la ricevuta in deposito." }
+  - { id: visto.carta-qa-carrozza-dei-tarvelin, nome: "La carrozza dei Tarvelin", categoria: stato, nascosta: true }
+  - { id: visto.carta-qa-asta-dei-malgrani, nome: "L'asta del Maniero Malgrani", categoria: stato, nascosta: true }
+
+oggetti:
+  - id: sigillo-dei-lusardi
+    nome: Sigillo dei Lusardi
+    immagine: icone/ring
+    descrizione: "Un anello d'argento consumato, con una carrucola sopra due corde incrociate. Nei salotti dei Quartieri Alti c'è ancora chi lo riconosce, e ti offre la sedia buona."
+    slot: accessorio
+    grado: 1
+    proprieta: { talento: { galateo: 1 } }
+
+storylet:
+  # ================================================================ carte singole
+  - id: carta-qa-salotto-oresca
+    immagine: icone/teapot
+    titolo: Il giovedì di Madame Oresca
+    sommario: "Il giovedì Madame Oresca riceve con le finestre aperte, perché la strada sappia chi sale. Oggi le manca un ospite, e la cameriera scende a cercarlo."
+    luogo: Quartieri Alti, il primo piano di un palazzo in Via del Velo
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Il giovedì Madame Oresca riceve al primo piano del suo palazzo in Via
+      del Velo, e tiene le finestre aperte anche d'inverno, perché dalla strada
+      si veda chi è salito. Oggi una cameriera scende sul marciapiede, ti guarda le scarpe e il mantello e ti chiede se
+      hai un'ora. A Madame manca qualcuno che venga da un altro quartiere, e tu
+      le sembri di un altro quartiere.
+
+      Il salotto è tutto velluto verde e sedie che non si spostano. Madame è
+      una donna grande, con un occhialino d'oro appeso a una catenella, che
+      usa per guardare le persone e mai i libri. Accanto a lei un magistrato
+      in pensione dorme a occhi aperti, e due dame si contendono l'ultimo
+      pasticcino senza toccarlo. Sopra il camino c'è il ritratto di una
+      ragazza con il velo, girato verso il muro. *Il primo pettegolezzo della
+      giornata te l'hanno dato gratis.* Ti siedi sul bordo della sedia, con
+      le mani ferme sulle ginocchia.
+    opzioni:
+      - testo: "Raccontare una storia di laggiù"
+        descrizione: "Madame vuole sapere com'è la vita sotto la terrazza. La storia deve essere vera, purché diverta."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: Il pasticcino
+          testo: |
+            Racconti di due vedove che al mercato del pesce si sono contese la
+            stessa sogliola fino a sera, e la allunghi quanto basta. A metà il
+            magistrato si sveglia e chiede chi ha vinto. Alla fine una delle due
+            dame si mangia il pasticcino senza accorgersene, e Madame batte due
+            volte l'occhialino sul bracciolo, che per lei vale un applauso. Sulle
+            scale le due dame ti raccontano a bassa voce quale dei loro mariti
+            gioca a carte al Daino Zoppo, e quale perde.
+          pe: { espressivita: 3 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Troppo vera
+          testo: |
+            La storia ti esce troppo vera, con l'odore del pesce e una parola di
+            troppo sulla vedova più grassa. Una dama si porta il fazzoletto alla
+            bocca, e Madame ti guarda attraverso l'occhialino fino alla fine del
+            racconto senza dire niente. La cameriera ti riaccompagna alle scale
+            prima che arrivi il tè. Mentre scendi in strada, dalla finestra
+            aperta senti qualcuno ripetere la tua parola di troppo, e ridere.
+          effetti: { scandalo: 0.5 }
+      - testo: "Guardare chi evita chi"
+        descrizione: "In un salotto le cose importanti succedono fra le sedie, mentre tutti guardano la padrona di casa."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Facile }
+        successo:
+          titolo: Le sedie
+          testo: |
+            Lasci parlare gli altri e guardi le sedie. Una dama si è seduta il
+            più lontano possibile dal magistrato, che a ogni sua risata si tocca
+            il colletto. Un giovane con il panciotto nuovo non toglie gli occhi
+            dal ritratto girato, e quando Madame se ne accorge gli chiede del
+            raccolto di suo padre con una voce dolcissima. Esci con la testa
+            piena di cose che non sai ancora a chi vendere.
+          effetti: { informazioni.voce: 2 }
+        fallimento:
+          titolo: Il tè
+          testo: |
+            Guardi così tanto gli altri che non vedi arrivare la cameriera con il
+            vassoio, e la tazza ti finisce sul ginocchio. Il tè è bollente, e tu
+            sorridi lo stesso perché Madame ti sta guardando. Per il resto della
+            visita senti la stoffa bagnata incollata alla pelle e non riesci a
+            pensare ad altro. Di tutta la conversazione ricordi soltanto che il
+            pasticcino, alla fine, è rimasto sul piatto.
+          pe: { percezione: 1 }
+      - testo: "Portarle i saluti di Nadja"
+        descrizione: "In Cattedrale Nadja Oresca cambia le bende con le vesti spiegazzate. Madame vorrà sapere come sta, anche se non lo chiederà."
+        requisiti: [rep.velo >= 2]
+        esito:
+          titolo: Il ritratto
+          testo: |
+            Quando dici il nome di Nadja il salotto si zittisce. Madame posa
+            l'occhialino in grembo, e per un momento ha la faccia di una donna
+            qualunque. Ti chiede se mangia. Le rispondi che mangia in piedi
+            fra una branda e l'altra. Lei annuisce come se l'avesse sempre
+            saputo, e intanto riprende l'occhialino e cambia discorso. Sulle scale la
+            cameriera ti ferma per un braccio e ti mette in mano un sacchetto di
+            mandorle da portare in Cattedrale, «senza dire da parte di chi».
+          pe: { empatia: 3 }
+          effetti: { tormento: -0.5 }
+      - testo: "Declinare con un inchino"
+        costo: 0
+        esito:
+          testo: |
+            Dici alla cameriera che oggi non puoi. Lei sospira e torna su, e poco
+            dopo vedi il garzone del fornaio, con le mani ancora bianche di
+            farina, che viene spinto su per le scale del palazzo.
+
+  - id: carta-qa-levriero-dei-cordani
+    immagine: icone/sitting-dog
+    titolo: Il levriero dei Cordani
+    sommario: "Un levriero grigio scende la scalinata con un guanto da signora in bocca, e dietro di lui un valletto corre come se ne andasse del suo posto."
+    luogo: Quartieri Alti, la scalinata della Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Dalla scalinata della Casa dei Nodi scende di corsa un levriero grigio,
+      così magro che gli si contano le costole. Ha un
+      collare di cuoio rosso con una placca d'argento, e fra i denti tiene un
+      guanto da signora di capretto color crema, senza stringerlo, come si
+      porta una cosa che non è tua. Dietro di lui, tre gradini alla volta,
+      corre un valletto in livrea dei Cordani con la parrucca storta e una
+      scarpa sola.
+
+      «È il guanto della signora Isotta!» grida a chiunque, e i passanti si
+      scansano. Il levriero arriva in fondo alla scalinata, si ferma a un passo
+      da te e ti guarda, con il guanto in bocca e la coda che va piano a
+      destra e a sinistra. *Questo scherzo l'ha già fatto, e gli è sempre
+      piaciuto.* Il valletto, tre gradini più su, si è fermato a riprendere
+      fiato con le mani sulle ginocchia, e ti guarda come si guarda l'ultima
+      speranza della giornata.
+    opzioni:
+      - testo: "Chiamarlo a te"
+        descrizione: "Un fischio basso, la mano sul ginocchio. I levrieri da caccia rispondono a chi sa chiamarli."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Facile }
+        successo:
+          titolo: La placca d'argento
+          testo: |
+            Ti accucci, batti piano la mano sul ginocchio e lo chiami con un
+            fischio basso. Il levriero ci pensa sopra, poi ti viene incontro a
+            passi eleganti e ti lascia cadere il guanto nel palmo, appena umido.
+            Il valletto lo prende per il collare e ti mette in mano la mancia
+            che il Sovrintendente Cordani lascia per queste occasioni, «che sono
+            frequenti» dice. Sulla placca del collare c'è inciso il nome del
+            cane, *Decoro*.
+          pe: { addestrare-animali: 3 }
+          effetti: { monete: 5 }
+        fallimento:
+          titolo: La fontana
+          testo: |
+            Lo chiami, e il levriero accetta il gioco. Ti lascia avvicinare fino
+            a un palmo, poi scarta di lato e corre verso la fontana, e tu dietro.
+            Quando lo raggiungi il guanto galleggia nella vasca, gonfio come un
+            pesce morto, e il cane ti guarda dal bordo con la lingua fuori. Il
+            valletto arriva zoppicando e, quando vede il guanto, si siede sul
+            bordo della fontana con la testa fra le mani.
+          pe: { addestrare-animali: 1 }
+      - testo: "Tagliargli la strada"
+        descrizione: "In fondo alla scalinata la via si stringe fra due portoni. Un levriero è veloce, ma deve passare di lì."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Fra i due portoni
+          testo: |
+            Il levriero ti scarta a sinistra e tu sei già a sinistra, con le
+            braccia larghe fra i due portoni. Lui frena sulle zampe di dietro e
+            scivola sul selciato. Poi si arrende con dignità offesa, lasciando
+            cadere il guanto. Il valletto ti ringrazia con il fiato corto e ti
+            mette in mano la mancia del Sovrintendente Cordani. Il cane, al
+            guinzaglio, non ti degna più di uno sguardo per tutta la salita.
+          pe: { atletica: 3 }
+          effetti: { monete: 5 }
+        fallimento:
+          titolo: I gradini
+          testo: |
+            Scatti, il levriero scatta più forte, e i gradini della Casa dei Nodi
+            sono consumati al centro da cent'anni di mercanti. Il piede ti va via
+            sul terzo, e atterri sul fianco. Quando rialzi la testa il cane è già
+            in fondo alla via, e il valletto ti scavalca senza fermarsi. Il
+            fianco ti fa male fino a sera, ogni volta che ridi.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciarlo correre"
+        costo: 0
+        esito:
+          testo: |
+            Ti fai da parte. Il levriero ti guarda deluso e riparte verso il
+            basso, con il valletto dietro che ormai zoppica. Più tardi, in
+            un'altra strada, rivedi il cane seduto davanti a una macelleria con
+            l'aria molto soddisfatta, e senza più il guanto in bocca.
+
+  - id: carta-qa-formule-in-cortile
+    immagine: ambientazione/accademia-di-torvessa
+    titolo: Formule in cortile
+    sommario: "Nel cortiletto dietro l'Accademia due allievi si sfidano a colpi di formule, e intorno gli altri scommettono caramelle."
+    luogo: Quartieri Alti, un cortile dietro l'Accademia di Torvessa
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Dietro l'Accademia di Torvessa c'è un cortiletto con un pozzo chiuso e
+      un fico che nessuno pota, dove gli allievi vanno a fare quello che in
+      aula non si può. Oggi intorno al pozzo c'è un cerchio di ragazzi con la
+      divisa sbottonata. In mezzo al cerchio due allievi dei corsi alti si
+      fronteggiano a dieci passi, ciascuno con un cristallo stretto nel pugno.
+
+      Il più grande ha già le sopracciglia bruciacchiate e un cognome
+      importante, a giudicare da come lo incitano. L'altro è più piccolo e ha
+      le mani che tremano, però il suo cristallo è più luminoso. Le scommesse
+      girano in caramelle di miele e si segnano su una tavoletta. Un dardo di
+      luce passa a un palmo dal fico e stacca una foglia, che cade nel pozzo
+      con un rumore di carta.
+
+      *Al prossimo colpo qualcuno ci lascia un occhio, e nessuno di loro ci ha
+      pensato.* Il cristallo del più piccolo, intanto, ha cominciato a fischiare.
+    opzioni:
+      - testo: "Farli smettere con la voce grossa"
+        descrizione: "La voce dei sergenti in Caserma, quella che arriva prima delle parole. Bisogna crederci abbastanza."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Le caramelle
+          testo: |
+            Entri nel cerchio e parli con la voce dei sergenti, e il cerchio si
+            scioglie in un momento. I due duellanti si guardano fra loro e poi
+            guardano te. Se ne vanno ciascuno dalla sua parte senza salutarsi. Per terra
+            restano le caramelle delle scommesse e due cristalli incrinati, che
+            nessuno torna a prendere. Li raccogli con due dita, perché sono
+            ancora tiepidi.
+          pe: { intimidire: 3 }
+          effetti: { cristalli.frammento-esausto: 2 }
+        fallimento:
+          titolo: Il terzo duellante
+          testo: |
+            I ragazzi ti guardano un momento, poi il più grande dice che se
+            vuoi puoi scommettere anche tu, e il cerchio ride. Mentre cerchi una
+            risposta il più piccolo tira il suo colpo, che ti sfiora la mano e
+            ti lascia sul dorso una striscia rossa che brucia per tutto il
+            giorno. A quel punto si spaventano davvero e scappano tutti dal
+            portone, e il fico ha perso un'altra foglia.
+          effetti: { ferite: 0.5 }
+      - testo: "Spegnere la formula a metà strada"
+        descrizione: "Un dardo lanciato male si può sciogliere prima che arrivi. Bisogna sapere dove mettere le mani, e metterle in fretta."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La luce fra le dita
+          testo: |
+            Alzi la mano mentre il più piccolo lancia, e il dardo ti arriva nel
+            palmo come una palla di neve senza peso. Lo tieni chiuso
+            nel pugno finché si spegne. Nel cortile non vola più una mosca. Il
+            ragazzo più piccolo ti porta con tutte e due le mani il suo
+            cristallo ormai opaco, come si restituisce una cosa presa senza
+            permesso, e ti chiede di tenerlo tu finché non avrà imparato.
+          pe: { magia: 4 }
+          effetti: { cristalli.cristallo-sterile: 1 }
+        fallimento:
+          titolo: Il rimbalzo
+          testo: |
+            Metti la mano in mezzo un attimo troppo tardi. Il dardo ti rimbalza
+            sul polso e finisce nel tronco del fico, dove lascia un buco nero
+            che fuma. Il polso ti formicola fino al gomito, e per un po' non
+            riesci a chiudere le dita. I ragazzi si dileguano dal portone, e
+            l'ultimo si porta via anche la tavoletta delle scommesse.
+          effetti: { ferite: 0.5 }
+      - testo: "Andare a chiamare Orvald"
+        descrizione: "Lo studio del preside è a due rampe di scale. Pett, sullo stipite, probabilmente sa già tutto."
+        esito:
+          titolo: Il corvo arriva prima
+          testo: |
+            Sali le scale di corsa, ma quando arrivi in fondo al corridoio Pett
+            è già volato giù dalla finestra. Orvald Temmerin ti segue senza
+            fretta, con le mani dietro la schiena, e nel cortile gli basta
+            tossire una volta. Confisca i cristalli e manda i duellanti a
+            spolverare il seminterrato. A te dice grazie senza guardarti, e
+            intanto ti fa sapere di chi è figlio il più grande, con un tono che
+            spiega molte cose.
+          pe: { accademiche: 2 }
+          effetti: { informazioni.voce: 1 }
+      - testo: "Lasciarli fare"
+        costo: 0
+        esito:
+          testo: |
+            Tiri dritto. Prima di girare l'angolo senti un colpo secco e un coro
+            di «oooh», poi qualcuno che chiama la madre e qualcun altro che
+            reclama le sue caramelle.
+
+  - id: carta-qa-gradini-della-cattedrale
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: Sui gradini della Cattedrale
+    sommario: "In coda per la Cripta un pellegrino di Laresh si è accasciato sui gradini, e la moglie gli fa vento con il cappello."
+    luogo: Quartieri Alti, la scalinata della Cattedrale del Velo
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      La coda per la Cripta comincia a metà della scalinata della Cattedrale
+      del Velo e scende fino alla strada, e chi aspetta tiene già in mano
+      l'offerta per non doverla cercare dopo. A tre gradini dal portale un
+      uomo con la casacca dei contadini di Laresh si è seduto di colpo, e poi
+      si è sdraiato di lato con la guancia sulla pietra. Ha le labbra grigie.
+      La moglie gli fa vento con il cappello di paglia e ripete il suo nome,
+      Ermes, come se bastasse a tenerlo lì.
+
+      Gli accoliti sono dentro. Quelli in coda guardano senza muoversi, perché
+      chi esce dalla fila perde il posto, e una signora con il ventaglio dice
+      che sarà la Marea. Il contadino porta la cintura stretta a un buco nuovo,
+      fatto col coltello. *Ha digiunato per presentarsi pulito, e ha
+      esagerato.* Ti ritrovi accucciato accanto a lui prima di averlo deciso.
+    opzioni:
+      - testo: "Visitarlo"
+        descrizione: "Il polso, il respiro, il colore delle unghie. Prima di pensare alla Marea conviene escludere il resto."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Facile }
+        successo:
+          titolo: Pane e miele
+          testo: |
+            Il polso è debole ma regolare, e le unghie sono rosa. La Marea non
+            c'entra. La moglie confessa che Ermes non mangia da tre giorni, per
+            arrivare alla Cripta pulito, e tu gli fai bere un sorso d'acqua e
+            poi mangiare un pezzo di pane con il miele che lei teneva per il
+            ritorno. Quando si rimette seduto ti ringrazia e ti preme in mano un
+            vasetto di unguento d'arnica fatto da sua sorella.
+          pe: { medicina: 3 }
+          effetti: { unguento: 1 }
+        fallimento:
+          titolo: Gli stivali
+          testo: |
+            Lo giri sulla schiena e gli sollevi le gambe, e lui ti vomita sugli
+            stivali un sorso d'acqua e niente altro. La signora del ventaglio
+            grida alla Marea, e la coda arretra di due gradini. Dal portale esce
+            Nadja Oresca con le vesti spiegazzate, gli guarda le unghie e chiede
+            alla moglie da quanto non mangia. Poi ti dice con gentilezza di
+            pulirti gli stivali prima di entrare.
+          pe: { medicina: 1 }
+      - testo: "Cercare una foglia nei Giardini"
+        descrizione: "Dietro la navata ci sono i Giardini della Linfa. Una delle loro piante rimette in piedi chi sviene, e quelle che le somigliano fanno peggio."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Le mani in tasca
+          testo: |
+            Giri dietro la navata ed entri nei Giardini della Linfa, dove le
+            foglie mandano una luce tenue anche a mezzogiorno. Quella che cerchi
+            ha il bordo seghettato e odora di menta quando la stropicci. Sorella
+            Giulia ti vede staccarla e lascia correre, con le mani in tasca come
+            vuole la regola. Il contadino annusa la foglia e si tira su a sedere
+            con le guance di nuovo rosse, e la moglie ti racconta tutte le
+            notizie di Laresh che conosce.
+          pe: { natura: 4 }
+          effetti: { informazioni.voce: 2 }
+        fallimento:
+          titolo: La foglia sbagliata
+          testo: |
+            Stacchi una foglia che le somiglia, e capisci che è quella sbagliata
+            quando ti cominciano a prudere le dita. Sorella Giulia ti raggiunge
+            fra le aiuole e ti ricorda la regola dei Giardini, mostrandoti come
+            si tengono le mani in tasca. Quando torni sulla scalinata il
+            contadino si è ripreso da solo, e un accolito ha scritto il tuo nome
+            sul registro della Confraternita.
+          effetti: { scandalo: 0.5 }
+      - testo: "Chiamare un accolito"
+        costo: 0
+        esito:
+          testo: |
+            Entri nella navata e avvisi il primo accolito che trovi. Lui finisce
+            la riga che stava scrivendo, poi esce con calma. Quando ti volti il
+            contadino è di nuovo seduto, con il cappello della moglie in testa,
+            e qualcuno in coda ha preso il tuo posto.
+
+  - id: carta-qa-debito-d-onore
+    immagine: icone/card-random
+    titolo: Un debito d'onore
+    sommario: "Sotto il portico del Daino Zoppo un ragazzo di buona famiglia deve saldare un debito di gioco prima dei vespri, e non ha niente in tasca."
+    luogo: Quartieri Alti, il portico della Locanda del Daino Zoppo
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Sotto il portico della Locanda del Daino Zoppo, accanto alla porta, è
+      appesa una lavagna dove l'oste scrive con il gesso i nomi di chi ha perso
+      al tavolo e non ha pagato. Nei Quartieri Alti la chiamano la lavagna e
+      basta, e un nome che ci resta fino a sera arriva nei salotti prima della
+      cena.
+
+      Oggi il gesso è in mano a un mercante di lana di Laresh, seduto su una
+      panca con il registro sulle ginocchia, che aspetta i vespri senza fretta.
+      Davanti a lui un ragazzo con il panciotto ricamato e gli occhi rossi di
+      una notte al tavolo rigira fra le dita un anello che non basta. Quando ti
+      vede ti viene incontro come se ti conoscesse da sempre.
+
+      «Il mio nome sulla lavagna lo legge mia madre» dice. «E dopo mia madre lo
+      legge mio padre.» Ha le mani fredde, e te ne accorgi perché te ne ha già
+      presa una.
+    opzioni:
+      - testo: "Convincere il mercante ad aspettare"
+        descrizione: "Una settimana di tempo sulla parola del ragazzo. Il mercante deve credere che gli convenga."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Una settimana
+          testo: |
+            Ti siedi accanto al mercante e parli di lana, poi della famiglia del
+            ragazzo, che di lana ne compra molta. Il mercante fa i conti a mezza
+            voce e alla fine scrive sul registro la data di una settimana più
+            in là. Il ragazzo ti stringe la mano con tutte e due le sue e per
+            sdebitarsi ti racconta con chi giocava stanotte, e quanto ha perso
+            uno di loro senza che la lavagna lo venisse a sapere.
+          pe: { persuasione: 3 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il garante
+          testo: |
+            Il mercante ti ascolta fino in fondo. Poi si alza e scrive il nome
+            del ragazzo sulla lavagna, in stampatello. Sotto, visto che ci hai messo
+            la faccia, aggiunge il tuo con la parola *garante*. Il ragazzo se ne
+            va senza salutare. Fino a sera chi entra al Daino Zoppo si ferma a
+            leggere, e poi cerca te con gli occhi sotto il portico.
+          effetti: { scandalo: 0.5 }
+      - testo: "Saldare tu il debito"
+        descrizione: "Il ragazzo giura che ti ripagherà, e intanto ti offre in pegno l'unica cosa che ha."
+        requisiti: [monete >= 20]
+        esito:
+          titolo: Il pegno
+          testo: |
+            Conti le monete nel palmo del mercante, che le pesa una per una prima
+            di metterle nella borsa e cancellare il gesso con la manica. Il
+            ragazzo non ha niente da darti in cambio. Ti porta in un angolo del
+            portico e ti racconta un segreto della sua famiglia, a voce così
+            bassa che devi chinarti per sentirlo. Dice che è un pegno, e che
+            tornerà a riprenderselo con gli interessi. Hai la sensazione che il
+            segreto resterà tuo per sempre.
+          effetti: { monete: -20, informazioni.segreto: 1 }
+      - testo: "Giocarti il debito a carte"
+        descrizione: "Il mercante è di Laresh, e a Laresh si gioca a Zekar. Una mano sola, il debito del ragazzo contro la tua posta."
+        requisiti: [monete >= 10]
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: La faccia ferma
+          testo: |
+            Il mercante accetta perché si annoia. Dai le carte e tieni la faccia
+            ferma anche quando la tua mano è pessima, e lui butta la sua sul
+            tavolo al terzo giro, convinto di aver perso. Il nome del ragazzo
+            sparisce dalla lavagna con un colpo di manica, e la tua posta torna
+            nella tua borsa insieme a quella del mercante. Il ragazzo ti guarda
+            come si guarda un santo di pietra al primo miracolo.
+          pe: { ingannare: 3 }
+          effetti: { monete: 10 }
+        fallimento:
+          titolo: La crocetta
+          testo: |
+            Il mercante gioca come si gioca in campagna, lento, guardandoti le
+            mani più delle carte. Perdi la posta al secondo giro. Lui intasca le
+            monete, scrive lo stesso il nome del ragazzo sulla lavagna e sotto
+            il tuo, con una crocetta che al Daino Zoppo vuol dire *ha perso
+            anche lui*. Il ragazzo è sparito prima della fine della mano.
+          effetti: { monete: -10, scandalo: 0.5 }
+      - testo: "Non immischiarti"
+        costo: 0
+        esito:
+          testo: |
+            Gli dici che i debiti di gioco sono affari di chi gioca. Il ragazzo
+            annuisce e torna a rigirarsi l'anello. Quando ripassi di lì la sera
+            dopo, sulla lavagna il suo nome è in alto, più grande di tutti gli
+            altri.
+
+  - id: carta-qa-lavatoio-alto
+    immagine: icone/fountain
+    titolo: Il lavatoio alto
+    sommario: "Al lavatoio dietro Via del Velo le cameriere delle grandi case sbattono i panni e si raccontano i padroni. Una tovaglia ricamata sta scappando verso la Cicatrice."
+    luogo: Quartieri Alti, il lavatoio dietro Via del Velo
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Dietro Via del Velo c'è il lavatoio delle grandi case, una vasca lunga di
+      pietra chiara sotto una tettoia di rame. L'acqua arriva da una fontana a
+      monte e se ne va per un canale che finisce oltre il parapetto, nel vuoto
+      della Cicatrice. Le cameriere dei palazzi lavano qui ognuna al suo posto,
+      e i posti si ereditano come i titoli dei padroni. Mentre sbattono le
+      lenzuola si raccontano le case, e quello che sanno loro il Velo lo viene
+      a sapere dopo.
+
+      Stamattina una tovaglia è sfuggita a una ragazza giovane e scivola lungo
+      il canale, gonfia d'acqua, verso il parapetto. Sul bordo si vede uno
+      stemma ricamato in filo d'oro. La ragazza la guarda con le mani nei
+      capelli. *Se quella tovaglia cade nella Cicatrice, il posto della ragazza
+      ci cade dietro.* Le altre cameriere hanno smesso di sbattere i panni e
+      guardano te, che sei l'unico vicino al canale.
+    opzioni:
+      - testo: "Ripescare la tovaglia"
+        descrizione: "Il bordo del canale è largo un palmo e coperto di sapone. Bisogna arrivarci prima del parapetto."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Facile }
+        successo:
+          titolo: Il posto in fondo
+          testo: |
+            Corri lungo il bordo del canale con le braccia larghe, scivoli due
+            volte senza cadere e afferri la tovaglia a un braccio dal parapetto,
+            dove l'acqua comincia a far rumore. La ragazza se la stringe al petto
+            bagnata com'è. Per il resto della mattina le cameriere ti fanno posto
+            in fondo alla vasca, e mentre strizzi una federa che nessuno ti ha
+            chiesto di lavare ti raccontano due o tre cose dei loro padroni.
+          pe: { acrobazia: 3 }
+          effetti: { informazioni.voce: 2 }
+        fallimento:
+          titolo: Il bagno
+          testo: |
+            Al secondo passo il sapone ti porta via un piede, e finisci nel canale
+            fino alla cintura. La tovaglia la prendi lo stesso, ma la scena
+            l'hanno vista tutte. Torni in strada gocciolando, e prima di sera la
+            storia di chi è caduto nel lavatoio alto ha già fatto il giro delle
+            cucine, con un dettaglio in più a ogni cucina.
+          effetti: { scandalo: 0.5, informazioni.voce: 1 }
+      - testo: "Entrare nelle chiacchiere"
+        descrizione: "Una cameriera arrabbiata parla volentieri. Bisogna dire la cosa giusta sul padrone giusto."
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Media }
+        successo:
+          titolo: Il filo d'oro
+          testo: |
+            Ti appoggi alla vasca accanto alla più anziana e dici una cosa
+            qualunque sui padroni che si fanno ricamare lo stemma sulle tovaglie.
+            Lei sbuffa e ti risponde, e dopo di lei le altre. Quando la tovaglia
+            è al sicuro sai di chi è lo stemma, quale casa ha cambiato cuoca due
+            volte in un mese, e perché.
+          pe: { conoscenze-della-strada: 3 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Una domanda di troppo
+          testo: |
+            Fai una domanda di troppo sullo stemma, e la più anziana smette di
+            sbattere il lenzuolo per guardarti. Le altre si chiudono come porte e riprendono a sbattere i panni senza guardarti.
+            Mentre te ne vai vedi una ragazza correre verso Via del Velo, dove
+            passeggiano due guardie del Velo, e indicarti con il mento.
+          effetti: { sospetto: 0.5 }
+      - testo: "Andartene prima che ti chiedano aiuto"
+        costo: 0
+        esito:
+          testo: |
+            Ti allontani. Alle tue spalle qualcuno strilla, poi le cameriere si
+            mettono a ridere tutte insieme, così forte che una guardia del Velo
+            in fondo alla strada si volta a guardare.
+
+  - id: carta-qa-carrozza-dei-tarvelin
+    immagine: ambientazione/maniero-tarvelin
+    titolo: La carrozza dei Tarvelin
+    sommario: "Alle campane di mezzogiorno due cavalli si spaventano e trascinano giù per la discesa una carrozza con lo stemma dei Tarvelin."
+    luogo: Quartieri Alti, la discesa che porta alla fontana
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [visto.carta-qa-carrozza-dei-tarvelin == 0]
+    testo: |
+      Le campane della Cattedrale battono mezzogiorno tutte insieme, e a metà
+      della discesa due cavalli neri si impennano davanti a una carrozza ferma.
+      Il cocchiere è sceso a sistemare un finimento, e le redini gli scappano
+      di mano. Un momento dopo la carrozza scende da sola, con le ruote che
+      saltano sul selciato e i passanti che si schiacciano contro i portoni.
+
+      Sulla portiera c'è lo stemma dei Tarvelin. Dal finestrino si affaccia una
+      donna anziana con la cuffia nera delle governanti, che si tiene con una
+      mano al montante e con l'altra stringe un cesto. In fondo alla discesa c'è
+      la fontana, e dopo la fontana il parapetto sulla Cicatrice.
+
+      La carrozza ti passa accanto così vicino che senti il vento delle ruote
+      sulla faccia. Le gambe si sono già messe a correre, prima che tu abbia
+      deciso dove.
+    opzioni:
+      - testo: "Saltare a cassetta"
+        descrizione: "Afferrare il montante e salire a cassetta, poi riprendere le redini. Da lì in poi si tratta di cavalli."
+        prova: { attributo: fisico, abilita: cavalcare, difficolta: Media }
+        successo:
+          titolo: Le redini
+          testo: |
+            Afferri il montante al volo e ti issi a cassetta sbattendo le
+            ginocchia contro il sedile. Le redini pendono fra le zampe dei
+            cavalli, e per riprenderle ti sporgi tanto da sentire l'odore del
+            loro sudore. Poi le tiri piano tutte e due insieme e parli ai cavalli
+            con una voce che non sapevi di avere. La carrozza si ferma a un passo
+            dalla fontana. La governante scende, ti mette in mano la borsa della
+            spesa del giorno e ti dice che al Maniero Tarvelin si ricorderanno
+            del tuo nome.
+          pe: { cavalcare: 4 }
+          effetti: { rep.tarvelin: 0.5, monete: 8 }
+          imposta: { visto.carta-qa-carrozza-dei-tarvelin: 1 }
+        fallimento:
+          titolo: Il selciato
+          testo: |
+            Afferri il montante, ma la carrozza prende una buca e ti scrolla via
+            come una mosca. Rotoli sul selciato e ti rialzi con i gomiti
+            scorticati, in tempo per vedere i cavalli fermarsi da soli davanti
+            alla fontana, ansimanti. La governante scende tremando e chiede chi
+            era il pazzo che si è buttato sotto le ruote. Nessuno risponde, e tu
+            ti pulisci le mani sui calzoni.
+          effetti: { ferite: 1 }
+          imposta: { visto.carta-qa-carrozza-dei-tarvelin: 1 }
+      - testo: "Tirare la leva del freno"
+        descrizione: "Una carrozza di quel modello ha dietro, fra le ruote, un pattino di ferro che si abbassa con una leva. Le leve però sono due."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il pattino
+          testo: |
+            Corri dietro alla carrozza e ti aggrappi alla pedana posteriore. La
+            prima leva che tocchi è quella del bagagliaio, e la lasci stare. La
+            seconda abbassa un pattino di ferro sulla ruota, che stridendo
+            manda scintille sul selciato. La carrozza sbanda e si ferma di
+            traverso davanti alla fontana. La governante scende con il cesto
+            stretto al petto, ti ringrazia con qualche moneta e chiede il tuo
+            nome, per riferirlo al Maniero Tarvelin.
+          pe: { tecnologia: 4 }
+          effetti: { rep.tarvelin: 0.5, monete: 5 }
+          imposta: { visto.carta-qa-carrozza-dei-tarvelin: 1 }
+        fallimento:
+          titolo: Le cappelliere
+          testo: |
+            Ti aggrappi alla pedana e tiri la prima leva che trovi. Si apre il
+            bagagliaio, e una pioggia di cappelliere rotola giù per la discesa
+            mentre le ruote continuano a girare. Ti lasci cadere prima della
+            fontana, e i cavalli si fermano da soli contro la vasca. Passi il
+            resto dell'ora a raccogliere cappelliere, e una ti ha ammaccato la
+            spalla.
+          effetti: { ferite: 0.5 }
+          imposta: { visto.carta-qa-carrozza-dei-tarvelin: 1 }
+      - testo: "Schiacciarti contro un portone"
+        descrizione: "I cavalli sanno dov'è la fontana. Forse."
+        esito:
+          testo: |
+            Ti schiacci contro un portone insieme a un garzone del fornaio. La
+            carrozza ti passa davanti e va a fermarsi da sola contro la fontana,
+            con una ruota piegata. Quando la governante scende, il cocchiere
+            arriva di corsa senza cappello, e lei gli dice
+            cose che una governante dei Tarvelin non dovrebbe sapere.
+          imposta: { visto.carta-qa-carrozza-dei-tarvelin: 1 }
+
+  - id: carta-qa-albero-degli-antenati
+    immagine: icone/family-tree
+    titolo: L'albero degli antenati
+    sommario: "Sotto il portico della Casa dei Nodi un uomo vende alberi genealogici, e a chi paga trova sempre un antenato fra i firmatari del Patto delle Corde."
+    luogo: Quartieri Alti, il portico della Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Sotto il portico della Casa dei Nodi, fra due colonne, un uomo con la
+      parrucca incipriata ha aperto un tavolino pieghevole con sopra una pila
+      di pergamene e una teiera. Un cartello dice *Alberi genealogici e
+      discendenze dal Patto delle Corde, ricerche d'archivio comprese*. Accanto
+      c'è un albero di esempio, con i rami dipinti in verde e i nomi in oro.
+
+      Un mercante di tessuti aspetta il suo con le mani giunte. Intanto l'uomo
+      intinge una pergamena nuova nel tè e la mette ad asciugare
+      al sole finché diventa del colore giusto. *I firmatari del Patto, a
+      sentire lui, hanno avuto molti figli.* Ogni tanto alza gli occhi dal
+      foglio e ti sorride, perché anche tu, a guardarti bene, hai la fronte
+      dei fondatori.
+    opzioni:
+      - testo: "Controllare i suoi alberi"
+        descrizione: "I nomi dei firmatari e le loro date sono nei libri della Biblioteca. Basta ricordarli meglio di lui."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: La data sbagliata
+          testo: |
+            Prendi l'albero di esempio e lo leggi con calma. Uno dei firmatari
+            risulta morto prima del Patto, e un altro ha una figlia nata quando
+            lui aveva novant'anni. Lo dici a voce bassa, e l'uomo smette di
+            sorridere. Ti offre qualche moneta per l'incomodo, e mentre le conta
+            ti lascia vedere, forse apposta, il quaderno con i nomi dei suoi
+            clienti. Alcuni di quei nomi siedono nei salotti buoni.
+          pe: { accademiche: 3 }
+          effetti: { monete: 5, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La lezione di storia
+          testo: |
+            Gli fai notare una data, e lui ti risponde con altre tre date e
+            cita perfino il colore della ceralacca dei notai. Il mercante di tessuti lo
+            ascolta a bocca aperta, e alla fine guarda te come si guarda un
+            ignorante. Te ne vai senza sapere chi dei due avesse ragione, con il
+            sospetto che fosse lui.
+          effetti: { scandalo: 0.5 }
+      - testo: "Farti fare un albero"
+        descrizione: "Il prezzo è quello del cartello, e l'antenato lo sceglie lui."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Un ramo laterale
+          testo: |
+            L'uomo ti fa sedere e ti chiede il nome di tua madre e quello di tua
+            nonna, e quando non li sai li inventa lui con gentilezza. Dopo un'ora
+            hai in mano una pergamena color tè dove discendi, per un ramo laterale
+            e piuttosto storto, dalla sorella di un firmatario del Patto. Sai
+            benissimo che non vale niente, eppure la arrotoli con cura. Mentre
+            dipinge il tuo nome in oro, l'uomo ti racconta a chi altro ha venduto
+            quella stessa sorella nell'ultimo mese.
+          effetti: { monete: -10, informazioni.voce: 2, tormento: -0.5 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: |
+            Passi oltre. L'uomo ti augura buona giornata e aggiunge, a voce un po'
+            più alta, che il naso dei fondatori si eredita. Il mercante di tessuti
+            si tocca il suo con due dita.
+
+  - id: carta-qa-giorno-di-consiglio
+    immagine: fazioni/famiglia-castaldi
+    titolo: Giorno di consiglio
+    sommario: "Al Maniero Castaldi è giorno di consiglio, e alla porta di servizio la cuoca cerca braccia per la cena."
+    luogo: Quartieri Alti, la porta di servizio del Maniero Castaldi
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Il Maniero Castaldi apre le porte solo nei giorni di consiglio, e oggi è
+      uno di quelli. Lo capisci dalla porta di servizio, dove si sono fermati
+      un carro di legna e uno di pesce, e dall'odore di burro che arriva fino
+      in strada. Sulla soglia la cuoca, una donna con gli avambracci di un
+      fabbro e un mestolo infilato nella cintura come una spada, sceglie fra
+      quelli che passano, e sceglie te. «Due braccia e niente domande» dice, e
+      ti tira dentro per la manica. «Stasera Marella
+      Castaldi ha a tavola mezzo Consiglio, e a quella tavola si parla di
+      Stato. Quello che si sente in sala, in cucina non si ripete.» Dietro di
+      lei, nel corridoio, Quintus Vael passa in rassegna i servitori uno per
+      uno, con l'armatura di cuoio anche oggi, e si ferma un momento in più
+      davanti a quelli nuovi.
+    opzioni:
+      - testo: "Servire a tavola"
+        descrizione: "Una livrea prestata e un vassoio da portare in giro senza farsi notare. Marella guarda come servi più di quello che servi."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Di Stato
+          testo: |
+            Indossi una livrea che ti tira sulle spalle e porti il pesce in
+            tavola da sinistra, come ti ha detto la cuoca. Nessuno ti guarda, e
+            per questo senti tutto. Un consigliere si lamenta della Gilda e un
+            altro del Velo, mentre Marella Castaldi riporta il discorso sul vino
+            ogni volta che si avvicina troppo a un nome. A fine serata la cuoca
+            ti paga e ti dà un pezzo di torta incartato, e in testa hai più cose
+            di quante ne stiano su un vassoio.
+          pe: { galateo: 3 }
+          effetti: { monete: 6, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La salsa
+          testo: |
+            Al terzo giro la salsa ti scivola dal cucchiaio sulla manica di un
+            consigliere. Marella Castaldi ride per prima e dice che a casa sua
+            le maniche si macchiano solo per le buone cause, e la tavola ride con
+            lei, tranne il consigliere. In cucina la cuoca ti paga metà serata e
+            ti avverte che domani, in città, quella manica la conosceranno tutti.
+          effetti: { monete: 3, scandalo: 0.5 }
+      - testo: "Ascoltare dalla porta di servizio"
+        descrizione: "Fra la cucina e la sala c'è una porta a vento che non chiude mai del tutto. Basta restarci accanto senza farsi vedere da Quintus Vael."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La porta a vento
+          testo: |
+            Ti metti accanto alla porta a vento con un cesto di piatti in mano,
+            così sembri sempre occupato. Dalla fessura le voci della sala
+            arrivano a pezzi, e i pezzi migliori sono quelli che i consiglieri
+            dicono quando credono che stia parlando qualcun altro. Quintus Vael
+            ti passa accanto due volte, e la seconda guarda il tuo cesto, che è
+            ancora pieno degli stessi piatti. Te ne vai prima della terza.
+          pe: { furtivita: 3 }
+          effetti: { informazioni.pettegolezzo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Gli stessi piatti
+          testo: |
+            Quintus Vael ti trova accanto alla porta a vento con un cesto pieno
+            degli stessi piatti di un'ora prima. Lui la voce non la alza. Ti
+            prende per il gomito e ti accompagna fino alla porta di servizio, ti
+            chiede il nome e lo ripete a mezza voce per ricordarselo. Quando
+            sorride, la cicatrice sotto il mento gli diventa bianca.
+          effetti: { sospetto: 0.5 }
+      - testo: "Lavare i piatti fino a notte"
+        descrizione: "Il lavoro più ingrato della serata, pagato quanto gli altri."
+        esito:
+          titolo: Il lavello
+          testo: |
+            Passi la sera al lavello con le maniche arrotolate, fra un garzone
+            che canta stonato e una sguattera che non dice una parola. I piatti
+            tornano dalla sala a pile, sporchi di salse che non hai mai
+            assaggiato, e tu le assaggi con un dito quando la cuoca non guarda.
+            A mezzanotte hai le mani raggrinzite e qualche moneta in tasca, e la
+            sguattera, uscendo, ti saluta per prima.
+          pe: { resistenza: 2 }
+          effetti: { monete: 4 }
+      - testo: "Dire che hai già da fare"
+        costo: 0
+        esito:
+          testo: |
+            La cuoca ti guarda come un'aringa andata a male e sceglie il passante
+            dopo di te, un ragazzo con le orecchie a sventola che sembra contento.
+
+  # ================================================================ la catena di Berengario Lusardi
+  - id: carta-qa-lusardi-candelabro
+    immagine: icone/candle-holder
+    titolo: L'argento dei Lusardi
+    sommario: "Davanti alla bottega di un argentiere un vecchio signore cerca di vendere un candelabro, e giura che lo porta a riparare."
+    luogo: Quartieri Alti, una bottega d'argentiere dietro la Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [lusardi.passo == 0]
+    testo: |
+      Dietro la Casa dei Nodi c'è una bottega d'argentiere con l'insegna *Si
+      stima e si ripara*, e sul gradino un vecchio signore alto discute a
+      bassa voce con il garzone. Porta un soprabito di ottimo panno, rammendato
+      ai gomiti con un filo appena più scuro, e la spilla della cravatta ha
+      perso la pietra. Fra le mani tiene un candelabro d'argento a cinque
+      bracci, con uno dei bracci piegato.
+
+      «È per la riparazione» ripete, e il garzone ripete che il padrone compra
+      soltanto a peso. Un passo indietro aspetta una donna anziana con un cesto
+      vuoto al braccio, che guarda per terra.
+
+      Quando il vecchio si accorge di te raddrizza la schiena e fa un mezzo
+      inchino. «Berengario Lusardi, dei Lusardi del Patto» dice. *Vende
+      l'argento di casa e dice il cognome per intero.* Le dita sul candelabro,
+      intanto, gli sono diventate bianche.
+    opzioni:
+      - testo: "Aiutarlo a spuntare un prezzo giusto"
+        descrizione: "Un candelabro dei tempi del Patto vale più del suo argento, se qualcuno lo sa dire al garzone con le parole giuste."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Il prezzo del pezzo
+          testo: |
+            Giri il candelabro sotto la luce e chiedi al garzone se il suo padrone
+            compra a peso anche i punzoni della prima Gilda. Il garzone non lo sa
+            e chiama il padrone, che arriva asciugandosi le mani e alla fine paga
+            il pezzo come pezzo. Berengario Lusardi intasca le monete senza
+            contarle e ti ringrazia come si ringrazia un pari. Mentre lui se ne
+            va, l'argentiere ti confida che quest'anno di argento di casa ne ha
+            comprato da molte famiglie.
+          pe: { politica-ed-economia: 4 }
+          effetti: { informazioni.voce: 1 }
+          imposta: { lusardi.passo: 1 }
+        fallimento:
+          titolo: A peso
+          testo: |
+            Provi a spiegare al garzone che cosa ha in mano, ma i tuoi conti
+            s'inceppano sul titolo dell'argento e lui ti corregge, contento. Il
+            candelabro va a peso. Berengario Lusardi ti ringrazia lo stesso, con
+            una dignità che ti fa più male del garzone, e ti dice che si ricorderà
+            della tua buona volontà. La donna con il cesto, andando via, ti fa un
+            piccolo cenno con la testa.
+          imposta: { lusardi.passo: 1 }
+      - testo: "Comprarlo tu"
+        descrizione: "Pagarlo quello che vale, senza fargli sentire che lo stai comprando."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: In deposito
+          testo: |
+            Gli dici che un candelabro così non deve finire nel crogiolo, e conti
+            le monete nella sua mano prima che il garzone possa dire un prezzo.
+            Berengario Lusardi le guarda a lungo. Poi chiede carta e penna e ti
+            scrive una ricevuta, *ricevuto in deposito dai Lusardi*, con la firma
+            e un ghirigoro. «Così non è venduto» dice. La donna con il cesto si
+            asciuga gli occhi con il dorso della mano, molto in fretta.
+          effetti: { monete: -30 }
+          imposta: { lusardi.passo: 1, lusardi.candelabro: 1 }
+      - testo: "Stare al gioco della riparazione"
+        descrizione: "Se è una riparazione, è una riparazione. Basta dirlo davanti al garzone come se fosse vero."
+        esito:
+          titolo: La riparazione
+          testo: |
+            Dici al garzone che il braccio piegato si raddrizza in un giorno e che
+            il signore ripasserà a ritirarlo, così forte che ti sente anche il
+            padrone in bottega. Il garzone capisce. Scrive una ricevuta di
+            riparazione e sotto, in piccolo, il prezzo di vendita. Berengario
+            Lusardi ti guarda per la prima volta davvero. «Lei ha il senso delle
+            cose» dice, e ti stringe la mano con due dita, come si faceva una
+            volta.
+          pe: { galateo: 3 }
+          imposta: { lusardi.passo: 1 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: |
+            Lo lasci al suo garzone e al suo candelabro. Girato l'angolo ti volti,
+            e il vecchio signore è ancora sul gradino con il candelabro stretto al
+            petto, mentre la donna anziana gli tiene una mano sulla schiena.
+
+  - id: carta-qa-lusardi-cena
+    immagine: icone/meal
+    titolo: Una cena in casa Lusardi
+    sommario: "Gemma, la serva dei Lusardi, ti porta un invito a cena. Il palazzo è grande e vuoto, e stasera a tavola siede un uomo della Casa dei Nodi."
+    luogo: Quartieri Alti, Palazzo Lusardi
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [lusardi.passo == 1]
+    testo: |
+      La donna anziana del candelabro ti trova per strada e ti consegna un
+      biglietto con lo stemma dei Lusardi, una carrucola sopra due corde
+      incrociate. Dice di chiamarsi Gemma e di servire in casa da quarantun
+      anni. Il biglietto è un invito a cena per stasera.
+
+      Palazzo Lusardi ha dodici finestre sulla facciata e una sedia per stanza.
+      Sui muri restano i rettangoli chiari dove stavano i quadri, e nel salone
+      al posto del lampadario pende una lanterna, appesa allo stesso gancio.
+      Berengario ti riceve con il soprabito buono e ti prende in disparte.
+      Stasera viene a cena l'uomo della Casa dei Nodi che tiene l'ipoteca sul
+      palazzo, e se crederà che i Lusardi abbiano ancora amici gliela
+      rinnoverà.
+
+      «Mi basta un amico di famiglia» dice. «Anche uno conosciuto da poco.»
+    opzioni:
+      - testo: "Fare l'amico di famiglia"
+        descrizione: "Raccontare all'ospite vent'anni di cene in questa casa, senza sapere dove stanno le posate."
+        prova: { attributo: sociale, abilita: [ingannare, galateo], difficolta: Media }
+        successo:
+          titolo: L'ipoteca
+          testo: |
+            Ti inventi le estati in campagna dai Lusardi e un cane di nome Ardito,
+            e Berengario ti viene dietro senza sbagliare un nome. L'uomo della
+            Casa dei Nodi mangia la minestra che Gemma serve nell'ultimo servizio
+            di porcellana buono, e ascolta. Al dolce tira fuori un foglio e lo
+            firma sul tavolo, accanto al candeliere. Quando se ne va Berengario
+            resta seduto a lungo, con le mani piatte sulla tovaglia perché non
+            tremino.
+          pe: { ingannare: 4 }
+          effetti: { rep.gilda: 0.5 }
+          imposta: { lusardi.passo: 2 }
+        fallimento:
+          titolo: Il cane
+          testo: |
+            Ti inventi un cane di nome Ardito proprio mentre Berengario dice che
+            era una cagna. L'uomo della Casa dei Nodi posa il cucchiaio e vi
+            guarda tutti e due. Firma lo stesso, per sei mesi invece che per un
+            anno, e prima di andarsene ti chiede come ti chiami, scandendo le
+            sillabe come uno che se le scrive. Berengario lo accompagna alla
+            porta e poi ride, per la prima volta da quando lo conosci.
+          effetti: { scandalo: 0.5 }
+          imposta: { lusardi.passo: 2 }
+      - testo: "Aiutare Gemma in cucina"
+        descrizione: "La cucina sta al pianterreno e la sala al primo piano. Gemma ha le ginocchia di quarantun anni di scale."
+        esito:
+          titolo: Quarantun anni
+          testo: |
+            Porti su i piatti al posto suo, mentre lei resta ai fornelli a
+            rimestare e a parlare. Ti racconta dei Lusardi che fecero le prime
+            carrucole dei Ponti, e del padre di Berengario, che perse le terre e i
+            quadri al tavolo del Daino Zoppo pagando ogni debito d'onore fino
+            all'ultimo. Della cena in sala senti soltanto la voce dell'ospite, che
+            a un certo punto ride a una battuta di Berengario. A quel suono
+            Gemma chiude gli occhi e si fa il segno del Velo.
+          pe: { empatia: 3 }
+          effetti: { informazioni.voce: 1 }
+          imposta: { lusardi.passo: 2 }
+      - testo: "Declinare l'invito"
+        costo: 0
+        esito:
+          testo: |
+            Restituisci il biglietto a Gemma, e lei lo rimette nella tasca del
+            grembiule senza piegarlo, per non rovinarlo. Dice che il signore
+            capirà, e che un'altra sera la minestra ci sarà ancora.
+
+  - id: carta-qa-lusardi-ultima-stanza
+    immagine: icone/ring
+    titolo: L'ultima stanza
+    sommario: "Palazzo Lusardi è venduto. Berengario sta svuotando lo studio, che è l'ultima stanza rimasta, e ti ha fatto chiamare."
+    luogo: Quartieri Alti, lo studio di Palazzo Lusardi
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [lusardi.passo == 2]
+    testo: |
+      Gemma ti viene a cercare con il cesto vuoto al braccio e ti dice soltanto
+      che il signore ti aspetta. Il rinnovo dell'ipoteca è servito a vendere il
+      palazzo con calma, a una famiglia di mercanti di Laresh che ha già fatto
+      ridipingere il portone. Berengario si trasferisce in due stanze alla
+      Locanda del Daino Zoppo, e oggi svuota lo studio, l'ultima stanza dove
+      c'è ancora qualcosa.
+
+      Sulla scrivania c'è una cassetta di legno scuro. Dentro, avvolta in una
+      pezza di lino, c'è la copia dei Lusardi del Patto delle Corde, con la
+      firma del trisavolo in un inchiostro diventato marrone, e accanto un
+      anello d'argento con la carrucola dello stemma. Berengario li guarda con
+      le mani dietro la schiena.
+
+      «Vorrei che qualcosa di questa casa restasse a chi l'ha vista vuota» dice.
+      «Così qualcuno se la ricorda piena.»
+    opzioni:
+      - testo: "Accettare l'anello"
+        descrizione: "Il sigillo dei Lusardi. Nei Quartieri Alti c'è ancora chi lo riconosce."
+        esito:
+          titolo: La carrucola
+          testo: |
+            Berengario ti infila l'anello al dito da solo, come si fa con i
+            nipoti, e ci batte sopra due volte con l'unghia per sentire che è
+            argento vero. Ti è largo di mezzo dito. «Con questo, nei salotti, ti
+            offriranno la sedia buona» dice. «Non lo vendere finché sono vivo.»
+            Poi chiude la cassetta con il Patto e se la mette sotto il braccio, e
+            Gemma spegne la lanterna dello studio.
+          effetti: { oggetto.sigillo-dei-lusardi: 1 }
+          imposta: { lusardi.passo: 3 }
+      - testo: "Convincerlo a dare il Patto alla Biblioteca"
+        descrizione: "In una stanza del Daino Zoppo il Patto prenderà l'umido. Alla Biblioteca lo leggerebbero, e Ulric Stanne lo pagherebbe."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il monocolo
+          testo: |
+            Ci vuole un'ora, e alla fine a decidere è Gemma, che dice che alla
+            locanda c'è umido. Accompagni Berengario alla Biblioteca con la
+            cassetta, e Ulric Stanne si mette il monocolo e legge la firma del
+            trisavolo ad alta voce, con tutti i titoli. Paga senza discutere e fa
+            scrivere il nome dei Lusardi su un cartellino. Fuori, sui gradini,
+            Berengario divide la borsa con te e insiste finché accetti. Poi ti
+            dice sottovoce chi tiene le ipoteche di mezzo quartiere, cosa che lui
+            sa per esperienza.
+          pe: { empatia: 4 }
+          effetti: { monete: 15, informazioni.segreto: 1 }
+          imposta: { lusardi.passo: 3 }
+        fallimento:
+          titolo: Finché ce n'è uno
+          testo: |
+            Gli parli della Biblioteca e dei suoi scaffali sigillati, e lui ti ascolta con educazione fino in fondo. «Il
+            Patto resta con i Lusardi finché ce n'è uno» dice, e chiude la
+            cassetta. Poi, per non lasciarti andare a mani vuote, ti mette in mano
+            l'anello con la carrucola, come se fosse la cosa meno importante della
+            stanza.
+          effetti: { oggetto.sigillo-dei-lusardi: 1 }
+          imposta: { lusardi.passo: 3 }
+      - testo: "Restituirgli il candelabro"
+        descrizione: "La ricevuta dice *in deposito*, e il deposito finisce oggi."
+        quando: [lusardi.candelabro == 1]
+        esito:
+          titolo: Cinque candele
+          testo: |
+            Gli rimetti il candelabro sulla scrivania vuota, insieme alla
+            ricevuta. Berengario guarda prima l'uno e poi l'altra, e straccia la
+            ricevuta in quattro con cura. Con il denaro del palazzo ti rende il
+            prezzo e qualcosa di più, perché un deposito, dice, si paga. Gemma
+            trova cinque mozziconi di candela in fondo a un cassetto e li accende,
+            e per qualche minuto lo studio è illuminato come doveva esserlo una
+            volta. Prima che tu esca, Berengario ti infila al dito l'anello con la
+            carrucola.
+          effetti: { monete: 40, oggetto.sigillo-dei-lusardi: 1, tormento: -0.5 }
+          imposta: { lusardi.passo: 3, lusardi.candelabro: 0 }
+      - testo: "Tornare un'altra volta"
+        costo: 0
+        esito:
+          testo: |
+            Dici a Gemma che oggi non puoi. Lei annuisce e ti avverte che il
+            signore resta nello studio fino a domenica, e dopo va alla locanda.
+
+  # ================================================================ carte da più avanti
+  - id: carta-qa-asta-dei-malgrani
+    immagine: ambientazione/maniero-malgrani
+    titolo: L'asta del Maniero
+    sommario: "Nel cortile del Maniero Malgrani un banditore del Comune vende all'asta quello che resta della casata, un lotto alla volta."
+    luogo: Quartieri Alti, il cortile del Maniero Malgrani
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [pista.pelle >= 7, visto.carta-qa-asta-dei-malgrani == 0]
+    testo: |
+      Il cancello del Maniero Malgrani è aperto, e sull'alloro dorato qualcuno
+      ha appeso un cartello del Comune. Nel cortile, fra le statue degli
+      antenati consumate dalla pioggia, un banditore in piedi su una cassa
+      vende quello che resta della casata, un lotto alla volta. Gli oggetti
+      aspettano in fila sotto il portico con un numero scritto col gesso, e i
+      busti dell'atrio sono in fondo alla fila. Brandano Malgrani ha un
+      diciassette sulla fronte.
+
+      In prima fila Isotta Cordani alza il ventaglio per ogni specchio e lo
+      abbassa soltanto quando ha vinto. Dietro di lei stanno a braccia
+      conserte alcuni uomini dei mulini che non comprano niente.
+
+      In fondo al portico ci sono le casse dei lotti chiusi, che si vendono
+      inchiodate. *In una di quelle c'è il museo di Ottone, o quello che
+      ne hanno lasciato le guardie.* Il banditore batte il martello, e il colpo
+      rimbalza contro le finestre vuote del primo piano.
+    opzioni:
+      - testo: "Fare un'offerta per una cassa chiusa"
+        descrizione: "Le casse si vendono inchiodate, e solo il peso e le occhiate del banditore dicono qualcosa di quello che c'è dentro."
+        requisiti: [monete >= 40]
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il lotto ventitré
+          testo: |
+            Scegli la cassa che due facchini hanno portato in due, con i chiodi
+            nuovi e un cartellino strappato, e alzi la mano una volta sola, tardi,
+            quando Isotta Cordani ha già voltato la testa. Dentro, nella paglia,
+            ci sono un congegno dei Precursori con un'etichetta scritta a mano da
+            Ottone, un cristallo che pulsa ancora e alcune scaglie incise avvolte
+            in una pagina del suo catalogo. In cima alla pagina Ottone ha scritto
+            *non esporre* e l'ha sottolineato due volte.
+          effetti: { monete: -40, reliquie.meccanismo-spento: 1, cristalli.cristallo-carico: 1, reliquie.frammento-inciso: 2 }
+          imposta: { visto.carta-qa-asta-dei-malgrani: 1 }
+        fallimento:
+          titolo: Probabilmente niente
+          testo: |
+            La cassa che scegli è leggera, e dovevi capirlo dai chiodi vecchi.
+            Dentro ci sono cocci di cristallo spento, avvolti in una livrea verde,
+            e due scaglie di metallo che il catalogo di Ottone chiama
+            *probabilmente niente*. Isotta Cordani ti guarda aprirla dalla prima
+            fila e sorride dietro il ventaglio.
+          effetti: { monete: -40, cristalli.frammento-esausto: 4, reliquie.scheggia: 2 }
+          imposta: { visto.carta-qa-asta-dei-malgrani: 1 }
+      - testo: "Guardare chi compra che cosa"
+        descrizione: "A un'asta si capisce chi ha soldi da spendere e chi fa finta di averli."
+        esito:
+          titolo: Il ventaglio
+          testo: |
+            Ti appoggi a una colonna e guardi i ventagli più dei lotti. Isotta
+            Cordani compra gli specchi. Un uomo della Casa dei Nodi compra in
+            blocco le carte di Ottone senza guardarle e paga in contanti. I busti degli
+            antenati restano invenduti, e alla fine il banditore li cede a un
+            muratore per riempire un muro. Torni in strada con un elenco di nomi in
+            testa, e quello che ti interessa di più è il nome che l'uomo della Casa
+            dei Nodi non ha voluto dire.
+          effetti: { informazioni.pettegolezzo: 1 }
+          imposta: { visto.carta-qa-asta-dei-malgrani: 1 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: |
+            Dal cancello senti il martello del banditore battere tre volte. Un
+            ragazzo esce di corsa dal cortile con in braccio un cavallo a dondolo
+            dipinto di verde, e se lo porta via ridendo.
+
+  - id: carta-qa-programma-della-promessa
+    immagine: icone/drama-masks
+    titolo: Il programma della Promessa
+    sommario: "In una pasticceria dei Quartieri Alti una ragazza ti riconosce. Ha in mano il programma della Promessa dell'Arpia, e il tuo nome c'è."
+    luogo: Quartieri Alti, una pasticceria sotto i portici
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [pista.teatro >= 2]
+    testo: |
+      In una pasticceria sotto i portici, dove le paste stanno in vetrina su
+      piatti di porcellana come gioielli da un orafo, una ragazza con i guanti
+      bianchi e il cappellino storto ti fissa da un tavolino. Davanti ha una
+      cioccolata che ormai non tocca più, e in mano il programma della
+      *Promessa dell'Arpia*, sgualcito a forza di rileggerlo. Sua madre, una
+      dama con il collo lungo e due perle alle orecchie, sfoglia un libro di
+      preghiere senza leggerlo.
+
+      Orazio Belcanto fa stampare in fondo al programma anche i nomi di chi
+      lavora dietro le quinte, in caratteri piccolissimi, perché costano meno
+      di una paga. La ragazza li ha letti tutti. Si alza e ti viene vicino, e
+      indicando una riga con la punta del guanto ti chiede se sei tu. Ha le
+      guance rosse fino alle orecchie. *Lei è la spettatrice, eppure quello che
+      ha la gola secca sei tu.* La madre ha smesso di sfogliare.
+    opzioni:
+      - testo: "Firmarle il programma"
+        descrizione: "Una firma sul margine, accanto al tuo nome stampato piccolo."
+        esito:
+          titolo: La firma
+          testo: |
+            Le firmi il programma con la sua matita, sul margine, accanto al tuo
+            nome stampato in piccolo. Lei soffia sulla firma per asciugare una
+            matita che non ha bisogno di asciugare. Per ringraziarti ti racconta
+            che cosa succede nei palchi durante il terzo atto, quando le luci
+            della sala sono basse e i signori credono che nessuno li veda. La
+            madre volta pagina senza alzare gli occhi, e sorride.
+          pe: { espressivita: 2 }
+          effetti: { informazioni.voce: 2 }
+      - testo: "Accettare l'invito della madre"
+        descrizione: "Giovedì la madre riceve, e a un ricevimento qualcuno del teatro fa sempre figura. Bisogna raccontare le quinte nel tono giusto."
+        prova: { attributo: sociale, abilita: [galateo, espressivita], difficolta: Media }
+        successo:
+          titolo: Il ricevimento
+          testo: |
+            Il giovedì dopo racconti a un salotto pieno la sera della prima vista
+            dalle quinte, e la ragazza ti suggerisce i dettagli dal fondo della
+            sala, muovendo le labbra. Alla fine la madre ti fa scivolare in mano
+            una busta con la discrezione che si usa per i musicisti. Nella busta
+            ci sono le monete, e in testa ti restano i nomi di tre famiglie che
+            vorrebbero un palco migliore di quello che hanno.
+          pe: { galateo: 3 }
+          effetti: { monete: 8, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il tono sbagliato
+          testo: |
+            Al ricevimento ti fanno parlare fra il violinista e il dolce, e
+            sbagli il tono. Racconti le quinte come si raccontano in taverna, con
+            le parolacce dei macchinisti, e la padrona di casa ti ringrazia prima
+            che tu abbia finito. La ragazza, in fondo alla sala, guarda il suo
+            programma come se l'avesse comprato per sbaglio.
+          effetti: { scandalo: 0.5 }
+      - testo: "Dirle che si sbaglia"
+        costo: 0
+        esito:
+          testo: |
+            Le dici che ti scambia per un altro. Lei arrossisce ancora di più e
+            torna al suo tavolino. Mentre esci la vedi rileggere il programma
+            riga per riga, e poi cercarti con gli occhi attraverso la vetrina.
+
+  - id: carta-qa-predicatore-della-stella
+    immagine: icone/star-formation
+    titolo: Il predicatore della stella
+    sommario: "In piazza un uomo in piedi su un barile annuncia che la Dama d'Argento scenderà dalla stella color lavanda. Le guardie del Velo ascoltano senza intervenire."
+    luogo: Quartieri Alti, la piazza davanti alla Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [pista.dama-argento >= 11]
+    testo: |
+      Nella piazza davanti alla Casa dei Nodi un uomo con la barba lunga e una
+      tavola dipinta appesa al collo è salito su un barile vuoto. Sulla tavola
+      c'è una stella viola chiaro, con i raggi tirati a righello, e sotto una
+      scritta in lettere storte, *Mawrak'Thur*. Parla della Dama d'Argento che
+      gli orchi gridavano durante la razzia, e dice che scenderà dalla stella
+      color lavanda a pesare le case dei Quartieri Alti con una bilancia
+      d'argento.
+
+      Intorno si è fermata una ventina di persone. Una serva tiene la cesta
+      della spesa contro il petto, e un notaio fa finta di aspettare qualcuno
+      mentre ascolta. Due guardie del Velo, in coppia come sempre, stanno
+      all'angolo della piazza con le mani dietro la schiena.
+
+      Quel nome tu l'hai sentito in posti peggiori di questo, da bocche che
+      sapevano di più. La mascella ti si serra ogni volta che lui lo grida.
+    opzioni:
+      - testo: "Ascoltarlo fino in fondo"
+        descrizione: "Dice cose sbagliate con troppa convinzione. Per capire che cosa ha davvero in mano bisogna lasciarlo finire senza farsi trascinare."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La bilancia d'argento
+          testo: |
+            Lo ascolti finché la voce gli si arrochisce. Sotto le stelle e le
+            bilance c'è poco, e quel poco è vero, perché l'uomo era in Città
+            Bassa la notte della razzia e ha sentito gli orchi gridare con le sue
+            orecchie. Il resto ce l'ha messo lui. Quando scende dal barile ti
+            accorgi di avere le spalle sciolte, e in testa due o tre cose che in
+            piazza nessun altro ha notato.
+          pe: { resilienza: 3 }
+          effetti: { informazioni.voce: 2 }
+        fallimento:
+          titolo: La notte dopo
+          testo: |
+            Lo ascolti troppo. A forza di sentirlo, la stella sopra i tetti
+            comincia a sembrarti più vicina di quanto dovrebbe, e la sera, quando
+            si accende, non riesci a smettere di guardarla. Quella notte sogni una
+            bilancia d'argento sospesa sopra il Ponte del Pesce, e ti svegli con
+            le mani strette sul bordo del letto.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiedergli dove ha sentito quel nome"
+        descrizione: "Un uomo che grida in piazza di solito ha paura di qualcosa. Bisogna aspettare che scenda e offrirgli da bere."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Facile }
+        successo:
+          titolo: Il fornaio
+          testo: |
+            Lo aspetti dietro il barile e gli offri un bicchiere al banco più
+            vicino. Senza la tavola al collo è un fornaio di Via del Salmone, che
+            la notte della razzia ha visto bruciare il forno del cognato. Il nome
+            gridato dagli orchi gli è rimasto in testa come una spina, e
+            predicarlo gli serve a toglierselo. Prima di salutarti ti dice in
+            quale taverna l'ha sentito ripetere anche dopo la razzia, e da chi.
+          pe: { empatia: 3 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il sermone
+          testo: |
+            Gli tocchi il braccio quando scende, e lui ti guarda come se fossi una
+            risposta. Risale sul barile e ti indica alla piazza, gridando che
+            anche tu sai di che cosa parla, e venti teste si girano insieme verso
+            di te. All'angolo della piazza le due guardie del Velo adesso guardano
+            te.
+          effetti: { scandalo: 0.5 }
+      - testo: "Avvisare le guardie del Velo"
+        descrizione: "Le guardie aspettano soltanto che qualcuno si lamenti."
+        esito:
+          titolo: Due dita sotto il gomito
+          testo: |
+            Vai all'angolo e dici alle guardie che l'uomo spaventa la serva con la
+            cesta. Loro annuiscono, attraversano la piazza senza fretta e lo
+            aiutano a scendere dal barile con due dita sotto il gomito. Lui si
+            lascia portare via senza smettere di parlare. Una delle guardie,
+            tornando, prende il tuo nome e lo scrive accanto a una crocetta che,
+            a giudicare dal suo cenno, è una crocetta buona.
+          effetti: { sospetto: -0.5 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: |
+            Attraversi la piazza senza fermarti. Il predicatore ti segue con gli
+            occhi per un tratto, poi trova un altro passante da guardare.
