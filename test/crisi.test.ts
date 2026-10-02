@@ -1,4 +1,4 @@
-import { CANDELE_MAX } from '../src/motore/regole';
+import { RINTOCCHI_MAX } from '../src/motore/regole';
 import { rngConSeme } from '../src/motore/dadi';
 import { nuovoPersonaggio, cartePescabili, abilitaEffettiva, applicaEffetti, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
 import { scegli, anteprima, puoEntrare } from '../src/motore/azioni';
@@ -21,7 +21,7 @@ describe('crisi', () => {
     s.quality['ferite'] = 8;
     expect(crisiAttiva(s, c)?.id).toBe('crisi-ferite');
   });
-  it('pagare costa 0 candele e porta la statistica a 4', () => {
+  it('pagare costa 0 rintocchi e porta la statistica a 4', () => {
     const s = figlio();
     s.quality['ferite'] = 8; s.quality['monete'] = 50;
     const i = opzione('crisi-ferite', (o) => (o.requisiti ?? []).some((r) => r.startsWith('monete')));
@@ -29,7 +29,7 @@ describe('crisi', () => {
     expect(r.tipo).toBe('risultato');
     expect(s.quality['ferite']).toBe(4);
     expect(s.quality['monete']).toBe(10);
-    expect(s.candele).toBe(CANDELE_MAX);
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX);
   });
   it('sacrificare richiede almeno 10 PE e li azzera', () => {
     const s = figlio();

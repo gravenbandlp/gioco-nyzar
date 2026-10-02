@@ -11,10 +11,10 @@ seguito lasciato a metà resta in cima alla storia finché non lo giochi. Il 1°
 prima occorrenza di ogni nome sottolineata in ogni blocco di prosa. Blocco 3 fatto: il Sepolcro violato fino
 a 7 (`contenuti/piste/sepolcro-*.yaml`), con la Roccia di Wren come prima spedizione; il passo della cripta dà
 l'invito ai Quartieri Alti, così la Biblioteca è raggiungibile da ogni origine. Ogni stanza di spedizione ha una
-via senza prova che costa due candele e un po' di Ferite o Tormento. Blocco 4 fatto: la caccia di Corin fino a 6
+via senza prova che costa due rintocchi e un po' di Ferite o Tormento. Blocco 4 fatto: la caccia di Corin fino a 6
 (`contenuti/piste/corin*.yaml`) con la Foresta Strisciante, e la Promessa dell'Arpia al Teatro
 (`contenuti/piste/teatro.yaml`). Le cavalcature sono accessori con la chiave `cavalcatura`: ogni ingresso in
-spedizione ha un'opzione a cavallo che costa una candela in meno. Dopo il blocco 4: le candele passano da 20 a 40 (ricarica
+spedizione ha un'opzione a cavallo che costa un rintocco in meno. Dopo il blocco 4: i rintocchi passano da 20 a 40 (ricarica
 invariata, una ogni 10 minuti) e c'è l'allenamento di base (`contenuti/allenamento.yaml`): ogni abilità si allena
 da zero in città fino a 2, con prove Molto facili su una sola abilità. Blocco 5 fatto: il registro del custode fino
 a 5 (`contenuti/piste/registro.yaml`, con tre strade per decifrarlo, una senza invito alla Pignatta) e le cinque
@@ -45,7 +45,7 @@ nel Vicolo dei Cardatori (sei livelli, otto arredi, la bottega al pianterreno, i
 il Lustro senza tetto, con quattro visite di riguardo). Nel motore: le voci dei negozi accettano `requisiti` (vale il
 prezzo migliore aperto, il successivo si mostra come suggerimento) e le opzioni accettano `quando` (se non è
 soddisfatto l'opzione non compare); gli storylet di un luogo nascosto non si vedono. Lo strato 3, i congegni dei
-Precursori da assemblare, è a progetto in `docs/progetto-reperti.md`. Sempre il 2 ottobre le candele tornano a 20, come in Fallen London (ricarica
+Precursori da assemblare, è a progetto in `docs/progetto-reperti.md`. Sempre il 2 ottobre i rintocchi tornano a 20, come in Fallen London (ricarica
 invariata, una ogni 10 minuti), e si riaccendono tutte quando concludi una storia principale, cioè quando una pista
 arriva al suo ultimo passo; le serie dei luoghi non contano.
 
@@ -104,7 +104,7 @@ Le sette piste; `fama` (quanto la città ti riconosce, chiesta da Galdrick); `pi
 - **Reperti:** la bacchetta della stretta folgorante (a cariche); il registratore olografico di Ashvarre (si decifra); il congegno di controllo (confonde le macchine, e ogni ordine costa Tormento); la Fonte di energia di Vhar'Ul; la Matrice di levigazione.
 - **Accessori:** il Cristallo di visione del vero (con un difetto); i cristalli anti-Marea (Schermata); la chiave a stella a sette punte; il pugnale dell'arpia; il simbolo del Grande Albero Rosso in platino.
 - **Consumabili e beni:** la pergamena di un incantesimo (un solo lancio); i Fluidi di rigenerazione; le microbatterie (celle); le parti di droni; la collana e la tunica di seta da vendere.
-- **Cavalcature:** il cavallo da guerra di Corin e Ombrafosca, come accessori con un bonus a Cavalcare. Riducono di una candela l'ingresso nelle spedizioni.
+- **Cavalcature:** il cavallo da guerra di Corin e Ombrafosca, come accessori con un bonus a Cavalcare. Riducono di un rintocco l'ingresso nelle spedizioni.
 
 ## Nemici
 
@@ -135,7 +135,7 @@ definisce i luoghi di ogni quartiere (immagine, una riga per la scheda, una pres
 aprono), e gli storylet vi si agganciano con `presso: <luogo>`. Il quartiere mostra le occasioni, *La tua
 storia* (tutte le storie disponibili, ovunque siano), la griglia dei luoghi con il conto di storie e cose da fare,
 e *In giro per…* con i ripetibili senza luogo. Un luogo senza niente di disponibile non compare. I luoghi sono
-solo presentazione: entrarci non costa candele. Le storie nuove dei blocchi 6–8 vanno agganciate a un luogo
+solo presentazione: entrarci non costa rintocchi. Le storie nuove dei blocchi 6–8 vanno agganciate a un luogo
 quando ne hanno uno; l'Acciaieria diventa luogo nel blocco 6, quando ha più di un ripetibile.
 
 **Come si fa un luogo (dal 1° ottobre 2026).** Ogni luogo ha un file in `contenuti/citta/` con: un'attività

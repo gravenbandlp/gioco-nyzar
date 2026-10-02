@@ -13,8 +13,8 @@ const pg = () => {
   const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
   return s;
 };
-/** Le candele tornano piene prima di ogni scelta: qui si prova l'economia, non il ritmo. */
-const ricarica = <T extends { candele: number }>(s: T): T => { s.candele = 20; return s; };
+/** I rintocchi tornano pieni prima di ogni scelta: qui si prova l'economia, non il ritmo. */
+const ricarica = <T extends { rintocchi: number }>(s: T): T => { s.rintocchi = 20; return s; };
 const negozio = (id: string) => c.negozi.find((n) => n.id === id)!;
 const storia = (id: string) => c.storylet.find((x) => x.id === id)!;
 /** Sceglie l'opzione visibile con questo testo e restituisce l'esito. */

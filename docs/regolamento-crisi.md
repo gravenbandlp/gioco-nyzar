@@ -5,7 +5,7 @@ Integrazione alle sezioni 5.3–5.5 del Regolamento v0.4, approvata il 30 settem
 ## Crisi
 
 - Quando una statistica negativa arriva a 8 si apre lo storylet di crisi (`tipo: crisi`). Finché non
-  lo risolvi, al posto dell'area vedi solo la crisi. Le sue opzioni costano 0 candele. Se due
+  lo risolvi, al posto dell'area vedi solo la crisi. Le sue opzioni costano 0 rintocchi. Se due
   statistiche sono a 8, le crisi arrivano una dopo l'altra.
 - Pagare o sacrificare: la statistica scende a 4. Accettare: vai nell'area di penalità; la
   statistica resta a 8 finché non esci, e intanto le altre crisi aspettano.

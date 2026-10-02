@@ -6,7 +6,7 @@ import { round } from '../src/motore/combattimento';
 import { crisiAttiva } from '../src/motore/crisi';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 import { rngConSeme, type Rng } from '../src/motore/dadi';
-import { CANDELE_MAX } from '../src/motore/regole';
+import { RINTOCCHI_MAX } from '../src/motore/regole';
 import type { TStorylet } from '../src/motore/contenuto';
 
 function passo(s: Stato, st: TStorylet, rng: Rng): void {
@@ -33,7 +33,7 @@ export function percorri(origine: string, seme: number, pista: string, fine: num
   Object.assign(s.quality, extra);
   const rng = rngConSeme(seme);
   for (let n = 0; n < 1000; n++) {
-    s.candele = CANDELE_MAX;
+    s.rintocchi = RINTOCCHI_MAX;
     for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
     if ((s.quality[pista] ?? 0) >= fine) return n;
     const obbligato = crisiAttiva(s, c);
@@ -65,7 +65,7 @@ export function scendi(origine: string, seme: number, ingresso: string, fondo: s
   const rng = rngConSeme(seme);
   const entrata = c.storylet.find((x) => x.id === ingresso)!;
   for (let n = 0; n < 400; n++) {
-    s.candele = CANDELE_MAX;
+    s.rintocchi = RINTOCCHI_MAX;
     for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
     if ((s.quality[fondo] ?? 0) >= 1) return n;
     const obbligato = crisiAttiva(s, c);
@@ -92,7 +92,7 @@ export function frequenta(origine: string, seme: number, luoghi: string | string
   s.area = l.area;
   const rng = rngConSeme(seme);
   for (let n = 0; n < 5000; n++) {
-    s.candele = CANDELE_MAX;
+    s.rintocchi = RINTOCCHI_MAX;
     for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = Math.min(s.quality[k] ?? 0, 3);
     if ((s.quality[fine] ?? 0) >= 1) return n;
     const obbligato = crisiAttiva(s, c);

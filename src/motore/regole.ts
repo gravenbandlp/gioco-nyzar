@@ -61,9 +61,9 @@ export const SOGLIA_PERICOLO = 5;
 export const REPUTAZIONE_MIN = -5;
 export const REPUTAZIONE_MAX = 10;
 
-// Candele e mazzo (9.2, 9.3)
-export const CANDELE_MAX = 20; // 2 ottobre 2026: di nuovo 20, come Fallen London; una ogni 10 minuti, e tutte quando concludi una storia principale
-export const MINUTI_PER_CANDELA = 10;
+// Rintocchi e mazzo (9.2, 9.3). Fino al 2 ottobre 2026 si chiamavano candele.
+export const RINTOCCHI_MAX = 20; // uno ogni 10 minuti, e tutti quando concludi una storia principale
+export const MINUTI_PER_RINTOCCO = 10;
 export const MANO_MAX = 3;
 export const CODA_MAX = 6;
 export const MINUTI_PER_CARTA = 10;

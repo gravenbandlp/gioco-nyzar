@@ -1,6 +1,6 @@
 // Le pagine informative aperte dal piè di pagina: aiuto e domande frequenti, termini (origini e fonti
 // d'ispirazione), crediti. Testo statico, scritto qui perché non fa parte della narrativa.
-import { CANDELE_MAX, MINUTI_PER_CANDELA, MANO_MAX, CODA_MAX, MINUTI_PER_CARTA, MAX_NEGATIVA } from '../motore/regole';
+import { RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, MANO_MAX, CODA_MAX, MINUTI_PER_CARTA, MAX_NEGATIVA } from '../motore/regole';
 
 export type PaginaInfo = 'aiuto' | 'termini' | 'crediti';
 export const PAGINE_INFO: PaginaInfo[] = ['aiuto', 'termini', 'crediti'];
@@ -42,10 +42,11 @@ function aiuto(): string {
   che il tuo personaggio ha fatto, sa e possiede. Non c'è una mappa da esplorare a passi: scegli dove andare e cosa
   fare, e il mondo tiene il conto delle tue scelte.</p>
 
-  <h3>Le candele</h3>
-  <p>Quasi ogni azione costa una candela, alcune due o tre, alcune niente. Ne hai al massimo ${CANDELE_MAX} e se ne riaccende
-  una ogni ${MINUTI_PER_CANDELA} minuti, anche a gioco chiuso. Quando concludi una delle storie principali (quelle
-  elencate in «Le tue storie», non le storie dei luoghi) si riaccendono tutte. Quando sono finite puoi ancora leggere il diario, cambiare
+  <h3>I rintocchi</h3>
+  <p>Qir-Azel scandisce le giornate a campane, e il tuo tempo si conta a rintocchi. Quasi ogni azione costa un rintocco,
+  alcune due o tre, alcune niente. Ne hai al massimo ${RINTOCCHI_MAX} e ne torna uno ogni ${MINUTI_PER_RINTOCCO} minuti,
+  anche a gioco chiuso. Quando concludi una delle storie principali (quelle elencate in «Le tue storie», non le storie
+  dei luoghi) tornano tutti. Quando sono finiti puoi ancora leggere il diario, cambiare
   equipaggiamento e fare compere: per andare avanti con la storia aspetti che tornino. Il ritmo è voluto, perché Ny'Zar si
   gioca a sessioni brevi, tornando più volte al giorno.</p>
 
@@ -110,7 +111,7 @@ function termini(): string {
   amici. Da quasi un anno la giochiamo nella cronaca <em>Il Peccato degli Uomini</em>, e tutto quello che è emerso nelle
   sessioni è raccolto nel ${a('https://codex-nyzar.pages.dev', 'Codex di Ny\'Zar')}.</p>
   <p>Questo gioco porta la città di Qir-Azel e il primo capitolo della cronaca in una forma diversa: un racconto a scelte che
-  si gioca da soli, nel browser, poche candele alla volta. Rispetto alla cronaca alcuni nomi sono cambiati e la storia si
+  si gioca da soli, nel browser, pochi rintocchi alla volta. Rispetto alla cronaca alcuni nomi sono cambiati e la storia si
   apre a un protagonista nuovo, che non è nessuno dei personaggi del nostro tavolo.</p>
 
   <h3>Le fonti d'ispirazione</h3>

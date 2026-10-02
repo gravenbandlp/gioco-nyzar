@@ -2,11 +2,11 @@
 // sono gestiti in main.ts tramite attributi data-az.
 import type { TContenuti, TStorylet, TFrammento, TLuogo, TNegozio } from '../motore/contenuto';
 import {
-  ATTRIBUTI, ABILITA, NEGATIVE, MAX_NEGATIVA, CANDELE_MAX, CODA_MAX, MANO_MAX, MAX_CONSUMABILI_IN_COMBATTIMENTO, NOMI,
+  ATTRIBUTI, ABILITA, NEGATIVE, MAX_NEGATIVA, RINTOCCHI_MAX, CODA_MAX, MANO_MAX, MAX_CONSUMABILI_IN_COMBATTIMENTO, NOMI,
   SOGLIE_PE,
 } from '../motore/regole';
 import {
-  msAllaProssimaCandela, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato,
+  msAlProssimoRintocco, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato,
 } from '../motore/personaggio';
 import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino, negozioAperto, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
@@ -20,7 +20,7 @@ import { piede } from './pagine';
 import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile, tempoGiocato } from './formato';
 import {
-  tavola, prosa, primaFrase, candelaGrande, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
+  tavola, prosa, primaFrase, campanaGrande, campanaPiccola, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
   descriviArma, descriviArmatura, descriviOggetto, srcTavola, ROMBO,
 } from './componenti';
 
@@ -79,7 +79,7 @@ export function pagina(x: Contesto, centro: string): string {
   ${topbar(x)}
   ${fondale(x)}
   <div class="impianto">
-    <aside class="colonna sinistra" aria-label="Candele e statistiche">${sinistra(x)}</aside>
+    <aside class="colonna sinistra" aria-label="Rintocchi e statistiche">${sinistra(x)}</aside>
     <main class="colonna centro">
       ${schede(x)}
       ${x.avviso ? `<p class="avviso" role="status">${h(x.avviso)}</p>` : ''}
@@ -116,11 +116,11 @@ function fondale(x: Contesto): string {
 
 function schede(x: Contesto): string {
   const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa'], ['diario', 'Diario']];
-  const prossima = msAllaProssimaCandela(x.s, x.ora);
+  const prossima = msAlProssimoRintocco(x.s, x.ora);
   return `<div class="barra-schede">
-    <p class="mini-stato" aria-label="Candele e monete">
-      <span class="mini-candela" aria-hidden="true"></span><b>${x.s.candele}</b>/${CANDELE_MAX}
-      <span class="timer" data-timer="candela">${prossima === null ? 'Tutte accese' : `La prossima tra ${durata(prossima)}`}</span>
+    <p class="mini-stato" aria-label="Rintocchi e monete">
+      ${campanaPiccola()}<b>${x.s.rintocchi}</b>/${RINTOCCHI_MAX}
+      <span class="timer" data-timer="rintocco">${prossima === null ? 'Tutti pronti' : `Il prossimo tra ${durata(prossima)}`}</span>
       <span class="moneta" aria-hidden="true"></span><b>${mezzi(x.s.quality['monete'] ?? 0)}</b>
     </p>
     <nav class="schede" aria-label="Sezioni">${voci
@@ -133,7 +133,7 @@ function schede(x: Contesto): string {
 
 function sinistra(x: Contesto): string {
   const { s, c } = x;
-  const prossima = msAllaProssimaCandela(s, x.ora);
+  const prossima = msAlProssimoRintocco(s, x.ora);
   const attributi = ATTRIBUTI.map((a) => `<li>
       <div class="riga-stat"><span>${NOMI[a]}</span><b>${s.attributi[a]}</b></div>${barraPE(s, a)}</li>`).join('');
   const negative = NEGATIVE.map((k) => {
@@ -141,18 +141,18 @@ function sinistra(x: Contesto): string {
     return `<li><div class="riga-stat"><span>${h(nome(k, c))}</span><b>${mezzi(v)}</b></div>${barraNegativa(v)}</li>`;
   }).join('');
   return `
-    <div class="blocco-candela">
-      ${candelaGrande(s.candele)}
+    <div class="blocco-rintocchi">
+      ${campanaGrande(s.rintocchi)}
       <div class="contatore">
-        <span class="etichetta velo">Candele</span>
-        <b>${s.candele}<small>/${CANDELE_MAX}</small></b>
-        <span class="timer" data-timer="candela">${prossima === null ? 'Tutte accese' : `La prossima tra ${durata(prossima)}`}</span>
+        <span class="etichetta velo">Rintocchi</span>
+        <b>${s.rintocchi}<small>/${RINTOCCHI_MAX}</small></b>
+        <span class="timer" data-timer="rintocco">${prossima === null ? 'Tutti pronti' : `Il prossimo tra ${durata(prossima)}`}</span>
       </div>
     </div>
     <div class="borsa"><span class="moneta" aria-hidden="true"></span><span><b>${mezzi(s.quality['monete'] ?? 0)}</b> monete</span></div>
     <section class="stat-laterali"><h2 class="etichetta">Attributi</h2><ul>${attributi}</ul></section>
     <section class="stat-laterali"><h2 class="etichetta">Negative</h2><ul>${negative}</ul></section>
-    <button type="button" class="bottone piccolo" data-az="ricarica">Riaccendi le candele (test)</button>`;
+    <button type="button" class="bottone piccolo" data-az="ricarica">Ricarica i rintocchi (test)</button>`;
 }
 
 // ================================================================ colonna destra
@@ -411,7 +411,7 @@ function vistaStorylet(x: Contesto, id: string): string {
       </div>`;
     }
     const mancanti = a.mancanti.map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
-    const costo = a.costo === 0 ? 'Gratis' : `${a.costo} ${a.costo === 1 ? 'candela' : 'candele'}`;
+    const costo = a.costo === 0 ? 'Gratis' : `${a.costo} ${a.costo === 1 ? 'rintocco' : 'rintocchi'}`;
     const inc = a.incantesimo;
     const magia = inc ? `<p class="nota-incantesimo">${etichetta(`Incantesimo · ${inc.nome}`, 'precursore')}
       <span>Senza successi c'è la Dissonanza (+½ Tormento).${inc.prezzo ? ` La formula costa ${Object.entries(inc.prezzo).map(([k, v]) => `${mezzi(v)} ${nome(k, c)}`).join(' e ')} a ogni lancio.` : ''}</span></p>` : '';
@@ -500,7 +500,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     </li>`);
   }
   if (r.dissonanza) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⟡</span><p>Nessun successo, e il Mana ti torna indietro (Dissonanza).</p></li>`);
-  if (r.conclusa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Hai concluso «${h(r.conclusa)}», e le candele si riaccendono tutte.</p></li>`);
+  if (r.conclusa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Hai concluso «${h(r.conclusa)}», e i rintocchi tornano tutti.</p></li>`);
   if (r.guasto) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⚙</span><p>Nessun successo, e il reperto si è guastato.</p></li>`);
   const puoiSecondaScelta = !!x.vista && x.vista.tipo === 'risultato' && !!x.vista.prima && x.vista.indice !== undefined && secondaSceltaDisponibile(s, r, c);
   const puoiCorreggere = !!x.vista && x.vista.tipo === 'risultato' && x.vista.prima && x.vista.indice !== undefined && correggibile(s, r);
@@ -522,7 +522,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     <div class="azioni-fondo">
       <button type="button" class="bottone diario-btn" data-az="annota" ${annotato ? 'disabled' : ''} title="Conserva questa pagina per rileggerla">${annotato ? 'Nel diario' : 'Annota nel diario'}</button>
       ${puoiSecondaScelta ? `<button type="button" class="bottone" data-az="seconda-scelta" title="Lo specchio ti lascia ripetere la prova; se riesce, +½ Tormento">Seconda scelta</button>` : ''}
-      ${puoiCorreggere ? `<button type="button" class="bottone" data-az="correggi" title="Una candela e una prova Media di Magia; costa ½ Tormento">Correzione</button>` : ''}
+      ${puoiCorreggere ? `<button type="button" class="bottone" data-az="correggi" title="Un rintocco e una prova Media di Magia; costa ½ Tormento">Correzione</button>` : ''}
       ${ancora ? `<button type="button" class="bottone" data-az="apri" data-id="${st!.id}">Riprova</button>` : ''}
       ${segue ? `<button type="button" class="bottone primario" data-az="apri" data-id="${segue.id}">Prosegui</button>` : ''}
       <button type="button" class="bottone${segue ? '' : ' primario'}" data-az="area">Torna: ${h(areaDi(x).nome)}</button>
@@ -759,7 +759,7 @@ export function averi(x: Contesto): string {
   const altri = c.quality.filter((q) => (q.categoria === 'consumabile' || q.categoria === 'accesso') && (s.quality[q.id] ?? 0) > 0)
     .map((q) => `<li class="oggetto">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}<small>${h(q.descrizione ?? '')}</small></span><b>${q.categoria === 'accesso' ? '✓' : mezzi(s.quality[q.id]!)}</b></li>`).join('');
   return `<article class="averi">
-    <h2 class="titolo-sezione primo">Indossato <small>cambiare non costa candele</small></h2>
+    <h2 class="titolo-sezione primo">Indossato <small>cambiare non costa rintocchi</small></h2>
     <ul class="slot-equip">${slots}</ul>
     ${sacca ? `<h2 class="titolo-sezione">Nella sacca</h2><ul class="slot-equip">${sacca}</ul>` : ''}
     ${reperti ? `<h2 class="titolo-sezione">Reperti dei Precursori</h2><ul class="slot-equip">${reperti}</ul>` : ''}

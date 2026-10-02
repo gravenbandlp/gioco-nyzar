@@ -1,6 +1,6 @@
 // Risoluzione delle opzioni degli storylet, spostamenti e negozi.
 import { probabilita, tira, type Rng } from './dadi';
-import { DIFFICOLTA, CANDELE_MAX, peDaProbabilita, type Difficolta } from './regole';
+import { DIFFICOLTA, RINTOCCHI_MAX, peDaProbabilita, type Difficolta } from './regole';
 import { serieDi, type Serie } from './serie';
 import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
@@ -8,7 +8,7 @@ import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
 import { cambiaArea, inSpedizione } from './spedizioni';
 import {
-  abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiCandele, scarta, aggiornaTempo,
+  abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiRintocchi, scarta, aggiornaTempo,
   type Crescita, type Stato, type Variazione,
 } from './personaggio';
 import {
@@ -55,8 +55,8 @@ export function anteprima(s: Stato, opz: TOpzione, c: TContenuti): Anteprima {
   const costo = opz.costo ?? 1;
   const requisiti = [...(opz.quando ?? []), ...(opz.requisiti ?? []), ...(opz.incantesimo ? [`${chiaveIncantesimo(opz.incantesimo)} >= 1`] : [])];
   const mancanti = requisitiMancanti(s, requisiti, c);
-  const a: Anteprima = { disponibile: mancanti.length === 0 && s.candele >= costo, mancanti, costo };
-  if (mancanti.length === 0 && s.candele < costo) a.motivo = 'Non hai abbastanza candele.';
+  const a: Anteprima = { disponibile: mancanti.length === 0 && s.rintocchi >= costo, mancanti, costo };
+  if (mancanti.length === 0 && s.rintocchi < costo) a.motivo = 'Non hai abbastanza rintocchi.';
   if (opz.prova) {
     const { abilita, pool } = migliorAbilita(s, opz, c);
     const richiesti = DIFFICOLTA[opz.prova.difficolta as Difficolta];
@@ -83,11 +83,11 @@ export interface Risultato {
   dissonanza?: boolean;
   corretto?: boolean;
   guasto?: string; // reperto guastato da zero successi
-  conclusa?: string; // la storia principale appena conclusa: le candele si sono riaccese tutte
+  conclusa?: string; // la storia principale appena conclusa: i rintocchi sono tornati tutti
 }
 
 /**
- * Le storie principali (le piste) arrivate in fondo con questo esito: chi ne conclude una ritrova tutte le candele.
+ * Le storie principali (le piste) arrivate in fondo con questo esito: chi ne conclude una ritrova tutti i rintocchi.
  * Le serie dei luoghi non contano.
  */
 export function pisteConcluse(prima: Record<string, number>, s: Stato, c: TContenuti): Serie[] {
@@ -99,7 +99,7 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: stri
   applicaEsitoDentro(s, e, c, r, da);
   const concluse = pisteConcluse(prima, s, c);
   if (concluse.length) {
-    s.candele = Math.max(s.candele, CANDELE_MAX);
+    s.rintocchi = Math.max(s.rintocchi, RINTOCCHI_MAX);
     r.conclusa = concluse.map((z) => z.nome).join(' e ');
   }
 }
@@ -170,7 +170,7 @@ export function scegli(
 
   if (opz.combattimento) {
     const sc = c.scontri.find((x) => x.id === opz.combattimento)!;
-    spendiCandele(s, ante.costo, ora);
+    spendiRintocchi(s, ante.costo, ora);
     const consumabili = Object.fromEntries(Object.keys(CONSUMABILI).map((k) => [k, s.quality[k] ?? 0]));
     return {
       tipo: 'combattimento',
@@ -178,7 +178,7 @@ export function scegli(
     };
   }
 
-  spendiCandele(s, ante.costo, ora);
+  spendiRintocchi(s, ante.costo, ora);
   if (st.tipo === 'carta' && ante.costo > 0) scarta(s, st.id);
   const r: Risultato = { testo: '', variazioni: [], crescite: [] };
   if (opz.prova && ante.prova) {
@@ -307,8 +307,8 @@ export function correggibile(s: Stato, r: Risultato): boolean {
 }
 
 /**
- * Correzione: una candela e una prova Media di Mentale + Magia. Se riesce, le quality tornano
- * com'erano prima della prova fallita (PE e candele restano spesi) e la prova si ripete gratis.
+ * Correzione: un rintocco e una prova Media di Mentale + Magia. Se riesce, le quality tornano
+ * com'erano prima della prova fallita (PE e rintocchi restano spesi) e la prova si ripete gratis.
  * Il prezzo della formula e l'eventuale Dissonanza si pagano comunque.
  */
 export function correggi(
@@ -316,7 +316,7 @@ export function correggi(
 ): Scelta {
   const inc = c.incantesimi.find((i) => i.id === 'correzione');
   if (!inc || (s.quality[chiaveIncantesimo('correzione')] ?? 0) < 1) return { tipo: 'errore', messaggio: 'Non conosci la Correzione.' };
-  if (!spendiCandele(s, 1, ora)) return { tipo: 'errore', messaggio: 'Non hai abbastanza candele.' };
+  if (!spendiRintocchi(s, 1, ora)) return { tipo: 'errore', messaggio: 'Non hai abbastanza rintocchi.' };
   const pool = s.attributi.mentale + abilitaEffettiva(s, 'magia', c);
   const richiesti = DIFFICOLTA.Media;
   const p = probabilita(pool, richiesti);

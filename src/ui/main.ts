@@ -1,10 +1,10 @@
 // Interfaccia del prototipo: stato, salvataggio, eventi. L'HTML sta in viste.ts.
 import './stile.css';
 import { CONTENUTI as c } from '../dati/contenuti';
-import { CANDELE_MAX, CODA_MAX } from '../motore/regole';
+import { RINTOCCHI_MAX, CODA_MAX } from '../motore/regole';
 import type { TFrammento } from '../motore/contenuto';
 import {
-  nuovoPersonaggio, aggiornaTempo, msAllaProssimaCandela, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
+  nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi, secondaScelta } from '../motore/azioni';
 import { ritirati } from '../motore/spedizioni';
@@ -337,7 +337,7 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'frammento': prossimoFrammento(); render(); break;
-    case 'ricarica': s.candele = CANDELE_MAX; s.candeleAl = ora; s.coda = CODA_MAX; s.codaAl = ora; salva(); render(); break;
+    case 'ricarica': s.rintocchi = RINTOCCHI_MAX; s.rintocchiAl = ora; s.coda = CODA_MAX; s.codaAl = ora; salva(); render(); break;
     case 'nuovo': {
       if (!confermaNuovo) { confermaNuovo = true; render(); break; }
       stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; salva(); render();
@@ -378,20 +378,20 @@ app.addEventListener('submit', (e) => {
   window.scrollTo({ top: 0 });
 });
 
-// Candele e occasioni tornano col tempo: ogni secondo aggiorno i timer,
+// Rintocchi e occasioni tornano col tempo: ogni secondo aggiorno i timer,
 // e ridisegno tutto solo quando cambia davvero qualcosa.
 setInterval(() => {
   if (!stato) return;
-  const prima = `${stato.candele}|${stato.coda}`;
+  const prima = `${stato.rintocchi}|${stato.coda}`;
   const ora = Date.now();
   aggiornaTempo(stato, ora);
-  if (`${stato.candele}|${stato.coda}` !== prima) {
+  if (`${stato.rintocchi}|${stato.coda}` !== prima) {
     salva();
     if (vista.tipo !== 'combattimento') render();
     return;
   }
-  const pc = msAllaProssimaCandela(stato, ora);
-  app.querySelectorAll('[data-timer="candela"]').forEach((el) => { el.textContent = pc === null ? 'Tutte accese' : `La prossima tra ${durata(pc)}`; });
+  const pc = msAlProssimoRintocco(stato, ora);
+  app.querySelectorAll('[data-timer="rintocco"]').forEach((el) => { el.textContent = pc === null ? 'Tutti pronti' : `Il prossimo tra ${durata(pc)}`; });
   const tk = app.querySelector('[data-timer="carta"]');
   const pk = msAllaProssimaCarta(stato, ora);
   if (tk) tk.textContent = pk === null ? `Mazzo pieno (${CODA_MAX})` : `Un'altra tra ${durata(pk)}`;

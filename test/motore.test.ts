@@ -1,8 +1,8 @@
 import { probabilita, tira, rngConSeme } from '../src/motore/dadi';
-import { peDaProbabilita, CANDELE_MAX, CODA_MAX } from '../src/motore/regole';
+import { peDaProbabilita, RINTOCCHI_MAX, CODA_MAX } from '../src/motore/regole';
 import {
-  nuovoPersonaggio, requisitoSoddisfatto, applicaEffetti, assegnaPE, aggiornaTempo, spendiCandele,
-  msAllaProssimaCandela, pesca, storyletDisponibili, type Stato,
+  nuovoPersonaggio, requisitoSoddisfatto, applicaEffetti, assegnaPE, aggiornaTempo, spendiRintocchi,
+  msAlProssimoRintocco, pesca, storyletDisponibili, type Stato,
 } from '../src/motore/personaggio';
 import { anteprima, scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi } from '../src/motore/azioni';
 import { round, feriteDopo, type StatoCombattimento } from '../src/motore/combattimento';
@@ -67,23 +67,23 @@ describe('requisiti ed effetti', () => {
   });
 });
 
-describe('candele e mazzo', () => {
+describe('rintocchi e mazzo', () => {
   it('si consumano e si ricaricano a 1 ogni 10 minuti', () => {
     const s = figlio();
-    expect(spendiCandele(s, 3, 0)).toBe(true);
-    expect(s.candele).toBe(CANDELE_MAX - 3);
-    expect(msAllaProssimaCandela(s, 4 * MIN)).toBe(6 * MIN);
+    expect(spendiRintocchi(s, 3, 0)).toBe(true);
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX - 3);
+    expect(msAlProssimoRintocco(s, 4 * MIN)).toBe(6 * MIN);
     aggiornaTempo(s, 25 * MIN);
-    expect(s.candele).toBe(CANDELE_MAX - 1);
-    expect(msAllaProssimaCandela(s, 25 * MIN)).toBe(5 * MIN);
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX - 1);
+    expect(msAlProssimoRintocco(s, 25 * MIN)).toBe(5 * MIN);
     aggiornaTempo(s, 999 * MIN);
-    expect(s.candele).toBe(CANDELE_MAX);
-    expect(msAllaProssimaCandela(s, 999 * MIN)).toBeNull();
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX);
+    expect(msAlProssimoRintocco(s, 999 * MIN)).toBeNull();
   });
   it('non si spende quello che non si ha', () => {
     const s = figlio();
-    s.candele = 0;
-    expect(spendiCandele(s, 1, 0)).toBe(false);
+    s.rintocchi = 0;
+    expect(spendiRintocchi(s, 1, 0)).toBe(false);
   });
   it('pesca fino a 3 carte dalla coda', () => {
     const s = figlio();
@@ -102,12 +102,12 @@ describe('storylet', () => {
     s.quality['informazioni.voce'] = 2;
     expect(storyletDisponibili(s, c).map((x) => x.id)).toContain('parola-orchesca');
   });
-  it('una prova spende una candela, tira i dadi e dà PE', () => {
+  it('una prova spende un rintocco, tira i dadi e dà PE', () => {
     const s = figlio();
     const r = scegli(s, storylet('orecchie-pignatta'), 0, c, 0, rngConSeme(5));
     expect(r.tipo).toBe('risultato');
     if (r.tipo !== 'risultato') return;
-    expect(s.candele).toBe(CANDELE_MAX - 1);
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX - 1);
     expect(r.risultato.tiro!.facce.length).toBe(5); // Sociale 2 + Conoscenze della strada 3
     expect(r.risultato.crescite[0]!.chiave).toBe('conoscenze-della-strada');
     expect(r.risultato.crescite[0]!.pe).toBe(3); // 50% di successo → 3 PE
@@ -119,9 +119,9 @@ describe('storylet', () => {
     expect(a.prova!.pool).toBe(5);
     expect(a.prova!.probabilita).toBe(0.5);
   });
-  it('senza candele l\'opzione è bloccata', () => {
+  it('senza rintocchi l\'opzione è bloccata', () => {
     const s = figlio();
-    s.candele = 0;
+    s.rintocchi = 0;
     const r = scegli(s, storylet('turno-acciaieria'), 0, c, 0);
     expect(r.tipo).toBe('errore');
   });

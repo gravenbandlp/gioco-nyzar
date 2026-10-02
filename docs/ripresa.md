@@ -44,12 +44,14 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
 - **Id del doppiaggio stabili**: gli esiti hanno id `<scena>__<n>-<ramo>`, con n la posizione dell'opzione. Un'opzione
   nuova in una scena già scritta va **in fondo** all'elenco, mai in mezzo, altrimenti gli esiti successivi cambiano
   id e le registrazioni non combaciano più.
+- La risorsa delle azioni si chiama **rintocchi** (fino al 2 ottobre 2026 erano candele, troppo legate a Fallen
+  London): nell'interfaccia è una campana. Nella prosa le candele restano oggetti veri, mai la risorsa.
 - Le varianti di stato del mondo sulle opzioni usano `quando` (l'opzione non compare) o requisiti su piste e flag
   (il motore le nasconde se chiuse); i requisiti su monete, merci, abilità e reputazione mostrano l'opzione chiusa.
 
 ## Stato del lavoro
 Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di recente: economia (strati 1 e 2,
-`contenuti/economia/`), candele a 20 con ricarica piena a fine storia principale, revisione finale delle
+`contenuti/economia/`), rintocchi a 20 con ricarica piena a fine storia principale, revisione finale delle
 incongruenze. A progetto: lo strato 3 dell'economia (`docs/progetto-reperti.md`).
 
 Da fare:

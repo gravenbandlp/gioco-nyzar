@@ -6,7 +6,7 @@ function contesto(area: string, luogo?: string): Contesto {
   const o = c.origini[0]!;
   const s = nuovoPersonaggio('Prova', o, 0, area);
   delete s.quality['prologo'];
-  s.candele = 20;
+  s.rintocchi = 20;
   return { s, c, vista: { tipo: 'area' }, scheda: 'storia', frammento: undefined, confermaNuovo: false, avviso: '', ora: 0, luogo };
 }
 

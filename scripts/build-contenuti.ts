@@ -140,7 +140,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   const tratti = [...Object.keys(COSTI_PROPRIETA), ...DIFETTI].map((k) => `indossa.${k}`);
   const pe = TUTTE_LE_ABILITA.map((a) => `pe.${a}`);
   const origini = c.origini.map((o) => `origine.${o.id}`);
-  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'candele', ...quality, ...chiaviOggetti, ...tratti, ...pe, ...origini]);
+  const leggibili = new Set<string>([...ATTRIBUTI, ...TUTTE_LE_ABILITA, 'rintocchi', ...quality, ...chiaviOggetti, ...tratti, ...pe, ...origini]);
   const requisiti = (dove: string, reqs: string[] | undefined) => {
     for (const r of reqs ?? []) {
       try {
@@ -180,7 +180,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   for (const st of c.storylet) {
     const dove = `storylet ${st.id}`;
     if (!aree.has(st.area) && !(st.area === OVUNQUE && st.tipo === 'carta')) errori.push(`${dove}: area sconosciuta "${st.area}"`);
-    if ((st.tipo === 'crisi' || st.tipo === 'prologo') && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di ${st.tipo === 'crisi' ? 'una crisi' : 'un prologo'} costano 0 candele`);
+    if ((st.tipo === 'crisi' || st.tipo === 'prologo') && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di ${st.tipo === 'crisi' ? 'una crisi' : 'un prologo'} costano 0 rintocchi`);
     requisiti(dove, st.requisiti);
     const areaSt = c.aree.find((a) => a.id === st.area);
     const inAreaPenalita = !!areaSt?.penalita || !!areaSt?.spedizione;

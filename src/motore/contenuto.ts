@@ -40,7 +40,7 @@ export const Opzione = z
     reperto: Id.optional(), // l'opzione usa questo reperto: con zero successi si guasta
     requisiti: z.array(z.string()).optional(), // se mancano, l'opzione si vede chiusa con quello che manca
     quando: z.array(z.string()).optional(), // se mancano, l'opzione non compare affatto (es. il passo successivo dei lavori di casa)
-    costo: z.number().int().min(0).max(3).optional(), // candele, default 1
+    costo: z.number().int().min(0).max(3).optional(), // rintocchi, default 1
     prova: Prova.optional(),
     successo: Esito.optional(),
     fallimento: Esito.optional(),

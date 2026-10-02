@@ -21,11 +21,11 @@ Stesso tiro per tutte. Cambiano l'elenco degli incantesimi, chi li insegna e il 
 - **Dissonanza.** Se un lancio ottiene zero successi, il Mana torna indietro: +½ Tormento. Vale per
   tutte le tradizioni, in combattimento e fuori.
 - **Imparare.** Ogni incantesimo è una quality (`incantesimo.dardo`). Lo insegna uno storylet che
-  chiede Magia al livello giusto e la condizione della tradizione; la lezione costa 2 candele e una
+  chiede Magia al livello giusto e la condizione della tradizione; la lezione costa 2 rintocchi e una
   prova di Mentale + Magia (livello 1 Facile, 2 Media, 3 Difficile, 4 e 5 Molto difficile). Il prezzo
   si paga solo se la prova riesce.
 - **Fuori dal combattimento.** Un incantesimo conosciuto apre opzioni negli storylet (campo
-  `incantesimo` dell'opzione). Si tira Mentale + Magia e si pagano candele; l'Energia non si usa.
+  `incantesimo` dell'opzione). Si tira Mentale + Magia e si pagano rintocchi; l'Energia non si usa.
 - **Armatura.** Gli incantesimi che fanno danno ignorano l'armatura.
 - **Durata.** Potenziamenti e indebolimenti durano i round indicati; lo stesso effetto non si somma
   a se stesso, si rinnova.
@@ -33,7 +33,7 @@ Stesso tiro per tutte. Cambiano l'elenco degli incantesimi, chi li insegna e il 
   scontro.
 - **Rapidità.** Nella v0.4 dava anche +2 dadi all'iniziativa. L'iniziativa si tira una volta a inizio
   scontro, quindi nel motore resta solo +1 dado in attacco per 3 round.
-- **Correzione.** Dopo una prova fallita, una candela e una prova Media di Magia: se riesce, l'esito
+- **Correzione.** Dopo una prova fallita, un rintocco e una prova Media di Magia: se riesce, l'esito
   fallito si annulla e la prova si ripete. Una sola Correzione per esito; il prezzo si paga comunque.
 
 ## Origini

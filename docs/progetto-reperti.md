@@ -41,7 +41,7 @@ Regole di combinazione, da tarare:
 - certe coppie si disturbano (un nucleo che ricorda con un'impugnatura non umana alza la Stranezza ma abbassa
   la Stabilità);
 - un congegno con Stabilità bassa e Potenza alta può esplodere al primo uso: si scopre solo vendendolo o
-  provandolo (una prova facoltativa che dà un'anteprima dei valori e costa una candela).
+  provandolo (una prova facoltativa che dà un'anteprima dei valori e costa un rintocco).
 
 ## I compratori
 

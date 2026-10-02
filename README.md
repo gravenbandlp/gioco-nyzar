@@ -7,7 +7,7 @@ Le regole stanno nel *Regolamento v0.4*; l'ambientazione nella *Bibbia di gioco 
 
 Primo traguardo: si crea un personaggio da una delle sette origini, si scende nella Città Bassa,
 si guadagna con le azioni ripetibili e si segue la pista della Dama d'Argento fino alla Segheria
-Malgrani (prova o rissa) e alla lanterna accesa in Via dei Rasoi. Le candele si consumano e si
+Malgrani (prova o rissa) e alla lanterna accesa in Via dei Rasoi. I rintocchi si consumano e si
 ricaricano (1 ogni 10 minuti, massimo 20); le occasioni si pescano dal mazzo (mano 3, coda 6).
 Il salvataggio sta nel browser (localStorage).
 
@@ -34,10 +34,10 @@ Lo script cerca il Codex in `../codex-nyzar/src/assets/tavole`; si può passare 
 
 ## Interfaccia
 
-Impianto alla Fallen London con la lingua visiva del Codex: candela e statistiche a sinistra,
+Impianto alla Fallen London con la lingua visiva del Codex: campana dei rintocchi e statistiche a sinistra,
 schede Storia · Personaggio · Averi · Bazar · Mappa al centro, luogo e frammenti del Codex a destra
 (`contenuti/frammenti.yaml`, solo informazioni pubbliche). Su telefono le colonne si impilano e
-candele e monete restano nella barra delle schede.
+rintocchi e monete restano nella barra delle schede.
 
 ## Come è fatto
 
@@ -76,7 +76,7 @@ test/                 Vitest
     Una riga vuota separa i paragrafi; *asterischi* per il corsivo.
   opzioni:
     - testo: "Offrire da bere e ascoltare"
-      costo: 1                # candele (default 1)
+      costo: 1                # rintocchi (default 1)
       prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
       descrizione: "Una frase su cosa tenti."
       successo: { titolo: "Cose che non dovevi sentire", testo: "…", effetti: { informazioni.voce: 2 } }

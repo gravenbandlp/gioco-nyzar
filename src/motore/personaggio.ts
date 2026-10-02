@@ -1,7 +1,7 @@
-// Stato del personaggio, requisiti, effetti, crescita, candele e mazzo.
+// Stato del personaggio, requisiti, effetti, crescita, rintocchi e mazzo.
 import {
   ATTRIBUTI, TUTTE_LE_ABILITA, attributoDi, SOGLIE_PE, QUOTA_ATTRIBUTO, MAX_GIOCATORE, NEGATIVE, MAX_NEGATIVA,
-  REPUTAZIONE_MIN, REPUTAZIONE_MAX, CANDELE_MAX, MINUTI_PER_CANDELA, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI,
+  REPUTAZIONE_MIN, REPUTAZIONE_MAX, RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI,
   type Attributo,
 } from './regole';
 import type { TContenuti, TEffetti, TOrigine, TStorylet } from './contenuto';
@@ -19,8 +19,8 @@ export interface Stato {
   abilita: Record<string, number>;
   pe: Record<string, number>; // PE accumulati verso il livello successivo (abilità e attributi)
   quality: Record<string, number>;
-  candele: number;
-  candeleAl: number; // timestamp dell'ultimo aggiornamento
+  rintocchi: number;
+  rintocchiAl: number; // timestamp dell'ultimo aggiornamento
   coda: number; // carte in attesa di essere pescate
   codaAl: number;
   mano: string[]; // id delle carte in mano
@@ -55,8 +55,8 @@ function creaStato(nome: string, origine: TOrigine, ora: number, areaIniziale: s
     abilita,
     pe: {},
     quality: { ...origine.quality },
-    candele: CANDELE_MAX,
-    candeleAl: ora,
+    rintocchi: RINTOCCHI_MAX,
+    rintocchiAl: ora,
     coda: CODA_MAX,
     codaAl: ora,
     mano: [],
@@ -77,7 +77,7 @@ export function valore(s: Stato, chiave: string, c?: TContenuti): number {
   if (c) { const v = valoreOggetti(s, c, chiave); if (v !== undefined) return v; }
   if ((ATTRIBUTI as readonly string[]).includes(chiave)) return s.attributi[chiave as Attributo];
   if (chiave in s.abilita) return s.abilita[chiave] ?? 0;
-  if (chiave === 'candele') return s.candele;
+  if (chiave === 'rintocchi') return s.rintocchi;
   return s.quality[chiave] ?? 0;
 }
 
@@ -188,14 +188,22 @@ export function progressoPE(s: Stato, chiave: string): { pe: number; soglia: num
   return { pe: s.pe[chiave] ?? 0, soglia: SOGLIE_PE[livello] ?? 0 };
 }
 
-// ---------------------------------------------------------------- candele e mazzo
+// ---------------------------------------------------------------- rintocchi e mazzo
 
-const MS_CANDELA = MINUTI_PER_CANDELA * 60_000;
+const MS_RINTOCCO = MINUTI_PER_RINTOCCO * 60_000;
 const MS_CARTA = MINUTI_PER_CARTA * 60_000;
 
 /** Porta al presente i salvataggi fatti prima di un cambio dei contenuti. */
 function migra(s: Stato): void {
-  if (s.candele > CANDELE_MAX) s.candele = CANDELE_MAX; // il tetto era più alto
+  // le candele sono diventate rintocchi (2 ottobre 2026): i salvataggi vecchi portano ancora i campi con il nome di prima
+  const vecchio = s as Stato & { candele?: number; candeleAl?: number };
+  if (vecchio.candele !== undefined) {
+    s.rintocchi ??= vecchio.candele;
+    s.rintocchiAl ??= vecchio.candeleAl ?? Date.now();
+    delete vecchio.candele;
+    delete vecchio.candeleAl;
+  }
+  if (s.rintocchi > RINTOCCHI_MAX) s.rintocchi = RINTOCCHI_MAX; // il tetto era più alto
   // l'assenza di Galdrick è diventata un flag (2 ottobre 2026): chi era già nel mezzo del viaggio lo riceve
   const q = s.quality;
   if (q['galdrick.via'] === undefined && (q['pista.tribu'] ?? 0) >= 4 && (q['pista.acciaio'] ?? 0) < 8) q['galdrick.via'] = 1;
@@ -203,12 +211,12 @@ function migra(s: Stato): void {
 
 export function aggiornaTempo(s: Stato, ora: number): void {
   migra(s);
-  if (s.candele >= CANDELE_MAX) s.candeleAl = ora;
+  if (s.rintocchi >= RINTOCCHI_MAX) s.rintocchiAl = ora;
   else {
-    const nuove = Math.floor((ora - s.candeleAl) / MS_CANDELA);
+    const nuove = Math.floor((ora - s.rintocchiAl) / MS_RINTOCCO);
     if (nuove > 0) {
-      s.candele = Math.min(CANDELE_MAX, s.candele + nuove);
-      s.candeleAl = s.candele >= CANDELE_MAX ? ora : s.candeleAl + nuove * MS_CANDELA;
+      s.rintocchi = Math.min(RINTOCCHI_MAX, s.rintocchi + nuove);
+      s.rintocchiAl = s.rintocchi >= RINTOCCHI_MAX ? ora : s.rintocchiAl + nuove * MS_RINTOCCO;
     }
   }
   if (s.coda >= CODA_MAX) s.codaAl = ora;
@@ -221,9 +229,9 @@ export function aggiornaTempo(s: Stato, ora: number): void {
   }
 }
 
-export function msAllaProssimaCandela(s: Stato, ora: number): number | null {
-  if (s.candele >= CANDELE_MAX) return null;
-  return Math.max(0, s.candeleAl + MS_CANDELA - ora);
+export function msAlProssimoRintocco(s: Stato, ora: number): number | null {
+  if (s.rintocchi >= RINTOCCHI_MAX) return null;
+  return Math.max(0, s.rintocchiAl + MS_RINTOCCO - ora);
 }
 
 export function msAllaProssimaCarta(s: Stato, ora: number): number | null {
@@ -231,11 +239,11 @@ export function msAllaProssimaCarta(s: Stato, ora: number): number | null {
   return Math.max(0, s.codaAl + MS_CARTA - ora);
 }
 
-export function spendiCandele(s: Stato, n: number, ora: number): boolean {
+export function spendiRintocchi(s: Stato, n: number, ora: number): boolean {
   aggiornaTempo(s, ora);
-  if (s.candele < n) return false;
-  if (s.candele >= CANDELE_MAX) s.candeleAl = ora; // il timer riparte dal primo consumo
-  s.candele -= n;
+  if (s.rintocchi < n) return false;
+  if (s.rintocchi >= RINTOCCHI_MAX) s.rintocchiAl = ora; // il timer riparte dal primo consumo
+  s.rintocchi -= n;
   return true;
 }
 

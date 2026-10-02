@@ -7,7 +7,7 @@ magici da +1 a +5, reperti con cariche e celle, consumabili.
 ## Inventario
 
 - Ogni oggetto posseduto è la quality `oggetto.<id>`. Gli oggetti comprati o trovati finiscono negli
-  Averi; se lo slot è vuoto vengono indossati subito. Cambiare equipaggiamento non costa candele.
+  Averi; se lo slot è vuoto vengono indossati subito. Cambiare equipaggiamento non costa rintocchi.
 - Un'arma a due mani toglie lo scudo e impedisce di indossarlo.
 - Anti-accumulo: armatura e scudo danno dadi in difesa, ma vale il più alto dei due. Lo stesso vale
   per l'iniziativa (Leggera o Rapida) e per i Talenti sulla stessa abilità.
@@ -60,5 +60,5 @@ definiti ma per ora non si trovano. La conversione completa è in `contenuti/ogg
 - In combattimento si usano come azione con Mentale + Tecnologia. Con zero successi il reperto si
   guasta (anche fuori dal combattimento, nelle opzioni con `reperto`). La riparazione arriverà con
   i contenuti delle rovine.
-- Una cella ricarica una carica, dagli Averi, senza candele.
+- Una cella ricarica una carica, dagli Averi, senza rintocchi.
 - Passivi: Respiratore (Schermata) e Visore (+2 dadi a Percezione).

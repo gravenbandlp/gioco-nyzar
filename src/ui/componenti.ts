@@ -2,7 +2,7 @@
 import ICONE from '../generato/icone.json';
 import type { TContenuti, TOggetto, TVoce } from '../motore/contenuto';
 import { NOMI_DIFETTI } from '../motore/contenuto';
-import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, CANDELE_MAX } from '../motore/regole';
+import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, RINTOCCHI_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
 import { h, mezzi } from './formato';
 
@@ -92,14 +92,34 @@ export function primaFrase(testo: string): string {
   return `${f.slice(0, 160).replace(/\s+\S*$/, '')}…`; // taglia a parola intera
 }
 
-/** La candela grande della colonna laterale: la cera cala con le candele rimaste. */
-export function candelaGrande(candele: number): string {
-  const q = Math.max(0, Math.min(1, candele / CANDELE_MAX));
-  return `<div class="candela-grande" aria-hidden="true" style="--altezza:${(0.12 + q * 0.88).toFixed(3)}">
-    <div class="fiamma${candele === 0 ? ' spenta' : ''}"><i></i></div>
-    <div class="fusto"><span class="colatura c1"></span><span class="colatura c2"></span></div>
-    <div class="piattino"></div>
-  </div>`;
+/** Sagoma della campana (corpo e labbro), condivisa fra la grande e la piccola. */
+const SAGOMA_CAMPANA = 'M32 14C22 14 18 22 18 34V54C18 64 13 70 7 74V78H57V74C51 70 46 64 46 54V34C46 22 42 14 32 14Z';
+
+/** La campana grande della colonna laterale: il bronzo vivo scende verso la corona con i rintocchi spesi. */
+export function campanaGrande(rintocchi: number): string {
+  const q = Math.max(0, Math.min(1, rintocchi / RINTOCCHI_MAX));
+  const cima = (14 + 64 * (1 - q)).toFixed(2); // la campana va da y 14 (corona) a y 78 (labbro)
+  return `<svg class="campana-grande${rintocchi === 0 ? ' muta' : ''}" viewBox="0 0 64 96" aria-hidden="true">
+    <defs>
+      <linearGradient id="campana-bronzo" x1="0" x2="1">
+        <stop offset="0" stop-color="#6e4c1d"/><stop offset="0.35" stop-color="#c99a48"/>
+        <stop offset="0.5" stop-color="#f1d595"/><stop offset="0.68" stop-color="#b98a3e"/><stop offset="1" stop-color="#5c3f17"/>
+      </linearGradient>
+      <clipPath id="campana-livello"><rect x="0" y="${cima}" width="64" height="96"/></clipPath>
+    </defs>
+    <rect class="trave" x="8" y="0" width="48" height="6" rx="2"/>
+    <path class="gancio" d="M27 6V9A5 5 0 0 0 37 9V6"/>
+    <path class="patina" d="${SAGOMA_CAMPANA}"/>
+    <g class="bronzo"><path d="${SAGOMA_CAMPANA}" clip-path="url(#campana-livello)"/></g>
+    <path class="fregio" d="M18 40H46M10.5 71H53.5"/>
+    <path class="contorno" d="${SAGOMA_CAMPANA}"/>
+    <path class="battaglio" d="M32 78V85"/><circle class="battaglio" cx="32" cy="88" r="4"/>
+  </svg>`;
+}
+
+/** La campana piccola della barra in alto, sul telefono. */
+export function campanaPiccola(): string {
+  return `<svg class="mini-campana" viewBox="4 10 56 82" aria-hidden="true"><path d="${SAGOMA_CAMPANA}"/><circle cx="32" cy="86" r="5"/></svg>`;
 }
 
 export function dado(f: number): string {
