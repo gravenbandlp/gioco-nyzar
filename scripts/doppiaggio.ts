@@ -7,7 +7,7 @@
 // e un'impronta del testo: se la scena cambia dopo la registrazione, l'importazione se ne accorge.
 //
 // Uso: npm run doppiaggio   →  doppiaggio/copione.json e doppiaggio/copione.md
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
@@ -172,7 +172,7 @@ export function copione(): Pezzo[] {
 }
 
 // ---------------------------------------------------------------- esecuzione diretta
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const pezzi = copione();
   mkdirSync(USCITA, { recursive: true });
   writeFileSync(join(USCITA, 'copione.json'), `${JSON.stringify(pezzi, null, 1)}\n`);

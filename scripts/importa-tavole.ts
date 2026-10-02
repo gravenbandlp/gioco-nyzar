@@ -5,7 +5,7 @@
 //
 // Uso: npm run tavole [-- /percorso/a/codex-nyzar/src/assets/tavole]
 // Di default cerca il Codex accanto a questo repository (../codex-nyzar).
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { existsSync, mkdirSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import sharp from 'sharp';
@@ -53,4 +53,4 @@ async function main() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) void main();
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) void main();

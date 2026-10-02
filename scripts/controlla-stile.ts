@@ -2,6 +2,7 @@
 // Non blocca il build: stampa un rapporto per blocco di testo, da rileggere a mano.
 // Uso: npm run stile            (tutti i testi)
 //      npm run stile -- --soglia 0  (mostra anche i blocchi puliti)
+import { pathToFileURL } from 'node:url';
 import { caricaContenuti } from './build-contenuti';
 
 interface Regola { nome: string; spiegazione: string; trova: (t: string) => string[] }
@@ -106,7 +107,7 @@ function blocchi(dati: unknown, dove = ''): { dove: string; testo: string }[] {
   return out;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const { contenuti } = caricaContenuti({ tavole: false });
   const tutti = blocchi(contenuti);
   const totali: Record<string, number> = {};

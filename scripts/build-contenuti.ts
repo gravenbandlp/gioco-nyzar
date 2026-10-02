@@ -1,7 +1,7 @@
 // Legge tutti i file YAML in contenuti/, li valida (schema + controlli incrociati)
 // e scrive src/generato/contenuti.json. Se qualcosa non torna, il build si ferma
 // con un elenco di errori leggibili: meglio qui che a metà partita.
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readFileSync, readdirSync, statSync, mkdirSync, writeFileSync, existsSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { createRequire } from 'node:module';
@@ -377,7 +377,7 @@ export function tavoleCitate(dati: unknown, out = new Set<string>()): Set<string
 }
 
 // ---------------------------------------------------------------- esecuzione diretta
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const { contenuti, errori, avvisi } = caricaContenuti();
   for (const a of avvisi) console.warn(`avviso: ${a}`);
   if (errori.length) {
