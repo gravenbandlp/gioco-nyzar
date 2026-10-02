@@ -503,6 +503,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
   }
   if (r.dissonanza) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⟡</span><p>Nessun successo, e il Mana ti torna indietro (Dissonanza).</p></li>`);
   if (r.conclusa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Hai concluso «${h(r.conclusa)}», e i rintocchi tornano tutti.</p></li>`);
+  if (r.tappa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Una tappa di «${h(r.tappa)}»: torna metà dei rintocchi.</p></li>`);
   if (r.guasto) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⚙</span><p>Nessun successo, e il reperto si è guastato.</p></li>`);
   const puoiSecondaScelta = !!x.vista && x.vista.tipo === 'risultato' && !!x.vista.prima && x.vista.indice !== undefined && secondaSceltaDisponibile(s, r, c);
   const puoiCorreggere = !!x.vista && x.vista.tipo === 'risultato' && x.vista.prima && x.vista.indice !== undefined && correggibile(s, r);

@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 import { RINTOCCHI_MAX } from '../src/motore/regole';
 import { nuovoPersonaggio, aggiornaTempo } from '../src/motore/personaggio';
-import { pisteConcluse, scegli } from '../src/motore/azioni';
+import { pisteConcluse, tappeRaggiunte, scegli } from '../src/motore/azioni';
 import { serieDi } from '../src/motore/serie';
 
 describe('rintocchi', () => {
@@ -64,5 +64,16 @@ describe('rintocchi', () => {
     expect(r.tipo).toBe('risultato');
     expect(s.rintocchi).toBe(RINTOCCHI_MAX);
     if (r.tipo === 'risultato') expect(r.risultato.conclusa).toBeTruthy();
+  });
+
+  it('le storie lunghe hanno tappe che ridanno metà campana, e solo la prima volta', () => {
+    const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
+    s.quality['pista.pelle'] = 3;
+    expect(tappeRaggiunte({ 'pista.pelle': 2 }, s, c)).toEqual(['Sotto la pelle di Qir-Azel']);
+    expect(tappeRaggiunte({ 'pista.pelle': 3 }, s, c)).toEqual([]);
+    for (const id of ['pista.dama-argento', 'pista.acciaio', 'pista.capomozzo', 'pista.pelle']) {
+      const z = serieDi(c).serie.find((x) => x.quality === id)!;
+      for (const n of c.quality.find((q) => q.id === id)!.ricariche!) expect(n, id).toBeLessThan(z.massimo);
+    }
   });
 });

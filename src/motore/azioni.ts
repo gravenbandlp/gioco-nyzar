@@ -84,6 +84,7 @@ export interface Risultato {
   corretto?: boolean;
   guasto?: string; // reperto guastato da zero successi
   conclusa?: string; // la storia principale appena conclusa: i rintocchi sono tornati tutti
+  tappa?: string; // una tappa di una storia lunga: è tornata metà dei rintocchi
 }
 
 /**
@@ -104,7 +105,20 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: stri
   if (concluse.length) {
     s.rintocchi = Math.max(s.rintocchi, RINTOCCHI_MAX);
     r.conclusa = concluse.map((z) => z.nome).join(' e ');
+    return;
   }
+  const tappe = tappeRaggiunte(prima, s, c);
+  if (tappe.length) {
+    s.rintocchi = Math.min(RINTOCCHI_MAX, s.rintocchi + RINTOCCHI_MAX / 2);
+    r.tappa = tappe.join(' e ');
+  }
+}
+
+/** Le storie lunghe hanno tappe intermedie (`ricariche` sulla quality della pista): arrivarci ridà metà campana. */
+export function tappeRaggiunte(prima: Record<string, number>, s: Stato, c: TContenuti): string[] {
+  return c.quality
+    .filter((q) => q.ricariche?.some((n) => (prima[q.id] ?? 0) < n && (s.quality[q.id] ?? 0) >= n))
+    .map((q) => q.nome);
 }
 
 function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
