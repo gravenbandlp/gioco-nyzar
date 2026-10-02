@@ -1,6 +1,6 @@
 import { CANDELE_MAX } from '../src/motore/regole';
 import { rngConSeme } from '../src/motore/dadi';
-import { nuovoPersonaggio, cartePescabili, abilitaEffettiva, applicaEffetti, type Stato } from '../src/motore/personaggio';
+import { nuovoPersonaggio, cartePescabili, abilitaEffettiva, applicaEffetti, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
 import { scegli, anteprima, puoEntrare } from '../src/motore/azioni';
 import { crisiAttiva, opzioniVisibili, mutazioniDi, tormentoDissonanza } from '../src/motore/crisi';
 import { combattenteDaStato } from '../src/motore/combattimento';
@@ -62,10 +62,13 @@ describe('crisi', () => {
     expect(c.aree.find((a) => a.id === s.area)!.penalita).toBe(false);
   });
   it('ogni area di penalità ha tre ripetibili e un\'uscita', () => {
-    for (const a of c.aree.filter((x) => x.penalita)) {
-      const lista = c.storylet.filter((x) => x.area === a.id);
-      expect(lista.filter((x) => x.requisiti.some((r) => r.startsWith(`recupero.${a.id} >= 4`)))).toHaveLength(1);
-      expect(lista.filter((x) => x.ripetibile && !x.requisiti.some((r) => r.startsWith('recupero')))).toHaveLength(3);
+    // in ogni stato del mondo (prima e dopo Sotto la pelle) ci sono tre ripetibili e una sola uscita
+    for (const pelle of [0, 4, 7]) for (const a of c.aree.filter((x) => x.penalita)) {
+      const s = { ...figlio(), area: a.id };
+      s.quality = { ...s.quality, 'pista.pelle': pelle, [`recupero.${a.id}`]: 4 };
+      const lista = c.storylet.filter((x) => x.area === a.id && requisitiSoddisfatti(s, x.requisiti, c));
+      expect(lista.filter((x) => x.requisiti.some((r) => r.startsWith(`recupero.${a.id} >= 4`))), `${a.id} pelle ${pelle}`).toHaveLength(1);
+      expect(lista.filter((x) => x.ripetibile && !x.requisiti.some((r) => r.startsWith('recupero'))), `${a.id} pelle ${pelle}`).toHaveLength(3);
     }
   });
 });

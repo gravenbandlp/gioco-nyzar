@@ -346,6 +346,7 @@ export const Frammento = z.object({
   testo: z.string(),
   immagine: Immagine.optional(),
   area: Id.optional(), // se presente, compare solo in quell'area
+  requisiti: z.array(z.string()).default([]), // se non soddisfatti, il frammento non compare (un fatto cambiato dalla trama)
 });
 
 // Glossario: le voci che compaiono come tooltip sui nomi nei testi (personaggi, luoghi, fazioni…).

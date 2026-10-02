@@ -22,17 +22,17 @@ aree:
       all'altezza degli stivali. La porta è di quercia borchiata, e lo
       spioncino si apre soltanto da fuori.
 
-      Il carceriere si chiama Borso. È un uomo massiccio, con il naso rotto
-      più volte e mai raddrizzato, e porta un grembiule di cuoio sopra la
-      divisa scura. Alla cintura tiene una clava corta che non gli hai ancora
-      visto togliere. Conosce le abitudini e le bugie di ogni detenuto, e alza
-      la voce di rado. Nella cella in fondo al corridoio c'è Karn, il
-      tagliagole degli Scuri preso sui tetti di Via dei Rasoi, che ogni sera
-      fischia la stessa canzone, sbagliando sempre la nota alta, finché Borso
-      non batte la clava contro la sua porta.
+      In fondo al corridoio, sotto l'unica lanterna, c'è il tavolo del
+      carceriere, con il registro dove ogni sera annota la condotta dei
+      detenuti, una riga per nome. Chi tiene le chiavi impara presto le
+      abitudini e le bugie di ciascuno, e qui sotto la voce si alza di rado.
+      Da una delle celle, ogni sera, qualcuno fischia la stessa canzone e
+      sbaglia sempre la nota alta, finché il carceriere non batte sulla sua
+      porta.
 
       Da qui si esce quando la Caserma decide che il tuo nome può tornare in
-      strada. Fino ad allora conviene che Borso ti trovi sempre in ordine.
+      strada. Fino ad allora conviene che il carceriere ti trovi sempre in
+      ordine.
 
   - id: ostracismo
     nome: Ostracismo
@@ -64,9 +64,9 @@ aree:
       restare vivo e farti un posto fra chi abita le travi.
 
 quality:
-  - { id: recupero.prigione, nome: Buona condotta, categoria: stato, descrizione: "Le righe buone che Borso ha scritto su di te nel registro del carcere. A quattro, la Caserma è pronta a lasciarti andare." }
+  - { id: recupero.prigione, nome: Buona condotta, categoria: stato, descrizione: "Le righe buone che il carceriere ha scritto su di te nel registro del carcere. A quattro, la Caserma è pronta a lasciarti andare." }
   - { id: recupero.ostracismo, nome: Oblio, categoria: stato, descrizione: "Quanto la città si è dimenticata di te mentre vivevi sotto i Ponti. A quattro, puoi tornare di sopra." }
-  - { id: debito.scuri, immagine: fazioni/scuri, nome: Debito con gli Scuri, categoria: stato, descrizione: "Gli Scuri ti hanno tirato fuori dal carcere della Caserma, e alla Pignatta Grassa il tuo nome è scritto sul registro dei favori da riscuotere." }
+  - { id: debito.scuri, immagine: fazioni/scuri, nome: Debito con gli Scuri, categoria: stato, descrizione: "Gli Scuri ti hanno tirato fuori dal carcere della Caserma, e il tuo nome è finito nel registro dei favori da riscuotere che Rozalia Marga tiene per loro." }
 
 storylet:
   # ------------------------------------------------------------ Sospetto
@@ -91,8 +91,8 @@ storylet:
       Galdrick, e sul foglio c'è il tuo nome scritto per intero, seguito da due
       righe di motivi e da uno spazio bianco per quelli che troveranno. *Lo
       spazio bianco è la parte che ti piace meno.* Lo sceriffo lavora da anni
-      sulle sue liste e non arresta mai in fretta. Se ha firmato, vuol dire che
-      la tua pratica è pronta.
+      sulle sue liste e non arresta mai in fretta. Se un foglio esce dal suo
+      ufficio con quel sigillo, vuol dire che la tua pratica è pronta.
 
       Il sergente non ti mette le mani addosso. «La Caserma vuole sentirti
       oggi, e per oggi intendo prima di cena» dice, grattandosi il collo sotto
@@ -122,6 +122,7 @@ storylet:
           imposta: { sospetto: 4 }
       - testo: "Consegnare un nome degli Scuri"
         costo: 0
+        quando: [pista.pelle < 6]
         descrizione: "La Caserma vuole gli Scuri più di quanto voglia te. Puoi darle il corriere che porta i cristalli non registrati dalla Pignatta al Mercato delle Ombre."
         esito:
           titolo: Un nome per un altro
@@ -132,9 +133,28 @@ storylet:
             due righe dritte.
 
             Due sere dopo il corriere viene preso con il sacco addosso. Alla
-            Pignatta Grassa Mauro Scrocco ha cominciato a chiedere a tutti chi
-            l'abbia venduto, con la sua voce gentile, e a ognuno versa un dito
-            di vino in più.
+            Pignatta Grassa Mauro Scrocco ha cominciato a chiedere chi l'abbia
+            venduto, a voce così alta che lo sente mezza sala, e a ognuno versa
+            un dito di vino in più.
+          effetti: { rep.scuri: -2, rep.caserma: 1 }
+          imposta: { sospetto: 4 }
+      - testo: "Consegnare un nome degli ultimi Scuri"
+        costo: 0
+        quando: [pista.pelle >= 6]
+        descrizione: "Dopo il rogo della Pignatta c'è ancora chi porta cristalli non registrati al Mercato delle Ombre, e la Caserma vuole anche gli ultimi degli Scuri."
+        esito:
+          titolo: Un nome per un altro
+          immagine: fazioni/scuri
+          testo: |
+            Dici il nome a bassa voce e aggiungi l'ora e la strada. È un
+            ricettatore che dopo il rogo della Pignatta ha continuato a passare
+            cristalli al Mercato delle Ombre, come se nessuno gli avesse detto
+            che Mirko Vesh è morto. Il sergente lo scrive nello spazio bianco
+            sotto il tuo, poi cancella il tuo con due righe dritte.
+
+            Due sere dopo il ricettatore viene preso con il sacco addosso. Al
+            Mercato delle Ombre la porta cambia stanza un'altra volta, e per
+            qualche giorno chi ci vende ti guarda le mani prima della faccia.
           effetti: { rep.scuri: -2, rep.caserma: 1 }
           imposta: { sospetto: 4 }
       - testo: "Bruciare il tuo contatto nell'ombra"
@@ -158,6 +178,7 @@ storylet:
           imposta: { sospetto: 4 }
       - testo: "Seguire il sergente in Caserma"
         costo: 0
+        quando: [pista.pelle < 4]
         descrizione: "Nessun accordo e nessun nome. Scendi nelle celle del piano interrato e aspetti che la Caserma si stanchi di te."
         esito:
           titolo: Il piano interrato
@@ -165,12 +186,34 @@ storylet:
             Il sergente ti accompagna fino al portone della Caserma, nei
             Quartieri Alti. Due guardie in armatura pesante lo presidiano giorno
             e notte. Al banco ti tolgono la cintura e i lacci degli stivali, e
-            un uomo massiccio con il naso storto ti porta giù nelle celle,
-            reggendo la lanterna. Sulle scale ti tieni i calzoni con una mano, e
-            i piedi ti ballano negli stivali.
+            un uomo massiccio con il naso rotto più volte ti porta giù nelle
+            celle, reggendo la lanterna. Porta un grembiule di cuoio sopra la
+            divisa e una clava corta alla cintura. Sulle scale ti tieni i
+            calzoni con una mano, e i piedi ti ballano negli stivali.
 
             La porta di quercia si chiude alle tue spalle. Il carceriere apre
             lo spioncino, ti guarda un momento e dice che si chiama Borso.
+          vai: prigione
+      - testo: "Seguire il sergente in Caserma"
+        costo: 0
+        quando: [pista.pelle >= 4]
+        descrizione: "Nessun accordo e nessun nome. Scendi nelle celle del piano interrato e aspetti che la Caserma si stanchi di te."
+        esito:
+          titolo: Il piano interrato
+          testo: |
+            Il sergente ti accompagna fino al portone della Caserma, nei
+            Quartieri Alti. Due guardie in armatura pesante lo presidiano giorno
+            e notte. Al banco ti tolgono la cintura e i lacci degli stivali, e
+            il carceriere nuovo ti porta giù nelle celle, reggendo la lanterna.
+            È un uomo anziano con un ginocchio rigido e un mazzo di chiavi nuove
+            e lucide alla cintura. Sulle scale ti tieni i calzoni con una mano, e
+            i piedi ti ballano negli stivali. Davanti alla tua porta il
+            carceriere prova tre chiavi prima di trovare quella giusta.
+
+            La porta di quercia si chiude alle tue spalle. Il carceriere apre
+            lo spioncino, ti guarda un momento e ti dice che qui sotto, da
+            quando le chiavi vecchie se ne sono andate con Borso, si conta
+            tutto due volte.
           vai: prigione
 
   - id: prigione-cortile
@@ -179,10 +222,10 @@ storylet:
     ripetibile: true
     luogo: Cortile della Caserma
     immagine: ambientazione/guarnigione-di-qir-azel
-    sommario: "All'alba Borso fa lavorare nel cortile chi vuole una riga buona nel registro."
+    sommario: "All'alba il carceriere fa lavorare nel cortile chi vuole una riga buona nel registro."
     testo: |
-      All'alba Borso apre le celle una alla volta e mette i detenuti in fila nel
-      corridoio. Chi vuole lavora nel cortile finché le reclute non hanno finito
+      All'alba il carceriere apre le celle una alla volta e mette i detenuti in
+      fila nel corridoio. Chi vuole lavora nel cortile finché le reclute non hanno finito
       l'addestramento del mattino, e chi lavora bene si guadagna una riga buona
       nel registro del carceriere. Oggi bisogna portare l'acqua dalla cisterna
       agli abbeveratoi delle stalle, un secchio per mano, da un capo all'altro
@@ -192,7 +235,7 @@ storylet:
       inumidisce il pollice per voltare pagina e non ti degna di un'occhiata.
     opzioni:
       - testo: "Portare i secchi fino all'ultima campana"
-        descrizione: "Il lavoro è lungo, e Borso conta i viaggi."
+        descrizione: "Il lavoro è lungo, e il carceriere conta i viaggi."
         prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Facile }
         successo:
           titolo: Una riga buona
@@ -200,23 +243,23 @@ storylet:
             Porti l'ultimo secchio mentre suona la campana e le reclute
             rompono le righe. Hai le spalle in fiamme e le mani segnate dai
             manici, e quando provi ad aprirle le dita restano piegate a
-            uncino. Borso ti riaccompagna in cella e, prima di chiudere, scrive
-            qualcosa nel registro con una matita che sembra minuscola nella sua
-            mano.
+            uncino. Il carceriere ti riaccompagna in cella e, prima di
+            chiudere, scrive qualcosa nel registro con un mozzicone di matita.
           effetti: { recupero.prigione: 1 }
         fallimento:
           titolo: Sugli stivali
           testo: |
             A metà mattina un secchio ti scivola e si rovescia sugli stivali di
             una recluta, che ti insulta davanti a tutto il cortile. Finisci il
-            turno lo stesso, zoppicando. Borso scrive nel registro anche oggi,
-            ma la riga è più corta.
+            turno lo stesso, zoppicando. Il carceriere scrive nel registro anche
+            oggi, ma la riga è più corta.
           effetti: { recupero.prigione: 0.5 }
 
   - id: prigione-borso
     titolo: La scatola di latta
     area: prigione
     ripetibile: true
+    requisiti: [pista.pelle < 4]
     luogo: Carcere della Caserma
     immagine: personaggi/borso
     sommario: "La sera Borso conta le monete in una scatola di latta, al tavolo in fondo al corridoio."
@@ -226,7 +269,9 @@ storylet:
       scatola di latta e conta le monete che ci tiene dentro, impilandole per
       dieci. Le conta due volte, poi le rimette via. Non le spende mai in
       niente, nemmeno nel tabacco che i detenuti gli offrono per un secchio
-      d'acqua in più.
+      d'acqua in più. Nella cella in fondo Karn, un tagliagole degli Scuri
+      che le guardie hanno preso sui tetti della Città Bassa, smette di
+      fischiare appena sente tintinnare le monete.
 
       Dal tuo spioncino lo vedi di profilo, con le labbra che si muovono sui
       numeri. *Nessuno conta due volte dei soldi che non ha intenzione di
@@ -256,6 +301,55 @@ storylet:
             porta e chiude lo spioncino senza dire una parola. Lo senti tornare
             al tavolo e ricominciare a contare dall'inizio. A metà sbaglia e
             riparte, e ti pare colpa tua.
+
+            Quella sera nel registro, alla tua voce, non compare nessuna riga
+            nuova.
+          effetti: { recupero.prigione: 0.5 }
+
+  - id: prigione-il-carceriere-nuovo
+    titolo: Il carceriere nuovo
+    area: prigione
+    ripetibile: true
+    requisiti: [pista.pelle >= 4]
+    luogo: Carcere della Caserma
+    immagine: ambientazione/guarnigione-di-qir-azel
+    sommario: "Dopo la fuga di Borso le chiavi le tiene un sergente anziano, che la sera ripara le cinghie al tavolo in fondo al corridoio."
+    testo: |
+      Da quando Borso è scappato, le chiavi del carcere le tiene un sergente
+      anziano che la Caserma ha tolto dalle mura perché ha un ginocchio
+      rigido. La sera siede al tavolo sotto l'unica lanterna del corridoio
+      e ripara le cinghie degli elmi con un punteruolo e un rocchetto di
+      spago cerato. Ogni tanto alza il ginocchio malato su uno
+      sgabello e soffia piano fra i denti.
+
+      Il registro dei detenuti è lo stesso di prima, con le pagine di Borso
+      ancora in fondo, e il sergente lo tiene aperto accanto alle cinghie.
+      Scrive poco e con calma, una riga alla volta. Dal tuo spioncino lo vedi
+      di profilo mentre infila lo spago nella cruna al terzo tentativo. *Uno
+      che lavora fino a tardi senza che nessuno glielo chieda ha voglia di
+      parlare.* Quello che pensa di te finisce nel registro come prima.
+    opzioni:
+      - testo: "Parlargli attraverso lo spioncino"
+        descrizione: "Il sergente lavora piano e ascolta volentieri, se trovi l'argomento giusto."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il ginocchio
+          testo: |
+            Gli chiedi del ginocchio, e lui ti racconta di una scala delle mura
+            gelata, di un inverno di molti anni fa e di un cerusico che voleva
+            tagliare. Parla senza smettere di cucire, e alla fine ride da solo
+            di una cosa che non ti ha detto.
+
+            La mattina dopo nella scodella c'è un pezzo di pane in più. Nel
+            registro, alla voce che ti riguarda, ha scritto *ragionevole*.
+          effetti: { recupero.prigione: 1 }
+        fallimento:
+          titolo: Lo spago
+          testo: |
+            Il sergente ti ascolta per un po' con il punteruolo fermo a mezz'aria.
+            Poi ti dice che a quest'ora le chiacchiere gli fanno sbagliare i
+            punti, e torna alla cinghia senza aggiungere altro. Dopo qualche
+            minuto lo senti sciogliere un nodo venuto storto.
 
             Quella sera nel registro, alla tua voce, non compare nessuna riga
             nuova.
@@ -303,7 +397,7 @@ storylet:
   - id: prigione-uscita
     titolo: La porta di quercia
     area: prigione
-    requisiti: [recupero.prigione >= 4]
+    requisiti: [recupero.prigione >= 4, pista.pelle < 4]
     luogo: Carcere della Caserma
     immagine: ambientazione/guarnigione-di-qir-azel
     sommario: "Il registro di Borso è pieno di righe buone. La Caserma è pronta a lasciarti andare, e non sei il solo a saperlo."
@@ -322,24 +416,49 @@ storylet:
       ti si inumidisce fra le dita. In un angolo c'è disegnata a inchiostro una
       pentola panciuta, e alla Pignatta Grassa sanno sempre chi sta per uscire.
 
-      Nel pomeriggio Borso torna con una notizia. Lo sceriffo Galdrick passa
-      dalle celle prima di cena, e se hai un invito per i Quartieri Alti vuole
-      vederti di persona prima di farti uscire dal portone principale.
+      Nel pomeriggio Borso torna con una notizia. Chi ha un invito per i
+      Quartieri Alti può uscire dal portone principale, ma prima deve firmare
+      la promessa di buona condotta nell'ufficio dello sceriffo, al primo
+      piano.
     opzioni:
       - testo: "Presentarti allo sceriffo"
         descrizione: "Toren Galdrick ti riceve nel suo ufficio. Firmi davanti a lui la promessa di buona condotta ed esci dal portone principale, nei Quartieri Alti."
+        quando: [galdrick.via == 0]
         requisiti: [invito >= 1]
         esito:
           titolo: Il portone principale
           immagine: personaggi/toren-galdrick
           testo: |
             Lo sceriffo è un uomo imponente, con la pelle scura e la testa
-            rasata. Ti riceve senza togliersi il cappuccio di maglia e parla
-            poco, lentamente. Ti mette davanti la promessa di buona condotta,
-            aspetta che tu la legga fino in fondo e ti guarda firmare.
+            rasata. Ti riceve con il cappuccio di maglia abbassato sulle spalle
+            e parla poco, lentamente. Ti mette davanti la promessa di buona
+            condotta, aspetta che tu la legga fino in fondo e ti guarda firmare.
 
             «Il tuo nome resta nelle mie carte» dice mentre ripone la penna.
             «Vedi di non darmi motivo di rileggerle.»
+
+            Le guardie del portone si scostano per farti passare. Fuori c'è la
+            luce dei Quartieri Alti, così forte dopo le celle che ti lacrimano
+            gli occhi, e senti l'odore dell'incenso.
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { galateo: 10 }
+          vai: quartieri-alti
+      - testo: "Firmare davanti al sergente di turno"
+        descrizione: "Lo sceriffo è a Ghoran. La promessa di buona condotta la firmi davanti al sergente di turno, ed esci dal portone principale, nei Quartieri Alti."
+        quando: [galdrick.via == 1]
+        requisiti: [invito >= 1]
+        esito:
+          titolo: Il portone principale
+          immagine: ambientazione/guarnigione-di-qir-azel
+          testo: |
+            Il sergente di turno ti riceve nell'ufficio dello sceriffo, in piedi
+            accanto alla scrivania, perché sulla sedia di Galdrick nessuno si
+            siede finché lui è a Ghoran. Legge il tuo nome due volte e lo
+            confronta con una lista che tiene sotto il calamaio, poi ti mette
+            davanti la promessa di buona condotta e ti guarda firmare.
+
+            «Lo sceriffo, quando torna, rilegge tutto» dice, soffiando
+            sull'inchiostro. «Vedi di non dargli motivo di fermarsi sul tuo.»
 
             Le guardie del portone si scostano per farti passare. Fuori c'è la
             luce dei Quartieri Alti, così forte dopo le celle che ti lacrimano
@@ -388,6 +507,97 @@ storylet:
           pe: { atletica: 10 }
           vai: ponti-sospesi
 
+  # La stessa uscita dopo la fuga di Borso con le chiavi della Caserma (pista.pelle >= 4): un carceriere nuovo,
+  # Galdrick tornato da Ghoran, e il biglietto della Pignatta solo finché la Pignatta c'è (pista.pelle < 6).
+  - id: prigione-uscita-chiavi-nuove
+    titolo: La porta di quercia
+    area: prigione
+    requisiti: [recupero.prigione >= 4, pista.pelle >= 4]
+    luogo: Carcere della Caserma
+    immagine: ambientazione/guarnigione-di-qir-azel
+    sommario: "Il registro del carceriere è pieno di righe buone, e la Caserma è pronta a lasciarti andare."
+    testo: |
+      Da una settimana il sergente non ti chiama più all'interrogatorio, e il
+      registro del carceriere alla tua voce è pieno di righe buone.
+      Stamattina il carceriere nuovo ti ha detto che la tua pratica è arrivata
+      in fondo, dopo averla cercata su tre pagine sbagliate. Per uscire serve
+      la firma di qualcuno che risponda di te, oppure qualche giorno di lavoro
+      per la Gilda sui Ponti, che la Caserma presta i detenuti ai Custodi di
+      Passaggio per le riparazioni delle corde. «Firma o braccia» ha
+      riassunto, come se leggesse un cartello appeso al muro. «Con Borso si faceva così, e io non
+      vedo perché cambiare.»
+
+      Da quando le chiavi vecchie se ne sono andate con lui, il fabbro della
+      Caserma cambia una serratura al giorno, e il carceriere si porta dietro
+      il mazzo nuovo anche quando va al pozzo. Nel pomeriggio torna con una
+      notizia. Chi ha un invito per i Quartieri Alti può uscire dal portone
+      principale, ma prima deve firmare la promessa di buona condotta davanti
+      allo sceriffo, che adesso le uscite le firma tutte di persona.
+    opzioni:
+      - testo: "Presentarti allo sceriffo"
+        descrizione: "Toren Galdrick ti riceve nel suo ufficio. Firmi davanti a lui la promessa di buona condotta ed esci dal portone principale, nei Quartieri Alti."
+        requisiti: [invito >= 1]
+        esito:
+          titolo: Il portone principale
+          immagine: personaggi/toren-galdrick
+          testo: |
+            Lo sceriffo ti riceve seduto alla scrivania, con il cappuccio di
+            maglia abbassato sulle spalle, e non si alza. Sul tavolo accanto al
+            calamaio c'è un anello di ferro vuoto, di quelli che reggono le
+            chiavi, e ogni tanto ci posa sopra la mano. Ti mette davanti la
+            promessa di buona condotta, aspetta che tu la legga fino in fondo e
+            ti guarda firmare.
+
+            «Il tuo nome resta nelle mie carte» dice mentre ripone la penna.
+            «Vedi di non darmi motivo di rileggerle.»
+
+            Le guardie del portone si scostano per farti passare. Fuori c'è la
+            luce dei Quartieri Alti, così forte dopo le celle che ti lacrimano
+            gli occhi, e senti l'odore dell'incenso.
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { galateo: 10 }
+          vai: quartieri-alti
+      - testo: "Farti tirare fuori dagli Scuri"
+        descrizione: "Con il rancio è arrivato un biglietto senza firma, con una pentola panciuta disegnata in un angolo. Gli Scuri hanno le chiavi vecchie della Caserma, e sanno ancora quali porte aprono."
+        quando: [pista.pelle < 6]
+        esito:
+          titolo: Le chiavi vecchie
+          immagine: personaggi/rozalia-marga
+          testo: |
+            La notte dopo la tua porta si apre senza rumore. Sulla soglia c'è
+            una guardia che non hai mai visto, con un anello di chiavi vecchie
+            infilato al polso, e ti fa segno di seguirla. La serratura della tua
+            cella, a quanto pare, il carceriere nuovo non ha fatto in tempo a
+            cambiarla.
+
+            Esci dalla porta delle cucine e scendi le scale fino alla Città
+            Bassa senza che nessuno ti fermi. Alla Pignatta Grassa Mauro Scrocco
+            ti versa da bere e non ti fa pagare. Il tuo nome, dice, adesso è
+            scritto in un registro che Rozalia tiene molto in ordine.
+          effetti: { rep.scuri: 1, debito.scuri: 1 }
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { conoscenze-della-strada: 10 }
+          vai: citta-bassa
+      - testo: "Scontare il resto sui Ponti"
+        descrizione: "Qualche giorno a riparare corde per i Custodi di Passaggio, sotto gli occhi di una guardia. Poi ti lasciano andare dove hai finito il lavoro."
+        esito:
+          titolo: Corde nuove
+          immagine: ambientazione/ponti-sospesi
+          testo: |
+            Per cinque giorni sostituisci le funi sfilacciate sotto il Ponte
+            delle Mille Corde, appeso a un'imbracatura, mentre una guardia della
+            Caserma fuma sulla piattaforma di sopra e ti tiene d'occhio. Il
+            Custode di Passaggio che dirige i lavori sa riconoscere dal cigolio
+            una corda buona da una che cederà, e alla fine lo impari anche tu.
+            Le prime due notti le mani ti bruciano tanto che dormi con i palmi
+            rivolti all'aria.
+
+            L'ultimo giorno la guardia spegne la pipa, ti restituisce la cintura
+            e se ne torna in Caserma senza voltarsi.
+          imposta: { sospetto: 3, recupero.prigione: 0 }
+          pe: { atletica: 10 }
+          vai: ponti-sospesi
+
   # ------------------------------------------------------------ Scandalo
 
   - id: crisi-scandalo
@@ -401,8 +611,8 @@ storylet:
       Te ne accorgi al Mercato dei Nodi, quando il venditore di funi ti dice
       il prezzo e poi lo ripete più forte perché lo sentano anche i banchi
       vicini. Da qualche giorno il tuo nome gira per Qir-Azel insieme alle tue
-      ultime figuracce, e la storia si allunga a ogni passaggio. Alla Pignatta
-      Grassa ci hanno fatto sopra una strofa. Nei Quartieri Alti la raccontano
+      ultime figuracce, e la storia si allunga a ogni passaggio. Nelle osterie
+      della Città Bassa ci hanno fatto sopra una strofa. Nei Quartieri Alti la raccontano
       a cena, abbassando la voce quel tanto che basta perché i domestici la
       sentano lo stesso. Un ragazzo ti cammina dietro per un tratto imitando il
       tuo passo, e sua madre non lo richiama. Da quel momento ti accorgi di
@@ -434,7 +644,7 @@ storylet:
             fatica a ridere di te il giorno dopo, e chi ha bevuto il tuo vino
             preferisce cambiare argomento.
 
-            Il conto è salato. La strofa della Pignatta però si canta sempre
+            Il conto è salato. La strofa delle osterie però si canta sempre
             meno, e il fornitore ti ha rimandato un biglietto molto cortese.
           effetti: { monete: -60 }
           imposta: { scandalo: 4 }
@@ -538,7 +748,7 @@ storylet:
             prima che tu te ne accorga.
 
             Una donna seduta davanti a un braciere ti squadra e ti fa segno di
-            sederti. Qui nessuno ha sentito la strofa della Pignatta.
+            sederti. Qui nessuno ha sentito la strofa delle osterie.
           vai: ostracismo
 
   - id: ostracismo-reti
@@ -667,7 +877,7 @@ storylet:
     sommario: "Sul ponte non si parla più di te. È il momento di tornare di sopra."
     testo: |
       Stamattina hai ascoltato il ponte per un'ora intera e il tuo nome non è
-      passato nemmeno una volta. La strofa della Pignatta l'hanno sostituita con
+      passato nemmeno una volta. La strofa delle osterie l'hanno sostituita con
       un'altra, sul sale sparito dalla Casa dei Nodi, e il venditore di funi ha
       trovato un nuovo cliente da prendere in giro. La città ha un altro
       argomento.
@@ -694,7 +904,7 @@ storylet:
             Sbuchi da dietro il banco del venditore di funi a mezzogiorno, con
             la camicia pulita e le mani ancora nere di corda. Lui ti riconosce e
             apre la bocca, poi la richiude. Attraversi il Mercato dei Nodi senza
-            fretta, e nessuno intona la strofa della Pignatta.
+            fretta, e nessuno intona la strofa delle osterie.
           imposta: { scandalo: 3, recupero.ostracismo: 0 }
           pe: { resilienza: 10 }
           vai: ponti-sospesi
@@ -733,19 +943,20 @@ storylet:
     titolo: Una cassetta da tenere
     tipo: carta
     area: ovunque
-    requisiti: [sospetto >= 5, sospetto < 8]
+    requisiti: [sospetto >= 5, sospetto < 8, pista.pelle < 6]
     immagine: personaggi/mauro-scrocco
     sommario: "Mauro Scrocco ha una cassetta da nascondere, e secondo lui la casa di chi è già sorvegliato è il posto più sicuro."
     testo: |
       Un garzone della Pignatta Grassa ti porta un invito di Mauro Scrocco, e
-      Mauro ti riceve al suo tavolo con un bicchiere già versato. È un uomo
-      obeso, vestito di colori che non si abbinano, e parla con una gentilezza
-      che mette a disagio.
+      Mauro ti riceve al suo tavolo con un bicchiere già versato. Ha la pancia
+      che arriva prima di lui e un vestito color zafferano, e parla abbastanza
+      forte da farsi sentire dai tavoli vicini, anche quando le cose che dice
+      non dovrebbe sentirle nessuno.
 
-      «Lo sa mezza città, caro, che ti tengono d'occhio» dice Mauro facendo
-      girare il vino nel bicchiere. «Però una casa che la Caserma ha già
-      rivoltato da tutte le parti, per un po', non la guarda più nessuno. È
-      la cosa più riposante del mondo, caro, una casa già perquisita.»
+      «Lo sa mezza città, amico mio, che ti tengono d'occhio» dice Mauro
+      facendo girare il vino nel bicchiere. «Però una casa che la Caserma ha
+      già rivoltato da tutte le parti, per un po', non la guarda più nessuno.
+      È la cosa più riposante del mondo, amico mio, una casa già perquisita.»
 
       Con il piede spinge verso di te, sotto il tavolo, una cassetta di legno
       chiusa con un lucchetto, e ti chiede di tenerla qualche settimana senza
@@ -765,7 +976,7 @@ storylet:
             di ringraziamento scritto da un'altra mano.
           effetti: { monete: 15, rep.scuri: 0.5, sospetto: 1 }
       - testo: "Rimandare indietro la cassetta"
-        descrizione: "Hai già abbastanza guardie alla porta. Mauro la prenderà male, anche se è uno che non alza mai la voce."
+        descrizione: "Hai già abbastanza guardie alla porta. Mauro la prenderà male, anche se continuerà a chiamarti amico mio."
         esito:
           titolo: Gentilezza
           testo: |

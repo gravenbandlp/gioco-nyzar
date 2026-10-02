@@ -129,7 +129,9 @@ storylet:
     luogo: Teatro delle Meraviglie di Belcanto, durante le prove
     area: quartieri-alti
     ripetibile: true
-    requisiti: [pista.teatro == 1]
+    # Mauro Scrocco fa Sigor finché la Caserma non si muove contro la Pignatta (pista.pelle 5);
+    # da lì in poi vale la variante prove-al-teatro-senza-mauro.
+    requisiti: [pista.teatro == 1, pista.pelle < 5]
     mostra: 2
     testo: |
       Le prove cominciano dopo pranzo, con il sipario rosso tirato a metà e la
@@ -469,6 +471,358 @@ storylet:
           effetti: { prove.arpia: 0.5 }
           pe: { resistenza: 1 }
 
+  # Variante: Mauro non viene più alle prove, e Sigor lo fa il vecchio macchinista.
+  - id: prove-al-teatro-senza-mauro
+    presso: teatro-delle-meraviglie
+    immagine: ambientazione/teatro-delle-meraviglie
+    titolo: Le prove della Promessa
+    sommario: "Ogni pomeriggio la compagnia di riserva prova la Promessa dell'Arpia, e Orazio la dirige dal palco e dalla platea insieme."
+    luogo: Teatro delle Meraviglie di Belcanto, durante le prove
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [pista.teatro == 1, pista.pelle >= 5]
+    mostra: 2
+    testo: |
+      Le prove cominciano dopo pranzo, con il sipario rosso tirato a metà e la
+      platea vuota, a parte una donna delle pulizie che ogni giorno si siede
+      in terza fila con il secchio fra i piedi. La compagnia è quella di
+      riserva, messa insieme da Orazio dopo la razzia. Lui fa Asvorko, il
+      padrone avaro delle miniere, e dirige gli altri anche a metà di una
+      battuta. Grusk lo spazzino fa l'operaio Rolan, e la sua carriola rossa
+      è arrivata fin sul palco. Rilla Tamberlo fa la segretaria Mary. Mauro
+      Scrocco alle prove non si presenta più, e l'oste Sigor adesso lo fa il
+      vecchio macchinista, che le battute le sa tutte a forza di sentirle
+      dalle quinte. La regina arpia è Violante, la prima attrice, che ripassa
+      in un angolo a voce bassa e cambia tono a ogni riga.
+
+      Orazio batte le mani, e gli anelli tintinnano. «Dall'inizio, anime mie.
+      Con sentimento!»
+    opzioni:
+      # --- attore
+      - testo: "Provare la scena della taverna con il vecchio macchinista"
+        descrizione: "Secondo atto. L'oste Sigor assolda gli avventurieri al Fiasco Asciutto, e il vecchio macchinista lo recita come se dovesse ancora badare alle funi."
+        requisiti: [teatro.ruolo == 1, prove.arpia < 1]
+        prova: { attributo: sociale, abilita: [espressivita, ingannare], difficolta: Media }
+        successo:
+          titolo: Il tunnel sotto le botti
+          testo: |
+            Il vecchio macchinista entra in scena con le dita storte infilate
+            nel grembiule e dice le battute di Sigor a voce bassa, come se in
+            platea ci fosse qualcuno da non svegliare. Quando arriva al tunnel
+            di contrabbando gli scappa l'occhio verso la ruota del sipario. Tu
+            gli rispondi con la meraviglia dell'avventuriero e alzi la voce per
+            tutti e due, finché anche lui comincia a crederci.
+
+            «Più forte, anima mia!» dice Orazio dalla platea. Il macchinista
+            alza le spalle. «Dietro le quinte si sta zitti da quarant'anni»
+            risponde, e al giro dopo grida.
+          effetti: { prove.arpia: 1 }
+          pe: { espressivita: 3 }
+        fallimento:
+          titolo: La fune nera
+          testo: |
+            A metà della scena il macchinista sente scricchiolare una fune e va
+            a controllarla, con la battuta di Sigor lasciata a metà. Tu resti al
+            bancone del Fiasco Asciutto da solo, e dici le tue battute a un
+            boccale di cartapesta.
+
+            Orazio vi fa ripetere la scena tre volte. Alla terza il macchinista
+            arriva fino in fondo, e ti spiega sottovoce che la fune era quella
+            nera del lampadario.
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/grusk
+        testo: "Dare la battuta a Grusk"
+        descrizione: "Grusk continua a presentarsi come Grusk invece che come Rolan. Orazio ti chiede di provare con lui finché il nome giusto non gli entra in testa."
+        requisiti: [teatro.ruolo == 1, prove.arpia >= 1, prove.arpia < 2]
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Media }
+        successo:
+          titolo: Il nastro rosso
+          testo: |
+            Fai tu la parte di Asvorko, perché Orazio deve riposare la voce, e
+            Grusk ti viene incontro dalla quinta con il copione arrotolato in
+            pugno e un odore di fiume e di grappa scadente. «Signor Asvorko,
+            Grusk è contento di...» Lo fermi e gli leghi al polso un nastro
+            rosso dello stesso colore della sua carriola.
+
+            Ogni volta che vede il nastro, Grusk dice Rolan. Lo dice anche
+            quando non serve, e alla fine della prova si presenta come Rolan
+            alla donna delle pulizie, che gli risponde con un inchino.
+          effetti: { prove.arpia: 1 }
+          pe: { empatia: 3 }
+        fallimento:
+          titolo: Grusk e Grusk
+          testo: |
+            Alla quinta volta che Grusk si chiama Grusk perdi la pazienza, e lui
+            se ne accorge. Si offende a modo suo, cioè ti chiama Grusk a sua
+            volta, per tutta la scena e con grande dignità.
+
+            Dalla platea Orazio si massaggia le tempie. «Due Grusk» dice con la
+            voce che gli sale ancora. «Il copione ne prevede uno, e mi pareva
+            già abbondante.»
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/violante
+        testo: "Provare il confronto nel nido delle arpie"
+        descrizione: "Terzo atto. Asvorko difende la regina arpia, e tu devi fargli vedere il suo errore mentre Orazio piange lacrime vere."
+        requisiti: [teatro.ruolo == 1, prove.arpia >= 2]
+        prova: { attributo: sociale, abilita: [espressivita, persuasione], difficolta: Media }
+        successo:
+          titolo: Lacrime vere
+          testo: |
+            Orazio si butta in ginocchio, e gli anelli battono sulle assi del
+            palco. «Ho commesso un errore imperdonabile» dice, e lo stira su
+            quattro respiri, con le lacrime che gli tracciano due righe pulite
+            nel cerone. Tu lo guardi dritto negli occhi e reggi la battuta senza
+            ridere, anche quando lui si soffia il naso nel mantello della regina.
+
+            Violante aspetta il suo turno, poi ride la risata dell'arpia. Mentre
+            uscite di scena ti strizza l'occhio, una volta sola.
+          effetti: { prove.arpia: 1 }
+          pe: { persuasione: 3 }
+        fallimento:
+          titolo: La risata sbagliata
+          testo: |
+            Quando Orazio si soffia il naso nel mantello della regina ti scappa
+            una risata dal naso, e poi un'altra. Lui si alza in piedi, e per
+            un momento la voce gli torna normale e offesa.
+
+            Poi si ricompone e ti perdona con un gesto largo, da sovrano. «Anche
+            le risate sono emozioni» dice, e ti punta contro un dito inanellato.
+            «Domani però piangi tu, e io guardo.»
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/rilla-tamberlo
+        testo: "Ripassare la parte nel ridotto"
+        descrizione: "Nel ridotto si ripassa in pace, quando non arriva nessuno."
+        requisiti: [teatro.ruolo == 1]
+        esito:
+          titolo: La segretaria Mary
+          testo: |
+            Nel ridotto ti raggiunge Rilla Tamberlo, che vuole provare Mary con
+            qualcuno che non sia Orazio. Si siede sul tavolo con le gambe
+            accavallate e scioglie i capelli rossi sulla spalla. «Signor Asvorko, ho bisogno
+            di parlare con lei» dice, abbassando la voce come se ti stesse
+            confessando un omicidio.
+
+            Ti chiede se è troppo. Prima che tu risponda decide da sola. «Mary
+            è una segretaria, e io la faccio interessante.» Ripassate le
+            battute fino a sera, e le tue le sai a memoria anche al contrario.
+          effetti: { prove.arpia: 0.5 }
+          pe: { espressivita: 1 }
+      # --- costumista o scenografo
+      - immagine: personaggi/violante
+        testo: "Sistemare le ali addosso a Violante"
+        descrizione: "Sul manichino le ali reggono. Addosso a un'attrice che cammina e si gira è un altro discorso."
+        requisiti: [teatro.ruolo == 2, prove.arpia < 1]
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: Le ali addosso
+          testo: |
+            Cuci le cinghie delle ali sotto il mantello di piume, all'altezza
+            delle scapole. Il cordino lo nascondi in una manica. Violante alza le
+            braccia, e le ali si aprono piano insieme alla sua voce, e poi tutte
+            d'un colpo.
+
+            «Al Festival ero pronta» dice, mentre provi a stringere una fibbia.
+            «Poi sono arrivati gli orchi, e io ho dormito tre notti di fila.»
+            Ride a bassa voce, guardando le quinte vuote, e ti lascia finire il
+            lavoro.
+          effetti: { prove.arpia: 1 }
+          pe: { tecnologia: 3 }
+        fallimento:
+          titolo: La porta stretta
+          testo: |
+            Le ali reggono finché Violante resta ferma. Appena prova l'uscita di
+            scena, si aprono da sole nel passaggio della quinta e la inchiodano
+            allo stipite, con le braccia larghe e i piedi a un palmo da terra.
+
+            Lei ride così forte che le piume tremano. Orazio arriva di corsa con
+            una mano sul petto e dice che il cuore gli si è fermato, e ricomincia
+            a battergli solo quando la vede tornare giù.
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/grusk
+        testo: "Costruire il golem di cartapesta"
+        descrizione: "Il golem di pietra del terzo atto per ora è un mucchio di giornali e un secchio di colla. Grusk si offre di aiutarti con la sua carriola."
+        requisiti: [teatro.ruolo == 2, prove.arpia >= 1, prove.arpia < 2]
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il golem sulla carriola
+          testo: |
+            Monti il golem sulla carriola di Grusk, così può entrare in scena da
+            solo, e lasci uno sportello sul retro. Grusk ci si infila dentro e
+            spinge, e il golem avanza ondeggiando con un ruggito che rimbomba
+            nella cartapesta.
+
+            Lo dipingi di grigio pietra. Grusk ti chiede di lasciare almeno una
+            striscia rossa sul fondo, perché la carriola è sua e vuole
+            riconoscerla. Gliela lasci, e Orazio dalla platea non se ne accorge.
+          effetti: { prove.arpia: 1 }
+          pe: { tecnologia: 3 }
+        fallimento:
+          titolo: Un golem educato
+          testo: |
+            La cartapesta asciuga storta, e il golem si piega in avanti finché
+            sembra che stia facendo un inchino. Hai consumato tutta la colla e
+            ne compri dell'altra di tasca tua.
+
+            Orazio lo guarda a lungo e decide che va bene così. «Un golem con
+            le buone maniere» dice, accarezzandogli la testa storta. «In questa città se ne vedono pochi, e il
+            pubblico gradirà.»
+          effetti: { prove.arpia: 0.5, monete: -1 }
+      - immagine: personaggi/rilla-tamberlo
+        testo: "Vestire Rilla per la parte di Mary"
+        descrizione: "Rilla vuole un abito con lo spacco, mentre Orazio vuole una segretaria. Ti tocca trovare un abito che vada bene a tutti e due."
+        requisiti: [teatro.ruolo == 2, prove.arpia >= 2]
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: Lo spacco nelle pieghe
+          testo: |
+            Le proponi un abito accollato, grigio da ufficio, con lo spacco
+            nascosto fra le pieghe della gonna, che si apre solo quando Mary si
+            siede sulla scrivania di Asvorko. Rilla ci pensa mordendosi una
+            ciocca di capelli e accetta.
+
+            Orazio se ne accorge alla prova generale, quando ormai è tardi, e
+            diventa rosso fino alle orecchie. Recita la scena con la voce di
+            un'ottava più alta del solito, e la donna delle pulizie in terza
+            fila applaude.
+          effetti: { prove.arpia: 1 }
+          pe: { persuasione: 3 }
+        fallimento:
+          titolo: Le forbici di Rilla
+          testo: |
+            Le fai un abito che piace a Orazio, e Rilla lo prova senza
+            protestare. Il giorno dopo si presenta con lo stesso abito e uno
+            spacco alto fino all'anca, fatto di notte con le forbici della
+            cucina.
+
+            Orazio se la prende con te, perché con Rilla non osa. Tu passi il
+            pomeriggio a rammendare con l'ago, mentre lei ti dice che stai
+            rovinando l'Arte.
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/grusk
+        testo: "Dipingere il fondale della miniera"
+        descrizione: "Il fondale del secondo atto mostra le miniere di Valpeltro e il tunnel di contrabbando. È lavoro lungo, e in sala c'è sempre qualcuno che guarda."
+        requisiti: [teatro.ruolo == 2]
+        esito:
+          titolo: Consigli dallo spazzino
+          testo: |
+            Passi il pomeriggio sulla tela stesa in palcoscenico, a dipingere le
+            gallerie di Valpeltro in ocra e nero. Grusk si siede sulla sua
+            carriola alle tue spalle e ti guarda lavorare per un'ora buona. Poi
+            ti fa notare che una botola di contrabbando va messa sotto la scala
+            della cantina. «Grusk lo sa. Sotto le scale non spazza nessuno.»
+
+            Lo dice con una certa competenza. Poi se ne va spingendo la
+            carriola, e sulla spalla della camicia ti resta l'impronta di
+            fuliggine della sua mano.
+          effetti: { prove.arpia: 0.5 }
+          pe: { percezione: 1 }
+      # --- aiutante di scena
+      - immagine: personaggi/orazio-belcanto
+        testo: "Aprire il sipario sull'entrata di Orazio"
+        descrizione: "Il sipario deve aprirsi esattamente sul gesto di Orazio. Lui sostiene che un attimo di ritardo offende l'Arte."
+        requisiti: [teatro.ruolo == 3, prove.arpia < 1]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Facile }
+        successo:
+          titolo: Tre inchini
+          testo: |
+            Tieni gli occhi sulla mano di Orazio dalla fessura della quinta, e
+            quando il suo braccio si alza giri la ruota. Il sipario si apre
+            senza uno strappo, e lui è già in posa, con il mento in alto.
+
+            Alla fine della scena ti chiede di chiuderlo e riaprirlo, e fa tre
+            inchini alla platea vuota. La donna delle pulizie applaude con le
+            mani bagnate.
+          effetti: { prove.arpia: 1 }
+          pe: { atletica: 3 }
+        fallimento:
+          titolo: Troppo presto
+          testo: |
+            Giri la ruota un momento prima, e il sipario si apre su Orazio che
+            si sta sistemando le calze, con un piede sulla sedia di Asvorko.
+            La fune ti scorre fra le mani e ti brucia i palmi.
+
+            Lui resta immobile, poi abbassa il piede con dignità e attacca la
+            battuta come se niente fosse. Dopo la prova viene a dirti che la
+            puntualità è una forma di rispetto, e ti guarda le mani.
+          effetti: { prove.arpia: 0.5, ferite: 0.5 }
+      - immagine: personaggi/grusk
+        testo: "Fare l'orco nel terzo atto"
+        descrizione: "Gli orchi del terzo atto sono comparse in maschera. Dopo la razzia Orazio le ha fatte ridipingere di un verde più tenue, per delicatezza."
+        requisiti: [teatro.ruolo == 3, prove.arpia >= 1, prove.arpia < 2]
+        prova: { attributo: fisico, abilita: [acrobazia, rissa], difficolta: Facile }
+        successo:
+          titolo: Il ringhio della nonna
+          testo: |
+            Prima della scena Grusk ti prende da parte e ti insegna a ringhiare
+            dal fondo della pancia, come faceva sua nonna quando i bambini
+            rubavano il pane. Tu ringhi, e gli avventurieri fanno un passo
+            indietro che il copione non prevedeva.
+
+            Cadi a terra al momento giusto, con un tonfo che fa sobbalzare la
+            platea vuota. Grusk dalla quinta alza il pollice, che ha tatuato
+            anche quello.
+          effetti: { prove.arpia: 1 }
+          pe: { acrobazia: 3 }
+        fallimento:
+          titolo: L'orco e il sipario
+          testo: |
+            La maschera ti scivola sugli occhi a metà della zuffa, e per un po'
+            combatti contro il sipario. Il sipario vince, e tu ti ritrovi
+            avvolto nel velluto rosso con le gambe che scalciano fuori.
+
+            Orazio dalla platea decide che l'orco ha lottato con coraggio, e
+            che il sipario ne esce peggio di lui. Ti chiede però di tenere la
+            maschera legata più stretta, e ti presta un nastro dei suoi, color
+            prugna.
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/rilla-tamberlo
+        testo: "Suggerire dalla buca"
+        descrizione: "Il suggeritore ha perso la voce. Dalla buca davanti al palco si vedono soprattutto caviglie, e si sentono tutte le battute sbagliate."
+        requisiti: [teatro.ruolo == 3, prove.arpia >= 2]
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Facile }
+        successo:
+          titolo: Caviglie
+          testo: |
+            Tieni il dito sul copione e la testa bassa. Sussurri «Rolan» a Grusk
+            ogni volta che apre bocca, e tieni gli occhi sulla pagina anche
+            quando Rilla si siede sulla scrivania proprio sopra la buca.
+
+            Quando esci dalla buca hai il collo indolenzito e le ginocchia
+            segnate dalle assi. Orazio dice che non ha sentito il suggeritore
+            nemmeno una volta, e ti stringe la mano così forte che ti resta nel
+            palmo il segno del sigillo del Teatro.
+          effetti: { prove.arpia: 1 }
+          pe: { percezione: 3 }
+        fallimento:
+          titolo: La scena sbagliata
+          testo: |
+            Perdi il segno quando Rilla ti lascia cadere un fazzoletto in testa,
+            e suggerisci al vecchio macchinista la battuta della scena
+            sbagliata. Lui la dice con convinzione, e Sigor accetta la proposta
+            della regina arpia.
+
+            Violante, senza scomporsi, gli risponde con una battuta inventata, e
+            per un po' la scena va avanti per conto suo. Orazio vi fa
+            ricominciare dall'atto secondo e ti manda giù un fazzoletto pulito,
+            piegato in quattro.
+          effetti: { prove.arpia: 0.5 }
+      - immagine: personaggi/violante
+        testo: "Spazzare il palco e portare l'acqua"
+        descrizione: "Qualcuno deve pur farlo, e intanto si sente tutto quello che si dice nelle quinte."
+        requisiti: [teatro.ruolo == 3]
+        esito:
+          titolo: Dalle quinte
+          testo: |
+            Spazzi il palco fra una scena e l'altra e porti la brocca dell'acqua
+            in quinta. Violante beve dal tuo bicchiere senza chiedere, poi
+            guarda la compagnia che litiga sul palco.
+
+            «Recito una regina arpia» dice. «È più gentile della mezza compagnia
+            che mi guarda dalle quinte.» Ti restituisce il bicchiere e torna in
+            scena con il mantello di piume che struscia sulle assi.
+          effetti: { prove.arpia: 0.5 }
+          pe: { resistenza: 1 }
+
   # ------------------------------------------------------------ 1 → 2 · la prima
   - id: la-prima-della-promessa
     presso: teatro-delle-meraviglie
@@ -477,10 +831,12 @@ storylet:
     sommario: "Il manifesto ha una data nuova e la platea è piena fino al loggione. Stasera Orazio alza il sipario sulla Promessa dell'Arpia."
     luogo: Teatro delle Meraviglie di Belcanto, la sera della prima
     area: quartieri-alti
-    requisiti: [pista.teatro == 1, prove.arpia >= 3]
+    # Lucia Malgrani nel suo palco e Mauro Scrocco in scena: solo prima che la Caserma si muova contro
+    # i Malgrani e la Pignatta (pista.pelle 5). Dopo vale la-prima-della-promessa-dopo-i-malgrani.
+    requisiti: [pista.teatro == 1, prove.arpia >= 3, pista.pelle < 5]
     mostra: 2
     testo: |
-      Sulla striscia «rinviata» del manifesto è stata incollata una data
+      Sulla striscia *rinviata* del manifesto è stata incollata una data
       nuova, e stasera la platea è piena fino al loggione. Lucia Malgrani è
       sola nel suo palco in seconda fila, dritta come una candela, e la Casa
       dei Nodi ha mandato mezza Gilda. Dalle quinte senti l'odore delle
@@ -525,6 +881,161 @@ storylet:
           testo: |
             Apri la bocca e la battuta non c'è più. Dalla quinta Mauro te ne
             sussurra una, ed è quella del tunnel di contrabbando. Tu la ripeti
+            ad alta voce, nel nido delle arpie, davanti a mille persone.
+
+            Orazio non fa una piega. Si pente lo stesso, dicendo che perfino i
+            tunnel gli hanno insegnato qualcosa, e la sala lo prende per satira
+            e ride. L'applauso alla fine è lungo, e la tua parte dell'incasso
+            arriva comunque, un po' più leggera.
+          effetti: { monete: 12, racconto: 1, pista.teatro: 1 }
+          pe: { espressivita: 3 }
+      - testo: "Manovrare le ali e il golem dalle quinte"
+        descrizione: "Due cordini per le ali della regina, uno sportello per il golem, e nessuno deve vederti."
+        requisiti: [teatro.ruolo == 2]
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Ali nere
+          testo: |
+            Il golem avanza sulla carriola di Grusk e si spacca nel punto giusto,
+            e la prima fila sobbalza. Quando la regina ride tiri i cordini, e
+            le ali si aprono fino in fondo, nere sotto le lampade. In sala si
+            sente un grido trattenuto.
+
+            Dopo lo spettacolo un mercante della Gilda ti cerca dietro le quinte.
+            Vuole sapere chi ha costruito quelle ali e ti lascia il suo nome per
+            un lavoro, mentre Orazio ti conta in mano la tua parte dell'incasso.
+          effetti: { monete: 16, racconto: 1, rep.gilda: 0.5, pista.teatro: 1 }
+          pe: { tecnologia: 5 }
+        fallimento:
+          titolo: La testa del golem
+          testo: |
+            A metà del combattimento la testa del golem si stacca, rotola giù dal
+            palco e si ferma ai piedi di un mercante della Gilda in prima fila.
+            Lui la guarda come si guarda un conto sbagliato.
+
+            Orazio non perde il ritmo. «Così finiscono i golem di chi tradisce i
+            lavoratori!» grida, e la sala applaude. La serata va avanti fino al
+            pentimento di Asvorko, e la tua parte dell'incasso arriva lo stesso.
+          effetti: { monete: 12, racconto: 1, pista.teatro: 1 }
+          pe: { tecnologia: 3 }
+      - testo: "Far scattare le trappole di cartapesta"
+        descrizione: "Il pozzo nascosto e la trave instabile dipendono da te, e da quanto sei svelto con le funi."
+        requisiti: [teatro.ruolo == 3]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Facile }
+        successo:
+          titolo: Le trappole del nido
+          testo: |
+            Apri la botola del pozzo nascosto sotto il primo orco, lasci cadere
+            la trave di cartapesta un palmo davanti agli avventurieri e fai
+            scattare l'arco con una freccia di piuma. A ogni trappola il loggione
+            urla, e Asvorko arriva al pentimento con la sala già in piedi.
+
+            Dopo lo spettacolo il vecchio macchinista ti fa un cenno con la testa.
+            Orazio ti paga la tua parte dell'incasso e ti dice che un giorno
+            racconterai di questa sera ai nipoti.
+          effetti: { monete: 14, racconto: 1, rep.gilda: 0.5, pista.teatro: 1 }
+          pe: { atletica: 5 }
+        fallimento:
+          titolo: Grusk sta bene
+          testo: |
+            Sbagli fune, e la botola del pozzo si apre sotto Grusk invece che
+            sotto l'orco. Grusk sparisce, e in sala cade un silenzio lungo.
+
+            Poi la sua testa riemerge dal pavimento. «Grusk sta bene!» annuncia
+            al pubblico, e la sala viene giù dalle risate. Orazio dirà poi che
+            è stato il momento più alto della serata, e ti paga la tua parte con
+            una smorfia.
+          effetti: { monete: 10, racconto: 1, pista.teatro: 1 }
+          pe: { atletica: 3 }
+      - testo: "Restare al tuo posto quando la regina apre le ali"
+        descrizione: "Nel nido la regina ha una battuta sulle ali che alle prove ti era scivolata addosso. Stasera, nella sala buia, la senti in un altro modo."
+        requisiti: [pista.sepolcro >= 5]
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Sangue freddo
+          testo: |
+            Violante apre le ali sopra Asvorko. «Spezzatemi le ali quante volte
+            volete, signor Asvorko. La regina torna sempre.» Ti torna in mente
+            una voce rotta, sulla Roccia di Wren, e il sudore ti si raffredda
+            sulla nuca. *È una battuta, e l'ha scritta Orazio.* Le tue mani
+            cercano la cintura, e le rimetti dove devono stare.
+
+            Fai la tua parte fino in fondo, e nessuno in sala si accorge di
+            niente. Agli applausi Violante ti stringe la mano un momento più del
+            necessario, poi Orazio ti paga la tua parte dell'incasso.
+          effetti: { monete: 15, racconto: 1, rep.castaldi: 0.5, pista.teatro: 1 }
+          pe: { resilienza: 5 }
+        fallimento:
+          titolo: Fermo in scena
+          testo: |
+            Violante apre le ali sopra Asvorko. «Spezzatemi le ali quante volte
+            volete, signor Asvorko. La regina torna sempre.» Ti si gela il sangue
+            e resti fermo, con la bocca aperta e mille persone che aspettano.
+
+            Violante se ne accorge. Ti gira intorno con le ali spalancate e
+            inventa una battuta che ti rimette in scena. Orazio, dopo, giura che
+            la tua è stata la pausa più ispirata della serata, e ti paga senza
+            sapere perché ti tremano ancora le dita.
+          effetti: { monete: 12, racconto: 1, tormento: 0.5, pista.teatro: 1 }
+          pe: { resilienza: 3 }
+
+  # Variante: il palco dei Malgrani è vuoto, e Sigor lo fa il vecchio macchinista.
+  - id: la-prima-della-promessa-dopo-i-malgrani
+    presso: teatro-delle-meraviglie
+    immagine: personaggi/violante
+    titolo: La prima della Promessa
+    sommario: "Il manifesto ha una data nuova e la platea è piena fino al loggione. Stasera Orazio alza il sipario sulla Promessa dell'Arpia."
+    luogo: Teatro delle Meraviglie di Belcanto, la sera della prima
+    area: quartieri-alti
+    requisiti: [pista.teatro == 1, prove.arpia >= 3, pista.pelle >= 5]
+    mostra: 2
+    testo: |
+      Sulla striscia *rinviata* del manifesto è stata incollata una data
+      nuova, e stasera la platea è piena fino al loggione. Il palco dei
+      Malgrani in seconda fila è vuoto, con le tende tirate, e la Casa dei
+      Nodi ha mandato mezza Gilda. Dalle quinte senti l'odore delle
+      lampade e del sudore della compagnia, e lo stomaco ti si chiude per
+      conto suo.
+
+      Orazio apre il primo atto. Il suo Asvorko conta le monete delle miniere
+      di Valpeltro una per una, e quando la regina arpia entra nell'ufficio
+      avvolta nel mantello di piume la sala trattiene il fiato. Violante gli
+      promette la lealtà degli operai in cambio di un nido nelle gallerie, e
+      Asvorko accetta. Alla terza scena Grusk si presenta come «Grusk,
+      signore», e il loggione ride così forte che lui fa un inchino. Quando
+      Rilla si siede sulla scrivania di Asvorko, dal loggione parte un
+      fischio.
+
+      Nel secondo atto il vecchio macchinista, nei panni di Sigor, assolda gli
+      avventurieri alla taverna del Fiasco Asciutto e apre il tunnel di
+      contrabbando sotto le botti. Poi viene il terzo atto, con gli orchi in
+      maschera e il golem di cartapesta. Nel nido aspettano le trappole, e il
+      momento che hai provato tante volte è arrivato.
+    opzioni:
+      - testo: "Affrontare Asvorko nel nido delle arpie"
+        descrizione: "La scena ottava è tua. Davanti hai Orazio in ginocchio e mille persone al buio."
+        requisiti: [teatro.ruolo == 1]
+        prova: { attributo: sociale, abilita: [espressivita, persuasione], difficolta: Media }
+        successo:
+          titolo: Un errore imperdonabile
+          testo: |
+            Pianti i piedi sulle assi e dici la battuta all'ultima fila, senza
+            fretta. Orazio crolla in ginocchio e si pente con le lacrime vere e
+            gli anelli che battono sul legno, la regina ride la sua ultima
+            risata e le arpie cadono. Gli operai di Valpeltro tornano a casa, e
+            Asvorko promette di cambiare.
+
+            La sala si alza in piedi. Da un palco anche Julia Castaldi applaude,
+            con i guanti. Dopo lo spettacolo Orazio ti mette in mano un
+            sacchetto di velluto con la tua parte dell'incasso.
+          effetti: { monete: 18, racconto: 1, rep.castaldi: 0.5, pista.teatro: 1 }
+          pe: { espressivita: 5 }
+        fallimento:
+          titolo: Il tunnel, signore
+          testo: |
+            Apri la bocca e la battuta non c'è più. Dalla quinta il vecchio
+            macchinista te ne sussurra una, ed è quella del tunnel di
+            contrabbando. Tu la ripeti
             ad alta voce, nel nido delle arpie, davanti a mille persone.
 
             Orazio non fa una piega. Si pente lo stesso, dicendo che perfino i
@@ -740,6 +1251,7 @@ storylet:
     opzioni:
       - testo: "Lasciarti convincere"
         descrizione: "Gli dici che ci penserai. Orazio sente solo la prima metà della frase."
+        quando: [pista.pelle < 5]
         esito:
           titolo: Generosa malizia
           testo: |
@@ -748,6 +1260,23 @@ storylet:
             lui. Intanto, siccome conosce tutti, ti regala un pettegolezzo.
             Isotta Cordani alla Boutique fa pagare doppio gli abiti ai
             Malgrani, e Lucia Malgrani paga senza capire perché.
+
+            «Non dirlo in giro» dice, e risale sulla scala per il manifesto
+            successivo.
+          effetti: { informazioni.voce: 1 }
+      # Dopo la caduta dei Malgrani (pista.pelle >= 5) il pettegolezzo di Orazio si aggiorna.
+      - testo: "Lasciarti convincere"
+        descrizione: "Gli dici che ci penserai. Orazio sente solo la prima metà della frase."
+        quando: [pista.pelle >= 5]
+        esito:
+          titolo: Generosa malizia
+          testo: |
+            Orazio ti mette in mano un manifesto ancora umido e ti dice di
+            presentarti al Teatro delle Meraviglie quando vuoi, chiedendo di
+            lui. Intanto, siccome conosce tutti, ti regala un pettegolezzo.
+            Isotta Cordani alla Boutique per anni ha fatto pagare doppio gli
+            abiti ai Malgrani, e adesso che dai Malgrani non arriva più niente
+            se ne lamenta con tutte le clienti.
 
             «Non dirlo in giro» dice, e risale sulla scala per il manifesto
             successivo.

@@ -1,22 +1,23 @@
 quality:
   - { id: conosci.liaren, nome: Conosci Liaren Tarvelin, categoria: stato, nascosta: true }
-  - { id: gaia, nome: Gaia Acari, categoria: stato, nascosta: true, descrizione: "1 se l'hai conosciuta, 2 se hai visto il suo biglietto con il sigillo della Caserma." }
+  - { id: gaia, nome: Gaia Acari, categoria: stato, nascosta: true, descrizione: "1 se l'hai conosciuta, 2 se sai che passa notizie allo sceriffo (dal suo biglietto con il sigillo della Caserma, o perché l'hai avvertita della condanna di Mirko)." }
 
 storylet:
   - id: grifone-liaren
     presso: grifone-di-ferro
     immagine: ambientazione/locanda-del-grifone-di-ferro
     titolo: Il Grifone di Ferro dopo la razzia
-    sommario: "La locanda più antica di Qir-Azel ha ancora le finestre inchiodate. Liaren Tarvelin si ricorda di chi era in piazza."
+    sommario: "La locanda più antica di Qir-Azel ha ancora le finestre inchiodate. Liaren Tarvelin si ricorda di chi ha difeso la città."
     luogo: Locanda del Grifone di Ferro
     area: ponti-sospesi
-    requisiti: [prologo == 0, conosci.liaren == 0]
+    # Liaren è sparita con pista.acciaio da 1 a 4 e a letto ferita a 5 (piste/acciaio-*.yaml).
+    requisiti: [prologo == 0, conosci.liaren == 0, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       Il Grifone di Ferro sta a metà del Ponte delle Mille Corde, su una
       piattaforma larga quanto una piazza. È la locanda più antica di
       Qir-Azel, e sul tetto c'è ancora il grifone arrugginito che un tempo
-      faceva anche da parafulmine. Tre giorni fa gli orchi sono arrivati fin
-      qui. Due finestre della facciata sono chiuse con assi inchiodate di
+      faceva anche da parafulmine. La sera della razzia gli orchi sono
+      arrivati fin qui. Due finestre della facciata sono chiuse con assi inchiodate di
       traverso, e sulla soglia c'è una bruciatura nera che nessuno ha ancora
       raschiato via. Dentro manca metà dei tavoli, perché quelli spaccati
       sono finiti a pezzi accanto al camino.
@@ -52,7 +53,9 @@ storylet:
             Dormi fino a tardi. Quando scendi, Liaren sta discutendo con un
             fornitore sul prezzo delle botti e ti saluta con un cenno del mento
             senza interrompersi. Sul registro, accanto al tuo nome, sono
-            segnate sette notti.
+            segnate sette notti. Brunella, versandoti il latte, ti racconta
+            che la mattina del Festival Liaren ha rovesciato un pentolone di
+            stufato in testa a suo padre, e lo dice senza nessun dispiacere.
           imposta: { conosci.liaren: 1 }
       - testo: "Dare una mano a rimettere in piedi la sala"
         descrizione: "Le assi alle finestre vanno fissate meglio, e i tavoli rotti vanno sostituiti con quelli del magazzino."
@@ -83,7 +86,10 @@ storylet:
             tiene dal fondo del manico» dice, e stringe ancora un giro.
 
             Liaren ride dal bancone e ti manda di sopra a riposare, mentre
-            Brunella rimette il martello nella cassetta degli attrezzi.
+            Brunella rimette il martello nella cassetta degli attrezzi. Dal
+            tavolo accanto un Raschiatore ti consola a modo suo, raccontandoti
+            che la mattina del Festival la padrona ha rovesciato un pentolone
+            di stufato in testa a suo padre, e che quello sì era un colpo ben dato.
           imposta: { conosci.liaren: 1 }
           effetti: { ferite: 0.5 }
 
@@ -95,7 +101,7 @@ storylet:
     luogo: Locanda del Grifone di Ferro
     area: ponti-sospesi
     ripetibile: true
-    requisiti: [conosci.liaren >= 1]
+    requisiti: [conosci.liaren >= 1, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       La sera il Grifone si riempie di Raschiatori che tornano dal turno e di
       mercanti che hanno chiuso i banchi sul Mercato dei Nodi. Brunella gira
@@ -121,6 +127,54 @@ storylet:
             testa più sgombra di ieri.
           effetti: { alloggio.grifone: -1, ferite: -1, tormento: -0.5 }
       - testo: "Pagare la stanza"
+        descrizione: "Una branda e la colazione a poco prezzo. Alla Dispensa di Gramm ti ricuciono in un'ora e costa di più, qui ci vuole una notte intera."
+        requisiti: [alloggio.grifone == 0, monete >= 7]
+        esito:
+          titolo: La chiave di Brunella
+          testo: |
+            Brunella conta le monete sul palmo e ti porge la chiave. Nella
+            stanza accanto dorme una squadra di Raschiatori che russano a turno,
+            e fino a mezzanotte fatichi a prendere sonno. Poi dormi di un sonno
+            pesante fino all'alba. A colazione Brunella ti mette davanti le uova
+            prima che tu le chieda.
+          effetti: { monete: -7, ferite: -1, tormento: -0.5 }
+
+  # La stessa notte mentre Liaren non c'è (pista.acciaio da 1 a 4) o è a letto ferita (5).
+  - id: una-notte-al-grifone-senza-liaren
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: Una notte al Grifone
+    sommario: "Una branda al piano di sopra e il vento fra le corde. Il samisen di Liaren, stasera, resta appeso al muro."
+    luogo: Locanda del Grifone di Ferro
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [conosci.liaren >= 1, pista.acciaio >= 1, pista.acciaio <= 5]
+    testo: |
+      La sera il Grifone si riempie di Raschiatori che tornano dal turno e di
+      mercanti che hanno chiuso i banchi sul Mercato dei Nodi. Il bancone lo
+      tiene Brunella da sola, che passa dai fornelli ai tavoli senza mai
+      sedersi, e il samisen di Liaren è appeso al suo chiodo dietro le
+      bottiglie. Nessuno lo nomina, ma più di un Raschiatore ci alza gli occhi
+      sopra il boccale.
+
+      Al piano di sopra le stanze sono strette e hanno il pavimento di assi,
+      ma le coperte sono pulite, e su ogni porta qualcuno ha scritto a gesso
+      il nome di un animale al posto del numero. Dalla finestra si sente il
+      vento che passa fra le corde del ponte.
+    opzioni:
+      - testo: "Salire nella stanza già pagata"
+        descrizione: "Hai ancora una notte sul registro del Grifone. Ti basta salire le scale."
+        requisiti: [alloggio.grifone >= 1]
+        esito:
+          titolo: Il vento fra le corde
+          testo: |
+            Ti addormenti con il vento che fa cantare le corde del ponte e le
+            voci della sala che arrivano attutite dalle assi del pavimento. Ti
+            svegli a giorno fatto. Qualcuno ha lasciato sul catino un pezzo di
+            pane e una mela. Scendendo le scale ti accorgi che le ferite tirano
+            meno e che hai la testa più sgombra di ieri.
+          effetti: { alloggio.grifone: -1, ferite: -1, tormento: -0.5 }
+      - testo: "Pagare la stanza"
         descrizione: "Una branda e la colazione a poco prezzo. Nestor Gramm ricuce in un'ora e costa di più, qui ci vuole una notte intera."
         requisiti: [alloggio.grifone == 0, monete >= 7]
         esito:
@@ -141,7 +195,7 @@ storylet:
     luogo: Locanda del Grifone di Ferro
     area: ponti-sospesi
     ripetibile: true
-    requisiti: [racconto >= 1, conosci.liaren >= 1]
+    requisiti: [racconto >= 1, conosci.liaren >= 1, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       A tarda sera, quando la sala è piena e il fuoco è basso, Liaren si
       appoggia il samisen sulle ginocchia e batte due colpi sul bancone con
@@ -190,7 +244,8 @@ storylet:
     sommario: "Una ragazzina col cappuccio blu scuro siede ogni sera vicino alla cucina e guarda chi entra."
     luogo: Locanda del Grifone di Ferro
     area: ponti-sospesi
-    requisiti: [conosci.liaren >= 1, gaia == 0]
+    # Gaia lavora per la Pignatta, che brucia a pista.pelle 6; Liaren ne parla di persona.
+    requisiti: [conosci.liaren >= 1, gaia == 0, pista.pelle < 6, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       Da qualche sera, al tavolo d'angolo vicino alla porta della cucina,
       siede una ragazzina con un cappuccio blu scuro calato su metà del viso.

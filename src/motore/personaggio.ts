@@ -193,8 +193,16 @@ export function progressoPE(s: Stato, chiave: string): { pe: number; soglia: num
 const MS_CANDELA = MINUTI_PER_CANDELA * 60_000;
 const MS_CARTA = MINUTI_PER_CARTA * 60_000;
 
+/** Porta al presente i salvataggi fatti prima di un cambio dei contenuti. */
+function migra(s: Stato): void {
+  if (s.candele > CANDELE_MAX) s.candele = CANDELE_MAX; // il tetto era più alto
+  // l'assenza di Galdrick è diventata un flag (2 ottobre 2026): chi era già nel mezzo del viaggio lo riceve
+  const q = s.quality;
+  if (q['galdrick.via'] === undefined && (q['pista.tribu'] ?? 0) >= 4 && (q['pista.acciaio'] ?? 0) < 8) q['galdrick.via'] = 1;
+}
+
 export function aggiornaTempo(s: Stato, ora: number): void {
-  if (s.candele > CANDELE_MAX) s.candele = CANDELE_MAX; // salvataggi di quando il tetto era più alto
+  migra(s);
   if (s.candele >= CANDELE_MAX) s.candeleAl = ora;
   else {
     const nuove = Math.floor((ora - s.candeleAl) / MS_CANDELA);

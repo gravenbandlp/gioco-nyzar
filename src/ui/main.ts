@@ -78,8 +78,9 @@ function carica(dati?: Partial<Salvataggio>): void {
 
 function frammentiQui(): TFrammento[] {
   const area = stato?.area;
-  const locali = c.frammenti.filter((f) => f.area === area);
-  const generali = c.frammenti.filter((f) => !f.area);
+  const ok = (f: TFrammento) => !stato || requisitiSoddisfatti(stato, f.requisiti, c);
+  const locali = c.frammenti.filter((f) => f.area === area && ok(f));
+  const generali = c.frammenti.filter((f) => !f.area && ok(f));
   return [...locali, ...generali];
 }
 

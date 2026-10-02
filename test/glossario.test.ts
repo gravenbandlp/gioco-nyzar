@@ -22,8 +22,12 @@ describe('glossario nella prosa', () => {
     expect(out).not.toContain('data-voce="segreta"');
   });
   it('le voci vere del gioco non si sovrappongono e compaiono nei testi', () => {
-    const forme = c.glossario.flatMap((v) => [v.nome, ...v.alias]);
-    expect(new Set(forme).size).toBe(forme.length);
+    // una forma appartiene a un solo nome; le varianti dello stesso nome (prima e dopo un fatto) la condividono
+    const nomeDi = new Map<string, string>();
+    for (const v of c.glossario) for (const f of [v.nome, ...v.alias]) {
+      expect(nomeDi.get(f) ?? v.nome, `${v.id}: ${f}`).toBe(v.nome);
+      nomeDi.set(f, v.nome);
+    }
     expect(c.glossario.length).toBeGreaterThan(80);
   });
 });

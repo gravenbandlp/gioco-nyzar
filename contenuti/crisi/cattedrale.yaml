@@ -78,7 +78,7 @@ storylet:
     tipo: crisi
     area: citta-bassa
     requisiti: [ferite >= 8]
-    immagine: personaggi/nestor-gramm
+    immagine: ambientazione/dispensa-di-gramm
     sommario: "Le ferite si sono sommate l'una all'altra, e stamattina le gambe non ti reggono."
     testo: |
       Ti svegli sul pavimento e non ricordi di esserti sdraiato. La camicia è
@@ -93,9 +93,9 @@ storylet:
       detto anche ieri e l'altro ieri.* Adesso bisogna scegliere in fretta,
       prima che le gambe decidano per te.
 
-      Nestor Gramm tiene nel retro della sua Dispensa una pasta nera per i
-      casi gravi, che chiude le ferite in una notte. Costa cara e
-      Nestor non fa credito a nessuno. Puoi anche stringere i denti e
+      Nel retro della Dispensa di Gramm tengono una pasta nera per i casi
+      gravi, che chiude le ferite in una notte. Costa cara, e alla Dispensa
+      non si fa credito a nessuno. Puoi anche stringere i denti e
       rimetterti in piedi da solo, bruciando in pochi giorni la forza che hai
       messo da parte con mesi di fatica. Infine c'è la Cattedrale del Velo, dove
       dopo la razzia l'infermeria accoglie chiunque arrivi in barella. Lì ti
@@ -105,6 +105,7 @@ storylet:
       - testo: "Pagare Nestor Gramm"
         immagine: personaggi/nestor-gramm
         costo: 0
+        quando: [pista.pelle < 4, colpo.dispensa == 0]
         requisiti: [monete >= 40]
         descrizione: "Trascinarti fino al vicolo dietro la Dispensa e contare il prezzo sul bancone. La pasta nera funziona, anche se nessuno sa cosa ci mette dentro."
         esito:
@@ -115,6 +116,46 @@ storylet:
             e brucia fino a farti lacrimare. «Stanotte dormi seduto» dice,
             mentre rimette il barattolo sotto il bancone, «perché se ti sdrai si
             riapre, e io la stessa ferita la ricucio una volta sola.»
+
+            Il mattino dopo la febbre è scesa e riesci a stare in piedi.
+          effetti: { monete: -40 }
+          imposta: { ferite: 4 }
+      - testo: "Pagare la pasta nera al garzone della Dispensa"
+        immagine: ambientazione/dispensa-di-gramm
+        costo: 0
+        quando: [colpo.dispensa >= 1]
+        requisiti: [monete >= 40]
+        descrizione: "I barattoli di Nestor Gramm sono rimasti sotto il bancone della Dispensa, e il suo garzone li vende allo stesso prezzo, senza fare credito."
+        esito:
+          titolo: La pasta nera
+          testo: |
+            Alla porta del vicolo ti apre il garzone, con il grembiule di
+            Nestor che gli arriva alle caviglie. Conta le monete due volte,
+            come gli ha insegnato il padrone, e poi tira fuori il barattolo da
+            sotto il bancone. La pasta che ti spalma sul fianco puzza di zolfo
+            e brucia fino a farti lacrimare. «Il padrone diceva che la prima
+            notte si dorme seduti» dice, scandendo le parole come una lezione
+            imparata a memoria, «perché a sdraiarsi si riapre.»
+
+            Il mattino dopo la febbre è scesa e riesci a stare in piedi.
+          effetti: { monete: -40 }
+          imposta: { ferite: 4 }
+      - testo: "Pagare la pasta nera al garzone della Dispensa"
+        immagine: ambientazione/dispensa-di-gramm
+        costo: 0
+        quando: [pista.pelle >= 4, colpo.dispensa == 0]
+        requisiti: [monete >= 40]
+        descrizione: "I barattoli di Nestor Gramm sono rimasti sotto il bancone della Dispensa, e il suo garzone li vende allo stesso prezzo, senza fare credito."
+        esito:
+          titolo: La pasta nera
+          testo: |
+            Alla porta del vicolo ti apre il garzone, con il grembiule di
+            Nestor che gli arriva alle caviglie. Conta le monete due volte,
+            come gli ha insegnato il padrone, e poi tira fuori il barattolo da
+            sotto il bancone. La pasta che ti spalma sul fianco puzza di zolfo
+            e brucia fino a farti lacrimare. «Il padrone diceva che la prima
+            notte si dorme seduti» dice, scandendo le parole come una lezione
+            imparata a memoria, «perché a sdraiarsi si riapre.»
 
             Il mattino dopo la febbre è scesa e riesci a stare in piedi.
           effetti: { monete: -40 }
@@ -301,6 +342,7 @@ storylet:
           vai: citta-bassa
       - testo: "Portare le foglie a Nestor Gramm"
         descrizione: "Il fagotto di Sorella Giulia va alla Dispensa di Gramm, sul Mercato dei Nodi. Lungo la strada lei ti spiega a cosa serve ogni foglia."
+        quando: [pista.pelle < 4, colpo.dispensa == 0]
         esito:
           titolo: Il fagotto di Giulia
           testo: |
@@ -308,6 +350,34 @@ storylet:
             quali foglie calmano la febbre e quali fermano il sangue. Sui Ponti
             Nestor Gramm apre il fagotto e ne annusa il contenuto a lungo. Poi
             ti fa un cenno che da lui vale come un ringraziamento.
+          imposta: { ferite: 3, recupero.convalescenza: 0 }
+          pe: { natura: 10 }
+          vai: ponti-sospesi
+      - testo: "Portare le foglie alla Dispensa di Gramm"
+        descrizione: "Il fagotto di Sorella Giulia va alla Dispensa di Gramm, sul Mercato dei Nodi, dove adesso al banco c'è il garzone di Nestor. Lungo la strada lei ti spiega a cosa serve ogni foglia."
+        quando: [colpo.dispensa >= 1]
+        esito:
+          titolo: Il fagotto di Giulia
+          testo: |
+            Sorella Giulia ti accompagna fino al portone e intanto ti spiega
+            quali foglie calmano la febbre e quali fermano il sangue. Sui Ponti
+            il garzone della Dispensa apre il fagotto e ne annusa il contenuto
+            a lungo, come faceva Nestor. Poi ti chiede di ripetergli quello che
+            ti ha detto Giulia, e se lo segna sul grembiule con un carboncino.
+          imposta: { ferite: 3, recupero.convalescenza: 0 }
+          pe: { natura: 10 }
+          vai: ponti-sospesi
+      - testo: "Portare le foglie alla Dispensa di Gramm"
+        descrizione: "Il fagotto di Sorella Giulia va alla Dispensa di Gramm, sul Mercato dei Nodi, dove adesso al banco c'è il garzone di Nestor. Lungo la strada lei ti spiega a cosa serve ogni foglia."
+        quando: [pista.pelle >= 4, colpo.dispensa == 0]
+        esito:
+          titolo: Il fagotto di Giulia
+          testo: |
+            Sorella Giulia ti accompagna fino al portone e intanto ti spiega
+            quali foglie calmano la febbre e quali fermano il sangue. Sui Ponti
+            il garzone della Dispensa apre il fagotto e ne annusa il contenuto
+            a lungo, come faceva Nestor. Poi ti chiede di ripetergli quello che
+            ti ha detto Giulia, e se lo segna sul grembiule con un carboncino.
           imposta: { ferite: 3, recupero.convalescenza: 0 }
           pe: { natura: 10 }
           vai: ponti-sospesi

@@ -32,7 +32,10 @@ la finale); Sotto la pelle fino a 7 (`contenuti/piste/pelle-*.yaml`), con il Man
 smascherato) e la notte della Pignatta che lascia `nomea.citta-bassa`; le tre rovine dei Raschiatori come
 spedizioni ripetibili dal Grifone (`contenuti/piste/rovine.yaml`); Topi in cantina con l'Emporio Tamberlo e la
 sua bottega (`contenuti/piste/topi.yaml`). L'Arena e Sotto la pelle si aprono dopo il ritorno da Capomozzo
-(`pista.capomozzo >= 6`), perché Galdrick è a Ghoran durante Acciaio e Ira. Dopo l'assalto la Pignatta Grassa
+(`pista.capomozzo >= 7`, cioè dopo il ritorno in Cattedrale), perché Galdrick è a Ghoran durante Acciaio e Ira.
+L'assenza di Galdrick è il flag `galdrick.via`: vale 1 dal congedo di Le cinque tribù (`pista.tribu` a 4) a
+`pista.acciaio` 8; le scene che lo vogliono in città chiedono `galdrick.via == 0`, le varianti senza di lui `== 1`.
+Dopo l'assalto la Pignatta Grassa
 sparisce dai luoghi e i suoi ripetibili si chiudono. Mentre un seguito aspetta, la scena che l'ha aperto non si
 può rigiocare. Il 2 ottobre l'economia, strati 1 e 2 (`contenuti/economia/`): conversioni
 ripetibili che fanno salire di scalino Informazioni, Cristalli e Reliquie (con il nuovo Meccanismo spento in cima alle
@@ -73,7 +76,7 @@ Le prime tre piste corrono in parallelo fin dall'inizio. La discesa all'ascensor
 
 - **La Promessa dell'Arpia.** La prima è stata rinviata per la razzia e Belcanto cerca attori, costumisti e aiutanti. Le prove al Teatro diventano un ripetibile di Espressività, con esiti comici e un po' di fama.
 - **Topi in cantina.** Una carta di Rilla Tamberlo per l'Emporio; gli esiti vanno dal pulito allo Scandalo, e la porta dell'Emporio si può chiudere.
-- **L'Arena.** Si apre dopo il ritorno da Capomozzo ed è una pista breve (`pista.arena`, 0–5) con i ripetibili dopo il torneo: la mischia, poi tre ondate, poi la finale contro Galdrick, Dragna, Ilvaena e Ottilia. La squadra degli Scuri resta umiliata e prepara l'arco successivo.
+- **L'Arena.** Si apre dopo il ritorno da Capomozzo ed è una pista breve (`pista.arena`, 0–5) con i ripetibili dopo il torneo: la mischia, poi tre ondate, poi la finale contro Galdrick, Dragna, Ilvaena e Ottilia. L'Arena non si apre con `pista.pelle` fra 4 e 6, e `il-carceriere` aspetta la fine del torneo. Se l'Arena viene prima di Sotto la pelle, la squadra degli Scuri resta umiliata; con `pista.pelle >= 7` il loro posto lo prendono i mercenari di Ghoran con Durgan, e Bram Halgast entra nel torneo al posto di Borso.
 - **Sotto la pelle di Qir-Azel.** Si apre dopo il Registro: l'infiltrazione notturna al Maniero Malgrani (spedizione con allarme e prove raccolte), il Municipio, l'assalto alla Pignatta, Galdrick contro Vesh. Il modo in cui tratti la folla lascia `nomea.citta-bassa`, che colora gli storylet del quartiere.
 - **Le rovine dei Raschiatori** (Vhar'Ul, il Laboratorio di Calibrazione, il Sito Mahr-Kel) come spedizioni ripetibili per chi ha il posto nei turni di scavo: reperti, celle, frammenti di memoria su Nhar'Kael.
 

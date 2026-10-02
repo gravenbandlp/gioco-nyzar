@@ -2,6 +2,11 @@
 # la prova a squadre con l'eco del Cinghiale Crudele, l'ora nell'area dei combattenti e la finale contro la squadra
 # di Galdrick. Dopo la pista, due storie all'Arena: le giornate d'esibizione e la rivincita per il titolo.
 # La squadra del protagonista: Besk Dravec (assegnata da Orvald), Corin Ashdale e Tenebra.
+# L'Arena e Sotto la pelle si giocano in qualunque ordine. L'Arena resta chiusa mentre la pelle è fra 4 e 6 (Borso
+# latitante, l'assalto, Galdrick ferito), e `il-carceriere` aspetta che il torneo sia finito: così un torneo cominciato
+# con pista.pelle < 4 finisce tutto prima della fuga di Borso. Con pista.pelle >= 7 gli Scuri non esistono più, Borso
+# è in catene e Mauro non si nomina: al loro posto ci sono Bram Halgast nella squadra di Liaren e una squadra di
+# mercenari di Ghoran con Durgan (varianti con `quando` e `la-grande-mischia-dopo-vesh`).
 storylet:
   # ------------------------------------------------------------ 0 → 1 · l'annuncio e l'iscrizione
   - id: l-annuncio-dei-cristalli
@@ -11,7 +16,7 @@ storylet:
     sommario: "I cristalli delle facciate si mettono a ronzare tutti insieme, e la voce di Galdrick arriva in ogni vicolo. L'Arena riapre."
     luogo: Qir-Azel, poi l'Arena e la camera dei combattenti
     area: quartieri-alti
-    requisiti: [pista.arena == 0, pista.capomozzo >= 6]
+    requisiti: [pista.arena == 0, pista.capomozzo >= 7, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
     testo: |
       Sei davanti a un forno quando i cristalli delle facciate e dei lampioni
       tremano tutti insieme, e un ronzio basso ti sale dalle suole fino ai
@@ -35,7 +40,8 @@ storylet:
       sul piazzale dell'Arena e ti portano dentro per un corridoio basso, fra
       bassorilievi di eroi che sventrano mostri, fino alla camera dei
       combattenti. Dietro un banco di legno rinforzato Orvald Temmerin sta
-      congedando Dolovan Stroud, che si allontana pensieroso. Il corvo Pett ti
+      congedando Dolovan Stroud, lo stalliere delle Scuderie della Zanna
+      Rotta, che si allontana pensieroso. Il corvo Pett ti
       guarda dal bordo del banco con la testa inclinata, e Orvald alza appena
       gli occhi dal registro. «Ah. Sei tu. Bene» dice. «L'Arena ti aspetta. Che
       cosa posso fare per te?»
@@ -95,11 +101,12 @@ storylet:
             aggiunge un'ultima cosa: «Attorno all'Arena corre una cintura di
             Cristalli Conduttori che protegge il pubblico, e anche voi. Morire
             qui dentro è molto difficile, anche se si può. Chi forza un colpo
-            mortale fuori controllo viene squalificato, e nei casi gravi finisce
-            in cella da Borso.»
+            mortale fuori controllo viene squalificato, e nei casi gravi passa
+            la notte nelle celle della Caserma.»
       - testo: "Chiedere chi si è iscritto"
         descrizione: "Nella camera dei combattenti ci sono facce che conosci. Alcune ti salutano, altre no."
         immagine: personaggi/mauro-scrocco
+        quando: [pista.pelle < 4]
         costo: 0
         esito:
           titolo: Facce note
@@ -109,18 +116,68 @@ storylet:
             in tutte e due. Liaren Tarvelin dice di partecipare per curiosità e
             per uscire un giorno dalla locanda. Ettore Castaldi l'ha iscritto
             sua cugina Julia, perché così almeno combina qualcosa. Borso ha
-            chiesto un giorno di licenza alla Caserma per fracassare più crani
-            che può.
+            chiesto alla Caserma la licenza per tutto il torneo, e vuole
+            fracassare più crani che può.
 
             Nell'angolo vicino ai catini Mauro Scrocco parla a bassa voce con
             Rozalia Marga, che tiene due stiletti fra le dita come penne.
             Accanto a loro ci sono un nano pieno di cicatrici con una grande
             ascia e Nihali Cuzan, che tossisce nella pipa. Mauro ti vede, ti fa
             un cenno largo con la mano e sorride con tutti i denti.
+      - testo: "Chiedere chi si è iscritto"
+        descrizione: "Nella camera dei combattenti ci sono facce che conosci. Alcune ti salutano, altre no."
+        immagine: personaggi/orvald-temmerin
+        quando: [pista.pelle >= 7]
+        costo: 0
+        esito:
+          titolo: Facce note
+          testo: |
+            Orvald legge i nomi dal registro senza fretta. Toren Galdrick si è
+            iscritto alla Mischia e alle squadre, e in città lo danno favorito
+            in tutte e due, anche se il fianco che gli ha aperto Vesh è guarito
+            da poco. Liaren Tarvelin dice di partecipare per curiosità e per
+            uscire un giorno dalla locanda. Ettore Castaldi l'ha iscritto sua
+            cugina Julia, perché così almeno combina qualcosa. Bram Halgast, il
+            fabbro della Fucina dei Due Mastini, vuole far vedere a tutta la
+            città come tagliano le sue lame, e ha già chiesto dove si paga da
+            bere.
+
+            Nell'angolo vicino ai catini tre mercenari di Ghoran, di quelli che
+            Galdrick si è portato in città, giocano a dadi su una panca. Con
+            loro c'è un nano pieno di cicatrici con una grande ascia. Orvald
+            abbassa la voce e ti dice che il nano, fino alla Pignatta, prendeva
+            la paga da Vesh, e che adesso la prende da chi gliela offre. Uno dei
+            mercenari ti riconosce da quella notte e ti fa un cenno con il
+            mento.
       - testo: "Iscriverti alle Tre Prove"
         descrizione: "Una firma sul registro di Orvald. Il resto viene dopo."
         immagine: personaggi/besk-dravec
         requisiti: [pista.corin == 0]
+        quando: [corin.salvato >= 1]
+        esito:
+          titolo: La squadra di Orvald
+          testo: |
+            Firmi, e Orvald soffia sull'inchiostro. «Per le squadre ti do la mia
+            allieva» dice, e chiama Besk Dravec dalle nicchie. È una ragazza con
+            gli occhiali e un vestito olvaro, e ti stringe la mano con cortesia.
+            «Lancia meglio di come parla» dice Orvald, «e parla moltissimo.»
+            Besk risponde a voce rapida che lui lo dice perché lei gli corregge
+            i conti.
+
+            Un uomo in panciotto ricamato si avvicina scansando le panche, e a
+            metà strada si ferma a guardarti in faccia. Poi ti afferra il polso
+            con tutte e due le mani, come quel giorno sotto il bancone. «Le
+            castagne» dice. «Corin Ashdale, della Gilda, se non ti ricordi il
+            nome. Vorrei imparare come si fa a essere un eroe, e mi pare di
+            averne trovato uno. Vi manca un uomo?» Orvald lo scrive sul registro
+            prima che tu risponda.
+          pe: { persuasione: 3 }
+          effetti: { pista.arena: 1 }
+      - testo: "Iscriverti alle Tre Prove"
+        descrizione: "Una firma sul registro di Orvald. Il resto viene dopo."
+        immagine: personaggi/besk-dravec
+        requisiti: [pista.corin == 0]
+        quando: [corin.salvato == 0]
         esito:
           titolo: La squadra di Orvald
           testo: |
@@ -186,10 +243,10 @@ storylet:
     presso: arena-di-qir-azel
     immagine: personaggi/orazio-belcanto
     titolo: La Grande Mischia
-    sommario: "Dodici combattenti dentro un recinto che brucia chi lo tocca, e uno solo uscirà con il nome inciso nella pietra."
+    sommario: "Dodici combattenti dentro un recinto che brucia chi lo tocca, e uno solo ci resterà dentro in piedi."
     luogo: Arena di Qir-Azel, il recinto ovale
     area: quartieri-alti
-    requisiti: [pista.arena == 1]
+    requisiti: [pista.arena == 1, pista.pelle < 4]
     testo: |
       I cristalli della cintura si accendono tutti insieme, e un'onda di
       vibrazione attraversa la sabbia e ti sale nelle caviglie. Su una sporgenza
@@ -201,12 +258,12 @@ storylet:
 
       Le griglie ai bordi si sollevano dal suolo, e il recinto ovale si accende
       di un verde acido che ti fa lacrimare. Orazio scandisce le parole una alla
-      volta. «Dodici combattenti entrano. Uno solo uscirà da qui con il suo nome
-      inciso nella pietra.»
+      volta. «Dodici combattenti entrano. Uno solo resterà dentro il recinto
+      quando la linea si spegne.»
 
       Galdrick saluta la tribuna con due dita, in armatura scura. Borso si batte
-      la clava sul palmo e racconta a chiunque sia a portata d'orecchio che il
-      giorno di licenza se l'è guadagnato. Dragna Gro-Malog ha l'ascia già in
+      la clava sul palmo e racconta a chiunque sia a portata d'orecchio che la
+      licenza se l'è guadagnata. Dragna Gro-Malog ha l'ascia già in
       mano, e Mauro Scrocco suda nella sua camicia color zafferano prima ancora
       di cominciare. Il nano con le cicatrici si chiama Durgan e non ha detto
       una parola da stamattina. Fra gli altri c'è un mercenario di passaggio con
@@ -220,7 +277,7 @@ storylet:
         descrizione: "Undici avversari, e tutti contro di te appena si accorgono che sei ancora in piedi."
         combattimento: la-grande-mischia
         vittoria:
-          titolo: Un nome nella pietra
+          titolo: L'ultimo in piedi
           testo: |
             Dragna e Mauro si cercano subito, e finiscono fuori dal recinto
             avvinghiati. Galdrick ne butta giù tre prima che Borso e Durgan gli
@@ -353,6 +410,180 @@ storylet:
           imposta: { mischia: 2 }
           effetti: { tormento: 1, ferite: 1, pista.arena: 1 }
 
+  # ------------------------------------------------------------ 1 → 2 · la Grande Mischia, dopo Vesh (pista.pelle >= 7)
+  - id: la-grande-mischia-dopo-vesh
+    presso: arena-di-qir-azel
+    immagine: personaggi/orazio-belcanto
+    titolo: La Grande Mischia
+    sommario: "Dodici combattenti dentro un recinto che brucia chi lo tocca, e uno solo ci resterà dentro in piedi."
+    luogo: Arena di Qir-Azel, il recinto ovale
+    area: quartieri-alti
+    requisiti: [pista.arena == 1, pista.pelle >= 7]
+    testo: |
+      I cristalli della cintura si accendono tutti insieme, e un'onda di
+      vibrazione attraversa la sabbia e ti sale nelle caviglie. Su una sporgenza
+      della tribuna Orazio Belcanto, con le piume sul cappello e una giacca che
+      manda lampi, allarga le braccia inanellate. «Popolo di Qir-Azel, cittadini
+      della Città Alta e della Città Bassa! Oggi l'Arena non chiede spettatori.
+      Vuole volontà e sangue, e vuole sapere un nome. Che abbiano inizio le Tre
+      Prove!»
+
+      Le griglie ai bordi si sollevano dal suolo, e il recinto ovale si accende
+      di un verde acido che ti fa lacrimare. Orazio scandisce le parole una alla
+      volta. «Dodici combattenti entrano. Uno solo resterà dentro il recinto
+      quando la linea si spegne.»
+
+      Galdrick saluta la tribuna con due dita, in armatura scura. Ogni tanto si
+      tocca il fianco dove la sciabola di Vesh l'ha aperto. Bram Halgast, a
+      torso nudo come se fosse alla forgia, si batte sul palmo un martello da fabbro e
+      racconta a chiunque sia a portata d'orecchio quanto costano le sue
+      spade. Dragna Gro-Malog ha l'ascia già in mano, e il più grosso dei
+      mercenari di Ghoran suda nella cotta di maglia prima ancora di
+      cominciare. Il nano con le cicatrici si chiama Durgan e non ha detto una
+      parola da stamattina. Fra gli altri c'è un mercenario di passaggio con
+      lo scudo dipinto di fresco, che ogni tanto guarda la tribuna per vedere
+      se sua madre è arrivata.
+
+      «GUERRIERI DELLA GRANDE MISCHIA!» grida Orazio. «COMINCIATE!»
+    opzioni:
+      - testo: "Buttarti nella mischia"
+        immagine: ambientazione/cristalli-conduttori
+        descrizione: "Undici avversari, e tutti contro di te appena si accorgono che sei ancora in piedi."
+        combattimento: la-grande-mischia
+        vittoria:
+          titolo: L'ultimo in piedi
+          testo: |
+            Dragna e il mercenario di Ghoran si cercano subito, e finiscono
+            fuori dal recinto avvinghiati. Galdrick ne butta giù tre prima che
+            Bram e Durgan gli vengano addosso insieme e lo spingano oltre la
+            linea verde, e lo sceriffo, cadendo, si porta dietro il fabbro per
+            la cintura. Poi Durgan si volta verso di te, con il mercenario dallo
+            scudo dipinto. Il mercenario va giù per primo. Il nano ti costa una
+            spalla che non senti più e il fiato, finché non scivola sulla sabbia
+            e la sua ascia ti passa a un dito dall'orecchio.
+
+            Orvald ti mette in mano un fermaglio d'argento intrecciato. «Questo
+            non è roba da bancarella» dice, mentre la tribuna urla il tuo nome.
+          imposta: { mischia: 1 }
+          effetti: { oggetto.fermaglio-di-orvald: 1, pista.arena: 1, racconto: 1 }
+        sconfitta:
+          titolo: Il favorito
+          testo: |
+            Durgan ti prende di piatto con il manico dell'ascia, e ti ritrovi in
+            ginocchio con la schiena a un palmo dalla linea verde. Il calore del
+            recinto ti brucia la nuca. Un calcio del mercenario ti fa fare
+            l'ultimo palmo, e la scarica del recinto ti butta sulla sabbia di
+            fuori.
+
+            Vince Galdrick come dicevano tutti, e lo fa senza fretta. Mentre
+            Orazio lo proclama, dalla tribuna però arriva il tuo nome, prima da
+            un angolo e poi da tutti. Orvald si china sul registro. «La folla ti
+            vuole nella prova a squadre» dice, «e io non litigo con la folla.»
+          imposta: { mischia: 2 }
+          effetti: { pista.arena: 1 }
+      - testo: "Restare al bordo e lasciare che si sfoltiscano"
+        descrizione: "Il recinto brucia chi lo tocca. Bisogna stargli accanto senza toccarlo, mentre gli altri si fanno a pezzi al centro."
+        prova: { attributo: fisico, abilita: [acrobazia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Sul filo verde
+          testo: |
+            Ti tieni a un passo dalla linea verde, con la pelle che formicola
+            sul fianco, e lasci che al centro si facciano a pezzi fra loro. Vedi
+            Bram e Durgan spingere Galdrick fuori dal recinto insieme, e lo
+            sceriffo che si porta dietro il fabbro per la cintura. Il nano e il
+            mercenario si voltano verso di te nello stesso momento. Il
+            mercenario ti carica e tu ti sposti, e il recinto fa il resto.
+            Durgan è più furbo e ti costa un taglio sull'avambraccio, finché non
+            perde l'equilibrio sul bordo e la linea verde lo prende alla
+            schiena.
+
+            Orvald ti porge un fermaglio d'argento intrecciato. «Questo non è
+            roba da bancarella» dice. «Il bordo l'avevo pensato per i codardi.
+            Tu l'hai usato meglio di loro.»
+          imposta: { mischia: 1 }
+          effetti: { oggetto.fermaglio-di-orvald: 1, pista.arena: 1, racconto: 1 }
+        fallimento:
+          titolo: La linea verde
+          testo: |
+            Un gomito di Bram ti arriva nelle costole mentre guardi da un'altra
+            parte, e fai un passo indietro di troppo. Il recinto ti brucia la
+            schiena con un calore che ti toglie il fiato e ti butta fuori sulla
+            sabbia, con la camicia che fuma e ti resta attaccata alla pelle.
+            L'inserviente che te la stacca ha la mano leggera, e fa male lo
+            stesso.
+
+            Vince Galdrick, il favorito. Dalla tribuna però chiamano il tuo
+            nome, e Orvald, chino sul registro, dice che la folla ti vuole nella
+            prova a squadre e che lui con la folla non litiga.
+          imposta: { mischia: 2 }
+          effetti: { ferite: 2, pista.arena: 1 }
+      - testo: "Prenderti la folla"
+        descrizione: "Dodici combattenti e cinquemila spettatori. Chi ha la tribuna dalla sua ha già mezzo recinto."
+        prova: { attributo: sociale, abilita: [espressivita, intimidire], difficolta: Difficile }
+        successo:
+          titolo: Il nome che gridano
+          testo: |
+            Alzi l'arma verso la tribuna dei Quartieri Alti e poi verso quella
+            della Città Bassa, e la seconda ti risponde con un boato che fa
+            tremare le griglie. Da lì in avanti chi ti si avvicina lo fa con un
+            occhio agli spalti. Bram e Durgan scelgono Galdrick, e lo spingono
+            oltre la linea verde insieme, e lui si porta dietro il fabbro per la
+            cintura. Quando il nano e il mercenario si voltano verso di te la
+            folla scandisce il tuo nome, e il mercenario esce dal recinto da
+            solo, rosso in faccia. Durgan resta, e ti costa una spalla e un
+            labbro spaccato prima di andare giù.
+
+            Orvald ti porge un fermaglio d'argento intrecciato. «Questo non è
+            roba da bancarella» dice.
+          imposta: { mischia: 1 }
+          effetti: { oggetto.fermaglio-di-orvald: 1, pista.arena: 1, racconto: 1 }
+        fallimento:
+          titolo: Il pubblico sbagliato
+          testo: |
+            Alzi l'arma verso la tribuna, e dalla tribuna ti arriva un torsolo
+            di mela. Mentre lo schivi Durgan ti prende alle gambe con il manico
+            dell'ascia e poi alle costole. Finisci sulla linea verde con tutta
+            la schiena.
+
+            Vince Galdrick, il favorito. Dalla tribuna però, a sorpresa,
+            cominciano a chiamare il tuo nome, forse per il torsolo, e Orvald
+            dice che la folla ti vuole nella prova a squadre e che lui con la
+            folla non litiga.
+          imposta: { mischia: 2 }
+          effetti: { ferite: 2, pista.arena: 1 }
+      - testo: "Piegare il recinto"
+        descrizione: "Il verde della linea è Mana, e il Mana si lascia spostare da chi sa dove spingere. Orvald non ha vietato la magia."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il recinto si stringe
+          testo: |
+            Senti il Mana del recinto ronzarti nei denti, e trovi il punto dove
+            è più sottile. Quando Bram e Durgan spingono Galdrick verso il
+            bordo, tu tiri la linea verde di un passo verso di lui, e lo
+            sceriffo esce trascinandosi dietro il fabbro per la cintura. Il nano
+            e il mercenario si voltano verso di te. Il mercenario finisce sul
+            verde senza capire come. Durgan ti costa un taglio sul fianco e
+            tutto il fiato che hai, prima che il recinto lo prenda alle spalle.
+
+            Orvald ti porge un fermaglio d'argento intrecciato e ti guarda a
+            lungo. «Questo non è roba da bancarella» dice. «Il recinto, però, è
+            roba mia.»
+          imposta: { mischia: 1 }
+          effetti: { oggetto.fermaglio-di-orvald: 1, pista.arena: 1, racconto: 1 }
+        fallimento:
+          titolo: Il ritorno del Mana
+          testo: |
+            Il Mana del recinto ti torna indietro tutto insieme, e per un
+            momento vedi la sabbia diventare verde. Quando ci vedi di nuovo sei
+            fuori dalla linea, seduto, con il sapore del rame in bocca e un
+            tremito alle mani che non vuole passare.
+
+            Vince Galdrick, il favorito. Dalla tribuna però chiamano il tuo
+            nome, e Orvald dice che la folla ti vuole nella prova a squadre e
+            che lui con la folla non litiga.
+          imposta: { mischia: 2 }
+          effetti: { tormento: 1, ferite: 1, pista.arena: 1 }
+
   # ------------------------------------------------------------ 2 → 3 · la prova a squadre
   - id: la-prova-a-squadre
     presso: arena-di-qir-azel
@@ -369,7 +600,7 @@ storylet:
       risposto senza alzare gli occhi. «Voglio vedere Ferro perdere. Una volta.»
 
       Le quattro squadre avanzano in fila verso la sabbia. Dietro la tua vengono
-      Liaren con i suoi e poi gli Scuri, e per ultima la squadra di Galdrick. A
+      le altre due, e per ultima la squadra di Galdrick. A
       metà strada il terreno si apre, e dal suolo salgono placche di metallo e
       pietra che dividono l'Arena in quadranti. Al centro del tuo emerge un
       cristallo conduttore alto due volte un uomo. Besk ci avvicina la mano
@@ -499,6 +730,8 @@ storylet:
           segue: una-leggenda
 
   # ------------------------------------------------------------ il terzo giro · una leggenda
+  # L'eco non dice se la bestia da cui viene sia viva o morta: con pista.corin < 3 il cinghiale della Foresta è
+  # ancora vivo. Solo con pista.corin >= 4 (dopo il banchetto) le opzioni lo riconoscono come quello ucciso.
   - id: una-leggenda
     immagine: bestiario/cinghiale-mutato-gigante
     titolo: Una leggenda
@@ -510,7 +743,7 @@ storylet:
       Le luci dell'Arena si abbassano, e la folla smette di urlare e comincia a
       mormorare. «Un omaggio alla squadra di Liaren» dice Orazio, «la cui
       avventura termina qui.» Dagli spalti arrivano applausi e fischi insieme, e
-      oltre la placca di metallo senti Borso che bestemmia.
+      oltre la placca di metallo senti Ettore Castaldi che bestemmia.
 
       «E ora l'ultima prova.» La luce del cristallo vira al rossastro, e il
       cristallo comincia a vibrare con un suono storto che ti fa male ai denti.
@@ -557,8 +790,8 @@ storylet:
             rado, finché la bestia crolla e si sfa in una pioggia di schegge
             pallide. Le barriere fra i quadranti esplodono in scintille bianche.
 
-            Gli Scuri sono a pezzi, con Mauro che ansima appoggiato all'ascia e
-            ti fissa senza dire niente. La squadra di Galdrick invece è
+            Nel quadrante accanto restano in piedi soltanto in due, e uno di
+            loro ti fissa senza dire niente. La squadra di Galdrick invece è
             intatta, e lo sceriffo ti fa un cenno breve. Poi i cristalli mandano
             un ultimo lampo che ti entra nella pelle, e ti senti come dopo una
             notte di sonno.
@@ -571,7 +804,8 @@ storylet:
             Besk la reggono finché tu ti rialzi, e la finite insieme, in
             quattro, quando il cristallo ha già quasi smesso di brillare.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli ti rimette in piedi, ma a
             Corin non chiude del tutto il taglio sulla fronte, e lui se lo
@@ -590,7 +824,8 @@ storylet:
             si sfa in schegge pallide. Le barriere fra i quadranti esplodono in
             scintille bianche.
 
-            Gli Scuri sono a pezzi, con Mauro che ansima appoggiato all'ascia.
+            Nel quadrante accanto restano in piedi soltanto in due, appoggiati
+            alle armi.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno, e
             Besk lo prende a occhi chiusi, sorridendo al cristallo come a un
@@ -604,7 +839,8 @@ storylet:
             e Corin finché vi rialzate, e Corin ci rimette una spalla. Alla fine
             la crepa si allarga lo stesso e l'eco si sfa.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli ti rimette in piedi, ma
             le mani che hai tenuto sul cristallo restano rosse e gonfie, e il
@@ -623,7 +859,8 @@ storylet:
             dalla parte che ti aspettavi e ti offre il fianco. Al terzo scarto
             Tenebra lo apre, e la bestia si sfa in schegge pallide.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno.
           effetti: { ferite: -1, tormento: -0.5, pista.arena: 1, racconto: 1 }
@@ -636,26 +873,28 @@ storylet:
             mentre Corin ti trascina via per il colletto, e la finite in
             quattro, a fatica.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli ti chiude la pelle della
             coscia, ma sotto la zanna è arrivata fino all'osso, e quando provi a
             camminare la gamba non ne vuole sapere.
           effetti: { ferite: 2, pista.arena: 1 }
       - testo: "Leggere la bestia"
-        descrizione: "Un'eco ripete quello che la bestia faceva da viva. Se capisci come cacciava, sai dove sarà."
+        descrizione: "Un'eco ripete i gesti della bestia da cui viene. Se capisci come caccia, sai dove sarà."
         requisiti: [pista.corin < 4]
         prova: { attributo: mentale, abilita: [natura, addestrare-animali], difficolta: Difficile }
         successo:
           titolo: La maschera della Marea
           testo: |
             Guardi come muove la testa e capisci che le vene d'argento sono una
-            maschera della Marea, cucita sopra una bestia che di suo aveva paura
+            maschera della Marea, cucita sopra una bestia nata con la paura
             del rumore. Fai battere a Corin la spada sulla placca, e a ogni
             colpo il cinghiale scarta a destra e ti offre il fianco. Al terzo
             scarto Tenebra lo apre, e la bestia si sfa in schegge pallide.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno.
           effetti: { ferite: -1, tormento: -0.5, pista.arena: 1, racconto: 1 }
@@ -667,7 +906,8 @@ storylet:
             Corin ti trascina via per il colletto, e la finite in quattro, a
             fatica.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli ti chiude la pelle della
             coscia, ma sotto la zanna è arrivata fino all'osso, e quando provi a
@@ -685,7 +925,8 @@ storylet:
             brucia il muso, e tu sei già sul fianco. L'eco si sfa in schegge
             pallide.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno, e
             Corin non smette più di ridere.
@@ -697,7 +938,8 @@ storylet:
             cinghiale passa dove non doveva. Ti prende in pieno. La finite in
             tre, con Corin seduto per terra, quando hai già il sangue in bocca.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli ti rimette in piedi, ma
             due costole restano dove le ha lasciate la bestia, e Corin ti chiede
@@ -714,7 +956,8 @@ storylet:
             parola le vene d'argento si spengono una alla volta. Arriva a tre
             passi da te ridotta a una sagoma di luce grigia, e lì si sfa.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli vale una notte di sonno.
             In tribuna qualche novizio del Velo si fa il segno, e Besk ti guarda
@@ -729,7 +972,8 @@ storylet:
             finite in quattro, alla vecchia maniera, con il sangue di tutti
             sulla sabbia.
 
-            Le barriere esplodono in scintille bianche. Gli Scuri sono a pezzi.
+            Le barriere esplodono in scintille bianche. Nel quadrante accanto
+            restano in piedi soltanto in due.
             La squadra di Galdrick invece è intatta, e lo sceriffo ti fa un
             cenno breve. L'ultimo lampo dei cristalli ti rimette in piedi, e la
             spalla dove ti ha preso la zanna resta livida e dura.
@@ -752,12 +996,10 @@ storylet:
       lui ha da fare con i registri.
 
       La squadra di Liaren occupa le panche a sinistra. Liaren accorda il
-      samisen con un labbro spaccato, Ettore Castaldi beve da una fiaschetta
-      quando crede che nessuno lo veda, e Borso dorme seduto. Gli Scuri si sono
-      presi l'angolo più buio. Mauro Scrocco è seduto su due sgabelli e ti
-      guarda come si guarda un debito, contando. *Quello i conti li tiene a
-      memoria.* Vicino alle armerie la squadra di Galdrick si prepara in
-      silenzio.
+      samisen con un labbro spaccato, ed Ettore Castaldi beve da una
+      fiaschetta quando crede che nessuno lo veda. L'altra squadra si è presa
+      l'angolo più buio, e lì si parla a voce bassa. Vicino alle
+      armerie la squadra di Galdrick si prepara in silenzio.
 
       Besk ripassa le formule sul quaderno muovendo le labbra. Corin ha tirato
       fuori un pettine. Tenebra si è seduto contro il muro, con la lama sulle
@@ -766,6 +1008,7 @@ storylet:
       - testo: "Andare da Liaren e dai suoi"
         immagine: personaggi/liaren-tarvelin
         descrizione: "Sono usciti fra gli applausi e i fischi, e Liaren non ha ancora deciso quale dei due tenersi."
+        quando: [pista.pelle < 4]
         costo: 0
         esito:
           titolo: Un omaggio
@@ -777,26 +1020,64 @@ storylet:
             da anni e che adesso si ricorda perché.
 
             Ettore Castaldi ti offre la fiaschetta e poi la ritira, perché si
-            ricorda che devi combattere. Borso apre un occhio e ti dice che la
-            prossima volta i crani da fracassare li sceglie lui.
+            ricorda che devi combattere. Borso si sveglia di colpo sulla panca e
+            ti dice che la prossima volta i crani da fracassare li sceglie lui.
+      - testo: "Andare da Liaren e dai suoi"
+        immagine: personaggi/liaren-tarvelin
+        descrizione: "Sono usciti fra gli applausi e i fischi, e Liaren non ha ancora deciso quale dei due tenersi."
+        quando: [pista.pelle >= 7]
+        costo: 0
+        esito:
+          titolo: Un omaggio
+          testo: |
+            Liaren ti fa posto sulla panca. «Un omaggio alla squadra di Liaren»
+            dice, imitando Orazio con la voce un'ottava sopra. «Quell'uomo mi ha
+            fatto il funerale davanti a tutta la città, e non vedeva l'ora.»
+            Dolovan Stroud si sta fasciando una mano e dice che non combatteva
+            da anni e che adesso si ricorda perché.
+
+            Ettore Castaldi ti offre la fiaschetta e poi la ritira, perché si
+            ricorda che devi combattere. Bram Halgast si sveglia di colpo con il
+            martello fra le ginocchia. La prossima volta l'avversario se lo
+            sceglie lui, ti dice, con una parola che a Liaren non piace.
       - testo: "Andare dagli Scuri"
         immagine: personaggi/mauro-scrocco
         descrizione: "Sono usciti in barella, quasi tutti. Mauro però è ancora in piedi, almeno lui."
+        quando: [pista.pelle < 4]
         costo: 0
         esito:
           titolo: Il conto
           testo: |
             Durgan si fa ricucire il sopracciglio da Rozalia, che ci mette un
             impegno cattivo. Nihali tossisce piegato in due e sputa nero sulla
-            sabbia dei catini. Mauro non si alza. Ti squadra dalle
-            ginocchia agli occhi, e poi apre le braccia come per abbracciarti,
-            restando seduto.
+            sabbia dei catini. Mauro non si alza. È seduto su due sgabelli e ti
+            guarda come si guarda un debito, contando. *Quello i conti li tiene
+            a memoria.* Poi apre le braccia come per abbracciarti, restando
+            seduto.
 
             «Bella leggenda, la tua» dice, con l'alito che arriva prima della
             voce. «La nostra era più grossa. Alla Pignatta si parla di tutto e
             si dice niente, lo sai. Però di te, da stasera, se ne parlerà.» Lo
             dice sorridendo, e intanto stringe il manico dell'ascia finché le
             nocche gli diventano bianche.
+      - testo: "Andare dai mercenari di Ghoran"
+        immagine: ambientazione/cristalli-conduttori
+        descrizione: "Sono usciti in barella, quasi tutti. Il nano però è ancora in piedi, almeno lui."
+        quando: [pista.pelle >= 7]
+        costo: 0
+        esito:
+          titolo: La paga
+          testo: |
+            Due dei mercenari di Ghoran si fasciano le braccia a vicenda, e il
+            terzo dorme sulla panca con la bocca aperta. Durgan si ricuce il
+            sopracciglio da solo, con l'ago in una mano e uno specchietto
+            nell'altra, e non fa una smorfia.
+
+            «Bella leggenda, la tua» dice il più anziano dei mercenari, senza
+            alzarsi. «La città ci paga per stare sulle mura, e qui ci siamo
+            venuti per arrotondare. La prossima volta arrotondiamo contro
+            qualcun altro.» Durgan intanto non ti toglie gli occhi di dosso, e
+            taglia il filo con i denti.
       - testo: "Andare da Galdrick e dai suoi"
         immagine: personaggi/toren-galdrick
         descrizione: "Lo sceriffo ha vinto la Mischia, e ti fa segno di avvicinarti."
@@ -819,6 +1100,7 @@ storylet:
         immagine: personaggi/toren-galdrick
         descrizione: "Lo sceriffo è uscito dalla Mischia per mano di Borso e Durgan, e ci ha già riso sopra."
         requisiti: [mischia == 1]
+        quando: [pista.pelle < 4]
         costo: 0
         esito:
           titolo: Il bavero di Borso
@@ -829,6 +1111,26 @@ storylet:
             pago io e l'altro lo paga Vesh, e per una volta erano d'accordo.»
             Ride, poi ti guarda il fermaglio. «Orvald quello non lo dà a
             nessuno. Tienilo da conto.»
+
+            Ilvaena Sorathe controlla le frecce una per una. Dragna ti guarda
+            dagli stivali in su e chiede a Tenebra, a voce alta, se si è messo a
+            fare il gladiatore per vederla perdere. Tenebra non risponde, e lei
+            ride con la voce roca.
+      - testo: "Andare da Galdrick e dai suoi"
+        immagine: personaggi/toren-galdrick
+        descrizione: "Lo sceriffo è uscito dalla Mischia per mano di Bram e Durgan, e ci ha già riso sopra."
+        requisiti: [mischia == 1]
+        quando: [pista.pelle >= 7]
+        costo: 0
+        esito:
+          titolo: Il fabbro e il nano
+          testo: |
+            Galdrick si sta facendo stringere le cinghie dell'armatura da
+            Ottilia Sanvel, che non dice una parola e non sbaglia un buco.
+            «Il fabbro e il nano insieme» dice con i pollici nella cintura.
+            «Uno mi vende le spade e l'altro lo pagava Vesh fino alla Pignatta,
+            e per una volta erano d'accordo.» Ride, poi ti guarda il fermaglio.
+            «Orvald quello non lo dà a nessuno. Tienilo da conto.»
 
             Ilvaena Sorathe controlla le frecce una per una. Dragna ti guarda
             dagli stivali in su e chiede a Tenebra, a voce alta, se si è messo a
@@ -1118,7 +1420,7 @@ storylet:
     sommario: "Il titolo di Campione l'ha preso Galdrick. Lo sceriffo si allena all'Arena certi pomeriggi, e una sfida non l'ha mai rifiutata."
     luogo: Arena di Qir-Azel, il camminamento centrale
     area: quartieri-alti
-    requisiti: [pista.arena >= 5, campione == 0]
+    requisiti: [pista.arena >= 5, campione == 0, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
     testo: |
       Certi pomeriggi Galdrick viene all'Arena a tirare di scherma con le
       reclute della Guardia, in maniche di camicia, con il taccuino lasciato sul
@@ -1133,6 +1435,18 @@ storylet:
       guardare. Orvald!» Dal banco Orvald alza la mano senza voltarsi, e Pett
       apre un occhio.
     opzioni:
+      - testo: "Guardargli il fianco"
+        descrizione: "La notte della Pignatta la sciabola di Vesh gliel'ha aperto. Sotto la camicia bagnata si vede ancora il segno."
+        quando: [pista.pelle >= 7]
+        costo: 0
+        esito:
+          titolo: La cicatrice
+          testo: |
+            Galdrick si accorge di dove guardi e si tira su la camicia senza
+            imbarazzo. La cicatrice è lunga una spanna e ancora lucida, e i
+            segni dei punti si contano uno per uno. «Tira quando alzo la lama
+            sopra la testa» dice, «e allora la tengo più bassa.» Si riabbassa la
+            camicia e ti fa segno di salire sul camminamento.
       - testo: "Sfidarlo a duello"
         immagine: personaggi/toren-galdrick
         descrizione: "Lo sceriffo da solo, sul camminamento. Nessuna squadra stavolta, e nessun pilone acceso."

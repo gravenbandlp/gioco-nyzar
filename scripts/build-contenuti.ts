@@ -248,6 +248,8 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     }
   }
 
+  for (const f of c.frammenti) requisiti(`frammento ${f.id}`, f.requisiti);
+
   // Glossario: ogni forma (nome o alias) appartiene a un solo nome; le varianti dello stesso nome (lo stesso PNG
   // prima e dopo un fatto della trama) si distinguono per i requisiti. Le voci mai citate sono sospette.
   const forme = new Map<string, { id: string; nome: string }>();

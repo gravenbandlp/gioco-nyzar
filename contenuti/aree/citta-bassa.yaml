@@ -2,7 +2,7 @@ aree:
   - id: citta-bassa
     immagine: ambientazione/citta-bassa
     nome: Città Bassa
-    sommario: "Un altopiano di roccia a est della città, con il terreno che scalda dalle fenditure e il fumo delle fucine fermo all'altezza dei tetti. Il martello batte a ogni ora, e alla Pignatta Grassa si scommette anche di notte."
+    sommario: "Un altopiano di roccia a est della città, con il terreno che scalda dalle fenditure e il fumo delle fucine fermo all'altezza dei tetti. Il martello batte a ogni ora, e nelle bische si scommette anche di notte."
     testo: |
       La Città Bassa occupa un altopiano di roccia a est di Qir-Azel, che al
       tramonto prende il colore di un livido. Dalle fenditure del terreno sale
@@ -17,17 +17,18 @@ aree:
       Quaggiù il martello batte sempre, e quando smette di solito è morto
       qualcuno.
 
-      Tre giorni fa, durante il Festival delle Foglie Alate, gli orchi sono
-      scesi sulla città. Se ne parla ovunque, ma a voce bassa. Nelle osterie si
-      contano i morti e nelle botteghe i danni. Alla Pignatta Grassa, invece,
-      si scommette su chi sarà il prossimo.
+      Della sera del Festival delle Foglie Alate, quando gli orchi sono scesi
+      sulla città, si parla ancora ovunque, ma a voce bassa. Nelle osterie si
+      contano i morti e nelle botteghe i danni, mentre ai tavoli da gioco si
+      scommette su chi sarà il prossimo.
 
       A ovest, sopra la Cicatrice, i Ponti Sospesi oscillano nel vento. Più in
       alto suonano le campane dei Quartieri Alti, dove si decide che cosa
       resterà scritto di questi giorni e che cosa verrà dimenticato.
 
-      Sei arrivato da poco, e le gambe si ricordano ancora di tutta la strada.
-      Il lavoro non manca, e dopo la razzia c'è anche molto da chiedere.
+      Quaggiù le gambe imparano presto dove il selciato scotta e dove
+      conviene allungare il passo. Il lavoro non manca, e dopo la razzia c'è
+      anche molto da chiedere.
     negozi: [banco-di-grusk, armeria-di-irsa, fucina-dei-due-mastini, emporio-tamberlo, il-salotto-di-nerissa, la-tua-bottega]
 
 storylet:
@@ -40,6 +41,9 @@ storylet:
     luogo: Acciaieria dei Tarvelin
     area: citta-bassa
     ripetibile: true
+    # Con pista.acciaio da 1 a 7 l'Acciaieria è chiusa, occupata o spenta; dopo riapre solo con
+    # acciaieria.futuro >= 1 (citta/minori.yaml), e il turno torna con la variante qui sotto.
+    requisiti: [pista.acciaio < 1]
     testo: |
       All'Acciaieria il turno di notte comincia quando la colata diventa
       azzurra. Gli operai portano maschere di cuoio con le lenti di vetro
@@ -47,6 +51,60 @@ storylet:
       lyssan ascolta. È un metallo che va assecondato. Chi lo tratta male se lo
       vede virare di colore nello stampo, fino a un grigio da annegato che non
       vale più niente.
+
+      Tu non tocchi il lyssan. Il tuo compito è spingere i carrelli della
+      scoria ancora calda lungo rotaie posate storte vent'anni fa e tenute in
+      squadra da allora con zeppe di legno, che ogni tanto prendono fuoco. Il
+      capoturno ti guarda prima le mani e poi la faccia, perché gli servono
+      braccia che non tremino. Tu tieni le dita larghe e ferme finché lui non
+      decide che per stanotte le tue vanno bene.
+    opzioni:
+      - testo: "Spingere i carrelli di scoria fino all'alba"
+        descrizione: "Serve forza nelle spalle e l'abitudine di non fissare la colata troppo a lungo."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Facile }
+        successo:
+          titolo: Spalle in fiamme
+          testo: |
+            All'alba fischia la sirena del cambio. Hai le spalle in fiamme e le
+            ciglia bruciacchiate, e in bocca ti è rimasto un sapore di ferro
+            che nemmeno l'acqua della fontana riesce a mandare via.
+
+            Il capoturno ti mette la paga del turno nel palmo una moneta alla volta, e a
+            ogni moneta ti guarda negli occhi per essere sicuro che te ne
+            ricorderai. Fuori la Città Bassa ha già ripreso a battere.
+          effetti: { monete: 4 }
+        fallimento:
+          titolo: Uno schizzo azzurro
+          testo: |
+            A metà strada un carrello s'impunta sulla rotaia storta. Spingi più
+            forte e il carico si rovescia. Uno schizzo di colata ti prende
+            l'avambraccio, e l'odore della carne bruciata prima ti mette fame e
+            poi ti dà la nausea.
+
+            Il capoturno ti paga lo stesso, un po' meno del pattuito. «La scoria
+            per terra non la paghiamo» dice, senza togliersi la maschera, e la
+            voce arriva da dentro il cuoio come da un'altra stanza. Poi ti fascia il braccio con uno
+            straccio pulito. Da un uomo come lui, a quell'ora, è quasi una
+            gentilezza.
+          effetti: { monete: 2, ferite: 0.5 }
+
+  # Il turno dopo che la fornace è stata riaccesa (acciaieria.futuro 1, 2 o 3, citta/minori.yaml).
+  - id: turno-acciaieria-riaccesa
+    presso: acciaieria-tarvelin
+    immagine: ambientazione/acciaieria-di-qir-azel
+    titolo: Un turno all'Acciaieria
+    sommario: "La fornace dei Tarvelin è di nuovo accesa, e il capoturno di notte cerca braccia ferme per i carrelli della scoria."
+    luogo: Acciaieria dei Tarvelin
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [acciaieria.futuro >= 1]
+    testo: |
+      All'Acciaieria il turno di notte comincia quando la colata diventa
+      azzurra. Sulla porta delle consegne la corona di foglie rosse per gli
+      otto operai morti è secca e nessuno ha il coraggio di toglierla, e chi
+      entra la sfiora con due dita. Gli operai portano maschere di cuoio con
+      le lenti di vetro affumicato, e sotto le maschere nessuno parla, perché
+      dicono che il lyssan ascolta.
 
       Tu non tocchi il lyssan. Il tuo compito è spingere i carrelli della
       scoria ancora calda lungo rotaie posate storte vent'anni fa e tenute in
@@ -284,7 +342,9 @@ storylet:
     luogo: Il vicolo dietro la Dispensa di Gramm
     area: ponti-sospesi
     ripetibile: true
-    requisiti: [ferite >= 0.5]
+    # Nestor fugge quando colpisci il suo retrobottega (colpo.dispensa) e dopo pista.pelle 4 non torna
+    # più (piste/pelle-scuri.yaml); come in citta/nodo.yaml, da lì in poi la Dispensa la tiene il garzone.
+    requisiti: [ferite >= 0.5, pista.pelle < 4, colpo.dispensa == 0]
     testo: |
       Alla Dispensa di Gramm si entra dalla porta principale per comprare
       tisane, e dal vicolo per tutto il resto. Tu entri dal vicolo.
@@ -314,6 +374,77 @@ storylet:
             Quando ha finito conta le monete due volte e le fa sparire sotto il
             bancone. Non lo ringrazi, e lui sembra quasi sollevato di non dover
             rispondere.
+          effetti: { monete: -10, ferite: -1 }
+
+  - id: ricucire-dal-garzone
+    presso: mercato-dei-nodi
+    immagine: ambientazione/dispensa-di-gramm
+    titolo: Farsi ricucire alla Dispensa
+    sommario: "Nestor Gramm se n'è andato. Nel retro della Dispensa adesso ricuce il suo garzone, e si entra ancora dal vicolo."
+    luogo: Il vicolo dietro la Dispensa di Gramm
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [ferite >= 0.5, pista.pelle >= 4]
+    testo: |
+      Alla Dispensa di Gramm si entra ancora dal vicolo, anche se Nestor
+      Gramm non c'è più. Ti apre un ragazzo magro con il grembiule grigio del
+      padrone, troppo lungo per lui e arrotolato due volte in vita, che tiene
+      nella tasca destra lo stesso straccio che Nestor non usava mai per
+      pulire. Ha imparato a ricucire guardando, e ogni tanto si ferma a
+      ricordare il punto successivo con le labbra che si muovono.
+
+      *Speriamo che abbia guardato bene.* Il tuo stomaco, intanto, si è già
+      stretto per conto suo.
+    opzioni:
+      - testo: "Pagare il garzone"
+        descrizione: "Il garzone chiede quello che chiedeva Nestor, e i conti li tiene sul muro con un chiodo."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Ago e filo
+          testo: |
+            Ti fa sedere sulla stessa cassa che odora di zolfo. Ricuce piano,
+            con la lingua fra i denti, poi spalma l'impasto verdastro di Nestor,
+            che brucia come prima e ti fa venire le lacrime agli occhi. Ogni
+            tanto ti chiede scusa senza un motivo preciso.
+
+            Quando ha finito conta le monete due volte, come faceva il padrone,
+            e segna una tacca sul muro accanto alla porta.
+          effetti: { monete: -10, ferite: -1 }
+
+  # Lo stesso garzone quando Nestor è fuggito al colpo del retrobottega, prima di pista.pelle 4.
+  - id: ricucire-dal-garzone-dopo-il-colpo
+    presso: mercato-dei-nodi
+    immagine: ambientazione/dispensa-di-gramm
+    titolo: Farsi ricucire alla Dispensa
+    sommario: "Nestor Gramm se n'è andato. Nel retro della Dispensa adesso ricuce il suo garzone, e si entra ancora dal vicolo."
+    luogo: Il vicolo dietro la Dispensa di Gramm
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [ferite >= 0.5, pista.pelle < 4, colpo.dispensa >= 1]
+    testo: |
+      Alla Dispensa di Gramm si entra ancora dal vicolo, anche se Nestor
+      Gramm non c'è più. Ti apre un ragazzo magro con il grembiule grigio del
+      padrone, troppo lungo per lui e arrotolato due volte in vita, che tiene
+      nella tasca destra lo stesso straccio che Nestor non usava mai per
+      pulire. Ha imparato a ricucire guardando, e ogni tanto si ferma a
+      ricordare il punto successivo con le labbra che si muovono.
+
+      *Speriamo che abbia guardato bene.* Il tuo stomaco, intanto, si è già
+      stretto per conto suo.
+    opzioni:
+      - testo: "Pagare il garzone"
+        descrizione: "Il garzone chiede quello che chiedeva Nestor, e i conti li tiene sul muro con un chiodo."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Ago e filo
+          testo: |
+            Ti fa sedere sulla stessa cassa che odora di zolfo. Ricuce piano,
+            con la lingua fra i denti, poi spalma l'impasto verdastro di Nestor,
+            che brucia come prima e ti fa venire le lacrime agli occhi. Ogni
+            tanto ti chiede scusa senza un motivo preciso.
+
+            Quando ha finito conta le monete due volte, come faceva il padrone,
+            e segna una tacca sul muro accanto alla porta.
           effetti: { monete: -10, ferite: -1 }
 
   - id: spalmare-unguento
@@ -382,12 +513,12 @@ storylet:
     immagine: ambientazione/evento-razzia-festival-150
     titolo: Una parola orchesca
     sommario: "Gli orchi la gridavano mentre morivano, e adesso la Città Bassa la ripete sottovoce senza sapere cosa significhi."
-    luogo: Città Bassa, tre giorni dopo il Festival
+    luogo: Città Bassa, nei giorni dopo il Festival
     area: citta-bassa
     requisiti: [pista.dama-argento == 0, informazioni.voce >= 2]
     testo: |
-      Tre giorni dopo la razzia delle Foglie Alate, in Città Bassa il martello
-      ha ripreso a battere, ma più piano. I morti si seppelliscono in fosse
+      Dopo la razzia delle Foglie Alate, in Città Bassa il martello ha
+      ripreso a battere, ma più piano. I morti si seppelliscono in fosse
       comuni benedette in fretta, e le tende strappate si rattoppano con la
       stoffa delle bandiere del Festival, che è quella che avanza. Si
       contano anche gli orchi uccisi, e quelli che, braccati sull'orlo, hanno
@@ -475,9 +606,9 @@ storylet:
       Adesso sai che *Mawrak'Thur* vuol dire Dama d'Argento, e da quando lo
       sai la parola ti torna in mente nei momenti meno adatti, perfino mentre
       ti allacci gli stivali. Resta da capire
-      chi sia questa dama, e perché la chiamino d'argento. A memoria di Qir-Azel, le cinque tribù
-      orchesche del circondario non si erano mai mosse insieme. Quella sera
-      qualcuno le teneva in fila. In città c'è chi ha capito abbastanza di
+      chi sia questa dama, e perché la chiamino d'argento. Quella sera gli
+      orchi cantavano tutti la stessa litania, come se qualcuno li tenesse in
+      fila. In città c'è chi ha capito abbastanza di
       quello che gridavano da averne paura.
 
       L'orchesco non si impara al mercato. Lo parlano gli orchi e qualche
@@ -700,8 +831,10 @@ storylet:
       spazza la segatura a fine giornata sa di tutti più di quanto dica, e un
       creditore arrabbiato non sarebbe il primo che vede questa settimana.
     opzioni:
+      # Chi ha già lavorato alla Maison (rep.maison >= 1) la riconosce: variante subito sotto.
       - testo: "Seguirlo tra i vicoli"
         descrizione: "Tieni la distanza e cambia spesso lato della strada. Marko è vanitoso e si guarda nelle vetrine più che alle spalle."
+        quando: [rep.maison < 1]
         prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
         successo:
           titolo: Una luna incisa
@@ -722,6 +855,45 @@ storylet:
 
             Alzi gli occhi verso il primo piano e vedi una tenda che si richiude.
             Rennick Dole è lì dentro.
+          effetti: { pista.dama-argento: 1 }
+        fallimento:
+          titolo: Al terzo angolo
+          testo: |
+            Al terzo angolo Marko si ferma davanti a una vetrina vuota, e nel
+            vetro scuro incontra i tuoi occhi, e il sudore ti si raffredda di
+            colpo sulla nuca. Si volta e ti sorride, con lo
+            stesso sorriso che riserva ai mercanti di Laresh quando il prezzo
+            non gli piace.
+
+            Poi riprende a camminare verso la Pignatta, senza fretta. Domani
+            mezza Segheria saprà che lo stavi seguendo, e l'altra metà lo saprà
+            dopodomani.
+          effetti: { sospetto: 1 }
+      - testo: "Seguirlo tra i vicoli"
+        descrizione: "Tieni la distanza e cambia spesso lato della strada. Marko è vanitoso e si guarda nelle vetrine più che alle spalle."
+        quando: [rep.maison >= 1]
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: La catena della porta davanti
+          testo: |
+            Lo segui per venti minuti oltre il margine dell'Orlo e poi su per
+            Via dei Rasoi, e a metà salita i tuoi piedi hanno capito dove state
+            andando prima di te. Marko gira attorno al cristallo spento e conta
+            tre porte, fino alla Maison des Lunes. Tira la catena di bronzo
+            della porta sulla strada, quella dei clienti. Tu entri sempre dal
+            cortile di Via del Salmone, e quel campanello l'hai sentito suonare
+            soltanto dalla cucina.
+
+            La porta si apre di una spanna e sulla soglia compare Sara Beck, con
+            il fermaglio d'argento nei capelli. Si parlano poco. Lui indica il
+            primo piano con il mento, lei scuote la testa una volta sola, e
+            Marko se ne va senza entrare, più in fretta di come è venuto. Prima
+            di richiudere Sara guarda verso l'angolo dove ti sei fermato, e se
+            ti ha riconosciuto non lo dà a vedere.
+
+            Alzi gli occhi verso il primo piano e vedi una tenda che si
+            richiude. Rennick Dole è lì dentro, qualche metro sopra la cucina
+            dove Gretchen fa i conti la sera.
           effetti: { pista.dama-argento: 1 }
         fallimento:
           titolo: Al terzo angolo
@@ -847,8 +1019,10 @@ storylet:
       Se quello che hai scoperto è vero, Rennick Dole è lì dentro, e ti
       viene da abbassare la voce anche se non stai parlando con nessuno.
     opzioni:
+      # Chi ha già lavorato alla Maison (rep.maison >= 1) trova Sara che lo conosce: variante subito sotto.
       - testo: "Tirare la catena"
         descrizione: "Da qualche parte oltre le tende suona un campanello. Poi si sentono dei passi, e hai l'impressione che qualcuno ti stia contando."
+        quando: [rep.maison < 1]
         esito:
           immagine: personaggi/sara-beck
           titolo: Le armi qui dentro
@@ -864,14 +1038,36 @@ storylet:
             di un dito un'ombra alta e larga il doppio di una persona.
 
             «Buonasera, sono Sara Beck. La Maison non riceve chi non ha
-            appuntamento.» Poi ti guarda meglio, soffermandosi sulla segatura che
-            hai ancora addosso, e aggiunge: «Però. Forse sei tu l'appuntamento
-            che qualcuno aspetta.»
+            appuntamento.» Poi ti guarda meglio, soffermandosi sugli stivali,
+            che stasera hanno fatto parecchia strada, e aggiunge: «Però. Forse
+            sei tu l'appuntamento che qualcuno aspetta.»
 
             Si fa da parte e ti lascia entrare. Dietro di lei ci sono un bancone
             curvo e un armadio chiuso a chiave, e lei lo indica con un sorriso
             vero quanto basta: «Le armi qui dentro. Il sorriso lo porti dove ti
             pare.»
+          effetti: { pista.dama-argento: 1, rep.maison: 1, racconto: 1 }
+      - testo: "Tirare la catena"
+        descrizione: "La catena della porta sulla strada non l'hai mai tirata. Di solito entri dal cortile di Via del Salmone, e il campanello lo senti suonare dalla cucina."
+        quando: [rep.maison >= 1]
+        esito:
+          immagine: personaggi/sara-beck
+          titolo: Dalla porta davanti
+          testo: |
+            Il campanello suona lontano oltre le tende. Dopo due secondi esatti
+            la porta si apre, e Sara Beck ti guarda dal basso, con il fermaglio
+            d'argento nei capelli e la testa un po' inclinata, come davanti a un
+            nome scritto nella colonna sbagliata della lavagnetta.
+
+            «Dalla porta davanti, e senza avvisare» dice. Poi guarda meglio gli
+            stivali, che stasera hanno fatto parecchia strada, e smette di
+            sorridere. «Però. Forse sei tu l'appuntamento che qualcuno aspetta.»
+
+            Dietro la tenda di velluto alle sue spalle si sposta di un dito
+            un'ombra grande il doppio di una persona, poi torna ferma. Sara si fa da
+            parte e ti lascia entrare. Indica l'armadio chiuso a chiave dietro
+            il bancone curvo, quello dove la sera appende il grembiule. «Le armi
+            qui dentro, anche le tue. Stasera sei un cliente.»
           effetti: { pista.dama-argento: 1, rep.maison: 1, racconto: 1 }
 
   # ------------------------------------------------------------ carte
@@ -914,8 +1110,8 @@ storylet:
           titolo: Stoffa bagnata
           testo: |
             La tua mano si chiude su un lembo di stoffa, che si strappa come
-            carta bagnata. Il ragazzo è già sparito, e con lui quattro delle tue
-            monete.
+            carta bagnata. Il ragazzo è già sparito, e con lui una parte delle
+            tue monete.
 
             Qualcuno dietro di te ride. Una donna, con grande gentilezza, ti
             consiglia di tenere la borsa davanti come fanno tutti, e tu la
@@ -953,6 +1149,7 @@ storylet:
     sommario: "Sul Ponte dei Morti una lanterna spenta da anni si è riaccesa da sola, e la sua luce pulsa."
     tipo: carta
     area: citta-bassa
+    requisiti: [visto.carta-lanterna == 0]
     testo: |
       Dal margine della Città Bassa, guardando a ovest, si vedono i Ponti
       Sospesi tesi sopra la Cicatrice. Il più vecchio è il Ponte dei Morti,
@@ -986,6 +1183,7 @@ storylet:
             possa esserne sicuro da così lontano. In città c'è chi pagherebbe per
             sapere quante volte ha battuto, e tu lo sai.
           effetti: { informazioni.pettegolezzo: 1 }
+          imposta: { visto.carta-lanterna: 1 }
         fallimento:
           titolo: Dietro le palpebre
           testo: |
@@ -996,6 +1194,7 @@ storylet:
             Rientri e chiudi le imposte, ma non riesci a dormire. Ogni volta che
             chiudi gli occhi vedi quella luce pulsare dietro le palpebre.
           effetti: { tormento: 0.5 }
+          imposta: { visto.carta-lanterna: 1 }
 
   - id: carta-favore-scuri
     immagine: personaggi/rozalia-marga
@@ -1003,7 +1202,8 @@ storylet:
     sommario: "Rozalia Marga ha un pacco da far arrivare alla Pignatta, e non vuole domande."
     tipo: carta
     area: citta-bassa
-    requisiti: [rep.scuri >= 1]
+    # Dopo pista.pelle 6 la Pignatta è bruciata e gli Scuri non esistono più come rete.
+    requisiti: [rep.scuri >= 1, pista.pelle < 6]
     testo: |
       Rozalia Marga ti si affianca all'angolo senza che tu la veda arrivare, il
       che è notevole per una donna con una piuma d'oca dietro l'orecchio. Porta
@@ -1054,6 +1254,7 @@ storylet:
     sommario: "Il Velo ha affisso i bollettini delle sacche di Marea, e su uno qualcuno ha coperto una riga a carboncino."
     tipo: carta
     area: citta-bassa
+    requisiti: [visto.carta-bollettino == 0]
     testo: |
       Ogni autunno, dopo le piogge, la Confraternita del Velo affigge i
       bollettini delle sacche di Marea Grigia risalite in superficie. Sono
@@ -1091,6 +1292,7 @@ storylet:
             nasconderla, e adesso la conosci tu. Se ne parli nei posti giusti,
             fra poco la conosceranno anche altri.
           effetti: { informazioni.voce: 2 }
+          imposta: { visto.carta-bollettino: 1 }
         fallimento:
           titolo: Il carboncino
           testo: |
@@ -1098,6 +1300,7 @@ storylet:
             ma non riesci a leggere niente. Chi ha usato quel carboncino sapeva
             il fatto suo.
           effetti: {}
+          imposta: { visto.carta-bollettino: 1 }
 
   # ------------------------------------------------------------ magia
 
@@ -1232,6 +1435,7 @@ storylet:
     area: citta-bassa
     immagine: ambientazione/orlo-dei-rottami
     sommario: "Un magazzino sprangato e un mastino alla catena che non ha ancora deciso cosa fare di te."
+    requisiti: [visto.carta-cane-del-ricettatore == 0]
     testo: |
       Dietro la Conceria c'è il magazzino di un ricettatore che dopo la
       razzia non si è più visto. La porta è sprangata, ma la finestra sul
@@ -1254,6 +1458,7 @@ storylet:
             precuriane e un registro con nomi che qualcuno pagherebbe per
             leggere.
           effetti: { reliquie.scheggia: 1, oggetto.registro-del-ricettatore: 1 }
+          imposta: { visto.carta-cane-del-ricettatore: 1 }
         fallimento:
           titolo: Denti
           testo: |
@@ -1271,6 +1476,7 @@ storylet:
             precuriane e un registro con nomi che qualcuno pagherebbe per
             leggere.
           effetti: { reliquie.scheggia: 1, oggetto.registro-del-ricettatore: 1 }
+          imposta: { visto.carta-cane-del-ricettatore: 1 }
         sconfitta:
           titolo: Ritirata
           testo: |

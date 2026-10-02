@@ -7,7 +7,8 @@ storylet:
     sommario: "Nel salone della Maison la luce è color miele e nessuno suona. Dalla scala scende la donna che decide chi sale al primo piano."
     luogo: Maison des Lunes, il salone
     area: citta-bassa
-    requisiti: [pista.dama-argento == 5]
+    # Con rep.maison >= 2 (la sera della lanterna dà 1) ci avevi già lavorato: variante `nerissa-dalvane-di-casa`.
+    requisiti: [pista.dama-argento == 5, rep.maison < 2]
     testo: |
       Sara Beck chiude a chiave l'armadio delle armi e ti affida a Gretchen,
       la più anziana delle ragazze, che ti accompagna oltre la tenda senza
@@ -36,7 +37,7 @@ storylet:
       proteggo, vedi. È una questione di economia, perché il giorno in cui un
       cliente esce da qui portato via a forza la Maison chiude entro un mese.
       Quindi dimmi perché lo cerchi.»
-    opzioni:
+    opzioni: &opzioni-nerissa-dalvane
       - testo: "Raccontarle la verità sul Festival"
         descrizione: "Le racconti della parola che gridavano gli orchi e dell'uomo che sa tradurla. Nerissa riconosce una bugia prima che tu finisca di dirla."
         prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
@@ -151,6 +152,44 @@ storylet:
             la lanterna resta accesa.
           effetti: { ferite: 0.5, scandalo: 0.5, rep.maison: -1 }
 
+  # La stessa scena per chi alla Maison ci aveva già lavorato: stesse opzioni, stessi effetti.
+  - id: nerissa-dalvane-di-casa
+    presso: via-dei-rasoi
+    immagine: personaggi/nerissa-dalvane
+    titolo: La padrona di casa
+    sommario: "Il salone della Maison l'hai visto soltanto dalla porta della cucina. Stasera ti ci fanno sedere, e dalla scala scende Nerissa Dalvane."
+    luogo: Maison des Lunes, il salone
+    area: citta-bassa
+    requisiti: [pista.dama-argento == 5, rep.maison >= 2]
+    testo: |
+      Sara Beck chiude a chiave l'armadio delle armi e ti affida a Gretchen,
+      che ti chiama per nome e ti accompagna oltre la tenda con il libro dei
+      conti sotto il braccio, perché stasera non ha fatto in tempo a chiuderlo.
+
+      Il salone lo conosci dalla porta della cucina, e da questa parte sembra
+      più piccolo. Ci sono quattro poltrone di cuoio scuro e tappeti spessi
+      che assorbono i passi, e le lampade hanno schermi di vetro fumé che
+      danno alla stanza una luce color miele. Lo schermo con la crepa coperta
+      di carta dipinta è sempre lo stesso, e da vicino la pezza si vede
+      ancora di più. Vicino al camino due ragazze parlano con un uomo di
+      mezza età in giubba verde, che non alza la testa quando entri.
+
+      Gretchen sale la scala curva e torna giù poco dopo, un passo dietro a
+      Nerissa Dalvane, con il vestito pratico di buon taglio e il bracciale
+      d'argento al polso sinistro. *Mi ha visto portare fuori i secchi della
+      cenere, e adesso mi vede in salone.* Nerissa ti indica una poltrona e si
+      siede di fronte a te, e la tua schiena si raddrizza da sola.
+
+      Quando le dici il nome di Rennick Dole, lei non batte ciglio. «È
+      arrivato all'alba, ubriaco a metà. Ha chiesto di Jass e le ha tenuto la
+      mano per due ore. Poi è salito al primo piano e non è più sceso. Di
+      solito ride forte e paga con monete sporche, ma stamattina sembrava uno
+      che aspetta qualcuno.» Beve un sorso di tè. «Le regole della casa le
+      conosci. Chi sta sotto il mio tetto io lo proteggo, perché il giorno in
+      cui un cliente esce da qui portato via a forza la Maison chiude entro
+      un mese, e la cucina con lei. Quindi dimmi perché lo cerchi.»
+    opzioni: *opzioni-nerissa-dalvane
+
   - id: rennick-dole
     presso: via-dei-rasoi
     immagine: personaggi/rennick-dole
@@ -176,8 +215,9 @@ storylet:
       non farlo vedere. *Se stringe ancora un po' si rompe le ginocchia da
       solo.* Guarda la porta che si è appena chiusa.
 
-      «Jass» dice. «È stata ad ascoltarmi tutta la notte. È la spesa
-      migliore che abbia mai fatto, e ne ho fatte di spese.» Poi guarda te, e
+      «Jass» dice. «Stamattina mi ha ascoltato per due ore, e stasera è
+      tornata su. È la spesa migliore che abbia mai fatto, e ne ho fatte di
+      spese.» Poi guarda te, e
       non sembra sorpreso. «Ti
       aspettavo prima. Marko sa che sono qui e parlerà, quindi è meglio che
       parli io per primo. Siediti.»
@@ -297,10 +337,17 @@ storylet:
 
             Mentre scendi la scala lo senti chiedere a Tachek di mandargli su
             Jass. Nel salone Nerissa ascolta quello che le dici e annuisce una
-            volta sola. Sara Beck ti rende le armi sulla soglia e richiude la
-            porta alle tue spalle.
+            volta sola, e Sara Beck ti rende le armi sulla soglia.
+
+            La sera dopo torni a prenderlo. Quando Sara ti apre, Rennick è già in
+            fondo alla scala con gli stivali allacciati, e prima di uscire lascia
+            sul bancone qualche moneta per Jass, dopo averle contate due volte.
+            In strada la lanterna è accesa e le finestre sono buie. Più avanti,
+            dove la via fa il gomito, Rennick si ferma di colpo e ti prende per
+            la manica.
           imposta: { rennick: 1 }
           effetti: { pista.dama-argento: 1, racconto: 1 }
+          segue: scuri-via-dei-rasoi
 
   - id: scuri-via-dei-rasoi
     presso: via-dei-rasoi
@@ -332,9 +379,9 @@ storylet:
 
       «Buonasera. Spero che la signora Dalvane ti abbia trattato come si deve.
       Mi chiamo Rozalia Marga, e lui è Squiggor. Su, saluta.» L'uomo non si
-      muove. «Gli è venuta la timidezza. Cerchiamo Rennick Dole, e sappiamo
-      dov'è, che stia al primo piano della Maison o tre passi dietro di te. Tu
-      ce lo consegni e noi torniamo a casa. Non serve firmare niente, anche se
+      muove. «Gli è venuta la timidezza. Cerchiamo Rennick Dole, che sta tre
+      passi dietro di te e spera che non ce ne accorgiamo. Tu ce lo consegni
+      e noi torniamo a casa. Non serve firmare niente, anche se
       firmare è la mia specialità.»
 
       Quando i toni si alzano, Squiggor sposta il peso da un piede all'altro.
@@ -376,7 +423,7 @@ storylet:
             lungo. Squiggor sposta il peso da un piede all'altro, e lei alza una
             mano senza voltarsi.
 
-            «Bene. Buonanotte, allora.» Si rimette il coltellino nella manica.
+            «Bene. Buonanotte, allora.» Si stringe la mantellina sulle spalle.
             «Però il conto resta aperto. Mirko saprà entro un'ora che hai difeso
             Rennick Dole davanti a tutta Via dei Rasoi, e Squiggor le offese se
             le tiene a mente.»
@@ -451,7 +498,7 @@ storylet:
           imposta: { rennick: 2 }
           effetti: { rep.scuri: 2, monete: 15, pista.dama-argento: 1 }
       - testo: "Fare a Squiggor il cenno della Pignatta"
-        descrizione: "Tu e Squiggor vi conoscete. Anni fa, dietro la Pignatta, vi siete picchiati per un carico di cristalli, ed è finita con una tregua."
+        descrizione: "Tu e Squiggor vi conoscete. Anni fa, sull'Orlo dei Rottami, vi siete picchiati per un carico di cristalli, ed è finita con una tregua."
         immagine: personaggi/squiggor-ironfist
         requisiti: [contatto-ombra >= 1]
         prova: { attributo: sociale, abilita: [conoscenze-della-strada, intimidire], difficolta: Media }
@@ -460,10 +507,10 @@ storylet:
           testo: |
             Ti fermi davanti a Squiggor invece che davanti a Rozalia e gli fai
             il cenno col mento che vi scambiate alla Pignatta. Lui ti guarda per
-            la prima volta. Dietro la Pignatta vi eravate picchiati per venti
-            minuti a causa di un carico di cristalli degli Scuri che secondo lui
-            avevi alleggerito, e alla fine vi eravate seduti per terra a
-            riprendere fiato. La mano destra, a ripensarci, ti fa ancora male
+            la prima volta. Sull'Orlo dei Rottami vi eravate picchiati per venti
+            minuti a causa di un carico di cristalli che secondo lui avevi
+            alleggerito, e alla fine vi eravate seduti sul bordo della Cicatrice
+            a riprendere fiato. La mano destra, a ripensarci, ti fa ancora male
             quando piove.
 
             «Chiudo un occhio» aveva detto allora. Adesso lo ripete a voce bassa,
@@ -487,7 +534,7 @@ storylet:
           imposta: { rennick: 2 }
           effetti: { ferite: 2, rep.scuri: -0.5, pista.dama-argento: 1 }
       - testo: "Ricordare a Squiggor l'Orlo dei Rottami"
-        descrizione: "Su una piattaforma dell'Orlo tu e Squiggor vi siete contesi a pugni un carico di cristalli conduttori. Nessuno dei due è caduto, ed è finita con una tregua."
+        descrizione: "Sull'Orlo dei Rottami tu e Squiggor vi siete contesi a pugni un carico di cristalli. Nessuno dei due è caduto di sotto, ed è finita con una tregua."
         immagine: personaggi/squiggor-ironfist
         requisiti: [raschiatore >= 1]
         prova: { attributo: fisico, abilita: [atletica, intimidire], difficolta: Media }
@@ -496,9 +543,9 @@ storylet:
           testo: |
             Ti sfili la giacca e la butti sul selciato, e Squiggor capisce prima
             di Rozalia. Sull'Orlo dei Rottami vi siete picchiati per venti minuti
-            su una piattaforma di scavo senza che nessuno dei due cadesse, e alla
-            fine vi siete seduti sul bordo, con le gambe sul vuoto, a riprendere
-            fiato.
+            a un passo dal bordo senza che nessuno dei due cadesse, e alla fine
+            vi siete seduti sull'orlo della Cicatrice, con le gambe sul vuoto, a
+            riprendere fiato.
 
             Squiggor si tocca la benda. «Pari» dice. Rozalia alza gli occhi al
             cielo. «Rennick resta tuo per stanotte. Squiggor, andiamo.»
@@ -510,7 +557,7 @@ storylet:
           titolo: Niente tregua
           testo: |
             Ti sfili la giacca, e Squiggor sorride per la prima volta. Stavolta
-            non siete su una piattaforma dell'Orlo, e lui non ha nessuna voglia
+            non siete sull'Orlo dei Rottami, e lui non ha nessuna voglia
             di sedersi a riprendere fiato.
 
             Il primo colpo ti prende sotto le costole e il secondo ti manda contro

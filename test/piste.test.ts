@@ -29,10 +29,10 @@ describe('piste', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.capomozzo', 10, { 'pista.acciaio': 8, 'pista.sepolcro': 7, 'pista.tribu': 4, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(9);
   }, 30000);
   it('l\'Arena arriva a 5, dalla Mischia alla finale', () => {
-    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.arena', 5, { 'pista.capomozzo': 6, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(4);
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.arena', 5, { 'pista.capomozzo': 7, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(4);
   }, 30000);
   it('Sotto la pelle arriva a 7, passando dal Maniero Malgrani', () => {
-    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.pelle', 7, { 'pista.capomozzo': 6, 'pista.registro': 5, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(6);
+    for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.pelle', 7, { 'pista.capomozzo': 7, 'pista.registro': 5, invito: 1, bende: 2, monete: 200 })).toBeGreaterThan(6);
   }, 30000);
   it('le tre rovine dei Raschiatori si possono raggiungere fino in fondo', () => {
     const siti: [string, string][] = [['turno-a-vhar-ul', 'rovine.vhar-ul'], ['turno-al-laboratorio', 'rovine.calibrazione'], ['turno-a-mahr-kel', 'rovine.mahr-kel']];

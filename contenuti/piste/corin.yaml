@@ -10,7 +10,9 @@ storylet:
     sommario: "Un uomo in panciotto ricamato ti cerca fra i tavoli del Grifone di Ferro, con un borsello in mano e una proposta di caccia."
     luogo: Locanda del Grifone di Ferro, di mattina
     area: ponti-sospesi
-    requisiti: [pista.corin == 0, prologo == 0, conosci.liaren >= 1]
+    # Liaren è al bancone: esclusi i passi di Acciaio e Ira in cui è sparita o a letto (1–5).
+    # Dopo l'Arena Corin lo conosci già: c'è la variante corin-al-grifone-dopo-l-arena.
+    requisiti: [pista.corin == 0, prologo == 0, conosci.liaren >= 1, pista.arena == 0, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       È mattina presto, e dalle finestre inchiodate del Grifone entra una
       luce a strisce che taglia i tavoli in due. Stai finendo il pane quando
@@ -30,7 +32,7 @@ storylet:
       Si siede senza aspettare l'invito e racconta che nella Foresta
       Strisciante i cacciatori hanno visto un cinghiale grande come un carro.
       Lui vorrebbe andarci, solo che gli hanno consigliato di non andarci da
-      solo. «Il doppio di quello che c'è nel borsello, a cosa fatta. Poi un
+      solo. «A cosa fatta vi pago molto più di questo borsello. Poi un
       banchetto, qui. Vorrei imparare come si fa, sapete, a essere un eroe.
       Voi lo fate tutti i giorni.»
 
@@ -112,6 +114,117 @@ storylet:
             aggiunge ancora, e ti promette che alla Casa dei Nodi il tuo
             nome lo sentiranno da lui. Quando ti lascia andare hai sul polso i
             segni delle sue dita, e accetti la caccia prima che te lo chieda una
+            seconda volta.
+          effetti: { monete: 25, rep.gilda: 0.5, pista.corin: 1 }
+
+  # Variante: dopo l'Arena Corin era nella tua squadra, e non serve presentarlo.
+  - id: corin-al-grifone-dopo-l-arena
+    presso: grifone-di-ferro
+    immagine: personaggi/corin-ashdale
+    titolo: Un mercante al Grifone
+    sommario: "Corin Ashdale, che all'Arena era nella tua squadra, ti cerca fra i tavoli del Grifone di Ferro con un borsello in mano e una proposta di caccia."
+    luogo: Locanda del Grifone di Ferro, di mattina
+    area: ponti-sospesi
+    requisiti: [pista.corin == 0, prologo == 0, conosci.liaren >= 1, pista.arena >= 1]
+    testo: |
+      È mattina presto, e dalle finestre inchiodate del Grifone entra una
+      luce a strisce che taglia i tavoli in due. Stai finendo il pane quando
+      Corin Ashdale si alza dal tavolo accanto al camino e viene verso di te,
+      scansando le sedie con piccoli inchini anche quando sono vuote. Dai
+      giorni dell'Arena porta ancora il pettine nel taschino, accanto al
+      fazzoletto di seta piegato a punta.
+
+      «Eccellente, eccellente, vi ho trovato» dice, e si inchina anche a te.
+      «Alloggio qui finché non riparto per Laresh, e Liaren mi ha detto a
+      che ora scendete a fare colazione.» Ride piano prima che tu abbia detto
+      niente, poi posa sul tavolo un borsello di cuoio. «Un ringraziamento
+      per l'Arena, e per avermi tenuto in squadra. Lo so che è poco, mi
+      vergogno quasi a darvelo.»
+
+      Si siede senza aspettare l'invito e racconta che nella Foresta
+      Strisciante i cacciatori hanno visto un cinghiale grande come un carro.
+      Lui vorrebbe andarci, e dopo l'Arena ha capito che da solo non combina
+      granché. «A cosa fatta vi pago molto più di questo borsello. Poi un
+      banchetto, qui. Sto ancora imparando come si fa, sapete, a essere un
+      eroe, e il maestro l'ho già scelto.»
+
+      Sotto il tavolo la sua mano scende a cercare la testa di un cane che
+      non c'è più, e risale a sistemare il fazzoletto. *All'Arena aveva
+      paura, e ci è venuto lo stesso.* Dal bancone Liaren vi guarda e intanto
+      continua ad asciugare lo stesso boccale.
+    opzioni:
+      - testo: "Accettare la caccia"
+        descrizione: "Il cinghiale è grande come un carro, e Corin una lancia non l'ha mai tenuta in mano. La paga però è buona."
+        esito:
+          titolo: Eccellente, eccellente
+          testo: |
+            Corin batte le mani una volta sola e si guarda intorno per vedere
+            se qualcuno se n'è accorto. «Eccellente, eccellente» dice.
+            «Allora ci vediamo alle Scuderie della Zanna Rotta, in Città Bassa.
+            I cavalli li pago io, naturalmente. È stato il signor Stroud a
+            consigliarmi la Foresta, e lui è un cacciatore vero.»
+
+            Prima di uscire si ferma al bancone a saldare il conto della
+            giornata con Brunella, che conta le monete sul palmo. Dalla porta
+            ti fa ancora un cenno con la mano, e per farlo urta lo stipite con
+            la spalla.
+          effetti: { monete: 15, pista.corin: 1 }
+      - testo: "Accettare e chiedere un anticipo"
+        descrizione: "Prima della foresta ci sono le frecce da comprare e gli stivali da risuolare. Si dice che Corin presti senza contare, ma chiedere resta chiedere."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Un anticipo sulla parola
+          testo: |
+            Gli spieghi il conto delle frecce e degli stivali, e Corin ti
+            ascolta annuendo come se gli stessi insegnando un mestiere. Poi
+            sfila dal panciotto un'altra manciata di monete e te le mette in mano senza
+            contarle. «Naturale, naturale. Anche gli eroi mangiano» dice, e lo
+            annota su un taccuino con la copertina di pelle. Quando se ne va
+            sbirci la pagina rimasta aperta sul tavolo. C'è il tuo nome
+            scritto con cura, e accanto non c'è nessuna cifra.
+          effetti: { monete: 25, pista.corin: 1 }
+        fallimento:
+          titolo: La regola della Gilda
+          testo: |
+            Ti impappini sui numeri, e Corin ti guarda con una gentilezza che
+            ti scalda le orecchie. Ti spiega che alla Gilda prima si fa il
+            lavoro e poi si prende la paga, e che la regola non l'ha inventata
+            lui.
+            Poi ride per primo, come per scusarsi della regola. Al tavolo
+            accanto due Raschiatori hanno sentito tutto, e quando Corin se ne
+            va uno dei due ti fa l'occhiolino da sopra il boccale.
+          effetti: { monete: 15, pista.corin: 1 }
+      - testo: "Chiedere a Liaren che tipo è"
+        descrizione: "Liaren conosce chiunque le paghi da bere, e Corin paga da bere a tutta la sala."
+        esito:
+          titolo: Uno che presta a perdere
+          testo: |
+            Ti alzi per un'altra pinta, e al bancone Liaren ti parla senza
+            smettere di asciugare. «Corin? Paga ottimi giri, e ai bottegai
+            della Città Bassa presta soldi che poi non chiede indietro» dice.
+            «Organizza cene, e alle sue cene non viene mai nessuno. Io lo
+            tollero, che è più di quanto faccio con il resto della Gilda.» Gira
+            il boccale controluce. «Se ti offre una caccia, la caccia è vera e
+            la paga pure. Gli amici invece se li deve trovare da solo.»
+
+            Torni al tavolo e accetti, e Corin si illumina tanto che il
+            Raschiatore seduto accanto si volta a vedere che cosa è successo.
+          effetti: { monete: 15, informazioni.voce: 1, pista.corin: 1 }
+      - testo: "Ricordargli il banco delle castagne"
+        descrizione: "All'Arena ti ha riconosciuto in fretta, con Orvald che aspettava la firma. Il giorno del Festival l'hai tirato dietro il tuo banco, fra i sacchi."
+        requisiti: [corin.salvato >= 1]
+        esito:
+          titolo: Tre notti
+          testo: |
+            Gli parli del banco vicino alla porta nord, e Corin smette di
+            sorridere per la prima volta da quando si è seduto. «All'Arena ve
+            l'ho detto di corsa, con Orvald che soffiava sull'inchiostro» dice.
+            «Le castagne me le sono sognate per tre notti di fila, e il
+            cinghiale per parecchie di più.»
+
+            Aggiunge al borsello qualche altra moneta. Poi ci ripensa e ne
+            aggiunge ancora, e ti promette che alla Casa dei Nodi il tuo nome lo
+            sentiranno da lui. Accetti la caccia prima che te lo chieda una
             seconda volta.
           effetti: { monete: 25, rep.gilda: 0.5, pista.corin: 1 }
 
@@ -236,7 +349,9 @@ storylet:
     sommario: "La bestia della Foresta Strisciante è finita nei pentoloni del Grifone. Stasera Corin offre a tutta la sala, e ti vuole seduto alla sua destra."
     luogo: Locanda del Grifone di Ferro, la sera
     area: ponti-sospesi
-    requisiti: [pista.corin == 3]
+    # Liaren in cucina: esclusi i passi di Acciaio e Ira 1–5. Con pista.pelle >= 5 Ottone è stato
+    # arrestato, e Corin ne parla nella variante il-banchetto-del-cinghiale-dopo-i-malgrani.
+    requisiti: [pista.corin == 3, pista.pelle < 5, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       La carcassa è arrivata al Grifone su un carro della Città Bassa, e per
       scaricarla ci sono voluti quattro Raschiatori e una corda del ponte.
@@ -255,9 +370,87 @@ storylet:
       Al terzo bicchiere parla della Gilda. «È corrotta, certo. Però senza
       la Gilda Qir-Azel si ferma. Spariscono i ponti, e il pane subito dopo. Finché ci sono
       Cordani e Irsa Valbrun a crederci, un po' di decenza resta.» Abbassa la
-      voce. «Ottone Malgrani invece è un fabbricante di catene con la barba
-      pettinata. Mi odia, e io gli rendo il favore.» Ride per primo e alza il
+      voce. «Ottone Malgrani invece è un fabbricante di catene con i baffi
+      pettinati. Mi odia, e io gli rendo il favore.» Ride per primo e alza il
       bicchiere verso i Raschiatori, che alzano i loro senza sapere perché.
+
+      Sul bancone, avvolti nella tela cerata e nel sale, aspettano gli organi
+      della bestia. Dove la tela si è aperta si vede luccicare una vena
+      d'argento, e Brunella li ha messi da parte perché decida tu.
+    opzioni:
+      - testo: "Tenere gli organi per farli esaminare"
+        descrizione: "Corin dice che in città qualcuno pagherebbe per guardarli da vicino. Magari in Biblioteca o all'Accademia."
+        esito:
+          titolo: Nella tela cerata
+          testo: |
+            Prendi l'involto dal bancone, ed è più pesante di quanto pensavi,
+            freddo anche attraverso il sale. Brunella ci gira intorno un altro
+            giro di spago e ti dice di tenerlo lontano dalla sua cucina. Corin
+            approva con la bocca piena. «Ulric Stanne, in Biblioteca» dice
+            appena riesce a parlare. «Ha un amico all'Accademia che apre le
+            cose per vedere come sono fatte dentro.»
+
+            Per tutta la cena tieni l'involto sotto la sedia, con il piede
+            appoggiato sopra.
+          effetti: { monete: 35, oggetto.cavallo-da-guerra: 1, organi.cinghiale: 1, rep.gilda: 0.5, racconto: 1, pista.corin: 1 }
+      - testo: "Venderli subito a un mercante di passaggio"
+        descrizione: "Al tavolo vicino alla porta un mercante di pelli guarda l'involto da quando sei entrato."
+        esito:
+          titolo: Il mercante di Pannion
+          testo: |
+            Il mercante di pelli viene da Pannion e ha le unghie nere di concia.
+            Solleva un angolo della tela, guarda dentro più a lungo del
+            necessario e ti offre un buon prezzo senza contrattare, cosa che a
+            Qir-Azel succede di rado. Corin gli chiede che cosa ci farà, e lui
+            risponde che a Pannion le cose strane si vendono sempre. Si mette
+            l'involto sotto il braccio e se ne va prima del dolce.
+          effetti: { monete: 41, oggetto.cavallo-da-guerra: 1, rep.gilda: 0.5, racconto: 1, pista.corin: 1 }
+      - testo: "Lasciarli a Brunella"
+        descrizione: "Il resto della bestia l'ha già bruciato lei, nel cortile. Sa che cosa farne."
+        esito:
+          titolo: Il fuoco nel cortile
+          testo: |
+            Fai un cenno a Brunella, e lei porta l'involto nel cortile sul retro
+            senza dire niente. Dalla finestra la vedi rovesciarlo sulle braci
+            del pomeriggio e rimestare con il forcone finché la tela smette di
+            sfrigolare. Il fumo che sale è chiaro e puzza di ferro bagnato.
+            Quando rientra si lava le mani due volte. Poi, sul registro della
+            locanda, accanto al tuo nome segna una notte, senza spiegarti
+            perché.
+          effetti: { monete: 35, oggetto.cavallo-da-guerra: 1, alloggio.grifone: 1, rep.gilda: 0.5, racconto: 1, pista.corin: 1 }
+
+  # Variante: Ottone Malgrani è già stato arrestato (pista.pelle >= 5, quindi anche pista.acciaio >= 8).
+  - id: il-banchetto-del-cinghiale-dopo-i-malgrani
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: Il banchetto del cinghiale
+    sommario: "La bestia della Foresta Strisciante è finita nei pentoloni del Grifone. Stasera Corin offre a tutta la sala, e ti vuole seduto alla sua destra."
+    luogo: Locanda del Grifone di Ferro, la sera
+    area: ponti-sospesi
+    requisiti: [pista.corin == 3, pista.pelle >= 5]
+    testo: |
+      La carcassa è arrivata al Grifone su un carro della Città Bassa, e per
+      scaricarla ci sono voluti quattro Raschiatori e una corda del ponte.
+      Brunella l'ha guardata a lungo con le mani sui fianchi. Poi ha tagliato
+      via le parti dove il sangue era grigio e le ha bruciate nel cortile sul
+      retro. Il resto l'ha messo a marinare nel vino rosso con le erbe, e
+      Liaren si è legata i capelli per darle una mano.
+
+      Stasera la sala è piena fino alle scale. La carne è scura e un po'
+      dolce, con un retrogusto di ferro che un Raschiatore fa notare ad alta
+      voce, prendendosi un calcio sotto il tavolo. Corin siede a capotavola
+      con il fazzoletto infilato nel colletto, e a metà cena ti fa scivolare accanto al piatto un borsello e le redini
+      del baio, legate con un nastro. «Il cavallo è tuo» dice. «Stroud me
+      l'ha venduto, e io non ho voluto sapere quanto.»
+
+      Al terzo bicchiere parla della Gilda. «È corrotta, certo. Però senza
+      la Gilda Qir-Azel si ferma. Spariscono i ponti, e il pane subito dopo. Finché ci sono
+      Cordani e Irsa Valbrun a crederci, un po' di decenza resta.» Abbassa la
+      voce. «Ottone Malgrani invece era un fabbricante di catene con i baffi
+      pettinati, e adesso le catene le porta lui. Mi odiava, e io gli rendevo
+      il favore. Stasera brindo piano, per educazione.» Ride
+      per primo e alza il bicchiere verso i Raschiatori, che alzano i loro
+      senza sapere perché.
 
       Sul bancone, avvolti nella tela cerata e nel sale, aspettano gli organi
       della bestia. Dove la tela si è aperta si vede luccicare una vena
@@ -319,7 +512,8 @@ storylet:
       Biblioteca gli organi sono di nuovo qui, sul tavolo lungo sotto il
       lampadario, aperti su un telo di lino e fissati con gli spilli. Accanto
       ci sono una fila di coltelli sottili e tre barattoli di liquido torbido,
-      e c'è Orvald Temmerin.
+      e c'è Orvald Temmerin, il preside dell'Accademia, che Ulric ti presenta
+      con un cenno del mento.
 
       È alto e magro, con la barba grigia tagliata corta e una tunica grigia
       senza gioielli. Sulla spalla porta un corvo che guarda gli organi con
@@ -522,7 +716,8 @@ storylet:
     sommario: "Domani all'alba la carovana di Corin parte dal Mercato dei Nodi. Stasera ti ha cercato per tutta la sala per salutarti."
     luogo: Locanda del Grifone di Ferro, la sera prima della partenza
     area: ponti-sospesi
-    requisiti: [pista.corin == 5]
+    # Corin parla di Liaren come di una che sta bene: esclusi i passi di Acciaio e Ira 1–5.
+    requisiti: [pista.corin == 5, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
     testo: |
       Corin ti trova al Grifone mentre Brunella spegne le lanterne della
       sala, e si siede sul bordo della sedia come se avesse fretta, anche se
@@ -535,8 +730,10 @@ storylet:
       presentazione per la Casa dei Nodi» dice. «Ho scritto che sei una
       persona di cui ci si può fidare, e che chi fa uno sgarbo a te lo fa a
       me. Il secondo pezzo vale quello che vale, e io in Gilda conto ancora
-      qualcosa.» Sul retro c'è il tuo nome, sbagliato alla prima lettera e
-      corretto sopra con cura in un inchiostro più scuro.
+      qualcosa. Con la firma di un membro eletto i Custodi di Passaggio ti
+      scrivono nel registro della Gilda senza chiederti la commissione.» Sul
+      retro c'è il tuo nome, sbagliato alla prima lettera e corretto sopra
+      con cura in un inchiostro più scuro.
 
       Poi si schiarisce la voce e ti promette che tornerà prima dell'inverno
       o subito dopo, con il vino buono di Laresh e una storia sua da
@@ -552,10 +749,11 @@ storylet:
             le ruote. Cammini accanto al primo carro fino all'imbocco, e Corin
             per tutto il tragitto ti indica le botteghe e ti racconta chi deve
             soldi a chi, come se partisse per un anno. Al gabbiotto dei Custodi
-            di Passaggio paga la gabella per tutta la carovana e anche per te,
-            che pure torni indietro. Poi si sporge dal carro e ti stringe la
-            mano fra le sue. Lo guardi finché la carovana piega verso il Ponte
-            del Conciatore, con il suo fazzoletto bianco che sventola dal
+            di Passaggio paga la gabella per tutta la carovana e fa vedere la
+            tua lettera all'ispettore dei dazi, che scrive il tuo nome nel
+            registro della Gilda senza alzare gli occhi. Poi Corin si sporge dal
+            carro e ti stringe la mano fra le sue. Lo guardi finché la carovana
+            piega verso il Ponte del Conciatore, con il suo fazzoletto bianco che sventola dal
             cassone.
           pe: { empatia: 5 }
           imposta: { licenza-gilda: 1 }
@@ -577,6 +775,7 @@ storylet:
           effetti: { rep.gilda: 1, racconto: 1, tormento: -0.5, pista.corin: 1 }
       - testo: "Chiedergli un ultimo favore"
         descrizione: "Corin è la migliore fonte di pettegolezzi di Qir-Azel, e stasera ha voglia di regalare qualcosa."
+        quando: [pista.teatro == 0]
         esito:
           titolo: L'ultimo pettegolezzo
           testo: |
@@ -584,9 +783,28 @@ storylet:
             Corin si illumina, si guarda intorno nella sala ormai vuota e si
             china verso di te. Ti racconta che Orazio Belcanto cerca gente per
             la Promessa dell'Arpia, anche gente che non ha mai recitato, a
-            patto che sul palco riesca a restare seria. Poi aggiunge, più piano, che la rivalità fra
-            Orazio e Liaren è cominciata con un duetto andato storto, e che
-            ognuno dei due dà la colpa all'altro. All'alba, quando la carovana
-            passa sotto il Grifone, ti saluta con il fazzoletto.
+            patto che sul palco riesca a restare seria. Poi aggiunge, più piano,
+            che della rivalità fra Orazio e Liaren nessuno dei due ricorda più
+            l'inizio, e che secondo lui è cominciata con un duetto andato
+            storto. All'alba, quando la carovana passa sotto il Grifone, ti
+            saluta con il fazzoletto.
+          imposta: { licenza-gilda: 1 }
+          effetti: { informazioni.pettegolezzo: 1, rep.gilda: 1, racconto: 1, pista.corin: 1 }
+      # Variante per chi è già nella compagnia di Orazio: il pettegolezzo sul teatro lo sa già.
+      - testo: "Chiedergli un ultimo favore"
+        descrizione: "Corin è la migliore fonte di pettegolezzi di Qir-Azel, e stasera ha voglia di regalare qualcosa."
+        quando: [pista.teatro >= 1]
+        esito:
+          titolo: L'ultimo pettegolezzo
+          testo: |
+            Gli chiedi di lasciarti una cosa che in città non sappiano tutti.
+            Corin si illumina, si guarda intorno nella sala ormai vuota e si
+            china verso di te. Ti racconta che Orazio Belcanto, da quando ti ha
+            preso nella compagnia, parla di te in tutte le taverne dei Quartieri
+            Alti, e che ogni volta ti descrive un po' più alto. Poi aggiunge, più piano,
+            che della rivalità fra Orazio e Liaren nessuno dei due ricorda più
+            l'inizio, e che secondo lui è cominciata con un duetto andato
+            storto. All'alba, quando la carovana passa sotto il Grifone, ti
+            saluta con il fazzoletto.
           imposta: { licenza-gilda: 1 }
           effetti: { informazioni.pettegolezzo: 1, rep.gilda: 1, racconto: 1, pista.corin: 1 }
