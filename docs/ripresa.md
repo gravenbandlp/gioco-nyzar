@@ -18,7 +18,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 `npm install`, poi:
 - `npm run contenuti`: valida gli YAML di `contenuti/` (deve dire "Contenuti validi").
 - `npm run stile`: controlla le regole di `docs/stile-dei-testi.md` (deve dare 0 segnalazioni).
-- `npx vitest run`: test (151 al 2 ottobre).
+- `npx vitest run`: test (167 al 2 ottobre).
 - `npm run build`: contenuti + tsc + build in `dist/index.html` (file unico).
 - `npm run copione`: rigenera il copione del doppiaggio (`doppiaggio/copione-pagina.html`).
 - `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati `<id>.mp3`) in `public/audio/voce/` e
@@ -46,6 +46,11 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   id e le registrazioni non combaciano più.
 - La risorsa delle azioni si chiama **rintocchi** (fino al 2 ottobre 2026 erano candele, troppo legate a Fallen
   London): nell'interfaccia è una campana. Nella prosa le candele restano oggetti veri, mai la risorsa.
+- **Spedizioni**: una stanza superata non ricompare nella stessa visita (`src/motore/spedizioni.ts`), e l'ordine delle
+  stanze (avvicinamento, ingresso, interno, piano di sopra) si dà con fasce di requisiti sulla profondità, documentate
+  in testa a ogni file. Una stanza scritta come luogo o oggetto unico va messa nella sua fascia, mai lasciata libera.
+  Gli oggetti unici dati da stanze ripetibili si proteggono con `quando: [oggetto.<id> == 0]`.
+  `test/spedizioni-percorribili.test.ts` controlla che ogni spedizione arrivi al cuore con le sole stanze mostrate.
 - Le varianti di stato del mondo sulle opzioni usano `quando` (l'opzione non compare) o requisiti su piste e flag
   (il motore le nasconde se chiuse); i requisiti su monete, merci, abilità e reputazione mostrano l'opzione chiusa.
 

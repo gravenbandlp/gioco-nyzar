@@ -3,13 +3,16 @@
 #   Maedric dice chi ha pagato, ma un avvocato della Gilda spiega ogni riga; Ottone tiene un registro suo dei
 #   pagamenti agli Scuri. Galdrick l'ha saputo a Ghoran da Urtilia Mendion, che gli ha dato la pianta del Maniero e
 #   si fa da parte purché i tre bambini restino fuori da tutto. Si entra di notte, da soli → `vai: maniero-malgrani`.
-# - spedizione `maniero-malgrani` (soglia 4): sette stanze ripetibili (lavanderia e sgabuzzino, atrio dei
-#   fondatori, sala dei trofei, museo, cucina, biblioteca, camera dei bambini), se ne vedono tre a caso. Le prove
-#   fallite fanno salire `allarme.maniero`; a tre le stanze si chiudono e arriva `roldan-kael`.
-# - storie non ripetibili: `lo-studio-di-ottone` (registro, spartito, monete), `lucia-malgrani` (lucia 1/2/3),
-#   `roldan-kael` (con allarme.maniero >= 3; chi lo supera riporta l'allarme a 1).
-# - il cuore `il-caveau` (il pianoforte) con il seguito `la-sala-ottagonale`: in ogni ramo prove.maniero +2,
-#   pista.pelle 2, `vai: quartieri-alti`. Rientro dopo una ritirata: `tornare-al-maniero`.
+# - spedizione `maniero-malgrani` (soglia 4): sette stanze ripetibili in fasce di profondità. 0 il lato di
+#   servizio (lavanderia, cucina), 1 le stanze interne del piano terra (museo, sala dei trofei), 2 la salita al
+#   piano di sopra (atrio dei fondatori, biblioteca col ballatoio), 3 il piano dei padroni (camera dei bambini).
+#   Una stanza superata non ricompare nella stessa visita. Le prove fallite fanno salire `allarme.maniero`; a tre
+#   le stanze si chiudono e arriva `roldan-kael`.
+# - storie non ripetibili al piano dei padroni (profondità >= 3): `lo-studio-di-ottone` (registro, spartito,
+#   monete), `lucia-malgrani` (lucia 1/2/3). Poi `roldan-kael` (con allarme.maniero >= 3; chi lo supera riporta
+#   l'allarme a 1).
+# - il cuore `il-caveau` (il pianoforte, di nuovo al piano terra) con il seguito `la-sala-ottagonale`: in ogni
+#   ramo prove.maniero +2, pista.pelle 2, `vai: quartieri-alti`. Rientro dopo una ritirata: `tornare-al-maniero`.
 # - `una-radice` (2 → 3): Galdrick legge le lettere con l'alloro e ricava le tre casse da svuotare.
 # - `leggere-il-registro-dei-malgrani`: storylet degli Averi del registro di Ottone. La sigla *Ca* con la chiave
 #   disegnata accanto è Borso (il carceriere), che si scopre in `il-carceriere` (pelle-scuri.yaml).
@@ -160,7 +163,7 @@ storylet:
             padrone ti aspetta da un'ora. Lui guarda la livrea verde del collega
             come se lì sopra ci fosse la risposta, poi apre. «Il signore riceve
             in salotto» dice. Nell'atrio ti lasciano solo per andare a chiamare
-            qualcuno, e tu prendi l'altra porta.
+            qualcuno, e tu prendi la porticina di servizio verso le cucine.
           pe: { galateo: 5 }
           effetti: { pista.pelle: 1 }
           vai: maniero-malgrani
@@ -288,7 +291,7 @@ storylet:
     luogo: Maniero Malgrani, la lavanderia
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 0, allarme.maniero < 3]
     testo: |
       La lavanderia è un locale basso pieno di vapore, con le ceste di
       lenzuola bianche impilate contro i muri e una caldaia di rame che
@@ -368,7 +371,7 @@ storylet:
     luogo: Maniero Malgrani, l'atrio
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 2, allarme.maniero < 3]
     testo: |
       L'atrio è freddo e fermo, con il pavimento di marmo scuro lucidato al
       punto che i candelabri ci si riflettono dentro allungati. Due scale
@@ -398,10 +401,10 @@ storylet:
           testo: |
             La seconda guardia ti colpisce al fianco con il manico della
             lancia, e mentre sei piegato in due l'altra porta il fischietto
-            alle labbra. Scappi su per la scala di sinistra con un fiotto caldo
-            sotto la camicia, e il fischio si sente in ogni stanza della casa.
-            Ti fermi soltanto in cima, dietro una tenda, a premere la mano sul
-            fianco.
+            alle labbra. Scappi da dove sei venuto con un fiotto caldo sotto
+            la camicia, e il fischio si sente in ogni stanza della casa. Ti
+            fermi soltanto in fondo al corridoio, dietro una tenda, a premere
+            la mano sul fianco.
           effetti: { allarme.maniero: 1 }
       - testo: "Nasconderti dietro il busto della zia"
         descrizione: "Il piedistallo di Urtilia Mendion è il più largo dei tre. Ci sta dietro una persona, se trattiene il fiato."
@@ -413,16 +416,16 @@ storylet:
             contro la guancia, e le guardie ti passano accanto due volte. La
             seconda volta quello che sbadiglia si ferma a grattarsi la schiena
             proprio contro il busto. Quando se ne vanno verso il salone attraversi
-            l'atrio in punta di piedi lungo il bordo del tappeto.
+            l'atrio in punta di piedi e sali la scala di sinistra.
           effetti: { profondita.maniero-malgrani: 1 }
         fallimento:
           titolo: La targhetta
           testo: |
             Mentre ti infili dietro il piedistallo urti con il gomito la
             targhetta di ottone. Si stacca e rimbalza sul marmo, e le guardie
-            si voltano insieme. Tu sei già sulla scala quando arrivano al busto,
-            e senti una delle due raccogliere la targhetta e chiamare il
-            caposquadra. Sul pianerottolo ti accorgi di avere ancora il gomito
+            si voltano insieme. Tu sei già nel corridoio quando arrivano al
+            busto, e senti una delle due raccogliere la targhetta e chiamare il
+            caposquadra. Dietro l'angolo ti accorgi di avere ancora il gomito
             alzato, come se la targhetta potessi ancora prenderla.
           effetti: { allarme.maniero: 1 }
       - testo: "Restare immobile nella nicchia sotto la scala"
@@ -434,7 +437,7 @@ storylet:
             Ti rannicchi nella nicchia sotto la scala e conti i giri della
             ronda, che sono dodici. Le due guardie parlano di una ragazza della
             Città Bassa che non vuole nessuno dei due. Al tredicesimo giro
-            sgusci fuori con le gambe intorpidite e vai verso il salone,
+            sgusci fuori con le gambe intorpidite e sali la scala curva,
             mentre alle tue spalle loro parlano ancora di lei.
           effetti: { profondita.maniero-malgrani: 1, tormento: 0.5 }
 
@@ -445,7 +448,7 @@ storylet:
     luogo: Maniero Malgrani, la sala dei trofei
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 1, allarme.maniero < 3]
     testo: |
       È una stanza più raccolta delle altre, con i divani bassi e le tende
       pesanti, e c'è odore di fiori secchi chiusi da troppo tempo. Le pareti
@@ -527,7 +530,7 @@ storylet:
     luogo: Maniero Malgrani, il museo
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 1, allarme.maniero < 3]
     testo: |
       Il museo è un corridoio lungo, con le teche di vetro da una parte e le
       vetrine di legno scuro dall'altra, e ogni teca ha il suo cartellino
@@ -601,8 +604,8 @@ storylet:
             dipinta come la parete, con la maniglia nascosta nello stucco. Prima
             di aprirla leggi il cartellino della teca, dove c'è scritto soltanto
             *suoi*, con una grafia diversa da tutte le altre. Dall'altra parte
-            un corridoio di servizio stretto e caldo sale verso le cucine, e
-            c'è odore di brodo.
+            un corridoio di servizio stretto e caldo porta verso l'atrio, e ci
+            arriva ancora l'odore di brodo delle cucine.
           effetti: { profondita.maniero-malgrani: 1 }
         fallimento:
           titolo: Il vetro
@@ -634,7 +637,7 @@ storylet:
     luogo: Maniero Malgrani, la cucina
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 0, allarme.maniero < 3]
     testo: |
       In cucina le pentole fumano anche a quest'ora, e dalle travi pendono
       mazzi di spezie e di aglio. La luce gialla delle lampade a olio fa
@@ -713,7 +716,7 @@ storylet:
     luogo: Maniero Malgrani, la biblioteca
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 2, allarme.maniero < 3]
     testo: |
       La biblioteca è alta due piani. Le librerie di quercia salgono fino al
       soffitto, e una scala di legno scorre su una rotaia d'ottone per
@@ -792,7 +795,7 @@ storylet:
     luogo: Maniero Malgrani, la camera dei bambini
     area: maniero-malgrani
     ripetibile: true
-    requisiti: [pista.pelle == 1, profondita.maniero-malgrani < 4, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, profondita.maniero-malgrani == 3, allarme.maniero < 3]
     testo: |
       La camera dei bambini ha tre lettini di legno con le coperte piegate
       senza una grinza. I giocattoli sono allineati sulla mensola come
@@ -871,7 +874,7 @@ storylet:
     sommario: "La luce che si vede dal cancello è questa. Ottone Malgrani è chino sulla scrivania, e a quanto pare non dorme mai."
     luogo: Maniero Malgrani, lo studio del padrone
     area: maniero-malgrani
-    requisiti: [pista.pelle == 1, oggetto.registro-dei-malgrani == 0, profondita.maniero-malgrani >= 2, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, oggetto.registro-dei-malgrani == 0, profondita.maniero-malgrani >= 3, allarme.maniero < 3]
     testo: |
       In fondo al corridoio del piano di sopra la porta dello studio è
       socchiusa, e dalla fessura esce la luce che si vede dal cancello. Dentro
@@ -982,7 +985,7 @@ storylet:
     sommario: "Nella camera dei padroni c'è una donna sveglia davanti allo specchio. Ti ha visto entrare, e non ha ancora gridato."
     luogo: Maniero Malgrani, la camera dei padroni
     area: maniero-malgrani
-    requisiti: [pista.pelle == 1, lucia == 0, profondita.maniero-malgrani >= 1, allarme.maniero < 3]
+    requisiti: [pista.pelle == 1, lucia == 0, profondita.maniero-malgrani >= 3, allarme.maniero < 3]
     testo: |
       La camera dei padroni è lussuosa e fredda, con un letto a baldacchino
       che nessuno ha disfatto, un grande specchio dorato e le tende color
@@ -1011,7 +1014,7 @@ storylet:
             delle botteghe del Mercato dei Nodi.
 
             «Mi aiuta a non sentirlo camminare» dice Lucia allo specchio. «Avanti
-            e indietro, tutta la notte, sopra la mia testa. Dopo un po' una
+            e indietro, tutta la notte, davanti alla mia porta. Dopo un po' una
             impara a contare i passi, ed è peggio.»
       - testo: "Parlarle"
         descrizione: "Non ha ancora suonato quel campanello. Forse sta aspettando di sapere perché sei qui."
@@ -1203,8 +1206,9 @@ storylet:
     area: maniero-malgrani
     requisiti: [pista.pelle == 1, profondita.maniero-malgrani >= 4, allarme.maniero < 3]
     testo: |
-      La sala da pranzo è la stanza più grande del piano terra. Un tavolo di
-      legno scuro lungo quanto la parete è coperto da un drappo purpureo, con
+      Dalla scala di servizio scendi di nuovo al piano terra, fino alla sala
+      da pranzo, che è la stanza più grande della casa. Un tavolo di legno
+      scuro lungo quanto la parete è coperto da un drappo purpureo, con
       il servizio d'argento già apparecchiato per una cena che non si farà.
       Il camino è acceso e scalda poco, e le poltrone di velluto sono girate
       verso il fuoco come se qualcuno se ne fosse appena andato.

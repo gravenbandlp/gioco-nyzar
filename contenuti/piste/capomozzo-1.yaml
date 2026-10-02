@@ -4,11 +4,18 @@
 # - `la-strada-per-capomozzo` (0 → 1): Galdrick, tornato da Ghoran da pochi giorni, mette in fila quello che sai e ti
 #   manda a Rovolungo. A piedi, a cavallo (chiave.cavalcatura, un rintocco in meno) o con una guida.
 # - `tornare-a-rovolungo` (pista 1, ripetibile): il rientro dalla Caserma dopo una ritirata.
-# - area `rovolungo`: sette stanze ripetibili (se ne vedono tre a caso), la grotta del Ghermitore sotto il
-#   Buco Ululante (facoltativa, si chiude quando prendi il respiratore) e il cuore `borgoth-e-cenerascura`.
+# - area `rovolungo`: sette stanze ripetibili, in ordine secondo la profondità: 0 l'entrata nascosta nel muro
+#   di spine, 1 dentro i tunnel (il tunnel di cardi, il Buco Ululante, il nido dei profughi o le cucce), 2 sulla
+#   scogliera (i posti di guardia o il ponte di corda). Una stanza superata non ricompare nella stessa visita
+#   (src/motore/spedizioni.ts). La grotta del Ghermitore sotto il Buco (facoltativa, si chiude quando prendi il
+#   respiratore) si apre dopo che in questa visita sei passato dal Buco (rovolungo.buco), e il cuore
+#   `borgoth-e-cenerascura`, a cento passi dal ponte, si apre a profondità 3.
 # - Il cuore porta a due seguiti con le parole di Borgoth (`borgoth-parla`, `borgoth-e-gli-alleati`) se lo
 #   vinci o lo calmi; negli altri rami se ne va verso Fondobosco. In ogni ramo `borgoth` (1 morto, 2 legato
 #   e interrogato, 3 andato via), pista.capomozzo 2 e `vai: capomozzo`.
+quality:
+  - { id: rovolungo.buco, nome: Hai visto il Buco Ululante, categoria: stato, nascosta: true, descrizione: "1 se in questa visita sei passato dal Buco Ululante, e allora si apre la grotta del Ghermitore. L'entrata nascosta lo azzera." }
+
 aree:
   - id: rovolungo
     immagine: ambientazione/rovolungo
@@ -182,7 +189,8 @@ storylet:
             dove aveva lasciato.
           vai: rovolungo
 
-  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  # ------------------------------------------------------------ le stanze (ripetibili, in ordine di profondità)
+  # 0 · l'entrata nascosta
   - id: rovolungo-entrata-nascosta
     immagine: ambientazione/rovolungo
     titolo: L'entrata nascosta
@@ -190,7 +198,7 @@ storylet:
     luogo: Rovolungo, vicino alla riva
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 0]
     testo: |
       Vicino alla riva il roveto si fa ancora più fitto, e i cardi crescono in
       mezzo ai rovi fino a sei metri d'altezza, più dei pini storti che li
@@ -221,6 +229,7 @@ storylet:
             resto. La sollevi da un lato. Sotto si apre un tunnel alto due
             metri che entra nel roveto, con il pavimento di terra battuta.
           effetti: { profondita.rovolungo: 1 }
+          imposta: { rovolungo.buco: 0 }
         fallimento:
           titolo: Le spine
           testo: |
@@ -244,6 +253,7 @@ storylet:
             stesso punto. Conti fino a cento, poi vai a sollevare il roveto
             anche tu.
           effetti: { profondita.rovolungo: 1 }
+          imposta: { rovolungo.buco: 0 }
         fallimento:
           titolo: La ginestra
           testo: |
@@ -279,7 +289,9 @@ storylet:
             graffiate fino ai gomiti e una spina nella guancia, che trovi
             soltanto quando sorridi di sollievo.
           effetti: { profondita.rovolungo: 1, ferite: 0.5 }
+          imposta: { rovolungo.buco: 0 }
 
+  # 1 · dentro i tunnel
   - id: rovolungo-tunnel-di-cardi
     immagine: ambientazione/rovolungo
     titolo: Il tunnel di cardi
@@ -287,7 +299,7 @@ storylet:
     luogo: Rovolungo, i tunnel
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 1]
     testo: |
       Il tunnel serpeggia in mezzo ai rovi e alle ortiche, alto quanto basta
       a un orco che cammini curvo. Le pareti sono di spine intrecciate, e il
@@ -370,7 +382,7 @@ storylet:
     luogo: Rovolungo, il Buco Ululante
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 1]
     testo: |
       Tre tunnel di cardi sbucano in una camera larga, simile a una caverna
       fatta di rovi. Il soffitto è così fitto che del cielo restano soltanto
@@ -388,18 +400,19 @@ storylet:
       un po' ti accorgi che stai respirando al ritmo delle onde.
     opzioni:
       - testo: "Scegliere il tunnel giusto"
-        descrizione: "Da qui partono tre strade, e il solco del cavallo trascinato ne prende una sola."
+        descrizione: "Da qui partono tre strade, e una sola va verso il mare."
         prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
         successo:
           titolo: Il solco
           testo: |
             Giri intorno alla sala chinato sul terreno. Due tunnel hanno
-            soltanto impronte vecchie, pestate da altre impronte. Nel terzo il
-            solco della slitta riprende largo e pulito, e sui bordi ci sono
-            gocce scure di resina, cadute dalle torce di chi lo ha percorso di
-            notte. Ne raccogli una con l'unghia, ed è ancora morbida. Lo
-            imbocchi con il vento del buco alle spalle.
+            soltanto impronte vecchie, pestate da altre impronte. Nel terzo
+            corre verso il mare il solco pulito di una slitta, e sui bordi
+            ci sono gocce scure di resina, cadute dalle torce di chi lo ha
+            percorso di notte. Ne raccogli una con l'unghia, ed è ancora
+            morbida. Lo imbocchi con il vento del buco alle spalle.
           effetti: { profondita.rovolungo: 1 }
+          imposta: { rovolungo.buco: 1 }
         fallimento:
           titolo: Il giro largo
           testo: |
@@ -410,6 +423,7 @@ storylet:
             accanto al cerchio di sassi, e il vento del buco ti soffia in faccia
             a ogni onda finché ti viene il mal di testa.
           effetti: { tormento: 0.5 }
+          imposta: { rovolungo.buco: 1 }
       - testo: "Calarti nel buco per guardare giù"
         descrizione: "La parete del pozzo è di roccia, con qualche appiglio. Bastano pochi metri."
         prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
@@ -424,6 +438,7 @@ storylet:
             sotto la sporgenza gira in tondo una cosa grossa e lucida. Risali
             più in fretta di quanto sei sceso.
           effetti: { profondita.rovolungo: 1 }
+          imposta: { rovolungo.buco: 1 }
         fallimento:
           titolo: L'appiglio
           testo: |
@@ -433,6 +448,7 @@ storylet:
             rumore dell'acqua sempre più forte. Quando riesci a risalire hai la
             camicia strappata e la schiena scorticata dalle spalle ai fianchi.
           effetti: { ferite: 0.5 }
+          imposta: { rovolungo.buco: 1 }
       - testo: "Passare oltre senza guardare il buco"
         descrizione: "Lungo la parete opposta, con gli occhi sui piedi."
         costo: 2
@@ -445,6 +461,7 @@ storylet:
             mare, ti è sembrato di sentire un colpo di metallo contro la roccia.
             Riprendi a camminare più svelto, e non ti volti fino al tunnel.
           effetti: { profondita.rovolungo: 1, tormento: 0.5 }
+          imposta: { rovolungo.buco: 1 }
 
   - id: rovolungo-nido-dei-profughi
     immagine: bestiario/orco
@@ -453,7 +470,7 @@ storylet:
     luogo: Rovolungo, il nido dei profughi
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 1]
     testo: |
       La camera è rotonda, larga nove metri, con il soffitto di rovi così
       basso che il fumo non trova la strada per uscire e ristagna a mezz'aria.
@@ -539,7 +556,7 @@ storylet:
     luogo: Rovolungo, le cucce dei cinghiali
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 1]
     testo: |
       La stanza puzza di stalla chiusa e di pelo bagnato. Pavimento e pareti
       sono coperti di setole scure, e dappertutto ci sono ossa rosicchiate,
@@ -638,6 +655,7 @@ storylet:
             portata. La zanna ti lascia un taglio sul polpaccio.
           effetti: { profondita.rovolungo: 1, ferite: 0.5 }
 
+  # 2 · sulla scogliera
   - id: rovolungo-posti-di-guardia
     immagine: ambientazione/rovolungo
     titolo: I posti di guardia
@@ -645,7 +663,7 @@ storylet:
     luogo: Rovolungo, sulla scogliera
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 2]
     testo: |
       Il tunnel sbuca all'aperto sul bordo della scogliera, e dopo tanta
       penombra la luce ti costringe a socchiudere gli occhi. Ai lati del
@@ -728,7 +746,7 @@ storylet:
     luogo: Rovolungo, il ponte per Capomozzo
     area: rovolungo
     ripetibile: true
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo < 3]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo == 2]
     testo: |
       Dal bordo della scogliera un ponte di corda attraversa il braccio di
       mare fino all'isola, che sta una ventina di metri più a nord. L'isola è
@@ -807,14 +825,15 @@ storylet:
           effetti: { profondita.rovolungo: 1, ferite: 0.5 }
 
   # ------------------------------------------------------------ la grotta del Ghermitore (C27, facoltativa)
-  # Si chiude quando prendi il respiratore; chi fallisce o perde può riprovarci.
+  # Si apre dopo il Buco Ululante (rovolungo.buco) ed è una deviazione: non fa avanzare. Si chiude quando
+  # prendi il respiratore; chi fallisce o perde può riprovarci.
   - id: la-grotta-del-ghermitore
     immagine: ambientazione/rovine-dei-precursori
     titolo: La grotta sotto il Buco
     sommario: "Sotto il Buco Ululante si apre una grotta di mare. Sulla sporgenza luccica del metallo, e nell'acqua scura gira in tondo una bestia."
     luogo: Rovolungo, la grotta sotto il Buco Ululante
     area: rovolungo
-    requisiti: [pista.capomozzo == 1, profondita.rovolungo >= 1, ghermitore == 0]
+    requisiti: [pista.capomozzo == 1, profondita.rovolungo >= 1, rovolungo.buco == 1, ghermitore == 0]
     testo: |
       Leghi la corda al paletto del gabbiano e ti cali nel Buco Ululante, con
       il vento che ti sale addosso a ogni onda. Il pozzo è lungo una ventina
@@ -849,7 +868,7 @@ storylet:
             che pulsa ancora. Lo prendi, poi prendi la maschera grigia accanto
             al teschio del Raschiatore, e risali la corda con le braccia che
             tremano.
-          effetti: { oggetto.respiratore: 1, ghermitore: 1, cristalli.cristallo-carico: 1, profondita.rovolungo: 1 }
+          effetti: { oggetto.respiratore: 1, ghermitore: 1, cristalli.cristallo-carico: 1 }
         sconfitta:
           titolo: Sott'acqua
           testo: |
@@ -870,7 +889,7 @@ storylet:
             sbrana ti chini sullo scheletro e prendi la maschera grigia. È
             fredda e più leggera di quanto sembrava. Quando torna a guardare la
             sporgenza sei già a metà della corda.
-          effetti: { oggetto.respiratore: 1, ghermitore: 1, profondita.rovolungo: 1 }
+          effetti: { oggetto.respiratore: 1, ghermitore: 1 }
         fallimento:
           titolo: L'onda
           testo: |
@@ -896,7 +915,7 @@ storylet:
             porta sott'acqua. Prendi la maschera grigia accanto al teschio e un
             cristallo che pulsa fra le ossa di foca, e risali con un gusto di
             ferro sulla lingua.
-          effetti: { oggetto.respiratore: 1, ghermitore: 1, cristalli.cristallo-carico: 1, profondita.rovolungo: 1 }
+          effetti: { oggetto.respiratore: 1, ghermitore: 1, cristalli.cristallo-carico: 1 }
         fallimento:
           titolo: L'eco storta
           testo: |
@@ -919,7 +938,7 @@ storylet:
             da sotto il teschio piano, perché le ossa non facciano rumore, e
             torni indietro allo stesso modo. Sei già sulla corda quando l'acqua
             si apre alle tue spalle e i denti d'acciaio si chiudono sul vuoto.
-          effetti: { oggetto.respiratore: 1, ghermitore: 1, profondita.rovolungo: 1 }
+          effetti: { oggetto.respiratore: 1, ghermitore: 1 }
         fallimento:
           titolo: L'osso di foca
           testo: |
@@ -937,17 +956,18 @@ storylet:
   - id: borgoth-e-cenerascura
     immagine: personaggi/borgoth-il-gigante
     titolo: La tana di Borgoth
-    sommario: "Fra i tunnel e il ponte c'è una camera doppia con i rampicanti che pendono dal soffitto. Nel nido di ortiche dorme un gigante, e accanto a lui un puma color brace."
+    sommario: "A cento passi dal ponte c'è una camera doppia con i rampicanti che pendono dal soffitto. Nel nido di ortiche dorme un gigante, e accanto a lui un puma color brace."
     luogo: Rovolungo, la tana di Borgoth
     area: rovolungo
     requisiti: [pista.capomozzo == 1, profondita.rovolungo >= 3]
     testo: |
-      Fra i tunnel e il ponte c'è un'ultima camera doppia, e per arrivare
-      alla scogliera devi attraversarla. Dal soffitto di spine scende un
-      groviglio di rampicanti, e ai viticci sono appesi scheletri di uccelli e
-      mascelle di volpe che tintinnano quando passa l'aria. A sud c'è un
-      grosso nido di ortiche, e dai topi mezzi mangiati che lo circondano si
-      capisce che chi ci dorme ha l'abitudine di mangiare a letto.
+      A cento passi dai pali del ponte, dove i rovi tornano a chiudersi sul
+      bordo della scogliera, c'è un'ultima camera doppia. Dal soffitto di
+      spine scende un groviglio di rampicanti, e ai viticci sono appesi
+      scheletri di uccelli e mascelle di volpe che tintinnano quando passa
+      l'aria. A sud c'è un grosso nido di ortiche, e dai topi mezzi mangiati
+      che lo circondano si capisce che chi ci dorme ha l'abitudine di
+      mangiare a letto.
 
       L'inquilino del nido è sveglio, e ti guarda. È un orco più alto di
       qualunque orco tu abbia mai visto, e a Fondobosco raccontano che sua

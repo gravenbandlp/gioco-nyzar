@@ -282,12 +282,14 @@ function testataSpedizione(x: Contesto): string {
   const sped = a.spedizione!;
   const p = profondita(s, a.id);
   const ritorno = c.aree.find((z) => z.id === sped.ritorno)?.nome ?? sped.ritorno;
+  // la barra serve solo se qualcosa qui dipende dalla profondità (nel pozzo dell'Ira, per esempio, no)
+  const misura = storyletDisponibili(s, c).some((st) => st.area === a.id && st.requisiti.some((r) => r.startsWith(`profondita.${a.id}`)));
   return `<section class="spedizione">
-    <div class="profondita">
+    ${misura ? `<div class="profondita">
       <span class="etichetta">Profondità</span>
       <span class="barra pe${p >= sped.soglia ? ' piena' : ''}"><i style="width:${Math.min(100, (p / sped.soglia) * 100).toFixed(1)}%"></i></span>
       <b>${mezzi(p)} / ${sped.soglia}</b>
-    </div>
+    </div>` : ''}
     <button type="button" class="bottone" data-az="ritirata" title="Si perde la profondità raggiunta">Torna verso ${h(ritorno)}</button>
   </section>`;
 }

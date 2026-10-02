@@ -34,6 +34,10 @@ export interface Stato {
   sospesiPrima?: string[]; // seguiti rimasti in attesa sotto quello attuale: tornano in cima quando lo giochi
   diario?: PaginaDiario[]; // le pagine che il giocatore ha scelto di conservare
   tempo?: { totale: number; serie: Record<string, number>; ultimo?: number }; // ms di gioco (motore/tempo.ts)
+  // spedizione in corso: le stanze già superate in questa visita e, per i seguiti aperti da una stanza,
+  // la stanza da cui vengono (motore/spedizioni.ts). Si azzerano quando si esce.
+  stanzePassate?: string[];
+  seguitiDa?: Record<string, string>;
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {

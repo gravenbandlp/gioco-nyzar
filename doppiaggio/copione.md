@@ -1,6 +1,6 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 1471 pezzi, 860.499 caratteri.
+Generato da `npm run doppiaggio`. 1471 pezzi, 860.618 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
 
 ## I prologhi
@@ -2675,9 +2675,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### La torre di Bolgrum
 
-**`la-torre-di-bolgrum`** · scena · 1463 caratteri
+**`la-torre-di-bolgrum`** · scena · 1460 caratteri
 
-> Arrivi sull'isolotto al tramonto, bagnato fino alla cintura, e ti acquatti fra le radici di un tasso a venti passi dalla torre. La porta in cima alla scala di legno è aperta. Il piano terra è illuminato da una torcia e da una fila di candele votive accese davanti a una statua di pietra grezza che raffigura un essere con due braccia e una testa, lasciato a metà dallo scalpello. Tre orchi siedono a un tavolo di pietra, davanti a una coppa di metallo piena di monete, a una coppa di vino e a un piatto di carne cruda. Alle pareti ci sono rastrelliere piene di lance e di asce appese ai ganci.
+> Arrivi sull'isolotto al tramonto, fradicio di acqua nera, e ti acquatti fra le radici di un tasso a venti passi dalla torre. La porta in cima alla scala di legno è aperta. Il piano terra è illuminato da una torcia e da una fila di candele votive accese davanti a una statua di pietra grezza che raffigura un essere con due braccia e una testa, lasciato a metà dallo scalpello. Tre orchi siedono a un tavolo di pietra, davanti a una coppa di metallo piena di monete, a una coppa di vino e a un piatto di carne cruda. Alle pareti ci sono rastrelliere piene di lance e di asce appese ai ganci.
 >
 > Dalla finestra con le sbarre si vede il piano di sopra. Su un trono di teschi legati con cinghie di cuoio siede Bòlgrum, così grasso che il trono gli scompare sotto. Ha una pelliccia d'orso sulle spalle e una corona d'ossa in testa, e tiene fra le ginocchia un bastone da sciamano con le piume. Respira con fatica e fa schioccare la lingua fra una frase e l'altra. In piedi accanto al trono c'è Skàr. È magro, arriva con la testa quasi alle travi e tiene un'ascia bipenne appoggiata alla spalla. Sul tavolo dietro di loro sono ammucchiati libri e pergamene coperti di ragnatele, quello che resta del mago che abitava la torre.
 >
@@ -3525,9 +3525,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### La tana di Borgoth
 
-**`borgoth-e-cenerascura`** · scena · 1346 caratteri
+**`borgoth-e-cenerascura`** · scena · 1365 caratteri
 
-> Fra i tunnel e il ponte c'è un'ultima camera doppia, e per arrivare alla scogliera devi attraversarla. Dal soffitto di spine scende un groviglio di rampicanti, e ai viticci sono appesi scheletri di uccelli e mascelle di volpe che tintinnano quando passa l'aria. A sud c'è un grosso nido di ortiche, e dai topi mezzi mangiati che lo circondano si capisce che chi ci dorme ha l'abitudine di mangiare a letto.
+> A cento passi dai pali del ponte, dove i rovi tornano a chiudersi sul bordo della scogliera, c'è un'ultima camera doppia. Dal soffitto di spine scende un groviglio di rampicanti, e ai viticci sono appesi scheletri di uccelli e mascelle di volpe che tintinnano quando passa l'aria. A sud c'è un grosso nido di ortiche, e dai topi mezzi mangiati che lo circondano si capisce che chi ci dorme ha l'abitudine di mangiare a letto.
 >
 > L'inquilino del nido è sveglio, e ti guarda. È un orco più alto di qualunque orco tu abbia mai visto, e a Fondobosco raccontano che sua madre fosse un'ogre. Ha la pelle spessa e venata di muschio, e fra le cicatrici gli crescono fili d'erba. Al collo porta denti e ossa infilati in uno spago. Accanto a lui, sdraiato, c'è un puma dal pelo color brace, che apre la bocca e lascia uscire un filo di vapore caldo.
 >
@@ -3855,9 +3855,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Gli parli nella lingua del Circolo, ma la parola per calma ti esce storta e diventa quella per fuga. Il cavallo scalcia le pareti fino a far saltare due chiodi della porta, e a te torna indietro tutta la sua paura in una volta, così forte che ti si piegano le ginocchia. Resti seduto contro il capanno degli attrezzi, con i conigli che ti guardano dalla gabbia.
 
-**`ombrafosca-in-gabbia__4-esito`** · esito «Il cavallo nel cortile» · opzione «Schiodare la porta e farti da parte» · esito · 464 caratteri
+**`ombrafosca-in-gabbia__4-esito`** · esito «Il cavallo nel cortile» · opzione «Schiodare la porta e farti da parte» · esito · 467 caratteri
 
-> Togli l'ultima asse e ti butti di lato. La porta si spalanca e il cavallo esce al galoppo in mezzo ai cinghiali, che si sparpagliano strillando, e uno lo manda a gambe all'aria contro la staccionata. Poi prende la rincorsa verso la palizzata e la salta dove è più bassa, e dalla torre la vedetta lo guarda passare con la bocca aperta. Nel trambusto attraversi il cortile senza che nessuno ti veda, e ti resta nelle orecchie il rumore dei suoi zoccoli sugli scogli.
+> Togli l'ultima asse e ti butti di lato. La porta si spalanca e il cavallo esce al galoppo in mezzo ai cinghiali, che si sparpagliano strillando, e uno lo manda a gambe all'aria contro la staccionata. Poi prende la rincorsa verso la palizzata e la salta dove è più bassa, e dalla torre la vedetta lo guarda passare con la bocca aperta. Nel trambusto ti allontani dal cortile senza che nessuno ti veda, e ti resta nelle orecchie il rumore dei suoi zoccoli sugli scogli.
 
 ### Fuori dalla gabbia
 
@@ -3871,9 +3871,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 > Gli passi una corda larga intorno al collo senza stringerla, e lui ti lascia fare. Lo porti fuori dalla palizzata e lo leghi fra gli scogli dove il ponte di corda tocca l'isola, con un mucchio di alghe davanti che annusa con disprezzo. Gli dai il nome che ti viene in mente guardando il fumo che gli esce dalle narici, Ombrafosca. Lui gira un orecchio verso di te quando lo dici, e lo tiene girato.
 
-**`ombrafosca-fuori-dalla-gabbia__2-esito`** · esito «Il salto» · opzione «Lasciarlo andare» · esito · 455 caratteri
+**`ombrafosca-fuori-dalla-gabbia__2-esito`** · esito «Il salto» · opzione «Lasciarlo andare» · esito · 446 caratteri
 
-> Ti fai da parte e gli indichi la palizzata con il braccio, anche se ti senti un po' ridicolo a farlo. Il cavallo ti guarda ancora un momento, poi prende la rincorsa attraverso il cortile e salta la palizzata dove è più bassa, con un rumore di zoccoli sul legno che fa affacciare tutte e due le vedette. Lo senti scendere fra gli scogli verso la riva. Quando le vedette smettono di guardare il punto dove è sparito, tu sei già dall'altra parte del cortile.
+> Ti fai da parte e gli indichi la palizzata con il braccio, anche se ti senti un po' ridicolo a farlo. Il cavallo ti guarda ancora un momento, poi prende la rincorsa attraverso il cortile e salta la palizzata dove è più bassa, con un rumore di zoccoli sul legno che fa affacciare tutte e due le vedette. Lo senti scendere fra gli scogli verso la riva. Quando le vedette smettono di guardare il punto dove è sparito, tu sei già lontano dal cortile.
 
 ### La camera del capotribù
 
@@ -4263,9 +4263,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### Il pagliericcio
 
-**`isvaro-negli-alloggi`** · scena · 857 caratteri
+**`isvaro-negli-alloggi`** · scena · 833 caratteri
 
-> In fondo a un corridoio laterale, lontano dagli alloggi, c'è un ripostiglio con la porta accostata, e dentro c'è odore di vino. Su una cassa ci sono quattro bottiglie vuote in fila per altezza, con l'etichetta in fuori. Isvàro Tarvèlin dorme su un pagliericcio steso fra i sacchi di farina, con gli stivali ancora ai piedi.
+> In fondo a un corridoio laterale c'è un ripostiglio con la porta accostata, e dentro c'è odore di vino. Su una cassa ci sono quattro bottiglie vuote in fila per altezza, con l'etichetta in fuori. Isvàro Tarvèlin dorme su un pagliericcio steso fra i sacchi di farina, con gli stivali ancora ai piedi.
 >
 > È più magro di quando è scappato dalla fornace dell'Acciaieria, e la barba gli è cresciuta a chiazze. Dorme con un coltello in mano, e quando la tua ombra gli passa sulla faccia apre gli occhi di colpo e lo alza. Ti riconosce. Il coltello resta a mezz'aria un momento, e poi torna giù piano sul pagliericcio.
 >
@@ -4889,9 +4889,9 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Ti guarda da sotto in su. “Ci serve una persona sola che ci vada di notte senza divisa. Se ti prendono io non ti ho mai visto, e lo dico adesso perché dopo non potrò dirlo.” Poi si scrive qualcosa sul taccuino, e lo rimette in tasca prima che tu possa leggerlo.
 
-**`galdrick-e-la-mappa-rossa__5-successo`** · esito «L'ospite in ritardo» · opzione «Entrare dal cancello con l'alloro» · successo · 371 caratteri
+**`galdrick-e-la-mappa-rossa__5-successo`** · esito «L'ospite in ritardo» · opzione «Entrare dal cancello con l'alloro» · successo · 398 caratteri
 
-> La sera dopo ti presenti al cancello con il mantello buono e la pioggia che ti gocciola dal cappuccio, e dici alla guardia che il padrone ti aspetta da un'ora. Lui guarda la livrea verde del collega come se lì sopra ci fosse la risposta, poi apre. “Il signore riceve in salotto” dice. Nell'atrio ti lasciano solo per andare a chiamare qualcuno, e tu prendi l'altra porta.
+> La sera dopo ti presenti al cancello con il mantello buono e la pioggia che ti gocciola dal cappuccio, e dici alla guardia che il padrone ti aspetta da un'ora. Lui guarda la livrea verde del collega come se lì sopra ci fosse la risposta, poi apre. “Il signore riceve in salotto” dice. Nell'atrio ti lasciano solo per andare a chiamare qualcuno, e tu prendi la porticina di servizio verso le cucine.
 
 **`galdrick-e-la-mappa-rossa__5-fallimento`** · esito «Il nome sulla lista» · opzione «Entrare dal cancello con l'alloro» · fallimento · 355 caratteri
 
@@ -4959,11 +4959,11 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > “Mio marito riceve di giorno” dice Lucìa Malgràni. “Di notte, a quanto pare, ricevo io. Le due cose, sommate, fanno una casa molto frequentata.” Ha la voce bassa e piana e gli occhi cerchiati, e con il pollice fa girare piano la fede intorno all'anulare. Ti accorgi di misurare la distanza fra te e il campanello, e che anche lei la sta misurando.
 
-**`lucia-malgrani__1-esito`** · esito «Il bicchiere» · opzione «Guardare il bicchiere sul comodino» · esito · 361 caratteri
+**`lucia-malgrani__1-esito`** · esito «Il bicchiere» · opzione «Guardare il bicchiere sul comodino» · esito · 365 caratteri
 
 > Il fondo del bicchiere ha l'odore della valeriana, e sotto c'è qualcosa di amaro e più forte. È un sonnifero da cavallo, roba che si compra dal retro delle botteghe del Mercato dei Nodi.
 >
-> “Mi aiuta a non sentirlo camminare” dice Lucìa allo specchio. “Avanti e indietro, tutta la notte, sopra la mia testa. Dopo un po' una impara a contare i passi, ed è peggio.”
+> “Mi aiuta a non sentirlo camminare” dice Lucìa allo specchio. “Avanti e indietro, tutta la notte, davanti alla mia porta. Dopo un po' una impara a contare i passi, ed è peggio.”
 
 **`lucia-malgrani__2-successo`** · esito «Le note del pianoforte» · opzione «Parlarle» · successo · 718 caratteri
 
@@ -5027,9 +5027,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### Il pianoforte dei Malgrani
 
-**`il-caveau`** · scena · 978 caratteri
+**`il-caveau`** · scena · 1041 caratteri
 
-> La sala da pranzo è la stanza più grande del piano terra. Un tavolo di legno scuro lungo quanto la parete è coperto da un drappo purpureo, con il servizio d'argento già apparecchiato per una cena che non si farà. Il camino è acceso e scalda poco, e le poltrone di velluto sono girate verso il fuoco come se qualcuno se ne fosse appena andato.
+> Dalla scala di servizio scendi di nuovo al piano terra, fino alla sala da pranzo, che è la stanza più grande della casa. Un tavolo di legno scuro lungo quanto la parete è coperto da un drappo purpureo, con il servizio d'argento già apparecchiato per una cena che non si farà. Il camino è acceso e scalda poco, e le poltrone di velluto sono girate verso il fuoco come se qualcuno se ne fosse appena andato.
 >
 > Sopra il camino c'è il ritratto di Ottóne e di sua moglie, in piedi, rigidi, a un palmo l'uno dall'altra. Il pittore ha dato alla signora un sorriso largo e sereno che non c'entra niente con il resto della tela, e a Ottóne i baffi di qualche anno fa.
 >
@@ -5751,9 +5751,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### La paratia saldata
 
-**`il-raschiatore-dietro-la-paratia`** · scena · 790 caratteri
+**`il-raschiatore-dietro-la-paratia`** · scena · 822 caratteri
 
-> A metà del corridoio di manutenzione c'è una paratia diversa dalle altre. È più stretta, senza il numero di gesso, e lungo il bordo ha una colata di metallo fuso che la salda al telaio, il lavoro sbrigativo di una torcia da scavo. Dalla fessura è colato verso il corridoio un grumo di ceralacca, e ci si riconosce ancora metà del sigillo dei Raschiatori, una lanterna dentro un cerchio, rovesciata. Il sigillo è stato premuto dall'altra parte, prima che il metallo si raffreddasse.
+> Risali per un tratto il corridoio di manutenzione, fino a metà, dove c'è una paratia diversa dalle altre. È più stretta, senza il numero di gesso, e lungo il bordo ha una colata di metallo fuso che la salda al telaio, il lavoro sbrigativo di una torcia da scavo. Dalla fessura è colato verso il corridoio un grumo di ceralacca, e ci si riconosce ancora metà del sigillo dei Raschiatori, una lanterna dentro un cerchio, rovesciata. Il sigillo è stato premuto dall'altra parte, prima che il metallo si raffreddasse.
 >
 > Avvicini l'orecchio. È l'unica paratia del corridoio che resta zitta quando ti muovi, e dalla fessura in basso esce un odore secco di cuoio vecchio che ti ricorda la soffitta di tua nonna.
 >
@@ -5783,9 +5783,9 @@ Ogni file audio si salva come `<id>.mp3`.
 
 ### La sezione sigillata
 
-**`la-sezione-sigillata`** · scena · 974 caratteri
+**`la-sezione-sigillata`** · scena · 981 caratteri
 
-> Dietro un portello deformato, piegato verso l'esterno, comincia la sezione segnata sulla vecchia mappa come nodo tre. Il pavimento qui è diverso. Le lastre di metallo sono fuse e scurite, colate le une nelle altre in onde rigide che scricchiolano sotto le suole. L'aria vibra e ti fa formicolare i denti, e sul soffitto girano decine di sfere più piccole di quelle del reattore, lente, con un ronzio costante.
+> Dietro un portello deformato, piegato verso l'esterno, comincia la sezione che le mappe della Gilda segnavano come nodo tre. Il pavimento qui è diverso. Le lastre di metallo sono fuse e scurite, colate le une nelle altre in onde rigide che scricchiolano sotto le suole. L'aria vibra e ti fa formicolare i denti, e sul soffitto girano decine di sfere più piccole di quelle del reattore, lente, con un ronzio costante.
 >
 > In mezzo alla sala c'è un costrutto incompleto, attaccato a cavi che entrano nel muro. È per metà di metallo e per metà di carne mummificata, e addosso ha i resti di una tuta da Raschiatore, cucita alla carne con un filo di rame. Si muove appena, come un animale ferito. Quando sposti un piede sulla crosta di metallo, la sua testa si gira verso il rumore con un gracchiare di ingranaggi.
 >

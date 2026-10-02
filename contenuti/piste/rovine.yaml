@@ -1,18 +1,27 @@
 # Le rovine dei Raschiatori (blocco 8): tre spedizioni ripetibili per chi è nei turni di scavo
-# (raschiatore >= 1, pista.acciaio >= 8). Si parte dalla bacheca del Grifone di Ferro.
-# - `vhar-ul` (soglia 3): cinque stanze, il seguito `il-riflesso-distorto` (terminale della sala del nodo
-#   attivato male), due storie non ripetibili (`la-fonte-di-energia`, `il-raschiatore-dietro-la-paratia`,
-#   rovine.dorr 1) e il cuore `la-sezione-sigillata` (rovine.vhar-ul 1).
-# - `laboratorio-di-calibrazione` (soglia 3): sei stanze (nel magazzino, una volta sola, il modulo di
-#   isolamento) e il cuore `il-nodo-principale` (rovine.calibrazione 1).
-# - `mahr-kel` (soglia 4): sei stanze (nei depositi, una volta sola, la matrice di levigazione), la storia
-#   non ripetibile `l-archivio-di-memoria` (rovine.archivio 1) e il cuore `la-vasca-di-clonazione`
+# (raschiatore >= 1, pista.acciaio >= 8). Si parte dalla bacheca del Grifone di Ferro. Le stanze vanno in
+# ordine secondo la profondità, e una stanza superata non ricompare nella stessa visita
+# (src/motore/spedizioni.ts). Rientrando si rifà tutto da capo, come in un nuovo turno di scavo.
+# - `vhar-ul` (soglia 3): 0 l'ingresso di sorveglianza, 1 il corridoio di manutenzione, 2 la sala del nodo
+#   (con il seguito `il-riflesso-distorto`), il pozzo degli anelli o il campo del terzo livello. Due storie
+#   non ripetibili: `il-raschiatore-dietro-la-paratia` (rovine.dorr 1) dopo il corridoio, e
+#   `la-fonte-di-energia` dopo la sala del nodo (vhar-ul.nodo). Il cuore è `la-sezione-sigillata`
+#   (rovine.vhar-ul 1).
+# - `laboratorio-di-calibrazione` (soglia 3): 0 la scansione chimica o la taratura termica, 1 il magazzino
+#   (una volta sola il modulo di isolamento) o il reticolo, 2 la camera acustica o l'analisi cinetica. Il
+#   cuore è `il-nodo-principale` (rovine.calibrazione 1).
+# - `mahr-kel` (soglia 4): 0 la quarantena, 1 il drenaggio, 2 la raccolta biologica o i depositi (una volta
+#   sola la matrice di levigazione), 3 la ricostruzione o il corridoio delle ombre. La storia non ripetibile
+#   `l-archivio-di-memoria` (rovine.archivio 1) da 2 in poi, e il cuore `la-vasca-di-clonazione`
 #   (rovine.mahr-kel 1).
 # - Al Grifone, `la-piastrina-di-dorr` (rovine.dorr 1 → 2).
 # Scelte di canone: le spedizioni di quarant'anni fa le pagava la Gilda dei Mercanti (la "cartografia del
 # sottosuolo", a metro di mappa) e le facevano i Raschiatori; il Consiglio degli Scavatori riapre i siti
 # sigillati perché il primo strato del Labirinto è raschiato fino all'osso. Il Raschiatore mummificato è
 # Arelan Dorr, tornato da solo a cercare i suoi tre uomini; il Residuo porta la tuta di uno di loro (Benno).
+quality:
+  - { id: vhar-ul.nodo, nome: Hai passato la sala del nodo, categoria: stato, nascosta: true, descrizione: "1 se in questa visita a Vhar'Ul hai superato la sala del nodo, e allora la sfera piccola del reattore si può prendere. Torna a 0 a ogni partenza dal Grifone." }
+
 aree:
   - id: vhar-ul
     immagine: ambientazione/superficie-fratturata
@@ -151,6 +160,7 @@ storylet:
             mai capito a che cosa servissero. A metà giornata il terreno si
             inclina verso sud e si apre in una conca. Ti fermi sul bordo a bere,
             e la borraccia ti trema appena nella mano.
+          imposta: { vhar-ul.nodo: 0 }
           vai: vhar-ul
       - testo: "Tornare a Vhar'Ul"
         descrizione: "La strada la conosci, fino alla conca dove il vento si ferma."
@@ -164,6 +174,7 @@ storylet:
             ancora lì. A metà giornata scendi nella conca, e il vento si ferma
             alle tue spalle sul bordo, dove si è sempre fermato. Il cancello è
             come l'hai lasciato, con la stoffa sul cardine della baracca.
+          imposta: { vhar-ul.nodo: 0 }
           vai: vhar-ul
       - testo: "Andare a cavallo"
         descrizione: "Girando largo per la strada dei carri, a cavallo la conca arriva prima di mezzogiorno."
@@ -180,6 +191,7 @@ storylet:
             di schiuma. Lo lasci legato a un anello di metallo mezzo sepolto e
             scendi a piedi, con le sue orecchie puntate verso di te finché non
             sparisci dietro la scarpata.
+          imposta: { vhar-ul.nodo: 0 }
           vai: vhar-ul
 
   - id: turno-al-laboratorio
@@ -369,7 +381,7 @@ storylet:
     luogo: Vhar'Ul, l'ingresso di sorveglianza
     area: vhar-ul
     ripetibile: true
-    requisiti: [profondita.vhar-ul < 3]
+    requisiti: [profondita.vhar-ul == 0]
     testo: |
       Oltre il cancello c'è un accesso di metallo mezzo interrato, chiuso da
       un portello piatto con una maniglia grande quanto un remo. Accanto, la
@@ -451,7 +463,7 @@ storylet:
     luogo: Vhar'Ul, il corridoio di manutenzione
     area: vhar-ul
     ripetibile: true
-    requisiti: [profondita.vhar-ul < 3]
+    requisiti: [profondita.vhar-ul == 1]
     testo: |
       Il tunnel scende per una ventina di metri, rivestito di lastre di
       metallo che vibrano a ogni passo. Sulle pareti corrono cavi spessi come
@@ -531,7 +543,7 @@ storylet:
     luogo: Vhar'Ul, la sala del nodo
     area: vhar-ul
     ripetibile: true
-    requisiti: [profondita.vhar-ul < 3]
+    requisiti: [profondita.vhar-ul == 2]
     testo: |
       La sala è un cilindro di metallo alto tre piani. Al centro, sospeso a
       mezz'aria senza niente che lo tenga, c'è un reattore fatto di sfere
@@ -558,6 +570,7 @@ storylet:
             momento una sagoma storta che ha la tua altezza. Ti tieni rasente
             il muro fuori dal suo raggio, e passi oltre prima che la sagoma
             finisca di formarsi.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1 }
         fallimento:
           titolo: La sabbia che si alza
@@ -582,6 +595,7 @@ storylet:
             la schiena di un animale. A metà strada il terminale lampeggia più
             in fretta e poi si calma. Esci dall'altra parte con la camicia
             incollata alla schiena.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1 }
         fallimento:
           titolo: La scarica
@@ -604,6 +618,7 @@ storylet:
             metallo è caldo e ti brucia i palmi, e a metà strada una scarica ti
             cade sulla schiena e ti contrae tutti i muscoli insieme. Ti rialzi
             dall'altra parte con le mani rosse e le orecchie che fischiano.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1, ferite: 0.5 }
 
   - id: il-riflesso-distorto
@@ -612,6 +627,7 @@ storylet:
     tipo: seguito
     luogo: Vhar'Ul, la sala del nodo
     area: vhar-ul
+    requisiti: [profondita.vhar-ul == 2]
     testo: |
       Accanto al terminale la sabbia metallica si alza in una colonna e prende
       forma dal basso verso l'alto, finché davanti a te c'è una figura che ha
@@ -639,6 +655,7 @@ storylet:
             metallica che ti scivola fra gli stivali, fredda. In mezzo alla
             sabbia c'è una scheggia di vetro dei Precursori, e la raccogli con
             due dita.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1, reliquie.scheggia: 1 }
         sconfitta:
           titolo: I tuoi colpi
@@ -661,6 +678,7 @@ storylet:
             in una clessidra, e quando hai finito resta soltanto un mucchio di
             polvere di ferro accanto al terminale, che torna a lampeggiare
             tranquillo.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1 }
         fallimento:
           titolo: La tua voce
@@ -684,6 +702,7 @@ storylet:
             del muro. Ci vuole tanto che ti si addormenta un piede. Gli cola
             di mano anche l'arma di sabbia, a granelli. Alla fine crolla in un
             mucchio di sabbia, e passi oltre zoppicando.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1 }
         fallimento:
           titolo: Il naso
@@ -706,6 +725,7 @@ storylet:
             colpisce alla schiena con il suo gomito sbagliato, poi si ferma dove
             finisce la luce del reattore e si sfa. Prosegui piegato in due, con
             un livido che ti prende tutta la scapola.
+          imposta: { vhar-ul.nodo: 1 }
           effetti: { profondita.vhar-ul: 1, ferite: 0.5 }
 
   - id: vhar-ul-pozzo-degli-anelli
@@ -715,7 +735,7 @@ storylet:
     luogo: Vhar'Ul, il pozzo degli anelli
     area: vhar-ul
     ripetibile: true
-    requisiti: [profondita.vhar-ul < 3]
+    requisiti: [profondita.vhar-ul == 2]
     testo: |
       Un pozzo verticale largo quanto una stanza scende nel buio, e lungo le
       pareti girano anelli di metallo grandi come ruote di carro, uno sotto
@@ -796,7 +816,7 @@ storylet:
     luogo: Vhar'Ul, il campo della vecchia squadra
     area: vhar-ul
     ripetibile: true
-    requisiti: [profondita.vhar-ul < 3]
+    requisiti: [profondita.vhar-ul == 2]
     testo: |
       Al terzo livello il corridoio si allarga in una sala bassa dove la
       squadra della Gilda aveva piantato il campo. Ci sono quattro brande con
@@ -878,7 +898,7 @@ storylet:
     sommario: "Al centro del reattore della sala del nodo gira una sfera grande come una mela, che non fa scariche. Un uncino spezzato dice che qualcuno ci ha già provato."
     luogo: Vhar'Ul, la sala del nodo
     area: vhar-ul
-    requisiti: [oggetto.fonte-di-energia == 0, profondita.vhar-ul >= 1]
+    requisiti: [oggetto.fonte-di-energia == 0, vhar-ul.nodo == 1]
     testo: |
       Torni a guardare il reattore della sala del nodo, adesso che sai dove
       mettere i piedi. Le sfere più grandi girano lente, e quella al centro,
@@ -965,15 +985,16 @@ storylet:
     sommario: "A metà del corridoio di manutenzione c'è una paratia senza numero, saldata al telaio. È l'unica che resta zitta quando passi."
     luogo: Vhar'Ul, il corridoio di manutenzione
     area: vhar-ul
-    requisiti: [rovine.dorr == 0, profondita.vhar-ul >= 1]
+    requisiti: [rovine.dorr == 0, profondita.vhar-ul >= 2]
     testo: |
-      A metà del corridoio di manutenzione c'è una paratia diversa dalle
-      altre. È più stretta, senza il numero di gesso, e lungo il bordo ha una
-      colata di metallo fuso che la salda al telaio, il lavoro sbrigativo di
-      una torcia da scavo. Dalla fessura è colato verso il corridoio un
-      grumo di ceralacca, e ci si riconosce ancora metà del sigillo dei
-      Raschiatori, una lanterna dentro un cerchio, rovesciata. Il sigillo è
-      stato premuto dall'altra parte, prima che il metallo si raffreddasse.
+      Risali per un tratto il corridoio di manutenzione, fino a metà, dove
+      c'è una paratia diversa dalle altre. È più stretta, senza il numero di
+      gesso, e lungo il bordo ha una colata di metallo fuso che la salda al
+      telaio, il lavoro sbrigativo di una torcia da scavo. Dalla fessura è
+      colato verso il corridoio un grumo di ceralacca, e ci si riconosce
+      ancora metà del sigillo dei Raschiatori, una lanterna dentro un
+      cerchio, rovesciata. Il sigillo è stato premuto dall'altra parte, prima
+      che il metallo si raffreddasse.
 
       Avvicini l'orecchio. È l'unica paratia del corridoio che resta zitta
       quando ti muovi, e dalla fessura in basso esce un odore secco di cuoio
@@ -1056,15 +1077,15 @@ storylet:
   - id: la-sezione-sigillata
     immagine: ambientazione/rovine-dei-precursori
     titolo: La sezione sigillata
-    sommario: "Il nodo tre della vecchia mappa, dietro un portello deformato. Il pavimento è fuso, e in mezzo alla sala c'è qualcosa che indossa una tuta da Raschiatore."
+    sommario: "Il nodo tre delle mappe della Gilda, dietro un portello deformato. Il pavimento è fuso, e in mezzo alla sala c'è qualcosa che indossa una tuta da Raschiatore."
     luogo: Vhar'Ul, il nodo tre
     area: vhar-ul
     requisiti: [profondita.vhar-ul >= 3]
     testo: |
       Dietro un portello deformato, piegato verso l'esterno, comincia la
-      sezione segnata sulla vecchia mappa come nodo tre. Il pavimento qui è
-      diverso. Le lastre di metallo sono fuse e scurite, colate le une nelle
-      altre in onde rigide che scricchiolano sotto le suole. L'aria vibra e ti
+      sezione che le mappe della Gilda segnavano come nodo tre. Il pavimento
+      qui è diverso. Le lastre di metallo sono fuse e scurite, colate le une
+      nelle altre in onde rigide che scricchiolano sotto le suole. L'aria vibra e ti
       fa formicolare i denti, e sul soffitto girano decine di sfere più
       piccole di quelle del reattore, lente, con un ronzio costante.
 
@@ -1227,7 +1248,7 @@ storylet:
     luogo: Laboratorio di Calibrazione, la camera di test acustico
     area: laboratorio-di-calibrazione
     ripetibile: true
-    requisiti: [profondita.laboratorio-di-calibrazione < 3]
+    requisiti: [profondita.laboratorio-di-calibrazione == 2]
     testo: |
       È una stanza cubica dalle pareti perfettamente lisce, senza un angolo
       smussato. Ogni suono che fai torna indietro più forte di come è
@@ -1322,7 +1343,7 @@ storylet:
     luogo: Laboratorio di Calibrazione, la sala di taratura termica
     area: laboratorio-di-calibrazione
     ripetibile: true
-    requisiti: [profondita.laboratorio-di-calibrazione < 3]
+    requisiti: [profondita.laboratorio-di-calibrazione == 0]
     testo: |
       L'aria della sala è fredda come in una ghiacciaia, e il fiato ti esce in
       nuvole. Sul pavimento ci sono cerchi di metallo grandi come piatti da
@@ -1405,7 +1426,7 @@ storylet:
     luogo: Laboratorio di Calibrazione, il corridoio di scansione chimica
     area: laboratorio-di-calibrazione
     ripetibile: true
-    requisiti: [profondita.laboratorio-di-calibrazione < 3]
+    requisiti: [profondita.laboratorio-di-calibrazione == 0]
     testo: |
       È un corridoio stretto e lungo, così dritto che dall'imbocco vedi la
       porta in fondo piccola come un'unghia, e ci si passa soltanto di lato,
@@ -1484,7 +1505,7 @@ storylet:
     luogo: Laboratorio di Calibrazione, il magazzino
     area: laboratorio-di-calibrazione
     ripetibile: true
-    requisiti: [profondita.laboratorio-di-calibrazione < 3]
+    requisiti: [profondita.laboratorio-di-calibrazione == 1]
     testo: |
       È la sala più grande che hai visto qui sotto. Le pareti sono coperte di
       scaffali fino al soffitto, e sugli scaffali ci sono cassette di metallo
@@ -1546,7 +1567,7 @@ storylet:
           effetti: { ferite: 0.5 }
       - testo: "Prendere la piastra che mangia i suoni"
         descrizione: "Su un ripiano basso c'è una cassetta foderata di un materiale che non fa eco. Dentro, qualcosa di piatto."
-        requisiti: [oggetto.modulo-di-isolamento == 0]
+        quando: [oggetto.modulo-di-isolamento == 0]
         prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
         successo:
           titolo: Il modulo di isolamento
@@ -1591,7 +1612,7 @@ storylet:
     luogo: Laboratorio di Calibrazione, la camera di esame laser
     area: laboratorio-di-calibrazione
     ripetibile: true
-    requisiti: [profondita.laboratorio-di-calibrazione < 3]
+    requisiti: [profondita.laboratorio-di-calibrazione == 1]
     testo: |
       La stanza è perfettamente quadrata, e un reticolo di fasci di luce blu,
       sottili come capelli, la taglia in linee dritte da una parete
@@ -1669,7 +1690,7 @@ storylet:
     luogo: Laboratorio di Calibrazione, l'analisi cinetica
     area: laboratorio-di-calibrazione
     ripetibile: true
-    requisiti: [profondita.laboratorio-di-calibrazione < 3]
+    requisiti: [profondita.laboratorio-di-calibrazione == 2]
     testo: |
       Al centro della camera c'è una grande piattaforma inclinata di metallo
       graffiato, e sopra, appeso a un binario del soffitto, un braccio
@@ -1919,7 +1940,7 @@ storylet:
     luogo: Mahr-Kel, la camera di quarantena
     area: mahr-kel
     ripetibile: true
-    requisiti: [profondita.mahr-kel < 4]
+    requisiti: [profondita.mahr-kel == 0]
     testo: |
       Il corridoio d'ingresso finisce in una stanza rotonda con le pareti di
       metallo che si gonfiano e si sgonfiano lentamente come mantici, spinte
@@ -2000,7 +2021,7 @@ storylet:
     luogo: Mahr-Kel, il condotto di drenaggio
     area: mahr-kel
     ripetibile: true
-    requisiti: [profondita.mahr-kel < 4]
+    requisiti: [profondita.mahr-kel == 1]
     testo: |
       È un corridoio in discesa rivestito di metallo, bagnato da un fluido
       viscoso e trasparente che si stacca dalle pareti in fili lunghi quando
@@ -2080,7 +2101,7 @@ storylet:
     luogo: Mahr-Kel, la camera di raccolta biologica
     area: mahr-kel
     ripetibile: true
-    requisiti: [profondita.mahr-kel < 4]
+    requisiti: [profondita.mahr-kel == 2]
     testo: |
       Sei capsule trasparenti alte quanto un uomo stanno in cerchio intorno a
       una colonna di metallo, e ciascuna contiene un campione diverso sospeso
@@ -2182,7 +2203,7 @@ storylet:
     luogo: Mahr-Kel, la camera di ricostruzione
     area: mahr-kel
     ripetibile: true
-    requisiti: [profondita.mahr-kel < 4]
+    requisiti: [profondita.mahr-kel == 3]
     testo: |
       È una stanza enorme, e dal soffitto pendono decine di braccia meccaniche
       ferme a metà di un gesto, con le pinze aperte. Sul pavimento sotto le
@@ -2285,7 +2306,7 @@ storylet:
     luogo: Mahr-Kel, i depositi
     area: mahr-kel
     ripetibile: true
-    requisiti: [profondita.mahr-kel < 4]
+    requisiti: [profondita.mahr-kel == 2]
     testo: |
       Due magazzini comunicano attraverso un arco basso. Sono pieni di
       armature dalle forme storte, che non andrebbero bene a nessun corpo che
@@ -2324,7 +2345,7 @@ storylet:
           effetti: { ferite: 0.5 }
       - testo: "Aprire la vasca del reticolo"
         descrizione: "In una vasca più piccola delle altre galleggia un reticolo di vetro e filamenti. Sembra fatto per ricucire."
-        requisiti: [oggetto.matrice-di-levigazione == 0]
+        quando: [oggetto.matrice-di-levigazione == 0]
         prova: { attributo: mentale, abilita: [magia, medicina], difficolta: Media }
         successo:
           titolo: La matrice di levigazione
@@ -2370,7 +2391,7 @@ storylet:
     luogo: Mahr-Kel, il corridoio delle ombre
     area: mahr-kel
     ripetibile: true
-    requisiti: [profondita.mahr-kel < 4]
+    requisiti: [profondita.mahr-kel == 3]
     testo: |
       Il corridoio è lungo e rettilineo, con una luce bianca che scende dal
       soffitto e pareti di un metallo chiaro e opaco. La tua ombra ti cammina

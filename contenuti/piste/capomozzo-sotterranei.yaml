@@ -5,8 +5,12 @@
 # - `verso-i-sotterranei-di-capomozzo` (pista 3, ripetibile, Scuderie della Zanna Rotta): il rientro dopo una
 #   ritirata. Sta in città come quelli di capomozzo-forte e capomozzo-cuore, perché la ritirata riporta in
 #   Città Bassa e da lì la fortezza a pista 3 non si raggiunge.
-# - area `sotto-capomozzo`: sei stanze ripetibili (D1, D4, D7, D9–D10, D11–D12, D14), se ne vedono tre a caso.
-# - storie non ripetibili: i cuccioli (D3, `cuccioli`), la tana del Pungitore con il corpo di Druzk (D8),
+# - area `sotto-capomozzo`: sei stanze ripetibili (D1, D4, D7, D9–D10, D11–D12, D14), in ordine secondo la
+#   profondità: 0 la sala dei banchetti o il corridoio degli alloggi, 1 la prigione (la porta col lucchetto),
+#   2 il terreno di caccia o la cappella, 3 la sala della guerra, accanto alla sala della ricerca del cuore.
+#   Una stanza superata non ricompare nella stessa visita (src/motore/spedizioni.ts).
+# - storie non ripetibili: i cuccioli (D3, `cuccioli`), la tana del Pungitore con il corpo di Druzk (D8, dopo
+#   il terreno di caccia: la prigione azzera `capomozzo.caccia`, il terreno di caccia lo porta a 1),
 #   Zagrath nell'harem (D2, facoltativa), Isvaro negli alloggi (D4a, solo con isvaro 1), gli alloggi di
 #   Aurenne (D5, dà il diario ed è richiesta dal cuore).
 # - cuore `garin-e-kessa` (D15): in ogni ramo pista.capomozzo 4 e giù per la scala verso il livello II.
@@ -17,6 +21,7 @@ quality:
   - { id: capomozzo.druzk, nome: Il corpo di Druzk, categoria: stato, nascosta: true, descrizione: "Hai preso le cose di Druzk, chiavi comprese." }
   - { id: capomozzo.isvaro, nome: Hai trovato Isvaro a Capomozzo, categoria: stato, nascosta: true }
   - { id: capomozzo.alloggi, nome: Gli alloggi di Aurenne, categoria: stato, nascosta: true }
+  - { id: capomozzo.caccia, nome: Hai attraversato il terreno di caccia, categoria: stato, nascosta: true, descrizione: "1 se in questa visita sei passato dal terreno di caccia e non dalla cappella, perché la tana del Pungitore sta dietro la tenda di liane. La prigione lo azzera." }
 
 aree:
   - id: sotto-capomozzo
@@ -115,7 +120,7 @@ storylet:
     luogo: Sotterranei di Capomozzo, la sala dei banchetti
     area: sotto-capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo < 4]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo == 0]
     testo: |
       In fondo alla scala c'è una sala lunga e bassa, con un tavolo di pietra
       tagliato nella roccia e i sedili consumati nel mezzo, dove i cultisti si
@@ -214,7 +219,7 @@ storylet:
     luogo: Sotterranei di Capomozzo, gli alloggi
     area: sotto-capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo < 4]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo == 0]
     testo: |
       Il corridoio è stretto, con tre porte sullo stesso lato e una lanterna sola
       in fondo. Nella prima stanza c'è un letto di buona fattura con gli angoli
@@ -293,7 +298,7 @@ storylet:
     luogo: Sotterranei di Capomozzo, la caverna sul mare
     area: sotto-capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo < 4]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo == 2]
     testo: |
       Il corridoio sbocca in una caverna naturale, umida, che a est finisce in una
       grande apertura sul mare coperta da una tenda di liane. Il pavimento è
@@ -319,6 +324,7 @@ storylet:
             il metallo è sottile. Il colpo la apre, e dal cono esce un liquido scuro che
             puzza di olio di pesce. Gli occhi rossi si spengono a uno a uno, dal basso
             verso l'alto, e la forma si affloscia fra le liane come un otre vuoto.
+          imposta: { capomozzo.caccia: 1 }
           effetti: { profondita.sotto-capomozzo: 1 }
         sconfitta:
           titolo: Il grumo
@@ -338,6 +344,7 @@ storylet:
             volta nel punto dov'eri un momento prima e strappa un ciuffo di foglie.
             Dall'altra parte salti giù nel corridoio e ti volti, e lui sta ancora
             guardando il punto sbagliato con tutti i suoi occhi.
+          imposta: { capomozzo.caccia: 1 }
           effetti: { profondita.sotto-capomozzo: 1 }
         fallimento:
           titolo: Il pavimento liscio
@@ -359,6 +366,7 @@ storylet:
             l'apertura, dove il vento del mare lo prende e lo fa sbattere fra le liane.
             Il cono ci si avventa con tutti e due i tentacoli, e tu attraversi la
             caverna a passo lento, quasi in punta di piedi, e il mantello glielo lasci.
+          imposta: { capomozzo.caccia: 1 }
           effetti: { profondita.sotto-capomozzo: 1 }
         fallimento:
           titolo: Troppo lento
@@ -380,6 +388,7 @@ storylet:
             attaccarsi. Dall'altra parte ti appoggi al muro e aspetti che il bruciore
             della schiena diventi sopportabile, contando con le dita i buchi nuovi nella
             camicia.
+          imposta: { capomozzo.caccia: 1 }
           effetti: { profondita.sotto-capomozzo: 1, ferite: 0.5 }
 
   - id: sotto-la-prigione
@@ -389,7 +398,7 @@ storylet:
     luogo: Sotterranei di Capomozzo, la prigione
     area: sotto-capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo < 4]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo == 1]
     testo: |
       La prigione occupa una stanza lunga. Sul lato sud ci sono sei celle con le
       porte di ferro aperte, e sui muri delle celle i prigionieri hanno contato i
@@ -415,6 +424,7 @@ storylet:
             finché l'ultima cede con uno scatto. Prima di andare rimetti l'uncino al suo
             chiodo, perché chi l'ha appeso lì ci teneva. Oltre la porta comincia un
             corridoio basso che puzza di mare, e lo prendi con la lanterna coperta.
+          imposta: { capomozzo.caccia: 0 }
           effetti: { profondita.sotto-capomozzo: 1 }
         fallimento:
           titolo: La punta spezzata
@@ -436,6 +446,7 @@ storylet:
             rumore umido. La porta resta appesa di sbieco al lucchetto, e ci passi sotto
             piegato in due. Quando sei già nel corridoio dall'altra parte, il lucchetto
             intatto dondola ancora sul suo anello.
+          imposta: { capomozzo.caccia: 0 }
           effetti: { profondita.sotto-capomozzo: 1 }
         fallimento:
           titolo: La spalla
@@ -457,6 +468,7 @@ storylet:
             anche quando di prigionieri non ce n'erano più. Sul bancone, accanto al suo
             nome inciso, c'è un chiodo vuoto della misura giusta. Il mazzo lo rimetti
             alla cintura, dove tintinna a ogni passo come tintinnava a lui.
+          imposta: { capomozzo.caccia: 0 }
           effetti: { profondita.sotto-capomozzo: 1 }
       - testo: "Strisciare dal buco nell'ultima cella"
         descrizione: "Nell'ultima cella le tacche sono più fitte, e sotto la branda c'è un buco nel muro."
@@ -470,6 +482,7 @@ storylet:
             lunghissimo sbuchi in un corridoio dall'altra parte. A metà strada, nel
             buio, la mano ti finisce su un mucchio di ossa piccole. La ritiri
             subito, e continui a strisciare tenendola stretta al petto.
+          imposta: { capomozzo.caccia: 0 }
           effetti: { profondita.sotto-capomozzo: 1, ferite: 0.5 }
 
   - id: sotto-la-cappella
@@ -479,7 +492,7 @@ storylet:
     luogo: Sotterranei di Capomozzo, la cappella
     area: sotto-capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo < 4]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo == 2]
     testo: |
       Le porte di pietra della cappella sono scolpite con donne gravide di ogni
       razza, e dal loro ventre escono a forza di artigli bestie con le zampe
@@ -604,7 +617,7 @@ storylet:
     luogo: Sotterranei di Capomozzo, la sala della guerra
     area: sotto-capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo < 4]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo == 3]
     testo: |
       Un tavolo grande occupa quasi tutta la stanza, con le sedie spinte indietro
       di traverso e una tazza di stagno rovesciata in una pozza secca di vino.
@@ -647,9 +660,9 @@ storylet:
           testo: |
             Passi lungo il muro con la schiena alla lavagna, mettendo i piedi dove il
             gesso caduto non scricchiola. Di là l'uomo alza la voce sul nome di Isvaro,
-            e la donna lo zittisce con una parola sola che non capisci. Sei già nel
-            corridoio laterale quando di là una sedia si rovescia, e l'uomo impreca
-            contro la sedia e contro la paga.
+            e la donna lo zittisce con una parola sola che non capisci. Sei già
+            accanto alla porta sul fondo quando di là una sedia si rovescia, e l'uomo
+            impreca contro la sedia e contro la paga.
           effetti: { profondita.sotto-capomozzo: 1 }
         fallimento:
           titolo: Il gesso
@@ -756,7 +769,7 @@ storylet:
     sommario: "Dietro la tenda di liane il pavimento è coperto di carcasse vuote. Uno dei morti è un orco con la spada ancora in mano."
     luogo: Sotterranei di Capomozzo, la tana del Pungitore
     area: sotto-capomozzo
-    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo >= 2, capomozzo.druzk == 0]
+    requisiti: [pista.capomozzo == 3, profondita.sotto-capomozzo >= 3, capomozzo.caccia == 1, capomozzo.druzk == 0]
     testo: |
       Oltre il terreno di caccia, dove la caverna fa una curva verso il mare, c'è
       la tana. Il pavimento è coperto da centinaia di carcasse di gabbiani e di
@@ -1009,8 +1022,8 @@ storylet:
     area: sotto-capomozzo
     requisiti: [pista.capomozzo == 3, isvaro == 1, profondita.sotto-capomozzo >= 1, capomozzo.isvaro == 0]
     testo: |
-      In fondo a un corridoio laterale, lontano dagli alloggi, c'è un ripostiglio
-      con la porta accostata, e dentro c'è odore di vino. Su una cassa ci sono
+      In fondo a un corridoio laterale c'è un ripostiglio con la porta
+      accostata, e dentro c'è odore di vino. Su una cassa ci sono
       quattro bottiglie vuote in fila per altezza, con l'etichetta in fuori.
       Isvaro Tarvelin dorme su un pagliericcio steso fra i sacchi di farina, con
       gli stivali ancora ai piedi.

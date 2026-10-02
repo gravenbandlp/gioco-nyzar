@@ -1,7 +1,10 @@
 # Le cinque tribù, la spedizione nella Palude Acquanera (pista.tribu 2 → 3).
-# Si parte dalla Città Bassa con la mappa di Ilvaena; nella palude sette stanze ripetibili (se ne
-# vedono tre a caso), una carta e il cuore nella torre di Bolgrum, che riporta in città in ogni ramo
-# e imposta `bolgrum` (1 morto, 2 fuggito; quality definita in tribu.yaml).
+# Si parte dalla Città Bassa con la mappa di Ilvaena. Nella palude le stanze vanno in ordine, secondo
+# la profondità: 0 si entra (la nebbia sul canneto o il fango fra i canali), 1-2 il cuore della palude
+# (il fango, i serpenti, le tracce), 2-3 gli Spacca-ossa (l'orco nella tagliola, la riva; i serpenti
+# stanno ovunque fino a 3), 4 l'isolotto della torre. Poi una carta e il cuore nella torre di Bolgrum,
+# che riporta in città in ogni ramo e imposta `bolgrum` (1 morto, 2 fuggito; quality definita in
+# tribu.yaml). Una stanza superata non ricompare nella stessa visita (src/motore/spedizioni.ts).
 aree:
   - id: palude-acquanera
     immagine: ambientazione/palude-acquanera
@@ -99,7 +102,7 @@ storylet:
     luogo: Palude Acquanera, il canneto
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera == 0]
     testo: |
       La nebbia si alza dall'acqua tutta insieme e in pochi minuti ti chiude
       dentro il canneto, tanto fitta che vedi la punta dei giunchi e non il
@@ -172,7 +175,7 @@ storylet:
     luogo: Palude Acquanera, fra due canali
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera <= 1]
     testo: |
       Fra due canali la palude si apre in una distesa di fango lucido color
       fegato, che bisogna attraversare per forza. Nelle pozze l'acqua ha sopra
@@ -244,7 +247,7 @@ storylet:
     luogo: Palude Acquanera, il guado del pioppo
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera >= 1, profondita.palude-acquanera <= 3]
     testo: |
       Il canale qui è largo una decina di passi e non c'è modo di girarci
       intorno. Sulle radici di un pioppo che cresce in mezzo all'acqua ci sono
@@ -317,7 +320,7 @@ storylet:
     luogo: Palude Acquanera, un isolotto di fango
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera >= 1, profondita.palude-acquanera <= 2]
     testo: |
       Sull'isolotto il fango è segnato da impronte larghe, con le dita aperte
       a ventaglio, che escono dall'acqua da una parte e ci rientrano
@@ -392,7 +395,7 @@ storylet:
     luogo: Palude Acquanera, sotto un tasso
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera >= 2, profondita.palude-acquanera <= 3]
     testo: |
       Sotto un tasso, con la schiena contro il tronco, c'è un orco giovane e
       magro, con la pelle grigia e la gamba sinistra presa in una tagliola da
@@ -469,7 +472,7 @@ storylet:
     luogo: Palude Acquanera, la riva lunga
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera == 3]
     testo: |
       L'unica striscia di terra ferma corre lungo un canale largo e lento, e
       ci cammini sopra per un buon tratto prima di accorgerti che le rane
@@ -544,7 +547,7 @@ storylet:
     luogo: Palude Acquanera, davanti all'isolotto
     area: palude-acquanera
     ripetibile: true
-    requisiti: [pista.tribu == 2, profondita.palude-acquanera < 5]
+    requisiti: [pista.tribu == 2, profondita.palude-acquanera == 4]
     testo: |
       Fra i pioppi compare la torre, l'unica cosa dritta della palude. È di
       pietra vecchia, con le mura sbrecciate e il tetto crollato da un lato,
@@ -587,8 +590,8 @@ storylet:
             Resti fra i pioppi a guardare finché un orco esce dalla torre e scende
             verso l'acqua. Entra fino alla vita e cammina, invece di nuotare, lungo
             una linea che va storta verso est. C'è un dosso sotto, e tu lo segui con
-            gli occhi fino a impararlo. Lo passi al buio, un piede dopo l'altro, con
-            l'acqua mai sopra il petto.
+            gli occhi fino a impararlo. Lo passi con il sole già basso, un piede
+            dopo l'altro, con l'acqua mai sopra il petto.
           effetti: { profondita.palude-acquanera: 1 }
         fallimento:
           titolo: L'orco alla finestra
@@ -674,7 +677,7 @@ storylet:
     area: palude-acquanera
     requisiti: [pista.tribu == 2, profondita.palude-acquanera >= 5]
     testo: |
-      Arrivi sull'isolotto al tramonto, bagnato fino alla cintura, e ti
+      Arrivi sull'isolotto al tramonto, fradicio di acqua nera, e ti
       acquatti fra le radici di un tasso a venti passi dalla torre. La porta
       in cima alla scala di legno è aperta. Il piano terra è illuminato da una
       torcia e da una fila di candele votive accese davanti a una statua di

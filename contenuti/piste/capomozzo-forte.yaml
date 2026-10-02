@@ -1,15 +1,23 @@
 # Capomozzo, la fortezza (pista.capomozzo 2 → 3).
 # Si entra dal cuore di Rovolungo (`borgoth-e-cenerascura`, capomozzo-1.yaml) o, dopo una ritirata, da
 # `ritorno-alla-fortezza` alle Scuderie della Zanna Rotta.
-# - area `capomozzo`: sette stanze ripetibili (C10 la palizzata, C11 la sala dei trofei, C12–C13 la torre dei
-#   sottaceti, C14–C15 la torre di guardia est, C16 il cortile dei cinghiali, C25 la chiesa senza tetto,
-#   C26 la scala nella roccia), se ne vedono tre a caso.
-# - storie non ripetibili: `ombrafosca-in-gabbia` (C17–C18) con il seguito `ombrafosca-fuori-dalla-gabbia`
-#   (ombrafosca 1 liberato, 2 con te) e `la-tesoreria-di-balthog` (C23–C24, tesoro.capomozzo).
+# - area `capomozzo`: sette stanze ripetibili, in ordine secondo la profondità: 0 la palizzata (C10), 1 dentro
+#   le mura (C11 la sala dei trofei, C12–C13 la torre dei sottaceti), 2 verso il lato a monte (C16 il cortile
+#   dei cinghiali, C14–C15 la torre di guardia est e il camminamento, C25 la chiesa senza tetto), 3 la torre
+#   est o la chiesa se non ci sei ancora passato, e C26 la scala dietro l'altare se sei passato dalla chiesa
+#   (forte.chiesa). Una stanza superata non ricompare nella stessa visita (src/motore/spedizioni.ts).
+# - storie non ripetibili: `ombrafosca-in-gabbia` (C17–C18), nel capanno in fondo al cortile, si apre dopo
+#   che hai attraversato il cortile (forte.cortile), con il seguito `ombrafosca-fuori-dalla-gabbia`
+#   (ombrafosca 1 liberato, 2 con te); `la-tesoreria-di-balthog` (C23–C24, tesoro.capomozzo), la camera
+#   del capotribù accanto alla sala del trono, insieme al cuore.
 # - il cuore `balthog-il-prescelto` (C19): in ogni ramo pista.capomozzo 3 e `vai: sotto-capomozzo`.
 #   balthog vale 1 se muore nello scontro, 2 se lo atterri a sorpresa e lo lasci a terra vivo davanti al
 #   trono; resta 0 se lo convinci (se ne va con la sua gente), se lo aggiri o se ti batte e ti butta giù per
 #   la scala (resta sul trono).
+quality:
+  - { id: forte.cortile, nome: Hai attraversato il cortile dei cinghiali, categoria: stato, nascosta: true, descrizione: "1 se in questa visita sei arrivato in fondo al cortile, dove c'è il capanno del cavallo. La palizzata lo azzera." }
+  - { id: forte.chiesa, nome: Sei passato dalla chiesa senza tetto, categoria: stato, nascosta: true, descrizione: "1 se in questa visita sei passato dalla chiesa, perché la scala nella roccia sta dietro l'altare. La palizzata lo azzera." }
+
 aree:
   - id: capomozzo
     immagine: ambientazione/capomozzo
@@ -108,7 +116,8 @@ storylet:
           effetti: { monete: -10 }
           vai: capomozzo
 
-  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  # ------------------------------------------------------------ le stanze (ripetibili, in ordine di profondità)
+  # 0 · la palizzata
   - id: capomozzo-palizzata
     immagine: ambientazione/capomozzo
     titolo: La palizzata di relitti
@@ -116,7 +125,7 @@ storylet:
     luogo: Capomozzo, la palizzata
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo == 0]
     testo: |
       La palizzata gira intorno alla cima dell'isola, e da vicino si vede di
       che cosa è fatta. Le travi sono fasciame di navi, ancora curvo, con i
@@ -145,6 +154,7 @@ storylet:
             finché il cuore smette di martellarti nelle orecchie, e dalla torre
             arriva soltanto il rumore di uno che si soffia il naso con le dita.
           effetti: { profondita.capomozzo: 1 }
+          imposta: { forte.cortile: 0, forte.chiesa: 0 }
         fallimento:
           titolo: Il sasso
           testo: |
@@ -169,6 +179,7 @@ storylet:
             d'orco che passa dalle fessure. Rimetti l'asse al suo posto dietro
             di te.
           effetti: { profondita.capomozzo: 1 }
+          imposta: { forte.cortile: 0, forte.chiesa: 0 }
         fallimento:
           titolo: Il chiodo di rame
           testo: |
@@ -192,7 +203,9 @@ storylet:
             i calzoni che gocciolano, lasciandoti dietro una scia scura sulla
             terra battuta.
           effetti: { profondita.capomozzo: 1, ferite: 0.5 }
+          imposta: { forte.cortile: 0, forte.chiesa: 0 }
 
+  # 1 · dentro le mura
   - id: capomozzo-sala-dei-trofei
     immagine: bestiario/orco
     titolo: La sala dei trofei
@@ -200,7 +213,7 @@ storylet:
     luogo: Capomozzo, la sala dei trofei
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo == 1]
     testo: |
       La sala dei trofei ha il pavimento di terra battuta, come se a chi l'ha
       costruita fosse finito il legname dopo il tetto. Lungo la parete est
@@ -265,7 +278,7 @@ storylet:
       - testo: "Staccare il pugnale di madreperla"
         descrizione: "È in alto, e il suo chiodo regge mezza ala. Bisogna arrampicarsi sulle teste di cavallo."
         immagine: icone/curvy-knife
-        requisiti: [oggetto.pugnale-dell-arpia == 0]
+        quando: [oggetto.pugnale-dell-arpia == 0]
         prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Media }
         successo:
           titolo: La madreperla
@@ -310,7 +323,7 @@ storylet:
     luogo: Capomozzo, la dispensa e la torre ovest
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo == 1]
     testo: |
       Alla base della torre ovest c'è la dispensa, con la porta inchiodata da
       fuori con tre assi di traverso. Dalle fessure esce un odore d'aceto così
@@ -385,6 +398,7 @@ storylet:
             e il sapore del sale in bocca.
           effetti: { profondita.capomozzo: 1, ferite: 0.5 }
 
+  # 2 · verso il lato a monte (la torre est e la chiesa restano aperte anche a 3, finché non ci passi)
   - id: capomozzo-torre-di-guardia
     immagine: bestiario/orco
     titolo: La torre di guardia est
@@ -392,7 +406,7 @@ storylet:
     luogo: Capomozzo, i dormitori e la torre est
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo >= 2, profondita.capomozzo <= 3]
     testo: |
       La torre est si sale dai dormitori, una stanza bassa con sei amache
       appese a telai che ondeggiano a ogni respiro di chi ci dorme sopra. Le
@@ -497,7 +511,7 @@ storylet:
     luogo: Capomozzo, il cortile delle esercitazioni
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo == 2]
     testo: |
       Il cortile delle esercitazioni è un quadrato di terra pressata, chiazzata
       di sangue vecchio e solcata dagli zoccoli, dove qualche ciuffo d'erba
@@ -525,6 +539,7 @@ storylet:
             rifugiati in un angolo a guardarti con gli occhietti rossi.
             Attraversi il cortile senza mai voltargli le spalle.
           effetti: { profondita.capomozzo: 1 }
+          imposta: { forte.cortile: 1 }
         sconfitta:
           titolo: Il volo
           testo: |
@@ -547,6 +562,7 @@ storylet:
             Arrivi dall'altra parte, e soltanto lì ti accorgi di aver corso
             senza respirare.
           effetti: { profondita.capomozzo: 1 }
+          imposta: { forte.cortile: 1 }
         fallimento:
           titolo: Le zanne
           testo: |
@@ -570,6 +586,7 @@ storylet:
             il primo dietro l'orecchio, e lui ti spinge la mano con il muso per
             averne ancora.
           effetti: { profondita.capomozzo: 1 }
+          imposta: { forte.cortile: 1 }
           pe: { addestrare-animali: 5 }
         fallimento:
           titolo: Lo schiocco sbagliato
@@ -594,6 +611,7 @@ storylet:
             fondo al passaggio coperto di fango fino alle ginocchia, con un
             orecchio che ancora fischia.
           effetti: { profondita.capomozzo: 1, tormento: 0.5 }
+          imposta: { forte.cortile: 1 }
 
   - id: capomozzo-cappella
     immagine: bestiario/orco-sacerdote-guerriero
@@ -602,7 +620,7 @@ storylet:
     luogo: Capomozzo, la chiesa in cima all'isola
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo >= 2, profondita.capomozzo <= 3]
     testo: |
       Sulla cima dell'isola, dietro la sala del trono, c'è una chiesa di pietra
       grigia molto più vecchia della palizzata. Il tetto è crollato da chissà
@@ -634,6 +652,7 @@ storylet:
             voce. *Questi orchi pregano lei, e non lo sanno.* Ti allontani lungo
             il muro con la bocca secca.
           effetti: { profondita.capomozzo: 1, informazioni.segreto: 0.5 }
+          imposta: { forte.chiesa: 1 }
         fallimento:
           titolo: La cadenza
           testo: |
@@ -657,6 +676,7 @@ storylet:
             si alzano e se ne vanno senza guardarti, e resti solo davanti
             all'altare con le ginocchia indolenzite.
           effetti: { profondita.capomozzo: 1 }
+          imposta: { forte.chiesa: 1 }
         fallimento:
           titolo: L'odore
           testo: |
@@ -680,7 +700,9 @@ storylet:
             Quando gli orchi escono hai le mani viola e in testa una litania che
             non ti appartiene.
           effetti: { profondita.capomozzo: 1, tormento: 0.5 }
+          imposta: { forte.chiesa: 1 }
 
+  # 3 · dietro l'altare, solo se in questa visita sei passato dalla chiesa
   - id: capomozzo-scala
     immagine: ambientazione/capomozzo
     titolo: La scala nella roccia
@@ -688,7 +710,7 @@ storylet:
     luogo: Capomozzo, la scala sotto la chiesa
     area: capomozzo
     ripetibile: true
-    requisiti: [pista.capomozzo == 2, profondita.capomozzo < 4]
+    requisiti: [pista.capomozzo == 2, profondita.capomozzo == 3, forte.chiesa == 1]
     testo: |
       Dietro l'altare della chiesa, coperta da una pelle di cinghiale
       inchiodata allo stipite, c'è una porta bassa. Oltre la porta una scala
@@ -772,7 +794,7 @@ storylet:
     sommario: "Nel capanno inchiodato in fondo al cortile c'è un cavallo che ha già ammazzato due orchi. Accanto, nel capanno degli attrezzi, c'è una gabbia piena di conigli."
     luogo: Capomozzo, i capanni in fondo al cortile
     area: capomozzo
-    requisiti: [pista.capomozzo == 2, ombrafosca == 0, profondita.capomozzo >= 1]
+    requisiti: [pista.capomozzo == 2, ombrafosca == 0, profondita.capomozzo >= 3, forte.cortile == 1]
     testo: |
       In fondo al cortile ci sono due capanni di legno grezzo. Il primo è
       aperto ed è il capanno degli attrezzi, con le mensole cariche di reti e
@@ -877,7 +899,7 @@ storylet:
             strillando, e uno lo manda a gambe all'aria contro la staccionata.
             Poi prende la rincorsa verso la palizzata e la salta dove è più
             bassa, e dalla torre la vedetta lo guarda passare con la bocca
-            aperta. Nel trambusto attraversi il cortile senza che nessuno ti
+            aperta. Nel trambusto ti allontani dal cortile senza che nessuno ti
             veda, e ti resta nelle orecchie il rumore dei suoi zoccoli sugli
             scogli.
           imposta: { ombrafosca: 1 }
@@ -930,7 +952,7 @@ storylet:
             palizzata dove è più bassa, con un rumore di zoccoli sul legno che
             fa affacciare tutte e due le vedette. Lo senti scendere fra gli
             scogli verso la riva. Quando le vedette smettono di guardare il
-            punto dove è sparito, tu sei già dall'altra parte del cortile.
+            punto dove è sparito, tu sei già lontano dal cortile.
           imposta: { ombrafosca: 1 }
           effetti: { profondita.capomozzo: 1 }
 
@@ -941,7 +963,7 @@ storylet:
     sommario: "La camera da letto di Balthog, con un letto a baldacchino venuto da chissà dove, e accanto una latrina da cui arriva un filo d'aria che non dovrebbe esserci."
     luogo: Capomozzo, la camera del capotribù
     area: capomozzo
-    requisiti: [pista.capomozzo == 2, tesoro.capomozzo == 0, profondita.capomozzo >= 2]
+    requisiti: [pista.capomozzo == 2, tesoro.capomozzo == 0, profondita.capomozzo >= 4]
     testo: |
       La camera di Balthog sta dietro la sala riunioni, dove un tavolo rotondo
       e quattro sedie prendono polvere. Il pavimento è di terra battuta,

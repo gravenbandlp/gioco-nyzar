@@ -48,6 +48,23 @@ describe('spedizioni', () => {
     expect(profondita(s, 'grotta')).toBe(6);
     expect(viste.size).toBeGreaterThan(3);
   });
+  it('una stanza superata non torna nella stessa visita, e torna dopo essere usciti', () => {
+    const s = pg();
+    s.area = 'grotta';
+    const fatte: string[] = [];
+    for (let i = 0; i < 6; i++) {
+      const st = stanzeVisibili(s, c)[0]!;
+      expect(fatte).not.toContain(st.id);
+      fatte.push(st.id);
+      scegli(s, st, 0, c, 0, rngConSeme(i));
+    }
+    expect(new Set(fatte).size).toBe(6);
+    expect(stanzeVisibili(s, c)).toHaveLength(0);
+    ritirati(s, c);
+    expect(s.stanzePassate).toBeUndefined();
+    s.area = 'grotta';
+    expect(stanzeVisibili(s, c)).toHaveLength(3);
+  });
   it('la ritirata riporta in città e azzera la profondità', () => {
     const s = pg();
     s.area = 'grotta';

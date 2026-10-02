@@ -1,7 +1,15 @@
 # La caccia di Corin, la spedizione nella Foresta Strisciante (pista.corin 2 → 3).
-# Si parte dalle Scuderie della Zanna Rotta in Città Bassa; nella foresta sette stanze ripetibili
-# (se ne vedono tre a caso), una carta e il cuore nella radura, che porta a 3. Dopo il cinghiale
-# compare il puma nero (seguito), ed è lì che la scena finisce e si torna ai Ponti Sospesi.
+# Si parte dalle Scuderie della Zanna Rotta in Città Bassa. Nella foresta le stanze vanno in ordine,
+# secondo la profondità: 0 a cavallo lungo il fiume (le domande di Corin o gli Spiumatori), 1 ancora
+# quelle due oppure l'impronta, dove si trova la pista; da 2 a 4 sulla pista (le carcasse, la parete, il
+# sottobosco; la fossa solo a 2 e 3, lontano dalla radura). Poi il cuore nella radura, che porta a 3.
+# Dopo il cinghiale compare il puma nero (seguito), ed è lì che la scena finisce e si torna ai Ponti
+# Sospesi. Una stanza superata non ricompare nella stessa visita (src/motore/spedizioni.ts); le domande
+# di Corin e la fossa spariscono anche dopo un fallimento, con le due flag qui sotto.
+quality:
+  - { id: foresta.domande, nome: Corin ti ha già fatto le sue domande, categoria: stato, nascosta: true, descrizione: "1 se il racconto a Corin è andato male, e in questa visita non te lo richiede." }
+  - { id: foresta.fossa, nome: Sei caduto nella fossa di cattura, categoria: stato, nascosta: true, descrizione: "1 se sei caduto nella fossa, e in questa visita la trappola è già scattata." }
+
 aree:
   - id: foresta-strisciante
     immagine: ambientazione/foresta-strisciante
@@ -81,6 +89,7 @@ storylet:
             riva sud del Torvessa per mezz'ora, con la scarpata rossa del Gradone
             sulla sinistra, finché le collinette non si aprono e davanti a voi compare il bosco, scuro di
             abeti.
+          imposta: { foresta.domande: 0, foresta.fossa: 0 }
           vai: foresta-strisciante
       - testo: "Partire sul tuo cavallo"
         descrizione: "Il baio di Stroud resta nella stalla. Il tuo cavallo ti conosce, e corre volentieri."
@@ -97,6 +106,7 @@ storylet:
             condivide. Seguite la riva sud del Torvessa al trotto, sotto la scarpata del Gradone Rosso, e
             arrivate al limitare del bosco con le gambe ancora fresche e Corin senza
             fiato.
+          imposta: { foresta.domande: 0, foresta.fossa: 0 }
           vai: foresta-strisciante
 
   # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
@@ -108,7 +118,7 @@ storylet:
     area: foresta-strisciante
     ripetibile: true
     # Corin parla di Ottone come di un nemico ancora in Consiglio: non dopo l'arresto (pista.pelle 5).
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5, pista.pelle < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante <= 1, foresta.domande == 0, pista.pelle < 5]
     testo: |
       Lungo il fiume i cavalli vanno al passo, e Corin ne approfitta per
       parlare. Ti racconta della Gilda dei Mercanti, che secondo lui è il
@@ -146,6 +156,7 @@ storylet:
             anche se nessuno dei due la sta ascoltando. Quando alzi gli occhi siete
             ancora allo stesso gomito del fiume.
           effetti: { tormento: 0.5 }
+          imposta: { foresta.domande: 1 }
       - testo: "Raccontargli la versione da locanda"
         descrizione: "Un orco in più e un po' meno paura. Corin ha voglia di un eroe, e tu puoi dargliene uno."
         prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
@@ -168,6 +179,7 @@ storylet:
             strada non ti contraddice più, e ogni tanto ti guarda di lato con molta
             gentilezza. Le orecchie ti bruciano fino al gomito successivo del fiume.
           effetti: { tormento: 0.5 }
+          imposta: { foresta.domande: 1 }
       - testo: "Parlargli da mercante a mercante"
         descrizione: "Hai anche tu la licenza della Gilda, e sai di cosa si lamenta un mercante quando cavalca."
         requisiti: [origine.mercante-dei-ponti >= 1]
@@ -215,7 +227,7 @@ storylet:
     luogo: Foresta Strisciante, sotto il Gradone Rosso
     area: foresta-strisciante
     ripetibile: true
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante <= 1]
     testo: |
       Dove il bosco si avvicina alla scarpata del Gradone Rosso gli alberi si
       diradano su una spianata di sassi rossi. In mezzo ci sono due orchi
@@ -250,8 +262,8 @@ storylet:
             inclina. Quando si raddrizza gli orchi sono già a metà della scarpata,
             con gli uccelli sotto il braccio, e Corin ti sta tamponando la fronte
             con un fazzoletto di seta ricamato. «Li abbiamo messi in fuga» dice, con
-            molta buona volontà. Vi serve un pezzo per rimettervi in sella, e la
-            pista intanto è sparita fra i sassi.
+            molta buona volontà. Vi serve un pezzo per rimettervi in sella, e il
+            sole intanto è salito sopra la scarpata.
       - testo: "Aggirarli sotto gli abeti"
         descrizione: "Sottovento, con i cavalli per la briglia. Basta non pestare niente."
         prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
@@ -319,7 +331,7 @@ storylet:
     luogo: Foresta Strisciante, vicino a un ruscello
     area: foresta-strisciante
     ripetibile: true
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante == 1]
     testo: |
       Nel fango molle vicino a un ruscello c'è un'impronta di zoccolo con gli
       speroni ben marcati, larga quanto una scodella da fucina. Corin scende
@@ -397,13 +409,14 @@ storylet:
     luogo: Foresta Strisciante, nel sottobosco
     area: foresta-strisciante
     ripetibile: true
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante >= 2, profondita.foresta-strisciante <= 4]
     testo: |
       Le tracce entrano in una macchia di rovi e viticci così fitta che la
       luce ci arriva a chiazze, e i cavalli puntano gli zoccoli e non ne
-      vogliono sapere. Li legate a un abete. Il cinghiale ci è passato in
-      mezzo come un carro, e dietro di sé ha lasciato un corridoio di rami
-      spezzati che si è già richiuso a metà.
+      vogliono sapere. Li legate a un abete, e tornerete a prenderli facendo
+      il giro della macchia. Il cinghiale ci è passato in mezzo come un
+      carro, e dietro di sé ha lasciato un corridoio di rami spezzati che si
+      è già richiuso a metà.
 
       Corin si toglie il mantello, lo piega con cura e lo appende a un ramo.
       Poi ci ripensa e se lo rimette. «Ho letto che i cacciatori veri vanno
@@ -475,7 +488,7 @@ storylet:
     luogo: Foresta Strisciante, in una radura di felci
     area: foresta-strisciante
     ripetibile: true
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante >= 2, profondita.foresta-strisciante <= 3, foresta.fossa == 0]
     testo: |
       Il sottobosco si dirada in una radura di felci basse, e sul terreno
       coperto di aghi le tracce del cinghiale si fanno difficili da seguire.
@@ -505,6 +518,7 @@ storylet:
             rametti senti il terreno che se ne va. I rami si aprono sotto di te come
             una botola, e dal buio sale un odore di terra bagnata e di legno marcio.
             Le braccia si allargano da sole, in cerca di qualcosa a cui attaccarsi.
+          imposta: { foresta.fossa: 1 }
           segue: foresta-la-fossa-caduta
       - testo: "Tenere Corin per la cintura e tastare il terreno con un ramo"
         descrizione: "Lento e faticoso. Corin non sta mai dietro a nessuno per molto."
@@ -580,7 +594,7 @@ storylet:
     luogo: Foresta Strisciante, sotto la parete
     area: foresta-strisciante
     ripetibile: true
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante >= 2, profondita.foresta-strisciante <= 4]
     testo: |
       Il bosco finisce contro una parete di roccia rossastra alta tre uomini,
       striata d'acqua, che scende dal Gradone Rosso come una costola. Le
@@ -659,7 +673,7 @@ storylet:
     luogo: Foresta Strisciante, in una conca fra le sequoie
     area: foresta-strisciante
     ripetibile: true
-    requisiti: [pista.corin == 2, profondita.foresta-strisciante < 5]
+    requisiti: [pista.corin == 2, profondita.foresta-strisciante >= 2, profondita.foresta-strisciante <= 4]
     testo: |
       In una conca fra le radici di due sequoie ci sono le carcasse di tre
       caprioli, aperte dalla gola alla pancia e lasciate lì senza che nessuno

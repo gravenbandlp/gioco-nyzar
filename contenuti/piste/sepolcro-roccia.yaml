@@ -1,6 +1,11 @@
 # Il Sepolcro violato, la spedizione alla Roccia di Wren (pista.sepolcro 4 → 5).
-# La strada parte dalla Città Bassa; sulla Roccia sei stanze ripetibili (se ne vedono tre a caso),
-# una carta e il cuore al piano di sopra, che riporta in città in ogni ramo.
+# La strada parte dalla Città Bassa. Sulla Roccia le stanze vanno in ordine, secondo la profondità:
+# 0 si arriva alla Roccia (dalla foschia o dai giunchi), 1 la porta della capanna, 2 il piano terra
+# (gli uccelli o il libro), 3 le scale. Poi il cuore al piano di sopra, che riporta in città in ogni ramo.
+# Una stanza superata non ricompare nella stessa visita (src/motore/spedizioni.ts).
+quality:
+  - { id: roccia.barca, nome: Sei arrivato alla Roccia in barca, categoria: stato, nascosta: true, descrizione: "1 se il vecchio ti ha lasciato ai giunchi, e la strada nella foschia non serve più." }
+
 aree:
   - id: roccia-di-wren
     immagine: ambientazione/roccia-di-wren
@@ -74,6 +79,7 @@ storylet:
 
             Ti siedi su un sasso a vuotare uno stivale, e intanto la guardi.
             Le imposte della capanna sono chiuse, e dal camino non esce fumo.
+          imposta: { roccia.barca: 0 }
           vai: roccia-di-wren
       - testo: "Andare a cavallo lungo la riva"
         descrizione: "Il cavallo attraversa il fango a muso basso, e ci metti la metà del tempo."
@@ -89,6 +95,7 @@ storylet:
             cima e le imposte chiuse. Leghi il cavallo a un salice storto,
             che comincia subito a strappare l'erba come se non ci fosse
             nient'altro al mondo.
+          imposta: { roccia.barca: 0 }
           vai: roccia-di-wren
       - testo: "Pagare il vecchio per un passaggio in barca"
         descrizione: "Poche monete, e arrivi con le gambe riposate. Allo Scoglio però non attracca."
@@ -109,6 +116,7 @@ storylet:
             Roccia. Le gambe ti ringraziano, e lui spinge la barca indietro
             prima che tu abbia finito di scendere.
           effetti: { monete: -3, ferite: -0.5 }
+          imposta: { roccia.barca: 1 }
           vai: roccia-di-wren
 
   # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
@@ -119,7 +127,7 @@ storylet:
     luogo: Roccia di Wren, lungo la riva
     area: roccia-di-wren
     ripetibile: true
-    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren < 4]
+    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren == 0, roccia.barca == 0]
     testo: |
       La foschia sale dal Torvessa a spirali lente e si richiude alle tue
       spalle, e del sentiero vedi soltanto i tre passi davanti agli stivali.
@@ -140,10 +148,11 @@ storylet:
           testo: |
             Abbassi lo sguardo e conti i sassi che affiorano, uno per passo.
             Le figure ti accompagnano per un tratto, poi una folata le stende
-            sull'acqua e restano indietro. Quando rialzi la testa la Roccia di
-            Wren è più vicina di quanto pensassi, nera contro il bianco della
-            foschia, e hai la mascella indolenzita a forza di stringerla. Ti
-            massaggi la faccia con due dita prima di andare avanti.
+            sull'acqua e restano indietro. Quando rialzi la testa il sentiero
+            è finito su una lingua di ghiaia che arriva fino alla Roccia di
+            Wren, nera contro il bianco della foschia, e hai la mascella
+            indolenzita a forza di stringerla. Ti massaggi la faccia con due
+            dita prima di attraversarla.
           effetti: { profondita.roccia-di-wren: 1 }
         fallimento:
           titolo: Dietro la figura
@@ -164,9 +173,9 @@ storylet:
             Ti apri la strada con gli avambracci, e i rovi ti restituiscono il
             favore con gli interessi. Lontano dall'acqua la foschia si dirada
             e le figure non ti seguono. Dopo un'ora sbuchi su una lingua di
-            ghiaia davanti alla Roccia di Wren, con le maniche a brandelli e
-            una spina nel pollice che toglierai stasera. Alle tue spalle il
-            roveto si richiude con un fruscio.
+            ghiaia che porta fino ai piedi della Roccia di Wren, con le
+            maniche a brandelli e una spina nel pollice che toglierai
+            stasera. Alle tue spalle il roveto si richiude con un fruscio.
           effetti: { profondita.roccia-di-wren: 1 }
         fallimento:
           titolo: Nel roveto
@@ -187,9 +196,9 @@ storylet:
             Lasci il sentiero e segui la riva, dove la foschia è più bassa e i
             piedi affondano nel fango fino alla caviglia. Le figure fra i rovi ti
             accompagnano per un tratto e poi restano indietro, ferme dove il terreno
-            comincia a salire. Arrivi dall'altra parte con gli stivali pieni d'acqua
-            e i polpacci che bruciano, quando la luce sul fiume è già cambiata due
-            volte.
+            comincia a salire. Arrivi ai piedi della Roccia dal lato della ghiaia,
+            con gli stivali pieni d'acqua e i polpacci che bruciano, quando la luce
+            sul fiume è già cambiata due volte.
           effetti: { profondita.roccia-di-wren: 1, ferite: 0.5 }
 
   - id: roccia-riva-dei-giunchi
@@ -199,7 +208,7 @@ storylet:
     luogo: Roccia di Wren, la riva dei giunchi
     area: roccia-di-wren
     ripetibile: true
-    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren < 4]
+    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren == 0]
     testo: |
       Fra la riva e la Roccia di Wren c'è una distesa di giunchi più alti di
       te, piantati in un'acqua nera che non si muove. Ci passa sopra una
@@ -277,7 +286,7 @@ storylet:
     luogo: Roccia di Wren, in cima alla scala
     area: roccia-di-wren
     ripetibile: true
-    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren < 4]
+    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren == 1]
     testo: |
       Contro la parete della Roccia è appoggiato un troncone di scala di
       legno, sistemato alla buona su due sassi, che arriva fino alla cengia
@@ -356,7 +365,7 @@ storylet:
     luogo: Roccia di Wren, il piano terra della capanna
     area: roccia-di-wren
     ripetibile: true
-    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren < 4]
+    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren == 2]
     testo: |
       Il piano terra è più grande di quanto la capanna sembri da fuori, e lo
       sguardo continua a cercare la parete di fondo un po' più in qua di dove
@@ -436,7 +445,7 @@ storylet:
     luogo: Roccia di Wren, il piano terra della capanna
     area: roccia-di-wren
     ripetibile: true
-    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren < 4]
+    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren == 2]
     testo: |
       In mezzo ai tavoli rovesciati ce n'è uno solo in piedi, sotto la
       finestra, con sopra un libro di schizzi aperto e una matita consumata
@@ -516,7 +525,7 @@ storylet:
     luogo: Roccia di Wren, ai piedi delle scale
     area: roccia-di-wren
     ripetibile: true
-    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren < 4]
+    requisiti: [pista.sepolcro == 4, profondita.roccia-di-wren == 3]
     testo: |
       In fondo alla stanza una scala di legno ripida e stretta sale al piano
       di sopra, con i gradini neri di umido. Ai piedi della scala c'è un paio
@@ -560,9 +569,9 @@ storylet:
             Sali di lato, con la schiena contro la parete e i palmi aperti sul
             legno, e lasci ai gradini solo la punta dei piedi. Uno scricchiola
             quando sei già sul successivo. A metà rampa vedi in cima una tenda
-            di tela grezza, e il rumore viene da dietro la tenda. Torni giù
-            piano, adesso che sai quali gradini reggono. Hai le mani sporche
-            di muffa fino ai polsi.
+            di tela grezza, e il rumore viene da dietro la tenda. Fai gli
+            ultimi gradini più piano dei primi e arrivi in cima con le mani
+            sporche di muffa fino ai polsi.
           effetti: { profondita.roccia-di-wren: 1 }
         fallimento:
           titolo: Il quarto gradino

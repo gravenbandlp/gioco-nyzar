@@ -7,9 +7,11 @@
 # - `il-tunnel-dei-contrabbandieri` (pista 6, la prima volta): A19, A22, A23, il masso finto, la caverna
 #   degli orchi; chi trova il passaggio prende `tunnel.segrete` ed entra nelle Segrete.
 # - `di-nuovo-nel-tunnel` (pista 6, le volte dopo): rientro nella spedizione.
-# - area `segrete-dell-ira`: sette stanze ripetibili (B1, B4, B6, B7, B8, B11, B12), Uzgreth (B9) come
-#   storia facoltativa e il cuore `l-aula-dell-ira` (B13), che in ogni ramo porta pista.acciaio a 7,
-#   pozzo-dell-ira a 5, dà il cilindro di lyssan e riporta in Città Bassa.
+# - area `segrete-dell-ira`: sette stanze ripetibili (B1, B4, B6, B7, B8, B11, B12) in fasce di
+#   profondità, 0 le gallerie dopo la statua (la caverna di guardia o la vasca dei teschi), 1 la prigione
+#   o la sala degli interrogatori, 2 lo studio delle sette punte oppure Uzgreth alle fosse (B9, storia
+#   facoltativa), 3 la camera sospesa o il santuario. Poi il cuore `l-aula-dell-ira` (B13), che in ogni
+#   ramo porta pista.acciaio a 7, pozzo-dell-ira a 5, dà il cilindro di lyssan e riporta in Città Bassa.
 quality:
   - { id: tunnel.segrete, nome: "Il passaggio del masso finto", categoria: stato, nascosta: true, descrizione: "Sai dov'è il masso finto in fondo al tunnel dei contrabbandieri." }
   - { id: diario.mappe, nome: Hai visto le mappe del diario, categoria: stato, nascosta: true }
@@ -415,7 +417,7 @@ storylet:
             fino al collo e ti incammini verso le gallerie basse.
           vai: segrete-dell-ira
 
-  # ------------------------------------------------------------ le stanze (ripetibili, tre a caso)
+  # ------------------------------------------------------------ le stanze (ripetibili, in fasce di profondità)
   - id: segrete-la-caverna-di-guardia
     immagine: ambientazione/marea-grigia
     titolo: La caverna di guardia
@@ -423,7 +425,7 @@ storylet:
     luogo: Segrete dell'Ira, la caverna di guardia
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 0]
     testo: |
       Dove la galleria si allarga sulla destra c'è una caverna bassa, poco
       più grande di una stanza. Dentro cammina avanti e indietro una figura
@@ -530,7 +532,7 @@ storylet:
     luogo: Segrete dell'Ira, la vasca di purificazione
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 0]
     testo: |
       In una stanza rotonda c'è una vasca di pietra piena d'acqua ferma, così
       limpida che vedi le incisioni sul fondo. Lungo il bordo corre una fila
@@ -634,7 +636,7 @@ storylet:
     luogo: Segrete dell'Ira, l'antica prigione
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 1]
     testo: |
       Esci su una piattaforma di legno che si affaccia su una sala grande,
       tre metri più in basso. Intorno, lungo i muri, ci sono venti celle con
@@ -739,7 +741,7 @@ storylet:
     luogo: Segrete dell'Ira, la sala degli interrogatori
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 1]
     testo: |
       La sala è piena di strumenti fatti per far male, in uno stile che non
       hai mai visto. In un angolo c'è una gabbia sferica con le punte rivolte verso l'interno. Al centro sta un tavolo
@@ -820,7 +822,7 @@ storylet:
     luogo: Segrete dell'Ira, l'antico studio
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 2]
     testo: |
       Il pavimento è ingombro dei resti di un tavolo lungo e di una decina di
       sedie crollate su se stesse, e fra il legno marcio ci sono frammenti di
@@ -901,7 +903,7 @@ storylet:
     luogo: Segrete dell'Ira, la camera di meditazione
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 3]
     testo: |
       La stanza è una sfera larga quattro metri e mezzo, e appena ci metti
       dentro la testa i capelli ti si alzano dalla nuca. Al primo passo i
@@ -920,7 +922,7 @@ storylet:
       - testo: "Afferrare la bacchetta quando ti passa vicino"
         descrizione: "Le cose qui dentro girano sempre allo stesso modo. Basta mettersi dove passerà."
         immagine: icone/crystal-wand
-        requisiti: [oggetto.bacchetta-della-stretta-folgorante == 0]
+        quando: [oggetto.bacchetta-della-stretta-folgorante == 0]
         prova: { attributo: mentale, abilita: [percezione, tecnologia, magia], difficolta: Media }
         successo:
           titolo: La bacchetta
@@ -970,7 +972,7 @@ storylet:
         successo:
           titolo: Le parole nere
           testo: |
-            Le parole sono spigolose come quelle dei libri dello studio, e
+            Le parole sono spigolose, come scritte a punta di coltello, e
             ogni tanto ne riconosci una. Parlano di collera e di vendetta e non
             finiscono mai una frase. Capisci però che le scariche corrono tutte
             verso l'uscita, come acqua verso uno scolo. Ti lasci tirare piano
@@ -1008,7 +1010,7 @@ storylet:
     luogo: Segrete dell'Ira, il santuario
     area: segrete-dell-ira
     ripetibile: true
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira < 4]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 3]
     testo: |
       La galleria si allarga in quello che doveva essere un piccolo
       santuario. Una scala di pochi gradini sale a nord-est fino a una
@@ -1091,7 +1093,7 @@ storylet:
     sommario: "Una camera fredda con undici portelli nel pavimento, e un orco deforme con uno spadone da ogre che ne fa la guardia."
     luogo: Segrete dell'Ira, le fosse dei prigionieri
     area: segrete-dell-ira
-    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira >= 2, oggetto.spadone-di-uzgreth == 0]
+    requisiti: [pista.acciaio == 6, profondita.segrete-dell-ira == 2, oggetto.spadone-di-uzgreth == 0]
     testo: |
       La camera è più fredda delle altre, con il soffitto ad arco che sale a
       sei metri. Sul pavimento ci sono undici portelli di legno sparsi senza

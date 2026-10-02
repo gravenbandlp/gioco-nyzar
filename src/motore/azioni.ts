@@ -6,7 +6,7 @@ import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } 
 import { chiaveIncantesimo, repertorio } from './magia';
 import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
-import { cambiaArea, inSpedizione } from './spedizioni';
+import { areaAttuale, cambiaArea, inSpedizione, profondita, segnaStanza } from './spedizioni';
 import {
   abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiRintocchi, scarta, aggiornaTempo,
   type Crescita, type Stato, type Variazione,
@@ -96,7 +96,10 @@ export function pisteConcluse(prima: Record<string, number>, s: Stato, c: TConte
 
 function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
   const prima = { ...s.quality };
+  const area = areaAttuale(s, c);
+  const profonditaPrima = area?.spedizione ? profondita(s, area.id) : 0;
   applicaEsitoDentro(s, e, c, r, da);
+  if (area?.spedizione && s.area === area.id) segnaStanza(s, c, da, profonditaPrima, e.segue);
   const concluse = pisteConcluse(prima, s, c);
   if (concluse.length) {
     s.rintocchi = Math.max(s.rintocchi, RINTOCCHI_MAX);
