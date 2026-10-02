@@ -90,7 +90,7 @@ input[type=checkbox] { accent-color: var(--fatto); width: 16px; height: 16px; }
       <li>In ElevenLabs, Text to Speech, modello <b>Eleven v4</b>, voce <b>Luca Brasi · Intimate and Weighty</b>, con le impostazioni che usi già: velocità 1, stabilità 50, somiglianza 75.</li>
       <li>Per ogni pezzo: <b>Copia testo</b>, incolla, genera. Rigenera finché la lettura ti convince.</li>
       <li>Scarica l'MP3 e rinominalo con l'id: <b>Copia id</b> e incolla come nome, aggiungendo <code>.mp3</code>. Per esempio <code>nerissa-dalvane.mp3</code> o <code>nerissa-dalvane__2-successo.mp3</code>.</li>
-      <li>Spunta <b>Registrato</b>: la spunta resta in questo browser e ti dice a che punto sei. I pezzi che ho già importato nel gioco sono segnati <b>Nel gioco</b>; se un testo cambia dopo la registrazione, il pezzo è segnato <b>da rifare</b>.</li>
+      <li>Spunta <b>Registrato</b>: la spunta resta in questo browser e ti dice a che punto sei. I pezzi che ho già importato nel gioco sono segnati <b>Nel gioco</b>. Se un testo cambia dopo che l'hai registrato o spuntato, la spunta cade e il pezzo è segnato <b>da rifare</b>: il filtro «Solo da rifare» li raccoglie tutti.</li>
       <li>Metti tutti i file in una cartella su Drive. Con un'unica importazione li aggancio alle scene giuste.</li>
     </ol>
     <p>Il testo è già preparato per la voce. I pensieri del protagonista, che nel gioco sono in corsivo azzurro, iniziano con il tag <code>[whispers]</code>, così Eleven v4 li sussurra. Le battute dei personaggi sono fra virgolette, i numeri sono scritti in lettere e le scritte in maiuscolo sono tornate minuscole, perché per ElevenLabs il maiuscolo vale come enfasi. Titoli e pulsanti delle scelte non si leggono: il doppiaggio copre il testo della scena e quello di ogni esito.</p>
@@ -109,6 +109,7 @@ input[type=checkbox] { accent-color: var(--fatto); width: 16px; height: 16px; }
     <select id="f-gruppo"><option value="">Tutte</option></select>
     <input type="search" id="f-cerca" placeholder="Cerca un id o una parola" aria-label="Cerca">
     <label class="spunta" for="f-nascondi"><input type="checkbox" id="f-nascondi"> Nascondi i registrati</label>
+    <label class="spunta" for="f-rifare"><input type="checkbox" id="f-rifare"> Solo da rifare (<span id="c-rifare">0</span>)</label>
   </div>
 
   <main id="elenco"></main>
@@ -126,6 +127,9 @@ const chiave = (p) => p.id + '@' + p.impronta;
 const inGioco = (p) => NEL_GIOCO[p.id] === p.impronta;
 const daRifare = (p) => p.id in NEL_GIOCO && NEL_GIOCO[p.id] !== p.impronta;
 const registrato = (p) => inGioco(p) || !!fatti[chiave(p)];
+// spuntato su un testo che poi è cambiato: la registrazione è da rifare
+const spuntatoPrima = (p) => !fatti[chiave(p)] && Object.keys(fatti).some((k) => k.startsWith(p.id + '@'));
+const rifare = (p) => !registrato(p) && (daRifare(p) || spuntatoPrima(p));
 const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = (n) => n.toLocaleString('it-IT');
 
@@ -141,7 +145,7 @@ function scheda(p) {
   const meta = p.tipo === 'scena' ? '<b>Scena</b>'
     : '<b>Esito</b> «' + esc(p.titolo) + '» · scelta ' + p.id.split('__')[1].split('-')[0] + ', «' + esc(p.opzione) + '» · ' + p.ramo;
   const voce = esc(p.voce).replace(/\[([a-z ]+)\]/g, '<span class="tag">[$1]</span>');
-  const stato = inGioco(p) ? '<span class="chip gioco">Nel gioco</span>' : daRifare(p) ? '<span class="chip rifare">Testo cambiato: da rifare</span>' : '';
+  const stato = inGioco(p) ? '<span class="chip gioco">Nel gioco</span>' : rifare(p) ? '<span class="chip rifare">Testo cambiato dopo la registrazione: da rifare</span>' : '';
   return '<article class="pezzo ' + p.tipo + (registrato(p) ? ' fatto' : '') + '" data-id="' + p.id + '">'
     + '<div class="barra"><span class="id">' + p.id + '</span><span class="n">' + fmt(p.caratteri) + ' car.</span>'
     + '<button type="button" class="copia" data-copia="id">Copia id</button>'
@@ -154,7 +158,8 @@ function scheda(p) {
 function disegna() {
   const g = sel.value; const q = document.getElementById('f-cerca').value.trim().toLowerCase();
   const nascondi = document.getElementById('f-nascondi').checked;
-  const vis = PEZZI.filter((p) => (!g || p.gruppo === g) && (!q || p.id.includes(q) || p.voce.toLowerCase().includes(q)) && !(nascondi && registrato(p)));
+  const soloRifare = document.getElementById('f-rifare').checked;
+  const vis = PEZZI.filter((p) => (!g || p.gruppo === g) && (!q || p.id.includes(q) || p.voce.toLowerCase().includes(q)) && !(nascondi && registrato(p)) && (!soloRifare || rifare(p)));
   let html = ''; let gg = ''; let st = '';
   for (const p of vis) {
     if (p.gruppo !== gg) { if (gg) html += '</section></section>'; gg = p.gruppo; st = ''; html += '<section class="gruppo"><h2>' + esc(gg) + '</h2>'; }
@@ -174,6 +179,7 @@ function disegna() {
 function conta() {
   const n = PEZZI.filter(registrato).length;
   document.getElementById('c-fatti').textContent = fmt(n);
+  document.getElementById('c-rifare').textContent = fmt(PEZZI.filter(rifare).length);
   document.getElementById('barra').style.width = (100 * n / PEZZI.length).toFixed(1) + '%';
 }
 
@@ -193,10 +199,13 @@ document.getElementById('elenco').addEventListener('click', async (e) => {
 document.getElementById('elenco').addEventListener('change', (e) => {
   if (e.target.type !== 'checkbox') return;
   const art = e.target.closest('.pezzo'); const p = PEZZI.find((z) => z.id === art.dataset.id);
-  if (e.target.checked) fatti[chiave(p)] = 1; else delete fatti[chiave(p)];
+  // la spunta nuova sostituisce quelle date a versioni vecchie dello stesso pezzo
+  if (e.target.checked) { for (const k of Object.keys(fatti)) if (k.startsWith(p.id + '@')) delete fatti[k]; fatti[chiave(p)] = 1; }
+  else delete fatti[chiave(p)];
   art.classList.toggle('fatto', e.target.checked); salva(); conta();
 });
 sel.addEventListener('change', disegna);
+document.getElementById('f-rifare').addEventListener('change', disegna);
 document.getElementById('f-cerca').addEventListener('input', disegna);
 document.getElementById('f-nascondi').addEventListener('change', disegna);
 disegna();

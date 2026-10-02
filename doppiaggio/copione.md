@@ -641,21 +641,7 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Poi riprende a camminare verso la Pignatta, senza fretta. Domani mezza Segheria saprà che lo stavi seguendo, e l'altra metà lo saprà dopodomani.
 
-**`sorriso-di-marko__2-successo`** · esito «La catena della porta davanti» · opzione «Seguirlo tra i vicoli» · successo · 949 caratteri
-
-> Lo segui per venti minuti oltre il margine dell'Orlo e poi su per Via dei Rasoi, e a metà salita i tuoi piedi hanno capito dove state andando prima di te. Màrko gira attorno al cristallo spento e conta tre porte, fino alla Mesòn de Lün. Tira la catena di bronzo della porta sulla strada, quella dei clienti. Tu entri sempre dal cortile di Via del Salmone, e quel campanello l'hai sentito suonare soltanto dalla cucina.
->
-> La porta si apre di una spanna e sulla soglia compare Sàra Bek, con il fermaglio d'argento nei capelli. Si parlano poco. Lui indica il primo piano con il mento, lei scuote la testa una volta sola, e Màrko se ne va senza entrare, più in fretta di come è venuto. Prima di richiudere Sara guarda verso l'angolo dove ti sei fermato, e se ti ha riconosciuto non lo dà a vedere.
->
-> Alzi gli occhi verso il primo piano e vedi una tenda che si richiude. Rènnik Dòl è lì dentro, qualche metro sopra la cucina dove Grècen fa i conti la sera.
-
-**`sorriso-di-marko__2-fallimento`** · esito «Al terzo angolo» · opzione «Seguirlo tra i vicoli» · fallimento · 406 caratteri
-
-> Al terzo angolo Màrko si ferma davanti a una vetrina vuota, e nel vetro scuro incontra i tuoi occhi, e il sudore ti si raffredda di colpo sulla nuca. Si volta e ti sorride, con lo stesso sorriso che riserva ai mercanti di Làresh quando il prezzo non gli piace.
->
-> Poi riprende a camminare verso la Pignatta, senza fretta. Domani mezza Segheria saprà che lo stavi seguendo, e l'altra metà lo saprà dopodomani.
-
-**`sorriso-di-marko__3-successo`** · esito «L'unico posto dove li spende» · opzione «Fingerti un creditore di Rennick con la portinaia della Segheria» · successo · 768 caratteri
+**`sorriso-di-marko__2-successo`** · esito «L'unico posto dove li spende» · opzione «Fingerti un creditore di Rennick con la portinaia della Segheria» · successo · 768 caratteri
 
 > La portinaia è una donna larga e stanca, con una scopa di saggina e un'opinione su tutto. Le racconti di un debito con tanto di spiccioli, una cifra che nessuno si inventerebbe, e lei sbuffa prima ancora che tu abbia finito.
 >
@@ -663,27 +649,41 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Subito dopo si morde la lingua, e la vedi farlo davvero. Riprende a spazzare con forza, come se la segatura le avesse fatto un torto. Tu ringrazi e ti allontani prima che si penta del tutto.
 
-**`sorriso-di-marko__3-fallimento`** · esito «La bugia non regge» · opzione «Fingerti un creditore di Rennick con la portinaia della Segheria» · fallimento · 383 caratteri
+**`sorriso-di-marko__2-fallimento`** · esito «La bugia non regge» · opzione «Fingerti un creditore di Rennick con la portinaia della Segheria» · fallimento · 383 caratteri
 
 > La storia non la convince. Ti ascolta con la scopa ferma e alla fine dice soltanto: “Rènnik non deve soldi a nessuno. È l'unico suo difetto che non sia un vizio.”
 >
 > Poi chiama per nome uno degli uomini al cancello. Te ne vai prima che arrivi, ma prima di sera la tua faccia e la storia che ci hai messo sopra hanno fatto il giro della Segheria, e prima di notte quello della Pignatta.
 
-**`sorriso-di-marko__4-successo`** · esito «Un uomo pettinato» · opzione «Chiedere agli spazzini dell'Orlo» · successo · 564 caratteri
+**`sorriso-di-marko__3-successo`** · esito «Un uomo pettinato» · opzione «Chiedere agli spazzini dell'Orlo» · successo · 564 caratteri
 
 > Uno degli spazzini autorizzati sta legando un fascio di tubi con il fil di ferro. Gli dai una mano a stringere il nodo e lui continua a lavorare mentre parla. Secondo lui l'uomo pettinato della Segheria passa di qui quasi ogni sera e sale per Via dei Rasoi fino al cristallo spento, poi gira l'angolo verso la casa con la luna sulla porta. Stasera l'ha visto tornare indietro dopo pochi minuti, senza essere entrato.
 >
 > Lo spazzino sputa nella polvere e indica con il mento la salita di Via dei Rasoi. “Per di là, sempre per di là” dice, e torna al suo fil di ferro.
 
-**`sorriso-di-marko__4-fallimento`** · esito «Il peso della domanda» · opzione «Chiedere agli spazzini dell'Orlo» · fallimento · 262 caratteri
+**`sorriso-di-marko__3-fallimento`** · esito «Il peso della domanda» · opzione «Chiedere agli spazzini dell'Orlo» · fallimento · 262 caratteri
 
 > Gli spazzini ti guardano come guardano la merce che arriva dai Raschiatori, per capire quanto pesa. Uno ti chiede chi ti manda, e quando non gli rispondi torna a separare il ferro dal rame. Il capo della squadra ti segue con lo sguardo finché non esci dall'Orlo.
 
-**`sorriso-di-marko__5-esito`** · esito «Il ragazzino col berretto» · opzione «Pagare un ragazzino perché lo segua al posto tuo» · esito · 462 caratteri
+**`sorriso-di-marko__4-esito`** · esito «Il ragazzino col berretto» · opzione «Pagare un ragazzino perché lo segua al posto tuo» · esito · 462 caratteri
 
 > Il ragazzino ha le ginocchia sbucciate e un berretto troppo grande. Conta le monete due volte, le infila nel berretto e sparisce dietro Màrko prima che tu abbia finito di spiegargli cosa vuoi.
 >
 > Torna quando le lanterne sono già accese e ti racconta tutto d'un fiato. Màrko è salito per Via dei Rasoi, ha tirato la catena di una casa con la luna incisa sulla porta e ha parlato con la portinaia senza entrare. Mentre scendeva, al primo piano si è mossa una tenda.
+
+**`sorriso-di-marko__5-successo`** · esito «La catena della porta davanti» · opzione «Seguirlo tra i vicoli» · successo · 949 caratteri
+
+> Lo segui per venti minuti oltre il margine dell'Orlo e poi su per Via dei Rasoi, e a metà salita i tuoi piedi hanno capito dove state andando prima di te. Màrko gira attorno al cristallo spento e conta tre porte, fino alla Mesòn de Lün. Tira la catena di bronzo della porta sulla strada, quella dei clienti. Tu entri sempre dal cortile di Via del Salmone, e quel campanello l'hai sentito suonare soltanto dalla cucina.
+>
+> La porta si apre di una spanna e sulla soglia compare Sàra Bek, con il fermaglio d'argento nei capelli. Si parlano poco. Lui indica il primo piano con il mento, lei scuote la testa una volta sola, e Màrko se ne va senza entrare, più in fretta di come è venuto. Prima di richiudere Sara guarda verso l'angolo dove ti sei fermato, e se ti ha riconosciuto non lo dà a vedere.
+>
+> Alzi gli occhi verso il primo piano e vedi una tenda che si richiude. Rènnik Dòl è lì dentro, qualche metro sopra la cucina dove Grècen fa i conti la sera.
+
+**`sorriso-di-marko__5-fallimento`** · esito «Al terzo angolo» · opzione «Seguirlo tra i vicoli» · fallimento · 406 caratteri
+
+> Al terzo angolo Màrko si ferma davanti a una vetrina vuota, e nel vetro scuro incontra i tuoi occhi, e il sudore ti si raffredda di colpo sulla nuca. Si volta e ti sorride, con lo stesso sorriso che riserva ai mercanti di Làresh quando il prezzo non gli piace.
+>
+> Poi riprende a camminare verso la Pignatta, senza fretta. Domani mezza Segheria saprà che lo stavi seguendo, e l'altra metà lo saprà dopodomani.
 
 ### La lanterna accesa
 
@@ -4405,35 +4405,35 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Nell'angolo vicino ai catini Màuro Scròcco parla a bassa voce con Rozàlia Màrga, che tiene due stiletti fra le dita come penne. Accanto a loro ci sono un nano pieno di cicatrici con una grande ascia e Niàli Kùzan, che tossisce nella pipa. Màuro ti vede, ti fa un cenno largo con la mano e sorride con tutti i denti.
 
-**`l-annuncio-dei-cristalli__5-esito`** · esito «Facce note» · opzione «Chiedere chi si è iscritto» · esito · 939 caratteri
-
-> Òrvald legge i nomi dal registro senza fretta. Tòren Gàldrik si è iscritto alla Mischia e alle squadre, e in città lo danno favorito in tutte e due, anche se il fianco che gli ha aperto Vèsh è guarito da poco. Liàren Tarvèlin dice di partecipare per curiosità e per uscire un giorno dalla locanda. Èttore Castàldi l'ha iscritto sua cugina Iùlia, perché così almeno combina qualcosa. Bràm Àlgast, il fabbro della Fucina dei Due Mastini, vuole far vedere a tutta la città come tagliano le sue lame, e ha già chiesto dove si paga da bere.
->
-> Nell'angolo vicino ai catini tre mercenari di Gòran, di quelli che Gàldrik si è portato in città, giocano a dadi su una panca. Con loro c'è un nano pieno di cicatrici con una grande ascia. Òrvald abbassa la voce e ti dice che il nano, fino alla Pignatta, prendeva la paga da Vèsh, e che adesso la prende da chi gliela offre. Uno dei mercenari ti riconosce da quella notte e ti fa un cenno con il mento.
-
-**`l-annuncio-dei-cristalli__6-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 771 caratteri
-
-> Firmi, e Òrvald soffia sull'inchiostro. “Per le squadre ti do la mia allieva” dice, e chiama Bèsk Dràvek dalle nicchie. È una ragazza con gli occhiali e un vestito olvaro, e ti stringe la mano con cortesia. “Lancia meglio di come parla” dice Òrvald, “e parla moltissimo.” Bèsk risponde a voce rapida che lui lo dice perché lei gli corregge i conti.
->
-> Un uomo in panciotto ricamato si avvicina scansando le panche, e a metà strada si ferma a guardarti in faccia. Poi ti afferra il polso con tutte e due le mani, come quel giorno sotto il bancone. “Le castagne” dice. “Còrin Àsh-deil, della Gilda, se non ti ricordi il nome. Vorrei imparare come si fa a essere un eroe, e mi pare di averne trovato uno. Vi manca un uomo?” Òrvald lo scrive sul registro prima che tu risponda.
-
-**`l-annuncio-dei-cristalli__7-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 663 caratteri
+**`l-annuncio-dei-cristalli__5-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 663 caratteri
 
 > Firmi, e Òrvald soffia sull'inchiostro. “Per le squadre ti do la mia allieva” dice, e chiama Bèsk Dràvek dalle nicchie. È una ragazza con gli occhiali e un vestito olvaro, e ti stringe la mano con cortesia. “Lancia meglio di come parla” dice Òrvald, “e parla moltissimo.” Bèsk risponde a voce rapida che lui lo dice perché lei gli corregge i conti.
 >
 > Un uomo in panciotto ricamato si avvicina scansando le panche con piccoli inchini. “Domando scusa. Còrin Àsh-deil, della Gilda dei Mercanti” dice. “Vorrei imparare come si fa a essere un eroe, e mi hanno detto che bisogna stare vicino a uno. Vi manca un uomo?” Òrvald lo scrive sul registro prima che tu risponda.
 
-**`l-annuncio-dei-cristalli__8-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 659 caratteri
+**`l-annuncio-dei-cristalli__6-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 659 caratteri
 
 > Firmi, e Òrvald soffia sull'inchiostro. “Per le squadre ti do la mia allieva” dice, e chiama Bèsk Dràvek dalle nicchie. È una ragazza con gli occhiali e un vestito olvaro, e ti stringe la mano con cortesia. “Lancia meglio di come parla” dice Òrvald, “e parla moltissimo.” Bèsk risponde a voce rapida che lui lo dice perché lei gli corregge i conti.
 >
 > Alle tue spalle qualcuno si schiarisce la voce. È Còrin Àsh-deil, con il fazzoletto al taschino e una spada nuova che non sa dove appendere. “Eccellente, eccellente” dice. “Ti cercavo. Volevo imparare come si fa a essere un eroe, ricordi? Mi pare l'occasione.” Ride per primo, e Òrvald lo scrive sul registro.
 
-**`l-annuncio-dei-cristalli__9-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 674 caratteri
+**`l-annuncio-dei-cristalli__7-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 674 caratteri
 
 > Firmi, e Òrvald soffia sull'inchiostro. “Per le squadre ti do la mia allieva” dice, e chiama Bèsk Dràvek dalle nicchie. È una ragazza con gli occhiali e un vestito olvaro, e ti stringe la mano con cortesia. “Lancia meglio di come parla” dice Òrvald, “e parla moltissimo.” Bèsk risponde a voce rapida che lui lo dice perché lei gli corregge i conti.
 >
 > Sulla porta compare Còrin Àsh-deil, che dovrebbe essere a Làresh, con gli stivali ancora bianchi di polvere. “Ho sentito del torneo a metà strada” dice, “e la carovana l'ho lasciata ai carrettieri. Dovevo ancora imparare come si fa a essere un eroe, ricordi?” Ride per primo, e intanto Òrvald lo ha già scritto sul registro.
+
+**`l-annuncio-dei-cristalli__8-esito`** · esito «Facce note» · opzione «Chiedere chi si è iscritto» · esito · 939 caratteri
+
+> Òrvald legge i nomi dal registro senza fretta. Tòren Gàldrik si è iscritto alla Mischia e alle squadre, e in città lo danno favorito in tutte e due, anche se il fianco che gli ha aperto Vèsh è guarito da poco. Liàren Tarvèlin dice di partecipare per curiosità e per uscire un giorno dalla locanda. Èttore Castàldi l'ha iscritto sua cugina Iùlia, perché così almeno combina qualcosa. Bràm Àlgast, il fabbro della Fucina dei Due Mastini, vuole far vedere a tutta la città come tagliano le sue lame, e ha già chiesto dove si paga da bere.
+>
+> Nell'angolo vicino ai catini tre mercenari di Gòran, di quelli che Gàldrik si è portato in città, giocano a dadi su una panca. Con loro c'è un nano pieno di cicatrici con una grande ascia. Òrvald abbassa la voce e ti dice che il nano, fino alla Pignatta, prendeva la paga da Vèsh, e che adesso la prende da chi gliela offre. Uno dei mercenari ti riconosce da quella notte e ti fa un cenno con il mento.
+
+**`l-annuncio-dei-cristalli__9-esito`** · esito «La squadra di Orvald» · opzione «Iscriverti alle Tre Prove» · esito · 771 caratteri
+
+> Firmi, e Òrvald soffia sull'inchiostro. “Per le squadre ti do la mia allieva” dice, e chiama Bèsk Dràvek dalle nicchie. È una ragazza con gli occhiali e un vestito olvaro, e ti stringe la mano con cortesia. “Lancia meglio di come parla” dice Òrvald, “e parla moltissimo.” Bèsk risponde a voce rapida che lui lo dice perché lei gli corregge i conti.
+>
+> Un uomo in panciotto ricamato si avvicina scansando le panche, e a metà strada si ferma a guardarti in faccia. Poi ti afferra il polso con tutte e due le mani, come quel giorno sotto il bancone. “Le castagne” dice. “Còrin Àsh-deil, della Gilda, se non ti ricordi il nome. Vorrei imparare come si fa a essere un eroe, e mi pare di averne trovato uno. Vi manca un uomo?” Òrvald lo scrive sul registro prima che tu risponda.
 
 ### La Grande Mischia
 
@@ -4715,45 +4715,45 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Èttore Castàldi ti offre la fiaschetta e poi la ritira, perché si ricorda che devi combattere. Bòrso si sveglia di colpo sulla panca e ti dice che la prossima volta i crani da fracassare li sceglie lui.
 
-**`l-ora-dei-gladiatori__2-esito`** · esito «Un omaggio» · opzione «Andare da Liaren e dai suoi» · esito · 568 caratteri
-
-> Liàren ti fa posto sulla panca. “Un omaggio alla squadra di Liàren” dice, imitando Oràzio con la voce un'ottava sopra. “Quell'uomo mi ha fatto il funerale davanti a tutta la città, e non vedeva l'ora.” Dolòvan Stràud si sta fasciando una mano e dice che non combatteva da anni e che adesso si ricorda perché.
->
-> Èttore Castàldi ti offre la fiaschetta e poi la ritira, perché si ricorda che devi combattere. Bràm Àlgast si sveglia di colpo con il martello fra le ginocchia. La prossima volta l'avversario se lo sceglie lui, ti dice, con una parola che a Liàren non piace.
-
-**`l-ora-dei-gladiatori__3-esito`** · esito «Il conto» · opzione «Andare dagli Scuri» · esito · 645 caratteri
+**`l-ora-dei-gladiatori__2-esito`** · esito «Il conto» · opzione «Andare dagli Scuri» · esito · 645 caratteri
 
 > Dùrgan si fa ricucire il sopracciglio da Rozàlia, che ci mette un impegno cattivo. Niàli tossisce piegato in due e sputa nero sulla sabbia dei catini. Màuro non si alza. È seduto su due sgabelli e ti guarda come si guarda un debito, contando. [whispers] Quello i conti li tiene a memoria. Poi apre le braccia come per abbracciarti, restando seduto.
 >
 > “Bella leggenda, la tua” dice, con l'alito che arriva prima della voce. “La nostra era più grossa. Alla Pignatta si parla di tutto e si dice niente, lo sai. Però di te, da stasera, se ne parlerà.” Lo dice sorridendo, e intanto stringe il manico dell'ascia finché le nocche gli diventano bianche.
 
-**`l-ora-dei-gladiatori__4-esito`** · esito «La paga» · opzione «Andare dai mercenari di Ghoran» · esito · 514 caratteri
-
-> Due dei mercenari di Gòran si fasciano le braccia a vicenda, e il terzo dorme sulla panca con la bocca aperta. Dùrgan si ricuce il sopracciglio da solo, con l'ago in una mano e uno specchietto nell'altra, e non fa una smorfia.
->
-> “Bella leggenda, la tua” dice il più anziano dei mercenari, senza alzarsi. “La città ci paga per stare sulle mura, e qui ci siamo venuti per arrotondare. La prossima volta arrotondiamo contro qualcun altro.” Dùrgan intanto non ti toglie gli occhi di dosso, e taglia il filo con i denti.
-
-**`l-ora-dei-gladiatori__5-esito`** · esito «La folla ti vuole» · opzione «Andare da Galdrick e dai suoi» · esito · 528 caratteri
+**`l-ora-dei-gladiatori__3-esito`** · esito «La folla ti vuole» · opzione «Andare da Galdrick e dai suoi» · esito · 528 caratteri
 
 > Gàldrik si sta facendo stringere le cinghie dell'armatura da Ottìlia Sànvel, che non dice una parola e non sbaglia un buco. “Nella Mischia ti ho battuto io” dice con i pollici nella cintura, “ma la folla gridava il tuo nome. Mi sono offeso un poco, poi ci ho pensato, e alla città serve proprio questo.”
 >
 > Ilvèna Soràte controlla le frecce una per una. Dràgna ti guarda dagli stivali in su e chiede a Tènebra, a voce alta, se si è messo a fare il gladiatore per vederla perdere. Tènebra non risponde, e lei ride con la voce roca.
 
-**`l-ora-dei-gladiatori__6-esito`** · esito «Il bavero di Borso» · opzione «Andare da Galdrick e dai suoi» · esito · 571 caratteri
+**`l-ora-dei-gladiatori__4-esito`** · esito «Il bavero di Borso» · opzione «Andare da Galdrick e dai suoi» · esito · 571 caratteri
 
 > Gàldrik si sta facendo stringere le cinghie dell'armatura da Ottìlia Sànvel, che non dice una parola e non sbaglia un buco. “Bòrso e il nano insieme” dice con i pollici nella cintura. “Uno lo pago io e l'altro lo paga Vèsh, e per una volta erano d'accordo.” Ride, poi ti guarda il fermaglio. “Òrvald quello non lo dà a nessuno. Tienilo da conto.”
 >
 > Ilvèna Soràte controlla le frecce una per una. Dràgna ti guarda dagli stivali in su e chiede a Tènebra, a voce alta, se si è messo a fare il gladiatore per vederla perdere. Tènebra non risponde, e lei ride con la voce roca.
 
-**`l-ora-dei-gladiatori__7-esito`** · esito «Il fabbro e il nano» · opzione «Andare da Galdrick e dai suoi» · esito · 603 caratteri
+**`l-ora-dei-gladiatori__5-esito`** · esito «Il corridoio» · opzione «Tornare in campo» · esito · 325 caratteri
+
+> Pèt gracchia una volta sola, e Òrvald alza la testa dal registro. Bèsk chiude il quaderno, Còrin si rimette il pettine nel taschino, e Tènebra si alza dal muro senza appoggiarsi. Mentre percorri il corridoio scavato nella roccia l'aria si fa più calda, e il rumore della folla ti arriva nello sterno prima che nelle orecchie.
+
+**`l-ora-dei-gladiatori__6-esito`** · esito «Un omaggio» · opzione «Andare da Liaren e dai suoi» · esito · 568 caratteri
+
+> Liàren ti fa posto sulla panca. “Un omaggio alla squadra di Liàren” dice, imitando Oràzio con la voce un'ottava sopra. “Quell'uomo mi ha fatto il funerale davanti a tutta la città, e non vedeva l'ora.” Dolòvan Stràud si sta fasciando una mano e dice che non combatteva da anni e che adesso si ricorda perché.
+>
+> Èttore Castàldi ti offre la fiaschetta e poi la ritira, perché si ricorda che devi combattere. Bràm Àlgast si sveglia di colpo con il martello fra le ginocchia. La prossima volta l'avversario se lo sceglie lui, ti dice, con una parola che a Liàren non piace.
+
+**`l-ora-dei-gladiatori__7-esito`** · esito «La paga» · opzione «Andare dai mercenari di Ghoran» · esito · 514 caratteri
+
+> Due dei mercenari di Gòran si fasciano le braccia a vicenda, e il terzo dorme sulla panca con la bocca aperta. Dùrgan si ricuce il sopracciglio da solo, con l'ago in una mano e uno specchietto nell'altra, e non fa una smorfia.
+>
+> “Bella leggenda, la tua” dice il più anziano dei mercenari, senza alzarsi. “La città ci paga per stare sulle mura, e qui ci siamo venuti per arrotondare. La prossima volta arrotondiamo contro qualcun altro.” Dùrgan intanto non ti toglie gli occhi di dosso, e taglia il filo con i denti.
+
+**`l-ora-dei-gladiatori__8-esito`** · esito «Il fabbro e il nano» · opzione «Andare da Galdrick e dai suoi» · esito · 603 caratteri
 
 > Gàldrik si sta facendo stringere le cinghie dell'armatura da Ottìlia Sànvel, che non dice una parola e non sbaglia un buco. “Il fabbro e il nano insieme” dice con i pollici nella cintura. “Uno mi vende le spade e l'altro lo pagava Vèsh fino alla Pignatta, e per una volta erano d'accordo.” Ride, poi ti guarda il fermaglio. “Òrvald quello non lo dà a nessuno. Tienilo da conto.”
 >
 > Ilvèna Soràte controlla le frecce una per una. Dràgna ti guarda dagli stivali in su e chiede a Tènebra, a voce alta, se si è messo a fare il gladiatore per vederla perdere. Tènebra non risponde, e lei ride con la voce roca.
-
-**`l-ora-dei-gladiatori__8-esito`** · esito «Il corridoio» · opzione «Tornare in campo» · esito · 325 caratteri
-
-> Pèt gracchia una volta sola, e Òrvald alza la testa dal registro. Bèsk chiude il quaderno, Còrin si rimette il pettine nel taschino, e Tènebra si alza dal muro senza appoggiarsi. Mentre percorri il corridoio scavato nella roccia l'aria si fa più calda, e il rumore della folla ti arriva nello sterno prima che nelle orecchie.
 
 ### Lo scontro delle ere
 
@@ -4823,33 +4823,33 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Quando ti vede manda via la recluta con una pacca e infila i pollici nella cintura. Sotto la camicia si vede la fibbia d'alloro della cintura del campione. “Sapevo che saresti venuto” dice. “Qui alla rivincita si ha diritto, e a me un campione che si fa sfidare piace più di uno che si fa guardare. Òrvald!” Dal banco Òrvald alza la mano senza voltarsi, e Pèt apre un occhio.
 
-**`la-rivincita__1-esito`** · esito «La cicatrice» · opzione «Guardargli il fianco» · esito · 312 caratteri
-
-> Gàldrik si accorge di dove guardi e si tira su la camicia senza imbarazzo. La cicatrice è lunga una spanna e ancora lucida, e i segni dei punti si contano uno per uno. “Tira quando alzo la lama sopra la testa” dice, “e allora la tengo più bassa.” Si riabbassa la camicia e ti fa segno di salire sul camminamento.
-
-**`la-rivincita__2-vittoria`** · esito «Il titolo» · opzione «Sfidarlo a duello» · vittoria · 418 caratteri
+**`la-rivincita__1-vittoria`** · esito «Il titolo» · opzione «Sfidarlo a duello» · vittoria · 418 caratteri
 
 > Per un pezzo è come in finale. Lui para con il piatto della lama e aspetta, e tu non gli dai niente. Poi stavolta sbaglia lui, di un mezzo passo, e tu sei pronto. Gàldrik si trova la tua lama sotto il mento e la guarda con interesse. Poi ride, si slaccia la cintura del campione e te la mette in mano. “Me la sono goduta abbastanza” dice. Il giorno dopo uno scalpellino aggiunge il tuo nome nella pietra, sotto il suo.
 
-**`la-rivincita__2-sconfitta`** · esito «Un'altra volta» · opzione «Sfidarlo a duello» · sconfitta · 377 caratteri
+**`la-rivincita__1-sconfitta`** · esito «Un'altra volta» · opzione «Sfidarlo a duello» · sconfitta · 377 caratteri
 
 > Gàldrik ti aspetta per un pezzo senza attaccare mai, finché sei tu a stancarti di aspettare. Il piatto della sua lama ti prende alla spalla e ti mette in ginocchio sul camminamento, senza cattiveria. Lo sceriffo ti tende la mano e ti tira su con uno strattone. “Il camminamento è sempre qui, e io ci vengo il martedì” dice, mentre dal banco Òrvald scrive una riga sul registro.
 
-**`la-rivincita__3-successo`** · esito «Il varco» · opzione «Leggere la sua guardia» · successo · 412 caratteri
+**`la-rivincita__2-successo`** · esito «Il varco» · opzione «Leggere la sua guardia» · successo · 412 caratteri
 
 > Lo lasci attaccare per un pezzo e ti limiti a guardarlo. Dopo ogni parata abbassa il gomito destro di un dito per riprendere fiato, ed è un'abitudine vecchia, da uomo che ha passato la vita a parare. Al terzo gomito ci entri. Gàldrik si trova la tua lama sotto il mento e scuote la testa ridendo, poi si slaccia la cintura del campione e te la mette in mano. Il giorno dopo il tuo nome viene inciso nella pietra.
 
-**`la-rivincita__3-fallimento`** · esito «Il gomito» · opzione «Leggere la sua guardia» · fallimento · 469 caratteri
+**`la-rivincita__2-fallimento`** · esito «Il gomito» · opzione «Leggere la sua guardia» · fallimento · 469 caratteri
 
 > Ti sembra di vedere il varco dopo una parata, e ci entri. Il varco te l'ha aperto lui apposta, e il piatto della sua lama ti prende al polso. La tua arma finisce nell'acqua scura, e tocca a un inserviente ripescarla con un uncino mentre la cosa color piombo gli gira intorno. Il secondo colpo di piatto ti arriva sulle costole mentre guardi l'acqua, e ti piega in due. Gàldrik ti aspetta con la mano tesa e ti dice di tornare quando vuoi, che il martedì lui c'è sempre.
 
-**`la-rivincita__4-successo`** · esito «Il fiato lungo» · opzione «Stancarlo» · successo · 512 caratteri
+**`la-rivincita__3-successo`** · esito «Il fiato lungo» · opzione «Stancarlo» · successo · 512 caratteri
 
 > Per tutto il pomeriggio non attacchi quasi mai. Lo fai girare sul camminamento da una piattaforma all'altra, lungo le scale di pietra che salgono e scendono, finché il sole scende sotto gli spalti e le reclute si siedono a guardare. Alla fine Gàldrik abbassa la lama da solo, con la camicia fradicia incollata alla schiena, e si slaccia la cintura del campione. “Prendila, prima che mi passi la voglia di dartela” dice, e te la porge con tutte e due le mani. Il giorno dopo il tuo nome viene inciso nella pietra.
 
-**`la-rivincita__4-fallimento`** · esito «Le gambe» · opzione «Stancarlo» · fallimento · 400 caratteri
+**`la-rivincita__3-fallimento`** · esito «Le gambe» · opzione «Stancarlo» · fallimento · 400 caratteri
 
 > Lo fai girare sul camminamento finché le reclute si siedono a guardare, ma il fiato finisce prima a te. Gàldrik ha passato trent'anni a inseguire ladri su per le scale della Città Bassa. Ti mette giù con un colpo di piatto quando le gambe ti hanno già tradito, e cadendo batti il ginocchio sullo spigolo di un gradino. Poi ti offre la sua fiaschetta d'acqua e ti dice che il martedì lui è sempre qui.
+
+**`la-rivincita__4-esito`** · esito «La cicatrice» · opzione «Guardargli il fianco» · esito · 312 caratteri
+
+> Gàldrik si accorge di dove guardi e si tira su la camicia senza imbarazzo. La cicatrice è lunga una spanna e ancora lucida, e i segni dei punti si contano uno per uno. “Tira quando alzo la lama sopra la testa” dice, “e allora la tengo più bassa.” Si riabbassa la camicia e ti fa segno di salire sul camminamento.
 
 ## Sotto la pelle di Qir-Azel
 
@@ -5653,35 +5653,35 @@ Ogni file audio si salva come `<id>.mp3`.
 >
 > Della Pignatta restano i muri anneriti. Davanti alla porta qualcuno ha piantato una croce di legno per ogni ragazzo morto sullo spiazzo.
 
-**`la-citta-dopo-vesh__6-esito`** · esito «La ciminiera spenta» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 349 caratteri
-
-> “La Gilda è in bilico, perché l'Acciaieria dei Tarvèlin è ferma e Liàren non la vuole” dice Iùlia. “Alla Casa dei Nodi vorrebbero riaccenderla con un amministratore loro, e intanto il turno di giorno aspetta sul muretto davanti al cancello, tutte le mattine.”
->
-> Dalla finestra la ciminiera si vede appena, sopra i tetti della Città Bassa, e non fuma.
-
-**`la-citta-dopo-vesh__7-esito`** · esito «Il fumo della Gilda» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 263 caratteri
-
-> “L'Acciaieria l'ha riaccesa la Gilda, con un amministratore suo” dice Iùlia. “Alla Casa dei Nodi hanno ripreso a respirare, e la tassa sulla colata la pagano prima della scadenza, cosa che i Tarvèlin non hanno mai fatto. Liàren dal cancello non ci è più passata.”
-
-**`la-citta-dopo-vesh__8-esito`** · esito «La fornace degli operai» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 302 caratteri
-
-> “All'Acciaieria lavorano in società quelli del turno di giorno, con la concessione firmata da Liàren” dice Iùlia. “È la prima fornace della città che va avanti senza un padrone, e alla Gilda non hanno ancora deciso se esserne contenti. Il lìssan intanto lo compra Ìrsa Valbrùn, fino all'ultima colata.”
-
-**`la-citta-dopo-vesh__9-esito`** · esito «La socia di Liaren» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 258 caratteri
-
-> “L'Acciaieria la manda avanti Ìrsa Valbrùn d'accordo con Liàren, e alla fornace c'è Abele Torsi” dice Iùlia. “Alla Gilda brontolano per l'amministratore che non hanno potuto metterci, e intanto il lìssan esce e le famiglie degli otto prendono la loro parte.”
-
-**`la-citta-dopo-vesh__10-esito`** · esito «La borsa del Consiglio» · opzione «Accettare la ricompensa del Consiglio» · esito · 476 caratteri
+**`la-citta-dopo-vesh__6-esito`** · esito «La borsa del Consiglio» · opzione «Accettare la ricompensa del Consiglio» · esito · 476 caratteri
 
 > Iùlia apre un cassetto e posa sul tavolo una borsa di cuoio con il sigillo del Consiglio, e accanto una lettera firmata da lei e da Gàldrik. “Le casse sono vuote” dice. “Questa è l'ultima borsa che avevamo per una cosa giusta.” La lettera dice che la città ti deve un favore, e chiunque la può leggere.
 >
 > Gàldrik lo incontri sulle scale senza armatura, con il fianco ancora fasciato sotto la giubba. Ti stringe la mano e torna giù verso la Caserma, con i pollici nella cintura.
 
-**`la-citta-dopo-vesh__11-esito`** · esito «I tetti di una strada» · opzione «Chiedere che la borsa vada alla Città Bassa» · esito · 477 caratteri
+**`la-citta-dopo-vesh__7-esito`** · esito «I tetti di una strada» · opzione «Chiedere che la borsa vada alla Città Bassa» · esito · 477 caratteri
 
 > Guardi la borsa sul tavolo e chiedi a Iùlia di spenderla in Città Bassa, per le case bruciate intorno alla Pignatta. Lei ti guarda a lungo. Poi rimette la borsa nel cassetto e ci lega sopra un cartellino con scritto Città Bassa, tetti. “Basta per i tetti di una strada” dice, e ti consegna lo stesso la lettera firmata da lei e da Gàldrik, dove c'è scritto che la città ti deve un favore.
 >
 > Uscendo passi davanti alla coda dei mugnai, e uno ti riconosce e si toglie il cappello.
+
+**`la-citta-dopo-vesh__8-esito`** · esito «La ciminiera spenta» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 349 caratteri
+
+> “La Gilda è in bilico, perché l'Acciaieria dei Tarvèlin è ferma e Liàren non la vuole” dice Iùlia. “Alla Casa dei Nodi vorrebbero riaccenderla con un amministratore loro, e intanto il turno di giorno aspetta sul muretto davanti al cancello, tutte le mattine.”
+>
+> Dalla finestra la ciminiera si vede appena, sopra i tetti della Città Bassa, e non fuma.
+
+**`la-citta-dopo-vesh__9-esito`** · esito «Il fumo della Gilda» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 263 caratteri
+
+> “L'Acciaieria l'ha riaccesa la Gilda, con un amministratore suo” dice Iùlia. “Alla Casa dei Nodi hanno ripreso a respirare, e la tassa sulla colata la pagano prima della scadenza, cosa che i Tarvèlin non hanno mai fatto. Liàren dal cancello non ci è più passata.”
+
+**`la-citta-dopo-vesh__10-esito`** · esito «La fornace degli operai» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 302 caratteri
+
+> “All'Acciaieria lavorano in società quelli del turno di giorno, con la concessione firmata da Liàren” dice Iùlia. “È la prima fornace della città che va avanti senza un padrone, e alla Gilda non hanno ancora deciso se esserne contenti. Il lìssan intanto lo compra Ìrsa Valbrùn, fino all'ultima colata.”
+
+**`la-citta-dopo-vesh__11-esito`** · esito «La socia di Liaren» · opzione «Chiedere dell'Acciaieria dei Tarvelin» · esito · 258 caratteri
+
+> “L'Acciaieria la manda avanti Ìrsa Valbrùn d'accordo con Liàren, e alla fornace c'è Abele Torsi” dice Iùlia. “Alla Gilda brontolano per l'amministratore che non hanno potuto metterci, e intanto il lìssan esce e le famiglie degli otto prendono la loro parte.”
 
 ## Le rovine dei Raschiatori
 
