@@ -44,7 +44,8 @@ function aiuto(): string {
 
   <h3>Le candele</h3>
   <p>Quasi ogni azione costa una candela, alcune due o tre, alcune niente. Ne hai al massimo ${CANDELE_MAX} e se ne riaccende
-  una ogni ${MINUTI_PER_CANDELA} minuti, anche a gioco chiuso. Quando sono finite puoi ancora leggere il diario, cambiare
+  una ogni ${MINUTI_PER_CANDELA} minuti, anche a gioco chiuso. Quando concludi una delle storie principali (quelle
+  elencate in «Le tue storie», non le storie dei luoghi) si riaccendono tutte. Quando sono finite puoi ancora leggere il diario, cambiare
   equipaggiamento e fare compere: per andare avanti con la storia aspetti che tornino. Il ritmo è voluto, perché Ny'Zar si
   gioca a sessioni brevi, tornando più volte al giorno.</p>
 

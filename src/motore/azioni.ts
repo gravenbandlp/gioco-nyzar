@@ -1,6 +1,7 @@
 // Risoluzione delle opzioni degli storylet, spostamenti e negozi.
 import { probabilita, tira, type Rng } from './dadi';
-import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
+import { DIFFICOLTA, CANDELE_MAX, peDaProbabilita, type Difficolta } from './regole';
+import { serieDi, type Serie } from './serie';
 import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
 import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
@@ -82,9 +83,28 @@ export interface Risultato {
   dissonanza?: boolean;
   corretto?: boolean;
   guasto?: string; // reperto guastato da zero successi
+  conclusa?: string; // la storia principale appena conclusa: le candele si sono riaccese tutte
+}
+
+/**
+ * Le storie principali (le piste) arrivate in fondo con questo esito: chi ne conclude una ritrova tutte le candele.
+ * Le serie dei luoghi non contano.
+ */
+export function pisteConcluse(prima: Record<string, number>, s: Stato, c: TContenuti): Serie[] {
+  return serieDi(c).serie.filter((z) => z.tipo === 'pista' && (prima[z.quality!] ?? 0) < z.massimo && (s.quality[z.quality!] ?? 0) >= z.massimo);
 }
 
 function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
+  const prima = { ...s.quality };
+  applicaEsitoDentro(s, e, c, r, da);
+  const concluse = pisteConcluse(prima, s, c);
+  if (concluse.length) {
+    s.candele = Math.max(s.candele, CANDELE_MAX);
+    r.conclusa = concluse.map((z) => z.nome).join(' e ');
+  }
+}
+
+function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
   r.testo = e.testo;
   if (s.sospeso === da) delete s.sospeso; // il seguito in sospeso è stato giocato
   // oggetti ricevuti: passano da ricevi() per indossarli se lo slot è vuoto e inizializzare i reperti

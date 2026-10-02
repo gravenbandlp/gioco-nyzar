@@ -11,9 +11,10 @@ import { opzioniVisibili } from '../src/motore/crisi';
 
 const pg = () => {
   const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
-  s.candele = 1000;
   return s;
 };
+/** Le candele tornano piene prima di ogni scelta: qui si prova l'economia, non il ritmo. */
+const ricarica = <T extends { candele: number }>(s: T): T => { s.candele = 20; return s; };
 const negozio = (id: string) => c.negozi.find((n) => n.id === id)!;
 const storia = (id: string) => c.storylet.find((x) => x.id === id)!;
 /** Sceglie l'opzione visibile con questo testo e restituisce l'esito. */
@@ -21,7 +22,7 @@ function gioca(s: ReturnType<typeof pg>, id: string, testo: string) {
   const st = storia(id);
   const i = st.opzioni.findIndex((o, k) => o.testo === testo && opzioniVisibili(s, st, c).includes(k));
   expect(i, `${id}: «${testo}»`).toBeGreaterThanOrEqual(0);
-  const r = scegli(s, st, i, c, 0, () => 0);
+  const r = scegli(ricarica(s), st, i, c, 0, () => 0);
   expect(r.tipo, `${id}: «${testo}»`).toBe('risultato');
 }
 
@@ -104,7 +105,7 @@ describe('economia', () => {
       const st = storia(id);
       expect(requisitiSoddisfatti(s, st.requisiti, c), id).toBe(true);
       const i = st.opzioni.findIndex((o) => (o.esito?.imposta?.['casa'] ?? 0) === n + 1);
-      expect(scegli(s, st, i, c, 0, () => 0).tipo, id).toBe('risultato');
+      expect(scegli(ricarica(s), st, i, c, 0, () => 0).tipo, id).toBe('risultato');
       expect(requisitiSoddisfatti(s, st.requisiti, c), `${id} si chiude`).toBe(false);
     });
     expect(s.quality['casa']).toBe(6);
@@ -114,18 +115,18 @@ describe('economia', () => {
     for (const q of c.quality.filter((x) => x.id.startsWith('arredo.'))) {
       const i = arredi.opzioni.findIndex((o) => o.esito?.imposta?.[q.id] === 1);
       expect(i, q.id).toBeGreaterThanOrEqual(0);
-      expect(scegli(s, arredi, i, c, 0, () => 0).tipo, q.id).toBe('risultato');
+      expect(scegli(ricarica(s), arredi, i, c, 0, () => 0).tipo, q.id).toBe('risultato');
       expect(opzioniVisibili(s, arredi, c).includes(i), q.id).toBe(false);
     }
 
     // il Lustro sale con gli ospiti e apre le quattro visite, che poi si chiudono
     const cena = storia('ricevere-ospiti');
     const serata = cena.opzioni.findIndex((o) => (o.esito?.effetti?.['lustro'] ?? 0) >= 8);
-    while ((s.quality['lustro'] ?? 0) < 100) expect(scegli(s, cena, serata, c, 0, () => 0).tipo).toBe('risultato');
+    while ((s.quality['lustro'] ?? 0) < 100) expect(scegli(ricarica(s), cena, serata, c, 0, () => 0).tipo).toBe('risultato');
     for (const id of ['ospite-primo', 'ospite-secondo', 'ospite-terzo', 'ospite-quarto']) {
       expect(storyletDisponibili(s, c).some((x) => x.id === id), id).toBe(true);
       const st = storia(id);
-      expect(scegli(s, st, 0, c, 0, () => 0).tipo, id).toBe('risultato');
+      expect(scegli(ricarica(s), st, 0, c, 0, () => 0).tipo, id).toBe('risultato');
       expect(storyletDisponibili(s, c).some((x) => x.id === id), `${id} si chiude`).toBe(false);
     }
     gioca(s, 'una-sera-a-casa', st0(s));

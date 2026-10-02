@@ -62,7 +62,7 @@ export const REPUTAZIONE_MIN = -5;
 export const REPUTAZIONE_MAX = 10;
 
 // Candele e mazzo (9.2, 9.3)
-export const CANDELE_MAX = 40; // 1° ottobre 2026: da 20 a 40, la ricarica resta una ogni 10 minuti
+export const CANDELE_MAX = 20; // 2 ottobre 2026: di nuovo 20, come Fallen London; una ogni 10 minuti, e tutte quando concludi una storia principale
 export const MINUTI_PER_CANDELA = 10;
 export const MANO_MAX = 3;
 export const CODA_MAX = 6;

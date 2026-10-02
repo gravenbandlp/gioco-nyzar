@@ -193,6 +193,7 @@ const MS_CANDELA = MINUTI_PER_CANDELA * 60_000;
 const MS_CARTA = MINUTI_PER_CARTA * 60_000;
 
 export function aggiornaTempo(s: Stato, ora: number): void {
+  if (s.candele > CANDELE_MAX) s.candele = CANDELE_MAX; // salvataggi di quando il tetto era più alto
   if (s.candele >= CANDELE_MAX) s.candeleAl = ora;
   else {
     const nuove = Math.floor((ora - s.candeleAl) / MS_CANDELA);

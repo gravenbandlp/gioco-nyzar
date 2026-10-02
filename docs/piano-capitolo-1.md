@@ -42,7 +42,9 @@ nel Vicolo dei Cardatori (sei livelli, otto arredi, la bottega al pianterreno, i
 il Lustro senza tetto, con quattro visite di riguardo). Nel motore: le voci dei negozi accettano `requisiti` (vale il
 prezzo migliore aperto, il successivo si mostra come suggerimento) e le opzioni accettano `quando` (se non è
 soddisfatto l'opzione non compare); gli storylet di un luogo nascosto non si vedono. Lo strato 3, i congegni dei
-Precursori da assemblare, è a progetto in `docs/progetto-reperti.md`.
+Precursori da assemblare, è a progetto in `docs/progetto-reperti.md`. Sempre il 2 ottobre le candele tornano a 20, come in Fallen London (ricarica
+invariata, una ogni 10 minuti), e si riaccendono tutte quando concludi una storia principale, cioè quando una pista
+arriva al suo ultimo passo; le serie dei luoghi non contano.
 
 Base: verbale del Capitolo I (versione rinominata), schedario del Codex, contenuti già nel gioco.
 Il gioco parte tre giorni dopo la razzia del Festival; il protagonista è uno solo e arriva da una delle otto origini.
