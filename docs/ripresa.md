@@ -6,7 +6,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
 - Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 47 al 2 ottobre).
-- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 16).
+- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 17).
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
 - Fuori dal repository (Luca li ha come file): lo schedario del Codex (`nyzar-schedario-codex.md`) e il verbale del
