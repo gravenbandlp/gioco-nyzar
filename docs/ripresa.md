@@ -18,7 +18,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 `npm install`, poi:
 - `npm run contenuti`: valida gli YAML di `contenuti/` (deve dire "Contenuti validi").
 - `npm run stile`: controlla le regole di `docs/stile-dei-testi.md` (deve dare 0 segnalazioni).
-- `npx vitest run`: test (175 al 2 ottobre).
+- `npx vitest run`: test (188 al 2 ottobre).
 - `npm run build`: contenuti + tsc + build in `dist/index.html` (file unico).
 - `npm run copione`: rigenera il copione del doppiaggio (`doppiaggio/copione-pagina.html`).
 - `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati `<id>.mp3`) in `public/audio/voce/` e
@@ -29,7 +29,8 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 2. `python3 scripts/strumenti/prepara-artifact.py <cartella-temporanea>`: scrive `gioco-nyzar.html` e la mappa delle
    tavole nuove.
 3. Artifact publish con `url` del gioco e `file_path` del file preparato; le tavole e gli audio nuovi vanno passati in
-   `files` (percorso pubblicato → `dist/...`). Gli altri file già pubblicati restano.
+   `files` (percorso pubblicato → `dist/...`). Gli altri file già pubblicati restano. Le capacità (`db`, `user` con
+   scope `profile`, `downloads`) restano quelle dichiarate: non passare `capabilities` se non cambiano.
 4. Copione: `npm run copione`, poi publish di `doppiaggio/copione-pagina.html` sull'url del copione.
 
 Per provare il gioco in un browser: `scripts/strumenti/servi.py` (server dentro lo stesso processo di Playwright);
@@ -46,6 +47,12 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   id e le registrazioni non combaciano più.
 - La risorsa delle azioni si chiama **rintocchi** (fino al 2 ottobre 2026 erano candele, troppo legate a Fallen
   London): nell'interfaccia è una campana. Nella prosa le candele restano oggetti veri, mai la risorsa.
+- **Storie lunghe**: oltre alla ricarica piena a fine storia, le piste con `ricariche: [n, ...]` in `contenuti/quality.yaml`
+  ridanno metà campana quando arrivano a quei valori (oggi Dama d'Argento, Acciaio e Ira, Capomozzo, Sotto la pelle).
+- **Origini**: le opzioni legate all'origine stanno in fondo alla scena con `quando: [origine.<id> >= 1]` e portano allo
+  stesso stato della via normale che sostituiscono (stessi avanzamenti, flag, `vai`/`segue`).
+- **Mazzi dei quartieri**: almeno venti carte ciascuno (`test/mazzi-citta.test.ts`), con le carte nuove in
+  `contenuti/citta/carte-<quartiere>.yaml`.
 - **Spedizioni**: una stanza superata non ricompare nella stessa visita (`src/motore/spedizioni.ts`), e l'ordine delle
   stanze (avvicinamento, ingresso, interno, piano di sopra) si dà con fasce di requisiti sulla profondità, documentate
   in testa a ogni file. Una stanza scritta come luogo o oggetto unico va messa nella sua fascia, mai lasciata libera.
@@ -74,7 +81,9 @@ incongruenze. A progetto: lo strato 3 dell'economia (`docs/progetto-reperti.md`)
 Da fare:
 - **Doppiaggio**: Luca registra seguendo il copione e manda gli mp3; si importano con `npm run voci` e si ripubblica
   il gioco passando i file nuovi di `public/audio/voce/` in `files`.
-- **Account con Google** per salvare i personaggi: oggi il salvataggio è nel `localStorage` del browser
-  (`src/ui/main.ts`, chiave `gioco-nyzar/prototipo/v1`). Prima di scegliere un backend (Firebase, Supabase o
-  simili), verificare se le capacità degli Artifact (stato per utente, chi sta guardando) bastano a salvare i
-  personaggi senza un login esterno, dato che il gioco gira dentro un Artifact.
+- **Salvataggi** (`docs/salvataggi.md`): nell'Artifact il personaggio si salva nell'account claude.ai (base dati
+  dell'Artifact, spazio privato di chi gioca); salvano il proprietario e chi è invitato per email come Editor, gli altri
+  restano al browser e al file. Fuori da claude.ai c'è l'accesso Google con Supabase, pronto ma spento: per accenderlo
+  servono il progetto Supabase, il client OAuth Google e un sito proprio (passi in `docs/salvataggi.md`).
+- **Glossario**: i personaggi nuovi delle carte della città (Ilde Sarrocchi, Ugo Bracco, Clelia Vennari, Berengario
+  Lusardi, Fosco Ambri, ecc., elencati in testa ai file `contenuti/citta/carte-*.yaml`) non hanno ancora una voce.

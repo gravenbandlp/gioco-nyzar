@@ -1,9 +1,11 @@
 // Le pagine informative aperte dal piè di pagina: aiuto e domande frequenti, termini (origini e fonti
 // d'ispirazione), crediti. Testo statico, scritto qui perché non fa parte della narrativa.
+import { h } from './formato';
+import type { DatiSalvati, StatoArchivio } from './salvataggi';
 import { RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, MANO_MAX, CODA_MAX, MINUTI_PER_CARTA, MAX_NEGATIVA } from '../motore/regole';
 
-export type PaginaInfo = 'aiuto' | 'termini' | 'crediti';
-export const PAGINE_INFO: PaginaInfo[] = ['aiuto', 'termini', 'crediti'];
+export type PaginaInfo = 'aiuto' | 'termini' | 'crediti' | 'salvataggio';
+export const PAGINE_INFO: PaginaInfo[] = ['aiuto', 'termini', 'crediti', 'salvataggio'];
 
 declare const __VERSIONE__: string;
 export const VERSIONE: string = typeof __VERSIONE__ === 'string' ? __VERSIONE__ : 'sviluppo';
@@ -16,6 +18,7 @@ export function piede(): string {
     <span>© ${ANNO} Luca Pasini · Ny'Zar</span>
     <span class="versione">Versione ${VERSIONE}</span>
     <nav aria-label="Informazioni">
+      <button type="button" class="link" data-az="pagina" data-id="salvataggio">Salvataggio</button>
       <button type="button" class="link" data-az="pagina" data-id="aiuto">Aiuto</button>
       <button type="button" class="link" data-az="pagina" data-id="termini">Termini</button>
       <button type="button" class="link" data-az="pagina" data-id="crediti">Crediti</button>
@@ -23,8 +26,8 @@ export function piede(): string {
   </footer>`;
 }
 
-export function paginaInfo(id: PaginaInfo): string {
-  const corpo = id === 'aiuto' ? aiuto() : id === 'termini' ? termini() : crediti();
+/** `corpo` sostituisce il testo statico: la pagina del salvataggio dipende dallo stato dell'account. */
+export function paginaInfo(id: PaginaInfo, corpo = id === 'aiuto' ? aiuto() : id === 'termini' ? termini() : id === 'crediti' ? crediti() : ''): string {
   return `<article class="pagina-info">
     <button type="button" class="bottone indietro" data-az="chiudi-pagina">← Torna al gioco</button>
     ${corpo}
@@ -173,4 +176,63 @@ function crediti(): string {
   <p>Ny'Zar è un progetto personale, fatto con le mie risorse e per passione, e non ci guadagno nulla. Per questo
   illustrazioni e voci passano da strumenti di intelligenza artificiale. Se un giorno le cose cambiassero, pagherò
   volentieri illustratori e doppiatori.</p>`;
+}
+
+// ---------------------------------------------------------------- salvataggio
+
+export interface DatiPaginaSalvataggio {
+  archivio: StatoArchivio;
+  personaggio?: { nome: string; salvatoAl: number }; // quello in gioco qui
+  daImportare?: DatiSalvati; // file scelto, in attesa di conferma
+  messaggio?: string; // per esempio un file che non è un salvataggio
+  google: boolean; // l'accesso Google è configurato in questo build
+}
+
+const quando = (ms: number) => new Date(ms).toLocaleString('it-IT', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+
+export function corpoSalvataggio(p: DatiPaginaSalvataggio): string {
+  const a = p.archivio;
+  const righe: string[] = [];
+  if (a.tipo === 'claude' && a.connesso) {
+    righe.push(`<p>Il personaggio si salva nel tuo account Claude${a.chi ? `, a nome di <b>${h(a.chi)}</b>` : ''}: aprendo il gioco da un altro
+    dispositivo con lo stesso account lo ritrovi dove l'hai lasciato.${a.ultimo ? ` Ultimo salvataggio nell'account: ${quando(a.ultimo)}.` : ''}</p>`);
+  } else if (a.tipo === 'claude') {
+    righe.push(`<p>Da questo accesso alla pagina il gioco non può salvare nel tuo account Claude, quindi il personaggio resta solo in
+    questo browser. Per non perderlo scaricane una copia ogni tanto, qui sotto.</p>`);
+  } else if (a.tipo === 'google' && a.connesso) {
+    righe.push(`<p>Sei entrato con Google${a.chi ? ` come <b>${h(a.chi)}</b>` : ''}. Il personaggio si salva nel tuo account e lo
+    ritrovi da qualunque dispositivo.${a.ultimo ? ` Ultimo salvataggio nell'account: ${quando(a.ultimo)}.` : ''}</p>
+    <p><button type="button" class="link" data-az="esci-account">Esci dall'account</button></p>`);
+  } else if (p.google) {
+    righe.push(`<p>Per ora il personaggio è salvato solo in questo browser. Entrando con Google lo salvi nel tuo account e lo
+    ritrovi da qualunque dispositivo.</p>
+    <p><button type="button" class="bottone primario" data-az="entra-google">Entra con Google</button></p>`);
+  } else {
+    righe.push(`<p>Il personaggio è salvato in questo browser. Se cancelli i dati di navigazione o cambi dispositivo lo perdi, a
+    meno di averne scaricato una copia.</p>`);
+  }
+  if (a.errore) righe.push(`<p class="avviso">${h(a.errore)}</p>`);
+  if (p.messaggio) righe.push(`<p class="avviso">${h(p.messaggio)}</p>`);
+  if (a.conflitto) {
+    const r = a.conflitto.remoto;
+    righe.push(`<section class="riquadro-salvataggio">
+      <h3>Due personaggi</h3>
+      <p>Nel tuo account c'è <b>${h(r.stato.nome)}</b>, salvato il ${quando(r.salvatoAl)}, e in questo browser
+      ${p.personaggio ? `stai giocando <b>${h(p.personaggio.nome)}</b>` : 'non c\'è nessun personaggio'}. L'account ne tiene uno solo:
+      scegli quale. Prima di scegliere puoi scaricare una copia di quello che hai qui.</p>
+      <p><button type="button" class="bottone" data-az="tieni-account">Riprendi ${h(r.stato.nome)}</button>
+      ${p.personaggio ? `<button type="button" class="bottone" data-az="tieni-browser">Tieni ${h(p.personaggio.nome)}</button>` : ''}</p>
+    </section>`);
+  }
+  const imp = p.daImportare;
+  righe.push(`<h3>Una copia su file</h3>
+    <p>Il file contiene tutto il personaggio, diario compreso. Si ricarica da qui, anche su un altro dispositivo.</p>
+    <p>${p.personaggio ? '<button type="button" class="bottone" data-az="esporta">Scarica il salvataggio</button>' : ''}
+    <label class="bottone">Carica un salvataggio<input type="file" accept=".json,application/json" data-carica="salvataggio" hidden></label></p>
+    ${imp ? `<p class="avviso">Nel file c'è <b>${h(imp.stato.nome)}</b>, salvato il ${quando(imp.salvatoAl)}.
+      ${p.personaggio ? `Caricandolo, ${h(p.personaggio.nome)} viene sostituito.` : ''}
+      <button type="button" class="bottone primario" data-az="conferma-import">Carica ${h(imp.stato.nome)}</button>
+      <button type="button" class="link" data-az="annulla-import">Lascia stare</button></p>` : ''}`);
+  return `<header><span class="etichetta velo">Salvataggio</span><h2>Dove resta il tuo personaggio</h2></header>
+  ${righe.join('\n')}`;
 }
