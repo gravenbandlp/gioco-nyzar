@@ -58,7 +58,15 @@ function aiuto(): string {
   trama, con il luogo in cui si svolgono.</p>
   <p>Alcune storie portano fuori città, in una <b>spedizione</b>: una foresta, una palude, un isolotto. Lì le stanze
   compaiono poche alla volta, la profondità sale a ogni stanza superata e, raggiunta la soglia, si apre il cuore del
-  posto. Puoi tornare indietro quando vuoi, ma la profondità si azzera.</p>
+  posto. Puoi tornare indietro quando vuoi, ma la profondità si azzera, e una stanza già superata non ricompare finché
+  non esci.</p>
+
+  <h3>La Superficie Fratturata</h3>
+  <p>Fuori dalle mura c'è la <b>Superficie Fratturata</b>, che dalla mappa raggiungi quando vuoi. Lì il mazzo delle occasioni
+  pesca soltanto gli incontri della Superficie, e alcuni incontri ritornano e cambiano a seconda di come li hai trattati.
+  Il bottino tipico è il <b>reperto sigillato</b>. Nella sua baracca Oda Krell ti aiuta ad aprirlo e a scegliere quale parte
+  estrarne, e sul suo banco monti le parti in un congegno che si vende a compratori diversi, ognuno interessato alla
+  Potenza, alla Stabilità o alla Stranezza. Oda ripara anche i reperti guasti.</p>
 
   <h3>Le occasioni</h3>
   <p>Il mazzo delle occasioni si riempie da solo, una carta ogni ${MINUTI_PER_CARTA} minuti fino a ${CODA_MAX}. Peschi in mano

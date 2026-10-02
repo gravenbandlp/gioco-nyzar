@@ -1,0 +1,1305 @@
+# La Superficie Fratturata, carte del mazzo (terzo gruppo): incontri 33, 34, 35, 36, 38, 39, 43, 45, 47, 48 della
+# tabella del master, riscritti nella voce del gioco.
+# Ripetibili così come sono: il pianoro delle ossa (la lettura della battaglia una volta sola), la bestia che scappa,
+# l'erba alta, il ladro che non si vede.
+# Uniche, o che cambiano dopo la prima volta (flag sup3.*): la trappola per la bestia (torna come carta a parte), le
+# pagine di Ilde (con il seguito sul bordo della crepa), Tobia lo stagnino, il corriere della Caserma (torna a pagare se
+# l'hai aiutato), il cane accanto al padrone (torna uguale se lo lasci stare, e ti ritrova se l'hai aiutato), la voce
+# nel metallo (conta le volte e si fa più insistente), la maschera nella polvere.
+# Nomi nuovi, che il Codex non dà: Ilde (cercatrice di vene), Tobia Gresso (stagnino di Laresh), Corrado Lusi
+# (corriere della Caserma). I numeri stanno solo negli effetti (docs/stile-dei-testi.md, regola 11).
+quality:
+  - { id: sup3.campo-storia, nome: "Il pianoro delle ossa", categoria: stato, nascosta: true, descrizione: "1 se hai già letto la battaglia sul pianoro delle ossa." }
+  - { id: sup3.trappola, nome: "La trappola per la bestia", categoria: stato, nascosta: true, descrizione: "1 se hai teso la trappola alla bestia che scappa, 2 quando sei tornato a vedere che cosa ha preso." }
+  - { id: sup3.diario, nome: "Le pagine di Ilde", categoria: stato, nascosta: true, descrizione: "1 quando hai trovato le pagine del diario di Ilde." }
+  - { id: sup3.viandante, nome: "Tobia lo stagnino", categoria: stato, nascosta: true, descrizione: "1 quando hai incontrato Tobia Gresso sulla strada di Laresh." }
+  - { id: sup3.messaggero, nome: "Il corriere della Caserma", categoria: stato, nascosta: true, descrizione: "1 se hai aiutato Corrado Lusi a ritrovare la strada, 2 quando la storia è chiusa, 3 se l'hai minacciato." }
+  - { id: sup3.cane, nome: "Il cane che aspetta", categoria: stato, nascosta: true, descrizione: "1 se hai lasciato il cane accanto al padrone, 2 se l'hai convinto a venire via, 3 se l'hai scacciato, 4 quando ti ha ritrovato." }
+  - { id: sup3.voce, nome: "La voce nel metallo", categoria: stato, nascosta: true, descrizione: "Quante volte hai sentito la voce nel metallo che porti, e 99 quando hai smesso di sentirla." }
+  - { id: sup3.maschera, nome: "La maschera nella polvere", categoria: stato, nascosta: true, descrizione: "1 quando hai trovato la maschera nella nicchia di basalto." }
+
+storylet:
+  # ================================================================ 33 · Campo di battaglia antico
+  - id: carta-sup3-campo-di-battaglia
+    immagine: icone/broken-shield
+    titolo: Il pianoro delle ossa
+    sommario: "Su un pianoro di ghiaia affiorano le armi e le ossa di uno scontro tanto vecchio che non lo ricorda nessuno."
+    luogo: Superficie Fratturata, un pianoro di ghiaia sotto le terrazze
+    tipo: carta
+    area: superficie-fratturata
+    testo: |
+      Il sentiero scavalca un gradone di basalto e scende su un pianoro di
+      ghiaia grigia largo quanto la piazza di un mercato, e la prima cosa che
+      senti sotto lo stivale è una costola. Poi le ossa le vedi dappertutto.
+      Sono sbiancate e affondate a metà nella ghiaia in mezzo a lame che la
+      ruggine ha consumato fino a dar loro la forma di foglie secche. Un elmo
+      rovesciato è pieno di sabbia fino all'orlo, e dentro c'è piantato un
+      rametto diventato grigio, messo lì da chissà chi e da chissà quanto.
+
+      Non vedi tracce recenti di fuochi o di stivali. Ti accorgi di camminare
+      in punta di piedi e di avere smesso di fischiettare, cosa che non sapevi
+      di fare. *Saranno cento, o forse di più.* Dalla parte del pianoro che
+      guarda la crepa più vicina le ossa si fanno fitte, ammucchiate lungo una
+      fila storta che il vento non è ancora riuscito a disfare.
+    opzioni:
+      - testo: "Frugare fra i resti"
+        descrizione: "Sotto la ruggine qualcosa ha retto. Le lame vecchie tagliano ancora, e la ghiaia nasconde le buche."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Il pugno chiuso
+          testo: |
+            Smuovi la ghiaia con la punta del coltello, una spanna alla volta.
+            Vengono fuori schegge di metallo dei Precursori che la ruggine non tocca
+            e qualche moneta di un conio che non riconosci, con un profilo di donna
+            consumato fino a sembrare un uovo. In fondo alla fila, dentro il pugno
+            chiuso di uno scheletro, c'è un guscio di metallo liscio e intero grande
+            come una pera. Per prenderlo devi aprirgli le dita una per una, e lo fai
+            con più cura di quanta ne serva.
+          effetti: { reperto.sigillato: 1, reliquie.scheggia: 2, monete: 4 }
+        fallimento:
+          titolo: La lama sotto la ghiaia
+          testo: |
+            Infili la mano nella ghiaia per tirare fuori una cosa che luccica e
+            trovi il filo di una lama, coricata di taglio proprio lì sotto. Ti apre
+            il palmo dalla base del pollice al polso. Quello che luccicava è una
+            fibbia d'ottone, e te la porti via lo stesso, mentre ti fasci la mano
+            con il fazzoletto e cerchi di ricordare se la ruggine fa male al sangue
+            o se è una cosa che dicono le nonne.
+          effetti: { ferite: 0.5, reliquie.scheggia: 1 }
+
+      - testo: "Leggere la battaglia"
+        descrizione: "I morti sono rimasti dove sono caduti. Chi sa guardare capisce da che parte stavano e verso dove guardavano."
+        quando: [sup3.campo-storia == 0]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Verso la crepa
+          testo: |
+            Cammini lungo la fila con le mani dietro la schiena, come i maestri
+            dell'Accademia quando interrogano. Gli scudi stanno tutti dalla stessa
+            parte e guardano la crepa. Le armi sono roba di casa, per lo più forconi
+            e coltelli da carro, con poche spade. Le monete non hanno lo stampo di
+            Qir-Azel, quindi vengono da prima che la città esistesse. Dietro la fila
+            trovi i monconi di una palizzata. Questa gente difendeva un
+            accampamento, e nessuno di loro è morto scappando.
+          pe: { accademiche: 10 }
+          imposta: { sup3.campo-storia: 1 }
+          effetti: { informazioni.pettegolezzo: 1, racconto: 1 }
+        fallimento:
+          titolo: Il conto che non torna
+          testo: |
+            Provi a contarli e ti perdi verso la quarantina, poi riprendi da capo e
+            ti perdi di nuovo nello stesso punto, dove due scheletri sono caduti
+            abbracciati e non capisci di chi sia il braccio. Alla terza volta ti
+            accorgi che stai contando a voce alta. Te ne vai con la sensazione di
+            aver lasciato il lavoro a metà, e quella fila storta continua a passarti
+            davanti agli occhi anche la sera.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Passare oltre"
+        descrizione: "I morti di quel pianoro hanno aspettato a lungo, e possono aspettare ancora."
+        costo: 0
+        esito:
+          titolo: In punta di piedi
+          testo: |
+            Attraversi il pianoro lungo il bordo, dove la ghiaia è più fine e le
+            ossa sono poche. Quando risali sul gradone dall'altra parte ti volti una
+            volta, e l'elmo con il rametto è l'ultima cosa che vedi.
+
+  # ================================================================ 34 · Creatura fuggitiva
+  - id: carta-sup3-creatura-fuggitiva
+    immagine: icone/fox
+    titolo: Quella che scappa
+    sommario: "Fra i massi una bestia grigia ti guarda con una cosa lucida in bocca, e poi sparisce."
+    luogo: Superficie Fratturata, un ghiaione fra due terrazze
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.trappola != 1]
+    testo: |
+      Sul ghiaione fra due terrazze un sasso rotola giù senza che tu l'abbia
+      toccato, e la mano ti va al coltello prima che la testa abbia deciso
+      qualcosa. Su un masso, a una ventina di passi, c'è una bestia grande
+      come una volpe, con il pelo color cenere e due chiazze azzurrine sulle
+      spalle, dove il pelo cresce più corto. Ha le zampe di dietro lunghe come
+      quelle di una lepre e tiene in bocca una cosa che luccica, con la
+      delicatezza di una gatta che porta i piccoli.
+
+      Ti guarda con la testa piegata senza paura né fretta per tutto il tempo
+      che ti serve a notare che ha un orecchio spezzato in cima. Poi fa un
+      salto che non ti aspettavi da una bestia così piccola e sparisce dietro
+      le rocce, in direzione di una crepa. *Quella cosa lucida era una fibbia,
+      oppure un anello dei Precursori.* Dal ghiaione arriva ancora per un po'
+      il rumore dei sassi smossi.
+    opzioni:
+      - testo: "Inseguirla"
+        descrizione: "Corre veloce, ma va verso casa. Sul ghiaione però le caviglie si girano."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La tana
+          testo: |
+            La segui saltando di masso in masso finché la vedi infilarsi sotto una
+            lastra di basalto, sul bordo della crepa. La tana è un buco poco
+            profondo, foderato di erba secca e di tutto quello che luccica sulla
+            Superficie. Ci sono bottoni, un cucchiaio piegato, il campanello di un
+            mulo e qualche moneta, in mezzo a frammenti di cristallo opachi e a un
+            pezzo di anello dei Precursori. La bestia ti ringhia dal fondo della
+            crepa mentre fai la cernita, e il cucchiaio glielo lasci.
+          pe: { atletica: 5 }
+          effetti: { cristalli.frammento-esausto: 2, reliquie.scheggia: 1, monete: 3 }
+        fallimento:
+          titolo: Il ghiaione
+          testo: |
+            Al terzo salto il masso si muove sotto il tuo piede e scendi per un
+            tratto di ghiaione sulla schiena, con i sassi che ti seguono. Ti fermi
+            contro un gradone con la caviglia che pulsa. Quando rialzi la testa la
+            bestia è in cima al ghiaione e ti guarda con la cosa lucida ancora in
+            bocca.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Prepararle una trappola"
+        descrizione: "Una bestia che raccoglie cose lucide torna sempre per una cosa lucida. Serve un laccio fatto bene e un'esca."
+        quando: [sup3.trappola == 0]
+        prova: { attributo: mentale, abilita: [natura, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: Il laccio
+          testo: |
+            Trovi il suo passaggio, una striscia di ghiaia smossa fra due massi, e
+            ci tendi un laccio con la corda più sottile che hai, legato basso a una
+            radice morta. Per esca usi una moneta lucidata con la manica, appoggiata
+            di taglio contro un sasso perché prenda la luce. Te ne vai controvento e
+            ti segni il posto contando i gradoni. Domani, o quando passerai di nuovo
+            da qui, saprai se ha abboccato.
+          pe: { natura: 5 }
+          imposta: { sup3.trappola: 1 }
+        fallimento:
+          titolo: Le dita nel laccio
+          testo: |
+            Il laccio ti scatta in mano mentre lo stai ancora regolando e ti stringe
+            due dita contro la radice, tanto forte che le unghie diventano bianche.
+            Quando riesci a liberarti hai i segni della corda fino alla seconda
+            falange, e la bestia, da qualche parte sopra di te, fa un verso molto
+            simile a una risata.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Lasciarla andare"
+        descrizione: "Non ti ha fatto niente, e ha l'aria di avere da fare."
+        costo: 0
+        esito:
+          titolo: Fatti suoi
+          testo: |
+            Togli la mano dal coltello e riprendi il sentiero. Per un tratto ti
+            sembra di sentire i sassi che rotolano dietro di te, sempre alla stessa
+            distanza, ma ogni volta che ti volti il ghiaione è vuoto.
+
+  - id: carta-sup3-la-trappola
+    immagine: icone/wolf-trap
+    titolo: Il laccio teso
+    sommario: "Torni al passaggio fra i massi, e la corda del laccio adesso è tesa."
+    luogo: Superficie Fratturata, il ghiaione fra due terrazze
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.trappola == 1]
+    testo: |
+      Riconosci il posto dalla radice morta, e da lontano vedi che la corda
+      del laccio è tesa e vibra appena, come quando c'è un pesce all'amo. La
+      bestia grigia è distesa sul fianco fra i due massi, con una zampa
+      posteriore presa nel nodo, e respira veloce. Non si agita e non ringhia.
+      Alza la testa e ti guarda con l'orecchio spezzato dritto e l'altro
+      piegato, nello stesso modo di quel giorno sul ghiaione.
+
+      La moneta dell'esca non c'è più. Accanto al muso, dove l'ha lasciato
+      cadere quando il laccio è scattato, c'è un cilindro di metallo grigio
+      lungo un palmo, con le giunture così sottili che quasi non si vedono. Ha
+      due graffi di denti su un'estremità. *Se l'è portato dietro anche mentre
+      scappava.* Il laccio ha tenuto bene, e per un attimo la cosa ti fa meno
+      piacere di quanto pensavi.
+    opzioni:
+      - testo: "Liberarla"
+        descrizione: "Una bestia presa al laccio morde chi le tocca la zampa. Bisogna farle capire che cosa stai facendo."
+        prova: { attributo: sociale, abilita: [addestrare-animali, empatia], difficolta: Media }
+        successo:
+          titolo: Il cilindro
+          testo: |
+            Le parli piano mentre allenti il nodo, e lei ti lascia fare con il muso
+            appoggiato sulla ghiaia. Quando la zampa è libera si allontana
+            zoppicando di qualche passo. Poi torna indietro, prende in bocca il
+            cilindro, te lo posa accanto allo stivale e se ne va verso la crepa
+            senza voltarsi. Il metallo è ancora caldo del suo fiato.
+          pe: { addestrare-animali: 10 }
+          imposta: { sup3.trappola: 2 }
+          effetti: { reperto.sigillato: 1 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            Appena la tua mano tocca il nodo la bestia si gira e ti morde il polso,
+            non forte, quanto basta a farti lasciare la presa. Il laccio si allenta
+            da solo e lei è già lontana, con il cilindro fra i denti, prima che tu
+            abbia finito di imprecare.
+          imposta: { sup3.trappola: 2 }
+          effetti: { ferite: 0.5 }
+
+      - testo: "Prendere il cilindro e lasciarla lì"
+        descrizione: "Il cilindro è a portata di mano. Con un po' di pazienza la bestia il nodo lo rosicchierà da sola."
+        esito:
+          titolo: Il verso nella notte
+          testo: |
+            Raccogli il cilindro allungando il braccio per restare a distanza, e
+            lo infili nella sacca. La bestia ti segue con gli occhi finché non sei
+            sul gradone. Quella notte, mentre cerchi di dormire, ti sembra di
+            sentire dalla parte del ghiaione un verso corto e ripetuto, e ti dici
+            che il nodo l'avrà rosicchiato di sicuro.
+          imposta: { sup3.trappola: 2 }
+          effetti: { reperto.sigillato: 1, tormento: 0.5 }
+
+      - testo: "Tagliare la corda da lontano"
+        descrizione: "Un colpo di coltello sulla corda, dalla parte della radice, e la bestia è libera con il suo tesoro."
+        costo: 0
+        esito:
+          titolo: Via con il tesoro
+          testo: |
+            Tagli la corda dalla parte della radice. La bestia scatta via con il
+            cilindro in bocca e il laccio ancora attorno alla zampa, e sparisce fra
+            le rocce. Ti resta in mano mezzo metro di corda, e la moneta dell'esca
+            non l'hai più rivista.
+          imposta: { sup3.trappola: 2 }
+
+  # ================================================================ 35 · Frammento di diario
+  - id: carta-sup3-pagine-di-diario
+    immagine: icone/notebook
+    titolo: Pagine legate con lo spago
+    sommario: "Sotto un sasso, qualche pagina di diario scritta da poco, con le frecce disegnate a margine."
+    luogo: Superficie Fratturata, accanto a un ometto di sassi
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.diario == 0]
+    testo: |
+      Accanto a un ometto di sassi che segna una biforcazione, sotto la pietra
+      in cima, c'è un fascio di pagine piegate in due e legate con lo spago da
+      cucina. La carta è di quella buona che vendono ai Ponti, e l'inchiostro
+      non ha ancora fatto in tempo a sbiadire. Su un angolo c'è una macchia di
+      grasso, e quando avvicini il naso senti l'odore di lardo e di fumo che
+      avevano le merende di tuo nonno nei giorni di mercato.
+
+      La grafia è piccola e tonda, e chi scrive firma con una I sola e disegna
+      frecce a margine, con le distanze contate in passi. Si parla di
+      sorgenti, di crepe da girare al largo, di un posto dove la Marea sale
+      all'alba. Sull'ultima pagina le righe si fanno storte e si fermano a
+      metà di una parola. *Una parola che comincia per sott.* Il fascio pesa
+      poco, ma ti accorgi che lo stai tenendo con due mani.
+    opzioni:
+      - testo: "Leggerle con calma"
+        descrizione: "Sono appunti di strada scritti in fretta. Chi li legge bene ci trova quello che serve qui fuori."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Facile }
+        successo:
+          titolo: Gli appunti di Ilde
+          testo: |
+            Ti siedi contro l'ometto e leggi tutto due volte. La donna si chiama
+            Ilde, cerca vene di cristallo per conto suo e annota tutto quello che le
+            serve. Le frecce bianche sulle terrazze sono state girate, la sorgente
+            dietro il gradone spaccato ha l'acqua buona, e c'è un campo di predoni a
+            est che si sposta con la luna. Ti copi le frecce sul dorso di un
+            biglietto e rimetti le pagine sotto il sasso.
+          pe: { percezione: 5 }
+          imposta: { sup3.diario: 1 }
+          effetti: { informazioni.voce: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: L'ultima riga
+          testo: |
+            Le prime pagine le leggi in fretta, e torni sempre all'ultima, alla
+            parola spezzata, finché la riconosci anche a occhi chiusi. Delle
+            sorgenti e delle frecce ti resta poco. Quella notte, sul punto di
+            addormentarti, provi a finire la parola in tutti i modi possibili.
+          imposta: { sup3.diario: 1 }
+          effetti: { informazioni.voce: 1, tormento: 0.5 }
+
+      - testo: "Seguire le frecce"
+        descrizione: "L'ultima freccia punta a nord, verso una crepa. Mezza giornata di cammino, se i passi di Ilde sono come i tuoi."
+        esito:
+          titolo: I passi contati
+          testo: |
+            Ti metti le pagine in tasca e segui le frecce, contando i passi come li
+            contava lei. I suoi sono un po' più corti dei tuoi, e verso mezzogiorno
+            impari a correggere a occhio. L'ultima freccia ti porta sul bordo di una
+            crepa azzurra.
+          imposta: { sup3.diario: 1 }
+          segue: carta-sup3-il-campo-di-ilde
+
+      - testo: "Rimetterle sotto il sasso"
+        descrizione: "Chi le ha lasciate potrebbe tornare a prenderle."
+        costo: 0
+        esito:
+          titolo: Sotto il sasso
+          testo: |
+            Rileghi lo spago con il nodo che c'era e rimetti le pagine sotto la
+            pietra, con la macchia di grasso in alto come le avevi trovate. Poi
+            prendi la strada di destra, che sulle pagine non c'era.
+          imposta: { sup3.diario: 1 }
+
+  - id: carta-sup3-il-campo-di-ilde
+    immagine: icone/rope-coil
+    titolo: Il campo sul bordo
+    sommario: "Dove finiscono le frecce di Ilde c'è un campo freddo, e una corda che scende nella crepa."
+    luogo: Superficie Fratturata, il bordo di una crepa azzurra
+    tipo: seguito
+    area: superficie-fratturata
+    testo: |
+      Il campo di Ilde è un cerchio di sassi con la cenere fredda nel mezzo e
+      una coperta piegata con cura, come in una locanda. A un picchetto è
+      legata una borsa di tela. Da un masso sul bordo parte una corda tesa che
+      scende nella crepa e sparisce nel bagliore azzurro dopo una ventina di
+      braccia. Il nodo sul masso è fatto bene, e la corda sul filo della
+      roccia è sfilacciata fino a metà.
+
+      Ti sporgi e chiami. Ti risponde l'eco, e poi, dopo un poco, una voce di
+      donna rauca che dice di chiamarsi Ilde e di avere un piede rotto, e
+      chiede da quanto tempo è giorno. È su una cengia da due notti. *Sa
+      contare i passi, e i giorni li ha persi.* Lo stomaco ti si chiude,
+      perché la corda sfilacciata regge ancora, e chissà per quanto.
+    opzioni:
+      - testo: "Scendere a prenderla"
+        descrizione: "Con la corda sfilacciata, nel bagliore della crepa, e con una donna da portare su. È la via più rischiosa."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: La cengia
+          testo: |
+            Ti cali tenendo la corda lontano dal filo della roccia. Trovi Ilde
+            seduta sulla cengia con il piede fasciato nella camicia e la fronte
+            lucida di febbre, e accanto a lei una placca dei Precursori che ha
+            staccato dalla parete prima di cadere. Te la lega alla cintura insieme a
+            un guscio sigillato. Risalite insieme, un palmo alla volta. In cima lei
+            ride e piange, poi ti dice che la vena era buona.
+          pe: { atletica: 10 }
+          effetti: { reperto.sigillato: 1, parte.camera-1: 1, racconto: 1 }
+        fallimento:
+          titolo: Il fiato della crepa
+          testo: |
+            A metà discesa dal fondo sale una folata grigia che ti entra in bocca
+            con un sapore di ferro. Arrivi alla cengia lo stesso e porti su Ilde
+            sulla schiena, con le braccia che tremano e gli occhi che lacrimano. In
+            cima vi stendete tutti e due sulla ghiaia. La sua placca è rimasta giù,
+            e lei non ha la forza di dispiacersene.
+          effetti: { ferite: 0.5, contaminazione: 1, racconto: 1 }
+
+      - testo: "Calarle una corda nuova e tirarla su"
+        descrizione: "Una corda tua legata bene e tanta pazienza. Lei si lega e tu tiri, fino a sera."
+        costo: 2
+        esito:
+          titolo: Fino a sera
+          testo: |
+            Le cali la tua corda accanto alla sua e le spieghi come legarsi sotto le
+            ascelle. Poi tiri, con il piede puntato contro il masso, una bracciata
+            alla volta, fermandoti quando lei te lo chiede. La tiri fuori al
+            tramonto. Ilde ti regala le monete che ha e ti dice dove sono le altre
+            vene della sua lista, perché tanto a quelle per un pezzo non ci arriva.
+          effetti: { monete: 5, informazioni.pettegolezzo: 1, racconto: 1 }
+
+      - testo: "Prendere la borsa e andartene"
+        descrizione: "La borsa è legata al picchetto, a portata di mano. Ilde, laggiù, non può vedere chi la prende."
+        esito:
+          titolo: Il picchetto
+          testo: |
+            Sciogli la borsa dal picchetto e te la metti a tracolla. Dentro ci sono
+            le monete di Ilde e un rotolo di bende pulite. Lei continua a chiamare
+            mentre ti allontani, con una voce sempre più debole, e a un certo punto
+            smette. Non sai dire se perché ti sei allontanato tu o per un'altra
+            ragione, e non torni indietro a controllare.
+          effetti: { monete: 6, bende: 1, tormento: 1 }
+
+  # ================================================================ 36 · Viandante in cerca di compagnia
+  - id: carta-sup3-viandante
+    immagine: icone/hiking
+    titolo: Lo stagnino di Laresh
+    sommario: "Un uomo con uno zaino di pentole ti viene incontro sul sentiero, contento di vedere qualcuno."
+    luogo: Superficie Fratturata, la pista dei carri per Laresh
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.viandante == 0]
+    testo: |
+      Lo senti arrivare prima di vederlo, perché a ogni passo qualcosa di
+      latta sbatte contro qualcos'altro di latta. Sulla pista dei carri viene
+      avanti un uomo basso con uno zaino di pentole legate a grappolo e un
+      cappello di paglia sfondato in cima. Cammina con il passo incerto di chi
+      ha le vesciche, e quando ti vede allunga il passo e alza un braccio, e
+      le pentole fanno un gran baccano.
+
+      «Non pensavo di trovare anima viva, quassù» dice, e si ferma a
+      riprendere fiato. «Tobia Gresso, stagnino, di Laresh. Dico bene? Laresh
+      è di là?» Racconta che i carrettieri sono partiti senza di lui perché si
+      è svegliato tardi, e che sono due giorni che parla da solo. Lo dice
+      ridendo, con le mani che non stanno ferme. *Un uomo solo e allegro su
+      queste terrazze è sincero oppure è un'esca.* Dietro di lui la pista è
+      vuota fino alle terrazze.
+    opzioni:
+      - testo: "Fare la strada con lui"
+        descrizione: "Fino al bivio di Laresh è mezza giornata. Tobia parla tanto, ma in due si cammina più tranquilli."
+        costo: 2
+        esito:
+          titolo: Il bivio
+          testo: |
+            Fate la strada insieme fino al bivio, e Tobia non smette di parlare un
+            momento. Ti racconta chi a Laresh paga in farina invece che in monete,
+            quale mugnaio annacqua il vino e perché la figlia del fabbro non si
+            sposa. Al bivio ti ripara il fondo della borraccia con una goccia di
+            stagno, e ti regala un vasetto dell'unguento che fa sua moglie. «Per le
+            vesciche, dico bene? Io non lo uso mai.»
+          pe: { conoscenze-della-strada: 5 }
+          imposta: { sup3.viandante: 1 }
+          effetti: { informazioni.voce: 2, unguento: 1 }
+
+      - testo: "Scambiare due parole e proseguire"
+        descrizione: "Gli basta qualcuno che lo ascolti. Il difficile sarà salutarlo."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Facile }
+        successo:
+          titolo: Le pentole in lontananza
+          testo: |
+            Lo lasci parlare mentre bevete dalla stessa borraccia, e quando la senti
+            arrivare gli fai la domanda giusta sui carrettieri, che si fermano
+            sempre allo stesso pozzo. Tobia si illumina, ti stringe la mano con
+            tutte e due le sue e riparte. Senti le pentole per un pezzo, sempre più
+            piano, finché il vento se le porta via.
+          pe: { empatia: 5 }
+          imposta: { sup3.viandante: 1 }
+          effetti: { informazioni.voce: 1 }
+        fallimento:
+          titolo: Il miglio in più
+          testo: |
+            Ogni volta che provi a salutarlo Tobia attacca un'altra storia, e ti
+            ritrovi a camminare con lui nella direzione sbagliata per un miglio
+            buono. Alla fine gli dici di lasciarti in pace con una voce più dura di
+            quella che volevi usare. Lui si toglie il cappello per scusarsi e se ne
+            va a testa bassa, e il suono delle pentole ti resta in testa fino a
+            sera.
+          imposta: { sup3.viandante: 1 }
+          effetti: { tormento: 0.5 }
+
+      - testo: "Guardargli le spalle prima di fidarti"
+        descrizione: "Mentre lui parla, tu guardi le rocce dietro di lui. Se è un'esca, chi la tiene è lì."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Le orme a est
+          testo: |
+            Lo ascolti con un occhio solo e con l'altro passi in rassegna le rocce.
+            Dietro di lui non c'è nessuno. Però, sul bordo della pista, noti orme
+            fresche di stivali chiodati che vanno verso est, e quando glielo dici
+            Tobia diventa serio. Ieri ne ha visti sei o sette con un carro senza
+            mulo. Ti dice dove, e decide che seguirà la pista stando bene al centro.
+          pe: { percezione: 5 }
+          imposta: { sup3.viandante: 1 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: I sassi sulla cresta
+          testo: |
+            Sulla cresta dietro di lui vedi due sagome ferme e tiri fuori l'arma
+            prima di pensarci. Tobia fa un salto indietro, inciampa nelle sue
+            pentole e scappa giù per la pista senza raccoglierle tutte. Le sagome
+            sulla cresta sono due sassi. Gli riporti un pentolino fino al bivio, ma
+            lui non ti aspetta.
+          imposta: { sup3.viandante: 1 }
+          effetti: { tormento: 0.5 }
+
+  # ================================================================ 38 · Vegetazione insolitamente rigogliosa
+  - id: carta-sup3-erba-alta
+    immagine: icone/oasis
+    titolo: L'erba alta
+    sommario: "In una piega fra due terrazze c'è un prato verde con una polla d'acqua chiara, dove il resto della Superficie è polvere."
+    luogo: Superficie Fratturata, una piega fra due terrazze
+    tipo: carta
+    area: superficie-fratturata
+    testo: |
+      In una piega fra due terrazze, dove ti aspetti la solita ghiaia, il
+      terreno è verde. L'erba ti arriva al ginocchio e ha i fili morbidi delle
+      erbe di primavera, e in mezzo c'è un alberello con le foglie argentate e
+      una polla d'acqua così chiara che vedi i sassi sul fondo. L'aria è più
+      fresca di qualche grado. Le spalle ti si abbassano da sole, e solo
+      adesso ti rendi conto di quanto sei stanco, come quando si entra in una
+      cucina calda dopo una giornata sotto la pioggia.
+
+      Ti siedi sul bordo e ti slacci uno stivale. L'erba è piegata tutta dalla
+      stessa parte, verso la polla, anche se il vento arriva dall'altra. Sopra
+      la polla non vola un insetto, e sui rami dell'alberello non c'è nemmeno
+      un uccello. *Sulla Superficie le cose gratis arrivano con il conto
+      dopo.* Fra le radici dell'alberello, appena sotto la terra, si vede la
+      curva lucida di un anello di metallo.
+    opzioni:
+      - testo: "Riposare all'ombra"
+        descrizione: "Un sonno vero, all'ombra, con l'acqua vicino. Ci vuole tempo, e l'erba intanto cresce."
+        costo: 2
+        esito:
+          titolo: La sagoma nell'erba
+          testo: |
+            Dormi sotto l'alberello senza sognare, e quando ti svegli il sole è
+            dall'altra parte della piega. Ti senti la schiena sciolta e la testa
+            leggera. Alzandoti vedi che intorno al punto dove eri disteso l'erba è
+            cresciuta di un dito, e disegna nel prato la tua sagoma con le braccia
+            aperte, e te ne vai stando attento a non calpestarla.
+          effetti: { ferite: -0.5, tormento: -0.5 }
+
+      - testo: "Bere alla polla"
+        descrizione: "L'acqua è fresca e chiara, e sul fondo ogni tanto brilla qualcosa di azzurro."
+        esito:
+          titolo: L'acqua dolce
+          testo: |
+            Bevi a mani giunte, e l'acqua ha un sapore dolce, appena metallico, come
+            quella che resta in una tazza di peltro. Il dolore alle gambe se ne va
+            quasi subito. Più tardi, mentre cammini, ti accorgi che le unghie delle
+            mani hanno preso una sfumatura grigia alla base, che con il pollice non
+            va via.
+          effetti: { ferite: -1, contaminazione: 0.5 }
+
+      - testo: "Scavare fra le radici"
+        descrizione: "Sotto l'alberello c'è un anello dei Precursori. Le radici lo tengono stretto, e la terra intorno è tiepida."
+        prova: { attributo: mentale, abilita: [natura, tecnologia], difficolta: Media }
+        successo:
+          titolo: Il guscio tiepido
+          testo: |
+            Scavi con le mani dove la terra è più tiepida e trovi le radici avvolte
+            intorno all'anello, strette come dita. Le sciogli una alla volta invece
+            di tagliarle, e sotto l'anello c'è un guscio sigillato grande come un
+            pugno, caldo come una pietra lasciata al sole. Lo avvolgi nella giacca.
+            Quando ti volti, l'erba della piega comincia già a ingiallire sulle
+            punte.
+          pe: { natura: 5 }
+          effetti: { reperto.sigillato: 1 }
+        fallimento:
+          titolo: La linfa
+          testo: |
+            Tagli una radice per fare prima, e ne esce una linfa grigia e densa che
+            ti cola sul polso e brucia come ortica. La ripulisci nell'erba, ma la
+            pelle resta lucida e insensibile per tutto il giorno. Il guscio sotto
+            l'anello lo vedi soltanto, perché le radici gli si stringono intorno
+            appena provi a infilare le dita.
+          effetti: { contaminazione: 0.5 }
+
+      - testo: "Proseguire"
+        descrizione: "Rimetti lo stivale e torni sulla ghiaia, dove almeno sai che cosa aspettarti."
+        costo: 0
+        esito:
+          titolo: La ghiaia
+          testo: |
+            Ti riallacci lo stivale e risali sul gradone. Dopo qualche passo la
+            ghiaia ti scricchiola di nuovo sotto i piedi, e quel rumore, chissà
+            perché, ti mette di buon umore.
+
+  # ================================================================ 39 · Messaggero di Qir-Azel
+  - id: carta-sup3-messaggero
+    immagine: icone/wax-seal
+    titolo: Il corriere della Caserma
+    sommario: "Un uomo con la torre della Caserma sul mantello va di fretta, con una borsa sigillata e la strada sbagliata."
+    luogo: Superficie Fratturata, le frecce bianche sulle terrazze
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.messaggero == 0]
+    testo: |
+      Sulle terrazze, accanto a una freccia bianca dipinta su un sasso, c'è un
+      uomo fermo che guarda il sole tenendo una mano sugli occhi. Porta un
+      mantello di buona lana con la torre della Caserma ricamata sulla spalla,
+      e in diagonale sul petto una borsa di cuoio chiusa da un sigillo di
+      ceralacca verde, grosso come una moneta. Gli stivali sono da città, e il
+      cuoio ha già le prime crepe.
+
+      Quando ti vede rallenta e ti misura dall'alto in basso, con la mano
+      sulla borsa. «Non ho tempo da perdere» dice. «Sì, sì. Corrado Lusi, per
+      la Caserma, diretto a Laresh. La freccia dice di qua e il sole dice di
+      là, e io devo arrivare stasera.» Guarda di nuovo il cielo, poi te. *Le
+      frecce bianche le hanno girate per scherzo, e lui non lo sa.* Il sigillo
+      sulla borsa è intatto, e lui ci tiene il pollice sopra.
+    opzioni:
+      - testo: "Fargli due domande"
+        descrizione: "Un corriere della Caserma sa cose che in città si vendono. Bisogna chiederle con garbo e in fretta."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Quello che si sa in Caserma
+          testo: |
+            Gli parli come si parla a un funzionario e lo chiami per titolo senza
+            fargli perdere tempo. Lui si ammorbidisce. Mentre gli indichi la
+            direzione ti racconta chi ha chiesto udienza allo sceriffo questa
+            settimana e quale carovana è stata fermata alla porta. Del contenuto
+            della borsa non dice niente, e ci tiene sopra il pollice fino alla fine.
+          imposta: { sup3.messaggero: 2 }
+          effetti: { informazioni.pettegolezzo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il nome sul registro
+          testo: |
+            Insisti una domanda di troppo, e Corrado fa un passo indietro con la
+            mano sull'elsa. Ti chiede il nome e lo ripete due volte a mezza voce,
+            per ricordarselo. «Sì, sì. Alla porta lo sapranno» dice, e se ne va
+            dalla parte sbagliata, impettito.
+          imposta: { sup3.messaggero: 2 }
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Rimetterlo sulla strada giusta"
+        descrizione: "Le frecce sono girate. Se conosci le terrazze, gli risparmi mezza giornata e una brutta figura."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Facile }
+        successo:
+          titolo: La pista dei carri
+          testo: |
+            Gli spieghi lo scherzo delle frecce, e Corrado, invece di ridere, se lo
+            scrive su un taccuino. Lo accompagni per tre gradoni fino a dove si vede
+            la pista dei carri, e lui ti stringe la mano con una stretta corta e
+            forte. Ti chiede come ti chiami e scrive anche quello, sotto lo scherzo.
+            Dice che al ritorno passerà di qui.
+          pe: { natura: 5 }
+          imposta: { sup3.messaggero: 1 }
+          effetti: { rep.caserma: 0.5 }
+        fallimento:
+          titolo: Il gradone sbagliato
+          testo: |
+            Sei sicuro della strada finché il gradone non finisce nel vuoto.
+            Tornando indietro Corrado scivola, tu lo afferri per il mantello e
+            finite in ginocchio contro la roccia. Quando ritrovate la pista lui ti
+            ringrazia a denti stretti e se ne va zoppicando, senza voltarsi.
+          imposta: { sup3.messaggero: 2 }
+          effetti: { ferite: 0.5 }
+
+      - testo: "Chiedergli la borsa"
+        descrizione: "È solo, ha gli stivali da città e porta il soldo della Caserma. La Caserma, però, si ricorda delle facce."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Il borsellino
+          testo: |
+            Gli sbarri la strada con la mano sull'arma. Corrado impallidisce,
+            stringe la borsa sigillata al petto e ti lancia ai piedi il borsellino
+            che porta alla cintura. Poi scappa giù per i gradoni, perdendo il
+            cappello. Le monete ci sono, ma la tua faccia lui l'ha guardata bene.
+          imposta: { sup3.messaggero: 3 }
+          effetti: { monete: 8, sospetto: 1 }
+        fallimento:
+          titolo: La lama corta
+          testo: |
+            Corrado non scappa. Tira fuori una lama corta da sotto il mantello e te
+            la passa sull'avambraccio con un gesto che deve aver ripetuto mille
+            volte nel cortile della Caserma. Mentre tu ti tieni il braccio lui si
+            allontana di corsa, con la borsa sigillata stretta al petto.
+          imposta: { sup3.messaggero: 3 }
+          effetti: { ferite: 1, sospetto: 0.5 }
+
+  - id: carta-sup3-il-messaggero-ritorna
+    immagine: icone/envelope
+    titolo: Il corriere torna da Laresh
+    sommario: "Corrado Lusi torna da Laresh con un barattolo di vernice bianca e un debito da pagare."
+    luogo: Superficie Fratturata, le frecce bianche sulle terrazze
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.messaggero == 1]
+    testo: |
+      Accanto alla freccia bianca dove l'avevi incontrato, Corrado Lusi è in
+      ginocchio con un barattolo di vernice e un pennello, e la sta girando
+      dalla parte giusta. Ha il mantello sporco di polvere fino alla vita e
+      gli stivali da città ormai buoni solo per il fuoco. La borsa a tracolla
+      è chiusa da un sigillo nuovo, di ceralacca rossa, che viene da Laresh.
+
+      Quando ti vede si alza in fretta e si pulisce le mani sui pantaloni
+      senza riuscirci. *Ha una goccia di vernice sul naso, e nessuno glielo
+      dirà mai.* «Sì, sì, sei tu» dice. «Ho fatto tre frecce. Le altre le fa
+      qualcun altro, io ho fretta.» Si fruga sotto il mantello e tira fuori un
+      borsellino, poi esita con il borsellino a mezz'aria. «Oppure ti racconto
+      quello che ho sentito a Laresh. Allo sceriffo ho già detto il tuo nome,
+      e quello non te lo leva nessuno.»
+    opzioni:
+      - testo: "Accettare il borsellino"
+        descrizione: "Quello che ti offre è poco per lui e qualcosa per te."
+        costo: 0
+        esito:
+          titolo: Il debito pagato
+          testo: |
+            Prendi il borsellino e lui annuisce soddisfatto, come quando si spunta
+            una riga da una lista. Torna in ginocchio davanti alla freccia per dare
+            l'ultima mano. Quando te ne vai, lo senti fischiettare una marcia della
+            Guardia.
+          imposta: { sup3.messaggero: 2 }
+          effetti: { monete: 8, rep.caserma: 0.5 }
+
+      - testo: "Farti raccontare Laresh"
+        descrizione: "Un corriere della Caserma ascolta molto e ripete poco. Questa volta ripete."
+        costo: 0
+        esito:
+          titolo: Le notizie di Laresh
+          testo: |
+            Corrado si siede sul sasso accanto alla freccia fresca e ti racconta
+            Laresh a voce bassa, contando le cose sulle dita. Ti dice quale mulino
+            ha smesso di macinare e perché, e chi è arrivato dal nord con un carro
+            coperto. Poi si ricorda della fretta e si alza di scatto.
+          imposta: { sup3.messaggero: 2 }
+          effetti: { informazioni.pettegolezzo: 1, informazioni.voce: 1, rep.caserma: 0.5 }
+
+  # ================================================================ 43 · Animale accanto al cadavere
+  - id: carta-sup3-il-cane
+    immagine: icone/sitting-dog
+    titolo: Il cane che aspetta
+    sommario: "Ai piedi di un gradone c'è un uomo morto, e accanto a lui un cane seduto che ti guarda."
+    luogo: Superficie Fratturata, ai piedi di un gradone di basalto
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.cane <= 1]
+    testo: |
+      Ai piedi di un gradone alto due uomini c'è un uomo disteso su un fianco,
+      con le ginocchia raccolte verso il petto, come si dorme al freddo. Ha
+      una fionda ancora arrotolata al polso e uno stivale solo. Il viso è
+      grigio, e la terra sotto la guancia è asciutta da giorni. Accanto a lui
+      c'è seduto un cane magro, color fango, con un collare di corda e il nodo
+      fatto da una mano che sapeva fare i nodi.
+
+      Il cane non ringhia e non scappa. Ti segue con gli occhi mentre ti
+      avvicini, e a un certo punto si alza, va ad annusare la mano del
+      padrone, poi torna a sedersi esattamente dov'era e ti guarda di nuovo.
+      Lo stomaco ti si stringe in un modo che non c'entra con l'odore. *Vuole
+      che lo svegli, o vuole sapere se sei tu quello che deve farlo.* Intorno
+      al corpo la ghiaia è segnata da un cerchio di impronte di zampe, sempre
+      le stesse.
+    opzioni:
+      - testo: "Avvicinarti piano, con la mano bassa"
+        descrizione: "Un cane che fa la guardia a un morto accetta chi gli parla nel modo giusto. Gli altri li morde."
+        prova: { attributo: sociale, abilita: [addestrare-animali, empatia], difficolta: Media }
+        successo:
+          titolo: Il riparo sotto la roccia
+          testo: |
+            Ti accucci e aspetti, con il dorso della mano verso di lui. Il cane la
+            annusa a lungo, poi si allontana di qualche passo e si volta a
+            guardarti. Lo segui fino a una sporgenza di roccia dove il padrone aveva
+            il suo riparo, con un fagotto, una borsa di monete e un guscio sigillato
+            avvolto in un panno. Il cane ti cammina accanto fino al bordo delle
+            terrazze. Lì si ferma e torna indietro di corsa.
+          pe: { addestrare-animali: 5 }
+          imposta: { sup3.cane: 2 }
+          effetti: { monete: 5, bende: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: I denti
+          testo: |
+            Allunghi la mano un momento troppo presto. Il cane scatta senza un
+            ringhio, ti morde il dorso della mano e torna subito a sedersi accanto
+            al padrone, come se non fosse successo niente. Ti allontani tenendoti la
+            mano, e lui non ti guarda più.
+          imposta: { sup3.cane: 1 }
+          effetti: { ferite: 0.5 }
+
+      - testo: "Seppellire l'uomo"
+        descrizione: "Per scavare hai un sasso piatto e le mani. Ci vuole tempo, e il cane guarderà tutto."
+        costo: 2
+        esito:
+          titolo: Il tumulo
+          testo: |
+            Scavi con un sasso piatto e con le mani finché la buca è abbastanza
+            fonda, e ci adagi l'uomo con la fionda sul petto. Il cane guarda tutto
+            senza muoversi. Quando hai finito di ammucchiare la ghiaia ci sale
+            sopra, annusa il tumulo in tutta la sua lunghezza e poi viene a sedersi
+            accanto a te. Ti accompagna per un tratto quando riparti, e ti lascia
+            sul bordo delle terrazze.
+          pe: { empatia: 5 }
+          imposta: { sup3.cane: 2 }
+          effetti: { racconto: 1, tormento: -0.5 }
+
+      - testo: "Scacciare il cane e frugare il corpo"
+        descrizione: "Il cane è magro e tu sei più grosso. Ma difende il padrone, e non ha più niente da perdere."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Quello che aveva in tasca
+          testo: |
+            Gridi e batti i piedi, e il cane si ritira di qualche passo con il pelo
+            dritto sulla schiena. Nelle tasche dell'uomo trovi un borsellino e una
+            lettera per una donna di Laresh, mai spedita. Il cane non ti perde
+            d'occhio un momento. Quando te ne vai torna al suo posto, e lo vedi
+            ancora seduto lì dall'alto del gradone.
+          imposta: { sup3.cane: 3 }
+          effetti: { monete: 5, informazioni.voce: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Il braccio
+          testo: |
+            Gridi e fai un passo avanti, e il cane ti salta al braccio senza un
+            verso. Ti tiene stretto con i denti finché non riesci a fargli mollare
+            la presa con l'altra mano. Poi torna a sedersi accanto al padrone,
+            ansimando. La manica è rossa fino al gomito.
+          imposta: { sup3.cane: 1 }
+          effetti: { ferite: 1 }
+
+      - testo: "Lasciarlo stare"
+        descrizione: "È il suo posto e il suo padrone. Lo lasci com'è."
+        costo: 0
+        esito:
+          titolo: Seduto
+          testo: |
+            Fai un largo giro intorno al gradone. Il cane ti segue con gli occhi
+            finché sei a portata di vista, poi si stende accanto all'uomo con il
+            muso sulle zampe.
+          imposta: { sup3.cane: 1 }
+
+  - id: carta-sup3-il-cane-ritorna
+    immagine: icone/sniffing-dog
+    titolo: Il collare di corda
+    sommario: "Un cane con il collare di corda ti viene incontro fra i gradoni, e ti riconosce."
+    luogo: Superficie Fratturata, un sentiero fra i gradoni
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.cane == 2]
+    testo: |
+      Su un sentiero fra i gradoni ti viene incontro al trotto un cane color
+      fango, con un collare di corda dal nodo fatto bene. Ha messo su un po'
+      di carne, e una delle orecchie ha un taglio rimarginato che prima non
+      c'era. Si ferma a un passo, ti annusa gli stivali da una punta all'altra
+      e poi alza il muso, e la coda gli si muove da sola.
+
+      È lui. Lo capisci prima di aver controllato il nodo, dalla maniera in
+      cui si siede, tutto composto. Sulla Superficie gira voce di un cane che
+      va e viene dai campi dei Raschiatori e non si fa prendere da nessuno.
+      *Ha imparato a cavarsela senza il padrone, e anche senza di te.* Dopo un
+      poco si alza, fa qualche passo verso un gradone e si volta a guardarti,
+      come quel giorno.
+    opzioni:
+      - testo: "Andargli dietro"
+        descrizione: "Sa dove sta andando. Tu no, e forse è meglio così."
+        esito:
+          titolo: La chiazza grigia
+          testo: |
+            Il cane ti porta per un giro largo che sul momento non capisci, finché
+            non vedi, più in basso, la chiazza di Marea che copre il sentiero
+            dritto. Si ferma sotto una sporgenza dove tiene un osso mezzo
+            rosicchiato e un guscio di metallo che ha dissotterrato chissà dove. Ti
+            lascia prendere il guscio e si tiene l'osso. Poi se ne va con l'osso fra
+            i denti e la coda alta.
+          pe: { addestrare-animali: 5 }
+          imposta: { sup3.cane: 4 }
+          effetti: { reperto.sigillato: 1, racconto: 1 }
+
+      - testo: "Dargli qualcosa da mangiare e salutarlo"
+        descrizione: "Una crosta di pane e una grattata dietro le orecchie. Ha la sua strada, e tu la tua."
+        costo: 0
+        esito:
+          titolo: La crosta
+          testo: |
+            Gli dai la crosta che ti avanzava in tasca e lui la prende con
+            delicatezza, senza strapparla. Si lascia grattare dietro l'orecchio
+            buono, poi riparte al trotto verso i campi dei Raschiatori, e tu ti
+            accorgi che stai sorridendo da solo sul sentiero.
+          imposta: { sup3.cane: 4 }
+          effetti: { tormento: -0.5 }
+
+  # ================================================================ 45 · Ladro invisibile imperfetto
+  - id: carta-sup3-ladro-invisibile
+    immagine: icone/invisible
+    titolo: Il passo in più
+    sommario: "Fra i massi qualcuno ti cammina accanto, e lo vedi soltanto quando si muove."
+    luogo: Superficie Fratturata, un passaggio stretto fra i massi
+    tipo: carta
+    area: superficie-fratturata
+    testo: |
+      Nel passaggio stretto fra due massi la borsa che porti alla cintura si
+      sposta di lato, come sfiorata da un gomito. Poi senti un passo troppo
+      vicino alle tue spalle e ti giri con il cuore in gola. A prima vista non
+      c'è nessuno. Nella striscia di luce fra le rocce l'aria non combacia, e
+      c'è una sagoma che tremola come il caldo sopra un sasso al sole. La vedi
+      solo quando si muove, e quando si ferma sparisce.
+
+      Un altro passo, più svelto, alla tua sinistra. Senti un odore di cipolla
+      e di sudore, un odore molto umano, che un po' ti rassicura e un po' ti
+      fa arrabbiare. *I fantasmi non mangiano cipolle.* Le mani ti vanno alla
+      cintura da sole. Una stringe la borsa e l'altra l'arma, e nell'aria
+      davanti a te qualcosa trattiene il fiato insieme a te.
+    opzioni:
+      - testo: "Ascoltare dove posa i piedi"
+        descrizione: "Sulla ghiaia anche chi non si vede fa rumore. Se lo trovi lo prendi, se sbagli lui prende te."
+        quando: [monete >= 6]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il polso
+          testo: |
+            Chiudi gli occhi e ascolti la ghiaia. Il passo successivo arriva leggero
+            da destra e tu allunghi la mano senza guardare. Le dita ti si chiudono
+            su un polso magro e sudato che si divincola.
+          segue: carta-sup3-ladro-scoperto
+        fallimento:
+          titolo: La borsa più leggera
+          testo: |
+            Ti giri verso un passo e il passo successivo arriva dall'altra parte.
+            Senti un tocco alla cintura, poi una risatina che si allontana fra le
+            rocce. Quando controlli la borsa ha il laccio sciolto e dentro mancano
+            monete, quante bastano a farti male.
+          effetti: { monete: -6 }
+
+      - testo: "Ascoltare dove posa i piedi"
+        descrizione: "Sulla ghiaia anche chi non si vede fa rumore. Se lo trovi lo prendi, se sbagli lui prende te."
+        quando: [monete < 6]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il polso
+          testo: |
+            Chiudi gli occhi e ascolti la ghiaia. Il passo successivo arriva leggero
+            da destra e tu allunghi la mano senza guardare. Le dita ti si chiudono
+            su un polso magro e sudato che si divincola.
+          segue: carta-sup3-ladro-scoperto
+        fallimento:
+          titolo: La borsa vuota
+          testo: |
+            Ti giri verso un passo e il passo successivo arriva dall'altra parte.
+            Senti un tocco alla cintura, poi uno sbuffo deluso, perché nella tua
+            borsa c'è poco da prendere. Per dispetto ti arriva una spinta fra le
+            scapole che ti manda a sbattere con le ginocchia sulla ghiaia, e la
+            risatina si allontana fra le rocce.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Parlargli come se lo vedessi"
+        descrizione: "Chi ruba nascosto non vuole farsi notare. Se gli fai capire che l'hai notato, forse si può trattare."
+        quando: [monete >= 6]
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
+        successo:
+          titolo: L'affare
+          testo: |
+            Guardi un punto a caso nell'aria e dici che la puzza di cipolla si sente
+            fino a Laresh. Dopo un po' una voce di ragazzo ti risponde seccata dal
+            punto accanto. Trattate così, tu che parli a un masso e lui che si
+            sposta, e alla fine compri la tua tranquillità con quello che sa dei
+            campi dei Raschiatori. Il passo si allontana senza fretta.
+          pe: { ingannare: 5 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La borsa più leggera
+          testo: |
+            Parli al punto sbagliato dell'aria, e la risposta è un tocco leggero
+            alla cintura, dalla parte opposta. Quando ti volti c'è solo la striscia
+            di luce fra i massi. La borsa ha il laccio sciolto, e dentro mancano
+            monete, quante bastano a farti male.
+          effetti: { monete: -6 }
+
+      - testo: "Parlargli come se lo vedessi"
+        descrizione: "Chi ruba nascosto non vuole farsi notare. Se gli fai capire che l'hai notato, forse si può trattare."
+        quando: [monete < 6]
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
+        successo:
+          titolo: L'affare
+          testo: |
+            Guardi un punto a caso nell'aria e dici che la puzza di cipolla si sente
+            fino a Laresh. Dopo un po' una voce di ragazzo ti risponde seccata dal
+            punto accanto. Trattate così, tu che parli a un masso e lui che si
+            sposta, e alla fine compri la tua tranquillità con quello che sa dei
+            campi dei Raschiatori. Il passo si allontana senza fretta.
+          pe: { ingannare: 5 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La spinta
+          testo: |
+            Parli al punto sbagliato dell'aria, e la risposta è un tocco alla
+            cintura, poi uno sbuffo deluso, perché nella tua borsa c'è poco da
+            prendere. Per dispetto ti arriva una spinta che ti manda contro il masso
+            con la spalla, e la risatina si allontana fra le rocce.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Stringere la borsa e allungare il passo"
+        descrizione: "Una mano sulla borsa e l'altra sull'arma, e via dal passaggio. Si perde tempo, non monete."
+        esito:
+          titolo: Il passaggio stretto
+          testo: |
+            Esci dal passaggio camminando di traverso, con la schiena contro la
+            roccia e la borsa stretta nel pugno. Il passo ti segue per un tratto di
+            pianoro, sempre più svogliato, poi non lo senti più. Arrivi alle
+            terrazze con le dita indolenzite e la borsa intatta.
+
+  - id: carta-sup3-ladro-scoperto
+    immagine: icone/invisible-face
+    titolo: Il ragazzo con il disco
+    sommario: "Il ladro che non si vede ha un polso magro, un disco dei Precursori sul petto e molta voglia di andarsene."
+    luogo: Superficie Fratturata, un passaggio stretto fra i massi
+    tipo: seguito
+    area: superficie-fratturata
+    testo: |
+      Il polso che stringi si torce, e a ogni strattone l'aria intorno si
+      sfalda e lascia vedere un pezzo di chi c'è dentro. Prima una manica
+      rattoppata, poi un mento con tre peli di barba, poi tutto il resto, un
+      ragazzo magro con gli occhi spalancati e le guance rosse di fatica. Sul
+      petto, legato con due cinghie di cuoio, porta un disco di metallo dei
+      Precursori grande come un piattino. Il disco ronza e manda lampi storti,
+      come una lanterna che sta per spegnersi.
+
+      «Va bene, capo, va bene, mi hai preso» dice. «Mollami il polso, che se
+      mi tieni così mi si spegne del tutto, e poi chi lo riaccende, capo?» Ha
+      una cipolla mezza mangiata nella mano libera. *Il disco ce l'ha da poco,
+      e non sa usarlo.* Con il piede intanto cerca un appoggio buono per
+      scattare.
+    opzioni:
+      - testo: "Non mollarlo"
+        descrizione: "Appena si libera sparisce di nuovo. Per batterlo bisogna colpire dove l'aria non torna."
+        combattimento: ladro-invisibile
+        vittoria:
+          titolo: Il disco incrinato
+          testo: |
+            Lo colpisci quando l'aria tremola, e alla terza volta il ragazzo finisce
+            seduto sulla ghiaia con il disco che sfrigola e si spegne. Slacci le
+            cinghie e glielo togli, e lui non prova nemmeno a fermarti. Nelle tasche
+            ha monete di gente che non è stata svelta come te. Quando gli fai segno
+            di sparire, lo fa a piedi e ben visibile, voltandosi due volte.
+          effetti: { reperto.sigillato: 1, monete: 4 }
+        sconfitta:
+          titolo: La risatina
+          testo: |
+            Si libera con uno strattone e ritorna aria. Per un po' ti arrivano
+            gomitate e ginocchiate da dove non te le aspetti, finché ti ritrovi a
+            terra con il fiato corto. Quando ti rialzi il passaggio è vuoto, e da
+            lontano arriva la sua risatina, e un ronzio sempre più debole.
+
+      - testo: "Lasciarlo andare in cambio di quello che sa"
+        descrizione: "Un ladro che gira per la Superficie sa chi passa e dove. Il disco può tenerselo."
+        costo: 0
+        esito:
+          titolo: Quello che sa un ladro
+          testo: |
+            Gli lasci il polso, e lui se lo massaggia guardandoti di sbieco. Poi,
+            visto che resti lì senza colpirlo, comincia a parlare. Ti dice quale
+            carovana viaggia con le casse vuote per ingannare i predoni e quale
+            squadra di Raschiatori nasconde il grezzo sotto il carro. Se ne va a
+            piedi, con il disco spento sul petto.
+          effetti: { informazioni.pettegolezzo: 1, informazioni.voce: 1 }
+
+  # ================================================================ 47 · Voce nell'equipaggiamento
+  - id: carta-sup3-la-voce
+    immagine: icone/sound-waves
+    titolo: La voce nel metallo
+    sommario: "Una delle cose di metallo che porti addosso, mentre cammini, si mette a parlare."
+    luogo: Superficie Fratturata, una cresta battuta dal vento
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.voce == 0]
+    testo: |
+      Mentre cammini su una cresta battuta dal vento, qualcosa di metallo che
+      porti addosso manda un suono breve. Non sai dire quale, perché viene
+      dalla cintura o forse dalla sacca. Somiglia a una voce calma sentita dal
+      fondo di un pozzo, forse di donna. Delle parole ti arriva solo il tono,
+      quello paziente di una maestra che spiega una cosa per la seconda volta.
+
+      Ti fermi di colpo, e torna tutto zitto. Ti porti all'orecchio prima la
+      fibbia della cintura e poi una moneta, e ti senti molto stupido con una
+      moneta incollata all'orecchio in mezzo al niente. Il metallo è fermo e
+      freddo. *L'hai sentita, ne sei sicuro.* Riparti, e dopo dieci passi ti
+      accorgi che stai camminando piano per non coprirla.
+    opzioni:
+      - testo: "Cercare da dove viene"
+        descrizione: "Una voce che esce dal metallo ha una ragione. Bisogna trovarla prima che la testa ne inventi una."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: La polvere azzurra
+          testo: |
+            Fai e rifai la cresta avanti e indietro, e la voce torna soltanto quando
+            passi accanto alla crepa, dalla parte del bagliore. Il metallo che porti
+            è tiepido sul lato che la guarda. Ci passi il pollice e viene via una
+            polvere azzurra sottile come polline. La raccogli in un fazzoletto, e da
+            quel momento la voce non la senti più.
+          pe: { tecnologia: 10 }
+          imposta: { sup3.voce: 99 }
+          effetti: { reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Un'ora sulla cresta
+          testo: |
+            Passi un'ora a smontarti di dosso tutto il metallo e a ricomporlo, e la
+            voce non torna. Quando riparti, le mani ti sanno di ferro. Dopo un
+            tratto, appena hai smesso di pensarci, la voce dice una frase intera.
+          effetti: { sup3.voce: 1, tormento: 0.5 }
+
+      - testo: "Ascoltare finché non capisci le parole"
+        descrizione: "Ti siedi sulla cresta e aspetti trattenendo il fiato. Prima o poi la voce dirà qualcosa che si capisce."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il conto
+          testo: |
+            Resti seduto sulla cresta finché la voce torna, e questa volta la
+            capisci. Conta, lentamente, con la pazienza di una maestra, e arriva
+            fino a un certo numero e poi ricomincia da capo. Ascolti tre giri
+            interi. Alla fine sai a che numero si ferma, e da quel momento la voce
+            non torna più, come se avesse finito il suo lavoro.
+          pe: { resilienza: 10 }
+          imposta: { sup3.voce: 99 }
+          effetti: { informazioni.pettegolezzo: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Il numero
+          testo: |
+            La voce torna e conta, e tu conti con lei, e a un certo punto ti accorgi
+            che sei tu a contare a voce alta, sulla cresta, da solo. Ti fermi a metà
+            di un numero. Per tutta la sera, ogni volta che qualcosa tintinna, ti
+            scopri a trattenere il fiato.
+          effetti: { sup3.voce: 1, tormento: 1 }
+
+      - testo: "Fare finta di niente"
+        descrizione: "Sarà stato il vento in una fibbia. Sulla Superficie succedono cose più strane."
+        costo: 0
+        esito:
+          titolo: Il vento in una fibbia
+          testo: |
+            Ti dici che è stato il vento in una fibbia, e riprendi a camminare a
+            passo normale, poi un po' più svelto. Per adesso la voce non si fa più
+            sentire.
+          effetti: { sup3.voce: 1 }
+
+  - id: carta-sup3-la-voce-torna
+    immagine: icone/echo-ripples
+    titolo: La voce, di nuovo
+    sommario: "La voce nel metallo è tornata, e questa volta non viene dallo stesso posto."
+    luogo: Superficie Fratturata, sul bordo di una terrazza
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.voce >= 1, sup3.voce < 99]
+    testo: |
+      Questa volta la voce arriva mentre sei seduto sul bordo di una terrazza
+      a mangiare, e viene dalle monete. L'ultima volta, ne sei quasi sicuro,
+      veniva dalla lama. È più vicina e più chiara, con lo stesso tono
+      paziente, e adesso ti sembra di riconoscere qualche sillaba. Ti fa
+      venire in mente tua madre quando ti insegnava le preghiere, e la cosa
+      non ti piace per niente.
+
+      La notte scorsa hai messo tutto il metallo in un mucchio a dieci passi
+      dalla coperta, e la voce ha parlato dal mucchio finché non ti sei
+      addormentato. *Passa da una cosa all'altra, come un ospite che cambia
+      stanza.* Il pane ti si è seccato in bocca. Le monete adesso tacciono,
+      una sopra l'altra nel palmo, e ti accorgi di stringerle tanto da avere i
+      bordi stampati nella pelle.
+    opzioni:
+      - testo: "Cercare da dove viene"
+        descrizione: "Ormai la conosci un po'. Se la segui con metodo, forse capisci che cosa la fa parlare."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: La polvere azzurra
+          testo: |
+            Sposti le monete lontano dalla crepa e poi vicino, una mano alla volta,
+            finché capisci che parlano solo dalla parte del bagliore. Sul metallo
+            c'è una polvere azzurra sottile come polline, che con il pollice viene
+            via. La raccogli in un fazzoletto, ripulisci il resto del metallo che
+            porti, e la voce non la senti più.
+          pe: { tecnologia: 10 }
+          imposta: { sup3.voce: 99 }
+          effetti: { reliquie.scheggia: 1 }
+        fallimento:
+          titolo: La moneta che manca
+          testo: |
+            Ripulisci tutto quello che porti, una cosa alla volta, e ricomponi la
+            borsa. La voce, quando torna, viene da una moneta che non ricordi di
+            avere, con un conio che non conosci. La tieni lo stesso, perché buttarla
+            ti sembra peggio.
+          effetti: { sup3.voce: 1, tormento: 0.5 }
+
+      - testo: "Ascoltare finché non capisci le parole"
+        descrizione: "Le sillabe ormai si sentono. Ancora un poco, e forse si capisce che cosa dice."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il conto
+          testo: |
+            Ti siedi con le monete nel palmo e lasci che la voce parli. Conta,
+            lentamente, con la pazienza di una maestra, e arriva fino a un certo
+            numero e poi ricomincia. Ascolti tre giri interi senza muoverti. Quando
+            hai capito a che numero si ferma, la voce tace per sempre, come se
+            avesse finito il suo lavoro.
+          pe: { resilienza: 10 }
+          imposta: { sup3.voce: 99 }
+          effetti: { informazioni.pettegolezzo: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Le sillabe
+          testo: |
+            Più ascolti e meno capisci, e a un certo punto ti sembra che la voce
+            dica il tuo nome, poi che dica un nome qualunque. Smetti quando ti
+            accorgi che è buio e che il pane ti è caduto di mano chissà quando.
+          effetti: { sup3.voce: 1, tormento: 1 }
+
+      - testo: "Fare finta di niente, ancora"
+        descrizione: "Hai già fatto finta di niente, e ha funzionato fino a oggi."
+        costo: 0
+        esito:
+          titolo: Il pane secco
+          testo: |
+            Rimetti le monete nella borsa, stringi il laccio due volte e finisci il
+            pane senza sentirne il sapore. Per tutto il pomeriggio cammini con la
+            mano sulla borsa, e non sai se per tenerla chiusa o per sentire se si
+            muove.
+          effetti: { sup3.voce: 1, tormento: 0.5 }
+
+      - testo: "Gettare via il metallo"
+        descrizione: "Dopo tante volte, buttare in una crepa tutto quello che parla sembra una buona idea. Le monete però sono monete."
+        quando: [sup3.voce >= 3, monete >= 4]
+        esito:
+          titolo: Nella crepa
+          testo: |
+            Svuoti nella prima crepa che trovi le monete e le fibbie, e resti ad
+            ascoltare il tintinnio che scende nel bagliore finché non lo senti più.
+            La voce tace. Per qualche giorno ti senti più leggero, e poi ti accorgi
+            che ti manca, come manca il ticchettio di un orologio fermo.
+          imposta: { sup3.voce: 99 }
+          effetti: { monete: -4, tormento: -0.5 }
+
+  # ================================================================ 48 · Maschera attiva
+  - id: carta-sup3-la-maschera
+    immagine: icone/ceremonial-mask
+    titolo: La maschera nella polvere
+    sommario: "In una nicchia di basalto c'è una maschera di metallo intatta, e la luce su di lei si muove più di quanto dovrebbe."
+    luogo: Superficie Fratturata, una nicchia nel basalto
+    tipo: carta
+    area: superficie-fratturata
+    requisiti: [sup3.maschera == 0]
+    testo: |
+      In una nicchia scavata nel fianco di un gradone, coperta di polvere fino
+      a metà, c'è una maschera rivolta verso l'alto. È di un metallo grigio
+      con dei riflessi che girano come l'olio sull'acqua, e non ha una crepa
+      né un'ammaccatura. Ha due fori per gli occhi e niente bocca. Intorno,
+      sul fondo della nicchia, qualcuno ha disposto in cerchio una fila di
+      sassolini bianchi, tutti della stessa misura.
+
+      Quando ti avvicini il riflesso sulla maschera scivola lento, più di
+      quanto giustifichi il tuo passo. La maschera resta ferma. Ti fermi anche
+      tu, e il riflesso continua a scivolare ancora un poco prima di fermarsi.
+      *Lei ti ha visto prima che la vedessi tu.* La mano ti era già partita da
+      sola verso la nicchia. La ritiri e te la pulisci sui pantaloni, anche se
+      non hai toccato niente.
+    opzioni:
+      - testo: "Indossarla"
+        descrizione: "Sembra fatta per il tuo viso. Quello che si vede da dentro lo paga la testa."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Le crepe come fiumi
+          testo: |
+            La maschera ti si appoggia sul viso fredda e leggera. Attraverso i fori
+            la Superficie perde colore, tutta tranne le crepe, che diventano fiumi
+            di luce che scorrono sotto la terra, e per qualche respiro sai dove il
+            terreno è vuoto e dove regge. Poi il metallo si scalda e te la togli. Ti
+            resta un segno rosso sulla fronte. La maschera, nella nicchia, è
+            diventata opaca.
+          pe: { percezione: 10, natura: 5 }
+          imposta: { sup3.maschera: 1 }
+          effetti: { tormento: 0.5 }
+        fallimento:
+          titolo: La presa
+          testo: |
+            Vedi le crepe accendersi sotto la terra come fiumi, e quando provi a
+            toglierla la maschera non viene via. Resta incollata alla pelle per un
+            tempo che non sai misurare, mentre i fiumi di luce ti scorrono anche
+            dietro gli occhi chiusi. Si stacca da sola, di colpo. Ti ritrovi in
+            ginocchio con il sangue dal naso e la maschera opaca fra le mani.
+          pe: { percezione: 10 }
+          imposta: { sup3.maschera: 1 }
+          effetti: { tormento: 1.5, contaminazione: 0.5 }
+
+      - testo: "Studiarla senza toccarla"
+        descrizione: "Con un bastoncino la si può girare e guardare da vicino. Chi l'ha fatta ha lasciato dei segni."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: Il lavoro di un fabbro
+          testo: |
+            La giri con un bastoncino. Dentro, il metallo porta i colpi di un
+            martello piccolo, e sul bordo corre una fila di segni che copiano la
+            scrittura dei Precursori lettera per lettera, senza capirla. All'altezza
+            della fronte è incastonata una scheggia di cristallo che pulsa ancora.
+            L'ha battuta un fabbro che sapeva lavorare il lyssan e che le Maschere
+            dei racconti, forse, le aveva viste da vicino.
+          pe: { accademiche: 10 }
+          imposta: { sup3.maschera: 1 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: I fori degli occhi
+          testo: |
+            Ti chini per guardarla meglio e resti a fissare i fori degli occhi più a
+            lungo di quanto vorresti, perché dentro, invece del fondo della nicchia,
+            ti sembra di vedere un cielo diverso. Quando ti rialzi hai le ginocchia
+            intorpidite e il sole è sceso di parecchio.
+          imposta: { sup3.maschera: 1 }
+          effetti: { tormento: 0.5 }
+
+      - testo: "Coprirla di polvere e andare"
+        descrizione: "Chi l'ha messa lì, con i sassolini intorno, voleva che restasse lì."
+        costo: 0
+        esito:
+          titolo: La polvere
+          testo: |
+            Con il piede spingi la polvere sopra la maschera finché il riflesso
+            sparisce. I sassolini li lasci dove sono. Quando sei sul gradone di
+            sopra ti accorgi che stai camminando con il viso girato dall'altra
+            parte, come per non farti riconoscere.
+          imposta: { sup3.maschera: 1 }

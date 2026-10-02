@@ -1,0 +1,1331 @@
+# La Superficie Fratturata: gli incontri che ritornano (tabella 5, 8, 46) e la Frattura che respira (9).
+# Carte del mazzo della Superficie in più stadi, più tre storylet fissi alle terrazze di basalto.
+# Nomi nuovi, che il Codex non dà: Edric Vasso (il Cavaliere, scorta dei carri del grano di Laresh) e Sorba
+# (la sua cavalla).
+#
+# IL MERCANTE DELLA MEMORIA RESIDUA (5)
+#   mercante.incontri  sale di 1 a ogni carta giocata (ogni opzione con costo).
+#     0      carta-sup-mercante-primo    l'anello (racconto -1 → tormento -1), la lama (pe.armi-da-mischia → 0,
+#                                        impugnatura-2), rifiutare, aggredirlo (sparisce, reperto -1).
+#     1..3   carta-sup-mercante          uno scambio diverso per ogni visita (quando incontri == 1, 2, 3):
+#                                        rep.grifone -1 → 2 reperti; pe.resilienza → 0 → tormento -1;
+#                                        rep.raschiatori -1 → camera-3. Più rifiutare, aggredirlo e le vendite.
+#     >= 4   carta-sup-mercante-scatola  il finale, finché mercante.scatola == 0.
+#   mercante.scatola   0 chiusa e sul panno; 1 aperta (pe resilienza 20, racconto, tormento +1);
+#                      2 lasciata a lui (nucleo-3). Da 1 in poi: carta-sup-mercante-dopo, ripetibile, con
+#                      racconto -1 → tormento -1 e pe.tecnologia → 0 → 2 reperti.
+#   Vendite del congegno di Oda (carte -mercante e -dopo): quando banco.parti >= 4; con banco.stranezza >= 4
+#   un ricordo (pe 15 in un'abilità e tormento -1), con banco.stranezza >= 7 pe 30 e nucleo-3. Ogni vendita
+#   azzera tutte le banco.*.
+#   Con bambino.distrutto == 1 il Mercante si prende il ricordo del bambino (pe.empatia → 0, tormento -1,
+#   bambino.distrutto 2).
+#
+# IL BAMBINO SENZA IMPRONTE (8)
+#   bambino.stadio   quante volte l'hai accolto (0–3).
+#   bambino.via      1 quando l'hai mandato via e non è tornato; bambino.rifiuti conta i rifiuti.
+#   bambino.fine     0 aperta, 1 entrato in te, 2 tornato nella Marea, 3 rifiutato per sempre, 4 distrutto.
+#   bambino.distrutto 1 se l'hai distrutto (la Marea lo registra; lo nota il Mercante), 2 dopo il Mercante.
+#     carta-sup-bambino        stadio 0, rifiuti 0      accogli → stadio 1; rifiuta → via 1, rifiuti 1;
+#                                                       colpisci (Media) → fine 4.
+#     carta-sup-bambino-torna  via 1, rifiuti 1         torna una volta sola: accogli → stadio +1, via 0;
+#                                                       rifiuta → fine 3; colpisci (Media) → fine 4.
+#     carta-sup-bambino-2      stadio 1, via 0          tieni → stadio 2 (reperto, contaminazione);
+#                                                       lascia (rifiuti 0) → via 1, rifiuti 1;
+#                                                       lascia per sempre (rifiuti 1) → fine 3;
+#                                                       colpisci (Media) → fine 4.
+#     carta-sup-bambino-3      stadio 2, via 0          tieni → stadio 3 (camera-2, contaminazione);
+#                                                       lascia come sopra; colpisci (Difficile).
+#     carta-sup-bambino-fine   stadio 3, via 0          lascialo entrare (fine 1); riportalo alla Marea
+#                                                       (Difficile, nucleo-3, fine 2); distruggilo
+#                                                       (sagome-della-marea; se perdi entra lo stesso).
+#   La carta -torna riporta il bambino allo stadio dopo quello in cui l'hai lasciato (stadio +1).
+#
+# IL CAVALIERE DELLA MAREA (46)
+#   cavaliere.incontri sale a ogni carta giocata; cavaliere.memoria 0–3 i frammenti d'identità restituiti;
+#   cavaliere.fine 0 aperta, 1 abbattuto (involucro-3, racconto), 2 finale dialogato.
+#     carta-sup-cavaliere        incontri 0                 combatti, saluta (memoria 0 → 1), giragli al largo.
+#     carta-sup-cavaliere-torna  incontri >= 1, memoria <= 2  combatti; saluta (0 → 1, Media); chiedigli della
+#                                                       strada (1 → 2, Media); raccontagli chi era
+#                                                       (2 → 3, Difficile); giragli al largo.
+#     carta-sup-cavaliere-nome   memoria 3                  ti chiede di finirlo: lo fai (involucro-3) o lo
+#                                                       mandi a casa (impugnatura-3). Racconto in tutti e due.
+#
+# LA FRATTURA CHE RESPIRA (9), alle terrazze di basalto
+#   frattura.respiro (0–4) e frattura.spenta sono in area.yaml; frattura.premio è qui.
+#     sup-frattura-che-respira   ripetibile, respiro < 4 e spenta 0: stabilizzarla (una prova per ogni
+#                                passo, quando respiro == 0..3), distruggerla (spenta 1), andarsene.
+#     sup-frattura-respiro-lungo respiro >= 4 e premio 0: la camera-3 o la lezione; a un'ora di cammino si
+#                                accende il Nodo dei Precursori (la spedizione è di un altro file).
+#     sup-frattura-cicatrice     ripetibile, spenta 1: le cose cadono due volte o nessuna.
+quality:
+  - { id: mercante.incontri, nome: "Il Mercante della Memoria Residua", categoria: stato, nascosta: true, descrizione: "Quante volte hai incontrato il mercante seduto sulla cassa. Alla quarta ti offre la scatola piccola." }
+  - { id: mercante.scatola, nome: "La scatola del Mercante", categoria: stato, nascosta: true, descrizione: "La scatola piccola del Mercante, 0 se è ancora sul panno, 1 se l'hai aperta, 2 se gliel'hai lasciata chiusa." }
+  - { id: bambino.stadio, nome: "Il bambino senza impronte", categoria: stato, nascosta: true, descrizione: "Quante volte hai accolto il bambino senza impronte, da 0 a 3." }
+  - { id: bambino.via, nome: "Il bambino mandato via", categoria: stato, nascosta: true, descrizione: "1 se hai mandato via il bambino senza impronte e non l'hai ancora ritrovato." }
+  - { id: bambino.rifiuti, nome: "I rifiuti al bambino", categoria: stato, nascosta: true, descrizione: "Quante volte hai mandato via il bambino senza impronte. Torna una volta sola." }
+  - { id: bambino.fine, nome: "Com'è finita con il bambino", categoria: stato, nascosta: true, descrizione: "0 se la storia è aperta, 1 se l'hai fatto entrare, 2 se è tornato nella Marea, 3 se l'hai rifiutato per sempre, 4 se l'hai distrutto." }
+  - { id: bambino.distrutto, nome: "La Marea ricorda il bambino", categoria: stato, nascosta: true, descrizione: "1 se hai distrutto il bambino senza impronte e la Marea l'ha registrato, 2 se poi il Mercante te ne ha preso il ricordo." }
+  - { id: cavaliere.incontri, nome: "Il Cavaliere della Marea", categoria: stato, nascosta: true, descrizione: "Quante volte hai incontrato il Cavaliere della Marea sul sentiero." }
+  - { id: cavaliere.memoria, nome: "Quello che il Cavaliere ricorda", categoria: stato, nascosta: true, descrizione: "I frammenti d'identità che hai restituito al Cavaliere della Marea, da 0 a 3. A 3 ricorda il suo nome." }
+  - { id: cavaliere.fine, nome: "Com'è finita con il Cavaliere", categoria: stato, nascosta: true, descrizione: "0 se la storia è aperta, 1 se l'hai abbattuto, 2 se gli hai restituito il nome e hai fatto quello che ti ha chiesto." }
+  - { id: frattura.premio, nome: "Il dono della Frattura", categoria: stato, nascosta: true, descrizione: "1 se la Frattura stabilizzata ti ha già dato il suo dono." }
+
+storylet:
+  # ================================================================ il Mercante della Memoria Residua (5)
+  - id: carta-sup-mercante-primo
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/wooden-crate
+    titolo: Il mercante sulla cassa
+    sommario: "In mezzo a un pianoro senza strade un uomo seduto su una cassa ti aspetta, e ha davanti delle cose che dice tue."
+    luogo: Superficie Fratturata, un pianoro di ghiaia fra due terrazze
+    requisiti: [mercante.incontri == 0]
+    testo: |
+      Il pianoro è uno di quelli dove il vento non trova niente da spostare, tutto ghiaia grigia fino alle terrazze. In mezzo, su una
+      cassa di legno con gli spigoli consumati, siede un uomo con una giacca di
+      lana troppo leggera per la Superficie. Non ha un fuoco né un mulo, e intorno
+      alla cassa la ghiaia è intatta. Su un panno steso a terra ha messo una lama
+      annerita e un anello scheggiato. In un angolo del panno c'è una scatola
+      piccola chiusa con un gancio d'ottone.
+
+      Quando arrivi a qualche passo alza la testa e ti sorride come si sorride a
+      un nipote che arriva tardi a pranzo. «Finalmente» dice, e indica il panno
+      con la mano aperta. «Queste sono cose tue, e te le posso rendere. Oppure ti
+      do qualcosa di meglio.» Appoggia due dita sull'anello. «Monete però non ne
+      uso.»
+
+      *Non hai mai portato un anello in vita tua.* Intanto il pollice, per conto
+      suo, è andato a cercare l'anulare.
+    opzioni:
+      - testo: "Riprendere l'anello"
+        descrizione: "In cambio vuole una storia che non hai ancora raccontato. Una sola, e poi non ce l'hai più."
+        requisiti: [racconto >= 1]
+        esito:
+          titolo: L'anello scheggiato
+          testo: |
+            Gli racconti la storia a voce, come la racconteresti al Grifone, perché lui
+            te la chiede così. Ascolta con gli occhi chiusi e alla fine batte due dita
+            sul coperchio della cassa. L'anello ti entra al dito senza forzare, e sotto
+            la pelle ha già il segno chiaro di un anello portato a lungo. Tornando verso
+            le mura respiri più largo, come dopo una febbre passata. La sera, al
+            Grifone, apri la bocca per raccontare qualcosa a Liaren e non ti viene in
+            mente niente.
+          effetti: { racconto: -1, tormento: -1, mercante.incontri: 1 }
+      - testo: "Prendere la lama annerita"
+        descrizione: "Vuole tutto quello che hai imparato finora con la spada in mano. La lama è da buttare, l'impugnatura no."
+        requisiti: [pe.armi-da-mischia >= 10]
+        esito:
+          titolo: Mani nuove
+          testo: |
+            «Soltanto l'ultimo tratto» dice, «quello che hai imparato da quando hai
+            smesso di contare i lividi.» Ti prende il polso con due dita fredde e
+            asciutte e lo gira piano, una volta per parte. Poi ti mette in mano la lama.
+            Il ferro è bruciato fino al codolo, e l'impugnatura è di un metallo liscio e
+            scuro, fatta per una mano più lunga della tua. Quando provi a metterti in
+            guardia, per scherzo, i piedi non sanno più dove andare e il gomito si alza
+            troppo, come il primo giorno.
+          imposta: { pe.armi-da-mischia: 0 }
+          effetti: { parte.impugnatura-2: 1, mercante.incontri: 1 }
+      - testo: "Dirgli di no"
+        descrizione: "Con garbo. Non sembra il tipo da offendersi, e nemmeno da arrendersi."
+        esito:
+          titolo: Alla prossima
+          testo: |
+            Gli dici che non ti serve niente, e lui annuisce come se gli avessi dato
+            ragione. Raccoglie gli oggetti nel panno uno alla volta e ne annoda gli
+            angoli con cura. «Allora alla prossima» dice. «Io resto da queste parti, e
+            tu da queste parti ci passi spesso.» Te ne vai senza voltarti fino al bordo
+            del pianoro. Quando ti volti la cassa è ancora lì, e l'uomo alza la mano in
+            un saluto piccolo, da vicino di casa.
+          effetti: { mercante.incontri: 1 }
+      - testo: "Aggredirlo"
+        descrizione: "Un uomo da solo in mezzo al nulla che sa cose tue. Se è un uomo, ha paura delle lame come tutti."
+        esito:
+          titolo: La cassa vuota
+          testo: |
+            Fai due passi verso di lui con la mano sull'arma. Lui sospira come davanti a
+            un cliente insolvente e si alza. Nel tempo che ti serve per il terzo passo
+            sul pianoro resta soltanto la cassa, con il coperchio aperto e niente
+            dentro, e del panno non c'è più traccia. Giri su te stesso due volte con il
+            cuore in gola. Al ritorno, frugando nella sacca, ti accorgi che manca
+            qualcosa, e per quanto ci pensi non riesci a ricordare che cosa.
+          effetti: { reperto.sigillato: -1, tormento: 0.5, mercante.incontri: 1 }
+
+  - id: carta-sup-mercante
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/wooden-crate
+    titolo: Di nuovo la cassa
+    sommario: "Il mercante senza monete è seduto sulla sua cassa in un posto diverso, e ti saluta come se vi foste lasciati ieri."
+    luogo: Superficie Fratturata, in mezzo al sentiero delle terrazze
+    requisiti: [mercante.incontri >= 1, mercante.incontri <= 3]
+    testo: |
+      Stavolta la cassa sta proprio in mezzo al sentiero, e l'uomo con la giacca
+      di lana ci sta seduto con le gambe accavallate e il panno steso sulle
+      ginocchia. Il vento gli muove i capelli e lui non se ne accorge. Ti saluta
+      per nome, e il nome non ricordi di averglielo mai detto.
+
+      Sul panno adesso ci sono altre cose. Riconosci un bottone d'osso che
+      potrebbe essere stato di una tua giacca, e una chiave da armadio che non
+      apre nessun armadio che conosci. La scatola piccola è sempre nel suo angolo,
+      con il gancio chiuso. Se sul banco di Oda c'è un congegno finito, lui lo sa
+      già, e te ne chiede notizie prima di ogni altra cosa.
+
+      «Ho pensato a te» dice, battendo due dita sul coperchio. «A quello che ti
+      pesa e a quello che ti manca. Vediamo di fare pari.» Ti accorgi di avere già
+      le mani in tasca a contare quello che hai.
+    opzioni:
+      - testo: "Cedergli le sere al Grifone"
+        descrizione: "Al Grifone si ricorderanno un po' meno di te. In cambio due reperti sigillati, ancora sporchi di terra."
+        quando: [mercante.incontri == 1]
+        requisiti: [rep.grifone >= 1]
+        esito:
+          titolo: Una sedia libera
+          testo: |
+            Gli racconti una sera qualsiasi al Grifone, e lui ti ferma a metà con la
+            mano alzata perché gli basta. In cambio ti dà due reperti avvolti in carta
+            oleata, pesanti come sassi di fiume. Quella sera, alla locanda, Liaren ti
+            porge la lista delle stanze come si fa con i forestieri, e un Raschiatore
+            con cui hai diviso più di un boccale ti chiede se sei nuovo in città. Ridi,
+            e lui ride con te per gentilezza.
+          effetti: { rep.grifone: -1, reperto.sigillato: 2, mercante.incontri: 1 }
+      - testo: "Lasciargli la paura"
+        descrizione: "Quel giorno che ti torna in mente di notte se lo prende lui. Con la paura se ne va quello che ti ha insegnato a reggerla."
+        quando: [mercante.incontri == 2]
+        requisiti: [pe.resilienza >= 10]
+        esito:
+          titolo: Il giorno che non torna
+          testo: |
+            «Quello» dice, prima che tu abbia scelto quale, e ha ragione lui. Ti chiede
+            di pensarci un'ultima volta. Ci pensi con le unghie piantate nei palmi, e
+            lui annuisce piano finché la cosa si fa piccola e lontana e poi sparisce.
+            Per giorni dormi fino all'alba. La prima volta che qualcosa ti spaventa
+            davvero, però, ti ritrovi a tremare al buio come un ragazzo al primo turno
+            di scavo, senza sapere da dove si cominci a tenere duro.
+          imposta: { pe.resilienza: 0 }
+          effetti: { tormento: -1, mercante.incontri: 1 }
+      - testo: "Cedergli il nome di un compagno"
+        descrizione: "Un Raschiatore con cui hai diviso la corda. Vi dimenticherete a vicenda, e il mercante paga con una camera rara."
+        quando: [mercante.incontri == 3]
+        requisiti: [rep.raschiatori >= 1]
+        esito:
+          titolo: Il polso tranquillo
+          testo: |
+            Dici un nome, e mentre lo dici ti accorgi che è l'ultima volta. Il mercante
+            apre la mano, e sul palmo c'è una camera di cristallo che batte piano, al
+            ritmo di un polso tranquillo. Te la chiude fra le dita. La settimana dopo,
+            al Grifone, un uomo con la barba bruciata da una parte ti passa accanto al
+            bancone e ti guarda a lungo, come se dovesse dirti qualcosa. Poi si stringe
+            nelle spalle e torna dai suoi.
+          effetti: { rep.raschiatori: -1, parte.camera-3: 1, mercante.incontri: 1 }
+      - &mercante-bambino
+        testo: "Cedergli il bambino"
+        descrizione: "Sa che cosa hai fatto sul ciglio del sentiero, e se lo prende volentieri. Con il ricordo se ne va quello che stavi imparando sulla gente."
+        quando: [bambino.distrutto == 1]
+        requisiti: [pe.empatia >= 10]
+        esito:
+          titolo: Nessun bambino
+          testo: |
+            «Questo pesa più degli altri» dice, e per la prima volta non sorride. Glielo
+            racconti dall'inizio, la polvere senza impronte e il resto. Lui ascolta a
+            testa china, poi ripiega il panno lentamente, un angolo dopo l'altro, come
+            si piega un lenzuolo. Tornando in città non ricordi più perché da qualche
+            tempo eviti di guardare i bambini per la strada, e smetti di evitarli. Però
+            fai fatica a capire che cosa vogliono le persone quando tacciono, e la cosa
+            ti sembra nuova.
+          imposta: { pe.empatia: 0, bambino.distrutto: 2 }
+          effetti: { tormento: -1, mercante.incontri: 1 }
+      - testo: "Vendergli il congegno di Oda"
+        descrizione: "Il congegno sul banco è abbastanza strano da piacergli. In cambio ti rende un ricordo d'infanzia, e con il ricordo un occhio più attento."
+        quando: [banco.parti >= 4]
+        requisiti: [banco.stranezza >= 4]
+        esito:
+          titolo: I sassi colorati
+          testo: |
+            Prende il congegno con tutte e due le mani e se lo porta all'orecchio, e il
+            congegno, che da Oda ronzava sempre, tace. Lui sorride soddisfatto. Poi ti
+            tocca la fronte con due dita, e ti torna in mente un pomeriggio d'estate
+            passato con un amico a cercare i sassi colorati nel greto di un fiume. Lui
+            li trovava tutti e tu nessuno, finché non hai capito dove guardare.
+            Tornando, i sassi del sentiero ti sembrano tutti diversi.
+          pe: { percezione: 15 }
+          imposta: { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+          effetti: { tormento: -1, mercante.incontri: 1 }
+      - testo: "Vendergli il congegno per un'estate"
+        descrizione: "Lo stesso congegno, un altro ricordo. Questo ti torna nelle gambe."
+        quando: [banco.parti >= 4]
+        requisiti: [banco.stranezza >= 4]
+        esito:
+          titolo: Il fosso
+          testo: |
+            Gira il congegno fra le mani come un melone al mercato, e una luce che sul
+            banco non si era mai accesa si accende e resta accesa. «Questo sì» dice. In
+            cambio ti restituisce una mattina di quando eri piccolo, il fosso dietro
+            casa che nessuno riusciva a saltare e tu che lo saltavi, una volta sola, con
+            il fiato che ti scoppiava in petto. Ti viene voglia di correre, e per un
+            tratto di sentiero lo fai.
+          pe: { atletica: 15 }
+          imposta: { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+          effetti: { tormento: -1, mercante.incontri: 1 }
+      - testo: "Vendergli il congegno che non dovrebbe esistere"
+        descrizione: "Sul banco di Oda è uscito qualcosa di molto strano, e lui lo vuole davvero. Paga con un ricordo intero e con un nucleo raro."
+        quando: [banco.parti >= 4]
+        requisiti: [banco.stranezza >= 7]
+        esito:
+          titolo: Una notte intera
+          testo: |
+            Quando vede il congegno il mercante si alza in piedi, ed è la prima volta
+            che lo vedi alzarsi senza sparire. Lo prende con tutte e due le mani, piano.
+            Dalla cassa tira fuori un nucleo grigio e freddo e te lo posa sul palmo. Poi
+            ti restituisce una notte di febbre di quando eri piccolo, in cui qualcuno ti
+            ha vegliato fino all'alba, e adesso sai chi era e come si chiamava la
+            canzone che cantava. Ti senti più saldo, come una casa a cui hanno rifatto
+            il tetto.
+          pe: { resilienza: 30 }
+          imposta: { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+          effetti: { parte.nucleo-3: 1, mercante.incontri: 1 }
+      - testo: "Dirgli di no"
+        descrizione: "Con lui un no vale fino alla prossima volta."
+        esito:
+          titolo: Al caldo
+          testo: |
+            Scuoti la testa, e lui rimette le cose nel panno senza insistere, con la
+            cura di un orologiaio. «Le cose tue non scappano, te le tengo io al caldo»
+            dice. Quando te ne vai lo senti fischiettare una canzone che conosci, e solo
+            a metà strada ti accorgi che non sai dove l'hai imparata.
+          effetti: { mercante.incontri: 1 }
+      - testo: "Aggredirlo"
+        descrizione: "L'altra volta forse eri troppo lento. O forse a lui non si arriva."
+        esito:
+          titolo: Il coperchio alzato
+          testo: |
+            Stavolta non arrivi nemmeno a toccare l'arma. Lui si alza e ti fa un mezzo
+            inchino, e quando sbatti le palpebre sul sentiero c'è soltanto la cassa,
+            vuota, con il coperchio alzato. Per tutto il giorno senti un vuoto
+            all'altezza dello stomaco, come quando si scende una scala al buio e manca
+            un gradino. La sera, svuotando la sacca, trovi lo spazio dove c'era
+            qualcosa, e il qualcosa non c'è più.
+          effetti: { reperto.sigillato: -1, tormento: 0.5, mercante.incontri: 1 }
+
+  - id: carta-sup-mercante-scatola
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/locked-box
+    titolo: La scatola piccola
+    sommario: "Sul panno del mercante c'è soltanto la scatola piccola, e stavolta il gancio è aperto."
+    luogo: Superficie Fratturata, sull'orlo di una crepa azzurra
+    requisiti: [mercante.incontri >= 4, mercante.scatola == 0]
+    testo: |
+      Il mercante ha messo la cassa sull'orlo di una crepa, dove sale il bagliore
+      azzurro, e sul panno stavolta c'è una cosa sola. È la scatola piccola, al
+      centro, con il gancio d'ottone aperto e il coperchio ancora abbassato.
+      Stavolta non sorride, e ti guarda arrivare con le mani sulle ginocchia e la
+      serietà di un notaio alla lettura di un testamento.
+
+      «Questa è l'ultima cosa tua che ho» dice. «L'hai lasciata qui tu, la prima
+      volta.» Gli fai notare che la prima volta era sul pianoro. Lui inclina la
+      testa con l'aria divertita e lascia correre. «La posso aprire per te, oppure
+      me la tengo e te la pago bene. Decidi con calma, io qui sto bene» aggiunge,
+      e si liscia la giacca sulle ginocchia.
+
+      *Del pianoro ti ricordi, e di niente prima.* Le dita ti si muovono verso il
+      gancio prima che tu abbia deciso.
+    opzioni:
+      - testo: "Aprire la scatola"
+        descrizione: "Dentro c'è qualcosa che hai lasciato tu. Saperlo potrebbe costarti più di quanto vale."
+        esito:
+          titolo: La tua calligrafia
+          testo: |
+            Dentro c'è un foglio piegato in quattro, con la carta morbida come stoffa a
+            forza di essere aperta e richiusa. La calligrafia è la tua com'era una
+            volta, più minuta di adesso. C'è scritto *Non comprare niente da lui*, e
+            sotto, con un inchiostro diverso, *Ho comprato lo stesso*. Il mercante ride
+            piano e senza cattiveria, battendo due dita sulla cassa. Tieni il foglio in
+            mano per tutto il ritorno. In città lo rileggi ancora una volta, e c'è una
+            terza riga, che prima non c'era, con scritto *Va bene così*.
+          pe: { resilienza: 20 }
+          imposta: { mercante.scatola: 1 }
+          effetti: { racconto: 1, tormento: 1, mercante.incontri: 1 }
+      - testo: "Lasciargliela chiusa"
+        descrizione: "Resta a lui, con quello che c'è dentro. In cambio paga con un nucleo raro, di quelli che si ricordano le cose."
+        esito:
+          titolo: Pari
+          testo: |
+            Lui annuisce come se fosse la risposta giusta, e la scatola sparisce dentro
+            la cassa insieme al panno. Dalla tasca della giacca tira fuori un nucleo
+            grigio grande come una noce e te lo mette in mano. «Adesso siamo pari» dice,
+            ed è la prima volta che lo dice. La notte, con il nucleo sul comodino, sogni
+            una stanza bassa con una finestra sul mare. Al risveglio sai il colore delle
+            tende, e sei sicuro di non esserci mai stato.
+          imposta: { mercante.scatola: 2 }
+          effetti: { parte.nucleo-3: 1, mercante.incontri: 1 }
+
+  - id: carta-sup-mercante-dopo
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/wooden-crate
+    titolo: Il mercante senza monete
+    sommario: "La cassa, il panno, la giacca di lana. Ormai vi salutate come due che fanno affari da anni."
+    luogo: Superficie Fratturata, all'ombra di un anello mezzo sepolto
+    requisiti: [mercante.scatola >= 1]
+    testo: |
+      Lo trovi seduto sulla cassa all'ombra di un anello di metallo mezzo sepolto,
+      nel posto più fresco della giornata, e ti fa spazio sul bordo della cassa
+      come a un collega. Ha portato due tazze di latta e una brocca di tè freddo,
+      e la sua tazza resterà piena fino alla fine. Ormai parlate delle frane e del
+      tempo prima di cominciare. Chiede notizie di Oda, che non ha mai visto, e sa
+      della gamba di legno intagliata.
+
+      Sul panno ci sono le solite cose che ti somigliano, e in mezzo qualcuna che
+      è tua davvero. «Allora» dice, battendo due dita sul coperchio. «Cos'è che ti
+      pesa oggi, e cos'è che ti manca?»
+    opzioni:
+      - testo: "Cedergli una storia"
+        descrizione: "Una storia che tenevi da parte per il Grifone. Lui se la prende, e con lei un po' di quello che ti tiene sveglio."
+        requisiti: [racconto >= 1]
+        esito:
+          titolo: Una storia in meno
+          testo: |
+            Gliela racconti fino in fondo, con le pause giuste, e lui ride nei punti in
+            cui avrebbe riso Liaren. Quando hai finito ti accorgi di averla già
+            dimenticata, e con lei un pensiero che ti girava in testa da giorni, di
+            quelli che tornano la notte. Sulla strada di casa ti scopri a canticchiare,
+            cosa che non ti succedeva da un pezzo.
+          effetti: { racconto: -1, tormento: -1 }
+      - testo: "Cedergli quello che impari con le mani"
+        descrizione: "Le ore al banco di Oda, quelle che non sono ancora diventate mestiere. Paga con due reperti sigillati."
+        requisiti: [pe.tecnologia >= 10]
+        esito:
+          titolo: Dita goffe
+          testo: |
+            Ti fa aprire e chiudere le mani tre volte come farebbe un medico, poi ti
+            posa sulle ginocchia due reperti sigillati ancora sporchi di terra. Da Oda,
+            il giorno dopo, prendi in mano un cacciavite dalla parte sbagliata. Lei ti
+            guarda a lungo senza dire niente, poi ti toglie l'attrezzo di mano e
+            ricomincia a spiegarti tutto da capo, con la pazienza che aveva con te il
+            primo giorno.
+          imposta: { pe.tecnologia: 0 }
+          effetti: { reperto.sigillato: 2 }
+      - *mercante-bambino
+      - testo: "Vendergli il congegno di Oda"
+        descrizione: "Il congegno è abbastanza strano da piacergli. Ti rende un inverno di quando eri piccolo, e con l'inverno le mani di un meccanico."
+        quando: [banco.parti >= 4]
+        requisiti: [banco.stranezza >= 4]
+        esito:
+          titolo: La sveglia rotta
+          testo: |
+            Il mercante apre il congegno con le unghie e ci guarda dentro come si guarda
+            in un pozzo. Approva con un grugnito. In cambio ti rende un inverno di
+            quando eri piccolo, passato sotto un tavolo a smontare una sveglia rotta e a
+            rimontarla con un pezzo in meno. Adesso ricordi dove andava quel pezzo, e ti
+            prudono le dita per tutto il ritorno.
+          pe: { tecnologia: 15 }
+          imposta: { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+          effetti: { tormento: -1 }
+      - testo: "Vendergli il congegno per una mattina al mercato"
+        descrizione: "Lo stesso congegno, un altro ricordo. Questo ti torna sulla lingua."
+        quando: [banco.parti >= 4]
+        requisiti: [banco.stranezza >= 4]
+        esito:
+          titolo: Le uova della signora
+          testo: |
+            Il mercante scuote il congegno, e il congegno risponde con un suono lungo e
+            pulito, quello di un dito bagnato sull'orlo di un bicchiere. «Bene» dice. Ti
+            restituisce una mattina al mercato, da bambino, quando hai venduto a una
+            signora con il cappello di paglia una cesta di uova che aveva già comprato
+            da un'altra parte. Ti ricordi le parole esatte che le hai detto, e ti viene
+            da ridere.
+          pe: { persuasione: 15 }
+          imposta: { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+          effetti: { tormento: -1 }
+      - testo: "Vendergli il congegno che non dovrebbe esistere"
+        descrizione: "Sul banco di Oda è uscito qualcosa di molto strano, e lui lo vuole davvero. Paga con un ricordo intero e con un nucleo raro."
+        quando: [banco.parti >= 4]
+        requisiti: [banco.stranezza >= 7]
+        esito:
+          titolo: La prima luce
+          testo: |
+            Per la prima volta da quando lo conosci il mercante si toglie la giacca, e
+            ci avvolge il congegno con cura, perché non prenda freddo. Dalla cassa tira
+            fuori un nucleo grigio e te lo posa in mano. Poi ti tocca la fronte, e ti
+            ricordi la prima volta che hai visto un Cristallo Conduttore acceso, da
+            piccolissimo, in braccio a qualcuno, e il ronzio che ti era entrato nei
+            denti. Se ascolti bene lo senti ancora adesso.
+          pe: { magia: 30 }
+          imposta: { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+          effetti: { parte.nucleo-3: 1 }
+      - testo: "Salutarlo e andare"
+        descrizione: "Oggi hai le mani vuote, e lui lo sa già."
+        costo: 0
+        esito:
+          testo: |
+            Gli dici che oggi non hai niente da dargli, e lui alza verso di te la tazza
+            di latta piena, come per un brindisi. Quando ti volti, dieci passi più in
+            là, sta già guardando il sentiero dall'altra parte, in attesa di qualcun
+            altro.
+
+  # ================================================================ il Bambino senza impronte (8)
+  - id: carta-sup-bambino
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/barefoot
+    titolo: Il bambino sul ciglio
+    sommario: "Seduto sul bordo del sentiero, con le ginocchia al petto, c'è un bambino che dice di essersi perso."
+    luogo: Superficie Fratturata, il sentiero dei carri oltre l'ultima porta
+    requisiti: [bambino.stadio == 0, bambino.rifiuti == 0, bambino.fine == 0]
+    testo: |
+      Poco oltre il punto in cui il lastricato diventa sentiero, seduto sul ciglio
+      con le ginocchia strette al petto, c'è un bambino di sette o otto anni. Ha i
+      vestiti sporchi di chi ha dormito all'aperto e le mani nere di terra, e
+      sulle ginocchia due graffi che qualcuno avrebbe dovuto pulire. Tiene gli
+      occhi bassi, come fanno i bambini quando sperano di non farsi notare.
+
+      Quando gli arrivi vicino alza la testa. Ha gli occhi chiari e lucidi. «Mi
+      sono perso» dice, con una voce sottile che trema sulla seconda parola. Si
+      alza con fatica e fa qualche passo verso di te sulla polvere del sentiero,
+      una polvere fine che tiene l'impronta di ogni ruota passata da stamattina.
+      Dove passa lui la polvere resta liscia come appena stesa.
+
+      Si ferma a due passi, con le braccia lungo i fianchi. «Posso venire con te?»
+      Poi, più piano, guardandoti in faccia con un'attenzione troppo ferma per la
+      sua età, aggiunge «Ti conosco, vero?»
+    opzioni:
+      - testo: "Prenderlo per mano"
+        descrizione: "È un bambino, è solo, ed è quasi sera. Le impronte possono aspettare."
+        esito:
+          titolo: Una mano fredda
+          testo: |
+            Gli tendi la mano e lui la prende subito, stretta, con le dita fredde come
+            un sasso di fiume. Camminate insieme fino alle terrazze, e lui ti racconta
+            di una casa con il pozzo e di una sorella che si chiama come una pianta, con
+            i dettagli giusti, nel disordine giusto. Quando ti volti un momento a
+            guardare il sentiero non lo trovi più accanto a te. Lo ritrovi seduto su un
+            sasso dieci passi avanti, che ti aspetta. «Torni, vero?» chiede, e tu dici
+            di sì prima di averci pensato.
+          pe: { empatia: 5 }
+          effetti: { bambino.stadio: 1 }
+      - testo: "Indicargli la strada per la città"
+        descrizione: "Le porte sono a cento passi, e le guardie sanno che cosa fare con i bambini persi. Tu hai da fare."
+        esito:
+          titolo: Cento passi
+          testo: |
+            Gli indichi le mura e gli spieghi della porta e delle guardie, e lui ascolta
+            annuendo a ogni parola come se dovesse ripeterla a un maestro. Poi non si
+            muove. Resta fermo sul ciglio a guardarti andare via, con le braccia lungo i
+            fianchi, e quando ti volti, molto più avanti, è ancora lì, nella stessa
+            posizione. Quella notte ti svegli due volte con la sensazione di averlo
+            dimenticato da qualche parte, come un bagaglio.
+          effetti: { tormento: 0.5, bambino.via: 1, bambino.rifiuti: 1 }
+      - &bambino-colpire
+        testo: "Colpirlo prima che si avvicini"
+        descrizione: "I bambini lasciano impronte. Se ti sbagli, te lo porterai dietro per sempre, e se hai ragione bisogna essere svelti."
+        prova: { attributo: fisico, abilita: [rissa, armi-da-mischia], difficolta: Media }
+        successo:
+          titolo: Nebbia fra le dita
+          testo: |
+            Il colpo lo prende in pieno, e il bambino si apre come un sacco di farina.
+            Ne esce una nebbia grigia che odora di ozono, si allarga sul sentiero
+            all'altezza delle tue ginocchia e scivola verso la crepa più vicina. Nella
+            polvere, dove lui era, non c'è niente. Ti trema la mano per tutto il
+            ritorno, e per qualche giorno, quando incroci un bambino nei vicoli, guardi
+            per terra prima di guardargli la faccia.
+          effetti: { tormento: 1, bambino.fine: 4, bambino.distrutto: 1 }
+        fallimento:
+          titolo: Il respiro grigio
+          testo: |
+            Esiti un attimo di troppo, perché ha la faccia di un bambino, e il colpo
+            arriva storto. Lui ti guarda senza paura e senza rabbia, poi si sfa in una
+            nebbia grigia che ti sale fino al viso prima di ritirarsi verso la crepa. Ne
+            respiri una boccata, e per due giorni hai in bocca il sapore di una moneta.
+            Nel sogno di quella notte lui è seduto ai piedi del tuo letto e ti chiede
+            perché.
+          effetti: { contaminazione: 1, tormento: 1, bambino.fine: 4, bambino.distrutto: 1 }
+
+  - id: carta-sup-bambino-torna
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/barefoot
+    titolo: Di nuovo sul ciglio
+    sommario: "Il bambino che avevi lasciato sul sentiero ti aspetta seduto su un altro sentiero, nella stessa posizione di allora."
+    luogo: Superficie Fratturata, una cengia sulle terrazze
+    requisiti: [bambino.via == 1, bambino.rifiuti == 1, bambino.fine == 0]
+    testo: |
+      Lo vedi da lontano, seduto sul bordo di una cengia con le ginocchia al
+      petto, come la prima volta sul ciglio del sentiero, a mezza giornata di
+      cammino dal posto dove l'hai lasciato. Ha gli stessi graffi sulle ginocchia,
+      ancora freschi. Quando arrivi alza la testa e sorride come si sorride a una
+      persona che si è fatta aspettare ma alla fine è venuta.
+
+      «Ti ho aspettato» dice. «Lo sapevo che passavi di qui, perché di qui passi
+      sempre.» Si sistema i capelli dietro l'orecchio. «Ieri sera hai mangiato la
+      zuppa con il cavolo. Ti è piaciuta?»
+
+      Ieri sera hai mangiato la zuppa con il cavolo, da solo, con la porta chiusa
+      a chiave.
+    opzioni:
+      - testo: "Prenderlo con te, stavolta"
+        descrizione: "Ha aspettato tanto. Forse il disagio era tuo, e la colpa no."
+        esito:
+          titolo: Lo stesso passo
+          testo: |
+            Gli tendi la mano e lui la prende come se l'avesse sempre tenuta. Camminate
+            fianco a fianco fino alle terrazze. Lui tiene il tuo passo senza sforzo
+            anche quando allunghi, e non ti chiede mai di fermarti a bere. A un certo
+            punto ti accorgi di aver smesso di pensare alla zuppa, e di non riuscire a
+            ricordare perché ci stavi pensando.
+          imposta: { bambino.via: 0 }
+          effetti: { bambino.stadio: 1 }
+      - testo: "Mandarlo via per sempre"
+        descrizione: "Dirgli di no in un modo che non lasci spazio. Ti costerà, e forse è il prezzo giusto."
+        esito:
+          titolo: Il bordo della cengia
+          testo: |
+            Glielo dici forte, perché lo senta anche quello che sta dietro di lui. Il
+            bambino ti guarda a lungo con la bocca chiusa. Poi si alza, si spolvera le
+            ginocchia con due colpi precisi e cammina fino al bordo della cengia, e
+            oltre il bordo, senza fretta, come si scende un gradino. Non senti nessun
+            rumore di caduta. Ti avvicini al bordo dopo un bel po', con le gambe molli,
+            e sotto c'è soltanto la nebbia grigia che si ritira dentro una crepa.
+          imposta: { bambino.via: 0 }
+          effetti: { tormento: 1, bambino.fine: 3 }
+      - *bambino-colpire
+
+  - id: carta-sup-bambino-2
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/barefoot
+    titolo: Il bambino che sa le strade
+    sommario: "Il bambino ti aspetta fuori dalle mura ogni volta che esci. Conosce la Superficie meglio di un Raschiatore."
+    luogo: Superficie Fratturata, appena fuori dall'ultima porta
+    requisiti: [bambino.stadio == 1, bambino.via == 0, bambino.fine == 0]
+    testo: |
+      Appena fuori dall'ultima porta, sul paracarro dove si siedono i carrettieri
+      ad aspettare il turno, c'è il bambino. Ti saluta agitando tutto il braccio.
+      Le guardie non lo guardano, come non si guarda un paracarro. Ha ancora i
+      graffi sulle ginocchia, che non si sono chiusi e non si sono infettati.
+
+      Oggi vuole farti vedere una cosa. Ti porta per un sentiero che non hai mai
+      fatto, fra due crepe azzurre dove non metteresti piede, e lui ci passa in
+      mezzo saltellando. Fame non ne ha, e quando gli offri un pezzo di pane lo
+      prende per gentilezza e lo tiene in mano finché non te ne dimentichi. Ti
+      chiama con il nome che usava tua madre quando eri piccolo, e a Qir-Azel quel
+      nome non l'hai mai detto a nessuno.
+
+      In fondo al sentiero, fra due sassi, c'è un guscio di metallo dei
+      Precursori, e lui lo indica fiero, come un cane che ti porta un osso.
+    opzioni:
+      - testo: "Tenerlo con te"
+        descrizione: "Sa dove sono le cose. Ti porta dove nessuno trova niente, e intorno a lui l'aria sa un po' di ozono."
+        esito:
+          titolo: Il guscio fra i sassi
+          testo: |
+            Raccogli il reperto e lui batte le mani, contento. Al ritorno ti tiene per
+            mano tutto il tempo. Alla porta ti lascia andare e si siede sul paracarro,
+            perché dentro non entra. Quella sera, mentre ti lavi, trovi sul dorso della
+            mano un alone grigio, con la forma esatta delle sue dita, che va via
+            soltanto con l'acqua calda.
+          effetti: { reperto.sigillato: 1, contaminazione: 0.5, bambino.stadio: 1 }
+      - testo: "Lasciarlo sul paracarro"
+        descrizione: "Prendere il reperto e dirgli che oggi vai da solo. Gli fa male, e a te un po' di più."
+        quando: [bambino.rifiuti == 0]
+        esito:
+          titolo: Il paracarro vuoto
+          testo: |
+            Gli dici che da oggi esci da solo. Lui non piange e non protesta. Ti guarda
+            con gli occhi chiari e annuisce, come quando gli spiegavi la strada per le
+            guardie. Al ritorno il paracarro è vuoto. Ci passi la mano sopra, e la
+            pietra è fredda dove dovrebbe essere ancora tiepida di sole.
+          effetti: { reperto.sigillato: 1, tormento: 0.5, bambino.via: 1, bambino.rifiuti: 1 }
+      - &bambino-lasciare-sempre
+        testo: "Lasciarlo per l'ultima volta"
+        descrizione: "L'hai già mandato via una volta, e lui è tornato. Stavolta non ti seguirà."
+        quando: [bambino.rifiuti >= 1]
+        esito:
+          titolo: Dietro le mura
+          testo: |
+            Glielo dici in fretta, prima di cambiare idea. Lui resta seduto e ti guarda
+            andare via, e stavolta non si alza. Quando ti volti dalla porta non c'è più,
+            e sul paracarro resta un velo di polvere grigia che il vento si porta via a
+            poco a poco. Ti accorgi di avere ancora in mano un pezzo di pane, e non
+            ricordi da quanto.
+          effetti: { tormento: 1, bambino.fine: 3 }
+      - testo: "Colpirlo"
+        descrizione: "Adesso lo sai, che cos'è. Lui forse sa che lo sai."
+        prova: { attributo: fisico, abilita: [rissa, armi-da-mischia], difficolta: Media }
+        successo:
+          titolo: Nebbia sul paracarro
+          testo: |
+            Lo colpisci mentre ti volta le spalle, ed è la cosa più difficile che hai
+            fatto da quando sei a Qir-Azel. Si sfa in nebbia grigia senza un suono. La
+            nebbia resta sospesa sopra il paracarro all'altezza della tua faccia per un
+            lungo momento, poi scende verso le crepe. Al posto della mano che stringevi
+            hai soltanto il freddo.
+          effetti: { tormento: 1, reperto.sigillato: 1, bambino.fine: 4, bambino.distrutto: 1 }
+        fallimento:
+          titolo: Te lo aspettavi
+          testo: |
+            Lui si sposta senza fretta un attimo prima del colpo e ti guarda con una
+            delusione da adulto. Poi si sfa in nebbia e ti passa attraverso, fredda come
+            acqua di pozzo, e ti lascia in ginocchio sul sentiero a tossire grigio.
+            Quando riesci a rialzarti non c'è più. Hai la sensazione precisa di essere
+            stato perdonato, e ti fa più male della tosse.
+          effetti: { contaminazione: 1, tormento: 1, bambino.fine: 4, bambino.distrutto: 1 }
+
+  - id: carta-sup-bambino-3
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/barefoot
+    titolo: Il bambino che non dorme
+    sommario: "Il bambino è sempre più vicino. Ti cammina dietro anche quando non lo vedi e sa le cose che pensi."
+    luogo: Superficie Fratturata, un riparo sotto una terrazza
+    requisiti: [bambino.stadio == 2, bambino.via == 0, bambino.fine == 0]
+    testo: |
+      Ti fermi a riposare sotto una terrazza, dove la roccia fa da tetto, e quando
+      apri gli occhi lui è seduto accanto a te, con la testa sulla tua spalla. Non
+      l'hai sentito arrivare, e di aver chiuso gli occhi non ti ricordi affatto.
+      Lui gli occhi li tiene aperti e ti guarda dal basso, e quando sbatte le
+      palpebre lo fa insieme a te.
+
+      «Oggi hai pensato alla tua stanza in città» dice. «Al letto che cigola, e al
+      fatto che lì dentro sei solo.» Ha ragione su tutte e due le cose. Ti stringe
+      il braccio con le due mani, e la stretta è più forte di quella di un
+      bambino. «Io posso stare con te sempre. Dentro le mura non entro, però posso
+      stare più vicino.»
+
+      Sotto la terrazza, dietro di lui, una camera di cristallo dei Precursori
+      affiora dalla ghiaia, con le vene di luce accese. Sei sicuro che stamattina
+      non c'era.
+    opzioni:
+      - testo: "Lasciarlo stare più vicino"
+        descrizione: "Tenerlo, e tenere la camera. Ogni volta che lo tieni, qualcosa di te diventa grigio."
+        esito:
+          titolo: Più vicino
+          testo: |
+            Gli dici di sì, e lui chiude gli occhi contento, per la prima volta.
+            Raccogli la camera, e quando ti rialzi il bambino non è più seduto accanto a
+            te. Lo senti dentro l'orecchio come un respiro piccolo che tiene il tempo
+            del tuo. Per tutto il ritorno ti sembra di camminare in due, e le dita della
+            mano destra ti restano grigie fino alle nocche.
+          effetti: { parte.camera-2: 1, contaminazione: 1, tormento: 0.5, bambino.stadio: 1 }
+      - testo: "Allontanarlo"
+        descrizione: "Staccargli le mani dal braccio e dirgli di andare. Dentro di te qualcosa sta già protestando."
+        quando: [bambino.rifiuti == 0]
+        esito:
+          titolo: Le mani staccate
+          testo: |
+            Gli stacchi le mani dal braccio un dito alla volta, e ci vuole più forza di
+            quanta pensavi. Lui ti lascia fare. Poi si alza e se ne va sotto la
+            terrazza, verso la luce, voltandosi una volta sola. Quando torni a
+            guardarla, la camera di cristallo è spenta e piena di crepe, e appena provi
+            a sollevarla ti si sbriciola in mano.
+          effetti: { tormento: 1, bambino.via: 1, bambino.rifiuti: 1 }
+      - *bambino-lasciare-sempre
+      - testo: "Colpirlo"
+        descrizione: "È aggrappato al tuo braccio e ti legge i pensieri. Se lo colpisci, lo saprà un attimo prima di te."
+        prova: { attributo: fisico, abilita: [rissa, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: Il braccio libero
+          testo: |
+            Non ci pensi, e forse per questo ci riesci. Il colpo parte dal braccio che
+            lui stringe, e il bambino si sfa contro la roccia in una nebbia grigia che
+            si attacca alle pareti della terrazza e poi cola giù, piano, verso la
+            ghiaia. Raccogli la camera di cristallo. Le vene di luce si accendono a
+            ritmo del tuo polso e poi rallentano, e per un po' ti sembra che stiano
+            aspettando qualcuno.
+          effetti: { parte.camera-2: 1, tormento: 1, bambino.fine: 4, bambino.distrutto: 1 }
+        fallimento:
+          titolo: Lo sapeva
+          testo: |
+            Lui lo sa prima che tu muova il braccio, e stringe. La stretta ti entra
+            nella carne come acqua gelata, e la nebbia grigia ti sale dal braccio fino
+            alla gola prima di staccarsi e scivolare via sotto la roccia. Resti a terra
+            a lungo, con la spalla che non risponde e in bocca un sapore di ferro. La
+            camera di cristallo è sparita.
+          effetti: { contaminazione: 1.5, tormento: 1, bambino.fine: 4, bambino.distrutto: 1 }
+
+  - id: carta-sup-bambino-fine
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/barefoot
+    titolo: Dove fa caldo
+    sommario: "Il bambino ti aspetta sull'orlo di una crepa, e stavolta ti chiede una cosa sola."
+    luogo: Superficie Fratturata, sull'orlo di una crepa azzurra
+    requisiti: [bambino.stadio >= 3, bambino.via == 0, bambino.fine == 0]
+    testo: |
+      Il respiro piccolo che ti teneva compagnia nell'orecchio si ferma
+      all'improvviso, e lui è lì davanti a te, sull'orlo di una crepa da cui sale
+      il bagliore azzurro. È più grande dell'ultima volta. Adesso potrebbe avere
+      dieci anni, e ha i tuoi zigomi, e il modo in cui tieni il peso su una gamba
+      sola quando aspetti. Dalla crepa sale la Marea in una nebbia bassa che gli
+      arriva alle caviglie senza bagnarlo.
+
+      «Fuori fa freddo» dice. «Ci ho provato a stare fuori, per te, ma è
+      faticoso.» Ti mostra le mani, e sono trasparenti fino al polso. «Fammi stare
+      dentro, dove fai caldo tu. Starò buono, e non sarai mai più solo.» Fa un
+      passo avanti, e la nebbia lo segue come un cane al guinzaglio.
+
+      *Lo vuoi, almeno un poco, ed è questo che ti spaventa.* Dietro di lui la
+      Marea sale di un altro palmo.
+    opzioni:
+      - testo: "Lasciarlo entrare"
+        descrizione: "Non sarai più solo. Il prezzo lo paghi nel corpo, e non si restituisce."
+        quando: [mutazione.sangue-grigio == 0]
+        esito:
+          titolo: Il sangue grigio
+          testo: |
+            Apri le braccia e lui ci entra come si entra in acqua, senza schizzi. Per un
+            attimo senti freddo fino alle ossa, poi caldo. La Marea si ritira nella
+            crepa. Tornando in città ti tagli un dito con la fibbia della sacca, e il
+            sangue esce scuro e si rapprende subito. Quella notte, per la prima volta da
+            quando sei a Qir-Azel, nella tua stanza non ti senti solo, e dormi fino a
+            giorno fatto.
+          effetti: { mutazione.sangue-grigio: 1, contaminazione: 1, tormento: -1, bambino.fine: 1 }
+      - testo: "Lasciarlo entrare"
+        descrizione: "Non sarai più solo. La Marea che hai già nel sangue gli fa posto, e ne porta altra."
+        quando: [mutazione.sangue-grigio >= 1]
+        esito:
+          titolo: C'era già posto
+          testo: |
+            Apri le braccia e lui ci entra senza fatica, perché la Marea che hai già nel
+            sangue lo riconosce e gli fa spazio. Senti un calore che sale dallo stomaco
+            al petto. Tornando in città hai le labbra grigie, e devi fermarti due volte
+            a riprendere fiato. Quella notte, però, nella tua stanza non ti senti solo,
+            e dormi fino a giorno fatto.
+          effetti: { contaminazione: 2, tormento: -1, bambino.fine: 1 }
+      - testo: "Riportarlo alla Marea"
+        descrizione: "Accompagnarlo fino all'orlo e convincerlo a tornare da dove è venuto. Bisogna saper dire addio a uno che ti somiglia."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Il nucleo nella nebbia
+          testo: |
+            Ti siedi con lui sull'orlo della crepa e gli parli a lungo della casa con il
+            pozzo che non esiste e della sorella con il nome di una pianta. Lui ascolta
+            con la testa sulla tua spalla. Alla fine si alza, ti stringe la mano
+            un'ultima volta e scende nella Marea come si scende in un bagno caldo. Dove
+            è sparito, sul bordo, resta un nucleo grigio e freddo. Quando lo prendi in
+            mano ti tornano in mente posti dove non sei mai stato e che hanno tutti un
+            pozzo nel cortile.
+          effetti: { parte.nucleo-3: 1, racconto: 1, tormento: 0.5, bambino.fine: 2 }
+        fallimento:
+          titolo: Ancora no
+          testo: |
+            Gli parli, e lui scuote la testa a ogni frase. Quando provi a prenderlo per
+            mano e accompagnarlo all'orlo si aggrappa a te con una forza che ti piega le
+            ginocchia, e la Marea sale lungo le tue gambe fino alla vita prima che tu
+            riesca a strapparti via. Lui resta sull'orlo a guardarti scappare. «Ti
+            aspetto» dice, e lo dice con gentilezza.
+          effetti: { contaminazione: 1, tormento: 1 }
+      - testo: "Distruggerlo"
+        descrizione: "Adesso ti somiglia troppo per essere fragile, e la Marea che lo tiene insieme si difenderà."
+        combattimento: sagome-della-marea
+        vittoria:
+          titolo: Due ombre sull'orlo
+          testo: |
+            Quando alzi l'arma il bambino si apre in due figure di nebbia dalle troppe
+            articolazioni. Tutte e due stanno sulle gambe come ci stai tu. Le abbatti
+            una alla volta, e ognuna, prima di sfarsi, ti guarda con gli occhi chiari
+            che ti aveva chiesto di guardare. Sull'orlo, dove si sono sciolte, trovi un
+            guscio di metallo scuro ancora tiepido. La crepa sotto di te si chiude di un
+            dito, e poi di un altro.
+          effetti: { parte.involucro-2: 1, racconto: 1, tormento: 1, bambino.fine: 4, bambino.distrutto: 1 }
+        sconfitta:
+          titolo: Dentro comunque
+          testo: |
+            Le due figure di nebbia ti atterrano e ti restano sopra, leggere come
+            lenzuola stese, e tu respiri. Respiri anche quando non vorresti. Quando
+            riapri gli occhi sei solo sull'orlo della crepa, e il respiro piccolo è
+            tornato nell'orecchio, e stavolta è più vicino, dietro gli occhi. Lui non ti
+            chiede scusa. Per giorni ti sembra di camminare in due, e uno dei due non è
+            stanco mai.
+          effetti: { contaminazione: 1.5, tormento: 1, bambino.fine: 1 }
+
+  # ================================================================ il Cavaliere della Marea (46)
+  - id: carta-sup-cavaliere
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/black-knight-helm
+    titolo: L'armatura che cammina
+    sommario: "Sul sentiero viene avanti un'armatura completa con le crepe piene di luce lattiginosa. Si ferma davanti a te e aspetta."
+    luogo: Superficie Fratturata, il sentiero lungo il bordo delle terrazze
+    requisiti: [cavaliere.incontri == 0, cavaliere.fine == 0]
+    testo: |
+      Prima di vederlo senti il suo passo pesante e regolare salire dal sentiero
+      dietro la curva, e insieme al passo un rumore di metallo smorzato, come di
+      un'armatura avvolta nella lana. Poi spunta dalla curva. È un'armatura
+      completa di un modello che a Qir-Azel non si fa più, ancora intera
+      nonostante i gomiti e le ginocchia consumati. Le piastre sono attraversate
+      da crepe sottili, e dalle crepe trasuda una luce lattiginosa che si muove
+      piano, come latte versato nell'acqua.
+
+      A cinque passi da te si ferma. Non tocca la spada che porta al fianco, con
+      l'impugnatura fasciata di cuoio marcito. Inclina lentamente l'elmo da una
+      parte, e nella fessura della visiera non si vede niente, neppure il buio che
+      ti aspetteresti. Ti sta guardando, però. Lo senti sulla pelle del collo.
+
+      Aspetta qualcosa, e forse nemmeno lui sa che cosa. Sul bordo dello
+      spallaccio sinistro, sotto la ruggine, qualcuno ha dipinto una spiga di
+      grano.
+    opzioni:
+      - &cavaliere-combattere
+        testo: "Sfoderare l'arma"
+        descrizione: "È lento, ma ogni colpo che porta vale due dei tuoi, e sotto l'armatura la Marea lo tiene in piedi."
+        combattimento: cavaliere-della-marea
+        vittoria:
+          titolo: La spiga sullo spallaccio
+          testo: |
+            Cade in ginocchio prima di cadere del tutto, come un uomo che chiede un
+            ultimo momento, e la luce lattiginosa esce dalle crepe in un filo sottile e
+            torna verso la crepa più vicina. L'armatura si affloscia vuota sul sentiero.
+            Il pettorale, quando lo sollevi, si richiude da solo intorno alla tua mano
+            con uno scatto morbido, e dentro è asciutto e caldo. Chi ci stava dentro non
+            lo dirà più a nessuno.
+          effetti: { parte.involucro-3: 1, racconto: 1, cavaliere.fine: 1, cavaliere.incontri: 1 }
+        sconfitta:
+          titolo: Il piatto della spada
+          testo: |
+            Ti colpisce due volte con il piatto della lama, e la seconda ti stende sulla
+            ghiaia. Resti a terra con il sangue in bocca ad aspettare il terzo colpo,
+            che non arriva. Il cavaliere ti guarda a lungo dall'alto con l'elmo
+            inclinato. Poi rinfodera e riprende il sentiero con il suo passo regolare.
+            Lo senti allontanarsi per un pezzo, anche dopo che è sparito dietro la
+            curva.
+          effetti: { cavaliere.incontri: 1 }
+      - testo: "Salutarlo come si saluta un soldato"
+        descrizione: "Il pugno sul petto, come le guardie alle porte. Se dentro c'è ancora un uomo, forse se lo ricorda."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Facile }
+        fallimento:
+          titolo: La spalla
+          testo: |
+            Ti batti il pugno sul petto, ma lo fai troppo in fretta, e il cavaliere
+            legge il gesto come un'intenzione. La luce nelle crepe si accende di colpo.
+            Ti passa accanto senza sfoderare e ti prende con la spalla corazzata, come
+            si sgombera la strada da un ubriaco, e ti lascia seduto nella ghiaia con il
+            fiato mozzo.
+          effetti: { ferite: 0.5, cavaliere.incontri: 1 }
+        successo:
+          titolo: Il pugno sullo spallaccio
+          testo: |
+            Ti batti il pugno sul petto, come fanno le guardie al cambio del turno. Il
+            cavaliere resta immobile tanto a lungo che cominci a sentirti ridicolo. Poi
+            alza il braccio con un cigolio e si porta il pugno chiuso sulla spiga
+            dipinta dello spallaccio, dove lo tiene fermo. Non è il saluto della guardia
+            cittadina. Ti passa accanto, così vicino che senti l'odore di ozono, e
+            prosegue per la sua strada.
+          pe: { empatia: 5 }
+          effetti: { cavaliere.memoria: 1, cavaliere.incontri: 1 }
+      - &cavaliere-evitare
+        testo: "Girargli al largo"
+        descrizione: "Scendere di una terrazza e lasciarlo passare. A quanto pare il sentiero è suo, e lui tornerà a percorrerlo."
+        esito:
+          titolo: La terrazza di sotto
+          testo: |
+            Ti cali alla terrazza di sotto, con la schiena contro la roccia, e lo lasci
+            passare sopra la tua testa. Il passo pesante si ferma proprio sopra di te, e
+            per un lungo momento non respiri. Poi riprende regolare e si allontana.
+            Quando risali sul sentiero, nella ghiaia ci sono le sue impronte profonde,
+            che tornano nella direzione da cui era venuto.
+          effetti: { cavaliere.incontri: 1 }
+
+  - id: carta-sup-cavaliere-torna
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/black-knight-helm
+    titolo: Il Cavaliere della Marea
+    sommario: "Il cavaliere con le crepe lattiginose è di nuovo sul tuo sentiero. Cammina avanti e indietro, come una sentinella."
+    luogo: Superficie Fratturata, una sella fra due terrazze
+    requisiti: [cavaliere.incontri >= 1, cavaliere.memoria <= 2, cavaliere.fine == 0]
+    testo: |
+      Lo trovi in una sella fra due terrazze dove il sentiero si stringe. Va
+      avanti e indietro per venti passi con l'andatura regolare di una sentinella,
+      voltandosi sempre nello stesso punto. Quando ti vede si ferma e gira l'elmo
+      verso di te. La luce nelle crepe dell'armatura pulsa più forte per qualche
+      battito, poi si calma.
+
+      Ti riconosce, o almeno riconosce qualcosa, e la spada resta nel fodero. Ha
+      piantato nella ghiaia, ai margini del suo tratto di sentiero, una fila di
+      sassi dritti, alti come un palmo, a distanza regolare, come i paletti che
+      segnano il bordo di una strada di carri. Qualcuno, da qualche parte, gli ha
+      insegnato a farlo.
+
+      Ti tremano un poco le gambe, e non è soltanto la salita. *Ti ha
+      riconosciuto, e non sai da che cosa.* Il cavaliere aspetta, con la testa
+      inclinata.
+    opzioni:
+      - *cavaliere-combattere
+      - testo: "Fargli il suo saluto"
+        descrizione: "Il pugno sulla spalla sinistra, come fa lui. Bisogna farlo nel modo giusto, e lui guarda come lo fai."
+        quando: [cavaliere.memoria == 0]
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La risposta
+          testo: |
+            Ti porti il pugno alla spalla sinistra e lo tieni lì, fermo, come fa lui. Il
+            cavaliere risponde con lo stesso gesto, e stavolta china appena l'elmo, che
+            fra soldati vuol dire *riconosciuto*. Sotto il metallo, per un attimo, senti
+            un rumore che potrebbe essere un respiro. Poi riprende la sua ronda, e al
+            giro successivo, passando, ti fa spazio sul sentiero.
+          pe: { empatia: 5 }
+          effetti: { cavaliere.memoria: 1, cavaliere.incontri: 1 }
+        fallimento:
+          titolo: Il gesto sbagliato
+          testo: |
+            Sbagli qualcosa nel gesto e lui se ne accorge. La luce nelle crepe si
+            accende di colpo, e il cavaliere ti viene addosso con la spalla, come si
+            sgombera la strada da un ubriaco. Ti ritrovi seduto nella ghiaia con il
+            fiato mozzo, e lui ha già ripreso la sua ronda.
+          effetti: { ferite: 0.5, cavaliere.incontri: 1 }
+      - testo: "Chiedergli dove porta la strada"
+        descrizione: "I paletti di sasso, la spiga sullo spallaccio. Bisogna fargli le domande che si fanno a una scorta."
+        quando: [cavaliere.memoria == 1]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Verso ovest
+          testo: |
+            Gli chiedi dove va la strada che sta segnando, come lo chiederesti a un
+            carrettiere. Il cavaliere si gira lentamente verso ovest e alza il braccio,
+            e il braccio resta puntato verso Laresh come l'ago di una bussola. Poi si
+            china e con la punta del guanto incide nella ghiaia un carro, e sul carro
+            una spiga, e dietro il carro un cavallo con una macchia bianca sul muso.
+            Accanto al cavallo scrive quattro lettere storte, *SORB*, e si ferma chino
+            sulla ghiaia a guardarle a lungo.
+          pe: { empatia: 5 }
+          effetti: { cavaliere.memoria: 1, cavaliere.incontri: 1 }
+        fallimento:
+          titolo: La domanda di troppo
+          testo: |
+            Gli fai troppe domande e troppo in fretta, e il cavaliere si porta le mani
+            all'elmo come per tenerlo fermo. La luce lattiginosa trabocca dalle crepe e
+            ti arriva sulle mani con il freddo appiccicoso della nebbia di palude.
+            Quando riesci a pulirtele lui è già lontano, e cammina storto, come un uomo
+            con il mal di testa.
+          effetti: { contaminazione: 0.5, cavaliere.incontri: 1 }
+      - testo: "Raccontargli chi era"
+        descrizione: "Una scorta dei carri del grano di Laresh, e una cavalla di nome Sorba. Bisogna metterlo insieme per lui, senza sbagliare."
+        quando: [cavaliere.memoria == 2]
+        prova: { attributo: sociale, abilita: [empatia, persuasione, espressivita], difficolta: Difficile }
+        successo:
+          titolo: Il nome della cavalla
+          testo: |
+            Gli parli dei carri del grano che vanno da Laresh alle porte della città,
+            delle scorte a cavallo con la spiga dipinta sullo spallaccio, e di una
+            cavalla di nome Sorba, con la macchia bianca sul muso. Al nome della cavalla
+            il cavaliere si siede sul ciglio del sentiero, pesantemente, con il rumore
+            di una pila di pentole. Resta lì con l'elmo fra le mani. Quando ti allontani
+            non si è ancora alzato.
+          pe: { empatia: 10 }
+          effetti: { cavaliere.memoria: 1, cavaliere.incontri: 1 }
+        fallimento:
+          titolo: Un altro uomo
+          testo: |
+            Mescoli le cose che sai con quelle che ti immagini, e il racconto ti viene
+            fuori sbagliato, la storia di un altro. Il cavaliere ascolta fino in fondo,
+            immobile. Poi scuote piano l'elmo, e la luce nelle crepe si abbassa come una
+            lampada a cui manca l'olio. Riprende la ronda senza più guardarti, e per
+            tutto il ritorno hai addosso il disagio di aver consegnato una lettera
+            all'indirizzo sbagliato.
+          effetti: { tormento: 0.5, cavaliere.incontri: 1 }
+      - *cavaliere-evitare
+
+  - id: carta-sup-cavaliere-nome
+    tipo: carta
+    area: superficie-fratturata
+    immagine: icone/black-knight-helm
+    titolo: Edric Vasso
+    sommario: "Il cavaliere si è tolto l'elmo. Ti aspetta seduto su un paracarro di sasso, e adesso sa come si chiama."
+    luogo: Superficie Fratturata, il bivio della vecchia strada per Laresh
+    requisiti: [cavaliere.memoria >= 3, cavaliere.fine == 0]
+    testo: |
+      Lo trovi al bivio dove la vecchia strada per Laresh si stacca da quella
+      degli scavi, seduto su un paracarro con l'elmo appoggiato sulle ginocchia.
+      Sotto l'elmo c'è una faccia, o quello che la Marea ne ha lasciato, con le
+      guance lisce e bianche come il latte e due occhi grigi da uomo stanco.
+      Quando parla la voce gli esce lenta, come da un pozzo.
+
+      «Edric Vasso» dice. «Scorta dei carri del grano, terza fila. Sorba era la
+      mia cavalla.» Muove le dita del guanto una alla volta.
+      «C'era una crepa che si apriva sotto la strada, e la luce dentro. Ho fermato
+      i carri e sono sceso a guardare, perché era il mio mestiere guardare. Da
+      allora cammino.»
+
+      Si gira verso di te. «Ogni notte dimentico qualcosa, e domani dimenticherò
+      il nome della cavalla. Io non voglio dimenticarla.» Ti porge l'elmo con tutte e due le mani. «Finiscimi adesso,
+      finché so chi sono.»
+    opzioni:
+      - testo: "Fare quello che chiede"
+        descrizione: "Si inginocchierà e ti mostrerà il punto fra la gorgiera e lo spallaccio, senza difendersi."
+        esito:
+          titolo: Terza fila
+          testo: |
+            Si inginocchia sulla strada di Laresh e ti mostra con il dito il punto fra
+            la gorgiera e lo spallaccio, dove le crepe sono più fitte. Dice ancora una
+            volta «Sorba» a mezza voce per sentire com'era, poi chiude gli occhi. Basta
+            un colpo. La luce esce dalle crepe tutta insieme e si disperde nel vento, e
+            quello che resta è un'armatura vuota. Il pettorale si richiude da solo
+            intorno alla tua mano, caldo. Per la strada del ritorno ripeti il nome della
+            cavalla, anche tu, per non dimenticarlo.
+          pe: { resilienza: 15 }
+          effetti: { parte.involucro-3: 1, racconto: 1, tormento: 0.5, cavaliere.fine: 2 }
+      - testo: "Dirgli di andare a casa"
+        descrizione: "Laresh è a ovest, e la strada la conosce. Con il nome forse gli basta arrivarci, e quello che si portava dietro lo lascia a te."
+        esito:
+          titolo: Quello che aveva raccolto
+          testo: |
+            Gli dici che a Laresh i carri passano ancora, e che qualcuno si ricorderà di
+            una scorta che non è tornata. Lui ci pensa a lungo. Poi si sfila dalla
+            cintura una borsa di cuoio e te la mette in mano. Dentro c'è una camera di
+            cristallo che batte come un polso, quella che vide nella crepa il giorno in
+            cui scese a guardare. «L'ho tenuta abbastanza» dice. Si rimette l'elmo e
+            prende la strada di Laresh, con il passo regolare di una scorta, e tu lo
+            guardi finché diventa un punto.
+          pe: { empatia: 15 }
+          effetti: { parte.camera-3: 1, racconto: 1, tormento: -1, cavaliere.fine: 2 }
+
+  # ================================================================ la Frattura che respira (9)
+  - id: sup-frattura-che-respira
+    presso: terrazze-di-basalto
+    area: superficie-fratturata
+    ripetibile: true
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La Frattura che respira
+    sommario: "Su un gradone delle terrazze un anello dei Precursori spezzato in due respira, e lo spazio intorno non sta fermo."
+    luogo: Le terrazze di basalto, un gradone fuori dalla strada degli scavi
+    requisiti: [frattura.respiro < 4, frattura.spenta == 0]
+    testo: |
+      Sul gradone più basso, lontano dalle frecce bianche, l'aria trema come sopra
+      un fuoco, ed è fredda. In mezzo al tremore affiora dalla roccia un anello di
+      metallo spezzato in due, sepolto per metà, con le facce del taglio lisce e
+      pulite. Intorno all'anello lo spazio sbaglia. Il rumore dei tuoi passi
+      arriva un momento dopo il piede, e un sasso che rotola giù dal gradone di
+      sopra lo vedi cadere due volte, la seconda senza rumore.
+
+      Dal centro dell'anello sale un suono basso e regolare, un respiro lungo con
+      una pausa in fondo. Qualcuno dei Raschiatori, passando, ha lasciato sul
+      bordo una fila di sassolini, come si fa davanti a una tomba, e uno dei
+      sassolini c'è due volte.
+
+      *Non è rotto. Si sta svegliando.* Il pelo delle braccia ti si è alzato senza
+      chiederti il permesso.
+    opzioni:
+      - testo: "Aiutarla a riprendere il ritmo"
+        descrizione: "Il respiro ha un ritmo, e sotto il metallo c'è un meccanismo che lo segue. Per toccarlo bisogna capirlo."
+        quando: [frattura.respiro == 0]
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: Il primo respiro intero
+          testo: |
+            Conti i respiri fino a trovare la pausa, e nella pausa appoggi le mani sulle
+            due metà dell'anello. Il metallo è tiepido. Il respiro successivo arriva
+            intero e senza inciampi, e il sasso che stava cadendo dal gradone cade una
+            volta sola. Ai tuoi piedi, sputata fuori dalla roccia, c'è una scaglia di
+            metallo incisa fitta di segni.
+          effetti: { frattura.respiro: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il respiro storto
+          testo: |
+            Appoggi le mani nel momento sbagliato. L'anello inspira con uno strappo, e
+            con l'aria tira dentro qualcosa di te, un freddo che ti sale dai polsi fino
+            ai denti. Quando togli le mani hai le unghie grigie, e sul gradone ci sono
+            due volte le tue orme.
+          effetti: { contaminazione: 1 }
+      - testo: "Raddrizzare le due metà"
+        descrizione: "Le facce del taglio non combaciano di un dito. Si spostano soltanto mentre espira, e solo di poco."
+        quando: [frattura.respiro == 1]
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: Un dito
+          testo: |
+            Aspetti l'espiro con la spalla contro la metà più piccola e spingi quando
+            l'aria esce. Il metallo scivola di un dito sulla roccia con un suono di
+            campana lontana, e le facce del taglio adesso si guardano dritte. Dalla
+            fessura rotola fuori un reperto sigillato, caldo come un pane appena
+            sfornato.
+          effetti: { frattura.respiro: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: Due volte
+          testo: |
+            Spingi un battito troppo presto, e l'anello ti ricaccia indietro. Cadi sulla
+            roccia, e un attimo dopo cadi ancora, nello stesso punto, senza esserti
+            rialzato. La seconda caduta fa più male della prima. Ti allontani con le
+            orecchie che ronzano e un sapore di ferro in bocca.
+          effetti: { contaminazione: 0.5, ferite: 0.5 }
+      - testo: "Pulire i segni sul metallo"
+        descrizione: "Sul bordo interno corre un'incisione coperta di terra. Chi la libera deve sapere dove fermarsi."
+        quando: [frattura.respiro == 2]
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: La linea accesa
+          testo: |
+            Gratti via la terra un segno dopo l'altro con la punta del coltello, e dove
+            il metallo resta pulito l'incisione si accende di un azzurro tenue. A metà
+            del lavoro capisci che i segni si leggono in una direzione sola come le
+            parole di una frase, e lasci coperto l'ultimo. Il respiro rallenta e diventa
+            più profondo. Nella terra che hai grattato c'è un frammento inciso con gli
+            stessi segni.
+          effetti: { frattura.respiro: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: La frase sbagliata
+          testo: |
+            Scopri un segno di troppo, e l'incisione si accende tutta insieme, in un
+            lampo bianco che ti resta negli occhi. Per un'ora vedi i segni dappertutto,
+            perfino sull'interno delle palpebre, e la sera, quando chiudi gli occhi,
+            ricominciano.
+          effetti: { contaminazione: 0.5, tormento: 0.5 }
+      - testo: "Respirare con lei"
+        descrizione: "Manca soltanto il ritmo giusto, e il ritmo giusto è il tuo. Bisogna starci vicino abbastanza a lungo, e non avere paura."
+        quando: [frattura.respiro == 3]
+        prova: { attributo: mentale, abilita: [tecnologia, resilienza], difficolta: Media }
+        successo:
+          titolo: Insieme
+          testo: |
+            Ti siedi nel tremore dentro l'anello e respiri con lui, lento, finché non
+            sai più quale respiro è il tuo. Il mondo intorno smette di sbagliare un
+            pezzo alla volta. I passi tornano a fare rumore sotto il piede, e i sassi
+            cadono una volta sola. Quando ti alzi hai le gambe intorpidite e in tasca un
+            reperto sigillato che non ricordi di aver raccolto.
+          effetti: { frattura.respiro: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: Senza fiato
+          testo: |
+            A un certo punto l'anello inspira e tu no, e non riesci più a ricominciare.
+            Ti trascini fuori dal tremore a carponi, con il petto chiuso, e torni a
+            respirare soltanto sul gradone di sopra, a pancia in giù sulla roccia. Hai
+            sotto la lingua il sapore di una moneta.
+          effetti: { contaminazione: 1, tormento: 0.5 }
+      - testo: "Spaccare l'anello"
+        descrizione: "Quello che si sveglia sotto la roccia lo tieni fermo per sempre, e quello che si stacca te lo porti via. Dopo, qui non respirerà più niente."
+        esito:
+          titolo: L'ultimo respiro
+          testo: |
+            Infili la leva nella fessura fra le due metà e ci butti sopra tutto il peso.
+            L'anello inspira un'ultima volta a lungo, e dentro qualcosa si spezza con un
+            rumore di vetro. L'espiro non arriva più. Lo spazio intorno torna fermo di
+            colpo, e tu ti ritrovi in ginocchio, con il naso che sanguina e un'ondata di
+            aria grigia che ti passa addosso. Dalla roccia spaccata raccogli quello che
+            è venuto via, con le mani che non smettono di tremare.
+          imposta: { frattura.spenta: 1 }
+          effetti: { reperto.sigillato: 2, reliquie.scheggia: 3, contaminazione: 1 }
+      - testo: "Andarsene"
+        costo: 0
+        esito:
+          testo: |
+            Ti allontani sul bordo esterno del gradone, dove la roccia è salda. Dietro
+            di te il respiro continua, lungo, con la sua pausa in fondo, e i tuoi passi
+            ti seguono un momento dopo.
+
+  - id: sup-frattura-respiro-lungo
+    presso: terrazze-di-basalto
+    area: superficie-fratturata
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il respiro lungo
+    sommario: "Ormai la Frattura respira piano, e lo spazio intorno all'anello ha smesso di sbagliare. Ha qualcosa per te."
+    luogo: Le terrazze di basalto, il gradone della Frattura
+    requisiti: [frattura.respiro >= 4, frattura.premio == 0]
+    testo: |
+      Torni al gradone basso e per un momento non lo riconosci. L'aria sopra
+      l'anello è ferma e limpida, e i sassolini dei Raschiatori sono ciascuno uno
+      solo, in fila sul bordo. Le due metà del metallo combaciano, e sul taglio
+      corre una linea azzurra sottile come un capello. Il respiro adesso è lento e
+      profondo, quello di chi dorme bene dopo una lunga malattia.
+
+      Quando ti avvicini l'anello trattiene il fiato. Dal centro sale una luce
+      tenue che si allarga sulla roccia, e nella luce affiora una camera di
+      cristallo che batte allo stesso ritmo del respiro.
+
+      Poi lo senti sotto i piedi, un tremito lungo che corre dentro la roccia
+      verso sud. A un'ora di cammino, in fondo a una conca dove le squadre di
+      passaggio mangiano all'ombra di un blocco di metallo grigio, sale una luce
+      azzurra che si accende e si spegne con il ritmo di un polso a riposo. Il
+      blocco è un'altra struttura dei Precursori, e si è appena svegliato.
+    opzioni:
+      - testo: "Prendere la camera"
+        descrizione: "Te la sta offrendo. Una camera rara, che batte ancora."
+        esito:
+          titolo: Il polso nella mano
+          testo: |
+            La camera è calda e pesa più di quanto sembra. Quando la sollevi l'anello
+            espira piano e la luce sulla roccia si ritira. Mentre risali i gradoni la
+            camera ti batte nel palmo insieme al cuore, e verso sud la conca continua a
+            pulsare d'azzurro anche dopo il tramonto.
+          effetti: { parte.camera-3: 1, racconto: 1, frattura.premio: 1 }
+      - testo: "Lasciargliela e ascoltare"
+        descrizione: "La camera resta dov'è. In cambio resti lì a guardare come funziona una cosa dei Precursori quando funziona."
+        esito:
+          titolo: Come funziona
+          testo: |
+            Lasci la camera dov'è e ti siedi sul bordo. Per tutto il pomeriggio guardi
+            la luce che va dall'anello alla roccia e dalla roccia verso sud, e a un
+            certo punto capisci dove passa e perché, come capisci il giro dell'acqua in
+            un mulino. Al tramonto la camera torna sotto la roccia. Sul bordo, al suo
+            posto, è rimasto un frammento inciso.
+          pe: { tecnologia: 15, magia: 10 }
+          effetti: { reliquie.frammento-inciso: 1, racconto: 1, tormento: -0.5, frattura.premio: 1 }
+
+  - id: sup-frattura-cicatrice
+    presso: terrazze-di-basalto
+    area: superficie-fratturata
+    ripetibile: true
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La Frattura spenta
+    sommario: "Dove respirava la Frattura adesso c'è un anello spaccato, e lo spazio intorno sbaglia senza più nessun ritmo."
+    luogo: Le terrazze di basalto, il gradone della Frattura
+    requisiti: [frattura.spenta == 1]
+    testo: |
+      Sul gradone basso l'anello spezzato è ancora lì, con la fessura che hai
+      aperto tu e i bordi anneriti. Il respiro non c'è più, e lo spazio intorno
+      non è tornato fermo. Sbaglia a caso. Un sasso cade dal gradone di sopra e
+      arriva a terra due volte. Il sasso successivo non arriva affatto. Il vento
+      certe volte soffia da due parti insieme.
+
+      I Raschiatori hanno spostato le frecce bianche più in alto, perché il
+      gradone basso non lo passa più nessuno, e qualcuno ha scritto con il gesso
+      sulla roccia *qui no*. Sotto qualcun altro ha aggiunto *grazie a chi?*, con
+      una calligrafia piena di svolazzi.
+
+      Se lasci cadere qualcosa vicino all'anello, a volte arriva a terra due volte
+      e lo raccogli due volte.
+    opzioni:
+      - testo: "Lasciar cadere una scheggia"
+        descrizione: "Due volte o nessuna. Bisogna guardare bene dove cade, perché la seconda non fa rumore."
+        requisiti: [reliquie.scheggia >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La seconda scheggia
+          testo: |
+            Lasci cadere la scheggia dal palmo aperto. La scheggia rimbalza sulla roccia
+            e un attimo dopo cade di nuovo, a un dito dalla prima, senza rumore. Le
+            raccogli tutte e due prima che il gradone ci ripensi. Sono identiche fino
+            alle scheggiature, e una delle due è leggermente più fredda.
+          effetti: { reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Nessuna
+          testo: |
+            Lasci cadere la scheggia, e non la senti arrivare. Non la vedi a terra, né
+            la prima volta né la seconda. Ti resta in mano soltanto la sensazione di
+            averla tenuta, e la sera, quando ti lavi, ti accorgi che il palmo ha ancora
+            il segno dei suoi spigoli.
+          effetti: { reliquie.scheggia: -1, tormento: 0.5 }
+      - testo: "Frugare fra i detriti"
+        descrizione: "Intorno all'anello spaccato la roccia è piena di schegge. Lo spazio però sbaglia anche sotto le mani."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Facile }
+        successo:
+          titolo: Con le mani svelte
+          testo: |
+            Frughi fra i detriti con le mani svelte, ritirandole ogni volta che l'aria
+            trema. Riempi a metà il fazzoletto di schegge di metallo e di vetro
+            precuriano, prima che il vento cominci a soffiare da due parti e ti consigli
+            di andare.
+          effetti: { reliquie.scheggia: 2 }
+        fallimento:
+          titolo: Due volte la stessa mano
+          testo: |
+            Allunghi la mano verso una scheggia e la mano ci arriva due volte di
+            seguito. La seconda si apre sul bordo tagliente del metallo. Ti fasci con il
+            fazzoletto e te ne vai dal gradone senza niente, con il sangue che ti scende
+            fino al gomito.
+          effetti: { ferite: 0.5, contaminazione: 0.5 }
+      - testo: "Andarsene"
+        costo: 0
+        esito:
+          testo: |
+            Risali al gradone delle frecce bianche. Dietro di te un sasso cade due
+            volte, e poi più niente per un pezzo.

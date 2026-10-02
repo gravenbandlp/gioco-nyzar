@@ -262,9 +262,9 @@ export function storyletDisponibili(s: Stato, c: TContenuti): TStorylet[] {
 }
 
 export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {
-  // le carte "ovunque" valgono in città: non nelle aree di penalità né nelle spedizioni
+  // le carte "ovunque" valgono in città: non nelle aree di penalità, nelle spedizioni o fuori città
   const qui = c.aree.find((a) => a.id === s.area);
-  const chiusa = !!qui && (qui.penalita || !!qui.spedizione);
+  const chiusa = !!qui && (qui.penalita || !!qui.spedizione || qui.fuori);
   return c.storylet.filter(
     (st) => st.tipo === 'carta' && (st.area === s.area || (st.area === OVUNQUE && !chiusa)) && !s.mano.includes(st.id)
       && requisitiSoddisfatti(s, st.requisiti, c),

@@ -54,6 +54,18 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
 - Le varianti di stato del mondo sulle opzioni usano `quando` (l'opzione non compare) o requisiti su piste e flag
   (il motore le nasconde se chiuse); i requisiti su monete, merci, abilità e reputazione mostrano l'opzione chiusa.
 
+## La Superficie Fratturata
+Il quarto hub, fuori città, aperto da subito e senza gabella (`contenuti/superficie/`, 2 ottobre 2026). Viene dalla
+tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le carte "ovunque" della città lì non arrivano.
+- `area.yaml`: l'area, i luoghi (la baracca di Oda Krell, le terrazze di basalto, e la riva del Torvessa, la pianura del sud
+  e la strada del nord, che compaiono con le storie), i beni dei reperti e del banco, le flag condivise, nemici e scontri.
+- `carte-1/2/3.yaml`: gli incontri del mazzo. `ricorrenti.yaml`: Mercante della Memoria, Bambino senza impronte, Cavaliere
+  della Marea, Frattura che respira, che apre il Nodo. `villaggio.yaml` e `nodo.yaml`: le due spedizioni dell'hub.
+- `reperti.yaml`: Oda Krell, aprire i reperti, montare i congegni, riparare, i compratori in città, la sua bottega.
+- `ripartenze.yaml`: da lì si riparte per Capomozzo e per gli scavi. Le ritirate dalle spedizioni fuori città portano alla
+  Superficie, e la strada per la Roccia e quella per la Palude partono da lì.
+- Test: `test/superficie.test.ts`.
+
 ## Stato del lavoro
 Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di recente: economia (strati 1 e 2,
 `contenuti/economia/`), rintocchi a 20 con ricarica piena a fine storia principale, revisione finale delle

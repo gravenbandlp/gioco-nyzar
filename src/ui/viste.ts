@@ -699,6 +699,22 @@ export function personaggio(x: Contesto): string {
 
 // ================================================================ AVERI
 
+/** Il congegno sul banco di Oda Krell (contenuti/superficie/reperti.yaml): le parti montate e i tre punteggi. */
+function banco(s: Stato, c: Contesto['c']): string {
+  const montate = s.quality['banco.parti'] ?? 0;
+  if (montate <= 0) return '';
+  const famiglie = ['involucro', 'camera', 'impugnatura', 'nucleo'] as const;
+  const parti = famiglie.map((f) => {
+    const g = s.quality[`banco.${f}`] ?? 0;
+    const q = g > 0 ? c.quality.find((z) => z.id === `parte.${f}-${g}`) : undefined;
+    return `<li class="oggetto${g ? '' : ' assente'}">${tavola(q?.immagine ?? 'icone/cube', { classe: 'icona' })}<span>${h(q?.nome ?? `${f[0]!.toUpperCase()}${f.slice(1)}: manca`)}</span><b>${g ? `grado ${g}` : '—'}</b></li>`;
+  }).join('');
+  const punti = ([['potenza', 'Potenza'], ['stabilita', 'Stabilità'], ['stranezza', 'Stranezza']] as const)
+    .map(([k, n]) => `<li class="oggetto"><span>${n}</span><b>${mezzi(s.quality[`banco.${k}`] ?? 0)}</b></li>`).join('');
+  return `<h2 class="titolo-sezione">Sul banco di Oda <small>${montate >= 4 ? 'il congegno è finito e si può vendere' : `${montate} parti su 4`}</small></h2>
+    <ul class="oggetti">${parti}${punti}</ul>`;
+}
+
 export function averi(x: Contesto): string {
   const { s, c } = x;
   const nomeSlot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio' };
@@ -737,7 +753,7 @@ export function averi(x: Contesto): string {
     const stato = !decifrato ? 'Da decifrare' : guasto ? 'Guasto' : passivo ? 'Attivo' : `${cariche}/${o.reperto!.cariche} cariche`;
     const azioni = !decifrato
       ? `<button type="button" class="bottone piccolo" data-az="apri" data-id="${o.reperto!.decifra}">Decifra</button>`
-      : guasto ? '<small class="motivo">Serve qualcuno che sappia ripararlo.</small>'
+      : guasto ? '<small class="motivo">Oda Krell lo ripara, nella sua baracca sulla Superficie Fratturata.</small>'
       : [
           o.usa ? `<button type="button" class="bottone piccolo" data-az="apri" data-id="${o.usa}" ${requisitiSoddisfatti(s, c.storylet.find((z) => z.id === o.usa)?.requisiti, c) ? '' : 'disabled'}>Usa</button>` : '',
           !passivo ? `<button type="button" class="bottone piccolo" data-az="ricarica-reperto" data-id="${o.id}" ${(s.quality['cella'] ?? 0) >= 1 && cariche < o.reperto!.cariche ? '' : 'disabled'}>Ricarica con una cella (${mezzi(s.quality['cella'] ?? 0)})</button>` : '',
@@ -766,6 +782,7 @@ export function averi(x: Contesto): string {
     ${sacca ? `<h2 class="titolo-sezione">Nella sacca</h2><ul class="slot-equip">${sacca}</ul>` : ''}
     ${reperti ? `<h2 class="titolo-sezione">Reperti dei Precursori</h2><ul class="slot-equip">${reperti}</ul>` : ''}
     ${usabili ? `<h2 class="titolo-sezione">Oggetti</h2><ul class="slot-equip">${usabili}</ul>` : ''}
+    ${banco(s, c)}
     <h2 class="titolo-sezione">Con te</h2>
     ${altri ? `<ul class="oggetti">${altri}</ul>` : '<p class="vuoto">Niente di utile in tasca.</p>'}
     ${[...famiglie].map(([f, li]) => `<h2 class="titolo-sezione">${h(f)} <small>scala 5:1</small></h2><ul class="oggetti">${li.join('')}</ul>`).join('')}

@@ -1,6 +1,8 @@
 # Progetto · Strato 3: assemblare congegni dei Precursori
 
-Stato: **a progetto**, da fare in futuro. Scritto il 2 ottobre 2026, dopo gli strati 1 e 2 dell'economia (il giro
+Stato: **realizzato in forma ridotta il 2 ottobre 2026** con la Superficie Fratturata (`contenuti/superficie/reperti.yaml`, schema in testa al file): reperti sigillati aperti da Oda Krell, quattro famiglie di parti in tre gradi, il banco di Oda sulla Superficie al posto della cantina, i punteggi sommati dagli effetti (senza motore nuovo), due coppie che si disturbano, cinque compratori (Orvald, il Velo, il Mercato delle Ombre, Dragna, il Mercante della Memoria al posto del collezionista) e la riparazione dei reperti guasti. Il congegno si vede negli Averi. Restano da fare le stanze profonde delle rovine e l'esplosione dei congegni instabili. Il testo qui sotto è il progetto originale.
+
+Stato originale: **a progetto**, da fare in futuro. Scritto il 2 ottobre 2026, dopo gli strati 1 e 2 dell'economia (il giro
 delle merci e la casa, `contenuti/economia/`). Va fatto solo se i giocatori usano davvero i primi due: il segnale
 sono le conversioni ripetute, le vendite al Mercato delle Ombre e la casa che arriva oltre il terzo livello.
 

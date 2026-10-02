@@ -58,7 +58,7 @@ definiti ma per ora non si trovano. La conversione completa è in `contenuti/ogg
 - Si trovano da decifrare: lo storylet di decifrazione chiede una prova Media di Mentale +
   Tecnologia; se fallisce, +½ Tormento. Decifrato, il reperto parte con tutte le cariche.
 - In combattimento si usano come azione con Mentale + Tecnologia. Con zero successi il reperto si
-  guasta (anche fuori dal combattimento, nelle opzioni con `reperto`). La riparazione arriverà con
-  i contenuti delle rovine.
+  guasta (anche fuori dal combattimento, nelle opzioni con `reperto`). Lo ripara Oda Krell nella sua
+  baracca sulla Superficie Fratturata, con una parte comune e qualche moneta.
 - Una cella ricarica una carica, dagli Averi, senza rintocchi.
 - Passivi: Respiratore (Schermata) e Visore (+2 dadi a Percezione).

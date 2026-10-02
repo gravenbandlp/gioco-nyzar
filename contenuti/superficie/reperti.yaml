@@ -1,0 +1,1305 @@
+# La Superficie Fratturata: i reperti e il banco di Oda Krell (strato 3 dell'economia in forma ridotta, ottobre 2026).
+# Il progetto completo è in docs/progetto-reperti.md; qui il banco sta nella baracca di Oda (baracca-di-oda), non in
+# cantina. Le quality delle parti e del banco sono dichiarate in area.yaml; qui c'è solo la flag oda.conosciuta.
+#
+# IL GIRO
+#   Battere le terrazze (terrazze-di-basalto) e le carte della Superficie danno reperto.sigillato.
+#   Oda apre il reperto (sigillato -1) e tu scegli quale parte cercare. Prova riuscita, parte di grado 2; fallita,
+#   parte di grado 1 e un danno (ferite, contaminazione o tormento 0.5). Oppure lo apre lei con calma (2 rintocchi
+#   e qualche moneta) e ne escono una carcassa incrinata e un frammento inciso.
+#   Le parti si montano sul banco una per famiglia (storylet aperto finché banco.<famiglia> == 0), con una prova di
+#   Mentale + Tecnologia Facile, Media o Difficile per il grado 1, 2 o 3. Se fallisce la parte si rovina e
+#   banco.stranezza sale di 1. Con quattro parti (banco.parti >= 4) il congegno si vende, e ogni vendita azzera il
+#   banco. Smontare azzera il banco e rende tre schegge.
+#
+# PARTI E PUNTEGGI (g = grado montato)
+#   involucro    stabilita +2g; al grado 3 anche stranezza +1. Un reliquie.meccanismo-spento si monta come involucro 1.
+#   camera       potenza +2g; al grado 3 anche stranezza +1
+#   impugnatura  potenza +g e stabilita +g
+#   nucleo       stranezza +2g
+# COPPIE CHE SI DISTURBANO (varianti delle opzioni con `quando` sulla parte già montata, nei due ordini)
+#   camera 3 con involucro 1 (anche il meccanismo spento)   stabilita -2 in più
+#   nucleo 3 con impugnatura 2                               stranezza +2 e stabilita -2 in più
+#   Massimi senza fallimenti: stabilita 9 e potenza 9 (involucro, camera e impugnatura rari), stranezza 8.
+#
+# COMPRATORI (uno storylet ripetibile ciascuno, requisiti [banco.parti >= 4]; le fasce sono opzioni con requisiti
+# sui punteggi, così il giocatore vede chiuse quelle che non raggiunge)
+#   Orvald Temmerin (Accademia)        stab >= 4 e pot >= 4   monete 50, rep.accademia 0.5
+#                                      stab >= 6 e pot >= 6   monete 100, rep.accademia 1, PE tecnologia 10
+#                                      stab >= 8 e pot >= 8   monete 180, rep.accademia 1, PE tecnologia 20
+#   Confraternita del Velo (Ottilia)   qualunque congegno     monete 20, tormento -1, contaminazione -1
+#                                      stranezza >= 5         monete 35, tormento -2, contaminazione -1.5, rep.velo 0.5
+#   Mercato delle Ombre (il vecchio    pot >= 4               monete 60, sospetto 0.5
+#   Raschiatore dalle dita storte,     pot >= 6               monete 120, sospetto 1
+#   lo stesso di informazioni.yaml)    pot >= 8               monete 220, sospetto 1
+#   Dragna al Grifone                  nessun requisito       una camera rara oppure un nucleo raro, rep.raschiatori 0.5
+#   Il Mercante della Memoria          in un altro file, di un altro autore
+#
+# RIPARAZIONE: Oda ripara ogni reperto guasto (guasto.<id>, creata dal build per ogni oggetto con `reperto`) con una
+# parte comune e qualche moneta. BOTTEGA: banco-di-oda, in fondo al file (sigillati e parti a circa metà del valore).
+#
+# Oda Krell: chiude le frasi con «dico bene?» senza aspettare la risposta, non dice mai «Precursori» (sono «quelli di
+# prima»), bussa con le nocche sulla gamba di legno, intagliata con una fila di lepri che corrono verso il piede.
+# Fuma la stufa anche d'estate e beve cicoria bruciata. Niente grandi famiglie né segreti del Codex nella sua storia.
+quality:
+  - { id: oda.conosciuta, nome: "Conosci Oda Krell", categoria: stato, nascosta: true, descrizione: "1 dopo il primo incontro con Oda Krell nella sua baracca sulle terrazze." }
+
+storylet:
+  # ================================================================ 1 · l'incontro con Oda (tabella, 40 Eremita isolato)
+  - id: oda-incontro
+    presso: baracca-di-oda
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: Una vecchia sulla soglia
+    sommario: "In una piega delle terrazze fuma un comignolo, e sulla soglia di una baracca di ferrivecchi siede una vecchia che guarda la pianura."
+    luogo: "Superficie Fratturata, la baracca di Oda Krell"
+    area: superficie-fratturata
+    requisiti: [oda.conosciuta == 0]
+    testo: |
+      Il fumo lo vedi prima della baracca, un filo grigio che sale diritto da
+      una piega delle terrazze dove il vento non arriva. Poi compaiono le
+      lamiere, quelle lisce dei Precursori su cui la ruggine non attacca,
+      inchiodate su travi di carro, e una porta di nave con l'oblò ancora al
+      suo posto. Davanti alla porta, su uno sgabello, una donna anziana con
+      una coperta sulle ginocchia guarda la pianura, e non si volta quando la
+      ghiaia scricchiola sotto i tuoi passi.
+
+      Quando si gira lo fa con calma, e ti squadra dal basso. Da sotto la
+      coperta spunta una gamba di legno intagliata con molta più cura della
+      baracca, una fila di lepri che corrono verso il piede, e l'ultima in
+      fondo ha soltanto le orecchie. «Da queste parti non passa quasi
+      nessuno» dice. «Chi passa ha fretta, e chi si ferma vuole qualcosa,
+      dico bene?» Bussa due volte sulla gamba di legno con le nocche. «Oda
+      Krell. Ho raschiato per trent'anni, e adesso apro le cose che quelli di
+      prima hanno chiuso, e le rimonto finché non fanno qualcosa.»
+
+      Dalla porta accostata esce il caldo di una stufa accesa in pieno
+      giorno, e sul banco da lavoro si vede un guscio di metallo aperto in
+      due come una noce. *Quelli di prima, li chiama, come dei vicini che
+      hanno cambiato casa.* Oda ti indica un secondo sgabello con il mento, e
+      aspetta che tu decida se sederti.
+    opzioni:
+      - testo: "Sederti e chiederle della strada"
+        descrizione: "Oda conosce le terrazze sasso per sasso, e da molto tempo nessuno le chiede niente."
+        esito:
+          titolo: Le frecce girate
+          testo: |
+            Ti siedi, e Oda parla per un'ora buona con gli occhi sulla
+            pianura. Ti dice quali frecce bianche dei Raschiatori sono state
+            girate per scherzo e da chi, e dove le crepe azzurre si allargano
+            dopo la pioggia. Ti dice anche che sul pianoro di ghiaia a ovest da
+            qualche settimana si è accampata una banda di predoni. «La sera si
+            sente l'odore dei fuochi» dice. «Bruciano lo sterco dei muli, e
+            quando uno brucia lo sterco ha fame, dico bene?» Quando ti alzi il
+            sole si è spostato sulle lamiere, e Oda ha l'aria di una che ha
+            mangiato bene.
+          effetti: { informazioni.pettegolezzo: 1 }
+          imposta: { oda.conosciuta: 1 }
+
+      - testo: "Chiederle delle crepe"
+        descrizione: "Una Raschiatrice vecchia legge la terra intorno alle crepe meglio di un maestro dell'Accademia."
+        esito:
+          titolo: Il lichene arancione
+          testo: |
+            Oda si alza puntando le mani sulle ginocchia e ti porta fino al
+            bordo della piega, dove la roccia si apre in una crepa larga una
+            spanna. Ti fa vedere il lichene arancione che cresce soltanto dove
+            la Marea Grigia sale spesso, e l'erba che si piega tutta dalla
+            stessa parte anche quando il vento tace. «L'erba lo sa prima di te»
+            dice. «Se si piega verso la crepa vuol dire che la crepa tira il
+            fiato, e allora tu cammini dall'altra parte, dico bene?» Ti fa
+            annusare un pugno di terra, che odora di ferro bagnato.
+          pe: { natura: 10 }
+          imposta: { oda.conosciuta: 1 }
+
+      - testo: "Spaccarle la legna"
+        descrizione: "Accanto alla porta c'è una catasta di travi di carro da fare a pezzi, e Oda continua a guardarla."
+        esito:
+          titolo: Il regalo
+          testo: |
+            Fai a pezzi le travi con l'ascia di Oda, che ha il manico rifatto
+            almeno tre volte, e le impili sotto la tettoia mentre lei ti dice
+            dove metterle e poi le sposta lo stesso. Quando hai finito hai le
+            mani piene di schegge e la camicia incollata alla schiena. Oda
+            sparisce nella baracca e torna con un guscio di metallo grande come
+            un pugno, chiuso su tutti i lati. «Questo non l'ho aperto» dice, e
+            te lo mette in mano. «Portamelo quando vuoi, e lo apriamo insieme.
+            Così torni, dico bene?»
+          effetti: { reperto.sigillato: 1 }
+          imposta: { oda.conosciuta: 1 }
+
+      - testo: "Restare in piedi e chiedere i prezzi"
+        descrizione: "Sei venuto per i reperti, e la conversazione si può fare un'altra volta."
+        costo: 0
+        esito:
+          titolo: La porta di nave
+          testo: |
+            Oda ti ascolta fino in fondo, poi si stringe la coperta sulle
+            ginocchia e torna a guardare la pianura. «I prezzi dipendono da
+            quello che porti» dice, e la voce le si è raffreddata di qualche
+            grado. «Porta qualcosa, e ne parliamo.» Mentre ti allontani senti la
+            porta di nave chiudersi alle tue spalle con un colpo secco, e dal
+            comignolo continua a salire il filo di fumo, diritto come prima.
+          imposta: { oda.conosciuta: 1 }
+
+  # ================================================================ 2 · aprire un reperto sigillato
+  - id: oda-aprire-reperto
+    presso: baracca-di-oda
+    immagine: icone/unlocking
+    titolo: Il guscio sul banco
+    sommario: "Oda apre i reperti sigillati sul suo banco, e lascia a te la scelta di dove infilare la lama."
+    luogo: "Superficie Fratturata, il banco di Oda Krell"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1, reperto.sigillato >= 1]
+    testo: |
+      Oda stende un panno di lana sul banco, ci posa sopra il reperto e lo
+      gira finché la giuntura non sta in alto, una riga sottile come un
+      capello che fa tutto il giro del guscio. Dalla rastrelliera prende una
+      lama piatta da vetraio e te la passa dalla parte del manico. «Dentro di
+      solito ci sono quattro cose, e intere non escono mai tutte» dice. «Se
+      ne cerchi una, le altre vanno in briciole. Scegli prima di cominciare,
+      dico bene?» Poi si siede accanto alla stufa con le mani aperte verso il
+      fuoco, e ti lascia lavorare. Sotto il pollice la giuntura è tiepida, e
+      ogni tanto sembra muoversi.
+    opzioni:
+      - testo: "Cercare l'involucro"
+        descrizione: "Il guscio esterno viene via intero soltanto a forza di braccia, e quando cede scatta come una tagliola."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il guscio intero
+          testo: |
+            Infili la lama nella giuntura e fai leva con tutto il peso, finché
+            il guscio cede con uno schiocco e si apre in due metà pulite.
+            Dentro il resto è poltiglia di cristallo e fili bruciati, però le
+            due metà combaciano ancora alla perfezione. Oda le batte una contro
+            l'altra e ascolta il suono, come si fa con le pentole al mercato.
+            «Metallo scuro, di quello buono che tiene insieme qualunque cosa»
+            dice, e te le rimette in mano già chiuse.
+          effetti: { reperto.sigillato: -1, parte.involucro-2: 1 }
+        fallimento:
+          titolo: La tagliola
+          testo: |
+            Il guscio resiste, poi cede di colpo e si richiude sulle tue dita
+            prima che tu riesca a ritirarle. Oda ti libera con un colpo di lama
+            nel punto giusto, senza alzarsi dallo sgabello più del necessario.
+            Il guscio si è incrinato da una parte all'altra, e le tue dita
+            hanno preso il colore delle prugne. «Regge ancora, se non lo
+            scuoti» dice lei, e ti passa uno straccio bagnato.
+          effetti: { reperto.sigillato: -1, parte.involucro-1: 1, ferite: 0.5 }
+
+      - testo: "Cercare la camera"
+        descrizione: "La camera di cristallo sta al centro, dentro una rete di fili sottili. Bisogna vedere dove tagliare prima di tagliare."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La camera a vene
+          testo: |
+            Apri il guscio un dito alla volta e segui i fili con la punta della
+            lama, finché trovi quelli che portano alla camera e lasci stare gli
+            altri. La camera esce intera, un cilindro di cristallo grande come
+            un pollice attraversato da vene di luce che vanno e vengono. Oda la
+            solleva contro la finestra e la guarda a lungo. *Ne ha viste a
+            centinaia, e questa le piace.* Te la rimette in mano con cura,
+            senza dire niente.
+          effetti: { reperto.sigillato: -1, parte.camera-2: 1 }
+        fallimento:
+          titolo: Il fiato grigio
+          testo: |
+            Tagli il filo sbagliato, e dalla crepa nel cristallo esce un filo
+            di nebbia grigia che ti sale dritto nel naso. Tossisci a lungo,
+            piegandoti sul banco, mentre Oda apre la porta di nave per far
+            girare l'aria. La camera è venuta fuori, opaca come il vetro di una
+            stalla. «A saperla prendere, qualcosa fa ancora» dice Oda.
+          effetti: { reperto.sigillato: -1, parte.camera-1: 1, contaminazione: 0.5 }
+
+      - testo: "Cercare l'impugnatura"
+        descrizione: "L'impugnatura è incastrata di traverso, e si sfila soltanto con le dita giuste nel momento giusto."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Una mano che non c'è più
+          testo: |
+            Infili due dita nella fessura e senti l'impugnatura muoversi e
+            fermarsi a scatti, con un ticchettio che segue un ritmo suo. Al
+            terzo giro capisci il ritmo e la sfili tutta d'un pezzo. È una
+            presa di metallo con gli incavi per una mano più lunga della tua,
+            e con un dito in meno. Oda ci appoggia la sua, e anche a lei i
+            conti non tornano.
+          effetti: { reperto.sigillato: -1, parte.impugnatura-2: 1 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            L'impugnatura scatta mentre hai ancora le dita nella fessura e ti
+            morde il palmo con uno spigolo che non avevi visto. Il sangue cola
+            sul panno di lana, e Oda lo guarda con disapprovazione, perché il
+            panno è suo. Quello che riesci a tirare fuori è mezzo manico, e
+            qualcuno prima di te l'ha già rifatto con un pezzo di legno e due
+            chiodi.
+          effetti: { reperto.sigillato: -1, parte.impugnatura-1: 1, ferite: 0.5 }
+
+      - testo: "Cercare il nucleo"
+        descrizione: "Il nucleo sta in fondo a tutto, e quando lo tocchi comincia a parlarti. Bisogna tenere la testa al suo posto."
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Media }
+        successo:
+          titolo: La voce a metà
+          testo: |
+            Scavi fino in fondo al guscio e trovi il nucleo, una pietra liscia
+            grande come un uovo di quaglia. Appena la tocchi senti una voce che
+            comincia una frase, e la frase non arriva mai alla fine e
+            ricomincia ogni volta da capo. Tieni gli occhi sulle mani e conti i
+            respiri finché il nucleo è fuori, e la voce si abbassa a un
+            mormorio. Oda lo avvolge in uno straccio senza toccarlo. «Questi li
+            tengo lontano dal letto» dice.
+          effetti: { reperto.sigillato: -1, parte.nucleo-2: 1 }
+        fallimento:
+          titolo: La stanza bianca
+          testo: |
+            Appena tocchi il nucleo la voce ti entra in testa, e per un momento
+            ti trovi in una stanza bianca senza porte, con la luce che viene
+            dal pavimento. Quando torni hai il nucleo in mano e Oda che ti
+            scuote per una spalla. La pietra si è fatta opaca e la voce è
+            sparita, e in bocca ti resta il sapore della stanza bianca, che è
+            un sapore di niente.
+          effetti: { reperto.sigillato: -1, parte.nucleo-1: 1, tormento: 0.5 }
+
+      - testo: "Lasciarlo aprire a Oda"
+        descrizione: "Oda ci mette un pomeriggio intero e vuole qualche moneta per il disturbo. È la via sicura, e rende poco."
+        costo: 2
+        requisiti: [monete >= 3]
+        esito:
+          titolo: Un pomeriggio alla stufa
+          testo: |
+            Oda lavora piano, con gli occhiali sulla punta del naso, e intanto
+            ti racconta di una squadra di Raschiatori che si perse per tre
+            giorni a cento passi dall'uscita, perché nessuno voleva ammettere
+            di aver sbagliato strada. Tu tieni fermo il guscio quando te lo
+            chiede e le passi gli attrezzi. Verso sera sul panno ci sono una
+            carcassa incrinata e un frammento inciso, e il resto è polvere.
+            «Poco, però sicuro» dice Oda, e si mette in tasca le monete senza
+            contarle.
+          effetti: { reperto.sigillato: -1, monete: -3, parte.involucro-1: 1, reliquie.frammento-inciso: 1 }
+
+  # ================================================================ 3 · montare il congegno: l'involucro
+  - id: oda-montare-involucro
+    presso: baracca-di-oda
+    immagine: icone/cube
+    titolo: Il guscio del congegno
+    sommario: "Ogni congegno di Oda comincia da un involucro che tenga insieme il resto."
+    luogo: "Superficie Fratturata, il banco di Oda Krell"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1, banco.involucro == 0]
+    testo: |
+      In fondo al banco, sotto la finestra, Oda tiene uno spazio sgombro con
+      un telo di cuoio e una morsa di legno, ed è lì che nascono i congegni.
+      Di solito si comincia dall'involucro, che tiene insieme tutto il resto.
+      Oda dice che l'ordine non conta, e poi si offende se cominci da
+      un'altra parte. Ti passa un cacciavite con il manico d'osso e resta a
+      guardarti da sopra la spalla, con il fiato che sa di cicoria bruciata.
+      «Le viti di quelli di prima girano al contrario, e tutti se ne
+      scordano la prima volta, e anche la seconda, dico bene?» dice, mentre
+      sistema la lampada perché la luce ti cada sulle mani.
+    opzioni:
+      - testo: "Montare la carcassa incrinata"
+        descrizione: "Un involucro comune, che si chiude senza fatica e regge finché non lo scuoti."
+        quando: [parte.involucro-1 >= 1, banco.camera != 3]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: La carcassa chiusa
+          testo: |
+            Le viti girano al contrario, come ha detto Oda, e la carcassa si
+            chiude con un cigolio. Quando la posi sul telo la crepa sul fianco
+            si allarga appena e poi si ferma. «Regge» dice Oda, e la tocca con
+            un dito come si tocca un cane che morde. Il congegno per ora è una
+            scatola vuota che sta in piedi da sola.
+          effetti: { parte.involucro-1: -1, banco.involucro: 1, banco.parti: 1, banco.stabilita: 2 }
+        fallimento: &oda-fall-involucro-1
+          titolo: La crepa
+          testo: |
+            Giri una vite nel verso giusto, che è quello sbagliato, e la crepa
+            sul fianco corre fino all'altro lato con un rumore di ghiaccio che
+            si rompe. La carcassa si apre in due sul telo. Oda raccoglie i pezzi
+            e li butta nella cassa dei rottami, e uno dei due, prima di cadere,
+            manda una piccola scintilla azzurra che non dovrebbe mandare. Da
+            allora il banco, in quel punto, pizzica le dita.
+          effetti: { parte.involucro-1: -1, banco.stranezza: 1 }
+
+      - testo: "Montare la carcassa incrinata"
+        descrizione: "La camera che pulsa è già sul banco, e una carcassa incrinata dovrà contenerla. Oda scuote la testa."
+        quando: [parte.involucro-1 >= 1, banco.camera == 3]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: La crepa che batte
+          testo: |
+            La carcassa si chiude intorno alla camera, e a ogni battito del
+            cristallo la crepa sul fianco si apre e si richiude come una bocca.
+            Oda ci passa sopra un filo di rame stretto a più giri, che regge
+            appena. «Tiene insieme le parti, e basta» dice. Il congegno vibra
+            sul telo e cammina di un dito verso il bordo del banco, finché lei
+            non ci mette sopra un sasso.
+          effetti: { parte.involucro-1: -1, banco.involucro: 1, banco.parti: 1 }
+        fallimento: *oda-fall-involucro-1
+
+      - testo: "Montare il guscio di metallo scuro"
+        descrizione: "Un involucro buono e pesante. Le viti sono tante, e piccole."
+        quando: [parte.involucro-2 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il metallo scuro
+          testo: |
+            Ci vuole un'ora, una vite alla volta, con Oda che ti tiene ferma la
+            lampada e ti dice di respirare piano. Quando l'ultima vite entra il
+            guscio si chiude con un suono pieno, da porta di cantina. Lo
+            sollevi e lo lasci cadere sul telo da una spanna d'altezza, e
+            dentro niente si muove. Oda annuisce e torna alla stufa con l'aria
+            soddisfatta.
+          effetti: { parte.involucro-2: -1, banco.involucro: 2, banco.parti: 1, banco.stabilita: 4 }
+        fallimento:
+          titolo: La vite spanata
+          testo: |
+            All'ultima vite il cacciavite scivola, e la testa della vite si
+            spana. Provi a forzarla e il guscio si deforma da un lato, quel
+            tanto che basta perché le metà smettano di combaciare. Oda lo
+            prende, lo guarda di taglio contro la luce e lo mette nella cassa
+            dei rottami senza commentare. Dal fondo della cassa, per tutta la
+            sera, arriva un ticchettio regolare.
+          effetti: { parte.involucro-2: -1, banco.stranezza: 1 }
+
+      - testo: "Montare la cassa sigillata"
+        descrizione: "Un involucro raro, che si chiude da solo. Il difficile è convincerlo ad aprirsi."
+        quando: [parte.involucro-3 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La cassa che si chiude
+          testo: |
+            Trovi il punto dove premere solo dopo un pomeriggio di tentativi, e
+            la cassa si apre come un fiore. La lasci sul telo e si richiude da
+            sola, piano, con un sospiro d'aria. Oda la guarda con le mani in
+            grembo. «Quando ci metterai dentro il resto, si chiuderà su
+            quello» dice. «E poi non vorrà più lasciarlo andare, dico bene?»
+            La cassa è tiepida anche lontano dalla stufa.
+          effetti: { parte.involucro-3: -1, banco.involucro: 3, banco.parti: 1, banco.stabilita: 6, banco.stranezza: 1 }
+        fallimento:
+          titolo: Il sospiro
+          testo: |
+            Premi nel punto sbagliato, e la cassa si chiude di scatto con
+            dentro la punta del cacciavite. Da lì in poi resiste alla lama e
+            anche alle preghiere che Oda le rivolge a mezza voce. La tenete sul
+            banco tutta la sera, e ogni tanto la senti sospirare. Prima di
+            andare a letto Oda la mette fuori dalla porta, sulla ghiaia, con il
+            coperchio rivolto verso la pianura.
+          effetti: { parte.involucro-3: -1, banco.stranezza: 1 }
+
+      - testo: "Montare un meccanismo spento come involucro"
+        descrizione: "Un meccanismo che in città hanno rimontato intero, senza riuscire a farlo andare. Svuotato, fa da carcassa comune."
+        quando: [reliquie.meccanismo-spento >= 1, banco.camera != 3]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: Il meccanismo svuotato
+          testo: |
+            Oda ti aiuta a togliere gli ingranaggi che qualcuno in città ha
+            rimesso al loro posto con tanta pazienza, e li allinea su uno
+            straccio in ordine di grandezza. Quello che resta è un guscio
+            vuoto, con i fori delle viti nei punti giusti. «In città li
+            rimontano per venderli» dice, «e noi li smontiamo per farli
+            andare.» Lo chiudi sul telo, e regge.
+          effetti: { reliquie.meccanismo-spento: -1, banco.involucro: 1, banco.parti: 1, banco.stabilita: 2 }
+        fallimento: &oda-fall-meccanismo
+          titolo: L'ultimo ingranaggio
+          testo: |
+            Togli gli ingranaggi uno alla volta, e all'ultimo il meccanismo si
+            chiude su se stesso con uno scatto, piegando il guscio verso
+            l'interno. Oda lo rigira fra le mani. Di quello che era resta un
+            pezzo di metallo storto, che ogni tanto fa girare da solo l'unico
+            ingranaggio rimasto.
+          effetti: { reliquie.meccanismo-spento: -1, banco.stranezza: 1 }
+
+      - testo: "Montare un meccanismo spento come involucro"
+        descrizione: "La camera che pulsa è già sul banco, e un meccanismo svuotato è un guscio troppo sottile per contenerla."
+        quando: [reliquie.meccanismo-spento >= 1, banco.camera == 3]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: Il guscio che trema
+          testo: |
+            Svuoti il meccanismo e lo chiudi intorno alla camera. A ogni
+            battito del cristallo il guscio sottile si gonfia e si sgonfia, e
+            le viti si allentano di mezzo giro. Oda le stringe con le dita, poi
+            ci lega intorno un filo di rame. «Starà insieme» dice, senza
+            crederci molto. Sul telo il congegno trema come una pentola sul
+            fuoco.
+          effetti: { reliquie.meccanismo-spento: -1, banco.involucro: 1, banco.parti: 1 }
+        fallimento: *oda-fall-meccanismo
+
+      - testo: "Chiedere a Oda che cosa ci vuole"
+        descrizione: "Senza un involucro il banco resta vuoto. Oda sa dove trovarne uno."
+        quando: [parte.involucro-1 == 0, parte.involucro-2 == 0, parte.involucro-3 == 0, reliquie.meccanismo-spento == 0]
+        costo: 0
+        esito:
+          titolo: Un guscio, prima di tutto
+          testo: |
+            Oda ti guarda le mani vuote. «Un involucro» dice. «Esce dai
+            reperti sigillati, se lo cerchi con le braccia, oppure va bene
+            anche uno di quei meccanismi spenti che rimontano in città. Senza
+            un guscio il resto cade per terra, dico bene?»
+
+  # ================================================================ 3 · montare il congegno: la camera
+  - id: oda-montare-camera
+    presso: baracca-di-oda
+    immagine: icone/crystal-bars
+    titolo: La camera di cristallo
+    sommario: "La camera è il cuore del congegno, quella che gli dà la forza di fare qualcosa."
+    luogo: "Superficie Fratturata, il banco di Oda Krell"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1, banco.camera == 0]
+    testo: |
+      Oda tiene le camere di cristallo in una scatola foderata di feltro che
+      sta lontano dalla stufa, e le tira fuori una alla volta con due dita,
+      come si prendono le uova. «Il guscio tiene insieme il congegno, e la camera
+      lo fa andare» dice. «Quanto più è viva, tanto più spinge contro quello
+      che le sta intorno.» Sul banco ti prepara una pinza dalle punte di
+      legno e un vasetto di grasso grigio, che serve a far scivolare i fili
+      nelle sedi. Per un momento resta a guardarti la mano destra, e tu la
+      tieni ferma.
+    opzioni:
+      - testo: "Montare la camera spenta"
+        descrizione: "Una camera comune, opaca. Si monta senza fatica e spinge poco."
+        quando: [parte.camera-1 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: Un poco di calore
+          testo: |
+            Infili la camera nella sede e colleghi i fili con la pinza, uno
+            alla volta. Per un po' sembra che non succeda niente. Poi il
+            cristallo si fa appena lattiginoso e il congegno comincia a
+            scaldarsi, quanto basta per tenerci sopra le mani in una mattina
+            fredda. Oda ci tiene sopra le sue davvero, e sospira.
+          effetti: { parte.camera-1: -1, banco.camera: 1, banco.parti: 1, banco.potenza: 2 }
+        fallimento:
+          titolo: Il vetro rotto
+          testo: |
+            La camera ti scivola dalla pinza unta di grasso e batte sullo
+            spigolo del banco. Si incrina con il suono acuto di un bicchiere, e
+            dalla crepa esce un poco di luce che corre lungo i fili del
+            congegno e si spegne dentro. Oda raccoglie i pezzi. Da quel momento
+            il congegno, ogni tanto, si scalda per conto suo.
+          effetti: { parte.camera-1: -1, banco.stranezza: 1 }
+
+      - testo: "Montare la camera a vene"
+        descrizione: "Una camera buona, con le vene di luce. Bisogna collegare i fili nell'ordine giusto."
+        quando: [parte.camera-2 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Le vene accese
+          testo: |
+            Colleghi i fili seguendo le vene, che si accendono una dopo l'altra
+            come lampade lungo una strada. Quando chiudi l'ultimo il congegno
+            ronza, di un ronzio basso che ti arriva nei denti, e lo straccio
+            appoggiato accanto si sposta da solo di un dito. Oda lo rimette al
+            suo posto, e lo straccio si sposta di nuovo.
+          effetti: { parte.camera-2: -1, banco.camera: 2, banco.parti: 1, banco.potenza: 4 }
+        fallimento:
+          titolo: Le vene spente
+          testo: |
+            Colleghi un filo nella vena sbagliata, e la luce si ritira dentro
+            il cristallo come un animale nella tana. La camera resta grigia, e
+            Oda da quel giorno la usa come fermacarte. Il congegno dove l'hai
+            provata emette a intervalli un ronzio che nessuno dei due riesce a
+            far smettere.
+          effetti: { parte.camera-2: -1, banco.stranezza: 1 }
+
+      - testo: "Montare la camera che pulsa ancora"
+        descrizione: "Una camera rara, che batte come un polso. Spinge molto, e bisogna tenerla ferma mentre la monti."
+        quando: [parte.camera-3 >= 1, banco.involucro != 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Il polso
+          testo: |
+            Tieni la camera nel palmo mentre colleghi i fili con l'altra mano,
+            e il battito ti sale lungo il braccio fino alla spalla. Quando la
+            sede si chiude il congegno sobbalza sul telo e si mette a pulsare
+            con lei, e la fiamma della lampada sul banco si abbassa a ogni
+            colpo. Oda si alza dallo sgabello per la prima volta in tutto il
+            pomeriggio, e resta in piedi a guardarlo con le mani sui fianchi.
+          effetti: { parte.camera-3: -1, banco.camera: 3, banco.parti: 1, banco.potenza: 6, banco.stranezza: 1 }
+        fallimento: &oda-fall-camera-3
+          titolo: Il battito che si ferma
+          testo: |
+            A metà dei fili il battito accelera, e la camera ti scotta il palmo
+            tanto che devi lasciarla. Cade nella sede di traverso e si spegne
+            con un ultimo colpo, che fa tremare il banco e le tazze sulla
+            mensola. Oda la guarda a lungo prima di toccarla. Da allora, nel
+            congegno sul banco, ogni tanto qualcosa batte una volta sola e si
+            ferma.
+          effetti: { parte.camera-3: -1, banco.stranezza: 1 }
+
+      - testo: "Montare la camera che pulsa ancora"
+        descrizione: "Sul banco c'è una carcassa incrinata, e la camera che pulsa è troppo forte per lei. Oda te l'ha detto."
+        quando: [parte.camera-3 >= 1, banco.involucro == 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La carcassa che si apre
+          testo: |
+            Colleghi i fili, e al primo battito della camera la crepa della
+            carcassa si apre di un dito. Al secondo battito si richiude. Il
+            congegno pulsa e scivola sul telo come una cosa viva, mentre la
+            carcassa si apre e si chiude intorno a lui con un rumore di
+            mascelle. Oda ci stringe intorno una cinghia di cuoio. «Funziona»
+            dice, e lo dice con poca convinzione.
+          effetti: { parte.camera-3: -1, banco.camera: 3, banco.parti: 1, banco.potenza: 6, banco.stranezza: 1, banco.stabilita: -2 }
+        fallimento: *oda-fall-camera-3
+
+      - testo: "Chiedere a Oda che cosa ci vuole"
+        descrizione: "Senza una camera il congegno resta fermo. Oda sa dove trovarne una."
+        quando: [parte.camera-1 == 0, parte.camera-2 == 0, parte.camera-3 == 0]
+        costo: 0
+        esito:
+          titolo: Una camera, per spingere
+          testo: |
+            Oda chiude la scatola di feltro, che è vuota. «Le camere stanno in
+            mezzo ai fili, dentro i reperti sigillati» dice. «Cercale con gli
+            occhi, perché con le mani si rompono, dico bene?»
+
+  # ================================================================ 3 · montare il congegno: l'impugnatura
+  - id: oda-montare-impugnatura
+    presso: baracca-di-oda
+    immagine: icone/grab
+    titolo: La presa
+    sommario: "Un congegno senza impugnatura non lo tiene in mano nessuno, e quelli di prima avevano mani diverse dalle nostre."
+    luogo: "Superficie Fratturata, il banco di Oda Krell"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1, banco.impugnatura == 0]
+    testo: |
+      Sopra il banco Oda ha appeso una fila di impugnature smontate, ognuna
+      al suo chiodo, e la sera le guarda come altri guardano i ritratti di
+      famiglia. Ce n'è una con sei incavi per le dita, e accanto un'altra
+      lunga come un avambraccio, che non si capisce da che parte vada
+      presa. «Quelli di prima avevano le mani come volevano loro» dice.
+      «Noi abbiamo queste, e ci tocca adattarci.» Ti mostra come si fissa
+      un'impugnatura alla carcassa con le spine di rame, e come si prova
+      tenendola con la sinistra, che secondo lei è la mano che sbaglia di
+      meno.
+    opzioni:
+      - testo: "Montare il manico rifatto"
+        descrizione: "Un'impugnatura comune, rifatta da mani umane. Sta bene in mano, e dà poco."
+        quando: [parte.impugnatura-1 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: Il manico di legno
+          testo: |
+            Il manico rifatto si incastra senza storie, perché qualcuno prima
+            di te l'ha già adattato a una mano come la tua. Lo stringi, e il
+            congegno si lascia sollevare dal telo senza scivolare. Oda ci passa
+            sopra il pollice. «Chi l'ha rifatto sapeva lavorare il legno, e il
+            resto no, dico bene?» dice, e ti sembra quasi affezionata a quel
+            manico.
+          effetti: { parte.impugnatura-1: -1, banco.impugnatura: 1, banco.parti: 1, banco.potenza: 1, banco.stabilita: 1 }
+        fallimento:
+          titolo: La spina storta
+          testo: |
+            Pianti storta la spina di rame, e il manico si spacca lungo la
+            venatura. Ne restano due metà che non si incastrano più da nessuna
+            parte. Oda le butta nella stufa, dove bruciano con una fiamma
+            verdastra che non hai mai visto fare al legno.
+          effetti: { parte.impugnatura-1: -1, banco.stranezza: 1 }
+
+      - testo: "Montare l'impugnatura non umana"
+        descrizione: "Un'impugnatura buona, fatta per una mano che non esiste più. Va montata nel verso giusto, e il verso giusto si trova provando."
+        quando: [parte.impugnatura-2 >= 1, banco.nucleo != 3]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il verso giusto
+          testo: |
+            Provi l'impugnatura in tre versi, e al terzo il congegno smette di
+            sembrare una cosa da tenere a distanza. Le dita restano fuori dagli
+            incavi, mentre il palmo ci entra preciso. Quando lo stringi la
+            presa si scalda appena, e il congegno lo puoi alzare e puntare. Oda
+            ti guarda puntarlo verso la finestra e ti abbassa il braccio con
+            una mano.
+          effetti: { parte.impugnatura-2: -1, banco.impugnatura: 2, banco.parti: 1, banco.potenza: 2, banco.stabilita: 2 }
+        fallimento: &oda-fall-impugnatura-2
+          titolo: Gli incavi
+          testo: |
+            Monti l'impugnatura al contrario, e quando te ne accorgi le spine
+            di rame si sono già piegate dentro la sede. Per tirarla fuori Oda
+            deve spezzarla. Al congegno resta una spina storta che sporge dal
+            fianco, e chi ci passa accanto ci impiglia la manica, anche se sta
+            attento.
+          effetti: { parte.impugnatura-2: -1, banco.stranezza: 1 }
+
+      - testo: "Montare l'impugnatura non umana"
+        descrizione: "Il nucleo che ricorda è già nel congegno, e un'impugnatura fatta per un'altra mano gli farà tornare in mente qualcosa."
+        quando: [parte.impugnatura-2 >= 1, banco.nucleo == 3]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La mano che ricorda
+          testo: |
+            Fissi l'impugnatura, e appena la stringi il nucleo dentro il
+            congegno si sveglia. Per un momento la tua mano ha sei dita, e sai
+            a memoria dove andavano tutte. Quando lasci la presa la sensazione
+            passa, però il congegno ha cominciato a girarsi da solo sul telo
+            verso un punto preciso della pianura, e da lì non si stacca più
+            finché Oda non lo blocca nella morsa, stringendo la vite con tutte
+            e due le mani.
+          effetti: { parte.impugnatura-2: -1, banco.impugnatura: 2, banco.parti: 1, banco.potenza: 2, banco.stranezza: 2 }
+        fallimento: *oda-fall-impugnatura-2
+
+      - testo: "Montare la presa a sei dita"
+        descrizione: "Un'impugnatura rara, che si scalda quando la tieni. Per montarla bisogna convincerla che la tua mano va bene."
+        quando: [parte.impugnatura-3 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Sei incavi
+          testo: |
+            Tieni la presa per un'ora intera, e il pollice passa da un incavo
+            all'altro finché trova quello giusto. Allora la presa si scalda e
+            smette di scivolarti via. Solo allora le spine di rame entrano nella sede.
+            Sollevato, il congegno pesa quasi niente, e dove lo punti l'aria
+            trema appena. Oda ti chiede di non puntarlo verso di lei.
+          effetti: { parte.impugnatura-3: -1, banco.impugnatura: 3, banco.parti: 1, banco.potenza: 3, banco.stabilita: 3 }
+        fallimento:
+          titolo: La presa fredda
+          testo: |
+            La presa si scalda sempre di più, finché ti brucia il palmo. La
+            lasci cadere sul telo, dove si raffredda di colpo e si copre di
+            brina. Da quel momento è un pezzo di metallo gelido, e il congegno
+            sul banco, nei punti dove l'ha toccato, ha preso a sudare acqua
+            fredda.
+          effetti: { parte.impugnatura-3: -1, banco.stranezza: 1 }
+
+      - testo: "Chiedere a Oda che cosa ci vuole"
+        descrizione: "Senza impugnatura il congegno non lo tiene in mano nessuno. Oda sa dove cercarne una."
+        quando: [parte.impugnatura-1 == 0, parte.impugnatura-2 == 0, parte.impugnatura-3 == 0]
+        costo: 0
+        esito:
+          titolo: Una presa
+          testo: |
+            Oda indica la fila di impugnature appese ai chiodi. «Quelle sono
+            mie» dice. «La tua sta incastrata di traverso dentro un reperto
+            sigillato, e per tirarla fuori ci vogliono dita svelte, dico
+            bene?»
+
+  # ================================================================ 3 · montare il congegno: il nucleo
+  - id: oda-montare-nucleo
+    presso: baracca-di-oda
+    immagine: icone/glowing-artifact
+    titolo: Il nucleo
+    sommario: "Il nucleo è la parte che fa fare al congegno le cose che non dovrebbe. Oda lo monta per ultimo, quando può."
+    luogo: "Superficie Fratturata, il banco di Oda Krell"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1, banco.nucleo == 0]
+    testo: |
+      I nuclei Oda li tiene in una cassetta di piombo sotto il letto, il più
+      lontano possibile dal banco, e prima di aprirla si toglie l'anello di ferro che
+      porta al mignolo. «A quelli di prima servivano per ricordare» dice, «e
+      questi ricordano ancora, solo che hanno perso il filo.» Ti fa sedere con
+      la schiena al muro, perché se ti gira la testa è meglio avere qualcosa
+      dietro. Sul banco ha preparato una pinzetta d'osso e un bicchiere
+      d'acqua, e a che cosa serva l'acqua non te lo dice.
+    opzioni:
+      - testo: "Montare il nucleo opaco"
+        descrizione: "Un nucleo comune, quasi muto. Si monta senza fatica, e il congegno comincia a fare cose piccole."
+        quando: [parte.nucleo-1 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: Le cose piccole
+          testo: |
+            Il nucleo opaco entra nella sede con uno scatto, e per un po' sembra
+            che non succeda niente. Poi ti accorgi che l'acqua nel bicchiere si
+            è messa a girare piano, sempre nello stesso verso. Oda la guarda
+            girare per un pezzo, poi ne beve un sorso, senza fretta.
+          effetti: { parte.nucleo-1: -1, banco.nucleo: 1, banco.parti: 1, banco.stranezza: 2 }
+        fallimento:
+          titolo: Il bicchiere
+          testo: |
+            Il nucleo ti sfugge dalla pinzetta e cade nel bicchiere, e l'acqua
+            si intorbida di colpo. Quando lo ripeschi è grigio come un sasso di
+            fiume e ha smesso di mormorare. Oda va a buttare l'acqua sulla
+            ghiaia a venti passi dalla baracca, e da allora il congegno sul banco si
+            copre di goccioline anche con la stufa accesa.
+          effetti: { parte.nucleo-1: -1, banco.stranezza: 1 }
+
+      - testo: "Montare il nucleo che sussurra"
+        descrizione: "Un nucleo buono, con una voce che non finisce mai la frase. Bisogna montarlo senza ascoltarla."
+        quando: [parte.nucleo-2 >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La voce nel congegno
+          testo: |
+            Monti il nucleo con la pinzetta, contando a voce alta per coprire il
+            sussurro, e quando la sede si chiude la voce passa dal nucleo al
+            congegno intero. Adesso la senti da tutto il banco, un mormorio che
+            comincia sempre una frase e la lascia a metà. Oda ci ha fatto
+            l'abitudine da anni. A fine giornata ti sorprendi a finire la frase
+            al posto suo.
+          effetti: { parte.nucleo-2: -1, banco.nucleo: 2, banco.parti: 1, banco.stranezza: 4 }
+        fallimento:
+          titolo: La frase finita
+          testo: |
+            Ascolti la voce un momento di troppo, e la frase per una volta
+            arriva in fondo. Quello che diceva ti sfugge appena provi a
+            ricordarlo. Ti ritrovi con la schiena contro il muro e il bicchiere
+            vuoto in mano, e il nucleo sul telo è opaco e zitto. Da allora il
+            congegno ogni tanto mormora la fine di una frase che nessuno ha
+            cominciato.
+          effetti: { parte.nucleo-2: -1, banco.stranezza: 1 }
+
+      - testo: "Montare il nucleo che ricorda"
+        descrizione: "Un nucleo raro. Chi lo tiene in mano troppo a lungo si ricorda di posti dove non è mai stato."
+        quando: [parte.nucleo-3 >= 1, banco.impugnatura != 2]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La piazza di pietra
+          testo: |
+            Monti il nucleo in fretta e senza guardarlo, e quando lasci la
+            pinzetta hai in testa per un momento una piazza di pietra bianca
+            piena di gente alta. Poi la piazza se ne va. Il congegno resta
+            acceso di una luce che non viene da nessuna parte, e se lo guardi a
+            lungo ti sembra di averlo già visto in un'altra forma. Oda tiene gli
+            occhi sulla stufa e non lo guarda affatto.
+          effetti: { parte.nucleo-3: -1, banco.nucleo: 3, banco.parti: 1, banco.stranezza: 6 }
+        fallimento: &oda-fall-nucleo-3
+          titolo: La piazza bianca
+          testo: |
+            Tieni il nucleo in mano troppo a lungo. Sei in una piazza di pietra
+            bianca piena di gente alta, che si volta tutta insieme a guardarti,
+            e da lì non sai da che parte si torni. Torni quando Oda ti rovescia
+            addosso il bicchiere d'acqua. Il nucleo sul telo è spaccato a metà,
+            e il congegno, per tutta la sera, si gira verso di te ogni volta che
+            ti muovi.
+          effetti: { parte.nucleo-3: -1, banco.stranezza: 1 }
+
+      - testo: "Montare il nucleo che ricorda"
+        descrizione: "Sul congegno c'è un'impugnatura fatta per una mano che non esiste più, e il nucleo che ricorda se ne ricorderà."
+        quando: [parte.nucleo-3 >= 1, banco.impugnatura == 2]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La mano e la piazza
+          testo: |
+            Il nucleo entra nella sede, e l'impugnatura non umana si scalda
+            sotto le tue dita come se qualcuno l'avesse appena lasciata. Hai in
+            testa la piazza bianca, e stavolta la vedi dall'altezza giusta, con
+            una mano a sei dita che stringe proprio quella presa. Il congegno
+            si agita sul telo e cerca qualcosa verso la pianura senza trovarlo.
+            Oda lo lega alla morsa con due giri di corda.
+          effetti: { parte.nucleo-3: -1, banco.nucleo: 3, banco.parti: 1, banco.stranezza: 8, banco.stabilita: -2 }
+        fallimento: *oda-fall-nucleo-3
+
+      - testo: "Chiedere a Oda che cosa ci vuole"
+        descrizione: "Senza un nucleo il congegno fa soltanto quello che deve. Oda sa dove trovarne uno."
+        quando: [parte.nucleo-1 == 0, parte.nucleo-2 == 0, parte.nucleo-3 == 0]
+        costo: 0
+        esito:
+          titolo: Una cosa che ricorda
+          testo: |
+            Oda rimette la cassetta di piombo sotto il letto senza averla
+            aperta. «I nuclei stanno in fondo ai reperti, sotto tutto il resto»
+            dice. «Per tirarli fuori ci vuole la testa ferma, e le mani contano
+            poco, dico bene?»
+
+  # ================================================================ 4 · smontare il congegno
+  - id: oda-smontare-congegno
+    presso: baracca-di-oda
+    immagine: icone/spanner
+    titolo: Smontare il congegno
+    sommario: "Quello che è montato si può smontare, però dalle parti montate escono soltanto schegge."
+    luogo: "Superficie Fratturata, il banco di Oda Krell"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1, banco.parti >= 1]
+    testo: |
+      Il congegno sta sul telo di cuoio in fondo al banco, con le parti che
+      hai montato tenute insieme dalle viti di quelli di prima e da qualche
+      filo di rame di Oda. Da vicino ti sembra che una crepa nel metallo ti
+      tenga d'occhio. Oda ha già in mano il cacciavite con il manico d'osso,
+      e se lo rigira fra le dita senza passartelo. «Si può smontare, solo
+      che quello che si smonta torna diverso, perché le parti, una volta
+      montate, si abituano le une alle altre, dico bene?» dice, e intanto
+      guarda il congegno invece di te.
+    opzioni:
+      - testo: "Smontare tutto"
+        descrizione: "Il banco torna vuoto, e di quello che c'era restano poche schegge."
+        esito:
+          titolo: Il telo vuoto
+          testo: |
+            Togli le viti girandole al contrario, e le parti vengono via con
+            un rumore di cosa strappata. Quello che esce è troppo rovinato per
+            montarlo di nuovo, e Oda lo spazza in un mucchietto di schegge con
+            il dorso della mano. Il telo di cuoio è di nuovo vuoto, e sul cuoio,
+            dove stava il congegno, resta un alone più scuro che lo straccio
+            non riesce a togliere.
+          effetti: { reliquie.scheggia: 3 }
+          imposta: &oda-banco-vuoto { banco.involucro: 0, banco.camera: 0, banco.impugnatura: 0, banco.nucleo: 0, banco.parti: 0, banco.potenza: 0, banco.stabilita: 0, banco.stranezza: 0 }
+
+  # ================================================================ 5 · far riparare un reperto guasto
+  - id: oda-riparare-reperti
+    presso: baracca-di-oda
+    immagine: icone/auto-repair
+    titolo: Le riparazioni di Oda
+    sommario: "Per Oda un reperto guastato dorme soltanto, e si sveglia con il pezzo giusto."
+    luogo: "Superficie Fratturata, la mensola sopra la stufa"
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [oda.conosciuta >= 1]
+    testo: |
+      Sulla mensola sopra la stufa Oda tiene i reperti che le hanno portato
+      da riparare, ognuno con un cartellino legato con lo spago e un nome
+      scritto storto. Alcuni stanno lì da anni, perché chi li ha portati non
+      è più tornato a prenderli. «Si guastano quando li usi male, oppure
+      quando li usi troppo, che è lo stesso» dice. «Dentro di solito si è
+      bruciato un pezzo, e il pezzo si cambia con uno uguale, di quelli che
+      escono dai sigillati.» Si gratta la gamba di legno all'altezza della
+      caviglia, dove a quanto dice le prude ancora, e aggiunge che il lavoro
+      si paga, come se fosse un dettaglio.
+    opzioni:
+      - testo: "Far riparare l'arma a impulsi"
+        descrizione: "La fessura non si accende più. Oda dice che è la camera, e ne vuole una comune per cambiarla."
+        quando: [guasto.arma-a-impulsi >= 1]
+        requisiti: [parte.camera-1 >= 1, monete >= 6]
+        esito:
+          titolo: La fessura
+          testo: |
+            Oda svita il fondo del tubo e tira fuori una camera nera come il
+            carbone, che si sbriciola appena la posa sul banco. Al suo posto
+            infila la tua camera spenta e la sigilla con il grasso grigio.
+            Quando ti rende l'arma la fessura si illumina di nuovo verso le tue
+            scarpe, e tu la sposti d'istinto. «La prima volta punta a terra»
+            dice Oda, e conta le monete.
+          effetti: { parte.camera-1: -1, monete: -6, guasto.arma-a-impulsi: -1 }
+
+      - testo: "Far riparare il respiratore"
+        descrizione: "La maschera non si stringe più al viso. Serve un pezzo di carcassa per rifare il bordo."
+        quando: [guasto.respiratore >= 1]
+        requisiti: [parte.involucro-1 >= 1, monete >= 4]
+        esito:
+          titolo: Il bordo nuovo
+          testo: |
+            Oda taglia una striscia dalla tua carcassa incrinata con una
+            cesoia da lattoniere e la piega intorno al bordo della maschera, un
+            colpo di martello alla volta. Poi te la appoggia sul viso senza
+            avvertirti. I bordi si muovono finché trovano la tua faccia, e
+            l'aria sa di pietra bagnata come la prima volta. Oda ti guarda
+            attraverso il vetro con le braccia conserte.
+          effetti: { parte.involucro-1: -1, monete: -4, guasto.respiratore: -1 }
+
+      - testo: "Far riparare il campo di forza"
+        descrizione: "Il disco ha smesso di formicolare. Il nucleo si è addormentato, e uno comune basta a svegliarlo."
+        quando: [guasto.campo-di-forza >= 1]
+        requisiti: [parte.nucleo-1 >= 1, monete >= 6]
+        esito:
+          titolo: Il formicolio
+          testo: |
+            Oda apre il disco con la punta di un coltello, toglie un nucleo
+            grigio come un dente cariato e ci mette il tuo nucleo opaco. Lo
+            richiude e te lo appoggia sul petto. Il formicolio torna subito e
+            ti scende fin dentro le ossa, e l'aria intorno a te si fa
+            densa per il tempo di un respiro. Oda si allontana di un passo,
+            perché la luce le dà fastidio agli occhi.
+          effetti: { parte.nucleo-1: -1, monete: -6, guasto.campo-di-forza: -1 }
+
+      - testo: "Far riparare il visore"
+        descrizione: "La lente mostra le cose al loro posto, come una lente qualunque. Ci vuole una camera nuova."
+        quando: [guasto.visore >= 1]
+        requisiti: [parte.camera-1 >= 1, monete >= 4]
+        esito:
+          titolo: Un attimo prima
+          testo: |
+            Oda smonta la lente dall'archetto e sostituisce il cristallo che
+            c'è dietro con un pezzo della tua camera spenta, limato a misura
+            sulla mola. Te la aggancia dietro l'orecchio. Attraverso la lente
+            Oda si muove un attimo prima di muoversi davvero, e tu ti scansi
+            dal suo gomito prima che lei alzi il braccio. Lei ride e si rimette
+            a sedere.
+          effetti: { parte.camera-1: -1, monete: -4, guasto.visore: -1 }
+
+      - testo: "Far riparare l'iniettore"
+        descrizione: "L'ago non esce più dal cilindro. La molla che lo spinge si trova dentro un'impugnatura comune."
+        quando: [guasto.iniettore >= 1]
+        requisiti: [parte.impugnatura-1 >= 1, monete >= 4]
+        esito:
+          titolo: L'ago
+          testo: |
+            Oda smonta il manico rifatto pezzo per pezzo e ne tiene soltanto
+            la molla, una spirale di metallo precuriano che qualcuno aveva
+            nascosto dentro il legno. Quando la infila nel cilindro l'ago torna
+            a uscire e a rientrare da solo come prima. Oda se lo appoggia sul
+            braccio per provarlo, ma all'ultimo ci ripensa e te lo
+            restituisce.
+          effetti: { parte.impugnatura-1: -1, monete: -4, guasto.iniettore: -1 }
+
+      - testo: "Far riparare la bacchetta"
+        descrizione: "La punta biforcuta non si carica più. Oda vuole una camera comune, e il prezzo di una mattina di lavoro."
+        quando: [guasto.bacchetta-della-stretta-folgorante >= 1]
+        requisiti: [parte.camera-1 >= 1, monete >= 6]
+        esito:
+          titolo: La scarica nera
+          testo: |
+            Oda tiene la bacchetta il più lontano possibile dal corpo mentre ne
+            apre il fusto contorto con una pinza. Dentro c'è un cristallo crepato che
+            toglie e butta nella stufa, dove scoppietta. Al suo posto mette la
+            tua camera spenta, legata con il filo di rame. Quando la bacchetta
+            torna nelle tue mani fra le due punte passa una scintilla nera, e
+            Oda va a sedersi dall'altra parte della stanza.
+          effetti: { parte.camera-1: -1, monete: -6, guasto.bacchetta-della-stretta-folgorante: -1 }
+
+      - testo: "Far riparare il congegno di controllo"
+        descrizione: "La corona di cristalli è spenta. Il nucleo al centro è stanco, e uno comune basta."
+        quando: [guasto.congegno-di-controllo >= 1]
+        requisiti: [parte.nucleo-1 >= 1, monete >= 6]
+        esito:
+          titolo: La corona
+          testo: |
+            Oda rigira il disco fra le mani a lungo prima di aprirlo, e per una
+            volta non fa domande. Sostituisce il nucleo al centro con il tuo
+            nucleo opaco, lo fissa con due punti di grasso grigio e ti rende il
+            disco. Quando premi il pollice nella conca la corona di cristalli
+            si riaccende un cristallo alla volta, e la stufa, per un momento,
+            smette di fumare.
+          effetti: { parte.nucleo-1: -1, monete: -6, guasto.congegno-di-controllo: -1 }
+
+      - testo: "Chiedere a Oda dei reperti sulla mensola"
+        descrizione: "Di quelli che le hanno lasciato da riparare, Oda conosce la storia uno per uno."
+        costo: 0
+        esito:
+          titolo: I cartellini
+          testo: |
+            Oda prende dalla mensola un reperto a forma di imbuto con un
+            cartellino che dice soltanto *Berto*, e lo rigira fra le mani.
+            «Me l'ha portato undici anni fa, e doveva tornare la settimana
+            dopo» dice. «Io l'ho riparato in due giorni.» Lo rimette al suo
+            posto con il cartellino girato in avanti come prima, e passa il dito
+            sulla polvere degli altri. Se un tuo reperto si guasta, ti dice, la
+            strada la conosci.
+
+  # ================================================================ 6 · battere le terrazze
+  - id: battere-le-terrazze
+    presso: terrazze-di-basalto
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Battere le terrazze
+    sommario: "Sui gradoni di basalto i reperti affiorano da soli per chi li sa vedere, e a volte bisogna scavare."
+    luogo: "Superficie Fratturata, le terrazze di basalto"
+    area: superficie-fratturata
+    ripetibile: true
+    testo: |
+      I gradoni di basalto scendono verso la pianura uno sotto l'altro, lisci
+      dove il vento li ha puliti, e fra un gradone e l'altro si
+      aprono canaloni pieni di ghiaia dove l'acqua delle piogge porta giù
+      quello che trova. Lì in mezzo, a guardare bene, i reperti sigillati
+      affiorano come sassi di un colore sbagliato. Gli anelli di metallo dei
+      Precursori spuntano dalla roccia a intervalli, e intorno agli anelli la
+      terra è smossa, perché è lì che scavano tutti. Sui sassi del bordo le
+      frecce bianche dei Raschiatori indicano la strada degli scavi, almeno
+      quelle che nessuno ha girato. Ti aggiusti la cinghia della borsa e
+      cominci a guardarti intorno.
+    opzioni:
+      - testo: "Cercare con gli occhi"
+        descrizione: "Si cammina piano lungo i canaloni e si guarda la ghiaia sasso per sasso. Gli occhi si stancano prima delle gambe."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il sasso sbagliato
+          testo: |
+            Dopo un'ora di ghiaia grigia ne vedi uno che stona, troppo
+            regolare, con una riga sottile che gli fa il giro. Lo liberi con le
+            dita, ed è un reperto sigillato, tiepido al sole. Poco più in là,
+            nella stessa ansa del canalone, raccogli una scheggia incisa che
+            l'acqua ha lisciato.
+          effetti: { reperto.sigillato: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Gli occhi stanchi
+          testo: |
+            Guardi la ghiaia finché i sassi cominciano a muoversi appena giri
+            lo sguardo, e a un certo punto ti chiedi se il canalone l'hai già
+            fatto. Torni indietro con una scheggia sola e un mal di testa che
+            ti dura fino a sera, e con il sospetto che un reperto ti sia
+            rimasto sotto i piedi.
+          effetti: { reliquie.scheggia: 1, tormento: 0.5 }
+
+      - testo: "Scavare dove gli anelli affiorano"
+        descrizione: "Intorno agli anelli la terra è smossa e i reperti stanno sotto. Si scava a mani nude, e a volte dal buco sale la Marea."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Sotto l'anello
+          testo: |
+            Scavi intorno all'anello più piccolo finché le unghie ti si
+            spezzano sul bordo di qualcosa di liscio. Sono due reperti
+            sigillati, incastrati uno contro l'altro come uova in un nido, e
+            intorno ci sono frammenti di cristallo esausti sparsi nella terra.
+            Li porti via tutti. Quando ti volti a guardare il buco l'anello si è
+            girato di un quarto, e tu non l'hai visto muoversi.
+          effetti: { reperto.sigillato: 2, cristalli.frammento-esausto: 2 }
+        fallimento:
+          titolo: La terra che cede
+          testo: |
+            Scavi sotto l'anello e la terra cede tutta insieme, e ti ritrovi
+            nel buco fino alla cintura con una caviglia storta sotto di te. Dal
+            fondo sale un filo di nebbia grigia che ti arriva al petto prima
+            che tu riesca a tirarti fuori. Quando ce la fai hai in mano un
+            frammento di cristallo esausto e la tosse.
+          effetti: { cristalli.frammento-esausto: 1, ferite: 1, contaminazione: 0.5 }
+
+      - testo: "Seguire le frecce dei Raschiatori"
+        descrizione: "Le frecce bianche portano dove i Raschiatori hanno già scavato. È la strada lunga e sicura, e lascia poco da raccogliere."
+        costo: 2
+        esito:
+          titolo: Le frecce
+          testo: |
+            Segui le frecce bianche da un sasso all'altro, e dove una è stata
+            girata per scherzo riconosci il tratto di pennello diverso e torni
+            indietro. Le frecce portano a uno scavo vecchio, già passato al
+            setaccio, e ci passi un pomeriggio intero con la paletta. Al
+            tramonto hai un reperto sigillato che i Raschiatori avevano
+            scartato per una crepa, e la crepa, a guardarla meglio, è soltanto
+            terra.
+          effetti: { reperto.sigillato: 1 }
+
+  # ================================================================ 7 · i compratori dei congegni
+  - id: compratore-orvald
+    presso: accademia-di-torvessa
+    immagine: personaggi/orvald-temmerin
+    titolo: Un congegno per il seminterrato
+    sommario: "Orvald Temmerin compra i congegni che funzionano, e li prova prima di pagarli."
+    luogo: "Accademia di Torvessa, lo studio del preside"
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [banco.parti >= 4]
+    testo: |
+      Orvald Temmerin libera un angolo della scrivania spingendo da parte
+      una pila di mappe, e il teschio di cinghiale che le teneva ferme rotola
+      fino al bordo. Pett, il corvo, scende dalla trave per guardare meglio.
+      Orvald si infila un paio di guanti di cuoio grosso, prende il congegno
+      con tutte e due le mani e lo gira verso la finestra e verso il camino,
+      e alla fine verso di te. «Trent'anni di scavi, e di roba che si accende
+      ne ho vista parecchia» dice. «Quella che si spegne quando vuoi tu è
+      molta meno.» Lo appoggia sulla scrivania e aspetta, con le braccia
+      conserte, che faccia qualcosa.
+    opzioni:
+      - testo: "Venderglielo come attrezzo"
+        descrizione: "Il congegno regge e fa qualcosa. Per Orvald è un attrezzo da seminterrato, e lo paga come tale."
+        requisiti: [banco.stabilita >= 4, banco.potenza >= 4]
+        esito:
+          titolo: Sullo scaffale
+          testo: |
+            Il congegno ronza e si scalda, e resta dov'è senza spostarsi di un
+            dito. Orvald lo guarda per un po' e alla fine annuisce. Lo porta su uno
+            scaffale del seminterrato, fra una lancia spezzata e un barattolo
+            di occhi sotto spirito. Ti paga dalla cassetta della scrivania,
+            contando le monete due volte. Pett gracchia sul conto, e Orvald fa
+            finta di non sentirlo.
+          effetti: { monete: 50, rep.accademia: 0.5 }
+          imposta: *oda-banco-vuoto
+
+      - testo: "Farlo funzionare davanti a lui"
+        descrizione: "Il congegno spinge forte e non si rompe. Orvald vorrà vederlo lavorare, e capire come."
+        requisiti: [banco.stabilita >= 6, banco.potenza >= 6]
+        esito:
+          titolo: La lezione
+          testo: |
+            Accendi il congegno, e la tazza sulla scrivania si sposta di una
+            spanna senza che nessuno la tocchi. Orvald la rimette a posto e ti
+            chiede di rifarlo, e poi di spiegargli come l'hai montato, parte
+            per parte, mentre scrive su un quaderno con la sinistra. Ti
+            corregge due volte, e la seconda ha ragione lui. Ti paga bene, e ti
+            chiede di portargliene un altro.
+          pe: { tecnologia: 10 }
+          effetti: { monete: 100, rep.accademia: 1 }
+          imposta: *oda-banco-vuoto
+
+      - testo: "Lasciarlo fra i trofei"
+        descrizione: "Un congegno che obbedisce come questo Orvald non l'ha trovato in trent'anni di scavi."
+        requisiti: [banco.stabilita >= 8, banco.potenza >= 8]
+        esito:
+          titolo: Fra i trofei
+          testo: |
+            Il congegno si accende quando lo tocchi e si spegne quando lo
+            lasci, e nel frattempo solleva la pila di mappe di un palmo e la
+            rimette giù senza spostare un foglio. Orvald resta in silenzio così
+            a lungo che Pett gli becca l'orecchio. Poi scende con te nel
+            seminterrato, libera un posto sul ripiano dei trofei, che è il più
+            alto, e ti fa spiegare ogni vite per tutto il pomeriggio. La
+            borsa che ti dà alla fine è pesante, e te la porge senza contarla.
+          pe: { tecnologia: 20 }
+          effetti: { monete: 180, rep.accademia: 1 }
+          imposta: *oda-banco-vuoto
+
+  - id: compratore-velo
+    presso: cattedrale-del-velo
+    immagine: personaggi/ottilia-sanvel
+    titolo: Un congegno per la Cripta
+    sommario: "La Confraternita del Velo prende qualunque congegno dei Precursori per murarlo sotto terra, e lo paga poco."
+    luogo: "Cattedrale del Velo, la porta della sagrestia"
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [banco.parti >= 4]
+    testo: |
+      Ottilia Sanvel guarda il congegno che le posi davanti alla cassa di
+      legno chiaro, con le mani infilate nelle maniche e senza toccarlo. Poi
+      chiama un accolito, che arriva con un telo cerato e un paio di pinze da
+      camino, e lo fa avvolgere senza chiedere che cosa sia. «La Madre vuole
+      che smettano di fare quello che fanno» dice. Sulla tavoletta di cera
+      scrive *congegno* e la data, senza altro. Più in là Sorella Arva ha già
+      aperto la cassetta delle offerte, e ti guarda come si guarda qualcuno
+      che sta per chiedere troppo.
+    opzioni:
+      - testo: "Consegnarlo al Velo"
+        descrizione: "Il Velo prende tutto, per sigillarlo. Paga poco, e in cambio ti purifica."
+        esito:
+          titolo: Il telo cerato
+          testo: |
+            L'accolito porta via il congegno avvolto nel telo, tenendolo
+            lontano dal petto con le pinze, e lo senti scendere le scale della
+            Cripta un gradino alla volta. Un altro accolito ti posa le mani
+            sulle tempie e recita la Preghiera del Battito. Il freddo delle sue
+            dita ti scende lungo il collo, e il ronzio che ti porti dietro dal
+            banco di Oda si spegne. Sorella Arva ti conta l'offerta sul palmo,
+            una moneta alla volta.
+          effetti: { monete: 20, tormento: -1, contaminazione: -1 }
+          imposta: *oda-banco-vuoto
+
+      - testo: "Mostrare a Ottilia quello che fa"
+        descrizione: "Il congegno fa cose che non dovrebbe, e per una cosa così il Velo apre la porta della Cripta."
+        requisiti: [banco.stranezza >= 5]
+        esito:
+          titolo: La porta della Cripta
+          testo: |
+            Accendi il congegno, e la fiamma delle candele sulla mensola si
+            piega tutta verso di lui. Ottilia tira fuori le mani dalle maniche.
+            Lo fa portare giù da due accoliti invece che da uno, e ti
+            accompagna lei stessa fino al primo gradino della Cripta, dove
+            l'aria è fredda e odora di cera. Ti tiene le mani sulle tempie per
+            tutta la Preghiera del Battito, e quando hai smesso di tremare
+            scrive il tuo nome sulla tavoletta, accanto alla data.
+          effetti: { monete: 35, tormento: -2, contaminazione: -1.5, rep.velo: 0.5 }
+          imposta: *oda-banco-vuoto
+
+  - id: compratore-ombre
+    presso: mercato-delle-ombre
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: Un congegno che fa male
+    sommario: "Al Mercato delle Ombre il vecchio dalle dita storte compra i congegni che possono ferire, e li paga come armi."
+    luogo: "Mercato delle Ombre, il banco dei congegni"
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [banco.parti >= 4]
+    testo: |
+      Il compratore dei congegni è il vecchio Raschiatore con le dita
+      storte, seduto dietro un'asse su due cavalletti in fondo alla piazza.
+      Passa i polpastrelli sul tuo congegno come fa con tutto, da cima a
+      fondo, e si ferma sulla camera. «Questa roba la vogliono per una cosa
+      sola» dice a voce bassa, come si parla nei tunnel. «Quando fa male la
+      vendo a qualcuno che la usa, e quando è innocua ne faccio un
+      fermacarte.» Alle sue spalle, sulla soglia di uno degli ingressi, un
+      uomo con il cappuccio ha smesso di giocare a dadi.
+    opzioni:
+      - testo: "Venderlo come arma da poco"
+        descrizione: "Il congegno spinge abbastanza da far male a qualcuno. Il vecchio paga bene, e qualcuno prende nota."
+        requisiti: [banco.potenza >= 4]
+        esito:
+          titolo: Il pollice sulla camera
+          testo: |
+            Il vecchio tiene il pollice sulla camera finché il congegno si
+            scalda tanto da scottargli il dito, e solo allora lo ritira.
+            Annuisce, e ti paga con monete di conî diversi impilate sull'asse.
+            Il congegno sparisce sotto il banco avvolto in uno straccio. Quando
+            risali la scala l'uomo con il cappuccio è ancora sulla soglia, e ti
+            saluta con due dita come si saluta un conoscente.
+          effetti: { monete: 60, sospetto: 0.5 }
+          imposta: *oda-banco-vuoto
+
+      - testo: "Fargli sentire il colpo"
+        descrizione: "Il congegno spinge forte. Il vecchio vorrà provarlo, e chi guarda si ricorderà della prova."
+        requisiti: [banco.potenza >= 6]
+        esito:
+          titolo: Il segno sul pilastro
+          testo: |
+            Il vecchio punta il congegno verso un pilastro e lo accende, e
+            sulla pietra resta un segno annerito grande come una mano, che
+            fuma. I banchi vicini smettono di contrattare. Il vecchio passa le
+            dita sul segno, poi ti paga senza fiatare, con una colonna di
+            monete che gli arriva al polso. Le facce che ti guardano risalire
+            la scala sono più di quelle che ti hanno visto scendere.
+          effetti: { monete: 120, sospetto: 1 }
+          imposta: *oda-banco-vuoto
+
+      - testo: "Aspettare il compratore che manda a chiamare"
+        descrizione: "Un congegno così il vecchio non lo compra per sé. Manda un ragazzino a chiamare qualcuno, e tu aspetti."
+        requisiti: [banco.potenza >= 8]
+        esito:
+          titolo: La donna con i guanti
+          testo: |
+            Aspetti un'ora su una cassa, e alla fine arriva una donna con i
+            guanti e la faccia coperta da un fazzoletto, che non dice il suo
+            nome e non chiede il tuo. Guarda il congegno senza accenderlo e lo
+            soppesa con una mano, poi fa un cenno al vecchio. La borsa che ti
+            lascia sull'asse è così pesante che la devi tenere con due mani.
+            Mentre te ne vai gli uomini sulle soglie ti guardano passare, uno
+            per uno.
+          effetti: { monete: 220, sospetto: 1 }
+          imposta: *oda-banco-vuoto
+
+  - id: compratore-dragna
+    presso: grifone-di-ferro
+    immagine: personaggi/dragna-gro-malog
+    titolo: Un congegno per le parti
+    sommario: "Dragna prende i congegni per le squadre dei Raschiatori, e in cambio dà i pezzi rari che le squadre portano su."
+    luogo: "Locanda del Grifone di Ferro, il tavolo di Dragna"
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [banco.parti >= 4]
+    testo: |
+      Dragna Gro-Malog sposta il boccale e i fogli dei turni per fare posto
+      al congegno, e lo guarda senza toccarlo, con la penna ferma a
+      mezz'aria. Poi batte due volte i monconi sul tavolo e lo gira con la
+      mano buona. «Questo è lavoro di Oda, si vede dalle legature di rame,
+      che fa ancora come le ha sempre fatte» dice, e lo rigira un'altra
+      volta. «Noi i congegni li smontiamo, perché le squadre ne cavano i
+      pezzi per gli argani. In cambio ho quello che le squadre portano su e
+      nessuno sa montare, e a te serve più che a me.»
+    opzioni:
+      - testo: "Prendere una camera rara"
+        descrizione: "Una camera che pulsa ancora, di quelle che le squadre trovano una volta per stagione."
+        esito:
+          titolo: La camera nella paglia
+          testo: |
+            Dragna fa portare dal retro una scatola di latta e la apre sul
+            tavolo. Dentro, nella paglia, c'è una camera di cristallo che batte
+            come un polso, e la lampada sopra il tavolo si abbassa a ogni
+            colpo. «Tienila lontano dalle carcasse incrinate» dice Dragna, e
+            scrive qualcosa sul foglio dei turni accanto al tuo nome. «Oda te
+            l'avrà già detto, e adesso te lo dico anch'io.»
+          effetti: { parte.camera-3: 1, rep.raschiatori: 0.5 }
+          imposta: *oda-banco-vuoto
+
+      - testo: "Prendere un nucleo raro"
+        descrizione: "Un nucleo che ricorda, avvolto nel piombo. Le squadre lo portano su e poi non vogliono averlo intorno."
+        esito:
+          titolo: Il nucleo nel piombo
+          testo: |
+            Dragna tira fuori da sotto il tavolo un involto di piombo grande
+            come un pugno, e lo spinge verso di te con la punta della penna.
+            «Non aprirlo qui» dice. «L'ultimo che l'ha aperto al Grifone si è
+            messo a parlare di una piazza bianca, e per due giorni non ha
+            voluto scendere.» Sul foglio dei turni, accanto al tuo nome,
+            traccia un segno piccolo, a matita, di quelli che restano.
+          effetti: { parte.nucleo-3: 1, rep.raschiatori: 0.5 }
+          imposta: *oda-banco-vuoto
+
+# ================================================================ 8 · la bottega di Oda (da aggiungere al luogo e all'area)
+negozi:
+  - id: banco-di-oda
+    nome: Il banco di Oda
+    immagine: icone/toolbox
+    testo: "Oda Krell compra i reperti sigillati e le parti che non ti servono, e li paga la metà di quello che valgono, perché la compagnia, dice, l'hai già avuta gratis."
+    compra:
+      - { quality: reperto.sigillato, prezzo: 4 }
+      - { quality: parte.involucro-1, prezzo: 4 }
+      - { quality: parte.camera-1, prezzo: 4 }
+      - { quality: parte.impugnatura-1, prezzo: 4 }
+      - { quality: parte.nucleo-1, prezzo: 4 }
+      - { quality: parte.involucro-2, prezzo: 10 }
+      - { quality: parte.camera-2, prezzo: 10 }
+      - { quality: parte.impugnatura-2, prezzo: 10 }
+      - { quality: parte.nucleo-2, prezzo: 10 }
+      - { quality: parte.involucro-3, prezzo: 22 }
+      - { quality: parte.camera-3, prezzo: 22 }
+      - { quality: parte.impugnatura-3, prezzo: 22 }
+      - { quality: parte.nucleo-3, prezzo: 22 }

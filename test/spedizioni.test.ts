@@ -15,7 +15,7 @@ function stanza(n: number): TStorylet {
 }
 const c: TContenuti = {
   ...CONTENUTI,
-  aree: [...CONTENUTI.aree, { id: 'grotta', nome: 'Grotta', testo: 'Una grotta.', accesso: [], gabella: 0, negozi: [], penalita: false, spedizione: { ritorno: 'citta-bassa', soglia: 3, stanze: 3 } }],
+  aree: [...CONTENUTI.aree, { id: 'grotta', nome: 'Grotta', testo: 'Una grotta.', accesso: [], gabella: 0, negozi: [], penalita: false, fuori: false, spedizione: { ritorno: 'citta-bassa', soglia: 3, stanze: 3 } }],
   storylet: [...CONTENUTI.storylet, ...[1, 2, 3, 4, 5, 6].map(stanza)],
   quality: [...CONTENUTI.quality, { id: 'profondita.grotta', nome: 'Profondità', categoria: 'stato' }],
 };

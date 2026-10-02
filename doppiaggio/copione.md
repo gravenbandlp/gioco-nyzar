@@ -1,7 +1,235 @@
 # Copione per il doppiaggio
 
-Generato da `npm run doppiaggio`. 1471 pezzi, 860.618 caratteri.
+Generato da `npm run doppiaggio`. 1516 pezzi, 882.768 caratteri.
 Ogni file audio si salva come `<id>.mp3`.
+
+## Altro
+
+### Sotto la sporgenza
+
+**`carta-sup-accampamento-tracce`** · scena · 835 caratteri
+
+> Sotto la sporgenza, nell'ombra, c'è una donna con le spalle larghe e la faccia rigata di nero, e dietro di lei un ragazzo con le ginocchia sbucciate. La donna tiene alzata una pala da carbone, e la pala trema. “Per il fumo di Pànnion, sei una persona” dice quando ti vede bene, e la abbassa di colpo. “Ecco. Ecco, meno male.”
+>
+> Sono carbonai, e portavano il carbone in città sul carro. Stanotte la crepa accanto al fuoco si è messa a fischiare, e da sotto è salita una nebbia grigia che camminava sulla terra e faceva freddo alle caviglie. Il mulo ha strappato la cavezza e lei ha preso il ragazzo per il colletto. “Il carro è là, con tutto il carbone sopra” dice, e guarda verso il campo. “Ecco, senza il carro non torniamo a casa, e io là da sola non ci rimetto piede.”
+>
+> Il ragazzo intanto ti fissa le mani, per vedere se hai un'arma.
+
+**`carta-sup-accampamento-tracce__1-successo`** · esito «Il carro dei carbonai» · opzione «Accompagnarli a riprendere il carro» · successo · 378 caratteri
+
+> Alla crepa ti chini a guardare la patina sui bordi, e vedi che si è già seccata. La nebbia è tornata giù da dove era salita. Fai fare ai carbonai il giro largo, dalla parte del vento, e il mulo lo ritrovate più avanti che bruca un cespuglio spinoso. La donna ti mette in mano qualche moneta annerita di carbone, e ti dice di chiedere di lei ai forni di Pànnion, se mai ci passi.
+
+**`carta-sup-accampamento-tracce__1-fallimento`** · esito «La crepa fischia ancora» · opzione «Accompagnarli a riprendere il carro» · fallimento · 363 caratteri
+
+> Giudichi la crepa spenta, e mentre sistemate i sacchi sul carro ricomincia a fischiare. La nebbia sale fino alle ginocchia in un momento. Riuscite a portare via il carro lo stesso, tirandolo a braccia, ma per tutta la strada hai le gambe fredde e la pelle delle caviglie grigia come cenere. La donna ti paga lo stesso, borbottando che ecco, almeno il carbone c'è.
+
+**`carta-sup-accampamento-tracce__2-esito`** · esito «Da quella parte» · opzione «Indicare loro la strada per la città» · esito · 283 caratteri
+
+> Indichi la strada degli scavi e le frecce bianche sui sassi, avvertendoli che qualcuna è girata per scherzo. La donna ascolta annuendo e ripete le tue indicazioni al ragazzo, come se lui fosse quello che deve ricordarle. Quando ti volti, stanno ancora discutendo se tornare al carro.
+
+### Gaddo
+
+**`carta-sup2-gaddo`** · scena · 871 caratteri
+
+> Si chiama Gaddo. Fino alla primavera scendeva nella Cicatrice con una squadra dei Ponti, e una mattina, al quarto pianerottolo, la corda di quello sotto di lui si è sfilacciata. Lui l'ha tenuta con la sinistra finché gli altri non sono arrivati. Quello sotto è risalito sano. Due dita invece sono rimaste fra la corda e la roccia, e con tre dita la corda non la tieni, così Dràgna l'ha tolto dal foglio dei turni con una riga a penna.
+>
+> “Ha fatto bene” dice, e lo dice come se l'avesse ripetuto molte volte per convincersene. “Uno con tre dita in squadra è uno in meno.” È uscito dalle mura a cercare reperti come fanno tutti, e non ha trovato niente. La lancia l'ha comprata con le ultime monete, e da ieri non mangia. Ride un poco, guardandola. “Sei il primo che fermo. Speravo in uno più piccolo.”
+>
+> Gli trema la mano buona, e la stringe sull'asta perché tu non lo veda.
+
+**`carta-sup2-gaddo__1-esito`** · esito «Le monete nella mano buona» · opzione «Dargli qualche moneta» · esito · 265 caratteri
+
+> Gli metti le monete nella mano buona e gliela chiudi con la tua. Gaddo le guarda a lungo senza dire niente. Poi si toglie la cinghia vuota della lanterna dalla spalla e la butta nella ghiaia, e si avvia verso la città con la lancia sotto il braccio, per rivenderla.
+
+**`carta-sup2-gaddo__2-esito`** · esito «La strada della baracca» · opzione «Mandarlo da Oda Krell» · esito · 338 caratteri
+
+> Gli spieghi dov'è la baracca, nella piega delle terrazze, e gli dici di presentarsi con un po' di legna sulle spalle, perché Oda apprezza chi non arriva a mani vuote. Gaddo ti fa ripetere la strada due volte. Qualche giorno dopo, al Grifone, un Raschiatore ti dice che Gaddo spacca legna da Oda Krell e ha imparato a bestemmiare come lei.
+
+**`carta-sup2-gaddo__3-esito`** · esito «Il masso» · opzione «Lasciarlo alla sua strada» · esito · 187 caratteri
+
+> Gli auguri buona fortuna e riprendi il sentiero. Gaddo resta seduto contro il masso con la lancia sulle ginocchia, e quando ti volti sta guardando la strada dalla parte da cui sei venuto.
+
+### Il campo sul bordo
+
+**`carta-sup3-il-campo-di-ilde`** · scena · 731 caratteri
+
+> Il campo di Ilde è un cerchio di sassi con la cenere fredda nel mezzo e una coperta piegata con cura, come in una locanda. A un picchetto è legata una borsa di tela. Da un masso sul bordo parte una corda tesa che scende nella crepa e sparisce nel bagliore azzurro dopo una ventina di braccia. Il nodo sul masso è fatto bene, e la corda sul filo della roccia è sfilacciata fino a metà.
+>
+> Ti sporgi e chiami. Ti risponde l'eco, e poi, dopo un poco, una voce di donna rauca che dice di chiamarsi Ilde e di avere un piede rotto, e chiede da quanto tempo è giorno. È su una cengia da due notti. [whispers] Sa contare i passi, e i giorni li ha persi. Lo stomaco ti si chiude, perché la corda sfilacciata regge ancora, e chissà per quanto.
+
+**`carta-sup3-il-campo-di-ilde__1-successo`** · esito «La cengia» · opzione «Scendere a prenderla» · successo · 396 caratteri
+
+> Ti cali tenendo la corda lontano dal filo della roccia. Trovi Ilde seduta sulla cengia con il piede fasciato nella camicia e la fronte lucida di febbre, e accanto a lei una placca dei Precursori che ha staccato dalla parete prima di cadere. Te la lega alla cintura insieme a un guscio sigillato. Risalite insieme, un palmo alla volta. In cima lei ride e piange, poi ti dice che la vena era buona.
+
+**`carta-sup3-il-campo-di-ilde__1-fallimento`** · esito «Il fiato della crepa» · opzione «Scendere a prenderla» · fallimento · 322 caratteri
+
+> A metà discesa dal fondo sale una folata grigia che ti entra in bocca con un sapore di ferro. Arrivi alla cengia lo stesso e porti su Ilde sulla schiena, con le braccia che tremano e gli occhi che lacrimano. In cima vi stendete tutti e due sulla ghiaia. La sua placca è rimasta giù, e lei non ha la forza di dispiacersene.
+
+**`carta-sup3-il-campo-di-ilde__2-esito`** · esito «Fino a sera» · opzione «Calarle una corda nuova e tirarla su» · esito · 351 caratteri
+
+> Le cali la tua corda accanto alla sua e le spieghi come legarsi sotto le ascelle. Poi tiri, con il piede puntato contro il masso, una bracciata alla volta, fermandoti quando lei te lo chiede. La tiri fuori al tramonto. Ilde ti regala le monete che ha e ti dice dove sono le altre vene della sua lista, perché tanto a quelle per un pezzo non ci arriva.
+
+**`carta-sup3-il-campo-di-ilde__3-esito`** · esito «Il picchetto» · opzione «Prendere la borsa e andartene» · esito · 327 caratteri
+
+> Sciogli la borsa dal picchetto e te la metti a tracolla. Dentro ci sono le monete di Ilde e un rotolo di bende pulite. Lei continua a chiamare mentre ti allontani, con una voce sempre più debole, e a un certo punto smette. Non sai dire se perché ti sei allontanato tu o per un'altra ragione, e non torni indietro a controllare.
+
+### Il ragazzo con il disco
+
+**`carta-sup3-ladro-scoperto`** · scena · 765 caratteri
+
+> Il polso che stringi si torce, e a ogni strattone l'aria intorno si sfalda e lascia vedere un pezzo di chi c'è dentro. Prima una manica rattoppata, poi un mento con tre peli di barba, poi tutto il resto, un ragazzo magro con gli occhi spalancati e le guance rosse di fatica. Sul petto, legato con due cinghie di cuoio, porta un disco di metallo dei Precursori grande come un piattino. Il disco ronza e manda lampi storti, come una lanterna che sta per spegnersi.
+>
+> “Va bene, capo, va bene, mi hai preso” dice. “Mollami il polso, che se mi tieni così mi si spegne del tutto, e poi chi lo riaccende, capo?” Ha una cipolla mezza mangiata nella mano libera. [whispers] Il disco ce l'ha da poco, e non sa usarlo. Con il piede intanto cerca un appoggio buono per scattare.
+
+**`carta-sup3-ladro-scoperto__1-vittoria`** · esito «Il disco incrinato» · opzione «Non mollarlo» · vittoria · 350 caratteri
+
+> Lo colpisci quando l'aria tremola, e alla terza volta il ragazzo finisce seduto sulla ghiaia con il disco che sfrigola e si spegne. Slacci le cinghie e glielo togli, e lui non prova nemmeno a fermarti. Nelle tasche ha monete di gente che non è stata svelta come te. Quando gli fai segno di sparire, lo fa a piedi e ben visibile, voltandosi due volte.
+
+**`carta-sup3-ladro-scoperto__1-sconfitta`** · esito «La risatina» · opzione «Non mollarlo» · sconfitta · 269 caratteri
+
+> Si libera con uno strattone e ritorna aria. Per un po' ti arrivano gomitate e ginocchiate da dove non te le aspetti, finché ti ritrovi a terra con il fiato corto. Quando ti rialzi il passaggio è vuoto, e da lontano arriva la sua risatina, e un ronzio sempre più debole.
+
+**`carta-sup3-ladro-scoperto__2-esito`** · esito «Quello che sa un ladro» · opzione «Lasciarlo andare in cambio di quello che sa» · esito · 313 caratteri
+
+> Gli lasci il polso, e lui se lo massaggia guardandoti di sbieco. Poi, visto che resti lì senza colpirlo, comincia a parlare. Ti dice quale carovana viaggia con le casse vuote per ingannare i predoni e quale squadra di Raschiatori nasconde il grezzo sotto il carro. Se ne va a piedi, con il disco spento sul petto.
+
+### Il dispositivo
+
+**`nodo-il-dispositivo`** · scena · 1221 caratteri
+
+> In fondo al Nodo c'è una sala rotonda, aperta in alto sul pozzo intorno a cui gira la rampa. Al centro, piantata nel pavimento, c'è la struttura da cui partono tutte le linee. È un blocco di metallo liscio alto quanto due uomini, con le facce attraversate da linee che si illuminano lentamente in sequenze regolari, dal basso verso l'alto, e da lì corrono sulle pareti e salgono nel pozzo. La luce è fredda e pulsa con un ritmo costante.
+>
+> Fai un passo verso il blocco, e la luce cambia intensità. Al secondo passo le linee si spengono tutte e si riaccendono in un ordine diverso, raccolte sulla faccia che hai davanti, all'altezza del tuo petto. [whispers] Si è accorto di me, e si sta preparando. Tutto succede senza un rumore, e senti il sangue che ti batte nelle orecchie.
+>
+> In una nicchia della parete, dietro il blocco, c'è una macchina della Salvaguardia ripiegata su se stessa, alta in piedi due volte un uomo, con quattro braccia che finiscono in attrezzi e tengono le ginocchia come un vecchio seduto al sole. Quando le linee si riordinano la sua testa, una piastra liscia senza bocca, si gira di un dito verso di te. Per terra, davanti alla nicchia, ci sono pezzi di sfere smontati e messi in fila per grandezza.
+
+**`nodo-il-dispositivo__1-successo`** · esito «La mappa sotto la Superficie» · opzione «Mettere le mani sulle linee» · successo · 860 caratteri
+
+> Appoggi i palmi sulla faccia accesa, e le linee ti corrono sotto le dita e su per i polsi, fredde. Dal blocco sale una luce che si allarga sopra la sala e diventa una mappa. Riconosci la Cicatrice, un buco nero nel mezzo, e Kir-Àzel aggrappata al bordo. Tutto intorno, sotto la Superficie, ci sono decine di punti accesi legati da linee che corrono verso la Cicatrice come radici verso l'acqua. Uno è il Nodo, e uno più a sud deve essere Var-Ùl.
+>
+> Poi un raggio ti misura la mano dito per dito, e accanto al Nodo si accende un punto che prima non c'era. La faccia del blocco si apre su un vano stretto, e dentro c'è un tubo di metallo con un'impugnatura fatta per dita più lunghe delle tue, accanto a una camera di cristallo che pulsa. Il custode non si muove. Risali il pozzo con le due cose strette al petto, e quando esci sulle terrazze il cielo è già scuro.
+
+**`nodo-il-dispositivo__1-fallimento`** · esito «Il freddo nei gomiti» · opzione «Mettere le mani sulle linee» · fallimento · 440 caratteri
+
+> Appoggi i palmi sulla faccia accesa, e le linee ti salgono su per i polsi più in fretta di quanto riesci a seguirle. Ai gomiti la luce diventa un freddo che fa male, e riesci a staccare le mani soltanto tirando con tutto il corpo. Nella nicchia il custode ha aperto due braccia, e tu non aspetti di vedere le altre due. Risali il pozzo di corsa, e sulle terrazze ti accorgi che sotto la pelle degli avambracci ti è rimasta una trama grigia.
+
+**`nodo-il-dispositivo__2-successo`** · esito «Il tuo punto sulla mappa» · opzione «Rimettere le mani sulle linee» · successo · 372 caratteri
+
+> Appoggi i palmi sulla faccia accesa, e la mappa si apre sopra la sala più in fretta della prima volta. Accanto al Nodo c'è ancora il tuo punto, e intorno ce ne sono di nuovi che non ricordavi. Il vano si apre da solo. Dentro ci sono un guscio sigillato e una camera di cristallo attraversata da vene di luce, e li prendi senza che il custode alzi la testa dalle ginocchia.
+
+**`nodo-il-dispositivo__2-fallimento`** · esito «La trama grigia» · opzione «Rimettere le mani sulle linee» · fallimento · 350 caratteri
+
+> Questa volta la mappa non si apre, e le linee ti salgono su per i polsi come la prima volta che le hai toccate. Il freddo ti arriva ai gomiti prima che tu riesca a staccare le mani, e il custode apre due braccia nella nicchia. Risali il pozzo senza voltarti, con gli avambracci rigidi e una trama grigia sotto la pelle che ci mette giorni a sbiadire.
+
+**`nodo-il-dispositivo__3-successo`** · esito «Le varianti» · opzione «Studiarlo da lontano» · successo · 380 caratteri
+
+> Ti siedi sul pavimento a qualche passo dal blocco, fuori dal punto dove le linee cominciano a riordinarsi, e le guardi per ore. Le sequenze si ripetono con delle varianti, e le varianti hanno una regola, che ti scrivi sul polsino con il carbone prima che ti scappi di mente. Quando ti alzi prendi il guscio più piccolo dalla fila davanti alla nicchia, e il custode ti lascia fare.
+
+**`nodo-il-dispositivo__3-fallimento`** · esito «Troppo vicino» · opzione «Studiarlo da lontano» · fallimento · 337 caratteri
+
+> Guardi le sequenze finché le linee non ti restano negli occhi anche quando li chiudi, e a un certo punto ti accorgi di esserti avvicinato senza volerlo. Le linee si riordinano verso di te, e il custode si alza in piedi. Te ne vai camminando all'indietro fino alla rampa, e la salita la fai con le linee che ti ballano davanti agli occhi.
+
+**`nodo-il-dispositivo__4-vittoria`** · esito «Le quattro braccia» · opzione «Affrontare il custode» · vittoria · 463 caratteri
+
+> Prendi un pezzo dalla fila e lo butti per terra, e il custode si dispiega dalla nicchia tutto in una volta, con una sfera che gli si stacca dal petto e ti gira intorno. Combatte con colpi precisi e ripetuti, che cercano di rimetterti a posto più che di farti male. Quando cade fa il rumore di una dispensa che crolla. Da uno dei quattro attrezzi stacchi un'impugnatura fatta per una mano che non esiste più, e risali il pozzo con quella e con un guscio sigillato.
+
+**`nodo-il-dispositivo__4-sconfitta`** · esito «Rimesso a posto» · opzione «Affrontare il custode» · sconfitta · 364 caratteri
+
+> Il custode ti prende per le spalle con due braccia e ti solleva da terra, e con le altre due ti raddrizza il collo e ti sistema il braccio sinistro lungo il fianco, come si rimette a posto un attrezzo sullo scaffale. Poi ti posa ai piedi della rampa e torna nella nicchia. Risali il pozzo con il braccio che non risponde e la sfera che ti accompagna fino all'orlo.
+
+**`nodo-il-dispositivo__5-esito`** · esito «La rampa» · opzione «Andartene» · esito · 308 caratteri
+
+> Guardi le linee riordinarsi ancora una volta all'altezza del tuo petto. Poi ti giri e riprendi la rampa. A metà salita ti volti, e in fondo al pozzo la luce è tornata a salire dal basso verso l'alto, regolare. Esci sulle terrazze con le tasche vuote e la sensazione di aver lasciato a metà una conversazione.
+
+### Una vecchia sulla soglia
+
+**`oda-incontro`** · scena · 1319 caratteri
+
+> Il fumo lo vedi prima della baracca, un filo grigio che sale diritto da una piega delle terrazze dove il vento non arriva. Poi compaiono le lamiere, quelle lisce dei Precursori su cui la ruggine non attacca, inchiodate su travi di carro, e una porta di nave con l'oblò ancora al suo posto. Davanti alla porta, su uno sgabello, una donna anziana con una coperta sulle ginocchia guarda la pianura, e non si volta quando la ghiaia scricchiola sotto i tuoi passi.
+>
+> Quando si gira lo fa con calma, e ti squadra dal basso. Da sotto la coperta spunta una gamba di legno intagliata con molta più cura della baracca, una fila di lepri che corrono verso il piede, e l'ultima in fondo ha soltanto le orecchie. “Da queste parti non passa quasi nessuno” dice. “Chi passa ha fretta, e chi si ferma vuole qualcosa, dico bene?” Bussa due volte sulla gamba di legno con le nocche. “Oda Krell. Ho raschiato per trent'anni, e adesso apro le cose che quelli di prima hanno chiuso, e le rimonto finché non fanno qualcosa.”
+>
+> Dalla porta accostata esce il caldo di una stufa accesa in pieno giorno, e sul banco da lavoro si vede un guscio di metallo aperto in due come una noce. [whispers] Quelli di prima, li chiama, come dei vicini che hanno cambiato casa. Oda ti indica un secondo sgabello con il mento, e aspetta che tu decida se sederti.
+
+**`oda-incontro__1-esito`** · esito «Le frecce girate» · opzione «Sederti e chiederle della strada» · esito · 534 caratteri
+
+> Ti siedi, e Oda parla per un'ora buona con gli occhi sulla pianura. Ti dice quali frecce bianche dei Raschiatori sono state girate per scherzo e da chi, e dove le crepe azzurre si allargano dopo la pioggia. Ti dice anche che sul pianoro di ghiaia a ovest da qualche settimana si è accampata una banda di predoni. “La sera si sente l'odore dei fuochi” dice. “Bruciano lo sterco dei muli, e quando uno brucia lo sterco ha fame, dico bene?” Quando ti alzi il sole si è spostato sulle lamiere, e Oda ha l'aria di una che ha mangiato bene.
+
+**`oda-incontro__2-esito`** · esito «Il lichene arancione» · opzione «Chiederle delle crepe» · esito · 510 caratteri
+
+> Oda si alza puntando le mani sulle ginocchia e ti porta fino al bordo della piega, dove la roccia si apre in una crepa larga una spanna. Ti fa vedere il lichene arancione che cresce soltanto dove la Marea Grigia sale spesso, e l'erba che si piega tutta dalla stessa parte anche quando il vento tace. “L'erba lo sa prima di te” dice. “Se si piega verso la crepa vuol dire che la crepa tira il fiato, e allora tu cammini dall'altra parte, dico bene?” Ti fa annusare un pugno di terra, che odora di ferro bagnato.
+
+**`oda-incontro__3-esito`** · esito «Il regalo» · opzione «Spaccarle la legna» · esito · 486 caratteri
+
+> Fai a pezzi le travi con l'ascia di Oda, che ha il manico rifatto almeno tre volte, e le impili sotto la tettoia mentre lei ti dice dove metterle e poi le sposta lo stesso. Quando hai finito hai le mani piene di schegge e la camicia incollata alla schiena. Oda sparisce nella baracca e torna con un guscio di metallo grande come un pugno, chiuso su tutti i lati. “Questo non l'ho aperto” dice, e te lo mette in mano. “Portamelo quando vuoi, e lo apriamo insieme. Così torni, dico bene?”
+
+**`oda-incontro__4-esito`** · esito «La porta di nave» · opzione «Restare in piedi e chiedere i prezzi» · esito · 390 caratteri
+
+> Oda ti ascolta fino in fondo, poi si stringe la coperta sulle ginocchia e torna a guardare la pianura. “I prezzi dipendono da quello che porti” dice, e la voce le si è raffreddata di qualche grado. “Porta qualcosa, e ne parliamo.” Mentre ti allontani senti la porta di nave chiudersi alle tue spalle con un colpo secco, e dal comignolo continua a salire il filo di fumo, diritto come prima.
+
+### Il respiro lungo
+
+**`sup-frattura-respiro-lungo`** · scena · 914 caratteri
+
+> Torni al gradone basso e per un momento non lo riconosci. L'aria sopra l'anello è ferma e limpida, e i sassolini dei Raschiatori sono ciascuno uno solo, in fila sul bordo. Le due metà del metallo combaciano, e sul taglio corre una linea azzurra sottile come un capello. Il respiro adesso è lento e profondo, quello di chi dorme bene dopo una lunga malattia.
+>
+> Quando ti avvicini l'anello trattiene il fiato. Dal centro sale una luce tenue che si allarga sulla roccia, e nella luce affiora una camera di cristallo che batte allo stesso ritmo del respiro.
+>
+> Poi lo senti sotto i piedi, un tremito lungo che corre dentro la roccia verso sud. A un'ora di cammino, in fondo a una conca dove le squadre di passaggio mangiano all'ombra di un blocco di metallo grigio, sale una luce azzurra che si accende e si spegne con il ritmo di un polso a riposo. Il blocco è un'altra struttura dei Precursori, e si è appena svegliato.
+
+**`sup-frattura-respiro-lungo__1-esito`** · esito «Il polso nella mano» · opzione «Prendere la camera» · esito · 265 caratteri
+
+> La camera è calda e pesa più di quanto sembra. Quando la sollevi l'anello espira piano e la luce sulla roccia si ritira. Mentre risali i gradoni la camera ti batte nel palmo insieme al cuore, e verso sud la conca continua a pulsare d'azzurro anche dopo il tramonto.
+
+**`sup-frattura-respiro-lungo__2-esito`** · esito «Come funziona» · opzione «Lasciargliela e ascoltare» · esito · 334 caratteri
+
+> Lasci la camera dov'è e ti siedi sul bordo. Per tutto il pomeriggio guardi la luce che va dall'anello alla roccia e dalla roccia verso sud, e a un certo punto capisci dove passa e perché, come capisci il giro dell'acqua in un mulino. Al tramonto la camera torna sotto la roccia. Sul bordo, al suo posto, è rimasto un frammento inciso.
+
+### Il centro del villaggio
+
+**`villaggio-il-centro`** · scena · 1242 caratteri
+
+> Il centro del villaggio è uno spiazzo di terra battuta dove arrivano tutte le strade. Il campanile, che da fuori stava nel mezzo, qui non c'è. La terra è dura e crepata, senza un filo d'erba. Nel mezzo c'è una struttura bassa simile a un altare, di pietra scura, attraversata da venature lattiginose che si muovono appena sotto la superficie. Avvicinandoti senti una pressione alla testa, dietro gli occhi, come un pensiero che vuole venire fuori e non trova la strada. Sul piano dell'altare ci sono incisioni irregolari, e lo sguardo non riesce a seguirle fino in fondo perché cambiano posto mentre le guardi.
+>
+> Intorno all'altare l'aria si increspa. Per il tempo di un respiro vedi il villaggio intero e pulito, con la gente sulle soglie e il fumo dai camini, e poi torna com'era. Dalla foschia lattiginosa che sale dalla terra prendono forma tre corpi. Uno ha un braccio con troppe articolazioni e un altro ha due profili sovrapposti sulla stessa faccia. Il terzo si muove prima di avere finito di formarsi. Quando alzi la mano la alzano anche loro con un attimo di ritardo, piegando il polso dalla parte sbagliata. [whispers] Stanno imparando da me. Ai piedi dell'altare, sulla terra dura, c'è una tazza di latta uguale a quella del pozzo.
+
+**`villaggio-il-centro__1-vittoria`** · esito «L'altare aperto» · opzione «Affrontare le sagome» · vittoria · 590 caratteri
+
+> L'ultima sagoma si disfa a metà di un tuo gesto, mentre ancora cerca di ripeterlo, e la foschia ricade sulla terra come farina. Colpisci l'altare finché la pietra scura non si apre lungo una venatura. Dentro c'è un nucleo dei Precursori che manda una luce lattiginosa, con intorno altri pezzi di macchina e un paio di gusci chiusi. Sulle facce interne le incisioni stanno ferme, e le ricopi su un lembo di camicia prima che ricomincino a muoversi.
+>
+> Esci dal villaggio con le mani che formicolano. Al cancelletto verde ti volti, e dal centro arriva un rumore lento di pietra che si richiude.
+
+**`villaggio-il-centro__1-sconfitta`** · esito «Le tue mosse» · opzione «Affrontare le sagome» · sconfitta · 369 caratteri
+
+> Le sagome imparano in fretta. Alla fine ti parano i colpi con le tue parate e ti colpiscono con i tuoi colpi, solo un attimo dopo, e ti ritrovi a terra con la bocca piena di polvere grigia. Invece di finirti si stendono intorno a te, nella tua stessa posizione, e restano così. Ti trascini via carponi, e arrivi al cancelletto verde senza sapere quanto tempo è passato.
+
+**`villaggio-il-centro__2-vittoria`** · esito «Quello che è ricresciuto» · opzione «Affrontare le sagome» · vittoria · 359 caratteri
+
+> Le sagome si disfano una dopo l'altra, e l'ultima ti saluta con il tuo stesso gesto, un attimo dopo che l'hai fatto tu. Apri di nuovo l'altare lungo la stessa venatura. Il nucleo che c'è dentro è più piccolo dell'altra volta e ancora tenero ai bordi, e accanto c'è un solo guscio chiuso. Li prendi e te ne vai senza voltarti, perché sai già che cosa vedresti.
+
+**`villaggio-il-centro__2-sconfitta`** · esito «Ti conoscono» · opzione «Affrontare le sagome» · sconfitta · 293 caratteri
+
+> Stavolta le sagome sanno già come ti muovi, e ti anticipano invece di inseguirti. Finisci a terra con la faccia nella polvere grigia, e loro si stendono accanto a te nella stessa posa, ad aspettare che ti rialzi. Ti rialzi molto più tardi, e risali fino al cancelletto verde tenendoti ai muri.
+
+**`villaggio-il-centro__3-successo`** · esito «Quello che l'altare dà» · opzione «Mettere le mani sull'altare» · successo · 458 caratteri
+
+> Appoggi i palmi sulla pietra, e le venature lattiginose ti salgono incontro come pesci al pelo dell'acqua. La pressione alla testa si apre di colpo, e le sagome si inginocchiano tutte insieme, in ritardo. Quando stacchi le mani hai fra le dita un nucleo dei Precursori che prima non c'era, tiepido, che sussurra mezze parole. Sotto le unghie ti è rimasta una polvere grigia che non si lava. Esci dal villaggio camminando piano, e le case ti lasciano passare.
+
+**`villaggio-il-centro__3-fallimento`** · esito «Quello che l'altare prende» · opzione «Mettere le mani sull'altare» · fallimento · 404 caratteri
+
+> Appoggi i palmi sulla pietra, e la pietra non ti lascia più andare. Le venature grigie ti salgono sotto la pelle dei polsi. Per un tempo lunghissimo nella testa hai soltanto la pressione, senza un pensiero. Quando riesci a staccarti cadi all'indietro sulla terra dura, e le sagome cadono con te, nella stessa posa. Scappi, e ti fermi solo al cancelletto verde, con le vene dei polsi ancora troppo chiare.
+
+**`villaggio-il-centro__4-successo`** · esito «Il villaggio com'era» · opzione «Seguire le incisioni con lo sguardo» · successo · 574 caratteri
+
+> Segui una linea incisa e poi un'altra, e lasci che la pressione alla testa faccia quello che vuole. Vedi il villaggio pieno di gente, con il fornaio sulla porta della bottega e una donna che chiama Mirta da una finestra. Poi vedi il pozzo che una notte si riempie di acqua limpidissima, e sotto il pozzo, molto più in basso, una sala dei Precursori intera, con il metallo lucido e una macchina che ripete il villaggio casa per casa, a memoria. Torni in te in ginocchio, con il naso che sanguina e le sagome inginocchiate intorno, e te ne vai con quella sala chiara in testa.
+
+**`villaggio-il-centro__4-fallimento`** · esito «Le linee» · opzione «Seguire le incisioni con lo sguardo» · fallimento · 347 caratteri
+
+> Le incisioni scappano a ogni sguardo, e tu le insegui finché non ti accorgi di tracciarle con il dito sulla terra, e poi con l'unghia sul dorso della mano, fino a farla sanguinare. Le sagome fanno lo stesso sulle loro mani, che non sanguinano. Te ne vai di corsa, e per tutta la strada fino al cancelletto le linee ti restano stampate negli occhi.
+
+**`villaggio-il-centro__5-esito`** · esito «Il cancelletto verde» · opzione «Voltare le spalle e andarsene» · esito · 323 caratteri
+
+> Volti le spalle all'altare, e le sagome voltano le spalle a te, un attimo dopo. Riprendi la strada da cui sei venuto e la trovi più corta di come la ricordavi, con le case che ti scorrono accanto senza farsi notare. Al cancelletto verde ti accorgi di respirare a fondo per la prima volta da ore, e ti viene quasi da ridere.
 
 ## I prologhi
 

@@ -91,6 +91,7 @@ export const Area = z.object({
   gabella: z.number().int().min(0).default(0),
   negozi: z.array(Id).default([]),
   penalita: z.boolean().default(false), // area di penalità: nascosta dalla mappa, si esce solo con le storie
+  fuori: z.boolean().default(false), // area fuori città (la Superficie Fratturata): ci si va con la mappa, ma le carte di città non ci arrivano
   // spedizione: luogo fuori città o sotterraneo. Ci si entra da uno storylet, i ripetibili sono stanze
   // mostrate a caso, la profondità sale con le stanze superate e si azzera quando si esce.
   spedizione: z.object({
