@@ -5,7 +5,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026.
 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
-- Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 47 al 2 ottobre).
+- Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 48 al 2 ottobre).
 - Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 17).
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
@@ -51,6 +51,9 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   ridanno metà campana quando arrivano a quei valori (oggi Dama d'Argento, Acciaio e Ira, Capomozzo, Sotto la pelle).
 - **Origini**: le opzioni legate all'origine stanno in fondo alla scena con `quando: [origine.<id> >= 1]` e portano allo
   stesso stato della via normale che sostituiscono (stessi avanzamenti, flag, `vai`/`segue`).
+- **Frammenti del Codex** (colonna destra): in `contenuti/frammenti.yaml` e in `contenuti/codex/` (uno per quartiere,
+  la Superficie con le spedizioni, il mondo senza area), 163 al 2 ottobre. Solo contenuto `pubblica` del Codex, con i
+  nomi del gioco al posto di quelli del Codex; i fatti che la trama cambia hanno `requisiti` sulle piste.
 - **Mazzi dei quartieri**: almeno venti carte ciascuno (`test/mazzi-citta.test.ts`), con le carte nuove in
   `contenuti/citta/carte-<quartiere>.yaml`.
 - **Spedizioni**: una stanza superata non ricompare nella stessa visita (`src/motore/spedizioni.ts`), e l'ordine delle
