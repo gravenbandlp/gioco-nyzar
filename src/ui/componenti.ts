@@ -34,7 +34,9 @@ export function tavola(t: string | undefined, opz: { classe?: string; taglio?: '
 
 // ---------------------------------------------------------------- glossario
 
-const glossario: { voci: TVoce[] | null; rx: RegExp | null; forme: Map<string, TVoce>; visibile: (v: TVoce) => boolean } = {
+// Una forma può avere più voci con requisiti diversi (lo stesso PNG prima e dopo un fatto della trama): vale la
+// prima visibile.
+const glossario: { voci: TVoce[] | null; rx: RegExp | null; forme: Map<string, TVoce[]>; visibile: (v: TVoce) => boolean } = {
   voci: null, rx: null, forme: new Map(), visibile: () => true,
 };
 
@@ -46,7 +48,7 @@ export function impostaGlossario(voci: TVoce[], visibile: (v: TVoce) => boolean)
   if (voci !== glossario.voci) {
     glossario.voci = voci;
     glossario.forme = new Map();
-    for (const v of voci) for (const f of [v.nome, ...v.alias]) glossario.forme.set(h(f), v);
+    for (const v of voci) for (const f of [v.nome, ...v.alias]) glossario.forme.set(h(f), [...(glossario.forme.get(h(f)) ?? []), v]);
     const forme = [...glossario.forme.keys()].sort((a, b) => b.length - a.length).map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
     glossario.rx = forme.length ? new RegExp(`(?<![\\p{L}\\p{N}&#])(?:${forme.join('|')})(?![\\p{L}\\p{N}])`, 'gu') : null;
   }
@@ -57,8 +59,9 @@ export function impostaGlossario(voci: TVoce[], visibile: (v: TVoce) => boolean)
 function annota(html: string, viste: Set<string>): string {
   if (!glossario.rx) return html;
   return html.replace(glossario.rx, (m) => {
-    const v = glossario.forme.get(m);
-    if (!v || viste.has(v.id) || !glossario.visibile(v)) return m;
+    const v = glossario.forme.get(m)?.find((x) => glossario.visibile(x));
+    if (!v || viste.has(v.nome)) return m;
+    viste.add(v.nome);
     viste.add(v.id);
     return `<span class="voce" tabindex="0" role="button" data-voce="${v.id}">${m}</span>`;
   });

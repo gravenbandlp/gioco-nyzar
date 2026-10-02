@@ -106,7 +106,14 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: stri
 
 function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
   r.testo = e.testo;
-  if (s.sospeso === da) delete s.sospeso; // il seguito in sospeso è stato giocato
+  if (s.sospeso === da) {
+    // il seguito in sospeso è stato giocato: torna in cima quello che aspettava sotto, se c'è
+    delete s.sospeso;
+    const sotto = s.sospesiPrima?.pop();
+    if (sotto) s.sospeso = sotto;
+    if (s.sospesiPrima && !s.sospesiPrima.length) delete s.sospesiPrima;
+  }
+  if (s.sospesiPrima) s.sospesiPrima = s.sospesiPrima.filter((x) => x !== da);
   // oggetti ricevuti: passano da ricevi() per indossarli se lo slot è vuoto e inizializzare i reperti
   const effetti = { ...(e.effetti ?? {}) };
   for (const [k, v] of Object.entries(effetti)) {
@@ -138,7 +145,11 @@ function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da
   }
   if (e.vai) { cambiaArea(s, e.vai, c); r.area = e.vai; }
   // il seguito resta in sospeso finché non lo giochi, anche se chiudi il risultato
-  if (e.segue) { r.segue = e.segue; s.sospeso = e.segue; }
+  if (e.segue) {
+    // un seguito nuovo non cancella quello che aspettava: lo mette sotto, e tornerà in cima dopo
+    if (s.sospeso && s.sospeso !== e.segue) s.sospesiPrima = [...(s.sospesiPrima ?? []).filter((x) => x !== s.sospeso && x !== e.segue), s.sospeso];
+    r.segue = e.segue; s.sospeso = e.segue;
+  }
 }
 
 export type Scelta =

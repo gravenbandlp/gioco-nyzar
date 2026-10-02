@@ -31,6 +31,7 @@ export interface Stato {
   scudo: string; // '' se nessuno
   accessori: string[]; // al massimo 2
   sospeso?: string; // seguito aperto da un esito e non ancora giocato
+  sospesiPrima?: string[]; // seguiti rimasti in attesa sotto quello attuale: tornano in cima quando lo giochi
   diario?: PaginaDiario[]; // le pagine che il giocatore ha scelto di conservare
   tempo?: { totale: number; serie: Record<string, number>; ultimo?: number }; // ms di gioco (motore/tempo.ts)
 }

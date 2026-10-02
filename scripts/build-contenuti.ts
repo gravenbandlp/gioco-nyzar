@@ -248,13 +248,15 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     }
   }
 
-  // Glossario: ogni forma (nome o alias) appartiene a una sola voce; le voci mai citate sono sospette.
-  const forme = new Map<string, string>();
+  // Glossario: ogni forma (nome o alias) appartiene a un solo nome; le varianti dello stesso nome (lo stesso PNG
+  // prima e dopo un fatto della trama) si distinguono per i requisiti. Le voci mai citate sono sospette.
+  const forme = new Map<string, { id: string; nome: string }>();
   for (const v of c.glossario) {
     requisiti(`glossario ${v.id}`, v.requisiti);
     for (const f of [v.nome, ...v.alias]) {
-      if (forme.has(f) && forme.get(f) !== v.id) errori.push(`glossario ${v.id}: "${f}" è già una forma di ${forme.get(f)}`);
-      forme.set(f, v.id);
+      const prima = forme.get(f);
+      if (prima && prima.nome !== v.nome) errori.push(`glossario ${v.id}: "${f}" è già una forma di ${prima.id}`);
+      forme.set(f, { id: v.id, nome: v.nome });
     }
   }
   if (c.glossario.length) {
