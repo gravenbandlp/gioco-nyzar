@@ -100,7 +100,9 @@ input[type=checkbox] { accent-color: var(--fatto); width: 16px; height: 16px; }
       <li>Spunta <b>Registrato</b>: la spunta ti dice a che punto sei. In locale (<code>npm run copione:locale</code>) si salva nel repository, in <code>doppiaggio/spunte.json</code>; altrimenti resta nel browser, e con <b>Scarica le spunte</b> e <b>Carica spunte</b> la porti da una parte all'altra. I pezzi che ho già importato nel gioco sono segnati <b>Nel gioco</b>. Se un testo cambia dopo che l'hai registrato o spuntato, la spunta cade e il pezzo è segnato <b>da rifare</b>: il filtro «Solo da rifare» li raccoglie tutti.</li>
       <li>Metti tutti i file nella cartella delle voci (<code>../audio-nyzar/voci</code>, accanto al repository) e lancia <code>npm run voci</code>: ogni file si aggancia alla sua scena e il pezzo passa a <b>Nel gioco</b>.</li>
     </ol>
-    <p>Il testo è già preparato per la voce. I pensieri del protagonista, che nel gioco sono in corsivo azzurro, iniziano con il tag <code>[whispers]</code>, così Eleven v4 li sussurra. Le battute dei personaggi sono fra virgolette, i numeri sono scritti in lettere e le scritte in maiuscolo sono tornate minuscole, perché per ElevenLabs il maiuscolo vale come enfasi. Titoli e pulsanti delle scelte non si leggono: il doppiaggio copre il testo della scena e quello di ogni esito.</p>
+    <p>Il copione copre solo i <b>prologhi</b> e le <b>dieci storie principali</b>, con le loro spedizioni: il resto del gioco non si doppia.</p>
+    <p>Il testo è già diretto per la voce. I <b>tag fra quadre</b>, in azzurro, dicono a ElevenLabs come dire ogni passaggio e non vengono letti: l'aria della scena (<code>[ominous]</code>, <code>[tense]</code>, <code>[wry]</code>), il tono di una battuta (<code>[gruff]</code>, <code>[pleading]</code>), i respiri e le pause (<code>[sighs]</code>, <code>[pause]</code>) e qualche effetto sonoro quando il suono accade nella scena (<code>[distant bell tolling]</code>, <code>[swords clashing]</code>). I pensieri del protagonista restano sussurrati con <code>[whispers]</code>, a volte con un secondo tag che ne dà il colore. Se un tag non rende come vorresti, nella casella di ElevenLabs puoi toglierlo o cambiarlo prima di generare. Le regole della regia sono in <code>doppiaggio/regia.md</code>.</p>
+    <p>Le battute dei personaggi sono fra virgolette, i numeri sono scritti in lettere e le scritte in maiuscolo sono tornate minuscole, perché per ElevenLabs il maiuscolo vale come enfasi. Titoli e pulsanti delle scelte non si leggono: il doppiaggio copre il testo della scena e quello di ogni esito.</p>
     <p>Gli id hanno due forme: <code>&lt;scena&gt;</code> per la scena e <code>&lt;scena&gt;__&lt;opzione&gt;-&lt;esito&gt;</code> per un esito, dove l'opzione è il numero della scelta (dalla prima in alto) ed esito è successo, fallimento, vittoria, sconfitta, oppure esito per le scelte senza prova. Se un testo cambia dopo la registrazione, l'importazione se ne accorge e me lo segnala.</p>
     <p>Il conto dei caratteri è quello che ElevenLabs scala dai crediti, senza contare le rigenerazioni.</p>
   </details>
@@ -161,13 +163,14 @@ for (const g of gruppi) { const o = document.createElement('option'); o.value = 
 function scheda(p) {
   const meta = p.tipo === 'scena' ? '<b>Scena</b>'
     : '<b>Esito</b> «' + esc(p.titolo) + '» · scelta ' + p.id.split('__')[1].split('-')[0] + ', «' + esc(p.opzione) + '» · ' + p.ramo;
-  const voce = esc(p.voce).replace(/\[([a-z ]+)\]/g, '<span class="tag">[$1]</span>');
+  const voce = esc(p.voce).replace(/\[([^\]\n]+)\]/g, '<span class="tag">[$1]</span>');
   const stato = inGioco(p) ? '<span class="chip gioco">Nel gioco</span>' : rifare(p) ? '<span class="chip rifare">Testo cambiato dopo la registrazione: da rifare</span>' : '';
   return '<article class="pezzo ' + p.tipo + (registrato(p) ? ' fatto' : '') + '" data-id="' + p.id + '">'
     + '<div class="barra"><span class="id">' + p.id + '</span><span class="n">' + fmt(p.caratteri) + ' car.</span>'
     + '<button type="button" class="copia" data-copia="id">Copia id</button>'
     + '<button type="button" class="copia" data-copia="testo">Copia testo</button>'
     + stato
+    + (p.regia === 'fatta' ? '' : '<span class="chip rifare">' + (p.regia === 'superata' ? 'Regia da rivedere: la scena è cambiata' : 'Senza regia') + '</span>')
     + (inGioco(p) ? '' : '<label class="fatto"><input type="checkbox" ' + (fatti[chiave(p)] ? 'checked' : '') + '> Registrato</label>') + '</div>'
     + '<p class="meta">' + meta + '</p><div class="voce">' + voce + '</div></article>';
 }

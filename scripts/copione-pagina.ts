@@ -8,7 +8,7 @@ import { PRONUNCE, type Pezzo } from './doppiaggio';
 const DIR = join(fileURLToPath(new URL('..', import.meta.url)), 'doppiaggio');
 const pezzi = JSON.parse(readFileSync(join(DIR, 'copione.json'), 'utf8')) as Pezzo[];
 const registrati = existsSync(join(DIR, 'registrati.json')) ? readFileSync(join(DIR, 'registrati.json'), 'utf8').trim() : '{}';
-const dati = pezzi.map(({ id, gruppo, storylet, titolo, tipo, opzione, ramo, voce, caratteri, impronta }) => ({ id, gruppo, storylet, titolo, tipo, opzione, ramo, voce, caratteri, impronta }));
+const dati = pezzi.map(({ id, gruppo, storylet, titolo, tipo, opzione, ramo, voce, regia, caratteri, impronta }) => ({ id, gruppo, storylet, titolo, tipo, opzione, ramo, voce, regia, caratteri, impronta }));
 const oggi = new Date().toLocaleDateString('it-IT');
 const html = readFileSync(join(DIR, 'pagina.html'), 'utf8')
   .replace('/*DATI*/[]', JSON.stringify(dati).replace(/<\//g, '<\\/'))
