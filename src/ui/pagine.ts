@@ -142,8 +142,8 @@ function termini(): string {
   <p>Ny'Zar, i suoi testi e le sue tavole sono © ${ANNO} Luca Pasini, tutti i diritti riservati. Fallen London è un marchio di
   Failbetter Games e Disco Elysium di ZA/UM: questo progetto non è affiliato a nessuna delle due. Musiche, ambienti sonori e
   icone appartengono ai rispettivi autori, elencati nei crediti, e sono usati secondo le loro licenze.</p>
-  <p>Il gioco salva i progressi nel tuo browser. Se entri con Google conserva anche nome, email e salvataggio, solo per
-  farti ritrovare il personaggio: i dettagli sono nella
+  <p>Sul sito si gioca entrando con Google: il gioco conserva nome, email e salvataggio, solo per farti ritrovare il
+  personaggio. Dentro claude.ai il salvataggio sta invece nel tuo account Claude. I dettagli sono nella
   ${a('https://gioco-nyzar.pages.dev/privacy', 'pagina sulla privacy')}. Non usa cookie di profilazione e non
   contiene pubblicità.</p>`;
 }
@@ -206,8 +206,8 @@ export function corpoSalvataggio(p: DatiPaginaSalvataggio): string {
     ritrovi da qualunque dispositivo.${a.ultimo ? ` Ultimo salvataggio nell'account: ${quando(a.ultimo)}.` : ''}</p>
     <p><button type="button" class="link" data-az="esci-account">Esci dall'account</button></p>`);
   } else if (p.google) {
-    righe.push(`<p>Per ora il personaggio è salvato solo in questo browser. Entrando con Google lo salvi nel tuo account e lo
-    ritrovi da qualunque dispositivo.</p>
+    righe.push(`<p>Il collegamento con il tuo account Google si è interrotto: per ora il personaggio è salvato solo in questo
+    browser. Rientra con Google per riprendere a salvarlo nell'account.</p>
     <p><button type="button" class="bottone primario" data-az="entra-google">Entra con Google</button></p>`);
   } else {
     righe.push(`<p>Il personaggio è salvato in questo browser. Se cancelli i dati di navigazione o cambi dispositivo lo perdi, a

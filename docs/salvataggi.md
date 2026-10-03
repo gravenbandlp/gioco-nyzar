@@ -34,3 +34,12 @@ sezioni 5 e 6.
 Il login usa il flusso implicito di Supabase senza librerie: il pulsante porta a Google, il ritorno arriva con i
 gettoni nel frammento dell'indirizzo, il gioco li legge, li conserva nel browser (`gioco-nyzar/sessione`) e li
 rinnova da solo. Una riga per account nella tabella `salvataggi`, con il personaggio in jsonb.
+
+## Solo con l'account, sul sito (3 ottobre 2026)
+
+Sul sito con l'accesso Google configurato non si gioca senza account: la soglia (`src/ui/ingresso.ts`) mostra
+«Entra con Google» finché l'account non è collegato, poi «Entra a Qir-Azel». La copia nel browser resta come riserva
+fra una scrittura e l'altra, porta il nome dell'account a cui appartiene (`gioco-nyzar/proprietario`) e si toglie
+uscendo dall'account; un altro account non se la ritrova (`stato.estraneo` in `Sincronia.collega`). Dentro claude.ai
+non cambia niente: l'account è quello di Claude. Senza le variabili `VITE_SUPABASE_*` il gioco resta giocabile nel
+browser, come in sviluppo.

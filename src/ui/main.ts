@@ -124,6 +124,10 @@ async function avviaArchivio(): Promise<void> {
     render();
   }
   if (sincro.utente()) scriviProprietario(sincro.utente());
+  if (serveAccount) {
+    if (sincro.stato.connesso) soglia.mostra('entra', remoto ? `Bentornato: riprendi ${remoto.stato.nome}.` : undefined);
+    else soglia.mostra('accedi', sincro.stato.errore);
+  }
 }
 
 /** Toglie il personaggio dal browser e torna alla creazione. */
@@ -137,11 +141,12 @@ async function esciDallAccount(): Promise<void> {
   if (allineato) {
     ricomincia();
     scriviProprietario(null);
-    avviso = 'Sei uscito dall\'account. Il personaggio è salvato lì: rientra con Google per riprenderlo.';
-  } else {
-    avviso = 'Sei uscito, ma l\'ultima mossa non è arrivata nell\'account: il personaggio resta in questo browser.';
   }
+  info = null;
   render();
+  soglia.mostra('accedi', allineato
+    ? 'Sei uscito. Il personaggio è salvato nel tuo account: rientra con Google per riprenderlo.'
+    : 'Sei uscito, ma l\'ultima mossa non è arrivata nell\'account: rientra con lo stesso account per non perderla.');
 }
 
 async function scaricaFile(nome: string, testo: string): Promise<void> {
@@ -560,7 +565,12 @@ const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
 hot?.snapshot?.(() => ({ stato, vista, scheda, luogo }));
 avviaSchede(c.glossario);
 montaControlli(lettore);
-montaIngresso(lettore);
+/** Sul sito con l'accesso Google si gioca solo da dentro un account (dentro claude.ai l'account è quello di Claude). */
+const serveAccount = !dentroClaude() && !!configSupabase();
+const soglia = montaIngresso(lettore, {
+  modo: serveAccount ? 'attesa' : 'entra',
+  accedi: () => { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); },
+});
 // il pulsante Ascolta segue lo stato della voce senza ridisegnare la pagina
 lettore.onCambio = () => {
   const ora = lettore.voceInCorso();
