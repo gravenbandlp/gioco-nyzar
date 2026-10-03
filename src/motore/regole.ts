@@ -62,7 +62,7 @@ export const REPUTAZIONE_MIN = -5;
 export const REPUTAZIONE_MAX = 10;
 
 // Rintocchi e mazzo (9.2, 9.3). Fino al 2 ottobre 2026 si chiamavano candele.
-export const RINTOCCHI_MAX = 20; // uno ogni 10 minuti, e tutti quando concludi una storia principale
+export const RINTOCCHI_MAX = 40; // ne torna uno ogni 10 minuti, e basta: nessuna ricarica
 export const MINUTI_PER_RINTOCCO = 10;
 export const MANO_MAX = 3;
 export const CODA_MAX = 6;

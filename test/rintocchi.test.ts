@@ -1,18 +1,18 @@
-// Il tetto dei rintocchi e la ricarica piena quando si conclude una storia principale.
+// Il tetto dei rintocchi, che tornano solo col tempo: concludere una storia principale non li ricarica.
 import { describe, it, expect } from 'vitest';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 import { RINTOCCHI_MAX } from '../src/motore/regole';
 import { nuovoPersonaggio, aggiornaTempo } from '../src/motore/personaggio';
-import { pisteConcluse, tappeRaggiunte, scegli } from '../src/motore/azioni';
+import { pisteConcluse, scegli } from '../src/motore/azioni';
 import { serieDi } from '../src/motore/serie';
 
 describe('rintocchi', () => {
-  it('il tetto è venti, e i salvataggi più alti scendono al tetto', () => {
-    expect(RINTOCCHI_MAX).toBe(20);
+  it('il tetto è quaranta, e i salvataggi più alti scendono al tetto', () => {
+    expect(RINTOCCHI_MAX).toBe(40);
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
-    s.rintocchi = 40;
+    s.rintocchi = 60;
     aggiornaTempo(s, 1000);
-    expect(s.rintocchi).toBe(20);
+    expect(s.rintocchi).toBe(40);
   });
 
   it('un salvataggio con le candele di prima si ritrova i rintocchi', () => {
@@ -39,7 +39,7 @@ describe('rintocchi', () => {
     }
   });
 
-  it('concludere una pista riaccende tutto, una serie di luogo no', () => {
+  it('si riconosce la pista appena conclusa, non una serie di luogo', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
     const pista = serieDi(c).serie.find((z) => z.quality === 'pista.registro')!;
     const prima = { ...s.quality, 'pista.registro': pista.massimo - 1 };
@@ -48,7 +48,7 @@ describe('rintocchi', () => {
     expect(pisteConcluse({ ...s.quality }, s, c)).toEqual([]);
   });
 
-  it('nel gioco: l\'ultima scena di una pista riempie i rintocchi', () => {
+  it('nel gioco: l\'ultima scena di una pista la conclude e non ricarica i rintocchi', () => {
     const z = serieDi(c).serie.find((x) => x.quality === 'pista.registro')!;
     const st = c.storylet.find((x) => x.requisiti.some((r) => r.replace(/\s/g, '') === `pista.registro==${z.massimo - 1}`))!;
     const i = st.opzioni.findIndex((o) => !o.prova && !o.combattimento && (o.esito?.effetti?.['pista.registro'] ?? 0) > 0);
@@ -62,18 +62,7 @@ describe('rintocchi', () => {
     s.rintocchi = 3;
     const r = scegli(s, st, i, c, 0, () => 0);
     expect(r.tipo).toBe('risultato');
-    expect(s.rintocchi).toBe(RINTOCCHI_MAX);
+    expect(s.rintocchi).toBeLessThanOrEqual(3);
     if (r.tipo === 'risultato') expect(r.risultato.conclusa).toBeTruthy();
-  });
-
-  it('le storie lunghe hanno tappe che ridanno metà campana, e solo la prima volta', () => {
-    const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
-    s.quality['pista.pelle'] = 3;
-    expect(tappeRaggiunte({ 'pista.pelle': 2 }, s, c)).toEqual(['Sotto la pelle di Qir-Azel']);
-    expect(tappeRaggiunte({ 'pista.pelle': 3 }, s, c)).toEqual([]);
-    for (const id of ['pista.dama-argento', 'pista.acciaio', 'pista.capomozzo', 'pista.pelle']) {
-      const z = serieDi(c).serie.find((x) => x.quality === id)!;
-      for (const n of c.quality.find((q) => q.id === id)!.ricariche!) expect(n, id).toBeLessThan(z.massimo);
-    }
   });
 });

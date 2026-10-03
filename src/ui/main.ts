@@ -1,7 +1,7 @@
 // Interfaccia del prototipo: stato, salvataggio, eventi. L'HTML sta in viste.ts.
 import './stile.css';
 import { CONTENUTI as c } from '../dati/contenuti';
-import { RINTOCCHI_MAX, CODA_MAX } from '../motore/regole';
+import { CODA_MAX } from '../motore/regole';
 import type { TFrammento } from '../motore/contenuto';
 import {
   nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
@@ -501,7 +501,6 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'frammento': prossimoFrammento(); render(); break;
-    case 'ricarica': s.rintocchi = RINTOCCHI_MAX; s.rintocchiAl = ora; s.coda = CODA_MAX; s.codaAl = ora; salva(); render(); break;
     case 'nuovo': {
       if (!confermaNuovo) { confermaNuovo = true; render(); break; }
       ricomincia(); render();

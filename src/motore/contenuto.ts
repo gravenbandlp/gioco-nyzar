@@ -123,7 +123,6 @@ export const Quality = z.object({
   valore: z.number().optional(), // valore in monete (beni)
   famiglia: z.string().optional(), // famiglia di beni: cristalli, informazioni, reliquie
   nascosta: z.boolean().optional(),
-  ricariche: z.array(z.number().int().min(1)).optional(), // piste lunghe: arrivare a questi valori ridà metà campana
 });
 
 export const Nemico = z.object({

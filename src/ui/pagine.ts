@@ -107,8 +107,7 @@ function regolamento(): string {
   <h3>I rintocchi</h3>
   <p>Qir-Azel scandisce le giornate a campane, e il tuo tempo si conta a rintocchi. Quasi ogni azione costa un rintocco,
   alcune due o tre, alcune niente. Ne hai al massimo ${RINTOCCHI_MAX} e ne torna uno ogni ${MINUTI_PER_RINTOCCO} minuti,
-  anche a gioco chiuso. Quando concludi una delle storie principali (quelle in «Le tue storie», non le storie dei
-  luoghi) tornano tutti, e le storie più lunghe hanno una o due tappe a metà strada che ne ridanno metà. Senza rintocchi
+  anche a gioco chiuso, e non si ricaricano in nessun altro modo. Senza rintocchi
   puoi ancora leggere il diario, cambiare equipaggiamento e fare compere. Il ritmo è voluto, perché Ny'Zar si gioca a
   sessioni brevi, tornando più volte al giorno.</p>
 

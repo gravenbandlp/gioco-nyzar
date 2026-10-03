@@ -162,8 +162,7 @@ function sinistra(x: Contesto): string {
     </div>
     <div class="borsa"><span class="moneta" aria-hidden="true"></span><span><b>${mezzi(s.quality['monete'] ?? 0)}</b> monete</span></div>
     <section class="stat-laterali"><h2 class="etichetta">Attributi</h2><ul>${attributi}</ul></section>
-    <section class="stat-laterali"><h2 class="etichetta">Negative</h2><ul>${negative}</ul></section>
-    <button type="button" class="bottone piccolo" data-az="ricarica">Ricarica i rintocchi (test)</button>`;
+    <section class="stat-laterali"><h2 class="etichetta">Negative</h2><ul>${negative}</ul></section>`;
 }
 
 // ================================================================ colonna destra
@@ -513,8 +512,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     </li>`);
   }
   if (r.dissonanza) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⟡</span><p>Nessun successo, e il Mana ti torna indietro (Dissonanza).</p></li>`);
-  if (r.conclusa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Hai concluso «${h(r.conclusa)}», e i rintocchi tornano tutti.</p></li>`);
-  if (r.tappa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Una tappa di «${h(r.tappa)}»: torna metà dei rintocchi.</p></li>`);
+  if (r.conclusa) righe.push(`<li class="esito-riga bene"><span class="icona-riga simbolo">✦</span><p>Hai concluso «${h(r.conclusa)}».</p></li>`);
   if (r.guasto) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⚙</span><p>Nessun successo, e il reperto si è guastato.</p></li>`);
   const puoiSecondaScelta = !!x.vista && x.vista.tipo === 'risultato' && !!x.vista.prima && x.vista.indice !== undefined && secondaSceltaDisponibile(s, r, c);
   const puoiCorreggere = !!x.vista && x.vista.tipo === 'risultato' && x.vista.prima && x.vista.indice !== undefined && correggibile(s, r);

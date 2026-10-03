@@ -53,8 +53,8 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   id e le registrazioni non combaciano più.
 - La risorsa delle azioni si chiama **rintocchi** (fino al 2 ottobre 2026 erano candele, troppo legate a Fallen
   London): nell'interfaccia è una campana. Nella prosa le candele restano oggetti veri, mai la risorsa.
-- **Storie lunghe**: oltre alla ricarica piena a fine storia, le piste con `ricariche: [n, ...]` in `contenuti/quality.yaml`
-  ridanno metà campana quando arrivano a quei valori (oggi Dama d'Argento, Acciaio e Ira, Capomozzo, Sotto la pelle).
+- **Rintocchi**: 40 al massimo, ne torna uno ogni 10 minuti e basta. Niente ricariche a fine storia o alle tappe, niente
+  pulsante di prova: è una scelta di Luca (3 ottobre 2026), non reintrodurle.
 - **Origini**: le opzioni legate all'origine stanno in fondo alla scena con `quando: [origine.<id> >= 1]` e portano allo
   stesso stato della via normale che sostituiscono (stessi avanzamenti, flag, `vai`/`segue`).
 - **Frammenti del Codex** (colonna destra): in `contenuti/frammenti.yaml` e in `contenuti/codex/` (uno per quartiere,
@@ -84,7 +84,7 @@ tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le
 
 ## Stato del lavoro
 Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di recente: economia (strati 1 e 2,
-`contenuti/economia/`), rintocchi a 20 con ricarica piena a fine storia principale, revisione finale delle
+`contenuti/economia/`), rintocchi a 40 che tornano solo col tempo, revisione finale delle
 incongruenze. A progetto: lo strato 3 dell'economia (`docs/progetto-reperti.md`).
 
 Da fare:

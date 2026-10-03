@@ -55,8 +55,8 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 
 ## Com'è fatto il gioco
 
-- **Rintocchi** (la campana): 20 al massimo, uno ogni 10 minuti; tornano tutti quando si conclude una storia
-  principale, metà alle tappe intermedie delle storie lunghe (`ricariche` sulle piste in `contenuti/quality.yaml`).
+- **Rintocchi** (la campana): 40 al massimo, uno ogni 10 minuti, e nessun'altra ricarica (dal 3 ottobre 2026: né a
+  fine storia, né alle tappe, né il pulsante di prova).
 - **Mazzo di occasioni**: mano da 3, coda da 6, una carta ogni 10 minuti; ogni area ha il suo mazzo, le carte
   "ovunque" non arrivano fuori città né in spedizione.
 - **Personaggio**: tre attributi (Fisico, Sociale, Mentale) e 24 abilità; crescono con i PE delle prove.
@@ -89,7 +89,7 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - **1° ottobre.** Voce della prosa con un po' di Disco Elysium, glossario dei tooltip, luoghi come mini-hub, città
   viva su tutti i luoghi, audio completo, blocchi 1–8 chiusi (tutte le storie principali).
 - **2 ottobre.**
-  - Economia strati 1 e 2; rintocchi a 20 con ricarica piena a fine storia.
+  - Economia strati 1 e 2; rintocchi a 40, solo col tempo.
   - Le candele diventano rintocchi, con la campana (per staccarsi da Fallen London).
   - Prima batch di voci importata (110 pezzi).
   - Spedizioni in ordine: stanze che non tornano, fasce di profondità, revisione di tutte le spedizioni.

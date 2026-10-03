@@ -1,6 +1,6 @@
 // Risoluzione delle opzioni degli storylet, spostamenti e negozi.
 import { probabilita, tira, type Rng } from './dadi';
-import { DIFFICOLTA, RINTOCCHI_MAX, peDaProbabilita, type Difficolta } from './regole';
+import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
 import { serieDi, type Serie } from './serie';
 import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
@@ -83,12 +83,11 @@ export interface Risultato {
   dissonanza?: boolean;
   corretto?: boolean;
   guasto?: string; // reperto guastato da zero successi
-  conclusa?: string; // la storia principale appena conclusa: i rintocchi sono tornati tutti
-  tappa?: string; // una tappa di una storia lunga: è tornata metà dei rintocchi
+  conclusa?: string; // la storia principale appena conclusa
 }
 
 /**
- * Le storie principali (le piste) arrivate in fondo con questo esito: chi ne conclude una ritrova tutti i rintocchi.
+ * Le storie principali (le piste) arrivate in fondo con questo esito.
  * Le serie dei luoghi non contano.
  */
 export function pisteConcluse(prima: Record<string, number>, s: Stato, c: TContenuti): Serie[] {
@@ -102,23 +101,7 @@ function applicaEsito(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: stri
   applicaEsitoDentro(s, e, c, r, da);
   if (area?.spedizione && s.area === area.id) segnaStanza(s, c, da, profonditaPrima, e.segue);
   const concluse = pisteConcluse(prima, s, c);
-  if (concluse.length) {
-    s.rintocchi = Math.max(s.rintocchi, RINTOCCHI_MAX);
-    r.conclusa = concluse.map((z) => z.nome).join(' e ');
-    return;
-  }
-  const tappe = tappeRaggiunte(prima, s, c);
-  if (tappe.length) {
-    s.rintocchi = Math.min(RINTOCCHI_MAX, s.rintocchi + RINTOCCHI_MAX / 2);
-    r.tappa = tappe.join(' e ');
-  }
-}
-
-/** Le storie lunghe hanno tappe intermedie (`ricariche` sulla quality della pista): arrivarci ridà metà campana. */
-export function tappeRaggiunte(prima: Record<string, number>, s: Stato, c: TContenuti): string[] {
-  return c.quality
-    .filter((q) => q.ricariche?.some((n) => (prima[q.id] ?? 0) < n && (s.quality[q.id] ?? 0) >= n))
-    .map((q) => q.nome);
+  if (concluse.length) r.conclusa = concluse.map((z) => z.nome).join(' e ');
 }
 
 function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da: string): void {
