@@ -103,15 +103,15 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 ## Checklist
 
 ### Subito
-- [ ] Clonare in locale e verificare che `npm run dev`, `npm run build` e i test girino anche su questa macchina
+- [x] Clonare in locale e verificare che `npm run dev`, `npm run build` e i test girino anche su questa macchina
       (`docs/locale.md`).
-- [ ] Importare musica e ambienti (`npm run audio`) e le voci già registrate (`npm run voci`).
-- [ ] Portare le spunte del copione dall'Artifact al locale («Scarica le spunte» → «Carica spunte»).
-- [ ] Decidere dove pubblicare: Artifact su claude.ai, sito proprio (Cloudflare Pages), o entrambi.
+- [x] Importare musica e ambienti (`npm run audio`) e le voci già registrate (`npm run voci`). Mancano i 4 esiti di `prologo-figlio-della-citta-bassa`, registrati ma senza file.
+- [x] Portare le spunte del copione dall'Artifact al locale («Scarica le spunte» → «Carica spunte»).
+- [x] Pubblicato su Cloudflare Pages: https://gioco-nyzar.pages.dev (3 ottobre 2026), con login Google. L'Artifact resta.
 
 ### Salvataggio e pubblicazione
-- [ ] Creare il progetto Supabase, il client OAuth Google e accendere il login (`docs/locale.md`, sezione Google).
-- [ ] Pubblicare su Cloudflare Pages con le variabili `VITE_SUPABASE_*`.
+- [x] Creare il progetto Supabase, il client OAuth Google e accendere il login (`docs/locale.md`, sezione Google).
+- [x] Pubblicare su Cloudflare Pages con le variabili `VITE_SUPABASE_*`.
 - [ ] Provare il salvataggio su due dispositivi diversi con lo stesso account Google.
 - [ ] Se si condivide l'Artifact con amici: invitarli per email come Editor (con un link pubblico non salvano
       nell'account).

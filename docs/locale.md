@@ -132,3 +132,13 @@ si vuole il flusso PKCE, si cambia `archivioGoogle` in `src/ui/salvataggi.ts`.
 - Un test di percorso che scade per tempo su una macchina lenta: rilancialo da solo
   (`npx vitest run test/piste.test.ts`).
 - Il gioco senza audio: manca `public/audio/` (passi 3 e 4).
+
+## 8. Com'è configurato (3 ottobre 2026)
+
+- Sito: https://gioco-nyzar.pages.dev, progetto Pages `gioco-nyzar` (creato con `wrangler pages project create --force`:
+  wrangler 4.147 manda i progetti nuovi sui Workers, il `--force` è servito solo la prima volta).
+- Supabase: progetto `gioco-nyzar` (ref `yvfxpusdtlutalqdigyz`, Irlanda), tabella `salvataggi` da `supabase/schema.sql`,
+  provider Google attivo, Site URL il sito, Redirect URLs il sito e `http://localhost:5173/`.
+- Google Cloud: progetto `gioco-nyzar`, client web «gioco-nyzar web», app OAuth pubblicata (in produzione, senza logo
+  per non far scattare la verifica). Privacy e termini: https://gioco-nyzar.pages.dev/privacy (`public/privacy.html`).
+- Su Windows i comandi `!` di Claude Code passano per bash: percorsi con le barre dritte (`/c/Users/...`).
