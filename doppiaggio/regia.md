@@ -1,6 +1,6 @@
 # La regia del doppiaggio
 
-Il copione si legge con una sola voce narrante su ElevenLabs (modello v3, quello dei tag audio). La regia aggiunge al
+Il copione si legge con una sola voce narrante su ElevenLabs (modello Eleven v4, con i tag audio). La regia aggiunge al
 testo i **tag fra quadre** che dicono alla voce *come* dire una frase: emozione, tono, ritmo, respiri, e qualche effetto
 sonoro. I tag non si leggono: ElevenLabs li interpreta.
 

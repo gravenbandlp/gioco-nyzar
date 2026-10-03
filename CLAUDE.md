@@ -13,10 +13,12 @@ modello di Fallen London. TypeScript + Vite, contenuti in YAML validati con zod,
 - `npm run dev`: gioco su http://localhost:5173 (rigenera prima i contenuti).
 - `npm run contenuti`: valida gli YAML di `contenuti/` (deve dire "Contenuti validi").
 - `npm run stile`: controllo dei tic di scrittura (deve dare 0 segnalazioni).
-- `npx vitest run`: tutti i test (188 al 2 ottobre 2026). Alcuni test di percorso durano qualche secondo.
+- `npx vitest run`: tutti i test (189 al 3 ottobre 2026). Alcuni test di percorso durano qualche secondo.
 - `npm run build`: build in `dist/` (un solo `index.html` più tavole e audio).
 - `npm run copione`: rigenera il copione del doppiaggio; `npm run copione:locale` lo apre su http://localhost:5180
   con le spunte salvate in `doppiaggio/spunte.json`.
+- `npm run genera-voci -- <prologhi|dama-argento|…|tutto|id> [--prova] [--rifai]`: genera le voci con l'API di
+  ElevenLabs (Eleven v4, chiave in `.env.local`) e le registra; `--prova` dice solo quanti caratteri costano.
 - `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati con l'id del pezzo).
 - `npm run audio`, `npm run tavole`: importano musica/ambienti e tavole dalle cartelle accanto al repository.
 
