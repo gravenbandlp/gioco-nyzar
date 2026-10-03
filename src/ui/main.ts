@@ -53,7 +53,7 @@ let avviso = '';
 let frammentoId: string | null = null;
 let bersaglio: string | undefined;
 let luogo: string | undefined; // il mini-hub aperto dentro l'area
-let info: PaginaInfo | null = null; // aiuto, termini, crediti o salvataggio, aperti dal piè di pagina
+let info: PaginaInfo | null = null; // regolamento, termini, crediti o salvataggio, aperti dal piè di pagina
 let salvatoAl = 0; // ultima modifica del personaggio: decide quale copia è più recente fra browser e account
 let daImportare: DatiSalvati | undefined; // file scelto nella pagina del salvataggio, in attesa di conferma
 

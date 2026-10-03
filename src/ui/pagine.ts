@@ -1,11 +1,15 @@
-// Le pagine informative aperte dal piè di pagina: aiuto e domande frequenti, termini (origini e fonti
+// Le pagine informative aperte dal piè di pagina: regolamento e domande frequenti, termini (origini e fonti
 // d'ispirazione), crediti. Testo statico, scritto qui perché non fa parte della narrativa.
 import { h } from './formato';
 import type { DatiSalvati, StatoArchivio } from './salvataggi';
-import { RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, MANO_MAX, CODA_MAX, MINUTI_PER_CARTA, MAX_NEGATIVA } from '../motore/regole';
+import {
+  RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, MANO_MAX, CODA_MAX, MINUTI_PER_CARTA, MAX_NEGATIVA, SOGLIA_PERICOLO, DIFFICOLTA,
+  ETICHETTE_DIFFICOLTA, SOGLIE_PE, MAX_CONSUMABILI_IN_COMBATTIMENTO,
+} from '../motore/regole';
+import { probabilita } from '../motore/dadi';
 
-export type PaginaInfo = 'aiuto' | 'termini' | 'crediti' | 'salvataggio';
-export const PAGINE_INFO: PaginaInfo[] = ['aiuto', 'termini', 'crediti', 'salvataggio'];
+export type PaginaInfo = 'regolamento' | 'termini' | 'crediti' | 'salvataggio';
+export const PAGINE_INFO: PaginaInfo[] = ['regolamento', 'termini', 'crediti', 'salvataggio'];
 
 declare const __VERSIONE__: string;
 export const VERSIONE: string = typeof __VERSIONE__ === 'string' ? __VERSIONE__ : 'sviluppo';
@@ -19,7 +23,7 @@ export function piede(): string {
     <span class="versione">Versione ${VERSIONE}</span>
     <nav aria-label="Informazioni">
       <button type="button" class="link" data-az="pagina" data-id="salvataggio">Salvataggio</button>
-      <button type="button" class="link" data-az="pagina" data-id="aiuto">Aiuto</button>
+      <button type="button" class="link" data-az="pagina" data-id="regolamento">Regolamento</button>
       <button type="button" class="link" data-az="pagina" data-id="termini">Termini</button>
       <button type="button" class="link" data-az="pagina" data-id="crediti">Crediti</button>
     </nav>
@@ -27,7 +31,7 @@ export function piede(): string {
 }
 
 /** `corpo` sostituisce il testo statico: la pagina del salvataggio dipende dallo stato dell'account. */
-export function paginaInfo(id: PaginaInfo, corpo = id === 'aiuto' ? aiuto() : id === 'termini' ? termini() : id === 'crediti' ? crediti() : ''): string {
+export function paginaInfo(id: PaginaInfo, corpo = id === 'regolamento' ? regolamento() : id === 'termini' ? termini() : id === 'crediti' ? crediti() : ''): string {
   return `<article class="pagina-info">
     <button type="button" class="bottone indietro" data-az="chiudi-pagina">← Torna al gioco</button>
     ${corpo}
@@ -38,81 +42,173 @@ function domanda(d: string, r: string): string {
   return `<details class="faq"><summary>${d}</summary><div>${r}</div></details>`;
 }
 
-function aiuto(): string {
+/** Tabella delle probabilità di riuscita: righe = dadi, colonne = difficoltà. Calcolata con la funzione del motore. */
+/** Su cento, senza far sembrare certo quello che non lo è (né impossibile quello che è solo improbabile). */
+const cento = (p: number): string => (p >= 1 ? '100' : p >= 0.995 ? '&gt;99' : p <= 0 ? '0' : p < 0.005 ? '&lt;1' : String(Math.round(p * 100)));
+
+function tabellaProbabilita(): string {
+  const colonne = (['Molto facile', 'Facile', 'Media', 'Difficile', 'Molto difficile'] as const).map((k) => [k, DIFFICOLTA[k]] as const);
+  const righe = [1, 2, 3, 4, 5, 6, 7, 8, 10].map((n) => `<tr><th scope="row">${n}</th>${colonne
+    .map(([, r]) => `<td>${cento(probabilita(n, r))}</td>`).join('')}</tr>`).join('');
+  return `<div class="tabella-regole"><table>
+    <caption>Probabilità di riuscita, su cento</caption>
+    <thead><tr><th scope="col">Dadi</th>${colonne.map(([k, r]) => `<th scope="col">${k}<small>${r} ${r === 1 ? 'successo' : 'successi'}</small></th>`).join('')}</tr></thead>
+    <tbody>${righe}</tbody>
+  </table></div>`;
+}
+
+function regolamento(): string {
   return `
-  <header><span class="etichetta velo">Aiuto</span><h2>Come si gioca</h2></header>
-  <p>Ny'Zar · Qir-Azel è un gioco narrativo a <em>storylet</em>: brevi scene che si aprono e si chiudono in base a quello
-  che il tuo personaggio ha fatto, sa e possiede. Non c'è una mappa da esplorare a passi: scegli dove andare e cosa
-  fare, e il mondo tiene il conto delle tue scelte.</p>
+  <header><span class="etichetta velo">Regolamento</span><h2>Come si gioca</h2></header>
+  <p>Ludus Ny'Zar è un gioco narrativo a <em>storylet</em>: brevi scene che si aprono e si chiudono in base a quello che il
+  tuo personaggio ha fatto, sa e possiede. Non c'è una mappa da esplorare a passi. Scegli dove andare e cosa fare, e il
+  mondo tiene il conto delle tue scelte. Sotto il racconto c'è un regolamento da gioco di ruolo, con prove a dadi e
+  combattimenti a round, e questa pagina lo spiega per intero.</p>
+
+  <h3>Il personaggio</h3>
+  <p>Hai tre <b>attributi</b>, Fisico, Sociale e Mentale, e otto <b>abilità</b> per ciascuno. Tutti vanno da 0 a 5.</p>
+  <ul class="elenco-regole">
+    <li><b>Fisico</b>: Rissa, Armi da mischia, Armi da distanza, Resistenza, Atletica, Acrobazia, Furtività, Cavalcare.</li>
+    <li><b>Sociale</b>: Conoscenze della strada, Galateo, Persuasione, Intimidire, Ingannare, Empatia, Espressività,
+    Addestrare animali.</li>
+    <li><b>Mentale</b>: Accademiche, Percezione, Politica ed economia, Tecnologia, Magia, Medicina, Natura, Resilienza.</li>
+  </ul>
+  <p>L'origine che scegli all'inizio ti dà i primi valori, un'arma, un'armatura e qualche oggetto. Il resto lo costruisci
+  giocando.</p>
+
+  <h3>Le prove</h3>
+  <p>Quando un'opzione chiede una prova, il gioco tira un mucchio di dadi a sei facce, tanti quanti sono
+  <b>l'attributo più l'abilità</b>. Ogni dado che fa <b>4, 5 o 6</b> è un <b>successo</b>, quindi ogni dado riesce una
+  volta su due. La difficoltà dice quanti successi servono:</p>
+  <ul class="elenco-regole">
+    ${ETICHETTE_DIFFICOLTA.map((k) => `<li><b>${k}</b>: ${DIFFICOLTA[k]} ${DIFFICOLTA[k] === 1 ? 'successo' : 'successi'}.</li>`).join('')}
+  </ul>
+  <p>Se un'opzione accetta più abilità (per esempio Persuasione o Ingannare), il gioco usa quella in cui sei più forte.
+  Alcuni oggetti, talenti e mutazioni aggiungono dadi. Prima di scegliere vedi sempre quanti dadi tiri e quante
+  probabilità hai; dopo, vedi i dadi usciti.</p>
+  <div class="esempio-regole">
+    <span class="etichetta">Esempio</span>
+    <p>Hai Sociale 2 e Persuasione 2, e un'opzione chiede <i>Persuasione, Media</i>. Tiri 4 dadi e ti servono 3 successi.
+    Escono 6, 4, 2 e 5: tre successi, la prova riesce. Con 4 dadi una prova Media riesce poco meno di una volta su tre;
+    con un dado in più, una volta su due.</p>
+  </div>
+  ${tabellaProbabilita()}
+  <p>Una prova fallita non chiude quasi mai la strada. Costa qualcosa (monete, tempo, una negativa che sale) e porta a un
+  esito diverso. Ci sono due casi speciali: con <b>zero successi</b> un reperto dei Precursori usato nella prova si guasta,
+  e un incantesimo provoca una <b>Dissonanza</b>, che ti dà mezzo punto di Tormento.</p>
+
+  <h3>Crescita</h3>
+  <p>Ogni prova, riuscita o fallita, dà <b>punti esperienza</b> all'abilità usata. Ne dà di più quando l'esito era
+  incerto: da 3 a 4 punti con una probabilità fra una su cinque e sette su dieci, uno solo se la prova era quasi certa o
+  quasi disperata. L'attributo dell'abilità riceve un quarto di quei punti. Per salire servono
+  ${SOGLIE_PE.map((n, i) => `${n} punti per il livello ${i + 1}`).join(', ')}. Le abilità a zero si allenano con le
+  azioni facili dei luoghi, che in città ci sono per tutte.</p>
 
   <h3>I rintocchi</h3>
   <p>Qir-Azel scandisce le giornate a campane, e il tuo tempo si conta a rintocchi. Quasi ogni azione costa un rintocco,
   alcune due o tre, alcune niente. Ne hai al massimo ${RINTOCCHI_MAX} e ne torna uno ogni ${MINUTI_PER_RINTOCCO} minuti,
-  anche a gioco chiuso. Quando concludi una delle storie principali (quelle elencate in «Le tue storie», non le storie
-  dei luoghi) tornano tutti, e le storie più lunghe hanno anche una o due tappe a metà strada che ne ridanno metà. Quando sono finiti puoi ancora leggere il diario, cambiare
-  equipaggiamento e fare compere: per andare avanti con la storia aspetti che tornino. Il ritmo è voluto, perché Ny'Zar si
-  gioca a sessioni brevi, tornando più volte al giorno.</p>
+  anche a gioco chiuso. Quando concludi una delle storie principali (quelle in «Le tue storie», non le storie dei
+  luoghi) tornano tutti, e le storie più lunghe hanno una o due tappe a metà strada che ne ridanno metà. Senza rintocchi
+  puoi ancora leggere il diario, cambiare equipaggiamento e fare compere. Il ritmo è voluto, perché Ny'Zar si gioca a
+  sessioni brevi, tornando più volte al giorno.</p>
 
   <h3>Quartieri, luoghi e storie</h3>
   <p>La città è divisa in quartieri (Città Bassa, Ponti Sospesi, Quartieri Alti) e ti sposti dalla scheda <b>Mappa</b>;
-  alcuni ponti chiedono una gabella, i Quartieri Alti un invito. Ogni quartiere ha i suoi <b>luoghi</b>, come la locanda o
-  la biblioteca. Dentro trovi le azioni che puoi ripetere quanto vuoi per guadagnare monete, esperienza e
-  informazioni, e le botteghe. In cima alla pagina, sotto <b>La tua storia</b>, ci sono le scene che fanno avanzare la
-  trama, con il luogo in cui si svolgono.</p>
-  <p>Alcune storie portano fuori città, in una <b>spedizione</b>: una foresta, una palude, un isolotto. Lì le stanze
+  alcuni ponti chiedono una gabella, i Quartieri Alti un invito. Ogni quartiere ha i suoi <b>luoghi</b>, come la locanda
+  o la biblioteca, con azioni da ripetere quanto vuoi per guadagnare monete, esperienza e informazioni, una reputazione
+  propria e le botteghe. In cima alla pagina, sotto <b>La tua storia</b>, ci sono le scene che fanno avanzare la trama.</p>
+  <p>Durante il <b>prologo</b> sono aperte solo le schede Storia, Personaggio e Averi. Mappa, bazar e diario si aprono
+  quando il prologo finisce.</p>
+  <p>Alcune storie portano fuori città, in una <b>spedizione</b>: una foresta, una palude, un isolotto. Le stanze
   compaiono poche alla volta, la profondità sale a ogni stanza superata e, raggiunta la soglia, si apre il cuore del
-  posto. Puoi tornare indietro quando vuoi, ma la profondità si azzera, e una stanza già superata non ricompare finché
-  non esci.</p>
+  posto. Puoi ritirarti quando vuoi, ma la profondità si azzera, e una stanza già superata non ricompare finché non esci.</p>
 
   <h3>La Superficie Fratturata</h3>
-  <p>Fuori dalle mura c'è la <b>Superficie Fratturata</b>, che dalla mappa raggiungi quando vuoi. Lì il mazzo delle occasioni
-  pesca soltanto gli incontri della Superficie, e alcuni incontri ritornano e cambiano a seconda di come li hai trattati.
-  Il bottino tipico è il <b>reperto sigillato</b>. Nella sua baracca Oda Krell ti aiuta ad aprirlo e a scegliere quale parte
+  <p>Fuori dalle mura c'è la <b>Superficie Fratturata</b>, che raggiungi dalla mappa quando vuoi. Lì il mazzo pesca solo
+  gli incontri della Superficie, e alcuni incontri ritornano e cambiano a seconda di come li hai trattati. Il bottino
+  tipico è il <b>reperto sigillato</b>. Nella sua baracca Oda Krell ti aiuta ad aprirlo e a scegliere quale parte
   estrarne, e sul suo banco monti le parti in un congegno che si vende a compratori diversi, ognuno interessato alla
   Potenza, alla Stabilità o alla Stranezza. Oda ripara anche i reperti guasti.</p>
 
   <h3>Le occasioni</h3>
-  <p>Il mazzo delle occasioni si riempie da solo, una carta ogni ${MINUTI_PER_CARTA} minuti fino a ${CODA_MAX}. Peschi in mano
-  fino a ${MANO_MAX} carte, con gli incontri e i guai che capitano per strada. Una carta legata a un quartiere si gioca solo lì; quelle
-  che non ti interessano le scarti con la ×.</p>
+  <p>Il mazzo delle occasioni si riempie da solo, una carta ogni ${MINUTI_PER_CARTA} minuti fino a ${CODA_MAX}. Peschi in
+  mano fino a ${MANO_MAX} carte, con gli incontri e i guai che capitano per strada. Una carta legata a un quartiere si
+  gioca solo lì; quelle che non ti interessano le scarti con la ×.</p>
 
-  <h3>Prove e crescita</h3>
-  <p>Hai tre attributi (Fisico, Sociale, Mentale) e diverse abilità per ciascuno. In una prova tiri tanti dadi quanti sono
-  l'attributo più l'abilità, e ogni dado da 4 in su è un successo: la difficoltà dice quanti successi servono. Prima di
-  scegliere vedi sempre la percentuale di riuscita. Ogni prova, riuscita o fallita, dà esperienza all'abilità usata, e di
-  più quando l'esito era incerto: le abilità crescono usandole, e con loro gli attributi.</p>
+  <h3>Il combattimento</h3>
+  <p>Gli scontri si giocano a round. Prima di cominciare vedi quanto è difficile, da <i>Molto facile</i> a
+  <i>Impossibile</i>: il gioco simula lo scontro molte volte con il tuo personaggio così com'è. Se è difficile, di solito
+  la scena offre un'altra strada, a parole o di nascosto.</p>
+  <p>In combattimento contano questi valori, tutti nella scheda Personaggio:</p>
+  <ul class="elenco-regole">
+    <li><b>Attacco</b>: Fisico più l'abilità dell'arma (Rissa a mani nude o con i tirapugni, Armi da mischia, Armi da distanza).</li>
+    <li><b>Difesa</b>: Fisico più Acrobazia, più lo scudo se ne hai uno.</li>
+    <li><b>Punti ferita (PF)</b>: 5 più Fisico più Resistenza.</li>
+    <li><b>Danno</b> dell'arma e <b>Riduzione</b> dell'armatura, che toglie danni a ogni colpo subito.</li>
+    <li><b>Iniziativa</b>: Atletica più Percezione. A inizio scontro tutti tirano l'iniziativa e agiscono in quell'ordine, a ogni round.</li>
+  </ul>
+  <p><b>Attaccare.</b> Chi attacca tira i dadi d'Attacco, chi si difende i dadi di Difesa, e si contano i successi di
+  entrambi. Se l'attacco ne fa di più, il colpo va a segno e fa tanti danni quanta è la differenza, più il danno
+  dell'arma, meno la riduzione dell'armatura. Un colpo a segno fa sempre almeno 1 danno. Con un pareggio o meno, il colpo
+  è parato. Le armi <i>Perforanti</i> ignorano 2 punti di riduzione e quelle <i>Contundenti</i> 1; con un'arma a
+  <i>Portata</i> colpisci per primo nel primo round.</p>
+  <p>A ogni round, al tuo turno, scegli una di queste azioni:</p>
+  <ul class="elenco-regole">
+    <li><b>Attaccare</b> un nemico, come sopra.</li>
+    <li><b>Intimidire</b>: Sociale più Intimidire contro Mentale più Resilienza del nemico. Se vinci, esita e ha un dado
+    in meno in attacco per 2 round; se vinci di 3 o più e il nemico è di quelli che possono scappare, scappa.</li>
+    <li><b>Lanciare un incantesimo</b> del tuo repertorio: tiri Mentale più Magia e spendi Energia pari al livello
+    dell'incantesimo. Con zero successi c'è la Dissonanza.</li>
+    <li><b>Usare un reperto</b> dei Precursori, che ha un certo numero di cariche.</li>
+    <li><b>Usare un consumabile</b>: le bende ridanno 2 PF, il tonico 4, l'estratto di energia 3 Energia. Al massimo
+    ${MAX_CONSUMABILI_IN_COMBATTIMENTO} per scontro.</li>
+  </ul>
+  <p><b>Come finisce.</b> Lo scontro finisce quando cadi tu o cadono (o scappano) tutti i nemici. Se vinci, le Ferite
+  dipendono dai PF che ti restano: nessuna se ne hai almeno quattro quinti, mezza se ne hai almeno due quinti, una se
+  sei sceso sotto. Se perdi prendi le Ferite che lo scontro prevede e la storia prosegue dal ramo della sconfitta, che
+  costa ma non ti uccide. I nemici più duri della trama restano duri: le vie per batterli sono Difficili e fallire costa.</p>
+  <div class="esempio-regole">
+    <span class="etichetta">Esempio di combattimento</span>
+    <p>Sei un <i>Figlio della Città Bassa</i>: Fisico 2, Sociale 2, Rissa 3, Acrobazia 1, Intimidire 1, tirapugni (danno
+    1), nessuna armatura. Quindi hai 5 dadi d'Attacco, 3 di Difesa e 7 PF. Sulla Superficie ti sbarra la strada un
+    <i>Predone</i>: Attacco 2, Difesa 2, Difesa mentale 2, 5 PF, danno 1, nessuna armatura.</p>
+    <p><b>Iniziativa.</b> Tu tiri 0 dadi, perché Atletica e Percezione sono a zero; il predone ne tira 2. Agisce prima lui.</p>
+    <p><b>Round 1.</b> Il predone attacca con 2 dadi: 5 e 6, due successi. Ti difendi con 3 dadi: 1, 4 e 2, un successo.
+    Ti colpisce per 2 − 1 = 1, più 1 della sua arma: 2 danni, e scendi a 5 PF. Tocca a te. Attacchi con 5 dadi: 6, 4, 2,
+    5 e 1, tre successi. Lui si difende con 4 e 3, un successo. Lo colpisci per 3 − 1 = 2, più 1 dei tirapugni: 3 danni,
+    e gli restano 2 PF.</p>
+    <p><b>Round 2.</b> Il predone attacca con 4 e 2, un successo; tu ti difendi con 6, 6 e 3, due successi, e pari. Al tuo
+    turno provi a intimidirlo con Sociale 2 più Intimidire 1: escono 5, 4 e 6, tre successi. Lui tira la Difesa mentale,
+    1 e 3, zero successi. Vinci di 3 e il predone è di quelli che scappano, quindi se ne va.</p>
+    <p><b>Fine.</b> Hai vinto con 5 PF su 7, più di due quinti: prendi mezza Ferita.</p>
+  </div>
 
-  <h3>Le statistiche negative</h3>
-  <p>Ferite, Scandalo, Sospetto, Tormento e Contaminazione salgono con i rischi che corri. Si abbassano con il riposo, le
-  cure, i favori giusti. Se una arriva a ${MAX_NEGATIVA} scatta una <b>crisi</b>: finisci in convalescenza, in cella, ai
-  margini della città o nel delirio, e ne esci solo giocando la storia che ti ci ha portato.</p>
-
-  <h3>Combattimento</h3>
-  <p>Gli scontri si giocano a round. A ogni round scegli se attaccare, intimidire, curarti con un consumabile, lanciare un
-  incantesimo o usare un reperto dei Precursori. Prima di cominciare vedi la probabilità di vittoria: se è bassa, di
-  solito esiste un'altra strada.</p>
+  <h3>Le statistiche negative e le crisi</h3>
+  <p>Ferite, Scandalo, Sospetto, Tormento e Contaminazione salgono con i rischi che corri. Si abbassano con il riposo,
+  le cure, i favori giusti. Da ${SOGLIA_PERICOLO} in su la barra diventa rossa. Se una arriva a ${MAX_NEGATIVA} scatta una
+  <b>crisi</b>: finisci in convalescenza, in cella, ai margini della città o nel delirio, e ne esci solo giocando la storia
+  che ti ci ha portato. La Contaminazione della Marea porta invece alle mutazioni.</p>
 
   <h3>Diario, nomi e audio</h3>
-  <p>Sotto ogni esito c'è <b>Annota nel diario</b>: le pagine che conservi restano nella scheda Diario, da rileggere.
-  I nomi sottolineati nei testi aprono una scheda con quello che sa chiunque in città. Il pulsante con la nota musicale,
-  in basso a destra, regola musica e ambiente o li spegne.</p>
+  <p>Sotto ogni esito c'è <b>Annota nel diario</b>, e le pagine che conservi restano nella scheda Diario. I nomi
+  sottolineati nei testi aprono una scheda con quello che sa chiunque in città. Il pulsante con la nota musicale, in
+  basso a destra, regola musica, ambiente e voci, o li spegne. Nelle scene doppiate c'è il pulsante <b>Ascolta</b>.</p>
 
   <h3>Domande frequenti</h3>
-  ${domanda('Dove vengono salvati i progressi?', `<p>Nel browser che usi, in automatico dopo ogni azione. Se cancelli i dati del sito o giochi in una finestra
-    anonima, il personaggio va perso. Su un altro dispositivo o browser si ricomincia da capo.</p>`)}
-  ${domanda('Posso perdere il personaggio?', `<p>No, nessuna scelta lo uccide. Le crisi ti costano tempo e qualche conseguenza, poi si torna in città.
+  ${domanda('Dove vengono salvati i progressi?', `<p>Nel tuo account Google, dopo ogni azione: entrando con lo stesso account da un altro dispositivo
+    ritrovi il personaggio dove l'hai lasciato. Dalla pagina «Salvataggio» puoi anche scaricarne una copia su file.</p>`)}
+  ${domanda('Posso perdere il personaggio?', `<p>No, nessuna scelta lo uccide. Sconfitte e crisi costano tempo e qualche conseguenza, poi si torna in città.
     Il personaggio si perde solo se lo cancelli tu con «Nuovo personaggio».</p>`)}
   ${domanda('Una scena dice che mi manca qualcosa. Che faccio?', `<p>Sotto l'opzione bloccata c'è scritto cosa serve: una quality, un oggetto, un livello d'abilità, un luogo.
     Quasi sempre c'è anche un'altra opzione che costa di più o rischia di più, ma è aperta.</p>`)}
   ${domanda('Ho finito le cose da fare nella storia.', `<p>Le storie si aprono man mano: alcune chiedono un'abilità più alta, un invito, un oggetto, o che sia
     passato un altro passo della trama. Le azioni ripetibili nei luoghi servono proprio a prepararsi.</p>`)}
-  ${domanda('Conviene ripetere la stessa azione?', `<p>Sì, ed è normale: le azioni ripetibili esistono per allenarsi e mettere da parte monete. Le abilità a zero
-    si allenano con le azioni più facili, che in città ci sono per tutte.</p>`)}
+  ${domanda('Conviene ripetere la stessa azione?', `<p>Sì, ed è normale: le azioni ripetibili esistono per allenarsi e mettere da parte monete.</p>`)}
   ${domanda('Che differenza c\'è fra la Storia e le Occasioni?', `<p>La Storia è la trama, sempre disponibile nel posto giusto. Le occasioni sono il caso: arrivano da sole, a volte
     portano ricompense rare, a volte guai, e puoi scartarle.</p>`)}
-  ${domanda('Il gioco ha un finale?', `<p>Per ora c'è il primo capitolo, ancora in lavorazione. Il gioco segue la cronaca di Ny'Zar, che ne ha tre.</p>`)}
-  ${domanda('L\'audio non parte.', `<p>I browser bloccano l'audio finché non tocchi la pagina: basta un clic qualsiasi. Se ancora non senti nulla,
-    controlla il pulsante in basso a destra.</p>`)}`;
+  ${domanda('Il gioco ha un finale?', `<p>Per ora c'è il primo capitolo. Il gioco segue la cronaca di Ny'Zar, che ne ha tre.</p>`)}
+  ${domanda('L\'audio non parte.', `<p>I browser bloccano l'audio finché non tocchi la pagina, e il clic su «Entra a Qir-Azel» basta. Se ancora
+    non senti nulla, controlla il pulsante in basso a destra.</p>`)}`;
 }
 
 function termini(): string {
