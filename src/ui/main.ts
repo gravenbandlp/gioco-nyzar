@@ -35,6 +35,12 @@ import {
 interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string; salvatoAl?: number }
 
 const CHIAVE = 'gioco-nyzar/prototipo/v1';
+/** L'account Google a cui appartiene il personaggio nel browser: un altro account non se lo ritrova. */
+const PROPRIETARIO = 'gioco-nyzar/proprietario';
+const leggiProprietario = (): string | null => { try { return localStorage.getItem(PROPRIETARIO); } catch { return null; } };
+const scriviProprietario = (id: string | null | undefined): void => {
+  try { if (id) localStorage.setItem(PROPRIETARIO, id); else localStorage.removeItem(PROPRIETARIO); } catch { /* niente */ }
+};
 const AREA_INIZIALE = 'citta-bassa';
 
 let stato: Stato | null = null;
@@ -108,9 +114,34 @@ async function avviaArchivio(): Promise<void> {
   if (dentroClaude()) remoto = await sincro.collega(archivioClaude, 'claude', dati());
   else {
     const cfg = configSupabase();
-    if (cfg) remoto = await sincro.collega(() => archivioGoogle(cfg), 'google', dati());
+    if (cfg) remoto = await sincro.collega(() => archivioGoogle(cfg), 'google', dati(), leggiProprietario());
   }
   if (remoto) adotta(remoto, `Hai ripreso ${remoto.stato.nome} dal tuo account.`);
+  else if (sincro.stato.estraneo) {
+    // il personaggio nel browser era di un altro account e questo non ne ha uno: si comincia da capo
+    ricomincia();
+    avviso = 'Il personaggio rimasto in questo browser è di un altro account. Crea il tuo.';
+    render();
+  }
+  if (sincro.utente()) scriviProprietario(sincro.utente());
+}
+
+/** Toglie il personaggio dal browser e torna alla creazione. */
+function ricomincia(): void {
+  stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; scriviLocale();
+}
+
+/** Uscendo dall'account il personaggio resta nell'account e lascia il browser, così chi entra dopo non se lo ritrova. */
+async function esciDallAccount(): Promise<void> {
+  const allineato = await sincro.esci();
+  if (allineato) {
+    ricomincia();
+    scriviProprietario(null);
+    avviso = 'Sei uscito dall\'account. Il personaggio è salvato lì: rientra con Google per riprenderlo.';
+  } else {
+    avviso = 'Sei uscito, ma l\'ultima mossa non è arrivata nell\'account: il personaggio resta in questo browser.';
+  }
+  render();
 }
 
 async function scaricaFile(nome: string, testo: string): Promise<void> {
@@ -311,7 +342,7 @@ function azione(az: string, el: HTMLElement): void {
   if (az === 'pagina' && (PAGINE_INFO as string[]).includes(id)) { info = id as PaginaInfo; render(); if (stato) scorriAlPannello(); else window.scrollTo({ top: 0 }); return; }
   if (az === 'chiudi-pagina') { info = null; daImportare = undefined; render(); scorriAlPannello(); return; }
   if (az === 'entra-google') { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); return; }
-  if (az === 'esci-account') { void sincro.esci(); return; }
+  if (az === 'esci-account') { void esciDallAccount(); return; }
   if (az === 'esporta') { const d = dati(); if (d) void scaricaFile(nomeFile(d), aFile(d)); return; }
   if (az === 'annulla-import') { daImportare = undefined; render(); return; }
   if (az === 'conferma-import') {
@@ -465,7 +496,7 @@ function azione(az: string, el: HTMLElement): void {
     case 'ricarica': s.rintocchi = RINTOCCHI_MAX; s.rintocchiAl = ora; s.coda = CODA_MAX; s.codaAl = ora; salva(); render(); break;
     case 'nuovo': {
       if (!confermaNuovo) { confermaNuovo = true; render(); break; }
-      stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; scriviLocale(); render();
+      ricomincia(); render();
       window.scrollTo({ top: 0 });
       break;
     }

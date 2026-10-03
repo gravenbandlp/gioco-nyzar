@@ -108,6 +108,39 @@ describe('salvataggio nell\'account', () => {
     expect((await archivioSuDb(db, 'u_1').leggi())!.stato.nome).toBe('Vessa');
   });
 
+  it('il personaggio di un altro account rimasto nel browser non finisce nell\'account di chi entra', async () => {
+    const { db } = dbFinto();
+    const conUtente = (id: string): Archivio => ({ ...archivioSuDb(db, id), utente: id });
+    const sincro = new Sincronia(() => {}, () => {}, 0);
+    // account vuoto: non si scrive niente e non si adotta niente
+    expect(await sincro.collega(async () => conUtente('u_2'), 'google', dati(pg('Prova'), 1000), 'u_1')).toBeNull();
+    expect(sincro.stato.estraneo).toBe(true);
+    expect(await archivioSuDb(db, 'u_2').leggi()).toBeNull();
+    // account con un suo personaggio: si riprende quello, senza conflitto
+    await archivioSuDb(db, 'u_2').scrivi(dati(pg('Orsk'), 500));
+    const adottato = await new Sincronia(() => {}, () => {}, 0).collega(async () => conUtente('u_2'), 'google', dati(pg('Prova'), 1000), 'u_1');
+    expect(adottato?.stato.nome).toBe('Orsk');
+    // stesso account, o personaggio senza proprietario: si scrive come sempre
+    const stesso = new Sincronia(() => {}, () => {}, 0);
+    await stesso.collega(async () => conUtente('u_3'), 'google', dati(pg('Vessa'), 1000), null);
+    expect(stesso.stato.estraneo).toBeUndefined();
+    expect((await archivioSuDb(db, 'u_3').leggi())!.stato.nome).toBe('Vessa');
+    expect(stesso.utente()).toBe('u_3');
+  });
+
+  it('uscendo dall\'account si scrive prima la mossa in attesa', async () => {
+    const { db } = dbFinto();
+    let uscito = false;
+    const sincro = new Sincronia(() => {}, () => {}, 60_000);
+    const s = pg();
+    await sincro.collega(async () => ({ ...archivioSuDb(db, 'u_1'), esci: async () => { uscito = true; } }), 'google', dati(s, 1000));
+    sincro.segnala(dati(s, 5000)); // il ritardo è lungo: senza esci() non partirebbe
+    expect(await sincro.esci()).toBe(true);
+    expect(uscito).toBe(true);
+    expect(await archivioSuDb(db, 'u_1').ultimo()).toBe(5000);
+    expect(sincro.utente()).toBeUndefined();
+  });
+
   it('chi non può scrivere nell\'account resta al salvataggio nel browser, con un messaggio', async () => {
     const negato: Archivio = {
       tipo: 'claude', leggi: async () => null, ultimo: async () => null,

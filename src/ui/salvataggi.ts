@@ -27,11 +27,13 @@ export interface StatoArchivio {
   ultimo?: number; // ultimo salvataggio remoto riuscito
   errore?: string;
   conflitto?: { remoto: DatiSalvati }; // nell'account c'è un altro personaggio: decide il giocatore
+  estraneo?: boolean; // il personaggio nel browser è di un altro account: non va scritto in questo
 }
 
 export interface Archivio {
   tipo: TipoArchivio;
   chi?: string;
+  utente?: string; // identità stabile dell'account, per sapere di chi è il personaggio nel browser
   leggi(): Promise<DatiSalvati | null>;
   ultimo(): Promise<number | null>; // quando è stata salvata la copia remota, senza scaricarla tutta
   scrivi(d: DatiSalvati): Promise<void>;
@@ -258,6 +260,7 @@ export async function archivioGoogle(cfg: ConfigSupabase, chiama: typeof fetch =
   return {
     tipo: 'google',
     chi,
+    utente: utente.id,
     async leggi() {
       const r = await chiama(`${cfg.url}/rest/v1/salvataggi?select=dati&utente=eq.${utente.id}`, { headers: await intestazioni() });
       if (!r.ok) throw new Error(`Lettura non riuscita (${r.status}).`);
@@ -304,8 +307,12 @@ export class Sincronia {
    */
   constructor(private onCambio: () => void, private onRemoto: (d: DatiSalvati) => void = () => {}, private ritardo = 4000) {}
 
-  /** Collega l'archivio e confronta con il salvataggio locale. Torna i dati remoti se vanno adottati. */
-  async collega(trova: () => Promise<Archivio | null>, tipo: TipoArchivio, locale: DatiSalvati | null): Promise<DatiSalvati | null> {
+  /**
+   * Collega l'archivio e confronta con il salvataggio locale. Torna i dati remoti se vanno adottati.
+   * `proprietario`: l'account a cui appartiene il personaggio nel browser, se lo si sa. Se è un altro account, quel
+   * personaggio non si scrive in questo (stato.estraneo): si riprende la copia dell'account, o si ricomincia.
+   */
+  async collega(trova: () => Promise<Archivio | null>, tipo: TipoArchivio, locale: DatiSalvati | null, proprietario?: string | null): Promise<DatiSalvati | null> {
     this.stato = { tipo, connesso: false };
     try {
       this.archivio = await trova();
@@ -314,6 +321,10 @@ export class Sincronia {
     }
     if (!this.archivio) { this.onCambio(); return null; }
     this.stato.chi = this.archivio.chi;
+    if (locale && proprietario && this.archivio.utente && proprietario !== this.archivio.utente) {
+      this.stato.estraneo = true;
+      locale = null;
+    }
     let remoto: DatiSalvati | null = null;
     try {
       remoto = await this.archivio.leggi();
@@ -365,11 +376,23 @@ export class Sincronia {
     else if (decisione === 'adotta') { this.stato.ultimo = remoto.salvatoAl; this.inAttesa = null; this.onRemoto(remoto); }
   }
 
-  async esci(): Promise<void> {
+  /** L'account a cui si sta salvando, se l'archivio lo dice. */
+  utente(): string | undefined { return this.stato.connesso ? this.archivio?.utente : undefined; }
+
+  /** Esce dall'account dopo aver scritto quello che era in attesa. Torna true se l'account ha l'ultima versione. */
+  async esci(): Promise<boolean> {
+    clearTimeout(this.timer);
+    if (this.inAttesa && this.stato.connesso && !this.stato.conflitto) {
+      const d = this.inAttesa;
+      this.inAttesa = null;
+      await this.scrivi(d);
+    }
+    const allineato = this.stato.connesso && !this.stato.errore && !this.stato.conflitto;
     await this.archivio?.esci?.();
     this.archivio = null;
     this.stato = { tipo: this.stato.tipo, connesso: false };
     this.onCambio();
+    return allineato;
   }
 
   private async scarica(): Promise<void> {
