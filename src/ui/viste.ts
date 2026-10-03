@@ -118,6 +118,11 @@ function fondale(x: Contesto): string {
   </div>`;
 }
 
+/** Durante il prologo (quality «prologo» 1 o 2, azzerata da «Tre giorni dopo») si apre solo quello che serve alla scena. */
+export const inPrologo = (s: Stato): boolean => (s.quality['prologo'] ?? 0) > 0;
+const SCHEDE_DEL_PROLOGO: Scheda[] = ['storia', 'personaggio', 'averi'];
+export const schedaAperta = (s: Stato, k: Scheda): boolean => !inPrologo(s) || SCHEDE_DEL_PROLOGO.includes(k);
+
 function schede(x: Contesto): string {
   const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa'], ['diario', 'Diario']];
   const prossima = msAlProssimoRintocco(x.s, x.ora);
@@ -128,7 +133,9 @@ function schede(x: Contesto): string {
       <span class="moneta" aria-hidden="true"></span><b>${mezzi(x.s.quality['monete'] ?? 0)}</b>
     </p>
     <nav class="schede" aria-label="Sezioni">${voci
-    .map(([id, t]) => `<button type="button" data-az="scheda" data-id="${id}" ${x.scheda === id ? 'aria-current="page" class="attiva"' : ''}>${t}</button>`)
+    .map(([id, t]) => schedaAperta(x.s, id)
+      ? `<button type="button" data-az="scheda" data-id="${id}" ${x.scheda === id ? 'aria-current="page" class="attiva"' : ''}>${t}</button>`
+      : `<button type="button" class="chiusa" disabled title="Si apre dopo il prologo">${t}</button>`)
     .join('')}</nav>
   </div>`;
 }
@@ -168,7 +175,7 @@ function destra(x: Contesto): string {
     <div class="dove">
       <span class="etichetta">Ti trovi a</span>
       <p class="luogo-attuale">${h(a.nome)}${luogoAperto(x) ? `<small>${h(luogoAperto(x)!.nome)}</small>` : ''}</p>
-      <button type="button" class="bottone" data-az="scheda" data-id="mappa">Apri la mappa</button>
+      ${schedaAperta(x.s, 'mappa') ? '<button type="button" class="bottone" data-az="scheda" data-id="mappa">Apri la mappa</button>' : ''}
     </div>
     ${f ? `<article class="frammento">
       <header><span class="etichetta velo">Dal Codex</span><h2>${h(f.titolo)}</h2></header>

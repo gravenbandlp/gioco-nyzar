@@ -297,6 +297,8 @@ main.creazione .pagina-info { margin: 0 auto; padding-top: 20px; }
 }
 .schede button:hover { color: var(--inchiostro-vivo); }
 .schede button.attiva { color: var(--inchiostro-vivo); border-bottom-color: var(--velo); }
+.schede button.chiusa { opacity: 0.35; }
+.schede button.chiusa:hover { color: inherit; }
 .pannello { padding-top: 22px; }
 .avviso { margin-top: 14px; padding: 10px 14px; border-left: 2px solid var(--velo); background: rgba(184, 138, 62, 0.08); font-size: var(--t-s); }
 .avviso.crisi { border-left-color: var(--mana); background: rgba(198, 58, 74, 0.1); margin-top: 0; margin-bottom: 18px; }
@@ -914,6 +916,11 @@ html.con-soglia { overflow: hidden; }
 /* ------------------------------------------------ la trama di mana (sfondo animato del Codex) e la dissolvenza tra pagine */
 #trama { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none; opacity: 0.6; }
 #app { position: relative; z-index: 1; }
-#app.dissolvenza { animation: dissolvenza 0.34s cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+/* la pagina vecchia sfuma sopra la nuova: stessa durata e curva delle view transitions del Codex, un filo più lunga */
+.pagina-uscente {
+  position: absolute; inset: 0 0 auto 0; z-index: 2; pointer-events: none;
+  animation: pagina-esce 0.42s cubic-bezier(0.55, 0, 0.75, 0.6) both;
+}
+@keyframes pagina-esce { from { opacity: 1; } to { opacity: 0; } }
+#app.entrante > :not(.pagina-uscente) { animation: dissolvenza 0.34s cubic-bezier(0.15, 0.6, 0.3, 1) both; }
 @keyframes dissolvenza { from { opacity: 0; } to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { #app.dissolvenza { animation: none; } }

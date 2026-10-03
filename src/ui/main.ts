@@ -30,7 +30,7 @@ import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
 import registrati from '../../doppiaggio/registrati.json';
 import {
-  idVoceEsito, pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, type Contesto, type Scheda, type Vista,
+  idVoceEsito, pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
 } from './viste';
 
 interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string; salvatoAl?: number }
@@ -251,8 +251,9 @@ function agganciaCaricamento(): void {
 function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
+    const vecchio = staccaSeCambiaPagina();
     app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
-    dissolvi();
+    sfuma(vecchio);
     agganciaCaricamento();
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
@@ -260,6 +261,7 @@ function render(): void {
   }
   document.body.classList.remove('in-creazione');
   const s = stato;
+  if (!schedaAperta(s, scheda)) scheda = 'storia'; // un salvataggio rimasto sulla mappa durante il prologo
   if (luogo && !c.luoghi.some((l) => l.id === luogo && l.area === s.area)) luogo = undefined; // cambiata area da una storia
   impostaGlossario(c.glossario, (v) => requisitiSoddisfatti(s, v.requisiti, c));
   nascondiScheda();
@@ -274,8 +276,9 @@ function render(): void {
     : scheda === 'mappa' ? mappa(x)
     : scheda === 'diario' ? diario(x)
     : storia(x);
+  const vecchio = staccaSeCambiaPagina();
   app.innerHTML = pagina(x, centro);
-  dissolvi();
+  sfuma(vecchio);
   agganciaCaricamento();
   aggiornaIndicatore();
   avviso = '';
@@ -283,21 +286,38 @@ function render(): void {
 }
 
 /**
- * La dissolvenza tra una pagina e l'altra, come nel Codex: solo quando cambia davvero pagina (scheda, scena, luogo,
- * pagina informativa), non a ogni ridisegno (timer, round di combattimento, scelta dell'origine). È solo CSS sull'app,
- * quindi il ridisegno resta sincrono e audio, voci e scorrimento non ne risentono.
+ * La dissolvenza tra una pagina e l'altra, come nel Codex: la pagina vecchia sfuma sopra quella nuova, già al suo posto
+ * (dissolvenza incrociata, senza il vuoto in mezzo). Solo quando cambia davvero pagina (scheda, scena, luogo, pagina
+ * informativa), non a ogni ridisegno (timer, round di combattimento, scelta dell'origine). Il ridisegno resta sincrono:
+ * la pagina vecchia passa in uno strato inerte che si toglie da solo, quindi audio, voci e scorrimento non ne risentono.
  */
 let ultimaPagina = '';
-function dissolvi(): void {
+function staccaSeCambiaPagina(): DocumentFragment | null {
   const id = 'id' in vista ? vista.id : '';
   const k = stato ? `${info ?? ''}|${scheda}|${vista.tipo}|${id}|${luogo ?? ''}` : `creazione|${info ?? ''}`;
-  if (k === ultimaPagina) return;
+  if (k === ultimaPagina) return null;
   const primo = !ultimaPagina;
   ultimaPagina = k;
-  if (primo) return;
-  app.classList.remove('dissolvenza');
+  if (primo || matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
+  app.querySelector(':scope > .pagina-uscente')?.remove();
+  const f = document.createDocumentFragment();
+  while (app.firstChild) f.append(app.firstChild);
+  return f;
+}
+function sfuma(vecchio: DocumentFragment | null): void {
+  if (!vecchio) return;
+  const strato = document.createElement('div');
+  strato.className = 'pagina-uscente';
+  strato.inert = true;
+  strato.setAttribute('aria-hidden', 'true');
+  strato.append(vecchio);
+  app.append(strato); // in fondo: getElementById e querySelector trovano prima la pagina nuova
+  app.classList.remove('entrante');
   void app.offsetWidth; // riparte l'animazione anche se la classe c'era già
-  app.classList.add('dissolvenza');
+  app.classList.add('entrante');
+  const togli = () => strato.remove();
+  strato.addEventListener('animationend', togli, { once: true });
+  setTimeout(togli, 800);
 }
 
 /** La musica e l'ambiente del momento: la scena aperta, il luogo, l'area. */
@@ -392,6 +412,7 @@ function azione(az: string, el: HTMLElement): void {
   const ora = Date.now();
   switch (az) {
     case 'scheda': {
+      if (!schedaAperta(s, id as Scheda)) break; // nel prologo restano chiuse mappa, bazar e diario
       info = null;
       scheda = id as Scheda;
       confermaNuovo = false; salva(); render(); scorriAlPannello();
