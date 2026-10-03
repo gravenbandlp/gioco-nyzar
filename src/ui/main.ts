@@ -251,9 +251,7 @@ function agganciaCaricamento(): void {
 function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
-    const vecchio = staccaSeCambiaPagina();
     app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
-    sfuma(vecchio);
     agganciaCaricamento();
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
@@ -276,48 +274,11 @@ function render(): void {
     : scheda === 'mappa' ? mappa(x)
     : scheda === 'diario' ? diario(x)
     : storia(x);
-  const vecchio = staccaSeCambiaPagina();
   app.innerHTML = pagina(x, centro);
-  sfuma(vecchio);
   agganciaCaricamento();
   aggiornaIndicatore();
   avviso = '';
   suona(s);
-}
-
-/**
- * La dissolvenza tra una pagina e l'altra, come nel Codex: la pagina vecchia sfuma sopra quella nuova, già al suo posto
- * (dissolvenza incrociata, senza il vuoto in mezzo). Solo quando cambia davvero pagina (scheda, scena, luogo, pagina
- * informativa), non a ogni ridisegno (timer, round di combattimento, scelta dell'origine). Il ridisegno resta sincrono:
- * la pagina vecchia passa in uno strato inerte che si toglie da solo, quindi audio, voci e scorrimento non ne risentono.
- */
-let ultimaPagina = '';
-function staccaSeCambiaPagina(): DocumentFragment | null {
-  const id = 'id' in vista ? vista.id : '';
-  const k = stato ? `${info ?? ''}|${scheda}|${vista.tipo}|${id}|${luogo ?? ''}` : `creazione|${info ?? ''}`;
-  if (k === ultimaPagina) return null;
-  const primo = !ultimaPagina;
-  ultimaPagina = k;
-  if (primo || matchMedia('(prefers-reduced-motion: reduce)').matches) return null;
-  app.querySelector(':scope > .pagina-uscente')?.remove();
-  const f = document.createDocumentFragment();
-  while (app.firstChild) f.append(app.firstChild);
-  return f;
-}
-function sfuma(vecchio: DocumentFragment | null): void {
-  if (!vecchio) return;
-  const strato = document.createElement('div');
-  strato.className = 'pagina-uscente';
-  strato.inert = true;
-  strato.setAttribute('aria-hidden', 'true');
-  strato.append(vecchio);
-  app.append(strato); // in fondo: getElementById e querySelector trovano prima la pagina nuova
-  app.classList.remove('entrante');
-  void app.offsetWidth; // riparte l'animazione anche se la classe c'era già
-  app.classList.add('entrante');
-  const togli = () => strato.remove();
-  strato.addEventListener('animationend', togli, { once: true });
-  setTimeout(togli, 800);
 }
 
 /** La musica e l'ambiente del momento: la scena aperta, il luogo, l'area. */
