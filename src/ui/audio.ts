@@ -115,10 +115,13 @@ export class Lettore {
   /** Le tracce che suonano davvero adesso (o suoneranno al primo gesto). */
   inAscolto(): Scelta { return { musica: this.attuale.musica?.id ?? null, ambiente: this.attuale.ambiente?.id ?? null }; }
   avviato(): boolean { return !!this.ctx; }
+  /** Il browser ha davvero concesso l'audio (il contesto può restare sospeso se il gesto non bastava). */
+  inFunzione(): boolean { return this.ctx?.state === 'running'; }
 
   /** Al primo gesto del giocatore: crea il contesto audio e fa partire quello che serve. */
   avvia(): void {
-    if (this.ctx || this.prefs.muto) return;
+    if (this.prefs.muto) return;
+    if (this.ctx) { if (this.ctx.state === 'suspended') void this.ctx.resume(); return; }
     const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!Ctx) return;
     this.ctx = new Ctx({ latencyHint: 'playback' });
@@ -323,10 +326,13 @@ export function montaControlli(l: Lettore): void {
     if (!pannello.hidden && !e.composedPath().includes(box)) { pannello.hidden = true; tasto.setAttribute('aria-expanded', 'false'); }
   });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !pannello.hidden) { pannello.hidden = true; tasto.setAttribute('aria-expanded', 'false'); tasto.focus(); } });
-  // il primo gesto ovunque nella pagina fa partire l'audio
-  const primo = () => { l.avvia(); aggiorna(); };
-  document.addEventListener('pointerdown', primo, { once: true, capture: true });
-  document.addEventListener('keydown', primo, { once: true, capture: true });
+  // il primo gesto ovunque nella pagina fa partire l'audio; si riprova a ogni gesto finché il browser non lo concede
+  const gesti = ['pointerdown', 'pointerup', 'click', 'touchend', 'keydown'] as const;
+  const primo = () => {
+    l.avvia(); aggiorna();
+    if (l.inFunzione() || l.prefs.muto) for (const g of gesti) document.removeEventListener(g, primo, true);
+  };
+  for (const g of gesti) document.addEventListener(g, primo, true);
   document.addEventListener('visibilitychange', () => l.visibilita(document.visibilityState === 'visible'));
   aggiorna();
 }
