@@ -142,7 +142,9 @@ function termini(): string {
   <p>Ny'Zar, i suoi testi e le sue tavole sono © ${ANNO} Luca Pasini, tutti i diritti riservati. Fallen London è un marchio di
   Failbetter Games e Disco Elysium di ZA/UM: questo progetto non è affiliato a nessuna delle due. Musiche, ambienti sonori e
   icone appartengono ai rispettivi autori, elencati nei crediti, e sono usati secondo le loro licenze.</p>
-  <p>Il gioco salva i progressi solo nel tuo browser. Non raccoglie dati personali, non usa cookie di profilazione e non
+  <p>Il gioco salva i progressi nel tuo browser. Se entri con Google conserva anche nome, email e salvataggio, solo per
+  farti ritrovare il personaggio: i dettagli sono nella
+  ${a('https://gioco-nyzar.pages.dev/privacy', 'pagina sulla privacy')}. Non usa cookie di profilazione e non
   contiene pubblicità.</p>`;
 }
 
