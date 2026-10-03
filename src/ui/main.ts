@@ -18,6 +18,7 @@ import { avviaSchede, nascondiScheda } from './tooltip';
 import { precaricaIntorno, precaricaMiniature } from './precarica';
 import { Lettore, montaControlli } from './audio';
 import { montaIngresso } from './ingresso';
+import { avviaSfondo } from './sfondo';
 import { sceltaAudio } from './colonna';
 import { paginaInfo, corpoSalvataggio, PAGINE_INFO, type PaginaInfo } from './pagine';
 import {
@@ -251,6 +252,7 @@ function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
     app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
+    dissolvi();
     agganciaCaricamento();
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
@@ -273,10 +275,29 @@ function render(): void {
     : scheda === 'diario' ? diario(x)
     : storia(x);
   app.innerHTML = pagina(x, centro);
+  dissolvi();
   agganciaCaricamento();
   aggiornaIndicatore();
   avviso = '';
   suona(s);
+}
+
+/**
+ * La dissolvenza tra una pagina e l'altra, come nel Codex: solo quando cambia davvero pagina (scheda, scena, luogo,
+ * pagina informativa), non a ogni ridisegno (timer, round di combattimento, scelta dell'origine). È solo CSS sull'app,
+ * quindi il ridisegno resta sincrono e audio, voci e scorrimento non ne risentono.
+ */
+let ultimaPagina = '';
+function dissolvi(): void {
+  const id = 'id' in vista ? vista.id : '';
+  const k = stato ? `${info ?? ''}|${scheda}|${vista.tipo}|${id}|${luogo ?? ''}` : `creazione|${info ?? ''}`;
+  if (k === ultimaPagina) return;
+  const primo = !ultimaPagina;
+  ultimaPagina = k;
+  if (primo) return;
+  app.classList.remove('dissolvenza');
+  void app.offsetWidth; // riparte l'animazione anche se la classe c'era già
+  app.classList.add('dissolvenza');
 }
 
 /** La musica e l'ambiente del momento: la scena aperta, il luogo, l'area. */
@@ -567,9 +588,11 @@ avviaSchede(c.glossario);
 montaControlli(lettore);
 /** Sul sito con l'accesso Google si gioca solo da dentro un account (dentro claude.ai l'account è quello di Claude). */
 const serveAccount = !dentroClaude() && !!configSupabase();
+avviaSfondo();
 const soglia = montaIngresso(lettore, {
   modo: serveAccount ? 'attesa' : 'entra',
   accedi: () => { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); },
+  caricamento: () => (stato ? `Torni a Qir-Azel con ${stato.nome}…` : 'Scendi a Qir-Azel…'),
 });
 // il pulsante Ascolta segue lo stato della voce senza ridisegnare la pagina
 lettore.onCambio = () => {
@@ -586,4 +609,4 @@ if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data);
 
 // Per il debug dalla console del browser: window.nyzar.stato
-(window as unknown as Record<string, unknown>)['nyzar'] = { get stato() { return stato; }, contenuti: c, lettore, sincro };
+(window as unknown as Record<string, unknown>)['nyzar'] = { get stato() { return stato; }, contenuti: c, lettore, sincro, soglia };

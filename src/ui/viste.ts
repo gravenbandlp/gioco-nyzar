@@ -90,10 +90,13 @@ export function pagina(x: Contesto, centro: string): string {
   ${piede()}`;
 }
 
+/** Il marchio del gioco nella barra in alto. */
+export const MARCHIO = `<div class="marchio">${ROMBO}<span class="nome-marchio"><span><b>LUDUS</b> · <em>NY'ZAR</em></span><small>Cronache della Superficie Fratturata</small></span></div>`;
+
 function topbar(x: Contesto): string {
   const origine = x.c.origini.find((o) => o.id === x.s.origine);
   return `<header class="topbar">
-    <div class="marchio">${ROMBO}<span class="nome-marchio"><span><b>NY'ZAR</b> · <em>QIR-AZEL</em></span><small>Cronache della Città Bassa</small></span></div>
+    ${MARCHIO}
     <div class="chi">
       <span class="nome-pg">${h(x.s.nome)}</span>
       <span class="origine-pg">${h(origine?.nome ?? '')}</span>
@@ -904,56 +907,70 @@ export function mappa(x: Contesto): string {
 
 // ================================================================ CREAZIONE
 
+const ROMANI = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
+
 export function creazione(c: TContenuti, scelta: string): string {
   const o = c.origini.find((z) => z.id === scelta)!;
-  const carte = c.origini.map((z) => {
-    const top = Object.entries(z.abilita).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k]) => NOMI[k]).join(' · ');
-    return `<li><button type="button" class="origine${z.id === scelta ? ' scelta' : ''}" data-az="origine" data-id="${z.id}" aria-pressed="${z.id === scelta}">
-      ${tavola(z.immagine, { classe: 'paesaggio' })}
-      <span class="nome-origine">${h(z.nome)}</span>
-      <span class="dettaglio">${ATTRIBUTI.map((a) => `${NOMI[a]!.slice(0, 3)} ${z.attributi[a] ?? 1}`).join(' · ')}</span>
-      <span class="dettaglio">${h(top)}</span>
-    </button></li>`;
-  }).join('');
+  const n = c.origini.indexOf(o);
+  const voci = c.origini.map((z, i) => `<li><button type="button" class="origine${z.id === scelta ? ' scelta' : ''}" data-az="origine" data-id="${z.id}" aria-pressed="${z.id === scelta}">
+      <span class="num-origine">${ROMANI[i] ?? i + 1}</span>
+      ${tavola(z.immagine, { classe: 'miniatura' })}
+      <span class="testo-origine">
+        <span class="nome-origine">${h(z.nome)}</span>
+        <span class="dettaglio">${ATTRIBUTI.map((a) => `${NOMI[a]!.slice(0, 3)} ${z.attributi[a] ?? 1}`).join(' · ')}</span>
+      </span>
+    </button></li>`).join('');
   const abil = Object.entries(o.abilita).filter(([, v]) => v > 0).sort((a, b) => b[1] - a[1]);
   const beni = Object.entries(o.quality).map(([k, v]) => `${h(nome(k, c))}${k === 'monete' || v !== 1 ? ` ${mezzi(v)}` : ''}`).join(', ');
   const arma = descriviArma(o.arma, c); const armatura = descriviArmatura(o.armatura, c);
-  const copertina = c.aree.find((a) => a.id === 'citta-bassa')?.immagine;
   return `
-  <header class="topbar"><div class="marchio">${ROMBO}<span class="nome-marchio"><span><b>NY'ZAR</b> · <em>QIR-AZEL</em></span><small>Cronache della Città Bassa</small></span></div></header>
-  <div class="fondale alto">
-    ${copertina ? `<img src="${srcTavola(copertina, 'l')}" alt="" decoding="sync">` : ''}
-    <div class="fondale-testo">
-      <span class="etichetta precursore">Superficie Fratturata · 150 D.C.</span>
+  <header class="topbar">${MARCHIO}</header>
+  <main class="creazione">
+    <header class="creazione-testa">
+      <span class="occhiello"><span class="trattino"></span>Superficie Fratturata · 150 D.C.<span class="trattino"></span></span>
       <h1>Qir-Azel</h1>
       <p>Sono passati tre giorni dal Festival delle Foglie Alate e dalla razzia degli orchi.</p>
-    </div>
-  </div>
-  <main class="creazione">
-    <h2 class="titolo-sezione primo">Da dove vieni</h2>
-    <ul class="origini">${carte}</ul>
-    <section class="dettaglio-origine">
-      ${tavola(o.immagine, { classe: 'ritratto grande', taglio: 'l' })}
-      <div class="scena-titoli">
-        ${etichetta('Origine', 'velo')}
-        <h2>${h(o.nome)}</h2>
-        ${prosa(o.testo)}
-        <dl class="attributi-origine">${ATTRIBUTI.map((a) => `<div><dt>${NOMI[a]}</dt><dd>${pallini(o.attributi[a] ?? 1)}</dd></div>`).join('')}</dl>
-        <p class="abilita-origine">${abil.map(([k, v]) => `<span>${h(NOMI[k]!)} <b>${v}</b></span>`).join('')}</p>
-        <dl class="dotazione">
-          <div><dt>Arma</dt><dd>${h(arma.nome)} <small>${h(arma.dettagli)}</small></dd></div>
-          <div><dt>Armatura</dt><dd>${h(armatura.nome)} <small>${h(armatura.dettagli)}</small></dd></div>
-          <div><dt>Con te</dt><dd>${beni || 'niente'}</dd></div>
-        </dl>
-        <form class="modulo-nome" data-form="crea">
-          <label for="nome-pg" class="etichetta">Il tuo nome</label>
-          <div class="riga">
-            <input id="nome-pg" name="nome" maxlength="40" autocomplete="off" placeholder="Come ti chiamano nei vicoli" required>
-            <button type="submit" class="bottone primario">Scendi in città</button>
+    </header>
+    <div class="creazione-corpo">
+      <section class="scelta-origini" aria-labelledby="passo-origine">
+        <h2 class="passo" id="passo-origine"><span>I</span>Da dove vieni</h2>
+        <ul class="origini">${voci}</ul>
+      </section>
+      <section class="dettaglio-origine" aria-live="polite">
+        <div class="testa-origine">
+          ${tavola(o.immagine, { classe: 'paesaggio', taglio: 'l' })}
+          <div class="titoli-origine">
+            ${etichetta(`Origine ${ROMANI[n] ?? n + 1} di ${ROMANI[c.origini.length - 1] ?? c.origini.length}`, 'velo')}
+            <h2>${h(o.nome)}</h2>
           </div>
-        </form>
-      </div>
-    </section>
+        </div>
+        <div class="corpo-origine">
+          ${prosa(o.testo)}
+          <div class="profilo-origine">
+            <div>
+              <h3 class="etichetta">Attributi</h3>
+              <dl class="attributi-origine">${ATTRIBUTI.map((a) => `<div><dt>${NOMI[a]}</dt><dd>${pallini(o.attributi[a] ?? 1)}</dd></div>`).join('')}</dl>
+            </div>
+            <div>
+              <h3 class="etichetta">Abilità</h3>
+              <p class="abilita-origine">${abil.map(([k, v]) => `<span>${h(NOMI[k]!)} <b>${v}</b></span>`).join('')}</p>
+            </div>
+          </div>
+          <dl class="dotazione">
+            <div><dt>Arma</dt><dd>${h(arma.nome)} <small>${h(arma.dettagli)}</small></dd></div>
+            <div><dt>Armatura</dt><dd>${h(armatura.nome)} <small>${h(armatura.dettagli)}</small></dd></div>
+            <div><dt>Con te</dt><dd>${beni || 'niente'}</dd></div>
+          </dl>
+          <form class="modulo-nome" data-form="crea">
+            <h2 class="passo"><span>II</span><label for="nome-pg">Come ti chiamano</label></h2>
+            <div class="riga">
+              <input id="nome-pg" name="nome" maxlength="40" autocomplete="off" placeholder="Il nome che usano nei vicoli" required>
+              <button type="submit" class="bottone primario">Scendi in città</button>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
   </main>
   ${piede()}`;
 }
