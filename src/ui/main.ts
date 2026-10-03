@@ -17,6 +17,7 @@ import { impostaGlossario } from './componenti';
 import { avviaSchede, nascondiScheda } from './tooltip';
 import { precaricaIntorno, precaricaMiniature } from './precarica';
 import { Lettore, montaControlli } from './audio';
+import { montaIngresso } from './ingresso';
 import { sceltaAudio } from './colonna';
 import { paginaInfo, corpoSalvataggio, PAGINE_INFO, type PaginaInfo } from './pagine';
 import {
@@ -528,6 +529,7 @@ const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
 hot?.snapshot?.(() => ({ stato, vista, scheda, luogo }));
 avviaSchede(c.glossario);
 montaControlli(lettore);
+montaIngresso(lettore);
 // il pulsante Ascolta segue lo stato della voce senza ridisegnare la pagina
 lettore.onCambio = () => {
   const ora = lettore.voceInCorso();
