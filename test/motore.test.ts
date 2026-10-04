@@ -96,11 +96,11 @@ describe('rintocchi e mazzo', () => {
 });
 
 describe('storylet', () => {
-  it('la pista si apre con due voci', () => {
+  it('la pista della Dama resta visibile anche senza voci; lo scambio le chiede', () => {
     const s = figlio();
-    expect(storyletDisponibili(s, c).map((x) => x.id)).not.toContain('parola-orchesca');
-    s.quality['informazioni.voce'] = 2;
+    s.quality['informazioni.voce'] = 0;
     expect(storyletDisponibili(s, c).map((x) => x.id)).toContain('parola-orchesca');
+    expect(storylet('parola-orchesca').opzioni[0]!.requisiti).toEqual(['informazioni.voce >= 2']);
   });
   it('una prova spende un rintocco, tira i dadi e dà PE', () => {
     const s = figlio();

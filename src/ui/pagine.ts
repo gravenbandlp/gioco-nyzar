@@ -255,14 +255,6 @@ const COLLEZIONI: [string, string][] = [
 ];
 const nomeTavola = (slug: string) => { const s = slug.replace(/-/g, ' '); return s.charAt(0).toUpperCase() + s.slice(1); };
 
-/** Gli autori con più tavole, in una frase: «Piranesi, Callot e Hollar». */
-const AUTORI_TAVOLE = (() => {
-  const conta = new Map<string, number>();
-  for (const f of fonti) conta.set(f.autore, (conta.get(f.autore) ?? 0) + 1);
-  const nomi = [...conta].filter(([n]) => !/ignoto|anonimo|sconosciuto/i.test(n)).sort((x, y) => y[1] - x[1]).slice(0, 8).map(([n]) => h(n));
-  return nomi.length > 1 ? `${nomi.slice(0, -1).join(', ')} e ${nomi.at(-1)}` : nomi.join('');
-})();
-
 function fontiTavole(): string {
   const gruppi = COLLEZIONI.map(([k, titolo]) => {
     const righe = fonti.filter((f) => f.tavola.startsWith(`${k}/`)).map((f) => `<li><b>${h(nomeTavola(f.tavola.slice(k.length + 1)))}</b>:
@@ -278,8 +270,8 @@ function crediti(): string {
 
   <h3>Ideazione, scrittura e sviluppo</h3>
   <p><b>Luca Pasini</b>. L'ambientazione di Ny'Zar, il Codex, il regolamento, la trama, i personaggi e i testi originali
-  della cronaca <em>Il Peccato degli Uomini</em>, da cui nasce il gioco. Il codice e parte della stesura dei testi delle
-  scene sono fatti con l'assistenza di Claude (Anthropic), su trama, personaggi e regole miei.</p>
+  della cronaca <em>Il Peccato degli Uomini</em>, da cui nasce il gioco. Il codice del browser game è stato fatto con
+  l'assistenza di Claude (Anthropic).</p>
 
   <h3>Musica</h3>
   <p>Colonna sonora di <b>${a('https://itch.io/profile/lisetteamago', 'Lisette Amago')}</b>.</p>
@@ -287,10 +279,10 @@ function crediti(): string {
   (${a('https://andreabaroni.com', 'andreabaroni.com')}).</p>
 
   <h3>Illustrazioni</h3>
-  <p>Le tavole sono incisioni, acqueforti e stampe d'epoca, dal Cinquecento all'Ottocento, tutte di pubblico dominio.
-  Le ho scelte una per una, ritagliate e virate in seppia perché stessero insieme. Gli autori principali sono
-  ${AUTORI_TAVOLE}. Ogni tavola, con l'opera da cui viene, il museo o la biblioteca che la conserva e la licenza, è
-  nell'elenco qui sotto.</p>
+  <p>Le tavole sono incisioni, acqueforti e stampe d'epoca dal Cinquecento all'Ottocento, tutte di pubblico dominio.
+  Le ho scelte una per una, ritagliate e virate in seppia perché stessero insieme. Gli autori principali sono Giovanni
+  Battista Piranesi, Rembrandt van Rijn, Gustave Doré, Jacques Callot, Wenceslaus Hollar, John Martin, Salvator Rosa e
+  Albrecht Dürer.</p>
   ${fontiTavole()}
 
   <h3>Icone e caratteri</h3>
@@ -298,10 +290,10 @@ function crediti(): string {
   ${a('https://creativecommons.org/licenses/by/3.0/', 'CC BY 3.0')}. Caratteri Cormorant Garamond, Lora e JetBrains Mono,
   da Google Fonts, con licenza SIL Open Font License.</p>
 
-  <h3>Una nota sugli strumenti</h3>
-  <p>Nel gioco non ci sono immagini né voci generate con l'intelligenza artificiale. Le tavole sono stampe d'epoca, le
-  musiche e gli ambienti sonori sono opera dei loro autori, e il gioco non ha doppiaggio. L'intelligenza artificiale
-  (Claude, di Anthropic) è servita per il codice e per parte della stesura dei testi, come scritto sopra.</p>`;
+  <h3>AI disclosure</h3>
+  <p>Nel gioco non ci sono immagini generate con l'intelligenza artificiale. Le tavole sono stampe d'epoca, le musiche e
+  gli ambienti sonori sono opera dei loro autori. L'intelligenza artificiale (Claude, di Anthropic) è servita per il
+  codice del browser game e per parte della stesura dei testi delle scene.</p>`;
 }
 
 // ---------------------------------------------------------------- salvataggio
