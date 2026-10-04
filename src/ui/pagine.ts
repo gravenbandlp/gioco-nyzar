@@ -277,8 +277,9 @@ function crediti(): string {
   <header><span class="etichetta velo">Crediti</span><h2>Chi ha fatto cosa</h2></header>
 
   <h3>Ideazione, scrittura e sviluppo</h3>
-  <p><b>Luca Pasini</b>. L'ambientazione di Ny'Zar, la cronaca da cui nasce la trama, il Codex, il regolamento, i testi
-  delle scene e il browser game. Il codice del browser game è realizzato con l'assistenza di Claude (Anthropic).</p>
+  <p><b>Luca Pasini</b>. L'ambientazione di Ny'Zar, il Codex, il regolamento, la trama, i personaggi e i testi originali
+  della cronaca <em>Il Peccato degli Uomini</em>, da cui nasce il gioco. Il codice e parte della stesura dei testi delle
+  scene sono fatti con l'assistenza di Claude (Anthropic), su trama, personaggi e regole miei.</p>
 
   <h3>Musica</h3>
   <p>Colonna sonora di <b>${a('https://itch.io/profile/lisetteamago', 'Lisette Amago')}</b>.</p>
@@ -300,7 +301,7 @@ function crediti(): string {
   <h3>Una nota sugli strumenti</h3>
   <p>Nel gioco non ci sono immagini né voci generate con l'intelligenza artificiale. Le tavole sono stampe d'epoca, le
   musiche e gli ambienti sonori sono opera dei loro autori, e il gioco non ha doppiaggio. L'intelligenza artificiale
-  (Claude, di Anthropic) è entrata solo nella realizzazione del browser game, come scritto sopra.</p>`;
+  (Claude, di Anthropic) è servita per il codice e per parte della stesura dei testi, come scritto sopra.</p>`;
 }
 
 // ---------------------------------------------------------------- salvataggio
