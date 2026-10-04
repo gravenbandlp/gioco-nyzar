@@ -9,6 +9,9 @@ magici da +1 a +5, reperti con cariche e celle, consumabili.
 - Ogni oggetto posseduto è la quality `oggetto.<id>`. Gli oggetti comprati o trovati finiscono negli
   Averi; se lo slot è vuoto vengono indossati subito. Cambiare equipaggiamento non costa rintocchi.
 - Un'arma a due mani toglie lo scudo e impedisce di indossarlo.
+- Armi, scudi e armature si rivendono alle botteghe che le vendono, a metà del loro prezzo arrotondato per
+  difetto e con gli stessi requisiti (`vociCompra` in `src/motore/azioni.ts`). Quello indossato va tolto prima;
+  i Legati non si vendono.
 - Anti-accumulo: armatura e scudo danno dadi in difesa, ma vale il più alto dei due. Lo stesso vale
   per l'iniziativa (Leggera o Rapida) e per i Talenti sulla stessa abilità.
 

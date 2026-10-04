@@ -6,7 +6,7 @@ import type { TFrammento } from '../motore/contenuto';
 import {
   nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
 } from '../motore/personaggio';
-import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, correggi, secondaScelta } from '../motore/azioni';
+import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, vendibili, correggi, secondaScelta } from '../motore/azioni';
 import { ritirati } from '../motore/spedizioni';
 import { annota, strappa } from '../motore/diario';
 import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
@@ -495,7 +495,7 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'vendi': {
-      const quanti = el.dataset['n'] === 'tutti' ? Math.floor(s.quality[id] ?? 0) : 1;
+      const quanti = el.dataset['n'] === 'tutti' ? vendibili(s, id, c) : 1;
       for (let i = 0; i < quanti; i++) vendi(s, el.dataset['neg']!, id, c);
       salva(); render();
       break;

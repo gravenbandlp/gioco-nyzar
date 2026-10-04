@@ -201,4 +201,23 @@ describe('spostamenti e negozi', () => {
     expect(s.quality['monete']).toBe(6);
     expect(compra(s, 'armeria-di-irsa', 'oggetto.spada-lunga', c)).toBe(false);
   });
+  it('Grusk compra i segreti', () => {
+    const s = figlio();
+    s.quality['informazioni.segreto'] = 1;
+    expect(vendi(s, 'banco-di-grusk', 'informazioni.segreto', c)).toBe(true);
+    expect(s.quality['informazioni.segreto']).toBe(0);
+  });
+  it('armi e armature si rivendono a chi le vende, a metà prezzo per difetto', () => {
+    const s = figlio();
+    s.quality['monete'] = 100;
+    expect(compra(s, 'armeria-di-irsa', 'oggetto.scudo', c)).toBe(true); // slot vuoto: lo indossa
+    expect(s.scudo).toBe('scudo');
+    expect(vendi(s, 'armeria-di-irsa', 'oggetto.scudo', c)).toBe(false); // quello in uso non si vende
+    expect(compra(s, 'armeria-di-irsa', 'oggetto.pugnale', c)).toBe(true);
+    const prima = s.quality['monete']!;
+    expect(vendi(s, 'fucina-dei-due-mastini', 'oggetto.pugnale', c)).toBe(false); // Bram non vende pugnali
+    expect(vendi(s, 'armeria-di-irsa', 'oggetto.pugnale', c)).toBe(true);
+    expect(s.quality['monete']).toBe(prima + 5);
+    expect(s.quality['oggetto.pugnale']).toBe(0);
+  });
 });

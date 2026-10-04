@@ -8,7 +8,7 @@ import {
 import {
   msAlProssimoRintocco, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato,
 } from '../motore/personaggio';
-import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino, negozioAperto, type Risultato } from '../motore/azioni';
+import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino, negozioAperto, vociCompra, vendibili, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
@@ -838,10 +838,22 @@ function bottega(x: Contesto, n: TNegozio): string {
       <span class="prezzo">${v.prezzo}</span>
       <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>Compra</button></li>`;
   }).join('');
-  const compra = listino(s, n.compra, c, 'compra').map(({ voce: v, meglio }) => {
-    const q = c.quality.find((z) => z.id === v.quality);
-    const hai = s.quality[v.quality] ?? 0;
-    return `<li class="${hai < 1 ? 'assente' : ''}">${tavola(q?.immagine, { classe: 'icona' })}<span class="merce"><b>${h(q?.nome ?? v.quality)}</b><small>Ne hai ${mezzi(hai)}</small>${suggerimentoPrezzo(x, meglio)}</span>
+  const compra = listino(s, vociCompra(n, c), c, 'compra').map(({ voce: v, meglio }) => {
+    let d: { nome: string; immagine?: string };
+    let nota: string;
+    const hai = vendibili(s, v.quality, c);
+    if (v.quality.startsWith('oggetto.')) {
+      // armi e armature usate: compaiono solo se le possiedi
+      const id = v.quality.slice(8);
+      if (!(s.quality[v.quality] ?? 0)) return '';
+      d = descriviOggetto(id, c);
+      nota = indossato(s, id) ? (hai ? `Ne hai ${hai} oltre a quello in uso` : 'In uso, toglilo per venderlo') : `Ne hai ${hai}`;
+    } else {
+      const q = c.quality.find((z) => z.id === v.quality);
+      d = { nome: q?.nome ?? v.quality, immagine: q?.immagine };
+      nota = `Ne hai ${mezzi(s.quality[v.quality] ?? 0)}`;
+    }
+    return `<li class="${hai < 1 ? 'assente' : ''}">${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(nota)}</small>${suggerimentoPrezzo(x, meglio)}</span>
       <span class="prezzo">${v.prezzo}</span>
       <span class="doppio"><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="1" ${hai >= 1 ? '' : 'disabled'}>Vendi 1</button><button type="button" class="bottone" data-az="vendi" data-neg="${n.id}" data-id="${v.quality}" data-n="tutti" ${hai >= 2 ? '' : 'disabled'}>Tutti</button></span></li>`;
   }).join('');

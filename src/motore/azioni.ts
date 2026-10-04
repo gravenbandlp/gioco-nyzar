@@ -4,7 +4,7 @@ import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
 import { serieDi, type Serie } from './serie';
 import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
-import { ricevi, talento, haProprieta, haDifetto } from './oggetti';
+import { ricevi, talento, haProprieta, haDifetto, oggetto, indossato } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
 import { areaAttuale, cambiaArea, inSpedizione, profondita, segnaStanza } from './spedizioni';
 import {
@@ -281,10 +281,33 @@ export function negozioAperto(s: Stato, n: TNegozio, c: TContenuti): boolean {
   return listino(s, n.compra, c, 'compra').length > 0 || listino(s, n.vende, c, 'vende').length > 0;
 }
 
+/**
+ * Quello che il negozio compra dal giocatore: il listino `compra` più le armi, gli scudi e le armature che vende,
+ * ripresi a metà prezzo arrotondato per difetto e con gli stessi requisiti.
+ */
+export function vociCompra(n: TNegozio, c: TContenuti): TVoceNegozio[] {
+  const usato = n.vende.flatMap((v) => {
+    const o = v.quality.startsWith('oggetto.') ? oggetto(c, v.quality.slice(8)) : undefined;
+    const prezzo = Math.floor(v.prezzo / 2);
+    if (!o || !['arma', 'armatura', 'scudo'].includes(o.slot) || (o.difetti as string[]).includes('legata') || prezzo < 1) return [];
+    return [{ ...v, prezzo }];
+  });
+  return [...n.compra, ...usato];
+}
+
+/** Quanti pezzi di una merce si possono vendere: degli oggetti non conta quello indossato, e i legati non si vendono. */
+export function vendibili(s: Stato, quality: string, c: TContenuti): number {
+  const hai = Math.floor(s.quality[quality] ?? 0);
+  if (!quality.startsWith('oggetto.')) return hai;
+  const id = quality.slice(8);
+  if ((oggetto(c, id)?.difetti as string[] | undefined)?.includes('legata')) return 0;
+  return Math.max(0, hai - (indossato(s, id) ? 1 : 0));
+}
+
 export function vendi(s: Stato, negozioId: string, quality: string, c: TContenuti): boolean {
   const n = c.negozi.find((x) => x.id === negozioId);
-  const voce = n && listino(s, n.compra, c, 'compra').find((x) => x.voce.quality === quality)?.voce;
-  if (!voce || (s.quality[quality] ?? 0) < 1) return false;
+  const voce = n && listino(s, vociCompra(n, c), c, 'compra').find((x) => x.voce.quality === quality)?.voce;
+  if (!voce || vendibili(s, quality, c) < 1) return false;
   applicaEffetti(s, { [quality]: -1, monete: voce.prezzo }, c);
   return true;
 }
