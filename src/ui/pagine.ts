@@ -292,8 +292,7 @@ function crediti(): string {
 
   <h3>AI disclosure</h3>
   <p>Nel gioco non ci sono immagini generate con l'intelligenza artificiale. Le tavole sono stampe d'epoca, le musiche e
-  gli ambienti sonori sono opera dei loro autori. L'intelligenza artificiale (Claude, di Anthropic) è servita per il
-  codice del browser game e per parte della stesura dei testi delle scene.</p>`;
+  gli ambienti sonori sono opera dei loro autori.</p>`;
 }
 
 // ---------------------------------------------------------------- salvataggio
