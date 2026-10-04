@@ -1,7 +1,7 @@
 # Gioco Ny'Zar
 
 Gioco narrativo a storylet ambientato a Qir-Azel, nella Superficie Fratturata di Ny'Zar.
-Per orientarsi: `docs/progetto.md` (scopo, stato, checklist), `docs/locale.md` (installazione, audio, doppiaggio,
+Per orientarsi: `docs/progetto.md` (scopo, stato, checklist), `docs/locale.md` (installazione, audio,
 pubblicazione, login Google), `docs/ripresa.md` (regole operative), `CLAUDE.md` (istruzioni per Claude Code).
 
 ## Il gioco
@@ -17,20 +17,20 @@ npm run dev        # gioca in locale su http://localhost:5173
 npm test           # valida i contenuti e prova il motore
 npm run simula     # tabella di vittoria: origini × scontri
 npm run build      # dist/index.html (un solo file) più dist/tavole/
-npm run tavole     # importa dal Codex le tavole citate nei contenuti
 ```
 
 ## Tavole
 
-Le illustrazioni vengono dalle tavole del Codex. Nei YAML basta scrivere
-`immagine: collezione/slug` (per esempio `immagine: personaggi/marko-thessel`) su un'area, uno
-storylet, un'opzione, un esito, una quality, un nemico, un negozio o un'origine. Poi
-`npm run tavole` le converte in WebP in due tagli (`public/tavole/…-s.webp` da 360px e `-l.webp`
-da 1280px), senza metadati. Il build si ferma se una tavola citata non è stata importata. Dove
-manca un'immagine l'interfaccia mostra il segnaposto "Tavola non catalogata".
+Le illustrazioni sono incisioni e stampe d'epoca di pubblico dominio (Piranesi, Callot, Hollar e altri), prese da
+Wikimedia Commons con licenza CC0 o pubblico dominio e virate in seppia. Nessuna è generata con l'IA. Nei YAML basta
+scrivere `immagine: collezione/slug` (per esempio `immagine: personaggi/marko-thessel`) su un'area, uno storylet,
+un'opzione, un esito, una quality, un nemico, un negozio o un'origine; il file sta in `public/tavole/` in due tagli
+(`-s.webp` da 360px e `-l.webp` da 1232px). Il build si ferma se una tavola citata manca.
 
-Lo script cerca il Codex in `../codex-nyzar/src/assets/tavole`; si può passare un altro percorso:
-`npm run tavole -- /percorso/tavole`.
+Per farne una nuova servono Python, Pillow e numpy: `scripts/strumenti/tavole/commons.py` cerca e scarica da Commons,
+`tratta.py` ritaglia la lastra (`tratta` per i luoghi, `ritratto` per figure e oggetti, centrati nel 3:4 che il gioco
+mostra) e la vira in seppia. Ogni tavola va registrata in `src/dati/fonti-tavole.json` (opera, autore, data, pagina
+della fonte, licenza): la pagina Crediti mostra l'elenco.
 
 ## Interfaccia
 
@@ -52,10 +52,10 @@ contenuti/            tutto il testo e i numeri del gioco, in YAML
 scripts/
   build-contenuti.ts  valida i YAML e scrive src/generato/contenuti.json
   simula.ts           bilanciamento dei combattimenti
-  importa-tavole.ts   tavole del Codex → public/tavole
+  strumenti/tavole/   ritaglio e viraggio delle stampe di pubblico dominio
 src/motore/           regole pure, senza interfaccia (testabili e riusabili sul server)
 src/ui/               interfaccia in TypeScript senza framework (viste.ts, componenti.ts, stile.css)
-public/tavole/        illustrazioni importate dal Codex
+public/tavole/        tavole (stampe d'epoca virate in seppia)
 test/                 Vitest
 ```
 

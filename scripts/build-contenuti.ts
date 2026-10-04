@@ -344,7 +344,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   return errori;
 }
 
-/** Ogni tavola citata deve essere già stata importata (npm run tavole). */
+/** Ogni tavola citata deve esistere in public/tavole (README, sezione Tavole). */
 export function controllaTavole(c: TContenuti): string[] {
   const errori: string[] = [];
   errori.push(...iconeCitate(c).errori);
@@ -356,7 +356,7 @@ export function controllaTavole(c: TContenuti): string[] {
     if (t.startsWith(ICONE)) continue;
     for (const taglio of ['s', 'l']) {
       if (!existsSync(join(RADICE, 'public', 'tavole', `${t}-${taglio}.webp`))) {
-        errori.push(`tavola "${t}" non importata: esegui npm run tavole`);
+        errori.push(`tavola "${t}" mancante in public/tavole`);
         break;
       }
     }

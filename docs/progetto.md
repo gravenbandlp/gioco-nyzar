@@ -14,14 +14,15 @@ La trama viene dal Capitolo I della cronaca D&D *Il Peccato degli Uomini* che Lu
 luoghi presi da Rise of the Runelords rinominati. Il protagonista è uno solo, nuovo, e arriva da una delle otto
 origini. Tono della prosa: seconda persona, concreta, con un po' di Disco Elysium nella voce interiore.
 
-È un progetto personale, fatto per passione e senza guadagno: artwork con Midjourney (dalle tavole del Codex),
-voci con ElevenLabs, musiche di Lisette Amago e ambienti di Andrea Baroni (Cyberleaf).
+È un progetto personale, fatto per passione e senza guadagno: tavole tratte da stampe d'epoca di
+pubblico dominio (Piranesi, Callot, Hollar e altri, virate in seppia), musiche di Lisette Amago e ambienti di Andrea
+Baroni (Cyberleaf). Niente immagini né voci generate con l'IA (dal 4 ottobre 2026).
 
 ## Scope
 
 **Dentro (Capitolo I, fatto):** Qir-Azel con tre quartieri e la Superficie Fratturata intorno; dieci storie
 principali; la città viva (ogni luogo con attività, servizio, reputazione e storie a gradini); economia a tre
-strati; spedizioni; crisi e aree di penalità; doppiaggio delle scene di storia; salvataggio con account.
+strati; spedizioni; crisi e aree di penalità; salvataggio con account.
 
 **Fuori, per ora:**
 - Capitolo II: la discesa nella Cicatrice, i villaggi come zone vere, il Bosco di Velthar con la Via del Respiro.
@@ -43,13 +44,13 @@ strati; spedizioni; crisi e aree di penalità; doppiaggio delle scene di storia;
 | Glossario (tooltip) | 198 voci |
 | Frammenti del Codex | 163 |
 | Testo | circa 472.000 parole |
-| Audio | 10 musiche, 17 ambienti, 110 voci su 1608 pezzi del copione |
+| Audio | 10 musiche, 17 ambienti (il doppiaggio è stato tolto il 4 ottobre 2026) |
 | Test | 188 |
 
 Pubblicato come Artifact su claude.ai (gioco alla versione 48, copione alla 18); link in `docs/ripresa.md`.
 
-**Tempo di gioco stimato.** Solo le storie principali: 2–3 ore a chi scorre, 7–9 a chi legge, 10–12 a chi ascolta
-le voci. Tutto il gioco: 7–9, 21–29 e 29–40 ore rispettivamente; un completista aggiunge 3–5 ore per origine e 6–10
+**Tempo di gioco stimato.** Solo le storie principali: 2–3 ore a chi scorre, 7–9 a chi legge. Tutto il
+gioco: 7–9 e 21–29 ore rispettivamente; un completista aggiunge 3–5 ore per origine e 6–10
 per la Superficie. A calendario, con i rintocchi: da circa cinque giorni per chi gioca ogni volta che la campana è
 piena a circa un mese e una settimana per chi gioca una volta al giorno.
 
@@ -75,11 +76,12 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - **Superficie Fratturata**: il quarto hub, aperto da subito, con carte, catene ricorrenti (Mercante della Memoria,
   Bambino senza impronte, Cavaliere della Marea, Frattura che respira), due spedizioni proprie (Villaggio storto,
   Nodo dei Precursori) e le partenze per le spedizioni fuori città.
-- **Doppiaggio**: solo le scene di storia e i loro esiti; id stabili `<scena>` e `<scena>__<opzione>-<esito>`.
+- **Tavole**: stampe d'epoca di pubblico dominio da Wikimedia Commons, ritagliate e virate in seppia
+  (`scripts/strumenti/tavole/`); fonti e licenze in `src/dati/fonti-tavole.json`, mostrate nei Crediti.
 - **Salvataggio**: nel browser sempre; nell'account claude.ai dentro l'Artifact; con Google e Supabase fuori da
   claude.ai (pronto, spento); su file per tutti (`docs/salvataggi.md`).
 - **Interfaccia**: lingua visiva del Codex, tre colonne (campana e statistiche, schede, luogo e frammenti),
-  tooltip del glossario sui nomi, musica e ambienti per area/luogo/scena, lettura delle voci.
+  tooltip del glossario sui nomi, musica e ambienti per area/luogo/scena.
 
 ## Cronologia
 
@@ -99,6 +101,10 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
   - Salvataggio nell'account e su file; login Google con Supabase pronto.
   - Frammenti del Codex da 19 a 163.
   - Passaggio a Claude Code in locale (questo file, `CLAUDE.md`, `docs/locale.md`, copione in locale).
+- **4 ottobre.**
+  - Grusk compra i segreti; armi, scudi e armature si rivendono a metà prezzo a chi le vende.
+  - Tutte le tavole Midjourney sostituite con stampe d'epoca di pubblico dominio virate in seppia; Crediti con le fonti.
+  - Doppiaggio tolto dal gioco, dagli script e dai documenti.
 
 ## Checklist
 
@@ -115,10 +121,6 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - [ ] Provare il salvataggio su due dispositivi diversi con lo stesso account Google.
 - [ ] Se si condivide l'Artifact con amici: invitarli per email come Editor (con un link pubblico non salvano
       nell'account).
-
-### Doppiaggio
-- [ ] Registrare i pezzi che mancano: 1498 su 1608 (le scene di storia prima delle opzioni di origine).
-- [ ] Importare a batch con `npm run voci` e controllare i "da rifare" dopo ogni modifica ai testi.
 
 ### Contenuti da sistemare
 - [ ] Voci di glossario per i personaggi nuovi delle carte della città (Ilde Sarrocchi, Ugo Bracco, Clelia Vennari,
@@ -154,7 +156,7 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 ## Decisioni prese (da non rimettere in discussione senza motivo)
 - Formato a storylet, interfaccia alla Fallen London con la grafica del Codex; Fallen London è dichiarato come
   modello nei Termini, ma la risorsa delle azioni si chiama rintocchi, non candele.
-- Doppiaggio solo sulle scene di storia, per risparmiare crediti e dare peso alla trama.
+- Niente IA nelle immagini e nell'audio: tavole da stampe di pubblico dominio, doppiaggio tolto (4 ottobre 2026).
 - Nomi da Runelords rinominati nel gioco; il Codex online resta con i nomi originali.
 - Superficie aperta da subito, senza gabella; i rischi stanno negli incontri.
 - Le ricompense della Superficie sono reperti da decifrare, ricombinare, vendere o usare, più qualche moneta.

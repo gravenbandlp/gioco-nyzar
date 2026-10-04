@@ -7,14 +7,13 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
 - Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 48 al 2 ottobre).
-- Copione del doppiaggio: Artifact https://claude.ai/artifact/U2Z8WyFVoyoJb1ukbSkbZN (versione 18).
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
-- In locale le cartelle stanno accanto al repository: `../codex-nyzar`, `../audio-nyzar/{musica,ambienti,voci}`.
+- In locale le cartelle stanno accanto al repository: `../codex-nyzar`, `../audio-nyzar/{musica,ambienti}`.
 - Fuori dal repository (Luca li ha come file): lo schedario del Codex (`nyzar-schedario-codex.md`) e il verbale del
   Capitolo I (`verbale-capitolo-I-rinominato.md`). Servono solo per scrivere storie nuove: chiedili se servono.
 - Audio: `public/audio/` è escluso da git (pesa troppo). Musiche e ambienti sono già dentro l'Artifact del gioco e
-  restano lì a ogni ripubblicazione. Le voci nuove arrivano da Luca come mp3 nominati con l'id del pezzo.
+  restano lì a ogni ripubblicazione.
 
 ## Comandi
 `npm install`, poi:
@@ -22,11 +21,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 - `npm run stile`: controlla le regole di `docs/stile-dei-testi.md` (deve dare 0 segnalazioni).
 - `npx vitest run`: test (188 al 2 ottobre).
 - `npm run build`: contenuti + tsc + build in `dist/index.html` (file unico).
-- `npm run copione`: rigenera il copione del doppiaggio (`doppiaggio/copione-pagina.html`).
-- `npm run copione:locale`: lo apre su http://localhost:5180 con le spunte salvate in `doppiaggio/spunte.json`.
 - `npm run pubblica:pages`: build e pubblicazione su Cloudflare Pages (`docs/locale.md`).
-- `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati `<id>.mp3`) in `public/audio/voce/` e
-  annota l'impronta in `doppiaggio/registrati.json`; se un testo è cambiato dopo la registrazione lo segnala.
 
 ## Pubblicare
 Come Artifact su claude.ai (da una conversazione con Claude, che ha lo strumento Artifact; Claude Code in locale non
@@ -37,7 +32,6 @@ ce l'ha). Per il sito proprio vedi `docs/locale.md`.
 3. Artifact publish con `url` del gioco e `file_path` del file preparato; le tavole e gli audio nuovi vanno passati in
    `files` (percorso pubblicato → `dist/...`). Gli altri file già pubblicati restano. Le capacità (`db`, `user` con
    scope `profile`, `downloads`) restano quelle dichiarate: non passare `capabilities` se non cambiano.
-4. Copione: `npm run copione`, poi publish di `doppiaggio/copione-pagina.html` sull'url del copione.
 
 Per provare il gioco in un browser: `scripts/strumenti/servi.py` (server dentro lo stesso processo di Playwright);
 in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con un clic su una scheda.
@@ -48,9 +42,8 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
 - **Nessuna cifra di denaro o percentuale nella prosa**: i numeri si ribilanciano, i testi restano generici.
 - Le boss battle sono boss battle: le vie per sconfiggere un boss sono Difficili, i fallimenti costano.
 - Commit firmati `git -c user.name="gravenbandlp" -c user.email="gravenbandlp@gmail.com" commit`.
-- **Id del doppiaggio stabili**: gli esiti hanno id `<scena>__<n>-<ramo>`, con n la posizione dell'opzione. Un'opzione
-  nuova in una scena già scritta va **in fondo** all'elenco, mai in mezzo, altrimenti gli esiti successivi cambiano
-  id e le registrazioni non combaciano più.
+- **Niente IA nelle immagini e nell'audio**: le tavole sono stampe d'epoca di pubblico dominio virate in seppia, con
+  la fonte in `src/dati/fonti-tavole.json` (la pagina Crediti la mostra). Il doppiaggio è stato tolto il 4 ottobre 2026.
 - La risorsa delle azioni si chiama **rintocchi** (fino al 2 ottobre 2026 erano candele, troppo legate a Fallen
   London): nell'interfaccia è una campana. Nella prosa le candele restano oggetti veri, mai la risorsa.
 - **Rintocchi**: 40 al massimo, ne torna uno ogni 10 minuti e basta. Niente ricariche a fine storia o alle tappe, niente
@@ -88,8 +81,6 @@ Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di re
 incongruenze. A progetto: lo strato 3 dell'economia (`docs/progetto-reperti.md`).
 
 Da fare:
-- **Doppiaggio**: Luca registra seguendo il copione e manda gli mp3; si importano con `npm run voci` e si ripubblica
-  il gioco passando i file nuovi di `public/audio/voce/` in `files`.
 - **Salvataggi** (`docs/salvataggi.md`): nell'Artifact il personaggio si salva nell'account claude.ai (base dati
   dell'Artifact, spazio privato di chi gioca); salvano il proprietario e chi è invitato per email come Editor, gli altri
   restano al browser e al file. Fuori da claude.ai c'è l'accesso Google con Supabase, pronto ma spento: per accenderlo

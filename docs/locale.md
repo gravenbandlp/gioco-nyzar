@@ -1,7 +1,7 @@
 # Lavorare in locale
 
-Come rimettere in piedi il progetto sul tuo computer, lavorarci con Claude Code dal terminale di VS Code, fare il
-doppiaggio e pubblicare il gioco con il login Google.
+Come rimettere in piedi il progetto sul tuo computer, lavorarci con Claude Code dal terminale di VS Code e
+pubblicare il gioco con il login Google.
 
 ## 1. Cosa serve installato
 
@@ -23,7 +23,6 @@ ny-zar/
   audio-nyzar/     fuori da git, per le licenze
     musica/        le tracce di Lisette Amago, con il nome originale del file
     ambienti/      gli ambienti di Andrea Baroni, con il nome originale
-    voci/          gli mp3 del doppiaggio, nominati con l'id del pezzo
 ```
 
 ```sh
@@ -40,39 +39,17 @@ I nomi dei file sorgente di musica e ambienti sono in `contenuti/audio.yaml` (ca
 
 ```sh
 npm run audio                 # musica e ambienti da ../audio-nyzar in public/audio (serve ffmpeg)
-npm run voci                  # le voci da ../audio-nyzar/voci in public/audio/voce
 npm run dev                   # il gioco su http://localhost:5173
 npx vitest run                # i test (188)
 ```
 
-Le tavole sono già nel repository (`public/tavole/`). Se ne aggiungi di nuove nei contenuti: `npm run tavole`, che le
-prende da `../codex-nyzar/src/assets/tavole`.
+Le tavole sono già nel repository (`public/tavole/`): stampe d'epoca di pubblico dominio virate in seppia, con le
+fonti in `src/dati/fonti-tavole.json`; come farne di nuove è nel README.
 
-Le voci della prima batch stanno nella cartella Drive che avevi condiviso: scaricale in `../audio-nyzar/voci` e lancia
-`npm run voci`. I nomi con il prefisso esadecimale del caricamento (`edf885c2-...`) vanno bene, il prefisso si toglie
-da solo.
+Il doppiaggio è stato tolto il 4 ottobre 2026: le voci generate stanno in `../audio-nyzar/voce-dal-gioco`, copione
+e regia in `../doppiaggio-archivio`, il codice nella storia git.
 
-## 4. Il copione del doppiaggio in locale
-
-```sh
-npm run copione:locale
-```
-
-Rigenera il copione dai contenuti e lo apre su http://localhost:5180. La spunta **Registrato** si salva nel
-repository, in `doppiaggio/spunte.json`: committala, così il punto a cui sei arrivato resta nella storia del progetto e
-Claude Code lo può leggere. I pezzi già importati nel gioco sono segnati **Nel gioco** da `doppiaggio/registrati.json`,
-che `npm run voci` aggiorna da solo.
-
-**Portare le spunte dall'Artifact.** Le spunte che hai dato nel copione pubblicato su claude.ai stanno nel tuo
-browser. Apri quel copione, premi **Scarica le spunte**, poi nel copione locale premi **Carica spunte** e scegli il
-file: si sommano a quelle che ci sono.
-
-Il giro di lavoro è lo stesso di prima: copi il testo in ElevenLabs, scarichi l'mp3, lo rinomini con l'id, spunti.
-A fine sessione metti i file in `../audio-nyzar/voci`, lanci `npm run voci` e fai il commit di
-`doppiaggio/registrati.json` e `doppiaggio/spunte.json`. Se un testo cambia dopo la registrazione, il pezzo esce dal
-gioco e compare fra i **da rifare**.
-
-## 5. Pubblicare
+## 4. Pubblicare
 
 Due strade, che possono convivere.
 
@@ -90,7 +67,7 @@ npm run pubblica:pages
 che fa il build e carica `dist/` sul progetto Pages `gioco-nyzar` (la prima volta `npx wrangler login` ti chiede di
 entrare in Cloudflare). L'audio non è in git, quindi si pubblica da questa macchina, dove `public/audio/` c'è.
 
-## 6. Il login Google con Supabase
+## 5. Il login Google con Supabase
 
 Il codice è già nel gioco (`src/ui/salvataggi.ts`, prove in `test/salvataggi.test.ts`, dettagli in
 `docs/salvataggi.md`). Si accende quando il build trova le due variabili `VITE_SUPABASE_URL` e
@@ -124,7 +101,7 @@ Il gioco usa il flusso di login implicito di Supabase senza librerie esterne: il
 arriva con i gettoni nel frammento dell'indirizzo, il gioco li conserva nel browser e li rinnova da solo. Se un giorno
 si vuole il flusso PKCE, si cambia `archivioGoogle` in `src/ui/salvataggi.ts`.
 
-## 7. Quando qualcosa non va
+## 6. Quando qualcosa non va
 
 - `npm run contenuti` dice dove e perché un YAML non va (id duplicati, requisiti su quality che non esistono, tavole
   mancanti).
@@ -133,7 +110,7 @@ si vuole il flusso PKCE, si cambia `archivioGoogle` in `src/ui/salvataggi.ts`.
   (`npx vitest run test/piste.test.ts`).
 - Il gioco senza audio: manca `public/audio/` (passi 3 e 4).
 
-## 8. Com'è configurato (3 ottobre 2026)
+## 7. Com'è configurato (3 ottobre 2026)
 
 - Sito: https://gioco-nyzar.pages.dev, progetto Pages `gioco-nyzar` (creato con `wrangler pages project create --force`:
   wrangler 4.147 manda i progetti nuovi sui Workers, il `--force` è servito solo la prima volta).

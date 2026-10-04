@@ -28,9 +28,8 @@ import {
 import { crisiAttiva } from '../motore/crisi';
 import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
-import registrati from '../../doppiaggio/registrati.json';
 import {
-  idVoceEsito, pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
+  pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
 } from './viste';
 
 interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string; salvatoAl?: number }
@@ -59,7 +58,6 @@ let daImportare: DatiSalvati | undefined; // file scelto nella pagina del salvat
 
 const app = document.getElementById('app')!;
 const lettore = new Lettore(c.tracce);
-const VOCI = new Set(Object.keys(registrati as Record<string, string>)); // i pezzi del copione già doppiati
 
 // ---------------------------------------------------------------- salvataggio
 
@@ -266,7 +264,7 @@ function render(): void {
   precaricaIntorno(s, c);
   const ora = Date.now();
   aggiornaTempo(stato, ora);
-  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, luogo, voci: VOCI, voceInCorso: lettore.voceInCorso() };
+  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, luogo };
   const centro = info ? contenutoInfo(info)
     : scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
@@ -303,28 +301,6 @@ function cambia(v: Vista, nuovaScheda: Scheda = 'storia'): void {
   salva();
   render();
   scorriAlPannello();
-  leggi();
-}
-
-/** Il pezzo doppiato della schermata attuale: la scena aperta (anche un prologo o una crisi) o l'esito. */
-function voceDellaVista(): string | null {
-  if (!stato) return null;
-  const v = vista;
-  if (v.tipo === 'risultato') {
-    const st = c.storylet.find((z) => z.id === v.id);
-    return st && v.indice !== undefined ? idVoceEsito(st, v.indice, v.risultato) : null;
-  }
-  if (v.tipo === 'storylet') return v.id;
-  if (vista.tipo === 'area') return crisiAttiva(stato, c)?.id ?? null;
-  return null;
-}
-
-/** A ogni cambio di schermata la voce precedente tace; se c'è un pezzo doppiato e la lettura è attiva, parte. */
-function leggi(): void {
-  const id = voceDellaVista();
-  if (id && id === lettore.voceInCorso()) return;
-  lettore.taci();
-  if (id && VOCI.has(id) && lettore.prefs.lettura) void lettore.parla(id);
 }
 
 function scorriAlPannello(): void {
@@ -395,11 +371,6 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'bersaglio': bersaglio = id; render(); break;
-    case 'voce': {
-      lettore.avvia();
-      if (lettore.voceInCorso() === id) lettore.taci(); else void lettore.parla(id);
-      break;
-    }
     case 'attacca': case 'intimidisci': case 'cura': case 'lancia': case 'reperto': {
       if (vista.tipo !== 'combattimento') break;
       const b = bersaglio ?? '';
@@ -575,16 +546,6 @@ const soglia = montaIngresso(lettore, {
   accedi: () => { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); },
   caricamento: () => (stato ? `Torni a Qir-Azel con ${stato.nome}…` : 'Scendi a Qir-Azel…'),
 });
-// il pulsante Ascolta segue lo stato della voce senza ridisegnare la pagina
-lettore.onCambio = () => {
-  const ora = lettore.voceInCorso();
-  app.querySelectorAll<HTMLButtonElement>('[data-az=voce]').forEach((b) => {
-    const parla = b.dataset['id'] === ora;
-    b.textContent = parla ? 'Ferma la voce' : 'Ascolta';
-    b.classList.toggle('parla', parla);
-    b.setAttribute('aria-pressed', String(parla));
-  });
-};
 const avvia = (d: unknown) => { carica(d as Partial<Salvataggio> | undefined); render(); precaricaMiniature(c); void avviaArchivio(); };
 if (hot?.ready) hot.ready(avvia);
 else avvia(hot?.data);

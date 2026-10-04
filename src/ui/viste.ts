@@ -42,22 +42,6 @@ export interface Contesto {
   ora: number;
   bersaglio?: string;
   luogo?: string; // il luogo (mini-hub) aperto dentro l'area, se c'è
-  voci?: Set<string>; // i pezzi doppiati (id del copione)
-  voceInCorso?: string | null;
-}
-
-/** L'id del copione per l'esito di un'opzione (vedi scripts/doppiaggio.ts). */
-export function idVoceEsito(st: TStorylet, indice: number, r: Risultato): string {
-  const o = st.opzioni[indice];
-  const ramo = o?.prova ? (r.riuscito ? 'successo' : 'fallimento') : o?.combattimento ? (r.riuscito ? 'vittoria' : 'sconfitta') : 'esito';
-  return `${st.id}__${indice + 1}-${ramo}`;
-}
-
-/** Il pulsante per ascoltare un pezzo doppiato, se c'è. */
-function ascolta(x: Contesto, id: string): string {
-  if (!x.voci?.has(id)) return '';
-  const parla = x.voceInCorso === id;
-  return `<button type="button" class="ascolta${parla ? ' parla' : ''}" data-az="voce" data-id="${id}" aria-pressed="${parla}">${parla ? 'Ferma la voce' : 'Ascolta'}</button>`;
 }
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
@@ -449,7 +433,6 @@ function vistaStorylet(x: Contesto, id: string): string {
       <div class="scena-titoli">
         <div class="testa">${testaStorylet(x, st, tipoStorylet(st))}</div>
         <h2>${h(st.titolo)}</h2>
-        ${ascolta(x, st.id)}
         ${prosa(st.testo)}
       </div>
     </header>
@@ -526,7 +509,6 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       <div class="scena-titoli">
         <div class="testa">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}${r.corretto ? etichetta('Corretto', 'velo') : ''}</div>
         <h2>${h(titolo)}</h2>
-        ${st && x.vista.tipo === 'risultato' && x.vista.indice !== undefined ? ascolta(x, idVoceEsito(st, x.vista.indice, r)) : ''}
         ${prosa(r.testo)}
       </div>
     </header>

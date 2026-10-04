@@ -7,6 +7,7 @@ import {
   ETICHETTE_DIFFICOLTA, SOGLIE_PE, MAX_CONSUMABILI_IN_COMBATTIMENTO,
 } from '../motore/regole';
 import { probabilita } from '../motore/dadi';
+import FONTI from '../dati/fonti-tavole.json';
 
 export type PaginaInfo = 'regolamento' | 'termini' | 'crediti' | 'salvataggio';
 export const PAGINE_INFO: PaginaInfo[] = ['regolamento', 'termini', 'crediti', 'salvataggio'];
@@ -191,7 +192,7 @@ function regolamento(): string {
   <h3>Diario, nomi e audio</h3>
   <p>Sotto ogni esito c'è <b>Annota nel diario</b>, e le pagine che conservi restano nella scheda Diario. I nomi
   sottolineati nei testi aprono una scheda con quello che sa chiunque in città. Il pulsante con la nota musicale, in
-  basso a destra, regola musica, ambiente e voci, o li spegne. Nelle scene doppiate c'è il pulsante <b>Ascolta</b>.</p>
+  basso a destra, regola musica e ambiente, o li spegne.</p>
 
   <h3>Domande frequenti</h3>
   ${domanda('Dove vengono salvati i progressi?', `<p>Nel tuo account Google, dopo ogni azione: entrando con lo stesso account da un altro dispositivo
@@ -234,13 +235,41 @@ function termini(): string {
   passione. Non ci guadagno nulla.</p>
 
   <h3>Note legali</h3>
-  <p>Ny'Zar, i suoi testi e le sue tavole sono © ${ANNO} Luca Pasini, tutti i diritti riservati. Fallen London è un marchio di
-  Failbetter Games e Disco Elysium di ZA/UM: questo progetto non è affiliato a nessuna delle due. Musiche, ambienti sonori e
-  icone appartengono ai rispettivi autori, elencati nei crediti, e sono usati secondo le loro licenze.</p>
+  <p>Ny'Zar e i suoi testi sono © ${ANNO} Luca Pasini, tutti i diritti riservati. Fallen London è un marchio di
+  Failbetter Games e Disco Elysium di ZA/UM: questo progetto non è affiliato a nessuna delle due. Le tavole sono stampe
+  d'epoca di pubblico dominio, elencate nei crediti con la loro fonte. Musiche, ambienti sonori e icone appartengono ai
+  rispettivi autori, elencati nei crediti, e sono usati secondo le loro licenze.</p>
   <p>Sul sito si gioca entrando con Google: il gioco conserva nome, email e salvataggio, solo per farti ritrovare il
   personaggio. Dentro claude.ai il salvataggio sta invece nel tuo account Claude. I dettagli sono nella
   ${a('https://gioco-nyzar.pages.dev/privacy', 'pagina sulla privacy')}. Non usa cookie di profilazione e non
   contiene pubblicità.</p>`;
+}
+
+// ---------------------------------------------------------------- fonti delle tavole
+
+interface Fonte { tavola: string; opera: string; autore: string; data?: string; url: string; licenza: string }
+const fonti = FONTI as Fonte[];
+const COLLEZIONI: [string, string][] = [
+  ['ambientazione', 'Luoghi'], ['soglia', 'Ingresso'], ['cronaca', 'Cronaca'], ['personaggi', 'Personaggi'], ['fazioni', 'Fazioni'],
+  ['reliquie', 'Reliquie e armi'], ['bestiario', 'Bestiario'],
+];
+const nomeTavola = (slug: string) => { const s = slug.replace(/-/g, ' '); return s.charAt(0).toUpperCase() + s.slice(1); };
+
+/** Gli autori con più tavole, in una frase: «Piranesi, Callot e Hollar». */
+const AUTORI_TAVOLE = (() => {
+  const conta = new Map<string, number>();
+  for (const f of fonti) conta.set(f.autore, (conta.get(f.autore) ?? 0) + 1);
+  const nomi = [...conta].filter(([n]) => !/ignoto|anonimo|sconosciuto/i.test(n)).sort((x, y) => y[1] - x[1]).slice(0, 8).map(([n]) => h(n));
+  return nomi.length > 1 ? `${nomi.slice(0, -1).join(', ')} e ${nomi.at(-1)}` : nomi.join('');
+})();
+
+function fontiTavole(): string {
+  const gruppi = COLLEZIONI.map(([k, titolo]) => {
+    const righe = fonti.filter((f) => f.tavola.startsWith(`${k}/`)).map((f) => `<li><b>${h(nomeTavola(f.tavola.slice(k.length + 1)))}</b>:
+      <em>${h(f.opera)}</em>, ${h(f.autore)}${f.data ? `, ${h(f.data)}` : ''}. ${a(f.url, 'Fonte')} (${h(f.licenza)})</li>`).join('');
+    return righe ? `<h4>${titolo}</h4><ul class="fonti">${righe}</ul>` : '';
+  }).join('');
+  return `<details class="fonti-tavole"><summary>Le fonti delle ${fonti.length} tavole</summary>${gruppi}</details>`;
 }
 
 function crediti(): string {
@@ -256,13 +285,12 @@ function crediti(): string {
   <p>Ambienti sonori: <em>Fantasy Ambiences</em> di <b>Andrea Baroni</b>, Cyberleaf Studio
   (${a('https://andreabaroni.com', 'andreabaroni.com')}).</p>
 
-  <h3>Voci</h3>
-  <p>Il doppiaggio è realizzato con ${a('https://elevenlabs.io', 'ElevenLabs')}. Le voci sono di persone reali, che le hanno
-  registrate e messe a disposizione per la sintesi vocale: ogni utilizzo riconosce loro un compenso, quindi anche così il
-  lavoro degli artisti viene sostenuto.</p>
-
   <h3>Illustrazioni</h3>
-  <p>Le tavole del Codex e del gioco sono generate con Midjourney, a partire da descrizioni e scelte mie.</p>
+  <p>Le tavole sono incisioni, acqueforti e stampe d'epoca, dal Cinquecento all'Ottocento, tutte di pubblico dominio.
+  Le ho scelte una per una, ritagliate e virate in seppia perché stessero insieme. Gli autori principali sono
+  ${AUTORI_TAVOLE}. Ogni tavola, con l'opera da cui viene, il museo o la biblioteca che la conserva e la licenza, è
+  nell'elenco qui sotto.</p>
+  ${fontiTavole()}
 
   <h3>Icone e caratteri</h3>
   <p>Icone di Lorc, Delapouite e altri autori di ${a('https://game-icons.net', 'game-icons.net')}, con licenza
@@ -270,9 +298,9 @@ function crediti(): string {
   da Google Fonts, con licenza SIL Open Font License.</p>
 
   <h3>Una nota sugli strumenti</h3>
-  <p>Ny'Zar è un progetto personale, fatto con le mie risorse e per passione, e non ci guadagno nulla. Per questo
-  illustrazioni e voci passano da strumenti di intelligenza artificiale. Se un giorno le cose cambiassero, pagherò
-  volentieri illustratori e doppiatori.</p>`;
+  <p>Nel gioco non ci sono immagini né voci generate con l'intelligenza artificiale. Le tavole sono stampe d'epoca, le
+  musiche e gli ambienti sonori sono opera dei loro autori, e il gioco non ha doppiaggio. L'intelligenza artificiale
+  (Claude, di Anthropic) è entrata solo nella realizzazione del browser game, come scritto sopra.</p>`;
 }
 
 // ---------------------------------------------------------------- salvataggio

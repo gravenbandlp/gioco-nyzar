@@ -7,7 +7,7 @@ modello di Fallen London. TypeScript + Vite, contenuti in YAML validati con zod,
 1. Leggi `docs/progetto.md`: scopo, stato, cosa è fatto, cosa manca, la checklist.
 2. Leggi `docs/ripresa.md`: le regole operative che valgono sempre.
 3. Per scrivere testi leggi `docs/stile-dei-testi.md`. Per i sistemi: `docs/regolamento-*.md`, `docs/salvataggi.md`.
-4. Il lavoro in locale (cartelle, audio, copione, pubblicazione) è in `docs/locale.md`.
+4. Il lavoro in locale (cartelle, audio, pubblicazione) è in `docs/locale.md`.
 
 ## Comandi
 - `npm run dev`: gioco su http://localhost:5173 (rigenera prima i contenuti).
@@ -15,12 +15,7 @@ modello di Fallen London. TypeScript + Vite, contenuti in YAML validati con zod,
 - `npm run stile`: controllo dei tic di scrittura (deve dare 0 segnalazioni).
 - `npx vitest run`: tutti i test (189 al 3 ottobre 2026). Alcuni test di percorso durano qualche secondo.
 - `npm run build`: build in `dist/` (un solo `index.html` più tavole e audio).
-- `npm run copione`: rigenera il copione del doppiaggio; `npm run copione:locale` lo apre su http://localhost:5180
-  con le spunte salvate in `doppiaggio/spunte.json`.
-- `npm run genera-voci -- <prologhi|dama-argento|…|tutto|id> [--prova] [--rifai]`: genera le voci con l'API di
-  ElevenLabs (Eleven v4, chiave in `.env.local`) e le registra; `--prova` dice solo quanti caratteri costano.
-- `npm run voci -- <cartella>`: importa le voci registrate (mp3 nominati con l'id del pezzo).
-- `npm run audio`, `npm run tavole`: importano musica/ambienti e tavole dalle cartelle accanto al repository.
+- `npm run audio`: importa musica e ambienti dalla cartella accanto al repository.
 
 ## Regole che non si rompono
 - Lingua: italiano, in codice, commenti, contenuti e messaggi di commit.
@@ -29,8 +24,11 @@ modello di Fallen London. TypeScript + Vite, contenuti in YAML validati con zod,
 - Nomi: il Codex usa ancora nomi presi da Rise of the Runelords; il gioco li ha rinominati. Nei contenuti valgono solo
   i nomi del gioco (`contenuti/glossario/`). Mai Koruvus, Stoot, Sette Denti, Boscogratto, Kaijitsu, Scarnetti,
   Deverin, Sandpoint e simili.
-- Id del doppiaggio stabili: un'opzione nuova in una scena esistente va **in fondo**, mai in mezzo. Non riscrivere
-  testi già registrati senza dirlo (`npm run doppiaggio` segnala quelli da rifare).
+- Niente immagini, voci o musiche generate con l'IA. Le tavole sono stampe d'epoca di pubblico dominio (Wikimedia
+  Commons, licenza CC0 o pubblico dominio) virate in seppia: ogni tavola nuova va registrata in
+  `src/dati/fonti-tavole.json`, che alimenta i Crediti. Il doppiaggio è stato tolto il 4 ottobre 2026: le voci
+  generate stanno in `../audio-nyzar/voce-dal-gioco`, copione e regia in `../doppiaggio-archivio`, il codice nella
+  storia git.
 - Le varianti di trama vanno in `quando` (opzione nascosta); i requisiti su monete, merci, abilità e reputazione in
   `requisiti` (opzione visibile ma chiusa).
 - Le boss battle restano boss battle: le vie per batterle sono Difficili e fallire costa.
