@@ -62,7 +62,7 @@ export function montaIngresso(l: Lettore, opzioni: Opzioni): Soglia {
       <button type="button" class="soglia-muto" data-soglia="muto">Entra senza audio</button>`;
   };
   const nota = (modo: ModoSoglia): string => modo === 'entra'
-    ? 'Musica, ambienti e voci: meglio con le cuffie.'
+    ? 'Musica e ambienti: meglio con le cuffie.'
     : `Si gioca con un account Google: lì si salva il personaggio, e lo ritrovi da qualunque dispositivo.
        <a href="https://gioco-nyzar.pages.dev/privacy" target="_blank" rel="noopener">Privacy</a>`;
 
