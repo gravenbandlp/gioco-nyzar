@@ -161,7 +161,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   };
   const esito = (dove: string, e?: { testo?: string; effetti?: Record<string, number>; vai?: string; segue?: string; imposta?: Record<string, number>; pe?: Record<string, number> }) => {
     if (!e) return;
-    for (const x of erroriVoci(e.testo ?? '')) errori.push(`${dove}: ${x}`);
+    for (const x of erroriVoci(e.testo ?? '', c.origini.map((o) => o.id))) errori.push(`${dove}: ${x}`);
     effetti(dove, e.effetti);
     if (e.vai && !aree.has(e.vai)) errori.push(`${dove}: "vai" verso area sconosciuta "${e.vai}"`);
     if (e.segue && !storylet.has(e.segue)) errori.push(`${dove}: "segue" verso storylet sconosciuto "${e.segue}"`);
@@ -182,7 +182,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   for (const st of c.storylet) {
     const dove = `storylet ${st.id}`;
-    for (const x of erroriVoci(st.testo)) errori.push(`${dove}: ${x}`);
+    for (const x of erroriVoci(st.testo, c.origini.map((o) => o.id))) errori.push(`${dove}: ${x}`);
     if (!aree.has(st.area) && !(st.area === OVUNQUE && st.tipo === 'carta')) errori.push(`${dove}: area sconosciuta "${st.area}"`);
     if ((st.tipo === 'crisi' || st.tipo === 'prologo') && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di ${st.tipo === 'crisi' ? 'una crisi' : 'un prologo'} costano 0 rintocchi`);
     requisiti(dove, st.requisiti);

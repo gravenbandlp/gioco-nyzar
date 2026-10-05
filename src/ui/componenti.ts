@@ -5,7 +5,7 @@ import { NOMI_DIFETTI } from '../motore/contenuto';
 import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, RINTOCCHI_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
 import { h, mezzi } from './formato';
-import { leggiVoce, nomeVoce, senzaSegni, type Voce } from '../motore/voci';
+import { leggiVoce, leggiOrigine, nomeVoce, senzaSegni, type Voce } from '../motore/voci';
 
 /** Le icone minori (game-icons.net, CC BY 3.0) sono SVG in linea, colorati dal CSS. */
 export const èIcona = (t: string): boolean => t.startsWith('icone/');
@@ -83,10 +83,16 @@ function registri(html: string): string {
  * I paragrafi che cominciano con {abilità Difficoltà} sono voci delle abilità (motore/voci.ts): `valuta` fa il
  * check passivo, e la voce compare con il suo esito e il colore dell'attributo. Senza `valuta` non compaiono.
  */
-export function prosa(testo: string, classe = 'prosa', valuta?: (v: Voce) => boolean): string {
+export function prosa(testo: string, classe = 'prosa', valuta?: (v: Voce) => boolean, origine?: { id: string; nome: string }): string {
   const paragrafi = testo.trim().split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
   const viste = new Set<string>();
   const html = paragrafi.map((p) => {
+    // un paragrafo d'origine compare solo a chi ha quell'origine, con il nome dell'origine come etichetta
+    const o = leggiOrigine(p);
+    if (o) {
+      if (!origine || !o.origini.includes(origine.id)) return '';
+      return `<p class="abilita-voce origine"><b class="abilita-nome">${h(origine.nome.toUpperCase())} –</b> ${registri(annota(h(o.testo), viste))}</p>`;
+    }
     const v = leggiVoce(p);
     if (!v) return `<p>${registri(annota(h(p), viste))}</p>`;
     if (!valuta) return '';

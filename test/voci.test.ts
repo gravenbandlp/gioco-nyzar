@@ -39,6 +39,17 @@ describe('voci delle abilità', () => {
     expect(prosa(testo)).not.toContain('PERCEZIONE');
     expect(senzaSegni(testo)).not.toContain('{');
   });
+  it("un paragrafo d'origine compare solo a chi ha quell'origine", () => {
+    const testo = 'Prima.\n\n{origine accolito-del-velo apprendista-raschiatore} Il saio ti tradisce.\n\nDopo.';
+    const accolito = prosa(testo, 'prosa', () => true, { id: 'accolito-del-velo', nome: 'Accolito del Velo' });
+    expect(accolito).toContain('Il saio ti tradisce.');
+    expect(accolito).toContain('ACCOLITO DEL VELO');
+    expect(prosa(testo, 'prosa', () => true, { id: 'fuggiasco-di-ghoran', nome: 'Fuggiasco di Ghoran' })).not.toContain('Il saio');
+    expect(prosa(testo)).not.toContain('Il saio');
+    expect(erroriVoci('{origine accolito-del-velo} Va bene.', ['accolito-del-velo'])).toEqual([]);
+    expect(erroriVoci('{origine nessuno} No.', ['accolito-del-velo'])).toHaveLength(1);
+    expect(senzaSegni(testo)).not.toContain('{');
+  });
   it('tutti i segni nei contenuti sono validi', () => {
     const errori: string[] = [];
     for (const st of c.storylet) {

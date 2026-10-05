@@ -53,6 +53,11 @@ export interface Contesto {
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
 /** Il check passivo delle voci delle abilità nella prosa (motore/voci.ts). */
 const voci = (x: Pick<Contesto, 's' | 'c'>) => (v: Voce) => checkPassivo(x.s, x.c, v);
+/** L'origine del personaggio, per i paragrafi che valgono solo per lei. */
+const originePg = (x: Pick<Contesto, 's' | 'c'>) => {
+  const o = x.c.origini.find((z) => z.id === x.s.origine);
+  return o ? { id: o.id, nome: o.nome } : undefined;
+};
 const areaDi = (x: Contesto) => x.c.aree.find((a) => a.id === x.s.area)!;
 /** I luoghi dell'area attuale che il personaggio può vedere. */
 export function luoghiQui(s: Stato, c: TContenuti): TLuogo[] {
@@ -457,7 +462,7 @@ function vistaStorylet(x: Contesto, id: string): string {
       <div class="scena-titoli">
         <div class="testa">${testaStorylet(x, st, tipoStorylet(st))}</div>
         <h2>${h(st.titolo)}</h2>
-        <div data-lettura="st:${h(st.id)}">${prosa(st.testo, 'prosa', voci(x))}</div>
+        <div data-lettura="st:${h(st.id)}">${prosa(st.testo, 'prosa', voci(x), originePg(x))}</div>
       </div>
     </header>
     <ul class="rami">${rami}</ul>
@@ -536,7 +541,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       <div class="scena-titoli">
         <div class="testa">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}${r.corretto ? etichetta('Corretto', 'velo') : ''}</div>
         <h2>${h(titolo)}</h2>
-        <div data-lettura="es:${h(id)}:${hash(r.testo)}">${prosa(r.testo, 'prosa', voci(x))}</div>
+        <div data-lettura="es:${h(id)}:${hash(r.testo)}">${prosa(r.testo, 'prosa', voci(x), originePg(x))}</div>
       </div>
     </header>
     ${righe.length ? `<ul class="esiti">${righe.join('')}</ul>` : ''}
@@ -799,8 +804,8 @@ export function diario(x: Contesto): string {
           </span>
         </summary>
         <div class="pagina-corpo">
-          ${p.prima ? `<details class="pagina-scena"><summary>La scena</summary>${prosa(p.prima, 'prosa piccola', voci(x))}</details>` : ''}
-          ${prosa(p.testo, 'prosa', voci(x))}
+          ${p.prima ? `<details class="pagina-scena"><summary>La scena</summary>${prosa(p.prima, 'prosa piccola', voci(x), originePg(x))}</details>` : ''}
+          ${prosa(p.testo, 'prosa', voci(x), originePg(x))}
           <button type="button" class="link" data-az="strappa" data-id="${p.quando}">Togli dal diario</button>
         </div>
       </details>

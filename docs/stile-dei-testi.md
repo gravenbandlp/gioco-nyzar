@@ -176,6 +176,35 @@ Un esempio, dal Ponte dei Morti di notte (`contenuti/piste/registro.yaml`):
 Per controllare un file riscritto: `npx tsx scripts/controlla-file.ts <file>` (struttura invariata rispetto al
 repository, segni validi, stile pulito).
 
+## L'origine nella prosa e nelle scelte (dal 5 ottobre 2026)
+
+L'origine non deve contare solo nelle statistiche. Due strumenti, oltre al prologo:
+
+**I paragrafi d'origine.** Come le voci, sono paragrafi a sé con un segno fra graffe, e compaiono solo a chi ha
+quell'origine (anche più d'una, separate da uno spazio):
+
+    {origine accolito-del-velo} La Madre ti guarda le mani prima della faccia, come si guarda chi è stato novizio ...
+    {origine figlio-della-citta-bassa fuggiasco-di-ghoran} ...
+
+Sullo schermo hanno il nome dell'origine come etichetta e la banda dorata. Servono per farti sentire chi sei: un PNG
+che ti riconosce o ti tratta in un altro modo, un ricordo, una cosa che sai perché vieni da lì, un dettaglio che
+solo tu noti. Le regole:
+- Da una a tre frasi, seconda persona e presente come il resto; valgono tutte le regole di "Da evitare".
+- Al massimo due paragrafi d'origine per testo, e solo dove l'origine c'entra davvero: i primi incontri con i
+  personaggi importanti, i luoghi e le fazioni legati a un'origine (il Velo per l'Accolito, i Raschiatori e i
+  Ponti per l'Apprendista, i Casati per il Rampollo, la Gilda per il Mercante, il Bosco e il Circolo per il
+  Figlio del Circolo, Ghoran, la schiavitù e la fuga per il Fuggiasco, l'Accademia e i cristalli per l'Allievo,
+  i vicoli e gli Scuri per il Figlio della Città Bassa).
+- Come per le voci, niente che serva a giocare: gli altri non lo vedono.
+- Il passato delle origini sta nella loro descrizione (`contenuti/origini.yaml`) e nei prologhi
+  (`contenuti/prologo/`): non si inventano parenti, nomi, eventi o legami che lì non ci sono.
+
+**Le opzioni d'origine.** Valgono le regole di sempre (`docs/ripresa.md`): stanno in fondo alla scena con
+`quando: [origine.<id> >= 1]` e portano allo stesso stato della via normale che sostituiscono, con gli stessi
+effetti, flag, `vai` e `segue`. Possono saltare la prova o usarne una diversa, e hanno testo, descrizione ed esiti
+propri. `scripts/controlla-file.ts` accetta le opzioni d'origine aggiunte e controlla che ogni loro esito porti a uno
+stato che una delle opzioni normali della scena dà già.
+
 ## Cosa resta
 
 Seconda persona, presente. Dettagli concreti del mondo del Codex. I PNG parlano ciascuno a modo
