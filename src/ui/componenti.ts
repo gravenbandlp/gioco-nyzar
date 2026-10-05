@@ -91,7 +91,7 @@ export function prosa(testo: string, classe = 'prosa', valuta?: (v: Voce) => boo
     const o = leggiOrigine(p);
     if (o) {
       if (!origine || !o.origini.includes(origine.id)) return '';
-      return `<p class="abilita-voce origine"><b class="abilita-nome">${h(origine.nome.toUpperCase())} –</b> ${registri(annota(h(o.testo), viste))}</p>`;
+      return `<p class="abilita-voce voce-origine"><b class="abilita-nome">${h(origine.nome.toUpperCase())} –</b> ${registri(annota(h(o.testo), viste))}</p>`;
     }
     const v = leggiVoce(p);
     if (!v) return `<p>${registri(annota(h(p), viste))}</p>`;
