@@ -12,6 +12,7 @@ import { annota, strappa } from '../motore/diario';
 import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
+import { riproduci, saltaScena, cambiaVelocita } from './scontro';
 import { durata } from './formato';
 import { impostaGlossario } from './componenti';
 import { avviaSchede, nascondiScheda } from './tooltip';
@@ -358,7 +359,14 @@ function azione(az: string, el: HTMLElement): void {
     case 'area': cambia({ tipo: 'area' }); break;
     case 'luogo': luogo = id; cambia({ tipo: 'area' }); break;
     case 'esci-luogo': luogo = undefined; cambia({ tipo: 'area' }); break;
-    case 'apri': if (c.storylet.some((z) => z.id === id)) cambia({ tipo: 'storylet', id }); break;
+    case 'apri': {
+      // una crisi aperta passa davanti a tutto, tranne il seguito della scena appena chiusa
+      const seguito = vista.tipo === 'risultato' && vista.risultato?.segue === id;
+      const crisi = crisiAttiva(s, c);
+      if (crisi && !seguito && crisi.id !== id) cambia({ tipo: 'area' });
+      else if (c.storylet.some((z) => z.id === id)) cambia({ tipo: 'storylet', id });
+      break;
+    }
     case 'scegli': {
       const st = c.storylet.find((z) => z.id === id);
       if (!st) break;
@@ -366,7 +374,11 @@ function azione(az: string, el: HTMLElement): void {
       const prima = structuredClone(s);
       const r = scegli(s, st, indice, c, ora);
       if (r.tipo === 'errore') { avviso = r.messaggio; render(); }
-      else if (r.tipo === 'combattimento') { bersaglio = undefined; cambia({ tipo: 'combattimento', id, indice, cs: r.combattimento }); }
+      else if (r.tipo === 'combattimento') {
+        bersaglio = undefined;
+        cambia({ tipo: 'combattimento', id, indice, cs: r.combattimento });
+        app.querySelector('.scena.combattimento')?.classList.add('entrata');
+      }
       else cambia({ tipo: 'risultato', id, risultato: r.risultato, indice, prima });
       break;
     }
@@ -378,10 +390,14 @@ function azione(az: string, el: HTMLElement): void {
         : az === 'lancia' ? { tipo: 'incantesimo' as const, incantesimo: id, bersaglio: b }
         : az === 'reperto' ? { tipo: 'reperto' as const, reperto: id, bersaglio: b }
         : { tipo: az === 'attacca' ? ('attacco' as const) : ('intimidire' as const), bersaglio: b };
+      const daRiga = vista.cs.log.length;
       round(vista.cs, a);
       salva(); render();
+      void riproduci(app, vista.cs, daRiga, (s) => lettore.effetto(s));
       break;
     }
+    case 'salta-scena': saltaScena(); break;
+    case 'ritmo': cambiaVelocita(el); break;
     case 'indossa': {
       const motivo = perchéNonIndossabile(s, c, id);
       if (motivo) avviso = motivo; else indossa(s, c, id);

@@ -7,6 +7,7 @@
 // l'intestazione Info/LAME del file e si fa girare il buffer esattamente sui campioni utili.
 import type { TTraccia } from '../motore/contenuto';
 import type { Scelta } from './colonna';
+import { suona, type Suono } from './suoni';
 
 // ---------------------------------------------------------------- MP3 senza stacchi
 
@@ -74,9 +75,10 @@ export function confiniLoop(lunghezza: number, frequenzaBuffer: number, g: InfoG
 // ---------------------------------------------------------------- preferenze
 
 type Canale = 'musica' | 'ambiente';
-interface Preferenze { musica: number; ambiente: number; muto: boolean }
+type Volume = Canale | 'effetti';
+interface Preferenze { musica: number; ambiente: number; effetti: number; muto: boolean }
 const CHIAVE = 'gioco-nyzar/audio';
-const PREDEFINITE: Preferenze = { musica: 0.6, ambiente: 0.5, muto: false };
+const PREDEFINITE: Preferenze = { musica: 0.6, ambiente: 0.5, effetti: 0.7, muto: false };
 
 function leggiPreferenze(): Preferenze {
   try { return { ...PREDEFINITE, ...JSON.parse(localStorage.getItem(CHIAVE) ?? '{}') as Partial<Preferenze> }; } catch { return { ...PREDEFINITE }; }
@@ -95,7 +97,7 @@ interface InCorso { id: string; sorgente: AudioBufferSourceNode; guadagno: GainN
 
 export class Lettore {
   private ctx: AudioContext | null = null;
-  private principale: Record<Canale, GainNode> | null = null;
+  private principale: Record<Volume, GainNode> | null = null;
   private desiderato: Scelta = { musica: null, ambiente: null };
   private attuale: Record<Canale, InCorso | null> = { musica: null, ambiente: null };
   private cache: Record<Canale, Map<string, Promise<Caricata | null>>> = { musica: new Map(), ambiente: new Map() };
@@ -121,8 +123,8 @@ export class Lettore {
     const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!Ctx) return;
     this.ctx = new Ctx({ latencyHint: 'playback' });
-    this.principale = { musica: this.ctx.createGain(), ambiente: this.ctx.createGain() };
-    for (const k of ['musica', 'ambiente'] as Canale[]) {
+    this.principale = { musica: this.ctx.createGain(), ambiente: this.ctx.createGain(), effetti: this.ctx.createGain() };
+    for (const k of ['musica', 'ambiente', 'effetti'] as Volume[]) {
       this.principale[k].gain.value = this.prefs[k];
       this.principale[k].connect(this.ctx.destination);
     }
@@ -137,7 +139,13 @@ export class Lettore {
     this.applica();
   }
 
-  volume(k: Canale, v: number): void {
+  /** Un effetto sonoro del combattimento, se l'audio è acceso. */
+  effetto(s: Suono): void {
+    if (!this.ctx || !this.principale || this.prefs.muto || this.ctx.state !== 'running' || this.prefs.effetti <= 0) return;
+    suona(this.ctx, this.principale.effetti, s);
+  }
+
+  volume(k: Volume, v: number): void {
     this.prefs[k] = v; salvaPreferenze(this.prefs);
     if (!this.ctx) return;
     this.principale?.[k].gain.setTargetAtTime(v, this.ctx.currentTime, 0.05);
@@ -229,6 +237,7 @@ export function montaControlli(l: Lettore): void {
       <p class="etichetta velo">Audio</p>
       <label><span>Musica</span><input type="range" min="0" max="1" step="0.05" data-canale="musica"></label>
       <label><span>Ambiente</span><input type="range" min="0" max="1" step="0.05" data-canale="ambiente"></label>
+      <label><span>Effetti</span><input type="range" min="0" max="1" step="0.05" data-canale="effetti"></label>
       <button type="button" class="bottone piccolo" data-audio="muto"></button>
       <p class="audio-ora"></p>
     </div>
@@ -246,7 +255,7 @@ export function montaControlli(l: Lettore): void {
     tasto.classList.toggle('muto', l.prefs.muto);
     tasto.setAttribute('aria-label', l.prefs.muto ? 'Audio spento' : 'Audio');
     muto.textContent = l.prefs.muto ? 'Accendi l\'audio' : 'Spegni l\'audio';
-    cursori.forEach((c) => { c.value = String(l.prefs[c.dataset['canale'] as Canale]); c.disabled = l.prefs.muto; });
+    cursori.forEach((c) => { c.value = String(l.prefs[c.dataset['canale'] as Volume]); c.disabled = l.prefs.muto; });
     const a = l.inAscolto();
     const nomi = [l.traccia(a.musica), l.traccia(a.ambiente)].filter((t): t is TTraccia => !!t).map((t) => t.titolo);
     ora.textContent = l.prefs.muto ? '' : nomi.length ? `In ascolto: ${nomi.join(' · ')}` : l.avviato() ? '' : 'Parte al primo clic nella pagina.';
@@ -259,7 +268,9 @@ export function montaControlli(l: Lettore): void {
     aggiorna();
   });
   muto.addEventListener('click', () => l.silenzia(!l.prefs.muto));
-  cursori.forEach((c) => c.addEventListener('input', () => l.volume(c.dataset['canale'] as Canale, Number(c.value))));
+  cursori.forEach((c) => c.addEventListener('input', () => l.volume(c.dataset['canale'] as Volume, Number(c.value))));
+  // il cursore degli effetti fa sentire un colpo quando lo lasci, per sapere quanto è forte
+  box.querySelector('[data-canale=effetti]')?.addEventListener('change', () => l.effetto('colpo'));
   document.addEventListener('click', (e) => {
     if (!pannello.hidden && !e.composedPath().includes(box)) { pannello.hidden = true; tasto.setAttribute('aria-expanded', 'false'); }
   });

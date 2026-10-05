@@ -1,7 +1,7 @@
 import { rngConSeme } from '../src/motore/dadi';
 import { nuovoPersonaggio, type Stato } from '../src/motore/personaggio';
 import { anteprima, scegli, correggi, correggibile, concludiCombattimento } from '../src/motore/azioni';
-import { round, iniziaCombattimento, combattenteDaStato, azioneAutomatica, type StatoCombattimento } from '../src/motore/combattimento';
+import { round, modifica, iniziaCombattimento, combattenteDaStato, azioneAutomatica, type StatoCombattimento } from '../src/motore/combattimento';
 import { repertorio, cambiaRepertorio, limiteRepertorio, incantesimiConosciuti } from '../src/motore/magia';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 
@@ -63,11 +63,30 @@ describe('incantesimi in combattimento', () => {
     const cs = scontroCon(s, 'rissa-pignatta', 5);
     const pg = cs.combattenti.find((x) => x.lato === 'pg')!;
     pg.magia = 30; // abbastanza dadi da non fallire mai
+    for (const x of cs.combattenti) { x.pf = 999; x.pfMax = 999; } // nessuno cade prima della fine
+    // la durata si conta nei tuoi turni dopo quello del lancio: Scudo arcano copre i 3 round successivi
     round(cs, { tipo: 'incantesimo', incantesimo: 'scudo-arcano' }, rngConSeme(5));
-    expect(pg.effetti.find((e) => e.fonte === 'scudo-arcano')?.round).toBe(2);
+    expect(pg.effetti.find((e) => e.fonte === 'scudo-arcano')?.round).toBe(3);
     round(cs, { tipo: 'attacco', bersaglio: '' }, rngConSeme(6));
     round(cs, { tipo: 'attacco', bersaglio: '' }, rngConSeme(7));
+    expect(pg.effetti.find((e) => e.fonte === 'scudo-arcano')?.round).toBe(1);
+    round(cs, { tipo: 'attacco', bersaglio: '' }, rngConSeme(8));
     expect(pg.effetti.find((e) => e.fonte === 'scudo-arcano')).toBeUndefined();
+  });
+  it('Benedizione vale per i due attacchi dopo il lancio', () => {
+    const s = allievo();
+    s.quality['incantesimo.benedizione'] = 1;
+    const cs = scontroCon(s, 'rissa-pignatta', 5);
+    cs.incantesimi = c.incantesimi.filter((i) => i.id === 'benedizione');
+    const pg = cs.combattenti.find((x) => x.lato === 'pg')!;
+    pg.magia = 30;
+    for (const x of cs.combattenti) { x.pf = 999; x.pfMax = 999; }
+    round(cs, { tipo: 'incantesimo', incantesimo: 'benedizione' }, rngConSeme(5));
+    expect(modifica(pg, 'attacco')).toBe(1);
+    round(cs, { tipo: 'attacco', bersaglio: '' }, rngConSeme(6));
+    expect(modifica(pg, 'attacco')).toBe(1);
+    round(cs, { tipo: 'attacco', bersaglio: '' }, rngConSeme(7));
+    expect(modifica(pg, 'attacco')).toBe(0);
   });
   it('zero successi: Dissonanza, mezza tacca di Tormento alla fine dello scontro', () => {
     const s = allievo();

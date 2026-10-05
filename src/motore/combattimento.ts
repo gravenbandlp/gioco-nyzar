@@ -1,5 +1,5 @@
 // Combattimento a round (Regolamento, sezioni 6 e 7) e simulatore delle etichette.
-import { tira, rngConSeme, type Rng } from './dadi';
+import { tira, rngConSeme, type Rng, type Tiro } from './dadi';
 import { ETICHETTE_COMBATTIMENTO, MAX_CONSUMABILI_IN_COMBATTIMENTO, ROUND_MAX } from './regole';
 import type { TContenuti, TIncantesimo, TNemico, TScontro, TModifica } from './contenuto';
 import { abilitaEffettiva, type Stato } from './personaggio';
@@ -13,8 +13,32 @@ export const CONSUMABILI: Record<string, { pf?: number; energia?: number }> = {
   'estratto-di-energia': { energia: 3 },
 };
 
-export interface Effetto extends TModifica { fonte: string }
+/** `appena`: messo da chi lo porta durante il suo turno, che quindi non conta (Benedizione vale per i 2 turni dopo). */
+export interface Effetto extends TModifica { fonte: string; appena?: boolean }
 export interface Veleno { valore: number; round: number; fonte: string }
+
+/**
+ * Quello che succede in una riga del registro, per l'interfaccia che lo mette in scena: chi agisce, contro chi, i dadi
+ * dei due tiri, l'esito, e i PF di ogni combattente (nell'ordine di `combattenti`) subito dopo.
+ */
+export interface Evento {
+  riga: number;
+  round: number;
+  tipo: 'info' | 'attacco' | 'intimidire' | 'magia' | 'reperto' | 'effetto' | 'cura' | 'veleno' | 'dissonanza' | 'fermo';
+  chi?: string;
+  contro?: string;
+  nome?: string; // incantesimo o reperto
+  tiro?: number[];
+  fissi?: number; // successi fissi degli incantesimi automatici
+  difesa?: number[];
+  colpo?: boolean;
+  danno?: number;
+  cura?: number;
+  caduto?: boolean;
+  fuga?: boolean;
+  pf: number[];
+  energia: number;
+}
 
 export interface Combattente {
   id: string;
@@ -84,6 +108,7 @@ export interface StatoCombattimento {
   incantesimi: TIncantesimo[]; // il repertorio portato nello scontro
   costi: Record<string, number>; // Dissonanza, prezzi delle formule, cariche e guasti: applicati alla fine
   reperti?: RepertoInCombattimento[];
+  eventi?: Evento[]; // assenti nei salvataggi di prima del 5 ottobre 2026
 }
 
 export const inPiedi = (c: Combattente) => c.pf > 0 && !c.fuggito;
@@ -205,13 +230,13 @@ export function iniziaCombattimento(
   const combattenti = [{ ...pg, effetti: [], veleni: [] }, ...nemiciDelloScontro(sc, c)];
   const tiri = combattenti.map((x) => ({ id: x.id, s: tira(x.iniziativa, rng).successi, somma: x.sommaIniziativa, r: rng() }));
   tiri.sort((a, b) => b.s - a.s || b.somma - a.somma || b.r - a.r);
-  return {
+  const cs: StatoCombattimento = {
     scontro: sc.id,
     nome: sc.nome,
     combattenti,
     ordine: tiri.map((t) => t.id),
     round: 1,
-    log: [`Iniziativa: ${tiri.map((t) => combattenti.find((x) => x.id === t.id)!.nome).join(' → ')}.`],
+    log: [],
     finito: false,
     vinto: false,
     consumabili,
@@ -219,66 +244,102 @@ export function iniziaCombattimento(
     incantesimi: incantesimi.filter((i) => i.uso.includes('combattimento')),
     costi: {},
     reperti: reperti.map((r) => ({ ...r })),
+    eventi: [],
   };
+  annota(cs, `Iniziativa: ${tiri.map((t) => combattenti.find((x) => x.id === t.id)!.nome).join(' → ')}.`);
+  return cs;
 }
 
 // ---------------------------------------------------------------- azioni
 
-function infliggi(dif: Combattente, danno: number, log: string[], prefisso: string): void {
+/** Annota una riga del registro e l'evento che la accompagna, con i PF di tutti subito dopo. */
+function annota(cs: StatoCombattimento, testo: string, ev: Omit<Evento, 'riga' | 'round' | 'pf' | 'energia'> = { tipo: 'info' }): void {
+  cs.log.push(testo);
+  (cs.eventi ??= []).push({
+    ...ev, riga: cs.log.length - 1, round: cs.round,
+    pf: cs.combattenti.map((x) => x.pf), energia: cs.combattenti.find((x) => x.lato === 'pg')?.energia ?? 0,
+  });
+}
+
+function infliggi(cs: StatoCombattimento, dif: Combattente, danno: number, prefisso: string, ev: Omit<Evento, 'riga' | 'round' | 'pf' | 'energia'>): void {
   dif.pf = Math.max(0, dif.pf - danno);
+  const e = { ...ev, contro: dif.id, danno, colpo: true };
   if (dif.pf === 0 && dif.ultimoRespiro) {
     dif.pf = 1;
     dif.ultimoRespiro = false;
-    log.push(`${prefisso}, ${danno} ${danno === 1 ? 'danno' : 'danni'}. Stai per cadere, ma resti in piedi (Ultimo respiro).`);
+    annota(cs, `${prefisso}, ${danno} ${danno === 1 ? 'danno' : 'danni'}. Stai per cadere, ma resti in piedi (Ultimo respiro).`, e);
     return;
   }
   const fuori = dif.pf === 0 ? (dif.lato === 'pg' ? ' Crolli a terra.' : ` ${dif.nome} è fuori combattimento.`) : '';
-  log.push(`${prefisso}, ${danno} ${danno === 1 ? 'danno' : 'danni'}.${fuori}`);
+  annota(cs, `${prefisso}, ${danno} ${danno === 1 ? 'danno' : 'danni'}.${fuori}`, { ...e, caduto: dif.pf === 0 });
 }
 
-function attacca(att: Combattente, dif: Combattente, rng: Rng, log: string[]): void {
-  const a = tira(pool(att.attacco, modifica(att, 'attacco')), rng).successi;
-  const d = tira(pool(dif.difesa, modifica(dif, 'difesa')), rng).successi;
+function attacca(cs: StatoCombattimento, att: Combattente, dif: Combattente, rng: Rng): void {
+  const ta = tira(pool(att.attacco, modifica(att, 'attacco')), rng);
+  const td = tira(pool(dif.difesa, modifica(dif, 'difesa')), rng);
+  const a = ta.successi, d = td.successi;
+  const ev = { tipo: 'attacco' as const, chi: att.id, contro: dif.id, tiro: ta.facce, difesa: td.facce };
   const soggetto = att.lato === 'pg' ? 'Colpisci' : `${att.nome} colpisce`;
   const oggetto = dif.lato === 'pg' ? 'te' : dif.nome;
   if (a === 0 && att.inceppamento) {
     aggiungiEffetto(att, { tipo: 'salta', valore: 0, round: 1 }, 'inceppamento');
-    log.push(`${att.lato === 'pg' ? "L'arma" : `L'arma di ${att.nome}`} si inceppa: perdi il prossimo round per sbloccarla.`);
+    annota(cs, `${att.lato === 'pg' ? "L'arma" : `L'arma di ${att.nome}`} si inceppa: perdi il prossimo round per sbloccarla.`, { tipo: 'info', chi: att.id });
   }
   if (a > d) {
     const rid = Math.max(0, dif.riduzione + modifica(dif, 'riduzione') - att.ignora);
     const ostinata = att.ostinata && att.pf < att.pfMax / 2 ? 2 : 0;
-    infliggi(dif, Math.max(1, a - d + att.danno + ostinata - rid), log, `${soggetto} ${oggetto}: ${a} contro ${d}`);
-    if (att.assetata && att.pf < att.pfMax) { att.pf += 1; log.push('L\'arma beve: recuperi 1 PF.'); }
+    infliggi(cs, dif, Math.max(1, a - d + att.danno + ostinata - rid), `${soggetto} ${oggetto}: ${a} contro ${d}`, ev);
+    if (att.assetata && att.pf < att.pfMax) { att.pf += 1; annota(cs, 'L\'arma beve: recuperi 1 PF.', { tipo: 'cura', chi: att.id, contro: att.id, cura: 1 }); }
   } else {
-    log.push(att.lato === 'pg' ? `Attacchi ${oggetto}: ${a} contro ${d}, parato.` : `${att.nome} attacca ${oggetto}: ${a} contro ${d}, schivato.`);
+    annota(cs, att.lato === 'pg' ? `Attacchi ${oggetto}: ${a} contro ${d}, parato.` : `${att.nome} attacca ${oggetto}: ${a} contro ${d}, schivato.`, { ...ev, colpo: false });
   }
 }
 
-/** Lo stesso effetto non si somma a se stesso: si rinnova. */
-function aggiungiEffetto(c: Combattente, m: TModifica, fonte: string): void {
+/**
+ * Lo stesso effetto non si somma a se stesso: si rinnova. La durata si conta in turni di chi lo porta, e scala alla
+ * fine di ciascuno; un effetto che ti dai da solo parte dal turno dopo.
+ */
+function aggiungiEffetto(c: Combattente, m: TModifica, fonte: string, suSeStesso = false): void {
   c.effetti = (c.effetti ?? []).filter((e) => e.fonte !== fonte);
-  c.effetti.push({ ...m, fonte });
+  c.effetti.push({ ...m, fonte, ...(suSeStesso ? { appena: true } : {}) });
 }
 
-function intimidisci(att: Combattente, dif: Combattente, rng: Rng, log: string[]): void {
-  const a = tira(pool(att.intimidire, modifica(att, 'sociale')), rng).successi;
-  const d = tira(pool(dif.difesaMentale, modifica(dif, 'mentale')), rng).successi;
+function scalaEffetti(c: Combattente): void {
+  for (const e of c.effetti ?? []) {
+    if (e.tipo === 'salta') continue;
+    if (e.appena) delete e.appena;
+    else e.round--;
+  }
+  c.effetti = (c.effetti ?? []).filter((e) => e.tipo === 'salta' || e.round > 0);
+}
+
+function intimidisci(cs: StatoCombattimento, att: Combattente, dif: Combattente, rng: Rng): void {
+  const ta = tira(pool(att.intimidire, modifica(att, 'sociale')), rng);
+  const td = tira(pool(dif.difesaMentale, modifica(dif, 'mentale')), rng);
+  const a = ta.successi, d = td.successi;
+  const ev = { tipo: 'intimidire' as const, chi: att.id, contro: dif.id, tiro: ta.facce, difesa: td.facce };
   if (a > d) {
     if (a - d >= 3 && dif.puoFuggire) {
       dif.fuggito = true;
-      log.push(`Intimidisci ${dif.nome}: ${a} contro ${d}. Scappa.`);
+      annota(cs, `Intimidisci ${dif.nome}: ${a} contro ${d}. Scappa.`, { ...ev, colpo: true, fuga: true });
     } else {
       aggiungiEffetto(dif, { tipo: 'attacco', valore: -1, round: 2 }, 'intimidire');
-      log.push(`Intimidisci ${dif.nome}: ${a} contro ${d}. Esita: −1 dado in attacco per 2 round.`);
+      annota(cs, `Intimidisci ${dif.nome}: ${a} contro ${d}. Esita: −1 dado in attacco per 2 round.`, { ...ev, colpo: true });
     }
-  } else log.push(`Provi a intimidire ${dif.nome}: ${a} contro ${d}. Non si lascia impressionare.`);
+  } else annota(cs, `Provi a intimidire ${dif.nome}: ${a} contro ${d}. Non si lascia impressionare.`, { ...ev, colpo: false });
 }
 
-function tiroDifesa(dif: Combattente, tipo: 'acrobazia' | 'resilienza' | 'resistenza', rng: Rng): number {
-  if (tipo === 'resilienza') return tira(pool(dif.difesaMentale, modifica(dif, 'mentale')), rng).successi;
-  if (tipo === 'resistenza') return tira(pool(dif.difesaFisica, modifica(dif, 'fisica')), rng).successi;
-  return tira(pool(dif.difesa, modifica(dif, 'difesa')), rng).successi;
+function tiroDifesa(dif: Combattente, tipo: 'acrobazia' | 'resilienza' | 'resistenza', rng: Rng): Tiro {
+  if (tipo === 'resilienza') return tira(pool(dif.difesaMentale, modifica(dif, 'mentale')), rng);
+  if (tipo === 'resistenza') return tira(pool(dif.difesaFisica, modifica(dif, 'fisica')), rng);
+  return tira(pool(dif.difesa, modifica(dif, 'difesa')), rng);
+}
+
+/** I dadi di difesa contro un incantesimo, per l'anteprima dei bottoni. */
+export function dadiDifesaContro(dif: Combattente, tipo: 'acrobazia' | 'resilienza' | 'resistenza' | undefined): number {
+  if (tipo === 'resilienza') return pool(dif.difesaMentale, modifica(dif, 'mentale'));
+  if (tipo === 'resistenza') return pool(dif.difesaFisica, modifica(dif, 'fisica'));
+  return pool(dif.difesa, modifica(dif, 'difesa'));
 }
 
 /** Motivo per cui l'incantesimo non si può lanciare adesso, o null. */
@@ -299,15 +360,16 @@ export function descriviModifica(m: TModifica): string {
 }
 
 function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | undefined, cs: StatoCombattimento, rng: Rng): void {
-  const log = cs.log;
   const motivo = perchéNonLanciabile(cs, inc, bersaglio);
-  if (motivo) { log.push(`${inc.nome}: ${motivo}`); return; }
+  if (motivo) { annota(cs, `${inc.nome}: ${motivo}`, { tipo: 'info', chi: att.id }); return; }
   att.energia -= inc.livello;
   for (const [k, v] of Object.entries(inc.prezzo ?? {})) cs.costi[k] = (cs.costi[k] ?? 0) + v;
-  const s = tira(pool(att.magia, modifica(att, 'magia')), rng).successi;
+  const t = tira(pool(att.magia, modifica(att, 'magia')), rng);
+  const s = t.successi;
+  const base = { chi: att.id, nome: inc.nome, tiro: t.facce };
   if (s === 0) {
     cs.costi['tormento'] = (cs.costi['tormento'] ?? 0) + (att.dissonanza ?? 0.5);
-    log.push(`${inc.nome}: nessun successo, il Mana ti torna indietro (Dissonanza).`);
+    annota(cs, `${inc.nome}: nessun successo, il Mana ti torna indietro (Dissonanza).`, { ...base, tipo: 'dissonanza' });
     return;
   }
   const nemiciVivi = cs.combattenti.filter((x) => x.lato !== att.lato && inPiedi(x));
@@ -317,61 +379,71 @@ function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | un
     case 'automatico': {
       if (!bers) return;
       const a = inc.tipo === 'automatico' ? inc.successi! : s;
-      const d = tiroDifesa(bers, inc.difesa!, rng);
+      const td = tiroDifesa(bers, inc.difesa!, rng);
+      const d = td.successi;
+      const ev = { ...base, tipo: 'magia' as const, contro: bers.id, difesa: td.facce, ...(inc.tipo === 'automatico' ? { tiro: undefined, fissi: a } : {}) };
       if (a > d) {
         let danno = a - d + inc.danno;
-        if (inc.doppioContro.some((t) => bers.tratti.includes(t))) danno *= 2;
-        infliggi(bers, Math.max(1, danno), log, `${inc.nome} su ${bers.nome}: ${a} contro ${d}`);
+        if (inc.doppioContro.some((tr) => bers.tratti.includes(tr))) danno *= 2;
+        infliggi(cs, bers, Math.max(1, danno), `${inc.nome} su ${bers.nome}: ${a} contro ${d}`, ev);
         if (inc.veleno && bers.pf > 0) bers.veleni.push({ ...inc.veleno, fonte: inc.id });
-      } else log.push(`${inc.nome} su ${bers.nome}: ${a} contro ${d}, senza effetto.`);
+      } else annota(cs, `${inc.nome} su ${bers.nome}: ${a} contro ${d}, senza effetto.`, { ...ev, colpo: false });
       break;
     }
     case 'area': {
       for (const b of nemiciVivi) {
-        const d = tiroDifesa(b, inc.difesa!, rng);
-        if (s > d) infliggi(b, Math.max(1, s - d + inc.danno), log, `${inc.nome} su ${b.nome}: ${s} contro ${d}`);
-        else log.push(`${inc.nome} su ${b.nome}: ${s} contro ${d}, senza effetto.`);
+        const td = tiroDifesa(b, inc.difesa!, rng);
+        const d = td.successi;
+        const ev = { ...base, tipo: 'magia' as const, contro: b.id, difesa: td.facce };
+        if (s > d) infliggi(cs, b, Math.max(1, s - d + inc.danno), `${inc.nome} su ${b.nome}: ${s} contro ${d}`, ev);
+        else annota(cs, `${inc.nome} su ${b.nome}: ${s} contro ${d}, senza effetto.`, { ...ev, colpo: false });
         if (controllaFine(cs)) break;
       }
       break;
     }
     case 'potenziamento':
-      aggiungiEffetto(att, inc.modifica!, inc.id);
-      log.push(`${inc.nome}: ${descriviModifica(inc.modifica!)}.`);
+      aggiungiEffetto(att, inc.modifica!, inc.id, true);
+      annota(cs, `${inc.nome}: ${descriviModifica(inc.modifica!)}.`, { ...base, tipo: 'effetto', contro: att.id, colpo: true });
       break;
     case 'indebolimento': {
       if (!bers) return;
-      const d = tiroDifesa(bers, inc.difesa!, rng);
-      if (s > d) { aggiungiEffetto(bers, inc.modifica!, inc.id); log.push(`${inc.nome} su ${bers.nome}: ${s} contro ${d}, ${descriviModifica(inc.modifica!)}.`); }
-      else log.push(`${inc.nome} su ${bers.nome}: ${s} contro ${d}, resiste.`);
+      const td = tiroDifesa(bers, inc.difesa!, rng);
+      const d = td.successi;
+      const ev = { ...base, tipo: 'magia' as const, contro: bers.id, difesa: td.facce };
+      if (s > d) { aggiungiEffetto(bers, inc.modifica!, inc.id); annota(cs, `${inc.nome} su ${bers.nome}: ${s} contro ${d}, ${descriviModifica(inc.modifica!)}.`, { ...ev, colpo: true }); }
+      else annota(cs, `${inc.nome} su ${bers.nome}: ${s} contro ${d}, resiste.`, { ...ev, colpo: false });
       break;
     }
     case 'cura': {
       const prima = att.pf;
       att.pf = Math.min(att.pfMax, att.pf + s);
-      log.push(`${inc.nome}: recuperi ${att.pf - prima} PF.`);
+      annota(cs, `${inc.nome}: recuperi ${att.pf - prima} PF.`, { ...base, tipo: 'cura', contro: att.id, cura: att.pf - prima });
       break;
     }
     case 'fuga': {
       if (!bers) return;
-      const d = tiroDifesa(bers, inc.difesa!, rng);
-      if (s - d >= (inc.margineFuga ?? 2)) { bers.fuggito = true; log.push(`${inc.nome}: ${bers.nome} si calma e se ne va.`); }
-      else log.push(`${inc.nome} su ${bers.nome}: ${s} contro ${d}, non basta.`);
+      const td = tiroDifesa(bers, inc.difesa!, rng);
+      const d = td.successi;
+      const ev = { ...base, tipo: 'magia' as const, contro: bers.id, difesa: td.facce };
+      if (s - d >= (inc.margineFuga ?? 2)) { bers.fuggito = true; annota(cs, `${inc.nome}: ${bers.nome} si calma e se ne va.`, { ...ev, colpo: true, fuga: true }); }
+      else annota(cs, `${inc.nome} su ${bers.nome}: ${s} contro ${d}, non basta.`, { ...ev, colpo: false });
       break;
     }
     default:
-      log.push(`${inc.nome} non ha effetto in combattimento.`);
+      annota(cs, `${inc.nome} non ha effetto in combattimento.`, { tipo: 'info', chi: att.id });
   }
 }
 
 function usaReperto(att: Combattente, rid: string, bersaglio: Combattente | undefined, cs: StatoCombattimento, rng: Rng): void {
   const r = (cs.reperti ?? []).find((x) => x.id === rid);
-  if (!r || r.cariche <= 0) { cs.log.push('Il reperto non ha cariche.'); return; }
-  const s = tira(pool(att.tecnologia ?? 0, modifica(att, 'tecnologia')), rng).successi;
+  if (!r || r.cariche <= 0) { annota(cs, 'Il reperto non ha cariche.', { tipo: 'info', chi: att.id }); return; }
+  const t = tira(pool(att.tecnologia ?? 0, modifica(att, 'tecnologia')), rng);
+  const s = t.successi;
+  const base = { tipo: 'reperto' as const, chi: att.id, nome: r.nome, tiro: t.facce };
   if (s === 0) {
     cs.costi[`guasto.${r.id}`] = 1;
     cs.reperti = (cs.reperti ?? []).filter((x) => x.id !== r.id);
-    cs.log.push(`${r.nome}: nessun successo. Il reperto emette un sibilo e si spegne (guasto).`);
+    annota(cs, `${r.nome}: nessun successo. Il reperto emette un sibilo e si spegne (guasto).`, { ...base, tipo: 'dissonanza' });
     return;
   }
   r.cariche--;
@@ -379,18 +451,20 @@ function usaReperto(att: Combattente, rid: string, bersaglio: Combattente | unde
   if (r.tipo === 'attacco') {
     const b = bersaglio && inPiedi(bersaglio) ? bersaglio : cs.combattenti.find((x) => x.lato === 'nemico' && inPiedi(x));
     if (!b) return;
-    const d = tira(pool(b.difesa, modifica(b, 'difesa')), rng).successi;
+    const td = tira(pool(b.difesa, modifica(b, 'difesa')), rng);
+    const d = td.successi;
+    const ev = { ...base, contro: b.id, difesa: td.facce };
     if (s > d) {
       const rid = Math.max(0, b.riduzione + modifica(b, 'riduzione') - r.ignora);
-      infliggi(b, Math.max(1, s - d + r.danno - rid), cs.log, `${r.nome} su ${b.nome}: ${s} contro ${d}`);
-    } else cs.log.push(`${r.nome} su ${b.nome}: ${s} contro ${d}, mancato.`);
+      infliggi(cs, b, Math.max(1, s - d + r.danno - rid), `${r.nome} su ${b.nome}: ${s} contro ${d}`, ev);
+    } else annota(cs, `${r.nome} su ${b.nome}: ${s} contro ${d}, mancato.`, { ...ev, colpo: false });
   } else if (r.tipo === 'difesa' && r.modifica) {
-    aggiungiEffetto(att, r.modifica, r.id);
-    cs.log.push(`${r.nome}: ${descriviModifica(r.modifica)}.`);
+    aggiungiEffetto(att, r.modifica, r.id, true);
+    annota(cs, `${r.nome}: ${descriviModifica(r.modifica)}.`, { ...base, tipo: 'effetto', contro: att.id, colpo: true });
   } else if (r.tipo === 'cura') {
     const prima = att.pf;
     att.pf = Math.min(att.pfMax, att.pf + r.cura);
-    cs.log.push(`${r.nome}: recuperi ${att.pf - prima} PF.`);
+    annota(cs, `${r.nome}: recuperi ${att.pf - prima} PF.`, { ...base, tipo: 'cura', contro: att.id, cura: att.pf - prima });
   }
 }
 
@@ -398,10 +472,10 @@ function usaConsumabile(cs: StatoCombattimento, pg: Combattente, k: string): voi
   const disponibili = (cs.consumabili[k] ?? 0) - (cs.usati[k] ?? 0);
   const totUsati = Object.values(cs.usati).reduce((a, b) => a + b, 0);
   const eff = CONSUMABILI[k];
-  if (!eff || disponibili <= 0 || totUsati >= MAX_CONSUMABILI_IN_COMBATTIMENTO) { cs.log.push('Non hai niente da usare e perdi il momento.'); return; }
+  if (!eff || disponibili <= 0 || totUsati >= MAX_CONSUMABILI_IN_COMBATTIMENTO) { annota(cs, 'Non hai niente da usare e perdi il momento.', { tipo: 'info', chi: pg.id }); return; }
   cs.usati[k] = (cs.usati[k] ?? 0) + 1;
-  if (eff.pf) { const prima = pg.pf; pg.pf = Math.min(pg.pfMax, pg.pf + eff.pf); cs.log.push(`Usi ${k}: recuperi ${pg.pf - prima} PF.`); }
-  if (eff.energia) { pg.energia += eff.energia; cs.log.push(`Usi ${k}: recuperi ${eff.energia} Energia.`); }
+  if (eff.pf) { const prima = pg.pf; pg.pf = Math.min(pg.pfMax, pg.pf + eff.pf); annota(cs, `Usi ${k}: recuperi ${pg.pf - prima} PF.`, { tipo: 'cura', chi: pg.id, contro: pg.id, cura: pg.pf - prima }); }
+  if (eff.energia) { pg.energia += eff.energia; annota(cs, `Usi ${k}: recuperi ${eff.energia} Energia.`, { tipo: 'cura', chi: pg.id, contro: pg.id }); }
 }
 
 function controllaFine(cs: StatoCombattimento): boolean {
@@ -427,7 +501,8 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
     const paralisi = att.effetti.find((e) => e.tipo === 'salta');
     if (paralisi) {
       att.effetti = att.effetti.filter((e) => e !== paralisi);
-      cs.log.push(att.lato === 'pg' ? 'Non riesci a muoverti e perdi il turno.' : `${att.nome} non riesce a muoversi.`);
+      annota(cs, att.lato === 'pg' ? 'Non riesci a muoverti e perdi il turno.' : `${att.nome} non riesce a muoversi.`, { tipo: 'fermo', chi: att.id });
+      scalaEffetti(att);
       continue;
     }
     if (att.lato === 'pg') {
@@ -437,34 +512,33 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
       else if (azione.tipo === 'incantesimo') {
         const inc = cs.incantesimi.find((i) => i.id === azione.incantesimo);
         if (inc) lancia(att, inc, b, cs, rng);
-        else cs.log.push('Quell\'incantesimo non è nel tuo repertorio.');
+        else annota(cs, 'Quell\'incantesimo non è nel tuo repertorio.');
       } else if (azione.tipo === 'reperto') {
         usaReperto(att, azione.reperto, b, cs, rng);
       } else if (b) {
         if (azione.tipo === 'attacco') {
-          if (att.ricaricando) { att.ricaricando = false; cs.log.push('Ricarichi l\'arma.'); }
-          else { attacca(att, b, rng, cs.log); if (att.ricarica) att.ricaricando = true; }
-        } else intimidisci(att, b, rng, cs.log);
+          if (att.ricaricando) { att.ricaricando = false; annota(cs, 'Ricarichi l\'arma.', { tipo: 'fermo', chi: att.id }); }
+          else { attacca(cs, att, b, rng); if (att.ricarica) att.ricaricando = true; }
+        } else intimidisci(cs, att, b, rng);
       }
     } else {
-      attacca(att, pg, rng, cs.log);
+      attacca(cs, att, pg, rng);
     }
+    scalaEffetti(att);
     if (controllaFine(cs)) break;
   }
-  // fine round: veleni e scadenza degli effetti
+  // fine round: veleni (gli effetti scalano alla fine del turno di chi li porta)
   for (const x of cs.combattenti) {
     if (!inPiedi(x) || cs.finito) continue;
     for (const v of x.veleni ?? []) {
-      infliggi(x, v.valore, cs.log, `Il veleno lavora su ${x.lato === 'pg' ? 'di te' : x.nome}`);
+      infliggi(cs, x, v.valore, `Il veleno lavora su ${x.lato === 'pg' ? 'di te' : x.nome}`, { tipo: 'veleno' });
       v.round--;
     }
     x.veleni = (x.veleni ?? []).filter((v) => v.round > 0);
-    for (const e of x.effetti ?? []) if (e.tipo !== 'salta') e.round--;
-    x.effetti = (x.effetti ?? []).filter((e) => e.tipo === 'salta' || e.round > 0);
     if (controllaFine(cs)) break;
   }
   cs.round++;
-  if (!cs.finito && cs.round > ROUND_MAX) { cs.finito = true; cs.vinto = false; cs.log.push('Lo scontro si trascina fino allo sfinimento.'); }
+  if (!cs.finito && cs.round > ROUND_MAX) { cs.finito = true; cs.vinto = false; annota(cs, 'Lo scontro si trascina fino allo sfinimento.'); }
 }
 
 /** Ferite a fine combattimento (6.6). */

@@ -40,3 +40,16 @@ export function tira(pool: number, rng: Rng = Math.random): Tiro {
   for (let i = 0; i < Math.max(0, Math.floor(pool)); i++) facce.push(1 + Math.floor(rng() * 6));
   return { facce, successi: facce.filter((f) => f >= 4).length };
 }
+
+/** Probabilità che `a` dadi facciano più successi di `d` dadi (il colpo va a segno). */
+export function probabilitaSuperare(a: number, d: number): number {
+  const pa = Math.max(0, Math.floor(a)), pd = Math.max(0, Math.floor(d));
+  let tot = 0;
+  for (let k = 1; k <= pa; k++) {
+    const pk = binomiale(pa, k) / 2 ** pa;
+    let menoDiK = 0;
+    for (let j = 0; j < k && j <= pd; j++) menoDiK += binomiale(pd, j) / 2 ** pd;
+    tot += pk * menoDiK;
+  }
+  return tot;
+}

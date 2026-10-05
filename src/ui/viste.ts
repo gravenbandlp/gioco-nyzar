@@ -2,7 +2,7 @@
 // sono gestiti in main.ts tramite attributi data-az.
 import type { TContenuti, TStorylet, TFrammento, TLuogo, TNegozio } from '../motore/contenuto';
 import {
-  ATTRIBUTI, ABILITA, NEGATIVE, MAX_NEGATIVA, RINTOCCHI_MAX, CODA_MAX, MANO_MAX, MAX_CONSUMABILI_IN_COMBATTIMENTO, NOMI,
+  ATTRIBUTI, ABILITA, NEGATIVE, MAX_NEGATIVA, RINTOCCHI_MAX, CODA_MAX, MANO_MAX, NOMI,
   SOGLIE_PE,
 } from '../motore/regole';
 import {
@@ -17,7 +17,8 @@ import { nelDiario } from '../motore/diario';
 import { serieDi, avanzamento, prossimaTappa, type Serie } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
-import { inPiedi, CONSUMABILI, perchéNonLanciabile, descriviModifica, type StatoCombattimento, type Combattente } from '../motore/combattimento';
+import { vistaCombattimento } from './scontro';
+import type { StatoCombattimento } from '../motore/combattimento';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile, tempoGiocato } from './formato';
 import {
   tavola, prosa, primaFrase, campanaGrande, campanaPiccola, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
@@ -499,7 +500,8 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
   if (r.guasto) righe.push(`<li class="esito-riga male"><span class="icona-riga simbolo">⚙</span><p>Nessun successo, e il reperto si è guastato.</p></li>`);
   const puoiSecondaScelta = !!x.vista && x.vista.tipo === 'risultato' && !!x.vista.prima && x.vista.indice !== undefined && secondaSceltaDisponibile(s, r, c);
   const puoiCorreggere = !!x.vista && x.vista.tipo === 'risultato' && x.vista.prima && x.vista.indice !== undefined && correggibile(s, r);
-  const ancora = st && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
+  // con una statistica negativa al massimo la crisi viene prima: niente Riprova
+  const ancora = st && !crisiAttiva(s, c) && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
   const segue = r.segue ? trova(c, r.segue) : undefined;
   const titolo = r.titolo ?? (r.riuscito === undefined ? st?.titolo ?? '' : r.riuscito ? 'Riuscito' : 'Fallito');
   const annotato = nelDiario(s, { storylet: id, titolo, testo: r.testo });
@@ -521,101 +523,6 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       ${segue ? `<button type="button" class="bottone primario" data-az="apri" data-id="${segue.id}">Prosegui</button>` : ''}
       <button type="button" class="bottone${segue ? '' : ' primario'}" data-az="area">Torna: ${h(areaDi(x).nome)}</button>
     </div>
-  </article>`;
-}
-
-function barraPF(p: { pf: number; pfMax: number }): string {
-  const q = p.pf / p.pfMax;
-  return `<span class="barra pf${q < 0.4 ? ' bassa' : ''}"><i style="width:${(q * 100).toFixed(1)}%"></i></span><b class="pf-num">${p.pf}/${p.pfMax} PF</b>`;
-}
-
-function barraEnergia(p: { energia: number; energiaMax: number }): string {
-  const q = p.energiaMax ? Math.min(1, p.energia / p.energiaMax) : 0;
-  return `<span class="barra energia"><i style="width:${(q * 100).toFixed(1)}%"></i></span><b class="pf-num">${p.energia}/${p.energiaMax} Energia</b>`;
-}
-
-function chipEffetti(cb: Combattente, c: TContenuti): string {
-  const nomi = (cb.effetti ?? []).map((e) => {
-    const fonte = e.fonte === 'intimidire' ? 'Intimidito' : e.fonte === 'inceppamento' ? 'Arma inceppata'
-      : c.incantesimi.find((i) => i.id === e.fonte)?.nome ?? c.oggetti.find((o) => o.id === e.fonte)?.nome ?? e.fonte;
-    return `<span class="chip ${e.valore >= 0 && e.tipo !== 'salta' ? 'buono' : 'cattivo'}" title="${h(descriviModifica(e))}">${h(fonte)}${e.tipo === 'salta' ? '' : ` · ${e.round}`}</span>`;
-  });
-  for (const v of cb.veleni ?? []) nomi.push(`<span class="chip cattivo">Avvelenato · ${v.round}</span>`);
-  return nomi.length ? `<div class="chips">${nomi.join('')}</div>` : '';
-}
-
-function vistaCombattimento(x: Contesto, cs: StatoCombattimento): string {
-  const { c } = x;
-  const pg = cs.combattenti.find((z) => z.lato === 'pg')!;
-  const nemici = cs.combattenti.filter((z) => z.lato === 'nemico');
-  const vivi = nemici.filter(inPiedi);
-  const bersaglio = vivi.find((n) => n.id === x.bersaglio) ?? vivi[0];
-  const usatiTot = Object.values(cs.usati).reduce((a, b) => a + b, 0);
-  const nemicoImg = (id: string) => c.nemici.find((n) => id.startsWith(n.id + '#'))?.immagine;
-  const righe = nemici.map((n) => {
-    const attivo = inPiedi(n) && !cs.finito;
-    const scelto = attivo && n.id === bersaglio?.id;
-    const stato = n.fuggito ? 'Fuggito' : n.pf === 0 ? 'A terra' : scelto ? 'Bersaglio' : '';
-    const contenuto = `${tavola(nemicoImg(n.id), { classe: 'ritratto piccolo' })}
-      <div class="corpo">
-        <div class="testa"><h3>${h(n.nome)}</h3>${stato ? etichetta(stato, scelto ? 'mana' : 'dim') : ''}</div>
-        <div class="pf-riga">${barraPF(n)}</div>
-        ${chipEffetti(n, c)}
-      </div>`;
-    return attivo
-      ? `<li><button type="button" class="combattente${scelto ? ' scelto' : ''}" data-az="bersaglio" data-id="${n.id}" aria-pressed="${scelto}">${contenuto}</button></li>`
-      : `<li><div class="combattente fuori">${contenuto}</div></li>`;
-  }).join('');
-
-  const incantesimi = (cs.incantesimi ?? []).map((inc) => {
-    const aSe = inc.tipo === 'potenziamento' || inc.tipo === 'cura';
-    const motivo = perchéNonLanciabile(cs, inc, aSe ? undefined : bersaglio);
-    const proibito = inc.prezzo ? ` · ${Object.entries(inc.prezzo).map(([k, v]) => `+${mezzi(v)} ${nome(k, c)}`).join(', ')}` : '';
-    return `<button type="button" class="bottone incantesimo" data-az="lancia" data-id="${inc.id}" ${motivo ? `disabled title="${h(motivo)}"` : `title="${h(inc.descrizione)}"`}>
-      ${h(inc.nome)} <small>${inc.livello} En${h(proibito)}</small></button>`;
-  }).join('');
-  const reperti = (cs.reperti ?? []).map((r) => `<button type="button" class="bottone incantesimo" data-az="reperto" data-id="${r.id}" ${r.cariche > 0 ? '' : 'disabled'}>
-      ${h(r.nome)} <small>${r.cariche} ${r.cariche === 1 ? 'carica' : 'cariche'}</small></button>`).join('');
-  const consumabili = Object.entries(CONSUMABILI).map(([k, e]) => {
-    const rimasti = (cs.consumabili[k] ?? 0) - (cs.usati[k] ?? 0);
-    if ((cs.consumabili[k] ?? 0) === 0) return '';
-    const ok = rimasti > 0 && usatiTot < MAX_CONSUMABILI_IN_COMBATTIMENTO;
-    const cosa = e.pf ? `+${e.pf} PF` : `+${e.energia} Energia`;
-    return `<button type="button" class="bottone" data-az="cura" data-id="${k}" ${ok ? '' : 'disabled'}>${h(nome(k, c))} ${cosa} <small>(${rimasti})</small></button>`;
-  }).join('');
-
-  const azioni = cs.finito
-    ? `<p class="verdetto ${cs.vinto ? 'vinto' : 'perso'}">${cs.vinto ? 'Vittoria' : 'Sconfitta'}</p>
-       <div class="azioni-fondo"><button type="button" class="bottone primario" data-az="concludi">Prosegui</button></div>`
-    : `<div class="barra-azioni">
-        <p class="etichetta">Contro ${h(bersaglio?.nome ?? '')}</p>
-        <div class="gruppo">
-          <button type="button" class="bottone primario" data-az="attacca">Attacca</button>
-          <button type="button" class="bottone" data-az="intimidisci">Intimidisci</button>
-        </div>
-        ${incantesimi ? `<p class="etichetta">Incantesimi</p><div class="gruppo">${incantesimi}</div>` : ''}
-        ${reperti ? `<p class="etichetta">Reperti · Mentale + Tecnologia, con zero successi si guastano</p><div class="gruppo">${reperti}</div>` : ''}
-        ${consumabili ? `<p class="etichetta">Consumabili · ${usatiTot}/${MAX_CONSUMABILI_IN_COMBATTIMENTO}</p><div class="gruppo">${consumabili}</div>` : ''}
-      </div>`;
-
-  return `<article class="scena combattimento">
-    <div class="testa">${etichetta(`Combattimento · round ${Math.min(cs.round, 99)}`, 'mana')}</div>
-    <h2>${h(cs.nome)}</h2>
-    <ul class="combattenti">
-      <li><div class="combattente pg">
-        ${tavola(x.c.origini.find((o) => o.id === x.s.origine)?.immagine, { classe: 'ritratto piccolo' })}
-        <div class="corpo">
-          <div class="testa"><h3>${h(pg.nome)}</h3>${etichetta('Tu', 'velo')}</div>
-          <div class="pf-riga">${barraPF(pg)}</div>
-          ${pg.energiaMax > 0 && (cs.incantesimi ?? []).length ? `<div class="pf-riga">${barraEnergia(pg)}</div>` : ''}
-          ${chipEffetti(pg, c)}
-        </div>
-      </div></li>
-      ${righe}
-    </ul>
-    ${!cs.finito && vivi.length > 1 ? '<p class="suggerimento">Tocca un nemico per sceglierlo come bersaglio.</p>' : ''}
-    ${azioni}
-    <ol class="registro" aria-live="polite">${cs.log.slice(-12).map((l) => `<li>${h(l)}</li>`).join('')}</ol>
   </article>`;
 }
 

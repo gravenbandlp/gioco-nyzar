@@ -28,7 +28,8 @@ Stesso tiro per tutte. Cambiano l'elenco degli incantesimi, chi li insegna e il 
   `incantesimo` dell'opzione). Si tira Mentale + Magia e si pagano rintocchi; l'Energia non si usa.
 - **Armatura.** Gli incantesimi che fanno danno ignorano l'armatura.
 - **Durata.** Potenziamenti e indebolimenti durano i round indicati; lo stesso effetto non si somma
-  a se stesso, si rinnova.
+  a se stesso, si rinnova. I round si contano nei turni di chi porta l'effetto, e un effetto che ti
+  dai da solo parte dal turno dopo il lancio: Benedizione copre i tuoi due attacchi successivi.
 - **PE.** In combattimento, se hai lanciato almeno un incantesimo, anche Magia riceve i PE dello
   scontro.
 - **Rapidità.** Nella v0.4 dava anche +2 dadi all'iniziativa. L'iniziativa si tira una volta a inizio
