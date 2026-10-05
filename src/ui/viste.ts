@@ -11,7 +11,7 @@ import {
 import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino, negozioAperto, vociCompra, vendibili, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
-import { crisiAttiva, opzioniVisibili, mutazioniDi } from '../motore/crisi';
+import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
 import { serieDi, avanzamento, prossimaTappa, type Serie } from '../motore/serie';
@@ -457,7 +457,7 @@ function vistaStorylet(x: Contesto, id: string): string {
       <div class="scena-titoli">
         <div class="testa">${testaStorylet(x, st, tipoStorylet(st))}</div>
         <h2>${h(st.titolo)}</h2>
-        ${prosa(st.testo, 'prosa', voci(x))}
+        <div data-lettura="st:${h(st.id)}">${prosa(st.testo, 'prosa', voci(x))}</div>
       </div>
     </header>
     <ul class="rami">${rami}</ul>
@@ -536,7 +536,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       <div class="scena-titoli">
         <div class="testa">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}${r.corretto ? etichetta('Corretto', 'velo') : ''}</div>
         <h2>${h(titolo)}</h2>
-        ${prosa(r.testo, 'prosa', voci(x))}
+        <div data-lettura="es:${h(id)}:${hash(r.testo)}">${prosa(r.testo, 'prosa', voci(x))}</div>
       </div>
     </header>
     ${righe.length ? `<ul class="esiti">${righe.join('')}</ul>` : ''}

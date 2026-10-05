@@ -39,10 +39,21 @@ function barraPF(cb: Combattente): string {
     <b class="pf-num" data-pf-num>${cb.pf}/${cb.pfMax} PF</b></div>`;
 }
 
-function barraEnergia(cb: Combattente): string {
+function barraEnergia(cb: Combattente, etichetta = 'Energia'): string {
   const q = cb.energiaMax ? Math.min(1, cb.energia / cb.energiaMax) : 0;
   return `<div class="pf-riga"><span class="barra energia" data-en><i class="vivo" style="${scala(q)}"></i></span>
-    <b class="pf-num" data-en-num>${cb.energia}/${cb.energiaMax} Energia</b></div>`;
+    <b class="pf-num" data-en-num>${cb.energia}/${cb.energiaMax} ${etichetta}</b></div>`;
+}
+
+/** Un nemico che non lancia incantesimi ma usa fiale (Nestor Gramm, Rozalia Marga). */
+const alchimista = (cb: Combattente) => !!cb.incantesimi?.length && cb.incantesimi.every((i) => i.alchimia);
+
+/** Gli incantesimi (o le fiale) che un nemico sa usare, con l'effetto al passaggio del mouse. */
+function incantesimiNemico(cb: Combattente): string {
+  if (!cb.incantesimi?.length) return '';
+  const fiale = alchimista(cb);
+  return `<div class="chips incantesimi-nemico"><span class="etichetta">${fiale ? 'Fiale' : 'Incantesimi'}</span>${cb.incantesimi.map((i) =>
+    `<span class="chip magia${cb.energia < i.livello ? ' esaurito' : ''}" title="${h(i.descrizione)}">${h(i.nome)}${fiale ? '' : ` · ${i.livello} En`}</span>`).join('')}</div>`;
 }
 
 function chipEffetti(cb: Combattente, c: TContenuti): string {
@@ -73,7 +84,11 @@ function statistiche(cb: Combattente, magia: boolean): string {
   if (cb.lato === 'pg') {
     if (magia) righe.push(stat('Magia', cb.magia, modifica(cb, 'magia'), true, 'Dadi di Mentale + Magia per lanciare'));
     righe.push(stat('Intim.', cb.intimidire, modifica(cb, 'sociale'), true, 'Dadi per intimidire'));
-  } else righe.push(stat('Volontà', cb.difesaMentale, modifica(cb, 'mentale'), true, 'Dadi contro intimidire e incantesimi della mente'));
+  } else {
+    righe.push(stat('Volontà', cb.difesaMentale, modifica(cb, 'mentale'), true, 'Dadi contro intimidire e incantesimi della mente'));
+    if (cb.incantesimi?.length) righe.push(alchimista(cb) ? stat('Alchimia', cb.magia, modifica(cb, 'magia'), true, 'Dadi per usare le sue fiale')
+      : stat('Magia', cb.magia, modifica(cb, 'magia'), true, 'Dadi per lanciare i suoi incantesimi'));
+  }
   return `<dl class="statistiche">${righe.join('')}</dl>`;
 }
 
@@ -167,7 +182,9 @@ export function vistaCombattimento(x: Contesto, cs: StatoCombattimento): string 
       <div class="corpo">
         <div class="testa"><h3>${h(n.nome)}</h3>${stato ? etichetta(stato, scelto ? 'mana' : 'dim') : ''}</div>
         ${barraPF(n)}
+        ${n.incantesimi?.length ? barraEnergia(n, alchimista(n) ? 'Fiale' : 'Energia') : ''}
         ${statistiche(n, false)}
+        ${incantesimiNemico(n)}
         ${chipEffetti(n, c)}
       </div>`;
     const cls = `combattente nemico${scelto ? ' scelto' : ''}${attivo ? '' : ' fuori'}`;

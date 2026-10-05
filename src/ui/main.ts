@@ -14,6 +14,7 @@ import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
 import { riproduci, saltaScena, cambiaVelocita } from './scontro';
 import { riproduciZekar, saltaZekar } from './zekar';
+import { avviaLettura, continuaLettura, tuttoLettura, montaOpzioneLettura } from './lettura';
 import { siediti, muovi as muoviZekar, lateraliValide, LATERALI_IN_MANO } from '../motore/zekar';
 import { durata } from './formato';
 import { impostaGlossario } from './componenti';
@@ -281,6 +282,7 @@ function render(): void {
     : storia(x);
   app.innerHTML = pagina(x, centro);
   agganciaCaricamento();
+  avviaLettura(app);
   aggiornaIndicatore();
   avviso = '';
   suona(s);
@@ -407,6 +409,8 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'salta-scena': if (!saltaZekar()) saltaScena(); break;
+    case 'continua-lettura': continuaLettura(); break;
+    case 'tutto-lettura': tuttoLettura(); break;
     case 'zk-scegli': {
       const v = Number(el.dataset['i']);
       zekarScelte ??= [];
@@ -595,6 +599,7 @@ const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
 hot?.snapshot?.(() => ({ stato, vista, scheda, luogo }));
 avviaSchede(c.glossario);
 montaControlli(lettore);
+montaOpzioneLettura();
 /** Sul sito con l'accesso Google si gioca solo da dentro un account (dentro claude.ai l'account è quello di Claude). */
 const serveAccount = !dentroClaude() && !!configSupabase();
 avviaSfondo();

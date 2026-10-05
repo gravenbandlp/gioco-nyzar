@@ -55,7 +55,8 @@ describe('spedizioni percorribili', () => {
         const rng = rngConSeme(seme);
         let n = 0;
         let uscite = 0;
-        while (profondita(s, area.id) < soglia) {
+        // si gioca finché il cuore non si apre: alla soglia può mancare ancora una storia dell'area (gli alloggi di Aurenne)
+        while (!requisitiSoddisfatti(s, cuore!.requisiti, c)) {
           if (++n > 2000) throw new Error(`${area.id}/${seme}: troppi passi a profondità ${profondita(s, area.id)}`);
           s.rintocchi = RINTOCCHI_MAX;
           for (const k of ['ferite', 'scandalo', 'sospetto', 'tormento', 'contaminazione']) s.quality[k] = 0;

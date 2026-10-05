@@ -141,6 +141,10 @@ export const Nemico = z.object({
   iniziativa: z.number().int().min(0),
   puoFuggire: z.boolean().default(false),
   tratti: z.array(z.string()).default([]), // es. animale, non-morto, eco
+  // chi usa la magia: dadi per lanciare (come Mentale + Magia), Energia e incantesimi (id di incantesimi.yaml)
+  magia: z.number().int().min(0).default(0),
+  energia: z.number().int().min(0).default(0),
+  incantesimi: z.array(Id).default([]),
 });
 
 export const Scontro = z.object({
@@ -314,6 +318,9 @@ export const Incantesimo = z
     solo: z.array(z.string()).default([]), // tratti richiesti al bersaglio (es. Richiamo: animale)
     margineFuga: z.number().int().optional(),
     prezzo: z.record(z.string(), z.number()).optional(), // formule proibite: costo a ogni lancio
+    alleati: z.boolean().optional(), // potenziamento o cura che vale per chi lancia e per tutti i suoi compagni
+    soloNemici: z.boolean().optional(), // lo usano soltanto i nemici: nessuno lo insegna
+    alchimia: z.boolean().optional(), // una fiala, non un incantesimo: si usa invece di lanciarla, e senza Mana
   })
   .superRefine((x, ctx) => {
     const combatte = x.uso.includes('combattimento');

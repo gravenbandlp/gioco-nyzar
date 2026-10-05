@@ -250,7 +250,11 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   const p = anteprima(s, opz, c).combattimento?.probabilita ?? 0.5;
   // PE all'arma, e alla Magia se nello scontro hai lanciato incantesimi
   r.crescite.push(...assegnaPE(s, arma?.abilita ?? 'rissa', peDaProbabilita(p)));
-  if (cs.log.some((l) => cs.incantesimi.some((i) => l.startsWith(`${i.nome}`)))) r.crescite.push(...assegnaPE(s, 'magia', peDaProbabilita(p)));
+  // conta solo i lanci del giocatore: anche i nemici con la magia lanciano incantesimi dagli stessi nomi
+  const haLanciato = cs.eventi?.length
+    ? cs.eventi.some((e) => e.chi === 'pg' && !!e.nome && cs.incantesimi.some((i) => i.nome === e.nome))
+    : cs.log.some((l) => cs.incantesimi.some((i) => l.startsWith(`${i.nome}`)));
+  if (haLanciato) r.crescite.push(...assegnaPE(s, 'magia', peDaProbabilita(p)));
   if (st.tipo === 'carta') scarta(s, st.id);
   applicaEsito(s, cs.vinto ? opz.vittoria! : opz.sconfitta!, c, r, st.id);
   return r;

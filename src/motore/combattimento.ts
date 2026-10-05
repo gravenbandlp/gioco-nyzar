@@ -74,6 +74,7 @@ export interface Combattente {
   ricaricando?: boolean;
   portata?: boolean;
   dissonanza?: number; // Tormento dato da una Dissonanza (½, di più con certe mutazioni)
+  incantesimi?: TIncantesimo[]; // quelli che un nemico sa lanciare (il repertorio del giocatore sta nello scontro)
 }
 
 export interface RepertoInCombattimento {
@@ -181,7 +182,8 @@ export function repertiDaStato(s: Stato, c: TContenuti): RepertoInCombattimento[
     }));
 }
 
-export function combattenteDaNemico(n: TNemico, indice: number): Combattente {
+export function combattenteDaNemico(n: TNemico, indice: number, c?: TContenuti): Combattente {
+  const incantesimi = (n.incantesimi ?? []).map((id) => c?.incantesimi.find((i) => i.id === id)).filter((i): i is TIncantesimo => !!i);
   return {
     id: `${n.id}#${indice}`,
     nome: n.nome,
@@ -191,9 +193,9 @@ export function combattenteDaNemico(n: TNemico, indice: number): Combattente {
     difesaMentale: n.difesaMentale,
     difesaFisica: n.difesa,
     intimidire: 0,
-    magia: 0,
-    energia: 0,
-    energiaMax: 0,
+    magia: n.magia ?? 0,
+    energia: n.energia ?? 0,
+    energiaMax: n.energia ?? 0,
     pf: n.pf,
     pfMax: n.pf,
     danno: n.danno,
@@ -206,6 +208,7 @@ export function combattenteDaNemico(n: TNemico, indice: number): Combattente {
     effetti: [],
     veleni: [],
     fuggito: false,
+    ...(incantesimi.length ? { incantesimi } : {}),
   };
 }
 
@@ -215,7 +218,7 @@ function nemiciDelloScontro(sc: TScontro, c: TContenuti): Combattente[] {
     const n = c.nemici.find((x) => x.id === id);
     if (!n) throw new Error(`Nemico sconosciuto: ${id}`);
     conta[id] = (conta[id] ?? 0) + 1;
-    return combattenteDaNemico(n, conta[id]!);
+    return combattenteDaNemico(n, conta[id]!, c);
   });
   for (const id of Object.keys(conta)) {
     if (conta[id]! > 1) lista.filter((x) => x.id.startsWith(id + '#')).forEach((x, i) => (x.nome = `${x.nome} ${i + 1}`));
@@ -342,10 +345,10 @@ export function dadiDifesaContro(dif: Combattente, tipo: 'acrobazia' | 'resilien
   return pool(dif.difesa, modifica(dif, 'difesa'));
 }
 
-/** Motivo per cui l'incantesimo non si può lanciare adesso, o null. */
-export function perchéNonLanciabile(cs: StatoCombattimento, inc: TIncantesimo, bersaglio?: Combattente): string | null {
-  const pg = cs.combattenti.find((x) => x.lato === 'pg')!;
-  if (pg.energia < inc.livello) return 'Non hai abbastanza Energia.';
+/** Motivo per cui l'incantesimo non si può lanciare adesso, o null. Senza `chi`, vale per il giocatore. */
+export function perchéNonLanciabile(cs: StatoCombattimento, inc: TIncantesimo, bersaglio?: Combattente, chi?: Combattente): string | null {
+  const att = chi ?? cs.combattenti.find((x) => x.lato === 'pg')!;
+  if (att.energia < inc.livello) return att.lato === 'pg' ? 'Non hai abbastanza Energia.' : 'Non ha abbastanza Energia.';
   if (inc.solo.length && bersaglio && !inc.solo.some((t) => bersaglio.tratti.includes(t))) return `Funziona solo su: ${inc.solo.join(', ')}.`;
   return null;
 }
@@ -359,21 +362,31 @@ export function descriviModifica(m: TModifica): string {
   return `${segno}${quanto}${unita} ${dove} per ${m.round} round`;
 }
 
+/**
+ * Lancia un incantesimo. Lo usano il giocatore e i nemici che hanno la magia: per i nemici le frasi del registro
+ * cambiano soggetto, e Dissonanza e prezzi delle formule non ricadono sul personaggio.
+ */
 function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | undefined, cs: StatoCombattimento, rng: Rng): void {
-  const motivo = perchéNonLanciabile(cs, inc, bersaglio);
+  const io = att.lato === 'pg';
+  const motivo = perchéNonLanciabile(cs, inc, bersaglio, att);
   if (motivo) { annota(cs, `${inc.nome}: ${motivo}`, { tipo: 'info', chi: att.id }); return; }
   att.energia -= inc.livello;
-  for (const [k, v] of Object.entries(inc.prezzo ?? {})) cs.costi[k] = (cs.costi[k] ?? 0) + v;
+  if (io) for (const [k, v] of Object.entries(inc.prezzo ?? {})) cs.costi[k] = (cs.costi[k] ?? 0) + v;
   const t = tira(pool(att.magia, modifica(att, 'magia')), rng);
   const s = t.successi;
   const base = { chi: att.id, nome: inc.nome, tiro: t.facce };
+  const titolo = io ? inc.nome : `${att.nome} ${inc.alchimia ? 'usa' : 'lancia'} ${inc.nome}`;
+  const su = (b: Combattente) => (b.lato === 'pg' ? 'di te' : b.nome);
   if (s === 0) {
-    cs.costi['tormento'] = (cs.costi['tormento'] ?? 0) + (att.dissonanza ?? 0.5);
-    annota(cs, `${inc.nome}: nessun successo, il Mana ti torna indietro (Dissonanza).`, { ...base, tipo: 'dissonanza' });
+    if (io) {
+      cs.costi['tormento'] = (cs.costi['tormento'] ?? 0) + (att.dissonanza ?? 0.5);
+      annota(cs, `${inc.nome}: nessun successo, il Mana ti torna indietro (Dissonanza).`, { ...base, tipo: 'dissonanza' });
+    } else annota(cs, inc.alchimia ? `${att.nome} usa ${inc.nome}, ma la fiala non fa effetto.` : `${att.nome} prova a lanciare ${inc.nome}, ma il Mana gli sfugge.`, { ...base, tipo: 'dissonanza' });
     return;
   }
-  const nemiciVivi = cs.combattenti.filter((x) => x.lato !== att.lato && inPiedi(x));
-  const bers = bersaglio && inPiedi(bersaglio) ? bersaglio : nemiciVivi[0];
+  const avversariVivi = cs.combattenti.filter((x) => x.lato !== att.lato && inPiedi(x));
+  const compagniVivi = cs.combattenti.filter((x) => x.lato === att.lato && inPiedi(x));
+  const bers = bersaglio && inPiedi(bersaglio) ? bersaglio : avversariVivi[0];
   switch (inc.tipo) {
     case 'attacco':
     case 'automatico': {
@@ -385,39 +398,46 @@ function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | un
       if (a > d) {
         let danno = a - d + inc.danno;
         if (inc.doppioContro.some((tr) => bers.tratti.includes(tr))) danno *= 2;
-        infliggi(cs, bers, Math.max(1, danno), `${inc.nome} su ${bers.nome}: ${a} contro ${d}`, ev);
+        infliggi(cs, bers, Math.max(1, danno), `${titolo} su ${su(bers)}: ${a} contro ${d}`, ev);
         if (inc.veleno && bers.pf > 0) bers.veleni.push({ ...inc.veleno, fonte: inc.id });
-      } else annota(cs, `${inc.nome} su ${bers.nome}: ${a} contro ${d}, senza effetto.`, { ...ev, colpo: false });
+      } else annota(cs, `${titolo} su ${su(bers)}: ${a} contro ${d}, senza effetto.`, { ...ev, colpo: false });
       break;
     }
     case 'area': {
-      for (const b of nemiciVivi) {
+      for (const b of avversariVivi) {
         const td = tiroDifesa(b, inc.difesa!, rng);
         const d = td.successi;
         const ev = { ...base, tipo: 'magia' as const, contro: b.id, difesa: td.facce };
-        if (s > d) infliggi(cs, b, Math.max(1, s - d + inc.danno), `${inc.nome} su ${b.nome}: ${s} contro ${d}`, ev);
-        else annota(cs, `${inc.nome} su ${b.nome}: ${s} contro ${d}, senza effetto.`, { ...ev, colpo: false });
+        if (s > d) infliggi(cs, b, Math.max(1, s - d + inc.danno), `${titolo} su ${su(b)}: ${s} contro ${d}`, ev);
+        else annota(cs, `${titolo} su ${su(b)}: ${s} contro ${d}, senza effetto.`, { ...ev, colpo: false });
         if (controllaFine(cs)) break;
       }
       break;
     }
-    case 'potenziamento':
-      aggiungiEffetto(att, inc.modifica!, inc.id, true);
-      annota(cs, `${inc.nome}: ${descriviModifica(inc.modifica!)}.`, { ...base, tipo: 'effetto', contro: att.id, colpo: true });
+    case 'potenziamento': {
+      const chi = inc.alleati ? compagniVivi : [att];
+      for (const x of chi) aggiungiEffetto(x, inc.modifica!, inc.id, x === att);
+      const a = inc.alleati && chi.length > 1 ? (io ? ' a te e ai tuoi' : ' a sé e ai suoi') : '';
+      annota(cs, `${titolo}: ${descriviModifica(inc.modifica!)}${a}.`, { ...base, tipo: 'effetto', contro: att.id, colpo: true });
       break;
+    }
     case 'indebolimento': {
       if (!bers) return;
       const td = tiroDifesa(bers, inc.difesa!, rng);
       const d = td.successi;
       const ev = { ...base, tipo: 'magia' as const, contro: bers.id, difesa: td.facce };
-      if (s > d) { aggiungiEffetto(bers, inc.modifica!, inc.id); annota(cs, `${inc.nome} su ${bers.nome}: ${s} contro ${d}, ${descriviModifica(inc.modifica!)}.`, { ...ev, colpo: true }); }
-      else annota(cs, `${inc.nome} su ${bers.nome}: ${s} contro ${d}, resiste.`, { ...ev, colpo: false });
+      if (s > d) { aggiungiEffetto(bers, inc.modifica!, inc.id); annota(cs, `${titolo} su ${su(bers)}: ${s} contro ${d}, ${descriviModifica(inc.modifica!)}.`, { ...ev, colpo: true }); }
+      else annota(cs, `${titolo} su ${su(bers)}: ${s} contro ${d}, ${bers.lato === 'pg' ? 'resisti' : 'resiste'}.`, { ...ev, colpo: false });
       break;
     }
     case 'cura': {
-      const prima = att.pf;
-      att.pf = Math.min(att.pfMax, att.pf + s);
-      annota(cs, `${inc.nome}: recuperi ${att.pf - prima} PF.`, { ...base, tipo: 'cura', contro: att.id, cura: att.pf - prima });
+      // con `alleati` cura il compagno più malconcio, altrimenti chi lancia
+      const x = inc.alleati ? [...compagniVivi].sort((p, q) => p.pf / p.pfMax - q.pf / q.pfMax)[0]! : att;
+      const prima = x.pf;
+      x.pf = Math.min(x.pfMax, x.pf + s);
+      const testo = io ? `${inc.nome}: recuperi ${x.pf - prima} PF.`
+        : x === att ? `${titolo} e recupera ${x.pf - prima} PF.` : `${titolo}: ${x.nome} recupera ${x.pf - prima} PF.`;
+      annota(cs, testo, { ...base, tipo: 'cura', contro: x.id, cura: x.pf - prima });
       break;
     }
     case 'fuga': {
@@ -432,6 +452,35 @@ function lancia(att: Combattente, inc: TIncantesimo, bersaglio: Combattente | un
     default:
       annota(cs, `${inc.nome} non ha effetto in combattimento.`, { tipo: 'info', chi: att.id });
   }
+}
+
+/**
+ * Cosa lancia un nemico che ha la magia, o null se attacca con l'arma. Si cura quando è malconcio, si potenzia se
+ * l'effetto non c'è già, indebolisce il bersaglio se è libero, e preferisce l'incantesimo d'attacco quando fa più
+ * danno atteso dell'arma (gli incantesimi ignorano l'armatura). Un po' di caso, perché non sia una macchina.
+ */
+export function incantesimoNemico(cs: StatoCombattimento, att: Combattente, pg: Combattente, rng: Rng): TIncantesimo | null {
+  const lanciabili = (att.incantesimi ?? []).filter((i) => att.energia >= i.livello && !perchéNonLanciabile(cs, i, pg, att));
+  if (!lanciabili.length) return null;
+  const compagni = cs.combattenti.filter((x) => x.lato === att.lato && inPiedi(x));
+  const malconcio = compagni.some((x) => x.pf / x.pfMax < 0.4);
+  const cura = lanciabili.find((i) => i.tipo === 'cura' && (i.alleati ? malconcio : att.pf / att.pfMax < 0.4));
+  if (cura && rng() < 0.8) return cura;
+  const potenz = lanciabili.find((i) => i.tipo === 'potenziamento' && !(att.effetti ?? []).some((e) => e.fonte === i.id));
+  if (potenz && rng() < 0.6) return potenz;
+  const indeb = lanciabili.find((i) => i.tipo === 'indebolimento' && !(pg.effetti ?? []).some((e) => e.fonte === i.id));
+  if (indeb && rng() < 0.5) return indeb;
+  const difesa = (tipo?: string) => (tipo === 'resilienza' ? pg.difesaMentale : tipo === 'resistenza' ? pg.difesaFisica : pg.difesa);
+  const arma = att.attacco / 2 - pg.difesa / 2 + att.danno - Math.max(0, pg.riduzione - att.ignora);
+  let migliore: TIncantesimo | null = null;
+  let valore = arma;
+  for (const i of lanciabili) {
+    let v = -Infinity;
+    if (i.tipo === 'attacco' || i.tipo === 'area') v = att.magia / 2 - difesa(i.difesa) / 2 + i.danno + (i.veleno ? i.veleno.valore * i.veleno.round : 0);
+    else if (i.tipo === 'automatico') v = i.successi! - difesa(i.difesa) / 2 + i.danno;
+    if (v > valore) { valore = v; migliore = i; }
+  }
+  return migliore && rng() < 0.75 ? migliore : null;
 }
 
 function usaReperto(att: Combattente, rid: string, bersaglio: Combattente | undefined, cs: StatoCombattimento, rng: Rng): void {
@@ -522,7 +571,9 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
         } else intimidisci(cs, att, b, rng);
       }
     } else {
-      attacca(cs, att, pg, rng);
+      const inc = incantesimoNemico(cs, att, pg, rng);
+      if (inc) lancia(att, inc, pg, cs, rng);
+      else attacca(cs, att, pg, rng);
     }
     scalaEffetti(att);
     if (controllaFine(cs)) break;

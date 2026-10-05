@@ -279,7 +279,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   for (const i of c.incantesimi) {
     for (const k of Object.keys(i.prezzo ?? {})) if (!quality.has(k)) errori.push(`incantesimo ${i.id}: prezzo su quality sconosciuta "${k}"`);
-    if (i.tradizione === 'precuriane' && !i.prezzo) errori.push(`incantesimo ${i.id}: le formule precuriane hanno sempre un prezzo`);
+    if (i.tradizione === 'precuriane' && !i.prezzo && !i.soloNemici) errori.push(`incantesimo ${i.id}: le formule precuriane hanno sempre un prezzo`);
   }
   // Origini: gli incantesimi di partenza devono rispettare il livello di Magia.
   for (const o of c.origini) {
@@ -312,6 +312,20 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   for (const f of c.frammenti) if (f.area && !aree.has(f.area)) errori.push(`frammento ${f.id}: area sconosciuta "${f.area}"`);
 
   for (const sc of c.scontri) for (const n of sc.nemici) if (!nemici.has(n)) errori.push(`scontro ${sc.id}: nemico sconosciuto "${n}"`);
+  // i nemici con la magia: incantesimi da combattimento, dadi per lanciarli ed Energia per almeno uno
+  for (const n of c.nemici) {
+    for (const id of n.incantesimi) {
+      const inc = c.incantesimi.find((i) => i.id === id);
+      if (!inc) errori.push(`nemico ${n.id}: incantesimo sconosciuto "${id}"`);
+      else if (!inc.uso.includes('combattimento')) errori.push(`nemico ${n.id}: ${inc.nome} non si usa in combattimento`);
+      else if (inc.tipo === 'fuga') errori.push(`nemico ${n.id}: ${inc.nome} è un incantesimo di fuga, che un nemico non usa`);
+    }
+    if (n.incantesimi.length && (!n.magia || !n.energia)) errori.push(`nemico ${n.id}: ha incantesimi ma non dadi di magia o Energia`);
+  }
+  // un incantesimo solo dei nemici non lo insegna nessuno
+  for (const i of c.incantesimi.filter((x) => x.soloNemici)) {
+    if (c.origini.some((o) => (o.quality[`incantesimo.${i.id}`] ?? 0) > 0)) errori.push(`incantesimo ${i.id}: è solo dei nemici, ma un'origine lo dà`);
+  }
 
   for (const a of c.armi) if (!TUTTE_LE_ABILITA.includes(a.abilita)) errori.push(`arma ${a.id}: abilità sconosciuta "${a.abilita}"`);
   for (const a of c.armature) {
