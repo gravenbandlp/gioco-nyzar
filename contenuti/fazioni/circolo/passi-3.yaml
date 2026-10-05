@@ -1,0 +1,764 @@
+# La quest del Circolo di Velthar, passi 11-15 (fazione.circolo 10 → 15). Tutti chiedono pista.capomozzo >= 7.
+# 11 La tempesta dalla pianura: tre scene di fila (la linea delle piante, le bestie, gli orchi profughi di
+#    Capomozzo all'alba). circolo.orchi: 1 accolti, 2 cacciati, 3 consegnati alla Caserma.
+# 12 La spirale (grado 4): Padre Vantes viene al margine (circolo.promessa-velo), poi il rito di chi scende.
+# 13 La fenditura: l'ingresso nella spedizione (spedizione-fenditura.yaml). Il Custode di linfa sta nel cuore,
+#    che porta a 13 e apre subito `circolo-occhi-dorati`.
+# 14 Occhi dorati (in spedizione-fenditura.yaml, perché sta nella cavità): quattro strade. Chi esce prima di
+#    scegliere ci torna con `circolo-tornare-all-albero`, qui.
+# 15 Il respiro lungo (grado 5): una scena per le strade 1-3 (circolo.albero <= 3), una per la strada 4.
+#    Più una scena breve per chi ha portato i Raschiatori al margine e non ha dato loro il posto.
+storylet:
+  # ------------------------------------------------------------ 10 → 11 · la tempesta dalla pianura
+  - id: circolo-la-tempesta-dalla-pianura
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/marea-grigia
+    titolo: La tempesta dalla pianura
+    sommario: "Dalla pianura sale una tempesta di Marea che sembra una parete di latte. Il Bosco ha il respiro corto, e se il margine cede la tempesta arriva in città."
+    luogo: Il Bosco di Velthar, il margine sud
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 10, pista.capomozzo >= 7]
+    testo: |
+      La tempesta arriva al tramonto, dalla pianura del sud, e da lontano
+      sembra una nebbia qualunque. Da vicino è una parete bassa e
+      lattiginosa, alta quanto due alberi, che avanza al passo di un uomo
+      senza che il vento la spinga. Dove passa l'erba diventa grigia, e
+      sulla superficie della parete si muovono ombre che potrebbero essere
+      animali.
+
+      Al margine sud Tharn ha messo in fila gli Irriducibili, una trentina
+      di druidi con le mani nella terra fra le radici degli alberi più
+      esterni, a dieci passi l'uno dall'altro. È la linea delle piante,
+      quella che il Circolo tiene da cento anni. Le piante bevono la Marea,
+      e i druidi le aiutano a bere più in fretta di quanto potrebbero da
+      sole. Stasera il Bosco ha il respiro corto, e le cortecce si accendono
+      a scatti, come quelle del boschetto grigio.
+
+      {resistenza Media} L'aria sa già di ferro bagnato, e la gola ti si
+      stringe prima che la parete sia arrivata. Il corpo ha fatto i suoi
+      conti, e non gli tornano.
+
+      {politica-ed-economia Facile} Dietro il Bosco, a un giorno di cammino,
+      c'è Qir-Azel con le sue porte aperte. Se il margine cede, la città se
+      ne accorgerà quando avrà la tempesta sui tetti.
+
+      Tharn ti indica il posto vuoto nella fila, fra un vecchio druido con
+      la barba fino alla cintura e una ragazza che trema.
+    opzioni:
+      - testo: "Prendere posto nella linea delle piante"
+        descrizione: "Le mani nella terra, fra le radici. Le piante bevono la Marea, e tu le aiuti a bere."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Le mani nella terra
+          testo: |
+            Infili le mani nella terra fra le radici e senti la Marea
+            arrivare dalle punte, fredda, che sale nel legno e si scioglie.
+            La parete ti passa sopra come acqua sopra un sasso, e la linea
+            regge. Accanto a te la ragazza smette di tremare.
+          pe: { natura: 5 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+        fallimento:
+          titolo: La radice sbagliata
+          testo: |
+            Infili le mani fra le radici sbagliate, quelle di un albero già
+            pieno, e la Marea risale invece di scendere, nelle dita, fino
+            ai polsi. Tieni lo stesso, perché la fila non si rompe.
+          effetti: { contaminazione: 0.5 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+      - testo: "Bere la Marea di un druido caduto"
+        descrizione: "Il vecchio con la barba è caduto in ginocchio, con la faccia grigia. Bere la Marea la toglie a lui, e te ne lascia una parte."
+        incantesimo: bere-la-marea
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il sorso del vecchio
+          testo: |
+            Gli posi le mani sul petto e tiri su la Marea come si tira
+            l'acqua da un pozzo. Il vecchio riprende colore dalle labbra, e
+            la tua bocca sa di ferro. Si rimette in fila senza ringraziare,
+            come si fa al Circolo.
+          pe: { magia: 5 }
+          effetti: { contaminazione: 0.5, rep.circolo: 0.5 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+        fallimento:
+          titolo: Troppo
+          testo: |
+            Tiri troppo forte, e la Marea del vecchio ti entra tutta insieme.
+            Lui si rialza, e sei tu a cadere in ginocchio con la faccia
+            grigia, finché la ragazza non ti tira su per il colletto.
+          effetti: { contaminazione: 1 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+      - testo: "Correre ad avvertire la città"
+        descrizione: "Un giorno di strada in mezza notte, a cavallo. La città avrà il tempo di chiudere le porte, e il margine avrà una persona in meno."
+        prova: { attributo: fisico, abilita: [cavalcare, atletica], difficolta: Media }
+        successo:
+          titolo: La campana della porta nord
+          testo: |
+            Corri tutta la notte, e all'alba la campana della porta nord
+            suona a martello. La Caserma chiude le porte, il Velo apre la
+            Cattedrale a chi resta fuori, e Julia Castaldi manda i suoi a
+            tappare i pozzi. Torni al Bosco a mezzogiorno, sul cavallo di un
+            altro, e al margine mancano tre alberi che ieri c'erano.
+          pe: { cavalcare: 5 }
+          effetti: { rep.castaldi: 0.5, rep.velo: 0.5 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+        fallimento:
+          titolo: Il cavallo azzoppato
+          testo: |
+            A metà strada il cavallo mette lo zoccolo in una buca, e tu
+            finisci nel fosso. Arrivi alla porta nord a piedi, quando le sentinelle hanno già visto la parete da sole, e torni al Bosco zoppicando sotto la pioggia grigia.
+          effetti: { ferite: 1 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+      - testo: "Portare acqua alla linea"
+        descrizione: "Chi non sa tenere le piante può portare l'acqua a chi le tiene. Avanti e indietro, tutta la notte, dentro la nebbia."
+        costo: 2
+        esito:
+          titolo: Avanti e indietro
+          testo: |
+            Porti l'acqua dal ruscello alla linea con un secchio in ogni mano per tutta la notte, e a ogni viaggio la nebbia ti arriva più in
+            alto. All'alba hai le braccia di legno e la gola grigia.
+          effetti: { contaminazione: 0.5 }
+          segue: circolo-le-bestie-davanti-alla-tempesta
+
+  - id: circolo-le-bestie-davanti-alla-tempesta
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/marea-grigia
+    titolo: Le bestie davanti alla tempesta
+    sommario: "La tempesta spinge davanti a sé tutto quello che corre, e quello che corre ha perso la testa."
+    luogo: Il Bosco di Velthar, il margine sud, nella notte
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 10]
+    testo: |
+      A mezzanotte dalla parete escono le bestie. Sono volpi, cani di
+      fattoria, un cinghialetto, una capra con una corda al collo, e tutte
+      corrono davanti alla tempesta con gli occhi bianchi e la schiuma alla
+      bocca, dritte contro la linea delle piante. Due hanno già il pelo
+      grigio e le zampe che si piegano dalla parte sbagliata. Un druido
+      della fila si alza per spostarsi, e una volpe gli salta alla gola.
+
+      Tharn grida qualcosa che si perde nel vento. I lupi del branco si
+      buttano sulle bestie, e la linea comincia ad aprirsi in un punto,
+      proprio accanto a te.
+
+      {addestrare-animali Media} Corrono perché hanno paura, e mordono
+      perché hanno paura. Una voce ferma, in mezzo a tutto questo, ne
+      ferma qualcuna.
+
+      {rissa Facile} Due ti vengono addosso, e dalle zampe storte cadranno
+      al primo colpo dato bene.
+    opzioni:
+      - testo: "Fermare le bestie"
+        descrizione: "Due bestie impazzite, svelte, che mordono quello che trovano. La linea dietro di te non si deve aprire."
+        combattimento: circolo-bestie-della-tempesta
+        vittoria:
+          titolo: La linea chiusa
+          testo: |
+            Le due bestie cadono una sull'altra ai tuoi piedi, e il buco
+            nella linea si chiude dietro di te. Il druido con la gola morsa
+            si rialza con la mano sul collo, e torna in fila.
+          pe: { rissa: 5 }
+          segue: circolo-gli-orchi-al-margine
+        sconfitta:
+          titolo: I morsi
+          testo: |
+            Le bestie ti travolgono, e la linea si apre per un tratto. Tharn
+            la richiude con i lupi mentre tu ti trascini indietro con le
+            braccia morse. Al mattino ti fasciano con le foglie.
+          effetti: { contaminazione: 0.5 }
+          segue: circolo-gli-orchi-al-margine
+      - testo: "Reggere la notte sulla linea"
+        descrizione: "Restare con le mani nella terra mentre le bestie passano, senza muoverti. Fino all'alba."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: Fino all'alba
+          testo: |
+            Resti in ginocchio con le mani nella terra, e le bestie ti
+            passano accanto, sopra, davanti, senza toccarti, come l'acqua
+            intorno a un palo. All'alba non senti più le ginocchia. Nel tuo
+            tratto la linea ha retto.
+          pe: { resistenza: 10 }
+          segue: circolo-gli-orchi-al-margine
+        fallimento:
+          titolo: Le ginocchia
+          testo: |
+            Verso le quattro le ginocchia ti cedono, e cadi su un fianco
+            dentro la nebbia. Una capra ti passa sopra. La ragazza della fila
+            ti rimette le mani nella terra e te le tiene ferme lei fino
+            all'alba.
+          effetti: { contaminazione: 0.5, ferite: 1 }
+          segue: circolo-gli-orchi-al-margine
+      - testo: "Fermarle con Richiamo"
+        descrizione: "Sono bestie con la paura addosso. La lingua del Circolo arriva anche a loro, se è detta forte."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La voce ferma
+          testo: |
+            Dici il Richiamo a voce alta, in mezzo al vento, e le bestie più
+            vicine si fermano di colpo, con gli occhi ancora bianchi. Le
+            giri verso il fianco del Bosco, dove la linea è più spessa, e
+            corrono lì.
+          pe: { addestrare-animali: 5 }
+          segue: circolo-gli-orchi-al-margine
+        fallimento:
+          titolo: Il vento
+          testo: |
+            Il vento si porta via il Richiamo a metà, e le bestie ti passano
+            addosso. Ti rialzi con un morso al polpaccio e la bocca piena di
+            nebbia.
+          effetti: { contaminazione: 0.5, ferite: 0.5 }
+          segue: circolo-gli-orchi-al-margine
+
+  - id: circolo-gli-orchi-al-margine
+    presso: circolo-bosco-di-velthar
+    immagine: bestiario/orco
+    titolo: Gli orchi al margine
+    sommario: "All'alba la tempesta si ferma. Davanti al margine, fra le bestie morte, c'è un gruppo di orchi di Capomozzo senza armi."
+    luogo: Il Bosco di Velthar, il margine sud, all'alba
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 10]
+    testo: |
+      All'alba la parete si ferma a cento passi dal margine, si affloscia
+      sulla pianura e diventa una nebbia bassa che il sole comincia a
+      bucare. Dietro di te il Bosco tossisce. Un terzo degli alberi del
+      margine è grigio fino alle cime, e le cortecce non si accendono più.
+
+      Fra le bestie morte, davanti alla linea, c'è un gruppo di orchi. Sono una ventina di donne e di vecchi con qualche ragazzo in mezzo.
+      Hanno gli occhi gonfi nelle facce grigie, e fra tutti non c'è un'arma. Vengono da Capomozzo,
+      scappati quando il forte è caduto, e la tempesta li ha spinti fin qui
+      come le volpi. Una vecchia con i capelli intrecciati di ossa si fa
+      avanti e si mette in ginocchio davanti a Tharn.
+
+      «La legge del Bosco protegge chi non porta lame contro gli alberi»
+      dice Tharn, piano, a te. «Loro non ne portano. In città diranno che
+      sono orchi.»
+
+      {origine fuggiasco-di-ghoran} Gli orchi profughi li hai visti a
+      Ghoran, in fila davanti alla bilancia, con gli stessi occhi. Quella
+      vecchia sa già quanto pesa.
+
+      {intimidire Media} Hanno paura di te più che dei lupi, perché i lupi
+      li capiscono. Basterebbe alzare la voce.
+
+      {empatia Facile} La vecchia non chiede niente per sé. Tiene la mano
+      sulla spalla di un ragazzo che ha la febbre.
+    opzioni:
+      - testo: "Lasciarli entrare nel Bosco"
+        descrizione: "La legge del Bosco è chiara. Dolovan Stroud, in città, lo verrà a sapere."
+        esito:
+          titolo: La legge del Bosco
+          testo: |
+            Fai segno a Tharn di sì, e lui si scansa. Gli orchi entrano piano nel Bosco, in fila, mentre i lupi li annusano uno per uno. Due giorni dopo arriva al Circolo una lettera di Julia Castaldi, con il sigillo della Casata e una manciata di monete per chi ha
+            tenuto il margine. In fondo c'è scritto, di suo pugno, che in
+            città si parla di orchi nel Bosco.
+          pe: { resistenza: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1.5, racconto: 1, monete: 15 }
+          imposta: { circolo.orchi: 1 }
+      - testo: "Mandarli via"
+        descrizione: "Il Bosco ha già il respiro corto, e un orco in più è una bocca in più. Bisogna farglielo capire senza toccarli."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: La pianura
+          testo: |
+            Ti metti davanti a Tharn e dici alla vecchia che il Bosco non ha
+            posto. Lei ti guarda a lungo prima di rialzarsi. Porta i suoi verso est, nella nebbia che si dirada. Tharn non ti parla fino a sera.
+            Due giorni dopo arriva al Circolo una lettera di Julia Castaldi,
+            con una manciata di monete per chi ha tenuto il margine.
+          pe: { intimidire: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, racconto: 1, monete: 15 }
+          imposta: { circolo.orchi: 2 }
+        fallimento:
+          titolo: Il ragazzo con la febbre
+          testo: |
+            Alzi la voce, e il ragazzo con la febbre scoppia a piangere. Gli
+            orchi se ne vanno lo stesso, verso est, ma la vecchia prima ti
+            sputa ai piedi, e mezzo Circolo l'ha visto. Due giorni dopo
+            arriva una lettera di Julia Castaldi, con una manciata di monete
+            per chi ha tenuto il margine.
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, racconto: 1, monete: 15, tormento: 0.5 }
+          imposta: { circolo.orchi: 2 }
+      - testo: "Consegnarli alla Caserma"
+        descrizione: "Profughi di Capomozzo, a un giorno dalla città. La Caserma vorrà sapere chi sono, e li terrà dove li può contare."
+        esito:
+          titolo: La scorta
+          testo: |
+            Mandi un ragazzo del Circolo alla porta nord, e a mezzogiorno
+            arriva una scorta della Caserma con due carri. Gli orchi ci
+            salgono senza opporsi, e la vecchia non ti guarda. Tharn
+            nemmeno. Due giorni dopo arriva al Circolo una lettera di Julia
+            Castaldi, con una manciata di monete per chi ha tenuto il
+            margine, e un biglietto della Caserma che ringrazia.
+          pe: { resistenza: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, rep.caserma: 0.5, racconto: 1, monete: 15 }
+          imposta: { circolo.orchi: 3 }
+      - testo: "Parlare alla vecchia nella lingua dei recinti"
+        descrizione: "A Ghoran si impara qualche parola d'orchesco, quella che serve nei recinti. Basta per dirle che qui la bilancia non c'è."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Nessuna bilancia
+          testo: |
+            Le dici le poche parole d'orchesco che hai imparato nei recinti,
+            e la vecchia alza la testa di scatto. Le dici che qui la bilancia
+            non c'è. Gli orchi entrano nel Bosco in fila, e i lupi li annusano
+            uno per uno. Due giorni dopo arriva una lettera di Julia Castaldi,
+            con una manciata di monete per chi ha tenuto il margine.
+          pe: { empatia: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1.5, racconto: 1, monete: 15 }
+          imposta: { circolo.orchi: 1 }
+
+  # ------------------------------------------------------------ 11 → 12 · la spirale (grado 4)
+  - id: circolo-padre-vantes-al-margine
+    presso: circolo-bosco-di-velthar
+    immagine: personaggi/padre-vantes
+    titolo: Padre Vantes al margine
+    sommario: "Il Velo è venuto fino al margine del Bosco. Padre Aurelio Vantes vuole sapere che cosa c'è sotto la fenditura, e vuole saperlo per primo."
+    luogo: Il Bosco di Velthar, il margine
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 11, pista.capomozzo >= 7]
+    testo: |
+      Al margine, seduto sul tronco con le tre tacche come uno che aspetta
+      la carrozza, c'è Padre Aurelio Vantes. Ha la veste rossa sporca di
+      fango fino al ginocchio e un bastone da pellegrino che non usa, e due
+      guardie del Velo lo aspettano a venti passi, con l'aria di non sapere
+      dove mettere le mani. I lupi di Tharn lo guardano da lontano.
+
+      Si alza quando ti vede e ti posa due dita sul polso, come fa con
+      tutti in Cattedrale.
+
+      «Dopo Capomozzo la Madre ha detto che le rovine si sono ricordate i
+      loro nomi» dice. «Al margine qualcuno dice che anche qui sotto se n'è
+      ricordata una, e che respira. Se sotto il Bosco c'è una radice del
+      Grande Albero, la Confraternita vuole saperlo per prima, figliolo, per pregare nel posto giusto. Prenderla, mai.» Ti tiene le dita
+      sul polso un momento di più.
+
+      {empatia Media} Ci crede davvero, alla radice. Ha camminato un giorno
+      nel fango per crederci un poco più da vicino.
+
+      {politica-ed-economia Media} Una radice del Grande Albero sotto il
+      Bosco del Circolo chiuderebbe cent'anni di dottrina, e chiunque vinca la disputa l'altro la perde per sempre.
+
+      {origine accolito-del-velo} Le due dita sul polso le conosci. Te le ha
+      posate cento volte, e ogni volta voleva sentire se il cuore ti batteva
+      in fretta.
+    opzioni:
+      - testo: "Promettergli un campione della linfa"
+        descrizione: "Una fiala dalla fenditura, da portare in Cattedrale. Il Velo sarà riconoscente, e il Circolo non lo saprà finché non glielo dirai."
+        esito:
+          titolo: La promessa
+          testo: |
+            Gli prometti una fiala della linfa che troverai sotto, se la
+            trovi. Vantes ti stringe il polso con le due dita e ti benedice,
+            a voce bassa per non farsi sentire dai lupi. Riparte con le
+            guardie verso la città, e il bastone da pellegrino, adesso, lo
+            usa.
+          effetti: { rep.velo: 1 }
+          imposta: { circolo.promessa-velo: 1 }
+          segue: circolo-la-spirale-di-chi-scende
+      - testo: "Dirgli di no con garbo"
+        descrizione: "Il Velo e il Circolo si rispettano da cent'anni. Un no detto bene lascia le cose come stanno."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Il no ben detto
+          testo: |
+            Gli dici che sotto la fenditura scendi per il Bosco, e che quello
+            che trovi lo porterai prima al Maestro, come è giusto. Vantes ti ascolta con un sospiro, e ti benedice lo stesso. Riparte con le guardie
+            senza rancore, e prima di andare ti chiede di pregare per lui, se
+            laggiù ti ricordi.
+          pe: { galateo: 5 }
+          segue: circolo-la-spirale-di-chi-scende
+        fallimento:
+          titolo: Il no storto
+          testo: |
+            Il no ti esce più duro di come volevi, con il Circolo nominato
+            due volte e il Velo nessuna. Vantes ritira le dita dal tuo polso e
+            si rimette in cammino senza benedirti.
+          effetti: { rep.velo: -0.5 }
+          segue: circolo-la-spirale-di-chi-scende
+      - testo: "Dirgli di no e basta"
+        descrizione: "Il Bosco è del Circolo. Il Velo ha già la sua Cattedrale."
+        esito:
+          titolo: Il no
+          testo: |
+            Gli dici di no, e basta. Vantes ti guarda come si guarda un
+            figlio cresciuto storto, con più pena che rabbia, e se ne va con
+            le guardie. I lupi di Tharn lo seguono con gli occhi finché non
+            sparisce dietro la collina.
+          effetti: { rep.velo: -0.5 }
+          segue: circolo-la-spirale-di-chi-scende
+      - testo: "Rispondergli con le parole del Velo"
+        descrizione: "Il Velo ha una formula per chi scende nelle profondità e chiede di tornare. Vantes la riconoscerà, e capirà la risposta."
+        quando: [origine.accolito-del-velo >= 1]
+        esito:
+          titolo: La formula di chi scende
+          testo: |
+            Gli dici la formula di chi scende, quella che i novizi imparano
+            per i Raschiatori, e alla fine aggiungi che quello che troverai
+            lo porterai al Maestro. Vantes chiude gli occhi e la finisce con
+            te. Poi ti benedice e riparte senza insistere, con l'aria di uno
+            che ha avuto la risposta che si aspettava.
+          pe: { galateo: 5 }
+          segue: circolo-la-spirale-di-chi-scende
+
+  - id: circolo-la-spirale-di-chi-scende
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: La spirale di chi scende
+    sommario: "Il rito di chi scende nella fenditura. Ognuno del Circolo Ristretto ti dà qualcosa, e il Maestro resta sopra."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro, di notte
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 11]
+    testo: |
+      Il rito di chi scende si fa di notte, sulla spirale, con tutti i
+      druidi seduti dall'alto in basso e la fenditura che soffia vapore
+      azzurro. Tu stai in piedi sul bordo, a un passo dal buco, e il calore
+      ti sale lungo le gambe come da una stufa aperta.
+
+      Tharn si alza per primo e ti lega al polso una ciocca di pelo grigio
+      intrecciata con un filo rosso, il pelo del branco. Serha ti mette in mano un seme scuro grande come una noce, e ti chiude le
+      dita sopra con la mano di legnoscuro. Voren non si muove dal suo
+      posto dietro le pietre, e ti fa soltanto un gesto, la mano aperta
+      verso il basso, che vuol dire giù.
+
+      Aelion resta seduto. Il Maestro resta sopra, ti dice, perché qualcuno
+      deve ricordarsi di tirare la corda.
+
+      {natura Media} Il seme è di quercia, ma una quercia così non l'hai mai
+      vista. Pesa come un sasso e scalda il palmo.
+
+      {resilienza Facile fallita} Ti accorgi di avere le ginocchia molli
+      solo quando provi a fare un passo e il passo non viene.
+    opzioni:
+      - testo: "Ringraziare ognuno con lo sguardo"
+        descrizione: "Al Circolo non si ringrazia a parole. Si guarda chi ti ha dato qualcosa, finché non abbassa gli occhi lui."
+        esito:
+          titolo: Custode del Margine
+          testo: |
+            Guardi Tharn e Serha uno dopo l'altra, e infine il buio dove sta Voren, e ognuno abbassa gli occhi per primo. Aelion ti dice che da stanotte sei
+            Custode del Margine. Serha ti mette sulle spalle un mantello di
+            cuoio cucito su uno strato di muschio vivo, che beve la Marea al
+            posto tuo, e ti dice che c'è una branda per te nella spirale,
+            accanto alla sua, quando torni.
+          pe: { empatia: 10 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-mantello-di-muschio: 1 }
+          almeno: { rep.circolo: 8 }
+      - testo: "Mettere il seme nella terra della spirale"
+        descrizione: "Un seme di quercia si pianta. Serha te l'ha messo in mano senza dirlo, e forse lo aspetta."
+        esito:
+          titolo: Il seme
+          testo: |
+            Ti inginocchi e premi il seme nella terra fra due pietre della
+            spirale, e Serha sorride, la prima volta che la vedi farlo. Te lo
+            fa riprendere subito, perché il seme serve sotto. Aelion ti dice
+            che da stanotte sei Custode del Margine. Serha ti mette sulle
+            spalle un mantello di cuoio cucito sul muschio vivo, che beve la
+            Marea al posto tuo, e ti dice che c'è una branda per te nella
+            spirale, quando torni.
+          pe: { natura: 10 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-mantello-di-muschio: 1 }
+          almeno: { rep.circolo: 8 }
+      - testo: "Rispondere al gesto di Voren"
+        descrizione: "La mano aperta verso il basso. Un Silente si risponde in silenzio, e tenendo la sua pressione nella testa."
+        esito:
+          titolo: Giù
+          testo: |
+            Apri la mano verso il basso come lui, e la pressione di Voren ti
+            entra dietro gli occhi e ci resta, calda, per tutto il resto del
+            rito. Aelion ti dice che da stanotte sei Custode del Margine.
+            Serha ti mette sulle spalle un mantello di cuoio cucito sul
+            muschio vivo, che beve la Marea al posto tuo, e ti dice che c'è
+            una branda per te nella spirale, quando torni.
+          pe: { resilienza: 10 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-mantello-di-muschio: 1, tormento: 0.5 }
+          almeno: { rep.circolo: 8 }
+
+  # ------------------------------------------------------------ 12 → 13 · la discesa nella fenditura
+  - id: circolo-la-discesa
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: La discesa
+    sommario: "La corda è legata alla pietra più bassa della spirale. Sotto, la fenditura soffia calore, e nessuno sa quanto sia profonda."
+    luogo: Il Bosco di Velthar, il bordo della fenditura
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 12, pista.capomozzo >= 7]
+    testo: |
+      Legano la corda alla pietra più bassa della spirale con un nodo che
+      Tharn fa e Serha controlla due volte. Il resto della matassa lo butti
+      nella fenditura, e la corda scende nel buio srotolandosi per un tempo
+      lungo, finché si ferma, tesa, come se qualcuno l'avesse presa
+      dall'altra parte. Dal buco sale un calore secco che ti fa lacrimare
+      gli occhi.
+
+      La lupa vecchia di Tharn ti annusa le mani e si siede sul bordo, e
+      Tharn dice che se vuole venire viene, fino a dove regge il caldo. I
+      druidi sulla spirale non cantano e non pregano. Ti guardano e basta,
+      e Aelion tiene una mano sulla corda, all'altezza del nodo.
+
+      {atletica Media} Duecento passi di corda nel buio, con il caldo che
+      sale. Le braccia lo reggeranno, e i palmi no, senza guanti.
+
+      {magia Media} Il Mana che sale dalla fenditura gira su se stesso,
+      come l'acqua di un fiume dietro un sasso. Laggiù c'è qualcosa che lo
+      spinge su.
+    opzioni:
+      - testo: "Scendere con la corda"
+        descrizione: "Duecento passi di corda nel buio caldo, fino alla gola. Poi si cammina."
+        requisiti: [chiave.fenditura >= 1]
+        esito:
+          titolo: Giù
+          testo: |
+            Ti infili i guanti di Tharn e ti cali nel buio, una mano sotto
+            l'altra. Dopo venti passi la spirale è un cerchio di luce sopra
+            la testa, e dopo cinquanta non c'è più. L'aria diventa calda come
+            in una cucina, poi come in una fucina, e alla fine i piedi
+            toccano la roccia.
+          vai: circolo-fenditura
+      - testo: "Scendere con la lupa in braccio per il primo tratto"
+        descrizione: "Al primo pianerottolo la lupa ti può seguire. Più giù no."
+        requisiti: [chiave.fenditura >= 1, chiave.branco >= 1]
+        costo: 0
+        esito:
+          titolo: Il branco fino al caldo
+          testo: |
+            Scendi con il tuo animale stretto contro il petto fino al primo
+            pianerottolo di roccia, e lì lo lasci. Ti segue con gli occhi
+            fino a dove arriva la luce, e quando non lo vedi più lo senti
+            ancora, un respiro corto sopra la testa, che non se ne va.
+          vai: circolo-fenditura
+
+  # ------------------------------------------------------------ 13 → 14 · tornare all'Albero, se si è usciti prima di scegliere
+  - id: circolo-tornare-all-albero
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Tornare all'Albero
+    sommario: "Il Custode di linfa non c'è più, e la strada fino all'Albero è libera. Laggiù c'è ancora da decidere."
+    luogo: Il Bosco di Velthar, il bordo della fenditura
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 13]
+    testo: |
+      Sulla spirale ti guardano tutti quando passi, e nessuno ti chiede
+      niente. La corda è ancora legata alla pietra più bassa, e dalla
+      fenditura sale un vapore azzurro che non si era mai visto così
+      denso, a sbuffi lenti, come il respiro di un animale che dorme male.
+
+      Aelion è seduto accanto al nodo della corda e ha gli occhi chiusi.
+      Li apre quando arrivi, senza bisogno di dire niente. Il Custode di linfa è caduto, la strada fino all'Albero è libera, e laggiù c'è
+      ancora da scegliere che cosa farne.
+
+      {resilienza Media} Da quando sei risalito, la notte sogni due occhi dorati che ti guardano senza fare nient'altro.
+
+      {conoscenze-della-strada Facile} Al margine, dai discorsi dei
+      novizi, sai che la notizia di un albero di metallo sotto il Bosco è
+      già arrivata in città. Le notizie viaggiano più in fretta delle
+      corde.
+    opzioni:
+      - testo: "Ridiscendere fino all'Albero"
+        descrizione: "La strada la conosci, dal caldo della gola alla città sepolta, fino alla cavità."
+        costo: 2
+        esito:
+          titolo: Di nuovo giù
+          testo: |
+            Ti cali di nuovo nel buio, e la strada fino all'Albero la fai
+            senza fermarti, con il caldo che sale e le radici di metallo che
+            ti sfiorano le spalle. In fondo alla cavità l'Albero ti aspetta,
+            e la roccia sotto di lui è ferma.
+          segue: circolo-occhi-dorati
+
+  # ------------------------------------------------------------ 14 → 15 · il respiro lungo (grado 5)
+  - id: circolo-il-respiro-lungo
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il respiro lungo
+    sommario: "Il grigio si ritira dal Bosco, e i lupi di Tharn tornano a sud. Sulla spirale c'è un posto per te, e il Maestro ti lascia una domanda."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 14, circolo.albero >= 1, circolo.albero <= 3, pista.capomozzo >= 7]
+    testo: |
+      In dieci giorni il grigio si ritira. Comincia dalle cime, che tornano
+      verdi una mattina tutte insieme, e scende lungo i tronchi fino alle
+      radici, finché nel boschetto del sud resta soltanto la corteccia
+      segnata come dopo una malattia. I lupi di Tharn tornano a dormire a
+      sud. Le cortecce si accendono di nuovo piano, a ritmo, con il respiro
+      lungo di uno che dorme bene.
+
+      Il Circolo Ristretto si riunisce sulla spirale, e stavolta la quarta
+      pietra non è vuota. Aelion te la indica con la mano senza alzarsi, e ti siedi. Tharn ride sotto la barba, Serha ti guarda come si guarda
+      una tavola appena incisa, e il posto di Voren, dietro le pietre, è
+      vuoto come sempre.
+
+      «La notte dei Sussurri ero qui» dice Aelion, guardando il vapore.
+      «Le voci salivano dal suolo in città, e salivano anche qui. Il Bosco
+      rispose.» Lascia passare tre sbuffi. «Che cosa rispose, non lo dico.
+      A te, stanotte, lascio una domanda sola.»
+
+      {empatia Difficile} Ha aspettato tredici anni per dire la prima
+      metà. Della seconda ha più paura che vergogna.
+
+      {origine figlio-del-circolo} La quarta pietra era vuota quando eri
+      bambino. Adesso hai capito che era vuota apposta, per qualcuno che
+      sarebbe arrivato dopo, e ti vengono le lacrime agli occhi senza
+      chiedertelo.
+    opzioni:
+      - testo: "Chiedere dei Silenti"
+        descrizione: "Dove vanno i Silenti quando si fondono con il Bosco, e che cosa trovano là."
+        esito:
+          titolo: Dove vanno i Silenti
+          testo: |
+            Aelion ti risponde con un'immagine, la sola che ti darà
+            stanotte. Un fiume che entra in un lago, e il lago che entra in
+            un pozzo, e il pozzo che non ha fondo. Poi ti mette in mano una ghianda tiepida di metallo vivo che è caduta dall'Albero, e anche un ramo dritto come un'asta con la punta fatta lama da sola. La città,
+            ti dice, ha mandato la sua parte per il margine tenuto, e la
+            borsa è tua. Da stanotte sei la quarta voce del Circolo
+            Ristretto, e al margine ti chiameranno Respiro di Velthar.
+          pe: { resilienza: 20 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-ramo-di-metallo-vivo: 1, oggetto.circolo-ghianda-di-metallo-vivo: 1, monete: 350, informazioni.segreto: 1 }
+          almeno: { rep.circolo: 10 }
+          imposta: { circolo.respiro: 1 }
+      - testo: "Chiedere della bambina del branco"
+        descrizione: "Quella che dormì tre notti accanto all'Albero quando era acceso. Dov'è adesso, e che cosa le ha lasciato."
+        esito:
+          titolo: La bambina del branco
+          testo: |
+            Aelion tace così a lungo che pensi di aver sbagliato domanda. Poi ti dice che la bambina è cresciuta ed è andata in città. Chi dorme tre notti accanto a un albero acceso ne porta i segni per sempre, ti dice, come te adesso. Ti mette in mano una ghianda tiepida di metallo vivo, e anche un ramo dritto come un'asta con la punta
+            fatta lama da sola. La città ha mandato la sua parte per il
+            margine tenuto, e la borsa è tua. Da stanotte sei la quarta voce
+            del Circolo Ristretto, e al margine ti chiameranno Respiro di
+            Velthar.
+          pe: { addestrare-animali: 20 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-ramo-di-metallo-vivo: 1, oggetto.circolo-ghianda-di-metallo-vivo: 1, monete: 350, informazioni.segreto: 1 }
+          almeno: { rep.circolo: 10 }
+          imposta: { circolo.respiro: 1 }
+      - testo: "Chiedere di Selara Vyn"
+        descrizione: "La guaritrice del Circolo che scese nel Rito e tornò con un bracciale di corteccia pietrificata. Il Velo la chiama santa."
+        esito:
+          titolo: Selara
+          testo: |
+            Al nome di Selara, Serha si alza in piedi e lascia la spirale. Aelion la guarda andare prima di risponderti. Ti dice che Selara era la migliore di loro, che scese perché qualcuno doveva farlo e che il bracciale non se l'è mai tolto, perché non era un bracciale. Poi resta zitto a lungo, e alla fine ti mette in mano una ghianda di metallo vivo e un ramo dritto come
+            un'asta, con la punta fatta lama da sola. La città ha mandato la
+            sua parte per il margine tenuto, e la borsa è tua. Da stanotte
+            sei la quarta voce del Circolo Ristretto, e al margine ti
+            chiameranno Respiro di Velthar.
+          pe: { magia: 20 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-ramo-di-metallo-vivo: 1, oggetto.circolo-ghianda-di-metallo-vivo: 1, monete: 350, informazioni.segreto: 1 }
+          almeno: { rep.circolo: 10 }
+          imposta: { circolo.respiro: 1 }
+
+  - id: circolo-il-posto-sulla-spirale
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il posto sulla spirale
+    sommario: "Il Bosco è salvo a metà, da altri. Sulla spirale c'è ancora un posto per te, e nessuno te lo offre volentieri."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 14, circolo.albero == 4, pista.capomozzo >= 7]
+    testo: |
+      Il grigio si ritira dal Bosco in un mese, a strappi, da quando sotto
+      la fenditura lavorano altri. Ogni mattina al margine passa un carro,
+      e ogni sera ne torna indietro uno più pesante. Le cortecce si accendono di nuovo piano, e i lupi di Tharn tornano a sud. Sulla
+      spirale però i druidi parlano meno, e quando passi si guardano le
+      mani.
+
+      Il Circolo Ristretto si riunisce lo stesso. La quarta pietra è vuota,
+      e Aelion te la indica senza guardarti. Tharn tiene gli occhi sui lupi per tutto il tempo, e la pietra di Serha resta vuota.
+
+      «Il Bosco respira» dice Aelion. «Respira perché altri gli tengono la
+      bocca aperta, e li paga con quello che aveva sotto. Hai scelto tu, e
+      la scelta ha salvato il margine. La spirale non dimentica né l'una
+      né l'altra cosa.» Lascia passare tre sbuffi di vapore. «Il posto è
+      tuo. Il nome che il margine ti avrebbe dato, no.»
+
+      {empatia Media} Non è rabbia. È la delusione di uno che aveva visto
+      giusto su di te per metà.
+
+      {politica-ed-economia Facile} Il carro che passa la mattina porta il
+      sigillo di chi hai scelto. Quello che torna la sera porta il Mana.
+    opzioni:
+      - testo: "Sederti sulla quarta pietra"
+        descrizione: "Il posto è tuo, e lo prendi. Il resto verrà, o non verrà."
+        esito:
+          titolo: La quarta pietra
+          testo: |
+            Ti siedi sulla quarta pietra, e la pietra è fredda. Aelion ti
+            mette in mano il ramo che hai tagliato tu dall'Albero e tenuto per te, dritto come un'asta con la punta fatta lama, e ti dice che il Circolo non vuole niente che sia venuto da
+            sotto. Della parte che la città ha mandato per il margine tenuto
+            ti dà quello che ti spetta. Da stanotte sei la quarta voce del
+            Circolo Ristretto, e i druidi non ti chiamano in nessun modo.
+          pe: { natura: 20 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-ramo-di-metallo-vivo: 1, monete: 150 }
+          almeno: { rep.circolo: 8 }
+      - testo: "Chiedere perdono al Circolo Ristretto"
+        descrizione: "Un perdono al Circolo si chiede in silenzio, e si ottiene se qualcuno ti guarda per primo. Serve un'anima ferma."
+        prova: { attributo: sociale, abilita: [empatia, espressivita], difficolta: Difficile }
+        successo:
+          titolo: Tharn guarda per primo
+          testo: |
+            Resti in piedi davanti alla quarta pietra senza dire niente,
+            con le mani aperte, finché qualcuno non alza gli occhi. È Tharn,
+            e quando ti guarda i lupi si alzano. Aelion ti mette in mano il ramo che hai tagliato dall'Albero, dritto come un'asta con la punta fatta lama, e ti dà la tua parte del denaro mandato dalla
+            città. Da stanotte sei la quarta voce del Circolo Ristretto.
+          pe: { empatia: 20 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-ramo-di-metallo-vivo: 1, monete: 150, rep.circolo: 1 }
+          almeno: { rep.circolo: 8 }
+        fallimento:
+          titolo: Nessuno guarda
+          testo: |
+            Resti in piedi davanti alla quarta pietra con le mani aperte, e
+            nessuno alza gli occhi. Alla fine ti siedi da solo. Aelion ti
+            mette in mano il ramo che hai tagliato dall'Albero e la tua parte
+            del denaro della città, e ti dice che da stanotte sei la quarta
+            voce del Circolo Ristretto, con la voce di uno che legge una
+            sentenza.
+          pe: { empatia: 10 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-ramo-di-metallo-vivo: 1, monete: 150, tormento: 1 }
+          almeno: { rep.circolo: 8 }
+
+  # ------------------------------------------------------------ dopo il passo 14 · i Raschiatori al margine
+  - id: circolo-i-raschiatori-al-margine
+    presso: circolo-bosco-di-velthar
+    immagine: personaggi/dragna-gro-malog
+    titolo: I Raschiatori al margine
+    sommario: "La squadra di Dragna è accampata al margine da settimane, e aspetta che tu le dica dove scavare."
+    luogo: Il Bosco di Velthar, il margine
+    area: superficie-fratturata
+    requisiti: [fazione.circolo >= 14, circolo.dragna == 1, circolo.albero >= 1, circolo.albero <= 3]
+    testo: |
+      Al margine, dove la strada di Velthar arriva al primo tronco, c'è
+      un accampamento di tende di tela cerata con le lanterne dei
+      Raschiatori appese ai pali. Una squadra di Dragna aspetta lì da
+      settimane, con le corde arrotolate e i picconi puliti, e i lupi di
+      Tharn ci girano intorno di notte. Il caposquadra, un mezzorco con un
+      orecchio solo, ti viene incontro con il cappello in mano.
+
+      «Dragna dice che ci avevi detto dove» dice. «Noi siamo qui. Ci dici
+      quando.»
+
+      {conoscenze-della-strada Media} Una squadra ferma costa a Dragna
+      quanto una squadra al lavoro, e non rende niente. Ogni giorno qui è
+      un debito che qualcuno le dovrà pagare.
+
+      {origine apprendista-raschiatore} Il caposquadra lo conosci dalle
+      piattaforme. Ti ha insegnato lui come si arrotola una corda bagnata,
+      e adesso aspetta che tu gli dica che può srotolarla.
+    opzioni:
+      - testo: "Dirgli che sotto non c'è niente per loro"
+        descrizione: "L'Albero resta al Bosco. Dragna non sarà contenta, e la squadra se ne andrà con le corde asciutte."
+        esito:
+          titolo: Le corde asciutte
+          testo: |
+            Gli dici che sotto il Bosco non c'è niente da raschiare, e lui ti
+            guarda a lungo, girandosi il cappello fra le mani. Il giorno dopo
+            le tende non ci sono più, e al Grifone, si dice, Dragna ha
+            spaccato un boccale sul tavolo pronunciando il tuo nome.
+          effetti: { rep.raschiatori: -1 }
+          imposta: { circolo.dragna: 2 }
+      - testo: "Pagare la squadra per il tempo perso"
+        descrizione: "Un debito si paga. Se lo paghi tu, Dragna se ne ricorderà meno."
+        requisiti: [monete >= 60]
+        esito:
+          titolo: Il tempo perso
+          testo: |
+            Gli conti in mano le settimane perse della squadra giorno per giorno, e lui le ricconta davanti a te. Se ne vanno il mattino dopo senza rancore, e anche senza salutare. Al Grifone, si dice, Dragna ha
+            bevuto alla tua salute, con poca convinzione.
+          effetti: { monete: -60, rep.raschiatori: -0.5 }
+          imposta: { circolo.dragna: 2 }

@@ -149,6 +149,11 @@ function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da
   if (e.titolo) r.titolo = e.titolo;
   if (e.immagine) r.immagine = e.immagine;
   r.variazioni.push(...applicaEffetti(s, e.effetti, c));
+  // valori minimi (i gradi delle fazioni portano la reputazione almeno a una soglia)
+  for (const [k, v] of Object.entries(e.almeno ?? {})) {
+    const prima = s.quality[k] ?? 0;
+    if (prima < v) r.variazioni.push(...applicaEffetti(s, { [k]: v - prima }, c));
+  }
   // valori fissati (es. la statistica che scende a 3 all'uscita da un'area di penalità)
   for (const [k, v] of Object.entries(e.imposta ?? {})) {
     if (k.startsWith('pe.')) { s.pe[k.slice(3)] = v; continue; }

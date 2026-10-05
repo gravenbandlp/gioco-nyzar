@@ -1,0 +1,1014 @@
+# La quest della Maison des Lunes, passo 8: la spedizione «Sotto il cristallo spento» (ritorno citta-bassa,
+# soglia 4). Ci si entra dalla legnaia della Maison (`maison-la-legnaia`, passi-2.yaml). Tutte le stanze chiedono
+# fazione.maison == 7. Le fasce di profondità:
+# 0 la scala marcia e la cantina dei vini di Gretchen; 1 l'acqua alla cintura; 1-2 il bivio col gesso degli Scuri e
+# la stanza dismessa del Mercato delle Ombre (il cristallo carico si prende una volta sola, maison.dimenticato);
+# 2 il tombino sotto la lanterna; 2-3 le due guardie (Scuri prima della Pignatta, ladri di ferro dopo; la via
+# sociale è Difficile se al passo 7 hai tolto il cristallo, maison.cristallo 1); 3 la grata della Pignatta e le voci
+# nel muro. In ogni stanza c'è la via senza prova: due rintocchi e mezza Ferita.
+# Il cuore a 4 è la camera d'ascolto: Bastiano Rell, boss Difficile (scontro con due sgherri, Persuasione sui debiti,
+# Intimidire con Kanat, la recita del passo 7, Voce di seta; l'Allievo di Torvessa e il Figlio della Città Bassa
+# hanno una via loro). Chi riesce porta maison.scrivano a 5 e il passo a 8; chi fallisce prende Ferite, Bastiano
+# scappa con il gemello (maison.scrivano 3); il quaderno resta a te e il passo va avanti comunque.
+# In fondo al file, la musica e l'ambiente dell'area (colonna sonora).
+aree:
+  - id: maison-sotto-il-cristallo-spento
+    immagine: ambientazione/citta-bassa
+    nome: Sotto il cristallo spento
+    sommario: "Sotto la Maison e sotto Via dei Rasoi corre la condotta dell'acqua vecchia, che non usa più nessuno. Quasi nessuno."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      La condotta dell'acqua vecchia è un tunnel di mattoni alto quanto un
+      uomo, con la volta a botte annerita dal fumo delle lanterne di chi
+      ci è passato prima di te. Sul fondo corre un rigagnolo che in certi
+      punti arriva alla caviglia e in altri sparisce in una fessura. Da
+      qualche parte, sopra la tua testa, c'è Via dei Rasoi con i suoi panni
+      stesi, e ogni tanto da una grata scende una lama di luce e un rumore di
+      ruote.
+
+      Il freddo sale dalle pietre e ti entra nelle ossa delle mani per prime.
+      L'aria sa di muffa, e sotto la muffa c'è un odore di cera che qui sotto
+      non dovrebbe esserci. Qualcuno è passato con una candela, e non molto
+      tempo fa.
+
+storylet:
+  # ------------------------------------------------------------ 0 · la scala marcia
+  - id: maison-cristallo-la-scala-marcia
+    immagine: ambientazione/maison-des-lunes
+    titolo: La scala marcia
+    sommario: "Dalla cantina alla condotta si scende per una scala di legno che ha visto giorni migliori, e molta acqua."
+    luogo: Sotto la Maison, il pozzo della cantina
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento == 0]
+    testo: |
+      In fondo alla cantina dei vini c'è un pozzo quadrato, con una scala di
+      legno appoggiata alla parete che scende nel buio per tre volte la tua
+      altezza. I pioli sono neri di umidità, e il quarto dall'alto manca del
+      tutto. Qualcuno l'ha sostituito con un pezzo di corda annodato fra i
+      montanti, che penzola molle. Dal fondo sale il rumore dell'acqua che
+      scorre, e un filo d'aria fredda che ti fa lacrimare gli occhi.
+
+      {atletica Media} Con le mani sui montanti e i piedi vicino ai chiodi la
+      scala regge. Il legno al centro dei pioli invece è spugna.
+
+      {resistenza Facile fallita} Le ginocchia, che oggi hanno fatto le scale
+      della Maison due volte, ti fanno sapere la loro opinione sulla terza.
+    opzioni:
+      - testo: "Scendere tenendoti ai montanti"
+        descrizione: "Piedi vicino ai chiodi, mani sul legno buono, e niente fretta."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: I chiodi
+          testo: |
+            Scendi con i piedi vicino ai chiodi e le mani strette sui montanti,
+            un piolo alla volta, e salti quello che manca senza guardare la
+            corda. In fondo l'acqua ti arriva alla caviglia ed è così fredda che
+            per un momento ti dimentichi di respirare. Sopra di te la scala
+            scricchiola ancora per un po', da sola.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il piolo di spugna
+          testo: |
+            Al sesto piolo il legno ti si sbriciola sotto lo stivale, e scendi
+            gli ultimi tre in un modo che non ha niente a che fare con la scala.
+            Atterri sul sedere nell'acqua gelata, con la lanterna sollevata
+            sopra la testa per miracolo. Ti rialzi bagnato fino alla cintura e
+            con un fianco che pulsa.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+      - testo: "Calarti con la corda della legnaia"
+        descrizione: "Kanat ti ha lasciato una corda arrotolata in cima al pozzo. Legata alla botte giusta, ti porta giù senza toccare un piolo."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Facile }
+        successo:
+          titolo: La botte giusta
+          testo: |
+            Leghi la corda alla botte più grande della cantina, una di quercia
+            piena per tre quarti, e ti cali giù con le gambe contro la parete.
+            La botte non si muove nemmeno di un dito. In fondo sciogli il nodo
+            con uno strattone e lasci la corda appesa, per il ritorno.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: La botte vuota
+          testo: |
+            Leghi la corda a una botte che si rivela vuota, e a metà discesa
+            la senti strisciare sul pavimento della cantina sopra di te. Ti
+            aggrappi alla scala con le dita prima che la botte arrivi al bordo
+            del pozzo. Scendi il resto a pioli, con il cuore in gola e una
+            scheggia nel palmo.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere piano, piolo per piolo, provando ognuno"
+        descrizione: "Ci vuole tempo, e un piolo marcio te lo trovi comunque sotto il piede."
+        costo: 2
+        esito:
+          titolo: Un piolo alla volta
+          testo: |
+            Provi ogni piolo con il tallone prima di metterci il peso, e quando
+            uno cede ti trovi già con le mani al montante. Ci metti il triplo
+            del tempo, e arrivi in fondo con le dita scorticate e i polpacci
+            che tremano.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0 · la cantina dei vini di Gretchen
+  - id: maison-cristallo-la-cantina-di-gretchen
+    immagine: ambientazione/maison-des-lunes
+    titolo: La cantina dei vini
+    sommario: "In fondo alla cantina della Maison una porticina di ferro dà sulla condotta. Ha un lucchetto nuovo, e la chiave non è della casa."
+    luogo: Sotto la Maison, la cantina dei vini
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento == 0]
+    testo: |
+      La cantina dei vini è lunga e bassa, con le botti allineate sotto la
+      volta e le bottiglie coricate nella sabbia, ciascuna con un cartellino
+      scritto da Gretchen nella sua grafia rotonda. In fondo, dietro l'ultima
+      botte, c'è una porticina di ferro che dà sulla condotta. Ha un lucchetto
+      nuovo che luccica alla lanterna, e i cardini unti di fresco.
+
+      {percezione Media} Le impronte sulla polvere vanno dalla porticina alla
+      scala e tornano indietro, sempre le stesse scarpe a punta stretta. Chi
+      saliva fin qui si fermava sotto la legnaia, per ore.
+
+      Sul pavimento, accanto alla porticina, c'è un mozzicone di candela e un
+      pezzo di pane secco morsicato, lasciato da uno che aveva fame e fretta.
+    opzioni:
+      - testo: "Forzare il lucchetto"
+        descrizione: "Un lucchetto nuovo e lucido è fatto per sembrare robusto. Con un ferro sottile e un po' di pazienza si apre."
+        prova: { attributo: fisico, abilita: [furtivita, tecnologia], difficolta: Media }
+        successo:
+          titolo: Il lucchetto lucido
+          testo: |
+            Ci lavori con un ferro da calza che Gretchen ti ha prestato senza
+            chiederti a che cosa servisse, e dopo qualche minuto il lucchetto si
+            apre con un clic educato. La porticina gira sui cardini unti senza un
+            suono. Dall'altra parte la condotta ti accoglie con un fiato di
+            acqua ferma.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il ferro da calza
+          testo: |
+            Il ferro da calza si piega dentro il lucchetto e non ne vuole più
+            uscire. Ci perdi mezz'ora e un'unghia, e alla fine il lucchetto è
+            ancora chiuso, con dentro un pezzo dei ferri di Gretchen. Dovrai
+            passare dalla scala del pozzo.
+          effetti: { ferite: 0.5 }
+      - testo: "Tornare su a chiedere a Gretchen la mazza di Kanat"
+        descrizione: "Un lucchetto si apre anche così. Fa rumore, e chi sta sotto lo sentirà."
+        costo: 2
+        esito:
+          titolo: La mazza
+          testo: |
+            Kanat scende con la mazza e apre il lucchetto in un colpo solo, con
+            un rumore che rimbomba lungo tutta la condotta e torna indietro
+            dalle volte più lontane. Ti guarda come per chiederti scusa. Ti
+            sbucci le nocche sullo stipite passando di corsa.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+      - testo: "Aspettare che torni chi ha lasciato il pane"
+        descrizione: "Chi ha mangiato qui tornerà a mangiare. Nascosto dietro una botte, potresti vedere da dove arriva."
+        prova: { attributo: fisico, abilita: [furtivita, resistenza], difficolta: Media }
+        successo:
+          titolo: Le scarpe a punta
+          testo: |
+            Aspetti dietro l'ultima botte con le gambe che si addormentano, e
+            dopo un'ora la porticina si apre. Entra un ragazzo con un sacchetto
+            di pane e guarda a lungo la scala. Poi ci ripensa e se ne torna da
+            dove è venuto, lasciando il lucchetto aperto. Lo segui a dieci passi, nel buio.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il gatto
+          testo: |
+            Aspetti dietro l'ultima botte finché le gambe non ti si
+            addormentano. Viene soltanto il gatto della cucina, che ti trova
+            subito e decide di sedersi sui tuoi piedi. Quando ti alzi hai i
+            crampi fino alle anche, e il lucchetto è ancora chiuso.
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · l'acqua alla cintura
+  - id: maison-cristallo-l-acqua-alla-cintura
+    immagine: ambientazione/citta-bassa
+    titolo: L'acqua alla cintura
+    sommario: "Dove la condotta scende, l'acqua sale. Dall'altra parte c'è un rumore di unghie sui mattoni."
+    luogo: La condotta, il tratto basso
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento == 1]
+    testo: |
+      La condotta scende per un tratto, e il rigagnolo diventa una pozza
+      lunga venti passi che ti arriva alla cintura. L'acqua è nera e fredda
+      come quella di un pozzo d'inverno, e sulla superficie galleggia
+      una pellicola di polvere. Dall'altra parte, dove il fondo torna a
+      salire, qualcosa si muove sui mattoni con un rumore di unghie.
+
+      {natura Media} Topi, una famiglia intera, di quelli grossi che vivono
+      sotto i mercati. Non attaccano un uomo che cammina. Uno che nuota è
+      un'altra faccenda.
+
+      {resistenza Media} Il freddo dell'acqua ti arriverà alle ossa in dieci
+      passi. Dopo venti, le gambe smetteranno di prendere ordini.
+    opzioni:
+      - testo: "Attraversare a passo svelto"
+        descrizione: "Venti passi nell'acqua gelata, con la lanterna alta e la bocca chiusa."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Venti passi
+          testo: |
+            Entri nell'acqua fino alla cintura e la attraversi senza fermarti,
+            con la lanterna sopra la testa e i denti stretti per non farli
+            battere. I topi si scostano dal bordo quando arrivi, offesi. Quando
+            esci hai le gambe di legno, e le strofini finché non tornano tue.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il fondo che scivola
+          testo: |
+            A metà pozza il fondo ti scivola sotto i piedi e vai giù fino al
+            collo. La lanterna si salva, tu meno. Torni indietro sputando
+            acqua nera, con i topi che dall'altra parte ti guardano come si
+            guarda un vicino rumoroso.
+          effetti: { ferite: 0.5 }
+      - testo: "Spaventare i topi e passare lungo il bordo"
+        descrizione: "Lungo la parete c'è una cornice di mattoni larga una spanna. Con i topi lontani, ci si cammina."
+        prova: { attributo: sociale, abilita: [addestrare-animali, intimidire], difficolta: Media }
+        successo:
+          titolo: La cornice
+          testo: |
+            Batti la lanterna contro i mattoni e lanci un sasso dall'altra parte,
+            e i topi spariscono in una fessura tutti insieme, con un fruscio di
+            stoffa strappata. Passi lungo la cornice di mattoni con la schiena
+            alla parete, bagnandoti appena gli stivali.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il topo coraggioso
+          testo: |
+            I topi spariscono tutti, tranne uno grosso come un gatto che resta
+            sulla cornice a guardarti. Quando ci provi lo stesso ti morde la
+            caviglia attraverso lo stivale, e tu finisci nell'acqua fino alla
+            cintura per non schiacciarlo, che è una gentilezza che lui non
+            ricambia.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che i topi se ne vadano, poi passare con calma"
+        descrizione: "Prima o poi i topi hanno fame altrove. L'acqua invece resta fredda."
+        costo: 2
+        esito:
+          titolo: La pazienza
+          testo: |
+            Aspetti seduto sui mattoni finché il rumore di unghie si allontana,
+            poi attraversi la pozza piano, un passo alla volta. Dall'altra parte
+            non senti più i piedi, e ti ci vuole un pezzo prima che smettano di
+            formicolare.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1-2 · il bivio col gesso
+  - id: maison-cristallo-il-bivio-col-gesso
+    immagine: fazioni/scuri
+    titolo: Il bivio col gesso
+    sommario: "La condotta si divide in tre, e su ogni imbocco qualcuno ha fatto un segno col gesso."
+    luogo: La condotta, il bivio
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento >= 1, profondita.maison-sotto-il-cristallo-spento <= 2]
+    testo: |
+      In una camera rotonda di mattoni la condotta si divide in tre gallerie,
+      ognuna con un arco basso, e sopra ogni arco c'è un segno tracciato col
+      gesso all'altezza degli occhi. A sinistra c'è una mano aperta, al centro
+      una spirale, e sull'arco di destra un triangolo con un punto nel mezzo. Per terra qualcuno ha lasciato un
+      mozzicone di sigaro ancora umido.
+
+      {conoscenze-della-strada Media} Sono segni degli Scuri, quelli che i
+      ragazzi di Mauro usano per dirsi dove si passa e dove no. La mano aperta
+      è una strada sicura. Il triangolo con il punto, da bambino, ti hanno
+      insegnato a evitarlo.
+
+      {origine figlio-della-citta-bassa} Il triangolo con il punto lo
+      disegnavano anche sui muri del tuo vicolo, e la sera tua madre ti
+      faceva passare dall'altra parte.
+    opzioni:
+      - testo: "Leggere i segni"
+        descrizione: "Segni della strada, tracciati da chi la usa. Se li sai leggere, ti portano dove vanno loro."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, percezione], difficolta: Media }
+        successo:
+          titolo: La mano aperta
+          testo: |
+            Prendi la galleria con la mano aperta, e dopo cinquanta passi trovi
+            un altro segno uguale, poi un altro ancora, a intervalli regolari
+            come i paletti di una strada di campagna. Il triangolo con il punto,
+            lo vedi più avanti, segna una botola sfondata che dà sul vuoto.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: La spirale
+          testo: |
+            Prendi la galleria con la spirale, che ti sembrava la più asciutta,
+            e dopo cento passi la galleria finisce contro un muro di mattoni
+            nuovi. Torni indietro con l'impressione di aver sentito ridere,
+            molto lontano, dalla galleria con la mano aperta.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire l'odore del sigaro"
+        descrizione: "Il mozzicone è ancora umido. Chi l'ha fumato è passato da poco, e il fumo resta nelle gallerie."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Il fumo
+          testo: |
+            Annusi l'imbocco di ogni galleria come un cane da tartufi, e da
+            quella con la mano aperta arriva un filo di tabacco dolce. Lo segui
+            per un pezzo, finché il fumo si confonde con l'umidità. A quel punto
+            la galleria è una sola, e va avanti.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il naso che si arrende
+          testo: |
+            Annusi le tre gallerie una dopo l'altra, e il naso, ormai pieno di
+            muffa, ti dice che sanno tutte uguali. Prendi quella di sinistra a
+            caso, e torni indietro dopo un'ora con gli stivali pieni d'acqua.
+          effetti: { ferite: 0.5 }
+      - testo: "Provarle tutte e tre"
+        descrizione: "Una alla volta, fino in fondo. Una delle tre porta da qualche parte."
+        costo: 2
+        esito:
+          titolo: Tutte e tre
+          testo: |
+            La spirale finisce contro un muro. Il triangolo porta a una botola
+            sfondata sul buio, e ci sei quasi dentro con un piede quando la
+            lanterna te la mostra. La mano aperta è l'ultima, ed è quella
+            buona. Ci arrivi con le gambe stanche e il cuore che non si è ancora
+            calmato.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1-2 · la stanza dismessa
+  - id: maison-cristallo-la-stanza-dismessa
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: La stanza dismessa
+    sommario: "Una stanza scavata accanto alla condotta, con i banchi vuoti e una luce verdognola che viene da un angolo."
+    luogo: La condotta, una stanza laterale
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento >= 1, profondita.maison-sotto-il-cristallo-spento <= 2]
+    testo: |
+      Da un'apertura laterale si entra in una stanza scavata nella roccia, con
+      i banchi di legno vuoti allineati lungo le pareti e i ganci delle
+      lanterne ancora infissi nella volta. Su un banco è rimasta una bilancia
+      senza piatti. Il Mercato delle Ombre ci ha passato qualche mese, anni fa,
+      prima di cambiare stanza come fa sempre.
+
+      {politica-ed-economia Media} I banchi sono disposti per far vedere la
+      merce a chi entra e tenere le spalle al muro a chi vende. Chi ha
+      pensato questa stanza aveva lavorato in un mercato vero, prima.
+
+      In un angolo, incastrato fra due pietre, c'è un cristallo conduttore
+      grande come un uovo che manda una luce verdognola, dimenticato da
+      qualcuno che aveva fretta di andarsene.
+    opzioni:
+      - testo: "Prendere il cristallo dimenticato"
+        descrizione: "Un cristallo carico senza timbro della Gilda. Nessuno verrà a cercarlo, dopo tanti anni."
+        quando: [maison.dimenticato == 0]
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: La luce verde
+          testo: |
+            Lo sfili dalle pietre girandolo piano, come si toglie un dente, e
+            la luce verdognola ti illumina il palmo. È carico, e caldo come un
+            sasso al sole. Lo avvolgi nel fazzoletto e lo infili in fondo alla
+            bisaccia. Nella stanza, senza la sua luce, i banchi vuoti sembrano
+            più vecchi.
+          imposta: { maison.dimenticato: 1 }
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, cristalli.cristallo-carico: 1 }
+        fallimento:
+          titolo: La scossa
+          testo: |
+            Lo tocchi con le dita nude, e il cristallo ti restituisce il favore
+            con una scossa che ti arriva al gomito. Resta dov'è, incastrato fra
+            le pietre, e la sua luce verde ti sembra più intensa di prima, quasi
+            soddisfatta.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare la stanza e cercare l'altra uscita"
+        descrizione: "Un mercato ha sempre due uscite. La seconda di solito è quella buona."
+        prova: { attributo: mentale, abilita: [percezione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La seconda uscita
+          testo: |
+            Dietro l'ultimo banco trovi una tenda marcita, e dietro la tenda un
+            passaggio stretto che rientra nella condotta più avanti, oltre un
+            tratto crollato. Chi vendeva qui sapeva che prima o poi qualcuno
+            sarebbe entrato dalla porta principale.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: La tenda
+          testo: |
+            Dietro l'ultimo banco trovi una tenda marcita, e dietro la tenda un
+            muro. Quando la scosti ti piove addosso la polvere di anni, che ti
+            entra negli occhi e nella gola. Esci dalla stanza tossendo, da dove
+            sei entrato.
+          effetti: { ferite: 0.5 }
+      - testo: "Tornare nella condotta e girarle intorno"
+        descrizione: "La stanza non ti serve. La condotta prosegue anche senza."
+        costo: 2
+        esito:
+          titolo: Il giro
+          testo: |
+            Torni nella condotta e la segui oltre la stanza, fino a un tratto
+            crollato che devi scavalcare a quattro zampe fra mattoni bagnati. Ti
+            scortichi i gomiti, ma passi.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · il tombino sotto la lanterna
+  - id: maison-cristallo-il-tombino
+    immagine: ambientazione/maison-des-lunes
+    titolo: Il tombino
+    sommario: "Da un tombino nella volta scende una luce color miele. Sopra c'è Via dei Rasoi, e la lanterna della Maison."
+    luogo: La condotta, sotto Via dei Rasoi
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento == 2]
+    testo: |
+      In un punto della volta c'è un tombino di ghisa con le feritoie, e
+      dalle feritoie scende una luce color miele che riconosci subito. Sopra
+      c'è Via dei Rasoi, e la lanterna della Maison è accesa a pochi passi.
+      Senti la catena di bronzo che oscilla nel vento, e la voce di Churl che
+      dice di no a qualcuno. Sei passato sotto mezza strada senza accorgertene.
+
+      {percezione Media} Sulla parete sotto il tombino ci sono dei segni di
+      gesso a mezza altezza, contati a gruppi di cinque come si contano i
+      giorni in una cella. Qualcuno ha passato molte sere qui sotto a guardare
+      chi entrava.
+
+      {furtivita Media} Da qui sotto si vede la porta della Maison senza
+      essere visti. Se ne accorgerebbe soltanto uno che guardasse dritto nel
+      tombino, e nessuno guarda mai per terra.
+    opzioni:
+      - testo: "Orientarti dalla luce della lanterna"
+        descrizione: "Sai dov'è la lanterna e sai dov'è il cristallo spento. La strada sotto la strada è la stessa."
+        prova: { attributo: mentale, abilita: [percezione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Il gomito della strada
+          testo: |
+            Conti i passi dalla porta della Maison fino al gomito di Via dei
+            Rasoi come li conti quando cammini di sopra, quaranta passi lunghi.
+            La condotta ti ci porta quasi dritta. Dalle feritoie di un altro tombino vedi
+            la base del cristallo spento, nera contro il cielo.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il passo corto
+          testo: |
+            Conti i passi, ma qui sotto il tuo passo è più corto, e quando alzi
+            gli occhi al tombino successivo vedi la vetrina del fornaio invece
+            del cristallo spento. Torni indietro, con il rumore delle ruote di
+            un carro che ti passa sopra la testa.
+          effetti: { tormento: 0.5 }
+      - testo: "Contare i segni di gesso"
+        descrizione: "Chi ha passato qui le sue sere ha lasciato il conto. E un conto dice sempre qualcosa di chi lo tiene."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Il conto delle sere
+          testo: |
+            Sono più di trecento sere, e i gruppi di cinque finiscono tutti con
+            una piccola croce il giovedì. Accanto all'ultimo gruppo c'è una
+            freccia di gesso che indica la galleria verso il cristallo spento.
+            Chi contava queste sere un giorno ha smesso di guardare dal tombino,
+            ed è andato a sedersi più in là.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Troppi segni
+          testo: |
+            Cominci a contare i segni e a metà ti accorgi che ne hai saltata una
+            fila. Ricominci, e la lanterna comincia a tremare. Lasci perdere con
+            la sensazione che qualcuno, sopra di te, abbia guardato per un
+            momento nel tombino.
+          effetti: { sospetto: 0.5 }
+      - testo: "Andare avanti a tentoni, verso il gomito della strada"
+        descrizione: "Prima o poi la condotta arriva sotto il cristallo spento. Basta non fermarsi."
+        costo: 2
+        esito:
+          titolo: A tentoni
+          testo: |
+            Vai avanti con la mano sinistra sulla parete, sotto tombini che ti
+            mostrano pezzi di Via dei Rasoi uno dopo l'altro. Sbatti la fronte
+            contro un tubo di piombo che sporge dalla volta, e ti ci vuole un
+            momento per ricordarti dove sei.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2-3 · le guardie
+  - id: maison-cristallo-le-guardie
+    immagine: fazioni/scuri
+    titolo: Le guardie
+    sommario: "Dove la condotta si stringe, due uomini giocano a dadi su una cassa rovesciata. Uno ha un coltello sul ginocchio."
+    luogo: La condotta, la strettoia
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento >= 2, profondita.maison-sotto-il-cristallo-spento <= 3]
+    testo: |
+      Dove la condotta si stringe fino a lasciar passare un uomo alla volta,
+      due uomini siedono su una cassa rovesciata con una candela in mezzo e
+      giocano a dadi su un tagliere. Uno tiene un coltello appoggiato sul
+      ginocchio, l'altro un piede di porco contro la parete. Dietro di loro la
+      galleria prosegue verso una porta di legno con uno spiraglio di luce.
+
+      {rissa Media} Quello col coltello è seduto male, con il peso sulla
+      gamba sbagliata. L'altro, col piede di porco, è sveglio da un pezzo e ha già
+      guardato due volte nella tua direzione.
+
+      {conoscenze-della-strada Media} Prima della notte della Pignatta questa
+      strada era degli Scuri. Adesso è di chi stacca le grate e le rivende a
+      peso. In tutti e due i casi chi la tiene è pagato poco, e lo sa.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Due ragazzi di Mauro, in una strettoia dove ne passa uno alla volta."
+        quando: [pista.pelle < 6]
+        combattimento: maison-la-condotta-prima
+        vittoria:
+          titolo: La strettoia
+          testo: |
+            Nella strettoia possono venirti addosso uno alla volta, e uno alla
+            volta li metti giù. Il primo scappa verso la Pignatta con il
+            cappuccio in mano, il secondo resta seduto contro il muro a
+            tenersi il braccio. La candela non si è nemmeno spenta.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, rep.scuri: -0.5 }
+        sconfitta:
+          titolo: Il piede di porco
+          testo: |
+            Il piede di porco ti arriva sul fianco mentre guardi il coltello, e
+            ti ritrovi in ginocchio nell'acqua. Ti trascini indietro lungo la
+            condotta, e loro non ti inseguono, perché sono pagati per tenere la
+            strettoia e non per correre.
+          effetti: { ferite: 1 }
+      - testo: "Affrontarli"
+        descrizione: "Due ladri di ferro, in una strettoia dove ne passa uno alla volta."
+        quando: [pista.pelle >= 6]
+        combattimento: maison-la-condotta-dopo
+        vittoria:
+          titolo: La strettoia
+          testo: |
+            Nella strettoia possono venirti addosso uno alla volta, e uno alla
+            volta li metti giù. Il primo scappa lasciando il piede di porco, il
+            secondo resta seduto contro il muro a tenersi il braccio e ti giura
+            che la grata del Ponte del Pesce non l'ha presa lui.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        sconfitta:
+          titolo: Il piede di porco
+          testo: |
+            Il piede di porco ti arriva sul fianco mentre guardi il coltello, e
+            ti ritrovi in ginocchio nell'acqua. Ti trascini indietro lungo la
+            condotta, e loro non ti inseguono, perché sono pagati per tenere la
+            strettoia e non per correre.
+          effetti: { ferite: 1 }
+      - testo: "Convincerli che stanotte non conviene"
+        descrizione: "Pagati poco, al freddo, a giocare a dadi su un tagliere. Con le parole giuste se ne vanno a casa."
+        quando: [maison.cristallo != 1]
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: La cena calda
+          testo: |
+            Ti siedi sul bordo della cassa e gli chiedi quanto li pagano, e poi
+            se li pagano abbastanza per prendersi una coltellata. Ci pensano. Ti
+            lasci convincere a comprargli i dadi per qualche moneta, e loro si
+            convincono ad andare a mangiare una cosa calda dall'altra parte
+            della città.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, monete: -2 }
+        fallimento:
+          titolo: I dadi
+          testo: |
+            Gli chiedi quanto li pagano, e quello col piede di porco ti risponde
+            che li pagano proprio per non sentire domande. Ti spinge indietro
+            nella condotta con la punta del ferro sul petto, finché non sei
+            fuori dalla luce della candela.
+          effetti: { ferite: 0.5 }
+      - testo: "Convincerli che stanotte non conviene"
+        descrizione: "Chi ascoltava dalla lampada sa che la Maison se n'è accorta. Hanno l'ordine di non muoversi, e glielo hanno detto con il bastone."
+        quando: [maison.cristallo == 1]
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Difficile }
+        successo:
+          titolo: La cena calda
+          testo: |
+            Gli dici che chi li ha messi qui stanotte se ne sta al caldo, e che
+            se arriva Kanat dalla legnaia li paga lui, con la mazza. Si guardano.
+            Ti lasci convincere a comprargli i dadi per qualche moneta, e loro
+            si convincono ad andare a mangiare una cosa calda dall'altra parte
+            della città.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, monete: -2 }
+        fallimento:
+          titolo: L'ordine
+          testo: |
+            Ti ascoltano, poi quello col piede di porco ti dice che stanotte
+            hanno l'ordine di tenere chiusa la strettoia, perché la Maison sa. Ti
+            spinge indietro con la punta del ferro, e tu inciampi in un mattone
+            smosso e batti il gomito sulla parete.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che finiscano il turno"
+        descrizione: "Prima o poi la candela finisce. Il freddo invece no."
+        costo: 2
+        esito:
+          titolo: La candela finita
+          testo: |
+            Aspetti nel buio, con l'acqua alle caviglie, finché la candela non
+            si consuma e i due se ne vanno brontolando a cercarne un'altra.
+            Passi la strettoia mentre sono via, con le gambe che non senti più
+            dal ginocchio in giù.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la grata della Pignatta
+  - id: maison-cristallo-la-grata-della-pignatta
+    immagine: ambientazione/pignatta-grassa
+    titolo: La grata della Pignatta
+    sommario: "Una galleria laterale sale verso una grata, e dalla grata arriva un odore che conosci."
+    luogo: La condotta, la galleria della Pignatta
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento == 3]
+    testo: |
+      Una galleria laterale sale con dei gradini di pietra consumati fino a
+      una grata di ferro, oltre la quale si vede il fondo di una cantina. Da
+      lassù arriva un odore che riconosci, il grasso di montone della cucina
+      oppure la cenere bagnata, quella che resta di una taverna quando il
+      fuoco se n'è andato e la pioggia ha fatto il resto. È la cantina della
+      Pignatta. La condotta principale prosegue invece dritta, verso il
+      cristallo spento.
+
+      {conoscenze-della-strada Facile} Ecco come salivano i ragazzi di Mauro
+      fino in Via dei Rasoi senza farsi vedere. La strada dell'orecchio e
+      quella degli Scuri sono la stessa.
+
+      {armi-da-mischia Facile fallita} Hai la mano sull'arma da quando hai
+      sentito l'odore, e contro chi usarla non lo sai bene nemmeno tu.
+    opzioni:
+      - testo: "Tirare dritto senza salire"
+        descrizione: "La grata non ti riguarda. Il cristallo spento è più avanti."
+        prova: { attributo: mentale, abilita: [resilienza, percezione], difficolta: Media }
+        successo:
+          titolo: Dritto
+          testo: |
+            Ti costringi a non guardare la grata e tiri dritto, e dopo trenta
+            passi l'odore della Pignatta si perde nell'umido. Davanti a te, in
+            fondo alla galleria, c'è una porta di legno con uno spiraglio di
+            luce sotto, e una voce bassa che detta a se stessa.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: La grata
+          testo: |
+            Sali i gradini fino alla grata senza volerlo davvero, e ci resti
+            aggrappato a guardare la cantina per un tempo che non sai misurare.
+            Quando torni nella condotta principale hai le dita rosse di
+            ruggine e la testa piena di cose che preferivi non ricordare.
+          effetti: { tormento: 0.5 }
+      - testo: "Bloccare la grata perché nessuno scenda alle tue spalle"
+        descrizione: "Una trave, due mattoni, un nodo fatto bene. Chi scende dalla Pignatta dovrà fare rumore."
+        prova: { attributo: fisico, abilita: [atletica, tecnologia], difficolta: Media }
+        successo:
+          titolo: La trave
+          testo: |
+            Incastri una trave marcia fra la grata e il gradino e la fermi con
+            due mattoni, e la grata adesso non si apre senza fracasso. Ti pulisci
+            le mani sui calzoni e torni nella condotta principale, più
+            tranquillo per le tue spalle.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: La trave marcia
+          testo: |
+            La trave ti si spezza fra le mani e i due mattoni ti scivolano sul
+            piede, uno dopo l'altro, con una precisione quasi personale.
+            Lasci perdere la grata e torni indietro zoppicando.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare oltre di corsa, a testa bassa"
+        descrizione: "Più svelto passi, meno ricordi da portarti a casa."
+        costo: 2
+        esito:
+          titolo: A testa bassa
+          testo: |
+            Corri oltre la galleria della Pignatta a testa bassa, e scivoli sui
+            mattoni bagnati due volte prima di rallentare. In fondo alla
+            condotta c'è una porta di legno con uno spiraglio di luce sotto.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · le voci nel muro
+  - id: maison-cristallo-le-voci-nel-muro
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Le voci nel muro
+    sommario: "In un tratto della condotta i mattoni parlano, a voce bassa, con le voci del salone."
+    luogo: La condotta, sotto il cristallo spento
+    area: maison-sotto-il-cristallo-spento
+    ripetibile: true
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento == 3]
+    testo: |
+      In un tratto della condotta, dove la volta si abbassa, i mattoni
+      parlano. Sono voci basse e lontane, come da una stanza accanto, e
+      quando ti fermi le riconosci. È la risata di Kasja e la voce di un
+      cliente che chiede dove si mettono gli stivali. Un filo di rame corre
+      lungo la parete, fissato con chiodini ogni due palmi, e sparisce in un
+      foro verso il basso.
+
+      {magia Media} Il filo di rame accompagna il Mana senza portarlo. Chi
+      l'ha messo voleva che il suono arrivasse più pulito, e sapeva quello
+      che faceva.
+
+      {tecnologia Media} I chiodini sono di ottone, quelli che usano gli
+      accordatori di cristalli. In città li vendono soltanto due botteghe, che
+      fanno credito volentieri.
+    opzioni:
+      - testo: "Seguire il filo di rame"
+        descrizione: "Un filo che va in un posto preciso. Basta non perderlo."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il filo
+          testo: |
+            Segui il filo di rame con un dito, chiodino dopo chiodino, finché non
+            entra sotto una porta di legno. Da sotto la porta esce una luce di
+            candela e la voce di un uomo che detta a se stesso, piano, i nomi
+            che sente arrivare dal muro.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Il chiodino
+          testo: |
+            Il filo a un certo punto si sdoppia, e tu segui il ramo sbagliato
+            fino a una crepa dove il rame è stato rubato. Quando torni indietro
+            ti ferisci il pollice su un chiodino che sporgeva, e la goccia di
+            sangue sul rame ti sembra un cattivo presagio.
+          effetti: { ferite: 0.5 }
+      - testo: "Ascoltare le voci per capire da dove vengono"
+        descrizione: "Le voci arrivano da un posto e vanno in un altro. Un orecchio buono sente anche la direzione."
+        prova: { attributo: mentale, abilita: [magia, resilienza], difficolta: Media }
+        successo:
+          titolo: La direzione
+          testo: |
+            Appoggi l'orecchio ai mattoni e ascolti, a occhi chiusi. Le voci del
+            salone arrivano dall'alto e scivolano verso il basso, sempre nella
+            stessa direzione, come acqua in un canale. Le segui finché non le
+            senti raccogliersi dietro una porta di legno, dove qualcuno le sta
+            scrivendo.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1 }
+        fallimento:
+          titolo: Le voci di troppo
+          testo: |
+            Ascolti troppo a lungo. A un certo punto, fra le voci del salone, ti
+            sembra di sentire anche la tua, che chiede a Sara dove si mettono
+            gli stivali. Ti stacchi dal muro con un brivido e cammini in fretta
+            nella direzione sbagliata.
+          effetti: { tormento: 0.5 }
+      - testo: "Tirare dritto con le mani sulle orecchie"
+        descrizione: "Le voci non ti servono. Ti serve la porta in fondo."
+        costo: 2
+        esito:
+          titolo: Le orecchie tappate
+          testo: |
+            Cammini con le mani sulle orecchie, e così non vedi il gradino. Ci
+            arrivi lo stesso alla porta di legno con la luce sotto, e hai un
+            ginocchio sbucciato e la risata di Kasja ancora in testa.
+          effetti: { profondita.maison-sotto-il-cristallo-spento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · la camera d'ascolto
+  - id: maison-cristallo-la-camera-d-ascolto
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La camera d'ascolto
+    sommario: "Una stanza di pietra ai piedi del cristallo spento. Accanto a un leggio d'ottone un uomo scrive quello che sente."
+    luogo: Sotto il cristallo spento, la camera d'ascolto
+    area: maison-sotto-il-cristallo-spento
+    requisiti: [fazione.maison == 7, profondita.maison-sotto-il-cristallo-spento >= 4]
+    testo: |
+      Dietro la porta di legno c'è una stanza di pietra quadrata, proprio
+      sotto il cristallo spento. Le radici della pietra scendono dalla volta
+      in una colonna nera e opaca, e attorno alla colonna qualcuno ha
+      montato un leggio di ottone. Sul leggio c'è un cristallo gemello di
+      quelli della Maison, legato con il filo di rame e ronzante, e accanto
+      al leggio c'è un quaderno blu aperto. Due sgherri dormono seduti
+      contro il muro, con le armi sulle ginocchia.
+
+      L'uomo al leggio è magro, con gli occhiali legati allo spago e le dita
+      grigie di polvere di cristallo fino alle nocche. Scrive senza alzare la
+      testa, con una grafia minuta, mentre il cristallo gli porta le voci del
+      salone. Quando la porta cigola alza la penna, ma non la posa.
+
+      {magia Media} Il cristallo sul leggio è accordato a mano, con una cura
+      da orologiaio. Chi l'ha fatto conosce il Mana come pochi in città, e
+      non lo usa per difendersi. Le sue mani tremano già.
+
+      {origine allievo-di-torvessa} All'Accademia gli allievi si raccontano
+      ancora di un certo Rell, che accordava i cristalli del laboratorio
+      meglio dei maestri e un giorno non si presentò agli esami, perché i
+      creditori lo aspettavano sulla porta. Gli occhiali legati con lo spago
+      erano parte della storia.
+
+      «Sono il miglior accordatore della Città Bassa» dice, con la voce di
+      uno che lo ripete spesso a se stesso. «Mi pagano a settimana. Se mi
+      porti via il quaderno, la settimana prossima mi pagano per un altro.»
+      Gli sgherri si svegliano.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Bastiano con il Mana, due ragazzi di Mauro con i coltelli. Bisogna prenderlo prima che scappi con il gemello."
+        quando: [pista.pelle < 6]
+        combattimento: maison-la-camera-d-ascolto-prima
+        vittoria:
+          titolo: Il leggio rovesciato
+          testo: |
+            Gli sgherri scappano verso la Pignatta, e Bastiano cerca di fare lo
+            stesso con il gemello stretto al petto. Lo prendi per il colletto
+            sulla porta. Si arrende subito, con le mani alzate e gli occhiali di
+            traverso. Il quaderno blu è caduto aperto sul pavimento, e lo
+            raccogli senza leggerlo. Lo riporti su per la condotta legato con la
+            sua stessa cintura.
+          pe: { armi-da-mischia: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, rep.scuri: -1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        sconfitta:
+          titolo: Il gemello
+          testo: |
+            Il Mana di Bastiano ti arriva in faccia come una manciata di sabbia
+            gelata, e mentre ti rialzi lui è già sparito per una galleria con il
+            gemello sotto il braccio, inseguito dagli sgherri. Il quaderno blu
+            è rimasto sul pavimento, e lo raccogli tu. Torni su per la condotta con le costole che fanno male e
+            la certezza che domani sarà da un'altra parte.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Affrontarli"
+        descrizione: "Bastiano con il Mana, due ladri di ferro con i piedi di porco. Bisogna prenderlo prima che scappi con il gemello."
+        quando: [pista.pelle >= 6]
+        combattimento: maison-la-camera-d-ascolto-dopo
+        vittoria:
+          titolo: Il leggio rovesciato
+          testo: |
+            I ladri di ferro scappano per la galleria della Pignatta, e
+            Bastiano cerca di fare lo stesso con il gemello stretto al petto. Lo
+            prendi per il colletto sulla porta. Si arrende subito, con le mani
+            alzate e gli occhiali di traverso. Il quaderno blu è caduto aperto
+            sul pavimento, e lo raccogli senza leggerlo. Lo riporti su per la
+            condotta legato con la sua stessa cintura.
+          pe: { armi-da-mischia: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        sconfitta:
+          titolo: Il gemello
+          testo: |
+            Il Mana di Bastiano ti arriva in faccia come una manciata di sabbia
+            gelata, e mentre ti rialzi lui è già sparito per una galleria con il
+            gemello sotto il braccio. Il quaderno blu è rimasto sul pavimento, e lo raccogli tu. Torni su per la
+            condotta con le costole che fanno male e la certezza che domani
+            sarà da un'altra parte.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Parlargli dei suoi debiti"
+        descrizione: "Un uomo pagato a settimana ha paura dei creditori più che di te. Se gli offri una via d'uscita migliore della loro, forse la prende."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Difficile }
+        successo:
+          titolo: La via d'uscita
+          testo: |
+            Gli parli dei creditori e di come bussano alla porta, e lui
+            ti ascolta con la penna sospesa. Gli dici che chi lo paga a
+            settimana lo lascerà ai creditori il giorno che non servirà più, e
+            che la signora della Maison invece paga i suoi debiti di persona.
+            Bastiano chiude il quaderno e te lo porge. Gli sgherri, senza più
+            nessuno da difendere, se ne vanno. Lui ti segue su per la condotta
+            con il gemello in tasca e le mani che finalmente stanno ferme.
+          pe: { persuasione: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Il creditore peggiore
+          testo: |
+            Gli parli dei suoi debiti, e Bastiano ride, piano. Ti dice che il
+            creditore peggiore di tutti è quello che lo paga adesso, e intanto
+            il suo Mana ti arriva addosso come una folata gelata. Gli sgherri ti
+            sono sopra prima che tu ti rialzi, e quando la stanza smette di
+            girare lui è sparito con il gemello. Il quaderno blu gli è
+            caduto nella fuga, e lo raccogli tu.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Chiamare Kanat giù dalla legnaia"
+        descrizione: "Un fischio nella condotta, e Kanat scende. Davanti a lui uno come Bastiano parla, e gli sgherri trovano un'altra strada. Kanat però rompe facilmente le cose."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Kanat sulla porta
+          testo: |
+            Il fischio torna dalla condotta moltiplicato, e dopo poco Kanat
+            riempie la porta da uno stipite all'altro, a torso nudo, con la
+            mazza in mano. Tu parli e lui guarda. Gli sgherri posano le armi
+            sul pavimento senza che nessuno glielo chieda, e Bastiano ti porge
+            il quaderno con tutte e due le mani. Uscendo Kanat urta il leggio di
+            ottone con la spalla, e il leggio si piega in due.
+          pe: { intimidire: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 0.5, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Il fischio a vuoto
+          testo: |
+            Fischi, e la condotta ti restituisce il fischio da tre parti
+            diverse. Kanat arriva tardi perché ha preso la galleria sbagliata, e
+            nel frattempo gli sgherri ti sono addosso. Quando lui li mette in
+            fuga Bastiano è già sparito con il gemello. Il quaderno blu è rimasto
+            per terra, e il leggio di ottone è piegato in due sotto il tuo gomito.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, rep.maison: -0.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Fargli sentire la sera del signor Pace"
+        descrizione: "Il cristallo sul leggio gli porta ancora le voci della recita. Se crede che la Maison sia all'oscuro di tutto, abbasserà la guardia."
+        quando: [maison.cristallo == 2]
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Difficile }
+        successo:
+          titolo: La sera che non c'è stata
+          testo: |
+            Gli dici di essere stato mandato da chi lo paga, a ritirare il
+            quaderno della settimana, e indichi il cristallo, dove in quel
+            momento arriva la risata di Kasja dalla recita. Bastiano si
+            rilassa, ti porge il quaderno e comincia a lamentarsi della paga.
+            Quando capisce, gli sgherri sono già a terra e lui ha i polsi legati
+            con lo spago dei suoi occhiali.
+          pe: { ingannare: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La risata sbagliata
+          testo: |
+            Gli dici di essere stato mandato da chi lo paga, e lui guarda il
+            cristallo, poi torna a guardare te e ti chiede come si chiama il suo
+            padrone.
+            Esiti. Il suo Mana ti arriva in faccia come una folata gelata, e
+            quando la stanza smette di girare lui è sparito con il gemello e con
+            il quaderno.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Parlargli con la Voce di seta"
+        descrizione: "Una frase detta piano, con il Mana sotto le parole. Lui il Mana lo sente, e forse proprio per questo lo ascolterà."
+        incantesimo: maison-voce-di-seta
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La voce
+          testo: |
+            Gli dici piano che è stanco e che i creditori gli hanno rubato gli
+            anni migliori. Vorrebbe tanto dormire. Il Mana ti scivola
+            sotto le parole come un tappeto. Bastiano posa la penna e chiude il
+            quaderno, e te lo porge come se fosse stata un'idea sua. Gli
+            sgherri, vedendolo arrendersi, se ne vanno.
+          pe: { magia: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Un accordatore
+          testo: |
+            Cominci la frase, e lui sente il Mana sotto le tue parole prima
+            ancora che tu finisca. È un accordatore, e un Mana stonato lo sente a
+            un miglio. Ti risponde con il suo, e quando la stanza smette di
+            girare lui è sparito con il gemello. Il quaderno blu gli è
+            caduto nella fuga, e lo raccogli tu.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Chiamarlo per cognome, come all'Accademia"
+        descrizione: "Rell, quello dei cristalli accordati meglio dei maestri, di cui all'Accademia si parla ancora. Uno che viene da Torvessa può dirgli quello che nessun altro può."
+        quando: [origine.allievo-di-torvessa >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Il laboratorio
+          testo: |
+            Lo chiami Rell, come lo chiamavano i maestri, e gli ricordi il
+            cristallo che aveva accordato per l'esame che non ha mai dato. Lui
+            si toglie gli occhiali e se li pulisce sulla camicia a lungo. Poi
+            chiude il quaderno e te lo porge. Gli sgherri, senza più nessuno da
+            difendere, se ne vanno. Lui ti segue su per la condotta con il
+            gemello in tasca.
+          pe: { persuasione: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Il creditore peggiore
+          testo: |
+            Lo chiami Rell, e lui diventa rosso fino alle orecchie. Ti dice che
+            all'Accademia nessuno gli ha mai prestato una moneta, e intanto il
+            suo Mana ti arriva addosso come una folata gelata. Quando la stanza
+            smette di girare lui è sparito con il gemello. Il quaderno blu gli è
+            caduto nella fuga, e lo raccogli tu.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Dirgli il nome del suo creditore"
+        descrizione: "In Città Bassa i soldi in prestito li danno in pochi, e tu sai chi. Il nome giusto, detto ad alta voce, cambia la faccia di un uomo."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Il nome giusto
+          testo: |
+            Gli dici il nome dell'usuraio di Via del Salmone, quello che presta
+            ai cartolai e agli studenti, e Bastiano sbianca. Gli spieghi che con
+            quell'uomo un debito si chiude in un modo solo, e che la signora
+            della Maison sa chiuderlo in un altro. Lui chiude il quaderno e te
+            lo porge. Gli sgherri, senza più nessuno da difendere, se ne vanno.
+          pe: { persuasione: 10 }
+          imposta: { maison.scrivano: 5 }
+          effetti: { rep.maison: 1, monete: 30, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Il creditore peggiore
+          testo: |
+            Gli dici il nome dell'usuraio di Via del Salmone, e lui ride, piano.
+            Ti dice che quello è il creditore meno peggio che ha, e intanto il
+            suo Mana ti arriva addosso come una folata gelata. Quando la stanza
+            smette di girare lui è sparito con il gemello. Il quaderno blu gli è
+            caduto nella fuga, e lo raccogli tu.
+          imposta: { maison.scrivano: 3 }
+          effetti: { ferite: 1.5, fazione.maison: 1 }
+          vai: citta-bassa
+
+colonna:
+  - { contesto: area, id: maison-sotto-il-cristallo-spento, musica: nefarious-schemes, ambiente: dungeon }

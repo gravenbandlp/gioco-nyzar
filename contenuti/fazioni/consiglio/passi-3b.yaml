@@ -1,0 +1,1063 @@
+# Quest del Consiglio, terzo atto, la fine (fazione.consiglio 13 → 15). Stessi requisiti di passi-3.yaml.
+# - passo 14, la seduta, in tre scene:
+#   `consiglio-la-vigilia` (fazione.consiglio == 13, Municipio) è una scena da cui si torna: ogni opzione conta il
+#   voto di un consigliere e poi sparisce (consiglio.voto-<seggio>: 1 con Julia, 2 perso). Vantes con rep.velo >= 2,
+#   con consiglio.voce == 1, con Persuasione Media o con la via dell'Accolito; Tenebra con rep.raschiatori >= 2, con
+#   consiglio.voce == 2 o con Intimidire Difficile; Cordani con consiglio.grano != 2 (una ragione pulita), con
+#   consiglio.voce 3 o 4 o con Politica ed economia Media; la sedia dei Tarvelin con consiglio.tarvelin 1 o 2. Ogni
+#   voto vale consiglio.voti +1 (le carte di Aldous salvate al passo 13 ne valgono già uno). «Entrare in sala» porta
+#   alla seduta, prima (`consiglio-la-seduta`, Ottone e la sedia dei Tarvelin) o dopo la caduta di Ottone
+#   (`consiglio-la-seduta-dei-malgrani`, Ronchi e la sedia dei Malgrani).
+#   La seduta è la boss battle sociale: due vie Difficili (Persuasione o Espressività, Politica ed economia o
+#   Accademiche). Se riesce consiglio.voti +3; se fallisce Scandalo +1 e rep.castaldi −1. Prima della caduta, con
+#   rep.malgrani >= 2 o consiglio.voce == 5, si può mediare con Ottone (consiglio.esito 3, licenze rinviate e debito
+#   dilazionato) e il passo si chiude lì.
+#   `consiglio-lo-spoglio` conta: con consiglio.voti >= 5 si vince (consiglio.esito 1). Prima della caduta la sedia
+#   dei Tarvelin non va alla Gilda; dopo, chi vince sceglie il seggio dei Malgrani (seggio.malgrani 1 alle cooperative
+#   con Marko Thessel, se non è partito per Laresh, o con Anselmo Brey; 2 alla Gilda; 3 all'erede in cambio del
+#   debito cancellato, consiglio.debito 2). Con meno voti si perde (consiglio.esito 2): prima la sedia va alla
+#   Gilda per ora, dopo decide Ronchi (seggio.malgrani 3, il debito resta).
+# - passo 15, la spilla: tre ingressi. `consiglio-la-spilla` (seduta vinta o mediata), `consiglio-la-spilla-amara`
+#   (seduta persa), tutti e due verso `consiglio-il-dispositivo`, dove Julia mostra il dispositivo della Biblioteca
+#   con l'occhio chiuso (crepuscolo.indizi +1) e dà il grado V. `consiglio-la-spilla-cancellata` se al passo 13 hai
+#   lasciato le carte alla Gazza (consiglio.carte == 3): Julia lo sa e cancella il tuo nome dal suo registro, ma il
+#   Consiglio ha votato la Voce e la mazza è del Consiglio; la spilla di Julia, in quel ramo, si ottiene solo
+#   chiedendole perdono (Empatia Difficile). Il grado V dà sempre la mazza del Patto (grado 4); la borsa è più
+#   grossa prima della caduta, dopo è più piccola e ci si aggiunge un reperto del caveau dei Malgrani rimasto
+#   invenduto.
+storylet:
+  # ------------------------------------------------------------ passo 14 · la vigilia
+  - id: consiglio-la-vigilia
+    presso: municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: La vigilia della seduta
+    sommario: "La seduta è alla sesta campana. Tullio ha preparato una lista con i sette seggi e uno spazio bianco accanto a ognuno."
+    luogo: Municipio, il bancone di Tullio
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 13, pista.acciaio >= 8, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
+    testo: |
+      La seduta è alla sesta campana, e in anticamera la panca è già piena di
+      gente venuta a prendersi un posto in tribuna. Tullio Merga ha preparato
+      sul bancone una lista con i sette seggi scritti in colonna, e accanto a
+      ognuno uno spazio bianco. Accanto a quello di Julia ha già scritto una
+      croce, e una accanto a quello di Galdrick. Gli altri spazi sono vuoti, e
+      a guardarli si capisce che la mattina sarà lunga.
+
+      {politica-ed-economia Media} Due croci sicure e una sedia che vota
+      sempre contro. Le quattro sedie che restano, dal Velo fino a quella dei
+      Tarvelin, hanno ognuna un prezzo diverso, che non sempre si paga in
+      monete.
+
+      {resistenza Media fallita} Della notte al Maniero ti è rimasto addosso
+      un sonno che si sente nelle ginocchia. Le scale della Cattedrale e
+      quelle dei Ponti, stamattina, ti sembreranno il doppio.
+
+      Julia ti passa accanto con le pratiche sotto il braccio e non si ferma.
+      Ti dice soltanto, camminando, che in sala la mozione la presenterà
+      l'altra parte, e che lei risponderà per ultima, se qualcuno le avrà
+      lasciato qualcosa da dire. Poi la porta dell'ufficio si richiude.
+
+      {origine rampollo-dei-quartieri-alti} Nelle case dei Quartieri Alti i
+      voti si contano a colazione, e chi arriva in sala senza averli contati
+      ci arriva per farsi contare. Tua madre lo diceva versando il tè.
+
+      Tullio ti porge la lista e una matita, con la punta appena fatta.
+    opzioni:
+      # Padre Vantes
+      - testo: "Passare in Cattedrale da Padre Vantes"
+        descrizione: "Il Velo ti conosce, e Vantes vota con chi il Velo conosce."
+        immagine: personaggi/padre-vantes
+        quando: [consiglio.voto-vantes == 0]
+        requisiti: [rep.velo >= 2]
+        esito:
+          titolo: La mano del Gran Sacerdote
+          testo: |
+            Vantes ti riceve in sacrestia, fra due chierici che gli allacciano
+            i paramenti della seduta. Ti ascolta per poco, poi ti posa la mano
+            sul braccio. Il Velo, dice, voterà con la Rappresentante, e lo
+            dice con la stessa voce con cui benedice. Sulla lista di Tullio
+            metti una croce accanto al Velo.
+          imposta: { consiglio.voto-vantes: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Ricordare a Vantes la conversazione sullo scalone"
+        descrizione: "Dopo la prima seduta ti ha detto che il Velo vota con la Rappresentante finché lei non gli chiede di scegliere fra lei e la città."
+        immagine: personaggi/padre-vantes
+        quando: [consiglio.voto-vantes == 0, consiglio.voce == 1]
+        esito:
+          titolo: Lo scalone
+          testo: |
+            Glielo ricordi sul sagrato, mentre scende verso il Municipio, e
+            Vantes sorride come si sorride a un buon allievo. Oggi, dice, la
+            Rappresentante non chiede al Velo di scegliere fra lei e la città,
+            e quindi il Velo vota con lei. Sulla lista di Tullio metti una
+            croce accanto al Velo.
+          imposta: { consiglio.voto-vantes: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Convincere Padre Vantes"
+        descrizione: "Vantes vota secondo coscienza, e la coscienza del Velo ascolta chi la sa prendere dal verso giusto."
+        immagine: personaggi/padre-vantes
+        quando: [consiglio.voto-vantes == 0]
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La coscienza del Velo
+          testo: |
+            Lo trovi in sacrestia e gli parli delle petizioni con le croci al
+            posto delle firme, della cassa dei respinti e dei falegnami del
+            Comune al lavatoio. Vantes ti lascia finire. Poi dice che il Velo
+            non ha mai saputo dire di no a una vedova, e che oggi la vedova è
+            la Rappresentante. Sulla lista di Tullio metti una croce accanto
+            al Velo.
+          pe: { persuasione: 5 }
+          imposta: { consiglio.voto-vantes: 1 }
+          effetti: { consiglio.voti: 1 }
+        fallimento:
+          titolo: Secondo coscienza
+          testo: |
+            Vantes ti ascolta con la mano sul tuo braccio, e quando hai finito
+            ti benedice. Ti dice che il Velo voterà secondo coscienza, e che
+            la coscienza del Velo stamattina non ha ancora deciso. Accanto al
+            Velo, sulla lista di Tullio, lasci lo spazio bianco.
+          imposta: { consiglio.voto-vantes: 2 }
+
+      # Tenebra
+      - testo: "Scendere ai Ponti a cercare Tenebra"
+        descrizione: "I Raschiatori ti conoscono. Tenebra vota quando si parla del Labirinto, oppure quando glielo chiede chi ci è sceso."
+        immagine: personaggi/tenebra
+        quando: [consiglio.voto-tenebra == 0]
+        requisiti: [rep.raschiatori >= 2]
+        esito:
+          titolo: Le lanterne
+          testo: |
+            Tenebra è sul Ponte dei Morti, appoggiato al parapetto. Gli chiedi
+            il voto, e lui ti chiede in cambio una voce dei Raschiatori sulle
+            decisioni che riguardano il denaro della città. Gliela prometti a
+            nome di Julia, che lo firmerà. Tenebra annuisce sotto il
+            cappuccio. Sulla lista di Tullio metti una croce accanto ai
+            Raschiatori.
+          imposta: { consiglio.voto-tenebra: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Ricordare a Tenebra le squadre"
+        descrizione: "Dopo la prima seduta gli hai chiesto delle squadre, e lui ti ha detto che si sarebbe ricordato di chi glielo aveva chiesto."
+        immagine: personaggi/tenebra
+        quando: [consiglio.voto-tenebra == 0, consiglio.voce == 2]
+        esito:
+          titolo: Si ricorda
+          testo: |
+            Lo trovi sotto il portico del Municipio, già arrivato, con il
+            cappuccio calato sugli occhi. Prima che tu parli ti dice il numero
+            delle squadre scese questa settimana, e quello delle squadre
+            risalite. Poi dice che si ricorda, e che oggi vota con la
+            Rappresentante. Sulla lista di Tullio metti una croce accanto ai
+            Raschiatori.
+          imposta: { consiglio.voto-tenebra: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Mettere Tenebra davanti a quello che perde"
+        descrizione: "Con Tenebra le parole contano poco, e conta quello che i Raschiatori rischiano di perdere. Se la Gilda prende un seggio in più, i Raschiatori pagheranno le lanterne a peso d'oro."
+        immagine: personaggi/tenebra
+        quando: [consiglio.voto-tenebra == 0]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Il prezzo delle lanterne
+          testo: |
+            Gli elenchi uno per uno i dazi della Gilda sulle funi e sull'olio
+            delle lanterne, e gli dici quanto saliranno se la Gilda avrà un
+            voto in più al tavolo. Tenebra resta immobile sotto il cappuccio.
+            Poi dice che per i Raschiatori voterà con la Rappresentante, e che
+            vuole una voce sulle decisioni del denaro, firmata. Sulla lista di
+            Tullio metti una croce accanto ai Raschiatori.
+          pe: { intimidire: 6 }
+          imposta: { consiglio.voto-tenebra: 1 }
+          effetti: { consiglio.voti: 1 }
+        fallimento:
+          titolo: Il cappuccio calato
+          testo: |
+            Gli elenchi i dazi della Gilda, e Tenebra ti lascia finire senza
+            muoversi. Poi ti dice che i Raschiatori le paure se le scelgono da
+            soli, e che oggi non votano. Accanto ai Raschiatori, sulla lista
+            di Tullio, lasci lo spazio bianco.
+          imposta: { consiglio.voto-tenebra: 2 }
+
+      # Tarquin Cordani
+      - testo: "Dare a Cordani la ragione pulita che cercava"
+        descrizione: "Il debito dei Castaldi non pesa più come prima. Le licenze sul grano, adesso, non sono più la vendetta privata di una casata indebitata."
+        quando: [consiglio.voto-cordani == 0, consiglio.grano != 2]
+        esito:
+          titolo: Una ragione pulita
+          testo: |
+            Lo trovi sui gradini della Casa dei Nodi e gli racconti del grano
+            di Laresh e di come è stato usato. Cordani muove le mani mentre ti
+            ascolta, molto. Alla fine dice che una Rappresentante che paga i
+            suoi debiti prima di toccare i mulini degli altri è una ragione
+            pulita, e che la Gilda, per quanto lo riguarda, voterà con lei.
+            Sulla lista di Tullio metti una croce accanto alla Gilda.
+          imposta: { consiglio.voto-cordani: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Ricordare a Cordani i conti dei dazi"
+        descrizione: "Dopo la prima seduta avete parlato dei conti dei dazi dei Ponti, e lui ti ha detto che cosa gli serviva per votare con la Rappresentante."
+        quando: [consiglio.voto-cordani == 0, consiglio.voce == 3]
+        esito:
+          titolo: I polsini
+          testo: |
+            Cordani ti riconosce dai conti dei dazi e ti stringe la mano con
+            il polsino stirato. Ti dice che ha ripensato a quella
+            conversazione più di quanto avrebbe voluto, e che la Gilda voterà
+            con la Rappresentante, almeno oggi. Sulla lista di Tullio metti
+            una croce accanto alla Gilda.
+          imposta: { consiglio.voto-cordani: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Usare quello che ti ha detto la Caserma"
+        descrizione: "Dalla sedia dello sceriffo si vede tutto il tavolo, e dopo la prima seduta ti hanno detto chi chiede i rinvii e per conto di chi. Cordani non ama sentirselo dire."
+        quando: [consiglio.voto-cordani == 0, consiglio.voce == 4]
+        esito:
+          titolo: Chi chiede i rinvii
+          testo: |
+            Lo trovi sui gradini della Casa dei Nodi e gli dici, a voce bassa,
+            chi in Consiglio chiede i rinvii per conto della Gilda senza che
+            il Sovrintendente lo sappia. Le mani di Cordani si fermano. Ti
+            ringrazia, e dice che oggi la Gilda voterà come decide il suo
+            Sovrintendente, cioè con la Rappresentante. Sulla lista di Tullio
+            metti una croce accanto alla Gilda.
+          imposta: { consiglio.voto-cordani: 1 }
+          effetti: { consiglio.voti: 1 }
+      - testo: "Convincere Cordani con i conti"
+        descrizione: "Il Sovrintendente vuole i prezzi alla portata della gente e una ragione pulita per votare. Bisogna dargliela in cifre."
+        quando: [consiglio.voto-cordani == 0]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Le cifre
+          testo: |
+            Gli mostri sulla lista di Tullio il prezzo della farina negli
+            ultimi tre anni e quello del pane in Città Bassa, colonna accanto
+            a colonna. Cordani muove le mani mentre legge, poi le ferma su una
+            riga. Dice che con questi conti la Gilda può votare con la
+            Rappresentante senza doversene vergognare alla Casa dei Nodi.
+            Accanto alla Gilda metti una croce.
+          pe: { politica-ed-economia: 5 }
+          imposta: { consiglio.voto-cordani: 1 }
+          effetti: { consiglio.voti: 1 }
+        fallimento:
+          titolo: La riga sbagliata
+          testo: |
+            Gli mostri le cifre della farina, e Cordani trova l'errore alla
+            seconda colonna e te lo indica con un dito, molto cortesemente.
+            Dice che la Gilda vota sui conti giusti, e che questi non lo sono
+            abbastanza. Accanto alla Gilda, sulla lista di Tullio, lasci lo
+            spazio bianco.
+          imposta: { consiglio.voto-cordani: 2 }
+
+      # la sedia dei Tarvelin
+      - testo: "Accompagnare in sala la nuova voce dei Tarvelin"
+        descrizione: "Sulla soglia del Maniero Tarvelin è stato detto un nome davanti a te. Quel nome oggi siede per la prima volta."
+        immagine: ambientazione/maniero-tarvelin
+        quando: [consiglio.voto-tarvelin == 0, consiglio.tarvelin >= 1, consiglio.tarvelin <= 2]
+        esito:
+          titolo: Il nastro nero
+          testo: |
+            Al portone del Municipio la nuova voce dei Tarvelin arriva a piedi
+            e in anticipo, e ti chiede di salire le scale insieme. In sala
+            Tullio slega il nastro nero dallo schienale della sedia e lo
+            ripiega con cura. Sulla lista metti una croce accanto ai Tarvelin,
+            e ti accorgi che la matita ti trema un poco.
+          imposta: { consiglio.voto-tarvelin: 1 }
+          effetti: { consiglio.voti: 1 }
+
+      # in sala
+      - testo: "Entrare in sala"
+        descrizione: "Suona la sesta campana. Quello che hai contato è sulla lista di Tullio, e il resto si decide in sala."
+        quando: [pista.pelle < 4]
+        costo: 0
+        esito:
+          titolo: La sesta campana
+          testo: |
+            Restituisci la lista a Tullio, che la piega in quattro e se la
+            infila nel panciotto senza guardarla. Poi salite insieme lo
+            scalone verso la sala consiliare, dove la tribuna è già piena fino
+            alla balaustra.
+          segue: consiglio-la-seduta
+      - testo: "Entrare in sala"
+        descrizione: "Suona la sesta campana. Quello che hai contato è sulla lista di Tullio, e il resto si decide in sala."
+        quando: [pista.pelle >= 7]
+        costo: 0
+        esito:
+          titolo: La sesta campana
+          testo: |
+            Restituisci la lista a Tullio, che la piega in quattro e se la
+            infila nel panciotto senza guardarla. Poi salite insieme lo
+            scalone verso la sala consiliare, dove la tribuna è già piena fino
+            alla balaustra.
+          segue: consiglio-la-seduta-dei-malgrani
+
+      - testo: "Parlare a Vantes come un novizio del Velo"
+        descrizione: "In Cattedrale hai imparato come si chiede una cosa al Gran Sacerdote, e in quale ordine si dicono le parole."
+        immagine: personaggi/padre-vantes
+        quando: [consiglio.voto-vantes == 0, origine.accolito-del-velo >= 1]
+        esito:
+          titolo: Nell'ordine giusto
+          testo: |
+            Ti inginocchi davanti a Vantes in sacrestia, e gli chiedi il voto
+            con le parole che ti hanno insegnato da novizio, nell'ordine in
+            cui te le hanno insegnate, con la città prima della
+            Rappresentante. Vantes sorride e ti fa alzare con una mano sotto
+            il gomito. Il Velo, dice, voterà con lei. Sulla lista di Tullio
+            metti una croce accanto al Velo.
+          pe: { galateo: 3 }
+          imposta: { consiglio.voto-vantes: 1 }
+          effetti: { consiglio.voti: 1 }
+
+  # ------------------------------------------------------------ passo 14 · la seduta, prima della caduta di Ottone
+  - id: consiglio-la-seduta
+    immagine: personaggi/ottone-malgrani
+    titolo: La seduta
+    tipo: seguito
+    luogo: Municipio, la sala consiliare
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 13]
+    testo: |
+      La sala consiliare è piena come non l'hai mai vista, e la tribuna
+      scricchiola sotto i gomiti di quelli che si sporgono dalla balaustra.
+      Tullio raddrizza la mazza sul tavolo, e la seduta comincia. Ottone
+      Malgrani si alza per primo, con il panciotto ricamato e i guanti in
+      mano, e presenta la mozione della Gilda sulla sedia dei Tarvelin, con la
+      voce di un uomo che ha già contato i voti la sera prima e li ha trovati
+      in ordine.
+
+      Dietro di lui, in piedi contro il muro, c'è Tebaldo Ronchi, vestito di
+      nero, con la cartella di cuoio stretta sotto il braccio. Che cosa ci sia
+      dentro, dopo la notte sui tetti del Maniero, lo sai soltanto tu. Julia
+      la guarda più spesso di quanto guardi Ottone.
+
+      {intimidire Media} Ronchi non deve aprire la cartella. Gli basta tenerla
+      in modo che tutti la vedano, e la sala comincia a pensare a che cosa
+      potrebbe esserci dentro.
+
+      Quando Ottone si siede, Julia non si alza. Si gira verso la tribuna e ti
+      fa un cenno con il mento davanti a tutti, e in sala qualcuno ride piano.
+      Al banco del Consiglio, accanto al suo seggio, c'è uno sgabello senza
+      schienale, e Tullio lo ha messo lì stamattina senza che nessuno glielo
+      chiedesse.
+
+      {resilienza Media} Le mani ti sudano, e lo sgabello è più lontano di
+      quanto sembrava dalla tribuna. Quello che devi dire ce l'hai in testa da
+      stamattina, e adesso devi soltanto dirlo nell'ordine giusto.
+
+      {origine mercante-dei-ponti} Hai visto Ottone vendere farina al banco
+      con la stessa faccia, senza alzare mai il prezzo ad alta voce. Il prezzo
+      lo alza dopo, quando il cliente ha già detto di sì.
+    opzioni:
+      - testo: "Parlare per Julia davanti alla sala"
+        descrizione: "La sala deve sentire che cosa farebbe la Gilda con un voto in più, e che cosa resterebbe alla città. Con la voce giusta, la tribuna fa il resto."
+        prova: { attributo: sociale, abilita: [persuasione, espressivita], difficolta: Difficile }
+        successo:
+          titolo: La tribuna in piedi
+          testo: |
+            Parli in piedi accanto allo sgabello, senza guardare il foglio.
+            Racconti della panca e delle ventitré tacche sullo schienale, del
+            ponticello di Ada e del grano di Laresh, e di quante pratiche il
+            Consiglio ha rinviato solo perché una sedia restasse vuota. A metà
+            del discorso la tribuna smette di scricchiolare. Quando ti siedi
+            Ottone ha i guanti stretti in un pugno, e Ronchi tiene la cartella
+            chiusa.
+          pe: { persuasione: 8 }
+          effetti: { consiglio.voti: 3 }
+          segue: consiglio-lo-spoglio
+        fallimento:
+          titolo: La risata in tribuna
+          testo: |
+            Cominci bene, poi perdi il filo sulle tacche della panca, e la
+            tribuna ride nel punto sbagliato. Ottone si alza a ringraziarti
+            della passione, con molta cortesia. Ronchi apre la cartella di un
+            dito e la richiude, e mezza sala lo vede. Julia, accanto a te, non
+            cambia espressione, ed è peggio che se l'avesse cambiata.
+          effetti: { scandalo: 1, rep.castaldi: -1 }
+          segue: consiglio-lo-spoglio
+
+      - testo: "Rispondere a Ottone con i conti"
+        descrizione: "Ottone ha parlato di decoro e di continuità. Il registro del Patto, il prezzo della farina e le pratiche rinviate dicono un'altra cosa, e la dicono in cifre."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La clausola della soglia
+          testo: |
+            Apri il registro del Patto sullo sgabello e leggi la clausola
+            della soglia, parola per parola. Poi leggi mulino per mulino il
+            prezzo della farina degli ultimi tre anni, insieme al nome di chi
+            possiede quei mulini. La voce non la alzi mai. Quando chiudi il
+            registro Cordani ha le mani ferme sul tavolo e Ottone guarda
+            Ronchi, che guarda il pavimento.
+          pe: { politica-ed-economia: 8 }
+          effetti: { consiglio.voti: 3 }
+          segue: consiglio-lo-spoglio
+        fallimento:
+          titolo: Il riporto
+          testo: |
+            Leggi mulino per mulino il prezzo della farina, e al terzo anno
+            sbagli una colonna. Ottone se ne accorge prima di te e te lo fa
+            notare con un sorriso, davanti a tutta la sala. Da lì in avanti
+            ogni cifra che leggi suona come un tentativo, e la tribuna
+            comincia a parlare a voce bassa.
+          effetti: { scandalo: 1, rep.castaldi: -1 }
+          segue: consiglio-lo-spoglio
+
+      - testo: "Mediare con Ottone"
+        descrizione: "I Malgrani ti conoscono. Una mediazione rinvia le licenze e dilaziona il debito, e in sala nessuno perde la faccia e nessuno vince."
+        immagine: personaggi/ottone-malgrani
+        requisiti: [rep.malgrani >= 2]
+        esito:
+          titolo: La mediazione
+          testo: |
+            Chiedi una sospensione e la ottieni, e nella stanzetta dietro la
+            sala parli con Ottone mentre Ronchi prende appunti. Le licenze
+            tornano in fondo alla pila fino alla prossima stagione, la sedia
+            dei Tarvelin resta vuota fino a un voto vero, e le obbligazioni
+            dei Castaldi vengono dilazionate di un anno. In sala la mozione
+            viene ritirata con molta cortesia da tutti. Julia approva la
+            mediazione senza commenti e, uscendo, non ti stringe la mano.
+
+            {politica-ed-economia Media} Hai salvato la seduta e rimandato la
+            guerra. In Consiglio si chiama saggezza, e in Città Bassa si
+            chiama in un altro modo.
+          pe: { persuasione: 5 }
+          imposta: { consiglio.esito: 3 }
+          effetti: { fazione.consiglio: 1, rep.malgrani: 1 }
+      - testo: "Mediare con Ottone, che ti ha già parlato"
+        descrizione: "Sullo scalone, dopo la prima seduta, Ottone ti ha trattato da persona con cui si può parlare. Una mediazione rinvia le licenze e dilaziona il debito."
+        immagine: personaggi/ottone-malgrani
+        quando: [consiglio.voce == 5]
+        esito:
+          titolo: La mediazione
+          testo: |
+            Chiedi una sospensione, e Ottone ti segue nella stanzetta dietro
+            la sala infilandosi i guanti dito per dito. Si ricorda di te. Le
+            licenze tornano in fondo alla pila fino alla prossima stagione, la
+            sedia dei Tarvelin resta vuota fino a un voto vero, e le
+            obbligazioni dei Castaldi vengono dilazionate di un anno. In sala
+            la mozione viene ritirata con molta cortesia da tutti. Julia
+            approva la mediazione senza commenti e, uscendo, non ti stringe la
+            mano.
+          pe: { persuasione: 5 }
+          imposta: { consiglio.esito: 3 }
+          effetti: { fazione.consiglio: 1, rep.malgrani: 1 }
+
+  # ------------------------------------------------------------ passo 14 · la seduta, dopo la caduta di Ottone
+  - id: consiglio-la-seduta-dei-malgrani
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: La seduta
+    tipo: seguito
+    luogo: Municipio, la sala consiliare
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 13]
+    testo: |
+      La sala consiliare è piena come non l'hai mai vista, e in tribuna, fra
+      la gente dei Quartieri Alti, ci sono i mugnai e i taglialegna delle
+      cooperative con il cappello in mano. Tullio raddrizza la mazza sul
+      tavolo, e la seduta comincia. La sedia dei Malgrani, che stava contro il
+      muro dal giorno della condanna di Ottone, stamattina l'hanno rimessa al
+      tavolo.
+
+      Dietro la sedia vuota, in piedi, c'è Tebaldo Ronchi, vestito di nero, con
+      la cartella di cuoio sotto il braccio. Non siede, perché non ne ha il
+      diritto. Presenta la richiesta di Urtilia Mendion con una voce gentile e
+      precisa. Il seggio dei Malgrani al primogenito di Ottone, sotto la
+      tutela della prozia, e in cambio la cancellazione delle obbligazioni di
+      grano della casata della Rappresentante. Lo dice ad alta voce, davanti
+      alla tribuna. Che cosa ci sia nella cartella, dopo la notte sui tetti
+      del Maniero, lo sai soltanto tu.
+
+      {politica-ed-economia Media} Ha messo il debito di Julia sul tavolo del
+      Consiglio come un regalo. Se lei rifiuta, la tribuna saprà che ha un
+      debito, e se accetta saprà a chi lo deve.
+
+      Julia non si alza. Si gira verso di te e ti fa un cenno con il mento,
+      davanti a tutti. Accanto al suo seggio c'è uno sgabello senza schienale,
+      e Tullio lo ha messo lì stamattina senza che nessuno glielo chiedesse.
+
+      {empatia Media} Ronchi non odia nessuno in questa sala. Fa il suo lavoro,
+      e lo fa bene, e questo lo rende più difficile da battere di Ottone.
+
+      {origine fuggiasco-di-ghoran} L'inchiostro marrone sulle carte di Ronchi
+      lo conosci. A Ghoran ci scrivono i contratti di vendita al mercato, e
+      l'odore della ceralacca che usano ti stringe la gola.
+    opzioni:
+      - testo: "Parlare per Julia davanti alla sala"
+        descrizione: "La sala deve sentire che cosa vuol dire un seggio comprato da Ghoran. Con la voce giusta, la tribuna fa il resto."
+        prova: { attributo: sociale, abilita: [persuasione, espressivita], difficolta: Difficile }
+        successo:
+          titolo: La tribuna in piedi
+          testo: |
+            Parli in piedi accanto allo sgabello, senza guardare il foglio.
+            Racconti della panca e delle ventitré tacche sullo schienale, del
+            ponticello di Ada e del grano di Laresh, e di che cosa vuol dire
+            che un seggio della città lo decida una donna che sta a Ghoran. A
+            metà del discorso i mugnai in tribuna si mettono il cappello in
+            testa, uno dopo l'altro, come si fa in Città Bassa quando si è
+            d'accordo. Ronchi ti ascolta fino in fondo, e annuisce come a una
+            cosa ben fatta.
+          pe: { persuasione: 8 }
+          effetti: { consiglio.voti: 3 }
+          segue: consiglio-lo-spoglio
+        fallimento:
+          titolo: Il regalo
+          testo: |
+            Cominci dal debito, e la tribuna sente soltanto quello. Ronchi ti
+            ringrazia di aver spiegato così bene quanto sia generosa l'offerta
+            di Urtilia, e mezza sala ride. Julia, accanto a te, non cambia
+            espressione, ed è peggio che se l'avesse cambiata.
+          effetti: { scandalo: 1, rep.castaldi: -1 }
+          segue: consiglio-lo-spoglio
+
+      - testo: "Rispondere a Ronchi con il Patto"
+        descrizione: "Il registro del Patto dice come si nomina un seggio, e non dice niente di tutori a Ghoran. Bisogna leggerlo in modo che lo capisca anche la tribuna."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La soglia del maniero
+          testo: |
+            Apri il registro del Patto sullo sgabello e leggi la clausola
+            della soglia, parola per parola. Poi ricordi alla sala che il
+            Maniero Malgrani l'ha comprato la città all'asta, e che sulla sua
+            soglia, oggi, non c'è nessuno dei Malgrani a nominare niente.
+            Ronchi ti ascolta senza interromperti. Quando chiudi il registro, è
+            il primo a sorridere.
+          pe: { politica-ed-economia: 8 }
+          effetti: { consiglio.voti: 3 }
+          segue: consiglio-lo-spoglio
+        fallimento:
+          titolo: La tutela
+          testo: |
+            Leggi la clausola, e Ronchi ti risponde con un'altra, due pagine
+            dopo, sulle tutele dei minori delle casate firmatarie, che non
+            avevi letto. La legge lui, ad alta voce, con l'indice sulla riga.
+            La tribuna comincia a parlare a voce bassa.
+          effetti: { scandalo: 1, rep.castaldi: -1 }
+          segue: consiglio-lo-spoglio
+
+  # ------------------------------------------------------------ passo 14 · lo spoglio
+  - id: consiglio-lo-spoglio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: Lo spoglio
+    tipo: seguito
+    luogo: Municipio, la sala consiliare
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 13]
+    testo: |
+      Tullio si alza e chiama i seggi uno per uno, nell'ordine del Patto, con
+      la lista piegata in quattro ancora nel panciotto. A ogni nome una mano
+      si alza o resta sul tavolo, e Tullio fa un segno a matita sul registro
+      della seduta, senza guardare nessuno in faccia. In tribuna non parla più
+      nessuno, e si sente il legno della balaustra che scricchiola sotto i
+      gomiti.
+
+      Julia tiene le mani intrecciate sul tavolo, così strette che le nocche
+      sono bianche. Le mani alzate non le guarda. Guarda Tullio, e la matita
+      di Tullio.
+
+      {politica-ed-economia Facile} Le croci che hai messo stamattina sulla
+      lista adesso sono mani alzate o mani ferme. Quello che hai detto in sala
+      ha spostato quelle che mancavano, oppure no.
+
+      {resilienza Media fallita} Ti accorgi di contare anche tu a mezza voce,
+      e di aver perso il conto al terzo seggio. Quando ricominci lo perdi di
+      nuovo, quasi nello stesso punto.
+    opzioni:
+      - testo: "La sedia dei Tarvelin resta alla città"
+        descrizione: "La mozione della Gilda è respinta."
+        quando: [pista.pelle < 4, consiglio.voti >= 5]
+        esito:
+          titolo: Respinta
+          testo: |
+            Tullio scrive *respinta* sul registro e la sottolinea due volte.
+            La sedia dei Tarvelin non va alla Gilda, e le licenze sul grano
+            restano all'ordine del giorno. Ottone si infila i guanti dito per
+            dito e esce per primo, con Ronchi dietro. In tribuna qualcuno batte
+            le mani, e Tullio lo guarda finché non smette. Julia si alza,
+            raccoglie le pratiche con gli angoli pari e ti dice di passare da
+            lei domattina all'alba.
+
+            {politica-ed-economia Media} Le licenze non sono passate. Sono
+            rimaste in piedi, e in questo Consiglio per una pratica è già
+            molto.
+          pe: { politica-ed-economia: 6 }
+          imposta: { consiglio.esito: 1 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 1 }
+      - testo: "La sedia dei Tarvelin va alla Gilda, per ora"
+        descrizione: "La mozione della Gilda passa."
+        quando: [pista.pelle < 4, consiglio.voti < 5]
+        esito:
+          titolo: Approvata
+          testo: |
+            Tullio scrive *approvata* sul registro, con una grafia più piccola
+            del solito. La Gilda terrà la sedia dei Tarvelin finché l'erede
+            non si presenta, e le licenze sul grano tornano in fondo alla
+            pila. Ottone saluta la Rappresentante con un inchino perfetto.
+            Julia raccoglie senza fretta le pratiche con gli angoli pari e ti
+            dice di passare da lei domattina all'alba.
+          imposta: { consiglio.esito: 2 }
+          effetti: { fazione.consiglio: 1 }
+
+      - testo: "Il seggio dei Malgrani alle cooperative, con Marko Thessel"
+        descrizione: "Chi vince sceglie. Marko Thessel sa leggere una venatura e trattare con Laresh, e la Segheria della cooperativa la conosce meglio di tutti."
+        immagine: personaggi/marko-thessel
+        quando: [pista.pelle >= 7, consiglio.voti >= 5, segheria.cooperativa != 2]
+        esito:
+          titolo: La camicia di lino
+          testo: |
+            Tullio scrive *respinta* sul registro accanto alla richiesta di
+            Urtilia. Poi Julia propone il seggio dei Malgrani alle
+            cooperative, con Marko Thessel a sederlo, e la sala vota di nuovo.
+            Marko sale dalla tribuna con la camicia di lino chiaro cambiata
+            apposta, e si siede sulla sedia dei Malgrani come su una sedia
+            qualunque. Ronchi si infila i guanti e se ne va, salutando tutti.
+            Julia ti dice di passare da lei domattina all'alba.
+          pe: { politica-ed-economia: 6 }
+          imposta: { consiglio.esito: 1, seggio.malgrani: 1 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 1, nomea.citta-bassa: 1 }
+      - testo: "Il seggio dei Malgrani alle cooperative, con Anselmo Brey"
+        descrizione: "Chi vince sceglie. Anselmo Brey ha il quaderno dei conti del Mulino in tasca e la farina fino ai polsi, e la cooperativa del grano lo ha scelto come capo."
+        quando: [pista.pelle >= 7, consiglio.voti >= 5]
+        esito:
+          titolo: Il cappello in mano
+          testo: |
+            Tullio scrive *respinta* sul registro accanto alla richiesta di
+            Urtilia. Poi Julia propone il seggio dei Malgrani alle
+            cooperative, con Anselmo Brey a sederlo, e la sala vota di nuovo.
+            Anselmo scende dalla tribuna con il cappello in mano e la farina
+            ancora sulle maniche, e si siede sulla sedia dei Malgrani tenendo
+            il cappello sulle ginocchia. Ronchi se ne va salutando tutti. Julia
+            ti dice di passare da lei domattina all'alba.
+          pe: { politica-ed-economia: 6 }
+          imposta: { consiglio.esito: 1, seggio.malgrani: 1 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 1, nomea.citta-bassa: 1 }
+      - testo: "Il seggio dei Malgrani alla Gilda"
+        descrizione: "Chi vince sceglie. La Gilda avrebbe due voti al tavolo, e Cordani te ne sarebbe grato a lungo."
+        quando: [pista.pelle >= 7, consiglio.voti >= 5]
+        esito:
+          titolo: Il secondo voto della Gilda
+          testo: |
+            Tullio scrive *respinta* accanto alla richiesta di Urtilia. Poi
+            Julia propone il seggio dei Malgrani alla Gilda, perché sei stato
+            tu a chiederglielo e lei ha promesso di firmare quello che dici, e
+            la sala vota di nuovo. Cordani muove le mani più del solito per
+            tutto il resto della seduta. Ronchi se ne va salutando tutti. In
+            tribuna i mugnai delle cooperative si rimettono il cappello in
+            testa senza dire niente. Julia ti dice di passare da lei domattina
+            all'alba.
+          pe: { politica-ed-economia: 6 }
+          imposta: { consiglio.esito: 1, seggio.malgrani: 2 }
+          effetti: { fazione.consiglio: 1, rep.gilda: 1 }
+      - testo: "Il seggio dei Malgrani all'erede, in cambio del debito"
+        descrizione: "Chi vince sceglie, anche di accettare l'offerta. Il primogenito di Ottone siederà sotto la tutela di Urtilia, e i Castaldi saranno liberi."
+        quando: [pista.pelle >= 7, consiglio.voti >= 5]
+        esito:
+          titolo: I Castaldi liberi
+          testo: |
+            Tullio scrive *respinta* accanto alla richiesta di Urtilia, e
+            subito dopo, su tua proposta, la sala vota la stessa richiesta
+            come proposta della Rappresentante. Ronchi apre la cartella, tira
+            fuori le obbligazioni dei Castaldi e le straccia davanti alla
+            tribuna, una per una, con le mani guantate. Julia guarda i pezzi
+            di carta sul pavimento e non dice niente. Ti dice di passare da
+            lei domattina all'alba.
+
+            {politica-ed-economia Media} La casata è libera, e il seggio dei
+            Malgrani adesso lo muove Ghoran. Hai vinto la seduta e hai pagato
+            il debito con la sedia della città.
+          pe: { politica-ed-economia: 6 }
+          imposta: { consiglio.esito: 1, seggio.malgrani: 3, consiglio.debito: 2 }
+          effetti: { fazione.consiglio: 1, rep.malgrani: 2 }
+      - testo: "Il seggio dei Malgrani lo decide Ronchi"
+        descrizione: "La richiesta di Urtilia passa."
+        quando: [pista.pelle >= 7, consiglio.voti < 5]
+        esito:
+          titolo: Approvata
+          testo: |
+            Tullio scrive *approvata* sul registro, con una grafia più piccola
+            del solito. Il seggio dei Malgrani va al primogenito di Ottone,
+            sotto la tutela di Urtilia Mendion, e a sederlo finché il ragazzo
+            non avrà l'età sarà il suo procuratore. Ronchi gira intorno alla
+            sedia e si siede, per la prima volta. Le obbligazioni dei Castaldi
+            restano nella cartella. Julia raccoglie le pratiche con gli angoli
+            pari e ti dice di passare da lei domattina all'alba.
+          imposta: { consiglio.esito: 2, seggio.malgrani: 3 }
+          effetti: { fazione.consiglio: 1 }
+
+  # ------------------------------------------------------------ passo 15 · la spilla
+  - id: consiglio-la-spilla
+    presso: municipio
+    immagine: personaggi/julia-castaldi
+    titolo: La spilla
+    sommario: "È l'alba dopo la seduta. Julia ti aspetta in ufficio, e sulla scrivania c'è la spilla del Consiglio, che lei porta sempre."
+    luogo: Municipio, l'ufficio della Rappresentante, all'alba
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 14, consiglio.esito != 2, consiglio.carte != 3, pista.acciaio >= 8, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
+    testo: |
+      All'alba il Municipio è vuoto, e la panca dell'anticamera ha ancora la
+      forma di chi ci si è seduto ieri. Julia è nel suo ufficio con le
+      finestre aperte e la stessa toga della seduta, e dalla faccia non ha
+      dormito. Sulla scrivania, fra le pratiche impilate con gli angoli pari,
+      c'è una spilla d'argento a forma di sette anelli intrecciati. È la
+      spilla del Consiglio, e in tutti questi mesi non gliel'hai mai vista
+      togliere.
+
+      «Il Consiglio ha votato una cosa, ieri sera, dopo che sei uscito» dice.
+      «Alle sedute, da oggi, siede anche una voce senza seggio, che parla a
+      verbale anche se non vota.» Spinge la spilla verso di te con un dito.
+      «La voce sei tu, se vuoi.»
+
+      {empatia Media} Ha vinto, o almeno ha evitato di perdere, eppure non
+      sorride. Sta facendo i conti di quello che le è costato, e la spilla è
+      una delle voci del conto.
+
+      {galateo Facile} Una voce senza seggio a verbale è un'invenzione nuova,
+      e nei Quartieri Alti le invenzioni nuove si discutono per anni. Questa
+      l'hanno votata in una sera.
+
+      Dalla porta socchiusa Tullio fa finta di non ascoltare, con il registro
+      del Consiglio sotto il braccio e una tazza di tè in mano, per lei.
+    opzioni:
+      - testo: "Accettare"
+        descrizione: "Un posto alle sedute accanto a lei, senza seggio, con il tuo parere a verbale."
+        esito:
+          titolo: A verbale
+          testo: |
+            Prendi la spilla e la tieni nel palmo, e pesa meno di quanto
+            pensavi. Julia annuisce una volta sola, come per la data di una
+            seduta. Poi apre il cassetto della scrivania, quello che chiude
+            sempre a chiave.
+          segue: consiglio-il-dispositivo
+      - testo: "Accettare a una condizione"
+        descrizione: "Che nel seminterrato non ci sia più una cassa dove finiscono le petizioni scritte male."
+        esito:
+          titolo: La condizione
+          testo: |
+            Le dici che la prendi se nel seminterrato del Municipio non
+            esisterà più una cassa dei respinti, nemmeno tenuta in ordine per
+            anno. Julia guarda la porta socchiusa, dietro cui Tullio ha smesso
+            di far finta. «Detto chiaro» dice. «Mettilo a verbale alla prima
+            seduta, così lo firmo davanti a tutti.» Poi apre il cassetto della
+            scrivania, quello che chiude sempre a chiave.
+          imposta: { consiglio.condizione: 1 }
+          segue: consiglio-il-dispositivo
+
+  - id: consiglio-la-spilla-amara
+    presso: municipio
+    immagine: personaggi/julia-castaldi
+    titolo: La spilla
+    sommario: "È l'alba dopo la seduta persa. Julia ti aspetta in ufficio, e sulla scrivania c'è la spilla del Consiglio, che lei porta sempre."
+    luogo: Municipio, l'ufficio della Rappresentante, all'alba
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 14, consiglio.esito == 2, consiglio.carte != 3, pista.acciaio >= 8, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
+    testo: |
+      All'alba il Municipio è vuoto, e la panca dell'anticamera ha ancora la
+      forma di chi ci si è seduto ieri. Julia è nel suo ufficio con le
+      finestre chiuse e la stessa toga della seduta. Sulla scrivania non ci
+      sono pratiche. C'è soltanto il registro del Consiglio aperto alla pagina
+      di ieri, con la parola che Tullio ha scritto in piccolo, e accanto una
+      spilla d'argento a forma di sette anelli intrecciati, quella che in
+      tutti questi mesi non le hai mai visto togliere.
+
+      «Ho ancora il seggio e non ho più la maggioranza» dice, prima che tu ti
+      sieda. «Per un po' le pratiche le presenteranno gli altri, e io le
+      leggerò prima di loro. Ieri sera, dopo che sei uscito, il Consiglio ha
+      votato una cosa che nessuno ha avuto il coraggio di bocciare. Alle
+      sedute siede anche una voce senza seggio, che non vota ma parla a
+      verbale.» Spinge la spilla verso di te con un dito. «Mi serve qualcuno
+      che parli quando io non posso più. La voce sei tu, se vuoi.»
+
+      {empatia Media} La seduta non te la rimprovera adesso e non te la
+      rimprovererà mai. Ha già deciso che la colpa è sua, perché la firma era
+      sua.
+
+      {resilienza Media} Hai perso in sala davanti a tutta la città, e la
+      Rappresentante ti offre la sua spilla. Questo è il momento di tenere gli
+      occhi alti.
+
+      Dalla porta socchiusa Tullio fa finta di non ascoltare, con una tazza di
+      tè in mano, per lei.
+    opzioni:
+      - testo: "Accettare"
+        descrizione: "Un posto alle sedute accanto a lei, senza seggio, con il tuo parere a verbale. Adesso le serve più di prima."
+        esito:
+          titolo: A verbale
+          testo: |
+            Prendi la spilla e la tieni nel palmo, e pesa meno di quanto
+            pensavi. Julia annuisce una volta sola. Poi apre il cassetto della
+            scrivania, quello che chiude sempre a chiave.
+          segue: consiglio-il-dispositivo
+      - testo: "Accettare a una condizione"
+        descrizione: "Che nel seminterrato non ci sia più una cassa dove finiscono le petizioni scritte male. Anche senza maggioranza, questa la può fare."
+        esito:
+          titolo: La condizione
+          testo: |
+            Le dici che la prendi se nel seminterrato del Municipio non
+            esisterà più una cassa dei respinti. Julia ti guarda a lungo, e
+            per la prima volta da quando sei entrato le si scioglie qualcosa
+            intorno alla bocca. «Per questa la maggioranza non serve» dice.
+            «Basta Tullio, e una scala.» Poi apre il cassetto della scrivania,
+            quello che chiude sempre a chiave.
+          imposta: { consiglio.condizione: 1 }
+          segue: consiglio-il-dispositivo
+
+  - id: consiglio-il-dispositivo
+    immagine: ambientazione/biblioteca-di-qir-azel
+    titolo: Il dispositivo
+    tipo: seguito
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 14]
+    testo: |
+      Dal cassetto Julia tira fuori un disco di metallo scuro grande come un
+      palmo, con un cristallo opaco incastonato al centro e il sigillo della
+      Biblioteca inciso sul rovescio. Te lo posa sulla scrivania accanto alla
+      spilla, senza lasciarlo andare del tutto.
+
+      «La Biblioteca ne dà pochi, e uno spetta alla Rappresentante» dice. «Con
+      questo si entra fra gli scaffali sigillati senza che le campanelle di
+      Ulric suonino. Io non l'ho mai usato.» Gira il disco con un dito. «Una
+      notte è uscito da questo cassetto ed è tornato. Lo so perché la
+      serratura la ungo io, e la mattina dopo l'olio era sul pavimento. Era la
+      notte in cui dagli scaffali della costa nord sono spariti i volumi che
+      nessuno ha mai preso in prestito.»
+
+      Sul rovescio, accanto al sigillo, qualcuno ha inciso con una punta
+      sottile un occhio chiuso, una linea curva con le ciglia abbassate,
+      piccolo come un'unghia. Prima, dice Julia, non c'era.
+
+      {tecnologia Media} Il cristallo al centro è più opaco su un lato, quello
+      che tocca il palmo quando lo si tiene. L'ha tenuto in mano a lungo
+      qualcuno che non è Julia.
+
+      {magia Difficile fallita} Il cristallo non ti dice niente. Per un
+      momento ti sembra di sentirci un ronzio, poi ti accorgi che è il tuo
+      sangue nelle orecchie.
+
+      Julia non dice chi sospetta, e tu capisci che non lo dirà. Rimette il
+      disco nel cassetto e lo chiude a chiave. Poi si alza, va all'armadio
+      delle pratiche e ne tira fuori una mazza di ferro avvolta in un panno,
+      quella che Tullio raddrizza sul tavolo all'inizio di ogni seduta. «Ieri
+      sera hanno votato anche questa» dice. «La voce del Consiglio la porta in
+      sala, e la porta via quando la seduta è finita.»
+    opzioni:
+      - testo: "Prendere la mazza e la spilla"
+        descrizione: "La mazza del Patto, la spilla di Julia, e una borsa del Consiglio."
+        immagine: icone/flanged-mace
+        quando: [pista.pelle < 4]
+        esito:
+          titolo: Voce del Consiglio
+          testo: |
+            Prendi la mazza, e il manico è consumato dove l'hanno stretto le
+            mani di chi l'ha portata prima di te. Julia ti appunta la spilla
+            sul bavero con le sue dita, poi apre la cassetta di ferro e ti dà
+            una borsa con il sigillo del Consiglio, pesante. «Le casse le ho
+            fatte riempire per le licenze» dice, «e le licenze, per ora,
+            aspettano.» Tullio entra con il tè, e dal bancone, quando esci, ti
+            saluta inforcando gli occhiali.
+          pe: { politica-ed-economia: 5 }
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 400, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+      - testo: "Prendere la mazza e la spilla"
+        descrizione: "La mazza del Patto, la spilla di Julia, e quello che le casse vuote del Comune possono dare."
+        immagine: icone/flanged-mace
+        quando: [pista.pelle >= 7]
+        esito:
+          titolo: Voce del Consiglio
+          testo: |
+            Prendi la mazza, e il manico è consumato dove l'hanno stretto le
+            mani di chi l'ha portata prima di te. Julia ti appunta la spilla
+            sul bavero con le sue dita. Poi apre la cassetta di ferro, che è
+            mezza vuota, e ti dà una borsa con il sigillo del Consiglio e un
+            guscio di metallo chiuso, senza una giuntura. «Del caveau dei
+            Malgrani all'asta non l'ha voluto nessuno» dice. «Il resto della
+            paga te lo devo, e me lo ricorderò.» Tullio entra con il tè, e dal
+            bancone, quando esci, ti saluta inforcando gli occhiali.
+          pe: { politica-ed-economia: 5 }
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 300, reperto.sigillato: 1, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+      - testo: "Guardare meglio il segno prima di rispondere"
+        descrizione: "Un occhio chiuso inciso su un oggetto della Biblioteca. Prima di prendere la mazza, vale la pena guardarlo da vicino."
+        quando: [pista.pelle < 4]
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La punta sottile
+          testo: |
+            Le chiedi il disco ancora un momento e lo giri verso la finestra.
+            Il segno è inciso con una punta d'acciaio da incisore, sicura, da
+            una mano che l'aveva già fatto altre volte, e il metallo nel solco
+            è ancora lucido. Julia ti guarda guardare, e non dice niente. Poi
+            ti dà la mazza, ti appunta la spilla sul bavero e ti mette in mano
+            una borsa pesante con il sigillo del Consiglio. Dice che le
+            licenze per ora aspettano, e che le casse piene devono pure
+            servire a qualcosa.
+          pe: { percezione: 5 }
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 400, crepuscolo.indizi: 1, informazioni.segreto: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+        fallimento:
+          titolo: Un graffio
+          testo: |
+            Giri il disco verso la finestra, e il segno a quella luce sembra
+            un graffio qualunque, di quelli che lascia una chiave in tasca.
+            Julia te lo riprende con gentilezza e lo chiude nel cassetto. Poi
+            ti dà la mazza, ti appunta la spilla sul bavero e ti mette in mano
+            una borsa pesante con il sigillo del Consiglio.
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 400, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+      - testo: "Guardare meglio il segno prima di rispondere"
+        descrizione: "Un occhio chiuso inciso su un oggetto della Biblioteca. Prima di prendere la mazza, vale la pena guardarlo da vicino."
+        quando: [pista.pelle >= 7]
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La punta sottile
+          testo: |
+            Le chiedi il disco ancora un momento e lo giri verso la finestra.
+            Il segno è inciso con una punta d'acciaio da incisore, sicura, da
+            una mano che l'aveva già fatto altre volte, e il metallo nel solco
+            è ancora lucido. Julia ti guarda guardare, e non dice niente. Poi
+            ti dà la mazza e ti appunta la spilla sul bavero. Dalla cassetta
+            mezza vuota tira fuori una borsa e un guscio di metallo chiuso,
+            rimasto invenduto all'asta del caveau dei Malgrani.
+          pe: { percezione: 5 }
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 300, reperto.sigillato: 1, crepuscolo.indizi: 1, informazioni.segreto: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+        fallimento:
+          titolo: Un graffio
+          testo: |
+            Giri il disco verso la finestra, e il segno a quella luce sembra
+            un graffio qualunque, di quelli che lascia una chiave in tasca.
+            Julia te lo riprende con gentilezza e lo chiude nel cassetto. Poi
+            ti dà la mazza e ti appunta la spilla sul bavero, e dalla cassetta
+            mezza vuota tira fuori una borsa e un guscio di metallo chiuso,
+            rimasto invenduto all'asta del caveau dei Malgrani.
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 300, reperto.sigillato: 1, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+
+  # ------------------------------------------------------------ passo 15 · la spilla, dopo il tradimento
+  - id: consiglio-la-spilla-cancellata
+    presso: municipio
+    immagine: personaggi/julia-castaldi
+    titolo: La spilla
+    sommario: "È l'alba dopo la seduta. Julia ti aspetta in ufficio con il registro aperto alla pagina del margine, e il tuo nome ha una riga sopra."
+    luogo: Municipio, l'ufficio della Rappresentante, all'alba
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 14, consiglio.carte == 3, pista.acciaio >= 8, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
+    testo: |
+      All'alba il Municipio è vuoto. Julia ti aspetta in piedi dietro la
+      scrivania, con il registro del Consiglio aperto alla pagina del margine.
+      Il tuo nome a inchiostro è ancora lì, e sopra c'è una riga dritta,
+      tirata con la stessa cura delle cifre. Accanto al registro c'è la spilla
+      del Consiglio, sette anelli d'argento intrecciati.
+
+      «Brem Anthos era sulla terrazza sotto i tetti, quella notte» dice. «Ti
+      ha visto parlare con la ladra, e l'ha vista andarsene con le carte di
+      mio fratello in mano. Ha aspettato la fine della seduta per dirmelo,
+      perché è un brav'uomo e voleva vedere che cosa avresti fatto in sala.»
+      La voce non la alza, come non l'ha mai alzata con nessuno.
+
+      {empatia Difficile} Ti odia meno di quanto pensi. Ha fatto il conto di
+      quanto le sei costato e di quanto le servi ancora, e i due numeri si
+      somigliano.
+
+      «Ieri sera il Consiglio ha votato una voce senza seggio alle sedute, e
+      ha votato il tuo nome» continua. «L'hanno proposto quelli che ti
+      conoscono meglio di me, e io non mi sono opposta, perché i voti contano
+      anche quando non mi piacciono.» Gira il registro verso di te. «In
+      Consiglio parli quanto vuoi. Sul mio registro il tuo nome resta così.»
+
+      {intimidire Media} La riga sul tuo nome non è una minaccia. È un
+      promemoria, e Julia i promemoria li rilegge ogni mattina.
+
+      Dalla porta socchiusa Tullio non fa nemmeno finta di non ascoltare.
+    opzioni:
+      - testo: "Prendere la mazza e uscire"
+        descrizione: "La mazza è del Consiglio, e il Consiglio ha votato. La spilla di Julia resta sulla scrivania."
+        immagine: icone/flanged-mace
+        quando: [pista.pelle < 4]
+        esito:
+          titolo: Voce del Consiglio
+          testo: |
+            Tullio ti porta la mazza di ferro avvolta in un panno, quella che
+            raddrizza sul tavolo all'inizio di ogni seduta, e una borsa con il
+            sigillo del Consiglio, perché il Consiglio paga quello che vota.
+            Mentre prendi la mazza Julia apre il cassetto e ti mostra un disco
+            di metallo della Biblioteca, con un occhio chiuso inciso sul
+            rovescio. «Una notte è uscito da qui ed è tornato» dice. «Questo
+            te lo mostro lo stesso, perché è peggio di te.» Poi lo richiude a
+            chiave, e la spilla resta dov'è.
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 400, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1 }
+      - testo: "Prendere la mazza e uscire"
+        descrizione: "La mazza è del Consiglio, e il Consiglio ha votato. La spilla di Julia resta sulla scrivania."
+        immagine: icone/flanged-mace
+        quando: [pista.pelle >= 7]
+        esito:
+          titolo: Voce del Consiglio
+          testo: |
+            Tullio ti porta la mazza di ferro avvolta in un panno, e dalla
+            cassetta mezza vuota una borsa e un guscio di metallo chiuso,
+            rimasto invenduto all'asta del caveau dei Malgrani, perché il
+            Consiglio paga quello che vota. Mentre prendi la mazza Julia apre
+            il cassetto e ti mostra un disco di metallo della Biblioteca, con
+            un occhio chiuso inciso sul rovescio. «Una notte è uscito da qui
+            ed è tornato» dice. «Questo te lo mostro lo stesso, perché è
+            peggio di te.» Poi lo richiude a chiave, e la spilla resta dov'è.
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 300, reperto.sigillato: 1, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1 }
+      - testo: "Chiederle perdono"
+        descrizione: "Non cambierà la riga sul registro. Forse cambierà il modo in cui lei la rilegge."
+        quando: [pista.pelle < 4]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Difficile }
+        successo:
+          titolo: La spilla sul bavero
+          testo: |
+            Invece di cercare scuse le dici che cosa ti hanno offerto sul
+            tetto e perché hai detto di sì, e poi taci. Julia ti ascolta fino
+            in fondo, con gli occhi nei tuoi, poi prende la spilla e te la
+            appunta sul bavero. «La riga resta, e questa la porti perché ogni
+            volta che parli in sala ti ricordi di che cosa sei capace» dice.
+            Tullio ti porta la mazza e una borsa del Consiglio. Prima di
+            lasciarti andare Julia ti mostra un disco di metallo della
+            Biblioteca, con un occhio chiuso inciso sul rovescio, uscito una
+            notte dal suo cassetto e tornato, e non ti dice altro.
+          pe: { empatia: 8 }
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 400, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+        fallimento:
+          titolo: La riga dritta
+          testo: |
+            Cominci a scusarti, e Julia alza una mano. Ti dice che le scuse le
+            ha sentite da gente migliore, e che non le servono. Tullio ti
+            porta la mazza avvolta nel panno e una borsa del Consiglio. Prima
+            di richiudere il cassetto Julia ti mostra un disco di metallo
+            della Biblioteca, con un occhio chiuso inciso sul rovescio, e non
+            ti dice altro, mentre la spilla resta sulla scrivania accanto al
+            registro aperto.
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 400, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1 }
+      - testo: "Chiederle perdono"
+        descrizione: "Non cambierà la riga sul registro. Forse cambierà il modo in cui lei la rilegge."
+        quando: [pista.pelle >= 7]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Difficile }
+        successo:
+          titolo: La spilla sul bavero
+          testo: |
+            Invece di cercare scuse le dici che cosa ti hanno offerto sul
+            tetto e perché hai detto di sì, e poi taci. Julia ti ascolta fino
+            in fondo, con gli occhi nei tuoi, poi prende la spilla e te la
+            appunta sul bavero. «La riga resta, e questa la porti perché ogni
+            volta che parli in sala ti ricordi di che cosa sei capace» dice.
+            Tullio ti porta la mazza e una borsa, con un guscio di metallo
+            rimasto invenduto all'asta dei Malgrani. Prima di lasciarti andare
+            Julia ti mostra un disco di metallo della Biblioteca, con un
+            occhio chiuso inciso sul rovescio, e non ti dice altro.
+          pe: { empatia: 8 }
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 300, reperto.sigillato: 1, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1, oggetto.consiglio-spilla-del-consiglio: 1 }
+        fallimento:
+          titolo: La riga dritta
+          testo: |
+            Cominci a scusarti, e Julia alza una mano. Ti dice che le scuse le
+            ha sentite da gente migliore, e che non le servono. Tullio ti
+            porta la mazza avvolta nel panno e una borsa, con un guscio di
+            metallo rimasto invenduto all'asta dei Malgrani. Prima di
+            richiudere il cassetto Julia ti mostra un disco di metallo della
+            Biblioteca, con un occhio chiuso inciso sul rovescio, e non ti
+            dice altro, mentre la spilla resta sulla scrivania accanto al
+            registro aperto.
+          almeno: { rep.castaldi: 10 }
+          effetti: { fazione.consiglio: 1, monete: 300, reperto.sigillato: 1, crepuscolo.indizi: 1, oggetto.consiglio-mazza-del-patto: 1 }

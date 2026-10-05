@@ -1,0 +1,970 @@
+# La quest dei Raschiatori, passo 8 (fazione.raschiatori 7 → 8): la spedizione nel Pozzo Senzanome, oltre il
+# Gradone Rosso sulla strada per Ghoran (codex sf-pozzo-senzanome), con Nella di Ghoran. Ci si entra
+# dall'argano della Compagnia (`raschiatori-l-argano-sul-pozzo`, nella Superficie); con lo Scandaglio l'ingresso
+# costa un rintocco in meno.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# 0 le pareti vetrificate o la corda della cordata, 1 il sasso che non tocca o la brina che si muove,
+# 2 il silenzio fitto (dove si parla a segni) o il sorvegliante con il coltello, 3 la pancia tiepida (i condotti
+# che portano il freddo verso sud-ovest) o le impronte nella brina; Nella sulla corda vale da 1 a 3.
+# Il cuore a 4 è la camera del gelo: la cordata ferma nella brina, il custode del Pozzo e sulla parete la ruota dei
+# quattro segni con la fiamma accesa. Ogni ramo chiude il passo e riporta in Superficie; cambia quanti della
+# cordata risalgono (raschiatori.salvati da 1 a 3), che al passo 9 apre un'opzione.
+aree:
+  - id: raschiatori-pozzo
+    immagine: ambientazione/ghoran
+    nome: Il Pozzo Senzanome
+    sommario: "Un pozzo verticale dalle pareti vetrificate, senza una lettera dei Precursori. Tutto quello che ci si cala torna su più freddo, e i sassi non toccano mai il fondo."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Il Pozzo Senzanome scende dritto nella terra con le pareti nere e lisce
+      come uno specchio. Non hanno una giuntura né una lettera dei
+      Precursori, e la luce della lampada ci scivola sopra senza attaccarsi.
+      Dall'argano della Compagnia pende la corda della cordata, bianca di
+      brina per tutta la lunghezza che si vede.
+
+      Ogni cosa che si cala nel pozzo torna su più fredda di quando è
+      scesa. Lo sanno i pastori di Ghoran, che l'hanno trovato cercando una
+      pecora, e lo sa la tua corda, che dopo dieci palmi ti gela le mani
+      attraverso i guanti. Nella ti scende accanto in silenzio, legata alla
+      tua stessa corda con un nodo che le hai fatto tu.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, nella Superficie
+  - id: raschiatori-l-argano-sul-pozzo
+    immagine: ambientazione/ghoran
+    titolo: L'argano sul Pozzo
+    sommario: "All'alba l'argano della Compagnia è tuo. Nella ti aspetta accanto al buco con una corda legata in vita e la lampada spenta in mano."
+    luogo: Superficie Fratturata, il campo del Gancio sopra il Pozzo Senzanome
+    area: superficie-fratturata
+    requisiti: [fazione.raschiatori == 7]
+    testo: |
+      All'alba il campo del Gancio dorme ancora, tranne il caposquadra, che
+      sta seduto sul timone di un carro a guardarti. Nella è già accanto
+      all'argano con una corda legata in vita e una lampada spenta fra le
+      mani, e ha mangiato il pane che le hai dato ieri sera in tre bocconi,
+      senza masticare, alla maniera di Ghoran.
+
+      L'argano è vecchio e ben tenuto, con il freno di ferro lucido d'olio e
+      le funi nuove. La corda della cordata pende ancora dal tamburo, tesa
+      verso il basso, e la brina la ricopre fin dove arriva la luce. Quando
+      ci appoggi la mano la corda vibra appena, come un filo da pesca
+      quando qualcosa sotto si muove.
+
+      {tecnologia Media} Il freno è stato regolato da qualcuno che sapeva
+      il fatto suo, e poi allentato di un dente. Chi l'ha fatto voleva un
+      argano che regge una persona sola, e cede quando sulla corda sono in due.
+
+      {empatia Facile} Nella guarda la corda della cordata e non la tua.
+      Dentro di sé ha già cominciato a scendere.
+
+      *Cinque là sotto da tre giorni, e una sola corda per tornare su.* Il
+      freddo che sale dal pozzo ti fa lacrimare gli occhi, e lo stomaco ti si
+      stringe come davanti a un'acqua troppo fonda.
+    opzioni:
+      - testo: "Scendere lungo la corda della cordata"
+        descrizione: "La corda dei cinque è tesa e porta dritta a loro. È gelata, e scivola."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La corda bianca
+          testo: |
+            Ti agganci alla corda della cordata con il moschettone e scendi a
+            mani strette, con Nella sopra di te che ti segue palmo per palmo.
+            La brina ti si scioglie sotto i guanti e ti cola nelle maniche. Il
+            cielo sopra il pozzo diventa un cerchio, poi un punto.
+          pe: { atletica: 2 }
+          vai: raschiatori-pozzo
+        fallimento:
+          titolo: La corda che scivola
+          testo: |
+            La brina sotto i guanti è più liscia del vetro, e per un tratto
+            scivoli giù senza volerlo, finché il nodo di sicurezza non ti ferma
+            con uno strattone che ti toglie il fiato. Nella ti raggiunge e ti
+            guarda le mani, e insieme riprendete a scendere più adagio.
+          effetti: { ferite: 0.5 }
+          vai: raschiatori-pozzo
+      - testo: "Rimettere a posto il freno e farti calare"
+        descrizione: "Un freno allentato di un dente è una trappola per chi scende in due. Se lo rimetti a posto, l'argano vi porta giù tutti e due."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Un dente
+          testo: |
+            Stringi il freno di un dente e lo provi con il tuo peso, come fa
+            Dragna la sera prima. Il caposquadra del campo si alza dal timone e
+            se ne va senza salutare. Ti cali con Nella seduta nell'imbracatura
+            accanto alla tua, e l'argano gira liscio e lento, come deve.
+          pe: { tecnologia: 2 }
+          vai: raschiatori-pozzo
+        fallimento:
+          titolo: Il dente sbagliato
+          testo: |
+            Stringi il freno, ma del dente sbagliato, e a metà discesa l'argano
+            vi lascia cadere per un tratto prima di riprendere la presa. Lo
+            strattone ti torce la spalla e fa sbattere Nella contro la parete.
+            Dal campo arriva una risata, e il caposquadra la smette quando ti
+            vede rialzare la testa.
+          effetti: { ferite: 1 }
+          vai: raschiatori-pozzo
+      - testo: "Mandare avanti lo Scandaglio"
+        descrizione: "Il cristallo vibra dove sotto c'è un vuoto, e quello che c'è sotto il pozzo lo sa prima di te. Si scende senza perdere tempo."
+        requisiti: [chiave.scandaglio >= 1]
+        costo: 0
+        esito:
+          titolo: Il cristallo che vibra
+          testo: |
+            Cali lo Scandaglio sulla sua catenella davanti a te, e il cristallo
+            vibra forte appena entra nel buio e poi sempre più piano, finché si
+            ferma su una nota sola che ti risale nelle dita. Scendi seguendo quella
+            nota senza fermarti a pensare, con Nella che ti tiene la luce. In
+            fondo al primo tratto sei arrivato prima di quanto credevi.
+          vai: raschiatori-pozzo
+      - testo: "Pagare il caposquadra perché manovri l'argano lui"
+        descrizione: "Il caposquadra del campo conosce il suo argano. Per qualche moneta vi cala lui, e magari stavolta il freno tiene."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Le mani del caposquadra
+          testo: |
+            Il caposquadra prende le monete e si sputa sulle mani, poi manovra
+            l'argano con una delicatezza che non ti aspettavi da lui. Vi cala piano tutti
+            e due, e quando la corda si ferma ti grida dall'alto di salutargli
+            la cordata, se è ancora viva.
+          effetti: { monete: -10 }
+          vai: raschiatori-pozzo
+
+  # ------------------------------------------------------------ 0 · le pareti
+  - id: raschiatori-pozzo-le-pareti-vetrificate
+    immagine: ambientazione/ghoran
+    titolo: Le pareti vetrificate
+    sommario: "Le pareti del pozzo sono lisce come uno specchio e gelate. Non c'è un appiglio, e il freddo passa i guanti."
+    luogo: Il Pozzo Senzanome, il primo tratto
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 0]
+    testo: |
+      Le pareti del primo tratto sono vetro nero, lisce come la superficie
+      di uno stagno gelato, e nella luce della lampada ci vedi la tua faccia
+      che scende accanto a te. Non c'è un appiglio da qui fino a dove
+      arriva la luce. Il freddo sale dal basso a ondate, e a ogni ondata la
+      corda ti si irrigidisce fra le mani.
+
+      {resistenza Media} Le dita vanno tenute in movimento. Quando smettono
+      di farti male è il momento di preoccuparsi, e non prima.
+
+      Nella ti tocca la spalla e ti indica un punto sulla parete, poco più
+      in basso, dove il vetro ha una crepa sottile. Dentro la crepa c'è
+      qualcosa di bianco che si muove.
+    opzioni:
+      - testo: "Tenere duro e scendere nel freddo"
+        descrizione: "Il freddo si sopporta, se si continua a muoversi. Quando ci si ferma comincia a vincere lui."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Le dita
+          testo: |
+            Scendi aprendo e chiudendo le dita a ogni palmo, come quando da
+            bambino ti scaldavi le mani d'inverno, e conti le ondate di freddo
+            per sapere quando arriva la prossima. Oltre la crepa il vetro cambia
+            colore e diventa grigio, e il freddo cala di colpo come una porta
+            che si chiude.
+          pe: { resistenza: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il bianco sulle nocche
+          testo: |
+            A metà del tratto le dita smettono di farti male, e ti accorgi che
+            non le senti più. Risali di qualche palmo con Nella che ti strofina
+            le mani fra le sue, finché il dolore torna, e con il dolore la
+            paura di aver aspettato troppo.
+          effetti: { ferite: 0.5 }
+      - testo: "Puntare gli stivali sulla crepa e calarsi a scatti"
+        descrizione: "La crepa è l'unico appiglio del tratto. Ci si appoggia un piede alla volta, e si spera che regga."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La crepa
+          testo: |
+            Punti lo stivale nella crepa, e la cosa bianca dentro si ritira come
+            una lumaca. Da lì ti cali a scatti, un appoggio alla volta, e Nella
+            ti segue mettendo i piedi dove li hai messi tu. Più sotto il vetro
+            diventa grigio e opaco, e il freddo cala.
+          pe: { atletica: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: La cosa bianca
+          testo: |
+            Punti lo stivale nella crepa, e la cosa bianca dentro ti si attacca
+            alla suola come una ventosa gelata. Scalci per staccarla e perdi
+            l'appoggio, e la corda ti sbatte contro il vetro. Quando ti fermi la
+            suola è coperta di brina, e la caviglia sotto pulsa.
+          effetti: { ferite: 0.5 }
+      - testo: "Fasciarsi le mani con le bende e scendere piano"
+        descrizione: "Le bende servono per dopo, ma il dopo comincia adesso. Lento e sicuro, con le mani coperte."
+        costo: 2
+        esito:
+          titolo: Le bende
+          testo: |
+            Ti fasci le mani con le bende del sacco e fai lo stesso con quelle di
+            Nella, che si lascia fare guardando altrove. Scendete piano, un palmo
+            alla volta, e il freddo ti entra nelle ossa dei polsi lo stesso,
+            dove le bende non arrivano. In fondo al tratto ti fanno male anche i
+            denti.
+          effetti: { profondita.raschiatori-pozzo: 1, ferite: 0.5 }
+
+  - id: raschiatori-pozzo-la-corda-della-cordata
+    immagine: ambientazione/ghoran
+    titolo: La corda della cordata
+    sommario: "La corda dei cinque scende accanto alla tua, bianca di brina. A un certo punto la brina finisce, e la corda sembra nuova."
+    luogo: Il Pozzo Senzanome, accanto alla corda della cordata
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 0]
+    testo: |
+      La corda della cordata scende accanto alla tua, a un braccio di
+      distanza, coperta di brina come un ramo d'inverno. Poco più sotto la
+      brina finisce di colpo, e da lì in giù la corda è pulita e asciutta,
+      come appena uscita dalla bottega del cordaio.
+
+      {percezione Media} Il punto dove finisce la brina è dritto come un
+      taglio. Sopra fa freddo, sotto qualcosa ha tolto il freddo alla corda,
+      o la corda al freddo.
+
+      Nella allunga la mano verso la corda dei cinque e poi la ritira, come
+      davanti a una pentola sul fuoco.
+    opzioni:
+      - testo: "Esaminare il punto dove finisce la brina"
+        descrizione: "Una corda che cambia così ha incontrato qualcosa. Meglio sapere che cosa, prima di incontrarlo anche tu."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il segno sulla corda
+          testo: |
+            Sotto il bordo della brina la corda porta un segno sottile, un
+            anello di fibre bruciate dal freddo e non dal fuoco. Qualcosa l'ha
+            stretta qui per molto tempo prima di lasciarla. Lo dici a Nella con le
+            dita, e lei annuisce. Scendete tenendovi lontani dalla corda dei
+            cinque, e il primo tratto vi lascia passare.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La corda calda
+          testo: |
+            Tocchi la corda sotto la brina per capire, e la trovi tiepida come
+            un braccio. Ritiri la mano di scatto, e intanto qualcosa dall'altra
+            parte della corda ritira la sua. Risali di qualche palmo senza
+            accorgertene, con Nella che ti tiene per la cintura.
+          effetti: { tormento: 0.5 }
+      - testo: "Agganciarsi alla corda dei cinque e scendere svelti"
+        descrizione: "È tesa, e porta dritta a loro. Una corda che tiene cinque persone terrà anche te."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Dritti a loro
+          testo: |
+            Ti agganci alla corda della cordata e scendi svelto, con Nella che
+            ti segue sulla tua. La brina ti si scioglie sotto i guanti, e poi
+            sotto i guanti c'è soltanto corda asciutta e pulita, che scorre
+            bene. Il primo tratto finisce prima di quanto credevi.
+          pe: { atletica: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: La corda che tira
+          testo: |
+            Ti agganci alla corda dei cinque, e la corda tira. Dal basso, piano,
+            come una mano che chiama. Ti sganci con le dita che tremano e resti
+            appeso alla tua, a guardare la corda bianca che si muove ancora un
+            poco e poi si ferma.
+          effetti: { tormento: 0.5, ferite: 0.5 }
+      - testo: "Lasciarla stare e scendere sulla tua"
+        descrizione: "La corda dei cinque è la loro. Tu scendi sulla tua tenendoti lontano, e ci metti più tempo."
+        costo: 2
+        esito:
+          titolo: Lontano dalla corda
+          testo: |
+            Sposti la tua corda di un braccio più in là sul tamburo dell'argano,
+            con un segnale a chi sta sopra, e scendete lontano dalla corda dei
+            cinque. Ci vuole il doppio del tempo, e il freddo ha più tempo per
+            entrarti nelle ossa. In fondo al tratto ti battono i denti.
+          effetti: { profondita.raschiatori-pozzo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · il sasso e la brina
+  - id: raschiatori-pozzo-il-sasso
+    immagine: ambientazione/regno-profondo
+    titolo: Il sasso che non tocca
+    sommario: "Su una cengia Nella lascia cadere un sasso nel buio, per sapere quanto manca. Il sasso non tocca il fondo."
+    luogo: Il Pozzo Senzanome, la prima cengia
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 1]
+    testo: |
+      Il pozzo si allarga in una cengia di vetro grigio dove si sta in piedi
+      in due, spalla a spalla. Nella raccoglie un sasso che deve essere
+      caduto da sopra e lo lascia andare nel buio, come fanno i pastori di
+      Ghoran con i pozzi da acqua. Contate insieme a bassa voce. Arrivate a
+      cento senza sentire niente, e Nella ricomincia da capo.
+
+      {resilienza Media fallita} Al secondo cento il numero ti pare più
+      grande di quello che conosci, come se dopo il novantanove ci fossero
+      cifre che non ti hanno mai insegnato.
+
+      Dal buio sale un soffio leggero, regolare, che ti muove i capelli
+      sulla fronte e poi si ritira.
+    opzioni:
+      - testo: "Misurare il soffio invece del sasso"
+        descrizione: "Il sasso tace. Il soffio invece va e viene, e un respiro così ha una sorgente e una distanza."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il soffio
+          testo: |
+            Conti i soffi invece del sasso. Arrivano ogni sette battiti come un
+            orologio, e ognuno porta un odore di pietra bagnata e di ferro freddo.
+            Vengono da sotto e un poco di lato, e quando cerchi con la lampada
+            trovi la bocca di un cunicolo inclinato nel vetro, larga quanto una
+            porta di cantina.
+          pe: { percezione: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il conto di Nella
+          testo: |
+            Conti i soffi, e a un certo punto ti accorgi che stai contando i
+            tuoi respiri, e che il soffio respira con te. Nella ti tira per la
+            manica e ti indica la corda. Risalite di un tratto senza parlare,
+            finché il soffio smette di seguirti.
+          effetti: { tormento: 0.5 }
+      - testo: "Smettere di contare e scendere"
+        descrizione: "Il fondo non si sente, e allora non serve saperlo. Si scende finché si scende."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Finché si scende
+          testo: |
+            Metti una mano sulla spalla di Nella per farla smettere di contare,
+            e scendete. Il buio sotto la cengia è lo stesso buio di sopra, e la
+            corda è la stessa corda, e dopo un tratto il vetro della parete si
+            apre nella bocca di un cunicolo inclinato.
+          pe: { resilienza: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il secondo sasso
+          testo: |
+            Scendi di qualche palmo, e dall'alto cade un secondo sasso che ti
+            sfiora la spalla. Nessuno dei due l'ha lanciato. Restate fermi sulla
+            cengia a guardarvi, finché il cuore non smette di battere in gola.
+          effetti: { tormento: 0.5 }
+      - testo: "Calare la lampada con la cordicella"
+        descrizione: "Una lampada legata a una cordicella illumina quello che c'è sotto. Ci vuole tempo, e la lampada torna su gelata."
+        costo: 2
+        esito:
+          titolo: La lampada gelata
+          testo: |
+            Leghi la lampada di riserva alla cordicella e la cali nel buio. La
+            luce piccola scende a lungo prima di fermarsi su una bocca di
+            cunicolo nel vetro, qualche braccio più sotto e spostata di lato. Quando la tiri su il vetro
+            della lampada è coperto di brina e ti brucia le dita come il fuoco.
+          effetti: { profondita.raschiatori-pozzo: 1, ferite: 0.5 }
+
+  - id: raschiatori-pozzo-la-brina
+    immagine: ambientazione/marea-grigia
+    titolo: La brina che si muove
+    sommario: "Una nuvola di aghi di ghiaccio sale dal cunicolo contro la corrente dell'aria. Dove si posa, la pelle diventa bianca."
+    luogo: Il Pozzo Senzanome, la bocca del cunicolo
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 1]
+    testo: |
+      Dalla bocca di un cunicolo nel vetro esce una nuvola bassa di aghi di
+      ghiaccio, e risale la parete contro la corrente dell'aria, adagio. Si
+      posa sulla corda della cordata e la imbianca, e quando se ne stacca va
+      a cercare un altro posto. Quando arriva vicino alla lampada si ferma a mezz'aria, e
+      i suoi aghi si girano tutti dalla stessa parte.
+
+      {natura Media} Cerca il caldo della lampada e delle mani, e del fiato
+      che ti esce dalla bocca. Chi resta immobile e trattiene il fiato
+      diventa freddo come la parete.
+
+      Nella ha smesso di muoversi da sola, prima ancora che tu glielo dicessi.
+    opzioni:
+      - testo: "Spegnere la lampada e trattenere il fiato"
+        descrizione: "Se cerca il caldo, bisogna smettere di averne. Per un poco."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Freddo come la parete
+          testo: |
+            Spegni la lampada e stringi Nella contro la parete, con il fiato
+            trattenuto e la bocca nella manica. La nuvola vi passa
+            accanto con un fruscio di sabbia e prosegue verso l'alto. Quando la
+            riaccendi, la bocca del cunicolo è libera.
+          pe: { natura: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il fiato
+          testo: |
+            Spegni la lampada e trattieni il fiato, ma dopo un poco il fiato
+            scappa, e la nuvola ti trova la bocca. Gli aghi ti bruciano le
+            labbra di freddo e ti entrano nel naso. Risali tossendo, e Nella ti
+            tiene la testa mentre sputi acqua gelata.
+          effetti: { ferite: 0.5, contaminazione: 0.5 }
+      - testo: "Disperderla a colpi di lampada"
+        descrizione: "È una nuvola. Le nuvole si spezzano."
+        combattimento: raschiatori-sciame-di-brina
+        vittoria:
+          titolo: Gli aghi sciolti
+          testo: |
+            La colpisci con la lampada e con il manico del piccone, e la
+            nuvola si spezza in pezzi più piccoli che cadono nel buio come
+            nevischio. Quello che resta si scioglie sul vetro in gocce che
+            scorrono verso l'alto, contro ogni buon senso, e la bocca del
+            cunicolo resta libera.
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        sconfitta:
+          titolo: Bianco
+          testo: |
+            La nuvola ti si posa sulle mani e sulla faccia, e per un tempo che
+            non sai misurare vedi soltanto bianco. Nella ti tira su per la
+            corda fino alla cengia, e lì ti strofina le guance con le sue
+            finché la pelle non torna del suo colore.
+      - testo: "Lasciarle la lampada di riserva come esca"
+        descrizione: "Una lampada accesa sulla cengia, e la nuvola resta lì. Poi la lampada non la rivedi più."
+        costo: 2
+        esito:
+          titolo: L'esca
+          testo: |
+            Accendi la lampada di riserva e la lasci sulla cengia, e la nuvola
+            ci si posa sopra come le mosche sul miele. Passate rasente alla
+            parete fino al cunicolo. Quando ti volti la lampada è un blocco di
+            ghiaccio con una luce piccola dentro, e ti dispiace per lei più di
+            quanto sia ragionevole.
+          effetti: { profondita.raschiatori-pozzo: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 1–3 · Nella sulla corda
+  - id: raschiatori-pozzo-nella-sulla-corda
+    immagine: ambientazione/regno-profondo
+    titolo: Nella sulla corda
+    sommario: "Nella scivola, e resta appesa alla corda che vi lega, sotto di te, a girare nel buio."
+    luogo: Il Pozzo Senzanome, a mezza corda
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo >= 1, profondita.raschiatori-pozzo <= 3]
+    testo: |
+      Il nodo che hai fatto a Nella tiene, e per questo adesso lei è appesa
+      sotto di te a girare nel buio, con la lampada che le dondola dal polso.
+      Le è scivolato il piede su un tratto di vetro bagnato. La corda ti
+      sega la vita, e il suo peso ti tira giù di un palmo alla volta.
+
+      {atletica Media} Lei pesa poco, ma tutto da una parte. Se ti pianti con
+      tutti e due i piedi la tiri su in tre bracciate, se ti pianti con uno
+      solo scendete insieme.
+
+      Nella non grida. Ti guarda dal basso con la bocca chiusa, e aspetta
+      che tu decida.
+    opzioni:
+      - testo: "Tirarla su a forza di braccia"
+        descrizione: "Due piedi sul vetro, la corda sulla spalla, e tre bracciate. Forse quattro."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Tre bracciate
+          testo: |
+            Ti pianti con tutti e due i piedi e tiri due bracciate, e alla
+            terza la mano di Nella ti trova la cintura. Restate
+            un momento appesi l'uno all'altra a respirare. Poi lei ti fa un
+            cenno, uno solo, che fra i Raschiatori vuol dire *avanti*, e
+            l'ha imparato guardando te.
+          pe: { atletica: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Insieme
+          testo: |
+            Tiri, e il piede ti scivola a tua volta. Scendete insieme per un
+            tratto lungo, sfregando contro il vetro, finché la tua corda non si
+            tende sull'argano con uno strattone che vi sbatte tutti e due contro
+            la parete. Nella si rialza per prima e ti aiuta a ritrovare
+            l'appoggio.
+          effetti: { ferite: 1 }
+      - testo: "Dirle a segni come rimettersi in piedi"
+        descrizione: "Ha paura, e la paura fa sbagliare i piedi. Le servono due gesti chiari, e la calma di chi glieli fa."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Facile }
+        successo:
+          titolo: Due gesti
+          testo: |
+            Le fai due gesti con la mano libera, la punta del piede e poi la
+            parete, e lei li ripete con il corpo, girando adagio finché lo
+            stivale trova il vetro. Si rimette in piedi da sola, e tu non devi
+            tirare. Quando vi guardate ha le guance rosse, e non soltanto di
+            freddo.
+          pe: { empatia: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il gesto sbagliato
+          testo: |
+            Le fai un gesto, e lei capisce il contrario e si spinge via dalla
+            parete. Gira due volte sopra il buio prima di tornare a sbattere sul
+            vetro, e resta lì aggrappata con la fronte contro la pietra.
+            Aspettate insieme che le passi il tremito.
+          effetti: { tormento: 0.5 }
+      - testo: "Fissare la corda a un chiodo e calarla piano"
+        descrizione: "Un chiodo nel vetro con la corda fissata sopra, e Nella scende fino al prossimo appoggio. Ci vuole tempo, e nel vetro i chiodi tengono male."
+        costo: 2
+        esito:
+          titolo: Il chiodo nel vetro
+          testo: |
+            Pianti un chiodo in una crepa del vetro e ci fissi la corda, e cali
+            Nella piano fino a una sporgenza più sotto. Il chiodo geme, e due
+            volte esce di un dito. Quando la raggiungi hai le palme scorticate
+            e lei ti guarda le mani come se fossero sue.
+          effetti: { profondita.raschiatori-pozzo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · il silenzio fitto e il coltello
+  - id: raschiatori-pozzo-il-silenzio-fitto
+    immagine: ambientazione/regno-profondo
+    titolo: Il silenzio fitto
+    sommario: "Più giù il suono smette di esistere. Nella muove la bocca e non la senti, e tu non senti nemmeno i tuoi passi."
+    luogo: Il Pozzo Senzanome, il cunicolo muto
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 2]
+    testo: |
+      Il cunicolo scende inclinato nel vetro, e a un certo punto il suono
+      smette di esserci. I tuoi passi, il fruscio della corda, il respiro di
+      Nella, tutto quanto finisce come tagliato con un coltello. Lei si gira
+      a dirti qualcosa e muove la bocca, e dalla bocca non esce niente.
+      Il nipote di sei anni dei pastori di Ghoran aveva ragione, qui dentro
+      c'è silenzio fitto, come dentro una pancia.
+
+      {empatia Media} Le parole qui non servono. Nella però parla con le
+      mani come al mercato di Ghoran, e le mani si vedono benissimo.
+
+      Più avanti il cunicolo si divide in due, e sul vetro di uno dei due
+      rami c'è l'impronta di una mano, bianca di brina.
+    opzioni:
+      - testo: "Parlare a segni con Nella"
+        descrizione: "Lei conosce le mani del mercato di Ghoran, tu quelle dei Raschiatori. Da qualche parte si incontrano."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Le mani
+          testo: |
+            Le indichi i due rami, e lei ti risponde con un gesto che non
+            conosci, il pugno chiuso contro il petto e poi aperto. Ci metti un
+            momento a capire che è il segno di Ghoran per *fratello*. Ti indica
+            l'impronta di brina, grande come la sua mano, e insieme prendete
+            quel ramo del cunicolo.
+          pe: { empatia: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il segno sbagliato
+          testo: |
+            Le fai il segno dei Raschiatori per *a sinistra*, e lei deve averlo preso
+            per qualcos'altro, perché tutto il suo corpo si irrigidisce e ti
+            guarda storto. Restate fermi nel silenzio a chiedervi scusa con gli
+            occhi, senza riuscirci, finché il freddo non vi costringe a tornare
+            indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire l'impronta di brina"
+        descrizione: "Una mano sul vetro, nel punto dove si appoggia chi scende. Chi l'ha lasciata è passato di qui."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Le impronte
+          testo: |
+            Dopo la prima impronta ce n'è un'altra, e poi un'altra, sempre alla
+            stessa altezza sul vetro, dove si appoggia una mano che cerca
+            equilibrio. Le segui con la lampada, e Nella le tocca una per una
+            con la punta delle dita, senza fermarsi.
+          pe: { percezione: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: L'impronta tua
+          testo: |
+            Segui le impronte per un tratto, poi ne trovi una che ha la forma
+            della tua mano, con il guanto rotto al pollice come il tuo. Torni
+            indietro fino al bivio, e nel silenzio senti per la prima volta il
+            tuo cuore, che batte forte.
+          effetti: { tormento: 1 }
+      - testo: "Legarsi stretti e procedere a tentoni"
+        descrizione: "Senza suono e con poca luce l'unica cosa sicura è la corda che ti lega a Nella. Si accorcia, e si va un passo alla volta."
+        costo: 2
+        esito:
+          titolo: Corta
+          testo: |
+            Accorci la corda fra te e Nella fino a un braccio e procedete a
+            tentoni lungo il ramo di destra, e quando finisce contro il vetro
+            tornate indietro a provare quello di sinistra. Ci vuole molto. Quando il suono
+            ritorna, tutto insieme, ti fanno male le orecchie, e Nella ride
+            senza motivo.
+          effetti: { profondita.raschiatori-pozzo: 1, tormento: 0.5 }
+
+  - id: raschiatori-pozzo-il-sorvegliante-con-il-coltello
+    immagine: ambientazione/ghoran
+    titolo: Il sorvegliante con il coltello
+    sommario: "Un uomo del Gancio è sceso su una corda di servizio, e con un coltello lungo sta tagliando la corda della cordata."
+    luogo: Il Pozzo Senzanome, la seconda cengia
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 2]
+    testo: |
+      Sulla seconda cengia c'è un uomo del Gancio appeso a una corda di
+      servizio, con un coltello lungo in mano. Sta segando la corda della
+      cordata poco sopra il punto dove finisce la brina, e lo fa con la
+      pazienza di un garzone che taglia la legna. Un capo di corda nuova vale
+      più di cinque legati che non tornano, e il caposquadra del campo l'ha
+      mandato giù a recuperarlo.
+
+      {armi-da-mischia Facile} È appeso, e ha una mano sola libera. Chi è
+      appeso combatte male, e chi combatte con lui appeso ancora peggio.
+
+      Nella ti stringe il braccio, forte. La corda segata a metà vibra a
+      ogni colpo di coltello.
+    opzioni:
+      - testo: "Fermarlo"
+        descrizione: "È appeso, e ha un coltello. Anche tu sei appeso, e non hai tempo."
+        combattimento: raschiatori-un-sorvegliante
+        vittoria:
+          titolo: La corda salva
+          testo: |
+            Gli sei addosso prima che finisca il taglio, e la colluttazione
+            sopra il buio dura poco. Il sorvegliante risale sulla sua corda
+            tenendosi il braccio, e la corda della cordata resta tesa, con un
+            taglio a metà che Nella fascia con la sua cintura, stretto.
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        sconfitta:
+          titolo: Il coltello lungo
+          testo: |
+            Il sorvegliante ti allontana con un calcio sul petto, e tu giri
+            appeso sopra il vuoto finché la corda non si ferma. Quando torni
+            alla cengia lui è già risalito, e la corda della cordata è ancora
+            intera, perché nella colluttazione ha perso il coltello.
+      - testo: "Dirgli che cosa gli fa Dragna, se lo sa"
+        descrizione: "Un Raschiatore che taglia la corda di una cordata, anche se lavora per il Gancio, non entra più al Grifone. Lui lo sa."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il nome di Dragna
+          testo: |
+            Gli dici chi sei e per chi scendi, e gli dici che cosa fa il Ferro a
+            chi taglia una cordata, con le parole che userebbe lei. L'uomo
+            smette di segare. Rinfodera il coltello e risale senza voltarsi, e
+            prima di sparire sopra la cengia ti dice che lui il pozzo non l'ha
+            mai visto.
+          pe: { intimidire: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Non lavoro per Dragna
+          testo: |
+            Gli parli di Dragna, e lui ride. Ti dice che lavora per chi paga.
+            Poi ti lancia contro il coltello, che ti apre la manica, e risale
+            in fretta. La corda della cordata resta tagliata a metà, e Nella la
+            fascia con la sua cintura mentre tu ti stringi il braccio.
+          effetti: { ferite: 1 }
+      - testo: "Tenere la corda della cordata finché lui si stanca"
+        descrizione: "Se tieni tu il peso, il taglio non si allarga. Lui prima o poi deve risalire a mangiare."
+        costo: 2
+        esito:
+          titolo: Il peso
+          testo: |
+            Prendi la corda della cordata sopra il taglio e la tieni, con le
+            gambe puntate sul vetro, mentre il sorvegliante ti guarda e
+            sbuffa. Alla fine si stanca prima di te e risale. Ti fanno male le
+            spalle fino al collo, e Nella fascia il taglio con la sua cintura.
+          effetti: { profondita.raschiatori-pozzo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la pancia e le impronte
+  - id: raschiatori-pozzo-la-pancia
+    immagine: ambientazione/regno-profondo
+    titolo: La pancia tiepida
+    sommario: "In fondo al cunicolo il vetro si apre in una sala tonda e tiepida. Nelle pareti corrono condotti che portano il freddo verso sud-ovest."
+    luogo: Il Pozzo Senzanome, la pancia
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 3]
+    testo: |
+      Il cunicolo sbocca in una sala tonda dalle pareti curve, e l'aria qui
+      è tiepida come in una stalla d'inverno. Nelle pareti corrono condotti
+      di vetro grosso come un braccio, pieni di una nebbia bianca che scorre
+      piano, tutti nella stessa direzione. Dalla parte da cui escono le
+      pareti sono coperte di brina.
+
+      {tecnologia Media} Il freddo non sale dal fondo. Lo portano i
+      condotti, che lo raccolgono qui e lo mandano altrove, come le grondaie
+      portano via la pioggia.
+
+      {natura Difficile} I condotti puntano a sud-ovest. Da quella parte,
+      a molti giorni di cammino, c'è Mahr-Kel con le sue vasche.
+
+      Dal condotto più basso arriva un rumore regolare, come di qualcuno che
+      bussa con le nocche contro il vetro.
+    opzioni:
+      - testo: "Seguire i condotti fino alla camera"
+        descrizione: "I condotti raccolgono il freddo da qualche parte. La cordata è dove il freddo è più forte."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: Contro corrente
+          testo: |
+            Segui i condotti contro corrente, verso il punto da cui la nebbia
+            parte, e la sala si stringe in un corridoio sempre più freddo. Ti
+            annoti la direzione su un pezzo di tela, per Argento. In fondo al
+            corridoio la brina copre ogni cosa, e il bussare si fa più forte.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il condotto rotto
+          testo: |
+            Segui un condotto e ti accorgi tardi che è incrinato. La nebbia
+            bianca ti esce addosso da una crepa e ti gela un braccio fino al
+            gomito, e per un poco non riesci più a chiudere la mano. Torni
+            nella sala tiepida a scaldarti contro la parete.
+          effetti: { ferite: 0.5, contaminazione: 0.5 }
+      - testo: "Rispondere al bussare"
+        descrizione: "Tre colpi, una pausa, tre colpi. I Raschiatori bussano così quando sono chiusi da qualche parte."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Tre colpi
+          testo: |
+            Bussi tre volte sul condotto con il manico del coltello, e dopo una
+            pausa ti rispondono tre colpi, più deboli, da più avanti. Nella ti
+            stringe il polso fino a farti male. Seguite il bussare finché la
+            sala diventa un corridoio coperto di brina.
+          pe: { resilienza: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: Il bussare dentro
+          testo: |
+            Bussi tre volte, e ti rispondono tre colpi da dentro la parete,
+            proprio sotto la tua mano, e poi altri tre dalla parete opposta, e
+            poi da tutte le pareti insieme. Nella ti trascina fuori dalla sala.
+            Il rumore vi segue per un tratto, poi si ferma.
+          effetti: { tormento: 1 }
+      - testo: "Riposare al tiepido e poi proseguire"
+        descrizione: "È il primo posto caldo da quando siete scesi. Mezz'ora di riposo, e poi avanti."
+        costo: 2
+        esito:
+          titolo: Mezz'ora
+          testo: |
+            Vi sedete schiena contro schiena con le spalle alla parete tiepida, e
+            Nella si addormenta subito, come i bambini. Tu resti sveglio a guardare
+            la nebbia nei condotti. Quando la svegli ha le guance segnate dal
+            vetro, e il freddo vi aspetta tutto intero nel corridoio di brina.
+          effetti: { profondita.raschiatori-pozzo: 1, contaminazione: 0.5 }
+
+  - id: raschiatori-pozzo-le-impronte
+    immagine: ambientazione/marea-grigia
+    titolo: Le impronte nella brina
+    sommario: "Sul pavimento coperto di brina ci sono le impronte di piedi scalzi in fila. Vanno tutte avanti, e nessuna torna."
+    luogo: Il Pozzo Senzanome, il corridoio di brina
+    area: raschiatori-pozzo
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo == 3]
+    testo: |
+      Il corridoio è coperto di brina dal pavimento al soffitto, e ogni passo
+      fa un rumore di zucchero calpestato. Sul pavimento ci sono le impronte
+      di cinque paia di piedi scalzi, in fila, uno dietro l'altro come
+      cammina una cordata, e vanno tutte avanti. Di impronte che tornano
+      indietro non ce n'è nessuna.
+
+      {resistenza Media} I piedi scalzi sulla brina, per un giorno intero.
+      Le piante si spaccano prima di sera, e chi cammina così non cammina a
+      lungo.
+
+      {origine fuggiasco-di-ghoran} A Ghoran i legati camminano scalzi perché
+      scappare costi di più. Le scarpe le danno soltanto ai sorveglianti, e ai legati che
+      hanno già provato a scappare una volta, perché non si ammalino.
+
+      Nella si inginocchia accanto alla terza impronta della fila e ci
+      appoggia la mano aperta, senza toccarla.
+    opzioni:
+      - testo: "Seguire le impronte"
+        descrizione: "Vanno avanti, dritte. Basta seguirle prima che la brina le copra."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La fila
+          testo: |
+            Segui la fila di impronte, e dove la brina è più fresca le impronte
+            si fanno più corte, i passi di gente che non ce la fa più. Poi le
+            impronte si fermano tutte insieme davanti a una porta di vetro
+            appannato, e sulla porta c'è una mano di brina, grande come quella
+            di Nella.
+          pe: { percezione: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1 }
+        fallimento:
+          titolo: La brina nuova
+          testo: |
+            La brina cade dal soffitto come neve fine, e le impronte spariscono
+            sotto i tuoi occhi, una alla volta, dalla prima all'ultima. Restate
+            nel corridoio bianco senza sapere da che parte andare, finché il
+            freddo non vi rimanda indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare che sia Nella a guidare"
+        descrizione: "La terza impronta della fila è di suo fratello. Lei lo sa senza misurarla."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Facile }
+        successo:
+          titolo: Il passo del fratello
+          testo: |
+            Le fai un cenno, e Nella si mette davanti a te e cammina mettendo i
+            piedi nelle impronte del fratello, una alla volta, come si gioca da
+            bambini. Ti porta fino a una porta di vetro appannato senza esitare
+            una volta, e lì si ferma e ti aspetta.
+          pe: { empatia: 2 }
+          effetti: { profondita.raschiatori-pozzo: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: La fretta
+          testo: |
+            Nella parte di corsa sulle impronte, e la corda che vi lega ti tira
+            giù sulla brina. Ti rialzi con le mani bianche di freddo e la
+            raggiungi che sta in ginocchio, ansimando, davanti a un muro di brina
+            dove le impronte finiscono senza una porta.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare sulle impronte, piano"
+        descrizione: "Se loro sono passati di lì, di lì si passa. Lento, e con i piedi che gelano."
+        costo: 2
+        esito:
+          titolo: Nei loro passi
+          testo: |
+            Camminate piano mettendo gli stivali dove loro hanno messo i piedi
+            nudi, e il freddo vi sale dalle suole fino alle ginocchia. Ci
+            mettete molto. In fondo al corridoio c'è una porta di vetro
+            appannato, e sulla porta una mano di brina.
+          effetti: { profondita.raschiatori-pozzo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · la camera del gelo
+  - id: raschiatori-la-camera-del-gelo
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La camera del gelo
+    sommario: "Dietro la porta di vetro la cordata è ferma in piedi nella brina, e intorno a loro cammina una macchina che nessuno aveva mai visto."
+    luogo: Il Pozzo Senzanome, la camera del gelo
+    area: raschiatori-pozzo
+    requisiti: [fazione.raschiatori == 7, profondita.raschiatori-pozzo >= 4]
+    testo: |
+      Dietro la porta di vetro c'è una camera rotonda, e nel mezzo, in
+      piedi, ci sono i cinque della cordata, ancora legati alla loro corda.
+      La brina li copre come un lenzuolo. Respirano, piano, una nuvola
+      piccola alla volta, e hanno gli occhi aperti. Il terzo della fila ha
+      la stessa bocca di Nella.
+
+      Intorno a loro cammina una macchina che nessuno ha mai disegnato nei
+      quaderni dei Raschiatori, piatta contro il pavimento, con le zampe
+      ripiegate sotto il ventre come una cicala. Dalle sue giunture
+      esce la nebbia bianca dei condotti. Dove passa la brina si ispessisce.
+
+      {tecnologia Media} I cristalli piantati nel soffitto sopra la cordata
+      tengono il freddo fermo su di loro. La macchina li cura come un
+      giardiniere cura le piante.
+
+      Sulla parete di fondo, incisa nel vetro, c'è la ruota dei quattro
+      segni, uguale a quella del Disco della Gradinata. Tre segni sono
+      spenti. La fiamma, in basso, è accesa di una luce azzurra che non
+      scalda.
+
+      {resilienza Media} Ogni respiro della cordata è più lento del
+      precedente. Hai il tempo di fare una cosa sola, e di farla bene.
+
+      Nella non guarda la macchina. Guarda il fratello, e ha già il coltello
+      in mano.
+    opzioni:
+      - testo: "Affrontare il custode e tirarli fuori tutti"
+        descrizione: "La macchina e la brina insieme. Se vinci in fretta li porti su tutti e cinque, o quasi."
+        combattimento: raschiatori-camera-del-gelo
+        vittoria:
+          titolo: Tutti
+          testo: |
+            Il custode si accascia sulle zampe ripiegate, e la nebbia gli esce
+            dalle giunture tutta insieme e si disperde. Stacchi i cristalli dal
+            soffitto, e la brina cade dalla cordata come neve da un tetto. Ne
+            porti su quattro, e uno di loro cammina da solo. Il quinto
+            era morto da prima che tu arrivassi.
+
+            Sulla parete la fiamma della ruota si spegne quando togli l'ultimo
+            cristallo. All'argano Nella non lascia la mano del fratello nemmeno
+            quando il caposquadra del campo viene a reclamarli.
+          pe: { resistenza: 5 }
+          imposta: { raschiatori.salvati: 3 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 2, cella: 1, rep.raschiatori: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Uno
+          testo: |
+            Il custode ti butta contro la parete, e la brina ti sale sulle
+            gambe fino alle ginocchia. Nella nel frattempo ha tagliato la corda
+            del fratello e se lo trascina dietro verso la porta. Ti rialzi e la
+            aiuti, e risalite in tre. Gli altri restano nella camera, in piedi,
+            con gli occhi aperti.
+
+            Sulla parete la fiamma della ruota resta accesa. All'argano Nella
+            non lascia la mano del fratello nemmeno quando il caposquadra del
+            campo viene a reclamarlo.
+          imposta: { raschiatori.salvati: 1 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 1, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Staccare i cristalli dal soffitto senza svegliarlo"
+        descrizione: "I cristalli tengono il freddo sulla cordata. Toglierli uno alla volta, mentre la macchina gira dall'altra parte, li scioglie."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: I cristalli del soffitto
+          testo: |
+            Aspetti che il custode sia dall'altra parte della camera e stacchi
+            il primo cristallo con le dita fasciate, poi il secondo. La brina
+            scivola giù dalla cordata a placche. Il custode si gira quando ne
+            hai staccati quattro, e a quel punto Nella ha già tagliato le corde,
+            e tre della cordata sono abbastanza vivi da risalire.
+
+            Sulla parete la fiamma della ruota si affievolisce senza spegnersi.
+            All'argano Nella non lascia la mano del fratello nemmeno quando il
+            caposquadra del campo viene a reclamarli.
+          pe: { tecnologia: 5 }
+          imposta: { raschiatori.salvati: 2 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 3, cella: 1, rep.raschiatori: 0.5 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il cristallo che canta
+          testo: |
+            Il primo cristallo si stacca con un suono acuto, come un bicchiere
+            che si incrina, e il custode si gira subito. Ti tocca correre, e
+            Nella taglia la corda del fratello mentre tu tieni lontana la
+            macchina con la lampada. Risalite in tre, e la brina ti è entrata
+            sotto la pelle delle mani.
+
+            Sulla parete la fiamma della ruota resta accesa. All'argano Nella
+            non lascia la mano del fratello nemmeno quando il caposquadra del
+            campo viene a reclamarlo.
+          imposta: { raschiatori.salvati: 1 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 1, contaminazione: 1, ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Fermare il custode con il congegno di Capomozzo"
+        descrizione: "Il disco con cui Aurenne comandava le macchine di Capomozzo parla alla Salvaguardia. Questa forma è nuova, e la lingua forse la capisce lo stesso."
+        requisiti: [oggetto.congegno-di-controllo >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La lingua delle macchine
+          testo: |
+            Tieni il congegno davanti a te, e il custode si ferma a metà passo
+            con una zampa sollevata, come un cane che sente il fischio del
+            padrone. Lo aggiri con calma, stacchi i cristalli dal soffitto e
+            tagli le corde. Ne porti su quattro, e il quinto era morto da prima
+            che tu arrivassi.
+
+            Sulla parete la fiamma della ruota si spegne quando togli l'ultimo
+            cristallo. All'argano Nella non lascia la mano del fratello nemmeno
+            quando il caposquadra del campo viene a reclamarli.
+          pe: { tecnologia: 5 }
+          imposta: { raschiatori.salvati: 3 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 2, cella: 1, rep.raschiatori: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La lingua storpiata
+          testo: |
+            Il congegno ronza, e il custode si ferma, ma per poco. Poi si muove
+            a scatti, come un servo che ha capito metà di un ordine, e ti tocca lavorare
+            con la macchina che ti gira intorno. Ne portate su tre, e la
+            brina ti ha segnato le mani.
+
+            Sulla parete la fiamma della ruota si affievolisce senza spegnersi.
+            All'argano Nella non lascia la mano del fratello nemmeno quando il
+            caposquadra del campo viene a reclamarli.
+          imposta: { raschiatori.salvati: 2 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 1, cella: 1, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Tagliare la corda del fratello e andare via subito"
+        descrizione: "Uno lo porti su di sicuro, se non perdi tempo. Gli altri restano, e lo sai."
+        costo: 2
+        esito:
+          titolo: Uno di sicuro
+          testo: |
+            Tagli la corda del fratello di Nella sopra il nodo, e lei se lo
+            carica sulle spalle prima che tu riesca ad aiutarla. Il custode non
+            vi insegue. Risalite in tre senza voltarvi, e gli altri restano
+            nella camera, in piedi nella brina, con gli occhi aperti.
+
+            Sulla parete la fiamma della ruota resta accesa. All'argano Nella
+            non lascia la mano del fratello nemmeno quando il caposquadra del
+            campo viene a reclamarlo.
+          imposta: { raschiatori.salvati: 1 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 1, tormento: 1 }
+          vai: superficie-fratturata

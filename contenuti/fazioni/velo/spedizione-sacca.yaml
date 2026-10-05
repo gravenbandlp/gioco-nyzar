@@ -1,0 +1,906 @@
+# La sacca sotto l'Orlo, spedizione del passo 8 della quest del Velo (fazione.velo == 7). Ci si entra dal pozzo di scolo
+# dietro la baracca di Grusk (velo-il-pozzo-di-scolo, in passi-2.yaml), con Padre Walter che tiene la corda dall'alto.
+# Le stanze chiedono tutte fazione.velo == 7 e vanno in fasce di profondità; una stanza superata non ricompare nella
+# stessa visita:
+# 0 la discesa (i pioli; gli spazzini della notte, che valgono anche a 1), 1 i condotti della Prima Breccia (le grate
+# con i sigilli del 115; i vapori azzurrastri, che valgono anche a 2), 2 il bordo della sacca (i nidi dei vermi
+# carogna; il reperto scartato; l'eco del Raschiatore del 115, che vale anche a 3), 3 la galleria asciutta (l'aria
+# fredda; le impronte). Il cuore a 4 è la sacca, con il nato della sacca: batterlo o tenerlo lontano con l'Esorcismo
+# apre il seguito della corda al cristallo, dove la sacca si misura (velo.sacca 1). Chi esce con la sola cassetta la
+# lascia fuori dal bollettino (velo.sacca 2). In ogni ramo trovi le lettere e il disco, e il passo si chiude.
+aree:
+  - id: velo-sacca-dell-orlo
+    immagine: ambientazione/orlo-dei-rottami
+    nome: La sacca sotto l'Orlo
+    sommario: "Sotto la spiaggia dei rottami corrono i condotti della Prima Breccia, quelli da cui nel 115 salì la Marea. Da qualche parte laggiù c'è la sacca che manca dal bollettino."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto l'Orlo dei Rottami la Città Bassa ha scaricato per cinquant'anni
+      quello che non voleva più vedere, e la terra se l'è preso un po' alla
+      volta. Il pozzo di scolo scende fra muri di mattoni rossi, poi i mattoni
+      finiscono e cominciano i condotti della Prima Breccia, tubi di pietra
+      larghi come una stanza con le pareti rigate dall'acqua. Nel 115 ne salì
+      la Marea, e il Velo li chiuse con grate e sigilli che adesso sono
+      ruggine.
+
+      Dall'alto arriva la corda di Walter, sempre tesa. Ogni tanto si muove di
+      un palmo, quando lui si sistema sul bordo del pozzo, e il movimento ti
+      arriva alla vita come una mano sulla spalla.
+
+storylet:
+  # ------------------------------------------------------------ 0 · la discesa
+  - id: velo-sacca-i-pioli
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: I pioli
+    sommario: "La scala del pozzo di scolo scende per cento pioli nel buio. La ruggine se n'è mangiati parecchi."
+    luogo: La sacca sotto l'Orlo, il pozzo di scolo
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo == 0]
+    testo: |
+      La scala del pozzo è fatta di pioli di ferro piantati nei mattoni a una
+      spanna l'uno dall'altro, e la ruggine ne ha mangiati più di quanti ne
+      abbia lasciati. Alcuni si piegano sotto il piede, altri restano in mano
+      quando li afferri. Walter è già sceso fino al primo pianerottolo e ti
+      aspetta lì, con la lanterna appesa alla cintura e la corda che sale
+      dritta verso il cerchio di cielo.
+
+      {atletica Media} Sui mattoni ci sono gli incavi lucidi dove qualcuno ha
+      messo i piedi al posto dei pioli mancanti. Chi scende di qui lo fa
+      spesso.
+
+      Sotto i tuoi piedi il buio sale con un odore di ruggine bagnata. Il
+      cuore ti batte nelle orecchie a ogni piolo che scricchiola.
+
+      {resistenza Facile fallita} Le mani sudano, e il ferro bagnato non è
+      d'accordo con il sudore.
+    opzioni:
+      - testo: "Scendere piolo per piolo"
+        descrizione: "I piedi negli incavi, le mani sui pioli buoni. Un passo sbagliato e la corda di Walter si tende."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il pianerottolo
+          testo: |
+            Trovi gli incavi uno dopo l'altro e lasci stare i pioli che si
+            piegano. Al pianerottolo Walter ti mette sulla spalla una mano
+            pesante e calda, poi ti indica l'imbocco del primo condotto. Da lì
+            in avanti la corda la tiene lui dall'alto.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Il piolo
+          testo: |
+            Un piolo ti resta in mano, e scivoli per tre braccia prima che la
+            corda di Walter si tenda e ti fermi con uno strattone alla vita.
+            Resti appeso contro i mattoni con le ginocchia sbucciate, e Walter
+            ti tira su fino all'ultimo piolo sicuro senza dire niente.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Farti calare da Walter"
+        descrizione: "Walter ha le braccia di uno scaricatore. Se ti siedi nel cappio della corda, ti cala lui, ma ci vuole tempo."
+        costo: 2
+        esito:
+          titolo: Il cappio
+          testo: |
+            Ti siedi nel cappio della corda come su un'altalena, e Walter ti
+            cala giù un braccio alla volta, piano, contando sottovoce. I
+            mattoni ti passano davanti al naso. Arrivi al pianerottolo con le
+            gambe intorpidite e lo stomaco rimasto a metà strada.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+
+  - id: velo-sacca-gli-spazzini
+    immagine: personaggi/grusk
+    titolo: Gli spazzini della notte
+    sommario: "In fondo al pozzo due spazzini senza licenza contrattano cristalli sterili alla luce di una lanterna cieca."
+    luogo: La sacca sotto l'Orlo, il fondo del pozzo
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo <= 1]
+    testo: |
+      In fondo al pozzo il pavimento è un fango di ruggine e cocci, e ci sono
+      due uomini accucciati intorno a una lanterna cieca. Fra loro, su un
+      sacco steso per terra, è disposta una fila di cristalli sterili ormai
+      spenti, che uno dei due tocca con la punta di un coltello mentre l'altro
+      scuote la testa. Quando li illumini si alzano tutti e due insieme, con i
+      ganci da rottami in mano.
+
+      {conoscenze-della-strada Media} Spazzini senza licenza. Di giorno l'Orlo
+      è della Gilda, di notte è di chi ci scende, e i cristalli sterili si
+      vendono a peso agli alchimisti del Mercato delle Ombre.
+
+      «Il Velo» dice il più vecchio, guardando la tua tonaca. «Non abbiamo
+      niente da purificare.» Il più giovane, intanto, ha già fatto un passo di
+      lato, verso il buio del condotto.
+
+      {origine mercante-dei-ponti} Il prezzo che si stanno facendo lo senti
+      dalla prima offerta, ed è un prezzo da ladri tutti e due.
+    opzioni:
+      - testo: "Dirgli che non sei qui per loro"
+        descrizione: "Il Velo cerca una sacca, non due spazzini. Se ti credono, ti dicono anche dove si passa."
+        prova: { attributo: sociale, abilita: [politica-ed-economia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il passaggio buono
+          testo: |
+            Gli spieghi che dei loro cristalli non ti importa niente, e che
+            della sacca invece ti importa molto. Il vecchio ci pensa, poi ti
+            indica con il gancio il condotto di sinistra. Ti spiega che è
+            quello dove si passa senza bagnarsi, il condotto dove di notte
+            scende uno con la tonaca grigia, che loro lasciano passare senza
+            guardarlo.
+          pe: { politica-ed-economia: 3 }
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Il gancio
+          testo: |
+            Il vecchio non ti crede. Raccoglie il sacco con i cristalli in un
+            gesto solo e sparisce nel condotto, e il giovane gli va dietro
+            agitando il gancio verso di te. Resti al buio con la lanterna e il
+            fango fino alle caviglie.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Affrontarli"
+        descrizione: "Hanno i ganci, e il buio lo conoscono meglio di te. Però sono spazzini, e di soldati hanno poco."
+        combattimento: velo-gli-spazzini
+        vittoria:
+          titolo: I cristalli sterili
+          testo: |
+            Il giovane scappa per primo, e il vecchio gli va dietro
+            zoppicando. Sul sacco steso nel fango sono rimasti un paio di
+            cristalli sterili, che ti metti in tasca. Dall'alto la corda di
+            Walter si muove di un palmo, come a chiedere se è tutto a posto, e
+            tu la tiri una volta per dire di sì.
+          effetti: { profondita.velo-sacca-dell-orlo: 1, cristalli.cristallo-sterile: 2 }
+        sconfitta:
+          titolo: Il fango
+          testo: |
+            Un gancio ti prende sulla spalla, e un altro sulla caviglia, e ti
+            ritrovi con la faccia nel fango di ruggine. Gli spazzini se ne
+            vanno con il loro sacco, e tu ti rialzi tenendoti alla corda di
+            Walter.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare che se ne vadano"
+        descrizione: "Prima o poi il prezzo lo trovano, e se ne vanno. Basta spegnere la lanterna e stare fermi."
+        costo: 2
+        esito:
+          titolo: Al buio
+          testo: |
+            Spegni la lanterna e ti appiattisci contro i mattoni. Gli spazzini
+            si chiamano un paio di volte a bassa voce, poi tornano a
+            contrattare, e dopo un'ora che sembra una notte si mettono il
+            sacco in spalla e spariscono in un condotto laterale. Riaccendi la
+            lanterna con le dita intorpidite e vai avanti.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+
+  # ------------------------------------------------------------ 1 · i condotti della Prima Breccia
+  - id: velo-sacca-le-grate
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: Le grate del 115
+    sommario: "Il condotto è chiuso da una grata con i sigilli del Velo del 115. Qualcuno l'ha aperta, e poi l'ha richiusa con cura."
+    luogo: La sacca sotto l'Orlo, i condotti della Prima Breccia
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo == 1]
+    testo: |
+      Il condotto è chiuso da una grata di ferro alta quanto un uomo. È
+      incastrata nella pietra e piena di sigilli di piombo con l'Albero del
+      Velo. I sigilli sono del 115, l'anno della Prima Breccia, e la data è
+      incisa su ognuno con la stessa mano. Alcuni sono rotti. Altri sono
+      nuovi, di un piombo ancora chiaro, e la data incisa sopra è la stessa,
+      115, con la stessa mano.
+
+      {accademiche Media} I sigilli del Velo si rompono una volta sola. Chi li
+      ha rifatti conosceva il punzone del 115, e lo teneva da qualche parte da
+      trentacinque anni.
+
+      {percezione Facile} La catena che chiude la grata ha un lucchetto nuovo
+      e un velo d'olio sulle maglie. Qui qualcuno passa, e ci tiene a passare
+      senza rumore.
+
+      Dietro la grata il condotto scende, e l'aria che ne viene è più fredda
+      di quella del pozzo.
+    opzioni:
+      - testo: "Leggere i sigilli"
+        descrizione: "Un sigillo del Velo dice chi l'ha messo e perché. Uno rifatto dice ancora di più."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il punzone
+          testo: |
+            Pulisci i sigilli nuovi con il pollice. Sotto la data, piccolo,
+            c'è il segno del punzone dei cronisti, un righello con due tacche,
+            lo stesso che hai visto sui registri del chiostro. Il lucchetto si
+            apre con la chiave dei pozzi che Walter ti ha dato per sicurezza,
+            e la grata gira sui cardini oliati senza un cigolio.
+          pe: { accademiche: 3 }
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Il piombo
+          testo: |
+            Gratti un sigillo con l'unghia per leggerlo meglio, e il piombo si
+            stacca e ti cade nel fango. Lo cerchi a lungo, inginocchiato, con
+            la lanterna che ti scotta il polso. Quando lo ritrovi è spezzato
+            in due, e la grata è ancora chiusa.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Forzare il lucchetto"
+        descrizione: "È nuovo e oliato, e chi l'ha messo non voleva sentirlo cigolare. Una lama al punto giusto lo apre."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il lucchetto oliato
+          testo: |
+            Infili la punta del coltello nella serratura e la giri finché
+            qualcosa scatta. Il lucchetto si apre senza un rumore, come se
+            aspettasse soltanto te. Lo richiudi alle tue spalle, perché chi
+            passa di qui non si accorga che sei passato anche tu.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: La punta
+          testo: |
+            La punta del coltello si spezza dentro la serratura, e il
+            lucchetto resta chiuso con un pezzo della tua lama dentro.
+            Chiunque passi di qui stanotte saprà che qualcuno ci ha provato.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Passare dal tubo di scolo"
+        descrizione: "Accanto alla grata c'è un tubo di scolo largo quanto le spalle. È sporco, ed è lungo."
+        costo: 2
+        esito:
+          titolo: Il tubo
+          testo: |
+            Ti infili nel tubo a gomiti e ginocchia, con la lanterna spinta
+            davanti a te, e ci strisci per un tempo che non sai misurare. Esci
+            dall'altra parte della grata coperto di una melma grigia che odora
+            di cantina, e Walter, quando tiri la corda per dirgli che sei
+            passato, risponde con due strappi brevi.
+          effetti: { profondita.velo-sacca-dell-orlo: 1, contaminazione: 0.5 }
+
+  - id: velo-sacca-i-vapori
+    immagine: ambientazione/marea-grigia
+    titolo: I vapori azzurrastri
+    sommario: "Nel condotto galleggia un vapore azzurrastro all'altezza del petto. È lo stesso che nel 115 salì dai pozzi."
+    luogo: La sacca sotto l'Orlo, un condotto in discesa
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo >= 1, profondita.velo-sacca-dell-orlo <= 2]
+    testo: |
+      Il condotto scende in curva, e a metà della curva l'aria cambia colore.
+      Un vapore azzurrastro galleggia all'altezza del petto, sottile come il
+      fumo di una pipa, e si muove piano verso di te seguendo il calore della
+      lanterna. Sotto il vapore il pavimento si vede bene, ed è asciutto.
+      Sopra, contro la volta, l'aria è limpida.
+
+      {natura Media} È Marea Grigia nella sua forma più leggera, quella che si
+      respira senza accorgersene. Nel 115 ne bastò una notte per mandare
+      centinaia di persone al Santuario.
+
+      {origine apprendista-raschiatore} Sulle piattaforme ti hanno insegnato
+      che il vapore azzurro sta sempre a mezz'aria, e che si passa sotto,
+      carponi, con la bocca vicino a terra. Te l'hanno insegnato ridendo, e
+      nessuno di quelli che ridevano lo aveva mai visto.
+
+      La corda di Walter si tende un poco, come se anche lui l'avesse sentito.
+    opzioni:
+      - testo: "Trattenere il fiato e passare"
+        descrizione: "Una trentina di passi dentro il vapore. Se il fiato regge, la Marea resta fuori."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Trenta passi
+          testo: |
+            Riempi i polmoni e attraversi il vapore a passo svelto, con gli
+            occhi socchiusi e la lanterna bassa. Quando esci dall'altra parte
+            il petto ti brucia e le tempie ti battono, ma l'aria che prendi è
+            pulita. Ti volti, e il vapore si è già richiuso alle tue spalle.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Il respiro
+          testo: |
+            A metà strada il fiato finisce, e il respiro che prendi sa di
+            ferro. Torni indietro tossendo, con gli occhi che lacrimano e un
+            sapore di moneta sotto la lingua che non va via.
+          effetti: { contaminazione: 0.5 }
+
+      - testo: "Passare sotto, carponi"
+        descrizione: "Sotto il vapore il pavimento è pulito. Basta stare bassi, e non avere fretta."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Carponi
+          testo: |
+            Ti abbassi fino a sfiorare la pietra con il mento e strisci sotto
+            il vapore, con la lanterna spinta davanti a te. Sopra la tua testa
+            l'azzurro si muove piano, e tu non lo guardi. Dall'altra parte ti
+            rialzi con le ginocchia indolenzite e la tonaca da lavare.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: La testa alta
+          testo: |
+            A metà strada alzi la testa per vedere quanto manca, e il vapore
+            ti entra nel naso. Torni indietro di gomito con la tosse, e ti
+            siedi contro la parete finché il sapore di ferro non passa.
+          effetti: { contaminazione: 0.5 }
+
+      - testo: "Aspettare che il vapore si alzi"
+        descrizione: "Il vapore sale verso la lanterna. Se la spegni e aspetti, forse si alza abbastanza da passare."
+        costo: 2
+        esito:
+          titolo: Al buio
+          testo: |
+            Spegni la lanterna e aspetti al buio, seduto, finché il vapore non
+            sale verso la volta e lascia libero il passaggio. Ci vuole molto.
+            Quando passi, l'azzurro è sopra di te come un soffitto basso, e
+            qualche filo ti scende sui capelli.
+          effetti: { profondita.velo-sacca-dell-orlo: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 2 · il bordo della sacca
+  - id: velo-sacca-i-nidi
+    immagine: bestiario/verme-carogna
+    titolo: I nidi
+    sommario: "Il condotto si allarga in una cisterna, e le pareti sono coperte di buchi. In ogni buco c'è qualcosa che si muove."
+    luogo: La sacca sotto l'Orlo, una cisterna sul bordo
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo == 2]
+    testo: |
+      Il condotto sbocca in una cisterna rotonda, e le pareti sono bucate come
+      una forma di formaggio. Da qualche buco esce una testa cieca e bianca
+      che annusa l'aria, poi si ritira. Sul fondo della cisterna, fra i
+      rottami, c'è un mucchio di ossa piccole spolpate con cura.
+
+      {natura Facile} Vermi carogna. Mangiano quello che trovano morto, e
+      quando non trovano niente aspettano che qualcosa muoia. Sentono il
+      calore, più che il rumore.
+
+      L'uscita è dall'altra parte, una bocca di pietra nera a venti passi. La
+      lanterna, nella tua mano, è la cosa più calda della cisterna.
+
+      {armi-da-mischia Media} Le teste escono sempre dallo stesso lato del
+      buco, e ci mettono un attimo a capire dove sei. Un colpo dall'altro lato
+      arriva prima di loro.
+    opzioni:
+      - testo: "Aprirti la strada"
+        descrizione: "Sono ciechi e lenti a capire. Se ne escono due, due si possono stendere."
+        combattimento: vermi-carogna
+        vittoria:
+          titolo: La bocca nera
+          testo: |
+            Il secondo verme si ritira nel suo buco con un sibilo, lasciando
+            una scia di bava sulla pietra. Attraversi la cisterna di corsa,
+            con le teste cieche che si affacciano da tutte le parti e
+            rientrano, e ti infili nella bocca nera dall'altra parte.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        sconfitta:
+          titolo: I denti
+          testo: |
+            Un verme ti si attacca al polpaccio, e quando riesci a staccarlo
+            ne sono usciti altri tre. Torni nel condotto zoppicando, e le
+            teste cieche ti seguono fino al bordo dei buchi, annusando.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Passare con la lanterna schermata"
+        descrizione: "Sentono il calore. Se la lanterna è chiusa e tu stai lontano dalle pareti, forse non ti sentono."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: In punta di piedi
+          testo: |
+            Chiudi la lanterna fino a lasciare un filo di luce e attraversi la
+            cisterna nel mezzo, lontano dai buchi, mettendo i piedi dove non
+            ci sono ossa. Una testa esce ad annusare, e rientra. Arrivi alla
+            bocca nera con il fiato trattenuto e le dita intorpidite sulla
+            maniglia della lanterna.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Le ossa
+          testo: |
+            A metà cisterna pesti un mucchio di ossa, e il rumore fa uscire le
+            teste da tutti i buchi insieme. Torni indietro di corsa, e uno ti
+            sfiora la caviglia con i denti.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Gettare un rottame caldo dall'altra parte"
+        descrizione: "Un pezzo di lamiera scaldato sulla lanterna li attira. Ci vuole tempo per scaldarlo, e pazienza per aspettare che abbocchino."
+        costo: 2
+        esito:
+          titolo: La lamiera
+          testo: |
+            Scaldi un pezzo di lamiera sulla fiamma finché non ti brucia le
+            dita attraverso la manica, e lo lanci in fondo alla cisterna. Le
+            teste escono tutte da quella parte. Passi dall'altra parte rasente
+            il muro, e alle tue spalle senti i denti sul metallo.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+
+  - id: velo-sacca-il-reperto-scartato
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: Il reperto scartato
+    sommario: "In mezzo ai rottami dei Raschiatori c'è un pezzo di macchina dei Precursori che qualcuno ha buttato via. È ancora carico."
+    luogo: La sacca sotto l'Orlo, il bordo dei rottami
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo == 2]
+    testo: |
+      Qui finiscono i rottami che i Raschiatori buttano dall'Orlo, e il
+      condotto ne è pieno fino a metà. Lamiere precuriane piegate, cavi di
+      metallo che in città non si sanno più fondere, gusci già aperti da
+      qualcuno. In mezzo ai rottami qualcosa manda una luce verdina, a
+      intermittenza, come una lucciola stanca. È un cilindro grande come un
+      avambraccio, con una fessura su un lato.
+
+      {tecnologia Media} I Raschiatori buttano quello che non sanno aprire.
+      Questo è chiuso, e la luce viene da dentro, il che vuol dire che il
+      nucleo è ancora vivo.
+
+      {magia Facile fallita} Il Mana intorno al cilindro ti fa prudere il
+      naso, e per tutta la stanza non riesci a decidere se starnutire o no.
+
+      Il passaggio continua oltre il mucchio, in salita. Per arrivarci bisogna
+      scavalcare i rottami.
+    opzioni:
+      - testo: "Prendere il cilindro"
+        descrizione: "Se il nucleo è vivo, Oda Krell saprà che farne. Bisogna sfilarlo dai rottami senza farlo cadere."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il guscio chiuso
+          testo: |
+            Sfili il cilindro dai rottami un dito alla volta tenendolo dritto,
+            e la luce verdina non si spegne. Lo avvolgi nella camicia di
+            ricambio e lo infili nella bisaccia, dove continua a pulsare
+            contro la tua schiena. Poi scavalchi il mucchio e prendi la
+            salita.
+          effetti: { profondita.velo-sacca-dell-orlo: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: La scossa
+          testo: |
+            Afferri il cilindro dal lato sbagliato, e una scossa ti risale il
+            braccio fino ai denti. Lo lasci cadere nei rottami, dove la luce
+            si spegne. Resti seduto con il braccio intorpidito e la testa che
+            ronza.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Scavalcare i rottami"
+        descrizione: "Le lamiere sono taglienti e il mucchio si muove. Si passa, con un po' di equilibrio."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Il mucchio
+          testo: |
+            Sali sul mucchio piano, provando ogni lamiera con il piede prima
+            di metterci il peso, e scendi dall'altra parte senza un graffio.
+            Il cilindro lo lasci dov'è, a lampeggiare per nessuno.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: La lamiera
+          testo: |
+            Una lamiera si sposta sotto il tuo peso, e ti apre il palmo da un
+            lato all'altro. Scendi dal mucchio dalla parte da cui eri salito,
+            con la mano stretta nella manica.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Spostare i rottami uno per uno"
+        descrizione: "Lento e faticoso, ma sicuro. Il mucchio non ha fretta, e la corda di Walter è lunga."
+        costo: 2
+        esito:
+          titolo: Uno per uno
+          testo: |
+            Sposti le lamiere una per una e le appoggi contro la parete,
+            finché nel mucchio non si apre un passaggio largo quanto le tue
+            spalle. Hai le braccia di piombo e i palmi neri. In fondo al
+            passaggio il condotto riprende a salire.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+
+  - id: velo-sacca-l-eco-del-115
+    immagine: ambientazione/marea-grigia
+    titolo: L'eco del 115
+    sommario: "In un condotto laterale un Raschiatore con la lanterna spenta chiama i compagni di una squadra che non tornò mai su."
+    luogo: La sacca sotto l'Orlo, un condotto laterale
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo >= 2, profondita.velo-sacca-dell-orlo <= 3]
+    testo: |
+      Dal condotto laterale arriva una voce. È un uomo che chiama dei nomi,
+      uno dopo l'altro, con la pausa che si lascia per la risposta, e poi
+      ricomincia dal primo. Quando ti affacci lo vedi. È un Raschiatore con la
+      tuta vecchia, di un taglio che non si usa più da decenni, e una lanterna
+      spenta in mano. La sua figura è grigia e trasparente ai bordi, e dietro
+      di lui si vede la parete.
+
+      {resilienza Media} È un'eco della Marea, una cosa che è rimasta qui
+      quando la squadra del 115 non è tornata. Ripete, e basta. Se lo ascolti
+      troppo, cominci a ripetere anche tu.
+
+      {origine apprendista-raschiatore} La squadra del 115 la ricordano ancora
+      sulle piattaforme, con una lanterna appesa al Ponte dei Morti che
+      nessuno ha mai tolto. Uno dei nomi che chiama lo conosci, perché è
+      inciso su quella lanterna.
+
+      L'eco è in mezzo al condotto, e il condotto è l'unica strada.
+    opzioni:
+      - testo: "Passargli accanto senza ascoltare"
+        descrizione: "È un'eco, e ripete. Basta tenere la bocca chiusa quando chiama."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: I nomi
+          testo: |
+            Passi accanto all'eco a capo chino, con i nomi che ti scivolano
+            addosso uno dopo l'altro. Al quarto ti viene da rispondere, e ti
+            mordi la lingua. Quando ti volti, dall'altra parte del condotto,
+            l'eco ha ricominciato dal primo.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: La risposta
+          testo: |
+            Al terzo nome rispondi senza volerlo, e l'eco si volta verso di te
+            con la lanterna spenta alzata. Resti fermo con il cuore in gola
+            finché non torna a chiamare, poi indietreggi fino al condotto
+            principale.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Recitare l'Esorcismo"
+        incantesimo: esorcismo
+        descrizione: "Il rito delle cripte scaccia quello che non dovrebbe restare. Questo Raschiatore aspetta da trentacinque anni."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: L'ultimo nome
+          testo: |
+            Reciti il rito a voce bassa, e l'eco si ferma a metà di un nome.
+            La figura si sfilaccia come fumo in una corrente, a partire dalla
+            lanterna, e l'ultima cosa che sparisce è la bocca, ancora aperta.
+            Nel condotto resta soltanto l'odore della pietra bagnata.
+          pe: { magia: 3 }
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Il rito spezzato
+          testo: |
+            A metà del rito la voce ti si incrina, e l'eco si volta verso di
+            te con la lanterna alzata. Torni nel condotto principale, e per un
+            pezzo continui a sentire i nomi.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare che arrivi in fondo all'elenco"
+        descrizione: "I nomi sono tanti. Quando li ha detti tutti, forse si ferma un momento."
+        costo: 2
+        esito:
+          titolo: L'elenco
+          testo: |
+            Ti siedi all'imbocco del condotto e conti i nomi. Sono ventidue.
+            Dopo l'ultimo l'eco resta in silenzio per il tempo di tre respiri,
+            con la testa voltata verso il buio, e in quel momento gli passi
+            accanto. Alle tue spalle ricomincia dal primo.
+          effetti: { profondita.velo-sacca-dell-orlo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la galleria asciutta
+  - id: velo-sacca-l-aria-fredda
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: L'aria fredda
+    sommario: "Il condotto si fa asciutto, e l'aria cambia. È fredda in un modo che con la stagione non c'entra."
+    luogo: La sacca sotto l'Orlo, la galleria asciutta
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo == 3]
+    testo: |
+      Il condotto smette di gocciolare. Le pareti sono asciutte, il fango
+      lascia il posto a una polvere fine che si alza a ogni passo, e l'aria si
+      fa fredda. È un freddo diverso da quello delle cantine, fermo, che non
+      viene da nessuna parte e non va da nessuna parte. La fiamma della
+      lanterna si allunga e si fa sottile.
+
+      {magia Media} Il Mana qui non scorre. Sta fermo, come il disco in tasca
+      di chi aspetta, e l'aria intorno è fredda perché non succede niente.
+
+      Dall'alto la corda di Walter dà tre strappi brevi, che non è il segnale
+      per risalire. Poi altri tre. Forse è soltanto Walter che si sistema sul
+      bordo del pozzo, e forse no.
+
+      {origine accolito-del-velo} In Cripta, sotto l'altare, c'è un punto dove
+      l'aria è così. I novizi ci passano in fretta e non ne parlano, e tu lo
+      facevi come gli altri.
+    opzioni:
+      - testo: "Andare avanti nel freddo"
+        descrizione: "Il freddo non morde e non ferisce. Bisogna soltanto convincersene."
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Media }
+        successo:
+          titolo: Il punto fermo
+          testo: |
+            Cammini nel freddo contando i passi, e dopo un po' smetti di
+            sentirlo. In fondo alla galleria l'aria umida torna a muoversi, e
+            ti accorgi di avere i capelli pieni di brina. La corda di Walter
+            si tende di nuovo, normale.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Tre strappi
+          testo: |
+            A metà galleria ti fermi, e non riesci più a ripartire. Il freddo
+            è entrato nelle ginocchia e nella testa. Tiri la corda tre volte,
+            e Walter ti tira indietro fino all'imbocco, con una delicatezza
+            che non ti aspettavi da quelle mani.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Rispondere ai tre strappi"
+        descrizione: "Tre strappi, e poi altri tre. Se è Walter che chiama, conviene saperlo."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il segnale
+          testo: |
+            Rispondi con due strappi, il segnale per dire che stai bene, e
+            aspetti. Dall'alto arrivano tre strappi lenti, poi uno. Walter ti
+            sta dicendo di proseguire, e di fare piano. Attraversi il freddo
+            tenendo la corda con una mano, come un corrimano.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: Il segnale sbagliato
+          testo: |
+            Rispondi con tre strappi, e Walter ti tira su di dieci braccia
+            prima che tu riesca a fermarlo. Ti ritrovi nel condotto di prima,
+            con la corda che ti segna la vita.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Accendere una seconda candela"
+        descrizione: "Due fiamme scaldano più di una, e la seconda la tieni di riserva. Si va piano."
+        costo: 2
+        esito:
+          titolo: Due fiamme
+          testo: |
+            Accendi un moccolo alla fiamma della lanterna e lo tieni
+            nell'altra mano. Le due fiamme sottili si allungano insieme verso
+            il fondo della galleria, e tu le segui passo dopo passo finché
+            l'aria non torna a muoversi. Il moccolo si consuma fino alle dita.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+
+  - id: velo-sacca-le-impronte
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: Le impronte
+    sommario: "Nella polvere della galleria ci sono impronte di sandali, e accanto, a intervalli regolari, gocce di cera."
+    luogo: La sacca sotto l'Orlo, la galleria asciutta
+    area: velo-sacca-dell-orlo
+    ripetibile: true
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo == 3]
+    testo: |
+      Nella polvere fine della galleria ci sono impronte, molte, una sopra
+      l'altra. Sono impronte di sandali, di quelli con la suola di corda che
+      il Velo dà ai sacerdoti, tutte della stessa misura. Vanno avanti e
+      tornano indietro sulla stessa linea. Accanto, a intervalli regolari, ci
+      sono gocce di cera bianca, le più vecchie grigie di polvere e le più
+      nuove ancora lucide.
+
+      {percezione Media} Le impronte di ritorno sono più profonde sul tallone.
+      Chi passa di qui torna indietro più pesante di come è arrivato, o più
+      stanco.
+
+      {medicina Difficile} Il passo è corto, e il piede destro strascica
+      appena. Chi cammina così ha un ginocchio che gli fa male, da anni.
+
+      La galleria finisce più avanti contro una frana di pietre, e le impronte
+      ci girano intorno da destra, dove c'è un varco.
+    opzioni:
+      - testo: "Seguire le impronte"
+        descrizione: "Chi passa di qui sa dove andare. Le impronte portano dove porta lui."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il varco
+          testo: |
+            Segui le impronte rasente la frana e passi dal varco, dove sulla
+            pietra c'è una macchia di cera più grande delle altre. Qui
+            qualcuno si ferma ogni volta per appoggiare la candela. Oltre il
+            varco il condotto si apre, e senti l'odore della sacca.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: La frana
+          testo: |
+            Le impronte ti si confondono una sull'altra, e segui quelle
+            sbagliate, che finiscono contro la frana. Mentre cerchi un
+            appiglio una pietra si stacca e ti prende sulla spalla.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Raccogliere le gocce di cera"
+        descrizione: "Una candela del Velo ha la cera bianca dei laboratori della Cattedrale. Le gocce dicono da quanto tempo passa di qui."
+        prova: { attributo: mentale, abilita: [natura, accademiche], difficolta: Media }
+        successo:
+          titolo: Dieci anni
+          testo: |
+            Conti gli strati di cera grigia sulle gocce più vecchie, come gli
+            anelli di un albero, e ti fermi quando hai finito le dita delle
+            due mani. Dieci anni di candele, sullo stesso sentiero. Metti in
+            tasca una goccia nuova e segui la cera fino al varco.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+        fallimento:
+          titolo: La cera
+          testo: |
+            Le gocce si sbriciolano fra le dita, e la polvere che sollevi ti
+            entra negli occhi. Quando torni a vederci, la galleria ti sembra
+            più lunga di prima.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Cercare il varco a tastoni"
+        descrizione: "Una frana ha sempre un varco, se si ha la pazienza di cercarlo."
+        costo: 2
+        esito:
+          titolo: A tastoni
+          testo: |
+            Passi le mani su tutta la frana, pietra per pietra, finché a
+            destra non trovi il vuoto. È stretto, e ci passi di fianco con la
+            lanterna sopra la testa. Dall'altra parte senti l'odore dolce
+            della sacca.
+          effetti: { profondita.velo-sacca-dell-orlo: 1 }
+
+  # ------------------------------------------------------------ il cuore · la sacca
+  - id: velo-la-sacca
+    immagine: ambientazione/marea-grigia
+    titolo: La sacca
+    sommario: "In fondo alla galleria la terra ha ceduto, e c'è una conca di fango grigio che respira. Accanto, nella parete, c'è una cassetta di latta."
+    luogo: La sacca sotto l'Orlo, il fondo
+    area: velo-sacca-dell-orlo
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo >= 4]
+    testo: |
+      In fondo alla galleria la terra ha ceduto, e c'è una conca larga come un
+      cortile, piena di fango grigio fino all'orlo. Il fango si muove. Ogni
+      tanto si gonfia in una bolla lenta che scoppia senza rumore e lascia
+      nell'aria un odore dolce di frutta marcia. Sul bordo della conca c'è un
+      picchetto di ferro piantato nella pietra, con un anello in cima, dove si
+      lega la corda per calarla. Ci sono i segni di una corda, sul ferro, ma
+      sono vecchi di un anno.
+
+      {natura Difficile} È una sacca di Marea alimentata dal basso, che non si
+      svuota mai da sola. Se il bollettino non la segna, fra un anno il fango
+      arriva ai condotti, e fra due nelle cantine della Città Bassa.
+
+      Dall'altra parte della conca, in una nicchia asciutta scavata nella
+      parete, ci sono delle lamiere precuriane appoggiate con cura, come una
+      porta. Sotto si vede l'angolo di una cassetta di latta.
+
+      Il fango si gonfia più vicino a te, e questa volta la bolla non scoppia.
+      Ne esce qualcosa grande come un cane, fatto di ossa di topo e pezzi di
+      lamiera tenuti insieme dal grigio, con una testa senza occhi che si gira
+      verso la lanterna. Sotto di te, nella pietra, senti il battito della
+      sacca come quello di un cuore lento.
+
+      {rissa Media} Si muove a scatti, e fra uno scatto e l'altro si ferma del
+      tutto. È in quel momento che si colpisce.
+
+      *La corda di Walter, il picchetto, la cassetta.* Hai già contato le tre
+      cose, e la mano è andata da sola alla cintura.
+    opzioni:
+      - testo: "Affrontare il nato della sacca"
+        descrizione: "È fatto di rottami e di Marea, e protegge la sacca come un cane la ciotola. Per misurarla bisogna toglierlo di mezzo."
+        combattimento: velo-il-nato-della-sacca
+        vittoria:
+          titolo: Il grigio che torna grigio
+          testo: |
+            Il nato si sfascia all'ultimo colpo, e le ossa di topo ricadono
+            nel fango, che se le riprende con una bolla lenta. Hai le mani che
+            tremano e un taglio sul braccio, e il picchetto davanti a te. Tiri
+            la corda di Walter per dirgli di darti tutta la lunghezza.
+          segue: velo-la-corda-al-cristallo
+        sconfitta:
+          titolo: Tre strappi
+          testo: |
+            Il nato ti butta a terra sul bordo della conca, e il fango ti
+            arriva alla bocca. Tiri la corda tre volte. Mentre Walter ti tira
+            via, la mano sinistra trova l'angolo della cassetta sotto le
+            lamiere, e la stringe. Arrivi al pozzo trascinato sulla schiena,
+            con la cassetta contro il petto e la sacca senza misura. Walter ti
+            pulisce la bocca con la manica del saio, poi ti carica sulle
+            spalle per l'ultimo tratto.
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, contaminazione: 1 }
+          imposta: { velo.sacca: 2 }
+          vai: citta-bassa
+
+      - testo: "Tenerlo lontano con l'Esorcismo"
+        incantesimo: esorcismo
+        descrizione: "Il rito delle cripte scaccia quello che non dovrebbe esserci. Laggiù, con il fango che respira, ci vuole una voce ferma."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La voce ferma
+          testo: |
+            Reciti il rito con la lanterna alta, e il nato si ferma a mezzo
+            scatto. Ogni parola lo spinge indietro di un palmo, finché non
+            affonda nel fango da cui è uscito. Il picchetto è libero. Tiri la
+            corda di Walter per dirgli di darti tutta la lunghezza.
+          pe: { magia: 5 }
+          segue: velo-la-corda-al-cristallo
+        fallimento:
+          titolo: La voce rotta
+          testo: |
+            A metà del rito la voce ti si rompe, e il nato ti è addosso. Tiri
+            la corda tre volte, e mentre Walter ti tira via la mano sinistra
+            trova l'angolo della cassetta sotto le lamiere. Arrivi al pozzo
+            con la cassetta contro il petto, la tonaca piena di fango e la
+            sacca senza misura.
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, contaminazione: 1, tormento: 0.5 }
+          imposta: { velo.sacca: 2 }
+          vai: citta-bassa
+
+      - testo: "Prendere la cassetta e tornare su"
+        descrizione: "Il nato guarda la lanterna. Se la posi dall'altra parte, la nicchia si raggiunge al buio, e la sacca resta senza misura."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Al buio
+          testo: |
+            Posi la lanterna sul bordo della conca e ti allontani al buio,
+            rasente la parete. Il nato si gira verso la luce. Trovi la nicchia
+            a tastoni, sfili la cassetta da sotto le lamiere e tiri la corda
+            tre volte. Walter ti porta su piano. La sacca resta laggiù, a
+            respirare senza nessuno che l'abbia misurata.
+          pe: { furtivita: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, contaminazione: 0.5 }
+          imposta: { velo.sacca: 2 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La lamiera
+          testo: |
+            Una lamiera ti scivola dalle dita e cade sulla pietra con un
+            rumore di campana. Il nato si volta. Hai appena il tempo di
+            stringere la cassetta e tirare la corda, e Walter ti tira via
+            mentre qualcosa ti morde la caviglia. Arrivi al pozzo con la
+            cassetta stretta al petto e una caviglia gonfia, e la sacca resta
+            senza misura.
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, contaminazione: 0.5, ferite: 1 }
+          imposta: { velo.sacca: 2 }
+          vai: citta-bassa
+
+  - id: velo-la-corda-al-cristallo
+    immagine: ambientazione/marea-grigia
+    titolo: La corda al cristallo
+    tipo: seguito
+    luogo: La sacca sotto l'Orlo, il bordo della conca
+    area: velo-sacca-dell-orlo
+    requisiti: [fazione.velo == 7, profondita.velo-sacca-dell-orlo >= 4]
+    testo: |
+      Leghi la corda all'anello del picchetto e la cali nel fango, un braccio
+      alla volta. I frammenti di cristallo scendono uno dopo l'altro sotto la
+      superficie grigia. Quando la tiri su, ognuno dirà il colore della Marea
+      alla sua profondità, dal rosa fino al grigio, e il numero dei frammenti
+      grigi è la misura che va sul bollettino.
+
+      {natura Media} La corda va calata dritta e tirata su dritta. Se striscia
+      contro il bordo, i cristalli si colorano a caso, e la misura non vale
+      niente.
+
+      La corda scende molto più giù di quanto la conca sembri profonda. A
+      venti braccia senti il fondo, o qualcosa che fa finta di essere il
+      fondo. Dietro di te, nella nicchia, la cassetta di latta aspetta sotto
+      le sue lamiere.
+
+      {accademiche Facile} I bollettini del Santuario segnavano la profondità
+      in frammenti grigi. Nessuno, in quarant'anni, ne ha mai scritti più di
+      sei.
+    opzioni:
+      - testo: "Tirare su la corda dritta"
+        descrizione: "Venti braccia di corda bagnata, a mani nude, senza farla strisciare. Poi si contano i grigi."
+        prova: { attributo: mentale, abilita: [natura, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Nove grigi
+          testo: |
+            Tiri su la corda dritta, un braccio alla volta, con i palmi che
+            bruciano. I frammenti escono dal fango uno dopo l'altro, sempre
+            più scuri, finché non restano soltanto i grigi. Ne conti nove. Poi
+            apri la nicchia e prendi la cassetta, che pesa più di quanto
+            dovrebbe una cassetta vuota. Walter ti porta su piano. Al pozzo
+            gli dici il numero, e lui chiude gli occhi.
+          pe: { natura: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, reliquie.scheggia: 1 }
+          imposta: { velo.sacca: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La corda che striscia
+          testo: |
+            A metà la corda ti scivola e striscia contro il bordo, e i
+            frammenti escono tutti dello stesso grigio sporco, che non vuol
+            dire niente. Il vapore che sale dal fango ti brucia la gola.
+            Prendi la cassetta dalla nicchia e tiri tre volte. Al pozzo dici a
+            Walter che la misura non vale, e lui ti mette una mano sulla
+            spalla.
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, contaminazione: 1 }
+          imposta: { velo.sacca: 2 }
+          vai: citta-bassa
+
+      - testo: "Tirarla su palmo a palmo, con Walter"
+        descrizione: "Dall'alto Walter può tenere la corda tesa mentre tu la guidi. Ci vuole il doppio del tempo, e il fango respira vicino."
+        costo: 2
+        esito:
+          titolo: Palmo a palmo
+          testo: |
+            Walter tiene la corda tesa dall'alto, e tu la guidi fuori dal
+            fango palmo a palmo, piegato sul bordo della conca con il vapore
+            in faccia. Ci vuole un'ora. I frammenti grigi sono nove. Prendi la
+            cassetta dalla nicchia, e Walter ti porta su piano. Al pozzo gli
+            dici il numero, e lui chiude gli occhi.
+          pe: { resilienza: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 1, velo.lettere: 1, velo.moneta: 1, reliquie.scheggia: 1, contaminazione: 0.5 }
+          imposta: { velo.sacca: 1 }
+          vai: citta-bassa

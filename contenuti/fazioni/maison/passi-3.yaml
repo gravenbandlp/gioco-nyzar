@@ -1,0 +1,536 @@
+# La quest della Maison des Lunes, passi 13-15. Tutti chiedono pista.pelle >= 7: il libro dei clienti di Vesh esce
+# dalle macerie della Pignatta.
+# - Passo 13, le pagine nella cenere: un mugnaio del giovedì riceve sotto la porta una pagina con le sue visite e una
+#   richiesta di denaro. Tibo alle macerie, Rozalia secondo macerie.rozalia (3 lavora per te, 2 in cella), il cliente
+#   seguito fino alla terza arcata del Ponte del Pesce, Bastiano se lavora per te (maison.scrivano 4).
+# - Passo 14, la terza arcata: si entra nella spedizione `maison-magazzini-del-ponte-del-pesce`
+#   (spedizione-magazzini.yaml). Il cuore porta maison.ferrante a 4 (presi) o a 2 (scappati); `maison-i-fratelli-ferrante` decide che
+#   cosa ne è dei fratelli (1 in Caserma, 2 fuggiti, 3 a debito con te). Il passo 15 aspetta quella scelta.
+# - Passo 15, la scatola di latta (quinto grado, Custode dei nomi): nessuna prova, ogni scelta costa. maison.libro
+#   1 bruciato, 2 nella scatola di latta: tutto il grado (soprabito, catena di bronzo, Oblio, i nomi chiesti a
+#   Nerissa, la borsa). 3 allo sceriffo, 4 a Julia: soprabito, catena e borsa, senza Oblio e senza i nomi, con la
+#   reputazione che scende; chi tiene fuori la pagina del chierico la porta a Padre Vantes (rep.velo +1). 5 tenuto:
+#   soprabito, tre segreti, le pagine del libro e il titolo Chi tiene il libro, Sospetto +2 e rep.maison −4.
+# - Dopo il passo 15, con maison.mare 1, Laure sulla soglia: partirà per Laresh con la prima carovana.
+storylet:
+  # ------------------------------------------------------------ passo 13 · le pagine nella cenere
+  - id: maison-le-pagine-nella-cenere
+    presso: via-dei-rasoi
+    immagine: ambientazione/pignatta-grassa
+    titolo: Le pagine nella cenere
+    sommario: "Un cliente del giovedì arriva alla porta di servizio con un foglio in mano e la faccia di uno che non dorme da due notti."
+    luogo: Maison des Lunes, la cucina
+    area: citta-bassa
+    requisiti: [fazione.maison == 12, pista.pelle >= 7]
+    testo: |
+      Il mugnaio del giovedì non era mai entrato dalla porta di servizio.
+      Stamattina ci bussa con il cappello in mano e un foglio piegato in
+      quattro, e Gretchen lo fa sedere in cucina davanti a una tazza di
+      latte che lui non tocca. Il foglio l'ha trovato sotto la porta di casa,
+      vicino alla bottega. È una pagina scritta in bella calligrafia, con il
+      suo nome in cima e sotto, una per riga, le sere in cui è venuto alla
+      Maison negli ultimi tre anni. In fondo c'è un'altra grafia, più
+      frettolosa. Chiede di lasciare una borsa sotto la terza arcata del Ponte
+      del Pesce entro domenica.
+
+      {percezione Media} La pagina ha il margine bruciacchiato da una parte,
+      e l'odore di fumo è vecchio, di settimane. La calligrafia invece è
+      fresca, ricopiata da poco da una pagina più vecchia.
+
+      {conoscenze-della-strada Media} Tre anni di sere, data per data. In
+      Città Bassa c'era un uomo solo che teneva i conti di tutti così a
+      lungo, e la sua taverna è bruciata con lui dentro.
+
+      Nerissa ascolta dalla porta del corridoio, con lo scialle grigio sulle
+      spalle, e il foglio non lo tocca. «Mirko Vesh voleva le cose che si dicono
+      qui dentro, mai i nostri soldi» dice piano. «Le ha raccolte per anni, da
+      Jass, dallo scrivano, dai ragazzi con le lavagnette. E il libro dove le
+      teneva non è bruciato con la Pignatta.»
+
+      {origine figlio-della-citta-bassa} Delle carte di Vesh si parlava nei
+      vicoli, quando eri ragazzo, come si parla dei tesori dei pirati. Tutti
+      dicevano che esistevano e nessuno le aveva mai viste.
+    opzioni:
+      - testo: "Chiedere a Tibo alle macerie"
+        descrizione: "Il bambino che dorme sotto il bancone della Pignatta era lì la notte dell'incendio. I bambini vedono le cose che i grandi non guardano."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: La cassetta
+          testo: |
+            Trovi Tibo seduto sul bancone di quercia, a raddrizzare chiodi fra
+            due sassi, e gli porti una pagnotta. Lui la divide a metà prima di
+            parlare. La notte dell'incendio, ti racconta, mentre il tetto
+            veniva giù, due uomini sono usciti dalla cantina con una cassetta di
+            ferro. Il più grande la portava in spalla, e il piccolo gli teneva
+            dietro con un quaderno sotto il braccio.
+            Sono andati verso il Ponte del Pesce, senza correre.
+          pe: { empatia: 5 }
+          effetti: { rep.maison: 1, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+        fallimento:
+          titolo: Tibo diffidente
+          testo: |
+            Tibo ti guarda arrivare da lontano e sparisce sotto il bancone. Ci
+            vuole un'ora e tutta la pagnotta per farlo uscire, e quando esce ti
+            dice soltanto che quella notte due uomini sono andati verso il Ponte
+            del Pesce con una cassetta. Poi torna sotto il bancone, e dalla
+            fessura ti chiede se domani porti un'altra pagnotta.
+          effetti: { rep.maison: 0.5, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+
+      - testo: "Seguire il mugnaio quando va a pagare"
+        descrizione: "Domenica lascerà la borsa sotto la terza arcata, perché ha troppa paura per non farlo. Qualcuno verrà a prenderla."
+        prova: { attributo: fisico, abilita: [furtivita, percezione], difficolta: Media }
+        successo:
+          titolo: La terza arcata
+          testo: |
+            Domenica sera il mugnaio lascia una borsa sotto la terza arcata del
+            Ponte del Pesce, nella nicchia dove i pescatori mettono le esche, e
+            se ne va senza voltarsi. Tu aspetti dietro una pila di nasse. Dopo
+            un'ora arriva un uomo giovane con le dita macchiate d'inchiostro e
+            un quaderno sotto il braccio. Prende la borsa e sparisce in una
+            porta dei vecchi magazzini del pesce salato, sotto l'arco.
+          pe: { furtivita: 5 }
+          effetti: { rep.maison: 1, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+        fallimento:
+          titolo: Le nasse
+          testo: |
+            Domenica sera aspetti dietro una pila di nasse, e a un certo punto
+            la pila ti crolla addosso con un rumore di vimini. Chi doveva venire
+            a prendere la borsa non viene. La mattina dopo la borsa non c'è più,
+            e un pescatore ti dice che di notte, sotto l'arco, ci passano i due
+            fratelli Ferrante, quelli del quaderno.
+          effetti: { ferite: 0.5, rep.maison: 0.5, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+
+      - testo: "Chiedere a Rozalia chi faceva le belle copie"
+        descrizione: "Rozalia Marga lavora per te dalla notte della Pignatta. Prima, le copie di Vesh le faceva lei."
+        immagine: personaggi/rozalia-marga
+        quando: [macerie.rozalia == 3]
+        esito:
+          titolo: La calligrafia
+          testo: |
+            Rozalia guarda la pagina e riconosce la sua grafia sotto quella
+            ricopiata, come si riconosce la propria voce in una stanza accanto.
+            Le belle copie del libro di Vesh le faceva lei, ti dice, una volta
+            all'anno, in una cantina della Pignatta. La notte dell'incendio il
+            libro era nella cassetta di ferro, e la cassetta l'ha vista uscire
+            sulle spalle di Lazzaro Ferrante, con il fratello Dario dietro che
+            gli teneva il quaderno.
+          pe: { empatia: 5 }
+          effetti: { rep.maison: 1, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+
+      - testo: "Andare a trovare Rozalia in cella"
+        descrizione: "Rozalia Marga è nelle celle della Caserma, dove l'hai mandata tu. Sa chi faceva le copie, e vorrà qualcosa in cambio."
+        immagine: personaggi/rozalia-marga
+        quando: [macerie.rozalia == 2]
+        esito:
+          titolo: Una parola per il processo
+          testo: |
+            Rozalia ti guarda attraverso le sbarre con le dita macchiate
+            d'inchiostro anche qui dentro, perché le hanno dato da copiare i
+            registri della Caserma. Ti dice che le belle copie del libro di Vesh
+            le faceva lei, e che la notte dell'incendio la cassetta l'hanno
+            portata via i Ferrante del Ponte del Pesce. In cambio ti chiede una
+            parola per il processo. Gliela prometti, e lei ti crede, perché non
+            ha altro da credere.
+          pe: { empatia: 5 }
+          effetti: { rep.maison: 1, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+
+      - testo: "Chiedere a Bastiano a chi vendeva"
+        descrizione: "Bastiano lavora per te da quando l'hai preso sotto il cristallo spento. Prima del tuo, a settimana, prendeva lo stipendio di qualcun altro."
+        quando: [maison.scrivano == 4]
+        esito:
+          titolo: Chi pagava
+          testo: |
+            Bastiano si toglie gli occhiali e li pulisce sulla camicia, che è
+            il suo modo di prendere tempo. Poi ti dice che dopo la Pignatta il
+            suo quaderno lo comprava un ragazzo con le dita macchiate
+            d'inchiostro, del Ponte del Pesce, uno dei Ferrante. Pagava poco e
+            puntuale, e voleva soltanto i nomi del giovedì.
+          pe: { tecnologia: 5 }
+          effetti: { rep.maison: 1, nomea.citta-bassa: 0.5, fazione.maison: 1 }
+
+  # ------------------------------------------------------------ passo 14 · la terza arcata (ingresso della spedizione)
+  - id: maison-la-terza-arcata
+    immagine: ambientazione/ponti-sospesi
+    titolo: La terza arcata
+    sommario: "Sotto l'arco di pietra rossa del Ponte del Pesce ci sono i vecchi magazzini del pesce salato. Di notte c'è una luce accesa."
+    luogo: Il Ponte del Pesce, sotto l'arco
+    area: citta-bassa
+    requisiti: [fazione.maison == 13, pista.pelle >= 7]
+    testo: |
+      Sotto l'arco di pietra rossa del Ponte del Pesce, dove la Città Bassa
+      finisce e cominciano le corde dei Ponti Sospesi, ci sono i vecchi
+      magazzini del pesce salato, mezzi scavati nella roccia e mezzi
+      costruiti a sbalzo sul vuoto. Il pesce lì dentro non lo sala più
+      nessuno da anni, e l'odore è rimasto nei muri. Stanotte da una finestrella alta esce una
+      luce di candela, e sulla riva del canale due chiatte sono legate alla
+      stessa bitta.
+
+      {politica-ed-economia Media} Due fratelli che vendono pagine una alla
+      volta non tengono il libro in una cantina qualunque. Lo tengono dove
+      possono vederlo e dove nessuno pensa di cercare, e qui sotto non viene
+      nessuno da anni.
+
+      Kanat ti ha accompagnato fino al Ponte, e adesso si ferma all'imbocco
+      dell'arco con le braccia incrociate. Ti dice che lui aspetta qui, perché
+      se entra rompe qualcosa, e stanotte la signora non vuole niente di
+      rotto tranne il libro.
+
+      {atletica Media} La parete dei magazzini dalla parte del canale ha
+      appigli fino alla finestrella. L'acqua sotto è nera e lenta, e cadere
+      lì dentro sarebbe soltanto molto freddo.
+    opzioni:
+      - testo: "Scendere ai magazzini"
+        descrizione: "La riva, le chiatte, la porta del sale. Il libro è là sotto, da qualche parte."
+        esito:
+          titolo: L'odore del sale
+          testo: |
+            Scendi la scala di pietra che porta alla riva, con l'odore del pesce
+            salato che ti viene incontro a ogni gradino, e ti fermi all'ombra
+            dell'arco. Sopra di te le corde dei Ponti cigolano nel vento. Kanat
+            ti fa un cenno dall'alto, poi sparisce nel buio.
+          vai: maison-magazzini-del-ponte-del-pesce
+      - testo: "Aspettare un'altra notte"
+        descrizione: "Il libro non si muove da solo. Le pagine sì, una alla volta."
+        costo: 0
+        esito:
+          titolo: Un'altra notte
+          testo: |
+            Torni indietro con Kanat, che non fa domande e ti offre un pezzo di
+            pane secco dalla tasca. Dietro di voi, sotto l'arco, la candela
+            della finestrella resta accesa fino all'alba.
+
+  # ------------------------------------------------------------ passo 14 · i fratelli Ferrante
+  - id: maison-i-fratelli-ferrante
+    presso: via-dei-rasoi
+    immagine: ambientazione/ponti-sospesi
+    titolo: I fratelli Ferrante
+    sommario: "Il libro ce l'hai tu. I fratelli Ferrante aspettano nella legnaia della Maison, e Kanat aspetta con loro."
+    luogo: Maison des Lunes, la legnaia
+    area: citta-bassa
+    requisiti: [fazione.maison == 14, maison.ferrante == 4]
+    testo: |
+      Nella legnaia della Maison, la stessa in cui avete tenuto Bastiano,
+      adesso ci sono i fratelli Ferrante. Lazzaro siede sul ceppo con il
+      gancio da stiva slegato dal polso e appoggiato ai piedi, come un
+      cagnolino. Dario sta in piedi contro la catasta e si stringe al petto il
+      quaderno dei conti, l'unica cosa che non gli avete tolto. Kanat occupa
+      la porta da uno stipite all'altro, con le braccia incrociate.
+
+      «Abbiamo trovato una cassetta in mezzo alla cenere» dice Dario. «Nessuno
+      la reclamava. Chi trova una cosa e la vende fa commercio, non è un
+      furto.» Lazzaro guarda il fratello e non dice niente.
+
+      {intimidire Media} Dario parla per non avere paura. Lazzaro ha paura e
+      basta, e la nasconde guardando per terra, come fanno gli uomini grossi.
+
+      {politica-ed-economia Media} Nel quaderno di Dario ci sono i nomi di chi
+      ha già pagato, ciascuno con la sua data. Chi ha pagato una volta pagherà
+      ancora, a chiunque gli mandi una pagina.
+    opzioni:
+      - testo: "Consegnarli alla Caserma"
+        descrizione: "Ricatto, ricettazione, estorsione. Lo sceriffo sa che cosa farne, e la Città Bassa vedrà che la Maison non si vendica da sola."
+        costo: 0
+        esito:
+          titolo: La Caserma
+          testo: |
+            Li porti alla Caserma all'alba con le mani legate, e il sergente di
+            turno li prende in consegna, contento di un caso facile.
+            Il quaderno dei conti di Dario finisce in una cassa di ferro come
+            prova. Dario ti guarda andare via senza rancore, come si guarda un
+            concorrente che ha vinto un appalto.
+          imposta: { maison.ferrante: 1 }
+          effetti: { rep.caserma: 0.5 }
+      - testo: "Lasciarli andare, senza il quaderno"
+        descrizione: "Senza libro e senza quaderno sono due facchini del Ponte del Pesce. Tanto vale che lo tornino a essere lontano da qui."
+        costo: 0
+        esito:
+          titolo: La strada per Pannion
+          testo: |
+            Bruci il quaderno di Dario nella stufa della cucina, davanti a lui,
+            pagina per pagina. Poi Kanat li accompagna fino al Ponte del Pesce, e
+            la mattina dopo una chiatta parte verso valle con due passeggeri in
+            più. Lazzaro, prima di andarsene, ti ringrazia.
+          imposta: { maison.ferrante: 2 }
+          effetti: { informazioni.pettegolezzo: 1 }
+      - testo: "Tenerli in debito con te"
+        descrizione: "Due fratelli che sanno trovare le cose nella cenere e venderle. Liberi, e con un debito verso di te, servono più che in cella."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: Il debito
+          testo: |
+            Spieghi a Dario che da stanotte i suoi conti li tiene anche qualcun
+            altro, e che il primo nome che venderà senza chiederti il permesso
+            sarà l'ultimo. Lui ti tende la mano, perché è un mercante. Lazzaro
+            si rilega il gancio al polso e ti chiede se adesso lavora per te. Gli
+            rispondi di sì, e lui sembra sollevato.
+          imposta: { maison.ferrante: 3 }
+          effetti: { informazioni.pettegolezzo: 1, rep.maison: -0.5 }
+        fallimento:
+          titolo: La mano tesa
+          testo: |
+            Gli spieghi il debito, e Dario ride, perché ha capito che non hai
+            nessuna voglia di farli sparire. Kanat lo prende per il colletto
+            e lo porta alla Caserma con il fratello, e tu li segui per firmare la
+            consegna.
+          imposta: { maison.ferrante: 1 }
+          effetti: { rep.caserma: 0.5 }
+
+  # ------------------------------------------------------------ passo 15 · la scatola di latta (quinto grado)
+  - id: maison-la-scatola-di-latta
+    presso: via-dei-rasoi
+    immagine: personaggi/nerissa-dalvane
+    titolo: La scatola di latta
+    sommario: "La Maison è chiusa, ed è l'alba. Sul tavolino del salone c'è la teiera, e accanto alla teiera c'è il libro di Vesh."
+    luogo: Maison des Lunes, il salone all'alba
+    area: citta-bassa
+    requisiti: [fazione.maison == 14, pista.pelle >= 7, maison.ferrante != 4]
+    testo: |
+      Il salone all'alba ha una luce grigia che entra dalle fessure delle
+      tende e fa sembrare le poltrone più vecchie. Le lampade sono spente.
+      Sul tavolino c'è la teiera del tè buono, e sul piattino la seconda
+      tazza, ancora tiepida, con la matita corta accanto. Sara è seduta sullo
+      sgabello che ha portato dal bancone, e Gretchen in piedi dietro la
+      poltrona di Nerissa, con le mani sullo schienale.
+
+      Il libro di Vesh è accanto alla teiera, più spesso di quanto credevi,
+      rilegato in pelle nera con gli angoli d'ottone. Ci sono dentro anni di
+      nomi raccolti da Jass e dallo scrivano, e dai ragazzi con le lavagnette,
+      ricopiati in
+      bella da Rozalia una volta all'anno. Nerissa lo lascia dov'è, senza
+      degnarlo di uno sguardo.
+
+      {resilienza Media} Ti accorgi che stai pensando ai nomi che ci sono
+      dentro, e a quanti ne conosci. È la stessa cosa che pensava Vesh.
+
+      «La mia casa regge finché la gente crede che quello che dice qui
+      dentro sparisca» dice Nerissa, piano. «Da oggi ci crederanno grazie a
+      te, oppure no. Il libro lo hai trovato tu, e io non lo apro. Decidi tu
+      che cosa ne facciamo.»
+
+      {empatia Difficile} Sara tiene le mani in grembo, chiuse, come quando
+      aspettava di sapere chi aveva letto il suo quaderno. Gretchen invece
+      guarda la seconda tazza.
+
+      {origine accolito-del-velo} In Cattedrale ti hanno insegnato che i
+      peccati confessati si bruciano con la carta su cui li scrivi. Non te
+      l'hanno mai insegnato per i peccati degli altri.
+    opzioni:
+      - testo: "Bruciarlo nella stufa"
+        descrizione: "Pagina per pagina, come il quaderno di Sara. Con lei accanto."
+        esito:
+          titolo: Le armi senza nome
+          testo: |
+            Porti il libro in cucina e apri lo sportello della stufa. Sara si
+            siede accanto a te, e a ogni pagina che bruci, senza leggerla, lei
+            guarda le fiamme e dice a voce bassa il nome di un'arma, un'elsa a
+            canestro, un fodero rammendato, il bastone animato con il pomo
+            d'argento. Le riconosce tutte. Quando resta soltanto la copertina di
+            pelle, Nerissa ti chiude al polso un anello della catena di bronzo
+            della porta, e ti dice che la scatola di latta, da oggi, è anche
+            tua.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 1, maison.custode: 1 }
+          effetti: { monete: 350, oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-catena-di-bronzo: 1, rep.maison: 1, fazione.maison: 1 }
+          almeno: { rep.maison: 10 }
+          segue: maison-il-soprabito-della-sarta
+
+      - testo: "Chiuderlo nella scatola di latta senza aprirlo"
+        descrizione: "Dove sta il quaderno di Sara e quello dello scrivano. Chiuso, e in due a sapere dov'è."
+        esito:
+          titolo: Il tè buono
+          testo: |
+            Apri la scatola di latta del tè buono, e il libro ci entra a fatica,
+            sopra il quaderno di Sara e la metà del cristallo. Nerissa chiude il
+            coperchio e ti mette in mano la chiave. Poi ti chiude al polso un
+            anello della catena di bronzo della porta, e ti dice che da oggi i
+            nomi di questa casa li tenete in due. Gretchen finalmente si siede,
+            e Sara ti chiama per nome come si chiama qualcuno di casa.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 2, maison.custode: 1 }
+          effetti: { monete: 350, oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-catena-di-bronzo: 1, rep.maison: 1, fazione.maison: 1 }
+          almeno: { rep.maison: 10 }
+          segue: maison-il-soprabito-della-sarta
+
+      - testo: "Darlo allo sceriffo per il processo"
+        descrizione: "Nel libro ci sono i nomi delle ultime cellule degli Scuri. Galdrick ne farebbe dei processi. La Maison ne farebbe un'altra cosa."
+        esito:
+          titolo: La tazza vuota
+          testo: |
+            Prendi il libro dal tavolino, e Nerissa non ti ferma. In Caserma
+            Galdrick lo sfoglia in piedi, con la matita fra i denti, e alla
+            decima pagina chiude la porta dell'ufficio. Ci saranno processi,
+            e in città nessuno saprà da dove viene il libro. Alla Maison la
+            seconda tazza resta vuota per un mese. Nerissa ti chiude al polso
+            un anello della catena di bronzo lo stesso, in silenzio. Sara ti
+            chiama per nome con una voce più bassa.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 3 }
+          effetti: { monete: 300, oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-catena-di-bronzo: 1, rep.caserma: 2, rep.maison: -2, fazione.maison: 1 }
+          almeno: { rep.maison: 8 }
+          segue: maison-il-soprabito-della-sarta
+
+      - testo: "Darlo allo sceriffo, ma tenere fuori la pagina del chierico"
+        descrizione: "C'è un chierico del Velo, in quel libro. Padre Vantes saprebbe che cosa farne senza un processo."
+        esito:
+          titolo: La pagina del chierico
+          testo: |
+            Sfili dal libro la pagina del chierico e la pieghi in tasca, poi
+            porti il resto in Caserma. Galdrick lo sfoglia in piedi, con la
+            matita fra i denti, e alla decima pagina chiude la porta
+            dell'ufficio. La pagina la porti a Padre Vantes, che la legge
+            una volta sola e la brucia in un braciere della sagrestia,
+            ringraziandoti con un cenno. Alla Maison la seconda tazza resta
+            vuota per un mese. Nerissa ti chiude al polso un anello della
+            catena di bronzo lo stesso, senza dire niente.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 3 }
+          effetti: { monete: 300, oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-catena-di-bronzo: 1, rep.caserma: 2, rep.velo: 1, rep.maison: -2, fazione.maison: 1 }
+          almeno: { rep.maison: 8 }
+          segue: maison-il-soprabito-della-sarta
+
+      - testo: "Darlo a Julia Castaldi"
+        descrizione: "La Rappresentante saprebbe chi in Consiglio deve qualcosa a chi. Un libro così, nelle sue mani, cambia le sedute."
+        esito:
+          titolo: La cartella di pelle
+          testo: |
+            Porti il libro in Municipio, e Julia Castaldi lo chiude nella sua
+            cartella di pelle senza sfogliarlo davanti a te. Ti ringrazia con la
+            voce di un'ufficiale che riceve un fascicolo. Nelle settimane dopo,
+            in Consiglio, tre consiglieri cambiano idea su tre pratiche diverse.
+            Nerissa ti chiude al polso un anello della catena di bronzo lo
+            stesso, in silenzio. Per un pezzo il tè in salone te lo versa
+            Gretchen.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 4 }
+          effetti: { monete: 300, oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-catena-di-bronzo: 1, rep.castaldi: 2, rep.maison: -2, fazione.maison: 1 }
+          almeno: { rep.maison: 8 }
+          segue: maison-il-soprabito-della-sarta
+
+      - testo: "Darlo a Julia, ma tenere fuori la pagina del chierico"
+        descrizione: "C'è un chierico del Velo, in quel libro. Padre Vantes saprebbe che cosa farne senza la politica."
+        esito:
+          titolo: La pagina del chierico
+          testo: |
+            Sfili dal libro la pagina del chierico e la pieghi in tasca, poi
+            porti il resto in Municipio, dove Julia Castaldi lo chiude nella sua
+            cartella di pelle senza sfogliarlo davanti a te. La pagina la porti
+            a Padre Vantes, che la legge una volta sola e la brucia in un
+            braciere della sagrestia, ringraziandoti con un cenno. Nerissa ti
+            chiude al polso un anello della catena di bronzo lo stesso, in
+            silenzio. Per un pezzo il tè in salone te lo versa Gretchen.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 4 }
+          effetti: { monete: 300, oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-catena-di-bronzo: 1, rep.castaldi: 2, rep.velo: 1, rep.maison: -2, fazione.maison: 1 }
+          almeno: { rep.maison: 8 }
+          segue: maison-il-soprabito-della-sarta
+
+      - testo: "Tenerlo"
+        descrizione: "Anni di nomi, con le date. Chi ha questo libro non ha più bisogno di chiedere niente a nessuno."
+        esito:
+          titolo: Chi tiene il libro
+          testo: |
+            Prendi il libro dal tavolino e te lo metti sotto il braccio. Pesa più
+            di quanto credevi. Nessuno ti ferma. Gretchen si gira verso la
+            finestra, e Nerissa beve il suo tè fino in fondo, senza fretta.
+            Poi si alza e ti apre lei la porta grande. Sulla soglia Sara
+            ti guarda le mani, e il tuo nome non lo dice.
+
+            {resilienza Difficile} Il libro sotto il braccio è caldo, come una
+            cosa viva. Ti accorgi che stai già pensando a quale pagina aprire
+            per prima, e che il pensiero non ti fa più paura.
+          pe: { empatia: 20 }
+          imposta: { maison.libro: 5, maison.chi-tiene-il-libro: 1, maison.pagine: 6 }
+          effetti: { oggetto.maison-soprabito-della-sarta: 1, oggetto.maison-libro-dei-clienti: 1, informazioni.segreto: 3, sospetto: 2, rep.maison: -4, fazione.maison: 1 }
+          segue: maison-il-soprabito-della-sarta
+
+  - id: maison-il-soprabito-della-sarta
+    immagine: ambientazione/maison-des-lunes
+    titolo: Il soprabito della sarta
+    tipo: seguito
+    luogo: Maison des Lunes, la stanza della sarta
+    area: citta-bassa
+    requisiti: [fazione.maison >= 15]
+    testo: |
+      Qualche giorno dopo ti mandano a chiamare dalla stanza della sarta,
+      all'ultimo piano, una soffitta con le travi a vista e un manichino senza
+      testa vicino alla finestra. La sarta della Maison è una donna anziana
+      con gli spilli in bocca, che lavora per le ragazze da prima che Nerissa
+      comprasse la casa. Sul manichino c'è un soprabito di lana nera di
+      taglio sobrio, e quando lo tocchi la fodera di seta è dura come una
+      corazza leggera, cucita in sette strati a punti fitti.
+
+      {armi-da-mischia Media} Una lama di taglio scivola su quella seta come
+      sul cuoio bagnato. Ci vorrebbe una punta molto decisa per passarla, e
+      un braccio che non ha mai sentito parlare di questa sarta.
+
+      Ti dice, con gli spilli in bocca, che le misure non le ha prese perché
+      ti ha visto passare in corridoio abbastanza volte. Poi ti aiuta a
+      infilarlo e ti tira giù le maniche di un dito. Ti sta come se l'avessi
+      sempre portato.
+    opzioni:
+      - testo: "Ringraziarla"
+        descrizione: "Lo indossi, e lei ti gira intorno con gli occhi socchiusi."
+        costo: 0
+        esito:
+          titolo: Gli spilli
+          testo: |
+            La ringrazi, e lei si toglie gli spilli di bocca per la prima volta.
+            Ti dice che in Via dei Rasoi chi lo vede saprà da dove viene, e che
+            è proprio per questo che l'ha cucito nero. Poi ti spinge fuori
+            dalla soffitta, perché ha un orlo da finire prima di sera.
+          pe: { galateo: 3 }
+
+  # ------------------------------------------------------------ dopo il passo 15 · Laure sulla soglia
+  - id: maison-laure-sulla-soglia
+    presso: via-dei-rasoi
+    immagine: ambientazione/laresh
+    titolo: Laure sulla soglia
+    sommario: "Laure ti aspetta sulla porta della Maison con una borsa da viaggio ai piedi e un libro chiuso in mano."
+    luogo: Via dei Rasoi, all'alba
+    area: citta-bassa
+    requisiti: [fazione.maison >= 15, maison.mare == 1, maison.laure == 0]
+    testo: |
+      Laure ti aspetta sulla soglia della Maison all'alba, con una borsa da
+      viaggio di tela ai piedi e il solito libro chiuso contro il petto. Ha
+      i capelli castani raccolti sotto un fazzoletto e le scarpe da strada,
+      quelle che non le avevi mai visto. In fondo a Via dei Rasoi, verso il
+      Ponte del Pesce, si sentono già i carri della prima carovana per
+      Laresh.
+
+      «Me l'hai fatto venire in mente tu, quella notte, con il tuo mare»
+      dice. «Ho messo da parte abbastanza per arrivare a Laresh, e da lì una
+      chiatta scende fino alla costa. Ogni volta che stavo per spendere i
+      risparmi per qualcun altro, mi ricordavo di quella notte e me li
+      tenevo.»
+
+      {empatia Facile} Ha paura, e la paura le sta bene addosso come le
+      scarpe nuove. È la paura di chi sta per andare, che è l'unica buona.
+    opzioni:
+      - testo: "Darle qualche moneta per il viaggio"
+        descrizione: "Una chiatta costa di più di quanto pensi, e i mari sono lontani."
+        requisiti: [monete >= 20]
+        costo: 0
+        esito:
+          titolo: La borsa
+          testo: |
+            Le metti in mano una borsa di monete, e lei te la rende, e tu gliela
+            rimetti in mano. Alla terza volta la prende, arrossendo. Ti abbraccia
+            in fretta, con il libro schiacciato fra voi due, poi raccoglie la sua
+            borsa di tela e se ne va verso il Ponte del Pesce senza voltarsi.
+            Sulla porta Sara ti chiama per nome, con la voce un po' rotta.
+          imposta: { maison.laure: 1 }
+          effetti: { monete: -20, rep.maison: 0.5 }
+      - testo: "Raccontarle un altro mare"
+        descrizione: "Uno solo, ancora, per la strada."
+        costo: 0
+        esito:
+          titolo: Un altro mare
+          testo: |
+            Le racconti di un mare dove l'acqua è così chiara che si vedono i
+            pesci a dieci braccia, e che forse te lo stai inventando, e lei
+            questo non te lo chiede. Ascolta fino in fondo, poi ti dà un bacio sulla guancia e se
+            ne va verso il Ponte del Pesce con la borsa di tela in spalla. In
+            fondo alla strada si volta una volta sola, e alza il libro come per
+            salutarti.
+          pe: { espressivita: 5 }
+          imposta: { maison.laure: 1 }

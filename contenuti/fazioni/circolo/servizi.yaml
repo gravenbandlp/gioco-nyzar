@@ -1,0 +1,478 @@
+# I servizi del Circolo di Velthar, nel Bosco di Velthar (luogo circolo-bosco-di-velthar della Superficie).
+# Si aprono con i gradi della quest (fazione.circolo):
+# - dal passo 3 (Viandante): le lezioni della Via del Respiro di primo livello, i lavori del margine e il baratto.
+#   Le lezioni non costano monete: costano rintocchi e, dal secondo livello, la linfa del Bosco interno.
+#   La condizione della tradizione resta rep.circolo >= 2 × livello.
+# - dal passo 6 (Novizio): la purificazione delle piante (Contaminazione −1, tre rintocchi e un'offerta piccola: più
+#   tempo che denaro), la lezione di Radici e l'unguento del Circolo a poco.
+# - dal passo 9 (Iniziato): le lezioni di Veleno dell'anima e di Bere la Marea, e il lavoro della propria via.
+# - dal passo 12 (Custode del Margine): la branda nella spirale, senza spese, e la lezione di Tempesta.
+# - con il titolo di Respiro di Velthar (circolo.respiro, passo 15): la purificazione senza offerta e la parte del
+#   margine, una piccola rendita.
+storylet:
+  # ------------------------------------------------------------ le lezioni della Via del Respiro
+  - id: circolo-le-lezioni-del-respiro
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Le lezioni del Respiro
+    sommario: "All'alba, sulla spirale, i druidi insegnano la Via del Respiro a chi il Circolo ha accolto. Si paga con il tempo, e a volte con la linfa."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro, all'alba
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 3, magia >= 1]
+    testo: |
+      All'alba, quando il vapore della fenditura sale dritto, sulle pietre
+      più alte della spirale si tengono le lezioni. Non ci sono libri e
+      non ci sono formule scritte. Il maestro di turno dice le parole piano una volta sola, e poi le ripete con te finché non smetti di sbagliarle.
+      Le prime le insegna un druido giovane con le mani verdi fino al polso,
+      quelle di mezzo Serha, le ultime Aelion in persona, quando ha voglia.
+
+      {magia Media} Il Respiro non si lancia come un dardo di cristallo. Si
+      lascia passare, come l'acqua in una radice, e chi stringe troppo non
+      ottiene niente.
+
+      {resistenza Facile fallita} Le pietre della spirale all'alba sono
+      bagnate di vapore, e dopo un'ora le senti nelle ossa del sedere più
+      che nelle formule.
+
+      Le lezioni non si pagano in monete. Il Circolo vuole il tuo tempo, e
+      per le parole più forti un poco della linfa che si raccoglie nel
+      Bosco interno.
+    opzioni:
+      - testo: "Pelle di corteccia"
+        descrizione: "La pelle che si indurisce come legno vecchio. È la prima cosa che il Circolo insegna, per difendersi."
+        requisiti: [magia >= 1, rep.circolo >= 2, incantesimo.pelle-di-corteccia == 0]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: La corteccia
+          testo: |
+            Il druido giovane ti fa appoggiare il palmo su una quercia e ti
+            dice di respirare con lei. Al decimo respiro la pelle della mano
+            ti diventa ruvida e scura, e quando la stacchi dal tronco resta
+            così per il tempo di una preghiera.
+          effetti: { incantesimo.pelle-di-corteccia: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Respiri con la quercia fino a farti girare la testa, e la pelle resta la tua. Il druido ti dice di tornare domani, e di respirare
+            meno forte.
+          effetti: {}
+      - testo: "Richiamo"
+        descrizione: "La lingua che il Circolo insegna ai bambini, per parlare alle bestie."
+        requisiti: [magia >= 1, rep.circolo >= 2, incantesimo.richiamo == 0]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: La lingua dei bambini
+          testo: |
+            Il druido giovane ti fa ripetere le parole davanti a uno dei lupi
+            di Tharn, che le ascolta con la testa piegata. Alla terza volta
+            il lupo si alza e viene a sedersi davanti a te, e i bambini del
+            Circolo, che guardavano da dietro le pietre, ti fanno un applauso
+            di sufficienza.
+          effetti: { incantesimo.richiamo: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Il lupo ti ascolta con uno sbadiglio, e si gira dall'altra parte. Il
+            druido ti dice di tornare domani, e di non parlare alle bestie
+            come si parla ai clienti.
+          effetti: {}
+      - testo: "Radici"
+        descrizione: "Il terreno che trattiene i piedi di un nemico. La insegna Serha, e chiede in cambio una fiala di linfa."
+        quando: [fazione.circolo >= 6]
+        requisiti: [magia >= 2, rep.circolo >= 4, incantesimo.radici == 0, circolo.linfa >= 1]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Le radici
+          testo: |
+            Serha ti fa piantare i piedi nella terra della spirale e dire le
+            parole guardando un ramo secco a dieci passi. Al quarto tentativo
+            dal terreno escono radici bianche che si avvolgono al ramo e lo
+            tirano giù. Serha versa la tua fiala di linfa ai piedi della
+            quercia più vicina, come un ringraziamento.
+          effetti: { incantesimo.radici: 1, circolo.linfa: -1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Le radici escono, ma ti si avvolgono alle caviglie invece che al
+            ramo. Serha ti libera con la mano di legnoscuro e ti dice di
+            riprovare un altro giorno, con la fiala ancora in tasca.
+          effetti: {}
+      - testo: "Veleno dell'anima"
+        descrizione: "Spore e linfa nera. Una formula che il Circolo insegna a chi ha scelto la sua via, per due fiale di linfa."
+        quando: [fazione.circolo >= 9]
+        requisiti: [magia >= 3, rep.circolo >= 6, incantesimo.veleno-dell-anima == 0, circolo.linfa >= 2]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La linfa nera
+          testo: |
+            Aelion ti insegna le parole in un sussurro, lontano dalla spirale,
+            dove la linfa delle radici morte cola nera. Quando le dici, dalla
+            corteccia di un tronco secco esce una nuvola di spore che si
+            posa sull'erba e la fa annerire. Aelion versa le tue fiale ai
+            piedi del tronco e ti dice di usarle poco.
+          effetti: { incantesimo.veleno-dell-anima: 1, circolo.linfa: -2 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Le spore escono, ma ti tornano in faccia, e tossisci per un'ora.
+            Aelion aspetta che tu finisca e ti dice di tornare quando avrai
+            più rispetto per il veleno.
+          effetti: { tormento: 0.5 }
+      - testo: "Bere la Marea"
+        descrizione: "Tirare fuori la Marea dal corpo di qualcuno e prenderla su di sé, come fanno le piante. La insegna Serha, per due fiale di linfa."
+        quando: [fazione.circolo >= 9]
+        requisiti: [magia >= 3, rep.circolo >= 6, incantesimo.bere-la-marea == 0, circolo.linfa >= 2]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il sorso
+          testo: |
+            Serha ti fa posare le mani sul petto di un novizio tornato dal
+            boschetto grigio con le labbra viola. Tiri su la Marea come si
+            tira l'acqua da un pozzo, e il novizio riprende colore mentre a
+            te resta in bocca il sapore del ferro. Serha versa le tue fiale
+            nel vaso della sua felce.
+          effetti: { incantesimo.bere-la-marea: 1, circolo.linfa: -2, contaminazione: 0.5 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Tiri troppo forte, e la Marea del novizio ti entra tutta insieme.
+            Serha te la toglie lei, con le mani sulle tue, e ti dice che la
+            prossima volta si comincia da un sorso.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Tempesta"
+        descrizione: "Grandine e rami spezzati su tutti i nemici. Aelion la insegna a chi custodisce il margine, per tre fiale di linfa."
+        quando: [fazione.circolo >= 12]
+        requisiti: [magia >= 4, rep.circolo >= 8, incantesimo.tempesta == 0, circolo.linfa >= 3]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Molto difficile }
+        successo:
+          titolo: La grandine
+          testo: |
+            Aelion ti porta al margine nord, dove il Bosco finisce sulla
+            valle, e ti fa dire le parole verso il cielo vuoto. Al terzo
+            tentativo una nuvola bassa si forma sopra la valle e scarica una
+            grandine grossa come nocciole su un campo di cardi. Aelion
+            sparge le tue fiale sulla valle grigia di grandine, e ti dice
+            che la tempesta si chiama soltanto per salvare qualcosa.
+          effetti: { incantesimo.tempesta: 1, circolo.linfa: -3 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            La nuvola si forma, ti scarica la grandine addosso e si dissolve.
+            Aelion ti guarda dalla collina, asciutto sotto il mantello, e ti dice di tornare un altro giorno.
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ la purificazione delle piante
+  - id: circolo-la-purificazione-delle-piante
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: La purificazione delle piante
+    sommario: "Il Circolo toglie la Marea dal corpo come la toglie dal Bosco, con le piante che la bevono. Ci vuole una giornata intera."
+    luogo: Il Bosco di Velthar, l'orto delle felci sotto la spirale
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 6, contaminazione >= 0.5]
+    testo: |
+      Sotto la spirale c'è un orto di felci e di ortiche, diviso in aiuole
+      rotonde, dove Serha fa crescere le piante che bevono la Marea. Chi ha
+      la Marea addosso si sdraia in un'aiuola con le mani nella terra, e i
+      druidi gli piantano le felci intorno, vicine, finché le radici non
+      gli toccano la pelle. Poi si aspetta. Le piante bevono piano, e una
+      giornata intera basta appena.
+
+      {medicina Media} Le felci più vicine diventano grigie dalla punta in
+      un'ora. Quando sono grigie fino al gambo i druidi le tolgono e ne
+      piantano altre, come si cambiano le bende.
+
+      {origine accolito-del-velo} In Cripta l'accolito ti guardava il
+      bianco dell'occhio e chiedeva l'offerta. Qui nessuno ti guarda gli
+      occhi, e l'offerta è un pugno di monete per i semi.
+    opzioni:
+      - testo: "Sdraiarti fra le felci per una giornata"
+        descrizione: "Una giornata con le mani nella terra e le felci che bevono. Il Circolo chiede soltanto qualche moneta per i semi."
+        requisiti: [monete >= 5]
+        costo: 3
+        esito:
+          titolo: Le felci grigie
+          testo: |
+            Ti sdrai nell'aiuola con le mani nella terra fredda, e i druidi
+            ti piantano le felci intorno, vicine. Passi la giornata a
+            guardare il vapore della spirale salire, e a ogni ora una felce
+            ingrigisce e viene cambiata. La sera ti alzi con la schiena
+            rigida e la bocca che non sa più di ferro.
+          effetti: { monete: -5, contaminazione: -1 }
+      - testo: "Sdraiarti fra le felci, come uno di casa"
+        descrizione: "Il Respiro di Velthar non paga i semi. Si sdraia, e il Bosco beve."
+        quando: [circolo.respiro >= 1]
+        costo: 2
+        esito:
+          titolo: Uno di casa
+          testo: |
+            Ti sdrai nell'aiuola, e i novizi ti piantano le felci intorno
+            senza che tu lo chieda. Nessuno parla di semi. La sera ti alzi
+            con la bocca pulita, e un novizio ti porta una ciotola di bacche
+            di sorbo.
+          effetti: { contaminazione: -1 }
+
+  # ------------------------------------------------------------ la branda nella spirale
+  - id: circolo-la-branda-nella-spirale
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: La branda nella spirale
+    sommario: "Sotto le pietre della spirale, accanto all'archivio, c'è una nicchia calda con una branda di felci secche. È tua."
+    luogo: Il Bosco di Velthar, sotto la spirale
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 12]
+    testo: |
+      La tua branda sta in una nicchia scavata sotto la spirale, accanto
+      all'archivio di Serha, dove il vapore della fenditura arriva tiepido
+      e asciutto. È un telaio di legno di salice con un materasso di felci
+      secche che qualcuno cambia ogni luna, e sopra c'è una coperta di lana
+      grezza con un buco bruciato in un angolo. Dalla nicchia si sente il respiro lento della fenditura, e lo scalpello di Serha quando lavora
+      di notte.
+
+      {resistenza Facile} Il corpo riconosce il posto prima di te, e
+      comincia a sciogliersi appena vede la coperta.
+
+      {origine figlio-del-circolo} La coperta con il buco bruciato era già
+      vecchia quando eri bambino. L'avevi usata tu, una notte di febbre,
+      e il buco l'hai fatto tu con una candela.
+    opzioni:
+      - testo: "Dormire fino all'alba"
+        descrizione: "Una notte con il respiro della fenditura nelle orecchie. Il Circolo non chiede niente a chi custodisce il margine."
+        esito:
+          titolo: Il respiro della fenditura
+          testo: |
+            Ti addormenti contando i respiri della fenditura, e non arrivi a
+            dieci. All'alba ti sveglia lo scalpello di Serha, e ti accorgi
+            che le ferite tirano meno e che la testa è sgombra come dopo la
+            pioggia. Sul bordo della branda qualcuno ha lasciato una ciotola
+            di bacche di sorbo.
+          effetti: { ferite: -1, tormento: -1 }
+
+  # ------------------------------------------------------------ i lavori del margine
+  - id: circolo-il-lavoro-del-margine
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il lavoro del margine
+    sommario: "Al margine c'è sempre qualcosa da fare. La Segheria e la città pagano il Circolo per farlo, e il Circolo divide con chi lavora."
+    luogo: Il Bosco di Velthar, il margine
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 3]
+    testo: |
+      Al margine, sul tronco con le tre tacche, Tharn tiene una fila di
+      bastoncini piantati nella corteccia, uno per ogni lavoro da fare, e
+      chi ne prende uno lo porta indietro la sera. Ci sono i tronchi secchi
+      da segnare per la Segheria, che li paga a fine mese, e la ronda del
+      margine, che la città paga perché il Bosco la ripara. Il Circolo
+      divide quello che entra con chi ha lavorato.
+
+      {politica-ed-economia Media} La città paga il Circolo poco e in
+      ritardo, e il Circolo non protesta mai. È un modo di tenere un
+      credito che nessuno ha voglia di riscuotere.
+
+      {armi-da-distanza Facile} Tharn ha appeso l'arco a un ramo basso,
+      teso. Chi va di ronda lo prende senza chiedere.
+    opzioni:
+      - testo: "Segnare il secco per la Segheria"
+        descrizione: "Tre tacche sui tronchi morti, che la Segheria può tagliare. Bisogna distinguere un albero morto da uno che dorme."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Il secco segnato
+          testo: |
+            Passi la giornata a battere i tronchi con il manico del coltello
+            e ad ascoltare se suonano pieni, e incidi le tre tacche
+            soltanto su quelli che suonano vuoti. La sera Tharn controlla
+            due tronchi a caso, e annuisce.
+          pe: { natura: 2 }
+          effetti: { monete: 6 }
+        fallimento:
+          titolo: L'albero che dormiva
+          testo: |
+            Segni un tronco che suonava vuoto, e la sera Tharn ci passa la
+            mano sopra e trova le gemme sotto la corteccia. Ti fa cancellare
+            le tacche con la terra bagnata, una per una.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare la ronda del margine"
+        descrizione: "Un giro lungo del margine con l'arco di Tharn, a cercare tracce di bestie grigie e di asce."
+        prova: { attributo: fisico, abilita: [armi-da-distanza, atletica], difficolta: Media }
+        successo:
+          titolo: La ronda
+          testo: |
+            Fai il giro del margine dall'alba al tramonto, e a metà strada
+            abbatti una volpe grigia che correva verso i campi. La sera porti
+            la coda a Tharn, che la appende a un ramo con le altre.
+          pe: { armi-da-distanza: 2 }
+          effetti: { monete: 6 }
+        fallimento:
+          titolo: La volpe che scappa
+          testo: |
+            Tiri alla volpe grigia e la manchi due volte, e la volpe sparisce
+            verso i campi. La sera Tharn manda un ragazzo ad avvertire le
+            fattorie, e a te non dice niente.
+          effetti: { ferite: 0.5 }
+      - testo: "Cacciare con il branco"
+        descrizione: "Il lavoro degli Irriducibili. Una notte di caccia con il branco, per la carne dei lupi e la pelle per il Circolo."
+        quando: [fazione.circolo >= 9, circolo.via == 1]
+        prova: { attributo: fisico, abilita: [atletica, armi-da-distanza], difficolta: Media }
+        successo:
+          titolo: La notte di caccia
+          testo: |
+            Corri con il branco fino all'alba e abbatti un lupo grigio che
+            veniva dal sud. Il branco mangia, e tu porti la pelle al Circolo. La conciano, e la parte la dividono con te.
+          pe: { atletica: 5 }
+          effetti: { monete: 12, circolo.pelle-grigia: 1 }
+        fallimento:
+          titolo: Il branco va avanti
+          testo: |
+            Resti indietro a metà notte, e il branco caccia senza di te. Torni
+            al margine all'alba, con le gambe di legno.
+          effetti: { ferite: 0.5 }
+      - testo: "Copiare le tavole per Serha"
+        descrizione: "Il lavoro dei Radicanti. Una giornata nell'archivio a ricopiare respiri del Bosco su tavole nuove."
+        quando: [fazione.circolo >= 9, circolo.via == 2]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Le tavole
+          testo: |
+            Ricopi a scalpello tre tavole di respiri, senza sbagliare una
+            fila. Serha le controlla segno per segno con il pollice di legnoscuro, e ti dà la tua parte e una fiala di linfa per il lavoro.
+          pe: { accademiche: 5 }
+          effetti: { monete: 12, circolo.linfa: 1 }
+        fallimento:
+          titolo: La fila sbagliata
+          testo: |
+            Al terzo foglio di pietra salti una fila, e te ne accorgi quando
+            Serha ci passa sopra il pollice. Si ricomincia da capo, domani.
+          effetti: { tormento: 0.5 }
+      - testo: "Vegliare un Silente"
+        descrizione: "Il lavoro dei Silenti. Una notte seduto accanto a uno di loro che dorme fra le radici, a tenergli aperta la via."
+        quando: [fazione.circolo >= 9, circolo.via == 3]
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La veglia
+          testo: |
+            Passi la notte seduto accanto al Silente, con la sua pressione
+            dietro gli occhi, e all'alba ti senti più leggero di quando sei
+            arrivato. Il Circolo ti dà la tua parte, e nessuno ti chiede
+            che cosa hai sentito.
+          pe: { resilienza: 5 }
+          effetti: { monete: 12, tormento: -0.5 }
+        fallimento:
+          titolo: La veglia rotta
+          testo: |
+            A metà notte la pressione si fa troppo forte, e ti alzi. Il
+            Silente non si sveglia, e un altro prende il tuo posto senza una
+            parola.
+          effetti: { tormento: 0.5 }
+      - testo: "Ricevere la parte del margine"
+        descrizione: "Al Respiro di Velthar il Circolo dà una parte di quello che la città paga per il margine, senza chiedere lavoro."
+        quando: [circolo.respiro >= 1]
+        esito:
+          titolo: La parte
+          testo: |
+            Tharn ti mette in mano un sacchetto di tela con dentro la tua
+            parte, senza contarla davanti a te. Al Circolo si dice che il
+            Respiro di Velthar lavora anche quando dorme.
+          effetti: { monete: 10 }
+
+  # ------------------------------------------------------------ il baratto del margine
+  - id: circolo-il-baratto-del-margine
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il baratto del margine
+    sommario: "Una volta alla settimana un carrettiere della Gilda si ferma al margine a comprare quello che il Bosco dà, e il Circolo vende l'unguento."
+    luogo: Il Bosco di Velthar, il margine
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 3]
+    testo: |
+      Una volta alla settimana, al margine, si ferma un carrettiere della
+      Gilda con un carro coperto e un mulo che sbuffa ai lupi. Compra le
+      pelli grigie per i conciatori della Città Bassa, la linfa per i
+      guaritori e il legno di lanterna per i saloni, e paga meno di quanto
+      valgano, come tutti i carrettieri. Accanto al carro un novizio del
+      Circolo vende vasetti di unguento di felce, a chi è del Circolo, per
+      poco.
+
+      {conoscenze-della-strada Media} In città la linfa la rivendono al
+      triplo. Il carrettiere lo sa, e sa che tu lo sai, e ti sorride lo
+      stesso.
+
+      {empatia Facile} Il novizio dell'unguento arrossisce ogni volta che
+      qualcuno compra, come se gli avessero fatto un complimento.
+    opzioni:
+      - testo: "Vendere un ciocco di legno di lanterna"
+        descrizione: "Nei saloni lo bruciano per la luce. Il carrettiere lo prende, e non chiede da dove viene."
+        requisiti: [circolo.legno-di-lanterna >= 1]
+        costo: 0
+        esito:
+          titolo: Il ciocco
+          testo: |
+            Il carrettiere soppesa il ciocco, lo gira verso l'ombra del carro
+            per vederlo brillare, e ti conta le monete sul palmo.
+          effetti: { circolo.legno-di-lanterna: -1, monete: 6 }
+      - testo: "Vendere una pelle grigia"
+        descrizione: "I conciatori della Città Bassa ne fanno guanti che non si tagliano."
+        requisiti: [circolo.pelle-grigia >= 1]
+        costo: 0
+        esito:
+          titolo: La pelle
+          testo: |
+            Il carrettiere passa le dita sul pelo rigido, si punge, si succhia
+            il dito e ti paga.
+          effetti: { circolo.pelle-grigia: -1, monete: 8 }
+      - testo: "Vendere una fiala di linfa luminosa"
+        descrizione: "I guaritori di città la mettono sulle ferite che non chiudono."
+        requisiti: [circolo.linfa >= 1]
+        costo: 0
+        esito:
+          titolo: La fiala
+          testo: |
+            Il carrettiere alza la fiala contro la luce e la guarda brillare
+            verde fra le dita, poi la avvolge nella paglia con più cura di
+            quanta ne abbia messa per tutto il resto.
+          effetti: { circolo.linfa: -1, monete: 10 }
+      - testo: "Vendere una scheggia di corteccia di metallo"
+        descrizione: "Il carrettiere ne darebbe una borsa intera. Il Circolo non vuole vederla uscire dal Bosco, e lo verrà a sapere."
+        requisiti: [circolo.corteccia >= 1]
+        costo: 0
+        esito:
+          titolo: La scheggia venduta
+          testo: |
+            Il carrettiere prende la scheggia con due dita, la piega sotto il
+            pollice e la guarda tornare dritta. Ti paga senza contrattare, e
+            la nasconde sotto il sedile. Il novizio dell'unguento ha visto
+            tutto, e la sera al Circolo lo sanno.
+          effetti: { circolo.corteccia: -1, monete: 60, rep.circolo: -0.5 }
+      - testo: "Restituire al Bosco una scheggia di corteccia"
+        descrizione: "Il Circolo seppellisce le schegge dell'Albero ai piedi della spirale, dove sono venute."
+        requisiti: [circolo.corteccia >= 1]
+        costo: 0
+        esito:
+          titolo: La scheggia sepolta
+          testo: |
+            Porti la scheggia alla spirale e la seppellisci fra due pietre,
+            dove il vapore è più caldo. Un druido che passa ti vede e si
+            ferma ad aspettare che tu abbia finito, con la testa china.
+          effetti: { circolo.corteccia: -1, rep.circolo: 0.5 }
+      - testo: "Comprare un vasetto di unguento del Circolo"
+        descrizione: "Unguento di felce e di grasso di tasso, che chiude le ferite. A chi è del Circolo il novizio lo dà per poco."
+        quando: [fazione.circolo >= 6]
+        requisiti: [monete >= 12]
+        costo: 0
+        esito:
+          titolo: L'unguento
+          testo: |
+            Il novizio ti dà il vasetto con tutte e due le mani, e arrossisce.
+            L'unguento profuma di resina sopra l'odore del grasso, e sotto il tappo di sughero
+            qualcuno ha disegnato una foglia.
+          effetti: { monete: -12, unguento: 1 }

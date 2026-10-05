@@ -1,0 +1,441 @@
+# La quest della Confraternita del Velo: i servizi e i ripetibili che si aprono con i gradi.
+# - Grado 1 (fazione.velo >= 3): la scuola del laico, con le lezioni della Liturgia a metà offerta; l'infermeria dei
+#   laici, dove una Ferita si cura con un'offerta piccola.
+# - Grado 2 (>= 6): Rimarginare e Veglia senza offerta; i confratelli in convalescenza e nel delirio, con un'azione in
+#   più che fa salire il recupero del doppio. La Cripta è già aperta dal voto (cattedrale.yaml).
+# - Grado 3 (>= 9): Esorcismo senza offerta; la purificazione dei custodi, senza offerta, nell'infermeria. Il turno di
+#   garitta sta nelle Ore del Velo (cattedrale.yaml), con la reputazione fino a 8.
+# - Grado 4 (>= 12): la cella nel chiostro, dove si dorme senza pagare. Il servizio della Cripta sta nelle Ore del Velo,
+#   con la reputazione fino a 10.
+# - Grado 5 (>= 15): il Battito insegnato senza offerta; l'udienza nella Cripta per chi ha taciuto o lasciato correre
+#   (velo.udienza); il Battito sulla Marea, per chi lo conosce.
+storylet:
+  # ------------------------------------------------------------ le lezioni della Liturgia
+  - id: velo-la-scuola-del-laico
+    presso: cattedrale-del-velo
+    immagine: fazioni/confraternita-del-velo
+    titolo: La scuola del laico
+    sommario: "Il nome sulla tavoletta apre anche la porta della scuola dei novizi, dove ai laici del Velo la Liturgia si insegna per meno."
+    luogo: Cattedrale del Velo, la scuola dei novizi, dopo le lezioni
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.velo >= 3]
+    testo: |
+      Dopo le lezioni dei novizi la scuola si svuota, e il sacerdote che
+      insegna la Liturgia resta seduto alla cattedra a pulire le lenti degli
+      occhiali con l'orlo della manica. Ai laici della tavoletta, dice,
+      l'offerta si chiede a metà, perché il Velo li paga già poco. Ai
+      consacrati non si chiede niente, e ai custodi dei pozzi nemmeno per il
+      rito delle cripte. Sul banco davanti a lui c'è la cassetta di legno
+      delle offerte, con il coperchio consumato dove si appoggiano le dita.
+
+      {accademiche Facile} Le preghiere sono le stesse della scuola dei
+      novizi, parola per parola. Cambia soltanto chi te le insegna e quanto ti
+      guarda le mani mentre le dici.
+
+      {origine accolito-del-velo} Su quel banco hai inciso le tue iniziali da
+      novizio, sotto il piano, dove non le vede nessuno. Ci sono ancora, e
+      accanto ce ne sono di nuove.
+    opzioni:
+      - testo: "Benedizione, a metà offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "La preghiera breve dei laici, per metà dell'offerta di sempre."
+        requisiti: [magia >= 1, incantesimo.benedizione == 0, monete >= 5, rep.velo >= 2]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: La prima preghiera
+          testo: |
+            Ripeti la preghiera finché le parole non ti vengono da sole, e il
+            sacerdote ti ascolta con gli occhi chiusi. Alla fine annuisce e ti
+            indica la cassetta, dove lasci la metà di quello che lasciano gli
+            altri.
+          effetti: { monete: -5, incantesimo.benedizione: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "Il sacerdote scuote la testa con molta pazienza e ti rimanda alla preghiera della sera. La cassetta resta chiusa."
+          effetti: {}
+
+      - testo: "Rimarginare, a metà offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "La preghiera dei guaritori, per metà dell'offerta. Ai consacrati la insegnano senza niente."
+        quando: [fazione.velo < 6]
+        requisiti: [magia >= 2, incantesimo.rimarginare == 0, monete >= 15, rep.velo >= 4]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Le mani calde
+          testo: |
+            Ti fanno esercitare in infermeria su un muratore con il polso
+            sbucciato, che ti racconta la sua caduta tre volte. Sotto le tue
+            mani la pelle si chiude in una riga rosa, e nella cassetta lasci
+            metà dell'offerta di sempre.
+          effetti: { monete: -15, incantesimo.rimarginare: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "Il muratore ti guarda le mani con speranza, e il polso resta sbucciato. Il sacerdote ti rimanda alla preghiera della sera."
+          effetti: {}
+
+      - testo: "Rimarginare, senza offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "La preghiera dei guaritori. Il Velo chiama i consacrati per nome, e non gli chiede di pagare."
+        quando: [fazione.velo >= 6]
+        requisiti: [magia >= 2, incantesimo.rimarginare == 0, rep.velo >= 4]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Le mani calde
+          testo: |
+            Ti fanno esercitare in infermeria su un muratore con il polso
+            sbucciato, che ti racconta la sua caduta tre volte. Sotto le tue
+            mani la pelle si chiude in una riga rosa. Quando fai per aprire la
+            cassetta il sacerdote ti ferma la mano.
+          effetti: { incantesimo.rimarginare: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "Il muratore ti guarda le mani con speranza, e il polso resta sbucciato. Il sacerdote ti rimanda alla preghiera della sera."
+          effetti: {}
+
+      - testo: "Veglia, a metà offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "La preghiera della notte, per metà dell'offerta. Ai consacrati la insegnano senza niente."
+        quando: [fazione.velo < 6]
+        requisiti: [magia >= 2, incantesimo.veglia == 0, monete >= 15, rep.velo >= 4]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La notte in navata
+          testo: |
+            Passi la notte in navata in ginocchio accanto a un novizio che
+            sospira, e all'alba lui dorme e tu no. Il sacerdote dice che per
+            cominciare va bene così, e nella cassetta lasci metà dell'offerta
+            di sempre.
+          effetti: { monete: -15, incantesimo.veglia: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "Verso la terza ora ti addormenti sulla panca, e il sacerdote ti sveglia all'alba con due dita sulla spalla."
+          effetti: {}
+
+      - testo: "Veglia, senza offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "La preghiera della notte. Il Velo chiama i consacrati per nome, e non gli chiede di pagare."
+        quando: [fazione.velo >= 6]
+        requisiti: [magia >= 2, incantesimo.veglia == 0, rep.velo >= 4]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La notte in navata
+          testo: |
+            Passi la notte in navata in ginocchio accanto a un novizio che
+            sospira, e all'alba lui dorme e tu no. Il sacerdote dice che per
+            cominciare va bene così, e non apre la cassetta.
+          effetti: { incantesimo.veglia: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "Verso la terza ora ti addormenti sulla panca, e il sacerdote ti sveglia all'alba con due dita sulla spalla."
+          effetti: {}
+
+      - testo: "Esorcismo, a metà offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "Il rito delle cripte, per metà dell'offerta. Ai custodi dei pozzi lo insegnano senza niente."
+        quando: [fazione.velo < 9]
+        requisiti: [magia >= 3, incantesimo.esorcismo == 0, monete >= 30, rep.velo >= 6]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Nella cripta
+          testo: |
+            Ti portano nella cripta sotto la scuola, davanti a una nicchia
+            vuota, e reciti il rito finché la fiamma della candela smette di
+            piegarsi verso il muro. Lasci metà dell'offerta nella cassetta.
+          effetti: { monete: -30, incantesimo.esorcismo: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "La fiamma continua a piegarsi verso il muro, e il sacerdote ti riporta su per la scala tenendoti il gomito."
+          effetti: {}
+
+      - testo: "Esorcismo, senza offerta"
+        immagine: personaggi/madre-del-velo
+        descrizione: "Il rito delle cripte. Un custode dei pozzi ne ha bisogno più degli altri, e il Velo lo sa."
+        quando: [fazione.velo >= 9]
+        requisiti: [magia >= 3, incantesimo.esorcismo == 0, rep.velo >= 6]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Nella cripta
+          testo: |
+            Ti portano nella cripta sotto la scuola, davanti a una nicchia
+            vuota, e reciti il rito finché la fiamma della candela smette di
+            piegarsi verso il muro. Il sacerdote ti accompagna su senza
+            guardare la cassetta.
+          effetti: { incantesimo.esorcismo: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: "La fiamma continua a piegarsi verso il muro, e il sacerdote ti riporta su per la scala tenendoti il gomito."
+          effetti: {}
+
+      - testo: "Il Battito"
+        immagine: personaggi/madre-del-velo
+        descrizione: "La preghiera della Cripta, con due dita sul polso, finché il cuore va al passo del cristallo. La insegnano soltanto al Custode del Silenzio, e non costa niente."
+        quando: [fazione.velo >= 15]
+        requisiti: [magia >= 4, incantesimo.velo-il-battito == 0, rep.velo >= 8]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Molto difficile }
+        successo:
+          titolo: Il passo del cristallo
+          testo: |
+            Ti siedi sul gradino più basso della Cripta con due dita sul
+            polso, e un velato anziano ti dice le parole una alla volta. A un
+            certo punto il tuo cuore rallenta fino al passo del cristallo, e
+            sopra la tua testa la volta batte con te. Quando risali, le mani
+            ti formicolano fino ai gomiti.
+          effetti: { incantesimo.velo-il-battito: 1 }
+        fallimento:
+          titolo: Il cuore svelto
+          testo: "Per quanto tu provi, il cuore resta svelto. Il velato ti dice di tornare quando avrai smesso di avere fretta."
+          effetti: {}
+
+  # ------------------------------------------------------------ l'infermeria dei laici
+  - id: velo-l-infermeria-dei-laici
+    presso: cattedrale-del-velo
+    immagine: personaggi/nadja-oresca
+    titolo: L'infermeria dei laici
+    sommario: "In fondo all'infermeria della navata nord ci sono due brande per i laici del Velo. Nadja Oresca le tiene sempre pulite."
+    luogo: Cattedrale del Velo, l'infermeria della navata nord
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.velo >= 3]
+    testo: |
+      In fondo all'infermeria della navata nord, dietro una tenda di lino, ci
+      sono due brande riservate ai laici del Velo, con le coperte piegate al
+      centro e un catino di rame su uno sgabello. Nadja Oresca le tiene pulite
+      lei, e ai laici chiede un'offerta piccola, quanto basta per le bende.
+      Per i custodi dei pozzi c'è anche la vasca della purificazione, in una
+      stanza accanto, con l'acqua che sa di resina.
+
+      {medicina Media} Le bende di Nadja sono tagliate per il lungo e
+      arrotolate strette. Chi le ha preparate sa che cosa vuol dire avere
+      fretta con un ferito davanti.
+
+      Nadja ti saluta con un proverbio in lingua antica, girandosi l'anello di
+      rame intorno al dito.
+    opzioni:
+      - testo: "Farti medicare"
+        descrizione: "Una branda, le bende di Nadja e un'ora di riposo. L'offerta è piccola."
+        requisiti: [ferite >= 0.5, monete >= 5]
+        esito:
+          titolo: Le bende di Nadja
+          testo: |
+            Nadja ti rifà le fasciature una per una, stringendo soltanto dove
+            serve, e intanto ti racconta di sua madre, con cui non va
+            d'accordo su niente. Quando ti alzi dalla branda le ferite tirano
+            meno. Lasci l'offerta nel catino di rame.
+          effetti: { monete: -5, ferite: -1 }
+
+      - testo: "La purificazione dei custodi"
+        descrizione: "I custodi dei pozzi scendono dove gli altri non vanno. Il Velo li purifica senza chiedere niente."
+        quando: [fazione.velo >= 9]
+        requisiti: [contaminazione >= 0.5]
+        esito:
+          titolo: L'acqua di resina
+          testo: |
+            Nella stanza accanto un velato ti fa inginocchiare davanti alla
+            vasca e ti bagna la fronte con l'acqua che sa di resina, poi ti
+            preme i pollici sulle tempie. Il sapore di metallo sotto la lingua
+            se ne va quasi del tutto. Il velato non ti indica la cassetta
+            delle offerte, e tu non la cerchi.
+          effetti: { contaminazione: -0.5 }
+
+  # ------------------------------------------------------------ la cella nel chiostro
+  - id: velo-la-cella-del-chiostro
+    presso: cattedrale-del-velo
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: La cella nel chiostro
+    sommario: "I velati della Cripta hanno una cella nel chiostro dove dormire quando vogliono. Una di quelle porte, adesso, si apre con la tua chiave."
+    luogo: Cattedrale del Velo, il chiostro, la cella dei velati
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.velo >= 12]
+    testo: |
+      La cella è una stanza stretta con il soffitto a volta e una branda sotto
+      una finestra alta, che dà sui Giardini della Linfa. Di notte le piante
+      si accendono una alla volta, e la luce verdina sale fino alla finestra e
+      si posa sul soffitto. Sul davanzale qualcuno ha lasciato un vaso con una
+      talea, che brilla appena.
+
+      {natura Facile} È una talea del cespuglio vecchio dei Giardini, quella
+      che si accende per prima. Qualcuno la annaffia, anche quando la cella è
+      vuota.
+
+      {resistenza Facile} La branda è dura come un'asse, e la schiena la
+      trova perfetta. Dopo certe notti nei pozzi, il corpo non chiede altro.
+
+      Dal corridoio arrivano i passi lenti dei velati che scendono in Cripta
+      per le ore di notte, poi torna il silenzio.
+    opzioni:
+      - testo: "Dormire nella cella"
+        descrizione: "Una notte intera nel chiostro, con la luce dei Giardini sul soffitto. Per i velati il letto è gratis."
+        esito:
+          titolo: La luce verdina
+          testo: |
+            Ti addormenti guardando la luce dei Giardini sul soffitto, e ti
+            svegli all'alba con il primo rintocco del campanile, giusto. Sul
+            catino qualcuno ha lasciato un pezzo di pane. Scendendo le scale
+            ti accorgi che le ferite tirano meno, e che la testa è più leggera
+            di ieri.
+          effetti: { ferite: -1, tormento: -0.5 }
+
+  # ------------------------------------------------------------ l'udienza nella Cripta
+  - id: velo-l-udienza-nella-cripta
+    presso: cattedrale-del-velo
+    immagine: personaggi/madre-del-velo
+    titolo: L'udienza nella Cripta
+    sommario: "Il Custode del Silenzio scende nella Cripta quando vuole. La Madre ascolta, e qualche volta risponde."
+    luogo: Cattedrale del Velo, la Cripta
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [velo.udienza >= 1]
+    testo: |
+      Scendi la scala della Cripta con la lama di Kael Dareth al fianco, e i
+      velati si scostano per lasciarti passare. La Madre siede sul suo seggio
+      di pietra avvolta nei veli, e il cristallo sopra la volta batte il suo
+      ritmo lungo. Davanti al seggio c'è uno sgabello basso, e nessun altro in
+      città ci si siede.
+
+      {resilienza Media} Quaggiù le voci che ti porti dietro dalle profondità
+      si fermano in cima alla scala, come cani che aspettano il padrone fuori
+      da una chiesa.
+
+      La Madre non ti chiede perché sei sceso. Aspetta che tu parli.
+    opzioni:
+      - testo: "Sederti ai piedi del seggio"
+        descrizione: "Un'ora in silenzio davanti alla Madre, con il battito del cristallo sopra la testa."
+        requisiti: [tormento >= 0.5]
+        esito:
+          titolo: Il ritmo lungo
+          testo: |
+            Ti siedi sullo sgabello e non dici niente, e la Madre non dice
+            niente. Dopo un po' il tuo respiro va al passo del cristallo, e le
+            cose che ti porti in testa diventano più piccole, una alla volta.
+            Quando risali la navata è piena di luce.
+          effetti: { tormento: -1 }
+
+      - testo: "Portarle quello che si dice in città"
+        descrizione: "La Madre ascolta tutto, e il Velo paga quello che ascolta. Sorella Arva lo segna fra le spese."
+        requisiti: [informazioni.voce >= 1]
+        esito:
+          titolo: Le voci della città
+          testo: |
+            Le racconti quello che hai sentito per strada, e la Madre ascolta
+            senza muovere i veli. Quando hai finito un velato ti accompagna
+            alla scala, e la sera Sorella Arva ti conta qualche moneta sul
+            palmo, segnandola fra le spese della Cripta.
+          effetti: { informazioni.voce: -1, monete: 15 }
+
+  # ------------------------------------------------------------ il Battito sulla Marea
+  - id: velo-il-battito-sulla-marea
+    presso: cattedrale-del-velo
+    immagine: fazioni/confraternita-del-velo
+    titolo: Il Battito sulla Marea
+    sommario: "Due dita sul polso, la preghiera della Cripta, e il cuore che va al passo del cristallo. La Marea, sotto la pelle, si fa più piccola."
+    luogo: Cattedrale del Velo, il gradino più basso della Cripta
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [incantesimo.velo-il-battito >= 1, contaminazione >= 0.5]
+    testo: |
+      Ti siedi sul gradino più basso della Cripta, con due dita sul polso, e
+      cominci la preghiera. Il cristallo sopra la volta batte piano, e la
+      Marea che ti porti sotto la pelle la senti come un formicolio freddo
+      dietro gli occhi.
+
+      {magia Media} Se il cuore arriva al passo del cristallo, la Marea resta
+      indietro di un battito, e poi di due.
+    opzioni:
+      - testo: "Recitare il Battito"
+        incantesimo: velo-il-battito
+        descrizione: "Se la preghiera riesce, la Marea sotto la pelle si ritira di mezza tacca."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Un battito indietro
+          testo: "Il cuore rallenta fino al passo del cristallo, e il formicolio freddo si ritira dalle dita come l'acqua dalla sabbia."
+          effetti: { contaminazione: -0.5 }
+        fallimento:
+          titolo: Il cuore svelto
+          testo: "Il cuore non rallenta, e il formicolio resta dov'è."
+          effetti: {}
+
+  # ------------------------------------------------------------ i confratelli, in convalescenza e nel delirio
+  - id: velo-i-confratelli-in-infermeria
+    immagine: personaggi/nadja-oresca
+    titolo: I confratelli
+    sommario: "Un laico consacrato in infermeria non resta mai solo. Nadja passa due volte al giorno, e i novizi fanno la fila per cambiargli le bende."
+    luogo: Cattedrale del Velo, l'infermeria
+    area: convalescenza
+    ripetibile: true
+    requisiti: [fazione.velo >= 6]
+    testo: |
+      Da quando sei in infermeria, accanto alla tua branda c'è sempre
+      qualcuno. Nadja Oresca passa due volte al giorno con le bende e un
+      proverbio, i novizi del primo anno fanno la fila per portarti l'infuso,
+      e Sorella Giulia una sera ti mette sul davanzale un vaso di linfa che di
+      notte fa una luce verdina. Il Velo chiama i consacrati per nome, e
+      quando sono a terra li viene a prendere.
+
+      {empatia Media} I novizi vengono anche per sé. Accanto a un consacrato
+      ferito si sentono più vicini alla Cripta, e più lontani dal dormitorio.
+    opzioni:
+      - testo: "Lasciarti curare dai confratelli"
+        descrizione: "Le bende di Nadja e l'infuso dei novizi. Con loro intorno, il recupero va più svelto."
+        prova: { attributo: mentale, abilita: [medicina, resilienza], difficolta: Facile }
+        successo:
+          titolo: Le mani del Velo
+          testo: |
+            Ti lasci curare senza protestare, e bevi l'infuso anche quando sa
+            di aceto. In due giorni ti alzi dalla branda da solo, e Nadja
+            annota qualcosa sul suo quaderno con un mezzo sorriso.
+          effetti: { recupero.convalescenza: 2 }
+        fallimento:
+          titolo: Il paziente difficile
+          testo: |
+            Ti alzi dalla branda troppo presto, e Nadja ti ci rimette con un
+            proverbio e una mano sulla spalla. Il recupero va avanti lo
+            stesso, un po' più piano.
+          effetti: { recupero.convalescenza: 1 }
+
+  - id: velo-i-confratelli-nelle-celle
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: I confratelli
+    sommario: "Nelle celle sotto la Cattedrale un laico consacrato non resta mai solo. I velati scendono a dire la Preghiera del Battito accanto a lui."
+    luogo: Cattedrale del Velo, le celle
+    area: delirio
+    ripetibile: true
+    requisiti: [fazione.velo >= 6]
+    testo: |
+      Nelle celle le voci non smettono, e non smettono nemmeno i passi dei
+      velati che scendono la scala. Ogni sera uno di loro si siede sullo
+      sgabello fuori dalla tua porta e dice la Preghiera del Battito a mezza
+      voce, con due dita sul polso, finché non ti addormenti. A volte è Padre
+      Walter, che la dice più piano degli altri e si ferma a metà per sentire
+      se respiri.
+
+      {resilienza Media} La preghiera arriva da fuori della porta, e le voci
+      da dentro la testa. Quando le due cose vanno allo stesso ritmo, le voci
+      perdono il filo.
+    opzioni:
+      - testo: "Pregare con chi è fuori dalla porta"
+        descrizione: "La Preghiera del Battito, a due voci, attraverso la porta. Il recupero va più svelto."
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Facile }
+        successo:
+          titolo: Due voci
+          testo: |
+            Dici la preghiera parola per parola insieme al velato fuori dalla
+            porta, e a metà le voci nella tua testa si confondono e tacciono.
+            Dormi fino al mattino senza sogni.
+          effetti: { recupero.delirio: 2 }
+        fallimento:
+          titolo: La voce in più
+          testo: |
+            A metà preghiera una delle voci nella tua testa comincia a dirla
+            con voi, un attimo in ritardo. Il velato fuori dalla porta non si
+            ferma, e alla fine le voci si stancano prima di lui.
+          effetti: { recupero.delirio: 1 }

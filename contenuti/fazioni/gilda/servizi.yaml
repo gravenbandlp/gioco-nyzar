@@ -1,0 +1,630 @@
+# I servizi e i lavori ripetibili della Gilda dei Mercanti, che si aprono con i gradi della quest (fazione.gilda).
+#   grado I   (passo 3)  `gilda-il-banco-dei-soci`: bende, tonici e unguenti a prezzo da socio, alla Casa dei Nodi.
+#                        `gilda-la-paga-di-morlacchi`: la paga mensile, se il padrino è Morlacchi (gilda.padrino == 2).
+#   dal passo 4          `gilda-la-carovana-del-mese`: la pista di Laresh come lavoro, sulla Superficie.
+#   grado II  (passo 6)  `gilda-il-riscontro`: il riscontro mensile all'archivio con Lira (non nella via venduta).
+#   grado III (passo 9)  `gilda-il-banco-della-casa`: la Casa compra in regola cristalli, frammenti e segreti.
+#                        `gilda-la-lezione-pagata`: Leggere il Mana (Magia 2) pagata dalla Gilda all'Accademia; con il
+#                        grado V anche il Sigillo (Magia 3).
+#   grado IV  (passo 12) `gilda-il-pezzo-di-irsa`: Irsa fa un'arma di grado 3 a scelta (una volta).
+#                        `gilda-la-foresteria`: si dorme alla Casa dei Nodi senza pagare.
+#   grado V   (passo 15) `gilda-la-seduta-del-terzo-piano`: la rendita del consigliere (gilda.consigliere).
+storylet:
+  # ------------------------------------------------------------ grado I · il banco dei soci
+  - id: gilda-il-banco-dei-soci
+    presso: gilda-casa-dei-nodi
+    immagine: icone/token
+    titolo: Il banco dei soci
+    sommario: "Al pianterreno della Casa un banco vende ai soci quello che serve per la strada, a un prezzo che fuori non si trova."
+    luogo: Casa dei Nodi, il banco dei soci
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 3]
+    testo: |
+      Il banco dei soci sta sotto la scalinata, in una nicchia che una volta
+      era un ripostiglio, e lo tiene una donna anziana con gli occhiali
+      sulla punta del naso. Vende i rimedi della Dispensa, comprati
+      all'ingrosso dalla Casa e rivenduti ai soci con il ricarico più basso
+      della città. Prima di servirti ti guarda il gettone alla cintura.
+
+      {politica-ed-economia Facile} Il ricarico è basso perché la Casa ci
+      guadagna in un altro modo. I soci che si curano qui tornano in strada
+      prima, e pagano prima la commissione.
+
+      Sul banco c'è una ciotola di caramelle di menta, e un cartellino dice
+      che sono per i soci in regola.
+    opzioni:
+      - testo: "Comprare delle bende"
+        descrizione: "Al prezzo da socio."
+        requisiti: [monete >= 6]
+        costo: 0
+        esito:
+          titolo: Le bende
+          testo: |
+            La donna ti avvolge le bende in un foglio di registro vecchio e
+            te le porge con una caramella di menta.
+          effetti: { monete: -6, bende: 1 }
+      - testo: "Comprare un tonico"
+        descrizione: "Una fiala della Dispensa, al prezzo da socio."
+        requisiti: [monete >= 24]
+        costo: 0
+        esito:
+          titolo: Il tonico
+          testo: |
+            La donna ti dà la fiala tenendola per il collo, come una
+            bottiglia di vino buono, e scrive la vendita in un quaderno con
+            il tuo nome.
+          effetti: { monete: -24, tonico: 1 }
+      - testo: "Comprare un unguento"
+        descrizione: "Un vasetto della Dispensa, al prezzo da socio."
+        requisiti: [monete >= 20]
+        costo: 0
+        esito:
+          titolo: L'unguento
+          testo: |
+            La donna ti dà il vasetto e ti consiglia di scaldarlo fra le
+            mani prima di usarlo, perché così fa meno male.
+          effetti: { monete: -20, unguento: 1 }
+      - testo: "Fermarsi a sentire le voci della Casa"
+        descrizione: "Prima o poi al banco dei soci passano tutti, e la donna sente tutto."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          titolo: Le voci
+          testo: |
+            Le compri una caramella che non ti serve e la stai a sentire. Ti
+            racconta chi ha chiesto un prestito a chi, e quale consigliere
+            ha cambiato sarto. Esci con un paio di nomi che valgono
+            qualcosa.
+          effetti: { informazioni.voce: 1 }
+        fallimento:
+          titolo: La menta
+          testo: |
+            La donna ti racconta per mezz'ora dei suoi nipoti, e alla fine
+            ti regala una caramella di menta per la pazienza.
+          effetti: {}
+
+  # ------------------------------------------------------------ grado I · la paga di Morlacchi
+  - id: gilda-la-paga-di-morlacchi
+    immagine: icone/hooded-figure
+    titolo: La paga di Morlacchi
+    sommario: "Il tuo padrino alla Casa paga ogni mese, in borse di velluto. In cambio ti chiede di fare un giro per i suoi magazzini."
+    luogo: I magazzini di scarico, il cortile
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 3, gilda.padrino == 2]
+    testo: |
+      Il cortile dei magazzini di scarico è pieno di carri e di uomini con
+      la livrea, e in fondo, sopra il magazzino più grande, c'è la finestra
+      dell'ufficio di Morlacchi. Un garzone ti consegna la borsa di velluto
+      del mese e ti dice che il consigliere gradirebbe un giro per i
+      magazzini, a vedere se i conti tornano.
+
+      {conoscenze-della-strada Media} In questi magazzini i conti tornano
+      sempre, perché li fa tornare chi li tiene. Il giro serve a farti
+      vedere, ai magazzinieri, che anche tu sei della casa.
+
+      {resistenza Facile} I carri si susseguono senza sosta, e il cortile
+      puzza di cavallo e di sudore.
+    opzioni:
+      - testo: "Fare il giro dei magazzini"
+        descrizione: "Guardare le casse, contare i carri, firmare dove ti dicono."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: I conti che tornano
+          testo: |
+            Fai il giro dei magazzini con un caposquadra che ti indica le
+            casse da contare e quelle da non guardare. I conti tornano
+            tutti. La borsa di velluto è un po' più pesante del solito, e il
+            caposquadra ti saluta per nome.
+          pe: { politica-ed-economia: 2 }
+          effetti: { monete: 5 }
+        fallimento:
+          titolo: La cassa sbagliata
+          testo: |
+            Conti una cassa che non dovevi contare, e il caposquadra ti
+            toglie il registro di mano con un sorriso. La borsa del mese è
+            leggera, e quando esci dal cortile qualcuno ti guarda dalla
+            finestra dell'ufficio.
+          effetti: { monete: 2, sospetto: 0.5 }
+      - testo: "Prendere la borsa e andartene"
+        descrizione: "Il giro lo farà qualcun altro. La borsa però è tua."
+        esito:
+          titolo: La borsa di velluto
+          testo: |
+            Prendi la borsa e te ne vai senza fare il giro. Il garzone ti
+            guarda andare via e poi sale le scale dell'ufficio. Il velluto è
+            morbido, ma le monete sembrano meno del solito.
+          effetti: { monete: 3 }
+
+  # ------------------------------------------------------------ dal passo 4 · la carovana del mese
+  - id: gilda-la-carovana-del-mese
+    immagine: ambientazione/laresh
+    titolo: La carovana del mese
+    sommario: "Ogni mese la Gilda manda una carovana al bivio di Laresh, con il sale all'andata e il grano al ritorno. Serve sempre qualcuno che la porti."
+    luogo: Superficie Fratturata, dove parte la pista di Laresh
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.gilda >= 4]
+    testo: |
+      I carri della carovana del mese aspettano dove la strada lastricata
+      finisce, coperti di tela cerata, con i cani da soma attaccati alle
+      stanghe. A volte li guida Cahir, a volte un altro stalliere di Laresh
+      che non ti guarda nemmeno. La pista è sempre la stessa, con le crepe
+      segnate in rosso e i campi a nord, e al ritorno il grano sa di sole.
+
+      {natura Media} Le chiazze nere nei campi a nord sono più grandi del
+      mese scorso, di poco, abbastanza da vederlo dalla pista.
+
+      {armi-da-distanza Media} Sulle terrazze di basalto chi aspetta una
+      carovana si mette in alto, dove il sole è alle spalle. Bisogna
+      guardare lì, prima che sia tardi.
+    opzioni:
+      - testo: "Fare da scorta armata"
+        descrizione: "In testa alla carovana, con l'arma in mano e gli occhi sulle terrazze."
+        costo: 2
+        prova: { attributo: fisico, abilita: [armi-da-mischia, armi-da-distanza], difficolta: Media }
+        successo:
+          titolo: Le terrazze tranquille
+          testo: |
+            Sulle terrazze due figure si alzano contro il sole, vedono la
+            tua arma e si rimettono giù. Al bivio scaricate il sale e
+            caricate il grano, e in tre giorni siete di ritorno. La Casa ti
+            paga la quota della scorta.
+          pe: { armi-da-mischia: 2 }
+          effetti: { monete: 12 }
+        fallimento:
+          titolo: Il sasso
+          testo: |
+            Un sasso lanciato dalle terrazze ti prende alla spalla, e mentre
+            ti rialzi qualcuno porta via un sacco dal carro di coda. La Casa
+            ti paga lo stesso, meno il sacco.
+          effetti: { monete: 4, ferite: 1 }
+      - testo: "Guidare i cani"
+        descrizione: "I cani da soma tirano meglio se chi li guida sa come si parla a un cane."
+        costo: 2
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La muta
+          testo: |
+            Tieni il capobranco per il collare per tutta l'andata, e i cani
+            tirano come una cosa sola. Arrivate al bivio mezza giornata
+            prima. La Casa ti paga la quota, e lo stalliere di Laresh ti
+            offre da bere.
+          pe: { addestrare-animali: 2 }
+          effetti: { monete: 10 }
+        fallimento:
+          titolo: Il cane che scappa
+          testo: |
+            A metà pista un cane si libera dei finimenti e scappa verso
+            nord, e tu perdi un pomeriggio a cercarlo. Lo ritrovi seduto nel
+            grano nero, con il muso verso nord. La Casa ti paga meno del
+            solito.
+          effetti: { monete: 4, tormento: 0.5 }
+      - testo: "Guidare i cani con Cahir"
+        descrizione: "Cahir non ha dimenticato il rapporto. Con te i suoi cani tirano volentieri."
+        costo: 2
+        requisiti: [gilda.cahir == 1]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Facile }
+        successo:
+          titolo: Cahir
+          testo: |
+            Cahir ti fa guidare la muta e intanto ti parla della sua
+            carovana, quella che un giorno sarà sua, con trenta cani per tre
+            carri. Al bivio ti presenta a un mugnaio come un amico. La Casa
+            ti paga la quota.
+          pe: { addestrare-animali: 2 }
+          effetti: { monete: 10, rep.gilda: 0.5 }
+        fallimento:
+          titolo: Il finimento
+          testo: |
+            Ti si impiglia un finimento, e Cahir lo scioglie ridendo.
+            Arrivate al bivio con mezza giornata di ritardo, e la Casa ti
+            paga un po' meno.
+          effetti: { monete: 6 }
+      - testo: "Tenere d'occhio i campi a nord"
+        descrizione: "Le spighe nere, i fuochi azzurri, le impronte. Alla Casa qualcuno vorrebbe sapere."
+        costo: 2
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Le chiazze nere
+          testo: |
+            Misuri le chiazze nere dalla pista con i passi e le segni su un
+            foglio, come un cartografo. Sono più grandi del mese scorso.
+            Alla Casa Lira archivia il foglio con un tassello, e ti paga la
+            quota.
+          pe: { natura: 2 }
+          effetti: { monete: 8, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il grano
+          testo: |
+            Guardi i campi così tanto che non guardi dove metti i piedi, e
+            alla seconda sosta inciampi in una crepa. Torni con la caviglia
+            gonfia e la quota del mese.
+          effetti: { monete: 4, ferite: 0.5 }
+
+  # ------------------------------------------------------------ grado II · il riscontro
+  - id: gilda-il-riscontro
+    presso: gilda-casa-dei-nodi
+    immagine: personaggi/lira-demos
+    titolo: Il riscontro
+    sommario: "All'archivio dei dazi c'è sempre un riscontro da fare. Lira paga poco e insegna molto, e nei registri si leggono tante cose."
+    luogo: Casa dei Nodi, l'archivio dei dazi
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 6, gilda.via != 3]
+    testo: |
+      Lira ti aspetta al tavolo vicino alla finestra con i registri del mese
+      già aperti e la scatola dei tasselli accanto al calamaio. Il vento fa
+      tremare i vetri, come sempre. Ti indica la sedia che sta in piano
+      soltanto grazie a un vecchio registro sotto una gamba, e tu ti siedi.
+
+      {politica-ed-economia Media} Ogni riscontro racconta chi paga e chi
+      no, e chi paga in ritardo. Sono i pettegolezzi più affidabili della
+      città, e sono scritti in colonna.
+
+      {percezione Facile fallita} La sedia balla lo stesso, e tu passi la
+      prima ora a cercare di non farla ballare.
+    opzioni:
+      - testo: "Fare il riscontro per la Rappresentante"
+        descrizione: "Una copia del riscontro va al Municipio. Julia Castaldi apprezza chi le porta i conti puliti."
+        requisiti: [rep.castaldi < 6]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Una copia al Municipio
+          testo: |
+            Fai il riscontro riga per riga, e Lira ne fa una copia in bella
+            per il Municipio. La porti tu. Julia Castaldi la legge in piedi
+            e ti ringrazia con un cenno. Lira ti paga la giornata e ti
+            racconta chi, questo mese, ha pagato in ritardo.
+          pe: { politica-ed-economia: 2 }
+          effetti: { monete: 4, informazioni.pettegolezzo: 1, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: Le righe
+          testo: |
+            Perdi due righe e le ritrovi a sera, quando Lira ha già finito
+            da sola. Ti paga lo stesso la giornata, e la copia per il
+            Municipio la porta un garzone.
+          effetti: { monete: 2 }
+      - testo: "Fare il riscontro per la Casa"
+        descrizione: "Il riscontro resta all'archivio. La Casa apprezza chi sa tenere i conti in casa."
+        requisiti: [rep.gilda < 9]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: In casa
+          testo: |
+            Fai il riscontro riga per riga, e quando hai finito Lira lo lega
+            con il nastro e lo mette sullo scaffale con un tassello nuovo.
+            Ti paga la giornata e ti racconta chi, questo mese, ha pagato in
+            ritardo. Alla Casa si sa che i tuoi conti tornano.
+          pe: { politica-ed-economia: 2 }
+          effetti: { monete: 4, informazioni.pettegolezzo: 1, rep.gilda: 0.5 }
+        fallimento:
+          titolo: Le righe
+          testo: |
+            Perdi due righe e le ritrovi a sera, quando Lira ha già finito
+            da sola. Ti paga lo stesso la giornata, con un mezzo sospiro.
+          effetti: { monete: 2 }
+      - testo: "Guardare Lira lavorare"
+        descrizione: "Lei lo fa meglio di te. Guardarla è una lezione, e ci vuole tutto il giorno."
+        costo: 2
+        esito:
+          titolo: La lezione
+          testo: |
+            Passi la giornata a guardare Lira lavorare, e lei ogni tanto ti
+            spiega una riga senza alzare gli occhi. A sera hai la testa
+            piena di colonne, e Lira ti paga come se avessi lavorato.
+          pe: { politica-ed-economia: 3 }
+          effetti: { monete: 3 }
+
+  # ------------------------------------------------------------ grado III · il banco della Casa
+  - id: gilda-il-banco-della-casa
+    presso: gilda-casa-dei-nodi
+    immagine: icone/stamper
+    titolo: Il banco della Casa
+    sommario: "Il portasigillo vende alla Casa in regola, con il timbro. La Casa paga quello che le cose valgono, senza le domande del Mercato."
+    luogo: Casa dei Nodi, il banco del timbro
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 9]
+    testo: |
+      Il banco del timbro adesso è tuo, o quasi. Dietro c'è un impiegato
+      giovane con i manicotti di tela che Elleri ha lasciato nel cassetto, e
+      davanti c'è la fila dei mercanti. Quando arrivi ti fa passare avanti.
+      La Casa compra in regola i cristalli e i frammenti dei Precursori, e
+      anche le notizie che valgono qualcosa, e li paga al prezzo pieno,
+      perché il portasigillo li timbra di persona.
+
+      {politica-ed-economia Media} Al Mercato dei Nodi un cristallo senza
+      timbro vale meno, perché il compratore si prende il rischio. Qui il
+      rischio lo prende la Casa, e il prezzo lo fai tu.
+
+      {galateo Media} L'impiegato ti chiama portasigillo davanti alla fila a
+      voce alta, apposta, perché ci tiene che tutti lo sentano.
+    opzioni:
+      - testo: "Vendere un cristallo carico"
+        descrizione: "Timbrato e registrato, al prezzo pieno."
+        requisiti: [cristalli.cristallo-carico >= 1]
+        costo: 0
+        esito:
+          titolo: Il timbro
+          testo: |
+            Timbri il cristallo con un colpo solo e pulito, e l'impiegato ti
+            conta le monete sul banco.
+          effetti: { cristalli.cristallo-carico: -1, monete: 32 }
+      - testo: "Vendere un cristallo sterile"
+        descrizione: "Per fare lume in cucina, timbrato come sterile."
+        requisiti: [cristalli.cristallo-sterile >= 1]
+        costo: 0
+        esito:
+          titolo: Sterile
+          testo: |
+            Lo timbri come sterile, e l'impiegato ci scrive sopra la data
+            con la sua grafia nuova e tonda.
+          effetti: { cristalli.cristallo-sterile: -1, monete: 6 }
+      - testo: "Vendere un frammento inciso"
+        descrizione: "La Casa li compra per l'Accademia, che li paga di più."
+        requisiti: [reliquie.frammento-inciso >= 1]
+        costo: 0
+        esito:
+          titolo: Il frammento
+          testo: |
+            L'impiegato avvolge il frammento in un panno e lo mette in una
+            cassetta con la scritta *Accademia*.
+          effetti: { reliquie.frammento-inciso: -1, monete: 6 }
+      - testo: "Vendere un segreto alla Casa"
+        descrizione: "Al terzo piano qualcuno paga bene le cose che sai, senza chiedere da dove vengono."
+        requisiti: [informazioni.segreto >= 1]
+        costo: 0
+        esito:
+          titolo: Al terzo piano
+          testo: |
+            Scrivi quello che sai su un foglio piegato in quattro e lo
+            sigilli con il tuo timbro. L'impiegato lo porta su per le scale,
+            e torna con una borsa.
+          effetti: { informazioni.segreto: -1, monete: 28 }
+
+  # ------------------------------------------------------------ grado III · la lezione pagata dalla Gilda
+  - id: gilda-la-lezione-pagata
+    presso: accademia-di-torvessa
+    immagine: personaggi/orvald-temmerin
+    titolo: La lezione pagata dalla Gilda
+    sommario: "La Gilda paga all'Accademia le lezioni dei suoi portasigilli, perché un cristallo falso si riconosce meglio con il Mana che con gli occhi."
+    luogo: Accademia di Torvessa, il seminterrato
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 9]
+    testo: |
+      Nel seminterrato dell'Accademia Orvald Temmerin tiene una cassetta di
+      cristalli carichi mescolati a cristalli falsi, e la apre soltanto a
+      chi paga la lezione. Per i portasigilli della Gilda la lezione la paga
+      la Casa, con una ricevuta firmata dal Sovrintendente che Orvald legge
+      due volte prima di metterla nel cassetto. Il suo corvo, sul davanzale,
+      guarda la cassetta con una noia antica.
+
+      {magia Media} La cassetta ronza in modo irregolare. Dentro i cristalli
+      veri e quelli falsi parlano insieme, e bisogna imparare a sentirli uno
+      alla volta.
+
+      {accademiche Facile fallita} Orvald ti chiede la differenza fra un
+      cristallo sterile e uno esausto, e tu stamattina la sapevi.
+    opzioni:
+      - testo: "Imparare Leggere il Mana"
+        descrizione: "La lezione la paga la Gilda. Serve Magia 2, e la cassetta di Orvald."
+        immagine: personaggi/orvald-temmerin
+        requisiti: [magia >= 2, incantesimo.leggere-il-mana == 0]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La cassetta
+          testo: |
+            Tocchi i cristalli a occhi chiusi, uno alla volta, finché non
+            senti il battito lento di quelli veri e il silenzio di quelli
+            falsi. Orvald annuisce, e scrive sulla ricevuta della Gilda che
+            la lezione è stata fatta e pagata.
+          effetti: { incantesimo.leggere-il-mana: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            I cristalli ti sembrano tutti uguali, e Orvald ti dice di
+            tornare la settimana prossima. La ricevuta della Gilda la tiene
+            lui, per la prossima volta.
+          effetti: {}
+      - testo: "Imparare il Sigillo"
+        descrizione: "Il consigliere del terzo piano ha diritto alla lezione più cara dell'Accademia. Serve Magia 3."
+        immagine: personaggi/orvald-temmerin
+        requisiti: [fazione.gilda >= 15, magia >= 3, incantesimo.sigillo == 0]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Sigillato
+          testo: |
+            Orvald ti fa chiudere e riaprire una scatola di legno con il
+            Mana, molte volte, finché le mani non ti formicolano fino ai
+            gomiti. Alla fine la scatola non si apre nemmeno con il
+            coltello, e lui la mette sullo scaffale con il tuo nome sopra.
+          effetti: { incantesimo.sigillo: 1 }
+        fallimento:
+          titolo: La scatola aperta
+          testo: |
+            La scatola si apre con un dito, ogni volta. Orvald ti guarda con
+            pazienza e ti dice che il Sigillo si impara in tre lezioni, e
+            che la Gilda le paga tutte.
+          effetti: {}
+      - testo: "Ascoltare la lezione dal fondo dell'aula"
+        descrizione: "Senza toccare la cassetta, guardando gli altri. Si impara qualcosa anche così."
+        esito:
+          titolo: Dal fondo
+          testo: |
+            Ascolti dal fondo dell'aula, seduto su una panca troppo bassa, e
+            guardi gli allievi toccare i cristalli a occhi chiusi. Qualcosa
+            ti resta, nelle dita più che nella testa.
+          pe: { magia: 2 }
+
+  # ------------------------------------------------------------ grado IV · il pezzo di Irsa
+  - id: gilda-il-pezzo-di-irsa
+    presso: armeria-di-irsa
+    immagine: personaggi/irsa-valbrun
+    titolo: Il pezzo di Irsa
+    sommario: "Ai membri eletti della Gilda Irsa Valbrun fa un'arma su misura. Prima ti guarda, poi ti chiede che cosa vuoi."
+    luogo: Armeria di Irsa, dietro il banco
+    area: citta-bassa
+    requisiti: [fazione.gilda >= 12, oggetto.gilda-spada-del-membro-eletto == 0, oggetto.gilda-balestra-dei-ponti == 0]
+    testo: |
+      Irsa ti fa entrare dietro il banco, dove tiene i pezzi grezzi di Bram
+      Halgast appesi ai chiodi e le lime in fila sul tavolo, dalla più
+      grossa alla più fine. Ti prende le mani e le rigira per guardarne i
+      palmi, e poi ti guarda gli avambracci. Poi ti chiede se preferisci
+      arrivare addosso alle cose o tenerle lontane.
+
+      {armi-da-mischia Media} La spada lunga appesa al chiodo più vicino è
+      bilanciata sul forte, per chi para molto. Irsa la sposterà sul debole,
+      per te, se gliela chiedi.
+
+      {galateo Media} Ai membri eletti Irsa non fa pagare il pezzo. Fa
+      pagare la prova, che consiste nel restare fermi mentre lei guarda.
+
+      {origine rampollo-dei-quartieri-alti} Nei Quartieri Alti un'arma di
+      Irsa si porta come un anello di famiglia. Ti ricordi di uno zio che la
+      mostrava a cena, e che non l'aveva mai sguainata.
+    opzioni:
+      - testo: "Chiederle una spada"
+        descrizione: "Una spada lunga di Bram, bilanciata da Irsa sul tuo braccio."
+        immagine: icone/broadsword
+        esito:
+          titolo: La spada del membro eletto
+          testo: |
+            Irsa sceglie una lama grezza dal chiodo e la lavora tre giorni,
+            con te che torni ogni sera a impugnarla. Il quarto giorno te la
+            consegna con l'elsa fasciata del cuoio verde dei soci e un nodo
+            inciso sul forte. «Arriva prima tu» dice, «e lei arriva subito
+            dopo.»
+          effetti: { oggetto.gilda-spada-del-membro-eletto: 1 }
+      - testo: "Chiederle una balestra"
+        descrizione: "La balestra pesante dei Custodi, con il caricatore a leva, rifatta da Irsa."
+        immagine: icone/crossbow
+        esito:
+          titolo: La balestra dei ponti
+          testo: |
+            Irsa prende una balestra dei Custodi dalla rastrelliera e la
+            smonta sul tavolo, pezzo per pezzo. Ci lavora per tre giorni
+            interi, e il quarto te la consegna con il caricatore a leva
+            oliato e un nodo inciso sul calcio. «Tira dritto anche con il
+            vento della Cicatrice» dice, soddisfatta.
+          effetti: { oggetto.gilda-balestra-dei-ponti: 1 }
+
+  # ------------------------------------------------------------ grado IV · la foresteria
+  - id: gilda-la-foresteria
+    presso: gilda-casa-dei-nodi
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: La foresteria della Casa
+    sommario: "All'ultimo piano della Casa dei Nodi ci sono le stanze per i membri eletti che vengono da fuori. Si dorme senza pagare."
+    luogo: Casa dei Nodi, la foresteria
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 12]
+    testo: |
+      La foresteria sta sotto il tetto della Casa, una fila di stanze
+      strette, ognuna con il suo letto e una finestra sulle catene dei
+      ponti. La tiene un vecchio custode che ti porta la chiave e una brocca
+      d'acqua calda senza che tu la chieda. Le lenzuola profumano di
+      lavanda, e il vento della Cicatrice fa cantare le catene sotto la
+      finestra.
+
+      {resistenza Facile} Il corpo riconosce il letto prima della testa, e
+      ti chiede di sdraiarti adesso, vestito.
+
+      Sulla porta della tua stanza c'è un cartellino con il tuo nome,
+      scritto dal custode in una grafia antica.
+    opzioni:
+      - testo: "Dormire alla foresteria"
+        descrizione: "Una notte intera, a spese della Casa."
+        esito:
+          titolo: La lavanda
+          testo: |
+            Dormi fino a giorno fatto, con le catene che cantano sotto la
+            finestra. La mattina il custode ti porta pane e latte caldo, e
+            scendendo le scale ti accorgi che le ferite tirano meno.
+          effetti: { ferite: -1, tormento: -0.5 }
+      - testo: "Restare due notti"
+        descrizione: "Due notti e un giorno senza uscire. Il custode non fa domande."
+        costo: 2
+        esito:
+          titolo: Due notti
+          testo: |
+            Resti due notti e un giorno a dormire e a guardare le catene
+            dalla finestra. Il custode ti porta i pasti e il giornale della
+            Casa, e quando scendi la scalinata hai la testa sgombra e le
+            gambe nuove.
+          effetti: { ferite: -2, tormento: -1 }
+
+  # ------------------------------------------------------------ grado V · la seduta del terzo piano
+  - id: gilda-la-seduta-del-terzo-piano
+    presso: gilda-casa-dei-nodi
+    immagine: icone/gem-chain
+    titolo: La seduta del terzo piano
+    sommario: "Ogni mese il consiglio interno si riunisce al terzo piano, con le due porte chiuse da dentro. Il consigliere ha la sua sedia e la sua parte."
+    luogo: Casa dei Nodi, la sala del terzo piano
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.gilda >= 15, gilda.consigliere >= 1]
+    testo: |
+      La seduta del mese comincia quando il Sovrintendente posa le mani sul
+      tavolo ovale, e le due porte si chiudono con il chiavistello di ferro.
+      Si parla di dazi e di lotti, di funi da cambiare e di soci da
+      ammettere. Ogni consigliere ha la sua parte dei proventi, e alla fine
+      il tesoriere la conta sul tavolo, davanti a tutti, perché nessuno
+      possa dire di non averla vista.
+
+      {politica-ed-economia Media} Al terzo piano si decide che cosa costerà
+      un ponte il mese prossimo. Chi ci siede sa i prezzi prima del Mercato.
+
+      {intimidire Media} Il consigliere alla tua destra ti guarda la catena
+      d'argento ogni volta che parli. Gli dà fastidio, e lo sa che lo vedi.
+    opzioni:
+      - testo: "Sedere alla seduta e votare"
+        descrizione: "Ascoltare, alzare la mano quando serve, ritirare la parte."
+        esito:
+          titolo: La parte del consigliere
+          testo: |
+            Ascolti la seduta fino in fondo e alzi la mano quando serve.
+            Alla fine il tesoriere conta la tua parte sul tavolo moneta per
+            moneta, e tu la raccogli nel palmo.
+          pe: { politica-ed-economia: 2 }
+          effetti: { monete: 8 }
+      - testo: "Prendere la parola sui dazi delle botteghe"
+        descrizione: "Le botteghe piccole pagano troppo. Al terzo piano qualcuno deve dirlo."
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: La gabella abbassata
+          testo: |
+            Parli dei dazi delle botteghe con i conti in mano, e il
+            consiglio vota di abbassarli di un soldo. Le botteghe lo
+            sapranno entro sera. Il tesoriere ti conta la tua parte, e Irsa,
+            se è in sala, ti batte le nocche sul tavolo.
+          pe: { persuasione: 2 }
+          effetti: { monete: 8, rep.botteghe: 0.5 }
+        fallimento:
+          titolo: La proposta respinta
+          testo: |
+            Parli dei dazi, ma la sala ha fretta di andare a cena, e la
+            proposta viene respinta con sei mani contro una. Il tesoriere ti
+            conta la tua parte con un'aria di compatimento.
+          effetti: { monete: 8, scandalo: 0.5 }
+      - testo: "Firmare lettere di presentazione"
+        descrizione: "I soci nuovi hanno bisogno di una firma del terzo piano. Ognuno ti deve qualcosa, dopo."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Facile }
+        successo:
+          titolo: Le firme
+          testo: |
+            Firmi le lettere una per una, e ogni socio nuovo ti stringe la
+            mano e ti racconta qualcosa che non dovrebbe. A sera hai il
+            polso indolenzito e qualche nome che vale più delle monete del
+            tesoriere.
+          effetti: { monete: 6, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: L'inchiostro
+          testo: |
+            Rovesci il calamaio su una lettera, e il socio nuovo te la
+            guarda con le lacrime agli occhi. Riscrivi tutto da capo. A sera
+            il tesoriere ti conta la parte del mese.
+          effetti: { monete: 6 }

@@ -1,0 +1,363 @@
+# I servizi ripetibili della quest del Consiglio, aperti dai gradi (fazione.consiglio).
+# - grado I (passo 3) `consiglio-petizioni-sulla-panca`: l'angolo del bancone di Tullio. Si scrivono le petizioni di
+#   chi non sa scrivere, per qualche moneta, una voce o un po' di nomea in Città Bassa (fino a 2).
+# - grado II (passo 6) `consiglio-una-multa-in-meno`: con la lettera col sigillo Tullio archivia una segnalazione
+#   (Sospetto −1) o una lamentela (Scandalo −1), a pagamento.
+# - grado III (passo 9) `consiglio-il-cortile-di-quintus`: all'alba con la scorta di Quintus Vael. PE in Armi da
+#   mischia, Intimidire o Resistenza (Quintus non fa da maestro oltre il 2: si sale con la pratica).
+# - grado IV (passo 12) `consiglio-la-stanza-degli-ospiti`: l'alloggio gratuito al Maniero Castaldi (Ferite −1,
+#   Tormento −½), oppure la cena di famiglia.
+# - grado V (passo 15) `consiglio-le-sedute-del-consiglio`: la voce senza seggio a verbale, pagata bene. Con
+#   consiglio.condizione 1 si controlla che la cassa dei respinti resti vuota.
+storylet:
+  # ------------------------------------------------------------ grado I · le petizioni sulla panca
+  - id: consiglio-petizioni-sulla-panca
+    presso: municipio
+    immagine: icone/quill-ink
+    titolo: Le petizioni della panca
+    sommario: "Nell'angolo del bancone sotto la finestra c'è il tuo calamaio, e sulla panca c'è sempre qualcuno con un foglio piegato in quattro."
+    luogo: Municipio, l'angolo del bancone
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.consiglio >= 3]
+    testo: |
+      Il tuo angolo del bancone sta sotto la finestra, con il calamaio che
+      Tullio ha spostato di un dito verso il centro e una risma di carta buona
+      del Municipio. Sulla panca c'è sempre qualcuno che ti guarda e poi
+      guarda il foglio che tiene sulle ginocchia, e si decide soltanto quando
+      gli fai un cenno. Oggi è una donna con un fazzoletto in testa e un
+      bambino che dorme sulla sua spalla.
+
+      {empatia Media} Il foglio l'ha piegato e ripiegato tante volte che non
+      sa più da che parte si apre. Ha paura che tu lo legga, quasi quanto ha
+      paura che nessuno lo legga mai.
+
+      Tullio, dall'altra parte del bancone, ti guarda lavorare inforcando gli
+      occhiali di tanto in tanto.
+    opzioni:
+      - testo: "Scrivere la petizione in bella"
+        descrizione: "Margini dritti, lo spazio per il sigillo, e la richiesta detta in modo che salga nel cesto e non scenda nella cassa."
+        prova: { attributo: mentale, abilita: [accademiche, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Nel cesto
+          testo: |
+            Ti fai raccontare la richiesta due volte e la scrivi in una pagina
+            sola, con la cifra in fondo e il nome della strada in cima. La
+            donna non sa leggere, e te la fa rileggere ad alta voce. Quando
+            Tullio la mette nel cesto di vimini lei ti lascia sul bancone
+            qualche moneta avvolta nel fazzoletto, e non vuole riprendersele.
+          pe: { accademiche: 3 }
+          effetti: { monete: 4 }
+        fallimento:
+          titolo: La strada sbagliata
+          testo: |
+            Scrivi la petizione in bella e dimentichi la strada. Tullio te lo
+            fa notare con un dito sulla riga, prima che salga nel cesto, e la
+            riscrivi da capo con la donna che aspetta e il bambino che si
+            sveglia. Alla fine la petizione sale, e tu hai perso la mattina.
+          effetti: { monete: 1 }
+
+      - testo: "Ascoltare quello che non è scritto"
+        descrizione: "Chi chiede una cosa al Comune, di solito, ne ha in mente un'altra. A volte vale di più."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: L'altra richiesta
+          testo: |
+            Lasci la penna sul bancone e la fai parlare. La petizione è per un
+            tetto, e in mezzo al tetto viene fuori il padrone di casa, che
+            alza l'affitto ogni volta che il Comune ripara qualcosa. Scrivi la
+            petizione per il tetto, e il nome del padrone di casa lo tieni per
+            te, su un foglio a parte.
+          pe: { empatia: 3 }
+          effetti: { monete: 2, informazioni.voce: 1 }
+        fallimento:
+          titolo: Troppe domande
+          testo: |
+            Le fai una domanda di troppo, e la donna si chiude come una porta.
+            Ti detta la petizione parola per parola senza aggiungere niente, e
+            se ne va appena Tullio la mette nel cesto.
+
+      - testo: "Scrivere gratis per chi non ha niente"
+        descrizione: "Una moneta di meno per te, e una petizione in più nel cesto. In Città Bassa queste cose si raccontano."
+        quando: [nomea.citta-bassa < 2]
+        esito:
+          titolo: Il fazzoletto
+          testo: |
+            Scrivi la petizione e le restituisci il fazzoletto con le monete
+            ancora dentro. La donna ti guarda come si guarda un cane che non
+            morde, poi se ne va in fretta prima che tu cambi idea. La
+            settimana dopo, sulla panca, ci sono tre persone del suo vicolo
+            che chiedono di te per nome.
+          pe: { empatia: 2 }
+          effetti: { nomea.citta-bassa: 0.5 }
+
+  # ------------------------------------------------------------ grado II · una multa in meno
+  - id: consiglio-una-multa-in-meno
+    presso: municipio
+    immagine: icone/wax-seal
+    titolo: Una multa in meno
+    sommario: "Ogni settimana in Municipio arrivano segnalazioni della Guardia e lamentele delle casate. Con la lettera col sigillo, qualcuna finisce in archivio."
+    luogo: Municipio, il bancone di Tullio
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.consiglio >= 6, chiave.sigillo-del-consiglio >= 1]
+    testo: |
+      Il venerdì Tullio smista le carte della settimana in tre mucchi, le
+      segnalazioni della Guardia, le lamentele delle casate e le multe dei
+      dazi. Quando ti vede arrivare con la lettera col sigillo che spunta
+      dalla giubba, si toglie gli occhiali e li pulisce con molta lentezza.
+
+      «Chi lavora per il Consiglio ogni tanto finisce nei mucchi sbagliati»
+      dice. «Le carte si archiviano, se c'è una ragione e se c'è chi paga la
+      carta da bollo.» Indica una cassetta di latta sul bancone, con una
+      fessura nel coperchio.
+
+      {politica-ed-economia Media} Un'archiviazione con il sigillo del
+      Consiglio non cancella niente. Mette la carta in una cassa dove nessuno
+      la cerca, che in questa città è la stessa cosa.
+    opzioni:
+      - testo: "Far archiviare una segnalazione della Guardia"
+        descrizione: "Una segnalazione con il tuo nome finisce in archivio, dove la tengono in ordine per anno."
+        requisiti: [sospetto >= 1, monete >= 12]
+        esito:
+          titolo: In archivio
+          testo: |
+            Infili le monete nella fessura della cassetta, e Tullio sfila una
+            carta dal mucchio della Guardia, la legge senza cambiare
+            espressione e ci scrive sopra *archiviata*, con la data e la sua
+            sigla. Poi la mette in una cartella che porterà giù nel
+            seminterrato, dove l'umido farà il resto.
+          effetti: { monete: -12, sospetto: -1 }
+      - testo: "Far archiviare una lamentela delle casate"
+        descrizione: "Una lamentela dei Quartieri Alti contro di te finisce sotto le altre, dove la polvere è più alta."
+        requisiti: [scandalo >= 1, monete >= 12]
+        esito:
+          titolo: Sotto le altre
+          testo: |
+            Infili le monete nella fessura, e Tullio sfila una lettera dal
+            mucchio delle casate, scritta su carta profumata. La legge con le
+            sopracciglia alzate, poi la ripiega per infilarla in fondo al
+            mucchio delle lamentele vecchie, che non legge più nessuno da
+            anni.
+          effetti: { monete: -12, scandalo: -1 }
+      - testo: "Lasciare i mucchi come sono"
+        descrizione: "Per oggi le carte possono restare dove sono."
+        costo: 0
+        esito:
+          titolo: I tre mucchi
+          testo: |
+            Ringrazi Tullio e lasci i mucchi dove sono. Lui si rimette gli
+            occhiali e ricomincia a smistare, una carta alla volta, con le
+            labbra che si muovono appena.
+
+  # ------------------------------------------------------------ grado III · il cortile di Quintus
+  - id: consiglio-il-cortile-di-quintus
+    immagine: personaggi/quintus-vael
+    titolo: Il cortile di Quintus
+    sommario: "All'alba, nel cortile del Maniero Castaldi, la scorta di Quintus Vael si allena sotto il fico. Chi parla a nome di Julia è il benvenuto."
+    luogo: Maniero Castaldi, il cortile, all'alba
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.consiglio >= 9]
+    testo: |
+      All'alba il cortile del Maniero è ancora in ombra, e sotto il fico i
+      cinque uomini della scorta di Quintus Vael si scaldano le mani sul
+      fiato. Quintus non urla mai. Dice una parola sola, e la scorta cambia
+      esercizio, e quando qualcuno sbaglia gli si mette accanto finché quello
+      non se ne accorge da solo.
+
+      {armi-da-mischia Media} Le spade di legno sono più pesanti di quelle
+      vere, con il piombo nel pomo. Quintus vuole che la scorta si stanchi
+      qui, e non per le scale del Municipio.
+
+      Vesper e Mira guardano dalle finestre del terzo piano con i gomiti sul
+      davanzale, finché una voce dall'interno non li richiama a lezione.
+    opzioni:
+      - testo: "Fare le parate con la scorta"
+        descrizione: "Spade di legno con il piombo nel pomo, e Quintus che ti guarda le spalle più che le mani."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, rissa], difficolta: Media }
+        successo:
+          titolo: Le spalle
+          testo: |
+            Pari un colpo dopo l'altro, e a metà mattina Quintus ti si mette
+            accanto e ti abbassa la spalla destra di un dito con due dita. Il
+            colpo successivo ti costa la metà della fatica. Non ti dice
+            niente, e quando l'esercizio cambia passa al prossimo.
+          pe: { armi-da-mischia: 5 }
+        fallimento:
+          titolo: Il piombo nel pomo
+          testo: |
+            Al terzo scambio la spada di legno ti arriva sulle nocche, e il
+            piombo nel pomo si fa sentire fino al gomito. Quintus ti manda a
+            mettere la mano nel secchio dell'acqua e ti fa riprendere dopo,
+            con l'altra mano.
+          pe: { armi-da-mischia: 2 }
+          effetti: { ferite: 0.5 }
+      - testo: "Stare di guardia con lo sguardo di Quintus"
+        descrizione: "Quintus insegna a fermare un uomo prima che si avvicini, guardandolo. Si impara stando in piedi alla porta del cortile."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: La porta del cortile
+          testo: |
+            Stai alla porta del cortile con le braccia lungo i fianchi, come
+            ti ha detto Quintus, e guardi chi passa per la strada. Un garzone
+            con una cesta rallenta, ti guarda in faccia e cambia marciapiede.
+            Quintus, dietro di te, fa un mezzo verso che con lui vale un
+            applauso.
+          pe: { intimidire: 5 }
+        fallimento:
+          titolo: Il garzone
+          testo: |
+            Guardi chi passa con tutta la severità che hai, e un garzone con
+            una cesta si ferma a chiederti se hai bisogno di qualcosa. Quintus
+            ti dice che lo sguardo funziona meglio con le spalle ferme, e ti
+            rimanda alla porta.
+          pe: { intimidire: 2 }
+      - testo: "Correre il giro delle terrazze con la scorta"
+        descrizione: "Le scale dei Quartieri Alti dal Maniero alla Cattedrale e ritorno, prima che la città si svegli."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il giro delle terrazze
+          testo: |
+            Corri con la scorta su per le scale delle terrazze fino alla
+            Cattedrale e giù fino al Municipio, mentre le campane suonano la
+            prima ora. Al ritorno sotto il fico respiri ancora con la bocca, e
+            tre uomini della scorta su cinque respirano come te.
+          pe: { resistenza: 5 }
+        fallimento:
+          titolo: Il sagrato
+          testo: |
+            Sul sagrato della Cattedrale ti fermi con le mani sulle ginocchia,
+            e la scorta ti passa accanto senza rallentare. Torni al Maniero
+            camminando, e Quintus ti aspetta sotto il fico con un mestolo
+            d'acqua e nessun commento.
+          pe: { resistenza: 2 }
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ grado IV · la stanza degli ospiti
+  - id: consiglio-la-stanza-degli-ospiti
+    immagine: fazioni/famiglia-castaldi
+    titolo: La stanza degli ospiti
+    sommario: "Al Maniero Castaldi, al secondo piano, c'è una stanza con le finestre sulle terrazze che Marella tiene pronta per il Cancelliere."
+    luogo: Maniero Castaldi, la stanza degli ospiti
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.consiglio >= 12]
+    testo: |
+      La stanza degli ospiti sta al secondo piano del Maniero, con le finestre
+      sulle terrazze e un letto con le lenzuola che sanno di lavanda. Sul
+      comodino Eolio Drest ha fatto mettere una brocca d'acqua e un bicchiere
+      capovolto, e accanto alla porta c'è un campanello che nessuno si aspetta
+      che tu suoni.
+
+      {resistenza Facile} Il materasso è di lana, rifatto da poco. Il corpo lo
+      capisce prima di te e comincia a sciogliersi dalle spalle in giù.
+
+      Dalla sala da pranzo, al primo piano, salgono le voci della cena di
+      famiglia, e ogni tanto la risata di Mira, che i precettori non sono
+      ancora riusciti a rendere educata.
+    opzioni:
+      - testo: "Dormire nella stanza degli ospiti"
+        descrizione: "Un letto vero per una notte intera, con la colazione portata da un valletto che non fa domande."
+        esito:
+          titolo: Una notte al Maniero
+          testo: |
+            Dormi senza sognare, con la finestra socchiusa e il ronzio degli
+            obelischi dei Quartieri Alti che arriva da lontano. La mattina un
+            valletto bussa due volte e ti lascia sulla soglia un vassoio con
+            pane caldo e miele, e un biglietto di Marella che ti augura una
+            buona giornata in Municipio.
+          effetti: { ferite: -1, tormento: -0.5 }
+      - testo: "Scendere a cena con la famiglia"
+        descrizione: "Alla tavola dei Castaldi si parla di Stato e mai dei Castaldi. Si sente parecchio, e si mangia bene."
+        esito:
+          titolo: Di Stato
+          testo: |
+            Scendi a cena, e Marella ti fa sedere fra Vesper e Mira, che ti
+            chiedono a turno se è vero che hai visto la Marea. Si parla di
+            Stato, come vuole la regola, e fra un discorso e l'altro senti tre
+            cose sulla Gilda che domani in Municipio sapranno in pochi. Julia
+            arriva al dolce, con le pratiche sotto il braccio.
+          pe: { galateo: 2 }
+          effetti: { informazioni.pettegolezzo: 1, tormento: -0.5 }
+
+  # ------------------------------------------------------------ grado V · le sedute del Consiglio
+  - id: consiglio-le-sedute-del-consiglio
+    presso: municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: Le sedute del Consiglio
+    sommario: "Il giovedì c'è seduta, e accanto al seggio della Rappresentante c'è uno sgabello senza schienale per la voce del Consiglio."
+    luogo: Municipio, la sala consiliare
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.consiglio >= 15]
+    testo: |
+      Il giovedì porti la mazza del Patto in sala e la posi sul tavolo di
+      traverso, e Tullio la raddrizza quando la seduta comincia. Accanto al
+      seggio della Rappresentante c'è il tuo sgabello senza schienale, e dalla
+      tribuna, ormai, qualcuno ti saluta per nome. Le pratiche sono quelle di
+      sempre, pozzi contesi, dazi che non tornano, e una mozione della Gilda
+      ogni due settimane.
+
+      {politica-ed-economia Media} Una voce a verbale resta scritta anche
+      senza voto. Fra un anno, quando qualcuno rileggerà il registro, le tue
+      parole saranno lì accanto ai voti, e qualcuno dovrà spiegare perché non
+      le ha ascoltate.
+
+      Julia ti passa le pratiche della seduta con gli angoli pari, una alla
+      volta.
+    opzioni:
+      - testo: "Parlare a verbale su una pratica"
+        descrizione: "Una pratica rinviata da mesi, e la sala che deve sentire perché non si può rinviare ancora."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: A verbale
+          testo: |
+            Parli dallo sgabello per il tempo che serve, e non un momento di
+            più. La pratica passa con un voto di scarto, e Tullio scrive il
+            tuo nome sul verbale accanto alla parola *approvata*. A fine
+            seduta Julia ti paga dalla cassetta di ferro, senza commenti.
+          pe: { persuasione: 3 }
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: Rinviata
+          testo: |
+            Parli troppo a lungo, e a metà la sala comincia a guardare le
+            finestre. La pratica viene rinviata di un mese, e sul verbale le
+            tue parole occupano mezza pagina. Julia ti paga lo stesso, perché
+            la seduta l'hai fatta.
+          effetti: { monete: 6, scandalo: 0.5 }
+      - testo: "Leggere le pratiche prima di Julia"
+        descrizione: "Le pratiche della seduta, lette per primo, con tre righe in fondo su chi ci guadagna."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Media }
+        successo:
+          titolo: Chi ci guadagna
+          testo: |
+            Passi la sera prima della seduta con le pratiche, e in fondo a
+            ognuna scrivi chi ci guadagna. In una trovi un nome che non
+            dovrebbe esserci. Julia lo legge e lo sottolinea due volte, poi ti
+            paga dalla cassetta di ferro e ti chiede di tenerlo per te,
+            perfino con Tullio.
+          pe: { politica-ed-economia: 3 }
+          effetti: { monete: 15, informazioni.voce: 1 }
+        fallimento:
+          titolo: Le righe in fondo
+          testo: |
+            Leggi le pratiche fino a tardi, e la mattina ti accorgi di aver
+            scritto le tre righe di una in fondo all'altra. Julia le rimette
+            in ordine prima della seduta senza dirti niente, e ti paga lo
+            stesso.
+          effetti: { monete: 6 }
+      - testo: "Scendere a controllare la stanza delle casse"
+        descrizione: "Avevi messo una condizione a verbale. In seminterrato c'era una cassa dei respinti, e adesso non dovrebbe esserci più."
+        quando: [consiglio.condizione >= 1]
+        costo: 0
+        esito:
+          titolo: La stanza vuota
+          testo: |
+            Scendi nel seminterrato con la lanterna, oltre la grata della
+            banca, fino alla stanza bassa in fondo al corridoio. Le casse non
+            ci sono più. Al loro posto Tullio ha messo un tavolo e una sedia,
+            e sul tavolo c'è un registro aperto dove le petizioni con le croci
+            al posto delle firme hanno una riga ciascuna, e un esito.
+          pe: { empatia: 3 }

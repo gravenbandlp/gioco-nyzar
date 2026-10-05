@@ -1,0 +1,985 @@
+# La quest della Gilda, passi 6-10 (fazione.gilda 5 → 10). Vedi quest.yaml per le quality.
+# 6 Il conto dei dazi (5 → 6): il riscontro all'archivio con Lira, poi il conto al Municipio davanti a Julia
+#   Castaldi (seguito): onesto, arrotondato per Morlacchi o onesto con l'ammanco cifrato (gilda.conto). Grado II.
+# 7 Due porte che si chiudono da dentro (6 → 7, con pista.registro >= 5): Tarquin ha il registro di Maedric e i
+#   nomi dei tre funzionari (Remo Ghiselli, Fabrizio Lodde, Marzio Elleri). Serve l'altra metà dei conti, e tutte le
+#   strade portano alla botola del gabbiotto del Ponte dei Morti. Con maedric == 2 si parla con lui in cella; la
+#   Caserma aiuta con Galdrick o, se è a Ghoran (galdrick.via == 1), con il sergente Livio Mastrel.
+# 8 Sotto il Ponte dei Morti (7 → 8): la botola di Teo Marsan e la spedizione (spedizione-ponte-dei-morti.yaml).
+# 9 Il sigillo (8 → 9): con il secondo libro i tre cadono. Via pulita (gilda.via 1), quieta (2) o, dopo l'offerta di
+#   Morlacchi la sera (seguito, gilda.offerta), venduta (3). Grado III in tutti i casi.
+#   `gilda-il-sigillo-o-l-ombra`: dopo il grado III, con rep.scuri >= 2, Varn chiede il nome del contatto.
+# 10 La merce di Tasha (9 → 10): all'approdo delle chiatte l'ordine dei magazzini di allentare il cavo sotto il carro
+#   di Tasha la Bianca, mercante di Ghoran, che porta prigionieri e rifiuta i magazzini di Morlacchi (gilda.tasha).
+storylet:
+  # ------------------------------------------------------------ passo 6 · il conto dei dazi
+  - id: gilda-il-conto-dei-dazi
+    presso: gilda-casa-dei-nodi
+    immagine: personaggi/lira-demos
+    titolo: Il conto dei dazi
+    sommario: "Ogni mese la Gilda porta al Consiglio il conto dei dazi dei ponti. Stavolta Lira vuole che il riscontro lo faccia tu, e che il conto al Municipio lo porti tu."
+    luogo: Casa dei Nodi, l'archivio dei dazi
+    area: quartieri-alti
+    requisiti: [fazione.gilda == 5]
+    testo: |
+      L'archivio dei dazi è una sala lunga al secondo piano della Casa dei
+      Nodi, con le finestre sulle catene dei ponti e il vento che fa tremare
+      i vetri. Lira Demos ha preparato il tavolo vicino alla finestra con i
+      registri del mese, la scatola dei tasselli e due lampade. Il conto dei
+      dazi va al Consiglio ogni mese, firmato da un socio della Casa, e
+      stavolta il socio sei tu.
+
+      «Il riscontro si fa riga per riga» dice Lira. «I pedaggi da una parte,
+      le casse dei gabbiotti dall'altra. Dove i conti non tornano ci va un
+      tassello.» Ti mette davanti il primo registro e si siede di fronte,
+      con le mani in grembo.
+
+      {politica-ed-economia Media} Le Mille Corde rendono come ogni mese.
+      Sono i magazzini di scarico a non tornare, con noli pagati per carri
+      che nessun gabbiotto ha visto passare.
+
+      A metà pomeriggio sulla porta dell'archivio compare Ansaldo Morlacchi,
+      con i guanti di velluto e un sorriso educato. Ti saluta per nome. «Il
+      conto lo porti tu al Municipio, mi dicono» dice. «La Rappresentante
+      Castaldi cerca da anni un pretesto per mettere le mani sui ponti, come
+      ha fatto con il grano. Un conto arrotondato non fa male a nessuno, e
+      le cifre tonde le piacciono.» Conta qualcosa sulle dita e se ne va.
+
+      {empatia Media} Lira non ha alzato gli occhi dal registro mentre
+      Morlacchi parlava. Le dita però si sono fermate sui tasselli, e sono
+      ripartite soltanto quando lui ha chiuso la porta.
+    opzioni:
+      - testo: "Fare il riscontro riga per riga"
+        descrizione: "I pedaggi accanto alle casse dei gabbiotti, riga per riga. Lira vuole sul tavolo tutto quello che non torna."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: I noli fantasma
+          testo: |
+            Lavori fino a sera, con la polvere dei registri in gola. Le
+            Mille Corde tornano al quattrino. I magazzini di scarico invece
+            hanno pagato noli per carri che non sono mai passati da un
+            gabbiotto, e fra quei noli c'è la settimana dopo il Festival,
+            con le casse del magazzino di ponente. Lira posa un tassello a
+            forma di carro sul tavolo, accanto a quello vecchio.
+
+            «Adesso lo sai anche tu» dice soltanto.
+          pe: { politica-ed-economia: 5 }
+          segue: gilda-il-conto-al-municipio
+        fallimento:
+          titolo: La seconda lampada
+          testo: |
+            Alla terza ora le righe cominciano a ballarti davanti agli
+            occhi, e alla quarta confondi due mesi. Lira accende la seconda
+            lampada, riprende il registro da capo e lo finisce da sola,
+            mentre tu le passi i volumi. A notte ti mostra i noli dei
+            magazzini di scarico, pagati per carri che nessun gabbiotto ha
+            visto.
+
+            {politica-ed-economia Media fallita} Hai letto tutte le righe e
+            nessuna somma. Al banco questo si chiama lavorare tanto, e Lira
+            lo chiama in un altro modo.
+          effetti: { tormento: 0.5 }
+          segue: gilda-il-conto-al-municipio
+      - testo: "Lavorare con i tasselli di Lira"
+        descrizione: "Ogni tassello è un conto che non tornava. Messi in fila raccontano una storia più veloce dei registri."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La fila dei tasselli
+          testo: |
+            Svuoti la scatola sul tavolo e metti i tasselli in fila per
+            data, invece che per forma. Lira ti guarda fare senza fermarti.
+            I tasselli a forma di carro si addensano tutti negli stessi
+            mesi, e gli stessi mesi, nei registri, sono quelli dei noli dei
+            magazzini di scarico. Lira rimette i tasselli nella scatola per
+            forma, uno per uno, ma ti lascia la fila disegnata su un foglio.
+          pe: { accademiche: 5 }
+          segue: gilda-il-conto-al-municipio
+        fallimento:
+          titolo: Per forma
+          testo: |
+            Metti i tasselli in fila e la fila non ti dice niente, perché li
+            hai ordinati per colore del legno. Lira sospira con il naso, li
+            rimette per data in un quarto d'ora e ti indica i mesi dei noli
+            dei magazzini di scarico con la punta della penna.
+          effetti: { tormento: 0.5 }
+          segue: gilda-il-conto-al-municipio
+      - testo: "Lasciare il riscontro a Lira e aspettare il conto"
+        descrizione: "Lei lo fa meglio di te, e lo sapete tutti e due. Ci vuole la notte."
+        costo: 2
+        esito:
+          titolo: La notte all'archivio
+          testo: |
+            Lira lavora fino all'alba, e tu dormi su una panca in fondo
+            all'archivio con la giubba arrotolata sotto la testa. Quando ti
+            sveglia il conto è pronto, in una grafia minuta e diritta, e in
+            margine ha segnato a matita i noli dei magazzini di scarico che
+            non tornano.
+          segue: gilda-il-conto-al-municipio
+
+  - id: gilda-il-conto-al-municipio
+    presso: municipio
+    immagine: personaggi/julia-castaldi
+    titolo: Il conto al Municipio
+    tipo: seguito
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [fazione.gilda == 5]
+    testo: |
+      Al Municipio ti fanno aspettare sulla panca consumata, sotto il
+      ritratto della Rappresentante dipinto con più ottimismo che
+      somiglianza. Poi Julia Castaldi ti riceve in piedi nel suo ufficio e
+      prende il conto dei dazi con due dita. Lo legge in fretta, e si ferma
+      sulle righe che le interessano con un'attenzione che non nasconde.
+
+      «La Gilda dice che i ponti si pagano da soli» dice. «Ogni mese mi
+      porta un conto in pari, e ogni mese il pane della Città Bassa costa un
+      po' di più. Il grano adesso lo controlla il Municipio, e costa meno.
+      Mi chiedo se i ponti non costerebbero meno anche loro.»
+
+      {politica-ed-economia Media} Un conto in pari è un conto che nessuno
+      ha motivo di guardare. Uno che non torna è un pretesto, e lei ne cerca
+      uno da anni.
+
+      {origine rampollo-dei-quartieri-alti} In casa tua dicevano che Julia
+      Castaldi legge i conti degli altri come un'altra legge le lettere
+      d'amore, cercando quello che non c'è scritto.
+
+      Hai il conto vero nella giubba, con i noli fantasma dei magazzini di
+      scarico. Le parole di Morlacchi sulle cifre tonde ti tornano in mente
+      mentre lei aspetta, con la penna già intinta.
+    opzioni:
+      - testo: "Consegnarle il conto onesto"
+        descrizione: "I noli che non tornano compresi. Julia avrà il suo pretesto, e la Casa una ferita aperta."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il conto onesto
+          testo: |
+            Le dai il conto con i noli che non tornano e le spieghi che la
+            Gilda li ha trovati da sola e da sola li correggerà. Julia ti
+            guarda a lungo prima di annuire, e firma la ricevuta. «Una Gilda
+            che si corregge da sola» dice. «Vediamo quanto dura.» Quando
+            torni alla Casa Lira ti dà la chiave dell'archivio, e Varn ti
+            porta la giubba dei Custodi. Morlacchi, incrociandoti sulle
+            scale, non ti saluta.
+          pe: { persuasione: 3 }
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 1 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, rep.castaldi: 1, gilda.voti: 1, fazione.gilda: 1 }
+        fallimento:
+          titolo: Il pretesto
+          testo: |
+            Le dai il conto onesto, e lei trova i noli prima che tu finisca
+            di spiegarli. «Lo sapevo» dice, con soddisfazione. «La Gilda non
+            corregge niente da sola.» Domani in Consiglio lo dirà ad alta
+            voce. Alla Casa Lira ti dà lo stesso la chiave dell'archivio, e
+            Varn la giubba dei Custodi. Morlacchi ti guarda come si guarda
+            un debito scaduto.
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 1 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, rep.castaldi: 0.5, scandalo: 0.5, fazione.gilda: 1 }
+      - testo: "Consegnarle il conto arrotondato"
+        descrizione: "Cifre tonde, noli in ordine. Morlacchi sarà contento, e Julia dovrà cercarsi un altro pretesto."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Le cifre tonde
+          testo: |
+            Le dai il conto con le cifre tonde e i noli sistemati, e mentre
+            lei legge parli del tempo e del prezzo della legna. Julia firma
+            la ricevuta senza alzare gli occhi. La sera un uomo dei
+            magazzini ti porta una borsa di velluto con i saluti di
+            Morlacchi, e Lira, il giorno dopo, ti dà la chiave dell'archivio
+            guardando da un'altra parte. Varn ti porta la giubba dei
+            Custodi.
+          pe: { ingannare: 3 }
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 2 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, rep.gilda: 1, monete: 25, fazione.gilda: 1 }
+        fallimento:
+          titolo: Il conto troppo tondo
+          testo: |
+            Julia legge il conto due volte, e poi ti chiede come mai questo
+            mese tutte le cifre finiscono con lo zero. Balbetti qualcosa
+            sugli arrotondamenti della Casa. Lei sorride e firma, e tu sai
+            che domani ne parleranno in tre salotti. Morlacchi ti manda la
+            sua borsa lo stesso. Lira ti dà la chiave dell'archivio senza
+            dire niente, e Varn la giubba dei Custodi.
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 2 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, monete: 25, scandalo: 1, rep.castaldi: -0.5, fazione.gilda: 1 }
+      - testo: "Consegnarle il conto onesto, con l'ammanco cifrato"
+        descrizione: "Le cifre giuste per lei, e i noli fantasma scritti nel vecchio cifrario dei custodi, che leggono soltanto Lira e Varn."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Il margine
+          testo: |
+            Le dai un conto con le cifre giuste, e in margine, con i segni
+            del vecchio cifrario dei custodi, i noli dei magazzini di
+            scarico. Julia vede soltanto dei ghirigori da notaio. Firma, e
+            ti augura buona giornata. Alla Casa Lira legge il margine e ti
+            guarda per la prima volta come una collega. Ti dà la chiave
+            dell'archivio, e Varn la giubba dei Custodi, con una riga
+            sull'aria che non finisce più.
+          pe: { accademiche: 5 }
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 3 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, rep.gilda: 0.5, gilda.voti: 1, fazione.gilda: 1 }
+        fallimento:
+          titolo: I ghirigori
+          testo: |
+            Scrivi i segni in margine, ma ne sbagli due, e Julia se ne
+            accorge. Ti chiede che cosa sono, e tu le dici la verità, perché
+            a quel punto è più semplice. Lei legge i noli con interesse e
+            firma la ricevuta. Alla Casa Lira ti dà la chiave dell'archivio
+            con un mezzo sospiro, e Varn ti porta la giubba dei Custodi.
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 1 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, rep.castaldi: 0.5, scandalo: 0.5, fazione.gilda: 1 }
+      - testo: "Parlarle come a una vicina di salotto"
+        descrizione: "Julia Castaldi l'hai vista ai ricevimenti di casa tua. Un conto si ascolta meglio da chi conosce le sue cene."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Fra vicini
+          testo: |
+            Le ricordi la cena in cui suo marito ha rovesciato il vino sulla
+            tovaglia di tua madre, e lei ride, per la prima volta. Poi le
+            dai il conto onesto e le dici che la Gilda lo correggerà da
+            sola. «Da una casa come la tua ci credo» dice, e firma. Alla
+            Casa Lira ti dà la chiave dell'archivio, Varn la giubba dei
+            Custodi, e Morlacchi, sulle scale, non ti saluta.
+          pe: { galateo: 3 }
+          almeno: { rep.gilda: 4 }
+          imposta: { gilda.conto: 1 }
+          effetti: { oggetto.gilda-giubba-dei-custodi: 1, rep.castaldi: 1, gilda.voti: 1, fazione.gilda: 1 }
+
+  # ------------------------------------------------------------ passo 7 · due porte che si chiudono da dentro
+  - id: gilda-due-porte
+    presso: gilda-casa-dei-nodi
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: Due porte che si chiudono da dentro
+    sommario: "Il Sovrintendente Cordani ti fa salire al terzo piano. Sul tavolo c'è il registro di Maedric Holl, con tre nomi della Casa sottolineati."
+    luogo: Casa dei Nodi, la sala del terzo piano
+    area: quartieri-alti
+    requisiti: [fazione.gilda == 6, pista.registro >= 5]
+    testo: |
+      La sala del terzo piano è più piccola di come te la immaginavi, con un
+      tavolo ovale, sette sedie di cuoio e due porte, una per parte, che si
+      chiudono da dentro con un chiavistello di ferro. Tarquin Cordani
+      chiude la prima, Varn Kett la seconda. Poi Cordani si siede e posa le
+      mani sul tavolo, ferme.
+
+      Sul tavolo c'è una copia del registro di Maedric Holl, quella che lo
+      sceriffo ha mandato alla Casa, con la trascrizione accanto. Tre nomi
+      sono sottolineati. Remo Ghiselli, l'ispettore dei magazzini. Fabrizio Lodde,
+      il pesatore del Mercato. Marzio Elleri, il cancelliere. Accanto a
+      ognuno c'è una cifra al mese, da sei anni.
+
+      «Un libretto a disegni non basta» dice Cordani. «Elleri è l'avvocato
+      della Casa, e in un pomeriggio spiegherebbe ogni riga a un tribunale
+      meglio di come l'ha scritta Maedric. Ci serve l'altra metà dei conti,
+      quella che Maedric teneva dove abitava davvero.» Varn scrive qualcosa
+      sull'aria. «L'indirizzo che dava alla Casa» aggiunge «non corrisponde
+      a nessuna porta.»
+
+      {politica-ed-economia Media} Chi tiene un libro dei pagamenti ne tiene
+      sempre due. Quello con le somme se lo tiene per sé, e agli altri
+      lascia quello con i disegni.
+
+      {empatia Difficile} Le mani di Cordani sono ferme perché sono
+      arrabbiate. Remo Ghiselli l'ha assunto lui, molti anni fa.
+    opzioni:
+      - testo: "Pedinare Remo Ghiselli di notte"
+        descrizione: "Un ispettore dei magazzini che di notte esce di casa ha un motivo. Bisogna stargli dietro senza farsi vedere."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Tre notti
+          testo: |
+            Lo segui per tre notti. Alla terza Ghiselli esce dopo la seconda
+            campana, attraversa i Ponti con il cappuccio alzato e si ferma
+            al gabbiotto del Ponte dei Morti. Il custode nuovo, Teo Marsan,
+            dorme sul banco. Ghiselli si inginocchia, solleva un'asse del
+            pavimento e ci infila una busta. Rimette l'asse al suo posto e
+            se ne va pulendosi le ginocchia. Il giorno dopo lo racconti a
+            Teo, che diventa rosso fino alle orecchie e prende la chiave
+            della botola.
+          pe: { furtivita: 3 }
+          effetti: { rep.gilda: 0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: La pozzanghera
+          testo: |
+            Lo segui per due notti, e alla seconda metti il piede in una
+            pozzanghera sul Ponte del Pesce. Ghiselli si volta e ti vede. Il
+            giorno dopo alla Casa ti saluta con troppo garbo. Varn, la sera,
+            ti manda comunque al gabbiotto del Ponte dei Morti, perché
+            Ghiselli quella notte ci è andato, e Teo Marsan, interrogato,
+            ammette che sotto il gabbiotto c'è una botola.
+          effetti: { sospetto: 0.5, fazione.gilda: 1 }
+      - testo: "Mettere Lodde alle strette alla sua bilancia"
+        descrizione: "Fabrizio Lodde parla a monosillabi e non scappa dal suo banco. Lì gli si può parlare, davanti a tutti."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Un monosillabo
+          testo: |
+            Ti metti accanto alla sua bilancia e gli dici a voce bassa la
+            cifra che prende ogni mese, quella sottolineata. Lodde smette di
+            pesare. Ti guarda, poi guarda i suoi pesi campione, e dice una
+            parola sola. «Botola.» Poi ti dice il resto, sempre a
+            monosillabi. La busta del mese la lasciava Maedric sotto il
+            gabbiotto del Ponte dei Morti, e Maedric scendeva da lì. La
+            chiave ce l'ha Teo Marsan, il custode nuovo.
+          pe: { intimidire: 3 }
+          effetti: { rep.gilda: 0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: Il registro della bilancia
+          testo: |
+            Lodde ti ascolta senza smettere di pesare, poi apre il registro
+            della bilancia e ci scrive il tuo nome con la sua grafia piccola
+            e ordinata. La sera Elleri lo sa. Il giorno dopo Varn ti dice di
+            andare al gabbiotto del Ponte dei Morti, perché Lodde, uscendo
+            dal Mercato, è passato di lì a guardare le assi, e Teo Marsan ha
+            la chiave di una botola.
+          effetti: { sospetto: 1, fazione.gilda: 1 }
+      - testo: "Cercare nel gabbiotto con Teo Marsan"
+        descrizione: "Il custode nuovo conta i carri tre volte. Le assi del suo gabbiotto, però, non le ha mai contate."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: L'asse lucida
+          testo: |
+            Teo ti apre il gabbiotto e ti guarda cercare, muovendo le labbra
+            come quando conta. Le assi del pavimento sono tutte opache di
+            fango, tranne una, lucida ai bordi, consumata da molte dita.
+            Sotto c'è una busta vuota con il marchio dei magazzini di
+            scarico, e sotto la busta l'anello di ferro di una botola. Teo
+            ha la chiave, appesa insieme alle altre, e non sapeva che cosa
+            apriva.
+          pe: { percezione: 3 }
+          effetti: { rep.gilda: 0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: Tutte le assi
+          testo: |
+            Sollevi le assi del gabbiotto una dopo l'altra, e Teo le conta
+            con te ad alta voce, tre volte ciascuna. All'alba hai le unghie
+            rotte e la schiena a pezzi, e soltanto sotto l'ultima trovi
+            l'anello di ferro di una botola. Teo ha la chiave, appesa
+            insieme alle altre.
+          effetti: { ferite: 0.5, fazione.gilda: 1 }
+      - testo: "Andare a parlare con Maedric, in cella"
+        descrizione: "Maedric Holl è nelle celle della Caserma da quando l'hai consegnato. Un uomo che lavora a tariffa avrà un prezzo anche lì."
+        requisiti: [maedric == 2]
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La tariffa della cella
+          testo: |
+            Maedric ti riceve seduto sulla branda, con il mantello cerato
+            sulle spalle anche in cella. Ti ascolta, poi dice il suo prezzo,
+            a voce bassa come sempre. Vuole una coperta e il nome del
+            custode nuovo. Gli dai tutti e due. «Sotto il gabbiotto c'è una
+            botola» dice, «e sotto la botola una casa. Quando sali, saluta
+            la casa da parte mia.»
+          pe: { persuasione: 3 }
+          effetti: { rep.gilda: 0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: Le spalle al muro
+          testo: |
+            Maedric ti ascolta con gli occhi acquosi e le spalle al muro, e
+            alla fine ti dice soltanto che i ponti di notte non sono i ponti
+            di giorno. Il carceriere ti accompagna fuori. Sulla soglia ti
+            ferma e ti racconta che l'unica cosa che Maedric chiede, ogni
+            sera, è se al gabbiotto del Ponte dei Morti hanno trovato la
+            botola.
+          effetti: { tormento: 0.5, fazione.gilda: 1 }
+      - testo: "Chiedere un uomo allo sceriffo"
+        descrizione: "Galdrick il registro l'ha letto prima della Casa. Un uomo della Caserma accanto a te apre più porte di un gettone."
+        requisiti: [galdrick.via == 0]
+        costo: 2
+        esito:
+          immagine: personaggi/toren-galdrick
+          titolo: Un uomo della Caserma
+          testo: |
+            Galdrick ti presta un caporale e un mandato con il suo sigillo.
+            Con il mandato in mano Teo Marsan apre il gabbiotto, il caporale
+            solleva le assi a una a una, e sotto l'ultima c'è l'anello di
+            ferro di una botola. La chiave è appesa insieme alle altre, e
+            Teo non sapeva che cosa apriva.
+          effetti: { rep.caserma: 0.5, rep.gilda: 0.5, fazione.gilda: 1 }
+      - testo: "Chiedere un uomo al sergente Mastrel"
+        descrizione: "Lo sceriffo è a Ghoran, e la Caserma la tiene il sergente Livio Mastrel. Il registro lo conosce anche lui."
+        requisiti: [galdrick.via == 1]
+        costo: 2
+        esito:
+          titolo: Il sergente
+          testo: |
+            Livio Mastrel ti presta un caporale e un mandato con il sigillo
+            della Caserma, e ti raccomanda di riportargli il caporale
+            intero. Con il mandato in mano Teo Marsan apre il gabbiotto, il
+            caporale solleva le assi, e sotto l'ultima c'è l'anello di ferro
+            di una botola. La chiave è appesa insieme alle altre.
+          effetti: { rep.caserma: 0.5, rep.gilda: 0.5, fazione.gilda: 1 }
+
+  # ------------------------------------------------------------ passo 8 · la botola (la spedizione è in spedizione-ponte-dei-morti.yaml)
+  - id: gilda-la-botola-del-gabbiotto
+    presso: ponte-dei-morti
+    immagine: ambientazione/ponte-dei-morti
+    titolo: La botola del gabbiotto
+    sommario: "Sotto il gabbiotto del Ponte dei Morti c'è una botola, e sotto la botola le passerelle dei sottoponti. Teo Marsan ha la chiave."
+    luogo: Ponte dei Morti, il gabbiotto dei Custodi
+    area: ponti-sospesi
+    requisiti: [fazione.gilda == 7]
+    testo: |
+      Teo Marsan apre la botola con la chiave e la mano che trema, e la
+      solleva con tutte e due le braccia. Sotto c'è una scala di corda che
+      scende nella nebbia, e dalla nebbia sale un'aria fredda che sa di
+      ferro bagnato e di fumo vecchio. Teo guarda giù e poi guarda te, e
+      conta i pioli della scala muovendo le labbra.
+
+      «Sotto i ponti ci abita gente che i registri della Gilda non contano»
+      dice. «I Lunghi, i ragazzi della corda, e chissà chi. Maedric ci
+      scendeva tutte le notti, dicono. Io la botola non l'avevo mai vista.»
+
+      {conoscenze-della-strada Media} Sotto le assi corre una seconda città,
+      con le sue passerelle e i suoi pedaggi. Chi scende da una botola della
+      Gilda paga il pedaggio all'entrata e lo paga di nuovo all'uscita.
+
+      {origine figlio-della-citta-bassa} Le scale di corda dei sottoponti le
+      conosci. Da ragazzo ci passavi per portare i messaggi senza pagare il
+      gabbiotto, e i piedi ricordano ancora quali pioli reggono.
+
+      {resistenza Media fallita} Lo stomaco guarda giù prima di te e decide
+      che preferirebbe di no.
+    opzioni:
+      - testo: "Scendere la scala di corda"
+        descrizione: "Un piolo alla volta, nella nebbia."
+        esito:
+          titolo: Nella nebbia
+          testo: |
+            Scendi un piolo alla volta, e la nebbia ti si chiude sopra la
+            testa dopo il decimo. Teo ti saluta dalla botola con la lanterna
+            alzata, e la sua luce diventa piccola e gialla. Sotto i piedi
+            trovi una passerella di assi che dondola, e intorno il buio
+            pieno di corde.
+          vai: gilda-sotto-il-ponte-dei-morti
+      - testo: "Calarsi lungo la fune di Maedric"
+        descrizione: "Accanto alla scala pende una fune annodata a intervalli regolari. Maedric scendeva da lì, e arrivava più lontano."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: La fune annodata
+          testo: |
+            Ti cali lungo la fune di Maedric, nodo dopo nodo, finché non
+            tocchi una passerella molto più in basso della scala. Maedric
+            scendeva da qui per saltare il primo tratto delle scalette, e
+            adesso lo salti anche tu.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+          vai: gilda-sotto-il-ponte-dei-morti
+        fallimento:
+          titolo: Il nodo che scivola
+          testo: |
+            A metà fune un nodo scivola sotto le dita, e scendi tre braccia
+            di colpo con le mani che bruciano. Atterri sulla passerella
+            delle scalette con un colpo che ti risale fino ai denti.
+          effetti: { ferite: 1 }
+          vai: gilda-sotto-il-ponte-dei-morti
+      - testo: "Scendere con i Custodi che ti conoscono"
+        descrizione: "I Custodi di Passaggio ti lasciano passare senza gabella, e sotto le assi qualcuno ti fa strada. Si arriva prima."
+        requisiti: [ponti.passo >= 1]
+        costo: 0
+        esito:
+          titolo: Il passo dei Ponti
+          testo: |
+            Un ponteggiatore della squadra di Ormun ti riconosce sulla scala
+            e ti accompagna giù per la via di servizio, che taglia le
+            scalette. Ti lascia sulla prima passerella con una pacca sulla
+            spalla e una raccomandazione sui Lunghi.
+          vai: gilda-sotto-il-ponte-dei-morti
+      - testo: "Scendere per la via dei ragazzi della corda"
+        descrizione: "I pioli buoni sono quelli con lo spago rosso. Da ragazzo lo sapevi, e lo sai ancora."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Lo spago rosso
+          testo: |
+            Scendi mettendo i piedi soltanto sui pioli con lo spago rosso
+            come da ragazzo, e la scala non dondola nemmeno. Teo ti guarda
+            dalla botola con la bocca aperta.
+          vai: gilda-sotto-il-ponte-dei-morti
+
+  # ------------------------------------------------------------ passo 9 · il sigillo
+  - id: gilda-il-sigillo
+    presso: gilda-casa-dei-nodi
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: Il sigillo
+    sommario: "Con il secondo libro di Maedric i tre funzionari cadono, e Morlacchi resta scoperto. Il Sovrintendente ti offre la funzione di Elleri, e la Casa trattiene il fiato."
+    luogo: Casa dei Nodi, la sala del terzo piano
+    area: quartieri-alti
+    requisiti: [fazione.gilda == 8]
+    testo: |
+      Al terzo piano Cordani legge il secondo libro di Maedric fino in
+      fondo, una pagina dopo l'altra, con Varn in piedi alle sue spalle. I
+      soldi degli Scuri entravano nella Casa dai magazzini di Morlacchi,
+      come pagamenti per noli mai fatti, e ogni mese una parte ne usciva
+      verso tre banchi della Casa. Quelli di Remo Ghiselli e di Fabrizio
+      Lodde, e quello di Marzio Elleri. Le somme ci sono tutte, e accanto
+      alle somme le date.
+
+      «Con questo cadono tutti e tre» dice Cordani. «E Morlacchi resta in
+      piedi soltanto perché è in consiglio e mancano due mesi al voto.» Si
+      alza e va alla finestra, con le mani dietro la schiena. «Il guaio è
+      che senza quei tre la Casa si ferma. Ghiselli tiene i magazzini e Lodde fa i
+      pesi, Elleri i sigilli. Domani mattina nessuno saprebbe pesare un
+      sacco di sale.»
+
+      {politica-ed-economia Media} Senza magazzini aperti non si vende, e senza pesi il
+      dazio non si calcola. Una Casa pulita e ferma per tre giorni è un
+      regalo a chi dice che i ponti li deve tenere il Municipio.
+
+      Poi si gira verso di te. «La funzione di Elleri ha bisogno di qualcuno
+      che sappia tenere un sigillo e la bocca chiusa. Te la offro. Come
+      cadono i tre, però, lo decidiamo adesso.»
+
+      {galateo Media} Ti offre un posto davanti a Varn, che lo sente. È un
+      modo di dire a Varn che la decisione è anche tua.
+    opzioni:
+      - testo: "Farli arrestare da Varn davanti a tutti"
+        descrizione: "La via pulita. I tre escono dalla Casa in catene, e i soci vedono tutto. Qualcuno dovrà tenere calma la sala."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: La via pulita
+          testo: |
+            Varn li arresta all'ora di punta, uno dopo l'altro, al banco dei
+            magazzini e a quello del timbro, e manda un caporale a prendere
+            Lodde al Mercato. La sala dei soci si riempie di gente che
+            grida. Sali su una panca e parli, e dici quello che c'è nel
+            libro, con le date. La sala si calma. Per tre giorni la Casa si
+            ferma, i carri aspettano ai gabbiotti, e la città se ne accorge.
+
+            Il quarto giorno Cordani ti dà il sigillo del portasigillo,
+            davanti a tutti.
+          pe: { persuasione: 5 }
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 1 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, gilda.voti: 2, rep.caserma: 1, scandalo: 0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: I tre giorni
+          testo: |
+            Varn li arresta all'ora di punta, e la sala dei soci esplode.
+            Sali su una panca a parlare, ma qualcuno ti tira un calamaio e
+            un altro ti spinge giù. Per tre giorni la Casa si ferma, e la
+            città se la prende con chi c'era. In Municipio ne parlano come
+            di un disastro.
+
+            {resistenza Media} Il livido sulla tempia è grande come una
+            moneta, e ha la forma di un calamaio.
+
+            Il quarto giorno Cordani ti dà lo stesso il sigillo del
+            portasigillo, davanti ai pochi soci rimasti.
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 1 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, gilda.voti: 2, rep.caserma: 1, scandalo: 1.5, ferite: 0.5, fazione.gilda: 1 }
+      - testo: "Girarli in testimoni contro Morlacchi"
+        descrizione: "La via quieta. Restano al loro posto ancora un mese, e testimoniano. Bisogna convincerli uno alla volta, ciascuno con le sue paure."
+        prova: { attributo: sociale, abilita: [empatia, intimidire], difficolta: Media }
+        successo:
+          titolo: La via quieta
+          testo: |
+            Ghiselli cede per primo, quando gli parli della figlia che studia
+            all'Accademia e di chi le paga la retta, e si mette a piangere nel tuo
+            fazzoletto. Lodde cede alla seconda frase. Elleri ti ascolta
+            sorridendo, poi scrive di suo pugno una lettera di dimissioni
+            perfetta e te la consegna sigillata. La Casa non si ferma. Fra
+            un mese, in assemblea, Ghiselli dirà quello che sa di Morlacchi, e
+            voterà con te.
+
+            Cordani ti dà il sigillo del portasigillo in una stanza chiusa,
+            senza testimoni.
+          pe: { empatia: 5 }
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 2 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, gilda.voti: 2, fazione.gilda: 1 }
+        fallimento:
+          titolo: Uno su tre
+          testo: |
+            Ghiselli cede, Elleri si dimette con una lettera perfetta, ma
+            Lodde ti ascolta in silenzio e la notte sparisce dal suo banco
+            al Mercato con la cassetta dei pesi. Varn lo fa cercare. A
+            Morlacchi qualcuno l'ha detto, perché la mattina dopo ti saluta
+            con un inchino più lungo del solito.
+
+            Cordani ti dà il sigillo del portasigillo in una stanza chiusa,
+            senza testimoni.
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 2 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, gilda.voti: 1, sospetto: 0.5, fazione.gilda: 1 }
+      - testo: "Chiedere una notte per pensarci"
+        descrizione: "Morlacchi sa del libro. Prima di decidere, forse conviene sentire che cosa ha da offrire."
+        quando: [gilda.offerta == 0]
+        costo: 0
+        esito:
+          titolo: Una notte
+          testo: |
+            Cordani ti guarda a lungo, poi annuisce. «Una notte» dice. Varn
+            scrive qualcosa sull'aria, una riga corta. Quando esci dalla
+            Casa un uomo con la livrea dei magazzini di scarico si stacca da
+            una colonna del portico e ti dice che il consigliere Morlacchi
+            ti aspetta a cena.
+          imposta: { gilda.offerta: 1 }
+          segue: gilda-la-sera-di-morlacchi
+
+  - id: gilda-la-sera-di-morlacchi
+    immagine: icone/hooded-figure
+    titolo: La sera di Morlacchi
+    tipo: seguito
+    luogo: I magazzini di scarico, l'ufficio di Morlacchi
+    area: quartieri-alti
+    requisiti: [fazione.gilda == 8, gilda.offerta >= 1]
+    testo: |
+      L'ufficio di Morlacchi è sopra il magazzino più grande, una stanza
+      calda con un tappeto di Laresh e un tavolo apparecchiato per due.
+      Dalla finestra si vedono i carri che entrano ed escono dal cortile, e
+      ogni carro ha la sua lanterna e il suo uomo con la livrea. Morlacchi
+      versa il vino senza togliersi i guanti.
+
+      «Il libro di Maedric» dice, e conta sulle dita. «Primo, se va a
+      Cordani la Casa si ferma. Secondo, Cordani perde le elezioni lo
+      stesso, perché una Casa ferma non la vota nessuno. Terzo, tu resti con
+      un sigillo in mano e nessuno che ti protegga.» Apre la mano. «Se
+      invece il libro viene qui, i tre se ne vanno in silenzio e la Casa
+      lavora. Tu diventi portasigillo lo stesso, con la mia firma accanto a
+      quella di Cordani.»
+
+      Sotto il tovagliolo c'è una borsa. È pesante, lo vedi da come piega il
+      lino.
+
+      {ingannare Media} Finora ha detto soltanto la verità, ed è la cosa che
+      ti preoccupa di più.
+
+      {politica-ed-economia Media} Senza il libro Cordani non ha niente di
+      scritto contro Morlacchi, e Morlacchi ha tutto contro Cordani. In una
+      notte la Casa cambierebbe padrone, senza che nessuno se ne accorga.
+    opzioni:
+      - testo: "Vendergli il libro"
+        descrizione: "La via venduta. La borsa sotto il tovagliolo, la firma di Morlacchi, e il sigillo dall'altra parte del tavolo."
+        esito:
+          titolo: La via venduta
+          testo: |
+            Gli dai il libro senza dire niente. Morlacchi lo sfoglia senza
+            leggerlo e lo mette in un cassetto, poi ti spinge la borsa con
+            due dita guantate. Tre giorni dopo i tre funzionari si dimettono
+            per motivi di salute, e Morlacchi propone il tuo nome come
+            portasigillo in consiglio. Cordani firma la nomina senza
+            guardarti. Da quel giorno smette di salutarti, e Lira ti chiede
+            indietro la chiave dell'archivio con la mano tesa.
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 3 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, monete: 150, rep.gilda: 1, rep.castaldi: -1, fazione.gilda: 1 }
+      - testo: "Alzare il prezzo prima di vendere"
+        descrizione: "Un uomo che conta sulle dita ha già contato anche quanto vale il libro per lui."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il sesto dito
+          testo: |
+            Gli dici che una borsa sotto un tovagliolo è un antipasto.
+            Morlacchi ride e va a prendere una seconda borsa, più piccola.
+            Il libro finisce nel cassetto. Tre giorni dopo i tre si
+            dimettono per motivi di salute, e tu sei portasigillo con la
+            firma di Morlacchi accanto a quella di Cordani, che firma senza
+            guardarti. Lira ti chiede indietro la chiave dell'archivio.
+          pe: { persuasione: 3 }
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 3 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, monete: 200, rep.gilda: 1, rep.castaldi: -1, fazione.gilda: 1 }
+        fallimento:
+          titolo: L'antipasto
+          testo: |
+            Gli chiedi di più, e Morlacchi smette di sorridere. «La borsa è
+            quella» dice. «Prendila o lasciala.» La prendi con le orecchie
+            che ti scottano. Il libro finisce nel cassetto, e tre giorni
+            dopo i tre funzionari si dimettono per motivi di salute. Diventi
+            portasigillo con la sua firma accanto a quella di Cordani, ma
+            alla Casa si dice che hai mercanteggiato con Morlacchi, e ti
+            guardano in un altro modo.
+          almeno: { rep.gilda: 6 }
+          imposta: { gilda.via: 3 }
+          effetti: { oggetto.gilda-sigillo-del-portasigillo: 1, monete: 150, rep.castaldi: -1, scandalo: 0.5, fazione.gilda: 1 }
+      - testo: "Alzarti da tavola e tornare da Cordani"
+        descrizione: "La borsa resta sotto il tovagliolo. Il libro resta tuo, per adesso."
+        costo: 0
+        esito:
+          titolo: Il vino intatto
+          testo: |
+            Ti alzi e lasci il bicchiere pieno. Morlacchi non si alza.
+            «Conta le mie dita quando avrai deciso» dice, e ne alza tre.
+            Torni alla Casa a piedi, con il libro sotto la giubba e il
+            cortile dei magazzini che ti guarda dalle finestre.
+          segue: gilda-il-sigillo
+
+  - id: gilda-il-sigillo-o-l-ombra
+    presso: gilda-casa-dei-nodi
+    immagine: personaggi/varn-kett
+    titolo: Il sigillo o l'ombra
+    sommario: "Varn Kett ti aspetta sulla scalinata. Un portasigillo della Gilda con amici fra gli Scuri è un problema che lui vuole risolvere prima che diventi un problema della Casa."
+    luogo: Casa dei Nodi, la scalinata
+    area: quartieri-alti
+    requisiti: [fazione.gilda >= 9, gilda.ombra == 0, rep.scuri >= 2]
+    testo: |
+      Varn ti aspetta a metà della scalinata, appoggiato alla balaustra con
+      gli stivali da pioggia incrociati. Ti saluta con un cenno e ti fa
+      sedere sul gradino accanto. Poi, con la voce piatta dello sportello,
+      ti elenca le notti in cui sei stato visto alla Pignatta, le persone
+      con cui hai bevuto, e un nome, uno solo, che dice due volte.
+
+      «Un portasigillo che ha amici fra gli Scuri è un sigillo che timbra
+      per loro» dice. «Lo so che nella Città Bassa si vive così. Qui no.» La
+      mano destra si muove sull'aria, poi si ferma. «Dammi il nome del tuo
+      contatto e lo scrivo, oppure dammi il sigillo e lo scrivo lo stesso.»
+
+      {empatia Media} Non gli piace fare questa domanda. La fa perché nessun
+      altro alla Casa la farebbe.
+
+      {conoscenze-della-strada Media} Un nome dato alla Gilda arriva agli
+      Scuri prima di sera. Lo sanno tutti e due, e lui te lo chiede lo
+      stesso.
+    opzioni:
+      - testo: "Dargli il nome"
+        descrizione: "Il contatto lo perdi, e la Pignatta lo saprà. La Caserma, invece, ti ringrazierà."
+        esito:
+          titolo: Un nome sull'aria
+          testo: |
+            Glielo dici. Varn lo scrive sull'aria e poi su un foglio vero,
+            che si mette piegato nel cappotto. «Bene» dice, e se ne va. Due
+            notti dopo alla Pignatta qualcuno rovescia il tuo boccale
+            apposta, e al Mercato delle Ombre la porta che conoscevi non si
+            apre più.
+          imposta: { gilda.ombra: 1, contatto-ombra: 0 }
+          effetti: { rep.scuri: -2, rep.caserma: 1, rep.gilda: 0.5 }
+      - testo: "Convincerlo che il contatto serve alla Gilda"
+        descrizione: "Un portasigillo che sa che cosa passa sotto i ponti è più utile di uno che non lo sa. Varn deve crederci."
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Difficile }
+        successo:
+          titolo: Le orecchie della Casa
+          testo: |
+            Gli spieghi che cosa sai degli Scuri grazie al tuo contatto, e
+            che cosa ne sapeva la Casa prima di te, cioè niente. Varn
+            ascolta con la mano ferma. Alla fine scrive una riga sull'aria e
+            la cancella con il palmo, un gesto che non gli avevi mai visto
+            fare. «Tienilo pure» dice senza guardarti, «però ogni cosa che
+            sai, la so anch'io.»
+          pe: { persuasione: 5 }
+          imposta: { gilda.ombra: 2 }
+        fallimento:
+          titolo: Il sigillo sul gradino
+          testo: |
+            Gli spieghi perché il contatto serve, e Varn ti ascolta fino in
+            fondo, poi tende la mano. Gli dai il sigillo. Lo tiene una
+            settimana in un cassetto, e quando te lo restituisce alla Casa
+            lo sanno tutti, e tutti sanno perché.
+          imposta: { gilda.ombra: 2 }
+          effetti: { rep.gilda: -1.5, scandalo: 0.5 }
+      - testo: "Tenerti il nome e lasciargli il sigillo per un po'"
+        descrizione: "Il grado resta, ma la Casa ricorda chi si è fatto togliere il sigillo dall'ispettore."
+        esito:
+          titolo: Il cassetto di Varn
+          testo: |
+            Gli dici che il nome non lo dai. Varn annuisce come se se lo
+            aspettasse e tende la mano, e tu gli dai il sigillo. Lo tiene
+            una settimana nel cassetto del gabbiotto, e quando te lo
+            restituisce non dice niente. Alla Casa, intanto, lo hanno saputo
+            tutti quanti.
+          imposta: { gilda.ombra: 2 }
+          effetti: { rep.gilda: -1.5 }
+
+  # ------------------------------------------------------------ passo 10 · la merce di Tasha
+  - id: gilda-la-merce-di-tasha
+    immagine: ambientazione/ghoran
+    titolo: La merce di Tasha
+    sommario: "All'approdo delle chiatte arriva da Ghoran il carro di Tasha la Bianca. Al portasigillo arriva un ordine con il sigillo dei magazzini, e riguarda il cavo della chiatta."
+    luogo: Ponti Sospesi, l'approdo delle chiatte a fune
+    area: ponti-sospesi
+    requisiti: [fazione.gilda == 9]
+    testo: |
+      All'approdo delle chiatte, a valle delle Mille Corde, le piattaforme
+      da carico corrono sui cavi d'acciaio da una sponda all'altra della
+      Cicatrice, tirate dagli argani. Stamattina sull'approdo di ponente c'è
+      un carro alto con le sponde di legno chiuse, scortato da due mercenari
+      di Ghoran con le braccia segnate. Accanto al carro c'è una donna
+      vestita di bianco dalla testa ai piedi, con i capelli bianchi e una
+      voce calma che si sente fino all'argano.
+
+      È Tasha la Bianca, mercante di Ghoran. Ha merce per un compratore che
+      la Casa non gradisce, e per due volte si è rifiutata di farla passare
+      dai magazzini di scarico. Stamattina la porta di là da sola, con la
+      chiatta.
+
+      Un garzone dei magazzini ti consegna una busta con il sigillo che
+      conosci. Dentro c'è un ordine per il portasigillo, scritto con una
+      grafia ordinata. Quando il carro sarà a metà traversata, il fermo del
+      cavo va allentato. L'ordine parla di un incidente, e la parola è
+      sottolineata.
+
+      {percezione Media} Fra le sponde del carro si vedono delle dita, che
+      si ritirano subito. Dentro c'è gente, molta, seduta sul fondo.
+
+      {origine fuggiasco-di-ghoran} Un mercenario della scorta alza il
+      braccio per sistemarsi il cappuccio, e sul polso ha il marchio dei
+      recinti, quello che avevi tu. Tasha la conosci di nome. A Ghoran la
+      nominavano a bassa voce, come il tempo che cambia.
+
+      {armi-da-mischia Media} I mercenari portano asce corte alla cintura e
+      tengono le mani lontane dal manico. Sono pagati per stare fermi,
+      finché qualcuno non si muove.
+
+      {resilienza Media fallita} Il foglio ti trema in mano, e non è il
+      vento.
+    opzioni:
+      - testo: "Eseguire l'ordine"
+        descrizione: "Il fermo del cavo, a metà traversata. Morlacchi saprà che sei suo, e la Cicatrice farà il resto."
+        prova: { attributo: fisico, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il fermo
+          testo: |
+            Aspetti che il carro sia a metà della traversata e allenti il
+            fermo del cavo con la chiave dell'argano. La chiatta si inclina
+            piano, come una porta che si apre. Il carro scivola oltre il
+            bordo senza un rumore, e il rumore arriva dopo, dal basso. Tasha
+            resta in piedi sulla chiatta inclinata, aggrappata a una catena,
+            e guarda te.
+
+            La sera un uomo dei magazzini ti porta una borsa. Di notte non
+            dormi.
+          imposta: { gilda.tasha: 1 }
+          effetti: { monete: 30, tormento: 1, rep.gilda: 1, fazione.gilda: 1 }
+        fallimento:
+          titolo: Troppo presto
+          testo: |
+            Allenti il fermo troppo presto, quando il carro è ancora vicino
+            alla sponda. La chiatta si inclina e il carro scivola, ma i
+            mercenari lo trattengono con le funi, e la gente dentro grida.
+            Tasha guarda l'argano e poi te. Da quel giorno a Ghoran
+            conoscono il tuo nome. La sera ti arriva la borsa lo stesso, più
+            leggera.
+          imposta: { gilda.tasha: 1 }
+          effetti: { monete: 15, tormento: 1, ferite: 0.5, fazione.gilda: 1 }
+      - testo: "Avvertire Tasha senza farti scoprire"
+        descrizione: "Due parole all'orecchio, mentre controlli i documenti della chiatta. Gli uomini dei magazzini guardano."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Due parole
+          testo: |
+            Le chiedi i documenti del carico con la voce del portasigillo e,
+            mentre lei te li porge, le dici due parole sul fermo del cavo.
+            Tasha non cambia espressione. Riprende i documenti, dice ai suoi
+            di aspettare la chiatta del pomeriggio e se ne va con il carro
+            per la strada lunga. Prima di sparire ti fa un cenno con la
+            testa. La sera un ragazzo ti porta una borsa con un nastro
+            bianco.
+          pe: { ingannare: 3 }
+          imposta: { gilda.tasha: 2 }
+          effetti: { monete: 20, fazione.gilda: 1 }
+        fallimento:
+          titolo: Visto
+          testo: |
+            Le dici le due parole, ma un garzone dei magazzini è più vicino
+            di quanto pensavi. Tasha se ne va con il carro per la strada
+            lunga, e la sera Morlacchi sa chi l'ha avvertita. Il giorno dopo
+            al banco del timbro trovi un cartellino battuto due volte con il
+            tuo nome sopra, come promemoria.
+          imposta: { gilda.tasha: 2 }
+          effetti: { sospetto: 1, fazione.gilda: 1 }
+      - testo: "Portare l'ordine scritto a Cordani"
+        descrizione: "Un ordine di omicidio scritto e firmato con il sigillo dei magazzini. Il Sovrintendente ne farà buon uso."
+        requisiti: [gilda.via != 3]
+        esito:
+          titolo: La busta sul tavolo
+          testo: |
+            Fai fermare la chiatta con un pretesto e porti la busta al terzo
+            piano. Cordani la legge due volte e la chiude in un cassetto con
+            la chiave. «Questa vale più di cento voti» dice. Tasha passa la
+            Cicatrice con la chiatta del pomeriggio senza sapere niente, e
+            Morlacchi da quel giorno sa da che parte stai.
+          imposta: { gilda.tasha: 3 }
+          effetti: { gilda.voti: 2, rep.gilda: 0.5, fazione.gilda: 1 }
+      - testo: "Liberare la merce di notte"
+        descrizione: "Il carro passa la notte all'approdo. Le sponde si aprono, se si sa dove spingere, e i mercenari dormono a turno."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Le sponde aperte
+          testo: |
+            Di notte strisci sotto il carro mentre il mercenario di guardia
+            sonnecchia sull'argano. Le sponde si aprono con un perno. Dentro
+            ci sono undici persone legate a due a due, che ti guardano senza
+            fare un suono. Le slegate una coppia alla volta, e loro
+            spariscono sotto le assi dell'approdo, dove qualcuno dei
+            sottoponti le aspetta. La mattina Tasha trova il carro vuoto e
+            l'ordine dei magazzini resta senza oggetto.
+          pe: { furtivita: 5 }
+          imposta: { gilda.tasha: 4 }
+          effetti: { tormento: -1, racconto: 1, rep.raschiatori: -0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: La scorta sveglia
+          testo: |
+            Il perno della sponda cigola, e il mercenario di guardia si
+            sveglia. Scappi sotto le assi con un taglio sul braccio.
+            All'alba Tasha passa la Cicatrice con la chiatta del pomeriggio
+            e con il carro pieno, e l'ordine dei magazzini resta in tasca a
+            te. Morlacchi saprà che non l'hai eseguito.
+          imposta: { gilda.tasha: 2 }
+          effetti: { ferite: 1, fazione.gilda: 1 }
+      - testo: "Aprire il carro con la forza"
+        descrizione: "Due mercenari di Ghoran. Se cadono loro, il carro si apre."
+        combattimento: gilda-la-scorta-di-tasha
+        vittoria:
+          titolo: Il carro aperto
+          testo: |
+            I due mercenari si arrendono quando il secondo finisce contro
+            l'argano, e tu apri le sponde del carro con le mani che ancora
+            tremano. Dentro ci sono undici persone legate a due a due, e le
+            slegate una coppia alla volta mentre Tasha guarda dal bordo
+            dell'approdo, senza muovere un dito. «Tornerò con altra merce»
+            dice, calma. Gli undici spariscono sotto le assi.
+          imposta: { gilda.tasha: 4 }
+          effetti: { tormento: -1, racconto: 1, rep.raschiatori: -0.5, fazione.gilda: 1 }
+        sconfitta:
+          titolo: L'argano
+          testo: |
+            Il secondo mercenario ti manda contro l'argano, e quando ti
+            rialzi la chiatta è già a metà della Cicatrice, con il carro
+            sopra e Tasha in piedi accanto al carro. L'ordine dei magazzini
+            resta in tasca a te, e Morlacchi saprà che non l'hai eseguito.
+          imposta: { gilda.tasha: 2 }
+          effetti: { fazione.gilda: 1 }
+      - testo: "Aprire le sponde con la lanterna cieca"
+        descrizione: "La lanterna di Maedric fa luce per un dito. Basta per un perno, e i mercenari non la vedono."
+        requisiti: [chiave.notte-sui-ponti >= 1]
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Un dito di luce
+          testo: |
+            Di notte apri lo sportello della lanterna cieca quel tanto che
+            basta per vedere il perno della sponda. Dentro ci sono undici
+            persone legate a due a due. Le slegate una coppia alla volta, e
+            loro spariscono sotto le assi dell'approdo. La mattina Tasha
+            trova il carro vuoto, e l'ordine dei magazzini resta senza
+            oggetto.
+          pe: { furtivita: 3 }
+          imposta: { gilda.tasha: 4 }
+          effetti: { tormento: -1, racconto: 1, rep.raschiatori: -0.5, fazione.gilda: 1 }
+        fallimento:
+          titolo: Lo sportello che scatta
+          testo: |
+            Lo sportello della lanterna scatta più forte di quanto
+            ricordavi, e il mercenario di guardia si sveglia. Scappi sotto
+            le assi con un taglio sul braccio, e all'alba Tasha passa la
+            Cicatrice con il carro pieno. L'ordine resta in tasca a te.
+          imposta: { gilda.tasha: 2 }
+          effetti: { ferite: 1, fazione.gilda: 1 }
+      - testo: "Parlare alla merce nella lingua dei recinti"
+        descrizione: "Dentro il carro c'è gente di Ghoran. Tu conosci le parole che si dicono nei recinti, e i nodi che si slegano in fretta."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: La lingua dei recinti
+          testo: |
+            Di notte ti accosti al carro e dici fra le sponde le parole dei
+            recinti, quelle che si dicono prima di scappare. Dentro qualcuno
+            risponde. Ti passano le mani fra le assi, e tu sciogli i nodi
+            che conosci a memoria, una coppia alla volta. All'alba il carro
+            è vuoto, Tasha non sa chi ringraziare per la perdita, e tu hai
+            le mani che ti tremano fino a mezzogiorno.
+          imposta: { gilda.tasha: 4 }
+          effetti: { tormento: -1, racconto: 1, rep.raschiatori: -0.5, fazione.gilda: 1 }

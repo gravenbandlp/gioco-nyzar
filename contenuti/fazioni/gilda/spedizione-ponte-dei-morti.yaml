@@ -1,0 +1,991 @@
+# Sotto il Ponte dei Morti, spedizione del passo 8 della quest della Gilda (fazione.gilda == 7).
+# Ci si entra dalla botola del gabbiotto (`gilda-la-botola-del-gabbiotto`, passi-2.yaml). Ritorno ai Ponti, soglia 4.
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+#   0 la botola e le scalette (le scale di corda; la nebbia sotto le assi, che vale anche a 1);
+#   1 le passerelle di servizio (i Lunghi; le lanterne dei Raschiatori; l'esattore degli Scuri, solo con
+#     pista.pelle < 6, che vale anche a 2);
+#   2 i magazzini appesi (le botti col segno raschiato; la fune segata; il balestriere di guardia, che vale anche a 3);
+#   3 la campata cieca.
+# Ogni stanza ha una via lunga che costa due rintocchi e fa avanzare comunque.
+# Il cuore a 4 è la casa appesa di Maedric. Con maedric <= 1 (fuggito) Maedric è tornato a riprendersi i libri:
+# combattimento Difficile con due balestrieri, o trattativa (Persuasione, Difficile). Con maedric >= 2 (in cella o
+# morto) la casa la tiene il balestriere con la toppa sulla fodera: combattimento o Empatia (Media). Chi perde torna
+# sui Ponti e può riprovare. Il seguito `gilda-sottoponti-il-secondo-libro` chiude il passo: il libro dei pagamenti,
+# la lanterna cieca di Maedric e il bottino del magazzino appeso (rep.scuri -1 se gli Scuri ci sono ancora).
+aree:
+  - id: gilda-sotto-il-ponte-dei-morti
+    immagine: ambientazione/ponte-dei-morti
+    nome: Sotto il Ponte dei Morti
+    sommario: "Sotto le assi del Ponte dei Morti corre una seconda città di passerelle e magazzini appesi, nella nebbia. In fondo a una campata senza lanterne c'è la casa di Maedric Holl."
+    spedizione: { ritorno: ponti-sospesi, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto le assi del Ponte dei Morti la nebbia della Cicatrice si ferma e
+      si addensa, e la luce delle lanterne dei Raschiatori arriva dall'alto
+      a macchie gialle. Fra i piloni corrono passerelle di servizio larghe
+      un uomo, con le scale di corda e le gabbie da carico appese alle
+      catene. Più in basso, dove le passerelle si diradano, ci sono
+      magazzini di assi sospesi nel vuoto, con le porte chiuse a lucchetto.
+
+      Qui sotto vive gente che i registri della Gilda non contano. I Lunghi
+      stanno sulle passerelle da sempre, e i ragazzi della corda salgono
+      dalla Città Bassa. Ogni tanto una gabbia da carico scende da sola
+      senza nessuno all'argano, e qualche volta ne risale una vuota.
+
+# La musica della spedizione (come le altre aree in contenuti/audio.yaml).
+colonna:
+  - { contesto: area, id: gilda-sotto-il-ponte-dei-morti, musica: nefarious-schemes, ambiente: rain-in-town }
+
+storylet:
+  # ------------------------------------------------------------ 0 · la botola e le scalette
+  - id: gilda-sottoponti-le-scalette
+    immagine: icone/ladder
+    titolo: Le scalette
+    sommario: "Dalla botola le scale di corda scendono fino alle prime passerelle. Ai pioli ne mancano parecchi."
+    luogo: Sotto il Ponte dei Morti, le scalette
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti == 0]
+    testo: |
+      Dalla passerella sotto la botola partono tre scale di corda, che
+      scendono nella nebbia in direzioni diverse e si perdono dopo dieci
+      pioli. Una è nuova, di canapa chiara. Le altre due sono vecchie e nere
+      di catrame, e a quella di sinistra mancano un piolo ogni tre. In cima
+      a ciascuna qualcuno ha legato un pezzetto di stoffa colorata, e la
+      stoffa della scala di sinistra è sbiadita fino al bianco.
+
+      {acrobazia Media} La scala nuova dondola più delle altre, perché
+      nessuno l'ha ancora appesantita. Quelle vecchie hanno preso la forma
+      della discesa.
+
+      {conoscenze-della-strada Media} La stoffa è il segno di chi tiene la
+      scala. Chi sale su quella di un altro prima o poi paga, in un modo che
+      non ha scelto lui.
+
+      Dall'alto arriva la voce di Teo Marsan che conta qualcosa a mezza
+      voce, poi più niente. Sotto di te, nella nebbia, una corda cigola come
+      se qualcuno ci fosse appena salito.
+    opzioni:
+      - testo: "Scendere dalla scala vecchia, quella senza pioli"
+        descrizione: "Un piolo ogni tre manca. Nessuno ci sale, e nessuno ti aspetta in fondo."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: I pioli che mancano
+          testo: |
+            Scendi a forza di braccia dove mancano i pioli, con i piedi che
+            cercano il catrame e la nebbia che ti bagna la faccia. In fondo
+            c'è una passerella vuota, e un cartello di legno inchiodato a un
+            pilone indica due direzioni con due frecce che non dicono dove.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: Il piolo marcio
+          testo: |
+            Un piolo si spezza sotto il tuo piede, e resti appeso alle mani
+            con la nebbia che ti gira intorno. Risali fino alla botola con
+            le braccia che bruciano, e ti siedi sulla passerella a
+            riprendere fiato prima di riprovare.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere dalla scala nuova, quella di canapa"
+        descrizione: "Qualcuno l'ha appesa da poco, e la usa. Magari è proprio quello che cerchi."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: La canapa chiara
+          testo: |
+            Scendi piano, tenendo la scala ferma con le ginocchia perché non
+            dondoli. In fondo trovi una passerella con le assi spazzate di
+            recente e una lanterna spenta appesa a un chiodo, ancora
+            tiepida. Chi l'ha spenta è andato verso i magazzini, e non da
+            molto.
+          pe: { furtivita: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: La scala che dondola
+          testo: |
+            La scala nuova dondola a ogni piolo, e a metà discesa sbatti
+            contro un pilone con la spalla. Il rumore rimbomba sotto le assi
+            come un colpo di tamburo. Dalla nebbia qualcuno fischia due
+            volte, e poi niente. Risali alla botola ad aspettare che si
+            calmi.
+          effetti: { sospetto: 0.5 }
+      - testo: "Aspettare che qualcuno salga e chiedergli la strada"
+        descrizione: "Prima o poi da una di queste scale sale qualcuno. Ci vuole pazienza, e la nebbia è fredda."
+        costo: 2
+        esito:
+          titolo: Il ragazzo della corda
+          testo: |
+            Dopo un'ora sale un ragazzo con una fune a tracolla e un pesce
+            secco in mano. Guarda te e poi la botola, e decide che non sono
+            affari suoi. In cambio della tua pazienza ti indica la scala
+            giusta, quella con lo straccio verde, e sparisce verso l'alto.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  # ------------------------------------------------------------ 0–1 · la nebbia sotto le assi
+  - id: gilda-sottoponti-la-nebbia-sotto-le-assi
+    immagine: ambientazione/ponte-dei-morti
+    titolo: La nebbia sotto le assi
+    sommario: "La nebbia si fa così fitta che non vedi la passerella sotto i tuoi piedi. Da qualche parte cigolano le corde."
+    luogo: Sotto il Ponte dei Morti, fra i piloni
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti <= 1]
+    testo: |
+      La nebbia sale dalla Cicatrice a ondate, e a un certo punto ti arriva
+      alla vita e al petto, e alla fine sopra la testa. Non vedi più la
+      passerella sotto i piedi. Senti il legno bagnato attraverso le suole e
+      le corde che cigolano intorno a te da ogni parte, senza capire quali
+      tengono la tua passerella.
+
+      {percezione Media} Le corde portanti cigolano più basso, con un suono
+      lungo. Le funi dei carichi fanno un suono corto e acuto, come una
+      porta che non chiude.
+
+      {resilienza Media fallita} Il vuoto sotto di te è lo stesso di prima,
+      ma adesso non lo vedi, e alla pancia questo non piace per niente.
+
+      Una mano, la tua, trova il corrimano di fune bagnata e lo stringe fino
+      a farsi male.
+    opzioni:
+      - testo: "Seguire il cigolio delle corde portanti"
+        descrizione: "Le corde che reggono le passerelle hanno una voce loro. Bisogna saperla distinguere."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La voce bassa delle corde
+          testo: |
+            Ascolti, e a poco a poco distingui il cigolio lungo delle
+            portanti da quello acuto delle funi di carico. Cammini verso il
+            suono basso, un passo alla volta, con la mano sul corrimano.
+            Quando la nebbia si dirada sei su una passerella larga, fra due
+            piloni, dove la gente dei sottoponti ha steso i panni.
+          pe: { percezione: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: La fune di carico
+          testo: |
+            Segui il cigolio sbagliato e finisci su una fune di carico che
+            si muove sotto i piedi. Torni indietro a carponi, con le dita
+            aggrappate alle assi, fino alla scala da cui eri sceso.
+          effetti: { tormento: 0.5 }
+      - testo: "Tirare dritto senza pensare al vuoto"
+        descrizione: "Una passerella è una passerella. Se finora ti ha retto, ti reggerà ancora."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Un passo dopo l'altro
+          testo: |
+            Conti i passi ad alta voce, come un bambino sulle scale, e la
+            passerella ti regge per tutti e quaranta. Quando la nebbia si
+            dirada sei fra due piloni, su un tratto più largo, con le gambe
+            molli e la voce un po' troppo alta.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: Fermo
+          testo: |
+            Al decimo passo le gambe smettono di obbedire. Resti fermo nella
+            nebbia finché non si dirada da sola, e quando si dirada sei
+            ancora vicino alla scala da cui sei sceso.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che la nebbia si abbassi"
+        descrizione: "La nebbia sale e scende come la marea. Basta aspettare seduti, e non guardare giù."
+        costo: 2
+        esito:
+          titolo: La marea della nebbia
+          testo: |
+            Ti siedi sulle assi con la schiena a un pilone e aspetti. La
+            nebbia scende piano, come l'acqua in un catino bucato, e scopre
+            la passerella un'asse alla volta. Quando riparti hai il sedere
+            bagnato e il collo rigido, ma vedi dove metti i piedi.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  # ------------------------------------------------------------ 1 · le passerelle di servizio
+  - id: gilda-sottoponti-i-lunghi
+    immagine: icone/hooded-figure
+    titolo: I Lunghi
+    sommario: "Su una piattaforma di servizio tre uomini alti e magri giocano a dadi su una botte. Il passaggio è loro, e lo fanno pagare."
+    luogo: Sotto il Ponte dei Morti, una piattaforma di servizio
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti == 1]
+    testo: |
+      La passerella finisce su una piattaforma di servizio appesa a quattro
+      catene, con una botte in mezzo e tre uomini intorno alla botte che
+      giocano a dadi. Hanno tutti braccia lunghe e coltelli ricurvi da
+      cordaio alla cintura. Sono i Lunghi, e quando ti vedono smettono di
+      giocare senza fretta.
+
+      «Pedaggio» dice il più vecchio, e batte il dado sulla botte. «Chi
+      scende dalla botola dei custodi paga il doppio, perché i custodi non
+      pagano mai.»
+
+      {armi-da-mischia Media} I coltelli ricurvi sono fatti per tagliare le
+      corde, e parano male. Su una piattaforma così stretta conta chi arriva
+      primo.
+
+      {conoscenze-della-strada Facile} Il dado l'ha battuto perché tu
+      vedessi il numero, che è un sei. Qui sotto un sei vuol dire che ha già
+      vinto, e che il resto è conversazione.
+
+      Dietro di loro la passerella riprende verso i magazzini appesi.
+    opzioni:
+      - testo: "Pagare il pedaggio"
+        descrizione: "Il doppio, perché vieni dalla botola dei custodi. Almeno è un prezzo onesto."
+        requisiti: [monete >= 6]
+        esito:
+          titolo: Il pedaggio doppio
+          testo: |
+            Conti le monete sulla botte, e il più vecchio le fa sparire con
+            il palmo senza contarle. «Di là» dice, e indica la passerella.
+            Uno dei tre ti accompagna fino al primo magazzino appeso e torna
+            indietro senza salutare.
+          effetti: { monete: -6, profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+      - testo: "Trattare il pedaggio come uno del posto"
+        descrizione: "Sotto i ponti ogni prezzo si tratta, e chi non tratta è un forestiero."
+        requisiti: [monete >= 3]
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Media }
+        successo:
+          titolo: Un dado per uno
+          testo: |
+            Gli proponi di giocarti il pedaggio a dadi con un tiro solo, e
+            il vecchio ride. Perdi. Paghi la metà, perché chi gioca coi
+            Lunghi ha diritto allo sconto, e uno dei tre ti accompagna fino
+            ai magazzini appesi raccontandoti di sua sorella.
+          pe: { conoscenze-della-strada: 3 }
+          effetti: { monete: -3, profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: Il forestiero
+          testo: |
+            Provi a trattare, e il vecchio ti guarda come un pesce guarda un
+            amo nudo. Raddoppia il prezzo. Te ne torni verso le scalette con
+            le orecchie rosse, a cercare un'altra strada.
+          effetti: { rep.ponti: -0.5 }
+      - testo: "Passare con la forza"
+        descrizione: "Tre Lunghi su una piattaforma stretta, con il vuoto tutto intorno. Si arriva primi o non si arriva."
+        combattimento: gilda-i-lunghi
+        vittoria:
+          titolo: La botte rovesciata
+          testo: |
+            Il primo Lungo finisce contro la botte, il secondo si lascia
+            scivolare lungo una catena e sparisce nella nebbia. Il vecchio
+            alza le mani e ti fa passare, guardandoti con un rispetto che
+            non ti fa piacere.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.ponti: -0.5 }
+        sconfitta:
+          titolo: Appeso alla catena
+          testo: |
+            Ti ritrovi appeso a una catena della piattaforma, con le gambe
+            nel vuoto e un Lungo che ti guarda da sopra la catena con molta
+            calma. Poi ti aiutano a risalire, perché un morto sotto i ponti
+            è una seccatura per tutti, e ti rimandano verso le scalette.
+          effetti: { ferite: 1, rep.ponti: -0.5 }
+      - testo: "Salutarli con le parole dei ragazzi della corda"
+        descrizione: "I Lunghi e i ragazzi della corda si fanno la guerra, ma si rispettano. Tu sai come si saluta un Lungo."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        requisiti: [monete >= 3]
+        esito:
+          titolo: Il saluto
+          testo: |
+            Li saluti come vi salutavate in Via del Salmone, con la mano sul
+            coltello e il pollice alzato, e il vecchio si mette a ridere. Ti
+            fa pagare la metà del pedaggio e ti indica la passerella con il
+            mento. «I ragazzi della corda li conosco» dice, «pagano male e
+            ridono bene.»
+          effetti: { monete: -3, profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  - id: gilda-sottoponti-le-lanterne
+    immagine: ambientazione/ponte-dei-morti
+    titolo: Le lanterne della veglia
+    sommario: "Sotto le passerelle pendono le lanterne dei Raschiatori, così fitte che bisogna passarci in mezzo senza toccarle."
+    luogo: Sotto il Ponte dei Morti, sotto le lanterne
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti == 1]
+    testo: |
+      Qui sotto le lanterne dei Raschiatori pendono più in basso, appese a
+      catene lunghe che scendono dal parapetto del ponte. Ognuna ha il suo
+      piccolo cristallo acceso per un compagno rimasto nel Labirinto, e sono
+      così fitte che la passerella ci passa in mezzo, come in un bosco di
+      luci. Una delle lanterne si è impigliata nel corrimano e blocca il
+      passaggio.
+
+      {politica-ed-economia Facile} Alla Casa dei Nodi queste lanterne non
+      le conta nessuno, e per questo i Raschiatori le appendono proprio qui.
+
+      {origine apprendista-raschiatore} Leggi i nomi incisi sul vetro della
+      lanterna impigliata. Uno lo conosci. Era della squadra di Dragna, e
+      scendeva con te il primo anno.
+
+      Su una cassa all'imbocco siede una vecchia Raschiatrice con le mani in
+      grembo. Ti guarda arrivare e non dice niente.
+    opzioni:
+      - testo: "Passare sotto la lanterna senza toccarla"
+        descrizione: "Bisogna piegarsi fino alle assi e passare, con le mani a posto."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Sotto la luce
+          testo: |
+            Ti pieghi fino a toccare le assi con le ginocchia e passi sotto
+            la lanterna impigliata con la schiena che ne sfiora il fondo di
+            vetro, caldo. La vecchia Raschiatrice ti guarda passare e
+            annuisce una volta, come si annuisce a chi sa stare in chiesa.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il vetro
+          testo: |
+            Ti pieghi, ma la spalla urta la lanterna e la manda a sbattere
+            contro il pilone. Il vetro regge. La vecchia Raschiatrice si
+            alza e ti fa tornare indietro con un gesto della mano, e tu
+            torni indietro.
+          effetti: { rep.raschiatori: -0.5 }
+      - testo: "Chiedere alla vecchia di farti passare"
+        descrizione: "Lei veglia le lanterne. Sa come si sposta una catena senza offendere nessuno."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La catena spostata
+          testo: |
+            Le chiedi il permesso e il nome del Raschiatore della lanterna,
+            e lei te lo dice insieme all'anno. Poi si alza, stacca la catena
+            dal corrimano con due dita e la riappende un palmo più in là.
+            «Adesso passa» dice, «e prima di andartene dillo anche tu, il
+            suo nome.»
+          pe: { empatia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il gettone
+          testo: |
+            Glielo chiedi, e lei ti guarda il gettone di bronzo della Gilda
+            alla cintura prima della faccia. «La Casa passa da sopra» dice,
+            e torna a guardare le lanterne. Ti tocca tornare verso le
+            scalette.
+          effetti: { rep.raschiatori: -0.5 }
+      - testo: "Fare il giro largo, fuori dalle lanterne"
+        descrizione: "Lungo il bordo esterno della passerella, dove il corrimano non c'è più."
+        costo: 2
+        esito:
+          titolo: Il bordo
+          testo: |
+            Fai il giro lungo il bordo esterno, dove il corrimano è stato
+            tagliato chissà quando, con la schiena al vuoto e la faccia al
+            pilone. Ci metti molto, e la vecchia Raschiatrice ti guarda
+            tutto il tempo con la testa piegata.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+      - testo: "Dire il nome del compagno e spostare la catena"
+        descrizione: "Lo conoscevi. Alla veglia si dice il nome prima di toccare la lanterna, e allora si può."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: Il nome detto
+          testo: |
+            Dici il nome del compagno ad alta voce, con l'anno, come alla
+            veglia. La vecchia Raschiatrice si alza in piedi. Stacchi la
+            catena dal corrimano e la riappendi un palmo più in là, e lei ti
+            tocca il braccio quando le passi accanto.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.raschiatori: 0.5 }
+
+  # ------------------------------------------------------------ 1–2 · l'esattore degli Scuri
+  - id: gilda-sottoponti-l-esattore
+    immagine: fazioni/scuri
+    titolo: L'esattore degli Scuri
+    sommario: "Sulla passerella dei magazzini due uomini con il cappuccio riscuotono la quota degli Scuri da chi passa. Prima la riscuoteva Maedric."
+    luogo: Sotto il Ponte dei Morti, la passerella dei magazzini
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, pista.pelle < 6, profondita.gilda-sotto-il-ponte-dei-morti >= 1, profondita.gilda-sotto-il-ponte-dei-morti <= 2]
+    testo: |
+      Sulla passerella che porta ai magazzini appesi due uomini con il
+      cappuccio di tela grigia stanno appoggiati al corrimano ai due lati, e
+      chiunque passi lascia qualcosa nella mano del più basso. Una donna con
+      un cesto di pesce lascia un pesce. Un ragazzo lascia una moneta, e il
+      più basso gliela rende perché è tosata.
+
+      {intimidire Media} Il più alto non guarda chi passa. Guarda la nebbia
+      dietro chi passa, per vedere se arriva qualcun altro.
+
+      {conoscenze-della-strada Media} Prima riscuoteva Maedric, per conto
+      degli Scuri e per conto suo. Adesso riscuotono loro direttamente, e il
+      prezzo è salito.
+
+      Il più basso ti vede il gettone della Gilda alla cintura e sorride con
+      tutti i denti che gli restano.
+    opzioni:
+      - testo: "Passare in mezzo a loro"
+        descrizione: "Sono in due, e la passerella è stretta. Se cominci tu, la cominci bene."
+        combattimento: gilda-l-esattore
+        vittoria:
+          titolo: La passerella libera
+          testo: |
+            Il più alto finisce oltre il corrimano e si salva aggrappandosi
+            a una catena, il più basso scappa verso le scalette gridando un
+            nome che non conosci. La donna del pesce ti guarda passare e si
+            riprende il suo pesce dalla cassetta dell'esattore.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.scuri: -0.5 }
+        sconfitta:
+          titolo: La quota
+          testo: |
+            Ti tengono con la faccia sulle assi finché non hai capito chi
+            comanda qui sotto, e lo capisci in fretta. Poi ti rimandano
+            verso le scalette con un calcio, e il più basso ti augura buona
+            giornata.
+          effetti: { ferite: 1, sospetto: 0.5 }
+      - testo: "Spacciarti per un uomo di Maedric"
+        descrizione: "Maedric aveva i suoi uomini, e qualcuno torna ancora a prendere roba. Basta sapere che cosa dire."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: La roba del custode
+          testo: |
+            Gli dici che vieni a prendere la roba del custode, e che il
+            custode ricorda chi l'ha aiutato e chi no. Il più basso si
+            gratta il mento mentre ci pensa, e poi ti fa passare con un
+            gesto largo. «Salutalo da parte nostra» dice, «e digli che la
+            quota adesso la riscuotiamo noi.»
+          pe: { ingannare: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: Il nome sbagliato
+          testo: |
+            Gli dici che vieni da parte di Maedric, e il più alto ti chiede
+            il nome di sua sorella, che non sai. Ti rimandano indietro senza
+            toccarti, ma stasera alla Pignatta qualcuno saprà che uno con il
+            gettone della Gilda gira sotto il Ponte dei Morti.
+          effetti: { sospetto: 1 }
+      - testo: "Pagare la quota"
+        descrizione: "Una moneta per passare. Gli Scuri sapranno che la Gilda paga anche qui."
+        requisiti: [monete >= 4]
+        esito:
+          titolo: Una moneta in mano
+          testo: |
+            Metti le monete nella mano del più basso, che le guarda una per
+            una alla luce di una lanterna. Ti fa passare. Il più alto,
+            quando gli passi accanto, ti sussurra che prima o poi i custodi
+            della Gilda pagano sempre volentieri.
+          effetti: { monete: -4, rep.scuri: 0.5, profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  # ------------------------------------------------------------ 2 · i magazzini appesi
+  - id: gilda-sottoponti-le-botti-raschiate
+    immagine: icone/barrel
+    titolo: Le botti raschiate
+    sommario: "In un magazzino appeso, con il lucchetto rotto, ci sono botti della Gilda con il nodo raschiato via. Le stesse del magazzino di ponente."
+    luogo: Sotto il Ponte dei Morti, un magazzino appeso
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti == 2]
+    testo: |
+      Il magazzino è una scatola di assi appesa a quattro catene, che
+      oscilla appena quando ci entri. Il lucchetto della porta è rotto da
+      tempo. Dentro ci sono una ventina di botti impilate su due file, e su
+      ognuna il nodo della Gilda è stato raschiato via con una lama, come
+      sulle casse del magazzino di ponente dopo il Festival.
+
+      {percezione Media} Sul legno chiaro, sotto la raschiatura, si legge
+      ancora un pezzo di numero. È un numero di lotto della Casa dei Nodi,
+      scritto con la grafia stretta di un ispettore.
+
+      Fra le botti c'è un sentiero di impronte nella polvere, che va verso
+      il fondo del magazzino. Lì una porticina dà su un'altra passerella più
+      bassa, dove le lanterne non arrivano.
+
+      {rissa Facile fallita} Ti sembra di sentire un respiro dietro le
+      botti, e tiri un pugno all'aria. Il respiro, a pensarci bene, era il
+      tuo.
+    opzioni:
+      - testo: "Leggere i numeri di lotto"
+        descrizione: "Sono mezzi raschiati. Con la luce giusta e un po' di pazienza si ricostruiscono."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: I lotti di Cosimo
+          testo: |
+            Inclini una botte verso la luce che filtra dalle assi e
+            ricostruisci il numero, cifra dopo cifra. È un lotto del
+            Festival, firmato da Cosimo Venn nel suo libro come *razzia*. Te
+            lo copi sul polsino della camicia e prendi la porticina in
+            fondo.
+          pe: { percezione: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Le cifre mangiate
+          testo: |
+            Le cifre sono raschiate troppo a fondo, e a forza di girare le
+            botti una ti rotola su un piede. Zoppichi fino alla porticina in
+            fondo, maledicendo a mezza voce chi ha inventato le botti.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, ferite: 0.5 }
+      - testo: "Aprire una botte"
+        descrizione: "Quello che c'è dentro dice più di quello che c'è scritto fuori."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: Cristalli nella crusca
+          testo: |
+            Sollevi il coperchio con il coltello. Sotto un palmo di crusca
+            ci sono cristalli, imballati uno per uno nella paglia, senza
+            timbro. Ne prendi uno, perché un cristallo in tasca è una prova
+            che si porta in giro, e prendi la porticina in fondo.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, cristalli.cristallo-sterile: 1 }
+        fallimento:
+          titolo: Il coperchio
+          testo: |
+            Il coperchio salta via di colpo e la crusca ti finisce in faccia
+            e sulle assi, dove resta come una traccia per chiunque passi
+            dopo di te. Te ne vai dalla porticina in fondo sputando crusca.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, sospetto: 0.5 }
+      - testo: "Seguire le impronte senza fermarsi"
+        descrizione: "Le botti restano qui. Le impronte vanno verso la casa che cerchi."
+        costo: 2
+        esito:
+          titolo: Le impronte
+          testo: |
+            Segui le impronte fra le botti fino alla porticina, e oltre, su
+            una passerella più bassa, dove le lanterne non arrivano. Ci
+            metti tempo, perché ogni tanto le impronte si perdono e devi
+            tornare indietro.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  - id: gilda-sottoponti-la-fune-segata
+    immagine: icone/rope-coil
+    titolo: La fune segata
+    sommario: "Una passerella pende di traverso. Una delle sue funi portanti è stata segata a metà, con un taglio pulito."
+    luogo: Sotto il Ponte dei Morti, fra i magazzini appesi
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti == 2]
+    testo: |
+      La passerella fra due magazzini appesi pende di traverso, come una
+      bocca storta, e il corrimano dalla parte bassa sfiora il vuoto. Una
+      delle quattro funi portanti è stata segata a metà, e regge con le
+      fibre che restano, tese come i nervi di una mano chiusa.
+
+      {tecnologia Media} Il taglio è pulito e dritto, fatto con un segaccio
+      da funi come quelli dei chiattaioli, e l'usura non c'entra. Qualcuno
+      voleva che la passerella reggesse ancora un po' e poi cedesse sotto il
+      primo peso giusto.
+
+      {atletica Media} Dall'altra parte la passerella torna dritta. Sono una
+      dozzina di passi, e i primi sei sono i peggiori.
+
+      Più in basso, nella nebbia, si vede la sagoma scura di un'altra
+      passerella, che finirebbe in un posto molto diverso.
+    opzioni:
+      - testo: "Attraversare dalla parte alta"
+        descrizione: "Con il peso sulla fune buona, e in fretta."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Dalla parte alta
+          testo: |
+            Attraversi tenendoti alla fune buona, con i piedi sul bordo alto
+            delle assi e il vuoto alla tua destra. La fune segata canta
+            sotto il tuo peso e regge. Dall'altra parte ti volti, e ti viene
+            in mente che a segarla così ci vuole uno che conosce le funi.
+          pe: { atletica: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: La fune che cede
+          testo: |
+            A metà strada la fune segata cede del tutto, e la passerella si
+            gira di lato. Resti aggrappato al corrimano con le gambe nel
+            vuoto, e risali a forza di braccia fino al magazzino da cui eri
+            partito.
+          effetti: { ferite: 1 }
+      - testo: "Legare la fune prima di passare"
+        descrizione: "Un nodo da carico sopra il taglio, e la fune regge come nuova. O quasi."
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il nodo sopra il taglio
+          testo: |
+            Fai un nodo da carico sopra il taglio come il nodo dei soci alla
+            Casa dei Nodi, e la passerella si raddrizza di un palmo.
+            Attraversi senza fretta, e dall'altra parte lasci il nodo dov'è,
+            per chi passa dopo.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Il nodo che scivola
+          testo: |
+            Il nodo scivola sulla fune bagnata e ti brucia i palmi. Riprovi
+            due volte prima di rinunciare, e torni indietro a cercare
+            un'altra strada con le mani che ti fanno male.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere alla passerella di sotto"
+        descrizione: "È più lunga e più buia, ma le sue funi sono intere."
+        costo: 2
+        esito:
+          titolo: Di sotto
+          testo: |
+            Ti cali lungo una catena fino alla passerella di sotto, che gira
+            intorno a due piloni prima di risalire. È lunga e buia, e ci
+            passa il vento della Cicatrice. Quando risali sei dall'altra
+            parte della fune segata, con le mani nere di catrame.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+      - testo: "Fare il nodo come sulla Cicatrice"
+        descrizione: "Sulle piattaforme una fune segata si lega appesi, con una mano. L'hai fatto cento volte."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: Una mano
+          testo: |
+            Ti appendi al corrimano con una mano e con l'altra fai il nodo
+            dei Raschiatori sopra il taglio, quello che regge anche bagnato.
+            La passerella si raddrizza di un palmo, e la attraversi in sei
+            passi.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1, rep.ponti: 0.5 }
+
+  # ------------------------------------------------------------ 2–3 · il balestriere di guardia
+  - id: gilda-sottoponti-il-balestriere-di-guardia
+    immagine: icone/crossbow
+    titolo: Il balestriere di guardia
+    sommario: "All'imbocco della campata senza lanterne c'è un balestriere della Gilda seduto su una cassa. Uno degli uomini di Maedric."
+    luogo: Sotto il Ponte dei Morti, all'imbocco della campata cieca
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti >= 2, profondita.gilda-sotto-il-ponte-dei-morti <= 3]
+    testo: |
+      Dove le lanterne finiscono, all'imbocco di una campata buia, un uomo
+      siede su una cassa con una balestra leggera sulle ginocchia. Ha il
+      mantello dei Custodi, con lo stemma della Gilda scucito a metà, e
+      mangia castagne secche da un sacchetto. È uno dei balestrieri di
+      Maedric Holl. Gli altri sono spariti con lui, o dopo di lui.
+
+      {armi-da-distanza Media} Balestra leggera, buona a trenta passi e
+      inutile a cinquanta, con la nebbia che c'è. Il dardo è già incoccato,
+      e la sicura è tolta.
+
+      {empatia Media} Mangia le castagne una alla volta, contandole. Gli
+      restano poche castagne e non sa da chi prenderà la paga del mese.
+    opzioni:
+      - testo: "Strisciargli alle spalle nella nebbia"
+        descrizione: "La nebbia sale a ondate. Fra un'ondata e l'altra c'è il tempo di dieci passi."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Dieci passi
+          testo: |
+            Aspetti l'ondata di nebbia e ti muovi con lei, dieci passi alla
+            volta, finché non sei dentro la campata buia alle sue spalle. Lo
+            senti masticare castagne per un pezzo, mentre ti allontani al
+            buio.
+          pe: { furtivita: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: Il dardo nel pilone
+          testo: |
+            La nebbia si dirada a metà strada, e lui ti vede. Il dardo si
+            pianta nel pilone accanto alla tua testa, e tu torni indietro di
+            corsa fra le lanterne, mentre lui ricarica senza fretta.
+          effetti: { ferite: 0.5, sospetto: 0.5 }
+      - testo: "Disarmarlo prima che tiri"
+        descrizione: "Una balestra leggera tira una volta. Dopo, è un bastone."
+        combattimento: gilda-il-balestriere-di-guardia
+        vittoria:
+          titolo: Le castagne
+          testo: |
+            Lo raggiungi mentre ricarica, e la balestra finisce nella
+            Cicatrice insieme al sacchetto di castagne. Lui alza le mani e
+            ti dice che la paga del mese non gliel'ha data nessuno, e che
+            per lui puoi passare.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        sconfitta:
+          titolo: Il dardo nella spalla
+          testo: |
+            Il dardo ti prende di striscio alla spalla prima che tu arrivi,
+            e il secondo colpo te lo dà con il calcio della balestra. Ti
+            trascini indietro fra le lanterne, con la spalla che sanguina.
+          effetti: { ferite: 1 }
+      - testo: "Offrirgli la paga del mese"
+        descrizione: "Maedric non lo paga più. Tu puoi."
+        requisiti: [monete >= 8]
+        esito:
+          titolo: La paga
+          testo: |
+            Gli metti in mano le monete, e lui le conta come le castagne,
+            una alla volta. Poi si alza, si mette la balestra a tracolla e
+            se ne va verso le scalette. Prima di sparire ti dice che la casa
+            che cerchi è in fondo alla campata, e che la porta si apre
+            tirando.
+          effetti: { monete: -8, profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  # ------------------------------------------------------------ 3 · la campata cieca
+  - id: gilda-sottoponti-la-campata-cieca
+    immagine: ambientazione/ponte-dei-morti
+    titolo: La campata cieca
+    sommario: "Una campata senza lanterne, buia come l'interno di un pugno. In fondo, da qualche parte, c'è la casa di Maedric."
+    luogo: Sotto il Ponte dei Morti, la campata cieca
+    area: gilda-sotto-il-ponte-dei-morti
+    ripetibile: true
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti == 3]
+    testo: |
+      La campata cieca è una passerella lunga sotto un tratto di ponte dove
+      i Raschiatori non appendono lanterne. Il buio è completo. Senti le
+      assi sotto i piedi e il corrimano sotto la mano, e il resto è nebbia e
+      il vento freddo della Cicatrice che sale da sotto. In fondo, molto
+      lontano, c'è un filo di luce gialla, sottile come una crepa in una
+      porta.
+
+      {furtivita Media} Nel buio i rumori arrivano da più lontano. Se tu
+      senti il vento, chi sta in fondo sente te.
+
+      {resistenza Media fallita} Il freddo ti entra nelle mani attraverso il
+      corrimano bagnato, e le dita si rifiutano di stringere bene.
+    opzioni:
+      - testo: "Avanzare al buio, con la mano sul corrimano"
+        descrizione: "Un passo alla volta, senza fare rumore, verso il filo di luce."
+        prova: { attributo: fisico, abilita: [furtivita, resistenza], difficolta: Media }
+        successo:
+          titolo: Il filo di luce
+          testo: |
+            Avanzi con la mano sul corrimano e i piedi che tastano le assi,
+            e il filo di luce cresce a poco a poco fino a diventare la
+            fessura di una porta. La casa è appesa sotto il ponte con
+            quattro catene, come una lanterna enorme.
+          pe: { furtivita: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: L'asse che manca
+          testo: |
+            A metà campata un'asse manca, e il tuo piede trova il vuoto. Ti
+            salvi aggrappandoti al corrimano con tutte e due le mani, e il
+            rumore delle assi rotola lungo la campata fino in fondo. Il filo
+            di luce in fondo si spegne, e tu torni indietro fino alle
+            lanterne.
+          effetti: { ferite: 0.5 }
+      - testo: "Contare le assi a voce bassa"
+        descrizione: "Una campata ha un numero di assi. Quella che manca si sente prima di cadere."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: Centoquattordici
+          testo: |
+            Conti le assi sotto la suola una alla volta, e alla
+            centoquattordicesima il piede non trova niente. La salti. Alla
+            duecentesima la fessura di luce è a dieci passi da te, ed è la
+            porta di una casa appesa sotto il ponte con quattro catene.
+          pe: { percezione: 3 }
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+        fallimento:
+          titolo: Il conto perso
+          testo: |
+            Perdi il conto a sessanta e ricominci, ma lo perdi di nuovo. Il
+            buio ti si stringe intorno alla testa. Torni verso le lanterne
+            per riprendere fiato, con le mani che tremano.
+          effetti: { tormento: 0.5 }
+      - testo: "Avanzare carponi"
+        descrizione: "Carponi non si cade. Ci si sporca, ci si mette molto, ma non si cade."
+        costo: 2
+        esito:
+          titolo: Carponi
+          testo: |
+            Avanzi carponi, con le mani che tastano ogni asse prima di
+            metterci sopra il peso. Ci metti un'eternità, e quando arrivi
+            alla porta della casa appesa hai le ginocchia scorticate e la
+            faccia nera di catrame.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+      - testo: "Aprire di un dito la lanterna cieca"
+        descrizione: "Una lanterna che fa luce per un dito. Qui sotto è tutto quello che serve."
+        requisiti: [chiave.notte-sui-ponti >= 1]
+        costo: 0
+        esito:
+          titolo: Un dito di luce
+          testo: |
+            Apri lo sportello della lanterna di un dito, e la luce ti mostra
+            le assi una alla volta, senza arrivare in fondo alla campata.
+            Salti quella che manca e arrivi alla porta della casa appesa
+            senza un rumore.
+          effetti: { profondita.gilda-sotto-il-ponte-dei-morti: 1 }
+
+  # ------------------------------------------------------------ il cuore · la casa appesa
+  - id: gilda-sottoponti-la-casa-appesa
+    immagine: personaggi/maedric-holl
+    titolo: La casa appesa
+    sommario: "In fondo alla campata cieca c'è una casa di assi appesa sotto il ponte, e dentro la luce è accesa. È l'indirizzo che non corrispondeva a nessuna porta."
+    luogo: Sotto il Ponte dei Morti, la casa appesa di Maedric
+    area: gilda-sotto-il-ponte-dei-morti
+    requisiti: [fazione.gilda == 7, profondita.gilda-sotto-il-ponte-dei-morti >= 4]
+    testo: |
+      La casa di Maedric Holl è una stanza sola, appesa sotto il ponte con
+      quattro catene, e ci si entra da una passerella stretta che finisce
+      contro la porta. Le pareti sono di assi incatramate. C'è una finestra
+      sul vuoto, con le imposte chiuse, e dalla fessura della porta esce una
+      luce gialla. L'indirizzo che Maedric dava alla Casa dei Nodi era
+      questo, la campata cieca del Ponte dei Morti, e nessun ispettore ci
+      era mai sceso a vedere.
+
+      Quando apri la porta vedi la branda accanto alla stufetta, il tavolo
+      con i libri impilati e il mantello cerato che gocciola ancora da un
+      chiodo. E c'è qualcuno.
+
+      {percezione Media} I libri sul tavolo sono legati con lo spago e un
+      nodo doppio, e accanto c'è una borsa di cuoio aperta. Chi è qui stava
+      per portarli via.
+
+      {origine figlio-della-citta-bassa} Sotto il Ponte dei Morti, da
+      ragazzo, ci dicevano di non andare oltre le lanterne, perché lì
+      abitava l'uomo del mantello cerato. Pensavi fosse una storia per
+      spaventare i piccoli.
+    opzioni:
+      - testo: "Affrontare Maedric e i suoi balestrieri"
+        descrizione: "Maedric è tornato a prendersi i libri, con due balestrieri. Lo spazio è poco, e le balestre tirano una volta."
+        requisiti: [maedric <= 1]
+        combattimento: gilda-maedric-e-i-balestrieri
+        vittoria:
+          titolo: Il mantello cerato
+          testo: |
+            I balestrieri cadono uno dopo l'altro, nello spazio stretto fra
+            la branda e il tavolo, e Maedric si ritrova con la schiena
+            contro la finestra chiusa. Apre le imposte con una mano dietro
+            la schiena e ti guarda. «I ponti di notte non sono i ponti di
+            giorno» dice. Poi si lascia cadere nel vuoto, aggrappato a una
+            corda che aveva legato lì da anni, e i libri restano sul tavolo.
+          segue: gilda-sottoponti-il-secondo-libro
+        sconfitta:
+          titolo: La porta che si chiude
+          testo: |
+            Un dardo ti prende alla gamba, e un balestriere ti spinge fuori
+            dalla porta. Ti ritrovi sulla passerella con la porta chiusa
+            davanti e il sangue che ti cola nello stivale. Torni indietro
+            zoppicando per la campata cieca e poi su per le scalette, fino
+            alla botola.
+          effetti: { ferite: 1 }
+          vai: ponti-sospesi
+      - testo: "Trattare con Maedric"
+        descrizione: "Maedric lavora a tariffa, con tutti. I libri hanno un prezzo, e anche la sua fuga."
+        requisiti: [maedric <= 1]
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: La tariffa
+          testo: |
+            Gli dici che i suoi vecchi soci lo cercano, e che tu sei l'unico
+            in città che lo lascerà andare. Maedric ti ascolta con gli occhi
+            acquosi e il mantello sulle spalle. «La tariffa è giusta» dice
+            alla fine. Spinge i libri verso di te con due dita. Poi apre le
+            imposte e scende nel vuoto lungo una corda annodata, e sui ponti
+            non lo vedrai più.
+          pe: { persuasione: 5 }
+          segue: gilda-sottoponti-il-secondo-libro
+        fallimento:
+          titolo: Il prezzo sbagliato
+          testo: |
+            Gli proponi un prezzo, e Maedric sorride appena, con le labbra
+            sottili. «Hai sbagliato il conto» dice, e fa un cenno ai
+            balestrieri. Ti ritrovi sulla passerella con la porta chiusa
+            davanti e un livido sulla fronte, e torni indietro fino alla
+            botola.
+          effetti: { ferite: 0.5 }
+          vai: ponti-sospesi
+      - testo: "Affrontare il balestriere con la toppa"
+        descrizione: "Maedric non c'è più, e la casa la tiene uno dei suoi uomini, con due compagni. Non sa più per chi la tiene."
+        requisiti: [maedric >= 2]
+        combattimento: gilda-la-casa-appesa
+        vittoria:
+          titolo: La toppa sulla fodera
+          testo: |
+            Nello spazio stretto fra la branda e il tavolo le balestre
+            servono a poco. Gli altri due scappano dalla finestra lungo una
+            corda, e il balestriere con la toppa sulla fodera resta seduto
+            sulla branda, con le mani alzate. «Tanto non c'era più nessuno a
+            pagarci» dice, e ti indica i libri sul tavolo.
+          segue: gilda-sottoponti-il-secondo-libro
+        sconfitta:
+          titolo: Fuori dalla porta
+          testo: |
+            Un balestriere ti colpisce con il calcio della balestra, e ti
+            ritrovi sulla passerella con la porta chiusa davanti. Torni
+            indietro zoppicando per la campata cieca, fino alla botola.
+          effetti: { ferite: 1 }
+          vai: ponti-sospesi
+      - testo: "Parlare al balestriere con la toppa"
+        descrizione: "Quella toppa gliel'ha cucita qualcuno che gli vuole bene. Un uomo così vorrebbe tornare a casa."
+        requisiti: [maedric >= 2]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Chi l'ha cucita
+          testo: |
+            Gli chiedi chi gli ha cucito la toppa. Lui guarda la fodera e
+            poi te. Ti dice che gliel'ha cucita sua madre. Vive in Città
+            Bassa e crede che lui faccia il custode di giorno. Manda via gli
+            altri due con un cenno e ti lascia i libri sul tavolo. «Diglielo
+            tu, alla Casa, che non ho preso niente» dice, e se ne va per la
+            campata.
+          pe: { empatia: 5 }
+          segue: gilda-sottoponti-il-secondo-libro
+        fallimento:
+          titolo: Non sono affari tuoi
+          testo: |
+            Gli parli della toppa, e lui si alza di scatto. «Non sono affari
+            tuoi» dice, e la balestra si alza con lui. Esci dalla porta
+            camminando all'indietro e torni fino alla botola con il cuore
+            che ti batte nei denti.
+          effetti: { tormento: 0.5 }
+          vai: ponti-sospesi
+      - testo: "Tornare indietro fino alla botola"
+        descrizione: "La casa appesa resta qui. Si può tornare con più forze."
+        costo: 0
+        esito:
+          titolo: Indietro
+          testo: |
+            Richiudi la porta piano e torni indietro per la campata cieca,
+            con la mano sul corrimano e la luce gialla della casa alle
+            spalle che si fa sempre più piccola.
+          vai: ponti-sospesi
+
+  - id: gilda-sottoponti-il-secondo-libro
+    immagine: icone/notebook
+    titolo: Il secondo libro
+    tipo: seguito
+    luogo: Sotto il Ponte dei Morti, la casa appesa di Maedric
+    area: gilda-sotto-il-ponte-dei-morti
+    requisiti: [fazione.gilda == 7]
+    testo: |
+      I libri sul tavolo sono due, legati con lo spago. Il primo è un
+      registro di pelle uguale a quello che hai già visto, e il secondo è un
+      quaderno di conti scritto in chiaro, senza disegni, con la grafia
+      sottile di Maedric. Lo apri sotto la lanterna. Sono sei anni di
+      pagamenti degli Scuri che entravano nella Casa dei Nodi attraverso i
+      magazzini di scarico di Ansaldo Morlacchi, come pagamenti per noli mai
+      fatti. Ogni mese una parte usciva dai magazzini verso tre banchi della
+      Casa, e accanto a ogni somma ci sono la data e il nome del funzionario
+      che la riceveva.
+
+      {politica-ed-economia Media} Con questo quaderno Elleri non spiega più
+      niente a nessuno. Le somme sono scritte in chiaro accanto al nome dei
+      magazzini, e le date tornano con quelle dei noli fantasma
+      dell'archivio.
+
+      Accanto ai libri c'è una lanterna di latta con lo sportello a scatto,
+      che fa luce per un dito. Sotto la branda, in una cassa, ci sono monete
+      legate in rotoli e alcuni cristalli carichi senza timbro.
+
+      {origine mercante-dei-ponti} Il nome dei magazzini di scarico lo hai
+      letto mille volte sulle bolle del tuo banco. Ogni volta pagavi il
+      nolo, e ogni volta pensavi che fosse caro.
+    opzioni:
+      - testo: "Portare via i libri e il bottino"
+        descrizione: "I libri, la lanterna di Maedric, i rotoli di monete e i cristalli. Agli Scuri mancheranno."
+        requisiti: [pista.pelle < 6]
+        esito:
+          titolo: Tutto sotto la giubba
+          testo: |
+            Metti i libri sotto la giubba e la lanterna alla cintura, e le
+            monete con i cristalli finiscono nella borsa di cuoio di
+            Maedric. Risali fino alle scalette, e quando esci dalla botola
+            Teo Marsan ti aspetta con la lanterna alzata e conta i libri tre
+            volte. Prima di sera alla Pignatta sapranno chi ha svuotato la
+            casa appesa.
+          effetti: { oggetto.gilda-lanterna-cieca-di-maedric: 1, monete: 25, cristalli.cristallo-carico: 2, rep.scuri: -1, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi
+      - testo: "Portare via i libri e il bottino"
+        descrizione: "I libri, la lanterna di Maedric, i rotoli di monete e i cristalli. Gli Scuri non ci sono più a reclamarli."
+        requisiti: [pista.pelle >= 6]
+        esito:
+          titolo: Tutto sotto la giubba
+          testo: |
+            Metti i libri sotto la giubba e la lanterna alla cintura, e le
+            monete con i cristalli finiscono nella borsa di cuoio di
+            Maedric. Risali fino alle scalette, e quando esci dalla botola
+            Teo Marsan ti aspetta con la lanterna alzata e conta i libri tre
+            volte.
+          effetti: { oggetto.gilda-lanterna-cieca-di-maedric: 1, monete: 25, cristalli.cristallo-carico: 2, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi
+      - testo: "Prendere i libri e la lanterna, e lasciare il resto ai sottoponti"
+        descrizione: "Le monete e i cristalli restano nella cassa. Qualcuno dei sottoponti li troverà, e se ne ricorderà."
+        esito:
+          titolo: La cassa aperta
+          testo: |
+            Prendi i libri e la lanterna, e lasci la cassa aperta sotto la
+            branda. Sulla passerella incroci la vecchia Raschiatrice delle
+            lanterne, o una che le somiglia, e le dici dove andare a
+            guardare. Quando esci dalla botola Teo Marsan conta i libri tre
+            volte.
+          effetti: { oggetto.gilda-lanterna-cieca-di-maedric: 1, rep.ponti: 1, rep.raschiatori: 0.5, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi

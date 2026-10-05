@@ -1,0 +1,928 @@
+# La quest della Confraternita del Velo, passi 2, 3 e 5. I passi 1 e 4 stanno in contenuti/citta/cattedrale.yaml.
+# - Passo 2 (fazione.velo == 1): la processione dei morti della razzia scende al Cimitero. Con pista.pelle < 6 gli
+#   Scuri chiedono il pedaggio in Via dei Rasoi, con pista.pelle >= 6 si passa davanti alle macerie della Pignatta.
+#   Al Cimitero il seguito con Padre Valdrano, che inchioda i bollettini delle sacche, chiude il passo.
+# - Passo 3 (== 2, grado 1): la riga del bollettino coperta a carboncino, la sacca sotto l'Orlo. Ricostruirla,
+#   chiedere a Grusk o fare la guardia di notte apre il seguito in Cattedrale, dove Ottilia scrive il tuo nome nella
+#   colonna dei laici.
+# - Passo 5 (== 4): chi erano i sei sacerdoti della compieta. Il libro delle prebende di Arva, i fogli dei cantori di
+#   Celia, Nadja o il quaderno (velo.copia) aprono il seguito al campanile con Fratello Lauro Bessi, che chiude il
+#   passo; se aspetti con lui, confessa di aver strappato la riga (velo.bessi).
+storylet:
+  # ------------------------------------------------------------ passo 2 · la processione, con gli Scuri
+  - id: velo-la-processione-dei-morti
+    presso: via-dei-rasoi
+    immagine: fazioni/confraternita-del-velo
+    titolo: Le campane a lutto
+    sommario: "Ottilia ti ha scritto sulla tavoletta per la processione dei morti della razzia. Il cero che ti tocca è alto quanto un bambino, e la strada per il Cimitero passa da Via dei Rasoi."
+    luogo: Città Bassa, Via dei Rasoi, al gomito della strada
+    area: citta-bassa
+    requisiti: [fazione.velo == 1, pista.pelle < 6]
+    testo: |
+      La processione è partita dalla Cattedrale con le campane a lutto, e
+      scende verso il Cimitero per la strada più lunga, quella che attraversa
+      la Città Bassa, perché i morti della razzia erano quasi tutti di qui.
+      Padre Vantes cammina in testa con il libro aperto. Dietro di lui Sorella
+      Celia suona il liuto a passo d'uomo, e in coda un novizio agita una
+      campanella con il batacchio legato al manico da un giro di spago. Tu
+      porti uno dei ceri grandi, che pesa come un remo e cola cera calda sulle
+      nocche a ogni gradino.
+
+      {resistenza Facile} La spalla sinistra ha già chiesto il cambio due
+      volte. La destra, per orgoglio, non chiede niente.
+
+      Al gomito di Via dei Rasoi tre uomini degli Scuri sono seduti su una
+      panca messa di traverso, e non si alzano. Il più giovane ha una mela in
+      mano e la lucida sulla manica senza mangiarla. Il più vecchio dice a
+      Vantes che il quartiere è loro, e che chi lo attraversa con le candele
+      accese paga il pedaggio come i carri. Vantes si ferma, e con lui si
+      ferma il liuto.
+
+      {intimidire Media} Il giovane della mela guarda il vecchio per sapere
+      che cosa fare. Senza il vecchio, la panca si sposta da sola.
+
+      {origine figlio-della-citta-bassa} Il vecchio lo conosci di vista, da
+      quando giocavi sotto i carri, e lui conosce te. Al tempo ti chiamava per
+      nome, e adesso fa finta di non ricordarselo.
+
+      Dietro di te la fila si allunga, e i fedeli con le candele cominciano a
+      riparare le fiamme con le mani. *Hanno scelto i morti della razzia per
+      fare cassa.* Il cero ti trema fra le dita, e non è per il peso.
+    opzioni:
+      - testo: "Pagare il pedaggio"
+        descrizione: "È il modo più rapido. I morti aspettano, e la cera cola."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Il prezzo dei ceri
+          testo: |
+            Posi il cero contro il muro e conti le monete nel palmo del
+            vecchio, una per volta, mentre la processione guarda. Lui le
+            soppesa, e alla fine fa un cenno al ragazzo, che sposta la panca
+            con un piede. Vantes riparte senza dirti niente. A metà della
+            discesa ti posa due dita sul polso, e le lascia lì per qualche
+            passo.
+          effetti: { monete: -10 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Trattare il prezzo"
+        descrizione: "Per gli Scuri anche un pedaggio è un affare, e gli affari si discutono."
+        prova: { attributo: sociale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Il pedaggio dei morti
+          testo: |
+            Fai notare al vecchio che la metà dei ceri li hanno comprati le
+            famiglie di Via dei Rasoi, e che fargli pagare il pedaggio sui
+            propri morti è un modo curioso di fare affari nel proprio
+            quartiere. Lui ci pensa. Alla fine si accontenta di un paio di
+            monete per la panca, che a sentir lui gli costa, e il ragazzo
+            della mela la sposta.
+          pe: { politica-ed-economia: 5 }
+          effetti: { monete: -2 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: La fila che aspetta
+          testo: |
+            Discuti con il vecchio finché le candele della fila non cominciano
+            a spegnersi una dopo l'altra. Alla fine paga Vantes con le monete
+            della sua tasca, e lo fa con una gentilezza che agli Scuri piace
+            meno di un insulto. La processione riparte, e lungo la discesa
+            senti alle spalle il mormorio dei fedeli, che parlano di te senza
+            fare il tuo nome.
+          effetti: { scandalo: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Dirgli di spostarsi"
+        descrizione: "Un cero grande, in mano a chi sa usarlo, è anche un bastone."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: La panca
+          testo: |
+            Ti avvicini alla panca con il cero alto e la fiamma all'altezza
+            della faccia del vecchio, e gli dici che la processione passa
+            adesso. Lui guarda la fiamma, poi te. Si alza con calma, per non
+            dare l'idea di avere fretta, e la panca la sposta lui con le sue
+            mani. Il ragazzo della mela ti guarda passare con la bocca
+            socchiusa.
+          pe: { intimidire: 5 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: La spinta
+          testo: |
+            Il vecchio si alza, ti prende per il bavero e ti spinge contro il
+            muro, e il cero ti si spezza in due fra le mani. Vantes dice una
+            parola sola a voce bassa, e gli Scuri vi lasciano passare ridendo.
+            Arrivi al Cimitero con mezzo cero e una spalla che pulsa.
+          effetti: { ferite: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Posare il cero e farti avanti"
+        descrizione: "Sono tre, ma il terzo è un ragazzo con una mela. Due si possono stendere."
+        combattimento: velo-pedaggio-degli-scuri
+        vittoria:
+          titolo: La strada libera
+          testo: |
+            Il secondo finisce lungo disteso sulla panca, e la panca sotto di
+            lui si rompe. Il ragazzo lascia cadere la mela e scappa. Ti
+            raccogli il cero dal muro e torni in fila con le nocche che
+            sanguinano, e Vantes riprende a leggere dallo stesso rigo. In Via
+            dei Rasoi, da domani, il tuo nome lo sanno.
+          effetti: { rep.scuri: -1 }
+          segue: velo-il-cronista-dei-bollettini
+        sconfitta:
+          titolo: La fiamma nel fango
+          testo: |
+            Ti ritrovi seduto nel fango con il cero spento accanto e il sapore
+            del sangue in bocca. Gli Scuri si fanno pagare da Vantes e se ne
+            vanno con la panca sotto il braccio. Una vecchia della fila ti
+            aiuta ad alzarti e ti riaccende il cero con la sua candela, senza
+            chiederti niente.
+          effetti: { rep.scuri: -0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Reggere il canto di Celia"
+        descrizione: "Il liuto si è fermato. Se il canto riparte, la fila riparte con lui, e passare sopra una processione che canta è più difficile."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: Il salmo dei morti
+          testo: |
+            Attacchi da solo il salmo dei morti a voce piena, e dopo tre note
+            Celia ti viene dietro con il liuto. Poi canta la fila, e alla fine
+            canta anche una donna affacciata alla finestra sopra la panca. Il
+            vecchio degli Scuri si guarda intorno. Quando si accorge di essere
+            l'unico seduto si alza in fretta, e se ne va prima che qualcuno lo
+            noti.
+          pe: { espressivita: 5 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: La nota storta
+          testo: |
+            Attacchi il salmo troppo in alto, e alla seconda strofa la voce ti
+            si rompe davanti a tutta la Città Bassa. Il ragazzo della mela
+            ride. Alla fine paga Vantes, e Celia riprende il salmo da capo,
+            nella tonalità giusta, guardando dritto davanti a sé.
+          effetti: { tormento: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Parlare al vecchio come uno del vicolo"
+        descrizione: "Sotto i carri di questa strada ci sei cresciuto. Il vecchio si ricorda di te, anche se fa finta di no."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Il nome di tua madre
+          testo: |
+            Gli parli nel dialetto della strada, e gli ricordi la volta che ti
+            ha tirato fuori da sotto un carro per un orecchio. Lui ti guarda a
+            lungo, poi sbuffa. Si fa dare un paio di monete per salvare la
+            faccia davanti ai suoi ragazzi, poi sposta la panca da solo.
+          pe: { conoscenze-della-strada: 5 }
+          effetti: { monete: -2 }
+          segue: velo-il-cronista-dei-bollettini
+
+  # ------------------------------------------------------------ passo 2 · la processione, dopo la Pignatta
+  - id: velo-la-processione-sulle-macerie
+    presso: macerie-della-pignatta
+    immagine: ambientazione/pignatta-grassa
+    titolo: Le campane a lutto
+    sommario: "Ottilia ti ha scritto sulla tavoletta per la processione dei morti della razzia. La strada per il Cimitero passa davanti a quello che resta della Pignatta Grassa."
+    luogo: Città Bassa, davanti alle macerie della Pignatta
+    area: citta-bassa
+    requisiti: [fazione.velo == 1, pista.pelle >= 6]
+    testo: |
+      La processione è partita dalla Cattedrale con le campane a lutto, e
+      scende verso il Cimitero per la strada più lunga, quella che attraversa
+      la Città Bassa, perché i morti della razzia erano quasi tutti di qui.
+      Padre Vantes cammina in testa con il libro aperto. Dietro di lui Sorella
+      Celia suona il liuto a passo d'uomo, e in coda un novizio agita una
+      campanella con il batacchio legato al manico da un giro di spago. Tu
+      porti uno dei ceri grandi, che pesa come un remo e cola cera calda sulle
+      nocche a ogni gradino.
+
+      La strada passa davanti a quello che resta della Pignatta Grassa, i muri
+      anneriti fino al tetto che non c'è più e il bancone di quercia nel
+      cortile. Lungo i muri c'è gente del quartiere che guarda passare il Velo
+      con le braccia conserte. Qualcuno si toglie il cappello. Un uomo con le
+      maniche rimboccate raccoglie da terra una manciata di fango e se la
+      rigira fra le dita, aspettando di decidere.
+
+      {empatia Media} Non ce l'ha con i morti. Ce l'ha con chi è venuto a
+      piangerli dai Quartieri Alti, e il fango è per le tonache pulite.
+
+      {origine figlio-della-citta-bassa} Le facce lungo i muri le conosci
+      quasi tutte. Qualcuna ti riconosce sotto il cero, e la vedi fare il
+      conto di chi sei diventato.
+
+      Il passo della fila rallenta, e il liuto di Celia comincia a perdere il
+      tempo. *Se qui ci fermiamo, non ripartiamo più.* Stringi il cero e le
+      nocche ti diventano bianche sotto la cera.
+
+      {resilienza Facile fallita} Le gambe vorrebbero accelerare, e la testa
+      non riesce a convincerle che correre con un cero in mano davanti alla
+      Pignatta sarebbe peggio.
+    opzioni:
+      - testo: "Tenere il passo"
+        descrizione: "Il passo della fila lo tiene chi sta in mezzo. Se lo tieni tu, gli altri ti vengono dietro."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Il passo
+          testo: |
+            Guardi la nuca di Vantes e conti i passi, uno a ogni rintocco
+            della campanella in coda, e non ti fermi. Dopo un po' la fila ti
+            viene dietro, e Celia ritrova il tempo. L'uomo del fango lascia
+            cadere la manciata ai suoi piedi e si pulisce le mani sui calzoni.
+          pe: { resilienza: 5 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: Il fango sul cero
+          testo: |
+            Ti volti a guardare le facce lungo il muro, e in quel momento
+            arriva il fango. Ti prende sulla spalla e schizza sul cero, e la
+            fila si ferma per farti ripulire. Riparti con la tonaca macchiata
+            e la sensazione di avere addosso gli occhi di tutto il quartiere.
+          effetti: { tormento: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Benedire le macerie"
+        descrizione: "Anche la Pignatta ha avuto i suoi morti. Nessuno del Velo è venuto a dirlo."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: I morti della Pignatta
+          testo: |
+            Esci di un passo dalla fila e alzi il cero verso i muri anneriti,
+            e dici la preghiera dei morti anche per quelli della Pignatta, a
+            voce abbastanza alta perché la senta il cortile. Lungo il muro
+            qualcuno abbassa la testa. L'uomo del fango si toglie il cappello
+            con la mano sporca, e quando la processione riparte cammina per un
+            tratto in coda, accanto al novizio della campanella.
+          pe: { empatia: 5 }
+          effetti: { nomea.citta-bassa: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: La preghiera fuori posto
+          testo: |
+            Alzi il cero verso le macerie e attacchi la preghiera, e dal muro
+            una donna ti chiede ad alta voce dove era il Velo la notte che la
+            Pignatta bruciava. Non hai una risposta da dare. Torni in fila a
+            testa bassa, e il resto della strada lo fai con quella domanda
+            nelle orecchie.
+          effetti: { tormento: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Reggere il canto di Celia"
+        descrizione: "Il liuto perde il tempo. Una voce che canta lo ritrova."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: Il salmo dei morti
+          testo: |
+            Attacchi il salmo dei morti a voce piena, e dopo tre note Celia ti
+            viene dietro con il liuto. Canta la fila, e lungo il muro della
+            Pignatta qualcuno muove le labbra sulle parole che sa. La
+            processione passa davanti alle macerie al passo del salmo, e
+            nessuno tira il fango.
+          pe: { espressivita: 5 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: La nota storta
+          testo: |
+            Attacchi il salmo troppo in alto, e alla seconda strofa la voce ti
+            si rompe davanti a tutto il cortile. Dal muro arriva una risata,
+            poi una manciata di fango che finisce sulla tonaca di Celia. Lei
+            riprende il salmo da capo nella tonalità giusta. La macchia sulla
+            tonaca se la porta fino al Cimitero senza toccarla.
+          effetti: { tormento: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Fare scudo ai ceri"
+        descrizione: "Il quartiere ce l'ha con te, e il fango prima o poi arriverà. Meglio che arrivi su di te."
+        quando: [nomea.citta-bassa < 0]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La tonaca sporca
+          testo: |
+            Ti metti fra il muro e la fila, e il fango arriva puntuale. Lo
+            prendi tutto tu sulla schiena, e i ceri passano accesi. Alla terza
+            manciata lungo il muro qualcuno dice basta, e l'uomo che tirava si
+            ferma con il braccio alzato.
+          pe: { atletica: 5 }
+          segue: velo-il-cronista-dei-bollettini
+        fallimento:
+          titolo: I ceri spenti
+          testo: |
+            Il fango ti arriva in faccia prima che tu riesca a metterti in
+            mezzo, e due ceri della fila si spengono. Vantes li riaccende con
+            il suo, uno per uno, sotto gli occhi del quartiere. Riparti con
+            gli occhi che bruciano e le guance che scottano.
+          effetti: { scandalo: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Camminare e basta"
+        descrizione: "Un passo dopo l'altro, con gli occhi a terra, fino al Cimitero. Ci vuole tempo, e la fila te lo farà pesare."
+        costo: 2
+        esito:
+          titolo: Fino al Cimitero
+          testo: |
+            Tieni gli occhi sul selciato e cammini, e passi davanti alle
+            macerie senza guardare nessuno. La fila ci mette il doppio del
+            tempo, e il liuto si ferma due volte. Quando arrivate al cancello
+            del Cimitero hai le nocche coperte di cera e le spalle rigide come
+            il cero.
+          segue: velo-il-cronista-dei-bollettini
+
+      - testo: "Chiamare per nome chi guarda"
+        descrizione: "Le facce lungo il muro le conosci, e loro conoscono te. Un nome detto ad alta voce vale una benedizione."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: I nomi lungo il muro
+          testo: |
+            Esci di un passo dalla fila e saluti per nome la gente lungo il
+            muro, la fornaia, il figlio del cordaio, la vecchia del primo
+            piano. Qualcuno ti risponde. L'uomo del fango ti riconosce, lascia
+            cadere la manciata e ti chiede di dire una preghiera anche per suo
+            cognato, che era nella Pignatta quella notte. La dici, con il cero
+            alto.
+          pe: { empatia: 5 }
+          effetti: { nomea.citta-bassa: 0.5 }
+          segue: velo-il-cronista-dei-bollettini
+
+  # ------------------------------------------------------------ passo 2 · al Cimitero
+  - id: velo-il-cronista-dei-bollettini
+    presso: cimitero-di-qir-azel
+    immagine: ambientazione/cimitero-di-qir-azel
+    titolo: Il cronista dei bollettini
+    tipo: seguito
+    luogo: Cimitero di Qir-Azel, la cappella del cancello
+    area: citta-bassa
+    requisiti: [fazione.velo == 1]
+    testo: |
+      Al Cimitero la processione si scioglie fra le tombe, e ognuno porta il
+      suo cero alla fossa del suo morto. Vantes benedice le lapidi nuove una
+      per una, chinandosi su ognuna come su un malato. Accanto alla cripta di
+      Idrian Sollen, sul gradino, brucia una candela che nessuno della
+      processione ha acceso, e la fiamma è quasi arrivata al piattino.
+
+      {percezione Media} Sul gradino ci sono le gocce di cera di molte altre
+      candele, una sopra l'altra. Qualcuno ne lascia una qui ogni giorno.
+
+      Sulla porta della cappella del cancello un sacerdote anziano inchioda
+      una pergamena lunga con un martelletto, tenendo fra le labbra i chiodi
+      che gli servono. Ha la tonaca grigia dei cronisti, le dita macchiate
+      d'inchiostro e un righello di bosso infilato alla cintura come una spada
+      da cerimonia. Quando ha finito si toglie i chiodi di bocca, ti guarda il
+      cero e poi la faccia.
+
+      «Sai leggere?» chiede. «Allora mi servi. Io sono Padre Ermes Valdrano, e
+      questi sono i bollettini delle sacche.» Ti mostra un fascio di pergamene
+      arrotolate e legate con lo spago. «Vanno sulle porte delle cappelle e
+      agli angoli dei mercati, uno per strada. La gente li legge e sa dove non
+      mandare i figli a giocare.»
+
+      {origine accolito-del-velo} Il cronista maggiore lo vedevi dai tavoli
+      lunghi del chiostro, chino sui suoi registri, e in tutti i tuoi anni da
+      novizio non ti ha mai rivolto la parola. Adesso ti sorride come a un
+      vecchio conoscente.
+
+      {politica-ed-economia Facile} Un bollettino delle sacche è una mappa di
+      quello che in Città Bassa vale meno. Chi lo scrive sa prima degli altri
+      dove scenderanno gli affitti.
+    opzioni:
+      - testo: "Prendere il fascio di bollettini"
+        descrizione: "I bollettini vanno inchiodati domani prima del mercato, uno per strada. Valdrano li vuole ben tesi."
+        esito:
+          titolo: Uno per strada
+          testo: |
+            Valdrano ti mette in mano il fascio e ti spiega dove vanno, porta
+            per porta, senza guardare nessuna mappa. Ti presta anche il
+            martelletto. «I chiodi li compri tu, e Sorella Arva te li
+            rimborsa, se glieli porti contati» dice, e per la prima volta lo
+            senti ridere, piano, nel naso. Poi torna alla sua cappella a
+            sistemare la pergamena, che pende di un niente a sinistra.
+          pe: { accademiche: 2 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+
+      - testo: "Chiedergli della candela accanto alla cripta"
+        descrizione: "Una candela sul gradino di Idrian Sollen, e le gocce di molte altre sotto. Il cronista sa sempre tutto di tutti."
+        esito:
+          titolo: Un uomo di abitudini
+          testo: |
+            «Padre Walter» dice Valdrano, senza bisogno di voltarsi. «Ne
+            accende una ogni giorno, da dopo la razzia. Walter è un uomo di
+            abitudini, e le abitudini sono la cosa più facile da scrivere.» Ti
+            mette in mano il fascio di bollettini e il martelletto. «Domani,
+            prima del mercato. Uno per strada.» Mentre te ne vai lo vedi
+            fermarsi davanti alla candela, guardarla per un po' e poi
+            ripartire.
+          pe: { percezione: 2 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+
+      - testo: "Chiedergli della riga coperta a carboncino"
+        descrizione: "Sul bollettino della Città Bassa qualcuno ha coperto una riga, la sacca sotto l'Orlo. L'hai vista con i tuoi occhi."
+        quando: [visto.carta-bollettino >= 1]
+        esito:
+          titolo: La Gilda
+          testo: |
+            Valdrano si toglie il righello dalla cintura e ci batte sopra due
+            colpetti con l'unghia. «La Gilda» dice. «Lo fanno ogni anno, con
+            le sacche vicine ai loro magazzini. Io riscrivo, loro cancellano.»
+            Ti mette in mano il fascio di bollettini e il martelletto. «Domani
+            ricominciamo. Uno per strada, prima del mercato.» Lo dice con la
+            pazienza di un uomo che fa questo lavoro da molto tempo.
+
+            {ingannare Difficile} Ha risposto prima che finissi la domanda,
+            come se l'aspettasse da giorni.
+          pe: { accademiche: 2 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+
+      - testo: "Salutarlo come cronista maggiore"
+        descrizione: "In Cattedrale ti hanno insegnato i titoli di tutti. Il suo è uno di quelli che nessuno usa più."
+        quando: [origine.accolito-del-velo >= 1]
+        esito:
+          titolo: Il titolo vecchio
+          testo: |
+            Lo saluti con il titolo intero, cronista maggiore della Cattedrale
+            e custode delle misure, e lui si ferma con il martelletto a
+            mezz'aria. Ti dice che quel titolo non lo usa più nessuno, a parte
+            Ottilia quando è di cattivo umore. Poi ti mette in mano il fascio
+            di bollettini e il martelletto, e ti guarda le mani mentre li
+            prendi, come se volesse ricordarsele. I bollettini vanno
+            inchiodati domani mattina prima del mercato, e si raccomanda che
+            siano ben tesi.
+          pe: { galateo: 2 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+
+  # ------------------------------------------------------------ passo 3 · la riga coperta (grado 1)
+  - id: velo-il-carboncino
+    immagine: ambientazione/citta-bassa
+    titolo: I bollettini delle sacche
+    sommario: "Il giorno dopo aver inchiodato i bollettini di Valdrano, sul bollettino della Città Bassa una riga è già sparita sotto il carboncino."
+    luogo: Città Bassa, la porta di una cappella sul mercato
+    area: citta-bassa
+    requisiti: [fazione.velo == 2]
+    testo: |
+      Hai inchiodato i bollettini prima del mercato, ben tesi come voleva
+      Valdrano, e le dita ti fanno ancora male dove il martelletto le ha
+      mancate. Il giorno dopo torni a vedere. Davanti alla porta della
+      cappella del mercato c'è la solita piccola folla, gente che legge
+      muovendo le labbra e cerca il nome della propria strada sperando di non
+      trovarlo.
+
+      A metà della pergamena una riga è sparita sotto una passata di
+      carboncino. Chi l'ha fatto non aveva fretta. Il nero segue la riga da un
+      capo all'altro senza uscire di un pelo, dritto come se ci fosse stato
+      sotto un righello, e se guardi di sbieco si vede ancora il segno
+      dell'inchiostro. È la riga della sacca sotto l'Orlo dei Rottami.
+
+      {politica-ed-economia Media} All'Orlo lavorano gli spazzini con la
+      licenza della Gilda. Una sacca sul bollettino vuol dire meno gente sulla
+      spiaggia dei rottami, e meno affari per chi li raccoglie.
+
+      {origine accolito-del-velo} Il righello lo usano i cronisti, chini sui
+      tavoli lunghi del chiostro, e i bollettini li tirano tutti con quello.
+      Il carboncino ha la stessa mano. Te lo dici, e subito dopo ti dici che
+      un righello lo può comprare chiunque.
+
+      Un ragazzino ti tira la manica e ti chiede se la riga nera vuol dire che
+      lì si può andare a giocare. *Una riga sola, e proprio quella.* Gli dici
+      di no, e ti accorgi di averlo detto più forte del necessario.
+    opzioni:
+      - testo: "Ricostruire la riga"
+        descrizione: "Il carboncino copre l'inchiostro, ma il solco della penna resta. Con la luce radente si legge."
+        prova: { attributo: mentale, abilita: [accademiche, natura], difficolta: Facile }
+        successo:
+          titolo: Il solco della penna
+          testo: |
+            Inclini la testa finché la luce non scivola di traverso sulla
+            pergamena, e le lettere tornano fuori dal nero una alla volta. La
+            sacca sotto l'Orlo dei Rottami, segnalata otto giorni fa, senza
+            profondità. Accanto c'è una cosa che sui bollettini non hai mai
+            visto, un trattino minuscolo dopo la data, come una nota per chi
+            sa leggerla.
+          pe: { accademiche: 3 }
+          segue: velo-la-colonna-dei-laici
+        fallimento:
+          titolo: Il pollice nero
+          testo: |
+            Passi il pollice sul carboncino per vedere che cosa c'è sotto, e
+            lo spalmi su mezza riga. Adesso non si legge più niente, e il
+            pollice ce l'hai nero fino alla nocca. Il ragazzino ti guarda con
+            disapprovazione.
+          effetti: {}
+
+      - testo: "Ricordare la riga che hai già letto"
+        descrizione: "Sul vecchio bollettino l'hai ricostruita con l'unghia. Era la stessa sacca, coperta allo stesso modo."
+        quando: [visto.carta-bollettino >= 1]
+        costo: 0
+        esito:
+          titolo: La stessa riga
+          testo: |
+            Non serve ricostruirla. È la stessa sacca che avevi già letto
+            sotto il carboncino del vecchio bollettino, coperta con la stessa
+            mano ferma. Allora avevi pensato che fosse un caso. Adesso le
+            volte sono due, e il bollettino è nuovo di ieri.
+          segue: velo-la-colonna-dei-laici
+
+      - testo: "Chiedere a Grusk"
+        descrizione: "Grusk lavora all'Orlo da sempre, e sa chi ci scende di notte. Si fa pregare, ma parla."
+        immagine: personaggi/grusk
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La carriola rossa
+          testo: |
+            Trovi Grusk sulla spiaggia dei rottami, seduto sulla sua carriola
+            rossa con una bottiglia fra le ginocchia. Ti dice che gli spazzini
+            della Gilda il carboncino non sanno neanche dove si compra, e che
+            la sacca la conoscono tutti, perché è lì che finiscono i rottami
+            che non si vendono. Poi abbassa la voce. Di notte, dice, dal pozzo
+            di scolo dietro la sua baracca scende uno che porta la tonaca
+            grigia, e risale prima dell'alba.
+
+            {ingannare Media} Grusk beve, ma su questo non sta inventando. Lo
+            dice guardando il pozzo, come se avesse paura di vederlo spuntare.
+          pe: { persuasione: 3 }
+          segue: velo-la-colonna-dei-laici
+        fallimento:
+          titolo: Un altro giro
+          testo: |
+            Grusk ti offre da bere, poi ti chiede di offrirgli da bere, e alla
+            terza bottiglia ti racconta di una volta che ha trovato un dente
+            d'oro in un barile. Della riga non sa niente, o non ricorda più di
+            saperlo.
+          effetti: { monete: -2 }
+
+      - testo: "Comprare il silenzio di Grusk con un segreto"
+        descrizione: "Grusk vende quello che sa, e compra quello che non sa. Un segreto vale più di una bottiglia."
+        immagine: personaggi/grusk
+        requisiti: [informazioni.segreto >= 1]
+        esito:
+          titolo: Uno scambio
+          testo: |
+            Gli racconti all'orecchio una cosa che sai, e Grusk se la gira in
+            bocca come un sorso di vino buono. Poi ricambia. Di notte, dice,
+            dal pozzo di scolo dietro la sua baracca scende uno con la tonaca
+            grigia, e risale prima dell'alba. Gli spazzini della Gilda il
+            carboncino non sanno neanche dove si compra.
+          effetti: { informazioni.segreto: -1 }
+          segue: velo-la-colonna-dei-laici
+
+      - testo: "Fare la guardia al bollettino di notte"
+        descrizione: "Chi copre una riga torna a coprire quella riscritta. Basta aspettarlo al buio, e avere pazienza."
+        costo: 2
+        esito:
+          titolo: La tonaca grigia
+          testo: |
+            Riscrivi tu la riga a carbone sotto quella coperta e ti siedi nel
+            portone di fronte, con il mantello addosso. Verso la seconda ora
+            arriva una figura con la tonaca grigia del Velo, di spalle, che si
+            ferma davanti alla pergamena. Tira fuori qualcosa di lungo e
+            dritto, lo appoggia sotto la riga e la copre con tre passate
+            lente. Quando ti alzi è già sparita nel vicolo, e l'odore del
+            carboncino è ancora nell'aria.
+          pe: { furtivita: 3 }
+          segue: velo-la-colonna-dei-laici
+
+      - testo: "Chiedere ai banchi della Gilda chi ha pagato il carboncino"
+        descrizione: "Quando la Gilda fa sparire una sacca dal bollettino, paga qualcuno per farlo. Ai banchi lo sanno sempre."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Nessuno ha pagato
+          testo: |
+            Fai il giro dei banchi della Gilda e chiedi a chi conosci, facendo
+            finta di voler sapere soltanto quanto costa. Gli altri anni, ti
+            dicono, il carboncino sulle sacche lo pagava il magazzino più
+            vicino. Quest'anno nessuno ha pagato niente, e all'Orlo la Gilda
+            non ha magazzini. Qualcuno ha coperto la riga gratis, e alla Gilda
+            la cosa interessa quanto a te.
+          pe: { politica-ed-economia: 3 }
+          segue: velo-la-colonna-dei-laici
+
+  - id: velo-la-colonna-dei-laici
+    presso: cattedrale-del-velo
+    immagine: personaggi/ottilia-sanvel
+    titolo: La colonna dei laici
+    tipo: seguito
+    luogo: Cattedrale del Velo, i tavoli dei cronisti e la tavoletta di cera
+    area: quartieri-alti
+    requisiti: [fazione.velo == 2]
+    testo: |
+      Trovi Padre Valdrano ai tavoli lunghi del chiostro, dove i cronisti
+      copiano i registri in silenzio con le maniche rimboccate. Davanti a lui
+      c'è una teiera di coccio e una fila di tazze capovolte, e prima che tu
+      apra bocca ne gira una e te la riempie. Ascolta la storia della riga
+      bevendo a piccoli sorsi, e alla fine annuisce.
+
+      «La Gilda» dice. «Lo fanno ogni anno, con le sacche vicine ai loro
+      affari. Io riscrivo e loro cancellano, e così passiamo l'inverno.» Si
+      tocca il righello alla cintura con due dita. «La riscrivo stasera.
+      Grazie, figliolo. Hai l'occhio buono.»
+
+      {empatia Media} È contento di te, davvero. Ed è contento anche che la
+      storia finisca lì, alla teiera.
+
+      {percezione Difficile} Il righello è di bosso, con gli spigoli consumati
+      e un'ombra nera lungo un lato, come di carbone passato e ripassato.
+
+      Uscendo dal chiostro passi davanti alla tavoletta di cera accanto alla
+      sagrestia. Ottilia Sanvel ti aspetta lì, con lo stilo in mano e le
+      braccia strette nelle maniche. Ha già sentito dei bollettini. Sotto la
+      riga dei lavori del giorno c'è una colonna con un titolo che non avevi
+      mai notato, *laici*, e una decina di nomi scritti con la sua grafia
+      piccola e diritta.
+
+      {origine accolito-del-velo} Il tuo nome su questa tavoletta l'hai visto
+      per anni nella colonna dei novizi. Adesso Ottilia lo scrive nell'altra,
+      e la mano le va da sola alla riga sbagliata prima di correggersi.
+
+      Il tè ti è rimasto sulla lingua, amaro come la scorza di un limone.
+    opzioni:
+      - testo: "Lasciare la riga a Valdrano"
+        descrizione: "È il suo bollettino e il suo lavoro. Ha detto che la riscrive stasera."
+        esito:
+          titolo: Laico della tavoletta
+          testo: |
+            Ottilia scrive il tuo nome in fondo alla colonna dei laici, una
+            lettera alla volta, e poi ci passa sopra il dito per vedere se la
+            cera ha preso. «Il laico della tavoletta lavora quando c'è lavoro»
+            dice. «Lo trovi scritto qui ogni mattina, e la sera Arva ti paga.»
+            Ti mette in mano una cordicella di canapa con trentadue nodi,
+            quella che i laici portano alla cintura. «Negli archivi minori mi
+            servono mani pulite. Quando sarà il momento, te lo scrivo qui.» La
+            sera Sorella Arva ti conta la paga di benvenuto, e ti fa capire
+            che per te sta facendo un'eccezione.
+          effetti: { fazione.velo: 1, oggetto.velo-corda-del-laico: 1, monete: 30, informazioni.voce: 1 }
+          almeno: { rep.velo: 2 }
+
+      - testo: "Denunciare gli spazzini dell'Orlo alla Gilda"
+        descrizione: "Se a cancellare le sacche è la Gilda, la Gilda deve saperlo dal Velo. Agli spazzini dell'Orlo costerà la licenza."
+        esito:
+          titolo: La lettera alla Gilda
+          testo: |
+            Scrivi alla Gilda una lettera breve, e Ottilia la legge e ci mette
+            sotto il sigillo del Velo senza commentare. Gli spazzini dell'Orlo
+            perderanno la licenza per un mese, e alla Gilda il tuo nome non
+            piacerà. Poi Ottilia scrive il tuo nome in fondo alla colonna dei
+            laici e ti mette in mano una cordicella di canapa con trentadue
+            nodi. «Negli archivi minori mi servono mani pulite» dice. «Quando
+            sarà il momento, te lo scrivo qui.» La sera Sorella Arva ti conta
+            la paga di benvenuto.
+
+            {conoscenze-della-strada Media} Gli spazzini dell'Orlo, quella
+            notte, non c'erano. Lo sai tu e lo sanno loro, e loro hanno buona
+            memoria.
+          effetti: { fazione.velo: 1, oggetto.velo-corda-del-laico: 1, monete: 30, informazioni.voce: 1, rep.gilda: -0.5, rep.velo: 0.5 }
+          almeno: { rep.velo: 2 }
+
+      - testo: "Tenere una copia della riga per te"
+        descrizione: "Valdrano la riscrive stasera, dice. Una copia in tasca non fa male a nessuno."
+        esito:
+          titolo: Una riga in tasca
+          testo: |
+            Mentre Valdrano versa altro tè, copi in fondo al tuo quaderno la
+            riga della sacca con la sua data, senza dimenticare il trattino
+            minuscolo. Lui ti vede e sorride. Poi Ottilia scrive il tuo nome
+            in fondo alla colonna dei laici e ti mette in mano una cordicella
+            di canapa con trentadue nodi. «Negli archivi minori mi servono
+            mani pulite» dice. «Quando sarà il momento, te lo scrivo qui.» La
+            sera Sorella Arva ti conta la paga di benvenuto, e il quaderno ti
+            pesa in tasca più del solito.
+          effetti: { fazione.velo: 1, oggetto.velo-corda-del-laico: 1, monete: 30, informazioni.voce: 1 }
+          almeno: { rep.velo: 2 }
+
+  # ------------------------------------------------------------ passo 5 · le firme della compieta
+  - id: velo-le-firme-della-compieta
+    presso: cattedrale-del-velo
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: Le firme della compieta
+    sommario: "Sei sacerdoti hanno firmato la compieta la notte dell'incendio e poi sono usciti. In Cattedrale qualcuno sa chi erano, e dove sono adesso."
+    luogo: Cattedrale del Velo, la navata e il chiostro
+    area: quartieri-alti
+    requisiti: [fazione.velo == 4]
+    testo: |
+      Da quando hai visto l'ultimo foglio del registro, la Cattedrale ti
+      sembra un'altra. Le navate e le candele sono le stesse, e in mezzo a
+      tutto ci sono sei sacerdoti che quella notte hanno firmato la compieta e
+      sono usciti prima del fuoco, mentre Ottilia contava sulla porta del
+      chiostro chi riusciva a scappare. Ti sorprendi a guardare le mani dei
+      sacerdoti più anziani durante le funzioni, come se le firme si potessero
+      riconoscere dalle dita.
+
+      {accademiche Media} Nel 145 il Santuario pagava ai sacerdoti una
+      prebenda, e ogni prebenda finiva in un libro dei conti. I conti, a
+      differenza dei registri di culto, si salvano sempre.
+
+      Il libro delle prebende ce l'ha Sorella Arva, nel suo stanzino accanto
+      alla sagrestia, chiuso a chiave in una cassa che lei chiama la dispensa.
+      Lo apre volentieri, dice, a chi ha bisogno di un piccolo prestito.
+      Sorella Celia tiene i fogli dei cantori, dove i sacerdoti di allora si
+      firmavano per le ore cantate. Nadja Oresca, in infermeria, sa tutto di
+      tutti, perché chi sta male parla.
+
+      {politica-ed-economia Facile} Il piccolo prestito di Arva è il modo più
+      educato che lei conosca per farsi pagare una porta aperta. Ci guadagna
+      sempre, ma con garbo.
+
+      *Sei nomi, e due li hai sentiti alle funzioni solenni.* Ti accorgi che
+      stai contando le teste dei sacerdoti in navata, e smetti.
+    opzioni:
+      - testo: "Firmare il prestito di Sorella Arva"
+        descrizione: "Arva ti presta qualche moneta, si tiene subito gli interessi e apre la dispensa. Costa, ma non chiede talento."
+        immagine: icone/coins
+        requisiti: [monete >= 8]
+        esito:
+          titolo: La dispensa
+          testo: |
+            Arva ti fa firmare un foglio, ti conta in mano un mucchietto di
+            monete e se ne riprende subito una parte, per gli interessi,
+            spiegandoti che così non ci pensi più. Poi apre la cassa. Il libro
+            delle prebende del 145 ha la copertina di cuoio rosso e odora di
+            canfora, e i sei nomi ci sono tutti, ognuno con la sua prebenda e
+            una nota a margine sull'anno dopo.
+          effetti: { monete: -8 }
+          segue: velo-il-campanile
+
+      - testo: "Leggere il libro delle prebende con Arva"
+        descrizione: "I conti di Arva sono un labirinto, e lei li legge come un salmo. Se le tieni dietro, il libro lo apre senza prestiti."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: I conti del 145
+          testo: |
+            Le chiedi come teneva i conti il Santuario, e Arva si illumina.
+            Per un'ora ti spiega la differenza fra una prebenda e un
+            beneficio, e tu le tieni dietro facendo le domande giuste. Alla
+            fine apre la cassa per mostrarti come si faceva bene, e i sei nomi
+            della compieta sono lì, in colonna, con una nota a margine
+            sull'anno dopo.
+          pe: { politica-ed-economia: 5 }
+          segue: velo-il-campanile
+        fallimento:
+          titolo: Il beneficio
+          testo: |
+            Arva ti spiega la differenza fra una prebenda e un beneficio, e
+            alla terza volta che le chiedi di ripeterla ti guarda con molta
+            compassione. La cassa resta chiusa. Ti propone un piccolo
+            prestito, per carità.
+          effetti: {}
+
+      - testo: "Sfogliare i fogli dei cantori con Celia"
+        descrizione: "Nelle ore cantate i sacerdoti firmavano i fogli dei canti. Celia li conserva, e le piace che qualcuno li guardi."
+        immagine: personaggi/sorella-celia
+        prova: { attributo: sociale, abilita: [galateo, espressivita], difficolta: Facile }
+        successo:
+          titolo: Le firme dei cantori
+          testo: |
+            Celia ti apre la custodia dei fogli dei canti sul leggio della
+            navata, e mentre li sfogli ti canticchia le melodie che
+            accompagnavano. Le firme della compieta del 145 tornano su
+            parecchi fogli, sempre le stesse sei, e accanto a ognuna Celia sa
+            dirti chi aveva la voce bassa e chi stonava. Quando arrivi
+            all'ultimo smette di canticchiare.
+          pe: { galateo: 5 }
+          segue: velo-il-campanile
+        fallimento:
+          titolo: Il nastro
+          testo: |
+            Sfogli i fogli dei canti troppo in fretta, e uno si strappa
+            sull'angolo. Celia lo prende e lo liscia sul ginocchio, poi ripone
+            la custodia e ti dice che per oggi i canti sono finiti. Al polso
+            ha un nastro nuovo, e lo tormenta con le dita mentre si allontana.
+          effetti: {}
+
+      - testo: "Ascoltare Nadja in infermeria"
+        descrizione: "Nadja cambia le bende e ascolta. Dei sacerdoti vecchi sa le malattie e anche dove abitano."
+        immagine: personaggi/nadja-oresca
+        prova: { attributo: sociale, abilita: [empatia, medicina], difficolta: Media }
+        successo:
+          titolo: Le malattie dei vecchi
+          testo: |
+            Dai una mano a Nadja fra le brande e la lasci parlare. Dei
+            sacerdoti di allora sa le febbri e le lettere che ricevono, e
+            intanto si gira l'anello di rame intorno al dito. Due, dice, li ha
+            accompagnati lei all'ultima benedizione. Uno se n'è andato
+            dall'ordine. Gli altri li vedi ogni giorno, e chiude con un
+            proverbio in lingua antica che nemmeno lei sa tradurre.
+          pe: { empatia: 5 }
+          segue: velo-il-campanile
+        fallimento:
+          titolo: Il proverbio
+          testo: |
+            Nadja ti mette in mano un catino e ti manda a vuotarlo, e quando
+            torni ha cambiato argomento e parla di sua madre. Alla tua domanda
+            sui sacerdoti vecchi risponde con un proverbio in lingua antica, e
+            ti volta le spalle per rifare una benda.
+          effetti: {}
+
+      - testo: "Rileggere i sei nomi del quaderno"
+        descrizione: "Li hai copiati negli archivi minori, fra due conti della spesa. Basta metterli in fila con quello che si dice in Cattedrale."
+        quando: [velo.copia >= 1]
+        costo: 0
+        esito:
+          titolo: Fra due conti della spesa
+          testo: |
+            Riapri il quaderno alla pagina dei sei nomi e ci lavori sopra per
+            una sera, chiedendo in giro con aria distratta. Le domande le fai
+            una per volta e mai alla stessa persona, così alla fine di ogni
+            nome sai dove abita o dove è sepolto. Non hai avuto bisogno di
+            aprire la dispensa di Arva.
+          segue: velo-il-campanile
+
+  - id: velo-il-campanile
+    presso: cattedrale-del-velo
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: Il campanile
+    tipo: seguito
+    luogo: Cattedrale del Velo, la cella delle campane
+    area: quartieri-alti
+    requisiti: [fazione.velo == 4]
+    testo: |
+      I sei nomi, uno per uno. Due sono morti, e uno di loro sta nel registro
+      del Cimitero con la grafia minuta del becchino. Sorella Alenna è a
+      Tuarmir da otto mesi, mandata a controllare le erbe che il Velo compra.
+      Silvano Ardice ha lasciato l'ordine l'anno dopo il fuoco, e adesso
+      predica in Città Bassa su una cassetta rovesciata. In Cattedrale ne
+      restano due, Padre Ermes Valdrano ai tavoli dei cronisti e il campanaro,
+      Fratello Lauro Bessi.
+
+      La scala del campanile ha centoquattro gradini e nessun corrimano. Bessi
+      è lassù, seduto sotto la campana grande, con un pezzo di pane in mano e
+      l'occhio alla feritoia da cui si vede l'altare. È un uomo magro con i
+      capelli che vanno ognuno per conto suo. Quando gli dici del registro il
+      pane gli cade sulle ginocchia.
+
+      «Ci chiamarono fuori per un rito votivo» dice, alla feritoia più che a
+      te. «Sull'orlo della Cicatrice, a mezzanotte. La Cicatrice era scura.»
+      Si gratta il polso fino a farlo diventare rosso. Chi li chiamò, non lo
+      dice.
+
+      {empatia Media} Ha paura, e non di te. Guarda l'altare dalla feritoia
+      come se dovesse suonare l'ora da un momento all'altro, e sbagliarla.
+
+      {atletica Facile fallita} I centoquattro gradini ti sono rimasti nei
+      polpacci, e il respiro arriva in cima un po' dopo di te.
+    opzioni:
+      - testo: "Insistere"
+        descrizione: "Chi li chiamò, e perché sull'orlo. Bessi lo sa, e lassù non può scappare."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il tavolo della compieta
+          testo: |
+            Gli stai addosso finché qualcosa lo dice, anche se è poco.
+            Firmarono la compieta tutti e sei allo stesso tavolo e in gran
+            fretta, poi uscirono insieme dalla porta della sagrestia. Poi
+            suona l'ora, anche se manca un quarto, e la campana ti riempie la
+            testa finché non scendi.
+          pe: { intimidire: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+        fallimento:
+          titolo: La campana
+          testo: |
+            Più insisti, più Bessi si chiude, e alla fine si alza e afferra la
+            corda. Suona l'ora con un quarto d'anticipo, e la campana grande
+            ti passa nelle ossa. In navata qualcuno alza la testa. Scendi i
+            centoquattro gradini con le orecchie che fischiano, e Bessi resta
+            lassù a guardare la feritoia.
+          effetti: { fazione.velo: 1, rep.velo: 0.5, tormento: 0.5 }
+
+      - testo: "Aspettare con lui l'ora dopo"
+        descrizione: "Bessi ha paura di sbagliare l'ora. Se resti lì finché la campana suona, forse dopo parla."
+        costo: 2
+        esito:
+          titolo: La riga a matita
+          testo: |
+            Ti siedi sul pavimento accanto a lui e dividete il pane. Quando il
+            cristallo pulsa in navata Bessi tira la corda, la campana suona
+            l'ora giusta e lui chiude gli occhi. Li riapre dopo un po', e
+            comincia a parlare piano. La riga a matita del registro, quella
+            con l'ora in cui i sacerdoti uscirono, l'ha strappata lui la
+            mattina dopo, con le mani che gli tremavano ancora dal fumo.
+            «Perché l'ora la sapevo a memoria, e nessuno me l'ha mai chiesta»
+            dice alla feritoia.
+          pe: { empatia: 5 }
+          imposta: { velo.bessi: 1 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+
+      - testo: "Lasciarlo alle sue campane"
+        descrizione: "Ha già detto più di quanto volesse. Il resto può aspettare."
+        esito:
+          titolo: Il pane
+          testo: |
+            Gli raccogli il pane dalle ginocchia e glielo rimetti in mano, e
+            lui ti ringrazia con un cenno senza staccare l'occhio dalla
+            feritoia. Scendendo conti i gradini, e al centesimo senti la
+            campana suonare l'ora sopra la tua testa, giusta al rintocco.
+          pe: { resilienza: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }
+
+      - testo: "Riconoscere la sua firma"
+        descrizione: "I cantori di un tempo avevano un giro di penna tutto loro, e da novizio te l'hanno insegnato. Una delle sei firme ce l'ha."
+        quando: [origine.accolito-del-velo >= 1]
+        costo: 0
+        esito:
+          titolo: Il giro di penna
+          testo: |
+            Gli dici che una delle firme della compieta ha il giro di penna
+            dei cantori, quello che ti hanno insegnato da novizio per i fogli
+            dei canti, e che in Cattedrale lo usa ancora uno solo. Bessi ti
+            guarda le mani a lungo, e alla fine comincia a parlare piano. La
+            riga a matita del registro, quella con l'ora in cui i sacerdoti
+            uscirono, l'ha strappata lui la mattina dopo. «Perché l'ora la
+            sapevo a memoria, e nessuno me l'ha mai chiesta» dice alla
+            feritoia.
+          pe: { accademiche: 5 }
+          imposta: { velo.bessi: 1 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5 }

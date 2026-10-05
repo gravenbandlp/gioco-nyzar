@@ -1,0 +1,1185 @@
+# La quest dei Raschiatori, Atto I e II (fazione.raschiatori 0 → 6, senza cancelli di trama tranne il prologo).
+# - 0 → 1 `raschiatori-due-posti-vuoti` (Grifone, raschiatore >= 1): il turno al terzo pianerottolo con Gerardo
+#   Crine, la sentinella e le corde con il gancio sconosciuto. Chi non è nei turni passa prima da
+#   `raschiatori-la-garanzia-di-crine` (raschiatore == 0): Gerardo garantisce per chi ha un racconto, un poco di
+#   reputazione o tre frammenti esausti, oppure dopo una prova Media, e dà raschiatore 1 senza far salire la pista.
+# - 1 → 2 `raschiatori-corde-che-non-sono-nostre` (Orlo dei Rottami, Grusk; raschiatori.grusk 1) e il seguito
+#   `raschiatori-le-lampade-di-notte` (il margine dei Ponti): la cordata e la Compagnia del Gancio di Valdo Merlach.
+# - 2 → 3 `raschiatori-la-regola-della-casa` (Grifone, grado 1, Mano di corda): Merlach offre la paga doppia.
+#   Fingere di accettare apre il doppio gioco (raschiatori.doppio 1), che si scopre al passo 9.
+# - 3 → 4 `raschiatori-argento-torna-dai-conti` (Grifone): il diritto di prima mappa e la registrazione per la
+#   Gradinata Cieca. Il passo 5 è la spedizione (spedizione-gradinata.yaml).
+# - 5 → 6 `raschiatori-il-diritto-di-prima-mappa` (Casa dei Nodi, grado 2, Scandaglio): la Gradinata va ai
+#   Raschiatori; la via dell'accordo conserva la reputazione con la Gilda, le altre la fanno scendere.
+# Nomi nuovi: Gerardo Crine (il caposquadra di «respirate col naso»), Valdo Merlach e la Compagnia del Gancio,
+# Mirta Sorrin (la Fiamma dispersa in primavera), Argento (dal Codex, nuovo nel gioco).
+storylet:
+  # ------------------------------------------------------------ la porta, per chi non è nei turni
+  - id: raschiatori-la-garanzia-di-crine
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: Due righe vuote
+    sommario: "Alla bacheca del Grifone c'è un foglio con due posti liberi nella squadra di Gerardo Crine. Per scriverci un nome serve qualcuno che garantisca."
+    luogo: Locanda del Grifone di Ferro, la bacheca
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 0, raschiatore == 0, prologo == 0]
+    testo: |
+      Alla bacheca del Grifone, sotto la lampada che fuma, è appeso un foglio
+      nuovo con la grafia larga di Dragna. In cima c'è scritto *due posti
+      nella squadra di Gerardo Crine*, e sotto ci sono due righe vuote.
+      Gerardo è seduto al tavolo accanto, un uomo sui cinquant'anni con la
+      barba tagliata a colpi di coltello e un pollice fasciato nella tela
+      cerata, e guarda chi si ferma davanti al foglio. Dopo la razzia la sua
+      squadra è scesa a quattro.
+
+      Dragna non scrive un nome nuovo sui turni senza qualcuno che garantisca
+      per lui, e stasera chi garantisce è Gerardo. Ti fa sedere con un cenno,
+      e prima di parlare ti guarda le mani, che per lui dicono più della
+      faccia.
+
+      {conoscenze-della-strada Facile} Un caposquadra che garantisce per uno
+      sconosciuto ci mette il proprio nome accanto. Se scendi e resti di
+      sotto, la lanterna sul Ponte la paga lui.
+
+      «Respirate col naso» dice, che è la prima cosa che dice a tutti. «Mi
+      servono due mani che reggono la corda senza tremare. Chi me le
+      garantisce?»
+
+      {resistenza Media fallita} Le tue mani, appena lui le guarda, decidono
+      di avere freddo. Le infili sotto il tavolo, e lui le segue con gli
+      occhi fino in fondo.
+    opzioni:
+      - testo: "Raccontargli la notte della razzia"
+        descrizione: "Quando sono arrivati gli orchi eri sui Ponti anche tu, e al Grifone qualcuno se lo ricorda."
+        requisiti: [racconto >= 1]
+        esito:
+          titolo: Quella notte
+          testo: |
+            Gli racconti la notte del Festival senza abbellirla, con le corde
+            tagliate e la gente che correva sulle assi. A metà Gerardo alza la
+            mano fasciata per fermarti, perché un Raschiatore al tavolo accanto
+            si è girato a dire che c'era anche lui, e tanto gli basta. Va alla
+            bacheca e scrive il tuo nome sulla prima riga, a matita, poi ti
+            dice di presentarti domattina al terzo pianerottolo con il bracciale
+            carico e le mani vuote.
+          effetti: { raschiatore: 1, rep.raschiatori: 0.5 }
+      - testo: "Fargli dire dai Raschiatori chi sei"
+        descrizione: "Fra i Raschiatori qualcuno ti conosce già, e una parola di uno di loro vale più di dieci delle tue."
+        requisiti: [rep.raschiatori >= 1]
+        esito:
+          titolo: Una parola dal bancone
+          testo: |
+            Di parole ne servono poche. Al bancone un Raschiatore della veglia
+            ti riconosce e alza il boccale di due dita, il saluto che si fa fra
+            gente dei turni. Gerardo lo vede e se ne va grugnendo alla bacheca
+            a scrivere il tuo nome sulla prima riga, a matita. Tornando ti dice
+            di presentarti domattina al terzo pianerottolo con il bracciale
+            carico e le mani vuote.
+          effetti: { raschiatore: 1, rep.raschiatori: 0.5 }
+      - testo: "Posargli sul tavolo tre frammenti esausti"
+        descrizione: "Fra i Raschiatori chi porta su i frammenti dalle rovine ha già fatto metà del mestiere."
+        requisiti: [cristalli.frammento-esausto >= 3]
+        esito:
+          titolo: Tre frammenti
+          testo: |
+            Allinei sul legno i tre frammenti grigi e opachi. Gerardo ne prende
+            uno, lo gira contro la luce della lampada e lo annusa, con
+            un'abitudine che ha l'aria di essere più vecchia di lui. Ti chiede
+            se li hai staccati tu o se li hai comprati, e prima che tu risponda
+            se li mette in tasca tutti e tre. Poi va alla bacheca a scrivere il
+            tuo nome a matita sulla prima riga, e ti aspetta domattina al terzo
+            pianerottolo.
+          effetti: { raschiatore: 1, cristalli.frammento-esausto: -3 }
+      - testo: "Convincerlo che la corda la reggi"
+        descrizione: "Gerardo vuole sapere che cosa fai quando la corda gira e sotto c'è il buio. Le storie non gli interessano."
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La prima riga
+          testo: |
+            Gli dici quello che faresti con la corda che gira, e poi quello che
+            non faresti, e la seconda parte gli interessa di più. Quando hai
+            finito Gerardo si gratta la barba con il pollice fasciato e va alla
+            bacheca a scrivere il tuo nome sulla prima riga, a matita. Ti
+            aspetta domattina al terzo pianerottolo con il bracciale carico e
+            le mani vuote, e se arrivi tardi la riga la cancella lui.
+          effetti: { raschiatore: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Torna con qualcuno
+          testo: |
+            Gli parli troppo e troppo in fretta. Gerardo ti lascia arrivare in
+            fondo per educazione e intanto guarda la porta, dove è appena
+            entrato un ragazzo con le spalle larghe. Ti dice di tornare con
+            qualcuno che garantisca per te, e si alza per andare incontro al
+            ragazzo.
+
+            {empatia Media fallita} Ti sembra che ce l'abbia con te. Ce l'ha con
+            la riga vuota, che stasera resta vuota anche per colpa tua.
+          effetti: {}
+
+  # ------------------------------------------------------------ 0 → 1 · due posti vuoti
+  - id: raschiatori-due-posti-vuoti
+    presso: grifone-di-ferro
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Due posti vuoti
+    sommario: "Dopo la razzia la squadra di Gerardo Crine è scesa a quattro, e al terzo pianerottolo c'è una vena buona con una sentinella accanto."
+    luogo: Locanda del Grifone di Ferro, poi il terzo pianerottolo della Cicatrice
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 0, raschiatore >= 1, prologo == 0]
+    testo: |
+      Dragna Gro-Malog ti vede entrare e batte due volte i monconi della mano
+      sinistra sul tavolo, il *vieni qui* dei Raschiatori, senza alzare gli
+      occhi dai fogli dei turni. Accanto a lei siede un uomo sui
+      cinquant'anni con la barba tagliata a colpi di coltello e un pollice
+      fasciato nella tela cerata. Si chiama Gerardo Crine, e ti stringe la
+      mano tirandola appena verso di sé, nel modo in cui si prova un nodo
+      prima di fidarsene. Dopo la razzia la sua squadra è scesa a quattro, e
+      a Gerardo servono mani che non tremino sulla corda.
+
+      Al tavolo dei Quattro, vicino alla finestra, la sedia di Fiamma è vuota
+      dalla primavera, da quando Mirta Sorrin è scesa nel primo strato senza
+      più risalire. Brunella ci passa lo straccio ogni sera insieme agli
+      altri tavoli, e nessuno ci appoggia nemmeno il cappello.
+
+      {empatia Media} Dragna da quella parte non guarda mai. Ci riesce così
+      bene che deve averci fatto l'abitudine apposta.
+
+      Il giorno dopo scendete al terzo pianerottolo, dove la parete della
+      Cicatrice ha una vena buona che nessuno ha ancora finito di staccare.
+      Gerardo ti manda avanti, e ti accorgi presto del perché. Accanto alla
+      vena, incassata nella roccia come un chiodo in un'asse, c'è una
+      sentinella della Salvaguardia grande come un cane accucciato, e sul suo
+      dorso gira una luce sempre più svelta.
+
+      {tecnologia Media} Si sta svegliando. La luce gira come una ruota che
+      prende velocità, e quando smetterà di accelerare avrà finito di
+      decidere che cosa sei.
+
+      «Respirate col naso» dice Gerardo, che lo dice di ogni cosa, delle
+      sacche di Marea come delle sentinelle. «E decidete in fretta.» *Una
+      macchina sveglia, e io sono quello che le sta più vicino.* Sotto i
+      piedi l'asse del pianerottolo scricchiola, e dal vuoto della Cicatrice
+      sale un fiato che sa di ferro.
+
+      {origine apprendista-raschiatore} I nodi di Gerardo li hai visti fare
+      sulle piattaforme ai tuoi primi turni, e le mani li rifanno da sole
+      dentro la tasca mentre lui parla. Sono quelli che ti hanno insegnato,
+      con il giro in più per le corde bagnate.
+    opzioni:
+      - testo: "Spegnerla prima che finisca di svegliarsi"
+        descrizione: "Sotto il guscio delle sentinelle c'è una piastra che le fa dormire. Bisogna trovarla prima che la luce smetta di girare."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La piastra
+          testo: |
+            Ti accucci accanto al guscio con il cuore che batte nei denti e
+            passi le dita lungo il bordo, finché non trovi una piastra più
+            fredda del resto. La premi con il pollice, e la luce rallenta come
+            una trottola che si stanca, fino a fermarsi, mentre Gerardo fischia
+            piano. Staccate la vena in un'ora, e sotto i cristalli, piantate
+            nella roccia, ci sono due corde fresche che nessuna squadra dei
+            turni ha lasciato, con un gancio di una forgia che Gerardo non
+            riconosce. Al Grifone Dragna rigira il gancio fra le dita buone e
+            ti chiede di scoprire chi lavora la parete di notte.
+          pe: { tecnologia: 3 }
+          effetti: { cristalli.frammento-esausto: 2, cristalli.cristallo-sterile: 1, rep.raschiatori: 0.5, fazione.raschiatori: 1 }
+        fallimento:
+          titolo: La scintilla
+          testo: |
+            Cerchi la piastra lungo il bordo del guscio, e la luce smette di
+            girare proprio mentre la trovi. La sentinella ti sputa una scintilla
+            sul dorso della mano, e l'odore della pelle bruciata ti arriva prima
+            del dolore. Gerardo la spacca con il piccone in due colpi,
+            imprecando contro le macchine dei Precursori una per una, e della
+            vena portate su poco. Sotto i cristalli però ci sono due corde
+            fresche che nessuna squadra dei turni ha lasciato, con un gancio di
+            una forgia sconosciuta. Al Grifone Dragna lo rigira fra le dita
+            buone e ti chiede di scoprire chi lavora la parete di notte.
+          effetti: { cristalli.frammento-esausto: 1, ferite: 1, fazione.raschiatori: 1 }
+      - testo: "Staccare la vena e risalire in fretta"
+        descrizione: "Tre colpi di piccone per cristallo, con la corda già pronta. Se la sentinella si sveglia, siete già sopra."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: In fretta
+          testo: |
+            Lavorate in due, con te al piccone mentre Gerardo tiene la corda, e
+            i cristalli cadono nel sacco uno dopo l'altro con un rumore di vetro
+            incrinato. Quando la luce smette di girare sei già a mezza corda,
+            con le braccia che bruciano e il sacco legato in vita. Gerardo ti
+            tira su per le cinghie e ti indica la vena con il mento. Sotto i
+            cristalli sono rimaste due corde fresche che nessuna squadra dei
+            turni ha lasciato, con un gancio di una forgia che lui non
+            riconosce. Al Grifone Dragna rigira il gancio fra le dita buone e ti
+            chiede di scoprire chi lavora la parete di notte.
+          pe: { atletica: 3 }
+          effetti: { cristalli.frammento-esausto: 2, cristalli.cristallo-sterile: 1, rep.raschiatori: 0.5, fazione.raschiatori: 1 }
+        fallimento:
+          titolo: La folata
+          testo: |
+            Stacchi i primi cristalli con colpi troppo forti, e alla terza vena
+            il piccone ti scivola dalla mano e sparisce nel buio. Mentre lo
+            guardi cadere la sentinella sbuffa una folata grigia dalle
+            giunture. Il campo del bracciale ronza e regge a stento, e risali
+            con un sapore di ferro sotto la lingua e il sacco quasi vuoto. Sotto
+            la vena però l'avete visto tutti e due. Ci sono due corde fresche
+            che nessuna squadra dei turni ha lasciato, con un gancio di una
+            forgia sconosciuta, e al Grifone Dragna lo rigira fra le dita buone
+            e ti chiede di scoprire chi lavora la parete di notte.
+          effetti: { cristalli.frammento-esausto: 1, contaminazione: 0.5, ferite: 0.5, fazione.raschiatori: 1 }
+      - testo: "Affrontarla con il piccone"
+        descrizione: "È una macchina piccola, e il pianerottolo è stretto per tutti e due."
+        combattimento: raschiatori-sentinella
+        vittoria:
+          titolo: Il guscio aperto
+          testo: |
+            La sentinella ti viene addosso a scatti, come un cane che non ha
+            ancora deciso se mordere, e tu la colpisci sul guscio finché il
+            metallo cede con un rumore di pentola. Dentro c'è un groviglio di
+            fili tiepidi. Gerardo te ne fa staccare uno per ricordo, poi
+            lavorate alla vena insieme. Sotto i cristalli trovate due corde
+            fresche che nessuna squadra dei turni ha lasciato, con un gancio di
+            una forgia sconosciuta. Al Grifone Dragna lo rigira fra le dita
+            buone e ti chiede di scoprire chi lavora la parete di notte.
+          effetti: { cristalli.frammento-esausto: 2, cristalli.cristallo-sterile: 1, rep.raschiatori: 0.5, fazione.raschiatori: 1 }
+        sconfitta:
+          titolo: Il pianerottolo stretto
+          testo: |
+            La sentinella ti salta sul petto e ti spinge contro il bordo del
+            pianerottolo, con mezza schiena sopra il vuoto. Gerardo te la stacca
+            di dosso a colpi di piccone e la butta di sotto, e la senti
+            rimbalzare a lungo contro la parete. Ti rialzi con un fianco che
+            brucia a ogni respiro. Sotto la vena, dove la macchina stava
+            incassata, ci sono due corde fresche che nessuna squadra dei turni
+            ha lasciato, con un gancio di una forgia sconosciuta. Al Grifone
+            Dragna lo rigira fra le dita buone e ti chiede di scoprire chi
+            lavora la parete di notte.
+          effetti: { cristalli.frammento-esausto: 1, fazione.raschiatori: 1 }
+      - testo: "Chiedere a Gerardo come fanno i vecchi"
+        descrizione: "I veterani hanno un modo lento e sicuro per lavorare accanto alle sentinelle. Costa tempo, e Gerardo lo spiega malvolentieri."
+        costo: 2
+        esito:
+          titolo: Il modo dei vecchi
+          testo: |
+            Gerardo sbuffa, poi te lo mostra. Si coprono le lampade con la
+            giubba e si aspetta al buio senza muovere un dito, finché la luce
+            della sentinella rallenta e alla fine si ferma da sola. Ci vuole
+            quasi tutto il turno, e le gambe ti si addormentano due volte, e
+            della vena portate su soltanto un poco. Sotto i cristalli trovate
+            due corde fresche che nessuna squadra dei turni ha lasciato, con un
+            gancio di una forgia sconosciuta, e al Grifone Dragna lo rigira fra
+            le dita buone e ti chiede di scoprire chi lavora la parete di notte.
+          pe: { resilienza: 3 }
+          effetti: { cristalli.frammento-esausto: 2, rep.raschiatori: 0.5, fazione.raschiatori: 1 }
+      - testo: "Ricordare a Gerardo la sporgenza di Nilo"
+        descrizione: "Il terzo pianerottolo lo conoscete tutti e due dalla sera in cui mancava Nilo. Da quella sporgenza si lavora sopra la sentinella."
+        quando: [visto.carta-un-raschiatore-disperso >= 1]
+        esito:
+          titolo: La sporgenza del ragazzo
+          testo: |
+            Gerardo la chiama la sporgenza del ragazzo, e per la prima volta da
+            stamattina sorride, storto. È lì che Nilo aveva aspettato con la
+            caviglia rotta, al riparo sopra la sentinella che non poteva
+            vederlo. Ci arrivate dall'alto e staccate la vena senza che la luce
+            cambi passo. Sotto i cristalli ci sono due corde fresche che nessuna
+            squadra dei turni ha lasciato, con un gancio di una forgia che
+            Gerardo non riconosce. Al Grifone Dragna lo rigira fra le dita buone
+            e ti chiede di scoprire chi lavora la parete di notte.
+          effetti: { cristalli.frammento-esausto: 2, cristalli.cristallo-sterile: 1, rep.raschiatori: 0.5, fazione.raschiatori: 1 }
+      - testo: "Fare i nodi di Gerardo e calarti sopra la sentinella"
+        descrizione: "Un giro in più per la corda bagnata, e si lavora appesi sopra la macchina senza toccare il pianerottolo."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: I nodi giusti
+          testo: |
+            Fai il nodo con il giro in più, e Gerardo lo controlla con due dita
+            senza dire niente, che da lui vale una lode. Ti cali sopra la
+            sentinella e lavori appeso, con la luce che ti gira sotto gli
+            stivali senza accorgersi di te, e i cristalli vengono via puliti.
+            Sotto, dove la vena finisce, trovi due corde fresche che nessuna
+            squadra dei turni ha lasciato, con un gancio di una forgia
+            sconosciuta. Al Grifone Dragna lo rigira fra le dita buone e ti
+            chiede di scoprire chi lavora la parete di notte.
+          pe: { atletica: 3 }
+          effetti: { cristalli.frammento-esausto: 2, cristalli.cristallo-sterile: 1, rep.raschiatori: 0.5, fazione.raschiatori: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · corde che non sono nostre
+  - id: raschiatori-corde-che-non-sono-nostre
+    presso: orlo-dei-rottami
+    immagine: personaggi/grusk
+    titolo: Corde che non sono nostre
+    sommario: "All'Orlo dei Rottami Grusk tiene in un cesto a parte una ventina di ganci tutti uguali, che nessuna forgia della città ha battuto."
+    luogo: Orlo dei Rottami, accanto alla carriola rossa
+    area: citta-bassa
+    requisiti: [fazione.raschiatori == 1, raschiatori.grusk == 0]
+    testo: |
+      L'Orlo dei Rottami è la spiaggia di ghiaia e ferro dove la Città Bassa
+      finisce contro la Cicatrice, e dove i Raschiatori buttano quello che
+      dalle rovine non vale la fatica di portare fino al Mercato. Grusk ci
+      lavora da quando c'è l'Orlo, almeno a sentir lui. La sua carriola rossa
+      è ferma accanto a un mucchio di catene arrugginite, e lui siede sul
+      bordo con una bottiglia fra le ginocchia e la bilancia storta appesa a
+      un palo.
+
+      Fra le catene, in un cesto a parte, ci sono i ganci. Sono una ventina,
+      con la stessa curva e lo stesso occhiello schiacciato a martello, e
+      nessuno viene da una forgia della città.
+
+      {tecnologia Media} Ferro battuto a mano e temprato male, in fretta. Chi
+      li ha fatti ne doveva fare molti, e li voleva subito.
+
+      {conoscenze-della-strada Media} All'Orlo un cesto a parte vuol dire
+      merce che Grusk non vuole pesare insieme al resto. Qualcuno gliel'ha
+      portata di notte, e gliel'ha fatta pagare bene.
+
+      Grusk ti vede guardare il cesto e tira su con il naso. «Comprati a
+      peso» dice, e batte la mano sulla bilancia. Il piatto oscilla a lungo
+      e si ferma storto come sempre. «Il ferro è ferro, e io non chiedo da
+      dove viene. È la mia regola, ed è per questo che mi portano le cose.»
+      *Ganci nuovi, venduti di notte a uno che non fa domande.* Dalla
+      Cicatrice sale il vento, e le catene del mucchio tintinnano tutte
+      insieme.
+
+      {origine fuggiasco-di-ghoran} Il nodo che pende ancora da un occhiello
+      lo riconosci prima di sapere perché, e ti si chiude lo stomaco. È il
+      nodo dei collari di Ghoran, quello che si stringe da solo quando chi lo
+      porta tira.
+    opzioni:
+      - testo: "Farlo parlare del fornitore"
+        descrizione: "Grusk parla volentieri di tutto, tranne che di chi gli vende la merce. Con lui bisogna girarci intorno."
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Media }
+        successo:
+          titolo: Le lampade dal fondo
+          testo: |
+            Gli parli del prezzo del ferro e delle guardie che passano
+            all'Orlo, e intanto la bottiglia passa due volte da lui a te. Alla
+            terza Grusk ti dice che i ganci glieli porta un tale con la giubba
+            cerata, di notte, uno che risale dalla Cicatrice dove non c'è nessun
+            turno. Le lampade, secondo lui, si vedono dal margine dei Ponti dopo
+            la seconda campana, e scendono in fila come le formiche.
+          imposta: { raschiatori.grusk: 1 }
+          effetti: { informazioni.voce: 1 }
+          segue: raschiatori-le-lampade-di-notte
+        fallimento:
+          titolo: La regola di Grusk
+          testo: |
+            Grusk ti ascolta bevendo, e alla fine ti punta contro il collo della
+            bottiglia per ripeterti la sua regola. Te ne stai già andando quando
+            ti richiama, perché a stare zitto si annoia più di quanto gli
+            convenga. Ti dice di guardare giù dal margine dei Ponti dopo la
+            seconda campana, e che lui stasera dormiva e non ha visto niente.
+          imposta: { raschiatori.grusk: 1 }
+          segue: raschiatori-le-lampade-di-notte
+      - testo: "Comprargli un gancio, e il nome con il gancio"
+        descrizione: "Un gancio pesato sulla bilancia storta costa poco. Qualche moneta in più, e Grusk si ricorda anche chi gliel'ha venduto."
+        requisiti: [monete >= 5]
+        esito:
+          titolo: Il peso giusto
+          testo: |
+            Grusk pesa il gancio, poi pesa le monete, e le seconde gli piacciono
+            di più. Se le infila nella cintura e ti racconta del tale con la
+            giubba cerata che gli porta i ganci di notte, uno che risale dalla
+            Cicatrice dove non c'è nessun turno. Le lampade, dice, si vedono dal
+            margine dei Ponti dopo la seconda campana, quando scendono in fila
+            come le formiche.
+          imposta: { raschiatori.grusk: 1 }
+          effetti: { monete: -5, informazioni.voce: 1 }
+          segue: raschiatori-le-lampade-di-notte
+      - testo: "Aspettare che finisca la bottiglia"
+        descrizione: "Grusk beve in fretta, e quando la bottiglia è vuota parla da solo. Ci vuole un pomeriggio."
+        costo: 2
+        esito:
+          titolo: A bottiglia vuota
+          testo: |
+            Ti siedi sulla ghiaia accanto alla carriola e aspetti. Grusk beve,
+            canta un pezzo di una canzone degli orchi e lo dimentica a metà, poi
+            comincia a parlare con la bilancia. Le racconta del tale con la
+            giubba cerata che gli porta i ganci di notte, risalendo dalla
+            Cicatrice dove non c'è nessun turno, e di lampade che scendono in
+            fila dopo la seconda campana. Quando si addormenta gli rimetti la
+            bottiglia vuota fra le ginocchia.
+          imposta: { raschiatori.grusk: 1 }
+          effetti: { informazioni.voce: 1 }
+          segue: raschiatori-le-lampade-di-notte
+      - testo: "Dirgli di chi è quel nodo"
+        descrizione: "Quel nodo l'hai portato al collo. Grusk sa che cosa vuol dire, anche se fa finta di no."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Il nodo dei collari
+          testo: |
+            Sciogli il nodo dall'occhiello con due dita e lo rifai davanti a
+            lui, stretto come si stringeva a Ghoran. Grusk smette di bere e
+            borbotta che lui compra ferro e basta, e poi ti racconta lo stesso
+            del tale con la giubba cerata che gli porta i ganci di notte,
+            risalendo dalla Cicatrice dove non c'è nessun turno. Le lampade si
+            vedono dal margine dei Ponti dopo la seconda campana, e il ferro,
+            aggiunge senza guardarti, te lo regala.
+          imposta: { raschiatori.grusk: 1 }
+          effetti: { informazioni.voce: 1 }
+          segue: raschiatori-le-lampade-di-notte
+
+  - id: raschiatori-le-lampade-di-notte
+    presso: ponte-delle-mille-corde
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Le lampade di notte
+    tipo: seguito
+    luogo: Il margine dei Ponti, dopo la seconda campana
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 1]
+    testo: |
+      Dopo la seconda campana il margine dei Ponti è un'asse lunga e bagnata
+      con il parapetto da una parte e la Cicatrice dall'altra, e le lanterne
+      di Mana stanno abbastanza lontane perché fra l'una e l'altra gli occhi
+      facciano in tempo ad abituarsi. Ti siedi con le gambe sopra il vuoto,
+      alla maniera dei ragazzi dei Ponti, e aspetti con il bavero alzato.
+
+      Verso mezzanotte, più a levante dei turni di Dragna, si accendono le
+      lampade da scavo. Prima ne conti sette, più giù cinque. Scendono in
+      fila lungo la parete dove sulle mappe dei Raschiatori non c'è nessun
+      pianerottolo.
+
+      {percezione Media} Cinque lampade scendono a strattoni, tutte insieme.
+      Le altre due stanno ferme sopra di loro, e si muovono soltanto quando
+      le prime si fermano.
+
+      {furtivita Facile fallita} Ti sporgi per vedere meglio, e il
+      parapetto scricchiola sotto il gomito. Lo senti tu, e probabilmente
+      anche mezza Cicatrice.
+
+      Da qualche parte sotto le assi passa il vento e fa suonare le corde
+      del ponte. *Due che guardano e cinque che lavorano.* Più in là, sul
+      Ponte dei Morti, un vecchio della veglia si accende la pipa e tiene gli
+      occhi sulle sue lanterne.
+
+      {origine figlio-della-citta-bassa} Quel tratto di parete lo conosci
+      dai racconti dei vicoli. Sotto c'è un pozzo cieco che sbuca dietro le
+      concerie, e da lì risale chi preferisce evitare l'argano.
+    opzioni:
+      - testo: "Seguire le lampade giù per le corde"
+        descrizione: "Una corda di servizio dei Ponti scende fino a una sporgenza. Da lì li vedresti da vicino, e loro vedrebbero te."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La cordata
+          testo: |
+            Ti cali lungo una corda di servizio fino a una sporgenza, e da lì li
+            vedi bene. Sono cinque legati in cordata, scalzi, ciascuno con un
+            collare di corda al collo e un sacco legato in vita. Sopra di loro
+            due uomini armati tengono la corda madre, e sulla manica hanno
+            dipinto un gancio di ferro. Uno dei legati scivola, e il sorvegliante
+            tira la corda finché quello si rimette in piedi da solo.
+
+            Quando al Grifone lo racconti, Dragna posa la penna e dice il nome
+            della Compagnia del Gancio di Valdo Merlach. Merlach era un suo
+            caposquadra, finché è entrato al Grifone con uno schiavo al seguito
+            e lei l'ha buttato in strada davanti a tutti. Adesso lavora con un
+            contratto della Gilda e con carne comprata a Ghoran.
+          pe: { furtivita: 3 }
+          effetti: { fazione.raschiatori: 1, informazioni.voce: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il dardo
+          testo: |
+            Ti cali lungo una corda di servizio e a metà ti scappa il piede. La
+            lampada più alta si gira verso di te, e un dardo si pianta nella
+            roccia a un palmo dalla tua mano. Risali sbucciandoti le nocche, ma
+            prima hai visto il gancio di ferro dipinto sulla manica di chi ha
+            tirato.
+
+            Quando al Grifone lo racconti, Dragna posa la penna e dice il nome
+            della Compagnia del Gancio di Valdo Merlach. Merlach era un suo
+            caposquadra, finché è entrato al Grifone con uno schiavo al seguito
+            e lei l'ha buttato in strada davanti a tutti. Adesso lavora con un
+            contratto della Gilda e con carne comprata a Ghoran.
+          effetti: { fazione.raschiatori: 1, informazioni.voce: 1, ferite: 1 }
+      - testo: "Contare le lampade dall'alto fino all'alba"
+        descrizione: "Chi scende di notte deve risalire prima che faccia giorno. Basta guardare dove esce."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il carro all'alba
+          testo: |
+            Resti sul margine fino all'alba, con le ginocchia rigide e gli occhi
+            che bruciano. Le lampade risalgono una alla volta e spariscono dietro
+            una sporgenza, e poco dopo, sulla strada delle concerie, passa un
+            carro coperto con un gancio di ferro dipinto sulla tela.
+
+            Quando al Grifone lo racconti, Dragna posa la penna e dice il nome
+            della Compagnia del Gancio di Valdo Merlach. Merlach era un suo
+            caposquadra, finché è entrato al Grifone con uno schiavo al seguito
+            e lei l'ha buttato in strada davanti a tutti. Adesso lavora con un
+            contratto della Gilda e con carne comprata a Ghoran.
+          pe: { percezione: 3 }
+          effetti: { fazione.raschiatori: 1, informazioni.voce: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il freddo del margine
+          testo: |
+            A un certo punto ti accorgi di aver perso il conto delle lampade, e
+            subito dopo di esserti addormentato contro il parapetto con la testa
+            sul braccio. Ti sveglia un Raschiatore della veglia che torna a casa,
+            e quando gli chiedi delle lampade ti risponde che sono quelli del
+            Gancio, e sputa nel vuoto.
+
+            Al Grifone Dragna posa la penna e ti spiega di chi è la Compagnia
+            del Gancio. Valdo Merlach era un suo caposquadra, finché è entrato
+            al Grifone con uno schiavo al seguito e lei l'ha buttato in strada
+            davanti a tutti. Adesso lavora con un contratto della Gilda e con
+            carne comprata a Ghoran.
+          effetti: { fazione.raschiatori: 1, informazioni.voce: 1, tormento: 0.5 }
+      - testo: "Pagare il custode del gabbiotto perché parli"
+        descrizione: "Il custode di notte vede passare tutto, e per qualche moneta si ricorda di averlo visto."
+        requisiti: [monete >= 5]
+        esito:
+          titolo: Il custode di notte
+          testo: |
+            Il custode del gabbiotto conta le monete alla luce della stufa e ti
+            dice quello che sanno tutti quelli che lavorano di notte sui Ponti.
+            Quelle lampade sono del Gancio, e il Gancio scende dove vuole perché
+            ha un contratto della Gilda con il timbro buono.
+
+            Al Grifone Dragna posa la penna e ti spiega di chi è la Compagnia
+            del Gancio. Valdo Merlach era un suo caposquadra, finché è entrato
+            al Grifone con uno schiavo al seguito e lei l'ha buttato in strada
+            davanti a tutti. Adesso lavora con un contratto della Gilda e con
+            carne comprata a Ghoran.
+          effetti: { monete: -5, fazione.raschiatori: 1, informazioni.voce: 1 }
+      - testo: "Aspettarli all'uscita del pozzo cieco"
+        descrizione: "Chi scende di là risale dietro le concerie. Lo sanno tutti i ragazzi dei vicoli."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Dietro le concerie
+          testo: |
+            Quando le lampade risalgono sei già dietro le concerie, accucciato
+            fra due barili di concia che puzzano fino agli occhi. Dal pozzo
+            escono cinque legati in cordata e due uomini armati con un gancio di
+            ferro dipinto sulla manica, e li caricano su un carro coperto.
+
+            Quando al Grifone lo racconti, Dragna posa la penna e dice il nome
+            della Compagnia del Gancio di Valdo Merlach. Merlach era un suo
+            caposquadra, finché è entrato al Grifone con uno schiavo al seguito
+            e lei l'ha buttato in strada davanti a tutti. Adesso lavora con un
+            contratto della Gilda e con carne comprata a Ghoran.
+          pe: { furtivita: 3 }
+          effetti: { fazione.raschiatori: 1, informazioni.voce: 1, rep.raschiatori: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · la regola della casa (grado 1)
+  - id: raschiatori-la-regola-della-casa
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: La regola della casa
+    sommario: "Valdo Merlach entra al Grifone da solo, con le mani vuote, e offre la paga doppia a chi scende per lui."
+    luogo: Locanda del Grifone di Ferro, la sala, di sera
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 2]
+    testo: |
+      La sera il Grifone di Ferro è pieno fino alle scale. Dragna sta al suo
+      tavolo con i fogli dei turni mentre Brunella gira fra i tavoli con la
+      zuppa, e ai tavoli lunghi le squadre si passano il pane e le notizie
+      del giorno.
+
+      La porta si apre e un uomo entra da solo. È alto e asciutto, con la
+      barba fatta di fresco e una giubba cerata pulita, di quelle che sotto
+      le piattaforme non sono mai scese, e alla cintura porta un'ascia corta
+      da tunnel con il manico lucido in un punto solo. Si ferma sulla soglia
+      per far vedere che ha le mani vuote, e solo dopo avanza fino al
+      bancone. La sala abbassa la voce un tavolo alla volta. Valdo Merlach
+      ordina da bere per tutti, e Brunella guarda Dragna prima di stappare.
+
+      {empatia Media} Brunella aspetta un cenno, e Dragna non lo fa. La birra
+      resta nella botte, che in questa sala vale quanto una risposta.
+
+      «Paga doppia» dice Merlach alla sala, con una voce bassa e piana che ti
+      ricorda qualcuno senza che tu sappia chi. «A chi scende per la
+      Compagnia del Gancio. Le corde le metto io, e anche le lampade, e c'è
+      un contratto della Gilda con il timbro buono.» Poi si gira verso di te,
+      e lo fa apposta davanti a tutti. «E tu, che hai trovato i miei ganci.
+      Uno che sa guardare mi serve, e ti pago meglio di Dragna.»
+
+      Dragna è rimasta dov'era. Ha posato la penna di traverso sul foglio e
+      tiene la mano buona sul manico dell'ascia appoggiata allo schienale.
+      *Davanti a tutti, così un no diventa un affronto.* Senti il calore
+      della sala sulla faccia, e la sedia vuota di Fiamma, al tavolo dei
+      Quattro, è proprio alle spalle di Merlach.
+
+      {origine apprendista-raschiatore} La storia del caposquadra cacciato
+      dal Grifone te l'hanno raccontata ai primi turni, sulle piattaforme,
+      senza il nome. Adesso il nome ce l'ha, e anche la faccia.
+
+      {origine mercante-dei-ponti} Il contratto che tiene arrotolato alla
+      cintura ha la cera verde della Gilda, e da qui riconosci la piega che
+      si fa ai contratti del consiglio interno. Vuol dire che qualcuno
+      lassù, al terzo piano della Casa dei Nodi, paga questa compagnia.
+    opzioni:
+      - testo: "Rifiutare e dire perché, davanti a tutti"
+        descrizione: "In questa sala gli schiavi non entrano, e chi scende sulla schiena degli altri nemmeno. Bisogna dirlo in modo che la sala lo ripeta."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: La regola della casa
+          testo: |
+            Gli dici che in questa sala non si entra con la carne al seguito, e
+            che da qui chi scende sulla schiena degli altri esce in strada come
+            è uscito lui. Lo dici senza alzare la voce, e alla fine un boccale
+            batte sul legno, poi un altro. Merlach sorride con mezza bocca, paga
+            la birra che nessuno ha bevuto e se ne va.
+
+            Dragna allora va alla bacheca e ripassa il tuo nome a inchiostro,
+            premendo fino a bucare la carta, poi ti allaccia al polso un
+            bracciale dei turni con le sue otto dita. Ti dice che da domani al
+            Magazzino della bacheca ti servono come uno di casa, e che Argento
+            torna in città e ti vuole al suo tavolo prima che finisca di
+            contare.
+          pe: { persuasione: 3, atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1 }
+        fallimento:
+          titolo: Le parole storte
+          testo: |
+            Cominci bene e finisci male, con una frase sugli schiavi che ti
+            esce storta e fa ridere un tavolo in fondo. Merlach ride con loro
+            senza cattiveria, il che è anche peggio. Prima di andarsene dice alla sala
+            che sul tuo nome c'è ancora la matita.
+
+            Dragna va alla bacheca lo stesso e ripassa il tuo nome a inchiostro,
+            poi ti allaccia al polso un bracciale dei turni con le sue otto dita.
+            Secondo lei le tue parole erano storte e il no era giusto. Da domani
+            al Magazzino della bacheca ti servono come uno di casa, e Argento
+            torna in città e ti vuole al suo tavolo.
+          pe: { atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1, scandalo: 0.5 }
+      - testo: "Dirgli che ci pensi"
+        descrizione: "Un Raschiatore che a Merlach risponde ci penso, in questa sala, gli ha già detto di no. Lui però non lo sa, e la sua paga si può prendere."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: Ci penso
+          testo: |
+            Gli dici che ci pensi, e la sala lo prende per quello che sembra.
+            Qualcuno ride, e Dragna riprende la penna. Merlach invece ti guarda
+            un momento più del necessario prima di annuire e andarsene. Sul ponte,
+            un'ora dopo, uno dei suoi ti mette in mano una borsa e ti dice dove
+            trovarlo.
+
+            Dragna intanto ha ripassato il tuo nome a inchiostro sulla bacheca,
+            e ti allaccia al polso un bracciale dei turni con le sue otto dita.
+            Da domani al Magazzino della bacheca ti servono come uno di casa, e
+            Argento torna in città. *Due paghe, e una delle due ha il gancio
+            dentro.* La borsa di Merlach ti pesa in tasca per tutta la sera.
+          pe: { ingannare: 3, atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          imposta: { raschiatori.doppio: 1 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-bracciale-dei-turni: 1 }
+        fallimento:
+          titolo: Uno di Dragna
+          testo: |
+            Gli dici che ci pensi, e Merlach scoppia a ridere, una risata vera.
+            Ti dice che sei di Dragna fino alle unghie e che puoi pensarci
+            quanto vuoi, e se ne va senza pagare la birra mentre la sala ride
+            di te, che ci hai provato.
+
+            Dragna va alla bacheca lo stesso e ripassa il tuo nome a inchiostro,
+            poi ti allaccia al polso un bracciale dei turni con le sue otto dita.
+            Secondo lei le tue parole erano storte e il no era giusto. Da domani
+            al Magazzino della bacheca ti servono come uno di casa, e Argento
+            torna in città e ti vuole al suo tavolo.
+          pe: { atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1, scandalo: 0.5 }
+      - testo: "Togliergli la mano dal bancone"
+        descrizione: "Merlach si è appoggiato al bancone di Brunella come a casa sua. Gli si può far capire che non lo è."
+        prova: { attributo: fisico, abilita: rissa, difficolta: Media }
+        successo:
+          titolo: Il bancone di Brunella
+          testo: |
+            Gli prendi il polso e glielo sollevi dal bancone, piano, come si
+            toglie un gatto da una sedia. Merlach ha la presa di uno che ha
+            tirato corde per vent'anni, e per il tempo di un respiro nessuno dei
+            due molla. Poi Dragna è in mezzo a voi con la mano buona sul petto
+            di tutti e due, e Merlach se ne va senza voltarsi.
+
+            Dragna va alla bacheca e ripassa il tuo nome a inchiostro, poi ti
+            allaccia al polso un bracciale dei turni con le sue otto dita. Ti
+            ricorda che qui si picchia fuori. Da domani al Magazzino della
+            bacheca ti servono come uno di casa, e Argento torna in città e ti
+            vuole al suo tavolo.
+          pe: { rissa: 3, atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1 }
+        fallimento:
+          titolo: Il gomito di Merlach
+          testo: |
+            Gli prendi il polso, e Merlach lo gira prima che tu stringa. Il suo
+            gomito ti arriva sotto lo zigomo con un rumore che senti dentro i
+            denti, e Dragna è già in mezzo a voi prima che tu ti rialzi. Merlach
+            se ne va massaggiandosi le nocche.
+
+            Dragna ripassa il tuo nome a inchiostro sulla bacheca e ti allaccia
+            al polso un bracciale dei turni. Ti ricorda che qui si picchia fuori,
+            e ti consiglia del ghiaccio, perché domani torna Argento e al suo
+            tavolo ti vuole con tutti e due gli occhi aperti.
+          pe: { atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1, ferite: 1 }
+      - testo: "Lasciare che risponda Dragna"
+        descrizione: "Al Grifone la regola della casa la fa rispettare lei, e lo fa da nove anni."
+        esito:
+          titolo: Otto dita sul tavolo
+          testo: |
+            Guardi Dragna, e Dragna si alza. Attraversa la sala senza fretta,
+            si ferma davanti a Merlach e batte i monconi sul bancone una volta
+            sola, e Merlach paga la birra che nessuno ha bevuto e se ne va.
+            Passandoti accanto ti augura buona caccia.
+
+            Poi Dragna va alla bacheca e ripassa il tuo nome a inchiostro, e ti
+            allaccia al polso un bracciale dei turni. Ti dice che la prossima
+            volta rispondi tu. Da domani al Magazzino della bacheca ti servono
+            come uno di casa, e Argento torna in città e ti vuole al suo tavolo.
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1 }
+      - testo: "Leggere il suo contratto ad alta voce"
+        descrizione: "I contratti della Gilda li leggi per mestiere. Quello di Merlach, letto davanti alla sala, dice chi lo paga."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: La cera verde
+          testo: |
+            Gli chiedi il contratto con il tono del banco, e lui te lo dà per
+            mostrarti che non ha niente da nascondere. Lo leggi ad alta voce,
+            clausola per clausola, fino al timbro del consiglio interno e alle
+            due sigle accanto, che nessuno in sala conosce e che tutti si
+            segnano a mente. Merlach se lo riprende con calma e se ne va.
+
+            Dragna va alla bacheca e ripassa il tuo nome a inchiostro, poi ti
+            allaccia al polso un bracciale dei turni con le sue otto dita. Da
+            domani al Magazzino della bacheca ti servono come uno di casa, e
+            Argento torna in città e ti vuole al suo tavolo.
+          pe: { politica-ed-economia: 3, atletica: 5 }
+          almeno: { rep.raschiatori: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 30, oggetto.raschiatori-bracciale-dei-turni: 1 }
+
+  # ------------------------------------------------------------ 3 → 4 · Argento torna dai conti
+  - id: raschiatori-argento-torna-dai-conti
+    presso: grifone-di-ferro
+    immagine: fazioni/raschiatori
+    titolo: Argento torna dai conti
+    sommario: "Dopo due settimane fuori città Argento rientra al Grifone con il suo libro dei conti, e la Gilda ha appena riaperto la cartografia del sottosuolo."
+    luogo: Locanda del Grifone di Ferro, il tavolo dei Quattro
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 3]
+    testo: |
+      Argento rientra al Grifone a metà mattina, dopo due settimane fuori
+      città, e la sala se ne accorge dal rumore. Il bastone di cristallo
+      batte sulle assi a un passo sì e a uno no, alternato alla gamba di
+      legno, che fra i vecchi Raschiatori è quasi un'uniforme. È un nano
+      anziano con la barba argentata intrecciata di schegge di vetro lavorato
+      e un panciotto pesante abbottonato fino al collo. Quando appoggia il
+      bastone al tavolo il cristallo si accende di una luce tenue, come gli
+      succede sempre quando lui lo lascia.
+
+      Si siede davanti a Dragna, apre un libro dei conti grosso come un
+      mattone e ti fa cenno di sederti anche tu senza alzare gli occhi.
+
+      «Due settimane» dice, con la voce grave e un accento che non riesci a
+      mettere da nessuna parte. «In due settimane la Gilda ha riaperto la
+      cartografia del sottosuolo.» Chi consegna per primo alla Casa dei Nodi
+      la mappa dell'interno di un sito censito e mai esplorato ne ha lo scavo
+      per dieci anni. Lo chiamano diritto di prima mappa, e l'ha voluto una
+      parte del consiglio interno.
+
+      «Valdo Merlach ha uomini per correre dappertutto» dice Dragna. «Noi
+      abbiamo i turni.» Argento gira una pagina. «Combattere non è più affar
+      mio. Contare i miei lo è ancora, e i conti dicono che ci mancano le
+      gambe.» Si dà un colpetto sulla gamba di legno con il bastone, senza
+      sorridere. *Dieci anni di scavo a chi corre più forte, e noi abbiamo un
+      nano con il bastone.* Dragna, per una volta, ride dal naso.
+
+      {politica-ed-economia Media} Una regola che premia chi arriva per primo
+      la scrive chi ha già le gambe. Il consiglio interno sa benissimo chi le
+      ha.
+
+      {origine apprendista-raschiatore} Argento non l'avevi mai visto da
+      vicino. Ai turni se ne parlava come di un conto che torna sempre, e
+      adesso che ce l'hai davanti ti viene da raddrizzare la schiena come
+      davanti a un maestro.
+
+      {origine rampollo-dei-quartieri-alti} Dei consiglieri che hanno votato
+      il diritto di prima mappa conosci almeno due famiglie, perché alle loro
+      cene si parla di scavi come di cavalli. Ci scommettono sopra, e vincono
+      quasi sempre gli stessi.
+    opzioni:
+      - testo: "Leggere le clausole con Argento"
+        descrizione: "Un regolamento scritto in fretta ha sempre una clausola che chi l'ha scritto non ha riletto."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: La clausola dodici
+          testo: |
+            Leggete le clausole insieme, lui con il dito e tu con gli occhi, e
+            alla dodicesima ti fermi. Per registrare un sito basta una persona
+            registrata sul posto, e una squadra intera non serve. Argento
+            grugnisce, che da lui è un applauso, e ti registra per la Gradinata
+            Cieca, tre giorni a ovest vicino al Bosco della Forca, l'unico sito
+            che Merlach non ha ancora segnato. Ti dice di partire dalla
+            Superficie Fratturata e di portare su una mappa, e anche te stesso.
+          pe: { politica-ed-economia: 3 }
+          effetti: { fazione.raschiatori: 1, monete: 10, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: L'accento di Argento
+          testo: |
+            Verso la quinta clausola ti perdi e torni indietro, e Argento perde
+            la pazienza con un accento che gli esce tutto insieme. Trova da solo
+            la dodicesima e la batte con il dito. Per registrare un sito basta
+            una persona sul posto, e lui ti registra per la Gradinata Cieca, tre
+            giorni a ovest vicino al Bosco della Forca, l'unico sito che Merlach
+            non ha ancora segnato. Ti dice di partire dalla Superficie Fratturata, e
+            che a leggere imparerai.
+          effetti: { fazione.raschiatori: 1, monete: 10 }
+      - testo: "Andare a sentire Tarquin Cordani alla Casa dei Nodi"
+        descrizione: "Il Sovrintendente vorrebbe un concorso pulito. Bisogna capire se ha i voti per farlo, e che cosa sa."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Il Sovrintendente
+          testo: |
+            Tarquin Cordani ti riceve in piedi, con la parrucca un poco storta
+            e l'aria di uno che ha dormito in ufficio. Vorrebbe un concorso
+            pulito, e per farlo non ha i voti. Ti mostra però il registro dei
+            siti già segnati dalla Compagnia, e sulla lista ne manca uno solo.
+            Al Grifone Argento ti registra per la Gradinata Cieca, tre giorni a
+            ovest vicino al Bosco della Forca, e ti dice di partire dalla
+            Superficie Fratturata e di tornare con una mappa.
+          pe: { galateo: 3 }
+          effetti: { fazione.raschiatori: 1, monete: 10, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: L'anticamera
+          testo: |
+            Passi la mattina nell'anticamera di Cordani su una panca più bassa
+            delle altre, messa lì apposta. Alla fine esce un suo scrivano, che
+            ti lascia guardare il registro dei siti segnati per il tempo di un
+            respiro, e basta per vedere che ne manca uno. Al Grifone Argento ti
+            registra per la Gradinata Cieca, tre giorni a ovest vicino al Bosco
+            della Forca, e ti dice di partire dalla Superficie Fratturata.
+          effetti: { fazione.raschiatori: 1, monete: 10, scandalo: 0.5 }
+      - testo: "Rimettere in ordine la cassa della bacheca"
+        descrizione: "Due settimane senza Argento, e la cassa della bacheca è un sacco di monete e di biglietti. Ci vuole pazienza più che talento."
+        costo: 2
+        esito:
+          titolo: La cassa della bacheca
+          testo: |
+            Passi il pomeriggio a contare monete e a stirare biglietti, e
+            Argento ti lascia fare guardando da sopra il libro. Quando la cassa
+            torna ti registra per la Gradinata Cieca, tre giorni a ovest vicino
+            al Bosco della Forca, l'unico sito che Merlach non ha ancora
+            segnato. Ti dice di partire dalla Superficie Fratturata, perché adesso
+            che ha visto come tieni i conti vuole vedere come tieni una mappa.
+          pe: { resilienza: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 10 }
+      - testo: "Dirgli quali famiglie votano con Merlach"
+        descrizione: "Ai tavoli dei Quartieri Alti si sa chi scommette sugli scavi. Basta mettere i nomi accanto ai siti."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Le scommesse delle cene
+          testo: |
+            Gli dici i nomi a voce bassa, e Argento li segna a matita accanto ai
+            siti già presi dalla Compagnia. Resta un sito senza niente accanto,
+            perché nessuna delle famiglie ci ha scommesso sopra. Argento ti
+            registra per la Gradinata Cieca, tre giorni a ovest vicino al Bosco
+            della Forca, e ti dice di partire dalla Superficie Fratturata e di
+            tornare con una mappa.
+          pe: { politica-ed-economia: 3 }
+          effetti: { fazione.raschiatori: 1, monete: 10, rep.raschiatori: 0.5 }
+      - testo: "Cercare nel registro della Gilda i siti già segnati"
+        descrizione: "Con la licenza della Gilda il registro della Casa dei Nodi si consulta allo sportello, senza chiedere a nessuno."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Allo sportello
+          testo: |
+            Allo sportello della Casa dei Nodi ti danno il registro senza fare
+            domande, perché la licenza parla per te. La Compagnia del Gancio ha
+            segnato tutti i siti vicini tranne uno. Argento ti registra per la
+            Gradinata Cieca, tre giorni a ovest vicino al Bosco della Forca, e
+            ti dice di partire dalla Superficie Fratturata e di tornare con una
+            mappa.
+          pe: { politica-ed-economia: 3 }
+          effetti: { fazione.raschiatori: 1, monete: 10, rep.raschiatori: 0.5 }
+
+  # ------------------------------------------------------------ 5 → 6 · il diritto di prima mappa (grado 2)
+  - id: raschiatori-il-diritto-di-prima-mappa
+    immagine: ambientazione/quartieri-alti
+    titolo: Il diritto di prima mappa
+    sommario: "Al terzo piano della Casa dei Nodi il consiglio interno della Gilda decide a chi va la Gradinata Cieca. Valdo Merlach giura di esserci arrivato prima."
+    luogo: Casa dei Nodi, la sala con le due porte
+    area: quartieri-alti
+    requisiti: [fazione.raschiatori == 5]
+    testo: |
+      Il consiglio interno della Gilda si riunisce al terzo piano della Casa
+      dei Nodi, nella sala con le due porte che si chiudono da dentro. Al
+      tavolo lungo siede Tarquin Cordani, il Sovrintendente, con la parrucca
+      un poco storta. Accanto a lui Irsa Valbrun tiene il grembiule da
+      bottega anche qui, e altri quattro consiglieri evitano di guardarti.
+      Argento sta in piedi vicino a te con il peso sul bastone, e tiene sotto
+      il braccio la tua mappa della Gradinata arrotolata in una tela cerata.
+
+      Valdo Merlach è seduto dall'altra parte, pulito come al Grifone, con il
+      contratto della Compagnia aperto davanti. Giura sul timbro della Gilda
+      di aver mandato uomini suoi oltre l'ottavo gradino un giorno prima di
+      te, e di avere la sua mappa in viaggio.
+
+      «Uomini suoi» ripete Argento piano, e il cristallo del bastone si
+      accende appena. «Nei registri della Gilda questi uomini mancano, e
+      anche nei ruoli della Compagnia.» Chi cala gli schiavi in cordata non
+      li scrive da nessuna parte, e i morti che non esistono non lasciano
+      firme.
+
+      {intimidire Media} Merlach ha messo le mani sul tavolo aperte, dove
+      tutti le vedono. È un uomo che ha deciso di restare calmo prima di
+      entrare, e lo resterà a costo di farsi male.
+
+      {politica-ed-economia Difficile} Due consiglieri guardano Merlach ogni
+      volta che parla Cordani. Hanno votato loro il diritto di prima mappa,
+      e stasera hanno qualcosa da perdere.
+
+      Cordani batte il martelletto due volte. *Se perdo qui, la Gradinata è
+      sua per dieci anni.* Hai le mani sudate, e la tela cerata della mappa
+      scricchiola sotto il braccio di Argento.
+
+      {origine fuggiasco-di-ghoran} Quando Argento dice *carne* nessuno al
+      tavolo alza la testa, e tu ti accorgi di avere i pugni chiusi sotto il
+      legno. A Ghoran la parola la usavano i compratori, a voce bassa,
+      davanti a te.
+    opzioni:
+      - testo: "Provare la mappa davanti al consiglio"
+        descrizione: "Le misure dei sette gradini e quello che c'è oltre l'ottavo. Una mappa vera si riconosce dai dettagli che nessuno inventerebbe."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: I dettagli
+          testo: |
+            Srotoli la mappa sul tavolo e la racconti gradino per gradino. Irsa
+            Valbrun ti chiede dello specchio d'uscita, e quando le dici da che
+            parte si vede il riflesso annuisce come davanti a una lama ben
+            fatta. Cordani mette ai voti, e la Gradinata va ai Raschiatori.
+            Merlach perde il sito e tiene il contratto, e alla porta si ferma a
+            dire, a nessuno in particolare, che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti spiega che da oggi nei
+            siti nuovi scendi per primo e che alla Gradinata il turno è tuo.
+          pe: { accademiche: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -0.5 }
+        fallimento:
+          titolo: La mappa storta
+          testo: |
+            Srotoli la mappa e la racconti male, con le misure in disordine.
+            Irsa Valbrun ti chiede dello specchio d'uscita e tu esiti, e un
+            consigliere ride. Argento allora batte il bastone sul pavimento e la
+            racconta lui, con un accento che si fa più forte a ogni gradino.
+            Cordani mette ai voti, e la Gradinata va ai Raschiatori per due voti
+            soli. Alla porta Merlach si ferma a dire che gli resta il pozzo
+            verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti consiglia di imparare le
+            misure prima della prossima volta.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1, scandalo: 0.5 }
+      - testo: "Far parlare uno dei legati che hai tirato su"
+        descrizione: "Alla Gradinata hai tagliato le corde e qualcuno della cordata è risalito con te. Quello che ha da dire vale più della mappa."
+        quando: [raschiatori.cordata >= 1]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Una voce dalla cordata
+          testo: |
+            Il ragazzo della cordata è arrivato con Argento e aspetta sulla
+            soglia, scalzo sul marmo. Lo fai parlare piano, una domanda alla
+            volta, e lui racconta del giorno prima del tuo arrivo, di chi lo ha
+            calato e di chi è rimasto sotto. Al tavolo nessuno lo interrompe.
+            Cordani mette ai voti, e la Gradinata va ai Raschiatori. Alla porta
+            Merlach si ferma a dire, a nessuno in particolare, che gli resta il
+            pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti spiega che da oggi nei
+            siti nuovi scendi per primo e che alla Gradinata il turno è tuo.
+          pe: { empatia: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -0.5 }
+        fallimento:
+          titolo: Il ragazzo sulla soglia
+          testo: |
+            Il ragazzo della cordata guarda Merlach e smette di parlare a metà
+            della prima frase. Lo lasci tornare sulla soglia, e Argento finisce
+            il racconto per lui, con i numeri al posto delle parole. Cordani
+            mette ai voti, e la Gradinata va ai Raschiatori per due voti. Alla
+            porta Merlach si ferma a dire che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti chiede di pensare tu al
+            ragazzo, che stanotte avrà paura di dormire.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1, scandalo: 0.5 }
+      - testo: "Mettere in imbarazzo chi garantisce per Merlach"
+        descrizione: "Chi ha votato il diritto di prima mappa garantisce per la Compagnia. Basta chiedergli, davanti a tutti, chi paga la carne."
+        prova: { attributo: sociale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: Chi paga la carne
+          testo: |
+            Chiedi ai due consiglieri, con tutta la cortesia della sala, chi
+            paga le corde della Compagnia e chi paga quello che ci sta legato.
+            Uno guarda il soffitto, l'altro Merlach. Cordani approfitta del
+            silenzio e mette ai voti, i due si astengono, e la Gradinata va ai
+            Raschiatori. Alla porta Merlach si ferma a dire, a nessuno in
+            particolare, che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti spiega che da oggi nei
+            siti nuovi scendi per primo e che alla Gradinata il turno è tuo.
+          pe: { politica-ed-economia: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.malgrani: -1 }
+        fallimento:
+          titolo: La cortesia della sala
+          testo: |
+            Fai la domanda, e i due consiglieri ti rispondono con una cortesia
+            più fredda della tua, citando tre regolamenti che non conosci mentre
+            la sala ride piano. Argento ti salva con il bastone sul pavimento e
+            la mappa srotolata sotto il naso di Cordani, che mette ai voti. La
+            Gradinata va ai Raschiatori per due voti, e alla porta Merlach si
+            ferma a dire che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti dice di lasciare a lui i
+            consiglieri, la prossima volta.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1, scandalo: 0.5 }
+      - testo: "Mostrare il registro dei pagamenti dei Malgrani"
+        descrizione: "Nel registro di Ottone ci sono nove anni di somme, e qualcuna porta a questa sala. Con il registro sul tavolo la domanda si fa da sola."
+        requisiti: [oggetto.registro-dei-malgrani >= 1]
+        prova: { attributo: sociale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: L'alloro impresso
+          testo: |
+            Posi il registro sul tavolo con l'alloro dei Malgrani in alto, e lo
+            apri alla pagina che ti sei segnato. I due consiglieri la cifra non
+            la leggono nemmeno. Si astengono, e Cordani mette ai voti con una
+            fretta che non gli hai mai visto, e la Gradinata va ai Raschiatori.
+            Alla porta Merlach si ferma a dire, a nessuno in particolare, che gli
+            resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti spiega che da oggi nei
+            siti nuovi scendi per primo e che alla Gradinata il turno è tuo.
+          pe: { politica-ed-economia: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.malgrani: -1 }
+        fallimento:
+          titolo: La pagina sbagliata
+          testo: |
+            Apri il registro alla pagina sbagliata, e mentre cerchi quella
+            giusta i due consiglieri hanno il tempo di indignarsi per bene.
+            Argento chiude il registro sotto il palmo e srotola la mappa sotto il
+            naso di Cordani, che mette ai voti. La Gradinata va ai Raschiatori
+            per due voti, e alla porta Merlach si ferma a dire che gli resta il
+            pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti consiglia di tenere quel
+            registro più stretto.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1, scandalo: 0.5 }
+      - testo: "Proporre a Cordani di dividere le spese della mappa"
+        descrizione: "Una mappa pagata a metà dalla Gilda resta dei Raschiatori, e la Gilda ci guadagna una copia. Va proposta in modo che tutti escano in piedi."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: L'accordo
+          testo: |
+            Proponi che la Gilda paghi metà della mappa in cambio di una copia
+            per l'archivio, e che lo scavo resti ai Raschiatori come vuole il
+            regolamento. Cordani lo prende al volo e Irsa annuisce, e perfino i
+            due consiglieri trovano il modo di votare a favore senza perdere la
+            faccia. Alla porta Merlach si ferma a dire, a nessuno in
+            particolare, che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella. Ti dice che hai venduto metà
+            mappa a chi voleva rubarla tutta, e che la cosa gli piace.
+          pe: { persuasione: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: 0.5 }
+        fallimento:
+          titolo: Mezza mappa
+          testo: |
+            Proponi l'accordo, e un consigliere chiede subito quale metà della
+            mappa la Gilda pagherebbe, quella con le misure o quella con il
+            buio. Ridono tutti tranne Argento, che batte il bastone e chiede il
+            voto sul regolamento così com'è. La Gradinata va ai Raschiatori per
+            due voti, e alla porta Merlach si ferma a dire che gli resta il
+            pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti consiglia di scrivere gli
+            accordi prima di proporli.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1, scandalo: 0.5 }
+      - testo: "Lasciar parlare Argento"
+        descrizione: "Argento conosce il consiglio da prima che tu nascessi. Parla bene, ma parla da Raschiatore, e la Gilda se lo ricorderà."
+        esito:
+          titolo: Il bastone sul pavimento
+          testo: |
+            Argento parla per tutti e due, con i numeri al posto degli
+            aggettivi, e a ogni numero batte il bastone sul pavimento. Quando
+            arriva ai legati che nessuno registra l'accento gli esce tutto, e
+            due consiglieri si irrigidiscono. Cordani mette ai voti, e la
+            Gradinata va ai Raschiatori. Alla porta Merlach si ferma a dire, a
+            nessuno in particolare, che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella. Ti spiega che la Gilda adesso
+            ce l'ha con lui e domani ce l'avrà con te, quindi è meglio che impari
+            a parlarle.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1 }
+      - testo: "Proporre l'accordo da mercante a mercante"
+        descrizione: "Dividere una spesa è il primo mestiere della Gilda. Detto da uno con la licenza, suona come una cosa loro."
+        quando: [origine.mercante-dei-ponti >= 1]
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Facile }
+        successo:
+          titolo: Da mercante a mercante
+          testo: |
+            Posi la licenza accanto alla mappa e proponi l'accordo come si
+            propone al banco, con metà del prezzo pagata dalla Gilda e una copia
+            per l'archivio. Cordani sorride per la prima volta da quando sei
+            entrato, e i due consiglieri votano a favore per non sembrare meno
+            mercanti di te. Alla porta Merlach si ferma a dire, a nessuno in
+            particolare, che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella. Ti dice che hai venduto metà
+            mappa a chi voleva rubarla tutta, e che la cosa gli piace.
+          pe: { persuasione: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: 0.5 }
+        fallimento:
+          titolo: Il prezzo sbagliato
+          testo: |
+            Proponi l'accordo, e sbagli il prezzo di mezza mappa di un tanto
+            che al banco ti farebbe ridere dietro, mentre qui ridono davanti.
+            Argento batte il bastone e chiede il voto sul regolamento così
+            com'è, e la Gradinata va ai Raschiatori per due voti. Alla porta
+            Merlach si ferma a dire che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti consiglia di scrivere gli
+            accordi prima di proporli.
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -1, scandalo: 0.5 }
+      - testo: "Raccontare al consiglio la bilancia di Ghoran"
+        descrizione: "A Ghoran ti hanno pesato. Detta in questa sala, la bilancia diventa una cifra che i consiglieri non vorrebbero scrivere."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: La bilancia
+          testo: |
+            Racconti della bilancia di Ghoran con le parole più semplici che
+            hai, e di come si sale sul piatto, e nessuno ti interrompe. Quando
+            finisci Irsa Valbrun si è tolta il grembiule e lo tiene in grembo,
+            e Cordani mette ai voti senza aggiungere niente. La Gradinata va ai
+            Raschiatori. Alla porta Merlach si ferma a dire, a nessuno in
+            particolare, che gli resta il pozzo verso Ghoran.
+
+            Sulle scale Argento ti mette al collo lo Scandaglio, un cristallo
+            lungo un dito appeso a una catenella, e ti spiega che da oggi nei
+            siti nuovi scendi per primo e che alla Gradinata il turno è tuo.
+          pe: { empatia: 3 }
+          almeno: { rep.raschiatori: 4 }
+          effetti: { fazione.raschiatori: 1, monete: 50, oggetto.raschiatori-scandaglio: 1, rep.gilda: -0.5 }

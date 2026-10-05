@@ -22,8 +22,8 @@ describe('serie', () => {
   it('conta i passi fatti', () => {
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
     s.quality['pista.registro'] = 3;
-    s.quality['accademia.tobol'] = 2;
+    s.quality['biblioteca.scaffali'] = 1;
     expect(avanzamento(s, m.serie.find((z) => z.quality === 'pista.registro')!)).toBe(3);
-    expect(avanzamento(s, m.serie.find((z) => z.id === 'luogo.rep.accademia')!)).toBe(1);
+    expect(avanzamento(s, m.serie.find((z) => z.id === 'luogo.rep.biblioteca')!)).toBe(1);
   });
 });

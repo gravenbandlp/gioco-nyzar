@@ -1,0 +1,1015 @@
+# La pista di Laresh, spedizione del passo 4 della quest della Gilda (fazione.gilda == 3).
+# Ci si entra da `gilda-i-sei-carri` (passi-1.yaml), sulla Superficie. Ritorno in Superficie, soglia 4.
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+#   0 la conta dei carri (l'assale incrinato; i cani di Cahir, che vale anche a 1);
+#   1 le terrazze di basalto (le crepe segnate in rosso; i mugnai senza mulino, predoni, che vale anche a 2);
+#   2 i campi a nord (le spighe nere; i fuochi azzurri; il cinghiale nel grano, che vale anche a 3);
+#   3 la notte al campo (i cani che ululano verso nord; le impronte).
+# Ogni stanza ha una via lunga che costa due rintocchi e fa avanzare comunque.
+# Il cuore a 4 è la carovana che non è arrivata: le bestie mutate sul grano nero (combattimento, Addestrare animali
+# o Natura, tutte Difficili); chi perde torna in Superficie e può riprovare. Il seguito `gilda-laresh-il-carro-coperto`
+# mostra il carro con le catene aperte e la bolla con il sigillo dei magazzini di Morlacchi; Cahir nomina il Pesatore,
+# l'uomo che riporta a Ghoran gli schiavi fuggiti. Lì si chiude il passo (gilda.cahir).
+# I segreti di Laresh del Codex (la morte nera del grano, i cani verso nord, le impronte) si mostrano e non si spiegano.
+# Dopo il passo la stessa strada torna come lavoro ripetibile, La carovana del mese (servizi.yaml).
+aree:
+  - id: gilda-pista-di-laresh
+    immagine: ambientazione/laresh
+    nome: La pista di Laresh
+    sommario: "La strada dei carri fra la Superficie e il bivio di Laresh, dove si scarica il sale e si carica il grano. La carovana della settimana scorsa non è mai arrivata."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      La pista dei carri lascia le terrazze di basalto e scende verso ovest,
+      fra pianori di ghiaia e campi abbandonati, fino al bivio dove Laresh
+      consegna il grano alla città. Sono due giorni di strada, se i cani
+      tirano e il tempo regge. I solchi delle ruote sono profondi come
+      trincee, scavati da cento anni di carovane, e ai lati della pista
+      qualcuno ha piantato pali con stracci rossi per segnare i punti in cui
+      la crosta del mondo è crepata.
+
+      Più si va verso Laresh e più la terra si fa scura e grassa. Nei campi
+      a nord le spighe a questa stagione dovrebbero essere gialle, e invece
+      da lontano sembrano bruciate. I cani da soma di Cahir tengono il muso
+      verso nord anche quando la pista gira a sud.
+
+# La musica della spedizione (come le altre aree in contenuti/audio.yaml).
+colonna:
+  - { contesto: area, id: gilda-pista-di-laresh, musica: distant-journey, ambiente: forest-day }
+
+storylet:
+  # ------------------------------------------------------------ 0 · la conta dei carri
+  - id: gilda-laresh-la-conta-dei-carri
+    immagine: ambientazione/laresh
+    titolo: La conta dei carri
+    sommario: "Alla prima sosta Cahir conta i carri e i cani. Il quarto carro ha l'assale incrinato e cammina storto."
+    luogo: La pista di Laresh, la prima sosta
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh == 0]
+    testo: |
+      Alla prima sosta, all'ombra di un masso grande come una casa, Cahir
+      conta i carri e poi i cani, toccandoli uno per uno sulla testa. Sono
+      sei e ventiquattro. Il quarto carro però cammina storto da mezza
+      mattina, e adesso che è fermo si vede perché. L'assale posteriore ha
+      una crepa lunga un palmo, e la ruota sinistra pende verso l'interno.
+
+      {tecnologia Media} Una crepa così regge un altro giorno se il carico
+      sta in avanti, e cede alla prima buca se il carico sta dietro. Il
+      sale, naturalmente, l'hanno caricato tutto dietro.
+
+      Cahir guarda l'assale e poi guarda te, perché il carro è della Gilda e
+      la Gilda adesso sei tu. Il carrettiere del quarto carro, un ragazzo
+      con i calzoni troppo corti, finge di controllare le cinghie dei cani.
+
+      {resistenza Facile} Le gambe hanno fatto mezza giornata di sentiero e
+      vorrebbero sedersi sul masso. Glielo concedi per il tempo di un
+      respiro.
+    opzioni:
+      - testo: "Rinforzare l'assale"
+        descrizione: "Con una stecca di legno, due giri di corda bagnata e un po' di fortuna."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: La stecca
+          testo: |
+            Tagli una stecca da un palo segnaletico e la leghi all'assale
+            con due giri di corda bagnata, che asciugando si stringe da
+            sola. Cahir controlla il lavoro tirando la corda con tutte e due
+            le mani, e non trova niente da dire. Il quarto carro riparte
+            dritto come gli altri cinque.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: La corda asciutta
+          testo: |
+            Leghi la stecca con la corda asciutta, e al primo sobbalzo la
+            corda si allenta e la stecca ti torna indietro sulle dita. Ti
+            succhi le nocche mentre Cahir rifà il lavoro da capo, con la
+            corda bagnata, senza dirti niente.
+          effetti: { ferite: 0.5 }
+      - testo: "Spostare il sale in avanti"
+        descrizione: "Se il carico sta davanti, l'assale dietro respira. Sono sacchi pesanti, e il sole è alto."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: I sacchi
+          testo: |
+            Sposti i sacchi di sale dalla coda del carro alla testa, uno per
+            uno, con il ragazzo dei calzoni corti che ti aiuta per vergogna.
+            Alla fine hai le spalle bianche di sale e la camicia incollata
+            alla schiena, e il quarto carro riparte con la ruota quasi
+            dritta.
+          pe: { atletica: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il sacco rotto
+          testo: |
+            Al terzo sacco la tela si strappa e il sale ti finisce negli
+            occhi. Passi il resto della sosta a lavarti la faccia con
+            l'acqua dei cani, che non ne sono contenti. Intanto il lavoro lo
+            finiscono Cahir e il ragazzo.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciare il carro al masso e ripartire"
+        descrizione: "Cinque carri arrivano a Laresh, e uno resta qui ad aspettare il ritorno. Alla Casa dei Nodi qualcuno lo conterà."
+        costo: 2
+        esito:
+          titolo: Cinque carri
+          testo: |
+            Fai scaricare il quarto carro all'ombra del masso e lasci il
+            ragazzo a fargli la guardia con due cani. Lui ti guarda partire
+            con l'aria offesa di un ragazzo punito, e un poco è così. La
+            carovana riparte più leggera e più lenta, perché adesso i sacchi
+            del quarto carro viaggiano sugli altri cinque.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  # ------------------------------------------------------------ 0–1 · i cani di Cahir
+  - id: gilda-laresh-i-cani-di-cahir
+    immagine: icone/sniffing-dog
+    titolo: I cani che non vogliono
+    sommario: "A un incrocio di sentieri i cani da soma si piantano sulle zampe e non vogliono più andare avanti."
+    luogo: La pista di Laresh, un incrocio di sentieri
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh <= 1]
+    testo: |
+      Dove la pista incrocia un sentiero di pastori i cani si fermano tutti
+      insieme, come se qualcuno avesse tirato una corda. Piantano le zampe e
+      abbassano la testa, e i carri si fermano con un rumore di legno e di
+      finimenti. Cahir scende e cammina lungo la fila parlando ai cani a
+      voce bassa, uno per uno, in una lingua che non è proprio una lingua.
+
+      {addestrare-animali Media} Hanno le orecchie mozze girate verso nord e
+      la coda bassa. Non hanno paura del sentiero davanti. Ascoltano
+      qualcosa che sta molto più lontano, e finché non smettono non si
+      muovono.
+
+      Dal sentiero dei pastori arriva un vento che sa di erba bagnata. Il
+      sole è ancora alto, e i cani ansimano come dopo una corsa.
+
+      {origine figlio-del-circolo} Al Circolo una muta che si ferma così si
+      lascia stare, perché ha sentito qualcosa che le persone non sentono.
+      Ti viene da toccare terra con il palmo, e la terra è fredda.
+    opzioni:
+      - testo: "Aiutare Cahir con i cani"
+        descrizione: "Si comincia dal capobranco. Gli altri seguono lui, se lui segue te."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Il capobranco
+          testo: |
+            Ti accucci davanti al cane di testa, un maschio grigio con una
+            spalla sola, e aspetti che sia lui a guardarti. Poi ti alzi e
+            fai un passo avanti sulla pista, senza tirarlo. Lui ti segue, e
+            gli altri seguono lui. Cahir ti guarda da sopra il carro e alza
+            un sopracciglio, che per lui è molto.
+          pe: { addestrare-animali: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            Allunghi la mano verso il capobranco e lui te la prende fra i
+            denti, senza stringere, per farti capire. Cahir ti tira indietro
+            per il colletto. Ci vuole un'ora perché i cani si decidano, e
+            quando lo fanno è perché lo vuole Cahir.
+          effetti: { ferite: 0.5 }
+      - testo: "Chiedere a Cahir che cosa sentono"
+        descrizione: "Lui lo sa, o almeno ha un'idea. Non è detto che voglia dirla a uno della Gilda."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Verso nord
+          testo: |
+            Cahir ci pensa a lungo prima di rispondere. «Da qualche
+            settimana, di notte, ululano tutti insieme verso nord» dice.
+            «Fra mezzanotte e le tre. Non c'è vento e non c'è preda, e loro
+            tengono il muso dalla stessa parte anche se li giri nei box.»
+            Poi schiocca la lingua, e stavolta i cani si muovono.
+          effetti: { profondita.gilda-pista-di-laresh: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Cose di cani
+          testo: |
+            «Cose di cani» risponde Cahir, e torna a parlare con loro. Tu
+            resti in mezzo alla pista con la domanda in bocca, mentre il
+            vento del sentiero dei pastori ti fa venire la pelle d'oca sulle
+            braccia.
+
+            {empatia Media fallita} Gli hai chiesto di tradire i suoi cani
+            davanti a un estraneo. A uno stalliere non si chiede.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che si decidano da soli"
+        descrizione: "Prima o poi smettono di ascoltare. Il pomeriggio però è corto."
+        costo: 2
+        esito:
+          titolo: Il pomeriggio perso
+          testo: |
+            Ti siedi su una pietra e aspetti, e aspetta anche Cahir, fumando
+            una radice secca che puzza di stalla. Dopo un tempo lunghissimo
+            il capobranco scuote la testa come se si svegliasse, e la
+            carovana riparte con il sole già basso.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  # ------------------------------------------------------------ 1 · le terrazze di basalto
+  - id: gilda-laresh-le-crepe-segnate
+    immagine: ambientazione/superficie-fratturata
+    titolo: Le crepe segnate in rosso
+    sommario: "Sulle terrazze di basalto la pista passa fra crepe segnate con pali e stracci rossi. Una ruota del secondo carro ci è finita dentro."
+    luogo: La pista di Laresh, le terrazze di basalto
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh == 1]
+    testo: |
+      Le terrazze di basalto scendono verso ovest in gradoni neri, e la
+      pista ci passa sopra con curve strette, fra crepe larghe quanto un
+      braccio da cui sale un bagliore azzurro. Ogni crepa ha il suo palo con
+      lo straccio rosso, piantato da carovanieri che non sono più passati di
+      qui a cambiarlo. Alcuni stracci sono diventati rosa, e uno, sbiadito
+      del tutto, è bianco.
+
+      La ruota destra del secondo carro è finita in una crepa fino al mozzo.
+      Il carro pende, i cani tirano a vuoto, e dalla crepa sale un'aria
+      tiepida che sa di ferro.
+
+      {percezione Media} Lo straccio bianco segna una crepa vecchia, che si
+      è chiusa. Quella in cui è finita la ruota è senza palo perché è nuova.
+
+      {acrobazia Media fallita} Ti avvicini al bordo per guardare giù e il
+      piede ti scivola sulla pietra liscia. Ti rimetti in equilibrio, e
+      decidi di guardare da un'altra parte.
+    opzioni:
+      - testo: "Sollevare il carro con una leva"
+        descrizione: "Un palo segnaletico con un sasso sotto, e sopra tutto il peso che hai."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La leva
+          testo: |
+            Infili un palo sotto il mozzo e ci appoggi sopra tutto il tuo
+            peso, mentre Cahir fa tirare i cani. Il carro esce dalla crepa
+            con un rumore di pietra grattata, e tu cadi seduto con il palo
+            fra le mani. Pianti lo stesso palo accanto alla crepa nuova, con
+            il tuo fazzoletto legato in cima.
+          pe: { atletica: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il palo spezzato
+          testo: |
+            Il palo si spezza a metà e tu finisci con le ginocchia sul bordo
+            della crepa, abbastanza vicino da sentire il calore sulla
+            faccia. Il carro esce dopo un'ora di lavoro di tutti, con la
+            ruota graffiata e i cani sfiniti.
+          effetti: { ferite: 1 }
+      - testo: "Trovare la strada buona fra le crepe"
+        descrizione: "Gli stracci vecchi raccontano dove la crosta ha già ceduto. Si legge, se si guarda bene."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Gli stracci bianchi
+          testo: |
+            Cammini davanti ai carri leggendo i pali, e ti accorgi che la
+            crosta si rompe lungo una linea, come un piatto incrinato. Fai
+            girare la carovana sulla pietra vecchia, dove gli stracci sono
+            bianchi, e i carri passano senza un sobbalzo. Il secondo carro
+            lo tirate fuori con calma, da terreno saldo.
+          pe: { percezione: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Un'altra crepa
+          testo: |
+            Guidi la carovana lungo la strada che ti sembra buona, e la
+            ruota del terzo carro trova un'altra crepa nuova, più piccola.
+            Ci vuole il resto della giornata per tirare fuori tutti e due i
+            carri, e la sera ti fanno male le mani e la testa.
+          effetti: { tormento: 0.5 }
+      - testo: "Scaricare il carro e farlo uscire vuoto"
+        descrizione: "Si fa sempre, se si ha tempo. Il tempo lo paghi tu."
+        costo: 2
+        esito:
+          titolo: Vuoto
+          testo: |
+            Scaricate il secondo carro sacco per sacco, lo tirate fuori
+            vuoto con i cani e lo ricaricate dall'altra parte della crepa. A
+            sera hai le braccia di legno e il sale fin dentro le orecchie,
+            ma la carovana è intera.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  # ------------------------------------------------------------ 1–2 · i mugnai senza mulino
+  - id: gilda-laresh-i-mugnai-senza-mulino
+    immagine: ambientazione/superficie-fratturata
+    titolo: I mugnai senza mulino
+    sommario: "Quattro uomini armati sbarrano la pista con un carretto rovesciato. Hanno le mani bianche di farina vecchia, e un'aria più stanca che feroce."
+    luogo: La pista di Laresh, sotto le terrazze
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh >= 1, profondita.gilda-pista-di-laresh <= 2]
+    testo: |
+      Sotto l'ultima terrazza la pista è sbarrata da un carretto rovesciato,
+      e dietro il carretto ci sono quattro uomini con armature fatte di
+      pezzi diversi e armi tenute meglio della paura. Uno ha un grembiule da
+      mugnaio sopra la cotta di cuoio, e le mani bianche di una farina che
+      non è fresca. Chiedono un sacco ogni carro, per il passaggio.
+
+      {conoscenze-della-strada Media} Sono mugnai senza mulino. Quando un
+      mulino brucia, la gente che ci lavorava finisce sulla strada, e
+      qualcuno ci finisce con un'ascia.
+
+      {armi-da-mischia Facile} Le armi le tengono bene, i piedi no. Stanno
+      troppo vicini al carretto, e il primo che indietreggia ci inciampa.
+
+      Cahir ferma i cani e aspetta di vedere che cosa fai. Il mugnaio con il
+      grembiule ti guarda il gettone di bronzo alla cintura e sputa per
+      terra, lontano dai tuoi piedi, con una certa educazione.
+    opzioni:
+      - testo: "Rovesciare il carretto e passare"
+        descrizione: "Sono quattro uomini stanchi e affamati. Tu sei uno solo, con ventiquattro cani alle spalle."
+        combattimento: gilda-i-mugnai-senza-mulino
+        vittoria:
+          titolo: La pista libera
+          testo: |
+            Il primo che indietreggia inciampa nel carretto come avevi
+            pensato, e gli altri scappano su per la terrazza appena vedono i
+            cani di Cahir slegati. Raddrizzate il carretto e lo spingete
+            fuori dalla pista. Dentro ci sono soltanto due pagnotte dure e
+            un setaccio da mugnaio con la rete rotta.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        sconfitta:
+          titolo: Un sacco ogni carro
+          testo: |
+            Ti mettono a terra in due, e il mugnaio con il grembiule ti
+            tiene l'ascia sopra la testa finché Cahir non getta un sacco di
+            sale dal primo carro. Poi un altro, e un altro ancora. Se ne
+            vanno con sei sacchi e ti lasciano la pista libera e un livido
+            sulla tempia.
+          effetti: { ferite: 1, rep.gilda: -0.5 }
+      - testo: "Parlare con il mugnaio"
+        descrizione: "Un uomo con il grembiule addosso non ha ancora deciso di essere un predone."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Il mulino di Rivopuma
+          testo: |
+            Gli chiedi di quale mulino era. Lavorava a Rivopuma, al mulino
+            bruciato da tre angoli insieme due anni fa, e lui da allora fa
+            la strada. Gli dici che a Qir-Azel il Mulino Malgrani cerca
+            braccia, e lui ride amaro, ma alla fine fa spostare il carretto.
+            Prima di lasciarvi passare chiede una pagnotta per ciascuno, non
+            un sacco.
+          pe: { persuasione: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1, rep.gilda: 0.5 }
+        fallimento:
+          titolo: La Gilda
+          testo: |
+            Gli parli come parla la Gilda, e il mugnaio sente la Gilda e
+            basta. Ti risponde che i mulini bruciano e la Gilda incassa lo
+            stesso, e che il prezzo adesso è di due sacchi. Cahir li getta
+            prima che tu possa discutere.
+          effetti: { rep.gilda: -0.5 }
+      - testo: "Fare mostrare i denti ai cani"
+        descrizione: "Ventiquattro cani da soma slegati sono un argomento che si capisce in tutte le lingue."
+        prova: { attributo: sociale, abilita: [intimidire, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: I denti
+          testo: |
+            Fai un cenno a Cahir, e lui slega i primi sei cani. Non
+            abbaiano, si limitano ad avanzare, e i quattro uomini dietro il
+            carretto fanno i loro conti in fretta. Se ne vanno su per la
+            terrazza camminando all'indietro, e il mugnaio con il grembiule
+            si porta via il carretto.
+          pe: { intimidire: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il cane ferito
+          testo: |
+            Fai slegare i cani, ma uno degli uomini ne colpisce uno con il
+            piatto dell'ascia, e il cane torna indietro guaendo. Gli altri
+            si fermano. Cahir ti guarda con una faccia che non
+            dimenticherai, poi getta due sacchi oltre il carretto e passa
+            avanti a piedi, con il cane ferito in braccio.
+          effetti: { rep.gilda: -0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2 · i campi a nord
+  - id: gilda-laresh-le-spighe-nere
+    immagine: ambientazione/laresh
+    titolo: Le spighe nere
+    sommario: "Ai lati della pista i campi di Laresh sono alti e pronti per il raccolto. Le spighe, da vicino, sono nere."
+    luogo: La pista di Laresh, i campi a nord
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh == 2]
+    testo: |
+      Dopo le terrazze cominciano i campi di Laresh, che a questa stagione
+      dovrebbero essere un mare giallo fino all'orizzonte. Lo sono, verso
+      sud. Verso nord il giallo si spegne a chiazze, e le chiazze si
+      allargano, e dove si toccano il grano è nero. Ti fermi e stacchi una
+      spiga dal bordo della pista. Si sgretola fra le dita come carbone
+      bagnato e ti lascia sul palmo una polvere scura che non sa di niente.
+
+      {natura Media} Una ruggine del grano comincia dalle foglie e sale.
+      Questa è partita dal chicco e ha lasciato verdi le foglie, come se il
+      seme fosse già morto prima di germogliare.
+
+      {origine figlio-del-circolo} Ti accucci e infili le dita nella terra
+      fra le radici. È molto più fredda dell'aria, e le radici sono marce
+      dal sotto, dove il grano di solito è più vivo.
+
+      Cahir non si ferma e non guarda i campi. Ti dice che i contadini la
+      chiamano morte nera, e poi non dice altro per un pezzo di strada.
+    opzioni:
+      - testo: "Studiare il grano malato"
+        descrizione: "Una manciata di spighe, un po' di terra, e la pazienza di guardarle bene."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: Dal sotto
+          testo: |
+            Scavi intorno a una pianta fino alle radici. La malattia è
+            partita da sotto e si è arrampicata su per lo stelo, e la terra
+            intorno è fredda come una cantina. Ti metti in tasca una spiga
+            avvolta nel fazzoletto, per farla vedere a qualcuno che ne
+            sappia più di te, e raggiungi i carri di corsa.
+          pe: { natura: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La polvere scura
+          testo: |
+            Rigiri le spighe a lungo, e alla fine ti resta soltanto la
+            polvere scura sulle mani, che non va via sfregandole sui
+            calzoni. Per il resto della giornata ti sembra di sentirne il
+            sapore in bocca, anche se non ha sapore.
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+      - testo: "Tirare dritto tenendo la bocca coperta"
+        descrizione: "La polvere del grano nero si alza a ogni folata. Meglio non respirarla."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Il fazzoletto
+          testo: |
+            Ti leghi il fazzoletto sulla bocca e cammini con gli occhi
+            socchiusi fino alla fine dei campi neri. Il vento solleva la
+            polvere scura a mulinelli, e i cani starnutiscono a turno.
+            Quando i campi tornano gialli ti togli il fazzoletto, e il
+            respiro ti sembra dolce.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: La tosse
+          testo: |
+            Il fazzoletto scivola alla prima folata, e la polvere scura ti
+            entra in gola. Tossisci fino alla fine dei campi neri, piegato
+            sul bordo di un carro, e Cahir ti passa la borraccia senza
+            guardarti.
+          effetti: { profondita.gilda-pista-di-laresh: 1, ferite: 0.5 }
+      - testo: "Allungare la strada per i campi gialli"
+        descrizione: "Verso sud il grano è sano. È un giro lungo, e i cani lo vogliono fare."
+        costo: 2
+        esito:
+          titolo: Il giro dei campi gialli
+          testo: |
+            Fai girare la carovana verso sud, dove il grano è giallo e alto,
+            e i cani tirano volentieri, con la coda dritta. Ci mettete mezza
+            giornata in più. A sera i campi neri si vedono soltanto da
+            lontano, una macchia scura che sembra l'ombra di una nuvola.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  - id: gilda-laresh-i-fuochi-azzurri
+    immagine: ambientazione/laresh
+    titolo: I fuochi azzurri
+    sommario: "Al tramonto, sopra i campi, si accendono piccole fiamme azzurre all'altezza di un uomo. Non scaldano e non fanno fumo."
+    luogo: La pista di Laresh, i campi a nord, al tramonto
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh == 2]
+    testo: |
+      Al tramonto, sopra i campi a nord della pista, si accendono i fuochi.
+      Sono fiamme piccole e azzurre che galleggiano quasi ferme all'altezza
+      di un uomo, e si spengono da sole senza lasciare segno. Una passa a
+      dieci passi dal primo carro e i cani non la guardano nemmeno.
+
+      {magia Media} Il Mana qui intorno è sottile come in tutta la
+      Superficie, e i fuochi non ne prendono. Bruciano qualcos'altro, o non
+      bruciano affatto.
+
+      Cahir dice che a Laresh li chiamano gli spiriti dei morti e che
+      custodiscono il raccolto. Lo dice senza crederci e senza ridere. Uno
+      dei fuochi si ferma in mezzo alla pista, davanti al primo cane.
+
+      {resilienza Media} Ti accorgi che stai trattenendo il fiato. Lo lasci
+      andare piano, come si fa con una corda che hai tenuto troppo tesa.
+    opzioni:
+      - testo: "Passarci accanto senza guardarlo"
+        descrizione: "I cani lo fanno. Se ci riescono loro, ci riesci anche tu."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Accanto
+          testo: |
+            Cammini accanto al primo cane con gli occhi sulle sue orecchie
+            mozze, e quando passi vicino alla fiamma senti un fresco leggero
+            sulla guancia sinistra, come una porta aperta in un'altra
+            stanza. Poi la fiamma è dietro di te, e non ti volti a
+            controllare.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il fresco sulla guancia
+          testo: |
+            La guardi. È una fiamma azzurra e ferma con dentro niente,
+            eppure non riesci a staccarle gli occhi di dosso finché non si
+            spegne da sola. Quando ti riscuoti i carri sono già lontani, e
+            ti tocca correre.
+          effetti: { tormento: 0.5 }
+      - testo: "Tendere la mano verso la fiamma"
+        descrizione: "Non scalda e non fa fumo. Forse risponde a chi sa ascoltare il Mana."
+        prova: { attributo: mentale, abilita: [magia, accademiche], difficolta: Media }
+        successo:
+          titolo: Freddo
+          testo: |
+            Allunghi la mano fino a toccare la fiamma, ed è fredda come
+            acqua di fonte. Si piega verso nord come i cani, e poi si
+            spegne. Sul palmo ti resta per un po' una luce azzurra, che
+            svanisce mentre raggiungi la carovana.
+
+            {accademiche Difficile} I testi dei Precursori parlano di luci
+            che segnano i confini delle cose sepolte. Ne parlano poco, e
+            sempre in margine.
+          pe: { magia: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+        fallimento:
+          titolo: La mano azzurra
+          testo: |
+            Tocchi la fiamma, e il freddo ti sale fino alla spalla e ti si
+            ferma nei denti. Per un'ora la mano non ti risponde bene e le
+            dita restano azzurre sulle unghie. Cahir te la massaggia senza
+            dire una parola, come si fa con un cane che ha preso il gelo.
+          effetti: { tormento: 1 }
+      - testo: "Aspettare che si spengano tutti"
+        descrizione: "Durano poco, dicono a Laresh. Poco, a Laresh, può voler dire una notte."
+        costo: 2
+        esito:
+          titolo: La notte dei fuochi
+          testo: |
+            Fermate i carri e aspettate. I fuochi si accendono e si spengono
+            per tutta la sera sempre più lontani, e l'ultimo muore quando la
+            luna è già alta. Ripartite al buio, con i cani che tengono il
+            muso verso nord.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  # ------------------------------------------------------------ 2–3 · il cinghiale nel grano
+  - id: gilda-laresh-il-cinghiale-nel-grano
+    immagine: icone/boar
+    titolo: Il cinghiale nel grano
+    sommario: "Nel grano nero qualcosa grosso come un vitello grufola e spezza le spighe. Ha le zanne storte e la schiena coperta di placche."
+    luogo: La pista di Laresh, ai margini del grano nero
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh >= 2, profondita.gilda-pista-di-laresh <= 3]
+    testo: |
+      I cani lo sentono prima di te. Si mettono a ringhiare tutti verso lo
+      stesso punto del grano nero, dove le spighe ondeggiano senza vento.
+      Poi il cinghiale esce sulla pista. È grosso come un vitello, con le
+      zanne storte e cresciute in tre direzioni, e la schiena coperta di
+      placche grigie che sembrano pietra. Da un fianco gli pende una spiga
+      nera infilata nel pelo.
+
+      {natura Media} La Marea l'ha preso da giovane. Le placche sono
+      cresciute dove la pelle era più sottile, e adesso lo proteggono come
+      una corazza.
+
+      {armi-da-mischia Media} Le placche finiscono dietro la spalla. Lì
+      sotto la pelle è nuda, e il cuore non è lontano.
+
+      Cahir afferra il capobranco per il collare, e i carri si fermano con
+      uno scossone. Il cinghiale abbassa la testa.
+    opzioni:
+      - testo: "Affrontarlo sulla pista"
+        descrizione: "Prima che carichi i carri, o i cani."
+        combattimento: gilda-il-cinghiale-nel-grano
+        vittoria:
+          titolo: Dietro la spalla
+          testo: |
+            Lo colpisci dietro la spalla, dove le placche finiscono, e il
+            cinghiale crolla sulla pista con un rumore di sacchi pieni.
+            Cahir gli taglia le zanne con un coltello da stalla e te ne
+            regala una, perché a Laresh si fa così con chi uccide la bestia.
+          effetti: { profondita.gilda-pista-di-laresh: 1, racconto: 1 }
+        sconfitta:
+          titolo: Il carro rovesciato
+          testo: |
+            Il cinghiale ti passa sopra come un carro in discesa, e poi
+            carica il secondo carro e lo rovescia. Quando rientra nel grano
+            nero ti rialzi a fatica. Ci vuole il resto della giornata per
+            raddrizzare il carro e raccogliere il sale dalla pista, una
+            manciata alla volta.
+          effetti: { ferite: 1 }
+      - testo: "Fargli girare la testa con i cani"
+        descrizione: "Un cinghiale carica quello che ha davanti. Se davanti ha sei cani che abbaiano da sei parti, non carica niente."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Sei cani da sei parti
+          testo: |
+            Fai sciogliere sei cani e li mandi in cerchio intorno al
+            cinghiale, con Cahir che fischia gli ordini. La bestia gira la
+            testa da una parte e dall'altra, carica il vuoto due volte e
+            alla fine rientra nel grano nero sbuffando. I cani tornano senza
+            un graffio.
+          pe: { addestrare-animali: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il cane morto
+          testo: |
+            I cani girano intorno al cinghiale come vuoi tu, ma uno si
+            avvicina troppo, e la bestia lo prende con una zanna e lo lancia
+            in mezzo al grano. Il cinghiale se ne va. Cahir va a prendere il
+            cane morto e lo mette su un carro, e per il resto del giorno non
+            ti rivolge la parola.
+          effetti: { tormento: 0.5, rep.gilda: -0.5 }
+      - testo: "Far tornare indietro i carri e aspettare"
+        descrizione: "Un cinghiale prima o poi se ne va. Prima o poi."
+        costo: 2
+        esito:
+          titolo: Indietro piano
+          testo: |
+            Fai arretrare i carri passo dopo passo, senza voltare le spalle
+            al grano, finché il cinghiale non perde interesse e rientra fra
+            le spighe nere. Aspettate fino a sera prima di ripassare, con i
+            cani che ringhiano piano e le mani strette sui finimenti.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  # ------------------------------------------------------------ 3 · la notte al campo
+  - id: gilda-laresh-la-notte-al-campo
+    immagine: icone/wolf-howl
+    titolo: La notte al campo
+    sommario: "L'ultima notte prima del bivio vi accampate fra i carri. A mezzanotte i cani si alzano tutti insieme e cominciano a ululare verso nord."
+    luogo: La pista di Laresh, l'ultimo accampamento
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh == 3]
+    testo: |
+      L'ultima notte prima del bivio vi accampate con i carri in cerchio e
+      un fuoco piccolo nel mezzo, perché la legna sulla Superficie è poca e
+      Cahir la conta. Mangi pane e cipolla seduto sulla stanga di un carro,
+      con le spalle che ti fanno male in punti che ieri non sapevi di avere.
+
+      A mezzanotte i cani si alzano tutti insieme, senza abbaiare. Alzano il
+      muso verso nord e cominciano a ululare, tutti sulla stessa nota, una
+      nota lunga che non finisce. Cahir si sveglia, si mette a sedere e li
+      guarda senza fermarli.
+
+      {addestrare-animali Difficile} I cani che ululano alla luna cambiano
+      nota uno dall'altro. Questi la tengono uguale, come un coro che ha
+      provato a lungo.
+
+      {resilienza Media fallita} La nota ti entra nelle ossa della mascella
+      e ci resta. Ti accorgi di avere le mani sulle orecchie soltanto quando
+      le togli.
+
+      Verso nord, oltre i campi, il buio è perfetto, e non c'è niente da
+      vedere.
+    opzioni:
+      - testo: "Fare la guardia fino alle tre"
+        descrizione: "Qualcuno deve restare sveglio, e Cahir ha i cani da guardare."
+        prova: { attributo: fisico, abilita: [resistenza, percezione], difficolta: Media }
+        successo:
+          titolo: Le tre
+          testo: |
+            Stai sveglio accanto al fuoco con la lama sulle ginocchia, e
+            alle tre in punto i cani smettono tutti insieme e si rimettono a
+            dormire, come se avessero finito un lavoro. Nel buio a nord, per
+            un momento, ti sembra di vedere qualcosa di alto muoversi contro
+            le stelle, molto lontano. All'alba non sei più sicuro di niente.
+          pe: { resistenza: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Addormentato
+          testo: |
+            Verso le due ti addormenti seduto, con la lama sulle ginocchia.
+            Ti svegli all'alba con i cani che dormono tranquilli e il fuoco
+            spento, e Cahir che ti guarda da sopra la tazza con
+            un'espressione che preferisci non interpretare.
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+      - testo: "Calmare i cani"
+        descrizione: "Un cane si calma con la voce e con le mani. Ventiquattro cani sono un'altra cosa."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La voce bassa
+          testo: |
+            Passi fra i cani uno per uno, con la voce bassa che ti ha
+            insegnato Cahir senza volerlo, e una mano sul collo di ciascuno.
+            Smettono a uno a uno, prima delle tre. L'ultimo, il capobranco,
+            smette quando gli posi la mano sulla spalla sola, e si sdraia ai
+            tuoi piedi.
+          pe: { addestrare-animali: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+        fallimento:
+          titolo: Il coro
+          testo: |
+            Ti avvicini ai cani, e loro non ti vedono nemmeno. Continuano a
+            ululare sulla stessa nota finché non sono le tre, e tu resti in
+            mezzo a loro con le mani aperte e la nota che ti vibra nello
+            sterno.
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+      - testo: "Tirarsi la coperta sulla testa"
+        descrizione: "Domani c'è il bivio. Il sonno, stanotte, si prende come viene."
+        costo: 2
+        esito:
+          titolo: Sotto la coperta
+          testo: |
+            Ti tiri la coperta sulla testa e ti tappi le orecchie con le
+            dita. La nota arriva lo stesso attraverso la lana, e ti segue
+            nei sogni. All'alba ti svegli stanco, con la sensazione di aver
+            camminato tutta la notte verso nord.
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+
+  - id: gilda-laresh-le-impronte
+    immagine: ambientazione/laresh
+    titolo: Le impronte nel fango
+    sommario: "A un guado asciutto la pista è segnata da impronte di uomini e da altre, molto più grandi, con i passi troppo distanti."
+    luogo: La pista di Laresh, un guado asciutto
+    area: gilda-pista-di-laresh
+    ripetibile: true
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh == 3]
+    testo: |
+      Il guado è asciutto da settimane, e nel fango che resta, duro come
+      creta, la pista è piena di impronte. Ci sono quelle dei carri e dei
+      cani, e quelle di uomini con gli stivali, molti, che camminano in
+      fila. Accanto, sopra, attraverso, ce ne sono altre. Sono larghe quanto
+      un secchio e affondano poco. Fra un'impronta e la successiva c'è una
+      distanza che un uomo non fa nemmeno correndo.
+
+      {percezione Media} Le impronte degli stivali vanno verso la città,
+      quelle grandi verso nord. In un punto le une calpestano le altre, e
+      sono quelle grandi a stare sopra.
+
+      Cahir si ferma sul bordo del guado e i cani non vogliono scendere.
+      «Questa è la strada della carovana della settimana scorsa» dice. «Il
+      bivio è dietro quella collina.»
+
+      {origine fuggiasco-di-ghoran} Fra le impronte degli stivali ce ne sono
+      di piedi nudi, piccoli, a coppie troppo vicine. Camminavano incatenati
+      a due a due. Lo sai senza contarle, e lo stomaco ti si chiude.
+    opzioni:
+      - testo: "Seguire le impronte grandi per un tratto"
+        descrizione: "Fino al bordo dei campi, non oltre. Abbastanza per capire dove vanno."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Verso nord
+          testo: |
+            Le segui fino al bordo dei campi neri. Lì il grano è spezzato in
+            una striscia larga come una strada, e la striscia va dritta
+            verso nord, oltre l'orizzonte, senza deviare per niente. Torni
+            ai carri camminando più svelto dell'andata, e a ogni passo ti
+            viene da voltarti.
+          pe: { natura: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: La striscia
+          testo: |
+            Le segui troppo a lungo, e quando ti volti i carri sono piccoli
+            come giocattoli. Torni di corsa con il cuore in gola, e Cahir ti
+            aspetta con la frusta in mano e una faccia scura.
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+      - testo: "Disegnare le impronte e misurarle"
+        descrizione: "Una cosa misurata si può portare in città e far vedere a chi ne sa di più."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Media }
+        successo:
+          titolo: Le misure
+          testo: |
+            Misuri le impronte con la cinghia di un cane e conti i passi fra
+            l'una e l'altra, poi le disegni sul retro di una bolla di
+            carico, con le misure in margine. Viene fuori una cosa alta tre
+            volte un uomo, leggera, che cammina a balzi lunghi. Pieghi il
+            foglio e lo metti nella giubba, dove senti la carta contro il
+            petto.
+          pe: { accademiche: 3 }
+          effetti: { profondita.gilda-pista-di-laresh: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: I conti che non tornano
+          testo: |
+            Misuri e rimisuri, e ogni volta i numeri vengono diversi, come
+            se le impronte cambiassero mentre le guardi. Alla fine rinunci,
+            con il foglio pieno di cifre cancellate. Cahir ti chiede se hai
+            finito di giocare.
+          effetti: { profondita.gilda-pista-di-laresh: 1, tormento: 0.5 }
+      - testo: "Passare il guado senza guardare per terra"
+        descrizione: "Le impronte restano dove sono. Il bivio è dietro la collina."
+        costo: 2
+        esito:
+          titolo: Dietro la collina
+          testo: |
+            Passi il guado con gli occhi sulla collina e la mano sul collo
+            del capobranco, e i cani ti seguono uno alla volta. Dall'altra
+            parte la pista sale fra rovi secchi. In cima alla collina Cahir
+            si ferma e ti indica qualcosa più in basso, nel grano nero.
+          effetti: { profondita.gilda-pista-di-laresh: 1 }
+
+  # ------------------------------------------------------------ il cuore · la carovana che non è arrivata
+  - id: gilda-laresh-la-carovana-scomparsa
+    immagine: ambientazione/laresh
+    titolo: La carovana che non è arrivata
+    sommario: "Poco prima del bivio, in mezzo al grano nero, ci sono i carri della settimana scorsa, rovesciati. Sul grano sparso mangiano bestie che la Marea ha cambiato."
+    luogo: La pista di Laresh, poco prima del bivio
+    area: gilda-pista-di-laresh
+    requisiti: [fazione.gilda == 3, profondita.gilda-pista-di-laresh >= 4]
+    testo: |
+      I carri della carovana scomparsa sono in mezzo al grano nero, a cento
+      passi dalla pista, rovesciati su un fianco come animali morti. Sono
+      cinque carri di Laresh e uno più alto, coperto di tela cerata, che sta
+      ancora in piedi. Il grano dei sacchi sventrati è sparso tutto intorno,
+      e sul grano mangiano bestie che una volta erano maiali e cani e adesso
+      sono un'altra cosa. Un cinghiale coperto di placche grigie grufola fra
+      i sacchi, e due vermi lunghi come un uomo si trascinano sul grano
+      lasciando una scia lucida.
+
+      {natura Media} Mangiano il grano sano e lasciano quello nero. Quel
+      grano la Marea non lo vuole nemmeno per le sue bestie.
+
+      Cahir guarda i carri rovesciati e cerca i suoi quattro cani, senza
+      trovarli. Ti dice a voce bassa che il carro coperto non è di Laresh, e
+      che le bestie non li lasceranno avvicinare finché c'è grano.
+
+      {origine fuggiasco-di-ghoran} Il carro coperto ha gli anelli di ferro
+      ai lati della pedana, all'altezza delle caviglie. Li hai visti dalla
+      parte di chi ci stava legato, e le caviglie ti fanno male per conto
+      loro.
+
+      {armi-da-mischia Media} Il cinghiale è il problema. I vermi sono lenti
+      e ciechi, e si girano soltanto verso il rumore.
+    opzioni:
+      - testo: "Cacciare le bestie con la lama"
+        descrizione: "Il cinghiale prima, i vermi dopo. Sono tre bestie affamate con la testa nel grano."
+        combattimento: gilda-le-bestie-sul-grano
+        vittoria:
+          titolo: Il grano sparso
+          testo: |
+            L'ultimo verme si contorce sul grano e smette di muoversi, e nel
+            silenzio che segue senti soltanto il tuo fiato e i cani di Cahir
+            che ringhiano piano. Hai le braccia sporche fino ai gomiti di
+            una cosa lucida che puzza di cantina. Cahir ti passa accanto
+            senza dire niente e va dritto verso il carro coperto.
+          pe: { armi-da-mischia: 3 }
+          segue: gilda-laresh-il-carro-coperto
+        sconfitta:
+          titolo: Indietro fino ai carri
+          testo: |
+            Il cinghiale ti carica di fianco e ti manda nel grano nero, e i
+            vermi si girano verso il rumore. Cahir ti tira fuori per le
+            caviglie e ti trascina fino ai carri. Le bestie tornano a
+            mangiare. Decidete di riportare la carovana in Superficie e
+            tornare con più gente, e tu fai tutta la strada sdraiato sui
+            sacchi di sale.
+          vai: superficie-fratturata
+      - testo: "Mandare i cani di Cahir"
+        descrizione: "Ventiquattro cani da soma contro tre bestie. Bisogna mandarli tutti insieme, e farli tornare tutti."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: La muta
+          testo: |
+            Cahir slega i cani e tu li mandi tutti insieme con il fischio
+            che ti ha insegnato lui, e loro corrono nel grano nero abbaiando
+            per la prima volta da giorni. Il cinghiale fugge per primo. I
+            vermi si trascinano via più lenti, morsi da venti parti. Quando
+            i cani tornano li conti, e sono ventiquattro.
+          pe: { addestrare-animali: 5 }
+          segue: gilda-laresh-il-carro-coperto
+        fallimento:
+          titolo: I cani dispersi
+          testo: |
+            I cani partono, ma a metà campo il cinghiale si gira e ne prende
+            due, e gli altri si disperdono nel grano. Ci vuole tutta la sera
+            per richiamarli. Ne mancano tre. Cahir decide di riportare la
+            carovana in Superficie, e lungo la strada non ti guarda mai.
+          effetti: { tormento: 0.5, rep.gilda: -0.5 }
+          vai: superficie-fratturata
+      - testo: "Allontanarle con il grano buono"
+        descrizione: "Mangiano il grano sano. Basta un sacco aperto controvento lontano dai carri, e le bestie seguono il naso."
+        prova: { attributo: mentale, abilita: [natura, addestrare-animali], difficolta: Difficile }
+        successo:
+          titolo: Controvento
+          testo: |
+            Apri un sacco di grano sano dei carri di Cahir e lo porti
+            lontano, controvento, spargendolo a manciate. Il cinghiale alza
+            la testa per primo e ti segue, poi i vermi. Li porti via dal
+            grano nero fino a un avvallamento, e torni di corsa con le mani
+            vuote e il cuore in gola mentre loro mangiano.
+          pe: { natura: 5 }
+          segue: gilda-laresh-il-carro-coperto
+        fallimento:
+          titolo: Il vento che gira
+          testo: |
+            Spargi il grano controvento, ma il vento gira, e il cinghiale ti
+            sente prima di sentire il grano. Ti carica, e ti salvi
+            buttandoti sotto un carro rovesciato. Cahir richiama i suoi cani
+            e decide di riportare la carovana in Superficie.
+          effetti: { ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Tornare indietro e riprovare un'altra volta"
+        descrizione: "Con più gente, o con più coraggio. Il carro coperto non scappa."
+        costo: 0
+        esito:
+          titolo: Un'altra volta
+          testo: |
+            Fai cenno a Cahir, e la carovana torna indietro piano, senza
+            voltare le spalle al grano nero. Il carro coperto resta dov'è,
+            con la tela che sbatte nel vento, e lo guardi finché la collina
+            non lo nasconde.
+          vai: superficie-fratturata
+      - testo: "Leggere le bestie come al Circolo"
+        descrizione: "Al Circolo ti hanno insegnato che le bestie della Marea hanno paura di una cosa sola, la terra che le ha cambiate. Basta dargliene da annusare."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: [natura, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: La terra fredda
+          testo: |
+            Raccogli una manciata di terra fredda sotto il grano nero e la
+            spargi davanti a te mentre avanzi. Il cinghiale la annusa e
+            indietreggia, poi i vermi. Non scappano, si allontanano
+            soltanto, come si allontana un animale da un posto dove è stato
+            male. Cahir ti guarda come se ti vedesse per la prima volta.
+          pe: { natura: 5 }
+          segue: gilda-laresh-il-carro-coperto
+        fallimento:
+          titolo: La terra sbagliata
+          testo: |
+            Spargi la terra davanti a te, ma è terra di pista, e le bestie
+            non se ne accorgono. Il cinghiale ti carica, e ti salvi
+            buttandoti sotto un carro rovesciato. Cahir decide di riportare
+            la carovana in Superficie.
+          effetti: { ferite: 1 }
+          vai: superficie-fratturata
+
+  - id: gilda-laresh-il-carro-coperto
+    immagine: icone/manacles
+    titolo: Il carro coperto
+    tipo: seguito
+    luogo: La pista di Laresh, fra i carri rovesciati
+    area: gilda-pista-di-laresh
+    requisiti: [fazione.gilda == 3]
+    testo: |
+      Il carro coperto non ha un nome dipinto sulla sponda. Dentro, sotto la
+      tela cerata, la pedana ha due file di anelli di ferro fissati al
+      legno, con le catene ancora attaccate. Le catene sono aperte. Gli
+      anelli delle caviglie sono stati aperti con la chiave, perché nessuno
+      li ha spezzati, e le chiavi non ci sono. Sulla pedana c'è un
+      mucchietto di paglia e una scodella di legno rovesciata.
+
+      Nella cassetta del conducente trovi la bolla di carico. Dice
+      *sementi*, sei casse, per i magazzini di scarico della Gilda, e in
+      fondo c'è il sigillo dei magazzini, lo stesso che hai visto sulle
+      buste di cuoio del cassetto di Elleri.
+
+      {politica-ed-economia Media} Sementi che viaggiano incatenate per le
+      caviglie. Una bolla del genere passa a ogni gabbiotto, perché nessuno
+      apre un carro con il sigillo dei magazzini.
+
+      Cahir guarda le catene a lungo. «Questo carro è del Pesatore» dice
+      alla fine, e sputa nel grano. «Quello che riporta a Ghoran chi scappa.
+      Si fa pagare a peso, per questo lo chiamano così. Di solito non passa
+      da Laresh.» Poi si volta verso di te e ti chiede di lasciarlo fuori
+      dal rapporto. Dice che ha una muta da mandare avanti e un giorno una
+      carovana sua da mettere su. Non vuole che la Gilda si ricordi il suo
+      nome accanto a quello del Pesatore.
+
+      {empatia Media} Ha paura per i suoi cani più che per sé, e di te si
+      fida meno di quanto vorrebbe.
+    opzioni:
+      - testo: "Mettere Cahir nel rapporto"
+        descrizione: "Un rapporto è un rapporto. Alla Casa dei Nodi una riga omessa prima o poi si paga."
+        esito:
+          titolo: Tutto scritto
+          testo: |
+            Gli dici che il rapporto lo scrivi intero. Cahir annuisce, come
+            se se lo aspettasse, e per il resto del viaggio parla soltanto
+            con i cani. Al bivio di Laresh scaricate il sale e caricate il
+            grano, e torni in città con la bolla nella giubba. Alla Casa ti
+            pagano una quota del carico e scrivono il tuo nome accanto a
+            quello di Cahir in un registro che finisce in un cassetto.
+          pe: { politica-ed-economia: 3 }
+          effetti: { monete: 20, rep.gilda: 0.5, racconto: 1, fazione.gilda: 1 }
+          vai: superficie-fratturata
+      - testo: "Lasciarlo fuori dal rapporto"
+        descrizione: "Una riga in meno. Alla Casa qualcuno se ne accorgerà, e Cahir se lo ricorderà."
+        esito:
+          titolo: Una riga in meno
+          testo: |
+            Gli dici che nel rapporto ci saranno i carri con la bolla e le
+            catene, e il suo nome no. Cahir ti stringe la mano con una presa
+            da stalliere e ti regala una cinghia da cane intrecciata, che
+            non vale niente. Al bivio scaricate il sale e caricate il grano.
+            Alla Casa ti pagano una quota del carico. Varn legge il
+            rapporto, poi alza gli occhi e chiede chi guidava i cani.
+          imposta: { gilda.cahir: 1 }
+          effetti: { monete: 20, rep.gilda: -0.5, racconto: 1, fazione.gilda: 1 }
+          vai: superficie-fratturata
+      - testo: "Chiedergli del Pesatore, prima di decidere"
+        descrizione: "Uno che riporta a Ghoran chi scappa, e si fa pagare a peso. Cahir sa più di quanto dica."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: A peso
+          testo: |
+            Cahir ti racconta quello che sa mentre i cani mangiano. Il
+            Pesatore pesa i fuggiaschi che riprende, prima di riportarli
+            indietro, e chi li ha comprati paga a peso. Di solito viaggia
+            per strade sue, e stavolta si è infilato in una carovana della
+            Gilda con una bolla dei magazzini. Poi ti richiede di lasciarlo
+            fuori dal rapporto, e tu lo fai. Alla Casa ti pagano una quota
+            del carico.
+          imposta: { gilda.cahir: 1 }
+          effetti: { monete: 20, rep.gilda: -0.5, racconto: 1, fazione.gilda: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Basta così
+          testo: |
+            Cahir ti risponde che del Pesatore sa quello che sanno tutti
+            sulla strada, cioè che conviene saperne il meno possibile, e
+            torna ai suoi cani. Nel rapporto scrivi tutto, il suo nome
+            compreso, perché non ti ha dato un motivo per toglierlo. Alla
+            Casa ti pagano una quota del carico.
+          effetti: { monete: 20, rep.gilda: 0.5, racconto: 1, fazione.gilda: 1 }
+          vai: superficie-fratturata

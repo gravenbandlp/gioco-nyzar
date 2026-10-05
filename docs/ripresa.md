@@ -72,6 +72,20 @@ nella raccolta `zekar:` con le quattro laterali, la `soglia` a cui stanno e la `
 sull'opzione viene da una simulazione con le laterali dell'ultima partita del giocatore (`s.zekarLaterali`).
 Torneo: `zekar.torneo` conta i tavoli vinti; la reputazione del torneo si ferma a 4 come quella della sala.
 
+## Le quest di fazione (ottobre 2026)
+Nove fazioni a cui ci si unisce (Velo, Caserma, Gilda, Raschiatori, Circolo, Accademia, Scuri, Maison, Consiglio con
+i Castaldi), ognuna con una quest da 15 passi in `contenuti/fazioni/<id>/`. Malgrani e Tarvelin restano famiglie.
+- La quest è una pista, `fazione.<id>`: la scena del passo N chiede `fazione.<id> == N-1` e la chiude con +1.
+- I gradi sono cinque, ai passi 3, 6, 9, 12 e 15, e stanno nella raccolta `fazioni:` con il nome e la ricompensa da
+  mostrare: la scheda del personaggio ha la sezione «Fazioni». Ogni passo di grado porta la reputazione almeno a 2, 4,
+  6, 8, 10 con l'esito `almeno`, che alza una quality fino a una soglia senza mai abbassarla.
+- Ricompense: un oggetto, un servizio o un incantesimo a ogni grado; al grado 5 un oggetto unico di grado 4.
+- Quality condivise in `contenuti/fazioni/comuni.yaml`: `bivio.legge` (Caserma e Scuri insieme fino all'ottavo passo,
+  poi si sceglie), `crepuscolo.indizi` (il Crepuscolo non si nomina mai nel Capitolo I), `segreto.ettore`,
+  `seggio.malgrani`.
+- Le catene brevi di prima sono diventate i primi passi delle quest; i loro flag restano.
+- Test: `test/fazioni.test.ts` (ogni quest arriva al passo 15 con ogni origine, a storia principale finita).
+
 ## La Superficie Fratturata
 Il quarto hub, fuori città, aperto da subito e senza gabella (`contenuti/superficie/`, 2 ottobre 2026). Viene dalla
 tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le carte "ovunque" della città lì non arrivano.

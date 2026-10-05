@@ -1,0 +1,1037 @@
+# Il Maniero Castaldi di notte, spedizione del passo 13 della quest del Consiglio (fazione.consiglio 12 → 13).
+# La notte prima della seduta una ladra di Ghoran, Nives Orsat detta la Gazza, entra nel Maniero per prendere il
+# bilancio parallelo di Aldous e le obbligazioni di grano firmate da Julia. Il protagonista difende la casa con
+# Quintus Vael: è il Maniero Malgrani visto dall'altra parte.
+# L'ingresso è in passi-3.yaml (imposta consiglio.notte 1 e consiglio.gazza 0); dopo una ritirata si rientra con
+# `consiglio-tornare-al-maniero` (Quartieri Alti, ripetibile).
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+# 0 il cortile e il pianterreno (il fico, la cucina dei segnali muti; il portone delle bilance vale anche a 1),
+# 1 il seminterrato (i sacchi di Laresh, la porta del vino), 2 i piani nobili (lo studio di Aldous, la sala da
+# pranzo), 3 fra i tetti di rame (la stanza dei nipoti, il lucernario).
+# consiglio.gazza è il vantaggio della ladra: sale di uno a ogni prova fallita e a ogni via lunga (costo 2). Non
+# chiude nessuna stanza. A tre la Gazza ha già le carte, e sui tetti bisogna prima raggiungerla.
+# Il cuore a 4 è `consiglio-sui-tetti-di-rame`: il combattimento (con Ettore al Maniero se consiglio.ettore == 3),
+# pagarla, farla aspettare da Quintus, inseguirla se ha le carte, oppure lasciargliele (rep.scuri >= 3).
+# consiglio.carte: 1 restano a casa (e valgono un voto in seduta), 2 la Gazza scappa, 3 gliele lasci tu.
+# Ogni esito del cuore porta la pista a 13 e riporta ai Quartieri Alti, tranne l'inseguimento riuscito, che ti
+# lascia sul tetto davanti a lei.
+aree:
+  - id: consiglio-maniero-di-notte
+    immagine: fazioni/famiglia-castaldi
+    nome: Il Maniero Castaldi, di notte
+    sommario: "La notte prima della seduta il Maniero Castaldi ha le finestre buie e una ladra dentro. Quintus Vael chiude le porte una per una, e tu cerchi la Gazza prima che arrivi alle carte di Aldous."
+    spedizione: { ritorno: quartieri-alti, soglia: 4, stanze: 3 }
+    testo: |
+      Di notte il Maniero Castaldi sembra più piccolo, tre piani di pietra
+      chiara sopra il seminterrato dei magazzini, con i tetti di rame che
+      prendono la poca luce delle lanterne della strada. Sopra il portone il
+      sigillo della casata, le due bilance incrociate sopra un cerchio aperto,
+      è soltanto un'ombra più scura nella pietra. Le finestre sono buie tranne
+      una, al terzo piano, dove i nipoti dormono con la candela accesa perché
+      la piccola ha paura del vento sul rame.
+
+      Qualcuno è entrato. Quintus Vael lo ha capito da una tegola smossa e da
+      un cane che non ha abbaiato, e adesso cammina per il cortile con la mano
+      sull'elsa, chiudendo le porte a una a una. La ladra cerca il bilancio di
+      Aldous e le obbligazioni firmate da Julia, le carte che domani qualcuno
+      vorrebbe leggere ad alta voce in Consiglio.
+
+      Stavolta la casa da difendere è questa, e i corridoi da conoscere meglio
+      di chi è entrato sono i suoi.
+
+storylet:
+  # ------------------------------------------------------------ il rientro, ai Quartieri Alti
+  - id: consiglio-tornare-al-maniero
+    immagine: fazioni/famiglia-castaldi
+    titolo: Tornare al Maniero
+    sommario: "La notte non è finita, e al Maniero Castaldi Quintus Vael ti aspetta al portone di servizio."
+    luogo: Quartieri Alti, il portone di servizio del Maniero Castaldi
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.consiglio == 12, consiglio.notte >= 1]
+    testo: |
+      Il portone di servizio del Maniero è socchiuso, con un cuneo di legno
+      sotto il battente perché non sbatta. Quintus Vael ci sta appoggiato con
+      una spalla e guarda i tetti, e quando arrivi non ti chiede dove sei
+      stato. Ti allunga una lanterna cieca con lo sportello già chiuso.
+    opzioni:
+      - testo: "Rientrare con Quintus"
+        descrizione: "La ladra è ancora dentro, o ci è tornata. Si ricomincia dal cortile."
+        esito:
+          titolo: Il cuneo sotto la porta
+          testo: |
+            Quintus toglie il cuneo con la punta dello stivale e ti lascia
+            passare per primo, poi richiude il battente senza un rumore. Nel
+            cortile il fico muove le foglie anche se non c'è vento, e tu ti
+            ricordi di respirare con il naso. Quintus ti dice a mezza voce che
+            Brem fa il giro delle terrazze e che le porte chiuse sono ancora
+            chiuse, per quanto ne sa lui. Poi ti indica il buio con il mento e
+            se ne va dall'altra parte del cortile.
+          vai: consiglio-maniero-di-notte
+
+  # ------------------------------------------------------------ 0 · il cortile e il pianterreno
+  - id: consiglio-notte-il-fico
+    immagine: fazioni/famiglia-castaldi
+    titolo: Il fico del cortile
+    sommario: "Il fico antico in mezzo al cortile ha una corda annodata fra i rami più alti."
+    luogo: Il Maniero Castaldi, il cortile interno
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 0]
+    testo: |
+      Il cortile interno è un quadrato di lastre chiare, con il fico antico
+      nel mezzo e le finestre del primo piano tutte intorno. Il tronco è
+      contorto e grosso quanto due uomini, e qualcuno ci ha legato intorno una
+      panchina di legno che il fico, anno dopo anno, si sta mangiando. Fra i
+      rami più alti, dove la chioma tocca il cornicione, pende una corda
+      sottile annodata a distanze regolari.
+
+      {percezione Media} I nodi sono a un palmo l'uno dall'altro, più fitti
+      verso l'alto. Chi l'ha legata pesa poco e sale in fretta, e conta di
+      scendere più in fretta ancora.
+
+      {origine rampollo-dei-quartieri-alti} Nei manieri dei Quartieri Alti gli
+      alberi del cortile sono la prima cosa che i bambini imparano ad
+      arrampicare e la prima che i padri dimenticano di potare. Da piccolo
+      anche tu sei uscito di casa da un ramo così.
+
+      Sotto il fico la terra è smossa in due punti, e una foglia larga è stata
+      schiacciata contro la panchina da un piede leggero.
+    opzioni:
+      - testo: "Leggere le tracce sotto l'albero"
+        descrizione: "La corda dice dove è salita. La terra smossa forse dice dove voleva andare."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La punta del piede
+          testo: |
+            Ti accucci con la lanterna schermata dalla mano. Le impronte sono
+            di una scarpa morbida senza tacco, e affondano di punta, come si
+            cammina quando si conta di non fare rumore. Vanno dalla corda alla
+            grata del seminterrato e non tornano indietro. La grata ha un
+            lucchetto chiuso e una sbarra appena piegata, e tu ci passi
+            accanto con la gola stretta e scendi la scaletta dei magazzini.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Le foglie
+          testo: |
+            Ti chini sulla terra smossa e ci metti la lanterna troppo vicino,
+            e lo sportello si apre di uno spiraglio. La luce sale lungo il
+            tronco fino alla chioma. Lassù qualcosa si ferma, poi la corda
+            sale da sola fra i rami e sparisce oltre il cornicione. Resti con
+            una foglia appiccicata al ginocchio e la sensazione di aver fatto
+            un favore a qualcuno.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Salire sul fico fino al cornicione"
+        descrizione: "La corda l'ha messa lei. Dall'alto si vede il cortile intero, e forse anche dove è andata."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il cornicione
+          testo: |
+            Sali dalla parte del tronco dove la corteccia è liscia di mani, e
+            i rami del fico reggono più di quanto promettono. Dal cornicione
+            vedi il cortile a picco e la finestra della cucina con la sua luce
+            bassa. Sulla corda, all'ultimo nodo, è infilata una piuma grigia e
+            bianca. La tasti fra le dita, poi scendi dall'altra parte, verso
+            la porta della cucina, con le mani che sanno di linfa.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il ramo secco
+          testo: |
+            A metà salita metti il piede su un ramo che ha deciso di morire
+            proprio stanotte, e scendi molto più in fretta di quanto eri
+            salito. Atterri sulla panchina mangiata dal fico con un colpo che
+            si sente in tutto il cortile. Quintus si affaccia da una porta a
+            guardarti, poi si ritira senza dire niente.
+          effetti: { consiglio.gazza: 1, ferite: 0.5 }
+      - testo: "Fare il giro lungo del portico"
+        descrizione: "Sotto il portico si passa senza toccare l'albero. Ci si mette più tempo."
+        costo: 2
+        esito:
+          titolo: Il portico
+          testo: |
+            Giri intorno al cortile sotto il portico, una colonna alla volta,
+            fermandoti ogni tanto ad ascoltare. Le finestre del primo piano
+            sono buie, e in una c'è il riflesso del fico che si muove. Quando
+            arrivi alla porta della cucina sono passati molti minuti, e il
+            fico, da quella parte, non ha più la corda.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  - id: consiglio-notte-la-cucina-dei-segnali
+    immagine: fazioni/famiglia-castaldi
+    titolo: La cucina dei segnali muti
+    sommario: "Eolio Drest è in piedi in cucina in camicia da notte, e alla servitù parla soltanto con le mani."
+    luogo: Il Maniero Castaldi, la cucina
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 0]
+    testo: |
+      La cucina è l'unica stanza del pianterreno con il fuoco acceso, basso
+      sotto la cenere. Intorno al tavolo grande ci sono quattro servitori
+      svegli in camicia da notte, che non parlano. In piedi davanti al camino
+      c'è Eolio Drest, il maggiordomo, con il campanello di bronzo alla
+      cintura e il batacchio legato con un nastro perché non suoni. Eolio
+      muove le dita, e una ragazza va a chiudere un'imposta. A un giro del suo
+      polso un garzone si siede sul secchio del carbone.
+
+      {galateo Facile} In casa d'altri, a quest'ora, si aspetta che sia il
+      padrone di casa a parlare per primo. Qui il padrone di casa è lui, e
+      parla con le mani.
+
+      {empatia Media fallita} Ti sembrano tutti tranquilli, finché la ragazza
+      dell'imposta non torna al tavolo e si stringe le mani fra le ginocchia
+      per farle smettere.
+
+      Eolio ti guarda entrare, ti fa un piccolo inchino e torna al suo
+      linguaggio di dita. Sul tavolo, fra le tazze, c'è un piatto di biscotti
+      intatto.
+    opzioni:
+      - testo: "Chiedere a Eolio che cosa ha visto la servitù"
+        descrizione: "Se qualcuno ha visto passare la ladra, Eolio lo sa già. Bisogna chiederlo nel modo giusto."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Tre dita sul polso
+          testo: |
+            Aspetti che Eolio abbia finito il suo segnale e gli chiedi a voce
+            bassa, con un mezzo inchino, se la casa ha notato visite. Lui si
+            tocca il polso con tre dita, e la lavandaia risponde per lui che
+            la porta del seminterrato l'ha chiusa lei alla sera, e adesso è
+            aperta. Eolio ti accompagna fino alla scala dei magazzini e ti
+            tiene la porta con la stessa cura con cui la terrebbe a un ospite.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: La voce alta
+          testo: |
+            Fai la domanda a voce normale, e in quella cucina zitta suona come
+            un grido. I servitori si voltano tutti insieme. Eolio ti risponde
+            con un cenno minuscolo verso il soffitto che non capisci. Prima
+            che tu possa chiedere di nuovo da qualche parte sopra le vostre
+            teste si chiude una porta.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Sederti con la ragazza dell'imposta"
+        descrizione: "È la più spaventata della cucina, e chi ha paura di solito ha visto qualcosa."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il biscotto
+          testo: |
+            Ti siedi accanto a lei e le passi un biscotto dal piatto, e lei lo
+            tiene in mano senza mangiarlo. Ti racconta a pezzi che è scesa a
+            prendere l'acqua e ha visto una donna vestita di grigio nel
+            corridoio della dispensa, ferma come un attaccapanni. La donna le
+            ha messo un dito sulle labbra, e lei è tornata su. Eolio ascolta
+            senza muovere le mani, e alla fine ti indica la porta della
+            dispensa, che dà sul seminterrato.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il piatto intatto
+          testo: |
+            Ti siedi accanto alla ragazza e le chiedi che cosa ha visto, e lei
+            scoppia a piangere senza rumore, con la faccia nelle mani. Eolio
+            fa un segnale, e una cuoca le mette un braccio intorno alle spalle
+            e ti guarda male. Esci dalla cucina con la sensazione di aver
+            calpestato qualcosa, e con la notte che intanto va avanti.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Scendere per la scala di servizio senza disturbare"
+        descrizione: "La cucina ha una scala che porta ai magazzini. Ci si arriva girando largo intorno alla servitù."
+        costo: 2
+        esito:
+          titolo: La scala di servizio
+          testo: |
+            Fai un cenno a Eolio e giri intorno al tavolo rasente al muro,
+            fino alla scaletta di servizio. È stretta, con i gradini consumati
+            al centro, e scende a gomito verso il buio dei magazzini. A metà
+            ti fermi due volte perché ti sembra di sentire un passo sotto di
+            te, e la seconda volta è il tuo cuore.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  - id: consiglio-notte-il-portone
+    immagine: fazioni/famiglia-castaldi
+    titolo: Il portone delle bilance
+    sommario: "Il portone principale è sprangato dall'interno, eppure la spranga è stata sollevata e rimessa a posto."
+    luogo: Il Maniero Castaldi, l'atrio
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte <= 1]
+    testo: |
+      L'atrio è una sala alta e spoglia, con il pavimento a scacchi e una sola
+      panca lungo il muro, dove i visitatori dei giorni di consiglio aspettano
+      che Marella li chiami. Il portone principale ha due battenti di quercia
+      con il sigillo delle bilance intagliato sull'architrave, e dall'interno
+      lo chiude una spranga di ferro nei suoi ganci. Sotto la spranga, sul
+      pavimento, ci sono due granelli di ruggine freschi.
+
+      {tecnologia Media} I ganci sono lisci sopra e graffiati sotto. Qualcuno
+      ha sollevato la spranga con una leva sottile infilata fra i battenti, e
+      poi l'ha rimessa giù con calma.
+
+      {origine figlio-della-citta-bassa} Una spranga sollevata da fuori e
+      rimessa a posto da dentro è un lavoro da professionisti. Nei vicoli si
+      dice che i ladri bravi chiudono le porte meglio dei padroni di casa.
+
+      Sulla panca dei visitatori c'è un cuscino ricamato con le bilance, e
+      qualcuno ci si è seduto da poco, perché la piuma non si è ancora
+      rialzata.
+    opzioni:
+      - testo: "Esaminare la spranga e i ganci"
+        descrizione: "Se è entrata di qui, lo dicono i graffi. Forse dicono anche con che cosa."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La leva sottile
+          testo: |
+            Passi il pollice sotto i ganci e trovi la scheggia di una lama
+            sottile, piatta, spezzata nello sforzo. Una ladra che lascia pezzi
+            dei suoi attrezzi ha avuto fretta, almeno una volta. Ti infili la
+            scheggia nella cintura e prendi la porta che dall'atrio scende
+            verso i magazzini, dove i granelli di ruggine continuano a due a
+            due sul pavimento.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: La spranga
+          testo: |
+            Sollevi la spranga per guardare sotto i ganci, e la spranga, più
+            pesante di quanto sembra, ti scivola di mano e batte contro il
+            battente con un colpo che rimbomba nell'atrio. Da qualche parte un
+            cane si sveglia e abbaia, una volta sola. Rimetti la spranga a
+            posto con le dita che pulsano.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Sederti sulla panca e ascoltare la casa"
+        descrizione: "Dalla panca dei visitatori si sentono tutte le porte del pianterreno. Basta stare zitti."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: La panca dei visitatori
+          testo: |
+            Ti siedi sul cuscino ricamato e stai fermo finché il Maniero non
+            smette di farsi notare. Le travi si assestano, il fico gratta una
+            grondaia, e poi, più in basso, una porta del seminterrato si apre
+            e non si richiude. Ti alzi senza far rumore e vai verso quella
+            porta, con il cuscino che si rialza piano alle tue spalle.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: I rumori di una casa vecchia
+          testo: |
+            Ascolti la casa, e la casa ha troppe cose da dire. Ogni trave che
+            scricchiola ti sembra un passo, e ogni passo ti sembra la ladra.
+            Quando ti alzi hai le gambe intorpidite e nessuna idea di dove
+            andare, e dal cortile Quintus ti fa segno di sbrigarti.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Controllare a una a una le porte dell'atrio"
+        descrizione: "Sono sei, e ognuna va aperta piano. È lento, ma non si sbaglia."
+        costo: 2
+        esito:
+          titolo: Sei porte
+          testo: |
+            Apri le porte dell'atrio una dopo l'altra, piano, con la mano
+            sulla maniglia finché lo scatto non è passato. Trovi un guardaroba
+            pieno di mantelli che odorano di pioggia e uno stanzino con le
+            scope. L'ultima porta dà sulla scala dei magazzini, e dal fondo
+            sale l'odore della farina.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  # ------------------------------------------------------------ 1 · il seminterrato
+  - id: consiglio-notte-i-sacchi-di-laresh
+    immagine: ambientazione/laresh
+    titolo: I sacchi di Laresh
+    sommario: "Nel magazzino del grano, fra i sacchi arrivati da Laresh, c'è un'impronta nella farina."
+    luogo: Il Maniero Castaldi, il magazzino del grano
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 1]
+    testo: |
+      Il magazzino del grano è una volta bassa di mattoni, e i sacchi di
+      Laresh ci stanno impilati fino al soffitto, con il marchio della casata
+      stampato a vernice su ognuno. L'aria è densa di polvere bianca e ti si
+      posa sulle ciglia. In fondo, fra due pile, un sacco è scivolato e si è
+      aperto, e sulla farina sparsa per terra c'è un'impronta sola, nitida, di
+      una scarpa morbida.
+
+      {percezione Facile} L'impronta va verso la scala dei piani nobili, e c'è
+      un granello di farina sul terzo gradino. La ladra ha fretta, o il sacco
+      l'ha sorpresa quanto ha sorpreso te.
+
+      {resistenza Media fallita} La polvere ti entra nel naso e ti prepara uno
+      starnuto con la pazienza di un artigiano. Lo trattieni a fatica, e ti
+      lacrimano gli occhi.
+
+      In un angolo, su un barile, qualcuno della servitù ha lasciato un lumino
+      e un rosario di legno, dimenticato dopo la preghiera della sera.
+    opzioni:
+      - testo: "Seguire l'impronta senza calpestarla"
+        descrizione: "Dove va una scarpa morbida in un magazzino di grano? Basta guardare dove è stata messa la farina."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: I granelli sui gradini
+          testo: |
+            Segui l'impronta di sacco in sacco, chino, con la lanterna aperta
+            appena. La ladra ha camminato sul bordo delle pile, dove la farina
+            non cade, e ha sbagliato soltanto lì, al sacco aperto. I granelli
+            salgono per la scala dei piani nobili, sempre più radi. Li segui
+            fino al primo pianerottolo, e lì finiscono contro uno zerbino
+            sbattuto di fresco.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Lo starnuto
+          testo: |
+            Ti chini sull'impronta, e la polvere vince. Lo starnuto rimbomba
+            sotto la volta e solleva una nuvola bianca che si posa su tutto,
+            impronta compresa. Quando la nuvola si dirada hai la farina fino
+            alle sopracciglia, e il pavimento è liscio come una tovaglia.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Contare i sacchi"
+        descrizione: "Una ladra di carte non ruba grano. Però può aver nascosto qualcosa dove nessuno guarda."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il sacco in più
+          testo: |
+            Conti le pile con il dito, come si contano le righe di un
+            registro, e una pila ha un sacco in più del marchio che porta.
+            Dentro, al posto del grano, c'è una borsa di tela con una corda di
+            ricambio e un pacchetto di pane secco, la ritirata che la ladra si
+            era preparata. Lasci tutto dov'è e prendi la scala, con la
+            soddisfazione di uno che ha trovato l'errore in fondo alla
+            colonna.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: I conti sbagliati
+          testo: |
+            Conti le pile, e il conto torna. Lo rifai, e torna di nuovo, ma
+            diverso. Alla terza volta ti accorgi che stai contando i sacchi
+            della fila di dietro due volte, e che sopra la tua testa, sulla
+            scala, una tavola ha appena scricchiolato.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Passare in fretta fra le pile"
+        descrizione: "La polvere si posa su tutto. Meglio attraversare il magazzino senza fermarsi."
+        costo: 2
+        esito:
+          titolo: La polvere bianca
+          testo: |
+            Attraversi il magazzino a passi lunghi, con la manica sul naso,
+            fino alla scala. Quando ci arrivi hai la giubba bianca sulle
+            spalle e un sapore di pane crudo in bocca. Ti scuoti sul primo
+            gradino, e la farina cade sui gradini come neve.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  - id: consiglio-notte-la-porta-del-vino
+    immagine: personaggi/quintus-vael
+    titolo: La porta del vino
+    sommario: "Davanti alla cantina del vino Brem Anthos dorme seduto per terra, e non dovrebbe."
+    luogo: Il Maniero Castaldi, la cantina
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 1]
+    testo: |
+      La cantina del vino ha una porta di ferro chiodato e una sedia accanto,
+      per la guardia di turno. La guardia di turno è Brem Anthos, il vice di
+      Quintus, e dorme seduto per terra con la schiena contro il ferro e la
+      testa piegata sulla spalla. Accanto alla mano ha una tazza di latta
+      rovesciata, e sul pavimento la macchia ha un orlo scuro.
+
+      {medicina Media} Il respiro è lento e regolare, troppo regolare per un
+      uomo che dorme seduto. Le pupille, sotto le palpebre, sono strette come
+      punte di spillo. Nella tazza c'era qualcosa oltre al vino.
+
+      {origine figlio-della-citta-bassa} Una tazza lasciata alla guardia con
+      un sorriso, e la guardia che ringrazia. Nei vicoli è il primo trucco che
+      insegnano, e funziona da sempre con chi fa il turno di notte.
+
+      La porta della cantina è chiusa, e la chiave è ancora appesa alla
+      cintura di Brem. Più avanti nel corridoio la scala sale verso i piani
+      nobili.
+    opzioni:
+      - testo: "Svegliare Brem"
+        descrizione: "Acqua fredda, sale sotto il naso, la mano sul polso. Se si sveglia, la ladra ha un nemico in più."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Due occhi rossi
+          testo: |
+            Sollevi la testa di Brem, gli bagni i polsi con l'acqua del
+            secchio e gli schiacci un pizzico di sale sotto il naso. Brem
+            tossisce e apre gli occhi rossi, poi cerca la spada prima ancora
+            di sapere dov'è. Ti racconta con la lingua impastata che la tazza
+            gliel'ha portata una ragazza nuova della servitù. Si rimette in
+            piedi tenendosi al muro e sale con te verso i piani nobili tenendo
+            la mano sull'elsa.
+          pe: { medicina: 3 }
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il sonno pesante
+          testo: |
+            Gli bagni i polsi e lo scuoti, e Brem apre gli occhi, ti guarda
+            senza vederti e ti chiama con il nome di qualcun altro. Poi torna
+            giù nel sonno con un sospiro contento. Lo stendi sul fianco per
+            tenergli libero il respiro, mentre il tempo passa.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Annusare la tazza"
+        descrizione: "Che cosa ha bevuto Brem dice chi gliel'ha dato, e da dove viene."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: Papavero e miele
+          testo: |
+            Ti porti la tazza al naso. Sotto il vino c'è il dolce del miele e
+            l'amaro del papavero, una dose da dormire fino all'alba senza fare
+            danni. Chi l'ha preparata voleva la porta libera e la guardia
+            viva. Lasci Brem a dormire con la testa su un sacco vuoto e prendi
+            la scala, più tranquillo di prima e più preoccupato.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il vino della casa
+          testo: |
+            Annusi la tazza e senti soltanto il vino della casa, buono, con un
+            retrogusto che non riconosci. Per capirlo ne bagni la punta della
+            lingua, e per qualche minuto il corridoio si allunga e le pareti
+            si fanno morbide. Quando torni in te sei seduto accanto a Brem.
+          effetti: { consiglio.gazza: 1, tormento: 0.5 }
+      - testo: "Lasciarlo dormire e proseguire"
+        descrizione: "Brem respira, e la ladra intanto sale. Lo trovi Quintus, più tardi."
+        costo: 2
+        esito:
+          titolo: La chiave alla cintura
+          testo: |
+            Sfili la chiave della cantina dalla cintura di Brem, perché non la
+            prenda qualcun altro, e gli giri la testa in una posizione più
+            comoda. Lui borbotta un ringraziamento a nessuno. Sali la scala
+            dei piani nobili con la chiave che ti batte contro il fianco a
+            ogni gradino, e ogni gradino ti sembra il più rumoroso della casa.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  # ------------------------------------------------------------ 2 · i piani nobili
+  - id: consiglio-notte-lo-studio-di-aldous
+    immagine: fazioni/famiglia-castaldi
+    titolo: Lo studio di Aldous
+    sommario: "Nello studio di Aldous Castaldi un cassetto della scrivania è stato forzato, e le carte sono in ordine sul piano."
+    luogo: Il Maniero Castaldi, lo studio di Aldous
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 2]
+    testo: |
+      Lo studio di Aldous ha le finestre sulle terrazze e le pareti coperte di
+      registri rilegati in tela grigia, tutti con la data sul dorso scritta
+      dalla stessa mano minuta. La scrivania è sgombra come sempre, tranne che
+      stanotte. Il cassetto di destra, quello con la serratura, è aperto di un
+      dito, e sul piano qualcuno ha disposto le carte in file ordinate, come
+      per leggerle con calma.
+
+      {tecnologia Media} La serratura non è rotta. L'hanno aperta con due
+      ferri e una pazienza da orologiaio, e il segno sul legno è appena un
+      graffio.
+
+      {politica-ed-economia Media fallita} Le carte sul piano sono contratti
+      d'affitto e ricevute dei villaggi. Ti sembrano importanti tutte, e ci
+      metti troppo a capire che sono quelle che la ladra ha scartato.
+
+      Sulla sedia di Aldous è rimasto il suo scialle grigio, piegato in
+      quattro. Una finestra è socchiusa, e il vento delle terrazze muove
+      appena le tende.
+    opzioni:
+      - testo: "Capire che cosa manca dal cassetto"
+        descrizione: "Una ladra di carte lascia sul tavolo quello che non le serve. Quello che manca dice dove andrà."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La cartella grigia
+          testo: |
+            Il cassetto ha il fondo segnato da un rettangolo più chiaro, dove
+            per anni è stata appoggiata una cartella. La cartella non c'è più,
+            e con lei il bilancio che Aldous tiene da solo. Le obbligazioni
+            firmate da Julia invece sono ancora qui, sotto il fondo doppio che
+            la ladra non ha trovato in tempo. Le prendi, e le tue dita le
+            stringono più forte di quanto serva, mentre esci verso le scale
+            del terzo piano.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Le carte in fila
+          testo: |
+            Sfogli le carte in fila sul piano, una dopo l'altra, sperando di
+            capire dall'ordine che cosa cercava. Arrivi in fondo con un
+            contratto di affitto in mano e nessuna idea, e intanto dal
+            soffitto arriva un passo leggero, uno solo, che va verso le
+            terrazze.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Studiare la serratura forzata"
+        descrizione: "Due ferri e un graffio. Chi apre così ha un suo modo di lavorare, e un suo modo di uscire."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: I ferri da orologiaio
+          testo: |
+            Ti chini sulla serratura con la lanterna. I graffi sono due,
+            uguali ai lati della toppa, e dentro il nottolino c'è una goccia
+            d'olio fresca. La ladra ha oliato la serratura prima di aprirla,
+            per non farla cantare. Una che lavora così esce dalla stessa
+            strada da cui è entrata, e la finestra socchiusa dà sulle terrazze
+            e sui tetti, così esci da lì anche tu.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il cassetto che si chiude
+          testo: |
+            Tocchi il cassetto per guardare meglio la serratura, e il cassetto
+            si richiude con uno scatto secco. Adesso è chiuso a chiave, e la
+            chiave ce l'ha Aldous, che dorme due porte più in là e che
+            stanotte non ha nessuna voglia di svegliarsi.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Uscire dalla finestra sulle terrazze"
+        descrizione: "La finestra è socchiusa. Le terrazze sono strette, e scivolose di notte."
+        costo: 2
+        esito:
+          titolo: Le terrazze
+          testo: |
+            Scavalchi il davanzale e cammini sulla terrazza con la schiena al
+            muro, mentre sotto di te il cortile è un pozzo nero con il fico in
+            fondo. A metà strada un vaso di gerani ti sfiora la caviglia e tu
+            lo fermi con il piede prima che cada. Arrivi alla scala esterna
+            del terzo piano con le mani bagnate di sudore freddo.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  - id: consiglio-notte-la-sala-da-pranzo
+    immagine: personaggi/marella-castaldi
+    titolo: La sala da pranzo
+    sommario: "Sulla tavola della sala da pranzo i segnaposto della cena di domani sono stati copiati su un foglio."
+    luogo: Il Maniero Castaldi, la sala da pranzo
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 2]
+    testo: |
+      La sala da pranzo è già apparecchiata per la cena di domani, dopo la
+      seduta, perché Marella non lascia niente all'ultimo giorno. Sulla
+      tovaglia bianca i segnaposto di cartoncino sono disposti come una mappa
+      del Consiglio, i nomi delle casate da una parte e gli altri seggi
+      dall'altra, e in mezzo i posti di chi non ha ancora deciso. Accanto al
+      piatto di capotavola c'è un foglio di carta sottile, e sopra, a matita,
+      qualcuno ha ricopiato la disposizione di tutta la tavola.
+
+      {galateo Media} Marella mette i nemici a un posto di distanza, mai uno
+      di fronte all'altro, e gli indecisi vicino al vino. Chi ha copiato la
+      tavola sa leggere anche questo.
+
+      {origine rampollo-dei-quartieri-alti} A tavole così ti hanno messo
+      sempre in fondo, fra i figli delle altre casate. Da lì si vedeva
+      benissimo chi parlava con chi, ed era la cosa più istruttiva della
+      serata.
+
+      Il foglio non è finito. L'ultima riga si interrompe a metà di un nome.
+    opzioni:
+      - testo: "Leggere la copia della tavola"
+        descrizione: "A che cosa serve a una ladra la disposizione di una cena? Dipende da chi la paga."
+        prova: { attributo: mentale, abilita: [accademiche, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: I nomi a matita
+          testo: |
+            La copia è esatta, con i nomi giusti e i posti giusti. Sopra tre
+            nomi c'è una crocetta, quelli degli indecisi vicino al vino. Chi
+            la paga vuole sapere su chi lavorare prima della seduta, e da chi
+            Marella si aspetta il voto. Pieghi il foglio e te lo metti in
+            tasca, e intanto senti un fruscio sulla scala del terzo piano,
+            dove la casa diventa tetto.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: La matita
+          testo: |
+            Ti metti a leggere il foglio, e la grafia è così minuta che devi
+            avvicinare la lanterna. Ti accorgi solo dopo che la luce passa
+            dalle finestre della sala e si vede dalle terrazze. Lassù sulle
+            terrazze qualcosa cambia direzione e se ne va verso il tetto.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Rimettere a posto i segnaposto spostati"
+        descrizione: "Mentre copiava, la ladra ne ha toccati alcuni. Chi conosce le tavole sa dove ha messo le mani."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Il posto di Marella
+          testo: |
+            Tre segnaposto sono girati di un dito, come succede quando li si
+            solleva per leggerli. Li rimetti dritti, e sotto l'ultimo trovi
+            una piuma grigia e bianca, uguale a quella della corda del fico.
+            La ladra se l'è lasciata dietro chinandosi. Esci dalla sala dalla
+            porta della servitù, quella che porta alla scala del terzo piano.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il bicchiere
+          testo: |
+            Allunghi la mano verso un segnaposto e urti un bicchiere di
+            cristallo, che tintinna contro il vicino e poi contro quello dopo,
+            una fila di note acute lungo tutta la tavola. Li fermi con il
+            palmo aperto, e quando la sala torna zitta senti la casa
+            ascoltarti.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Attraversare la sala senza toccare niente"
+        descrizione: "La tavola di Marella si guarda e non si tocca. La porta della servitù è in fondo."
+        costo: 2
+        esito:
+          titolo: In punta di piedi
+          testo: |
+            Giri intorno alla tavola tenendoti a un braccio dalla tovaglia, e
+            i segnaposto ti guardano passare con i loro nomi scritti in bella.
+            La porta della servitù cigola appena. Dietro c'è la scaletta
+            stretta che sale fra le travi del terzo piano, dove già si sente
+            il vento sul rame.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  # ------------------------------------------------------------ 3 · fra i tetti di rame
+  - id: consiglio-notte-la-stanza-dei-nipoti
+    immagine: fazioni/famiglia-castaldi
+    titolo: La stanza dei nipoti
+    sommario: "Al terzo piano Vesper e Mira sono svegli sotto le coperte, con la candela accesa. Hanno visto passare qualcuno."
+    luogo: Il Maniero Castaldi, il terzo piano
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 3]
+    testo: |
+      La stanza dei nipoti è ricavata sotto il tetto, con le travi a vista e
+      due letti uno di fronte all'altro. La candela è accesa in un piattino
+      sul pavimento. Vesper e Mira sono seduti sullo stesso letto con la
+      coperta tirata fino al naso. La finestrella sul tetto è aperta, e da lì
+      entra il vento che fa suonare il rame come un tamburo lontano.
+
+      {empatia Facile} Hanno paura, e hanno anche voglia di raccontarlo. Il
+      maggiore tiene la mano della sorella e fa finta che sia lei a tenere la
+      sua.
+
+      Mira ti guarda con gli occhi seri della zia e non dice niente. Vesper
+      apre la bocca e la richiude. Poi indica la finestrella con il mento, lo
+      stesso gesto che fa Quintus.
+
+      {intimidire Media fallita} Ti viene da chiedere in fretta e a voce alta,
+      come si fa con i testimoni. Sono due bambini sotto una coperta, e la
+      voce alta li manderebbe sotto il cuscino.
+    opzioni:
+      - testo: "Sederti sul letto e chiedere piano"
+        descrizione: "Vesper vuole raccontare, Mira vuole capire se ti può credere."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: La signora grigia
+          testo: |
+            Ti siedi sul bordo del letto e chiedi a Mira se ha visto un
+            fantasma, e lei scuote la testa con disprezzo. Era una signora
+            vestita di grigio, ti spiega Vesper, che è passata dalla
+            finestrella con una cartella sotto il braccio e si è messa un dito
+            sulle labbra. Mira aggiunge che è andata verso il camino grande.
+            Le rimbocchi la coperta, e lei te lo lascia fare.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il cuscino
+          testo: |
+            Chiedi a Vesper che cosa ha visto, e Vesper guarda la sorella, e
+            la sorella guarda te. Nessuno dei due parla. Dopo un poco Mira
+            soffia sulla candela e si gira contro il muro, e nel buio Vesper
+            ti chiede se puoi andare via, per favore.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Chiedere in fretta, come a un testimone"
+        descrizione: "Non c'è tempo per le favole. La ladra è sul tetto adesso."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Due voci insieme
+          testo: |
+            Chiedi chi hanno visto e da che parte è andata, una domanda dopo
+            l'altra, e i bambini rispondono insieme, uno sopra l'altro, prima
+            di decidere se avere paura di te. Una signora grigia, verso il
+            camino grande. Esci dalla finestrella mentre dietro di te Mira
+            comincia a piangere con molta dignità.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il pianto
+          testo: |
+            Alla prima domanda Vesper scoppia a piangere, e Mira lo segue per
+            solidarietà, più forte. Dal piano di sotto Marella chiama i figli
+            per nome, e porte si aprono, e sul tetto chi ascoltava sa
+            esattamente dove sei.
+          effetti: { consiglio.gazza: 1, scandalo: 0.5 }
+      - testo: "Mandarli a dormire nella stanza dei genitori e uscire sul tetto"
+        descrizione: "Prima i bambini al sicuro, poi la ladra. Ci vuole qualche minuto."
+        costo: 2
+        esito:
+          titolo: Il corridoio dei genitori
+          testo: |
+            Prendi Mira in braccio e Vesper per mano e li accompagni giù per
+            il corridoio fino alla porta dei genitori, dove Marella li tira
+            dentro senza una domanda. Poi torni su per la finestrella e metti
+            il piede sul rame freddo, con il vento che ti gonfia la giubba.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  - id: consiglio-notte-il-lucernario
+    immagine: fazioni/famiglia-castaldi
+    titolo: Il lucernario
+    sommario: "Il lucernario sopra la scala grande è aperto, e sul vetro c'è il segno di una mano."
+    luogo: Il Maniero Castaldi, sotto il lucernario
+    area: consiglio-maniero-di-notte
+    ripetibile: true
+    requisiti: [profondita.consiglio-maniero-di-notte == 3]
+    testo: |
+      In cima alla scala grande il soffitto si apre in un lucernario di vetro
+      piombato, e stanotte uno dei vetri è sollevato sul suo cardine. Dal buco
+      entra l'aria fredda e un pezzo di cielo senza luna. Sul vetro accanto,
+      appannato dal fiato della casa, c'è l'impronta di una mano piccola con
+      le dita aperte, e sotto, sul corrimano, un graffio fresco.
+
+      {acrobazia Media} Dal corrimano al bordo del lucernario c'è un salto
+      lungo quanto un uomo. Chi l'ha fatto sapeva atterrare sulle mani senza
+      far rumore.
+
+      {origine figlio-della-citta-bassa} Le ladre di città entrano dal basso
+      ed escono dall'alto, perché chi insegue guarda sempre le porte. L'hai
+      imparato da ragazzo, inseguendo un tale che ti aveva preso il pane.
+
+      Sotto il lucernario, sul pianerottolo, la passatoia è spostata di un
+      palmo. Lassù il rame del tetto risuona a ogni folata.
+    opzioni:
+      - testo: "Saltare dal corrimano al lucernario"
+        descrizione: "Lei l'ha fatto. Tu hai le scarpe sbagliate e meno pratica."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Il bordo del vetro
+          testo: |
+            Sali in piedi sul corrimano, conti fino a tre e salti. Le mani
+            trovano il bordo di piombo, i piedi pedalano nel vuoto sopra la
+            tromba delle scale, e poi sei fuori, in ginocchio sul rame freddo
+            con il fiato corto. Nel buio, verso il camino grande, qualcosa si
+            sposta.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: La tromba delle scale
+          testo: |
+            Salti, e le dita scivolano sul piombo umido. Per un momento resti
+            appeso sopra la tromba delle scale con le gambe nel vuoto, poi ti
+            lasci cadere sul pianerottolo con un tonfo che sveglia mezzo
+            piano. Ti rialzi con un polso che pulsa.
+          effetti: { consiglio.gazza: 1, ferite: 0.5 }
+      - testo: "Leggere l'impronta sul vetro"
+        descrizione: "Una mano piccola, le dita aperte. Si è appoggiata per guardare dentro, o per guardare fuori."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Le dita aperte
+          testo: |
+            L'impronta ha il pollice verso il cortile e le dita verso la
+            strada. La ladra si è appoggiata per guardare fuori, verso il
+            camino grande e il tetto della casa vicina, la strada di uscita.
+            Sali dalla scaletta di servizio e sbuchi sul tetto dalla parte
+            giusta.
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+        fallimento:
+          titolo: Il fiato sul vetro
+          testo: |
+            Ti avvicini troppo, e il tuo fiato appanna il vetro e cancella
+            l'impronta. Resti a guardare il vetro grigio con la faccia di uno
+            che ha appena rovesciato il calamaio sulla pagina giusta.
+          effetti: { consiglio.gazza: 1 }
+      - testo: "Prendere la scaletta di servizio fino al tetto"
+        descrizione: "C'è una botola per gli spazzacamini, in fondo al corridoio. È lontana."
+        costo: 2
+        esito:
+          titolo: La botola degli spazzacamini
+          testo: |
+            Percorri il corridoio fino in fondo, dove una scala a pioli sale
+            verso una botola annerita di fuliggine. La botola resiste, poi
+            cede con un colpo di spalla. Esci sul tetto con la faccia nera
+            fino agli occhi e il rame che ti scotta di freddo sotto i palmi.
+          effetti: { profondita.consiglio-maniero-di-notte: 1, consiglio.gazza: 1 }
+
+  # ------------------------------------------------------------ il cuore · sui tetti di rame
+  - id: consiglio-sui-tetti-di-rame
+    immagine: fazioni/famiglia-castaldi
+    titolo: Sui tetti di rame
+    sommario: "Sul tetto del Maniero, fra i comignoli, una donna vestita di grigio si volta a guardarti."
+    luogo: Il Maniero Castaldi, i tetti di rame
+    area: consiglio-maniero-di-notte
+    requisiti: [fazione.consiglio == 12, profondita.consiglio-maniero-di-notte >= 4]
+    testo: |
+      I tetti di rame del Maniero scendono in falde ripide verso il cortile da
+      una parte e verso la strada dall'altra, con i comignoli in fila come
+      sentinelle e il camino grande in mezzo. Il rame è verde di vecchiaia e
+      bagnato di guazza, e sotto le scarpe ha la presa di una lastra di
+      ghiaccio. Di là dal cornicione, a un salto di distanza, comincia il
+      tetto della casa vicina.
+
+      Accanto al camino grande c'è Nives Orsat, la Gazza. È minuta, vestita di
+      grigio scuro, con i capelli chiusi in una cuffia e un coltello corto per
+      mano. Più in là, sul bordo verso la strada, un ragazzo tiene una scala
+      di corda arrotolata, pronta da buttare. La cartella grigia di Aldous, se
+      è già sua, è legata a tracolla dietro la schiena di lei; se non lo è,
+      gliela leggi negli occhi, nella fretta con cui guarda il lucernario alle
+      tue spalle.
+
+      {armi-da-distanza Media} Il ragazzo con la scala è il punto debole. Se
+      cade la scala, lei ha soltanto il salto verso il tetto vicino, e con la
+      guazza sul rame è un salto che si sbaglia.
+
+      {conoscenze-della-strada Media} Una ladra di carte lavora a prezzo
+      fisso, e il prezzo copre la strada di uscita. Se la strada costa più del
+      previsto, il contratto si può ridiscutere.
+
+      Dal cortile sale la voce di Quintus Vael, che dà ordini a mezza bocca a
+      qualcuno, e il cane, finalmente, abbaia. La Gazza ti guarda e non
+      scappa. Aspetta di vedere che cosa farai.
+    opzioni:
+      - testo: "Affrontarla sui tetti"
+        descrizione: "La Gazza e il ragazzo con la scala, sul rame bagnato. Lei è veloce, e tu sei stanco."
+        quando: [consiglio.gazza < 3, consiglio.ettore != 3]
+        combattimento: consiglio-la-gazza-sui-tetti
+        vittoria:
+          titolo: La cartella grigia
+          testo: |
+            Il ragazzo scappa giù per la scala di corda appena la Gazza
+            scivola sul rame, e lei resta sul bordo del tetto, aggrappata a un
+            comignolo con un braccio e con il coltello caduto nel cortile. Ti
+            allunga la cartella prima che tu la chieda. Quintus la porta giù
+            per la botola degli spazzacamini, legata con la sua stessa corda,
+            e lei si sfila i guanti per fartene dono con una smorfia da
+            giocatrice che paga il debito di una partita.
+
+            {galateo Media} Te li ha dati con le due mani, come si consegna
+            una cosa a chi l'ha vinta. A Ghoran, a quanto pare, anche le ladre
+            hanno le loro buone maniere.
+
+            All'alba Eolio ti porta un tè in cucina senza che tu l'abbia
+            chiesto, e Aldous rimette la cartella nel suo cassetto con mani
+            che non smettono di tremare.
+          effetti: { fazione.consiglio: 1, consiglio.voti: 1, rep.castaldi: 1, oggetto.consiglio-guanti-della-gazza: 1 }
+          imposta: { consiglio.carte: 1 }
+          vai: quartieri-alti
+        sconfitta:
+          titolo: Il salto
+          testo: |
+            Il ragazzo ti tiene impegnato con il coltello quanto basta, e
+            quando ti volti la Gazza ha già saltato sul tetto vicino, leggera,
+            con la cartella sulla schiena. Ti lascia un taglio sul braccio e
+            un inchino dall'altra parte del vuoto. Quintus ti trova seduto
+            contro il camino grande e ti fascia il braccio senza una parola,
+            mentre sotto, nella casa, le luci si accendono a una a una.
+          effetti: { fazione.consiglio: 1 }
+          imposta: { consiglio.carte: 2 }
+          vai: quartieri-alti
+      - testo: "Affrontarla sui tetti, con Ettore"
+        descrizione: "Stanotte Ettore Castaldi dorme al Maniero. È salito dalla botola dietro di te, scalzo, con la spada in mano, e il ragazzo con la scala è suo."
+        quando: [consiglio.gazza < 3, consiglio.ettore == 3]
+        combattimento: consiglio-la-gazza-da-sola
+        vittoria:
+          titolo: Due contro una
+          testo: |
+            Ettore si mette fra il ragazzo e la scala di corda, e il ragazzo
+            decide in fretta che non ne vale la paga. Tu e la Gazza restate da
+            soli sul rame, finché lei non scivola e si aggrappa al comignolo.
+            Ti allunga la cartella, poi si sfila i guanti e te li porge con le
+            due mani, come si paga una partita persa. Ettore la scorta giù per
+            la botola con una gentilezza che lei non si aspettava.
+
+            All'alba Ettore beve il tè di Eolio in cucina, sobrio, con i piedi
+            nudi sul pavimento freddo, e Aldous rimette la cartella nel
+            cassetto senza riuscire a dire grazie a nessuno dei due.
+          effetti: { fazione.consiglio: 1, consiglio.voti: 1, rep.castaldi: 1, oggetto.consiglio-guanti-della-gazza: 1 }
+          imposta: { consiglio.carte: 1 }
+          vai: quartieri-alti
+        sconfitta:
+          titolo: Il tetto vicino
+          testo: |
+            Ettore tiene il ragazzo, ma la Gazza tiene te, e quando scivoli
+            sul rame bagnato lei è già in volo verso il tetto vicino con la
+            cartella sulla schiena. Atterra sulle mani e sparisce dietro un
+            comignolo. Ettore ti tira su per il bavero, ti guarda il taglio
+            sulla fronte e dice che ne ha visti di peggio, e non è chiaro se
+            parli del taglio o di te.
+          effetti: { fazione.consiglio: 1 }
+          imposta: { consiglio.carte: 2 }
+          vai: quartieri-alti
+      - testo: "Inseguirla fra i tetti"
+        descrizione: "Ha già le carte e corre verso il tetto vicino. Se la raggiungi prima del salto, se ne riparla."
+        quando: [consiglio.gazza >= 3]
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il comignolo
+          testo: |
+            Corri sul rame bagnato con le braccia larghe, e ogni passo è una
+            scommessa. La Gazza salta sul tetto vicino e tu salti dietro di
+            lei, e atterri con un ginocchio sul colmo e una mano sul suo
+            mantello. Lei si libera con uno strattone, ma deve fermarsi contro
+            un comignolo, con la cartella stretta al petto e il ragazzo della
+            scala che arriva di corsa alle sue spalle. Siete di nuovo faccia a
+            faccia, e stavolta è lei ad avere il fiato corto.
+          imposta: { consiglio.gazza: 2 }
+        fallimento:
+          titolo: La grondaia
+          testo: |
+            Corri e scivoli, e il rame ti porta giù per la falda fino alla
+            grondaia, che ti ferma con un colpo alle costole. Quando alzi la
+            testa la Gazza è già sul tetto vicino, una sagoma grigia contro il
+            cielo, e poi nemmeno quella. Quintus ti tira su dalla grondaia per
+            la cintura e guarda il tetto vuoto a lungo, con la mascella
+            serrata.
+          effetti: { fazione.consiglio: 1, ferite: 1 }
+          imposta: { consiglio.carte: 2 }
+          vai: quartieri-alti
+      - testo: "Pagarla più del suo mandante"
+        descrizione: "Una ladra a prezzo fisso può cambiare cliente, se il nuovo paga meglio e subito. Bisogna convincerla che la strada di uscita è chiusa."
+        quando: [consiglio.gazza < 3]
+        requisiti: [monete >= 60]
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: Il contratto nuovo
+          testo: |
+            Le dici che Quintus ha un uomo sul tetto vicino, che è vero da un
+            minuto, e che il suo mandante non la tirerà fuori dalle celle
+            della Caserma. Poi le mostri la borsa. La Gazza la soppesa con lo
+            sguardo, fa un cenno al ragazzo, e la scala di corda sparisce. Ti
+            dà la cartella e prende la borsa, ed esce dalla botola degli
+            spazzacamini, scortata da Quintus, con il passo di una che ha
+            chiuso un affare onesto.
+
+            All'alba Aldous conta le carte due volte, e Eolio ti porta un tè
+            in cucina con il piattino sopra perché resti caldo.
+          effetti: { fazione.consiglio: 1, consiglio.voti: 1, rep.castaldi: 1, monete: -60 }
+          imposta: { consiglio.carte: 1 }
+          vai: quartieri-alti
+        fallimento:
+          titolo: Il prezzo sbagliato
+          testo: |
+            Le mostri la borsa, e lei ride piano. Ti prende una parte delle
+            monete con un gesto così rapido che te ne accorgi dopo, e mentre
+            la guardi contare salta sul tetto vicino con la cartella sulla
+            schiena. La senti ridere ancora, due tetti più in là, e poi
+            niente. Quintus ti trova con la borsa alleggerita in mano.
+          effetti: { fazione.consiglio: 1, monete: -20 }
+          imposta: { consiglio.carte: 2 }
+          vai: quartieri-alti
+      - testo: "Capire da dove uscirà e farla aspettare da Quintus"
+        descrizione: "La scala di corda è una finta, o forse no. Se indovini la sua uscita, Quintus ci arriva prima di lei."
+        quando: [consiglio.gazza < 3]
+        prova: { attributo: mentale, abilita: [percezione, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: La terza grondaia
+          testo: |
+            Guardi la scala di corda, poi i piedi della Gazza, che sono girati
+            dall'altra parte, verso la terza grondaia, quella col tubo di
+            piombo che scende nel vicolo. Fai un fischio, e dal cortile
+            Quintus capisce. Quando la Gazza scende dal tubo trova lui ad
+            aspettarla in fondo, con la spada nel fodero e la mano tesa per la
+            cartella. Il ragazzo con la scala scappa e nessuno lo insegue.
+
+            All'alba Aldous rimette le carte nel cassetto, e Quintus ti fa un
+            cenno con il mento, che per lui è un discorso.
+          effetti: { fazione.consiglio: 1, consiglio.voti: 1, rep.castaldi: 1 }
+          imposta: { consiglio.carte: 1 }
+          vai: quartieri-alti
+        fallimento:
+          titolo: La scala di corda
+          testo: |
+            Scommetti sulla grondaia e fischi a Quintus, e Quintus corre al
+            vicolo. La Gazza scende per la scala di corda verso la strada,
+            proprio dove l'avevi esclusa, e ti saluta con la mano dalla
+            strada. Ti volti troppo in fretta, il rame ti tradisce, e finisci
+            contro un comignolo con la spalla.
+          effetti: { fazione.consiglio: 1, ferite: 1 }
+          imposta: { consiglio.carte: 2 }
+          vai: quartieri-alti
+      - testo: "Lasciarle le carte"
+        descrizione: "La Gazza ti ha riconosciuto. Sa che hai amici fra gli Scuri, e ti offre una parte se guardi dall'altra parte."
+        quando: [rep.scuri >= 3]
+        esito:
+          titolo: Dall'altra parte
+          testo: |
+            La Gazza nomina a mezza voce un paio di persone che conosci, giù
+            in Città Bassa, e ti lancia una borsa piccola che prendi al volo
+            senza volerlo. Guardi il camino grande per il tempo che le serve.
+            Quando ti volti c'è soltanto la scala di corda che sparisce oltre
+            il cornicione. Dal cortile Quintus ti chiama, e tu gli rispondi
+            che è scappata, e lui non dice niente.
+
+            {empatia Media} Quintus non ti ha chiesto da che parte è andata.
+            Brem, sulla terrazza di sotto, guardava il tetto per tutto il
+            tempo, e domani parleranno.
+
+            All'alba Aldous trova il cassetto vuoto e si siede alla scrivania
+            senza accendere la lampada.
+          effetti: { fazione.consiglio: 1, rep.scuri: 1, monete: 40 }
+          imposta: { consiglio.carte: 3 }
+          vai: quartieri-alti

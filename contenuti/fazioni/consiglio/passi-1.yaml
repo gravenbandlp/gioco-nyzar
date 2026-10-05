@@ -1,0 +1,827 @@
+# Quest del Consiglio, primo atto (fazione.consiglio 1 → 6). I passi 1, 3 e 5 sono le storie di
+# contenuti/citta/municipio.yaml; qui ci sono i passi pari e i due seguiti dei gradi.
+# - passo 2 `consiglio-il-ponticello-di-ada` (fazione.consiglio == 1, Città Bassa): il Comune ha firmato, ma le
+#   assi passano dalla Segheria. Prima della caduta di Ottone si tratta con Rennick Dole (bene o con il bando);
+#   dopo (pista.pelle >= 7) con la cooperativa, che il Comune non paga da settimane. Oppure paghi tu, o monti le
+#   assi di scarto con Ettore Castaldi. Le prove fallite con Rennick e la cooperativa lasciano la scena aperta.
+# - grado I `consiglio-scrivano-della-panca` (seguito del ritratto, fazione.consiglio == 2): la penna d'osso, una
+#   borsa piccola, l'angolo del bancone di Tullio (il ripetibile delle petizioni in servizi.yaml), l'invito di
+#   Marella per il giorno di consiglio.
+# - passo 4 `consiglio-la-cena-di-consiglio` (fazione.consiglio == 3, Maniero Castaldi): la tavola di Marella come
+#   una mappa del Consiglio, i segnali muti di Eolio Drest, Aldous che si alza a metà cena con un registro. Gli
+#   ospiti cambiano con la trama (Ottone fino a pista.pelle 5, Ondrel Tarvelin fino a pista.acciaio 4, i capi
+#   delle cooperative dopo pista.pelle 7). Ogni via chiude il passo; i fallimenti costano Scandalo.
+# - passo 6 `consiglio-la-tribuna` (fazione.consiglio == 5, Municipio): la prima seduta vista dall'alto, poi una
+#   parola con un consigliere, che resta in consiglio.voce (1 Vantes, 2 Tenebra, 3 Cordani, 4 Galdrick o il suo
+#   sergente con galdrick.via == 1, 5 Ottone fino a pista.pelle 5) e conta alla seduta del passo 14. Ogni via porta
+#   al seguito del grado II `consiglio-a-inchiostro`: il nome a inchiostro, la lettera col sigillo, una borsa.
+storylet:
+  # ------------------------------------------------------------ passo 2 · il ponticello di Ada
+  - id: consiglio-il-ponticello-di-ada
+    immagine: ambientazione/citta-bassa
+    titolo: Il ponticello di Ada
+    sommario: "Al lavatoio della Città Bassa i falegnami del Comune sono arrivati, e sono seduti su una cesta rovesciata. Le assi per il ponticello non le ha mandate nessuno."
+    luogo: Città Bassa, il lavatoio
+    area: citta-bassa
+    requisiti: [fazione.consiglio == 1]
+    testo: |
+      Il lavatoio della Città Bassa è una fila di vasche di pietra sotto una
+      tettoia di travi annerite, e l'acqua ci arriva da una gora che poi se ne
+      va per il canale di scolo, schiumosa di sapone. Sopra il canale c'è il
+      ponticello della petizione, quattro assi gonfie d'acqua e verdi di
+      muschio, con una corda tesa fra due paletti al posto del parapetto. Le
+      donne lo attraversano una alla volta, con le ceste sul fianco e gli
+      occhi bassi sulle assi.
+
+      Accanto alla prima vasca due falegnami del Comune siedono su una cesta
+      rovesciata, con le borse degli attrezzi ai piedi e la pipa spenta in
+      bocca. L'ordine firmato dalla Rappresentante ce l'hanno, e il più
+      vecchio te lo fa vedere tirandolo fuori dal cappello. Le assi invece no.
+      Il legname del Comune passa dalla Segheria, e alla Segheria le assi del
+      Comune finiscono in fondo alla lista ogni volta che qualcuno le rimette
+      in cima.
+
+      {conoscenze-della-strada Media} In fondo alla lista ci finiscono da
+      sole, a sentire i falegnami. Le liste però le scrive qualcuno, e quel
+      qualcuno sa benissimo chi ha firmato l'ordine.
+
+      Ada Rusca ha le braccia nell'acqua fino ai gomiti e non si volta. «Sono
+      venuti ieri e sono venuti oggi» dice al lenzuolo che sta strizzando.
+      «Domani verranno anche domani.» In fondo alla via, davanti alla Birreria
+      del Paladino Stanco, Ettore Castaldi impila sul selciato le assi di
+      certe casse vecchie, con le maniche arrotolate.
+
+      {origine figlio-della-citta-bassa} Su quelle assi ci sei passato di
+      corsa da bambino, con la cesta della biancheria di tua madre sulla
+      testa. Già allora si piegavano nel mezzo, e già allora c'era un ordine
+      del Comune da qualche parte.
+
+      {resistenza Facile} L'acqua delle vasche viene dalla gora ed è fredda
+      anche d'estate. Ada ci tiene dentro le mani da stamattina, e le nocche
+      le sono diventate viola.
+    opzioni:
+      - testo: "Contrattare con Rennick Dole alla Segheria"
+        descrizione: "Rennick contratta su ogni quattrino, e un quattrino in più per le assi del Comune lo convince prima di qualunque bando."
+        immagine: personaggi/rennick-dole
+        quando: [pista.pelle < 7]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, persuasione], difficolta: Media }
+        successo:
+          titolo: In cima alla lista
+          testo: |
+            Rennick Dole ti riceve in piedi fra le cataste, con il registro
+            delle consegne sotto il braccio. Gli fai notare che il Comune paga
+            tardi ma paga sempre, e che un fornitore del Comune, quando le
+            licenze arriveranno in Consiglio, avrà un nome in Municipio. Lui
+            ci pensa contando con il pollice le tacche di un tronco, poi
+            sposta una riga del registro con un segno di matita. Il giorno
+            dopo le assi sono al lavatoio, e i falegnami finiscono il
+            ponticello prima di sera. Sulla scalinata del Municipio, al
+            ritorno, ti aspetta Tullio Merga con gli occhiali in mano, perché
+            stanotte in anticamera è caduto il ritratto.
+          pe: { politica-ed-economia: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, rep.malgrani: 0.5 }
+        fallimento:
+          titolo: La catasta di larice
+          testo: |
+            Rennick ti lascia parlare e intanto conta i tronchi di una catasta
+            di larice, muovendo le labbra. Quando hai finito ti dice che le
+            assi del Comune arriveranno quando arriveranno, e che i Malgrani
+            le commesse le pagano subito. Torni al lavatoio a mani vuote, e i
+            falegnami ti fanno posto sulla cesta con un'aria di colleganza che
+            non ti consola affatto.
+
+            {persuasione Media fallita} Gli hai parlato di nomi in Municipio a
+            uno che i nomi li ha già, e più grossi del tuo.
+
+      - testo: "Minacciarlo con il bando del Consiglio"
+        descrizione: "Un fornitore del Comune che fa aspettare un ordine firmato si può mettere in un bando, inchiodato al pilastro di Via del Velo dove lo leggono tutti."
+        immagine: personaggi/rennick-dole
+        quando: [pista.pelle < 7]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il pilastro di Via del Velo
+          testo: |
+            Trovi Rennick nel cortile della Segheria e gli descrivi il bando
+            con calma, riga per riga, compreso il pilastro dove Nino lo
+            inchioderà e la gente che ci si fermerà davanti a leggere il suo
+            nome. Lui diventa rosso dal collo in su. Le assi partono quel
+            pomeriggio stesso su un carretto, e i falegnami finiscono il
+            ponticello prima di sera. Al ritorno, sulla scalinata del
+            Municipio, ti aspetta Tullio Merga con gli occhiali in mano,
+            perché stanotte in anticamera è caduto il ritratto.
+
+            {intimidire Media} Rennick ha paura delle risate più che delle
+            multe. Un bullo di scuola resta un bullo di scuola anche quando la
+            scuola è finita da un pezzo.
+          pe: { intimidire: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, rep.malgrani: -0.5 }
+        fallimento:
+          titolo: La risata del cortile
+          testo: |
+            Gli descrivi il bando, e Rennick si mette a ridere così forte che
+            i garzoni smettono di segare per ascoltare. Ti chiede chi lo
+            scriverebbe mai un bando così, e chi avrebbe il coraggio di farlo
+            affiggere contro un fornitore dei Malgrani. Esci dal cortile con
+            la segatura nei capelli e le risate dei garzoni nelle orecchie
+            fino al ponte.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Convincere la cooperativa a fare credito al Comune"
+        descrizione: "La Segheria adesso è dei taglialegna, e le assi le hanno. Il Comune non li paga da settimane, e loro non lo hanno dimenticato."
+        immagine: ambientazione/segheria-di-qir-azel
+        quando: [pista.pelle >= 7]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il ponticello delle loro madri
+          testo: |
+            Alla Segheria i taglialegna della cooperativa ti ascoltano seduti
+            su un tronco, e i conti del Comune li sanno a memoria meglio di
+            te. Allora smetti di parlare del Comune e parli del lavatoio, dove
+            le loro madri e le loro mogli passano ogni mattina con la cesta
+            sul fianco. Il più anziano sputa nella segatura e dice che quattro
+            assi le regala alla Città Bassa, e il Comune le pagherà quando
+            avrà voglia. I falegnami finiscono il ponticello prima di sera. Al
+            ritorno, sulla scalinata del Municipio, ti aspetta Tullio Merga
+            con gli occhiali in mano, perché stanotte in anticamera è caduto
+            il ritratto.
+          pe: { empatia: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: I conti del Comune
+          testo: |
+            Cominci dai conti del Comune, e i taglialegna ti rispondono con i
+            loro, che sono più precisi e più lunghi. Quando arrivi al
+            ponticello metà di loro è già tornata al lavoro. Il più anziano ti
+            dice che il Comune sa dove trovarli, il giorno in cui paga, e ti
+            accompagna al cancello con una mano gentile e ferma sulla spalla.
+
+      - testo: "Pagare le assi di tasca tua"
+        descrizione: "Quattro assi di larice costano meno di una cena nei Quartieri Alti, e i falegnami sono già lì."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: Le assi pagate
+          testo: |
+            Vai alla Segheria e compri quattro assi di larice pagando
+            sull'unghia come un cliente qualunque. Le porti al lavatoio su un
+            carretto preso in prestito. I falegnami si tolgono la pipa di
+            bocca e si mettono al lavoro senza commenti, e prima di sera il
+            ponticello ha le assi nuove e un parapetto vero. Ada lo attraversa
+            per prima con la cesta sul fianco, poi torna indietro per
+            attraversarlo di nuovo. Al ritorno, sulla scalinata del Municipio,
+            ti aspetta Tullio Merga con gli occhiali in mano, perché stanotte
+            in anticamera è caduto il ritratto.
+
+            {politica-ed-economia Media} Il Comune ha firmato e tu hai pagato.
+            Prima o poi qualcuno in Municipio dovrà spiegare come si chiama
+            una cosa così, e non sarà una parola gentile per il Comune.
+          effetti: { monete: -15, fazione.consiglio: 1, rep.castaldi: 0.5 }
+
+      - testo: "Montare le assi di scarto con Ettore"
+        descrizione: "Ettore Castaldi sta impilando assi di casse vecchie davanti alla Birreria. Sono spesse e di quercia, e qualcuno deve portarle fino al canale."
+        immagine: personaggi/ettore-castaldi
+        costo: 2
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Facile }
+        successo:
+          titolo: Le assi di quercia
+          testo: |
+            Ettore ascolta la storia del ponticello senza smettere di
+            impilare, poi si carica sulla spalla tre assi in una volta e ti
+            indica le altre con il mento. Le portate al lavatoio in due
+            viaggi, e i falegnami, trovandosi il legno davanti, si mettono al
+            lavoro per non fare brutta figura. Tu reggi le assi ed Ettore
+            pianta i chiodi a colpi lunghi, così precisi che le lavandaie si
+            voltano a guardarlo. A sera il ponticello regge un carretto. Ada
+            ci passa sopra, si ferma a metà e batte il piede due volte.
+
+            {rissa Facile} I colpi di martello di Ettore partono dalla spalla
+            e finiscono sul chiodo senza sprecare niente. Chi ha imparato a
+            menare così di solito si è allenato su teste più dure del legno.
+
+            Sulla scalinata del Municipio, al ritorno, ti aspetta Tullio
+            Merga, perché stanotte in anticamera è caduto il ritratto.
+          pe: { atletica: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, nomea.citta-bassa: 0.5 }
+        fallimento:
+          titolo: Il pollice
+          testo: |
+            Al secondo viaggio un'asse ti scivola dalla spalla e ti finisce
+            sul piede, e poco dopo il martello ti trova il pollice. Ettore ti
+            manda a sederti sul bordo della vasca e finisce il lavoro con i
+            falegnami, mentre Ada ti fascia il dito con una striscia di
+            lenzuolo pulito senza dire una parola. A sera il ponticello regge,
+            e tu hai il pollice che pulsa come un cuore piccolo. Al ritorno,
+            sulla scalinata del Municipio, ti aspetta Tullio Merga, perché
+            stanotte in anticamera è caduto il ritratto.
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, ferite: 1 }
+
+  # ------------------------------------------------------------ grado I · scrivano della panca
+  - id: consiglio-scrivano-della-panca
+    immagine: personaggi/julia-castaldi
+    titolo: Un angolo del bancone
+    tipo: seguito
+    luogo: Municipio, il bancone degli impiegati
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 2]
+    testo: |
+      Prima di tornare nel suo ufficio Julia si ferma al bancone degli
+      impiegati e indica a Tullio l'angolo in fondo, quello sotto la finestra,
+      dove si ammucchiano le pratiche che nessuno ha voglia di smistare.
+      Tullio capisce prima che lei finisca la frase. Sgombra l'angolo con due
+      bracciate, ci spolvera sopra con la manica e apre un cassetto chiuso a
+      chiave da cui tira fuori una penna con il cannello d'osso.
+
+      «Sulla panca c'è sempre qualcuno con un foglio piegato in quattro» dice
+      Julia. «Da domani glielo scrivi tu, con i margini dritti e lo spazio per
+      il sigillo, così sale nel cesto e non scende nella cassa.» Lo dice
+      guardando la panca, e il ponticello di Ada lo nomina soltanto con gli
+      occhi.
+
+      {accademiche Facile} Cannello d'osso e pennino d'acciaio temperato, una
+      penna da notaio. Al Municipio ne avranno sei in tutto, e Tullio le conta
+      ogni sera.
+
+      Dalla porta dell'ufficio esce Marella, con i guanti già infilati. Ti
+      porge un cartoncino color crema con le bilance dei Castaldi impresse in
+      un angolo. «Giovedì è giorno di consiglio al Maniero» dice. «Siediti
+      dove ti metto io e non spostare niente.»
+
+      {galateo Media} Un cartoncino scritto a mano dalla padrona di casa,
+      senza il nome di chi ti accompagna. Ti invita da solo, e quindi ti ha
+      già assegnato un posto preciso a tavola.
+    opzioni:
+      - testo: "Prendere la penna e sederti al bancone"
+        descrizione: "La penna d'osso e un angolo del bancone, con la panca davanti e i suoi fogli piegati."
+        immagine: icone/quill-ink
+        esito:
+          titolo: Scrivano della panca
+          testo: |
+            Ti siedi nell'angolo sgombro, e Tullio ti mette davanti un
+            calamaio tutto tuo. Poi ci ripensa e lo sposta di un dito verso il
+            centro. Ti lascia anche un sacchetto di monete dalla cassa delle
+            spese minute, «per la carta buona», e scrive una riga nel suo
+            registro. La prima ad alzarsi dalla panca è una vecchia con un
+            foglio piegato in quattro, che ti guarda la penna prima della
+            faccia.
+          pe: { accademiche: 3 }
+          almeno: { rep.castaldi: 2 }
+          effetti: { fazione.consiglio: 1, monete: 30, oggetto.consiglio-penna-d-osso: 1 }
+      - testo: "Chiedere a Tullio quante penne così ci sono"
+        descrizione: "Tullio le tiene sotto chiave. Prima di prenderne una conviene sapere quanto ci tiene."
+        esito:
+          titolo: Sei penne
+          testo: |
+            «Sei» dice Tullio, e si toglie gli occhiali per dirlo meglio. «Una
+            ce l'ha la Rappresentante e quattro le teniamo noi. La sesta la
+            usava il Rappresentante di prima per firmare le grazie, e da
+            allora nessuno ci ha più scritto.» Te la mette in mano chiudendoti
+            le dita intorno al cannello, poi ti dà un sacchetto di monete
+            dalla cassa delle spese minute, per la carta buona. Sulla panca
+            una vecchia si alza con il suo foglio piegato in quattro.
+          pe: { galateo: 3 }
+          almeno: { rep.castaldi: 2 }
+          effetti: { fazione.consiglio: 1, monete: 30, oggetto.consiglio-penna-d-osso: 1 }
+
+  # ------------------------------------------------------------ passo 4 · la cena di consiglio
+  - id: consiglio-la-cena-di-consiglio
+    immagine: personaggi/marella-castaldi
+    titolo: La cena di consiglio
+    sommario: "Giovedì è giorno di consiglio al Maniero Castaldi. Marella ti ha scritto l'invito a mano e ha deciso dove ti siedi."
+    luogo: Maniero Castaldi, la sala da pranzo
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 3]
+    testo: |
+      Il Maniero Castaldi apre le porte alla sesta campana, e a quell'ora il
+      cortile interno odora di burro e di cera. Sotto il fico antico ci sono
+      due servitori con le lanterne. La sala da pranzo sta al primo piano, con
+      le finestre sul cortile e un tavolo lungo apparecchiato per venti, e su
+      ogni piatto c'è un cartoncino color crema con un nome scritto da
+      Marella. A guardarli tutti insieme, i cartoncini disegnano il Consiglio.
+      Al centro siedono i Castaldi. Il Velo e la Caserma stanno alla loro
+      destra e la Gilda in fondo, mentre le casate sono dove la padrona di
+      casa ha deciso che non si sentano.
+
+      {politica-ed-economia Media} Chi siede vicino a Marella vota con Julia,
+      e chi siede vicino al vino forse lo farà. In fondo al tavolo, dove la
+      Gilda si guarda in faccia, la conversazione sarà la più lunga.
+
+      Eolio Drest sta in piedi accanto alla credenza, con un campanello di
+      bronzo alla cintura che non suona mai. Muove due dita, e un valletto
+      porta via una bottiglia. Inclina la testa, e un altro riempie un
+      bicchiere. Marella ripete agli ospiti nuovi la regola della casa, che a
+      quella tavola si parla di Stato e mai dei Castaldi, e intanto tutti
+      contano i voti sulle licenze fra una portata e l'altra.
+
+      {percezione Media} Un cartoncino accanto al tuo è stato spostato di un
+      posto, e la grafia di Marella adesso è di fronte alla persona sbagliata.
+      Chi l'ha fatto voleva sedersi più vicino a qualcuno.
+
+      {origine rampollo-dei-quartieri-alti} Questa tavola la conosci da
+      bambino, quando ti mettevano in fondo con gli altri ragazzi e ti
+      insegnavano a non guardare chi parlava con chi. Hai guardato lo stesso,
+      e adesso lo sai fare a occhio.
+
+      A metà della seconda portata Aldous Castaldi, il fratello della
+      Rappresentante, si alza con un registro sotto il braccio. È pallido, si
+      scusa con un cenno a Marella ed esce, e per il resto della cena la sua
+      sedia resta vuota.
+    opzioni:
+      - testo: "Rimettere a posto il segnaposto senza farlo notare"
+        descrizione: "Un cartoncino fuori posto, a questa tavola, è una frase detta ad alta voce. Rimetterlo dov'era senza che nessuno se ne accorga è un'arte dei Quartieri Alti."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Un posto più in là
+          testo: |
+            Aspetti che i valletti portino il pesce, e quando tutti guardano
+            il vassoio sposti il cartoncino con il bordo del piatto, un dito
+            alla volta, finché la grafia di Marella non torna davanti alla
+            persona giusta. L'ospite che l'aveva spostato si siede, legge il
+            suo nome e tace per tutto il secondo. A fine cena, sulla soglia,
+            Marella ti trattiene per il gomito. «Julia vuole metterti alla
+            prova» dice, «e io le ho detto che a tavola la prova l'hai già
+            fatta.»
+          pe: { galateo: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: Il cartoncino nella salsa
+          testo: |
+            Sposti il cartoncino con il bordo del piatto, e il cartoncino
+            scivola nella salsa. Lo ripeschi con due dita mentre mezzo tavolo
+            ti guarda, e la grafia di Marella si è sciolta in una macchia
+            bruna. Marella ride per prima e dice che a casa sua i nomi si
+            cancellano solo con le buone cause. Sulla soglia, a fine cena, ti
+            dice che Julia vuole metterti alla prova, e che a tavola, per
+            fortuna, non era lei a guardarti.
+          effetti: { fazione.consiglio: 1, scandalo: 0.5 }
+
+      - testo: "Seguire i segnali di Eolio Drest"
+        descrizione: "Il maggiordomo dirige la sala senza aprire bocca. Chi capisce i suoi segnali sa chi è fuori posto prima ancora degli ospiti."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Due dita e un sopracciglio
+          testo: |
+            Guardi Eolio invece degli ospiti. Due dita verso il basso vogliono
+            dire di non riempire un bicchiere, e un sopracciglio alzato manda
+            un valletto dietro una sedia. Quando il maggiordomo guarda il
+            cartoncino spostato e poi te, capisci che ti sta chiedendo di
+            farlo tu, perché dal suo posto non può. Lo fai al cambio dei
+            piatti, ed Eolio abbassa le palpebre una volta sola. Sulla soglia,
+            a fine cena, Marella ti dice che Julia vuole metterti alla prova.
+          pe: { percezione: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: Il segnale sbagliato
+          testo: |
+            Credi di aver capito i segnali di Eolio, e quando lui alza due
+            dita alzi la mano per il vino. Il valletto che stava venendo verso
+            di te si ferma a metà sala, Eolio chiude gli occhi un momento, e
+            al tavolo qualcuno sorride dietro il tovagliolo. Il resto della
+            cena lo passi con le mani in grembo. Sulla soglia Marella ti dice
+            che Julia vuole metterti alla prova, e lo dice come si dà una
+            notizia che poteva essere migliore.
+          effetti: { fazione.consiglio: 1, scandalo: 0.5 }
+
+      - testo: "Fare conversazione con Ottone Malgrani"
+        descrizione: "Ottone siede in fondo, dove Marella mette chi deve sentirsi ospite. Parla di mulini e di decoro, e ascolta chi lo lusinga con garbo."
+        immagine: personaggi/ottone-malgrani
+        quando: [pista.pelle < 5]
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: I panciotti di una volta
+          testo: |
+            Lodi il ricamo del suo panciotto, e Ottone ti racconta dove si
+            ricamano ancora così, e da lì passa ai mulini e al decoro che la
+            città ha perduto. Lo lasci parlare. Fra una portata e l'altra ti
+            dice che le licenze sul grano non passeranno mai, e lo dice
+            sorridendo, con la tranquillità di un uomo che ha già contato i
+            voti. Sulla soglia, a fine cena, Marella ti dice che Julia vuole
+            metterti alla prova, e che hai fatto bene a far parlare Ottone.
+
+            {empatia Media} È gentile con te perché non sa ancora chi sei. Il
+            giorno che lo saprà, quel sorriso resterà uguale e servirà ad
+            altro.
+          pe: { persuasione: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, rep.malgrani: 0.5 }
+        fallimento:
+          titolo: Il decoro
+          testo: |
+            Ottone ti chiede che cosa pensi della Maison des Lunes, e tu
+            rispondi la cosa sbagliata a voce troppo alta. Al tavolo cala un
+            silenzio da chiesa. Ottone ti ringrazia della franchezza e per il
+            resto della cena parla con la signora alla sua sinistra. Sulla
+            soglia Marella ti dice che Julia vuole metterti alla prova, e ti
+            consiglia di tenere certe opinioni per il dolce.
+          effetti: { fazione.consiglio: 1, scandalo: 0.5 }
+
+      - testo: "Fare conversazione con Ondrel Tarvelin"
+        descrizione: "Il padrone dell'Acciaieria siede accanto alla Rappresentante e non tocca il vino. Parla poco, e quando parla lo ascoltano."
+        immagine: personaggi/ondrel-tarvelin
+        quando: [pista.acciaio < 4]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Il lyssan
+          testo: |
+            Gli chiedi del lyssan e non dei Tarvelin, e Ondrel ti guarda per
+            la prima volta da quando sei seduto. Ti spiega come si capisce una
+            colata buona dal colore che prende raffreddandosi, con la voce
+            bassa e le mani ferme sulla tovaglia, e per tutto il tempo non
+            guarda mai la sedia vuota accanto alla sua. Sulla soglia, a fine
+            cena, Marella ti dice che Julia vuole metterti alla prova.
+
+            {empatia Media} La sedia vuota era apparecchiata. Marella l'ha
+            preparata per qualcuno che non viene, e Ondrel lo sapeva prima di
+            entrare.
+          pe: { persuasione: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, rep.tarvelin: 0.5 }
+        fallimento:
+          titolo: La figlia
+          testo: |
+            Gli chiedi della figlia, e Ondrel posa la forchetta e ti risponde
+            che la figlia ha una locanda e che le locande sono un ottimo
+            mestiere. Poi non dice più niente fino al dolce. Sulla soglia
+            Marella ti dice che Julia vuole metterti alla prova, e che a
+            quella tavola di Liaren non si parla da anni, nemmeno quando si
+            parla di Stato.
+          effetti: { fazione.consiglio: 1, scandalo: 0.5 }
+
+      - testo: "Fare conversazione con i capi delle cooperative"
+        descrizione: "Al posto delle casate cadute, Marella ha invitato i capi delle cooperative del grano e dei taglialegna. Stanno seduti dritti e non sanno quale forchetta usare."
+        quando: [pista.pelle >= 7]
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La forchetta del pesce
+          testo: |
+            Ti siedi accanto al capo dei taglialegna, e quando arriva il pesce
+            prendi la forchetta piccola con calma, perché la veda. Lui la
+            prende un momento dopo di te. Poi ti racconta della Segheria,
+            delle paghe contate insieme il sabato e dei conti del Comune che
+            non tornano, e alla fine della cena ride con tutta la tavola.
+            Sulla soglia Marella ti dice che Julia vuole metterti alla prova,
+            e che lei avrebbe messo la forchetta giusta accanto al piatto, se
+            ci avesse pensato.
+          pe: { galateo: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, nomea.citta-bassa: 0.5 }
+        fallimento:
+          titolo: Il vino dei Quartieri Alti
+          testo: |
+            Versi da bere al capo dei taglialegna e gli spieghi il vino come
+            lo spiegherebbe un sommelier, e lui ti ascolta con la faccia di un
+            uomo che si sente spiegare la segatura. A metà della seconda
+            portata si gira verso il vicino e non si gira più. Sulla soglia
+            Marella ti dice che Julia vuole metterti alla prova, e che il vino
+            si versa senza spiegarlo.
+          effetti: { fazione.consiglio: 1, scandalo: 0.5 }
+
+      - testo: "Seguire Aldous fuori dalla sala"
+        descrizione: "Il fratello della Rappresentante è uscito pallido con un registro sotto il braccio. Lo studio è al piano di sopra, e sulle scale c'è Quintus Vael."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La lampada bassa
+          testo: |
+            Ti alzi con la scusa della toeletta e prendi le scale di servizio,
+            dove le assi non scricchiolano perché i valletti le conoscono.
+            Dalla porta socchiusa dello studio vedi Aldous seduto alla
+            scrivania sotto la lampada bassa, chino su un registro aperto, con
+            la mano sopra una colonna di cifre che copre a ogni rumore.
+            Rientri in sala prima del dolce. Sulla soglia, a fine cena,
+            Marella ti dice che Julia vuole metterti alla prova, e intanto ti
+            guarda le scarpe, dove c'è la polvere delle scale di servizio.
+
+            {politica-ed-economia Media} Un uomo che tiene i conti di casa non
+            si nasconde dalla sua cena per fare le somme. Le fa di nascosto
+            quando le somme non tornano, oppure quando tornano troppo bene a
+            qualcun altro.
+          pe: { furtivita: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: Quintus sulle scale
+          testo: |
+            A metà delle scale di servizio trovi Quintus Vael seduto su un
+            gradino, con l'armatura di cuoio e un piatto di pane sulle
+            ginocchia. Ti chiede se ti sei perso, con la stessa voce che
+            userebbe per chiederti l'ora, e ti riaccompagna a tavola
+            camminandoti accanto. Gli ospiti vicini hanno visto da dove
+            arrivi. Sulla soglia, a fine cena, Marella ti dice che Julia vuole
+            metterti alla prova, e che la casa ha più scale di quante ne
+            servano a un ospite.
+          effetti: { fazione.consiglio: 1, scandalo: 0.5 }
+
+      - testo: "Rimettere i segnaposto come ti hanno insegnato da bambino"
+        descrizione: "A tavole così ti sedevi in fondo con gli altri ragazzi. Un cartoncino si sposta con il dorso del coltello, mai con le dita."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Il dorso del coltello
+          testo: |
+            Giri il coltello e spingi il cartoncino con il dorso della lama,
+            senza guardarlo, mentre rispondi alla vicina sul tempo che fa a
+            Laresh. Il nome torna al suo posto prima che il pesce arrivi in
+            tavola. L'ospite che l'aveva spostato ti guarda con un rispetto
+            pieno di rancore. Sulla soglia Marella ti dice che Julia vuole
+            metterti alla prova, e aggiunge che tua madre ti ha educato bene,
+            anche se a lei non l'ha mai detto.
+          pe: { galateo: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+
+  # ------------------------------------------------------------ passo 6 · la tribuna
+  - id: consiglio-la-tribuna
+    presso: municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: La tribuna
+    sommario: "È giovedì e c'è seduta. Julia ti ha detto di sederti in tribuna e di guardare chi vota cosa."
+    luogo: Municipio, la sala consiliare
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 5]
+    testo: |
+      La sala consiliare sta al secondo piano del Municipio, con un tavolo di
+      noce a ferro di cavallo e sette sedie dallo schienale alto, e sopra le
+      sedie corre una galleria di legno dove il pubblico siede su due file di
+      panche. Ti siedi in prima fila con i gomiti sulla balaustra. Sul tavolo,
+      davanti al seggio della Rappresentante, c'è una mazza di ferro posata di
+      traverso, e la seduta comincia quando Tullio la raddrizza.
+
+      Julia legge le pratiche senza guardare il foglio. Padre Vantes posa la
+      mano sul braccio di chi parla, e chi parla si ferma come se l'avesse
+      deciso da solo. Tenebra, in fondo, ha il cappuccio dei Raschiatori
+      calato sugli occhi e alza la mano soltanto quando si parla del
+      Labirinto. Tarquin Cordani parla per la Gilda e muove molto le mani, e
+      le ferma una volta sola, quando Julia nomina le licenze. Galdrick vota
+      per ultimo e sempre con lei. La sedia dei Malgrani e quella dei Tarvelin
+      le guardi più a lungo delle altre, per chi ci siede e per come si vota
+      da lì.
+
+      {politica-ed-economia Media} Tre pratiche rinviate in un pomeriggio, e
+      ognuna con un seggio diverso che chiede il rinvio. Fanno a turno, e
+      nessuno deve mai votare contro.
+
+      {galateo Facile} Cordani ha le mani ferme sul tavolo da quando si parla
+      di grano. In un uomo che gesticola anche per chiedere il sale, è come se
+      avesse alzato la voce.
+
+      {resistenza Media fallita} Le panche della tribuna sono più strette di
+      quella dell'anticamera, e dopo tre pratiche ti sembra di essere seduto
+      su un'asse da stiro.
+
+      Alla fine Tullio rimette la mazza di traverso, e i consiglieri si
+      alzano. Fra la sala e lo scalone, per qualche minuto, si può parlare con
+      uno di loro prima che se ne vada.
+    opzioni:
+      - testo: "Avvicinare Padre Vantes sullo scalone"
+        descrizione: "Il Gran Sacerdote del Velo scende piano e saluta tutti. Con lui conta come si chiede, più di che cosa."
+        immagine: personaggi/padre-vantes
+        prova: { attributo: sociale, abilita: [galateo, empatia], difficolta: Media }
+        successo:
+          titolo: La mano sul braccio
+          testo: |
+            Lo raggiungi al secondo pianerottolo e gli chiedi della pratica
+            sulle offerte della Cripta, che è stata rinviata. Vantes si ferma,
+            ti posa la mano sul braccio e ti risponde con calma, come se
+            avesse aspettato tutta la seduta che qualcuno glielo chiedesse. Ti
+            dice che il Velo voterà con la Rappresentante finché la
+            Rappresentante non chiederà al Velo di scegliere fra lei e la
+            città. Poi riprende a scendere, e la sua mano ti resta sul braccio
+            per un gradino in più.
+          pe: { galateo: 5 }
+          imposta: { consiglio.voce: 1 }
+          effetti: { rep.velo: 0.5 }
+          segue: consiglio-a-inchiostro
+        fallimento:
+          titolo: Il gradino
+          testo: |
+            Lo raggiungi di corsa al secondo pianerottolo e gli parli prima di
+            aver ripreso fiato. Vantes ti ascolta con pazienza e ti benedice,
+            che è il suo modo di chiudere una conversazione. Due chierici ti
+            passano accanto guardandoti come si guarda chi entra in chiesa con
+            il cappello in testa.
+          effetti: { scandalo: 0.5 }
+          segue: consiglio-a-inchiostro
+
+      - testo: "Fermare Tenebra prima che scenda ai Ponti"
+        descrizione: "Il consigliere dei Raschiatori esce sempre per primo e senza salutare. Si parla con lui soltanto di quello che c'è sotto."
+        immagine: personaggi/tenebra
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Quello che c'è sotto
+          testo: |
+            Lo raggiungi sotto il portico, e invece di presentarti gli chiedi
+            quante squadre sono scese questa settimana. Tenebra si ferma con
+            il cappuccio ancora calato. Ti dice il numero, e poi quante ne
+            sono risalite. Ti spiega che in Consiglio vota soltanto quando si
+            parla del Labirinto perché il resto, per i Raschiatori, è roba di
+            superficie, e che se un giorno la superficie gli chiederà qualcosa
+            si ricorderà di chi gli ha chiesto delle squadre.
+          pe: { empatia: 5 }
+          imposta: { consiglio.voce: 2 }
+          effetti: { rep.raschiatori: 0.5 }
+          segue: consiglio-a-inchiostro
+        fallimento:
+          titolo: Il cappuccio
+          testo: |
+            Lo chiami per nome sotto il portico, e Tenebra si gira appena. Da
+            sotto il cappuccio ti guarda a lungo senza dire niente. Ti accorgi
+            di avere la schiena contro una colonna, e non ricordi di averla
+            appoggiata. Poi se ne va verso i Ponti, e il portico ti sembra più
+            freddo di prima.
+          effetti: { tormento: 0.5 }
+          segue: consiglio-a-inchiostro
+
+      - testo: "Parlare con Tarquin Cordani dei dazi"
+        descrizione: "Il Sovrintendente della Gilda si ferma volentieri a discutere di conti. Con lui serve un numero giusto, detto al momento giusto."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Le mani di Cordani
+          testo: |
+            Gli parli dei conti dei dazi dei Ponti, quelli che tornano sempre
+            con qualche moneta in meno dalla stessa parte. Cordani muove le
+            mani mentre ti risponde, e le muove molto, segno che non è
+            arrabbiato. Ti dice che la Gilda vuole i prezzi alla portata della
+            gente quanto la Rappresentante, e che le licenze le voterebbe se
+            qualcuno gli desse una ragione pulita per farlo. Prima di
+            andarsene ti stringe la mano con il polsino ben stirato.
+          pe: { politica-ed-economia: 5 }
+          imposta: { consiglio.voce: 3 }
+          effetti: { rep.gilda: 0.5 }
+          segue: consiglio-a-inchiostro
+        fallimento:
+          titolo: La colonna sbagliata
+          testo: |
+            Gli citi una cifra dei dazi, e Cordani te la corregge con
+            gentilezza, poi ti corregge anche quella dopo. Le sue mani restano
+            ferme sopra la balaustra per tutto il tempo. Ti saluta con un
+            inchino corto e scende a parlare con qualcuno che i conti li sa.
+          effetti: { scandalo: 0.5 }
+          segue: consiglio-a-inchiostro
+
+      - testo: "Salutare Galdrick in fondo alla sala"
+        descrizione: "Lo sceriffo vota sempre con Julia e si ferma volentieri con chi la aiuta. In sala si toglie l'elmo, e senza sembra più vecchio."
+        immagine: personaggi/toren-galdrick
+        quando: [galdrick.via == 0]
+        esito:
+          titolo: I pollici nella cintura
+          testo: |
+            Galdrick ti vede arrivare e infila i pollici nella cintura. Ti
+            dice che in tribuna sembravi uno che conta le pecore, e che è il
+            modo giusto di guardare una seduta. Poi ti racconta chi ha chiesto
+            il rinvio delle tre pratiche e chi glielo ha chiesto di chiedere,
+            con la voce bassa e il mento verso le sedie. Se un giorno ti serve
+            qualcuno della Guardia, aggiunge, alla Caserma chiedi di lui.
+          pe: { politica-ed-economia: 3 }
+          imposta: { consiglio.voce: 4 }
+          effetti: { rep.caserma: 0.5 }
+          segue: consiglio-a-inchiostro
+      - testo: "Salutare il sergente seduto al posto di Galdrick"
+        descrizione: "Galdrick è a Ghoran, e alla sua sedia siede il sergente di turno, con l'elmo sotto il braccio e l'aria di chi vorrebbe essere in pattuglia."
+        quando: [galdrick.via == 1]
+        esito:
+          titolo: La sedia dello sceriffo
+          testo: |
+            Il sergente si alza appena ti avvicini, poi si ricorda che non
+            deve e si risiede. Ti dice che Galdrick gli ha lasciato un ordine
+            solo, votare con la Rappresentante, e che lui non ne ha mai
+            ricevuto uno più facile. Poi ti racconta chi ha chiesto il rinvio
+            delle tre pratiche, perché dalla sedia dello sceriffo si vede
+            tutto il tavolo. Se ti serve qualcuno della Guardia, aggiunge,
+            alla Caserma chiedi di lui.
+          pe: { politica-ed-economia: 3 }
+          imposta: { consiglio.voce: 4 }
+          effetti: { rep.caserma: 0.5 }
+          segue: consiglio-a-inchiostro
+
+      - testo: "Avvicinare Ottone Malgrani"
+        descrizione: "Ottone ha votato contro senza dirlo e se ne va soddisfatto. Con lui serve molto garbo, e anche così non basta quasi mai."
+        immagine: personaggi/ottone-malgrani
+        quando: [pista.pelle < 5]
+        prova: { attributo: sociale, abilita: galateo, difficolta: Difficile }
+        successo:
+          titolo: Il guanto
+          testo: |
+            Ti fai trovare sul suo passaggio e gli cedi il passo con un
+            inchino della misura giusta. Ottone si ferma e ti chiede chi sei.
+            Glielo dici, e lui ti racconta con molta cortesia che la
+            Rappresentante ha buone idee e pochi voti, e che i giovani come te
+            farebbero bene a contare i secondi prima di innamorarsi delle
+            prime. Poi si infila un guanto dito per dito e se ne va.
+          pe: { galateo: 5 }
+          imposta: { consiglio.voce: 5 }
+          effetti: { rep.malgrani: 0.5 }
+          segue: consiglio-a-inchiostro
+        fallimento:
+          titolo: Il passaggio
+          testo: |
+            Ti fai trovare sul suo passaggio, e Ottone ti passa accanto come
+            si passa accanto a una colonna. Il segretario che lo segue ti
+            guarda e annota qualcosa su un taccuino. Resti sullo scalone con
+            l'inchino ancora a metà.
+          effetti: { scandalo: 0.5 }
+          segue: consiglio-a-inchiostro
+
+      - testo: "Tornare da Julia senza parlare con nessuno"
+        descrizione: "Hai visto la seduta. Quello che c'è da dire puoi dirlo a lei."
+        costo: 0
+        esito:
+          titolo: Lo scalone vuoto
+          testo: |
+            Lasci che i consiglieri scendano tutti, e ognuno si porta via la
+            sua cerchia. Quando lo scalone è vuoto scendi anche tu contando i
+            gradini, poi bussi alla porta dell'ufficio con la seduta ancora in
+            testa, sedia per sedia.
+          segue: consiglio-a-inchiostro
+
+      - testo: "Aspettare Cordani al portone della Casa dei Nodi"
+        descrizione: "Alla Casa dei Nodi il Sovrintendente ci torna a piedi dopo ogni seduta, e sui gradini si ferma a parlare con i mercanti. Tu sai come si attacca discorso su quei gradini."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: I gradini della Casa dei Nodi
+          testo: |
+            Lo aspetti sui gradini della Casa dei Nodi con la licenza in
+            tasca, fra i mercanti che fingono di passare di lì. Quando arriva
+            gli chiedi dei dazi sui banchi piccoli, e Cordani riconosce il
+            sigillo della Gilda sul tuo polsino. Ti parla come a un socio
+            muovendo molto le mani, e ti dice che le licenze sul grano le
+            voterebbe se qualcuno gli desse una ragione pulita. Poi ti chiede
+            di salutargli la Rappresentante, con un mezzo sorriso.
+          pe: { politica-ed-economia: 5 }
+          imposta: { consiglio.voce: 3 }
+          effetti: { rep.gilda: 0.5 }
+          segue: consiglio-a-inchiostro
+
+      - testo: "Raggiungere Tenebra sul Ponte dei Morti"
+        descrizione: "Dopo le sedute Tenebra passa dal Ponte dei Morti, a guardare le lanterne. Lì sai come si sta zitti accanto a un Raschiatore."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: Le lanterne
+          testo: |
+            Lo trovi appoggiato al parapetto del Ponte dei Morti, e ti metti
+            accanto a lui senza parlare, a guardare le lanterne come si fa a
+            fine turno. Dopo un po' Tenebra ti chiede di quale squadra sei.
+            Glielo dici, e lui annuisce. Ti spiega che in Consiglio vota
+            soltanto quando si parla del Labirinto, e che se un giorno la
+            superficie gli chiederà qualcosa si ricorderà di chi è venuto a
+            cercarlo qui.
+          pe: { empatia: 5 }
+          imposta: { consiglio.voce: 2 }
+          effetti: { rep.raschiatori: 0.5 }
+          segue: consiglio-a-inchiostro
+
+  # ------------------------------------------------------------ grado II · a inchiostro
+  - id: consiglio-a-inchiostro
+    immagine: personaggi/julia-castaldi
+    titolo: A inchiostro
+    tipo: seguito
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 5]
+    testo: |
+      Julia ti aspetta con il registro già aperto alla pagina del margine e la
+      tazza di tè con il piattino sopra. Ti fa sedere e ti chiede che cosa hai
+      visto. Glielo racconti sedia per sedia, con chi ha chiesto il rinvio e
+      chi ha taciuto, e lei ascolta senza interromperti, con gli occhi su di
+      te e la penna ferma fra le dita.
+
+      {empatia Media} Non sta controllando se hai visto giusto, perché la
+      seduta l'ha vista anche lei. Sta controllando che cosa guardi quando
+      guardi una seduta.
+
+      Quando hai finito intinge la penna e scrive il tuo nome a inchiostro
+      sopra quello a matita, e lo sottolinea con una riga dritta, come le
+      cifre. Poi apre il cassetto rimasto socchiuso e ti dà la lettera piegata
+      in tre, con la ceralacca colata di traverso. «Con questa ti aprono le
+      porte i consiglieri e gli archivi, e alla Casa dei Nodi qualcuno anche
+      controvoglia» dice. «In tribuna, da oggi, la prima fila è tua.»
+
+      {politica-ed-economia Facile} Una lettera col sigillo del Consiglio vale
+      più di un titolo, perché un titolo si può discutere. Davanti a una
+      ceralacca, la gente apre la porta e discute dopo.
+    opzioni:
+      - testo: "Prendere la lettera"
+        descrizione: "Il tuo nome a inchiostro, la lettera col sigillo, la prima fila della tribuna."
+        immagine: icone/wax-seal
+        esito:
+          titolo: Incaricato del Consiglio
+          testo: |
+            Prendi la lettera e te la infili nella giubba, e ti scalda il
+            petto attraverso la camicia, o forse sei tu. Julia apre la
+            cassetta di ferro, conta una borsa di monete senza guardarle e la
+            spinge verso di te sulla scrivania. «Per le scarpe» dice. «Chi
+            lavora per il Consiglio cammina parecchio.» Mentre esci chiama il
+            nome seguente, e Tullio dal bancone ti saluta inforcando gli
+            occhiali, come per vedere meglio chi sei diventato.
+          pe: { politica-ed-economia: 3 }
+          almeno: { rep.castaldi: 4 }
+          effetti: { fazione.consiglio: 1, monete: 50, oggetto.consiglio-lettera-col-sigillo: 1 }
+      - testo: "Chiederle perché proprio tu"
+        descrizione: "In Municipio c'è gente che aspetta questa lettera da anni. Vale la pena sapere che cosa ha visto Julia."
+        esito:
+          titolo: Perché proprio tu
+          testo: |
+            Julia ci pensa il tempo di soffiare sull'inchiostro. «Perché in
+            tribuna non hai guardato me» dice. «Tutti guardano me, e tu hai
+            guardato le mani di Cordani.» Ti dà la lettera col sigillo e una
+            borsa di monete dalla cassetta di ferro, per le scarpe, dice,
+            perché chi lavora per il Consiglio cammina parecchio. Poi chiama
+            il nome seguente.
+
+            {galateo Media} Ti ha fatto un complimento con la stessa voce con
+            cui detta una multa. Nei Quartieri Alti è la forma più rara di
+            cortesia, e la più difficile da restituire.
+          pe: { empatia: 3 }
+          almeno: { rep.castaldi: 4 }
+          effetti: { fazione.consiglio: 1, monete: 50, oggetto.consiglio-lettera-col-sigillo: 1 }

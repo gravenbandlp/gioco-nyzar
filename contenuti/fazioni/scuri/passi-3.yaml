@@ -1,0 +1,972 @@
+# La quest degli Scuri, passi 11-15 (fazione.scuri 10 → 15). Tutti chiedono pista.pelle >= 6 e bivio.legge == 2.
+# 11 La Casa dei Nodi di notte: Cosimo Venn dà la pianta (con scuri.venn la dà subito), poi la spedizione
+#    (spedizione-casa-dei-nodi.yaml), che chiude il passo alla cassaforte dei timbri con la matrice, il registro dei
+#    funzionari pagati o tutti e due.
+# 12 Le tre porte (grado 4), al Mercato delle Ombre: Durgan attacca le porte degli Scuri nella stessa notte. Il Velo
+#    tollera il Mercato perché il Mercato gli racconta le cose, e la sua mano al Mercato è Ottilia Sanvel. Chi lascia
+#    cadere una porta tiene le altre due (scuri.porta, decima minore).
+# 13 Nihali torna da Pannion, alla cisterna dell'Orlo, con le bande dei villaggi: una partita a Zekar (scuri-nihali),
+#    il suo trucco, le cure (più facili con la ricetta di Nestor o per il Figlio del Circolo). Squiggor, se vivo, si
+#    può riportare dalla tua parte (scuri.squiggor 1) o lasciare a Durgan (2).
+# 14 L'anello liscio, nel deposito della Caserma (scuri.anello). Con galdrick.via 0 e rep.caserma >= 3 lo si chiede a
+#    Galdrick, che ti dice in faccia che cosa sei. La sciabola resta a lui fino al passo 15.
+# 15 Chi tiene i conti (grado 5): Durgan nel cerchio di gesso delle macerie (boss Difficile, o vie sociali tutte
+#    Difficili; scuri.durgan 1 piegato, 2 preso dalla Caserma), poi il finale (scuri.finale): 1 il tavolo nuovo,
+#    2 la mano sinistra (Rozalia, se non è in cella, o Nihali), 3 il registro allo sceriffo (rep.scuri −5,
+#    rep.caserma +3). Ogni finale dà la sciabola di Vesh, che Galdrick manda con un biglietto, e l'anello liscio.
+storylet:
+  # ------------------------------------------------------------ 11 · la Casa dei Nodi di notte, l'ingresso
+  - id: scuri-la-casa-dei-nodi-di-notte
+    immagine: ambientazione/mercato-dei-nodi
+    titolo: La Casa dei Nodi di notte
+    sommario: "Durgan sta comprando i funzionari che erano di Mirko. Il registro dove Cosimo Venn li segna tutti sta nella cassaforte dei timbri, alla Casa dei Nodi."
+    luogo: Quartieri Alti, sotto le terrazze della Casa dei Nodi
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 10, pista.pelle >= 6, bivio.legge == 2]
+    testo: |
+      Rozalia l'ha detto battendo due volte la penna sul calamaio, come
+      quando una cosa è chiusa. Durgan compra i funzionari che erano di
+      Mirko, con i soldi dei gettoni, e i funzionari stanno tutti scritti in
+      un registro che Cosimo Venn tiene per conto della Gilda. Il registro
+      sta nella cassaforte dei timbri, nell'archivio dei dazi della Casa dei
+      Nodi, insieme alla matrice del timbro. «Il registro ti dà i funzionari
+      e la matrice ti dà i timbri» ha detto. «Se prendi tutti e due, la
+      Gilda ti viene a cercare.»
+
+      La Casa dei Nodi di notte è un intrico di catene e terrazze che si
+      reggono a vicenda, con le lanterne dei Custodi di Passaggio accese a
+      ogni piano. Sotto la terrazza dei carichi ti aspetta Venn, con il
+      cappuccio tirato sugli occhi e gli stivali puliti, e mastica menta più
+      in fretta del solito.
+
+      {empatia Media} Venn ha paura di Durgan più di quanta ne abbia di te.
+      Un uomo che compra funzionari prima o poi compra anche chi li segna.
+
+      {atletica Facile} Le catene che reggono le terrazze sono grosse come un
+      braccio. Ci si sale, se si ha il fiato.
+
+      {origine mercante-dei-ponti} La Casa dei Nodi la conosci di giorno, dai
+      banchi del pianterreno. Di notte le terrazze ti sembrano più alte, e le
+      catene più numerose di quante ne abbia mai contate.
+    opzioni:
+      - testo: "Farti dare la pianta da Venn"
+        descrizione: "Venn sa dove dormono i balestrieri e quando passa la ronda. Bisogna convincerlo che conviene anche a lui."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: La pianta
+          testo: |
+            Gli dici che se Durgan ha comprato i funzionari, presto comprerà
+            anche il registro, e chi lo tiene. Venn arrossisce fino alle
+            orecchie e tira fuori da sotto il mantello una pianta disegnata a
+            matita, con le ronde segnate a margine. Ti dice di salire dalle
+            catene, e se ne va senza voltarsi.
+          pe: { persuasione: 5 }
+          imposta: { scuri.allarme: 0 }
+          vai: scuri-casa-dei-nodi
+        fallimento:
+          titolo: Senza pianta
+          testo: |
+            Venn ti ascolta masticando menta, poi ti dice che lui non sa
+            niente, e che la pianta della Casa dei Nodi la conosce soltanto la
+            Gilda. Se ne va in fretta. Salire le catene senza sapere dove
+            dormono i balestrieri si può lo stesso, con un po' più di fortuna.
+          imposta: { scuri.allarme: 1 }
+          vai: scuri-casa-dei-nodi
+
+      - testo: "Ricordargli il quaderno nero"
+        descrizione: "Hai una copia dei pagamenti di Venn, presa il giorno della licenza. Venn non vuole che qualcuno la legga ad alta voce."
+        quando: [scuri.venn >= 1]
+        esito:
+          titolo: La finestra accostata
+          testo: |
+            Gli reciti a memoria due righe del suo quaderno nero, con le date.
+            Venn smette di masticare. Ti dà la pianta, con le ronde segnate a
+            margine, e ti dice che stanotte la finestra del suo scrittoio
+            resterà accostata. Poi si toglie il cappuccio per asciugarsi la
+            fronte, e lo rimette.
+          imposta: { scuri.allarme: 0 }
+          vai: scuri-casa-dei-nodi
+
+      - testo: "Salire senza pianta"
+        descrizione: "Le catene si salgono anche senza sapere dove portano. Con la notte davanti si può guardare prima di muoversi."
+        costo: 2
+        esito:
+          titolo: Le lanterne dei Custodi
+          testo: |
+            Passi un'ora sotto la terrazza dei carichi a contare le lanterne
+            dei Custodi che si spostano da un piano all'altro, finché non ti
+            sembra di aver capito il giro. Poi afferri la prima catena e
+            cominci a salire.
+          imposta: { scuri.allarme: 0 }
+          vai: scuri-casa-dei-nodi
+
+  # ------------------------------------------------------------ 12 · le tre porte (grado 4)
+  - id: scuri-le-tre-porte
+    presso: mercato-delle-ombre
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: Le tre porte
+    sommario: "Durgan attacca le tre porte degli Scuri al Mercato delle Ombre nella stessa notte. Il Velo guarda, e chi il Velo appoggia vince."
+    luogo: Mercato delle Ombre, le porte degli Scuri
+    area: citta-bassa
+    requisiti: [fazione.scuri == 11, pista.pelle >= 6, bivio.legge == 2]
+    testo: |
+      Lo sapevi da tre giorni, e lo sapeva tutto il Mercato. Stanotte Durgan
+      prende le tre porte degli Scuri nello stesso momento, con gli uomini
+      che la Caserma non paga. Le prime due le tengono Gaia e Karn, la terza
+      un ragazzo dell'Orlo che ha visto Karn tirare il coltello una volta
+      sola e da allora lo segue dappertutto. Ai banchi i mercanti hanno
+      coperto la merce con i teli e si sono seduti sopra, ad aspettare chi
+      vince.
+
+      Alle altre cinque porte i cappucci del Velo stanno in piedi ai lati
+      dell'arco come sempre, immobili. In mezzo alla piazza, accanto al
+      banco del formaggio, c'è una donna bassa e robusta con il cappuccio
+      abbassato sugli occhi grigio-verdi e le mani infilate nelle maniche. È
+      Ottilia Sanvel, della Confraternita del Velo, e non compra niente.
+
+      {politica-ed-economia Media} Il Velo lascia stare il Mercato perché
+      il Mercato gli racconta le cose. Stanotte decide chi gliele racconterà
+      domani.
+
+      {armi-da-mischia Media} La porta di Gaia ha la scala più stretta, e si
+      tiene con due persone. Quella del ragazzo dell'Orlo dà su una cantina
+      larga, e lì i mercenari entreranno in tre.
+
+      {origine accolito-del-velo} Ottilia la riconosci dalle mani nelle
+      maniche, prima ancora che dalla faccia. Ti ha fatto alzare all'alba per
+      anni, e adesso sta in mezzo al Mercato delle Ombre come in mezzo al
+      chiostro.
+    opzioni:
+      - testo: "Difendere la porta più debole"
+        descrizione: "La porta del ragazzo dell'Orlo dà su una cantina larga. Lì entrano in tre, e lì bisogna essere tu."
+        combattimento: scuri-la-porta-piu-debole
+        vittoria:
+          titolo: La cantina larga
+          testo: |
+            I mercenari scendono dalla cantina larga in tre, e il primo cade
+            sulla scala addosso al secondo. Il terzo scappa prima di arrivare
+            in fondo. Alle altre due porte Gaia e Karn tengono, e all'alba i
+            mercenari se ne vanno lasciando una lancia sui gradini. Ottilia
+            Sanvel passa accanto a te uscendo e ti saluta con un cenno del
+            mento. Gaia ti porta una brigantina di cuoio nero, piena di
+            piastrine cucite a mano, e ti dice che una porta adesso è tua.
+          almeno: { rep.scuri: 8 }
+          imposta: { scuri.decima: 1 }
+          effetti: { fazione.scuri: 1, oggetto.scuri-brigantina: 1 }
+        sconfitta:
+          titolo: La scala
+          testo: |
+            I mercenari scendono in tre, e tu ne fermi due. Il terzo ti prende
+            sulla scala con il manico della lancia. Ti ritrovi in fondo alla
+            cantina, con il sangue in bocca, e la porta è loro per il resto
+            della notte. Gaia ti trascina via. Il Mercato aspetta ancora di
+            sapere chi ha vinto.
+
+      - testo: "Trattare con Ottilia Sanvel"
+        descrizione: "Il Velo appoggia chi gli racconta le cose. Ottilia vorrà qualcosa in cambio, e vorrà che sia scritto da qualche parte."
+        immagine: personaggi/ottilia-sanvel
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Una notizia al mese
+          testo: |
+            Ottilia ti ascolta con le mani nelle maniche. Vuole una notizia al
+            mese dalle tue porte, e la promessa che nessuna formula proibita
+            sarà venduta ai novizi che scendono di nascosto. Gliela fai. Lei
+            guarda i cappucci delle cinque porte, e quelli si spostano verso
+            le porte degli Scuri. I mercenari di Durgan, quando li vedono,
+            tornano su per le scale. Gaia ti porta una brigantina di cuoio nero
+            e ti dice che una porta adesso è tua.
+          pe: { galateo: 5 }
+          almeno: { rep.scuri: 8 }
+          imposta: { scuri.decima: 1 }
+          effetti: { fazione.scuri: 1, rep.velo: 1, oggetto.scuri-brigantina: 1 }
+        fallimento:
+          titolo: Il chiostro
+          testo: |
+            Ottilia ti ascolta, poi ti dice in frasi brevi che il Velo non
+            sceglie fra due bande di ladri, e che stanotte guarderà. Si rimette
+            le mani nelle maniche e resta accanto al banco del formaggio. I
+            mercenari di Durgan scendono, e ti tocca correre alla porta più
+            debole troppo tardi.
+          effetti: { ferite: 1 }
+
+      - testo: "Mostrare a Ottilia il registro dei funzionari pagati"
+        descrizione: "Il registro di Venn sporca mezza Gilda. Per il Velo è una notizia che vale un anno di notizie."
+        quando: [scuri.libro >= 1]
+        immagine: personaggi/ottilia-sanvel
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Un anno di notizie
+          testo: |
+            Le mostri tre pagine del registro dei funzionari pagati, e Ottilia
+            le legge senza toccarle. Poi ti chiede una notizia al mese e nessuna
+            formula proibita venduta ai novizi, e tu glielo prometti. I cappucci
+            delle cinque porte si spostano verso le porte degli Scuri, e i
+            mercenari di Durgan tornano su per le scale. Gaia ti porta una
+            brigantina di cuoio nero e ti dice che una porta adesso è tua.
+          pe: { galateo: 5 }
+          almeno: { rep.scuri: 8 }
+          imposta: { scuri.decima: 1 }
+          effetti: { fazione.scuri: 1, rep.velo: 1, oggetto.scuri-brigantina: 1 }
+        fallimento:
+          titolo: Le pagine sbagliate
+          testo: |
+            Le mostri le pagine del registro, e Ottilia ci trova il nome di un
+            novizio della Cattedrale. Lo legge due volte. Poi ti dice che il
+            Velo ne parlerà con te un'altra notte, e resta accanto al banco
+            del formaggio mentre i mercenari scendono.
+          effetti: { ferite: 1 }
+
+      - testo: "Offrire a Ottilia le reliquie timbrate con la matrice"
+        descrizione: "Con la matrice della Gilda una reliquia del Velo esce dal Mercato in regola. Ottilia sa quanto vale."
+        quando: [scuri.matrice >= 1, scuri.libro == 0]
+        immagine: personaggi/ottilia-sanvel
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Il timbro
+          testo: |
+            Le dici che le reliquie della Confraternita, d'ora in poi, possono
+            uscire dal Mercato con il timbro della Gilda, e Ottilia ti guarda
+            per la prima volta come una persona con cui si tratta. Vuole anche
+            una notizia al mese, e nessuna formula proibita venduta ai novizi.
+            I cappucci si spostano verso le porte degli Scuri. Gaia ti porta
+            una brigantina di cuoio nero e ti dice che una porta adesso è tua.
+          pe: { galateo: 5 }
+          almeno: { rep.scuri: 8 }
+          imposta: { scuri.decima: 1 }
+          effetti: { fazione.scuri: 1, rep.velo: 1, oggetto.scuri-brigantina: 1 }
+        fallimento:
+          titolo: Il timbro rubato
+          testo: |
+            Le offri il timbro, e Ottilia ti ricorda che la matrice è della
+            Gilda, e che il Velo non compra cose rubate alla Gilda in una notte
+            in cui la Gilda guarda. Resta al banco del formaggio, e i mercenari
+            scendono.
+          effetti: { ferite: 1 }
+
+      - testo: "Lasciar cadere una porta e tenere le altre due"
+        descrizione: "La porta del ragazzo dell'Orlo si perde comunque. Se ci si chiude nelle altre due, si tengono quelle."
+        esito:
+          titolo: Due porte su tre
+          testo: |
+            Mandi il ragazzo dell'Orlo dalla porta di Gaia, e la cantina larga
+            la lasci ai mercenari. Alle altre due porte Gaia e Karn tengono
+            fino all'alba, con te in mezzo a correre dall'una all'altra.
+            All'alba Durgan ha una porta degli Scuri, e voi due. Gaia ti porta
+            una brigantina di cuoio nero, e ti dice che una delle due porte
+            rimaste è tua.
+          almeno: { rep.scuri: 8 }
+          imposta: { scuri.decima: 1, scuri.porta: 1 }
+          effetti: { fazione.scuri: 1, oggetto.scuri-brigantina: 1 }
+
+      - testo: "Parlare a Ottilia come un novizio"
+        descrizione: "Ottilia ti ha fatto alzare all'alba per anni. A un novizio concede poco, e però lo ascolta fino in fondo."
+        quando: [origine.accolito-del-velo >= 1]
+        immagine: personaggi/ottilia-sanvel
+        prova: { attributo: sociale, abilita: [galateo, resilienza], difficolta: Media }
+        successo:
+          titolo: La regola dei lumi
+          testo: |
+            Le parli con le mani raccolte davanti alla cintura, come si impara
+            nel corridoio dell'alba. Ottilia ti ascolta e ti chiede una notizia
+            al mese e nessuna formula proibita venduta ai novizi, e tu
+            prometti. I cappucci si spostano verso le porte degli Scuri. Gaia
+            ti porta una brigantina di cuoio nero e ti dice che una porta
+            adesso è tua.
+          pe: { galateo: 5 }
+          almeno: { rep.scuri: 8 }
+          imposta: { scuri.decima: 1 }
+          effetti: { fazione.scuri: 1, rep.velo: 1, oggetto.scuri-brigantina: 1 }
+        fallimento:
+          titolo: La fila
+          testo: |
+            Le parli come un novizio, e Ottilia ti tratta come un novizio. Ti
+            rimanda in fondo alla fila con una frase sola, e resta al banco del
+            formaggio mentre i mercenari scendono.
+          effetti: { ferite: 1 }
+
+  # ------------------------------------------------------------ 13 · Nihali torna da Pannion
+  - id: scuri-nihali-torna-da-pannion
+    presso: orlo-dei-rottami
+    immagine: personaggi/nihali-cuzan
+    titolo: Nihali torna da Pannion
+    sommario: "Nihali Cuzan è tornato da Pannion più magro e più malato, con i capi delle bande dei villaggi. Vuole una partita."
+    luogo: Orlo dei Rottami, la cisterna rovesciata
+    area: citta-bassa
+    requisiti: [fazione.scuri == 12, pista.pelle >= 6, bivio.legge == 2]
+    testo: |
+      Nihali Cuzan è tornato da Pannion con la prima carovana d'autunno, e si
+      è ripreso la cassa di ferro della cisterna rovesciata come se se ne
+      fosse andato ieri. È più magro, la faccia gialla gli si è fatta grigia,
+      e sputa nel fazzoletto ricamato più nero di prima. Con lui ci sono due
+      uomini dei villaggi che non si tolgono il cappello, i capi delle bande
+      di Pannion e di Tuarmir. Sono venuti a sapere a chi conviene
+      rispondere, adesso che Mirko non c'è.
+
+      «A carte dico la verità anche quando baro» dice Nihali, mescolando un
+      mazzo con le sue mani curate. «Giochiamo. Se vinci tu, le bande stanno
+      a sentire te.» Tossisce, e uno dei due capi distoglie gli occhi.
+
+      {medicina Media} Il fegato gli è peggiorato. Se continua con la pipa,
+      a Pannion non ci torna.
+
+      {percezione Difficile} Quando mescola, la carta di fondo resta sempre
+      la stessa. Un fante di coppe con l'angolo ingiallito.
+
+      {origine figlio-del-circolo} Quel colore grigio sulla faccia, al
+      Circolo, lo curavano con la radice amara e il silenzio. Della radice
+      sai dove trovarla, del silenzio con Nihali dubiti.
+    opzioni:
+      - testo: "Giocare la partita"
+        descrizione: "Una partita a Zekar con Nihali. Se vinci, le bande dei villaggi stanno a sentire te."
+        zekar: scuri-nihali
+        vittoria:
+          titolo: Le bande
+          testo: |
+            Vinci al venti esatto, e Nihali butta le carte sul tavolo e ride
+            fino a tossire. I due capi delle bande si guardano e si tolgono il
+            cappello, uno dopo l'altro. Nihali ti dice che le bande aspettano
+            l'anello, quello liscio, che sta nel deposito della Caserma. Ti
+            regala un reperto che si è portato da Pannion, avvolto in una
+            sciarpa.
+          imposta: { scuri.nihali: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, reperto.sigillato: 1 }
+        sconfitta:
+          titolo: Il fante di coppe
+          testo: |
+            Nihali vince con un fante di coppe che non doveva esserci. I due
+            capi delle bande si rimettono il cappello. Nihali ti dice che ci
+            riproveremo, e intanto si prende la posta.
+          effetti: { monete: -15 }
+
+      - testo: "Scoprire il suo trucco"
+        descrizione: "La carta di fondo resta sempre la stessa. Dirlo davanti ai capi delle bande è un modo di vincere senza giocare."
+        prova: { attributo: mentale, abilita: [percezione, ingannare], difficolta: Difficile }
+        successo:
+          titolo: La carta di fondo
+          testo: |
+            Prima che distribuisca gli prendi il polso con gentilezza e giri
+            il mazzo. In fondo c'è il fante di coppe con l'angolo
+            ingiallito. Nihali sorride, per la prima volta da quando è
+            tornato. «Allora sai guardare» dice. I due capi si tolgono il
+            cappello, e Nihali ti dice che le bande aspettano l'anello
+            liscio, che sta nel deposito della Caserma. Ti regala un reperto
+            portato da Pannion.
+          pe: { percezione: 5 }
+          imposta: { scuri.nihali: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: Il polso
+          testo: |
+            Gli prendi il polso e giri il mazzo, e in fondo c'è una carta
+            qualsiasi. Nihali ti guarda il polso finché non lo lasci. I due capi
+            delle bande ridono, e tu per stasera alla cisterna non hai più
+            niente da dire.
+          effetti: { rep.scuri: -0.5 }
+
+      - testo: "Curarlo prima della partita"
+        descrizione: "Nihali sta morendo, e lo sa. Chi lo tiene in piedi ancora un inverno ha il suo debito, e le bande lo vedono."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Difficile }
+        successo:
+          titolo: Un inverno in più
+          testo: |
+            Gli togli la pipa di bocca e gli prepari un decotto che lo fa
+            vomitare due volte e poi dormire un giorno intero. Quando si
+            sveglia ha la faccia un po' meno grigia. Davanti ai capi delle bande
+            ti dice che gli hai regalato un inverno, e che gli inverni si
+            ripagano. Le bande, ti dice, aspettano l'anello liscio, che sta nel
+            deposito della Caserma.
+          pe: { medicina: 5 }
+          imposta: { scuri.nihali: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: La pipa
+          testo: |
+            Gli prepari un decotto, e Nihali lo beve ringraziando. Poi si
+            riaccende la pipa. Ti dice che i medici di Pannion gli hanno
+            detto le stesse cose. La partita si gioca un'altra sera.
+
+      - testo: "Curarlo con la pasta nera di Nestor"
+        descrizione: "Nestor Gramm ti ha dato la ricetta della pasta nera. Il fegato non lo guarisce, però tiene in piedi un uomo per un inverno."
+        quando: [scuri.nestor >= 1]
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: La ricetta di Nestor
+          testo: |
+            Prepari la pasta nera come te l'ha dettata Nestor, e Nihali la
+            riconosce dall'odore prima ancora di assaggiarla. Ride, e ti chiede
+            se il vecchio è ancora vivo. La sera ha la faccia meno grigia, e
+            davanti ai capi delle bande ti dice che le bande aspettano l'anello
+            liscio, nel deposito della Caserma.
+          pe: { medicina: 5 }
+          imposta: { scuri.nihali: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: La dose
+          testo: |
+            Sbagli la dose, e la pasta nera fa a Nihali quello che fa ai
+            topi del retrobottega. Sopravvive. Ti dice che la partita si gioca
+            un'altra sera, quando avrà smesso di vedere doppio.
+
+      - testo: "Promettergli una porta del Mercato"
+        descrizione: "Una porta del Mercato è una rendita per la vecchiaia. Nihali ne vedrà poca, e le bande vedranno la promessa."
+        esito:
+          titolo: La porta di Nihali
+          testo: |
+            Gli prometti la porta del ragazzo dell'Orlo, per quando sarà
+            stanco. Nihali ci pensa tossendo nel fazzoletto. Poi accetta, e
+            davanti ai capi delle bande ti dice che aspettano l'anello liscio
+            di Mirko, che sta nel deposito della Caserma. Da quel giorno una
+            parte della tua decima va a lui.
+          imposta: { scuri.nihali: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5 }
+
+      - testo: "Riportare Squiggor dalla tua parte"
+        descrizione: "Squiggor sta con Durgan da quando Mirko è morto, perché Durgan paga. Alla cisterna dell'Orlo vige ancora la tregua, e la tregua si rispetta."
+        quando: [squiggor < 2, scuri.squiggor == 0]
+        requisiti: [contatto-ombra >= 1]
+        immagine: personaggi/squiggor-ironfist
+        prova: { attributo: sociale, abilita: [intimidire, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La benda
+          testo: |
+            Trovi Squiggor fuori dalla cisterna, che fa la guardia per Durgan
+            con la benda nera sull'occhio. Gli ricordi la tregua dell'Orlo, e
+            gli ricordi chi pagava la sua benda quando Mirko era vivo. Lui ti
+            ascolta con la mascella che si muove. Poi sputa, e viene dentro con
+            te, e da quella sera fa la guardia alla tua porta.
+          pe: { intimidire: 5 }
+          imposta: { scuri.squiggor: 1 }
+        fallimento:
+          titolo: La paga di Durgan
+          testo: |
+            Gli ricordi la tregua e la benda, e Squiggor ti risponde che la
+            benda la paga Durgan, adesso. Ti dà una spinta che ti fa sedere
+            sulle lamiere, e torna a fare la guardia per l'altro.
+          imposta: { scuri.squiggor: 2 }
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ 14 · l'anello liscio
+  - id: scuri-l-anello-liscio
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/toren-galdrick
+    titolo: L'anello liscio
+    sommario: "L'anello liscio di Mirko Vesh è nel deposito della Caserma, insieme alla sua sciabola. Per le bande dei villaggi, chi lo porta ha parlato con il morto."
+    luogo: Guarnigione di Qir-Azel, il deposito
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 13, pista.pelle >= 6, bivio.legge == 2]
+    testo: |
+      Gli anelli dei debitori sono tornati ai loro padroni. Quello liscio,
+      l'unico che Mirko portava di suo, sta ancora nel deposito della
+      Caserma in una cassetta di legno, accanto alla sciabola sottile con
+      cui Mirko ha aperto il fianco dello sceriffo. Per i vecchi olvari e
+      per le bande dei villaggi chi porta quell'anello ha parlato con il
+      morto, e Nihali te l'ha detto senza giri. Senza l'anello le bande non
+      si muovono.
+
+      Il deposito sta in fondo al cortile, accanto alle scuderie, con una
+      porta di quercia e un lucchetto grosso come un pugno. Sotto il cortile
+      passano le Vie di Sotto, e Gaia giura che c'è una vecchia cantina che
+      arriva fin lì.
+
+      {furtivita Media} Il miliziano davanti al deposito si appoggia alla
+      porta quando nessuno lo guarda. Di notte si siede, e alla seconda ora
+      dorme.
+
+      {galateo Media} Alla Caserma un ordine di prelievo lo firma il furiere,
+      e il furiere firma tutto quello che ha il sigillo dello sceriffo in
+      basso a destra.
+
+      {origine fuggiasco-di-ghoran} Accanto al deposito c'è il magazzino dove
+      dormono i mercenari di Ghoran che non sono andati con Durgan. Hagra ha
+      le chiavi del magazzino, e tra il magazzino e il deposito c'è una porta
+      sola.
+    opzioni:
+      - testo: "Chiederlo a Galdrick"
+        descrizione: "Lo sceriffo ha restituito tutti gli altri anelli. Questo lo darebbe a chi glielo chiede in faccia, se ha ancora un po' di credito con lui."
+        quando: [galdrick.via == 0]
+        requisiti: [rep.caserma >= 3]
+        esito:
+          titolo: L'ufficio dello sceriffo
+          testo: |
+            Sali all'ufficio dello sceriffo e chiedi di lui. Il sergente ti
+            guarda come si guarda uno che è andato a bussare alla porta
+            sbagliata, poi ti fa entrare.
+          segue: scuri-galdrick-e-l-anello
+
+      - testo: "Presentare un ordine di prelievo falso"
+        descrizione: "Il furiere firma tutto quello che ha il sigillo dello sceriffo. Rozalia, o chi per lei, il sigillo lo sa fare."
+        prova: { attributo: sociale, abilita: [galateo, ingannare], difficolta: Difficile }
+        successo:
+          titolo: Il furiere
+          testo: |
+            Il furiere legge l'ordine di prelievo con il dito, guarda il
+            sigillo in basso a destra e ti accompagna al deposito con le
+            chiavi della Caserma. Apre la cassetta di legno. Prendi l'anello
+            liscio, e la sciabola resta al suo posto, perché l'ordine dice
+            anello e il furiere sa leggere. Esci dal portone con l'anello
+            stretto nel pugno.
+          pe: { galateo: 5 }
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.caserma: -1 }
+        fallimento:
+          titolo: Il sigillo storto
+          testo: |
+            Il furiere guarda il sigillo e lo trova storto di un capello. Ti
+            dice che va a chiedere allo sceriffo, e tu non lo aspetti.
+          effetti: { sospetto: 1, rep.caserma: -1 }
+
+      - testo: "Entrare di notte dalle Vie di Sotto"
+        descrizione: "La cantina di Gaia arriva sotto il cortile. Il miliziano alla seconda ora dorme, e il lucchetto è vecchio."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La cantina sotto il cortile
+          testo: |
+            Esci da una botola nel pavimento delle scuderie, fra i cavalli che
+            sbuffano, e attraversi il cortile al buio. Il miliziano dorme seduto
+            con la mazza in grembo. Il lucchetto cede alla terza chiave vecchia.
+            Prendi l'anello liscio dalla cassetta, e la sciabola la lasci,
+            perché in Città Bassa la riconoscerebbero tutti prima dell'alba.
+          pe: { furtivita: 5 }
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.caserma: -2 }
+        fallimento:
+          titolo: I cavalli
+          testo: |
+            Esci dalla botola delle scuderie, e un cavallo ti nitrisce in
+            faccia. Il miliziano si sveglia, e chiama. Torni nella botola con
+            due mantelli scarlatti alle calcagna, e li perdi soltanto nelle
+            gallerie, con le ginocchia sbucciate.
+          effetti: { ferite: 1, sospetto: 1 }
+
+      - testo: "Farti largo nel cortile"
+        descrizione: "Due miliziani davanti al deposito, di notte. Si passa, ma lo sceriffo lo saprà."
+        combattimento: scuri-il-cortile-della-caserma
+        vittoria:
+          titolo: Il lucchetto
+          testo: |
+            I due miliziani vanno giù senza gridare, e spezzi il lucchetto con
+            il pomo. Prendi l'anello liscio dalla cassetta e lasci la sciabola.
+            Quando la Caserma si sveglia sei già nelle Vie di Sotto, e il
+            giorno dopo in Città Bassa tutti sanno che qualcuno ha fatto visita
+            al deposito dello sceriffo.
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.caserma: -3 }
+        sconfitta:
+          titolo: La mazza corta
+          testo: |
+            Il secondo miliziano ti prende alla spalla con la mazza corta, e
+            arrivano gli altri. Scappi dalle scuderie per la botola, e li perdi
+            nelle gallerie.
+          effetti: { sospetto: 1 }
+
+      - testo: "Farti aprire da Hagra il magazzino accanto al deposito"
+        descrizione: "Hagra ha le chiavi del magazzino, e fra il magazzino e il deposito c'è una porta sola. A un fuggiasco di Ghoran, Hagra apre."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: La porta sola
+          testo: |
+            Hagra ti apre il magazzino masticando resina, e fra le brande
+            dei mercenari ti indica la porta che dà sul deposito, senza
+            chiederti che cosa cerchi. Prendi l'anello liscio dalla cassetta
+            e lasci la sciabola, e quando esci Hagra ti dice soltanto «eh» e
+            richiude.
+          pe: { persuasione: 5 }
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.caserma: -2 }
+        fallimento:
+          titolo: La resina
+          testo: |
+            Hagra ti ascolta masticando resina, poi ti dice che per una cosa
+            così rischia la paga che non le danno. Sputa la resina e chiude il
+            magazzino a chiave, e dal portone il sergente ti guarda uscire.
+          effetti: { sospetto: 1 }
+
+  # ------------------------------------------------------------ 14 · il seguito, nell'ufficio di Galdrick
+  - id: scuri-galdrick-e-l-anello
+    immagine: personaggi/toren-galdrick
+    titolo: Quello che sei
+    tipo: seguito
+    luogo: Guarnigione di Qir-Azel, l'ufficio dello sceriffo
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 13]
+    testo: |
+      Galdrick ti riceve seduto, con il fianco ancora rigido sotto la giubba.
+      Sul tavolo ha il suo taccuino e una matita corta. Ascolta la tua
+      richiesta senza interromperti, e quando hai finito apre un cassetto e
+      tira fuori la cassetta di legno del deposito. Dentro ci sono l'anello
+      liscio e la sciabola.
+
+      «Le porte del Mercato le conosco da vent'anni» dice. «Tutte e otto.
+      Non ci sono mai entrato, perché il Velo sa le cose che ci si dicono e io
+      so le cose che sa il Velo. Così la città sta in piedi.» Prende l'anello
+      e lo guarda controluce. «Mirko diceva che la città aveva scelto lui. Io
+      gli rispondevo che era la paura. Tu che cosa dici?»
+
+      {empatia Media} Non è arrabbiato con te. Ti guarda come guardava Mirko,
+      e questo è peggio.
+
+      {intimidire Difficile} Minacciarti non gli serve. Sa il tuo nome, sa
+      le tue porte, e sa che tu sai che lo sa.
+    opzioni:
+      - testo: "Dirgli che la Città Bassa ha bisogno di qualcuno che tenga i conti"
+        descrizione: "Il vuoto lasciato da Mirko lo riempie qualcuno comunque. Meglio uno che lo sceriffo conosce."
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Uno che conosco
+          testo: |
+            Galdrick ti ascolta e scrive una riga sul taccuino. «Meglio uno che
+            conosco» dice, e ti posa l'anello nel palmo. La sciabola la rimette
+            nella cassetta. «Questa la tengo io. Quando saprò che cosa sei
+            diventato, deciderò dove deve stare.» Ti accompagna alla porta senza
+            stringerti la mano.
+          pe: { persuasione: 5 }
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.caserma: 1 }
+        fallimento:
+          titolo: La matita corta
+          testo: |
+            Gli parli del vuoto e dei conti, e Galdrick scrive sul taccuino
+            senza alzare gli occhi. Alla fine ti dà l'anello lo stesso,
+            perché l'anello non è suo, e ti dice che un ladro che si fa
+            chiamare contabile resta un ladro. «Mirko almeno non si dava
+            nomi» aggiunge, chiudendo il taccuino.
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1 }
+
+      - testo: "Dirgli che è la paura, come diceva lui"
+        descrizione: "Galdrick l'ha detto a Mirko l'ultima notte. Ripetergli le sue parole è un modo di dirgli la verità."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La sedia
+          testo: |
+            Gli dici che è la paura, e che lo sai perché la usi. Galdrick ti
+            guarda a lungo. Poi ride, una risata breve che gli fa male al
+            fianco. Ti posa l'anello nel palmo e tiene la sciabola. «Almeno
+            con me sei onesto, e con gli altri non lo sarai» dice.
+          pe: { empatia: 5 }
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.caserma: 1 }
+        fallimento:
+          titolo: Le parole sue
+          testo: |
+            Gli dici che è la paura, e Galdrick ti risponde che le sue parole in
+            bocca tua suonano come una canzone rubata. Ti dà l'anello e tiene
+            la sciabola, e ti fa accompagnare al portone dal sergente.
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1 }
+
+      - testo: "Prendere l'anello e tacere"
+        descrizione: "Allo sceriffo non si risponde. Si prende quello che dà, e si esce."
+        esito:
+          titolo: Il silenzio
+          testo: |
+            Non rispondi. Galdrick annuisce come se avessi risposto, e ti posa
+            l'anello nel palmo. La sciabola la rimette nella cassetta, e la
+            cassetta nel cassetto. Quando sei sulla porta lo senti dire, piano,
+            che lui aspetta, come aspettava Mirko.
+          imposta: { scuri.anello: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1 }
+
+  # ------------------------------------------------------------ 15 · il cerchio di gesso
+  - id: scuri-il-cerchio-di-gesso
+    presso: macerie-della-pignatta
+    immagine: fazioni/scuri
+    titolo: Il cerchio di gesso
+    sommario: "Durgan ti aspetta nel cerchio di gesso del cortile delle risse, con l'ascia sulla spalla e gli uomini senza paga alle spalle."
+    luogo: Le macerie della Pignatta, il cortile delle risse
+    area: citta-bassa
+    requisiti: [fazione.scuri == 14, pista.pelle >= 6, bivio.legge == 2]
+    testo: |
+      Il cortile delle risse della Pignatta è pieno di cenere bagnata, e
+      sotto la cenere si vede ancora il cerchio di gesso. Qualcuno l'ha
+      ripassato stamattina con un gesso nuovo. Durgan ci sta dentro con
+      l'ascia sulla spalla, e dietro di lui, contro il muro annerito, ci
+      sono i mercenari di Ghoran che la Caserma non paga, una ventina, con
+      le lance appoggiate a terra. Da quando sei entrato il nano non ha
+      aperto bocca, e nessuno si aspetta che lo faccia.
+
+      Dietro di te c'è quello che hai raccolto. Gaia è seduta sul bancone di
+      quercia con le gambe a penzoloni, Karn sul muro di fondo, Nihali su una
+      cassa con il fazzoletto in mano, e i due capi delle bande dei villaggi
+      con il cappello sulle ginocchia. Sui tetti intorno la Città Bassa
+      guarda, e non fa finta di non guardare.
+
+      {armi-da-mischia Media} L'ascia di Durgan è pesante in punta, come
+      quella di Mauro, e lui la tiene alta per farla vedere. Quando colpisce
+      la deve far ricadere, e in quel momento il fianco è suo.
+
+      {resilienza Media} Le ginocchia ti dicono che una ventina sono tanti. Ti
+      ricordi che la notte della Pignatta erano centinaia, e le ginocchia
+      stanno zitte.
+
+      {origine fuggiasco-di-ghoran} Fra i clan una sfida nel cerchio si fa
+      senza armi, e chi esce dal cerchio perde la faccia davanti a tutti.
+      Durgan l'ascia l'ha portata, e i suoi uomini se ne sono accorti.
+
+      Sul dito ti pesa l'anello liscio. *Mirko si sedeva su una sedia, in
+      mezzo al cerchio.* Fai un passo dentro il gesso.
+    opzioni:
+      - testo: "Combattere nel cerchio"
+        descrizione: "Durgan e due dei suoi. Se lo pieghi davanti a tutti, i mercenari capiscono chi paga."
+        quando: [scuri.squiggor != 2]
+        combattimento: scuri-il-cerchio-di-gesso
+        vittoria:
+          titolo: In ginocchio nel gesso
+          testo: |
+            Durgan non apre bocca nemmeno quando l'ascia gli scappa di mano e
+            rotola nella cenere. Resta in ginocchio nel cerchio, con il respiro
+            che fischia fra le cicatrici. I due mercenari si rialzano e tornano
+            contro il muro. Nessuno raccoglie l'ascia, e il cortile aspetta che
+            tu dica che cosa succede adesso.
+          imposta: { scuri.durgan: 1 }
+          segue: scuri-chi-tiene-i-conti
+        sconfitta:
+          titolo: La cenere
+          testo: |
+            L'ascia di Durgan ti prende di piatto sulla schiena e ti manda giù
+            nella cenere, fuori dal cerchio. I mercenari battono le lance per
+            terra. Gaia e Karn ti tirano via prima che lui alzi l'ascia di nuovo,
+            e quella notte Durgan si prende una delle tue porte. Tornerai nel
+            cerchio quando potrai stare in piedi.
+          imposta: { scuri.porta: 1 }
+
+      - testo: "Combattere nel cerchio contro Durgan e Squiggor"
+        descrizione: "Squiggor è rimasto con Durgan, e nel cerchio entrano insieme. La benda nera e l'ascia."
+        quando: [scuri.squiggor == 2]
+        combattimento: scuri-il-cerchio-con-squiggor
+        vittoria:
+          titolo: La benda e l'ascia
+          testo: |
+            Squiggor va giù per primo e resta seduto nella cenere a ridere,
+            come rideva quando lo colpivano. Durgan resta in ginocchio nel
+            cerchio, senza l'ascia, con il respiro che fischia. Il cortile
+            aspetta che tu dica che cosa succede adesso.
+          imposta: { scuri.durgan: 1 }
+          segue: scuri-chi-tiene-i-conti
+        sconfitta:
+          titolo: La cenere
+          testo: |
+            Squiggor ti tiene e Durgan colpisce, e ti ritrovi fuori dal cerchio
+            con la faccia nella cenere. Gaia e Karn ti tirano via. Quella notte
+            Durgan si prende una delle tue porte.
+          imposta: { scuri.porta: 1 }
+
+      - testo: "Comprare i mercenari con la paga che la Caserma non dà"
+        descrizione: "I mercenari stanno con Durgan perché Durgan paga. Con una borsa più pesante posata davanti a tutti cambiano padrone."
+        requisiti: [monete >= 100]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Difficile }
+        successo:
+          titolo: La paga
+          testo: |
+            Posi la borsa sul bancone di quercia e dici lentamente ai
+            mercenari che la paga di tre mesi è lì, per chi torna a Ghoran o
+            per chi lavora per te. Durgan si gira a guardarli. Uno dopo
+            l'altro posano la lancia, e vanno al bancone. Durgan resta solo
+            nel cerchio, con l'ascia sulla spalla e nessuno dietro.
+          pe: { politica-ed-economia: 5 }
+          imposta: { scuri.durgan: 1 }
+          effetti: { monete: -100 }
+          segue: scuri-chi-tiene-i-conti
+        fallimento:
+          titolo: La borsa
+          testo: |
+            Posi la borsa sul bancone, e Durgan la guarda e ride, per la prima
+            volta da quando lo conosci. Ai suoi dice che chi paga una volta
+            paga sempre. I mercenari si prendono la borsa, e restano con lui.
+          effetti: { monete: -50 }
+
+      - testo: "Pagarli con le reliquie timbrate"
+        descrizione: "Con la matrice della Gilda una reliquia diventa moneta pulita. Ai mercenari interessa che valga, non da dove viene."
+        quando: [scuri.matrice >= 1]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il timbro della Gilda
+          testo: |
+            Apri una cassa di reliquie con il timbro fresco della Gilda e
+            dici ai mercenari che con quelle si comprano un viaggio a Ghoran
+            e una casa. Uno ne prende in mano una e guarda il timbro. Poi la
+            mostra agli altri. Durgan resta solo nel cerchio, e i suoi sono
+            al bancone.
+          pe: { politica-ed-economia: 5 }
+          imposta: { scuri.durgan: 1 }
+          segue: scuri-chi-tiene-i-conti
+        fallimento:
+          titolo: Il timbro fresco
+          testo: |
+            Apri la cassa di reliquie timbrate, e Durgan ci passa sopra il
+            pollice. Il timbro si sbava. Ai suoi dice che chi paga con la
+            carta della Gilda paga con la carta, e i mercenari restano con lui.
+          effetti: { sospetto: 1 }
+
+      - testo: "Far parlare Hagra davanti a tutti"
+        descrizione: "Hagra non vuole riscuotere dalle donne, e una parte dei mercenari la segue. Detto davanti a tutti, nel cerchio, pesa."
+        quando: [scuri.hagra >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Difficile }
+        successo:
+          titolo: Eh
+          testo: |
+            Hagra entra nel cerchio dalla tua parte, sputa la resina accanto ai
+            piedi di Durgan e dice nella lingua dei clan quello che pensa di chi
+            taglieggia le case di donne. Metà dei mercenari posa la lancia. L'altra
+            metà guarda la prima, e la posa anche lei. Durgan resta solo nel
+            cerchio, con l'ascia sulla spalla.
+          pe: { persuasione: 5 }
+          imposta: { scuri.durgan: 1 }
+          segue: scuri-chi-tiene-i-conti
+        fallimento:
+          titolo: La paga
+          testo: |
+            Hagra entra nel cerchio e parla, e Durgan le risponde con una
+            frase sola sulla paga. Lei esce dal cerchio, e i mercenari
+            restano dove sono. Passandoti accanto Hagra ti guarda e alza le
+            spalle.
+          effetti: { rep.scuri: -0.5 }
+
+      - testo: "Far prendere Durgan da Galdrick"
+        descrizione: "Una lista di porte taglieggiate e di funzionari comprati, arrivata alla Caserma nel momento giusto. Lo sceriffo fa il resto, senza sangue."
+        quando: [galdrick.via == 0]
+        prova: { attributo: sociale, abilita: [ingannare, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: I mantelli scarlatti
+          testo: |
+            Gaia porta la lista alla Caserma all'alba, e a mezzogiorno i
+            mantelli scarlatti entrano nel cortile delle risse. Galdrick
+            guarda prima Durgan e poi te, e ti fa un cenno lento con il
+            mento. Durgan esce dal cerchio in catene senza aprire bocca, e i
+            suoi uomini guardano te.
+          pe: { ingannare: 5 }
+          imposta: { scuri.durgan: 2 }
+          segue: scuri-chi-tiene-i-conti
+        fallimento:
+          titolo: La lista
+          testo: |
+            La lista arriva alla Caserma, e lo sceriffo la legge e ti fa
+            chiamare. Ti chiede perché un capo degli Scuri gli porta i suoi
+            nemici in un foglio. Durgan resta nel cerchio, e tu esci dalla
+            Caserma con il sergente che ti segue fino al portone.
+          effetti: { rep.caserma: -1, sospetto: 1 }
+
+      - testo: "Sfidarlo con il codice dei clan"
+        descrizione: "Fra i clan nel cerchio si entra senza armi. Durgan l'ascia l'ha portata, e i suoi lo sanno."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: sociale, abilita: [intimidire, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: Senza armi
+          testo: |
+            Ti togli la cintura con le armi e la getti fuori dal gesso, e dici
+            nella lingua dei clan che chi entra con l'ascia ha già perso la
+            faccia. I mercenari guardano Durgan. Lui guarda la sua ascia, poi la
+            getta fuori dal cerchio, e quando lo metti con la schiena nella
+            cenere i suoi uomini non si muovono.
+          pe: { intimidire: 5 }
+          imposta: { scuri.durgan: 1 }
+          segue: scuri-chi-tiene-i-conti
+        fallimento:
+          titolo: L'ascia
+          testo: |
+            Getti fuori dal gesso la tua cintura e dici la sfida dei clan, e
+            Durgan l'ascia la tiene. Quando ti mette con la schiena nella cenere
+            i suoi uomini battono le lance per terra, e quella notte si prende
+            una delle tue porte.
+          imposta: { scuri.porta: 1 }
+
+  # ------------------------------------------------------------ 15 · chi tiene i conti (grado 5)
+  - id: scuri-chi-tiene-i-conti
+    presso: macerie-della-pignatta
+    immagine: fazioni/scuri
+    titolo: Chi tiene i conti
+    tipo: seguito
+    luogo: Le macerie della Pignatta, il cortile delle risse
+    area: citta-bassa
+    requisiti: [fazione.scuri == 14, scuri.durgan >= 1]
+    testo: |
+      Il cortile aspetta. Gaia è scesa dal bancone, Nihali ha smesso di
+      tossire, e sui tetti nessuno si muove. Durgan è fuori dal gioco, e i
+      mercenari di Ghoran guardano te. La Città Bassa vuole sapere chi tiene
+      i conti adesso, e se li tiene con le stesse regole di prima.
+
+      Rozalia ti ha scritto le regole della casa su un foglio piegato in
+      tre, con la sua grafia diritta. Nelle consegne i ragazzi sotto i
+      sedici anni non ci vanno, sulle porte i gettoni non si inchiodano, e
+      il sangue si versa soltanto con il tuo sì. In fondo al foglio ha
+      lasciato una riga vuota, per la tua firma.
+
+      {politica-ed-economia Media} Al tavolo d'angolo si prende la decima di
+      tutte le porte e si paga per chiunque finisca in cella. Dietro il
+      tavolo si prende meno, e si rischia meno.
+
+      {empatia Media} Gaia ti guarda come si guarda qualcuno che può ancora
+      diventare chiunque. Sta sperando, e non sa che cosa.
+
+      Un garzone della Caserma si è fermato sul cancello del cortile con una
+      cassetta di legno sotto il braccio. Dentro c'è la sciabola di Mirko,
+      con un biglietto dello sceriffo legato all'elsa. Dice soltanto *a chi
+      tiene i conti, perché sappia di chi era*.
+    opzioni:
+      - testo: "Sederti al tavolo d'angolo"
+        descrizione: "Il tavolo nuovo è tuo, con le regole della casa che hai firmato. La Città Bassa risponde a te, e la Caserma lo sa."
+        esito:
+          titolo: Il tavolo nuovo
+          testo: |
+            Firmi la riga vuota con la penna di Rozalia e ti siedi sul
+            bancone di quercia, dove sedeva Gaia. I mercenari che restano
+            depongono le lance davanti a te uno alla volta, mentre i capi
+            delle bande si tolgono il cappello. La sera la Città Bassa sa
+            che c'è un tavolo nuovo con le sue regole. La Caserma lo sa la
+            mattina dopo. Lo sa anche Julia Castaldi, che le sue licenze
+            voleva farle rispettare da sola.
+          almeno: { rep.scuri: 10 }
+          imposta: { scuri.finale: 1, scuri.decima: 2 }
+          effetti: { fazione.scuri: 1, monete: 350, nomea.citta-bassa: 1, rep.caserma: -2, rep.castaldi: -1, oggetto.scuri-sciabola-di-vesh: 1, oggetto.scuri-anello-liscio: 1 }
+
+      - testo: "Mettere Rozalia al tavolo e restare dietro"
+        descrizione: "Rozalia è troppo brava, diceva Mirko. Al tavolo davanti a tutti siede lei, e tu sei la mano sinistra."
+        quando: [macerie.rozalia != 2]
+        immagine: personaggi/rozalia-marga
+        esito:
+          titolo: La mano sinistra
+          testo: |
+            Dai la penna a Rozalia, e lei firma la riga vuota con il suo
+            nome senza ricciolo. Si siede sul bancone di quercia e batte due
+            volte la penna sull'orlo del calamaio. «Per la precisione,
+            tesoro, questo tavolo è tuo» dice a bassa voce, «e io ci sto
+            seduta sopra.» La Caserma vede lei, e la Città Bassa sa chi c'è
+            dietro.
+          almeno: { rep.scuri: 10 }
+          imposta: { scuri.finale: 2 }
+          effetti: { fazione.scuri: 1, monete: 300, oggetto.scuri-sciabola-di-vesh: 1, oggetto.scuri-anello-liscio: 1 }
+
+      - testo: "Mettere Nihali al tavolo e restare dietro"
+        descrizione: "Nihali dice la verità anche quando bara, e le bande dei villaggi lo conoscono. Al tavolo siede lui, e tu sei la mano sinistra."
+        immagine: personaggi/nihali-cuzan
+        esito:
+          titolo: La mano sinistra
+          testo: |
+            Dai la penna a Nihali, che firma la riga vuota con una grafia
+            elegante e tremolante. Si siede sulla cassa di ferro che si è
+            portato dall'Orlo, e accende la pipa. «Per un inverno o due» dice,
+            e tossisce. I capi delle bande si tolgono il cappello davanti a
+            lui, e guardano te. La Caserma vede lui, e la Città Bassa sa chi c'è
+            dietro.
+          almeno: { rep.scuri: 10 }
+          imposta: { scuri.finale: 2 }
+          effetti: { fazione.scuri: 1, monete: 300, oggetto.scuri-sciabola-di-vesh: 1, oggetto.scuri-anello-liscio: 1 }
+
+      - testo: "Portare il registro allo sceriffo"
+        descrizione: "Le porte del Mercato e la lista dei nomi, tutto a Galdrick in una cassetta. La Caserma ti pagherà, e la Città Bassa se lo ricorderà per sempre."
+        quando: [galdrick.via == 0]
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: La cassetta
+          testo: |
+            Restituisci la sciabola al garzone, e dentro la cassetta ci
+            metti il foglio delle regole della casa, con i nomi di tutti
+            scritti sul retro e accanto a ogni nome la porta del Mercato che
+            usa. Galdrick la apre nel suo ufficio, e legge i nomi uno per
+            uno. Poi ti rimette in mano la sciabola. «Meglio in mano tua che
+            nel deposito» dice. In Città Bassa, entro sera, sulle porte
+            compare un segno nuovo, una pentola tagliata in due.
+          imposta: { scuri.finale: 3, scuri.decima: 0 }
+          effetti: { fazione.scuri: 1, monete: 400, rep.scuri: -5, rep.caserma: 3,  oggetto.scuri-sciabola-di-vesh: 1, oggetto.scuri-anello-liscio: 1 }

@@ -1,0 +1,834 @@
+# La quest della Maison des Lunes, passo 14: la spedizione «I magazzini del Ponte del Pesce»
+# (`maison-magazzini-del-ponte-del-pesce`, ritorno citta-bassa, soglia 4). Ci si entra da `maison-la-terza-arcata`
+# (passi-3.yaml). Tutte le stanze chiedono fazione.maison == 13. Le fasce di profondità:
+# 0 la riva e le chiatte (Atletica, o un barcaiolo da pagare) e la porta del sale (Furtività); 1 il bravo che dorme
+# (Furtività o uno scontro); 1-2 la stanza dei conti (Politica ed economia; chi ha il cristallo accoppiato con una
+# carica lo lascia lì e sente dove sono i fratelli, una stanza in meno, ½ Sospetto) e le botti del pesce salato;
+# 2 la ghiacciaia (Resistenza); 2-3 le arcate sul vuoto (Acrobazia); 3 la stanza delle copie e la scala dei pescatori.
+# In ogni stanza c'è la via senza prova: due rintocchi e mezza Ferita.
+# Il cuore a 4 è lo scrittoio dei Ferrante, boss Difficile: lo scontro con Lazzaro e due bravi, Persuasione su Dario
+# (Media spendendo un favore della signora), Furtività per prendere il libro mentre Dario dorme, Voce di seta. Chi
+# riesce porta maison.ferrante a 4 e il passo a 14; chi fallisce prende Ferite o Sospetto, una pagina esce
+# (rep.maison −½), i fratelli scappano con le copie (maison.ferrante 2) e il libro resta a te: il passo va avanti.
+# In fondo al file, la musica e l'ambiente dell'area (colonna sonora).
+aree:
+  - id: maison-magazzini-del-ponte-del-pesce
+    immagine: ambientazione/ponti-sospesi
+    nome: I magazzini del Ponte del Pesce
+    sommario: "I vecchi magazzini del pesce salato, metà dentro la roccia sotto l'arco di pietra rossa e metà sospesi sul vuoto. Da qualche parte là dentro c'è il libro di Vesh."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto l'arco di pietra rossa del Ponte del Pesce i magazzini del pesce
+      salato si arrampicano sulla roccia per tre piani, con le stanze basse
+      scavate nella pietra e quelle alte costruite in legno a sbalzo sul
+      vuoto, appoggiate a travi annerite dall'umido. Fra una stanza e l'altra
+      corrono passerelle e scale a pioli. Sotto scorre lento il canale
+      nero. Più giù ancora c'è il buio della Cicatrice.
+
+      Il sale è entrato nei muri e non se n'è più andato. Ti brucia le
+      labbra appena lo respiri, e su ogni superficie lascia una patina bianca
+      che scricchiola sotto le dita.
+
+storylet:
+  # ------------------------------------------------------------ 0 · la riva e le chiatte
+  - id: maison-magazzini-la-riva
+    immagine: ambientazione/ponti-sospesi
+    titolo: La riva e le chiatte
+    sommario: "Due chiatte legate alla stessa bitta, e dalla seconda una scala a pioli che sale fino ai magazzini."
+    luogo: I magazzini del Ponte del Pesce, la riva
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce == 0]
+    testo: |
+      Sulla riva del canale due chiatte sono legate alla stessa bitta una
+      dietro l'altra, e la seconda tocca con la prua la parete dei
+      magazzini. Da lì una scala a pioli inchiodata alla roccia sale fino a
+      una porta di carico. Sulla prima chiatta un barcaiolo dorme sotto una
+      coperta, con un piede fuori che gli fa da guardia.
+
+      {atletica Media} Da una chiatta all'altra c'è un salto di un passo e
+      mezzo, sull'acqua nera. Le chiatte si muovono, ma non insieme.
+
+      {conoscenze-della-strada Facile} Un barcaiolo che dorme sulla chiatta
+      di qualcun altro è pagato per dormire lì, e per il doppio si sveglia.
+    opzioni:
+      - testo: "Saltare da una chiatta all'altra"
+        descrizione: "Un passo e mezzo d'acqua nera. Bisogna saltare quando la seconda chiatta viene verso di te, non quando si allontana."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il salto
+          testo: |
+            Aspetti che la seconda chiatta oscilli verso di te e salti, e
+            atterri sul ponte bagnato con le ginocchia piegate, senza un rumore.
+            Il barcaiolo si gira sotto la coperta e continua a dormire. Sali la
+            scala a pioli fino alla porta di carico.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: L'acqua nera
+          testo: |
+            Salti quando la chiatta si allontana, e finisci nel canale fino al
+            petto. L'acqua è così fredda che per un momento non respiri. Il
+            barcaiolo si sveglia e ti tira su con la gaffa ridendo, poi ti
+            rimanda a riva bagnato e con le labbra viola.
+          effetti: { ferite: 0.5 }
+      - testo: "Pagare il barcaiolo perché ti porti alla scala"
+        descrizione: "Si sveglia per il doppio. Con una moneta in più si dimentica anche di averti visto."
+        requisiti: [monete >= 6]
+        esito:
+          titolo: La gaffa
+          testo: |
+            Gli tocchi il piede con la punta dello stivale e gli fai vedere le
+            monete. Il barcaiolo le conta senza alzarsi, poi sposta la chiatta
+            con la gaffa fino alla scala a pioli e torna a dormire prima che tu
+            sia arrivato in cima.
+          effetti: { monete: -6, profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+      - testo: "Fare il giro dalla riva, fra gli scogli"
+        descrizione: "Lungo il canale c'è una striscia di scogli bagnati che arriva sotto la scala. Lunga e scivolosa."
+        costo: 2
+        esito:
+          titolo: Gli scogli
+          testo: |
+            Fai il giro dagli scogli, con l'acqua che ti bagna le caviglie e il
+            sale che ti brucia i tagli sulle mani. Arrivi sotto la scala a pioli
+            con un ginocchio sbucciato e il fiato corto.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0 · la porta del sale
+  - id: maison-magazzini-la-porta-del-sale
+    immagine: ambientazione/ponti-sospesi
+    titolo: La porta del sale
+    sommario: "La porta da cui entravano i sacchi di sale ha un catenaccio vecchio e un campanello nuovo."
+    luogo: I magazzini del Ponte del Pesce, la porta del sale
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce == 0]
+    testo: |
+      La porta del sale è una porta doppia di legno di nave, con un
+      catenaccio arrugginito che nessuno chiude più da anni. Sopra lo stipite,
+      però, qualcuno ha appeso un campanello d'ottone legato a un filo che
+      corre lungo il battente. Chi apre la porta lo fa suonare, e chi è dentro
+      lo sente.
+
+      {furtivita Media} Il filo è teso ma sottile. Con una lama e molta
+      pazienza si taglia, purché tu tenga il campanello con l'altra mano.
+
+      {tecnologia Facile fallita} Un campanello, un filo, una porta. Sembra
+      semplice, e infatti ti sfugge come funzioni.
+    opzioni:
+      - testo: "Tagliare il filo tenendo fermo il campanello"
+        descrizione: "Una mano sul campanello, l'altra con la lama. Lentamente."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il campanello muto
+          testo: |
+            Tieni il campanello fra le dita come un uccellino e tagli il filo
+            con la punta della lama, un filamento alla volta. Il campanello ti
+            resta in mano, muto. Lo appoggi per terra con delicatezza ed entri
+            dalla porta del sale.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il din
+          testo: |
+            Il filo cede tutto insieme e il campanello ti sfugge dalle dita,
+            con un din che rimbomba nei magazzini come in una chiesa. Ti appiatti
+            contro il muro e aspetti a lungo, ma nessuno viene. Quando ci riprovi
+            hai le mani sudate e il campanello è finito nel canale.
+          effetti: { sospetto: 0.5 }
+      - testo: "Smontare il campanello dallo stipite"
+        descrizione: "Un chiodo e un gancio. Chi l'ha montato aveva fretta."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il gancio
+          testo: |
+            Il gancio del campanello è infilato in un chiodo storto, e basta
+            sollevarlo di un dito per liberarlo. Lo appoggi per terra con il
+            filo ancora attaccato e apri la porta del sale senza un rumore.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il chiodo
+          testo: |
+            Il chiodo è più storto di come sembrava, e quando tiri il gancio
+            viene via mezza cornice di legno marcio. Il campanello resta appeso,
+            per fortuna muto. Ti sei piantato una scheggia sotto l'unghia.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare un'altra porta, sul retro"
+        descrizione: "I magazzini hanno molte porte. Qualcuna non avrà il campanello."
+        costo: 2
+        esito:
+          titolo: La finestra bassa
+          testo: |
+            Giri intorno ai magazzini fra cumuli di nasse marce e trovi una
+            finestra bassa senza vetro. Ci passi strisciando, e il davanzale ti
+            graffia la schiena attraverso la camicia.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · il bravo che dorme
+  - id: maison-magazzini-il-bravo-che-dorme
+    immagine: ambientazione/ponti-sospesi
+    titolo: Il bravo che dorme
+    sommario: "In mezzo alle vasche vuote del sale un uomo grosso dorme su una sedia, con un randello sulle ginocchia."
+    luogo: I magazzini del Ponte del Pesce, le vasche del sale
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce == 1]
+    testo: |
+      Nella stanza delle vasche, dove una volta si salava il pesce, le vasche
+      di pietra sono vuote e bianche di sale secco. In mezzo, su una sedia
+      appoggiata all'indietro contro una colonna, dorme un uomo grosso con le
+      maniche arrotolate e un randello di legno di nave sulle ginocchia.
+      Russa piano, con un fischio. La porta dall'altra parte della stanza è
+      proprio dietro la sua sedia.
+
+      {rissa Media} Uno così, svegliato di colpo, ci mette un momento a
+      capire dov'è. È il momento giusto per stenderlo, ed è l'unico che hai.
+
+      {furtivita Media} Il pavimento è coperto di sale secco, che scricchiola
+      sotto le suole come neve gelata.
+    opzioni:
+      - testo: "Passargli accanto senza svegliarlo"
+        descrizione: "Sul sale secco ogni passo scricchiola. Bisogna camminare sul bordo delle vasche."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il bordo delle vasche
+          testo: |
+            Cammini sul bordo di pietra delle vasche, dove il sale non c'è,
+            con le braccia larghe come un equilibrista. Passi a un palmo dalla
+            sedia del bravo, che nel sonno si gratta il naso. La porta
+            dietro di lui si apre senza un cigolio.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Lo scricchiolio
+          testo: |
+            Metti un piede sul sale secco, e lo scricchiolio sveglia il bravo a
+            metà di un russare. Si alza con il randello in mano e ti insegue
+            fino alla porta da cui sei entrato, dove ti arriva un colpo sulla
+            spalla prima che tu riesca a chiuderla.
+          effetti: { ferite: 0.5 }
+      - testo: "Stenderlo prima che si svegli"
+        descrizione: "Un bravo dei Ferrante mezzo addormentato. Ha un randello, e lo sa usare."
+        combattimento: maison-il-bravo-che-dorme
+        vittoria:
+          titolo: Il randello
+          testo: |
+            Il bravo si sveglia con te già addosso e ci mette troppo a capire
+            che cosa succede. Finisce lungo disteso in una vasca vuota, in una
+            nuvola di sale. Gli leghi i polsi con la sua cintura e prosegui.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        sconfitta:
+          titolo: Il risveglio
+          testo: |
+            Il bravo si sveglia prima del previsto, e il randello di legno di
+            nave fa il resto. Ti ritrovi fuori dalla stanza delle vasche, con
+            il sale negli occhi e un bernoccolo che pulsa.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare che si sposti"
+        descrizione: "Prima o poi avrà sete o dovrà andare a fare un giro, e le tue gambe aspetteranno con te."
+        costo: 2
+        esito:
+          titolo: La sete
+          testo: |
+            Aspetti dietro una vasca per un tempo lunghissimo, con le gambe
+            rattrappite e il sale che ti brucia le labbra. Alla fine il bravo si
+            alza per andare a bere a un barile in fondo alla stanza. Passi
+            mentre beve, con i muscoli che protestano a ogni passo.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1-2 · la stanza dei conti
+  - id: maison-magazzini-la-stanza-dei-conti
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: La stanza dei conti
+    sommario: "Su un tavolo di legno c'è un quaderno aperto, e accanto una fila di borse vuote con un nome scritto sopra."
+    luogo: I magazzini del Ponte del Pesce, la stanza dei conti
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce >= 1, profondita.maison-magazzini-del-ponte-del-pesce <= 2]
+    testo: |
+      In una stanzetta con una finestra sul canale c'è un tavolo di legno con
+      un quaderno aperto e un calamaio. Accanto c'è una fila di borse di tela vuote, ognuna
+      con un nome scritto a carbone. Sulla parete sono inchiodati dei fogli
+      con le date di consegna, come in una bottega di sarti. Qualcuno qui
+      tiene i conti con una cura da notaio, e la candela sul tavolo è ancora
+      calda.
+
+      {politica-ed-economia Media} Le borse vuote sono quelle già pagate. I
+      fogli inchiodati sono le pagine ancora da vendere. Chi tiene questi
+      conti sa esattamente quanto vale ogni nome, e lo scrive.
+
+      {percezione Facile} Dalla stanza accanto, attraverso una parete di
+      tavole, arriva il rumore di una penna che gratta sulla carta.
+    opzioni:
+      - testo: "Leggere i conti e capire chi ha già pagato"
+        descrizione: "I nomi di chi ha pagato, e di chi aspetta la pagina. Si leggono in fretta, se si sa dove guardare."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Chi ha pagato
+          testo: |
+            Scorri il quaderno con un dito, colonna per colonna. Undici persone
+            hanno già pagato, e il mugnaio del giovedì due volte. Tre nomi hanno
+            accanto una croce, e sono quelli che non hanno pagato e a cui hanno
+            già mandato una seconda pagina. Ti stampi i tre nomi in testa e
+            lasci il quaderno aperto com'era.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il calamaio
+          testo: |
+            Sfogli il quaderno in fretta, e la manica ti urta il calamaio.
+            L'inchiostro si allarga sulla pagina come una macchia di vino. Lo
+            tamponi con un foglio, poi con la manica, e alla fine lasci perdere
+            e torni indietro prima che qualcuno se ne accorga.
+          effetti: { sospetto: 0.5 }
+      - testo: "Lasciare in ascolto il cristallo accoppiato"
+        descrizione: "La metà del cristallo nascosta fra le borse, e dall'altra metà, in tasca, senti dove parlano i fratelli. Un passaggio in meno da cercare, e un uso in più da spiegare a qualcuno, un giorno."
+        requisiti: [chiave.orecchio >= 1, maison.cariche >= 1]
+        prova: { attributo: mentale, abilita: [magia, percezione], difficolta: Facile }
+        successo:
+          titolo: Le voci dei fratelli
+          testo: |
+            Nascondi la metà del cristallo fra le borse vuote e ti allontani di
+            qualche stanza. Dalla gabbietta in tasca arrivano le voci dei due
+            fratelli che litigano su una pagina, e sotto le voci il
+            cigolio di una passerella. Adesso sai da che parte stanno, e ci vai
+            dritto, senza passare per le stanze in mezzo.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 2, maison.cariche: -1, sospetto: 0.5 }
+        fallimento:
+          titolo: Il silenzio
+          testo: |
+            Nascondi la metà del cristallo fra le borse, e dalla gabbietta in
+            tasca arriva soltanto il rumore del canale. Quando torni a
+            riprenderla, la carica è consumata e tu non sei più vicino di
+            prima.
+          effetti: { maison.cariche: -1, sospetto: 0.5 }
+      - testo: "Proseguire senza toccare niente"
+        descrizione: "Il quaderno resta dov'è. Meglio la porta."
+        costo: 2
+        esito:
+          titolo: La porta
+          testo: |
+            Esci dalla stanza dei conti senza toccare niente e prendi una
+            passerella che corre lungo la parete esterna, sopra il canale. Le
+            assi sono marce, e una ti si spacca sotto il tallone. Ti tieni alla
+            corda e passi, con la caviglia storta.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1-2 · le botti del pesce salato
+  - id: maison-magazzini-le-botti
+    immagine: ambientazione/ponti-sospesi
+    titolo: Le botti del pesce salato
+    sommario: "Una stanza piena di botti accatastate fino al soffitto. Una non puzza di pesce."
+    luogo: I magazzini del Ponte del Pesce, la stanza delle botti
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce >= 1, profondita.maison-magazzini-del-ponte-del-pesce <= 2]
+    testo: |
+      Le botti del pesce salato sono accatastate fino al soffitto in file
+      storte, con i cerchi di ferro arrugginiti e le doghe gonfie d'umido.
+      Fra le file corrono corridoi stretti dove si passa di fianco. L'odore è
+      così forte che dopo un po' smetti di sentirlo, e ti resta soltanto un
+      bruciore in fondo al naso.
+
+      {percezione Media} Una botte, in fondo a una fila, ha i cerchi lucidi e
+      il coperchio pulito. È l'unica che qualcuno apre spesso.
+
+      {resistenza Facile} Lo stomaco si chiude davanti al primo corridoio e
+      resta chiuso. È un aiuto, a modo suo.
+    opzioni:
+      - testo: "Aprire la botte con i cerchi lucidi"
+        descrizione: "Una botte che si apre spesso contiene qualcosa che serve spesso."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La botte pulita
+          testo: |
+            Sollevi il coperchio con la punta della lama. Dentro, al posto del
+            pesce, ci sono fogli di carta da copia arrotolati e legati con lo
+            spago, decine, tutti bianchi. Sono le pagine che i fratelli devono
+            ancora riempire. Ne prendi uno e lo usi per orientarti, perché sul
+            retro qualcuno ha disegnato la pianta dei magazzini.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: La salamoia
+          testo: |
+            Sollevi il coperchio con la punta della lama, ma ti sbagli di botte,
+            e la salamoia ti arriva sulle mani e sulla camicia. L'odore non se ne
+            andrà per giorni. Torni indietro fra le file storte con gli occhi che
+            lacrimano.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare fra le botti seguendo le impronte"
+        descrizione: "Sul sale per terra ci sono impronte fresche. Vanno tutte nella stessa direzione."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Le impronte
+          testo: |
+            Le impronte sono di due persone, una con le scarpe grandi e una con
+            gli stivali stretti, e vanno sempre nella stessa direzione, verso
+            una scala di legno in fondo alla stanza. Le segui fino ai gradini.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il corridoio cieco
+          testo: |
+            Segui le impronte, ma a un certo punto si confondono con le tue, e
+            ti ritrovi in un corridoio di botti che finisce contro il muro.
+            Torni indietro di fianco, con le doghe che ti graffiano le spalle.
+          effetti: { tormento: 0.5 }
+      - testo: "Spostare le botti per fare strada"
+        descrizione: "Pesano, e fanno rumore. Ma la strada la fai tu."
+        costo: 2
+        esito:
+          titolo: Le doghe
+          testo: |
+            Sposti tre botti rotolandole sul bordo una dopo l'altra, e la terza
+            ti scivola e ti schiaccia il piede. Passi zoppicando, con l'odore del
+            pesce salato ormai dentro la camicia.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · la ghiacciaia
+  - id: maison-magazzini-la-ghiacciaia
+    immagine: ambientazione/ponti-sospesi
+    titolo: La ghiacciaia
+    sommario: "Una grotta scavata nella roccia, con il ghiaccio della montagna ancora dentro. Bisogna attraversarla."
+    luogo: I magazzini del Ponte del Pesce, la ghiacciaia
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce == 2]
+    testo: |
+      La ghiacciaia è una grotta scavata nella roccia sotto l'arco, dove una
+      volta si teneva il pesce fresco. Il ghiaccio portato giù dalla montagna
+      d'inverno è ancora lì, in blocchi coperti di paglia marcia, e il freddo
+      ti afferra appena passi la porta. Il fiato ti esce in nuvole, e sulle
+      pareti il sale e la brina fanno disegni bianchi. Dall'altra parte, in
+      alto, c'è una porticina di legno con la luce sotto.
+
+      {resistenza Media} Il freddo qui dentro è di quelli che entrano nelle
+      dita prima, e poi nella testa. Venti passi si fanno, purché nessuno ti
+      chieda di fermarti a metà.
+    opzioni:
+      - testo: "Attraversarla senza fermarti"
+        descrizione: "Venti passi sul ghiaccio, con il fiato corto e le mani in tasca."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il fiato
+          testo: |
+            Attraversi la ghiacciaia a passo svelto, con le mani sotto le
+            ascelle e il mento nel colletto, contando i passi. Al ventesimo sei
+            alla porticina, con le dita che non senti più e la faccia che pizzica.
+            Le scaldi sul legno della porta, che è più tiepido dell'aria.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il blocco di ghiaccio
+          testo: |
+            A metà strada scivoli su un blocco di ghiaccio sotto la paglia, e
+            cadi di fianco sulla brina. Il freddo ti entra nella camicia tutto
+            insieme. Torni indietro gattonando, con i denti che battono così
+            forte da farti paura che ti sentano.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare sulla paglia, lungo la parete"
+        descrizione: "La paglia marcia tiene meno freddo del ghiaccio. Dove c'è paglia, si scivola meno."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La paglia
+          testo: |
+            Cammini sulla paglia lungo la parete, dove i blocchi sono più bassi,
+            e la paglia ti scricchiola sotto le suole come un letto vecchio.
+            Arrivi alla porticina con i piedi gelati ma interi.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Sotto la paglia
+          testo: |
+            Sotto la paglia c'è un buco d'acqua gelata, e ci metti il piede fino
+            alla caviglia. Lo tiri fuori subito, ma lo stivale ormai è pieno.
+            Torni indietro a vuotarlo, e il piede non lo senti più.
+          effetti: { ferite: 0.5 }
+      - testo: "Bruciare la paglia per scaldarti la strada"
+        descrizione: "Un po' di fuoco, un po' di fumo, e dall'altra parte qualcuno se ne accorge."
+        costo: 2
+        esito:
+          titolo: Il fumo
+          testo: |
+            Accendi un mucchio di paglia con la lanterna, e la ghiacciaia si
+            riempie di un fumo acre che ti fa tossire. Attraversi in fretta, con
+            gli occhi che lacrimano. Dietro di te il ghiaccio comincia a
+            gocciolare.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2-3 · le arcate sul vuoto
+  - id: maison-magazzini-le-arcate
+    immagine: ambientazione/ponti-sospesi
+    titolo: Le arcate sul vuoto
+    sommario: "Per passare al piano alto dei magazzini c'è una trave sola appoggiata fra due arcate, sospesa sopra il canale e il buio."
+    luogo: I magazzini del Ponte del Pesce, sotto le arcate
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce >= 2, profondita.maison-magazzini-del-ponte-del-pesce <= 3]
+    testo: |
+      Il piano alto dei magazzini è costruito a sbalzo sotto le arcate del
+      Ponte del Pesce, e per arrivarci c'è una trave sola larga quanto due
+      piedi, appoggiata da un'arcata all'altra. Sotto c'è il canale, e più
+      sotto ancora la nebbia della Cicatrice, che sale piano. Il vento passa
+      fra le arcate con un sibilo lungo.
+
+      {acrobazia Media} La trave è solida nel mezzo e marcia alle estremità.
+      Bisogna passare veloci sui bordi e piano al centro, al contrario di
+      quello che ti dicono le gambe.
+
+      {resilienza Media fallita} Ti sei detto di tenere gli occhi avanti. Lo
+      hai pensato, quindi hai guardato giù.
+    opzioni:
+      - testo: "Passare sulla trave"
+        descrizione: "Due piedi di legno sopra il vuoto, il vento di lato. Veloci sui bordi, piano al centro."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: La trave
+          testo: |
+            Passi veloce sul bordo marcio e rallenti al centro, con le braccia
+            larghe e gli occhi sul fondo della trave. Il vento ti tira la giacca.
+            Quando metti il piede sull'altra arcata ti accorgi di avere
+            trattenuto il fiato per tutta la traversata.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il bordo marcio
+          testo: |
+            Il bordo della trave ti si sbriciola sotto il piede, e resti
+            aggrappato con le mani mentre le gambe penzolano sul canale. Torni
+            indietro a forza di braccia, con le spalle che bruciano e un taglio
+            sul palmo.
+          effetti: { ferite: 0.5 }
+      - testo: "Legarti alla corda del montacarichi"
+        descrizione: "Dal soffitto pende una corda del vecchio montacarichi. Legata in vita, ti tiene se cadi."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La corda
+          testo: |
+            Ti leghi la corda del montacarichi in vita con un nodo da barcaiolo e
+            passi sulla trave con meno paura. A metà scivoli comunque, e la
+            corda ti tiene. Ti tiri su e arrivi dall'altra parte appeso come un
+            sacco, ma intero.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il nodo
+          testo: |
+            Il nodo che fai si scioglie al primo strattone, e per fortuna te ne
+            accorgi prima di salire sulla trave. Ci riprovi, e la corda è marcia
+            in un punto. Lasci perdere con le mani che tremano.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare sulla trave a cavalcioni"
+        descrizione: "Non è dignitoso. Ma il vuoto non guarda la dignità."
+        costo: 2
+        esito:
+          titolo: A cavalcioni
+          testo: |
+            Passi la trave a cavalcioni, un palmo alla volta, con le schegge che
+            ti entrano nei calzoni. Ci metti una vita. Dall'altra parte hai le
+            cosce scorticate e una voglia fortissima di non tornare per la
+            stessa strada.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la stanza delle copie
+  - id: maison-magazzini-la-stanza-delle-copie
+    immagine: ambientazione/ponti-sospesi
+    titolo: La stanza delle copie
+    sommario: "Un leggio, un lume a olio e decine di pagine stese ad asciugare su uno spago. Qualcuno ricopia un libro, una pagina alla volta."
+    luogo: I magazzini del Ponte del Pesce, il piano alto
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce == 3]
+    testo: |
+      Al piano alto, in una stanza di legno con una finestra sul canale, c'è
+      un leggio con un lume a olio e un calamaio, e da una parete all'altra
+      corre uno spago con decine di pagine stese ad asciugare, appese con le
+      mollette da bucato. Su ognuna c'è un nome in cima e sotto le date, in
+      bella calligrafia. Dalla stanza accanto arriva una voce bassa che conta.
+
+      {accademiche Media} La calligrafia delle copie è buona, ma imita una
+      mano più esperta. Chi le fa ha imparato copiando le pagine di qualcun
+      altro, e non sa ancora fare le maiuscole come lei.
+
+      {empatia Media} Fra le pagine appese ce n'è una con un nome che
+      conosci. Ti si stringe lo stomaco più di quanto ti aspettassi.
+    opzioni:
+      - testo: "Staccare le pagine e metterle via"
+        descrizione: "Pagine ancora da vendere. Se le porti via, almeno queste non arriveranno sotto nessuna porta."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Le mollette
+          testo: |
+            Stacchi piano le pagine dallo spago una per una e le infili nella
+            camicia senza leggerle. Le mollette le lasci appese, in fila. Quando
+            hai finito lo spago è vuoto, e la voce di là continua a contare.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Lo spago
+          testo: |
+            Tiri una pagina, e lo spago viene giù tutto insieme, con le mollette
+            che ti piovono sulla testa. La voce di là smette di contare. Ti
+            butti dietro la porta e aspetti che riprenda, con il cuore in gola e
+            le pagine sparse sul pavimento.
+          effetti: { sospetto: 0.5 }
+      - testo: "Leggere le copie per capire chi le fa"
+        descrizione: "Una calligrafia imparata da un'altra. Si capisce da chi, se la si guarda bene."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Le maiuscole
+          testo: |
+            Le maiuscole sono quelle di Rozalia Marga, imitate male. Chi copia
+            le pagine ha davanti il libro di Vesh, e lo ricopia una pagina alla
+            volta, così il libro non esce mai da qui. La voce di là, quella che
+            conta, è nella stanza dello scrittoio.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il lume
+          testo: |
+            Ti avvicini troppo al lume a olio per leggere, e una pagina
+            appesa prende fuoco da un angolo. La spegni con le dita bruciandoti
+            i polpastrelli, e il fumo della carta ti resta nel naso.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare oltre senza guardare"
+        descrizione: "Le pagine restano appese. Tu vai dove c'è il libro."
+        costo: 2
+        esito:
+          titolo: Senza guardare
+          testo: |
+            Passi sotto lo spago a testa bassa, e una molletta ti si impiglia nei
+            capelli. La togli con uno strattone e ti porti via una ciocca. Davanti
+            a te c'è una porta con la luce sotto.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la scala dei pescatori
+  - id: maison-magazzini-la-scala-dei-pescatori
+    immagine: ambientazione/ponti-sospesi
+    titolo: La scala dei pescatori
+    sommario: "Una scala di corda pende dal piano alto verso il canale. I pescatori la usavano per salire con le reti."
+    luogo: I magazzini del Ponte del Pesce, il lato del canale
+    area: maison-magazzini-del-ponte-del-pesce
+    ripetibile: true
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce == 3]
+    testo: |
+      Sul lato del canale una scala di corda pende dalla finestra del piano
+      più alto, fino a un balconcino di legno a metà parete, dove sei tu.
+      I pescatori la usavano per salire con le reti senza passare dai
+      magazzini. I pioli sono di legno di nave consumato dalle mani, e la
+      corda ha nodi nuovi accanto ai vecchi.
+
+      {atletica Media} Venti pioli di corda, con il vento che la fa
+      oscillare contro la parete. Ci vogliono braccia e un po' di ritmo.
+
+      {armi-da-distanza Facile} Dalla finestra in alto si vede tutto il
+      canale. Chi sta lassù, se guardasse fuori, ti vedrebbe salire come un
+      bersaglio da fiera.
+    opzioni:
+      - testo: "Salire la scala di corda"
+        descrizione: "Mani, piedi, ritmo. Senza guardare il canale."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: I venti pioli
+          testo: |
+            Sali i venti pioli con il ritmo di un pescatore, tirando con le
+            braccia quando il vento ti spinge contro la parete. Arrivi alla
+            finestra con le mani rosse di corda, e dall'altra parte senti
+            qualcuno che detta, piano, dei nomi.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il nodo vecchio
+          testo: |
+            Al dodicesimo piolo un nodo vecchio cede e scendi di tre pioli in
+            un colpo, con le mani che scorticano la corda. Torni giù sul
+            balconcino con le palme in fiamme.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che il vento cali"
+        descrizione: "Con il vento fermo si sale meglio. Ma il vento sul canale non si ferma mai del tutto."
+        prova: { attributo: mentale, abilita: [natura, resilienza], difficolta: Media }
+        successo:
+          titolo: La calma
+          testo: |
+            Aspetti con la schiena alla parete finché il vento non cala, come
+            fa a ogni cambio di marea, e sali nei pochi minuti di calma. Arrivi
+            in cima prima che riprenda.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1 }
+        fallimento:
+          titolo: Il vento
+          testo: |
+            Aspetti la calma, e la calma non arriva. Il vento ti entra nelle
+            ossa, e quando ti decidi a salire hai le mani rigide e la testa
+            piena del rumore della corda contro il muro.
+          effetti: { tormento: 0.5 }
+      - testo: "Salire con lentezza, un piolo per volta"
+        descrizione: "Ci metti il triplo. Arrivi."
+        costo: 2
+        esito:
+          titolo: Il triplo
+          testo: |
+            Sali un piolo alla volta, fermandoti a ogni raffica con la guancia
+            contro la parete. Ci metti il triplo del tempo e arrivi in cima con
+            i polpacci che tremano.
+          effetti: { profondita.maison-magazzini-del-ponte-del-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · lo scrittoio dei Ferrante
+  - id: maison-magazzini-lo-scrittoio
+    immagine: ambientazione/ponti-sospesi
+    titolo: Lo scrittoio dei Ferrante
+    sommario: "In cima ai magazzini, in una stanza sospesa sul canale, i fratelli Ferrante hanno messo uno scrittoio. Il libro di Vesh è aperto sopra."
+    luogo: I magazzini del Ponte del Pesce, lo scrittoio
+    area: maison-magazzini-del-ponte-del-pesce
+    requisiti: [fazione.maison == 13, profondita.maison-magazzini-del-ponte-del-pesce >= 4]
+    testo: |
+      L'ultima stanza dei magazzini è sospesa sul canale, con il pavimento di
+      tavole che lascia vedere l'acqua fra una fessura e l'altra. In mezzo
+      c'è uno scrittoio da notaio, troppo bello per questo posto, con le
+      gambe intagliate e il piano di cuoio verde. Sopra, aperto, c'è un libro
+      rilegato in pelle nera con gli angoli d'ottone, spesso come un mattone.
+      È il libro di Mirko Vesh, e da qui sembra più piccolo di quanto pesi.
+
+      Dario Ferrante è seduto allo scrittoio con le dita macchiate
+      d'inchiostro e il quaderno dei conti accanto, e copia una pagina in
+      bella calligrafia, con la lingua fra i denti. Dietro di lui, appoggiato
+      alla porta, c'è suo fratello Lazzaro con un gancio da stiva legato al
+      polso, e due bravi con i randelli seduti su una cassa.
+
+      {intimidire Media} Dario ha paura dello sceriffo dalla notte della
+      Pignatta. Quella notte ha visto Galdrick sfondare la porta della
+      taverna, e da allora ogni divisa gli fa tremare la penna.
+
+      {rissa Media} Lazzaro combatte senza parlare, e il gancio da stiva è
+      fatto per le casse, e con le persone è lento. I due
+      bravi invece sono svegli.
+
+      Dario alza la testa. «È roba trovata nella cenere» dice, con molta
+      calma. «Chi trova una cosa e la vende fa commercio.»
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Lazzaro con il gancio e due bravi con i randelli, in una stanza di tavole sospesa sul canale."
+        combattimento: maison-lo-scrittoio-dei-ferrante
+        vittoria:
+          titolo: Il gancio da stiva
+          testo: |
+            Lazzaro va giù per ultimo, con il gancio piantato nel pavimento e
+            una gamba in una fessura fra le tavole. I bravi sono già scappati
+            per la scala dei pescatori. Dario non si è mosso dallo scrittoio, e
+            quando prendi il libro non ti ferma. Chiude il calamaio con cura,
+            come uno che ha finito una giornata di lavoro.
+          pe: { armi-da-mischia: 10 }
+          imposta: { maison.ferrante: 4 }
+          effetti: { rep.maison: 1, monete: 100, informazioni.pettegolezzo: 2, fazione.maison: 1 }
+          vai: citta-bassa
+        sconfitta:
+          titolo: La pagina che esce
+          testo: |
+            Il gancio di Lazzaro ti prende la giacca e ti sbatte contro la
+            parete, e i bravi fanno il resto. Quando ti rialzi i fratelli sono
+            scappati per la scala dei pescatori con il quaderno dei conti e le
+            copie ancora fresche. Il libro, troppo pesante da portare in fretta, è
+            rimasto sullo scrittoio. Nei giorni dopo, sotto qualche porta dei
+            Quartieri Alti, arriva ancora una pagina.
+          imposta: { maison.ferrante: 2 }
+          effetti: { ferite: 1.5, rep.maison: -0.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Parlare a Dario dello sceriffo"
+        descrizione: "Dario ha paura di Galdrick dalla notte della Pignatta. Con le parole giuste, quella paura gli fa chiudere il libro da solo."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Difficile }
+        successo:
+          titolo: La porta della taverna
+          testo: |
+            Gli parli della notte della Pignatta e dell'uomo che ha sfondato la
+            porta della taverna, e gli dici che quell'uomo, domani,
+            saprà da te dove trovare lo scrittoio. Dario posa la penna e guarda
+            il fratello, e dopo il fratello il libro. Chiude il libro con due mani e te lo
+            porge, e Lazzaro non si muove dalla porta.
+          pe: { persuasione: 10 }
+          imposta: { maison.ferrante: 4 }
+          effetti: { rep.maison: 1, monete: 100, informazioni.pettegolezzo: 2, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Commercio
+          testo: |
+            Gli parli dello sceriffo, e Dario ti risponde con un sorriso che lo
+            sceriffo è un uomo molto occupato. Lazzaro si stacca dalla porta e ti
+            spinge contro la parete, e la spalla ti esce dal suo posto. Mentre ti
+            rialzi i fratelli scappano dalla finestra con le copie e il quaderno, e
+            il libro resta sullo scrittoio. Qualche pagina, nei giorni dopo,
+            arriverà lo stesso sotto una porta.
+          imposta: { maison.ferrante: 2 }
+          effetti: { ferite: 1, sospetto: 0.5, rep.maison: -0.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Spendere un favore della signora"
+        descrizione: "Un nome detto a nome di Nerissa Dalvane apre anche le porte del Ponte del Pesce. Dario sa chi è, e sa che cosa può fare."
+        requisiti: [maison.favori >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: A nome della signora
+          testo: |
+            Gli dici che vieni a nome di Nerissa Dalvane, e che la signora ha
+            un debito da riscuotere con chiunque venda i nomi della sua casa.
+            Dario impallidisce. Sa che cosa vuol dire, perché in Città Bassa lo
+            sanno tutti. Chiude il libro e te lo porge, e Lazzaro, alla porta,
+            si toglie il gancio dal polso.
+          pe: { persuasione: 10 }
+          imposta: { maison.ferrante: 4 }
+          effetti: { maison.favori: -1, rep.maison: 1, monete: 100, informazioni.pettegolezzo: 2, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Il nome speso male
+          testo: |
+            Gli dici che vieni a nome della signora, e Dario ti chiede con molto
+            garbo che cosa ne pensa la signora dei ricatti, visto che li fa
+            anche lei. Esiti. Lazzaro si stacca dalla porta e ti spinge giù per
+            la scala dei pescatori, e quando risali i fratelli sono spariti con le
+            copie e con il quaderno. Il libro è rimasto sullo scrittoio, e il
+            favore della signora l'hai sprecato.
+          imposta: { maison.ferrante: 2 }
+          effetti: { maison.favori: -1, ferite: 1, rep.maison: -0.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Aspettare che Dario si addormenti e prendere il libro"
+        descrizione: "Copia fino all'alba, e a una certa ora crolla sullo scrittoio. I bravi giocano a dadi, e Lazzaro si siede."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La testa sul libro
+          testo: |
+            Aspetti fuori dalla finestra, appeso alla scala dei pescatori, fino a
+            quando Dario si addormenta con la guancia sulla pagina che stava
+            copiando. Entri sulle tavole che non scricchiolano, gli sfili il
+            libro da sotto la guancia con calma, e gli lasci al suo posto il
+            quaderno dei conti. Quando si sveglia, all'alba, sei già sul Ponte
+            del Pesce.
+          pe: { furtivita: 10 }
+          imposta: { maison.ferrante: 4 }
+          effetti: { rep.maison: 1, monete: 100, informazioni.pettegolezzo: 2, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La tavola che scricchiola
+          testo: |
+            Entri dalla finestra, e la terza tavola scricchiola come una porta
+            vecchia. Dario si sveglia gridando, e mentre i bravi saltano su dalla
+            cassa tu afferri il libro e ti butti fuori dalla finestra, con un
+            randello che ti sfiora la nuca. I fratelli scappano dall'altra parte
+            con le copie, e qualche pagina uscirà lo stesso.
+          imposta: { maison.ferrante: 2 }
+          effetti: { sospetto: 1, rep.maison: -0.5, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Parlargli con la Voce di seta"
+        descrizione: "Dario è stanco e vorrebbe smettere. Una frase detta con il Mana sotto può fargli credere che l'idea sia sua."
+        incantesimo: maison-voce-di-seta
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Un'idea sua
+          testo: |
+            Gli dici piano che è stanco di copiare e il libro porta guai. Sarebbe
+            bello dormire una notte intera. Il Mana ti scivola sotto
+            le parole. Dario posa la penna e ti porge il libro chiuso, poi si
+            stropiccia gli occhi come uno che si sveglia. Lazzaro, alla porta,
+            guarda il fratello senza capire.
+          pe: { magia: 10 }
+          imposta: { maison.ferrante: 4 }
+          effetti: { rep.maison: 1, monete: 100, informazioni.pettegolezzo: 2, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La penna
+          testo: |
+            Cominci la frase, ma il Mana ti sfugge, e Dario sente soltanto una
+            voce strana che gli dice di smettere. Chiama il fratello, e nel
+            parapiglia scappano tutti e due per la scala dei pescatori con le copie
+            e il quaderno. Il libro resta sullo scrittoio, e qualche pagina, nei
+            giorni dopo, uscirà lo stesso.
+          imposta: { maison.ferrante: 2 }
+          effetti: { ferite: 1, tormento: 0.5, rep.maison: -0.5, fazione.maison: 1 }
+          vai: citta-bassa
+
+colonna:
+  - { contesto: area, id: maison-magazzini-del-ponte-del-pesce, musica: nefarious-schemes, ambiente: rain-in-town }

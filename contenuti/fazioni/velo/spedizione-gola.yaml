@@ -1,0 +1,940 @@
+# La gola di Tuarmir, spedizione del passo 11 della quest del Velo (fazione.velo == 10). Ci si entra dalla Superficie
+# Fratturata (velo-la-strada-di-tuarmir, in passi-2.yaml); la ritirata riporta in Superficie. Il villaggio resta sullo
+# sfondo: la spedizione è la gola sotto le case.
+# Le stanze chiedono tutte fazione.velo == 10 e vanno in fasce di profondità; una stanza superata non ricompare nella
+# stessa visita:
+# 0 la strada (le erbatrici con le maschere; Lonn Var, che vale anche a 1), 1 i terrazzi (le foglie che cambiano; il
+# vento dalla parte sbagliata, che vale anche a 2), 2 il fondo della gola (il fungo da non guardare; i predoni della
+# gola; le fenditure che si lamentano, che valgono anche a 3), 3 sotto la porta (il riparo di Sorella Alenna, dove
+# aiutarla a raccogliere imposta velo.aiutata; Madre Cerya sul sentiero). Il cuore a 4 è la porta precuriana con l'Eco
+# di Serad: batterlo, lasciarlo bussare e prendergli la moneta o scacciarlo con l'Esorcismo apre il seguito delle due
+# monete, dove Alenna racconta la notte del 145 e decide (o decidi tu) se tornare in città (velo.alenna).
+aree:
+  - id: velo-gola-di-tuarmir
+    immagine: ambientazione/tuarmir
+    nome: La gola di Tuarmir
+    sommario: "Una gola di roccia scura che il sole tocca due ore al giorno, con le case di Tuarmir scavate nella pietra. Sotto le case la gola continua a scendere, fino a una porta."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Tuarmir è scavata nelle pareti della gola, case-grotta coperte di un
+      muschio così fitto che da lontano sembrano escrescenze della roccia.
+      Sotto il villaggio la gola continua a scendere per terrazzi di pietra
+      dove crescono le erbe che il Velo compra, e più giù, dove la luce non
+      arriva quasi mai, si aprono le fenditure che i raccoglitori non
+      nominano.
+
+      Qui si parla a bassa voce. Le raccoglitrici portano maschere di stoffa
+      impregnate d'erbe, e chi non la porta si riconosce dalla tosse. Il vento
+      soffia verso valle senza mai fermarsi, e porta con sé un odore che sulla
+      Superficie non hai mai sentito, come di pietra spaccata da poco.
+
+storylet:
+  # ------------------------------------------------------------ 0 · la strada
+  - id: velo-gola-le-erbatrici
+    immagine: ambientazione/tuarmir
+    titolo: Le erbatrici
+    sommario: "Sul sentiero della gola tre raccoglitrici con le maschere di stoffa tagliano muschio da una parete. Si fermano a guardarti."
+    luogo: La gola di Tuarmir, il sentiero sotto il villaggio
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir == 0]
+    testo: |
+      Sotto le prime case del villaggio il sentiero corre lungo una parete
+      coperta di muschio, e tre raccoglitrici lo tagliano a strisce con
+      coltelli ricurvi. Portano maschere di stoffa grigia legate dietro la
+      nuca, che coprono metà della faccia, e quando ti vedono smettono di
+      tagliare tutte insieme. La più vecchia si abbassa la maschera per
+      parlarti, e la rialza subito dopo.
+
+      {medicina Media} Le maschere sono impregnate di un'erba amara che fa
+      lacrimare. Filtrano le spore, e chi le porta da anni ha gli occhi sempre
+      rossi.
+
+      «Sei del Velo» dice la vecchia, guardandoti il sigillo. «La sorella è
+      giù, al riparo sotto la porta. Senza maschera non ci arrivi.» Indica con
+      il coltello il fondo della gola, dove la luce si fa grigia.
+
+      {resistenza Media fallita} Hai già cominciato a tossire. È una tosse
+      secca che sale dal fondo della gola e non si decide a uscire.
+    opzioni:
+      - testo: "Chiedere una maschera"
+        descrizione: "Le raccoglitrici ne hanno di ricambio. Bisogna convincerle che sei qui per la sorella e per nient'altro."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: La maschera grigia
+          testo: |
+            Le dici di Alenna e delle lettere che non arrivano più, e la
+            vecchia ti ascolta con le braccia incrociate. Alla fine tira fuori
+            dalla bisaccia una maschera ancora umida e te la lega dietro la
+            nuca lei stessa, stretta. L'erba amara ti fa lacrimare subito, e
+            la tosse si ferma da sola.
+          pe: { empatia: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il coltello ricurvo
+          testo: |
+            La vecchia ti ascolta, poi rimette la maschera e torna al suo
+            muschio senza risponderti. Le altre due la imitano. Resti sul
+            sentiero a tossire, finché non decidi di tornare indietro a
+            cercare un'altra strada.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Legarti al viso un fazzoletto bagnato"
+        descrizione: "Una maschera vera è meglio, ma un fazzoletto bagnato nell'acqua della gola è meglio di niente."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Il fazzoletto
+          testo: |
+            Bagni il fazzoletto in un rivolo che scende dalla parete e te lo
+            leghi sul naso. L'acqua sa di ferro. Scendi lungo il sentiero
+            respirando piano, e le raccoglitrici ti guardano passare senza
+            dire niente.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Le spore
+          testo: |
+            Il fazzoletto si asciuga in fretta, e a metà sentiero respiri più
+            spore che aria. Ti siedi su un sasso con la testa che gira, e per
+            un po' vedi il muschio muoversi sulla parete come il pelo di un
+            animale.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aiutarle a tagliare il muschio"
+        descrizione: "Il muschio va tagliato a strisce, senza strappare. Un'ora di lavoro, e forse una maschera in cambio."
+        costo: 2
+        esito:
+          titolo: Il muschio
+          testo: |
+            Per un'ora tagli muschio insieme a loro con un coltello prestato,
+            e le dita ti si tingono di verde. Le raccoglitrici lavorano zitte.
+            Alla fine la vecchia ti lega dietro la nuca una maschera grigia, e
+            ti indica la strada con il coltello.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  - id: velo-gola-lonn-var
+    immagine: icone/swap-bag
+    titolo: Lonn Var
+    sommario: "Su una piazzola del sentiero un mercante carica un mulo di sacchetti di stoffa. Dentro ci sono le erbe per il Velo, dice lui, più qualcosa per i clienti discreti."
+    luogo: La gola di Tuarmir, una piazzola del sentiero
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir <= 1]
+    testo: |
+      Su una piazzola dove il sentiero si allarga c'è un mulo carico di
+      sacchetti di stoffa, e accanto un uomo con un panciotto di velluto liso
+      e un libro dei conti aperto sul basto. Conta i sacchetti con la punta
+      della matita e li segna. Quando ti vede chiude il libro con un colpo
+      secco e ti sorride con tutti i denti.
+
+      «Lonn Var, per servirti» dice. «Erbe per il Velo, muschi per i riti e
+      qualche fungo per i signori dei Quartieri Alti che dormono male.» Batte
+      la mano su un sacchetto più piccolo degli altri, legato con un nastro
+      viola. «Droghe spirituali, le chiamo io. Il Velo lo sa, e chiude un
+      occhio.»
+
+      {conoscenze-della-strada Media} Il nastro viola è quello che si usa ai
+      Ponti per le merci che non passano dalla gabella. Lonn Var vende ai
+      Quartieri Alti, e paga qualcuno per non saperlo.
+
+      {politica-ed-economia Facile} Se il Velo chiude un occhio, è perché
+      qualcuno nel Velo ci guadagna. Le forniture di Tuarmir le firma un
+      cronista.
+
+      Il sentiero continua oltre il mulo, e Lonn Var ci sta davanti.
+    opzioni:
+      - testo: "Comprargli un sacchetto"
+        descrizione: "Lonn Var è un mercante, e a un cliente fa strada volentieri. Il sacchetto viola costa caro."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: Il nastro viola
+          testo: |
+            Gli conti le monete in mano, e lui ti dà il sacchetto con il
+            nastro viola e ti fa strada con un inchino, tirando il mulo da
+            parte. Mentre passi ti dice che la sorella del Velo la trovi giù
+            sotto la porta, e che di funghi ne capisce più di lui.
+          effetti: { profondita.velo-gola-di-tuarmir: 1, monete: -15, informazioni.pettegolezzo: 1 }
+
+      - testo: "Fargli capire che il Velo sa"
+        descrizione: "Un laico del Velo che vede il nastro viola è un problema per Lonn Var. Lui lo sa, e tu puoi ricordarglielo."
+        prova: { attributo: sociale, abilita: [intimidire, ingannare], difficolta: Media }
+        successo:
+          titolo: Il cronista
+          testo: |
+            Gli dici che il nastro viola in Cattedrale lo conoscono, e che le
+            forniture di Tuarmir si possono anche rileggere. Lonn Var smette
+            di sorridere. Ti racconta in fretta che le firma il cronista
+            maggiore, un sacerdote anziano che non ha mai fatto storie, e ti
+            lascia passare tirando il mulo contro la parete.
+          pe: { intimidire: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il sorriso
+          testo: |
+            Lonn Var ti lascia finire. Poi si mette a ridere, e ti dice che in
+            Cattedrale il nastro viola lo conoscono meglio di te. Rimonta sul
+            basto il libro dei conti e ti resta davanti, con il mulo, a
+            contare i sacchetti finché non te ne vai.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Aspettare che finisca di caricare"
+        descrizione: "Prima o poi il mulo deve partire. Basta avere pazienza e non guardare i sacchetti."
+        costo: 2
+        esito:
+          titolo: Il mulo
+          testo: |
+            Ti siedi su un sasso e aspetti. Lonn Var conta i sacchetti tre
+            volte, poi lega il basto e parte verso il villaggio fischiettando,
+            con il mulo che si ferma a ogni ciuffo d'erba, e il sentiero resta
+            libero.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  # ------------------------------------------------------------ 1 · i terrazzi
+  - id: velo-gola-le-foglie
+    immagine: ambientazione/tuarmir
+    titolo: Le foglie
+    sommario: "Sui terrazzi le erbe medicinali sembrano quelle di sempre. Da vicino, una sfumatura è cambiata."
+    luogo: La gola di Tuarmir, i terrazzi delle erbe
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir == 1]
+    testo: |
+      I terrazzi scendono a gradini lungo la gola, ognuno con il suo muretto a
+      secco e la sua fila di erbe. Sono la salvia d'argento e il cardo del
+      sonno che Sorella Giulia usa nei Giardini della Linfa, con le foglie
+      larghe e la peluria sul rovescio. Da lontano sono le stesse. Da vicino,
+      sul bordo delle foglie, c'è una linea sottile di un colore grigioblu che
+      non sapresti nominare.
+
+      {natura Difficile} Il bordo delle foglie ha cambiato colore di una
+      sfumatura. È poco, e una pianta lo fa quando l'aria che respira è
+      cambiata. Queste lo hanno fatto tutte insieme.
+
+      {origine figlio-del-circolo} Nel Bosco di Velthar ti hanno insegnato a
+      guardare il bordo delle foglie prima del colore. I druidi lo chiamano il
+      primo segno, e a dirlo ad alta voce abbassano la voce.
+
+      Il passaggio fra i terrazzi è stretto, e per scendere bisogna passare in
+      mezzo alle erbe.
+    opzioni:
+      - testo: "Studiare le foglie"
+        descrizione: "Se le erbe cambiano, il Velo deve saperlo. Una foglia raccolta bene dice molto."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: La linea grigia
+          testo: |
+            Raccogli una foglia di salvia d'argento e la pieghi fra le dita.
+            La linea sul bordo corre dentro le vene della foglia, e quando la
+            spezzi l'odore è quello solito con una nota in più, di pietra
+            spaccata. Ti metti la foglia nel libro di preghiere per Giulia, e
+            riprendi a scendere.
+          pe: { natura: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: La peluria
+          testo: |
+            Strofini una foglia fra le dita per sentirne l'odore, e la peluria
+            ti si attacca alla pelle e brucia. Passi il resto del tempo a
+            sciacquarti le mani in un rivolo, mentre le dita si gonfiano.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Scendere senza toccare le erbe"
+        descrizione: "Il passaggio è stretto e i muretti sono bassi. Con un po' di equilibrio si passa sul bordo."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Il bordo dei muretti
+          testo: |
+            Cammini sul bordo dei muretti a secco come su un'asse, con le
+            braccia larghe, e le erbe ti sfiorano appena le caviglie.
+            All'ultimo terrazzo salti giù sul sentiero e ti volti a guardare
+            le file grigioblu, che dall'alto sono di nuovo verdi.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il muretto
+          testo: |
+            Un sasso del muretto si muove sotto il piede e finisci in mezzo
+            alle erbe, a quattro zampe. La peluria ti brucia sulle mani e sul
+            collo, e quando ti rialzi hai la pelle a chiazze rosse.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Fare il giro lungo, per il canalone"
+        descrizione: "A lato dei terrazzi c'è un canalone di sassi. Ci si scivola, e ci vuole tempo, ma le erbe restano lontane."
+        costo: 2
+        esito:
+          titolo: Il canalone
+          testo: |
+            Scendi per il canalone di sassi a passi corti, con i piedi di
+            traverso, e ogni tanto un sasso parte e rotola fino in fondo con
+            un rumore che rimbalza fra le pareti. Arrivi giù con le ginocchia
+            che tremano e le scarpe piene di ghiaia.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  - id: velo-gola-il-vento
+    immagine: ambientazione/tuarmir
+    titolo: Il vento dalla parte sbagliata
+    sommario: "Il vento della gola soffia verso valle senza mai fermarsi. Dovrebbe venire dalla Cicatrice, e invece sale dal fondo."
+    luogo: La gola di Tuarmir, una cengia sopra il fondo
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir >= 1, profondita.velo-gola-di-tuarmir <= 2]
+    testo: |
+      La cengia corre a mezza parete, e il vento ci passa sopra senza mai
+      fermarsi. Gonfia la maschera di stoffa e ti fa lacrimare gli occhi, e
+      porta con sé un odore di pietra spaccata da poco e un rumore lontano,
+      basso, come di un respiro dentro una grotta. A Qir-Azel il vento della
+      Superficie viene sempre dalla Cicatrice. Questo sale dal fondo della
+      gola.
+
+      {percezione Media} Le maschere appese ad asciugare lungo la cengia sono
+      tutte girate dalla stessa parte, verso il villaggio. Anche le erbe sui
+      terrazzi si piegano verso l'alto.
+
+      {magia Media fallita} Il Mana nel vento lo senti come un formicolio
+      sulla nuca, e non riesci a capire da dove viene. Ti viene soltanto
+      voglia di grattarti.
+
+      La cengia si restringe più avanti, dove il vento si fa più forte.
+    opzioni:
+      - testo: "Seguire il vento fino all'origine"
+        descrizione: "Un vento che sale da una gola viene da qualche parte. Se lo segui, arrivi dove nasce."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: La fenditura
+          testo: |
+            Cammini controvento con gli occhi socchiusi, e la cengia ti porta
+            sopra una fenditura stretta nella roccia del fondo, da cui il
+            vento esce come da una bocca. Ti segni il punto. Da lì un sentiero
+            di capre scende fino al fondo della gola.
+          pe: { percezione: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: La raffica
+          testo: |
+            Una raffica ti prende di lato nel punto più stretto della cengia,
+            e ti ritrovi schiacciato contro la parete con le unghie nel
+            muschio. Torni indietro un passo alla volta, senza guardare in
+            basso.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Passare il tratto stretto"
+        descrizione: "La cengia si restringe a un palmo. Con la schiena alla parete e il vento in faccia, si passa."
+        prova: { attributo: fisico, abilita: [acrobazia, resistenza], difficolta: Media }
+        successo:
+          titolo: Un palmo
+          testo: |
+            Passi il tratto stretto con la schiena incollata alla roccia e i
+            talloni sul vuoto, un piede dopo l'altro, mentre il vento ti
+            spinge contro la parete come una mano aperta. Dall'altra parte la
+            cengia si allarga e scende.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il vuoto
+          testo: |
+            A metà del tratto stretto un piede scivola, e resti appeso al
+            muschio con una mano sola per il tempo di un respiro. Torni
+            indietro con le gambe che tremano e il muschio sotto le unghie.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Aspettare che il vento cali"
+        descrizione: "Il vento della gola cala la sera, dicono le raccoglitrici. Basta aspettare la sera."
+        costo: 2
+        esito:
+          titolo: La sera
+          testo: |
+            Ti siedi al riparo di uno spuntone e aspetti la sera. Il vento
+            cala davvero, e con lui il rumore di respiro dal fondo. Passi la
+            cengia nella luce grigia, e quando arrivi dall'altra parte il
+            vento ricomincia, piano, alle tue spalle.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  # ------------------------------------------------------------ 2 · il fondo della gola
+  - id: velo-gola-il-fungo
+    immagine: ambientazione/tuarmir
+    titolo: Il fungo da non guardare
+    sommario: "In fondo alla gola cresce un fungo che i raccoglitori non guardano mai. Madre Cerya, dicono, l'ha guardato a nove anni."
+    luogo: La gola di Tuarmir, il fondo
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir == 2]
+    testo: |
+      Il fondo della gola è un letto di pietre umide e muschio nero, e la luce
+      ci arriva di riflesso dalle pareti. In mezzo al sentiero, su un ceppo
+      marcio, cresce un fungo grande come una mano aperta. Ha il cappello di
+      un colore che cambia a seconda di come lo guardi, e intorno, nel
+      muschio, nessun'altra cosa cresce.
+
+      {accademiche Media} A Tuarmir raccontano che Madre Cerya perse la vista
+      a nove anni per aver guardato un fungo che era meglio lasciare stare. I
+      forestieri ne ridono, e ne ridono di meno quando lo vedono.
+
+      Gli occhi ti ci tornano da soli. Ogni volta che lo guardi il colore è un
+      po' diverso, e ogni volta ti sembra più interessante, e la testa
+      comincia a dolerti dietro gli occhi con un battito lento.
+
+      {resilienza Media fallita} Ti stai già chiedendo di che colore sarà la
+      prossima volta, e sai benissimo che è la domanda sbagliata.
+    opzioni:
+      - testo: "Passare senza guardarlo"
+        descrizione: "Gli occhi sul sentiero, sui piedi, sulle pietre. Ci vuole una testa ferma."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Gli occhi sui piedi
+          testo: |
+            Tieni gli occhi sui piedi e passi accanto al ceppo contando le
+            pietre del sentiero. Il fungo resta all'angolo dello sguardo, e lo
+            lasci lì. Dopo una ventina di passi il mal di testa se ne va come
+            era venuto.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Un'occhiata
+          testo: |
+            All'ultimo passo ti volti a guardarlo, appena. Il colore ti entra
+            negli occhi e ci resta. Quando riesci a staccare lo sguardo sei
+            seduto sul sentiero, la testa ti pulsa e non sai da quanto tempo
+            sei lì.
+          effetti: { tormento: 1 }
+
+      - testo: "Passare a occhi chiusi, a tastoni"
+        descrizione: "Madre Cerya cammina nella gola senza vederla, e riconosce le erbe al tatto. Si può fare lo stesso, per venti passi."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Al tatto
+          testo: |
+            Chiudi gli occhi e vai avanti a tastoni, con le mani sul muschio
+            della parete. Riconosci le pietre bagnate dalle asciutte e il
+            muschio vivo da quello morto, e quando le dita trovano il legno
+            marcio del ceppo lo giri al largo. Riapri gli occhi soltanto
+            quando il ceppo è lontano.
+          pe: { natura: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il ceppo
+          testo: |
+            A occhi chiusi inciampi nel ceppo, e la mano finisce sul cappello
+            tiepido del fungo. Apri gli occhi per istinto, e il colore ti
+            entra dentro. Torni indietro tenendoti alla parete, con le gambe
+            molli e la testa che pulsa.
+          effetti: { tormento: 1 }
+
+      - testo: "Coprirlo con la maschera"
+        descrizione: "Un fungo che non si vede non si guarda. Ti avvicini all'indietro e gli butti sopra la stoffa."
+        costo: 2
+        esito:
+          titolo: La stoffa grigia
+          testo: |
+            Ti avvicini al ceppo camminando all'indietro, piano, con la
+            maschera di ricambio in mano, e la lanci sopra il fungo senza
+            voltarti. Ci vuole un'eternità. Poi passi, e la stoffa grigia
+            resta lì sul ceppo, e sotto la stoffa qualcosa cambia colore.
+          effetti: { profondita.velo-gola-di-tuarmir: 1, tormento: 0.5 }
+
+  - id: velo-gola-i-predoni
+    immagine: ambientazione/tuarmir
+    titolo: I predoni della gola
+    sommario: "Due uomini scendono dalle rocce con i coltelli in mano. Hanno le dita lunghe e grigie, e respirano con la bocca aperta."
+    luogo: La gola di Tuarmir, il fondo
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir == 2]
+    testo: |
+      Due uomini scendono dalle rocce sopra il sentiero, scivolando sul
+      muschio con una facilità che non è di questa gola. Hanno i coltelli in
+      mano e le dita lunghe e grigie, con una falange di troppo, e respirano
+      con la bocca aperta, a lungo, come se l'aria non bastasse mai. Uno dei
+      due ti indica la bisaccia.
+
+      {natura Media} Hanno respirato il vento nuovo per mesi, dormendo nelle
+      fenditure. La Marea non li ha ancora cambiati del tutto, e quello che
+      resta di loro ha fame.
+
+      {armi-da-mischia Media} Il primo tiene il coltello come uno che l'ha
+      usato per tagliare corda, non uomini. Il secondo è diverso, e sta un
+      passo indietro.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "La Marea li ha resi lenti a capire, e la fame li rende cattivi."
+        combattimento: velo-i-predoni-della-gola
+        vittoria:
+          titolo: Le fenditure
+          testo: |
+            Il secondo predone scappa su per le rocce lasciando il coltello
+            sul sentiero, e il primo resta seduto nel muschio a respirare con
+            la bocca aperta, senza più guardarti. Riprendi il sentiero verso
+            il fondo, con il coltello del predone alla cintura e le mani che
+            tremano un poco.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        sconfitta:
+          titolo: La bisaccia
+          testo: |
+            Ti ritrovi nel muschio con il sapore del sangue in bocca, e i due
+            predoni che frugano nella tua bisaccia. Si prendono il pane e
+            lasciano il resto, poi spariscono su per le rocce.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Dargli il pane"
+        descrizione: "Hanno fame. Un uomo che mangia ha le mani occupate, e un pane costa poco."
+        prova: { attributo: sociale, abilita: [empatia, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: Il pane
+          testo: |
+            Apri la bisaccia piano e tiri fuori il pane, e lo spezzi in due
+            davanti a loro. Il primo lo prende e lo annusa, poi lo divide con
+            l'altro. Mangiano accucciati sul sentiero senza smettere di
+            guardarti, e quando hanno finito si arrampicano di nuovo sulle
+            rocce senza voltarsi.
+          pe: { empatia: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il pane nel muschio
+          testo: |
+            Il pane lo prendono, ma il secondo vuole anche la bisaccia, e ti
+            spinge contro la roccia per prendersela. Te la strappano di mano e
+            la svuotano sul sentiero. Raccogli le tue cose dal muschio,
+            ammaccato.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Tornare indietro e prendere un'altra strada"
+        descrizione: "Il fondo della gola ha più di un sentiero. Uno passa sotto le rocce dei predoni, gli altri sono più lunghi."
+        costo: 2
+        esito:
+          titolo: Il sentiero lungo
+          testo: |
+            Torni indietro piano, senza voltare le spalle, e prendi un
+            sentiero laterale che costeggia il torrente. È lungo e bagnato, e
+            due volte devi guadare l'acqua fino al ginocchio. Quando riprendi
+            il fondo della gola dei predoni non c'è traccia.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  - id: velo-gola-le-fenditure
+    immagine: ambientazione/tuarmir
+    titolo: Le fenditure
+    sommario: "Dalle fenditure nella roccia arriva un lamento regolare. Davanti a una c'è un fiore che fa luce."
+    luogo: La gola di Tuarmir, le fenditure sotto il villaggio
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir >= 2, profondita.velo-gola-di-tuarmir <= 3]
+    testo: |
+      Lungo la parete di fondo si aprono le fenditure, spaccature nella roccia
+      alte quanto un uomo e larghe una spalla. Da una di queste arriva un
+      lamento, a intervalli regolari, sempre la stessa nota, come un uomo che
+      geme nel sonno. Davanti all'imboccatura, nel muschio, c'è un fiore con i
+      petali bianchi che mandano una luce fredda.
+
+      {natura Media} Il fiore cresce su qualcosa. Sotto i petali, nel muschio,
+      si vede la forma di una mano, e dalla mano parte la radice.
+
+      {origine figlio-della-citta-bassa fuggiasco-di-ghoran} Un lamento così
+      lo hai già sentito, da qualcuno che si lamentava per abitudine, molto
+      dopo che il dolore era passato.
+
+      Il sentiero passa davanti alla fenditura, rasente la parete.
+    opzioni:
+      - testo: "Guardare dentro la fenditura"
+        descrizione: "Il lamento viene da lì. Se c'è qualcuno, va tirato fuori."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: Il vento nella roccia
+          testo: |
+            Ti affacci con la lanterna alta. La fenditura è vuota, e scende
+            nel buio in una spirale stretta. Il lamento è il vento, che sale
+            dal fondo e dentro la roccia trova una nota sola. Ti ritiri con la
+            nuca fredda, e passi oltre.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: La nota
+          testo: |
+            Ti affacci, e il lamento ti arriva in faccia più forte di prima, e
+            per un attimo è una voce che dice una parola che non capisci. Ti
+            ritiri di scatto e sbatti la testa contro la roccia.
+          effetti: { tormento: 0.5, ferite: 0.5 }
+
+      - testo: "Benedire il morto sotto il fiore"
+        descrizione: "Il fiore cresce su una mano. Chi è morto qui non ha avuto la preghiera."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La preghiera dei morti
+          testo: |
+            Ti inginocchi accanto al fiore e dici la preghiera dei morti a
+            mezza voce, con due dita sulla terra. Quando hai finito, il
+            lamento dalla fenditura si interrompe per il tempo di un respiro.
+            Poi riprende, e tu riprendi il sentiero.
+          pe: { empatia: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il fiore
+          testo: |
+            Ti inginocchi accanto al fiore e cominci la preghiera, e a metà ti
+            accorgi che la mano sotto i petali ha le unghie lunghe e grigie, e
+            le parole ti si fermano in gola. Ti rialzi in fretta e torni
+            indietro.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Passare in fretta, rasente la parete"
+        descrizione: "Il lamento è lamento, e il fiore è fiore. Basta non fermarsi."
+        costo: 2
+        esito:
+          titolo: In fretta
+          testo: |
+            Passi davanti alla fenditura a passo svelto, con la spalla contro
+            la roccia e gli occhi davanti a te. Il lamento ti segue per un
+            tratto, poi si confonde con il rumore del torrente. Il fiore, alle
+            tue spalle, continua a fare luce.
+          effetti: { profondita.velo-gola-di-tuarmir: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 · sotto la porta
+  - id: velo-gola-il-riparo
+    immagine: ambientazione/tuarmir
+    titolo: Il riparo di Alenna
+    sommario: "In un riparo di pietra sotto la parete, una monaca del Velo e una ragazza del villaggio legano erbe in mazzi. La monaca non alza la testa."
+    luogo: La gola di Tuarmir, un riparo di pietra sotto la porta
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir == 3]
+    testo: |
+      Sotto la parete di fondo, dove la gola si stringe, c'è un riparo di
+      pietra a secco con un tetto di lastre, e davanti al riparo due donne
+      sedute per terra legano erbe in mazzi. Una porta la tonaca del Velo,
+      sporca fino alle ginocchia, e una maschera abbassata sul collo. L'altra
+      è una ragazza del villaggio, quindici anni, con le mani verdi fino ai
+      polsi. Sorella Alenna ha la faccia magra e gli occhi di chi dorme poco,
+      e quando le dici chi sei non alza la testa dai mazzi.
+
+      «Vantes» dice soltanto. «Gliel'avevo scritto, di non mandare nessuno.»
+      Lega un altro mazzo e lo mette nella cesta. «Le erbe cambiano, e il
+      vento ha girato. Se scrivo quello che vedo mi chiamano pazza, e se
+      taccio divento complice.» Ti guarda per la prima volta. «Allora ho
+      smesso di scrivere.»
+
+      {empatia Media} Ha paura, e non di te. Ogni volta che il vento soffia
+      più forte guarda verso l'alto, dove la gola finisce contro una parete di
+      roccia liscia.
+
+      {percezione Facile} Sulla parete liscia, in alto, c'è un rettangolo più
+      scuro della pietra intorno, troppo dritto per essere naturale.
+    opzioni:
+      - testo: "Aiutarla a raccogliere"
+        descrizione: "Le erbe di stasera vanno raccolte e legate prima che cali il buio. Chi lavora accanto a lei la sente parlare."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: I mazzi
+          testo: |
+            Ti siedi accanto alla ragazza e leghi erbe fino a sera, e Alenna
+            ti corregge due volte, poi smette. A un certo punto comincia a
+            parlare da sola delle foglie e del vento che ha girato, e di Madre
+            Cerya che dice di non guardare in alto. Quando la cesta è piena ti
+            mette in mano un mazzo e ti indica la parete, dove c'è la porta.
+          pe: { natura: 3 }
+          imposta: { velo.aiutata: 1 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Le erbe sbagliate
+          testo: |
+            Leghi i mazzi con le erbe sbagliate, il cardo con la salvia, e la
+            ragazza ride dietro la mano. Alenna ti toglie i mazzi di mano
+            senza dire niente e li rifà da capo. Quando hai finito di farti
+            correggere, è già sera.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Darle la lettera di Vantes"
+        descrizione: "Vantes le ha scritto con il sigillo del Velo. Forse una lettera la legge, anche se non la scrive."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La lettera
+          testo: |
+            Alenna rompe il sigillo con l'unghia e legge in piedi, e a metà si
+            siede. Quando finisce piega la lettera e la infila nella tonaca,
+            sul petto. Ti dice che Vantes le chiede scusa, e che lei non sa di
+            che cosa. Poi ti indica la parete liscia in alto.
+          pe: { persuasione: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il sigillo intatto
+          testo: |
+            Alenna prende la lettera e la posa nella cesta senza aprirla,
+            sotto le erbe. Torna ai suoi mazzi, e tu resti in piedi davanti al
+            riparo finché la ragazza non ti porta un sasso per sederti.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare che finisca il lavoro"
+        descrizione: "Le erbe vengono prima delle visite. Ci si siede ad aspettare finché lei non decide di parlare."
+        costo: 2
+        esito:
+          titolo: La sera
+          testo: |
+            Ti siedi su un sasso davanti al riparo e aspetti che finiscano. Ci
+            vuole tutta la sera. Quando l'ultima cesta è piena Alenna si
+            pulisce le mani sulla tonaca, ti guarda a lungo e ti indica la
+            parete liscia in alto, dove c'è il rettangolo scuro.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  - id: velo-gola-madre-cerya
+    immagine: ambientazione/tuarmir
+    titolo: Madre Cerya
+    sommario: "Sul sentiero che sale verso la parete liscia una vecchia cieca cammina senza bastone, e non inciampa mai."
+    luogo: La gola di Tuarmir, il sentiero sotto la parete liscia
+    area: velo-gola-di-tuarmir
+    ripetibile: true
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir == 3]
+    testo: |
+      Sul sentiero che sale verso la parete liscia c'è una vecchia piccola,
+      con i capelli bianchi raccolti sotto un fazzoletto e gli occhi chiusi da
+      pieghe di pelle. Cammina senza bastone sulle pietre bagnate, e non
+      inciampa. Ogni tanto si china a toccare una pianta con due dita, e dopo
+      averla annusata va avanti. È Madre Cerya, l'erborista che guida la
+      raccolta di Tuarmir, e ti ha sentito arrivare da molto prima che tu la
+      vedessi.
+
+      «Vieni per la porta» dice, senza voltarsi. «Vengono tutti per la porta,
+      quelli del Velo.» Si raddrizza, con una foglia fra le dita. «Serad era
+      arrivato a una porta, e ha bussato. Dieci anni, e qualche notte lo
+      sentiamo ancora.»
+
+      {empatia Facile} Non ti sta mettendo in guardia. Ti sta dicendo una cosa
+      che sa, come direbbe che domani piove.
+
+      {medicina Media} Ha le dita macchiate di verde e di giallo fino alla
+      seconda falange, e i polpastrelli lisci. Riconosce le erbe al tatto da
+      tanti anni che la pelle si è consumata.
+    opzioni:
+      - testo: "Chiederle della porta"
+        descrizione: "Cerya conosce la gola meglio di chiunque. Se c'è un modo di arrivare alla porta, lo sa lei."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La scala dei raccoglitori
+          testo: |
+            Cerya ti ascolta con la testa piegata di lato. Poi ti prende il
+            polso con la mano verde e ti porta fino a una scala di gradini
+            scavati nella roccia, coperta di muschio, che da solo non avresti
+            visto. «Sali piano, e se senti bussare non rispondere» ti
+            raccomanda prima di lasciarti il polso.
+          pe: { empatia: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Il raccolto
+          testo: |
+            Cerya ti lascia finire, poi ti dice che stasera il raccolto va
+            lasciato in pace, e anche la porta. Si allontana sul sentiero
+            senza fretta. Resti a cercare una strada da solo, finché non fa
+            buio.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Darle la lettera di Vantes"
+        descrizione: "Vantes le ha scritto con il sigillo del Velo. Cerya è cieca, e forse vuole che qualcuno gliela legga."
+        prova: { attributo: sociale, abilita: [persuasione, accademiche], difficolta: Media }
+        successo:
+          titolo: La voce di Vantes
+          testo: |
+            Le leggi la lettera ad alta voce, con le parole di Vantes. Lei
+            ascolta fino in fondo, e alla fine sorride appena. «Il vecchio
+            Aurelio» dice. Poi ti porta fino a una scala di gradini scavati
+            nella roccia, coperta di muschio, che sale verso la parete.
+          pe: { persuasione: 3 }
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+        fallimento:
+          titolo: Le parole del Velo
+          testo: |
+            Le leggi la lettera, e a metà lei alza una mano. «Parole del Velo»
+            dice, e se ne va per il suo sentiero. Rimetti la lettera in tasca
+            e resti solo con il vento.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Seguirla a distanza"
+        descrizione: "Cerya va dove va il raccolto, e il raccolto sale. Basta stare indietro di qualche passo, e non farsi notare."
+        costo: 2
+        esito:
+          titolo: I gradini nel muschio
+          testo: |
+            La segui a distanza per tutto il pomeriggio, mentre si ferma a
+            toccare le piante una per una. Al tramonto sale per una scala di
+            gradini scavati nella roccia che il muschio nasconde, e a metà si
+            ferma. Poi volta verso di te gli occhi chiusi e ti fa cenno di
+            passare.
+          effetti: { profondita.velo-gola-di-tuarmir: 1 }
+
+  # ------------------------------------------------------------ il cuore · la porta di Serad
+  - id: velo-la-porta-di-serad
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La porta
+    sommario: "In cima alla scala dei raccoglitori, nella parete liscia, c'è una porta di metallo grigio. Davanti alla porta qualcuno bussa."
+    luogo: La gola di Tuarmir, la parete liscia
+    area: velo-gola-di-tuarmir
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir >= 4]
+    testo: |
+      In cima alla scala la parete della gola diventa liscia come una lastra
+      di ardesia, e nella pietra c'è una porta. È un rettangolo di metallo
+      grigio senza maniglia e senza cardini, incassato nella roccia con una
+      precisione che nessuno scalpellino di Tuarmir avrebbe saputo dare, e il
+      vento della gola esce dai suoi bordi con un fischio sottile.
+
+      {tecnologia Media} È precuriana. Non ha serrature perché non si apre
+      dall'esterno, e i bordi sono freddi come se dall'altra parte ci fosse
+      l'inverno.
+
+      Davanti alla porta c'è un uomo con la tonaca del Velo. È fatto di una
+      luce grigia e sporca, come la polvere in un raggio di sole, e le sue
+      mani sono già quasi trasparenti. Alza il pugno e bussa tre volte.
+      Aspetta con la testa piegata ad ascoltare, e quando dall'altra parte non
+      risponde nessuno bussa di nuovo.
+
+      {resilienza Media} Ripete gli ultimi gesti di dieci anni fa senza fine.
+      Sul palmo della mano sinistra, chiusa contro il petto, brilla qualcosa
+      di piccolo e scuro.
+
+      {origine accolito-del-velo} Il nome di Serad di Tuarmir lo leggevi ogni
+      mattina sul registro dei sacerdoti, l'unico con la riga ancora aperta
+      dopo dieci anni. Ottilia non ha mai voluto chiuderla, e adesso capisci
+      il motivo.
+
+      Nella tasca, il disco con l'occhio chiuso comincia a vibrare. Lo senti
+      nei denti prima che nelle dita.
+    opzioni:
+      - testo: "Affrontare l'Eco di Serad"
+        descrizione: "Se lo interrompi si volta. È un'eco della Marea, e le Eco si possono disfare."
+        combattimento: velo-l-eco-di-serad
+        vittoria:
+          titolo: L'ultimo colpo
+          testo: |
+            L'Eco si disfa a metà di un colpo alla porta, e il pugno resta
+            sospeso un momento in più del resto, poi si sfilaccia nel vento.
+            Sul gradino davanti alla porta resta la cosa piccola e scura che
+            teneva nella mano sinistra. Alenna arriva di corsa dalla scala,
+            con la ragazza del villaggio dietro.
+          segue: velo-le-due-monete
+        sconfitta:
+          titolo: Il pugno
+          testo: |
+            L'Eco ti colpisce con il pugno con cui bussava, e il freddo della
+            porta ti entra nel petto. Ti ritrovi sul gradino, con Alenna che
+            ti tiene la testa e la ragazza del villaggio che stacca dalla mano
+            dell'Eco una cosa piccola e scura, mentre lui continua a bussare.
+          effetti: { tormento: 1 }
+          segue: velo-le-due-monete
+
+      - testo: "Lasciarlo bussare e prendergli quello che tiene"
+        descrizione: "Bussa e aspetta, e quando aspetta ha la testa piegata verso la porta. Fra un colpo e l'altro, la mano sinistra è a portata."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Fra un colpo e l'altro
+          testo: |
+            Ti avvicini nel tempo dell'attesa, quando lui ha la testa piegata
+            ad ascoltare, e gli sfili la cosa scura dalla mano sinistra con
+            due dita. È fredda come la porta. L'Eco bussa ancora tre volte
+            prima di fermarsi, e per la prima volta in dieci anni non
+            ricomincia. Si sfilaccia nel vento piano, come se ti avesse
+            aspettato.
+          pe: { furtivita: 5 }
+          segue: velo-le-due-monete
+        fallimento:
+          titolo: La testa che si gira
+          testo: |
+            Hai la mano già sulla sua quando la testa dell'Eco si gira verso
+            di te, e i suoi occhi sono due buchi di luce grigia. Il freddo ti
+            prende fino ai gomiti. Alenna ti tira via per la tonaca, e la cosa
+            scura ti resta in mano per caso, mentre l'Eco torna a bussare.
+          effetti: { tormento: 1 }
+          segue: velo-le-due-monete
+
+      - testo: "Recitare l'Esorcismo sulla soglia"
+        incantesimo: esorcismo
+        descrizione: "Il rito delle cripte lascia andare quello che è rimasto. Serad era del Velo, e le parole del Velo forse le riconosce."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Le parole del Velo
+          testo: |
+            Reciti il rito a voce alta, e alla terza frase l'Eco smette di
+            bussare. Si volta verso di te, e per un momento la sua bocca si
+            muove con la tua, sulle stesse parole. Poi apre la mano sinistra,
+            lascia cadere sul gradino la cosa scura che teneva, e si sfilaccia
+            nel vento.
+          pe: { magia: 5 }
+          segue: velo-le-due-monete
+        fallimento:
+          titolo: Il rito spezzato
+          testo: |
+            A metà del rito l'Eco si volta, e ti risponde con le stesse
+            parole, un attimo prima di te. La voce ti si spezza. Alenna ti
+            tira indietro mentre lui torna a bussare, e la ragazza del
+            villaggio raccoglie dal gradino la cosa scura che gli è caduta.
+          effetti: { tormento: 1 }
+          segue: velo-le-due-monete
+
+  - id: velo-le-due-monete
+    immagine: ambientazione/tuarmir
+    titolo: I due dischi
+    tipo: seguito
+    luogo: La gola di Tuarmir, la scala dei raccoglitori
+    area: velo-gola-di-tuarmir
+    requisiti: [fazione.velo == 10, profondita.velo-gola-di-tuarmir >= 4]
+    testo: |
+      La cosa scura è un disco di metallo grande come una moneta, con un
+      occhio chiuso inciso sopra, e in mano non pesa niente. Quando lo
+      avvicini a quello che porti in tasca, i due dischi cominciano a vibrare,
+      con un suono che non arriva alle orecchie e ti si ferma nei denti. Li
+      allontani, e il suono cala.
+
+      {magia Media} Si chiamano. Due cose fatte per sapere l'una dell'altra, a
+      una certa distanza, e per nient'altro.
+
+      Alenna guarda i dischi in silenzio. Poi si siede sul gradino, con la
+      schiena alla porta, e racconta. Era una dei sei della compieta. Quella
+      notte Valdrano li chiamò fuori per il rito votivo, e sull'orlo della
+      Cicatrice pregarono un'ora. «Ma Valdrano rientrò prima di noi» dice.
+      «Disse che andava a prendere i libri delle misure, che non voleva
+      lasciare al fumo. Ne uscì quando le fiamme erano già in cima all'ala
+      nord, con i libri sotto il braccio, asciutti.»
+
+      {ingannare Difficile} Racconta senza aggiungere niente. Chi ha tenuto
+      una cosa per sé per cinque anni la dice così, tutta d'un fiato.
+
+      La ragazza del villaggio le si siede accanto e le prende la mano verde
+      nella sua. Lungo la gola il vento soffia verso valle, come sempre
+      adesso.
+    opzioni:
+      - testo: "Lasciare che sia lei a decidere"
+        descrizione: "Avete raccolto insieme, e lei ti ha parlato. Se torna in città o resta, lo sa lei."
+        quando: [velo.aiutata >= 1]
+        esito:
+          titolo: La ragazza del villaggio
+          testo: |
+            Alenna guarda la ragazza a lungo. Poi ti dice che resta. Madre
+            Cerya ha bisogno di qualcuno che sappia scrivere quello che lei
+            sa, e la ragazza deve ancora imparare a leggere. Ti dà una lettera
+            per Vantes, chiusa con la cera verde delle erbe. Risali la gola da
+            solo con i due dischi in tasca, tenuti in due tasche diverse
+            perché non si sentano.
+          pe: { empatia: 5 }
+          imposta: { velo.alenna: 2 }
+          effetti: { fazione.velo: 1, rep.velo: 1, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+
+      - testo: "Riportarla in città"
+        descrizione: "Vantes la aspetta, e quello che ha visto qui va detto in Cattedrale. Lei ha paura, e ha bisogno che qualcuno decida."
+        quando: [velo.aiutata == 0]
+        esito:
+          titolo: La strada di casa
+          testo: |
+            Le dici che Vantes la aspetta, e che quello che sa va detto in
+            Cattedrale. Lei ci pensa, con la mano della ragazza nella sua, e
+            alla fine si alza. La ragazza piange senza rumore. Risalite la
+            gola insieme, e sulla Superficie Alenna si volta una volta sola a
+            guardare la striscia scura fra le rocce. I due dischi li tieni in
+            tasche diverse.
+          pe: { persuasione: 5 }
+          imposta: { velo.alenna: 1 }
+          effetti: { fazione.velo: 1, rep.velo: 1, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+
+      - testo: "Lasciarla con Madre Cerya"
+        descrizione: "Qui ha un lavoro e una ragazza che le vuole bene. In città ha Valdrano."
+        quando: [velo.aiutata == 0]
+        esito:
+          titolo: Il riparo
+          testo: |
+            Le dici di restare, e lei ti guarda come se le avessi tolto un
+            peso dalle spalle. Ti dà una lettera per Vantes, chiusa con la
+            cera verde delle erbe, e torna al riparo con la ragazza. Risali la
+            gola da solo, con i due dischi in tasche diverse e il vento alle
+            spalle.
+          pe: { empatia: 5 }
+          imposta: { velo.alenna: 2 }
+          effetti: { fazione.velo: 1, rep.velo: 1, reperto.sigillato: 1 }
+          vai: superficie-fratturata

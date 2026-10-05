@@ -1,10 +1,15 @@
 # La città viva, luogo 7: il Municipio (presso: municipio, area quartieri-alti).
-# L'attività delle udienze del mattino, le tre storie della casata (2 le petizioni, con il seguito nel
-# seminterrato; 4 il ritratto della Rappresentante, con il seguito davanti al quadro; 6 un incarico del
-# Consiglio, con il seguito del nome sul registro) e la carta del bando.
+# L'attività delle udienze del mattino, le tre storie della casata e la carta del bando.
+# Le tre storie sono i passi 1, 3 e 5 della quest del Consiglio (contenuti/fazioni/consiglio/, pista
+# fazione.consiglio): 1 le petizioni, con il seguito nel seminterrato (rep.castaldi >= 2, fazione.consiglio == 0);
+# 3 il ritratto della Rappresentante, con il seguito davanti al quadro (fazione.consiglio == 2), che porta al
+# seguito del grado in passi-1.yaml; 5 un incarico del Consiglio, con il seguito del nome sul registro
+# (fazione.consiglio == 4), dove il nome resta a matita: l'inchiostro arriva al passo 6, dopo la tribuna. I flag
+# municipio.petizioni, municipio.ritratto e municipio.incarico restano, perché altre scene li leggono.
 # Reputazione: è quella della casata di Julia (rep.castaldi). Gli impiegati, le suppliche e i dazi la fanno
 # salire fino a 4; le udienze piccole, le carte della seduta e la scorta di Quintus fino a 6 (sociale,
-# mentale e fisico); le storie la portano a 3, 5 e 7. Il Municipio non ha un servizio a pagamento.
+# mentale e fisico). Il Municipio non ha un servizio a pagamento: i servizi della casata si aprono con i gradi
+# della quest (contenuti/fazioni/consiglio/servizi.yaml).
 # Dopo pista.pelle >= 7 Julia fa le riforme (licenze, cooperative del grano e dei taglialegna) e le casse
 # sono vuote: varianti nella supplica, nella panca, negli incarichi, nella prova della storia a 6 e nel bando.
 # Nomi nuovi: Tullio Merga (il primo impiegato), Ada Rusca (lavandaia della Città Bassa), Mastro Fenzi (il
@@ -422,7 +427,7 @@ storylet:
     sommario: "Una lavandaia della Città Bassa sale in Municipio per la terza volta con la stessa petizione. Tullio le risponde che è in esame, come le altre due volte."
     luogo: Municipio, il bancone degli impiegati
     area: quartieri-alti
-    requisiti: [rep.castaldi >= 2, municipio.petizioni == 0]
+    requisiti: [rep.castaldi >= 2, fazione.consiglio == 0]
     testo: |
       La donna in fondo alla panca l'hai già vista due volte, sempre nello
       stesso posto, sotto lo spiffero. È una lavandaia della Città Bassa,
@@ -573,7 +578,7 @@ storylet:
     tipo: seguito
     luogo: Municipio, il seminterrato
     area: quartieri-alti
-    requisiti: [municipio.petizioni == 0]
+    requisiti: [fazione.consiglio == 0]
     testo: |
       Il seminterrato del Municipio odora di carta umida e di sego. Oltre la
       grata della banca cittadina, in fondo al corridoio, c'è una stanza
@@ -621,9 +626,13 @@ storylet:
             {politica-ed-economia Media} Una sala piena di Città Bassa chiamata
             per nome dalla Rappresentante. In Consiglio se ne parlerà entro
             sera, e non tutti ne parleranno bene.
+
+            Julia firma l'ordine per il ponticello di Ada quella stessa
+            mattina. Una settimana dopo, al lavatoio, le assi marce sono
+            ancora lì, e dei falegnami del Comune non si è visto nessuno.
           pe: { politica-ed-economia: 3 }
           imposta: { municipio.petizioni: 1 }
-          effetti: { rep.castaldi: 1 }
+          effetti: { rep.castaldi: 1, fazione.consiglio: 1 }
       - testo: "Lasciare che sia Tullio a portarla su"
         descrizione: "L'errore è suo, e tocca a lui rimediare. Puoi stargli accanto mentre lo fa."
         esito:
@@ -638,10 +647,12 @@ storylet:
             aspettare fuori. Esce mezz'ora dopo senza la cassa e con le
             orecchie rosse. Ti racconta che la Rappresentante l'ha ringraziato
             di avergliele tenute in ordine, e lo racconta come se non ci
-            credesse nemmeno lui.
+            credesse nemmeno lui. Il ponticello di Ada è il primo ordine che
+            Julia firma, e una settimana dopo al lavatoio si aspettano ancora
+            i falegnami del Comune.
           pe: { empatia: 3 }
           imposta: { municipio.petizioni: 1 }
-          effetti: { rep.castaldi: 1 }
+          effetti: { rep.castaldi: 1, fazione.consiglio: 1 }
       - testo: "Ricopiare in bella la petizione di Ada"
         descrizione: "La cassa può aspettare, il ponticello no. Scritta bene, a Julia la petizione arriva lo stesso."
         esito:
@@ -652,16 +663,17 @@ storylet:
             petizione con i margini dritti e lo spazio per il sigillo, e in
             fondo ridisegni il ponticello con la crocetta al suo posto. La
             mattina dopo la petizione sale nel cesto di vimini. Tre giorni più
-            tardi al lavatoio arrivano due falegnami del Comune, e Ada ti manda
-            a dire che il bucato, da lei, non lo paghi più. Nel seminterrato
-            la cassa di quest'anno resta dov'era, sotto le altre.
+            tardi al lavatoio arrivano due falegnami del Comune a mani vuote,
+            perché le assi non sono arrivate nemmeno a loro, e Ada ti manda a
+            dire che il bucato, da lei, non lo paghi più lo stesso. Nel
+            seminterrato la cassa di quest'anno resta dov'era, sotto le altre.
 
             {empatia Media fallita} Ti senti a posto per un giorno intero. Ci
             metti un po' a ricordarti delle altre croci in quella cassa, e di
             chi le ha tracciate.
           pe: { accademiche: 3 }
           imposta: { municipio.petizioni: 1 }
-          effetti: { rep.castaldi: 1 }
+          effetti: { rep.castaldi: 1, fazione.consiglio: 1 }
 
       - testo: "Parlarne a Julia a cena"
         descrizione: "La tua famiglia siede due sedie più in là dei Castaldi. Una cassa di petizioni respinte, raccontata a tavola fra il pesce e la frutta, arriva più in alto di qualunque registro."
@@ -676,11 +688,12 @@ storylet:
             all'altro capo del tavolo qualcuno chiede a gran voce la saliera. Julia
             posa la forchetta e non la riprende più. Il mattino dopo scende lei stessa nel
             seminterrato, con Tullio che le fa luce, e si siede su una cassa a leggere
-            le croci al posto delle firme. Prima di mezzogiorno due falegnami del
-            Comune sono già al lavatoio di Ada.
+            le croci al posto delle firme. Prima di mezzogiorno firma l'ordine per
+            il ponticello di Ada, e una settimana dopo al lavatoio i falegnami del
+            Comune non si sono ancora visti.
           pe: { galateo: 3 }
           imposta: { municipio.petizioni: 1 }
-          effetti: { rep.castaldi: 1 }
+          effetti: { rep.castaldi: 1, fazione.consiglio: 1 }
 
   # ------------------------------------------------------------ storia a 4 · il ritratto
   - id: il-ritratto-della-rappresentante
@@ -690,7 +703,7 @@ storylet:
     sommario: "Stanotte il chiodo ha ceduto, e il ritratto che sta sopra la panca è finito a terra. Marella Castaldi vuole un quadro nuovo, e la Rappresentante non ha tempo di posare."
     luogo: Municipio, l'anticamera
     area: quartieri-alti
-    requisiti: [rep.castaldi >= 4, municipio.ritratto == 0]
+    requisiti: [fazione.consiglio == 2]
     testo: |
       Stamattina la parete sopra la panca è vuota, con un rettangolo più
       chiaro dove stava il ritratto e un chiodo piegato in mezzo. Il quadro è
@@ -846,7 +859,7 @@ storylet:
     tipo: seguito
     luogo: Municipio, l'anticamera
     area: quartieri-alti
-    requisiti: [municipio.ritratto == 0]
+    requisiti: [fazione.consiglio == 2]
     testo: |
       Julia si ferma davanti al ritratto con le braccia conserte e lo guarda
       come guarda le pratiche, dall'alto in basso. Poi si accovaccia per
@@ -902,6 +915,7 @@ storylet:
           pe: { espressivita: 5 }
           imposta: { municipio.ritratto: 1 }
           effetti: { rep.castaldi: 1 }
+          segue: consiglio-scrivano-della-panca
       - testo: "Rimettere su quello vecchio"
         descrizione: "La gente della panca è abituata a quella faccia che sorride. Forse le serve più di quanto serva a Julia."
         esito:
@@ -919,6 +933,7 @@ storylet:
           pe: { empatia: 5 }
           imposta: { municipio.ritratto: 1 }
           effetti: { rep.castaldi: 1 }
+          segue: consiglio-scrivano-della-panca
       - testo: "Niente ritratto"
         descrizione: "Il muro vuoto, e al posto del quadro qualcosa che serva a chi aspetta."
         esito:
@@ -935,6 +950,7 @@ storylet:
           pe: { politica-ed-economia: 5 }
           imposta: { municipio.ritratto: 1 }
           effetti: { rep.castaldi: 1 }
+          segue: consiglio-scrivano-della-panca
 
   # ------------------------------------------------------------ storia a 6 · un incarico del Consiglio
   - id: un-incarico-del-consiglio
@@ -944,7 +960,7 @@ storylet:
     sommario: "Julia Castaldi ti riceve a porta chiusa e apre il registro del Consiglio a una pagina dove nessuna riga ha una firma."
     luogo: Municipio, l'ufficio della Rappresentante
     area: quartieri-alti
-    requisiti: [rep.castaldi >= 6, municipio.incarico == 0]
+    requisiti: [fazione.consiglio == 4]
     testo: |
       Julia ti riceve a porta chiusa, che per lei è un privilegio raro, e ti
       fa sedere davanti alla scrivania. Le pratiche sono impilate con gli
@@ -1138,20 +1154,22 @@ storylet:
     tipo: seguito
     luogo: Municipio, l'ufficio della Rappresentante
     area: quartieri-alti
-    requisiti: [municipio.incarico == 0]
+    requisiti: [fazione.consiglio == 4]
     testo: |
       Julia riapre il registro alla pagina del margine e intinge la penna.
       Prima di scrivere ti guarda, con la penna sospesa sulla carta, e una
-      goccia d'inchiostro le cade sul polsino senza che se ne accorga. «Chi è
-      scritto qui parla a nome mio quando io non posso» dice. «Quello che fa
-      lo firmo io, e se sbaglia ho sbagliato io. In Consiglio c'è
-      chi aspetta soltanto questo.»
+      goccia d'inchiostro le cade sul polsino senza che se ne accorga. Poi
+      posa la penna accanto al calamaio, senza scrivere. «Chi è scritto qui a
+      inchiostro parla a nome mio quando io non posso» dice. «Quello che fa
+      lo firmo io, e se sbaglia ho sbagliato io. In Consiglio c'è chi aspetta
+      soltanto questo, e io prima voglio sapere se sai guardare una seduta.»
 
       Dal cassetto tira fuori una lettera già scritta e piegata in tre, con
-      il sigillo del Consiglio in ceralacca, e la posa sulla scrivania fra te
-      e lei. La ceralacca è colata un po' di traverso, perché il sigillo lo
+      il sigillo del Consiglio in ceralacca, e te la fa vedere senza
+      dartela. La ceralacca è colata un po' di traverso, perché il sigillo lo
       mette Tullio, e Tullio lo fa sempre di fretta per paura che si
-      raffreddi. Hai le mani strette sulle ginocchia, e le apri piano.
+      raffreddi. Julia la rimette nel cassetto e lo lascia aperto di un dito.
+      Hai le mani strette sulle ginocchia, e le apri piano.
 
       {intimidire Media} Julia la voce la tiene bassa perché le basta. Chi in
       Consiglio aspetta un suo errore ha paura di lei, ed è per questo che
@@ -1167,42 +1185,41 @@ storylet:
       un pezzo, e ha aspettato soltanto che lo decidessi anche tu.
     opzioni:
       - testo: "Accettare l'incarico"
-        descrizione: "Una lettera con il sigillo del Consiglio, il tuo nome sul registro, e le faccende che gli altri rinviano."
+        descrizione: "Il tuo nome sul registro, a matita per ora, e le faccende che gli altri rinviano. La lettera resta nel cassetto fino a giovedì."
         requisiti: [pista.pelle < 7]
         esito:
-          titolo: A inchiostro
+          titolo: A matita
           testo: |
-            Prendi la lettera e te la infili nella giubba. Julia scrive il tuo
-            nome a inchiostro sopra quello a matita e lo sottolinea, una riga
-            dritta, come le cifre. «La paga è a incarico, e le pratiche te le
-            do io, una alla volta» dice soffiando sull'inchiostro, «e con quella
-            lettera ti apriranno la porta tutti i consiglieri, qualcuno
-            anche controvoglia.» La lettera ti scalda il petto attraverso la
-            camicia, o forse sei tu. Mentre esci chiama il nome seguente, e
-            Tullio dal bancone ti saluta inforcando gli occhiali, come per
-            vedere meglio chi sei diventato.
+            Le dici di sì, e Julia ripassa il tuo nome a matita, una volta
+            sola, perché si legga meglio, poi chiude il registro con la penna
+            ancora asciutta. «La paga è a incarico, e le pratiche te le do io,
+            una alla volta» dice. «Giovedì c'è seduta, e tu ti siedi in tribuna
+            a guardare chi vota cosa. Dopo vieni a dirmelo.» Mentre esci chiama il nome
+            seguente, e Tullio dal bancone ti saluta inforcando gli occhiali,
+            come per vedere meglio chi sei diventato. Il cassetto, alle tue
+            spalle, è rimasto aperto di un dito.
           imposta: { municipio.incarico: 1 }
-          effetti: { rep.castaldi: 1 }
+          effetti: { rep.castaldi: 1, fazione.consiglio: 1 }
       - testo: "Accettare l'incarico"
-        descrizione: "Una lettera con il sigillo del Consiglio, il tuo nome sul registro, e le faccende che gli altri rinviano. Le casse del Comune sono vuote."
+        descrizione: "Il tuo nome sul registro, a matita per ora, e le faccende che gli altri rinviano. Le casse del Comune sono vuote."
         requisiti: [pista.pelle >= 7]
         esito:
           titolo: Quando le casse si riempiono
           testo: |
-            Prendi la lettera e te la infili nella giubba. Julia scrive il tuo
-            nome a inchiostro sopra quello a matita e lo sottolinea, una riga
-            dritta, come le cifre. «Le casse sono vuote, e te lo dico adesso
-            perché dopo mi piacerebbe meno» dice soffiando sull'inchiostro,
-            «quindi gli incarichi te li pago quando posso. Le altre volte ti
-            pago con quello che so.» Mentre esci chiama il nome seguente, e
-            Tullio dal bancone ti saluta inforcando gli occhiali, come per
-            vedere meglio chi sei diventato.
+            Le dici di sì, e Julia ripassa il tuo nome a matita, una volta
+            sola, perché si legga meglio, poi chiude il registro con la penna
+            ancora asciutta. «Le casse sono vuote, e te lo dico adesso perché dopo mi
+            piacerebbe meno» dice, «quindi gli incarichi te li pago quando
+            posso. Le altre volte ti pago con quello che so. Giovedì c'è
+            seduta. Siediti in tribuna e guarda chi vota cosa.» Mentre esci
+            chiama il nome seguente, e Tullio dal bancone ti saluta inforcando
+            gli occhiali, come per vedere meglio chi sei diventato.
 
             {conoscenze-della-strada Media} Pagato in notizie da una che siede
             in cima al Consiglio. In Città Bassa c'è gente che darebbe un mese
             di paga per un debito così.
           imposta: { municipio.incarico: 1 }
-          effetti: { rep.castaldi: 1 }
+          effetti: { rep.castaldi: 1, fazione.consiglio: 1 }
       - testo: "Rifiutare con garbo"
         descrizione: "Hai visto che cosa c'è su quella pagina. Per adesso preferisci restarne fuori."
         esito:

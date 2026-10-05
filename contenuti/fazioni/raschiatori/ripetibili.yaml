@@ -1,0 +1,426 @@
+# I lavori e i servizi dei Raschiatori che si aprono con i gradi della quest (fazione.raschiatori), tutti al Grifone
+# di Ferro tranne la paga del Gancio. Requisiti con >=, così la pista resta a 15 passi.
+# - `raschiatori-il-magazzino-della-bacheca` (grado 1, passo 3): bende, unguento e celle; dal grado 3 al prezzo di
+#   casa, dal grado 4 anche il Respiratore; al grado 5, a chi porta il titolo di Fiamma, la bacheca compra i
+#   cristalli carichi al prezzo migliore. È uno storylet d'acquisto, come le reliquie: un negozio nuovo andrebbe
+#   aggiunto all'area dei Ponti Sospesi, che è un file condiviso.
+# - `raschiatori-un-turno-alla-gradinata` (grado 2, passo 6): il turno ripetibile alla Gradinata Cieca, una scena
+#   sola senza stanze.
+# - `raschiatori-guidare-la-squadra` (grado 3, passo 9, con raschiatori.squadra): la rendita in cristalli carichi.
+# - `raschiatori-la-branda-dei-quattro` (grado 4, passo 12): l'alloggio gratuito al piano di sopra del Grifone.
+# - `raschiatori-la-formula-del-filo` (grado 4, passo 12): Argento insegna il Filo di ritorno, letto sulla Carta di
+#   Korith (Formule precuriane, livello 2: Magia 2, prova Media, due rintocchi, senza prezzo in monete).
+# - `raschiatori-la-paga-del-gancio` (doppio gioco, passi 3-8, al Mercato dei Nodi): la paga di Merlach per chi ha
+#   finto di accettarla, a prezzo della reputazione con i Raschiatori.
+storylet:
+  # ------------------------------------------------------------ grado 1 · il Magazzino della bacheca
+  - id: raschiatori-il-magazzino-della-bacheca
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: Il Magazzino della bacheca
+    sommario: "Dietro la bacheca dei Raschiatori c'è uno sgabuzzino con le scorte della corporazione. Chi ha il nome a inchiostro ci compra quello che serve per scendere."
+    luogo: Locanda del Grifone di Ferro, lo sgabuzzino dietro la bacheca
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [fazione.raschiatori >= 3]
+    testo: |
+      Lo sgabuzzino dietro la bacheca ha una porta bassa e una finestrella
+      che dà sul vuoto, e dentro ci sono le scorte della corporazione sugli
+      scaffali, ordinate secondo un sistema che conosce soltanto Argento.
+      Bende arrotolate, vasetti di unguento con il tappo di cera e una
+      cassetta di celle cariche. Il registro delle uscite è appeso a un
+      chiodo, e chi prende qualcosa ci scrive il proprio nome accanto.
+
+      {conoscenze-della-strada Facile} Qui i prezzi li fa Argento, e li fa
+      per i suoi. Al Mercato dei Nodi le stesse cose costano di più, e sono
+      di meno.
+
+      Brunella tiene la chiave in tasca e te la dà senza alzare gli occhi
+      dalla zuppa.
+    opzioni:
+      - testo: "Comprare un rotolo di bende"
+        descrizione: "Le bende della corporazione, tagliate a misura di braccio."
+        requisiti: [fazione.raschiatori < 9, monete >= 8]
+        costo: 0
+        esito:
+          titolo: Le bende
+          testo: |
+            Prendi un rotolo dallo scaffale, scrivi il tuo nome sul registro e
+            lasci le monete nella scodella di latta accanto alla porta.
+          effetti: { bende: 1, monete: -8 }
+      - testo: "Comprare un rotolo di bende al prezzo di casa"
+        descrizione: "Un caposquadra paga le bende quanto le paga la bacheca."
+        requisiti: [fazione.raschiatori >= 9, monete >= 5]
+        costo: 0
+        esito:
+          titolo: Il prezzo di casa
+          testo: |
+            Prendi un rotolo dallo scaffale e scrivi il tuo nome sul registro,
+            nella colonna dei caposquadra, dove le cifre sono più piccole.
+          effetti: { bende: 1, monete: -5 }
+      - testo: "Comprare un vasetto di unguento"
+        descrizione: "L'unguento di Brunella, che odora di menta e chiude i tagli in una notte."
+        requisiti: [fazione.raschiatori < 9, monete >= 20]
+        costo: 0
+        esito:
+          titolo: L'unguento
+          testo: |
+            Il vasetto ha il tappo di cera con il segno di Brunella, una B
+            storta. Scrivi il tuo nome sul registro e lasci le monete nella
+            scodella.
+          effetti: { unguento: 1, monete: -20 }
+      - testo: "Comprare un vasetto di unguento al prezzo di casa"
+        descrizione: "Un caposquadra paga l'unguento quanto lo paga la bacheca."
+        requisiti: [fazione.raschiatori >= 9, monete >= 14]
+        costo: 0
+        esito:
+          titolo: L'unguento di casa
+          testo: |
+            Scrivi il tuo nome sul registro, nella colonna dei caposquadra, e
+            Brunella dalla cucina ti grida di non sprecarlo sui graffi.
+          effetti: { unguento: 1, monete: -14 }
+      - testo: "Comprare una cella carica"
+        descrizione: "Un piccolo cristallo carico, per i reperti che si scaricano proprio quando servono."
+        requisiti: [fazione.raschiatori < 9, monete >= 30]
+        costo: 0
+        esito:
+          titolo: La cella
+          testo: |
+            La cella ti ronza nel palmo come un'ape chiusa nel pugno. La avvolgi
+            in un fazzoletto e scrivi il tuo nome sul registro.
+          effetti: { cella: 1, monete: -30 }
+      - testo: "Comprare una cella carica al prezzo di casa"
+        descrizione: "Un caposquadra paga le celle quanto le paga la bacheca."
+        requisiti: [fazione.raschiatori >= 9, monete >= 20]
+        costo: 0
+        esito:
+          titolo: La cella di casa
+          testo: |
+            La cella ti ronza nel palmo. Scrivi il tuo nome sul registro, nella
+            colonna dei caposquadra, e Argento dalla sala ti fa un cenno.
+          effetti: { cella: 1, monete: -20 }
+      - testo: "Comprare il Respiratore della bacheca"
+        descrizione: "Una maschera di lega grigia, presa da un turno di anni fa. Argento la vende soltanto ai veterani, e a un prezzo da veterani."
+        requisiti: [fazione.raschiatori >= 12, oggetto.respiratore == 0, monete >= 120]
+        costo: 0
+        esito:
+          titolo: La maschera grigia
+          testo: |
+            Argento tira giù la maschera dallo scaffale più alto con il bastone
+            e te la porge senza alzarsi. Ti dice che va decifrata come tutte le altre, e che se la rompi non ne ha un'altra.
+          effetti: { oggetto.respiratore: 1, monete: -120 }
+      - testo: "Vendere un cristallo carico al prezzo della Fiamma"
+        descrizione: "I cristalli della Fiamma la bacheca li paga meglio di chiunque in città."
+        requisiti: [fazione.raschiatori >= 15, raschiatori.fiamma == 1, cristalli.cristallo-carico >= 1]
+        costo: 0
+        esito:
+          titolo: Il prezzo della Fiamma
+          testo: |
+            Argento soppesa il cristallo e te lo paga dalla cassa della bacheca senza contrattare, poi scrive il tuo titolo sul registro al posto del
+            nome.
+          effetti: { cristalli.cristallo-carico: -1, monete: 35 }
+
+  # ------------------------------------------------------------ grado 2 · il turno alla Gradinata
+  - id: raschiatori-un-turno-alla-gradinata
+    presso: grifone-di-ferro
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Un turno alla Gradinata
+    sommario: "Il sito della Gradinata Cieca è dei Raschiatori per dieci anni, e il turno è tuo. Tre giorni di strada, e oltre l'ottavo gradino le file aspettano."
+    luogo: Locanda del Grifone di Ferro, poi la Gradinata Cieca
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [fazione.raschiatori >= 6]
+    testo: |
+      Sulla bacheca c'è un foglio con la grafia di Dragna e il nome del sito
+      in cima, *Gradinata Cieca*, e sotto il tuo nome, a inchiostro. Il
+      diritto di prima mappa dura dieci anni, e in dieci anni le file oltre
+      l'ottavo gradino si possono svuotare con calma, una alla volta, finché
+      il custode lo permette.
+
+      {percezione Media} Accanto al tuo nome qualcuno ha disegnato un gradino
+      con il gesso, l'ottavo, tutto nero. È lo scherzo della sala, e vuol
+      dire che il sito adesso è tuo.
+
+      Pio Varre ti aspetta al bancone con il sacco del piombo già in spalla.
+    opzioni:
+      - testo: "Scendere oltre l'ottavo gradino e lavorare alle file"
+        descrizione: "Tre giorni di strada fino ai sette gradini, e oltre il buio le file degli oggetti calati. Si torna con quello che il custode lascia prendere."
+        costo: 2
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Le file
+          testo: |
+            Scendi con Pio oltre il buio dell'ottavo gradino, e il custode delle
+            file vi lascia lavorare in cambio di una lampada vecchia. Risalite
+            con due cristalli sterili e un frammento inciso, e Pio li porta su
+            in spalla per tutta la strada, fischiando.
+          effetti: { cristalli.cristallo-sterile: 2, reliquie.frammento-inciso: 1, monete: 6, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: La rampa
+          testo: |
+            Sulla rampa che sale scendendo ti si piega una caviglia, e il turno
+            finisce lì. Risalite con poco, e Pio ti fa da stampella per tutta la
+            strada del ritorno.
+          effetti: { cristalli.frammento-esausto: 2, ferite: 0.5, tormento: 0.5 }
+      - testo: "Ricopiare le etichette delle file per Argento"
+        descrizione: "Le etichette di metallo delle file sono un archivio. Argento paga chi le ricopia bene."
+        costo: 2
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Le etichette
+          testo: |
+            Passi il turno a ricopiare etichette alla luce della lampada, con
+            Pio che ti tiene il calamaio. Argento paga le pagine una per una, e
+            una pagina la tiene da parte senza dirti perché.
+          effetti: { informazioni.segreto: 1, monete: 10, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Le etichette che cambiano
+          testo: |
+            Le etichette cambiano mentre le ricopi, e alla fine del turno hai
+            un quaderno di segni che non tornano. Argento le guarda e scuote la
+            testa, e ti paga lo stesso la carta.
+          effetti: { monete: 3, tormento: 0.5 }
+      - testo: "Mandare avanti lo Scandaglio"
+        descrizione: "Con il cristallo davanti si trova la strada più svelta, e il turno costa meno fatica."
+        requisiti: [chiave.scandaglio >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Facile }
+        successo:
+          titolo: La strada svelta
+          testo: |
+            Lo Scandaglio vibra sul buio dell'ottavo gradino e ti porta dritto
+            alle file senza passare dallo specchio. Torni con un cristallo
+            sterile e qualche scheggia, e con mezza giornata di vantaggio.
+          effetti: { cristalli.cristallo-sterile: 1, reliquie.scheggia: 2, monete: 4 }
+        fallimento:
+          titolo: Il cristallo confuso
+          testo: |
+            Nel buio dell'ottavo gradino lo Scandaglio vibra dappertutto allo
+            stesso modo, e ti tocca fare la strada lunga. Torni con poco.
+          effetti: { cristalli.frammento-esausto: 2 }
+
+  # ------------------------------------------------------------ grado 3 · guidare la squadra
+  - id: raschiatori-guidare-la-squadra
+    presso: grifone-di-ferro
+    immagine: fazioni/raschiatori
+    titolo: Guidare la squadra
+    sommario: "La tua squadra aspetta al tavolo lungo del Grifone, con i bracciali carichi e le mani vuote. Da te dipende chi scende e chi risale."
+    luogo: Locanda del Grifone di Ferro, il tavolo lungo
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [fazione.raschiatori >= 9, raschiatori.squadra >= 1]
+    testo: |
+      La tua squadra ti aspetta al tavolo lungo, quello vicino al camino che
+      tira male, e quando arrivi si fa zitta. Nella ha già steso sul tavolo
+      il foglio dei turni con il tuo nome in cima e i loro sotto a inchiostro, e tiene la penna in mano senza intingerla. Il turno lo
+      decidi tu, e il conto delle teste a fine turno lo fai tu.
+
+      {empatia Media} Uno dei ragazzi ha le mani fasciate da ieri, e le tiene
+      sotto il tavolo perché tu non lo lasci a casa.
+
+      Fuori, sopra la Cicatrice, il vento ha girato da levante, che è il
+      vento buono per le piattaforme.
+    opzioni:
+      - testo: "Portarli alla Vena Storta e farli lavorare bene"
+        descrizione: "Una vena buona e una squadra che sa quello che fa. Bisogna dare gli ordini giusti, e farli ascoltare."
+        costo: 2
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Un turno buono
+          testo: |
+            Dai i turni alla corda uno per uno, senza fretta, come te li dava Gerardo, e la squadra lavora alla Vena Storta come un solo braccio. A
+            fine turno risalite con un cristallo carico e il sacco pieno, e
+            conti le teste due volte, la seconda a voce alta.
+          effetti: { cristalli.cristallo-carico: 1, cristalli.cristallo-sterile: 1, monete: 8, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il ragazzo con le mani fasciate
+          testo: |
+            Lasci scendere il ragazzo con le mani fasciate, e alla seconda ora
+            le mani non lo reggono più. Lo tirate su in due, e il turno finisce
+            presto, con poco nei sacchi e una lanterna in meno da comprare,
+            per fortuna.
+          effetti: { cristalli.cristallo-sterile: 1, tormento: 0.5 }
+      - testo: "Scendere con loro e lavorare in prima fila"
+        descrizione: "Un caposquadra che scava davanti agli altri non ha bisogno di dare ordini. Ha bisogno di braccia."
+        costo: 2
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: In prima fila
+          testo: |
+            Scendi per primo e lavori per primo, e la squadra ti tiene dietro
+            senza che tu dica una parola. Risalite con un cristallo carico che
+            hai staccato tu, e Nella te lo mette in mano davanti a tutti al
+            Grifone.
+          effetti: { cristalli.cristallo-carico: 1, monete: 6, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Le braccia
+          testo: |
+            Lavori troppo e troppo in fretta, e alla terza ora le braccia ti
+            mollano a mezza corda. La squadra ti tira su e finisce il turno
+            senza di te.
+          effetti: { cristalli.cristallo-sterile: 1, ferite: 0.5 }
+      - testo: "Lasciare la squadra a Nella per un turno"
+        descrizione: "Nella sa tenere una corda e contare le teste. Un turno da sola le fa bene, e a te dà una giornata di riposo."
+        quando: [raschiatori.nella >= 2]
+        costo: 1
+        esito:
+          titolo: Il turno di Nella
+          testo: |
+            Le dai la penna e il foglio dei turni, e lei se li stringe al petto.
+            La sera torna con la squadra intera e un cristallo sterile, e ti
+            racconta il turno parola per parola, contando le teste due volte.
+          effetti: { cristalli.cristallo-sterile: 1, monete: 4, tormento: -0.5 }
+
+  # ------------------------------------------------------------ grado 4 · la branda dei Quattro
+  - id: raschiatori-la-branda-dei-quattro
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: La branda dei Quattro
+    sommario: "Al piano di sopra del Grifone c'è una stanza che i Quattro pagano tutto l'anno. Chi siede al loro tavolo ci dorme senza pagare."
+    luogo: Locanda del Grifone di Ferro, la stanza dei Quattro
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [fazione.raschiatori >= 12]
+    testo: |
+      In fondo al corridoio del piano di sopra c'è una stanza con quattro
+      brande e una finestra sulla Cicatrice, che i Quattro pagano tutto
+      l'anno a Liaren e a Brunella. Sulla porta, al posto del nome di un
+      animale, c'è una lanterna disegnata col gesso. Le coperte sono di lana
+      grossa, e sotto ogni branda c'è una cassetta chiusa con un nome.
+
+      {resistenza Facile} La branda è dura, e le ossa la ringraziano lo
+      stesso, una alla volta, come vecchi amici.
+
+      Dalla finestra arriva la luce del Ponte dei Morti, a intervalli.
+    opzioni:
+      - testo: "Dormire nella stanza dei Quattro"
+        descrizione: "Una notte intera, senza turni. La mattina Brunella lascia il pane sul davanzale."
+        esito:
+          titolo: Il pane sul davanzale
+          testo: |
+            Dormi senza sogni fino a giorno fatto, con la finestra socchiusa e
+            il vento della Cicatrice che ti passa sopra la coperta. Sul
+            davanzale trovi il pane di Brunella e una mela, e le ferite tirano
+            meno.
+          effetti: { ferite: -1, tormento: -0.5 }
+      - testo: "Restare sveglio ad ascoltare Argento che fa i conti"
+        descrizione: "Argento non dorme mai prima di aver chiuso il libro. Ogni tanto, contando, racconta."
+        esito:
+          titolo: I conti della notte
+          testo: |
+            Argento conta le uscite della bacheca alla luce del bastone, e ogni tanto si ferma su un nome per raccontarti chi era. Ti
+            addormenti verso l'alba sulla sedia, con la testa piena di turni di
+            quarant'anni fa.
+          pe: { accademiche: 3 }
+          effetti: { tormento: -0.5 }
+
+  # ------------------------------------------------------------ grado 4 · la formula del Filo di ritorno
+  - id: raschiatori-la-formula-del-filo
+    presso: grifone-di-ferro
+    immagine: icone/rope-coil
+    titolo: Il Filo di ritorno
+    sommario: "In un angolo della Carta di Korith, accanto alle quattro disposizioni, c'è una riga che Argento ha imparato a leggere. È una formula, e tira verso di te chi resta indietro."
+    luogo: Locanda del Grifone di Ferro, la stanza dei Quattro
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [fazione.raschiatori >= 12, incantesimo.raschiatori-filo-di-ritorno == 0]
+    testo: |
+      Argento ha steso la Carta di Korith sul tavolo della stanza dei
+      Quattro e la tiene ferma con il bastone di cristallo, che si accende
+      appena tocca il vetro. In un angolo, accanto alle quattro disposizioni,
+      c'è una riga incisa più piccola delle altre. Argento ci ha passato
+      sopra tre notti, e adesso la sa dire.
+
+      {magia Media} La formula ha la forma di un nodo. Prende da te e tira
+      verso di te, e il prezzo lo paga la testa di chi la dice.
+
+      Dice che è la prima regola dei Raschiatori, quella di trascinare fuori
+      chi resta indietro, scritta da qualcuno che la conosceva prima di loro.
+    opzioni:
+      - testo: "Imparare la formula"
+        descrizione: "Ci vuole Magia 2, e la testa sgombra. Argento la dice una volta sola."
+        requisiti: [magia >= 2]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il nodo
+          testo: |
+            Ripeti piano la riga dopo Argento, e alla terza volta la senti
+            stringersi nel petto come un nodo che tiene. Dall'altra parte del
+            tavolo il bastone di Argento scivola da solo verso di te di un palmo, e lui ride per la prima volta da quando lo conosci.
+          effetti: { incantesimo.raschiatori-filo-di-ritorno: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Il nodo che scivola
+          testo: |
+            La riga ti scivola via a metà, come una corda bagnata fra le dita.
+            Argento arrotola la Carta e ti dice di riprovarci un'altra sera,
+            quando avrai la testa meno piena di gradini.
+          effetti: {}
+      - testo: "Chiedere ad Argento chi l'ha scritta"
+        descrizione: "Una formula dei Precursori che dice la regola dei Raschiatori. Qualcuno l'ha scritta per qualcun altro."
+        costo: 0
+        esito:
+          titolo: Chi l'ha scritta
+          testo: |
+            Argento si gratta la barba intrecciata, e i vetri tintinnano. Dice
+            che non lo sa, e che in ottant'anni ha imparato a non chiedere a una
+            rovina perché sa le cose. Poi arrotola la Carta e se la mette sotto
+            il braccio, come un libro di conti.
+
+  # ------------------------------------------------------------ il doppio gioco · la paga del Gancio
+  - id: raschiatori-la-paga-del-gancio
+    presso: mercato-dei-nodi
+    immagine: ambientazione/mercato-dei-nodi
+    titolo: La paga del Gancio
+    sommario: "Al Mercato dei Nodi un ragazzo con il gancio dipinto sulla manica ti aspetta ogni tanto vicino al banco del sale, con una borsa per te."
+    luogo: Mercato dei Nodi, il banco del sale
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [raschiatori.doppio == 1, fazione.raschiatori >= 3, fazione.raschiatori <= 8]
+    testo: |
+      Al banco del sale del Mercato dei Nodi ti aspetta il ragazzo del
+      Gancio, con il cappuccio tirato su anche quando non piove e una borsa
+      legata alla cintura. Ogni volta ti chiede che cosa si dice al Grifone e chi scende dove, e ogni volta la borsa passa dalla sua cintura alla
+      tua.
+
+      {conoscenze-della-strada Media} Una borsa così, per notizie di
+      bacheca, vuol dire che Merlach compra l'orario dei turni. Chi compra
+      gli orari prima o poi compra anche i posti.
+
+      Il ragazzo si guarda intorno due volte prima di parlarti.
+    opzioni:
+      - testo: "Riferire quello che si dice al Grifone"
+        descrizione: "I turni, i nomi, i siti. È la paga del Gancio, e la paga è buona."
+        esito:
+          titolo: La borsa
+          testo: |
+            Gli dici dei turni della settimana e di chi scende dove, e lui li
+            ripete a mezza voce per tenerli a mente. La borsa passa alla tua
+            cintura. Tornando al Grifone ti sembra che Dragna alzi gli occhi
+            dal foglio un momento prima del solito.
+          effetti: { monete: 12, rep.gilda: 0.5, rep.raschiatori: -0.5 }
+      - testo: "Riferirgli una mezza verità"
+        descrizione: "Turni sbagliati, siti già vuoti. La borsa è la stessa, se lui ci crede."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: La mezza verità
+          testo: |
+            Gli dici di un turno alla Vena Storta che non c'è e di un sito
+            vuoto da un anno, e lui li ripete a mezza voce. La borsa passa alla
+            tua cintura, e la Compagnia manderà i suoi a scavare dove non c'è
+            niente.
+          effetti: { monete: 12 }
+        fallimento:
+          titolo: Il ragazzo che conta
+          testo: |
+            Il ragazzo ripete i tuoi turni e si accorge che non tornano con
+            quelli che ha sentito dire alla bacheca. Ti dà mezza borsa e se ne
+            va senza salutare.
+          effetti: { monete: 6, sospetto: 0.5 }
+      - testo: "Lasciarlo ad aspettare"
+        descrizione: "Oggi no. Il ragazzo aspetterà, e la borsa con lui."
+        costo: 0
+        esito:
+          titolo: Il banco del sale
+          testo: |
+            Passi davanti al banco del sale senza fermarti, e il ragazzo ti
+            segue con gli occhi finché non sparisci fra la folla del Mercato.

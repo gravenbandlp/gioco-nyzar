@@ -1,0 +1,1194 @@
+# «Il cerchio aperto», passi 7, 8, 10 e 11 (fazione.accademia da 6 a 11). Il passo 6 è la spedizione del Gradone
+# Rosso (spedizione-gradone.yaml), il passo 9 la cattedra (contenuti/citta/accademia.yaml); qui c'è soltanto la
+# variante del passo 9 per chi aveva già la cattedra prima della quest (accademia.cattedra >= 1).
+# 7 La stanza di Dalmas: aprire la porta (accademia.stanza), poi i quaderni e la formula (accademia.formula) e la
+#   scelta su Agnese (accademia.agnese 1 detto a Orvald, 2 taciuto). Con pista.tribu >= 4 le pergamene della torre
+#   della Palude sono già sulla scrivania e la formula si ricostruisce più facilmente.
+# 8 La lingua delle macchine: Ambrin al Nodo, Ilka alla locanda o Mattias in Biblioteca (accademia.lingua), poi la
+#   risposta: con il congegno di controllo di Capomozzo il disco vibra sulla stessa sequenza, senza resta ignota.
+# 10 L'acqua in Consiglio: il Municipio a porte chiuse (accademia.consiglio 1 autorizzato, 2 la notizia esce).
+#   L'offerta della Gilda la porta Ottone Malgrani fino a pista.pelle < 7, poi Tarquin Cordani. Dopo la seduta l'uomo della
+#   Casa dei Nodi propone di riferire (accademia.spia, scena facoltativa fino al passo 13).
+# 11 La colletta dei cristalli: accademia.carica fino a 3, il furto (accademia.furto), il giunto.
+storylet:
+  # ------------------------------------------------------------ passo 7 · la stanza di Dalmas
+  - id: accademia-la-stanza-di-dalmas
+    presso: accademia-di-torvessa
+    immagine: ambientazione/accademia-di-torvessa
+    titolo: La stanza di Dalmas
+    sommario: "Severo Dalmas ha svegliato la Vecchia con una formula sua e poi se n'è andato. La sua stanza nella torretta è chiusa da allora."
+    luogo: Accademia di Torvessa, la torretta
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 6, accademia.stanza == 0]
+    testo: |
+      La torretta dell'Accademia è un cilindro di pietra con una scala che
+      gira contro il muro e una porta a ogni pianerottolo. L'ultima porta, in
+      cima, ha la vernice verde scrostata e una serratura di Mana dei
+      Precursori, un disco d'ottone con sette solchi e nessun buco per la
+      chiave. Sul pianerottolo c'è uno sgabello che nessuno usa, con sopra
+      un dito di polvere.
+
+      Orvald si ferma due gradini sotto. «Severo se n'è andato due anni dopo
+      aver svegliato la Vecchia» dice. «Diceva che la sentiva anche da
+      lontano, quando dormiva. Ha chiuso la porta, mi ha lasciato le chiavi
+      del laboratorio e non ho più saputo niente.» Si guarda le mani. «In otto anni non l'ho mai aperta. Dopo il Gradone so che avrei dovuto farlo il giorno stesso.»
+
+      {tecnologia Media} I sette solchi del disco sono un'altra cosa rispetto
+      a una combinazione. Vanno toccati nell'ordine in cui il Mana ci è
+      passato l'ultima volta, e la polvere nei solchi non è uguale dappertutto.
+
+      {origine allievo-di-torvessa} Fra gli allievi la porta verde in cima
+      alla torretta è quella del maestro andato via. Al primo anno vi
+      sfidavate a toccarla di notte, e tu l'hai toccata con un dito solo,
+      scappando giù per le scale.
+
+      Pett è salito con voi e adesso passeggia sullo sgabello, lasciando impronte di zampa nella polvere fino a un angolo preciso. Lì si ferma e ti guarda.
+
+      {addestrare-animali Facile} Si comporta come un corvo che sa una cosa
+      e vuole essere pagato per dirla.
+    opzioni:
+      - testo: "Aprire con il Sigillo"
+        descrizione: "Il Sigillo chiude le serrature di Mana, e chi lo sa chiudere le sa anche aprire."
+        incantesimo: sigillo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Sette solchi
+          testo: |
+            Appoggi il palmo sul disco e fai scorrere il Mana dentro i solchi
+            al contrario, come si riavvolge un filo. Al settimo il disco gira da
+            solo con un rumore di ingranaggio ben oliato, e la porta verde si
+            apre verso l'interno. Dalla stanza esce un odore di carta vecchia e
+            di gesso.
+          pe: { magia: 4 }
+          imposta: { accademia.stanza: 1 }
+        fallimento:
+          titolo: Il ritorno
+          testo: |
+            Il disco ti rimanda indietro il Mana tutto insieme, e ti ritrovi
+            seduto sul pianerottolo con il braccio intorpidito fino alla spalla.
+            Orvald ti aiuta a rialzarti e dice che Severo le serrature le faceva
+            bene, purtroppo.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Leggere i solchi nella polvere"
+        descrizione: "La polvere nei solchi dice in che ordine il Mana ci è passato l'ultima volta. Bisogna leggerla senza soffiarci sopra."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: L'ordine della polvere
+          testo: |
+            Ti chini sul disco con la lanterna di traverso e guardi la polvere
+            nei solchi finché non vedi dove è più sottile. Tocchi i solchi
+            nell'ordine, dal più pulito al più sporco, trattenendo il fiato. Al
+            settimo la serratura scatta, e Orvald, dietro di te, butta fuori
+            l'aria che tratteneva anche lui.
+          pe: { tecnologia: 6 }
+          imposta: { accademia.stanza: 1 }
+        fallimento:
+          titolo: Il solco sbagliato
+          testo: |
+            Al quarto solco il disco si scalda e torna alla posizione di
+            partenza. Ti brucia la punta delle dita. Orvald ti dice di aspettare
+            domani, quando la serratura si sarà calmata.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Pagare Pett per quello che sa"
+        descrizione: "Il corvo si è fermato in un angolo dello sgabello. Una noce e un po' di pazienza potrebbero bastare."
+        immagine: personaggi/orvald-temmerin
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La chiave sotto lo sgabello
+          testo: |
+            Offri a Pett una noce, poi un'altra. Alla terza il corvo scende
+            dallo sgabello, ci infila il becco sotto e tira fuori una chiave
+            d'ottone con un dischetto di cristallo al posto dell'impugnatura.
+            Orvald la riconosce e impallidisce. È la chiave di Severo, e Pett
+            l'ha tenuta lì per otto anni senza dirlo a nessuno. Il dischetto
+            appoggiato sul disco apre la porta al primo tocco.
+          pe: { addestrare-animali: 5 }
+          imposta: { accademia.stanza: 1 }
+        fallimento:
+          titolo: Le noci di Pett
+          testo: |
+            Pett si mangia le noci una alla volta e poi si mette a dormire sullo
+            sgabello, sopra quello che sa. Orvald dice che con lui ci prova da
+            anni, e che il corvo i suoi segreti li vende cari.
+
+      - testo: "Aspettare Agnese, che ha una chiave per tutto"
+        descrizione: "La maestra di laboratorio ha un mazzo di chiavi al collo. Forse fra quelle c'è anche questa."
+        costo: 2
+        esito:
+          titolo: La chiave al collo
+          testo: |
+            Agnese arriva dopo il suo turno, con i guanti ancora umidi, e quando
+            vede la porta si ferma sul gradino. Poi sfila dal collo una
+            cordicella con una chiave d'ottone e un dischetto di cristallo al
+            posto dell'impugnatura, la appoggia sul disco e la porta si apre.
+            Orvald la guarda a lungo senza chiederle niente. Lei si rimette la
+            chiave sotto il colletto e scende senza salutare.
+
+            {empatia Media} Per tutto il tempo ha tenuto l'altra mano sul
+            corrimano, stretta. Quella chiave la porta da molto tempo.
+          pe: { empatia: 3 }
+          imposta: { accademia.stanza: 1 }
+
+  - id: accademia-i-quaderni-di-dalmas
+    presso: accademia-di-torvessa
+    immagine: ambientazione/accademia-di-torvessa
+    titolo: I quaderni di Dalmas
+    sommario: "La stanza di Severo Dalmas è rimasta com'era. Sulle pareti ci sono i gessi della sua formula, e sul tavolo i quaderni."
+    luogo: Accademia di Torvessa, la stanza in cima alla torretta
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 6, accademia.stanza >= 1]
+    testo: |
+      La stanza è piccola e piena di luce, perché la finestra guarda la
+      Cicatrice e nessuno ha mai tirato la tenda. Il letto è fatto con cura
+      militare, la coperta tesa sotto il materasso. Sulle pareti ci sono file intere di segni di gesso, scritti con una mano sempre più fitta, fino al
+      soffitto, dove Severo doveva salire sulla sedia per arrivarci. Sul
+      tavolo ci sono una pila di quaderni con la copertina nera e una tazza
+      con il fondo di un tè seccato da otto anni.
+
+      {accademiche Media} I segni sulle pareti sono di una lingua che
+      all'Accademia si studia solo nelle note a margine. Hanno le stesse
+      forme delle iscrizioni dei calchi del Gradone.
+
+      Orvald resta sulla soglia. Pett invece entra per primo e va dritto alla tazza.
+
+      {resistenza Facile} Dopo la scala della torretta hai le gambe che tremano. Ti appoggi allo stipite finché il fiato non torna.
+
+      Accanto ai quaderni c'è un posto vuoto senza polvere, rettangolare,
+      grande come un registro. Qualcuno ci teneva un libro fino a poco tempo
+      fa, e l'ha portato via.
+
+      {percezione Facile} Sul bordo del tavolo c'è un segno di guanto di
+      pelle, nella polvere, recente. Le dita erano lunghe e sottili.
+
+      {origine figlio-del-circolo} Sul davanzale c'è un vaso di terracotta con
+      una pianta secca da anni. Al Circolo avresti saputo dirne il nome dalle
+      radici, e qui ti accorgi di non saperlo.
+    opzioni:
+      - testo: "Ricostruire la formula dai quaderni e dai gessi"
+        descrizione: "I quaderni sono in ordine di data. I gessi sulle pareti sono le prove, e le prove sbagliate sono cancellate con una riga."
+        quando: [accademia.formula == 0, pista.tribu < 4]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: La riga che resta
+          testo: |
+            Ci passi la giornata, con i quaderni aperti sul letto e il collo
+            piegato all'indietro verso i gessi del soffitto. Le prove cancellate
+            sono centinaia. Una sola riga, sopra la porta, non ha la riga sopra,
+            e nel quaderno di quella data Severo ha scritto *questa risponde*. La
+            ricopi lettera per lettera. Non è una formula dell'Arte dei
+            cristalli, e i segni sono della stessa famiglia delle formule che
+            all'Accademia non si insegnano.
+          pe: { accademiche: 6 }
+          imposta: { accademia.formula: 1 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Centinaia di righe
+          testo: |
+            A sera hai il collo rigido e cento righe ricopiate, e nessuna che
+            torni. Orvald ti porta su una scodella di minestra e ti dice di
+            ricominciare domani dai quaderni, che Severo era più ordinato sulla
+            carta che sui muri.
+
+      - testo: "Ricostruire la formula con le pergamene della torre"
+        descrizione: "Sulla scrivania di Orvald ci sono le pergamene della torre della Palude Acquanera. Orvald ha già capito di chi erano."
+        quando: [accademia.formula == 0, pista.tribu >= 4]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Facile }
+        successo:
+          titolo: La torre della Palude
+          testo: |
+            Le pergamene della torre hanno la stessa grafia dei quaderni e gli
+            stessi segni dei gessi, in bella copia. Il mago che abitava la torre
+            della Palude era Severo, e Orvald l'ha capito dal sigillo del cerchio
+            incompleto in fondo a ogni foglio. Con le pergamene accanto ai
+            quaderni la formula viene fuori in un pomeriggio, sopra la porta,
+            l'unica riga senza la cancellatura. Nel quaderno di quella data
+            Severo ha scritto *questa risponde*.
+          pe: { accademiche: 6 }
+          imposta: { accademia.formula: 1 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Due grafie
+          testo: |
+            Le pergamene e i quaderni hanno la stessa grafia scritta a
+            vent'anni di distanza, e tu continui a confonderle. A sera Orvald
+            ti dice di lasciar perdere per oggi. Ha gli occhi rossi, e non per
+            la polvere.
+
+      - testo: "Chiedere ad Agnese perché porta la chiave di questa stanza"
+        descrizione: "Il segno di guanto sul tavolo è recente. In Accademia c'è una sola persona che porta i guanti anche d'estate."
+        immagine: ambientazione/cristalli-conduttori
+        quando: [accademia.formula == 0]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il registro mancante
+          testo: |
+            La trovi nella Camera, durante il suo turno, e le chiedi della
+            chiave senza alzare la voce. Agnese conta fino alla fine del giro,
+            poi tira fuori da sotto il tavolo un registro rilegato in nero, il
+            rettangolo senza polvere della torretta. Dentro ci sono le notti
+            della Vecchia degli ultimi due anni, e accanto a molte una riga
+            sottolineata, sempre la stessa. «Severo l'aveva scritta sopra la porta. Quando la Vecchia cala io la dico a mezza voce, e lei si rialza ogni volta un po' più a lungo» dice, senza guardarti.
+          pe: { empatia: 6 }
+          imposta: { accademia.formula: 1 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il turno
+          testo: |
+            Agnese ti ascolta senza smettere di contare, e quando hai finito ti
+            dice che durante il turno non si parla. Il turno dura fino all'alba.
+            All'alba se n'è già andata da un'altra scala.
+
+      - testo: "Dirlo a Orvald"
+        descrizione: "Agnese tiene accesa la Vecchia con una formula che nessuno all'Accademia dovrebbe conoscere. Il preside deve saperlo."
+        quando: [accademia.formula >= 1]
+        esito:
+          titolo: I turni di notte
+          testo: |
+            Glielo dici nello studio, con la porta chiusa. Orvald ascolta
+            guardando la mappa delle fontane, e quando hai finito resta zitto a
+            lungo. Poi scende nella Camera e ne risale un'ora dopo da solo. Agnese
+            è sospesa dai turni, e i turni di notte li fa lui, per la prima volta
+            da otto anni. «Aveva ragione lei, la Vecchia si rialza» ti dice il
+            giorno dopo, con la barba non fatta. «È proprio questo che mi
+            spaventa.»
+          pe: { politica-ed-economia: 3 }
+          imposta: { accademia.agnese: 1 }
+          effetti: { fazione.accademia: 1, rep.accademia: 0.5 }
+
+      - testo: "Tacere e aiutare Agnese"
+        descrizione: "Se Orvald lo viene a sapere la sospende dai turni, e la Vecchia resta senza chi sa farla rialzare. Puoi tenerlo per te e darle una mano nei turni."
+        quando: [accademia.formula >= 1]
+        esito:
+          titolo: Il secondo paio di mani
+          testo: |
+            Scendi nella Camera durante il turno di Agnese e le dici che Orvald
+            non saprà niente da te. Lei ti guarda a lungo, poi ti mette in mano
+            la clessidra e ti insegna a contare il battito come lo conta lei, con
+            la punta delle dita sul lyssan. Quando la Vecchia cala, verso le
+            tre, dice la riga di Severo a mezza voce, e tu senti il cristallo
+            rialzarsi sotto le dita. Le trema la mano dentro il guanto. Ti
+            ringrazia una volta sola, all'alba, sulla scala.
+          pe: { resilienza: 3 }
+          imposta: { accademia.agnese: 2 }
+          effetti: { fazione.accademia: 1, rep.accademia: 0.5, sospetto: 0.5 }
+
+  # ------------------------------------------------------------ passo 8 · la lingua delle macchine
+  - id: accademia-la-formula-al-nodo
+    presso: mercato-dei-nodi
+    immagine: personaggi/ambrin-qell
+    titolo: La lingua delle macchine
+    sommario: "All'Accademia nessuno sa leggere una formula precuriana senza vergognarsene. Al Nodo d'Ossidiana Ambrin Qell non si vergogna di niente."
+    luogo: Mercato dei Nodi, il Nodo d'Ossidiana
+    area: ponti-sospesi
+    requisiti: [fazione.accademia == 7, accademia.lingua == 0]
+    testo: |
+      Al Nodo d'Ossidiana Ambrin Qell sta dietro il bancone a ricopiare una
+      pergamena, e il corvo familiare ti guarda entrare dalla sua stanga.
+      Appoggi sul bancone la riga di Severo ricopiata. Ambrin la legge senza
+      toccarla, poi la gira con la punta della penna, come si gira un insetto
+      morto per vederne la pancia.
+
+      {magia Media} Anche scritta sulla carta, la riga ha un peso. Ti
+      formicolano i polpastrelli dove l'hai tenuta tutta la strada.
+
+      «All'Accademia vi insegnano che queste non esistono» dice Ambrin. «Poi ve le trovate scritte sui muri e venite da me di sera, con il cappuccio tirato sugli occhi.» Alza gli occhi azzurri. «Te la leggo, ma qui le cose
+      hanno un prezzo, e quando esci dal Nodo con una formula precuriana in
+      tasca ci sono due chierici del Velo, in fondo al ponte, che contano chi
+      entra.»
+
+      {conoscenze-della-strada Media} I due chierici in fondo al ponte ci sono
+      davvero, e uno dei due ha già girato la testa verso la vetrina.
+
+      Il corvo scende sul bancone, cammina fino alla pergamena e la tiene
+      ferma con una zampa.
+    opzioni:
+      - testo: "Convincere Ambrin a leggerla"
+        descrizione: "Ambrin legge le formule precuriane per chi sa spiegare perché gli servono."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Un ordine
+          testo: |
+            Gli racconti dell'acqua senza dire della Vecchia, e Ambrin capisce lo
+            stesso. Legge la riga a voce bassissima, una sillaba alla volta, e
+            le lanterne della bottega tremano. «È un ordine, della stessa famiglia del Comando. Il cristallo non lo accende affatto. Dice a una cosa di rispondere a chi la chiama, e chi lo dice resta legato a chi ascolta.» All'uscita i due chierici in fondo al ponte ti guardano
+            passare con molta attenzione.
+          pe: { persuasione: 5 }
+          imposta: { accademia.lingua: 1 }
+          effetti: { sospetto: 0.5 }
+        fallimento:
+          titolo: Il cappuccio
+          testo: |
+            Ambrin ti ascolta e ti restituisce la pergamena con la punta della
+            penna. Dice che una formula così si legge a chi sa che cosa ne farà,
+            e tu ancora non lo sai. All'uscita i chierici ti guardano lo stesso.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Farla leggere da socio"
+        descrizione: "Hai la chiave del retrobottega. Fra soci le formule si leggono senza discutere il prezzo."
+        requisiti: [nodo.socio >= 1]
+        esito:
+          titolo: Il retrobottega
+          testo: |
+            Ambrin ti fa passare nel retrobottega, dove i chierici non vedono, e
+            legge la riga a voce bassissima fra le casse. «È un ordine, della
+            stessa famiglia del Comando. Dice a una cosa di rispondere a chi la
+            chiama, e chi lo dice resta legato a chi ascolta.» Poi ti fa uscire
+            dalla porta sul retro, quella che dà sulle corde.
+          pe: { magia: 4 }
+          imposta: { accademia.lingua: 1 }
+
+      - testo: "Pagare la lettura"
+        descrizione: "Ambrin ha un prezzo per tutto. Per questo ne ha uno alto."
+        requisiti: [monete >= 25]
+        esito:
+          titolo: Il prezzo della lettura
+          testo: |
+            Ambrin conta le monete, le mette nel cassetto e legge la riga a
+            voce bassissima. «È un ordine. Dice a una cosa di rispondere a chi
+            la chiama, e chi lo dice resta legato a chi ascolta.» All'uscita i
+            due chierici in fondo al ponte scrivono qualcosa su una tavoletta.
+          pe: { magia: 3 }
+          imposta: { accademia.lingua: 1 }
+          effetti: { monete: -25, sospetto: 0.5 }
+
+  - id: accademia-la-formula-da-ilka
+    immagine: ambientazione/locanda-di-ilka
+    titolo: La ninna nanna di Ilka
+    sommario: "Ilka Dravec conosce qualche parola dei Precursori. Forse ne conosce anche una riga intera."
+    luogo: Locanda di Ilka, accanto al fuoco
+    area: citta-bassa
+    requisiti: [fazione.accademia == 7, accademia.lingua == 0]
+    testo: |
+      Il pomeriggio la Locanda di Ilka è quasi vuota, e Besk lava i
+      boccali dietro il banco con le maniche arrotolate fino al gomito. Ilka
+      è al suo posto accanto al fuoco, con una coperta sulle ginocchia e gli
+      occhi lattiginosi rivolti alla porta. Ti saluta per nome prima che tu
+      entri, e questa volta ci azzecca.
+
+      Ti siedi sullo sgabello accanto a lei e tiri fuori la riga di Severo.
+      Ilka è quasi cieca e la carta per lei è bianca. Quando però la pronunci a mezza voce, male, smette di dondolarsi.
+
+      {empatia Media} Ha riconosciuto il suono prima delle parole, e le si è
+      stretta la bocca.
+
+      {resistenza Facile fallita} Il calore del fuoco e l'odore delle patate
+      speziate ti stanno facendo dimenticare perché sei venuto.
+
+      «Questa la cantava mia nonna, quando i carri non volevano ripartire»
+      dice Ilka. Besk posa il boccale e viene a sedersi dall'altra parte,
+      con il quaderno già aperto. «Mamma, la parola giusta» dice piano.
+      «Quella che diceva la nonna.» Ilka sorride a qualcuno che non c'è.
+
+      {origine figlio-della-citta-bassa} In Città Bassa le nonne olvare cantano ai bambini cantilene in una lingua che non traduce più nessuno, e tu ne ricordi un
+      pezzo, una cantilena da contare sulle dita.
+    opzioni:
+      - testo: "Lasciare che Ilka la canti"
+        descrizione: "Non serve chiederle niente. Serve ascoltarla, e non interromperla quando sbaglia."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Facile }
+        successo:
+          titolo: La cantilena
+          testo: |
+            Ilka canta la riga intera a voce bassa, come una ninna nanna, e
+            nelle pause batte il tempo con il pollice sul ginocchio, due colpi brevi seguiti da uno lungo. Il fuoco si abbassa mentre canta. Quando finisce
+            chiede a Besk chi è la persona seduta accanto a lei. Besk le scrive
+            il significato sul quaderno, parola per parola. «Rispondi a chi ti
+            chiama, e non smettere» legge a voce alta. «Chi canta resta con chi
+            risponde.»
+          pe: { empatia: 5 }
+          imposta: { accademia.lingua: 1 }
+        fallimento:
+          titolo: Il falò dei carri
+          testo: |
+            Ilka comincia la riga, poi passa al falò dei primi carri e non
+            torna più indietro. Besk ti fa segno di lasciarla stare, e ti dice
+            di tornare un pomeriggio che sua madre è più lucida.
+
+      - testo: "Cantare con lei la cantilena che conosci"
+        descrizione: "Se Ilka comincia e tu continui, forse lei trova la strada fino in fondo."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: A due voci
+          testo: |
+            Attacchi la cantilena dove si interrompe lei, e Ilka ti segue sorpresa. Poi ti supera e la porta fino in fondo con una voce che
+            Besk dice di non sentirle da anni. Besk scrive il significato sul
+            quaderno. «Rispondi a chi ti chiama, e non smettere. Chi canta resta
+            con chi risponde.» Poi chiude il quaderno e ti guarda male, perché
+            sua madre adesso è stanca e felice e lei non ci era mai riuscita.
+          pe: { espressivita: 5 }
+          imposta: { accademia.lingua: 1 }
+        fallimento:
+          titolo: La nota stonata
+          testo: |
+            Stoni alla seconda nota, e Ilka ride così forte che le scivola la
+            coperta. Della riga si è dimenticata. In compenso ti tiene la mano fino a sera e ti chiama con il nome di un suo cugino.
+
+  - id: accademia-la-formula-in-biblioteca
+    presso: biblioteca-di-qir-azel
+    immagine: personaggi/mattias-crenn
+    titolo: I calchi e la riga
+    sommario: "Mattias Crenn ha i calchi del Gradone e una pazienza infinita. Per scomporre una formula precuriana servono tutti e due."
+    luogo: Biblioteca di Qir-Azel, la sala di lettura
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 7, accademia.lingua == 0]
+    testo: |
+      Nella sala di lettura della Biblioteca la luce scende da finestre strette in alto e si posa sui tavoli lunghi come polvere d'oro.
+      Mattias Crenn ti aspetta con i calchi del Gradone già stesi e fermati
+      agli angoli con quattro calamai. Ha preparato anche una tavola di segni,
+      ricopiata a mano su un foglio grande, con accanto a ogni segno un punto
+      interrogativo.
+
+      {accademiche Media} La tavola è di Mattias, e i punti interrogativi
+      sono onesti. Nessuno in città sa leggere questa lingua, e lui è uno dei
+      pochi che sa di non saperla.
+
+      Al fondo della sala, dietro una grata, cominciano gli scaffali
+      sigillati con la cera nera. Ulric Stanne passa fra i tavoli con il
+      mazzo delle chiavi alla cintura e guarda i calchi con una curiosità che
+      non riesce a nascondere.
+
+      {politica-ed-economia Facile} Negli scaffali sigillati ci sono le cose
+      che il Velo ha chiesto di non prestare. Una chiave di quella grata vale
+      più di una tessera dei Quartieri Alti.
+
+      Mattias appoggia la riga di Severo accanto ai calchi e la confronta
+      segno per segno, muovendo le labbra.
+    opzioni:
+      - testo: "Scomporre la formula sui calchi"
+        descrizione: "Segno per segno, con la tavola di Mattias e molta pazienza. È un lavoro da giorni."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Rispondere
+          testo: |
+            Ci mettete tre giorni. Alla fine, sulla tavola di Mattias, accanto a
+            ogni segno della riga c'è una parola. È un ordine, rivolto a una
+            cosa che ascolta, perché risponda a chi la chiama e non smetta. Il
+            segno finale lega chi parla a chi risponde. Mattias si toglie gli
+            occhiali e ti dice che preferiva i punti interrogativi.
+          pe: { accademiche: 6 }
+          imposta: { accademia.lingua: 1 }
+        fallimento:
+          titolo: I punti interrogativi
+          testo: |
+            Dopo tre giorni la tavola ha più punti interrogativi di prima.
+            Mattias dice che la Biblioteca ha tempo, e che puoi tornare quando
+            vuoi.
+
+      - testo: "Aprire con la tua chiave il fascio delle misure"
+        descrizione: "Negli scaffali sigillati c'è un fascio di misure dei cristalli raccolte per vent'anni. Con quello accanto, la formula si legge meglio."
+        requisiti: [biblioteca.tessera >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Il fascio delle misure
+          testo: |
+            Il fascio è legato con lo spago e pieno di tabelle scritte da mani
+            diverse in vent'anni, le misure dei battiti dei cristalli maggiori
+            della città. Battono tutti insieme, e qualcuno ha scritto a margine
+            il nome di Darn-Morakh con un punto interrogativo. Con le tabelle
+            accanto la riga di Severo si apre in un pomeriggio. È un ordine a una
+            cosa che ascolta, perché risponda a chi la chiama, e lega chi parla
+            a chi risponde. Rimetti il fascio dov'era, e Ulric segna la tua
+            visita sul registro.
+          pe: { accademiche: 6 }
+          imposta: { accademia.lingua: 1 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Lo spago
+          testo: |
+            Le tabelle sono troppe, scritte da troppe mani, e a sera hai
+            soltanto il mal di testa. Ulric ti chiede di rimettere lo spago
+            com'era, con lo stesso nodo.
+
+      - testo: "Lasciare la riga a Mattias e tornare fra una settimana"
+        descrizione: "Mattias lavora meglio da solo, e la Biblioteca chiude tardi."
+        costo: 2
+        esito:
+          titolo: Una settimana dopo
+          testo: |
+            Quando torni, una settimana dopo, Mattias ha gli occhi rossi e la
+            tavola piena. Ti legge la riga parola per parola. È un ordine a una
+            cosa che ascolta, perché risponda a chi la chiama e non smetta, e
+            chi lo dice resta legato a chi risponde. Ti chiede di non dirgli a
+            che cosa serve.
+          pe: { accademiche: 2 }
+          imposta: { accademia.lingua: 1 }
+
+  - id: accademia-due-brevi-e-una-lunga
+    presso: accademia-di-torvessa
+    immagine: personaggi/orvald-temmerin
+    titolo: Due brevi e una lunga
+    sommario: "Adesso sai che cosa dice la riga di Severo. Orvald vuole sentirlo da te, nello studio, con la mappa delle fontane aperta."
+    luogo: Accademia di Torvessa, lo studio del preside
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 7, accademia.lingua >= 1]
+    testo: |
+      Nello studio Orvald ha steso sulla scrivania la mappa delle fontane, e
+      accanto il quaderno di Besk con la notte del cortile di Ilka. Due brevi
+      e una lunga, cento volte, in colonna. Gli racconti che cosa dice la
+      riga di Severo, e lui ascolta con le mani intrecciate sulla pancia e
+      gli occhi chiusi, come ascolta le formule degli allievi.
+
+      «Quindi Severo non l'ha accesa» dice alla fine. «Le ha detto di
+      rispondere. E da dieci anni lei risponde a qualcosa.» Apre gli occhi e
+      guarda la colonna di Besk. «La domanda è a chi.»
+
+      {magia Media} Ti torna in mente il battito della Vecchia nella Camera,
+      e ti accorgi che lo stai battendo con il dito sulla scrivania senza
+      volerlo.
+
+      {resilienza Difficile fallita} Per un momento ti sembra di sentirlo
+      anche qui, quattro piani sopra la cisterna, e ti si secca la bocca.
+
+      Pett si è appollaiato sul teschio di cinghiale e non si muove.
+    opzioni:
+      - testo: "Appoggiare sulla mappa il congegno di Aurenne"
+        descrizione: "Il disco che portava al collo comandava le macchine della Salvaguardia. Le macchine del Festival battevano due brevi e una lunga."
+        quando: [oggetto.congegno-di-controllo >= 1]
+        esito:
+          titolo: La stessa chiamata
+          testo: |
+            Appoggi il congegno di controllo sulla mappa delle fontane, e dopo un momento il disco comincia a vibrare con due colpi brevi e uno lungo, lo stesso ritmo della colonna di Besk. Orvald lo guarda a lungo senza toccarlo. La Vecchia rispondeva alla stessa chiamata che al Festival
+            ha messo in cammino le macchine, e la chiamata partiva dal
+            congegno, cioè da Capomozzo. «Adesso il congegno è spento sulla mia scrivania, eppure la Vecchia batte lo stesso» dice Orvald piano, e Pett si stringe nelle penne.
+          pe: { tecnologia: 5 }
+          effetti: { fazione.accademia: 1, rep.accademia: 0.5 }
+
+      - testo: "Dire a Orvald che la fonte non la sapete"
+        descrizione: "Due brevi e una lunga, come al Festival. Da dove arrivi la chiamata, per ora, non lo sa nessuno."
+        quando: [oggetto.congegno-di-controllo == 0]
+        esito:
+          titolo: A chi
+          testo: |
+            Gli dici quello che sai. La sequenza della fontana è quella che
+            hanno battuto i cristalli del banco al Festival, prima che
+            arrivassero le macchine, e la riga di Severo dice alla Vecchia di
+            rispondere a chi chiama, ma chi sia a chiamare non lo sapete. Orvald scrive la domanda in cima alla mappa, con la sua grafia stretta, e ci mette
+            accanto un punto interrogativo grande. «Per adesso basta sapere che qualcuno chiama, e il resto lo chiediamo al Consiglio» dice, arrotolando la mappa.
+          pe: { accademiche: 5 }
+          effetti: { fazione.accademia: 1, rep.accademia: 0.5 }
+
+  # ------------------------------------------------------------ passo 9 · per chi ha già la cattedra
+  # La cattedra (contenuti/citta/accademia.yaml) chiede accademia.cattedra == 0. Chi l'aveva presa prima della quest
+  # passa da qui, con le stesse ricompense del grado 3.
+  - id: accademia-il-voto-del-maestro-aggiunto
+    presso: accademia-di-torvessa
+    immagine: personaggi/orvald-temmerin
+    titolo: Il voto del maestro aggiunto
+    sommario: "La cattedra ce l'hai già, e anche la chiave del seminterrato. Giovedì il consiglio dei maestri vota sulla Vecchia, e Orvald conta i voti sulle dita."
+    luogo: Accademia di Torvessa, la sala del consiglio dei maestri
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 8, accademia.cattedra >= 1]
+    testo: |
+      La sala del consiglio dei maestri è una stanza lunga con sette sedie scompagnate intorno al tavolo e un ritratto del fondatore talmente
+      annerito che si vedono soltanto le mani. Giovedì si vota se portare
+      la Vecchia davanti al Consiglio della città. Orvald ha contato i voti
+      sulle dita tre volte, e gli torna sempre lo stesso pareggio. Querci e
+      due maestri vogliono tacere fino all'inverno, lasciare che la Vecchia
+      si spenga e chiedere i soldi a cose fatte.
+
+      «Tu sei maestro aggiunto da prima che cominciasse tutto questo» dice
+      Orvald, e ti batte la nocca sul petto, dove tieni la chiave del
+      seminterrato. «Il tuo voto vale come il mio. Il problema è che Querci
+      lo sa.»
+
+      {politica-ed-economia Media} Un pareggio, in un consiglio di vecchi,
+      si rompe convincendo il più stanco. Il più stanco è il maestro di
+      storia, che vuole andare a pranzo.
+
+      {resistenza Facile fallita} Le sedie del consiglio sono tutte di
+      altezze diverse, e a te tocca la più bassa. Dopo un'ora il ginocchio comincia a protestare, e capisci perché i vecchi maestri votano in fretta.
+    opzioni:
+      - testo: "Convincere il maestro di storia prima del pranzo"
+        descrizione: "Un voto in più basta. Il maestro di storia è stanco, e ha fame."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il pranzo
+          testo: |
+            Al consiglio parli poco e porti il discorso verso la fine dell'ora,
+            quando il maestro di storia comincia a guardare la porta. Lui vota
+            con Orvald pur di uscire, e Querci sospira. Orvald si sfila dal dito
+            l'anello d'ottone dei Precursori e te lo mette nel palmo. «Pett lo
+            nasconde ogni settimana. Adesso lo nasconde a te» dice. Nella
+            torretta, da stasera, c'è una stanza tua.
+          pe: { persuasione: 5 }
+          almeno: { rep.accademia: 6 }
+          effetti: { fazione.accademia: 1, rep.accademia: 1, oggetto.accademia-anello-d-ottone: 1 }
+        fallimento:
+          titolo: Un voto di scarto
+          testo: |
+            Il maestro di storia vota con Querci, e il consiglio resta pari fino
+            a quando Tobol, che non ha diritto di voto, minaccia di raccontare a
+            tutti la storia della sua cravatta. La proposta passa per stanchezza.
+            Orvald ti dà lo stesso l'anello d'ottone e la stanza nella torretta,
+            ma Querci da oggi ti saluta con mezzo cenno.
+          almeno: { rep.accademia: 6 }
+          effetti: { fazione.accademia: 1, oggetto.accademia-anello-d-ottone: 1, scandalo: 0.5 }
+
+      - testo: "Votare e chiedere la lezione del Sigillo"
+        descrizione: "Al posto dell'anello, la formula che chiude le serrature di Mana. Orvald la regala ai maestri che votano bene."
+        quando: [magia >= 3, incantesimo.sigillo == 0]
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La porta del seminterrato
+          testo: |
+            La proposta passa per un voto, il tuo. Dopo il consiglio Orvald ti
+            porta nel seminterrato e ti fa chiudere la porta con il Sigillo,
+            poi prova ad aprirla con la spalla e non ci riesce. Nella torretta,
+            da stasera, c'è una stanza tua.
+          pe: { magia: 5 }
+          almeno: { rep.accademia: 6 }
+          effetti: { fazione.accademia: 1, rep.accademia: 1, incantesimo.sigillo: 1 }
+        fallimento:
+          titolo: La serratura che resiste
+          testo: |
+            La proposta passa per un voto, il tuo, ma il Sigillo nel seminterrato
+            ti scappa di mano tre volte. Orvald ti dà l'anello d'ottone al posto
+            della formula, e ti dice di tornare a lezione quando vuoi.
+          almeno: { rep.accademia: 6 }
+          effetti: { fazione.accademia: 1, rep.accademia: 1, oggetto.accademia-anello-d-ottone: 1 }
+
+      - testo: "Votare e basta"
+        descrizione: "Una mano alzata al momento giusto. Il resto lo fa Orvald."
+        esito:
+          titolo: La mano alzata
+          testo: |
+            Al momento del voto alzi la mano, e la proposta passa di un voto.
+            Querci annota tutto sul registro e chiude la penna con un colpo
+            secco. Orvald ti dà l'anello d'ottone che Pett nasconde ogni
+            settimana, e la chiave della stanza vuota nella torretta.
+          pe: { politica-ed-economia: 3 }
+          almeno: { rep.accademia: 6 }
+          effetti: { fazione.accademia: 1, rep.accademia: 0.5, oggetto.accademia-anello-d-ottone: 1 }
+
+  # ------------------------------------------------------------ passo 10 · l'acqua in Consiglio
+  - id: accademia-l-acqua-in-consiglio
+    presso: municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: L'acqua in Consiglio
+    sommario: "Il consiglio dei maestri ha votato. Adesso la Vecchia va davanti al Consiglio di Qir-Azel a porte chiuse, e il discorso tocca a te."
+    luogo: Municipio, la sala del Consiglio a porte chiuse
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 9]
+    testo: |
+      La sala del Consiglio ha le finestre chiuse e le tende tirate, e la
+      luce viene da un lampadario di cristalli che ronza piano sopra il
+      tavolo ovale. Julia Castaldi siede a capotavola con le mani sui
+      registri e il mento appoggiato alle nocche. Padre Vantes, per il Velo,
+      tiene gli occhi bassi. Tenebra, per i Raschiatori, sta nell'ombra fra
+      due finestre, con le vene che gli brillano sotto la pelle della guancia.
+      Chi siede per la Gilda ha un fascio di carte con il sigillo della Casa
+      dei Nodi già aperto davanti a sé.
+
+      {politica-ed-economia Media} La Gilda ha portato un'offerta scritta
+      prima ancora di sapere la domanda. Qualcuno, fra i maestri, ha parlato
+      presto.
+
+      Orvald si alza, dice tre frasi sulla condotta, si impappina sulla
+      quarta e si risiede, rosso fino alle orecchie. Ti guarda.
+
+      {empatia Facile} Davanti ai potenti parla male da trent'anni, e lo sa.
+      Ti ha portato qui per questo, e se ne vergogna un poco.
+
+      «Dunque» dice Julia, e si sistema gli occhiali. «L'acqua di questa città
+      dipende da un cristallo che si spegne entro l'inverno, l'Accademia lo
+      sa da mesi e io lo sento oggi. Mi dica che cosa vuole, e quanto costa.»
+
+      {origine rampollo-dei-quartieri-alti} Questa sala la conosci dalle
+      sedute in cui tuo padre ti portava a stare zitto in fondo. Il lampadario
+      ronzava già allora, e Julia guardava gli oratori nello stesso modo.
+
+      {origine mercante-dei-ponti} Le carte della Gilda le riconosci dal
+      taglio. È un'offerta scritta per essere accettata in fretta, prima che
+      qualcuno faccia i conti.
+    opzioni:
+      - testo: "Convincere il Consiglio"
+        descrizione: "Un discorso che tenga insieme l'acqua e i soldi, davanti a quattro persone che non vogliono sentirlo."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: La colletta e la Lacrima
+          testo: |
+            Parli dell'acqua di Via del Salmone prima che della Vecchia, e della
+            fila alla fontana prima che dei cristalli. Julia smette di prendere
+            appunti a metà discorso. Il Consiglio non paga una spedizione a
+            Darn-Morakh, che costa troppo, ma autorizza due cose. Una colletta di
+            cristalli, in silenzio, per alleggerire la Vecchia, e un sopralluogo
+            alla Lacrima pietrificata, il cristallo più grande della regione,
+            nelle torbiere a nord del Torvessa. Julia ti stringe la mano e ti
+            paga il disturbo dalla cassa del Municipio.
+          pe: { persuasione: 6 }
+          imposta: { accademia.consiglio: 1 }
+          effetti: { fazione.accademia: 1, rep.castaldi: 1, monete: 20 }
+        fallimento:
+          titolo: La sera stessa
+          testo: |
+            Il discorso ti scappa di mano a metà, quando Padre Vantes chiede se
+            la Cripta è stata informata. Il Consiglio autorizza lo stesso la
+            colletta e il sopralluogo alla Lacrima pietrificata, perché non ha
+            altra scelta. La sera stessa, però, la notizia esce dal Municipio,
+            e il giorno dopo i portatori d'acqua di tutta la città hanno alzato
+            i prezzi.
+          imposta: { accademia.consiglio: 2 }
+          effetti: { fazione.accademia: 1, scandalo: 1, rep.castaldi: 0.5 }
+
+      - testo: "Far vedere al Consiglio l'acqua di Via del Salmone"
+        descrizione: "Un secchio vuoto della fontana della Città Bassa a metà mattina, con i registri di Agnese accanto. Le carte parlano meglio di te."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Il secchio vuoto
+          testo: |
+            Metti sul tavolo ovale un secchio vuoto e il registro di Agnese
+            aperto alla pagina del Festival, con la colonna che raddoppia.
+            Spieghi i numeri uno per uno, senza aggettivi. Tenebra si avvicina
+            al tavolo per la prima volta e guarda la colonna a lungo. Il
+            Consiglio autorizza una colletta di cristalli in silenzio e un
+            sopralluogo alla Lacrima pietrificata, il cristallo più grande
+            della regione, nelle torbiere a nord del Torvessa. Julia ti fa
+            pagare il disturbo dalla cassa del Municipio.
+          pe: { accademiche: 6 }
+          imposta: { accademia.consiglio: 1 }
+          effetti: { fazione.accademia: 1, rep.castaldi: 1, monete: 20 }
+        fallimento:
+          titolo: I numeri sbagliati
+          testo: |
+            Sbagli una colonna, e chi siede per la Gilda te lo fa notare con
+            garbo davanti a tutti. Il Consiglio autorizza lo stesso la colletta
+            e il sopralluogo alla Lacrima pietrificata. La sera stessa, però, la
+            notizia esce dal Municipio, e l'indomani l'acqua dei portatori
+            costa il doppio in tutta la città.
+          imposta: { accademia.consiglio: 2 }
+          effetti: { fazione.accademia: 1, scandalo: 1, rep.castaldi: 0.5 }
+
+      - testo: "Smontare l'offerta di Ottone Malgrani"
+        descrizione: "Ottone offre i cristalli registrati della Gilda a un prezzo che sembra un favore. Bisogna leggere le clausole in fondo."
+        immagine: personaggi/ottone-malgrani
+        quando: [pista.pelle < 7]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Le clausole in fondo
+          testo: |
+            Leggi le carte della Gilda fino all'ultima riga, quella scritta più
+            piccola. I cristalli si pagano in dieci anni con gli interessi, e fino all'ultima rata la condotta passa sotto la gabella della Casa
+            dei Nodi. Lo dici ad alta voce. Ottone Malgrani raccoglie le carte
+            con un sorriso stretto. Il Consiglio autorizza una colletta di
+            cristalli in silenzio e un sopralluogo alla Lacrima pietrificata,
+            il cristallo più grande della regione. Julia ti fa pagare il
+            disturbo, e ti guarda un po' più a lungo del necessario.
+          pe: { politica-ed-economia: 6 }
+          imposta: { accademia.consiglio: 1 }
+          effetti: { fazione.accademia: 1, rep.castaldi: 1, monete: 20, rep.gilda: -0.5 }
+        fallimento:
+          titolo: Il favore
+          testo: |
+            Le clausole sono scritte bene, e Ottone le difende meglio di come
+            le attacchi tu. Il Consiglio rimanda l'offerta della Gilda e
+            autorizza intanto la colletta e il sopralluogo alla Lacrima
+            pietrificata. La sera stessa la notizia esce dal Municipio,
+            probabilmente dalla porta della Gilda.
+          imposta: { accademia.consiglio: 2 }
+          effetti: { fazione.accademia: 1, scandalo: 1, rep.castaldi: 0.5 }
+
+      - testo: "Smontare l'offerta di Tarquin Cordani"
+        descrizione: "Per la Gilda, adesso, siede il Sovrintendente in persona. La sua offerta è onesta, e proprio per questo va letta con cura."
+        quando: [pista.pelle >= 7]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Le mani ferme
+          testo: |
+            Tarquin Cordani offre i cristalli registrati della Gilda a rate, e
+            l'offerta è onesta fino alla penultima pagina. Nell'ultima la
+            condotta passa sotto la gabella della Casa dei Nodi finché il debito
+            non è pagato. Lo fai notare con calma. Le mani di Tarquin smettono
+            di muoversi sopra il tavolo, e poi lui ammette che la clausola l'ha
+            voluta il suo consiglio. Il Consiglio autorizza una colletta di
+            cristalli in silenzio e un sopralluogo alla Lacrima pietrificata,
+            il cristallo più grande della regione.
+          pe: { politica-ed-economia: 6 }
+          imposta: { accademia.consiglio: 1 }
+          effetti: { fazione.accademia: 1, rep.castaldi: 1, monete: 20, rep.gilda: -0.5 }
+        fallimento:
+          titolo: L'offerta onesta
+          testo: |
+            Tarquin risponde a ogni tua obiezione con un numero esatto, e il
+            Consiglio comincia a guardare lui invece di te. Alla fine si rimanda ogni decisione sulla Gilda, e passano soltanto la colletta e il sopralluogo alla Lacrima pietrificata. La sera stessa la notizia esce dal Municipio.
+          imposta: { accademia.consiglio: 2 }
+          effetti: { fazione.accademia: 1, scandalo: 1, rep.castaldi: 0.5 }
+
+      - testo: "Parlare come in Consiglio"
+        descrizione: "Sai come si parla in questa sala, dove ci si siede e quando si tace. Julia lo vede appena apri bocca."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Come in Consiglio
+          testo: |
+            Ti alzi, saluti la Rappresentante per prima e il Velo per secondo,
+            e aspetti che il lampadario smetta di ronzare. Poi parli dell'acqua con la calma che in questa sala si usa per le tasse, e lasci che i numeri facciano paura da soli. Julia ti ascolta come ascoltava tuo padre. Il
+            Consiglio autorizza una colletta di cristalli in silenzio e un
+            sopralluogo alla Lacrima pietrificata, il cristallo più grande della
+            regione, e ti paga il disturbo dalla cassa del Municipio.
+          pe: { galateo: 6 }
+          imposta: { accademia.consiglio: 1 }
+          effetti: { fazione.accademia: 1, rep.castaldi: 1, monete: 20 }
+
+      - testo: "Leggere le carte della Gilda come al banco"
+        descrizione: "Un'offerta della Gilda scritta in fretta ha sempre la stessa clausola nello stesso posto. Al banco l'hai vista cento volte."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: La clausola del banco
+          testo: |
+            Giri le carte fino alla penultima pagina senza leggere le prime,
+            perché sai dove stanno queste clausole. La condotta passerebbe sotto
+            la gabella della Casa dei Nodi finché il debito non è pagato. Lo leggi
+            ad alta voce, e chi siede per la Gilda raccoglie le carte senza
+            discutere. Il Consiglio autorizza una colletta di cristalli in
+            silenzio e un sopralluogo alla Lacrima pietrificata, il cristallo più
+            grande della regione.
+          pe: { politica-ed-economia: 6 }
+          imposta: { accademia.consiglio: 1 }
+          effetti: { fazione.accademia: 1, rep.castaldi: 1, monete: 20, rep.gilda: -0.5 }
+
+  # Facoltativa, dopo la seduta: l'uomo della Casa dei Nodi. Chi accetta viene messo alla prova al passo 14.
+  - id: accademia-l-uomo-della-casa-dei-nodi
+    presso: municipio
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: L'uomo della Casa dei Nodi
+    sommario: "Sulla scalinata del Municipio un uomo con il sigillo della Gilda sul colletto ti aspetta. Ha una proposta, e la fa camminando."
+    luogo: Quartieri Alti, la scalinata del Municipio
+    area: quartieri-alti
+    requisiti: [fazione.accademia >= 10, fazione.accademia <= 12, accademia.spia == 0]
+    testo: |
+      Sulla scalinata del Municipio un uomo con il sigillo della Gilda
+      appuntato al colletto ti si mette accanto e scende i gradini al tuo
+      passo. È ben vestito, con i guanti grigi e una voce gentile, e non ti
+      dice il suo nome.
+
+      «La Casa dei Nodi vuole soltanto sapere quello che sa il Consiglio, un
+      giorno prima» dice. «Quanti cristalli raccogliete, dove andate, che cosa
+      trovate. Non le chiediamo di mentire a nessuno, le chiediamo di
+      raccontare.» Ti fa scivolare in mano una borsa piccola e pesante, e
+      ritira la mano prima che tu possa restituirla.
+
+      {ingannare Media} Un uomo che ti dà la borsa prima della risposta sa
+      già che la terrai, oppure vuole che qualcuno vi veda.
+
+      {conoscenze-della-strada Facile} Ai piedi della scalinata c'è una
+      carrozza con le tendine abbassate, e il cocchiere non guarda da nessuna
+      parte, che è il modo più chiaro di guardare.
+    opzioni:
+      - testo: "Accettare e tenere la borsa"
+        descrizione: "Qualche moneta ogni tanto, e la stima della Gilda. Basta raccontare."
+        esito:
+          titolo: Il nodo al guanto
+          testo: |
+            Chiudi la mano sulla borsa. L'uomo annuisce e ti spiega come
+            trovarlo, un nodo al guanto sinistro lasciato sul davanzale del
+            Mercato dei Nodi. Poi sale sulla carrozza e se ne va. Ti sembra che sulla scalinata non ci fosse nessuno a guardarvi, e quasi ci credi.
+          imposta: { accademia.spia: 1 }
+          effetti: { monete: 25, rep.gilda: 1 }
+      - testo: "Restituirgli la borsa"
+        descrizione: "Con il giuramento o senza, l'acqua della città non si racconta a chi la vuole vendere."
+        esito:
+          titolo: I guanti grigi
+          testo: |
+            Gli rimetti la borsa nel palmo e gli chiudi tu le dita sopra. Lui
+            sorride senza offendersi e ti dice che la proposta resta valida
+            fino all'inverno, poi sale sulla carrozza. Dalla finestra del
+            Municipio, al primo piano, Julia Castaldi ha visto tutto.
+          imposta: { accademia.spia: 2 }
+          effetti: { rep.castaldi: 0.5 }
+      - testo: "Accettare e dirlo a Orvald"
+        descrizione: "Si può prendere la borsa e raccontare alla Gilda soltanto quello che decide il preside. Bisogna recitare bene la parte."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Le notizie del preside
+          testo: |
+            Prendi la borsa, e la sera stessa la porti a Orvald. Lui la soppesa
+            e ride, per la prima volta da settimane. D'ora in poi alla Casa dei
+            Nodi racconterai quello che ti detta lui, con la sua grafia stretta
+            su foglietti che poi bruci. La borsa la tiene Querci, e ti dà la tua
+            parte sospirando.
+          pe: { ingannare: 5 }
+          imposta: { accademia.spia: 2 }
+          effetti: { monete: 10, rep.accademia: 0.5 }
+        fallimento:
+          titolo: La carrozza
+          testo: |
+            Prendi la borsa recitando male, e l'uomo se ne accorge. Te la sfila
+            dalle dita con molta cortesia e sale sulla carrozza. Il giorno dopo
+            alla Casa dei Nodi il tuo nome è scritto in un registro che non è
+            quello degli amici.
+          imposta: { accademia.spia: 2 }
+          effetti: { rep.gilda: -0.5 }
+
+  # ------------------------------------------------------------ passo 11 · la colletta dei cristalli
+  - id: accademia-la-colletta-dei-cristalli
+    presso: accademia-di-torvessa
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La colletta dei cristalli
+    sommario: "La Vecchia si può alleggerire con un giunto che le passi la carica di molti cristalli piccoli. Servono cristalli, e qualcuno che li raccolga."
+    luogo: Accademia di Torvessa, il laboratorio
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 10]
+    testo: |
+      Nel laboratorio, sul banco di pietra nera, c'è il disegno del giunto,
+      un anello di rame con dodici alloggiamenti per i cristalli piccoli e un
+      braccio che va a toccare la base della Vecchia. L'ha disegnato Agnese,
+      con le misure in margine e una macchia di tè su un angolo. Accanto al
+      disegno c'è una cassetta vuota con l'etichetta *colletta*, scritta da
+      Querci.
+
+      «Ogni cristallo carico che mettiamo nel giunto è una notte in più per
+      la Vecchia» dice Agnese. «Ne servono tanti. Il giunto lo so disegnare,
+      ma a costruirlo bene ci vuole qualcuno che conosca le macchine dei
+      Precursori meglio di me.»
+
+      {tecnologia Media} Il disegno è buono, e gli alloggiamenti sono troppo
+      vicini. Con dodici cristalli carichi insieme, il rame si scalda come
+      una pentola.
+
+      La colletta si può fare in molti modi. In città ci sono i cristalli
+      carichi degli Averi, le gemme sugli usci delle famiglie dei Quartieri
+      Alti, i frammenti esausti che in Città Bassa si buttano e Bram Halgast
+      rifonde nel suo crogiolo. Sulla Superficie c'è Oda Krell, che le
+      macchine dei Precursori le monta e le smonta da vent'anni.
+
+      {origine rampollo-dei-quartieri-alti} Le gemme sugli usci le conosci, e
+      sai quali famiglie le tengono per bellezza e quali per paura.
+
+      {origine figlio-della-citta-bassa} In Città Bassa i frammenti esausti
+      non li butta nessuno. Si tengono in un barattolo sopra il camino, finché
+      qualcuno non ha fame.
+    opzioni:
+      - testo: "Portare un cristallo carico"
+        descrizione: "Dagli Averi alla cassetta di Querci. Il tesoriere te lo segna sul registro, e la Vecchia ringrazia a modo suo."
+        requisiti: [cristalli.cristallo-carico >= 1]
+        esito:
+          titolo: Una notte in più
+          testo: |
+            Posi il cristallo nella cassetta. Querci lo pesa sul palmo, lo
+            guarda contro la finestra e lo segna sul registro con il tuo nome
+            accanto. Agnese lo porta giù nella Camera prima di sera.
+          effetti: { cristalli.cristallo-carico: -1, accademia.carica: 1, rep.accademia: 0.5 }
+
+      - testo: "Caricare i cristalli sterili al banco di prova"
+        descrizione: "Il banco del laboratorio carica i cristalli sterili, se chi tiene le mani sul rame sa spingere il Mana piano."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Dodici canaline
+          testo: |
+            Passi la notte al banco con i guanti di Agnese, che ti stanno
+            larghi, a spingere il Mana nei cristalli sterili della scorta
+            dell'Accademia. All'alba due si sono incrinati, e uno pulsa
+            d'azzurro nella cassetta di Querci.
+          pe: { magia: 5 }
+          effetti: { accademia.carica: 1 }
+        fallimento:
+          titolo: Il rame caldo
+          testo: |
+            Il Mana ti torna indietro al terzo cristallo, e passi il resto della
+            notte con le mani nell'acqua fredda. Agnese ti dice che al banco ci
+            si siede riposati.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+
+      - testo: "Chiedere le gemme degli usci ai Quartieri Alti"
+        descrizione: "Molte famiglie tengono un cristallo carico sopra la porta, per bellezza. Bisogna convincerle a prestarlo senza dire perché."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Il prestito
+          testo: |
+            Bussi a sei portoni con una lettera del Municipio e il tuo abito
+            migliore, e parli di un restauro delle lanterne pubbliche. Tre
+            famiglie ti prestano la gemma dell'uscio, una ti offre anche il tè.
+            Querci li segna sul registro come prestiti, con una data di
+            restituzione che nessuno rispetterà.
+          pe: { galateo: 5 }
+          effetti: { accademia.carica: 1, rep.castaldi: 0.5 }
+        fallimento:
+          titolo: Il portone chiuso
+          testo: |
+            Al terzo portone un maggiordomo ti chiede perché un restauro delle
+            lanterne abbia bisogno delle gemme private, e tu non hai una
+            risposta pronta. Per sera ne parlano in due salotti.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Raccogliere i frammenti esausti per il crogiolo di Bram"
+        descrizione: "In Città Bassa i frammenti esausti si trovano in ogni casa. Bram Halgast li rifonde in cristalli piccoli, se glieli porti."
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Facile }
+        successo:
+          titolo: I barattoli sopra il camino
+          testo: |
+            Giri per la Città Bassa con un sacco e qualche moneta, e i
+            barattoli sopra i camini si svuotano nel tuo sacco uno dopo l'altro.
+            Bram Halgast fonde i frammenti nel crogiolo e te ne restituisce un
+            cristallo piccolo e torbido, carico a metà, che Querci accetta
+            storcendo il naso.
+          pe: { conoscenze-della-strada: 4 }
+          effetti: { accademia.carica: 1, nomea.citta-bassa: 0.5 }
+        fallimento:
+          titolo: Il sacco mezzo vuoto
+          testo: |
+            Le case che bussi sono quelle sbagliate, e a sera il sacco è mezzo
+            vuoto. Bram ci guarda dentro e ti dice di tornare quando è pieno.
+
+      - testo: "Bussare porta per porta in Via del Salmone"
+        descrizione: "Lucio Ruspi conosce ogni porta della sua strada. Con lui, i frammenti si raccolgono senza fatica, ma ci vuole tempo."
+        costo: 2
+        esito:
+          titolo: La strada di Lucio
+          testo: |
+            Lucio ti porta di porta in porta, presentandoti alle madri come il
+            maestro dell'Accademia, e tu non lo correggi. In Via del Salmone i
+            frammenti esausti li danno volentieri, perché la fontana la conoscono
+            tutti. A sera Bram Halgast ve ne fonde un cristallo piccolo, carico
+            appena, che è comunque una notte in più.
+          pe: { empatia: 2 }
+          effetti: { accademia.carica: 0.5 }
+
+      - testo: "Far costruire il giunto da Oda Krell"
+        descrizione: "Oda Krell monta i congegni dei Precursori nella sua baracca sulla Superficie. Se le porti il disegno di Agnese, forse lo corregge."
+        quando: [accademia.giunto == 0]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Gli alloggiamenti larghi
+          testo: |
+            Oda guarda il disegno di Agnese, ci fa sopra tre segni con il
+            carboncino e allarga gli alloggiamenti. Poi te lo fa costruire con
+            le tue mani, nella sua baracca, perché dice che chi monta un giunto
+            deve sapere dove si rompe. Ci mettete due giorni. Il giunto che
+            porti in città è più largo di quello disegnato, e il rame resta
+            freddo anche con tutti i cristalli dentro.
+          pe: { tecnologia: 6 }
+          imposta: { accademia.giunto: 1 }
+          effetti: { accademia.carica: 1 }
+        fallimento:
+          titolo: La saldatura
+          testo: |
+            La saldatura del braccio ti si apre in mano, e Oda ti fa rifare
+            tutto da capo, il giorno dopo. Per oggi ti manda a casa con una
+            scottatura sul pollice.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Montare il giunto e partire per la Lacrima"
+        descrizione: "Con tre cristalli nel giunto la Vecchia guadagna tempo. Poi resta da andare a vedere la Lacrima pietrificata."
+        requisiti: [accademia.carica >= 3, accademia.furto >= 1]
+        esito:
+          titolo: Il braccio di rame
+          testo: |
+            Tu e Agnese montate il giunto di notte, giù nella Camera. Quando il
+            braccio di rame tocca la base della Vecchia, le venature si
+            accendono tutte insieme e poi rallentano, e il battito si allunga
+            come il respiro di chi si addormenta. Agnese si toglie i guanti e
+            si siede per terra, contro il tavolo dei Regolatori. Il giorno dopo
+            Besk e Tobol preparano i bagagli per le torbiere.
+          pe: { tecnologia: 4 }
+          effetti: { fazione.accademia: 1, rep.accademia: 1 }
+
+  - id: accademia-la-notte-del-furto
+    presso: accademia-di-torvessa
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La notte del furto
+    sommario: "La cassetta della colletta è vuota, e la finestra del laboratorio ha la grata piegata. Qualcuno sapeva dove guardare."
+    luogo: Accademia di Torvessa, il laboratorio, di notte
+    area: quartieri-alti
+    requisiti: [fazione.accademia == 10, accademia.carica >= 3, accademia.furto == 0]
+    testo: |
+      Querci ti sveglia prima dell'alba bussando con le nocche finché non
+      apri. Nel laboratorio la cassetta della colletta è aperta e vuota, la
+      grata della finestra è piegata verso l'esterno, e sul davanzale c'è il
+      segno di una scarpa da strada, larga, con i chiodi sotto la suola.
+
+      {percezione Media} Sulla grata ci sono due segni di corda, di quelle
+      intrecciate a tre capi. La corda l'hanno calata dall'alto, quindi
+      c'era qualcuno sul tetto.
+
+      Querci tiene il registro della colletta stretto al petto. «Lo sapevano in otto» dice. «Quelli del Consiglio e quelli del consiglio dei maestri, più chi ha la bocca larga.» Da
+      come lo dice si capisce che pensa a te, e poi a se stesso.
+
+      {conoscenze-della-strada Media} Una carica così si rivende in una
+      notte, e in città le mani che possono comprarla sono poche.
+
+      I segni portano giù per i Gradoni, verso i magazzini sul bordo dei Ponti.
+
+      {atletica Media} Due uomini con due sacchi pieni non corrono. Se scendi i Gradoni saltando i pianerottoli, sei davanti a loro prima del bordo.
+
+      Se ti muovi adesso, li trovi prima che vendano la carica al primo compratore.
+    opzioni:
+      - testo: "Raggiungere i ladri e riprendersi i cristalli"
+        descrizione: "Sono due ragazzi degli Scuri, e hanno fretta di vendere."
+        quando: [pista.pelle < 6]
+        combattimento: accademia-i-ladri-degli-scuri
+        vittoria:
+          titolo: La cassetta ritrovata
+          testo: |
+            Li trovi dietro un magazzino del bordo, intenti a dividere i
+            cristalli in due sacchi. Il primo scappa appena ti vede, e il
+            secondo resta, e se ne pente. Riporti i cristalli a Querci prima di
+            colazione. Lui li conta tre volte e alla fine ti ringrazia, una
+            parola sola.
+          imposta: { accademia.furto: 1 }
+          effetti: { rep.accademia: 0.5, rep.scuri: -0.5 }
+        sconfitta:
+          titolo: Un sacco su due
+          testo: |
+            Ti lasciano a terra dietro il magazzino e scappano con un sacco,
+            dimenticando l'altro nella fretta. Riporti a Querci quello che
+            resta, zoppicando. La colletta, adesso, è un po' più leggera.
+          imposta: { accademia.furto: 1 }
+          effetti: { accademia.carica: -1 }
+
+      - testo: "Raggiungere i ladri e riprendersi i cristalli"
+        descrizione: "Sono balestrieri con il mantello dei Custodi rovesciato. La Gilda, o qualcuno che la imita."
+        quando: [pista.pelle >= 6]
+        combattimento: accademia-i-balestrieri-della-gilda
+        vittoria:
+          titolo: I mantelli rovesciati
+          testo: |
+            Li raggiungi sul primo ponte, prima che arrivino al Mercato dei
+            Nodi. Hanno i mantelli dei Custodi rovesciati, e uno ha il sigillo
+            della Gilda cucito dentro la fodera. Riporti i cristalli a Querci,
+            che li conta tre volte e poi si siede.
+          imposta: { accademia.furto: 1 }
+          effetti: { rep.accademia: 0.5, rep.gilda: -0.5 }
+        sconfitta:
+          titolo: Il ponte
+          testo: |
+            Una quadrella ti prende di striscio, e i ladri spariscono oltre il
+            ponte con un sacco su due. L'altro lo ritrovi in mezzo alle assi,
+            dove è caduto. La colletta, adesso, è un po' più leggera.
+          imposta: { accademia.furto: 1 }
+          effetti: { accademia.carica: -1, ferite: 0.5 }
+
+      - testo: "Seguire le tracce senza farsi vedere"
+        descrizione: "Una scarpa chiodata lascia segni dappertutto. Seguirla fino al compratore vale più dei cristalli."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il compratore
+          testo: |
+            Segui le scarpe chiodate fino a un magazzino del bordo, e da dietro
+            una pila di casse vedi i ladri consegnare i sacchi a un uomo con i
+            guanti grigi. Quando se ne vanno, i sacchi sono ancora lì, in
+            attesa del carro. Te li riprendi e lasci al loro posto un sasso con
+            un biglietto di Querci, che il tesoriere ha scritto con piacere.
+          pe: { furtivita: 5 }
+          imposta: { accademia.furto: 1 }
+          effetti: { rep.accademia: 0.5, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il cane
+          testo: |
+            Al terzo vicolo un cane ti abbaia addosso, e quando torni a cercare
+            le tracce sono sparite sotto i carri del mattino. Della colletta
+            torna indietro soltanto quello che era rimasto in fondo alla
+            cassetta.
+          imposta: { accademia.furto: 1 }
+          effetti: { accademia.carica: -1 }
+
+      - testo: "Lasciar perdere e ricominciare la colletta"
+        descrizione: "Inseguire due ladri di notte per i Gradoni non è affare da maestri. I cristalli si raccolgono di nuovo."
+        esito:
+          titolo: Da capo
+          testo: |
+            Dici a Querci che i cristalli si raccolgono di nuovo, e lui ti
+            guarda come se avessi proposto di bruciare il registro. Poi apre una
+            pagina nuova e ci scrive *colletta, seconda*. Agnese, quando lo sa,
+            mette un lucchetto alla grata.
+          imposta: { accademia.furto: 1 }
+          effetti: { accademia.carica: -2 }

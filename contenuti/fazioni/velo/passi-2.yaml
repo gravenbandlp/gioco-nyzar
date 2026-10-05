@@ -1,0 +1,865 @@
+# La quest della Confraternita del Velo, passi 7, 9 e 10, con gli ingressi delle spedizioni dei passi 8 e 11.
+# - Passo 7 (fazione.velo == 6): la prima notte di garitta con Padre Walter sopra i piloni. Il Raschiatore ferito e i
+#   contrabbandieri, poi il seguito con il ragazzo che parla una lingua che non conosce. Walter ti dà appuntamento al
+#   pozzo di scolo dell'Orlo.
+# - Passo 8 (== 7): l'ingresso della spedizione «La sacca sotto l'Orlo» dal pozzo di scolo dietro la baracca di Grusk
+#   (le stanze e il cuore in spedizione-sacca.yaml).
+# - Passo 9 (== 8, grado 3): le lettere a «S.» e il disco con l'occhio chiuso. Leggerle apre il seguito in cui
+#   decidi a chi portarle: Walter, Ottilia (velo.allarme +1), Vantes (trattenerlo o lasciarlo fare) o nessuno. Dà
+#   la chiave di garitta e il primo indizio dell'occhio chiuso (crepuscolo.indizi).
+# - Passo 10 (== 9): Silvano Ardice predica in Città Bassa. Ascoltarlo, discutere, denunciarlo o proteggerlo dal
+#   sergente (galdrick.via == 1) imposta velo.ardice e apre il seguito con il racconto della notte del 145.
+# - Passo 11 (== 10): l'ingresso della spedizione «La gola di Tuarmir» dalla Superficie Fratturata (le stanze e il
+#   cuore in spedizione-gola.yaml).
+storylet:
+  # ------------------------------------------------------------ passo 7 · la garitta dei piloni
+  - id: velo-la-garitta-dei-piloni
+    immagine: personaggi/padre-walter
+    titolo: La garitta dei piloni
+    sommario: "I laici consacrati fanno la prima notte di garitta con Padre Walter, sopra i piloni dei ponti-ascensore. Chi sale dalla Cicatrice, di notte, passa da lì."
+    luogo: I piloni sull'orlo della Cicatrice, la garitta del Velo, di notte
+    area: ponti-sospesi
+    requisiti: [fazione.velo == 6]
+    testo: |
+      La garitta del Velo è una cabina di assi incatramate appesa al pilone
+      più alto, sopra l'argano dei ponti-ascensore, e dentro ci stanno a
+      fatica un braciere con uno sgabello, più Padre Walter. Lui lo sgabello
+      lo lascia a te. Resta in piedi contro la parete con le mani infilate
+      nelle maniche del saio, e quando si muove la garitta oscilla di un dito
+      sul vuoto. Sul ripiano c'è il registro dei Protocolli di Pozzo, aperto
+      alla pagina di stanotte.
+
+      {resistenza Media} Il vento della Cicatrice entra dalle fessure delle
+      assi e ti trova le reni con una precisione che pare voluta. Il braciere
+      scalda soltanto le ginocchia.
+
+      «Chi sale passa dalla Cripta» dice Walter. «Così vuole il protocollo da
+      più di trent'anni. Stanotte decidi tu, e io guardo.» Parla piano, e
+      sceglie ogni parola come se dovesse pagarla.
+
+      Verso la seconda ora l'argano cigola, e dal buio della Cicatrice sale la
+      gabbia. Dentro c'è un Raschiatore con una gamba fasciata alla meglio e
+      la benda già nera, e dietro di lui due uomini senza la piastrina della
+      Gilda, con un sacco ciascuno sulle spalle. I contrabbandieri guardano la
+      garitta e poi il vuoto, facendo il conto di quale dei due conviene.
+
+      {medicina Facile} La benda del Raschiatore è stata rifatta almeno due
+      volte sulla stessa ferita. Se va in Cripta a farsi guardare gli occhi
+      prima di farsi guardare la gamba, la gamba rischia.
+
+      {origine apprendista-raschiatore} Dalla garitta l'argano lo vedi per la
+      prima volta dalla parte di chi aspetta. Il Raschiatore ferito ha la
+      faccia che hai visto mille volte sulle piattaforme, quella di chi vuole
+      soltanto un letto, e adesso il letto dipende da te.
+    opzioni:
+      - testo: "Applicare il protocollo a tutti"
+        descrizione: "Il registro dice Cripta per tutti. L'hanno scritto quelli che hanno visto il 115."
+        esito:
+          titolo: Il protocollo
+          testo: |
+            Scrivi i tre nomi sul registro e li mandi tutti in Cripta, con la
+            guardia del pilone a fargli strada. Il Raschiatore ti guarda come
+            si guarda il tempo brutto, e zoppica dietro agli altri senza dire
+            una parola. Walter annuisce una volta. I contrabbandieri, prima di
+            andare, lasciano cadere i sacchi giù dal ponte, e li senti toccare
+            il fondo dopo molto tempo.
+          effetti: { rep.raschiatori: -0.5 }
+          segue: velo-il-ragazzo-che-parla
+
+      - testo: "Lasciarli passare"
+        descrizione: "Sono stanchi e vogliono andare a casa. La Cripta è lontana, e il registro lo scrivi tu."
+        esito:
+          titolo: Tre righe bianche
+          testo: |
+            Lasci il registro aperto senza scriverci niente, e fai cenno ai
+            tre di passare. Il Raschiatore ti batte una mano sulla spalla
+            uscendo dalla gabbia, e i contrabbandieri spariscono nel buio dei
+            Ponti senza ringraziare. Padre Walter guarda le righe bianche del
+            registro senza commentare, poi aggiunge un pezzo di carbone al
+            braciere.
+
+            {empatia Media} Walter si tiene il giudizio per sé. Sta prendendo
+            le misure di chi sei, come fa con la Marea.
+          effetti: { rep.raschiatori: 0.5 }
+          segue: velo-il-ragazzo-che-parla
+
+      - testo: "Curare la gamba del Raschiatore sul posto"
+        descrizione: "La gamba prima degli occhi. Dopo, la Cripta può aspettare fino a domani."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: La benda pulita
+          testo: |
+            Fai sedere il Raschiatore sullo sgabello e gli sfasci la gamba
+            alla luce del braciere. La ferita è sporca ma non profonda. La
+            pulisci e la rifasci con le bende della garitta, e lui ti racconta
+            il turno intero per non pensarci. Domani in Cripta ci va con le
+            sue gambe. I contrabbandieri, nel frattempo, li manda Walter alla
+            guardia del pilone con due parole sole.
+          pe: { medicina: 5 }
+          effetti: { rep.raschiatori: 0.5 }
+          segue: velo-il-ragazzo-che-parla
+        fallimento:
+          titolo: La benda nera
+          testo: |
+            Sfasci la gamba e la ferita ricomincia a sanguinare, e il
+            Raschiatore diventa bianco come la cera. Walter si china, preme
+            due dita nel punto giusto e ti dice di chiamare la guardia. In
+            Cripta ci va in barella, con la gamba prima degli occhi come
+            volevi tu, e sul protocollo ci mette la firma Walter al posto tuo.
+          segue: velo-il-ragazzo-che-parla
+
+      - testo: "Recitare Rimarginare sulla gamba"
+        incantesimo: rimarginare
+        descrizione: "La preghiera dei guaritori chiude una ferita in un respiro. Quassù, con il vento, ci vuole testa."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La riga rosa
+          testo: |
+            Appoggi le mani sulla benda nera e dici la preghiera dei guaritori
+            contro il vento, a voce bassa. Sotto le dita la gamba si scalda, e
+            quando togli la benda resta una riga rosa. Il Raschiatore se la
+            guarda come un trucco da fiera. Walter manda i contrabbandieri
+            alla guardia del pilone con due parole sole.
+          pe: { magia: 5 }
+          effetti: { rep.raschiatori: 0.5 }
+          segue: velo-il-ragazzo-che-parla
+        fallimento:
+          titolo: Il vento
+          testo: |
+            Il vento ti porta via le parole a metà della preghiera, e la gamba
+            resta com'era. Walter chiama la guardia. Il Raschiatore va in
+            Cripta in barella, e il protocollo lo firma lui.
+          segue: velo-il-ragazzo-che-parla
+
+      - testo: "Coprire il ferito della tua squadra"
+        descrizione: "Il Raschiatore ferito è uno della tua squadra. Lo riconosci dalla benda, perché gliel'hai fatta tu tre giorni fa."
+        quando: [raschiatore >= 1]
+        esito:
+          titolo: Uno dei nostri
+          testo: |
+            Gli dici il suo nome prima che apra bocca, e lui si mette a
+            ridere. Scrivi sul registro che il Raschiatore è passato dalla
+            Cripta, con l'ora di domani, e lo mandi a casa. Walter legge la
+            riga sopra la tua spalla e non la corregge. I contrabbandieri
+            approfittano della confusione e spariscono nel buio dei Ponti.
+          effetti: { rep.raschiatori: 0.5 }
+          segue: velo-il-ragazzo-che-parla
+
+  - id: velo-il-ragazzo-che-parla
+    immagine: personaggi/padre-walter
+    titolo: Il ragazzo che parla
+    tipo: seguito
+    luogo: I piloni sull'orlo della Cicatrice, la garitta del Velo, prima dell'alba
+    area: ponti-sospesi
+    requisiti: [fazione.velo == 6]
+    testo: |
+      Prima dell'alba la gabbia risale un'ultima volta, e dentro c'è un
+      ragazzo solo, di quindici anni al massimo, con la piastrina di una
+      squadra al collo e le mani aperte sulle ginocchia. Addosso non ha un
+      graffio. Parla a bassa voce, senza fermarsi, in una lingua che non
+      conosci, con le parole tutte uguali e una cadenza che sale e scende come
+      una filastrocca.
+
+      {accademiche Difficile} Del precuriano dei libri ha soltanto qualche
+      suono. Somiglia di più a un elenco, come se contasse qualcosa che non
+      finisce.
+
+      Walter lo guarda a lungo. «Mirn il Sordo parlava così» dice. «Lo
+      prendemmo noi, e morì in una cella sotto la Cattedrale, nelle cantine
+      del vecchio Santuario.» Poi, guardando il braciere, aggiunge che
+      quest'anno le misure dell'Orlo dei Rottami nel libro di Valdrano non ci
+      sono. Ogni anno ci sono, e quest'anno no.
+
+      {origine fuggiasco-di-ghoran} Quando Walter tira fuori le mani dalle
+      maniche per scaldarle al braciere, gli vedi sui polsi le cicatrici lisce
+      e chiare che a Ghoran lasciano i ferri tenuti troppo a lungo. Lui vede
+      che le hai viste, e non le nasconde.
+
+      {resilienza Media fallita} La filastrocca del ragazzo ti si è già
+      infilata in testa, e ti accorgi di muovere le labbra sul suo ritmo.
+    opzioni:
+      - testo: "Mandarlo alle celle"
+        descrizione: "Il protocollo per chi sente le voci è chiaro. Le celle sono asciutte, e i sacerdoti sanno che cosa fare."
+        esito:
+          titolo: Le celle
+          testo: |
+            Scrivi il nome del ragazzo sul registro e lo affidi alla guardia
+            del pilone, che lo prende per un braccio con gentilezza. Lui
+            continua a parlare anche mentre scende la scala. All'alba Walter
+            firma il registro sotto la tua firma, poi ti dà appuntamento per
+            stanotte al pozzo di scolo dietro la baracca di Grusk all'Orlo dei
+            Rottami, e ti avverte che porterà la corda al cristallo. Sorella
+            Arva, la sera, ti conta la paga del turno.
+          pe: { resilienza: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5, monete: 6 }
+
+      - testo: "Portarlo in Cripta con te"
+        descrizione: "Le celle sono il posto dove è morto Mirn. Il ragazzo puoi accompagnarlo tu, se reggi la sua filastrocca fino in fondo alla scala."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La scala della Cripta
+          testo: |
+            Accompagni il ragazzo fino alla Cripta tenendolo per mano, e lui
+            parla per tutta la strada. A metà della scala ti accorgi che la
+            filastrocca ha un ritornello, e che a ogni ritornello stringe più
+            forte. In fondo lo affidi ai velati, che lo fanno sedere vicino al
+            cristallo. Quando risali, Walter ti aspetta sul portale per darti
+            appuntamento a stanotte al pozzo di scolo dietro la baracca di
+            Grusk, e ti avverte che porterà la corda al cristallo.
+          pe: { resilienza: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5, monete: 6, tormento: 0.5 }
+        fallimento:
+          titolo: Il ritornello
+          testo: |
+            A metà della scala la filastrocca del ragazzo diventa la tua, e ti
+            ritrovi a dirla insieme a lui ad alta voce. Un velato vi separa e
+            ti fa sedere su un gradino finché le parole non se ne vanno.
+            Quando risali, Walter ti aspetta sul portale e ti dà appuntamento
+            a stanotte al pozzo di scolo dietro la baracca di Grusk, e ti
+            avverte che porterà la corda al cristallo.
+          effetti: { fazione.velo: 1, rep.velo: 0.5, monete: 6, tormento: 1 }
+
+      - testo: "Chiedere a Walter di Ghoran"
+        descrizione: "Le cicatrici ai polsi le hai riconosciute. Fra chi le porta, a volte, ci si parla."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: I ferri
+          testo: |
+            Walter ci mette un po' a rispondere. Ghoran l'ha lasciato a
+            vent'anni, e il Velo gli ha dato un posto dove le mani servissero
+            ad altro. Del resto preferisce tacere, e tu lasci stare. Il
+            ragazzo lo mandate insieme alle celle, e all'alba Walter firma il
+            registro sotto la tua firma. Poi ti dà appuntamento per stanotte
+            al pozzo di scolo dietro la baracca di Grusk, e ti avverte che
+            porterà la corda al cristallo.
+          pe: { empatia: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5, monete: 6 }
+
+      - testo: "Chiedere a Walter che cosa sente"
+        descrizione: "Sopra la cripta di Padre Sollen Walter aveva sentito un'aria fredda e paziente. Quassù ha la stessa faccia."
+        quando: [pista.sepolcro >= 3]
+        esito:
+          titolo: Fredda e paziente
+          testo: |
+            «Sopra l'Orlo» dice Walter. «Da qualche settimana, quando il vento
+            gira, sento la stessa aria fredda e paziente della cripta di Padre
+            Sollen.» Il ragazzo lo mandate insieme alle celle, e all'alba
+            Walter firma il registro sotto la tua firma. Poi ti dà
+            appuntamento per stanotte al pozzo di scolo dietro la baracca di
+            Grusk all'Orlo dei Rottami, e ti avverte che porterà la corda al
+            cristallo.
+          pe: { resilienza: 5 }
+          effetti: { fazione.velo: 1, rep.velo: 0.5, monete: 6 }
+
+  # ------------------------------------------------------------ passo 8 · l'ingresso della sacca
+  - id: velo-il-pozzo-di-scolo
+    presso: orlo-dei-rottami
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: Il pozzo di scolo
+    sommario: "Dietro la baracca di Grusk c'è un pozzo di scolo che scende sotto l'Orlo dei Rottami. Padre Walter ti aspetta lì con la corda al cristallo."
+    luogo: Orlo dei Rottami, dietro la baracca di Grusk, di notte
+    area: citta-bassa
+    requisiti: [fazione.velo == 7]
+    testo: |
+      Dietro la baracca di Grusk, fra una pila di lamiere e la carriola rossa
+      rovesciata ad asciugare, c'è un pozzo di scolo con il bordo di mattoni e
+      una grata arrugginita appoggiata di fianco. Dal buio sale un odore di
+      ruggine bagnata, con sotto una nota dolce di frutta lasciata al sole.
+      Padre Walter è seduto sul bordo con un rotolo di corda in grembo, e
+      sulla corda, ogni dieci braccia, è legato un frammento di cristallo
+      grande come un'unghia.
+
+      «La corda al cristallo» dice. «Si cala nella sacca, e il cristallo
+      cambia colore secondo quanta Marea trova. Valdrano la cala ogni anno in
+      tutti i pozzi della città.» Fa scorrere la corda fra le dita fino al
+      primo frammento, che alla luce della lanterna è di un rosa pallido.
+      «Quest'anno qui non è sceso.»
+
+      {natura Media} Il rosa è il colore buono. Più giù il cristallo diventa
+      azzurro e poi grigio. Chi ha visto il grigio di solito non lo racconta
+      con piacere.
+
+      Sotto l'Orlo corrono i condotti della Prima Breccia, quelli da cui nel
+      115 salì la Marea. Walter scende con te fino al primo livello, poi tiene
+      la corda dall'alto, e se tiri tre volte ti tira su. Grusk russa nella
+      baracca, con un rumore di carro che passa sul selciato.
+
+      {origine apprendista-raschiatore} Sui condotti della Prima Breccia i
+      vecchi Raschiatori raccontano storie che ai ragazzi fanno passare la
+      voglia di scendere. Tu le hai sentite tutte, e le hai anche raccontate.
+
+      *Tre strappi, e Walter tira.* Ti sorprendi a provare il gesto con la
+      mano vuota.
+    opzioni:
+      - testo: "Scendere con Walter"
+        descrizione: "I pioli sono mangiati dalla ruggine, e laggiù la lanterna fa poca strada. Walter è dietro di te."
+        esito:
+          titolo: I primi pioli
+          testo: |
+            Walter ti lega la corda alla vita con un nodo che non hai mai
+            visto, e scende per primo, piano, con un piede dopo l'altro. Tu
+            gli vai dietro. I pioli sono freddi e viscidi, e dopo una ventina
+            il cerchio di cielo sopra la tua testa diventa piccolo come una
+            moneta, e poi sparisce.
+          vai: velo-sacca-dell-orlo
+
+      - testo: "Chiedere a Walter perché non ci scende Valdrano"
+        descrizione: "Le misure sono il lavoro del cronista maggiore. Walter sa sempre più di quello che dice."
+        costo: 0
+        esito:
+          titolo: Le ginocchia di un vecchio
+          testo: |
+            «Dice che le ginocchia non lo reggono più» risponde Walter. «Lo
+            dice da quest'anno.» Arrotola la corda con cura, un giro dopo
+            l'altro, e non aggiunge altro. Quando ha finito ti guarda e ti
+            chiede se sei pronto.
+
+      - testo: "Rimandare a un'altra notte"
+        descrizione: "Il pozzo resta dov'è, e Walter sa aspettare."
+        costo: 0
+        esito:
+          titolo: Un'altra notte
+          testo: |
+            Walter annuisce e rimette la grata sul pozzo con una mano sola,
+            come se fosse di carta. «Un'altra notte» dice. Lo lasci seduto sul
+            bordo, con la corda in grembo, a guardare il buio.
+
+  # ------------------------------------------------------------ passo 9 · le lettere a nessuno (grado 3)
+  - id: velo-lettere-a-nessuno
+    presso: cattedrale-del-velo
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: Lettere a nessuno
+    sommario: "La cassetta di latta trovata sotto l'Orlo è piena di lettere senza firma. Sul fondo c'è un disco di metallo che in mano non pesa niente."
+    luogo: Cattedrale del Velo, un angolo del chiostro, a notte fonda
+    area: quartieri-alti
+    requisiti: [fazione.velo == 8]
+    testo: |
+      Le lettere le apri nel chiostro, quando i novizi dormono, alla luce di
+      una lanterna schermata. Sono una quarantina, piegate in quattro, tenute
+      insieme da uno spago. Non hanno firma né sigillo, e tutte cominciano con
+      una lettera sola, *S.*, seguita da un punto. La carta è quella buona dei
+      cronisti. Le righe sono dritte come se ci fosse stato sotto un righello,
+      e le più vecchie hanno la data di dieci anni fa.
+
+      {percezione Media} L'inchiostro è quello semplice, senza la polvere di
+      cristallo che il Velo mette in quello dei registri. Chi le ha scritte
+      non voleva che si leggessero con la luce della Cripta.
+
+      Parlano delle udienze della Madre, con i nomi di quelli che scendono
+      nella Cripta e il tempo che ci restano. Delle visite di Padre Vantes in
+      Consiglio e di chi lo saluta per primo. Dei pellegrinaggi alla Roccia,
+      con i nomi dei pellegrini. Non c'è niente che un cronista non saprebbe,
+      e tutto è scritto per qualcuno che non lo sa.
+
+      Sul fondo della cassetta c'è un disco di metallo scuro grande come una
+      moneta, con un occhio chiuso inciso sopra. In mano non pesa niente,
+      tanto che devi guardarlo per sapere che ce l'hai ancora fra le dita.
+
+      {tecnologia Media} Non è fuso e non è battuto. Il metallo non ha segni
+      di lavorazione, come se fosse stato fatto tutto insieme.
+
+      {magia Difficile} Il Mana intorno al disco sta fermo, come l'acqua di
+      uno stagno quando smette di piovere.
+
+      *Dieci anni di lettere, e nessuno le ha mai ritirate.* La lanterna
+      sfrigola, e ti accorgi di aver trattenuto il fiato.
+    opzioni:
+      - testo: "Leggerle tutte, in ordine"
+        descrizione: "Dalla più vecchia alla più nuova. Quaranta lettere sono lunghe, e la lanterna è corta."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: L'ultima lettera
+          testo: |
+            Le metti in ordine di data e le leggi tutte, fino all'ultima.
+            L'ultima è di dopo la razzia. Parla dei bollettini delle sacche,
+            della riga sotto l'Orlo e di un laico nuovo con l'occhio buono,
+            che ha ricostruito la riga, e lo descrive meglio di come ti
+            descriveresti tu. In fondo c'è una frase sola, separata dal resto,
+            *si attende istruzione*.
+          pe: { accademiche: 5 }
+          segue: velo-a-chi-portarle
+        fallimento:
+          titolo: La lanterna corta
+          testo: |
+            La lanterna si spegne a metà del pacco, e le altre le leggi il
+            giorno dopo, in fretta, con l'impressione che ogni novizio che
+            passa ti guardi le mani. Le ultime le salti. Di notte sogni righe
+            dritte che non finiscono mai.
+          effetti: { tormento: 0.5 }
+          segue: velo-a-chi-portarle
+
+      - testo: "Studiare il disco"
+        descrizione: "Un metallo senza peso con un occhio chiuso inciso sopra. Qualcuno, in città, deve aver visto un segno così."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: L'occhio chiuso
+          testo: |
+            Lo giri sotto la lanterna per un'ora. L'incisione è un occhio
+            chiuso con il sopracciglio rovesciato, e il bordo è liscio come se
+            nessuno l'avesse mai tagliato. Quando lo avvicini al cristallo di
+            una lampada da notte senti un formicolio nei denti, appena, poi
+            più niente. Lo metti in tasca, e la tasca non pesa.
+          pe: { tecnologia: 5 }
+          segue: velo-a-chi-portarle
+        fallimento:
+          titolo: Un disco
+          testo: |
+            Lo giri sotto la lanterna finché ti fanno male gli occhi, e resta
+            un disco con un occhio chiuso inciso sopra. Lo metti in tasca, e
+            due volte durante la notte ti alzi a controllare che sia ancora
+            lì.
+          effetti: { tormento: 0.5 }
+          segue: velo-a-chi-portarle
+
+      - testo: "Leggerne una a notte"
+        descrizione: "Senza fretta, nel chiostro, quando dormono tutti. Ci vorranno settimane, ma niente sfugge."
+        costo: 2
+        esito:
+          titolo: Una a notte
+          testo: |
+            Ne leggi una a notte nel chiostro, e la rimetti nello spago prima
+            di prendere la successiva. Dopo un po' riconosci il modo in cui
+            chi scrive comincia le frasi, sempre dal soggetto. Le finisce
+            sempre con un punto, mai con altro. L'ultima è di dopo la razzia,
+            e parla di te.
+          pe: { resilienza: 5 }
+          segue: velo-a-chi-portarle
+
+      - testo: "Riconoscere la lega del disco"
+        descrizione: "All'Accademia ti hanno mostrato le leghe dei Precursori nelle teche del seminterrato. Questa la ricordi."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: La teca del seminterrato
+          testo: |
+            Questa lega l'hai vista in una teca del seminterrato di Orvald
+            Temmerin, con un cartellino che diceva soltanto *precuriana, uso
+            ignoto*. Non pesa perché il metallo dei Precursori in certe leghe
+            non pesa, e nessuno all'Accademia sa perché. Quella della teca era
+            una scheggia. Questo disco è intero, e qualcuno l'ha inciso.
+          pe: { tecnologia: 5 }
+          segue: velo-a-chi-portarle
+
+  - id: velo-a-chi-portarle
+    presso: cattedrale-del-velo
+    immagine: personaggi/ottilia-sanvel
+    titolo: A chi portarle
+    tipo: seguito
+    luogo: Cattedrale del Velo, il chiostro, al mattino
+    area: quartieri-alti
+    requisiti: [fazione.velo == 8]
+    testo: |
+      Al mattino rileghi le lettere con lo spago e le infili sotto la tunica,
+      e il disco lo tieni in tasca, dove non pesa. Chi le ha scritte cammina
+      in questa Cattedrale. La carta è dei cronisti, le righe sono tirate a
+      righello e le misure dell'Orlo mancano dal libro di Valdrano. Ci sono
+      abbastanza indizi da far pendere la testa da una parte, e nessuno
+      basterebbe a un tribunale.
+
+      {politica-ed-economia Media} Una lettera in Consiglio è un'arma, e
+      un'arma in Consiglio spara da tutte e due le parti. Il Velo che spia se
+      stesso è una notizia che i Malgrani pagherebbero a peso d'oro.
+
+      Padre Walter è nella navata a spegnere le candele della notte. Ottilia è
+      alla tavoletta di cera, e la disciplina interna è sua. Padre Vantes sta
+      uscendo per il Municipio con il mantello buono. In fondo al chiostro
+      Fratello Lauro Bessi scende dal campanile con il pane sotto il braccio,
+      e quando ti vede si ferma.
+
+      {empatia Facile} Bessi ha qualcosa da dirti, e aspetta che tu sia solo.
+
+      Ti tocchi la tunica, dove le lettere fanno un piccolo rumore di carta.
+    opzioni:
+      - testo: "Portarle a Walter"
+        descrizione: "Walter non parla quasi mai. Quello che sa lo porta alla Madre, e alla Madre soltanto."
+        immagine: personaggi/padre-walter
+        esito:
+          titolo: Custode dei pozzi
+          testo: |
+            Walter le soppesa in una mano, poi le infila nella manica del saio
+            senza leggerle. «Alla Madre» dice, e basta. Più tardi lui e
+            Ottilia ti aspettano alla tavoletta. Per la sacca dell'Orlo, che
+            sia stata misurata oppure no, e per la notte alla garitta ti tocca
+            la chiave delle garitte del Velo e la lanterna dei custodi, quella
+            con la grata di rame. Ottilia scrive il tuo nome in una colonna
+            nuova. Uscendo, Bessi ti si avvicina e ti dice all'orecchio che
+            Silvano Ardice ti vuole parlare.
+          effetti: { fazione.velo: 1, velo.garitta: 1, oggetto.velo-lanterna-del-custode: 1, crepuscolo.indizi: 1, velo.lettere: -1 }
+          almeno: { rep.velo: 6 }
+
+      - testo: "Portarle a Ottilia"
+        descrizione: "La disciplina interna è sua. Ottilia trova sempre il colpevole, diceva Giulia."
+        immagine: personaggi/ottilia-sanvel
+        esito:
+          titolo: L'indagine della disciplina
+          testo: |
+            Ottilia legge la prima e l'ultima in piedi, poi le chiude in un
+            cassetto. Per una settimana i cronisti vengono chiamati uno per
+            uno negli archivi minori, e tornano ai tavoli lunghi pallidi come
+            novizi dopo il catechismo. Valdrano ne esce pulito, e offre il tè
+            anche a lei. Alla fine Ottilia e Walter ti consegnano la chiave
+            delle garitte e la lanterna dei custodi. Uscendo, Bessi ti si
+            avvicina e ti dice all'orecchio che Silvano Ardice ti vuole
+            parlare.
+
+            {ingannare Media} Valdrano ha offerto il tè a Ottilia due volte
+            nella stessa settimana. Gli altri anni non gliel'aveva offerto
+            mai.
+          effetti: { fazione.velo: 1, velo.garitta: 1, oggetto.velo-lanterna-del-custode: 1, crepuscolo.indizi: 1, velo.lettere: -1, velo.allarme: 1 }
+          almeno: { rep.velo: 6 }
+
+      - testo: "Portarle a Vantes e trattenerlo"
+        descrizione: "Vantes vorrà portarle in Consiglio. Per fermarlo bisogna convincerlo che in Consiglio servono a qualcun altro."
+        immagine: personaggi/padre-vantes
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: Il mantello buono
+          testo: |
+            Vantes legge tre lettere con il mantello addosso, e alla terza si
+            siede. Vuole portarle in Consiglio subito. Gli fai notare chi ne
+            approfitterebbe, e lui ti ascolta con le dita sul tuo polso,
+            sempre più pesanti. Alla fine si toglie il mantello buono e chiude
+            le lettere nel suo scrittoio. Il pomeriggio Walter e Ottilia ti
+            consegnano la chiave delle garitte e la lanterna dei custodi, e
+            Bessi ti dice all'orecchio che Silvano Ardice ti vuole parlare.
+          pe: { persuasione: 5 }
+          effetti: { fazione.velo: 1, velo.garitta: 1, oggetto.velo-lanterna-del-custode: 1, crepuscolo.indizi: 1, velo.lettere: -1 }
+          almeno: { rep.velo: 6 }
+        fallimento:
+          titolo: In Consiglio
+          testo: |
+            Vantes le legge sulla soglia e se ne va in Municipio con il pacco
+            sotto il mantello. La sera torna più vecchio di come era partito.
+            In Consiglio ne hanno riso, e qualcuno ne ha preso nota. Il giorno
+            dopo Walter e Ottilia ti consegnano la chiave delle garitte e la
+            lanterna dei custodi, e Bessi ti dice all'orecchio che Silvano
+            Ardice ti vuole parlare.
+          effetti: { fazione.velo: 1, velo.garitta: 1, oggetto.velo-lanterna-del-custode: 1, crepuscolo.indizi: 1, velo.lettere: -1, velo.allarme: 1 }
+          almeno: { rep.velo: 6 }
+
+      - testo: "Lasciare che Vantes le porti in Consiglio"
+        descrizione: "Vantes siede in Consiglio da molti anni. Se dice che il Velo è spiato, qualcuno gli crederà."
+        immagine: personaggi/padre-vantes
+        esito:
+          titolo: Le risate del Consiglio
+          testo: |
+            Vantes le porta in Municipio con il mantello buono e le legge ad
+            alta voce, e la sera torna più vecchio di come era partito. In
+            Consiglio qualcuno ha riso e qualcuno ne ha preso nota, e Julia
+            Castaldi gli ha chiesto una copia. Il giorno dopo Walter e Ottilia
+            ti consegnano la chiave delle garitte e la lanterna dei custodi, e
+            Bessi ti dice all'orecchio che Silvano Ardice ti vuole parlare.
+          effetti: { fazione.velo: 1, velo.garitta: 1, oggetto.velo-lanterna-del-custode: 1, crepuscolo.indizi: 1, velo.lettere: -1, velo.allarme: 1 }
+          almeno: { rep.velo: 6 }
+
+      - testo: "Tenerle per te"
+        descrizione: "Finché non sai chi le ha scritte, ogni persona a cui le dai è una persona in più che lo sa."
+        esito:
+          titolo: Sotto la tunica
+          testo: |
+            Le tieni sotto la tunica, e la sera le nascondi in fondo alla
+            sacca, avvolte in una camicia. A nessuno dici niente. Walter e
+            Ottilia ti consegnano la chiave delle garitte e la lanterna dei
+            custodi per la sacca dell'Orlo, e Walter ti guarda un momento più
+            del solito, come se sentisse il rumore della carta. Uscendo, Bessi
+            ti dice all'orecchio che Silvano Ardice ti vuole parlare.
+          effetti: { fazione.velo: 1, velo.garitta: 1, oggetto.velo-lanterna-del-custode: 1, crepuscolo.indizi: 1 }
+          almeno: { rep.velo: 6 }
+
+  # ------------------------------------------------------------ passo 10 · il predicatore dell'Antico
+  - id: velo-il-predicatore
+    immagine: ambientazione/citta-bassa
+    titolo: Il predicatore dell'Antico
+    sommario: "Silvano Ardice era uno dei sei sacerdoti della compieta. Adesso predica in Città Bassa su una cassetta rovesciata, e ti vuole parlare."
+    luogo: Città Bassa, una piazzetta vicino alle vasche del lavatoio
+    area: citta-bassa
+    requisiti: [fazione.velo == 9]
+    testo: |
+      Silvano Ardice predica in una piazzetta vicino alle vasche del lavatoio,
+      in piedi su una cassetta da pesce rovesciata, e intorno a lui c'è una
+      ventina di persone. Lavandaie con i cesti sul fianco, due Raschiatori a
+      fine turno e un vecchio che tiene il tempo battendo il bastone sul
+      selciato. Ardice ha la tonaca del Velo scolorita fino al grigio e la
+      voce rauca di chi parla all'aperto da anni. Ogni tanto si china a
+      prendere una sorsata da una fiaschetta che gli porge una lavandaia.
+
+      «L'Albero è un testimone» dice. «Ha visto cadere i Precursori e non ha
+      mosso un ramo. Un dio che lascia scappare i suoi preti mentre la sua
+      casa brucia, io non lo prego più.» Le lavandaie annuiscono, e una si fa
+      il segno dell'Albero lo stesso, per sicurezza.
+
+      {accademiche Media} È la dottrina del Culto dell'Antico, nata dalla fuga
+      dei sacerdoti del 145. In Cattedrale la chiamano eresia, e la tollerano
+      finché resta in Città Bassa.
+
+      All'angolo della piazzetta c'è una guardia della Caserma, con le braccia
+      incrociate e il mento alto, che guarda Ardice come si guarda un cane che
+      abbaia troppo. Ardice ti vede arrivare, e senza smettere di parlare ti
+      fa un cenno con la fiaschetta.
+
+      {origine figlio-del-circolo} Le parole sono del Velo, ma le pause sono
+      quelle delle veglie del Circolo, lunghe, con il respiro in mezzo. Da
+      qualche parte questo prete ha passato delle notti nel Bosco.
+
+      {intimidire Facile} La guardia aspetta una scusa, e la piazzetta lo sa.
+      A volte basta una parola di troppo per dargliela.
+    opzioni:
+      - testo: "Ascoltarlo fino in fondo"
+        descrizione: "La predica è lunga e la voce è rauca. Le parole fanno male a chi porta il velo, e ci vuole stomaco per non andarsene."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La fiaschetta
+          testo: |
+            Resti con le lavandaie fino all'ultima parola, senza abbassare gli
+            occhi nemmeno quando Ardice nomina la Madre. Alla fine scende
+            dalla cassetta e ti porge la fiaschetta. Accetti un sorso di
+            vinaccia addolcita con il miele bruciato, e lui ti porta all'ombra
+            di un portone.
+          pe: { resilienza: 5 }
+          imposta: { velo.ardice: 1 }
+          segue: velo-la-notte-di-ardice
+        fallimento:
+          titolo: Il segno dell'Albero
+          testo: |
+            A metà predica ti ritrovi a farti il segno dell'Albero ogni volta
+            che Ardice lo bestemmia, e le lavandaie se ne accorgono e ridono.
+            Ardice ti guarda dall'alto della cassetta con una specie di
+            tenerezza. Alla fine scende e ti porta all'ombra di un portone,
+            dove il riso delle lavandaie arriva meno.
+          effetti: { tormento: 0.5 }
+          imposta: { velo.ardice: 1 }
+          segue: velo-la-notte-di-ardice
+
+      - testo: "Rispondergli con le parole della Madre"
+        descrizione: "La Madre ha scritto sull'eresia pagine che i novizi imparano a memoria. Davanti alla piazza ci vuole coraggio, e una buona memoria."
+        prova: { attributo: sociale, abilita: [persuasione, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La disputa
+          testo: |
+            Gli rispondi dalla piazzetta, con le parole della Madre sul velo
+            che protegge la mente, e lui ti risponde dalla cassetta. Le
+            lavandaie si girano come al gioco della palla. Alla fine Ardice si
+            mette a ridere. Scende dalla cassetta e ti dice che un prete come
+            te, al Santuario, lo avrebbero mandato a predicare nei villaggi.
+            Poi ti porta all'ombra di un portone.
+          pe: { persuasione: 5 }
+          imposta: { velo.ardice: 1 }
+          effetti: { rep.velo: 0.5 }
+          segue: velo-la-notte-di-ardice
+        fallimento:
+          titolo: La memoria corta
+          testo: |
+            Attacchi con una frase della Madre e a metà la perdi, e Ardice la
+            finisce per te, parola per parola, meglio di come l'avresti detta.
+            Le lavandaie applaudono lui. Scende dalla cassetta e ti porta
+            all'ombra di un portone, con una mano sulla spalla, come si porta
+            via un bambino da una festa.
+          effetti: { scandalo: 0.5 }
+          imposta: { velo.ardice: 1 }
+          segue: velo-la-notte-di-ardice
+
+      - testo: "Denunciarlo a Ottilia"
+        descrizione: "Il Velo lo vuole fuori dalla città, e la disciplina è di Ottilia. Basta una lettera, e la Caserma farà il resto."
+        esito:
+          titolo: La cella
+          testo: |
+            Scrivi a Ottilia due righe, e la mattina dopo la Caserma va a
+            prendere Ardice alla cassetta, davanti alle lavandaie, che non te
+            lo perdoneranno presto. La guardia dell'angolo ne è contenta, il
+            sergente un po' meno, perché le celle sono piene. Il pomeriggio ti
+            lasciano entrare a parlargli. Ardice è seduto sulla branda e ti
+            aspettava.
+          imposta: { velo.ardice: 2 }
+          effetti: { rep.velo: 0.5, rep.caserma: -0.5 }
+          segue: velo-la-notte-di-ardice
+
+      - testo: "Proteggerlo dalla guardia"
+        descrizione: "Con lo sceriffo a Ghoran, in Caserma comanda un sergente che i predicatori li vuole in cella. La guardia dell'angolo ha già deciso."
+        quando: [galdrick.via == 1]
+        prova: { attributo: sociale, abilita: [intimidire, galateo], difficolta: Media }
+        successo:
+          titolo: Il laico del Velo
+          testo: |
+            La guardia si stacca dall'angolo con la mano sul bastone, e tu le
+            vai incontro prima che arrivi alla cassetta. Le spieghi chi sei e
+            per chi lavori, e che il Velo si occupa dei suoi preti da solo,
+            anche quando non sono più suoi. La guardia ci pensa, poi sputa per
+            terra e torna al suo angolo. Ardice finisce la predica e ti porta
+            all'ombra di un portone.
+          pe: { galateo: 5 }
+          imposta: { velo.ardice: 3 }
+          segue: velo-la-notte-di-ardice
+        fallimento:
+          titolo: Il bastone
+          testo: |
+            Ti metti fra la guardia e la cassetta, e il bastone ti prende sul
+            braccio. Ardice finisce in cella lo stesso, e tu con un livido che
+            ti arriva al gomito. Il pomeriggio ti lasciano entrare a
+            parlargli, per pietà del livido.
+          effetti: { ferite: 0.5 }
+          imposta: { velo.ardice: 2 }
+          segue: velo-la-notte-di-ardice
+
+      - testo: "Rispondere alle sue pause"
+        descrizione: "Le pause sono quelle delle veglie del Circolo. Chi le conosce sa dove si risponde."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: La veglia
+          testo: |
+            Nelle pause rispondi con il respiro, come si risponde al Circolo,
+            e a metà predica Ardice ti cerca con gli occhi fra le lavandaie.
+            Alla fine scende dalla cassetta e ti chiede in quale radura hai
+            vegliato la prima volta. Poi ti porta all'ombra di un portone.
+          pe: { empatia: 5 }
+          imposta: { velo.ardice: 1 }
+          segue: velo-la-notte-di-ardice
+
+      - testo: "Chiedergli della disgrazia dei salotti"
+        descrizione: "Nei salotti dei Quartieri Alti l'incendio del Santuario è una disgrazia di cui nessuno ha colpa. Ardice lo chiama in un altro modo."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: L'abbandono
+          testo: |
+            Gli chiedi della disgrazia del Santuario con le parole dei
+            salotti, e lui scoppia a ridere sulla cassetta. Dice che nei
+            Quartieri Alti la chiamano disgrazia, e lui la chiama abbandono, e
+            che la differenza la sanno i quaranta che dormivano dentro. Le
+            lavandaie annuiscono. Poi scende e ti porta all'ombra di un
+            portone.
+          pe: { galateo: 5 }
+          imposta: { velo.ardice: 1 }
+          segue: velo-la-notte-di-ardice
+
+  - id: velo-la-notte-di-ardice
+    immagine: ambientazione/evento-notti-cucite-145
+    titolo: La notte di Ardice
+    tipo: seguito
+    luogo: Città Bassa, all'ombra di un portone o dietro le sbarre
+    area: citta-bassa
+    requisiti: [fazione.velo == 9]
+    testo: |
+      Ardice parla tenendo la fiaschetta fra le mani, anche quando è vuota, e
+      la voce rauca gli si abbassa fino a diventare quasi un'altra.
+
+      «Ci chiamò Valdrano» dice. «Era il cronista dei turni, allora come
+      adesso. Disse che la Madre voleva un rito votivo sull'orlo della
+      Cicatrice a mezzanotte, con sei sacerdoti esatti, e che si firmava la
+      compieta prima di uscire. Io ero giovane, e un rito votivo è un onore.»
+      Beve dalla fiaschetta vuota, per abitudine. «Sull'orlo pregammo un'ora.
+      La Cicatrice brillava come sempre. Quando tornammo il Santuario bruciava
+      dall'ala nord, e i quaranta erano dentro.»
+
+      {percezione Media} Bessi ti aveva detto che la Cicatrice era scura.
+      Ardice dice che brillava come sempre. Uno dei due ricorda male, o
+      ricorda quello che gli hanno detto di ricordare.
+
+      «Il rito votivo la Madre non l'aveva mai chiesto. Lo seppi l'anno dopo,
+      e lasciai la tonaca.» Si guarda la tonaca scolorita che porta ancora.
+      «Quasi tutta.»
+
+      {empatia Media} Ce l'ha con se stesso più che con Valdrano, perché
+      quell'onore l'aveva voluto, ed è per questo che beve.
+
+      Quando torni in Cattedrale con il racconto, Padre Vantes ti ascolta in
+      sagrestia senza toglierti le dita dal polso. Alla fine ammette una cosa
+      che non ti aveva detto. Sorella Alenna è partita per Tuarmir otto mesi
+      fa su consiglio di Valdrano, e da due mesi le sue lettere dalla gola non
+      arrivano più.
+    opzioni:
+      - testo: "Chiedere a Vantes perché non l'ha detto prima"
+        descrizione: "Otto mesi, e due senza lettere. Vantes lo sapeva."
+        immagine: personaggi/padre-vantes
+        esito:
+          titolo: Le lettere che non arrivano
+          testo: |
+            «Perché le lettere a volte si perdono» dice Vantes, «e perché non
+            volevo che fosse vero.» Ti stringe il polso. «Alenna scriveva
+            delle erbe che cambiano, e del vento. Le ultime lettere avevano la
+            grafia storta, e io le ho messe in un cassetto.» Ti chiede di
+            andare a Tuarmir, e di portarla a casa, se vuole venire.
+          pe: { empatia: 5 }
+          effetti: { fazione.velo: 1 }
+
+      - testo: "Chiedergli di Valdrano"
+        descrizione: "Il rito votivo, il consiglio ad Alenna, le misure che mancano. Vantes conosce Valdrano da quarant'anni."
+        immagine: personaggi/padre-vantes
+        esito:
+          titolo: Quarant'anni di tè
+          testo: |
+            Vantes ci mette un po' a rispondere. Valdrano gli ha insegnato a
+            scrivere i registri quando era novizio, e da quarant'anni gli
+            offre il tè ogni mattina. «Era sull'orlo con gli altri» dice
+            piano. «Lo hanno visto in sei.» Poi ti chiede di andare a Tuarmir
+            a cercare Alenna, e di portarla a casa, se vuole venire.
+
+            {ingannare Media} Lo hanno visto in cinque, più lui stesso. Vantes
+            lo sa, e ha scelto di contarlo due volte.
+          pe: { accademiche: 5 }
+          effetti: { fazione.velo: 1 }
+
+      - testo: "Promettere di andare a cercarla"
+        descrizione: "Tuarmir è nella Superficie Fratturata, in una gola che il sole tocca due ore al giorno. Ci si va a piedi."
+        immagine: ambientazione/tuarmir
+        esito:
+          titolo: La gola
+          testo: |
+            Glielo prometti prima che te lo chieda, e Vantes ti benedice sulla
+            porta della sagrestia, con una mano sulla testa come si faceva ai
+            pellegrini. Ti dà una lettera per Madre Cerya e una per Alenna,
+            chiuse con il sigillo del Velo. La strada per Tuarmir parte dalla
+            Superficie Fratturata.
+          pe: { resilienza: 5 }
+          effetti: { fazione.velo: 1 }
+
+  # ------------------------------------------------------------ passo 11 · l'ingresso della gola
+  - id: velo-la-strada-di-tuarmir
+    immagine: ambientazione/tuarmir
+    titolo: La strada di Tuarmir
+    sommario: "Sorella Alenna non scrive più da Tuarmir. La gola è a mezza giornata di cammino, e il vento, dicono, ha cambiato direzione."
+    luogo: Superficie Fratturata, il sentiero che scende verso Tuarmir
+    area: superficie-fratturata
+    requisiti: [fazione.velo == 10]
+    testo: |
+      Il sentiero per Tuarmir lascia la piana di basalto e scende fra due
+      pareti di roccia scura che si avvicinano a ogni curva, finché il cielo
+      non diventa una striscia sopra la testa. Il sole ci arriva poche ore al
+      giorno, e adesso non c'è. Le pietre del sentiero sono coperte di un
+      muschio così fitto che i passi non fanno rumore, e l'aria sa di terra
+      bagnata e di qualcosa di aspro, come d'erba tagliata la sera prima.
+
+      {natura Media} Il muschio della gola si piega dalla parte da cui viene
+      il vento, e qui si piega tutto verso valle. Il vento della Cicatrice
+      dovrebbe soffiare dall'altra parte.
+
+      Più avanti, appese a un ramo storto, ci sono tre maschere di stoffa
+      impregnate d'erbe, lasciate ad asciugare da qualche raccoglitrice. In
+      tasca hai le lettere di Vantes per Madre Cerya e per Alenna, con il
+      sigillo del Velo, e il disco con l'occhio chiuso, che non pesa niente.
+
+      {resistenza Facile fallita} Le gambe ti ricordano la mezza giornata di
+      cammino dalla città, una pietra alla volta, e la gola è appena
+      cominciata.
+
+      *Due mesi senza lettere.* Ti sistemi la tracolla e guardi giù, dove il
+      sentiero sparisce nell'ombra.
+    opzioni:
+      - testo: "Scendere nella gola"
+        descrizione: "Il sentiero è scivoloso e la luce è poca. Tuarmir è in fondo, e Alenna da qualche parte nella gola."
+        esito:
+          titolo: Nell'ombra
+          testo: |
+            Scendi tenendoti alla parete, e dopo la terza curva la luce del
+            giorno si fa grigia come al tramonto. Una delle maschere sul ramo
+            si muove nel vento, verso valle. Ne prendi una, perché a Tuarmir
+            si fa così, e te la leghi al collo.
+          vai: velo-gola-di-tuarmir
+
+      - testo: "Aspettare che il sole entri nella gola"
+        descrizione: "Due ore al giorno di sole. Forse conviene scendere con quelle."
+        costo: 0
+        esito:
+          titolo: Il sole che non arriva
+          testo: |
+            Ti siedi su una pietra all'imbocco della gola e aspetti. Il sole
+            gira sopra le pareti senza mai scendere, e quando finalmente
+            arriva sul sentiero è già ora di tornare indietro. Torni a Tuarmir
+            un altro giorno.

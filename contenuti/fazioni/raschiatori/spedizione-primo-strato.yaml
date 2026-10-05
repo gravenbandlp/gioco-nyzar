@@ -1,0 +1,916 @@
+# La quest dei Raschiatori, passo 14 (fazione.raschiatori 13 → 14): la discesa dei Quattro nel primo strato del
+# Labirinto di Darn-Morakh, dalle piattaforme dei Raschiatori e non dalla Strada Antica. Scendono Tenebra, Dragna,
+# la tua squadra e tu; Argento resta all'argano. L'ingresso (`raschiatori-le-piattaforme-della-cicatrice`, ai
+# Ponti) costa un rintocco in meno con lo Scandaglio. La ritirata riporta ai Ponti Sospesi.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# 0 la galleria raschiata (il gesso di tre generazioni) o le corde dei turni, 1 i corridoi che respirano (le luci
+# viandanti) o la riorganizzazione, 2 i nidi di macchine o la sacca di Marea quasi solida (chi ha Contaminazione 6
+# o più può prendere la Gola roca come i veterani), 3 il punto della Carta (Facile con la Carta) o il battito;
+# la squadra dei cinque vale da 2 a 3 (le piastrine del padre di Stoppino, con ponti.lanterne).
+# Il cuore a 4 è la camera dei quattro: le tre forme della Salvaguardia (boss). Le vie sono Difficili; chi perde
+# viene trascinato fuori da Dragna mentre la fase si richiude, senza passo. Chi vince trova le quattro nicchie e il
+# bracciale di Mirta Sorrin, ancora tiepido (raschiatori.bracciale-mirta).
+aree:
+  - id: raschiatori-primo-strato
+    immagine: ambientazione/regno-profondo
+    nome: Il primo strato
+    sommario: "Il primo strato del Labirinto di Darn-Morakh, raschiato fino all'osso da tre generazioni di Raschiatori. Le macchine si chiudono sugli intrusi più in fretta di un anno fa."
+    spedizione: { ritorno: ponti-sospesi, soglia: 4, stanze: 3 }
+    testo: |
+      Il primo strato è una rete di gallerie di metallo fuso e cristallizzato
+      dal Mana, che girano su se stesse e si aprono su vuoti dove altre
+      gallerie passano sopra e sotto, come i fili di un gomitolo. Le pareti
+      sono raschiate fino all'osso. Dove c'erano i cristalli ci sono a migliaia i segni dei picconi uno sopra l'altro, e dove c'erano le macchine
+      ci sono gli attacchi vuoti.
+
+      Il ronzio non smette mai. Viene da sotto, da molto più in basso, e lo
+      senti più nelle ossa che nelle orecchie. Tenebra cammina davanti con la
+      lampada bassa, Dragna chiude la fila con l'ascia in mano, e in mezzo
+      ci sei tu con la tua squadra e la Carta di Korith che ti scalda la
+      tasca.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, ai Ponti
+  - id: raschiatori-le-piattaforme-della-cicatrice
+    presso: ponte-delle-mille-corde
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Le piattaforme della Cicatrice
+    sommario: "I Quattro scendono nel primo strato dalle piattaforme dei Raschiatori, in tre più te. Argento resta all'argano con la mano sul freno."
+    luogo: Ponti Sospesi, le piattaforme di scavo sull'orlo della Cicatrice
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 13]
+    testo: |
+      Le piattaforme dei Raschiatori pendono sull'orlo della Cicatrice come
+      nidi di rondine, legate ai piloni con catene grosse come un braccio. Da
+      qui scendono i turni da quando c'è la città, e da qui scendete voi, non
+      dalla Strada Antica. Il Velo ha dato il permesso, e Argento lo tiene
+      piegato nel panciotto insieme alla lista dei nomi.
+
+      La sera prima Dragna ha provato l'argano, catena per catena, come si
+      fa. Stamattina Argento si siede sullo sgabello del freno con la gamba
+      di legno allungata davanti e il bastone di cristallo appoggiato alla
+      ringhiera, acceso. Tenebra controlla in silenzio le lampade della squadra una per una, e a ognuno guarda le mani prima della faccia.
+
+      {resilienza Media} Hai paura, quella giusta. È la paura che fa
+      controllare due volte il moschettone e che ti riporta su.
+
+      {atletica Facile} La prima corda è lunga trenta braccia, poi c'è un
+      pianerottolo, e poi un'altra. Le braccia hanno già fatto il conto, e il
+      conto torna.
+
+      Nella ha il bracciale dei turni stretto al polso e la lampada già
+      accesa, e ti guarda come guardava il pozzo. *In tre più me, come si è
+      sempre fatto.* Dragna ti batte due volte i monconi sulla spalla.
+    opzioni:
+      - testo: "Scendere per primo lungo la corda"
+        descrizione: "Chi porta lo Scandaglio scende per primo nei siti nuovi. Il primo strato lo conoscono tutti, la fase della Fiamma nessuno."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Trenta braccia
+          testo: |
+            Scendi per primo, e le trenta braccia della prima corda passano
+            sotto i guanti una alla volta. Al pianerottolo ti volti a guardare
+            gli altri che scendono, Tenebra con la lampada e Dragna per ultima,
+            e Nella in mezzo. Sopra di voi la luce del bastone di Argento si fa
+            piccola come una stella.
+          pe: { atletica: 3 }
+          vai: raschiatori-primo-strato
+        fallimento:
+          titolo: Il moschettone
+          testo: |
+            A metà della prima corda il moschettone ti si apre da solo, e resti
+            appeso con una mano sola finché Dragna, da sopra, non ti ferma la
+            corda con lo stivale. Arrivi al pianerottolo con il cuore in gola e
+            la mano che non si apre. Dragna ti richiude il moschettone senza
+            dire niente.
+          effetti: { ferite: 0.5 }
+          vai: raschiatori-primo-strato
+      - testo: "Rifare con Argento il controllo dell'argano"
+        descrizione: "La sera prima l'ha fatto Dragna. La mattina lo rifà chi resta di sopra, e ogni tanto trova qualcosa."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La catena
+          testo: |
+            Passi le catene con Argento una maglia alla volta, e alla
+            quarantesima trovi una maglia incrinata, sottile come un capello.
+            Argento la cambia con le sue mani mentre gli altri aspettano, e
+            borbotta qualcosa con l'accento delle volte che si arrabbia. Poi
+            libera il freno, e scendete tranquilli.
+          pe: { tecnologia: 3 }
+          vai: raschiatori-primo-strato
+        fallimento:
+          titolo: Tutto a posto
+          testo: |
+            Passi le catene con Argento, e ti sembrano tutte buone. A metà
+            discesa una maglia cede, e la piattaforma scende di un braccio con
+            uno strattone che vi butta tutti contro la ringhiera. Tiene. Argento,
+            da sopra, grida qualcosa che non è nella lingua della città.
+          effetti: { ferite: 0.5 }
+          vai: raschiatori-primo-strato
+      - testo: "Mandare avanti lo Scandaglio"
+        descrizione: "Il cristallo vibra dove sotto c'è un vuoto. Nel Labirinto il vuoto è dappertutto, ma quello buono vibra più forte."
+        requisiti: [chiave.scandaglio >= 1]
+        costo: 0
+        esito:
+          titolo: La nota buona
+          testo: |
+            Cali lo Scandaglio davanti a te, e il cristallo canta una nota
+            sola, forte, dritto verso il basso. Lo segui senza fermarti, e la
+            squadra ti segue. Tenebra, che ti scende accanto, alza un
+            sopracciglio, che da lui vale un applauso.
+          vai: raschiatori-primo-strato
+      - testo: "Lasciar scendere per primi Tenebra e Dragna"
+        descrizione: "Sono scesi più volte di tutti voi messi insieme. Si scende piano dietro di loro, e intanto si impara."
+        costo: 2
+        esito:
+          titolo: Dietro di loro
+          testo: |
+            Lasci scendere prima Tenebra e Dragna, e guardi come fanno. Si
+            fermano a ogni pianerottolo per contare le teste, e a ogni
+            pianerottolo ripartono senza fretta. Ci vuole il doppio del tempo,
+            e quando arrivate in fondo hai le spalle dure come legno.
+          effetti: { tormento: 0.5 }
+          vai: raschiatori-primo-strato
+
+  # ------------------------------------------------------------ 0 · la galleria e le corde
+  - id: raschiatori-strato-la-galleria-raschiata
+    immagine: ambientazione/regno-profondo
+    titolo: La galleria raschiata
+    sommario: "Una galleria raschiata fino all'osso, con i segni di gesso di tre generazioni di Raschiatori sulle pareti."
+    luogo: Il primo strato, la galleria dei turni
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 0]
+    testo: |
+      La galleria dei turni è larga quanto una strada della Città Bassa, e
+      sulle pareti i Raschiatori hanno lasciato i loro segni di gesso per tre
+      generazioni. Le frecce dei vecchi sono entrate nel metallo, quelle
+      delle squadre di adesso sono ancora bianche. In un punto qualcuno ha
+      scritto un nome e una data, e sotto un altro ha scritto *tornato*.
+
+      {accademiche Media} Le frecce più vecchie puntano tutte verso il basso.
+      Quelle più recenti puntano verso l'uscita, e sono di più.
+
+      Tenebra si ferma davanti al nome con la data e ci passa sopra il dito,
+      piano. Poi riprende a camminare.
+    opzioni:
+      - testo: "Leggere le frecce dei vecchi"
+        descrizione: "Le frecce entrate nel metallo sono di quando si scendeva più in basso. Indicano la strada verso dove volete andare."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Le frecce entrate nel metallo
+          testo: |
+            Segui le frecce dei vecchi, quelle che il metallo ha quasi
+            inghiottito, e portano a un passaggio che le squadre di adesso non
+            usano. Tenebra annuisce quando lo vede. Ti dice a voce bassa che quella freccia l'ha fatta lui trent'anni fa, e che pensava che non
+            l'avrebbe più vista nessuno.
+          pe: { accademiche: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Le frecce sbagliate
+          testo: |
+            Segui le frecce più bianche e finisci davanti a un muro dove le
+            frecce girano su se stesse, una dopo l'altra, in un cerchio. Dragna
+            ti tira per la giubba e ti riporta indietro senza dire niente, e
+            Nella guarda il cerchio di frecce per molto tempo.
+          effetti: { tormento: 0.5 }
+      - testo: "Aggiungere il tuo segno sulla parete"
+        descrizione: "Ogni squadra lascia il suo segno. Il tuo nome con la data, e sotto lo spazio per chi scriverà tornato."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Facile }
+        successo:
+          titolo: Lo spazio sotto il nome
+          testo: |
+            Scrivi con il gesso il tuo nome e la data, e lasci lo spazio sotto.
+            Dragna guarda la scritta a lungo e poi ci scrive accanto, piccola,
+            una lanterna con la fiamma dritta. La squadra fa lo stesso uno alla volta, e Nella scrive il suo nome con le lettere che le hai insegnato
+            tu.
+          pe: { espressivita: 2 }
+          effetti: { profondita.raschiatori-primo-strato: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il gesso che si spezza
+          testo: |
+            Il gesso ti si spezza in mano alla seconda lettera, e il pezzo cade
+            in una crepa del pavimento e sparisce. Dragna ti guarda, e tu le
+            guardi la mano senza dita, e per un momento nessuno dei due dice
+            niente. Il nome lo lasci a metà.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire Dragna senza guardare le pareti"
+        descrizione: "Dragna conosce la galleria a memoria. Tu le stai dietro, e i segni sui muri li guardi un'altra volta."
+        costo: 2
+        esito:
+          titolo: La schiena di Dragna
+          testo: |
+            Segui la schiena di Dragna, con l'ascia di traverso sulle spalle, e non guardi le pareti. Lei cammina svelta, e dove la galleria si
+            divide sceglie senza fermarsi. Arrivi in fondo senza sapere bene da
+            dove sei passato, con la sensazione di aver perso qualcosa per
+            strada.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  - id: raschiatori-strato-le-corde-dei-turni
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Le corde dei turni
+    sommario: "Un pozzo verticale con le corde dei turni di altri anni ancora appese. Alcune tengono, altre sono marce dentro."
+    luogo: Il primo strato, il pozzo delle corde
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 0]
+    testo: |
+      La galleria finisce sull'orlo di un pozzo verticale, e dall'orlo
+      pendono le corde dei turni di altri anni, decine, alcune con i nodi dei
+      vecchi e alcune con il gancio di ferro della Compagnia. Scendono tutte
+      nel buio. Il ronzio sale dal fondo più forte di prima.
+
+      {tecnologia Media} Le corde nuove sono marce dentro, perché la Marea le
+      mangia dal cuore. Quelle vecchie hanno resistito perché erano fatte
+      meglio, e a guardarle bene lo si capisce dal colore.
+
+      Dragna prova una corda con la mano e la lascia andare, poi ne sceglie un'altra.
+    opzioni:
+      - testo: "Scegliere la corda buona"
+        descrizione: "Il colore, il nodo, il modo in cui cade. Una corda si legge come una faccia."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La corda vecchia
+          testo: |
+            Scegli una corda vecchia, scura, con un nodo che non conosci, e
+            Dragna la guarda e annuisce. Scendete uno alla volta, e la corda
+            tiene tutti. In fondo Dragna ti dice che quel nodo lo faceva la
+            Fiamma prima di Mirta, e che non pensava di rivederlo.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: La corda marcia
+          testo: |
+            Scegli una corda nuova e chiara, e a metà discesa senti le fibre
+            cedere una alla volta sotto i guanti. Risali a forza di braccia, e la
+            corda si spezza un palmo sotto i tuoi stivali e sparisce nel buio,
+            senza un rumore.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Scendere con la tua corda, piantando i chiodi"
+        descrizione: "Le corde degli altri sono degli altri. La tua la conosci, e i chiodi li pianti tu."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: I chiodi
+          testo: |
+            Pianti un chiodo nell'orlo e ti cali con la tua corda, e dove la
+            parete lo permette pianti un altro chiodo, per chi viene dopo. In
+            fondo al pozzo hai le braccia che tremano e la squadra che ti scende
+            accanto sui tuoi chiodi, uno dopo l'altro.
+          pe: { atletica: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Il chiodo che salta
+          testo: |
+            Il secondo chiodo salta dalla parete con un rumore di frusta, e la
+            corda ti sbatte contro il metallo. Tenebra ti tira su per la cinghia senza sforzo apparente e ti rimette sull'orlo.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che scenda Tenebra e seguirlo"
+        descrizione: "Tenebra sceglie la corda senza toccarla. Dietro di lui si scende sicuri e lenti."
+        costo: 2
+        esito:
+          titolo: La corda di Tenebra
+          testo: |
+            Tenebra sceglie una corda soltanto guardandola e scende per primo, senza averla toccata. Lo seguite uno alla volta. Ci vuole molto, perché
+            lui si ferma a ogni nodo, e quando arrivi in fondo il ronzio ti è
+            entrato nei denti e non vuole uscire.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1 · i corridoi che respirano e la riorganizzazione
+  - id: raschiatori-strato-le-luci-viandanti
+    immagine: ambientazione/regno-profondo
+    titolo: I corridoi che respirano
+    sommario: "Nei corridoi del primo strato due luci camminano davanti a voi con il vostro passo. Quando vi fermate, si fermano."
+    luogo: Il primo strato, i corridoi che respirano
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 1]
+    testo: |
+      In questo tratto le pareti si gonfiano e si sgonfiano appena, a lungo,
+      come il fianco di una bestia addormentata, e l'aria segue il loro respiro. Davanti a voi, a dieci passi, camminano due luci. Hanno il vostro
+      passo, quello di Dragna che è pesante e quello di Nella che è leggero,
+      e quando vi fermate si fermano.
+
+      {resilienza Media} Imitano per farsi seguire. Chi le segue arriva dove
+      vogliono loro, e da lì non torna con la stessa voce.
+
+      {magia Difficile} Le luci non hanno Mana. Sono buchi nel Mana del
+      corridoio, a forma di passo.
+
+      Tenebra alza la mano, e tutti si fermano. Le luci, a dieci passi, alzano
+      la mano anche loro.
+    opzioni:
+      - testo: "Spegnerle"
+        descrizione: "Due luci che tagliano, se ci si avvicina. Ma sono due, e voi di più."
+        combattimento: raschiatori-luci-viandanti
+        vittoria:
+          titolo: Il buio giusto
+          testo: |
+            Le luci si spengono una dopo l'altra con un rumore di vetro che si
+            incrina, e nel corridoio resta il buio delle vostre lampade, che è
+            un buio che conosci. Le pareti smettono di gonfiarsi, e Tenebra abbassa la mano che teneva alzata.
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        sconfitta:
+          titolo: Il taglio
+          testo: |
+            Una luce ti passa attraverso il braccio, e il braccio ti si apre in
+            un taglio lungo e pulito che non sanguina subito. Dragna ti tira
+            indietro per la giubba, e la squadra si ritira fino alle corde.
+      - testo: "Camminare con un altro passo"
+        descrizione: "Se imitano il passo, si cambia passo. Tutti insieme, e senza sbagliare."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Un altro passo
+          testo: |
+            Cambi passo, e la squadra ti segue con tre passi lenti seguiti da uno svelto, come si cammina sui Ponti quando c'è vento. Le luci provano a starvi dietro e sbagliano il passo, finché restano indietro. Intanto il corridoio smette di respirare.
+          pe: { resilienza: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Il passo che torna
+          testo: |
+            Cambi passo, e dopo un poco ti accorgi che stai camminando di nuovo
+            con il passo delle luci, senza averlo deciso. Tenebra ti afferra la
+            spalla e ti ferma. Hai la gola secca e un ricordo in meno, anche se
+            non sai quale.
+          effetti: { tormento: 1 }
+      - testo: "Spegnere le lampade e aspettare"
+        descrizione: "Al buio le luci non hanno niente da imitare. Si aspetta, e si spera che si stanchino prima di voi."
+        costo: 2
+        esito:
+          titolo: Al buio
+          testo: |
+            Spegnete le lampade e restate fermi nel buio, con le pareti che
+            respirano intorno a voi. Le luci restano accese a dieci passi per un
+            tempo lunghissimo, poi si spengono. Quando riaccendi la lampada hai
+            le mani fredde e la sensazione che qualcuno ti abbia guardato da
+            vicino.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  - id: raschiatori-strato-la-riorganizzazione
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La riorganizzazione
+    sommario: "Il Labirinto si muove. I corridoi scorrono come cassetti, e chi resta in mezzo esce dall'altra parte senza ricordarsi di esserci passato."
+    luogo: Il primo strato, una giunzione
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 1]
+    testo: |
+      A una giunzione il pavimento si muove sotto gli stivali, piano, come la
+      tolda di una barca. Poi le pareti cominciano a scorrere, e i corridoi
+      scivolano uno sull'altro come i cassetti di un mobile. Davanti a te adesso c'è un muro dove prima c'era un passaggio, e alla tua destra si apre un
+      corridoio che prima non c'era.
+
+      {resilienza Difficile} Chi esce vivo da una riorganizzazione di solito
+      non se la ricorda. Tieni a mente una cosa sola, e tienila stretta.
+
+      Tenebra grida di tenersi per la cintura, e per la prima volta da
+      quando lo conosci lo senti alzare la voce.
+    opzioni:
+      - testo: "Tenere a mente una cosa sola e attraversare"
+        descrizione: "Il nome di Mirta, o quello di Nella. Una cosa sola, ripetuta, finché il Labirinto non si ferma."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Un nome
+          testo: |
+            Ripeti a mezza voce il nome di Mirta Sorrin mentre il corridoio ti
+            scorre intorno, e la mano di Nella ti tiene la cintura. Quando il pavimento si ferma siete tutti dall'altra parte, e tu ricordi ogni cosa. Dragna ti guarda come si guarda un compagno, finalmente.
+          pe: { resilienza: 5 }
+          effetti: { profondita.raschiatori-primo-strato: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Dall'altra parte
+          testo: |
+            Il nome ti scappa a metà. Quando il pavimento si ferma sei seduto
+            per terra in un corridoio che non conosci, e Dragna ti sta dando
+            schiaffi leggeri sulla faccia. Non ricordi come ci sei arrivato. La
+            squadra è con te, e Nella piange senza far rumore.
+          effetti: { tormento: 1 }
+      - testo: "Leggere il movimento dei corridoi"
+        descrizione: "I cassetti scorrono in un ordine. Chi lo vede passa nel vuoto giusto al momento giusto."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il vuoto giusto
+          testo: |
+            Guardi i corridoi scorrere e vedi che si fermano, uno dopo l'altro,
+            per il tempo di un respiro. Al terzo respiro gridi e passate tutti
+            nel vuoto che si è aperto, prima che si richiuda alle vostre
+            spalle con un rumore di porta.
+          pe: { percezione: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Il cassetto che si chiude
+          testo: |
+            Gridi troppo presto, e il vuoto si chiude davanti a te mentre Dragna
+            ti tira indietro per il colletto. Il metallo ti sfiora la punta
+            dello stivale. Aspettate che il Labirinto si fermi, e poi tornate
+            indietro fino alle corde.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Tenersi tutti per la cintura e aspettare che finisca"
+        descrizione: "Ci si tiene stretti senza muoversi. Il Labirinto fa quello che vuole, e voi restate insieme."
+        costo: 2
+        esito:
+          titolo: La catena
+          testo: |
+            Vi tenete tutti per la cintura uno dietro l'altro, e chiudete gli occhi. Il pavimento si muove a lungo. Quando si ferma siete tutti in un corridoio più in basso. Che cosa sia successo nel mezzo nessuno lo ricorda. Vi contate, e il conto torna.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 2 · i nidi e la sacca di Marea
+  - id: raschiatori-strato-i-nidi
+    immagine: bestiario/salvaguardia-precursori
+    titolo: I nidi di macchine
+    sommario: "In una sala bassa le macchine della Salvaguardia hanno fatto il nido. Sono piccole e svelte, e due di loro sono sveglie."
+    luogo: Il primo strato, la sala dei nidi
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 2]
+    testo: |
+      La sala è bassa e lunga, e sulle pareti ci sono i nidi, grumi di
+      metallo fuso grandi come botti con un buco in mezzo. Da due buchi
+      escono due macchine della Salvaguardia più piccole di quelle delle
+      rovine, con le zampe sottili, e si fermano a guardarvi con una luce
+      sola al posto della testa.
+
+      {armi-da-mischia Media} Sono svelte, e si chiudono sull'intruso prima
+      che finisca di entrare. Bisogna entrare tutti insieme, e colpire per
+      primi.
+
+      Dragna alza l'ascia e aspetta il tuo cenno. Ti accorgi che stavolta lo
+      aspetta davvero.
+    opzioni:
+      - testo: "Entrare tutti insieme e colpire per primi"
+        descrizione: "Due macchine svelte, e una squadra che entra al tuo cenno."
+        combattimento: raschiatori-nidi
+        vittoria:
+          titolo: I nidi vuoti
+          testo: |
+            Le due macchine finiscono a terra con le zampe ripiegate, e dai
+            nidi non esce nessun altro. Dragna rompe per abitudine i nidi uno dopo l'altro con l'ascia, e dentro trova due cristalli carichi, che ti
+            mette in mano.
+          effetti: { profondita.raschiatori-primo-strato: 1, cristalli.cristallo-carico: 1 }
+        sconfitta:
+          titolo: Fuori dalla sala
+          testo: |
+            Le macchine ti si chiudono addosso prima che tu abbia finito di
+            entrare, e la squadra ti trascina fuori per la giubba. Ti curi i
+            tagli seduto nel corridoio, e Tenebra conta le teste due volte.
+      - testo: "Passare lungo la parete senza svegliare gli altri nidi"
+        descrizione: "Le due sveglie sono lente a girarsi. Gli altri nidi dormono, e la parete opposta è libera."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Lungo la parete
+          testo: |
+            Passate lungo la parete opposta uno alla volta, con le lampade
+            coperte, mentre le due macchine guardano il punto dove eravate
+            prima. In fondo alla sala vi ritrovate tutti, e Tenebra ti fa un
+            cenno piccolo con il mento.
+          pe: { furtivita: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Il nido sveglio
+          testo: |
+            A metà della parete uno della squadra urta un nido, e il nido si
+            sveglia con un ronzio. Tornate indietro di corsa. Dragna chiude la
+            fila, e un colpo di zampa le apre la manica.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che le macchine tornino nei nidi"
+        descrizione: "Escono a guardare, e poi rientrano. Si aspetta fuori, al buio, il tempo che serve."
+        costo: 2
+        esito:
+          titolo: Il ritorno nei nidi
+          testo: |
+            Aspettate fuori dalla sala con le lampade spente, finché le due macchine rientrano nei loro nidi una dopo l'altra. Ci vuole
+            molto. Passate piano in fila, e il ronzio dei nidi ti accompagna
+            fino in fondo come un respiro.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  - id: raschiatori-strato-la-sacca-di-marea
+    immagine: ambientazione/marea-grigia
+    titolo: La sacca di Marea
+    sommario: "In un avvallamento del corridoio la Marea Grigia è così fitta da sembrare acqua. Si muove contro corrente, e sembra ascoltare."
+    luogo: Il primo strato, un avvallamento
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 2]
+    testo: |
+      In un avvallamento del corridoio la Marea Grigia si è raccolta come acqua in una pozza lattiginosa che arriva alle ginocchia. Si muove piano contro corrente, e quando ti avvicini la superficie si
+      increspa verso di te. Dall'altra parte il corridoio risale.
+
+      {natura Media} Qui la Marea è quasi solida. Si attacca a quello che
+      tocca e lo lascia a fatica, e il campo del bracciale ronza già a
+      vuoto.
+
+      Dragna si tocca la gola senza accorgersene. Ha la voce roca dei
+      veterani, quella che il Labirinto lascia dopo un certo numero di
+      discese.
+    opzioni:
+      - testo: "Attraversare svelti con il campo del bracciale acceso"
+        descrizione: "Il bracciale regge, se non ci si ferma. Una corsa nella Marea alle ginocchia."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: La corsa
+          testo: |
+            Attraversate di corsa, uno dietro l'altro, con il campo dei
+            bracciali che ronza forte. La Marea vi si attacca alle gambe e poi
+            molla, a malincuore. Dall'altra parte ti guardi i calzoni, e il
+            grigio ci è rimasto attaccato come fango secco.
+          pe: { resistenza: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Il bracciale che cede
+          testo: |
+            A metà il campo del bracciale cede con il rumore di una vespa
+            schiacciata, e la Marea ti sale fino alla vita. Nella ti tira fuori
+            per le cinghie. Hai sotto la lingua il sapore di ferro che i veterani
+            chiamano il saluto.
+          effetti: { contaminazione: 1.5 }
+      - testo: "Trovare il guado dove la Marea è più bassa"
+        descrizione: "Anche una pozza ha i suoi punti bassi. Bisogna leggere la superficie come si legge un fiume."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Il guado
+          testo: |
+            Guardi la superficie a lungo, e dove si increspa di meno la Marea è
+            più bassa. Passate lì, uno alla volta, con la Marea alle caviglie,
+            e il bracciale non ronza nemmeno.
+          pe: { natura: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Il punto fondo
+          testo: |
+            Il punto che hai scelto è il più fondo, e la Marea ti arriva al petto
+            al secondo passo. Ti tirano fuori in due, e per un'ora non riesci a
+            smettere di tremare.
+          effetti: { contaminazione: 1, tormento: 0.5 }
+      - testo: "Lasciare che la Marea ti prenda la voce"
+        descrizione: "I veterani hanno la gola roca. Chi ha già tanta Marea addosso può pagare il passaggio con la voce, come loro."
+        quando: [contaminazione >= 6]
+        esito:
+          titolo: La voce dei veterani
+          testo: |
+            Entri lentamente nella Marea fino alla gola, e lasci che ti entri
+            in bocca. Ha il sapore del ferro e della pioggia. Quando esci
+            dall'altra parte la Contaminazione ti è scivolata via dalla pelle
+            come acqua, e la voce ti esce roca, bassa, per sempre. Dragna ti
+            guarda, e per la prima volta ride davvero.
+          imposta: { contaminazione: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1, mutazione.gola-roca: 1 }
+      - testo: "Ascoltare la Marea come si ascolta il Bosco"
+        descrizione: "Al Circolo ti hanno insegnato che la Marea respira, come gli alberi. Dove respira piano, è bassa."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: Il respiro della pozza
+          testo: |
+            Ti accucci sull'orlo e ascolti, come al Circolo prima di entrare in
+            una radura. La Marea respira piano, e in un punto respira ancora
+            più piano, quasi a fatica. Passate lì, uno alla volta, con la Marea
+            alle caviglie, e Tenebra ti guarda le mani come se ci fosse scritto
+            sopra qualcosa.
+          pe: { natura: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+      - testo: "Fare il giro per il corridoio di sopra"
+        descrizione: "Il corridoio di sopra è più lungo e più stretto, e da lì si scende dall'altra parte."
+        costo: 2
+        esito:
+          titolo: Il giro di sopra
+          testo: |
+            Prendete il corridoio di sopra, un budello stretto che si piega più volte su se stesso, e scendete dall'altra parte della pozza. Ci vuole
+            molto, e a un certo punto il corridoio passa proprio sopra la
+            Marea, e senti il suo freddo salire dalle grate del pavimento.
+          effetti: { profondita.raschiatori-primo-strato: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 2–3 · la squadra dei cinque
+  - id: raschiatori-strato-la-squadra-dei-cinque
+    immagine: ambientazione/regno-profondo
+    titolo: La squadra dei cinque
+    sommario: "In un corridoio laterale ci sono cinque Raschiatori seduti contro la parete, legati alla stessa corda, da quattro inverni."
+    luogo: Il primo strato, un corridoio laterale
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato >= 2, profondita.raschiatori-primo-strato <= 3]
+    testo: |
+      In un corridoio laterale ci sono cinque Raschiatori seduti contro la
+      parete, uno accanto all'altro, ancora legati alla stessa corda. Sono lì
+      da molto tempo. Le giubbe hanno il colore della polvere, e le lampade
+      accanto a loro sono spente. Al collo hanno le piastrine di squadra, di
+      latta, appese a uno spago.
+
+      {empatia Media} Si sono seduti insieme, legati, per non perdersi. Chi
+      li ha trovati dopo non è mai arrivato fin qui.
+
+      Dragna si toglie il berretto. Tenebra resta in piedi, con la lampada
+      bassa, e dice cinque nomi a mezza voce, uno dopo l'altro, senza
+      sbagliare.
+    opzioni:
+      - testo: "Prendere le piastrine e portarle su"
+        descrizione: "Le piastrine si riportano su, perché sul Ponte dei Morti qualcuno possa smettere di aspettare."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Cinque piastrine
+          testo: |
+            Sfili le piastrine una per una, piano, con le scuse che si fanno ai
+            morti. Le metti in un fazzoletto, e il fazzoletto in tasca, sopra
+            il cuore. Tenebra ti guarda fare e annuisce, e la squadra riparte in
+            silenzio, con il passo più lento di prima.
+          pe: { empatia: 3 }
+          imposta: { raschiatori.piastrine: 1 }
+          effetti: { profondita.raschiatori-primo-strato: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Lo spago
+          testo: |
+            Sfili la prima piastrina, e lo spago si rompe, e la piastrina cade
+            nella polvere fra le gambe del morto. Ti inginocchi a cercarla, e le
+            mani ti tremano tanto che Nella deve aiutarti. Alla fine la trovate,
+            ma le altre quattro le lascia prendere a lei.
+          imposta: { raschiatori.piastrine: 1 }
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+      - testo: "Cercare la piastrina del padre di Stoppino"
+        descrizione: "Una squadra di cinque scesa quattro inverni fa e mai risalita. Il bambino del Ponte dei Morti ha appeso una lanterna per uno di loro."
+        quando: [ponti.lanterne >= 1]
+        esito:
+          titolo: La lanterna del bambino
+          testo: |
+            Le piastrine portano i nomi incisi con un chiodo, e sulla terza c'è
+            il nome che Stoppino ti ha detto una notte sul Ponte. Le prendi
+            tutte e cinque, e quella la tieni da parte, in un fazzoletto a sé.
+            Dragna ti vede farlo, e capisce senza bisogno di chiedere.
+          pe: { empatia: 3 }
+          imposta: { raschiatori.piastrine: 1 }
+          effetti: { profondita.raschiatori-primo-strato: 1, rep.raschiatori: 0.5, rep.ponti: 1 }
+      - testo: "Lasciarli dove sono e proseguire"
+        descrizione: "Sono insieme, e stanno bene così. Le piastrine resteranno con loro."
+        costo: 2
+        esito:
+          titolo: Insieme
+          testo: |
+            Li lasciate dove sono, insieme. Nella mette accanto al primo della fila la sua lampada di riserva accesa, e per tutto il corridoio
+            la vedi brillare alle vostre spalle, piccola, finché la curva non
+            la nasconde.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 · il punto della Carta e il battito
+  - id: raschiatori-strato-il-punto-della-carta
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il punto della Carta
+    sommario: "La Carta di Korith si scalda in tasca. Il punto dove si apre la fase della Fiamma è qui vicino, e il Labirinto lo nasconde."
+    luogo: Il primo strato, una sala a otto lati
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 3]
+    testo: |
+      La sala ha otto lati e otto porte uguali, e la Carta di Korith ti
+      scalda la tasca come una pietra lasciata al sole. Quando la tiri fuori
+      le quattro disposizioni del primo strato si danno il cambio sotto il
+      vetro, e una delle quattro, quella sotto il segno della fiamma, resta
+      accesa più a lungo delle altre.
+
+      {tecnologia Media} La Carta segue il Labirinto, non il contrario.
+      Quando la disposizione della fiamma si accende, una delle otto porte
+      si accende con lei.
+
+      Tenebra guarda la Carta sopra la tua spalla, e per la prima volta lo
+      vedi sorpreso.
+    opzioni:
+      - testo: "Leggere la Carta e trovare la porta"
+        descrizione: "Con la Carta in mano, la porta giusta si accende. Bisogna esserci quando succede."
+        requisiti: [chiave.korith >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Facile }
+        successo:
+          titolo: La porta accesa
+          testo: |
+            Guardi la Carta e le porte insieme, e quando la disposizione della
+            fiamma si accende una delle otto porte si illumina sul bordo,
+            appena. La indichi, e la squadra passa prima che si spenga.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: La porta spenta
+          testo: |
+            Guardi la Carta troppo a lungo, e quando alzi gli occhi la porta si
+            è già spenta. Aspettate che le disposizioni facciano il giro, e
+            intanto il ronzio vi entra nelle ossa.
+          effetti: { tormento: 0.5 }
+      - testo: "Provare le porte una per una"
+        descrizione: "Otto porte, e una è quella giusta. Le altre sette portano altrove."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La quinta porta
+          testo: |
+            Le provi una per una, guardando dentro senza entrare, e la quinta
+            ha l'aria più calda delle altre. Dentro il corridoio scende verso
+            il basso. Lo prendete in fila, e il ronzio si fa più forte.
+          pe: { percezione: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: La terza porta
+          testo: |
+            La terza porta ti sembra quella giusta. Ci entri, e il corridoio si richiude alle tue spalle. Ti ritrovi nella sala a otto lati
+            dalla parte opposta, con la squadra che ti guarda arrivare dalla
+            porta da cui non sei mai uscito.
+          effetti: { tormento: 1 }
+      - testo: "Lasciare che sia Tenebra a scegliere"
+        descrizione: "Tenebra è sceso qui più volte di chiunque. Sceglie lui, e tu lo segui."
+        costo: 2
+        esito:
+          titolo: La scelta di Tenebra
+          testo: |
+            Tenebra guarda a lungo le otto porte una per una, e alla fine ne sceglie una senza dire perché. Lo seguite. Il corridoio scende, e
+            il ronzio si fa più forte, e a un certo punto ti accorgi che il
+            cuore ti batte allo stesso tempo.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  - id: raschiatori-strato-il-battito
+    immagine: ambientazione/regno-profondo
+    titolo: Il battito
+    sommario: "Più giù il ronzio diventa un battito lento, irregolare, che si sente nelle ossa. Le lampade pulsano con lui."
+    luogo: Il primo strato, il corridoio che scende
+    area: raschiatori-primo-strato
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato == 3]
+    testo: |
+      Più giù il ronzio cambia. Diventa un battito lento e irregolare che
+      viene da molto in basso e si sente nelle ossa prima che nelle
+      orecchie. Le lampade pulsano con lui, e anche il bastone di Argento,
+      lassù all'argano, deve pulsare, perché la corda di segnale vibra allo
+      stesso tempo.
+
+      {resilienza Media} Il cuore vuole andargli dietro. Lascialo battere
+      per conto suo, e il battito resterà fuori.
+
+      {magia Media fallita} Ti sembra che il battito ti chiami per nome. Speri che sia soltanto la tua testa a cercare un senso dappertutto.
+
+      Tenebra si ferma e tende l'orecchio, e Dragna gli mette una mano sul
+      braccio.
+    opzioni:
+      - testo: "Tenere il proprio battito"
+        descrizione: "Il cuore è tuo. Lo si tiene con il respiro, contando, finché il corridoio non finisce."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Il tuo cuore
+          testo: |
+            Respiri contando fino a quattro per ogni fiato, e il cuore torna tuo. La squadra respira con te, a mezza voce. In fondo al corridoio
+            c'è una porta bassa, e dietro la porta il battito si ferma, come se
+            avesse trovato quello che cercava.
+          pe: { resilienza: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Il cuore che va dietro
+          testo: |
+            Il cuore ti scappa e va dietro al battito, e per un poco non riesci
+            a respirare. Dragna ti fa sedere e ti tiene la testa fra le ginocchia
+            finché il cuore non torna a battere per conto suo.
+          effetti: { tormento: 1 }
+      - testo: "Seguire il battito fino alla sorgente"
+        descrizione: "Se batte, viene da qualche parte. La camera dei quattro è dove batte più forte."
+        prova: { attributo: mentale, abilita: [magia, percezione], difficolta: Media }
+        successo:
+          titolo: La sorgente
+          testo: |
+            Segui il battito con le dita sulla parete, dove il metallo vibra
+            più forte, e ti porta a una porta bassa. Dietro la porta il battito
+            si ferma di colpo, e il silenzio che resta è più forte del rumore.
+          pe: { magia: 3 }
+          effetti: { profondita.raschiatori-primo-strato: 1 }
+        fallimento:
+          titolo: Più giù
+          testo: |
+            Segui il battito, e il battito ti porta più giù di dove dovresti
+            andare, finché Tenebra non ti ferma con una mano sul petto. Tornate
+            indietro, e per il resto della discesa senti il battito dietro lo
+            sterno.
+          effetti: { tormento: 1 }
+      - testo: "Tapparsi le orecchie e camminare"
+        descrizione: "Il battito si sente nelle ossa, ma le orecchie tappate aiutano. Un poco."
+        costo: 2
+        esito:
+          titolo: Le orecchie tappate
+          testo: |
+            Ti tappi le orecchie con la cera delle candele e cammini, e il
+            battito ti arriva lo stesso, dalle ossa dei piedi. In fondo al
+            corridoio trovi una porta bassa, e quando la passi ti accorgi che
+            stai piangendo senza un motivo.
+          effetti: { profondita.raschiatori-primo-strato: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · la camera dei quattro
+  - id: raschiatori-la-camera-dei-quattro
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La camera dei quattro
+    sommario: "Dietro la porta bassa c'è una camera rotonda con quattro nicchie nella parete, e davanti alle nicchie tre forme della Salvaguardia che si svegliano."
+    luogo: Il primo strato, la camera dei quattro
+    area: raschiatori-primo-strato
+    requisiti: [fazione.raschiatori == 13, profondita.raschiatori-primo-strato >= 4]
+    testo: |
+      Dietro la porta bassa c'è una camera rotonda con il soffitto a cupola,
+      e nella parete di fondo ci sono quattro nicchie in fila, alte quanto un
+      uomo. Sopra ognuna è inciso uno dei quattro segni della ruota. Il buio è spento, e così il ferro e l'argento. Sopra la quarta nicchia la fiamma è accesa della stessa luce azzurra e fredda del Pozzo.
+
+      Davanti alle nicchie ci sono tre forme della Salvaguardia, ferme. La
+      prima ha sei zampe e il corpo basso di una cassa. La seconda è un
+      torso senza gambe coperto di spine, appoggiato sulle braccia. La terza
+      è alta e sottile, con la testa girata all'indietro e le ginocchia
+      piegate al contrario. Quando entri con la lampada si svegliano tutte e
+      tre insieme.
+
+      {rissa Media} Il ragno è svelto e il busto è lento, mentre la figura
+      ruotata colpisce prima che tu capisca da che parte arriva. Va presa per
+      prima, se si riesce.
+
+      {resilienza Difficile} Si sono svegliate insieme alla fase della
+      fiamma. Quando la fase si chiude torneranno a dormire, e con loro la
+      camera. Il tempo è quello della luce azzurra.
+
+      Dragna si mette alla tua sinistra con l'ascia e Tenebra alla tua
+      destra, mentre Argento tiene il freno dell'argano, lassù. *Tre titoli
+      intorno a me, e il quarto posto oggi è il mio.* Nella, dietro di te, ha
+      già acceso la lampada di riserva.
+    opzioni:
+      - testo: "Affrontare le tre forme con i Quattro"
+        descrizione: "Il ragno, il busto di spine e la figura ruotata. Dragna e Tenebra ai tuoi fianchi, e la luce azzurra che si consuma."
+        combattimento: raschiatori-camera-dei-quattro
+        vittoria:
+          titolo: Le quattro nicchie
+          testo: |
+            L'ultima forma cade davanti alla quarta nicchia, e la camera resta
+            in silenzio. Nelle prime tre nicchie ci sono tre bracciali di rame
+            anneriti, uguali a quelli che portano al polso gli altri tre dei Quattro. Nella
+            quarta c'è quello di Mirta Sorrin, con il suo nome inciso sulla
+            fibbia. Lo prendi, ed è ancora tiepido.
+
+            Oltre la camera la Strada Antica scende verso il fondo, e da lì sale
+            il battito, adesso forte. Dragna ti tiene per la giubba finché la
+            luce azzurra sopra la quarta nicchia non si spegne e la fase si
+            chiude. Poi risalite tutti, contando le teste a ogni pianerottolo.
+          pe: { resilienza: 5, armi-da-mischia: 5 }
+          imposta: { raschiatori.bracciale-mirta: 1 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 3, rep.raschiatori: 1 }
+          vai: ponti-sospesi
+        sconfitta:
+          titolo: La fase che si chiude
+          testo: |
+            La figura ruotata ti colpisce alle spalle mentre guardi il ragno, e
+            ti ritrovi per terra con la bocca piena di polvere di metallo.
+            Dragna ti trascina fuori dalla camera per la giubba, e Tenebra
+            copre la ritirata con la lampada alta. Dietro di voi la luce
+            azzurra si spegne e la porta bassa si chiude. Risalite fino
+            all'argano senza il bracciale di Mirta.
+          vai: ponti-sospesi
+      - testo: "Chiudere la fase con la Carta di Korith"
+        descrizione: "La Carta segue il Labirinto. Se fai girare la disposizione prima del tempo, la fase si chiude e le forme si fermano, purché le dita restino ferme."
+        requisiti: [chiave.korith >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La disposizione girata
+          testo: |
+            Scaldi la Carta fra le mani e fai girare la disposizione con il
+            pollice, una tacca, poi un'altra, finché la fiamma sotto il vetro
+            si spegne. Le tre forme si fermano a metà del passo e si accucciano
+            davanti alle nicchie. Nelle prime tre ci sono tre bracciali di rame
+            anneriti, uguali a quelli dei Quattro. Nella quarta c'è quello di
+            Mirta Sorrin, con il suo nome inciso sulla fibbia, ed è ancora
+            tiepido.
+
+            Oltre la camera la Strada Antica scende verso il fondo, e Dragna ti
+            tiene per la giubba finché la luce azzurra non si spegne del tutto.
+            Poi risalite, contando le teste a ogni pianerottolo.
+          pe: { tecnologia: 5, resilienza: 5 }
+          imposta: { raschiatori.bracciale-mirta: 1 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 2, rep.raschiatori: 1 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: La disposizione che scappa
+          testo: |
+            La Carta ti scotta fra le dita e la disposizione gira troppo,
+            saltando oltre la fiamma, e le tre forme ti vengono addosso tutte
+            insieme. Dragna ti trascina fuori per la giubba mentre Tenebra
+            copre la ritirata. La luce azzurra si spegne e la porta bassa si
+            chiude alle vostre spalle. Risalite senza il bracciale di Mirta, con
+            la Carta che ti brucia la tasca.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: ponti-sospesi
+      - testo: "Ordinare alle forme di fermarsi"
+        descrizione: "La formula del Comando parla alla Salvaguardia nella sua lingua. Tre forme, e una sola voce."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Una sola voce
+          testo: |
+            Dici la formula, e la parola ti esce dalla bocca in una lingua straniera. Le tre forme si fermano. Si accucciano davanti alle
+            nicchie, ad aspettare un altro ordine che non arriverà. Nelle prime
+            tre nicchie ci sono tre bracciali di rame anneriti, e nella quarta
+            quello di Mirta Sorrin, con il suo nome sulla fibbia, ancora
+            tiepido.
+
+            Dragna ti tiene per la giubba finché la luce azzurra non si spegne e
+            la fase si chiude. Poi risalite, contando le teste a ogni
+            pianerottolo.
+          pe: { magia: 5, resilienza: 5 }
+          imposta: { raschiatori.bracciale-mirta: 1 }
+          effetti: { fazione.raschiatori: 1, cristalli.cristallo-carico: 2, rep.raschiatori: 1 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: Tre voci
+          testo: |
+            Dici la formula, e le tre forme ti rispondono insieme, con tre voci
+            che ti entrano nella testa. Ti trovi in ginocchio. Dragna ti
+            trascina fuori dalla camera, e dietro di voi la luce azzurra si
+            spegne. Risalite senza il bracciale di Mirta, e per giorni senti
+            quelle tre voci quando chiudi gli occhi.
+          effetti: { tormento: 1.5, ferite: 1 }
+          vai: ponti-sospesi

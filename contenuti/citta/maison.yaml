@@ -1,11 +1,15 @@
 # La città viva, luogo 10: Via dei Rasoi e la Maison des Lunes (presso: via-dei-rasoi, area citta-bassa).
-# L'attività delle sere alla porta di servizio, le tre storie di rep.maison (2 il quaderno di Sara, 4 la
-# lanterna spenta, con due aperture secondo pista.pelle e il seguito alla porta della Luna Calante, 6 ospite
-# della Maison) e la carta della catena di bronzo. Il servizio del luogo è il lavoro della sera pagato da Sara
-# e, da ospite, il tè in salone che porta pettegolezzi.
-# Reputazione: le storie la portano a 3, 5 e 7; Kanat alla porta, il cliente ubriaco e i conti di Gretchen
-# (fisico, sociale, mentale) la fanno salire fino a 4; il turno di sala, il bancone di Sara e il cliente molesto
-# (mentale, sociale, fisico) fino a 6.
+# L'attività delle sere alla porta di servizio, tre storie che sono anche i passi 1, 2 e 6 della quest di fazione
+# (contenuti/fazioni/maison/, pista fazione.maison): 1 il quaderno di Sara, 2 la lanterna spenta, con due aperture
+# secondo pista.pelle e il seguito alla porta della Luna Calante, 6 ospite della Maison, che dà il secondo grado. Poi
+# la carta della catena di bronzo. Il servizio del luogo è il lavoro della sera pagato da Sara e, da ospite, il tè in
+# salone che porta pettegolezzi.
+# Le storie chiedono il passo della quest (fazione.maison == 0, 1, 5) e lo fanno avanzare; i vecchi flag
+# (maison.sara, maison.lanterna, maison.ospite) restano negli esiti perché altre scene li leggono. Il quaderno di Sara
+# imposta maison.quaderno, la porta della Luna Calante maison.mare, il signor Pace maison.pace.
+# Reputazione: Kanat alla porta, il cliente ubriaco e i conti di Gretchen (fisico, sociale, mentale) la fanno salire
+# fino a 4; il turno di sala, il bancone di Sara e il cliente molesto (mentale, sociale, fisico) fino a 6. Le storie
+# danno +1 o +½, e la storia a 6 la porta almeno a 4.
 # Stato del mondo: prima di pista.pelle 6 la Maison paga gli Scuri e l'uomo della Luna Calante riscuote per
 # Mauro; dopo, i conti non hanno più quella colonna e l'uomo è uno dei mercenari di Ghoran.
 # Nessuna scena esplicita: il protagonista lavora, ascolta e protegge. Galdrick non è mai nominato come amante
@@ -435,7 +439,7 @@ storylet:
             principale con il cappuccio calato fino al mento, e a fine turno Sara non
             ti chiede di restare.
 
-  # ------------------------------------------------------------ storia a 2 · il quaderno di Sara
+  # ------------------------------------------------------------ passo 1 · il quaderno di Sara
   - id: il-quaderno-di-sara
     presso: via-dei-rasoi
     immagine: personaggi/sara-beck
@@ -443,7 +447,7 @@ storylet:
     sommario: "A Qir-Azel tutti dicono che Sara Beck si ricorda ogni cliente. Oggi, a casa chiusa, ti fa vedere come fa."
     luogo: Maison des Lunes, il bancone d'ingresso
     area: citta-bassa
-    requisiti: [rep.maison >= 2, maison.sara == 0]
+    requisiti: [fazione.maison == 0]
     testo: |
       È l'ora morta del pomeriggio, quando la Maison è chiusa e le ragazze
       dormono ancora, e Sara Beck ti fa entrare dalla porta grande invece che
@@ -499,8 +503,8 @@ storylet:
             labbra e non risponde. Poi Gretchen le rilega il quaderno con il
             suo nodo, e le promette che da adesso glielo terrà lei in cucina,
             sotto il libro dei conti, dove nessun cliente arriva.
-          imposta: { maison.sara: 1 }
-          effetti: { rep.maison: 1 }
+          imposta: { maison.sara: 1, maison.quaderno: 2 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
         fallimento:
           titolo: Un nastro qualunque
           testo: |
@@ -529,8 +533,8 @@ storylet:
             invece te la tieni per vent'anni.» Riavvolge il nastro intorno al
             quaderno, piano. Decide di dirlo lei alla signora stasera stessa, e ti
             chiede soltanto di restare al bancone mentre sale.
-          imposta: { maison.sara: 1 }
-          effetti: { rep.maison: 1 }
+          imposta: { maison.sara: 1, maison.quaderno: 2 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
         fallimento:
           titolo: La cortesia rapida
           testo: |
@@ -561,8 +565,8 @@ storylet:
             dorso della mano e ti dice che per vent'anni il quaderno le è
             servito più che altro per dormire.
           pe: { empatia: 5 }
-          imposta: { maison.sara: 1 }
-          effetti: { rep.maison: 1 }
+          imposta: { maison.sara: 1, maison.quaderno: 1 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
 
       - testo: "Consigliarle di portarlo alla signora"
         descrizione: "Nerissa Dalvane non scrive mai un nome. Forse è proprio la persona a cui consegnare un quaderno senza nomi."
@@ -579,8 +583,8 @@ storylet:
             qualcuno lo legge ancora ne risponde lei. Sara ti stringe la mano
             con le sue mani piccole e asciutte.
           pe: { persuasione: 5 }
-          imposta: { maison.sara: 1 }
-          effetti: { rep.maison: 1 }
+          imposta: { maison.sara: 1, maison.quaderno: 3 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
 
       - testo: "Leggerne qualche pagina mentre è voltata"
         descrizione: "Prima o poi la catena suonerà, e Sara andrà alla porta. Un quaderno così vale molto, a saperlo leggere."
@@ -598,8 +602,8 @@ storylet:
 
             {ingannare Media} Ti ha creduto perché voleva crederti. Una bugia
             che consola si vende da sola.
-          imposta: { maison.sara: 1 }
-          effetti: { rep.maison: 0.5, informazioni.pettegolezzo: 1 }
+          imposta: { maison.sara: 1, maison.quaderno: 4 }
+          effetti: { rep.maison: 0.5, informazioni.pettegolezzo: 1, fazione.maison: 1 }
         fallimento:
           titolo: Il dito sulla pagina
           testo: |
@@ -609,10 +613,10 @@ storylet:
             stretto e ti accompagna alla porta di servizio con la cortesia
             che riserva ai clienti che non torneranno. Per un pezzo, la sera, alla
             porta della Maison non ti chiamerà per nome.
-          imposta: { maison.sara: 1 }
-          effetti: { rep.maison: -1 }
+          imposta: { maison.sara: 1, maison.quaderno: 5 }
+          effetti: { rep.maison: -1, fazione.maison: 1 }
 
-  # ------------------------------------------------------------ storia a 4 · la lanterna spenta, prima della Pignatta
+  # ------------------------------------------------------------ passo 2 · la lanterna spenta, prima della Pignatta
   - id: la-lanterna-spenta-di-nuovo
     presso: via-dei-rasoi
     immagine: ambientazione/maison-des-lunes
@@ -620,7 +624,7 @@ storylet:
     sommario: "Passata mezzanotte, sopra la porta della Maison la lanterna è spenta. Sara Beck ti aspetta in mezzo alla strada."
     luogo: Via dei Rasoi, dopo mezzanotte
     area: citta-bassa
-    requisiti: [rep.maison >= 4, maison.lanterna == 0, pista.pelle < 6]
+    requisiti: [fazione.maison == 1, pista.pelle < 6]
     testo: |
       È passata mezzanotte, e quando giri il gomito di Via dei Rasoi la
       lanterna sopra la porta della Maison è spenta. Le finestre della via
@@ -683,7 +687,7 @@ storylet:
             spalle rigide fino alle orecchie, e per due strade non ti volti a
             guardare se la lanterna si è riaccesa.
 
-  # ------------------------------------------------------------ storia a 4 · la lanterna spenta, dopo la Pignatta
+  # ------------------------------------------------------------ passo 2 · la lanterna spenta, dopo la Pignatta
   - id: la-lanterna-spenta-dopo-la-pignatta
     presso: via-dei-rasoi
     immagine: ambientazione/maison-des-lunes
@@ -691,7 +695,7 @@ storylet:
     sommario: "Gli Scuri non ci sono più, eppure stanotte sopra la porta della Maison la lanterna è spenta. Sara Beck ti aspetta in mezzo alla strada."
     luogo: Via dei Rasoi, dopo mezzanotte
     area: citta-bassa
-    requisiti: [rep.maison >= 4, maison.lanterna == 0, pista.pelle >= 6]
+    requisiti: [fazione.maison == 1, pista.pelle >= 6]
     testo: |
       È passata mezzanotte, e quando giri il gomito di Via dei Rasoi la
       lanterna sopra la porta della Maison è spenta. Dalla notte della
@@ -760,7 +764,7 @@ storylet:
     tipo: seguito
     luogo: Maison des Lunes, primo piano
     area: citta-bassa
-    requisiti: [maison.lanterna == 0]
+    requisiti: [fazione.maison == 1]
     testo: |
       Al primo piano la carta da parati è color vino, e lungo il corridoio
       uno degli specchi a mezzaluna è ancora girato verso il muro, come se
@@ -807,8 +811,8 @@ storylet:
             accompagna giù senza toccarlo. Laure esce per ultima e si ferma
             davanti a te. «Una volta o l'altra raccontami di un mare» dice. «Anche
             di uno solo.»
-          imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 1 }
+          imposta: { maison.lanterna: 1, maison.mare: 1 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
         fallimento:
           titolo: La voce sbagliata
           testo: |
@@ -820,7 +824,7 @@ storylet:
             che l'uomo si volti. Lo porta giù per la scala tenendolo per la
             collottola, con il coltello ancora nello stivale e le ossa intere.
           imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 0.5 }
+          effetti: { rep.maison: 0.5, fazione.maison: 1 }
 
       - testo: "Entrare dalla finestra"
         descrizione: "Dalla finestra del corridoio si arriva sul tetto della casa accanto, e da lì alla finestra della Luna Calante."
@@ -838,7 +842,7 @@ storylet:
             dentro con una mano sul suo polso. Il coltello cade sul tappeto
             senza far rumore.
           imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 1 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
         fallimento:
           titolo: La grondaia
           testo: |
@@ -850,7 +854,7 @@ storylet:
             tira su Tachek, per il colletto, con una mano sola. Hai le palme
             sbucciate e un ginocchio che ti farà male per giorni.
           imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 0.5, ferite: 0.5 }
+          effetti: { rep.maison: 0.5, ferite: 0.5, fazione.maison: 1 }
 
       - testo: "Lasciar fare a Kanat"
         descrizione: "Due spinte e la porta viene giù. Il resto lo decideranno alla Pignatta."
@@ -867,7 +871,7 @@ storylet:
             e Gretchen paga il vetraio di tasca sua. Quando passi per Via dei
             Rasoi, adesso, ti saluta con un po' meno calore di prima.
           imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 0.5, rep.scuri: -1 }
+          effetti: { rep.maison: 0.5, rep.scuri: -1, fazione.maison: 1 }
 
       - testo: "Lasciar fare a Kanat"
         descrizione: "Due spinte e la porta viene giù. Il resto lo dovrà sistemare lo sceriffo."
@@ -884,7 +888,7 @@ storylet:
             finché arriva lo sceriffo in persona a rimandarli su, per servizio. Gretchen lo ringrazia sulla
             soglia, e a te non dice niente per una settimana.
           imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 0.5, rep.caserma: -0.5 }
+          effetti: { rep.maison: 0.5, rep.caserma: -0.5, fazione.maison: 1 }
 
       - testo: "Aspettare davanti alla porta con Kanat"
         descrizione: "Laure sta parlando, e da come parla sa quello che fa. Puoi fidarti di lei e aspettare tutta la notte."
@@ -907,10 +911,12 @@ storylet:
             porge a Kanat e ti guarda. «Dorme. Domattina avrà mal di testa, e
             Sara gli renderà il coltello sulla porta» dice.
           pe: { resilienza: 5 }
-          imposta: { maison.lanterna: 1 }
-          effetti: { rep.maison: 1 }
+          imposta: { maison.lanterna: 1, maison.mare: 1 }
+          effetti: { rep.maison: 1, fazione.maison: 1 }
 
-  # ------------------------------------------------------------ storia a 6 · ospite della Maison
+  # ------------------------------------------------------------ passo 6 · ospite della Maison (secondo grado)
+  # Chi accetta prende il bastone animato dell'armadio e sente da Nerissa che in casa c'è un orecchio che non è una
+  # ragazza. Chi le dice il nome di Ettore (maison.leva-ettore) viene accompagnato alla porta e rifà il passo.
   - id: ospite-della-maison
     presso: via-dei-rasoi
     immagine: personaggi/nerissa-dalvane
@@ -918,7 +924,7 @@ storylet:
     sommario: "Stasera Sara Beck non ti indica l'armadio delle armi. Nerissa Dalvane ti aspetta in salone, con la teiera sul tavolino."
     luogo: Maison des Lunes, il salone
     area: citta-bassa
-    requisiti: [rep.maison >= 6, maison.ospite == 0, galdrick.via == 0]
+    requisiti: [fazione.maison == 5, galdrick.via == 0]
     testo: |
       Questa volta, quando tiri la catena, Sara Beck apre la porta grande e
       non indica l'armadio. Ti guarda prima la cintura e poi la faccia, e si
@@ -972,9 +978,18 @@ storylet:
             misura, di un consigliere che da un mese entra dalla porta di
             servizio. «Benvenuto» dice, e Sara, dalla soglia, ti chiama per
             nome.
+
+            Prima di lasciarti andare abbassa la voce, anche se nel salone non
+            c'è nessuno. «In questa casa c'è un orecchio che non è una ragazza»
+            dice. «Ti chiedo di trovarlo, e di dirlo a me e a nessun altro.» Sulla
+            porta Sara ti mette in mano un bastone da passeggio di ebano con il
+            pomo d'argento, preso dal fondo dell'armadio. Il suo proprietario non
+            è mai tornato a riprenderlo, e a un ospite armato, dice Sara, un'arma
+            in più non guasta.
           pe: { galateo: 5 }
           imposta: { maison.ospite: 1 }
-          effetti: { rep.maison: 1, informazioni.pettegolezzo: 1 }
+          effetti: { rep.maison: 1, informazioni.pettegolezzo: 1, monete: 25, oggetto.maison-bastone-animato: 1, fazione.maison: 1 }
+          almeno: { rep.maison: 4 }
 
       - testo: "Inventarle un nome"
         descrizione: "Un nome che non esiste non tradisce nessuno. Basta che suoni vero, e che non sia di qualcuno che lei conosce."
@@ -996,8 +1011,17 @@ storylet:
             casa devono restare tuoi anche fuori di qui. Ti versa una seconda
             tazza e, insieme, una notizia su un consigliere che da un mese
             entra dalla porta di servizio.
-          imposta: { maison.ospite: 1 }
-          effetti: { rep.maison: 1, informazioni.pettegolezzo: 1 }
+
+            Prima di lasciarti andare abbassa la voce. «Il signor Pace, almeno, non
+            ha orecchie. In questa casa invece ce n'è uno che non è una ragazza»
+            dice. «Ti chiedo di trovarlo, e di dirlo a me e a nessun altro.» Sulla
+            porta Sara ti mette in mano un bastone da passeggio di ebano con il
+            pomo d'argento, preso dal fondo dell'armadio. Il suo proprietario non
+            è mai tornato a riprenderlo, e a un ospite armato, dice Sara, un'arma
+            in più non guasta.
+          imposta: { maison.ospite: 1, maison.pace: 1 }
+          effetti: { rep.maison: 1, informazioni.pettegolezzo: 1, monete: 25, oggetto.maison-bastone-animato: 1, fazione.maison: 1 }
+          almeno: { rep.maison: 4 }
         fallimento:
           titolo: Un nome vero
           testo: |
@@ -1037,6 +1061,24 @@ storylet:
             giro. «Una ragazza che parla con te ha meno tempo per parlare con
             altri, e io questo lo chiamo un buon affare.»
           segue: ospite-della-maison
+
+      - testo: "Dirle il nome di Ettore Castaldi"
+        descrizione: "Un nome vero, e di quelli che pesano. Il cugino della Rappresentante, quello che Churl ha lasciato sul gradino."
+        quando: [maison.leva-ettore >= 1]
+        esito:
+          titolo: La porta grande
+          testo: |
+            Glielo dici piano, come si offre una cosa preziosa, e aggiungi che
+            sai anche dove beve prima di venire qui. Nerissa posa la tazza e si
+            alza senza guardarti. Ti accompagna lei
+            alla porta grande, una mano appena sotto il tuo gomito, con la
+            cortesia che si usa con i clienti che non torneranno. Sulla soglia
+            Sara non ti chiama per nome. La catena di bronzo, quando la porta si
+            richiude, oscilla ancora un poco.
+
+            {empatia Media} La rabbia l'avresti preferita. Ha soltanto preso
+            nota di quello che sei disposto a vendere.
+          effetti: { rep.maison: -2 }
 
       - testo: "Dirle che non sei pronto"
         descrizione: "Una porta aperta senza armadio è anche un impegno. Puoi chiederle di aspettare."

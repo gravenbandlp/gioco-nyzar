@@ -1,10 +1,14 @@
 # La città viva, luogo 2: la Cattedrale del Velo (presso: cattedrale-del-velo, area quartieri-alti).
-# L'attività delle ore, le tre storie della Confraternita (2 i Giardini della Linfa, 4 gli archivi minori,
-# 6 il voto, ognuna con il suo flag) e la carta della processione. Il servizio (purificazione, navata
-# silenziosa, la Liturgia dell'Albero alla scuola dei novizi) sta già in contenuti/aree/quartieri-alti.yaml.
+# L'attività delle ore, le tre storie della Confraternita e la carta della processione. Il servizio (purificazione,
+# navata silenziosa, la Liturgia dell'Albero alla scuola dei novizi) sta già in contenuti/aree/quartieri-alti.yaml.
+# Dall'ottobre 2026 le tre storie sono passi della quest di fazione del Velo (contenuti/fazioni/velo/): i Giardini
+# della Linfa con Lino sono il passo 1 (fazione.velo == 0), gli archivi minori con la notte del Santuario il passo 4
+# (== 3), il voto con la veglia il passo 6 (== 5, grado 2). I flag di prima (cattedrale.giardini, archivio, voto)
+# restano, perché altre scene li leggono. Le Ore del Velo hanno in più il turno di garitta (grado 3, reputazione fino
+# a 8) e il servizio della Cripta (grado 4, fino a 10).
 # Reputazione: è quella della Confraternita (rep.velo). I Giardini e le ore la fanno salire fino a 4, l'alba
-# con Ottilia e la linfa di notte fino a 6; le storie la portano a 3, a 5 (4,5 se Ottilia ti scopre a copiare)
-# e a 7. Aurenne è sveglia e vive in Cattedrale da pista.capomozzo >= 9 (si risveglia nel passo 8 → 9).
+# con Ottilia e la linfa di notte fino a 6, la garitta fino a 8 e la Cripta fino a 10.
+# Aurenne è sveglia e vive in Cattedrale da pista.capomozzo >= 9 (si risveglia nel passo 8 → 9).
 storylet:
   # ------------------------------------------------------------ l'attività ripetibile
   - id: le-ore-del-velo
@@ -394,6 +398,61 @@ storylet:
             domani sulla tavoletta il tuo nome sta accanto alle candele,
             scritto un po' più piccolo del solito.
 
+      - testo: "Fare il turno di garitta"
+        descrizione: "Da custode dei pozzi la tavoletta ti manda ai piloni, nella garitta del Velo. Chi risale dalla Cicatrice passa da te, e decidi tu chi scende in Cripta."
+        immagine: personaggi/padre-walter
+        quando: [fazione.velo >= 9]
+        requisiti: [rep.velo < 8]
+        prova: { attributo: mentale, abilita: [medicina, resilienza], difficolta: Media }
+        successo:
+          titolo: Il registro della garitta
+          testo: |
+            Passi la notte nella garitta sopra i piloni, con il braciere ai
+            piedi e il registro sulle ginocchia. Salgono una squadra di
+            Raschiatori stanchi e un ragazzo con la tosse, e a ognuno guardi
+            il bianco dell'occhio prima della faccia. Il ragazzo lo mandi in
+            Cripta, gli altri a casa. All'alba Padre Walter passa a firmare il
+            registro sotto la tua firma, con una grafia grande e lenta, e la
+            sera Sorella Arva ti conta la paga del turno.
+          effetti: { monete: 6, rep.velo: 0.5 }
+        fallimento:
+          titolo: Il braciere
+          testo: |
+            Verso la terza ora il braciere ti scalda troppo bene, e quando
+            riapri gli occhi una squadra di Raschiatori è già passata e ti
+            guarda dal ponte. Hai saltato tre righe del registro. Walter le
+            riempie lui all'alba, chiedendo i nomi a memoria a chi è salito, e
+            non ti rimprovera. Arva ti conta metà della paga, e lo fa con
+            molta tristezza.
+          effetti: { monete: 3, tormento: 0.5 }
+
+      - testo: "Servire nella Cripta"
+        descrizione: "Da velato della Cripta puoi scendere sotto l'altare a reggere le candele mentre la Madre ascolta chi viene a confessarsi."
+        immagine: personaggi/madre-del-velo
+        quando: [fazione.velo >= 12]
+        requisiti: [rep.velo < 10]
+        prova: { attributo: mentale, abilita: [resilienza, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Le candele della Cripta
+          testo: |
+            Reggi il candeliere a un passo dai veli della Madre per tutta la
+            notte, mentre scendono a parlarle un vecchio consigliere con il
+            bastone e poi un Raschiatore che non riesce a finire le frasi. Lei
+            ascolta senza muovere i veli. Tu tieni la fiamma ferma e gli occhi
+            sul pavimento, come si insegna ai velati, e all'alba ti accorgi di
+            non ricordare una sola parola di quello che hai sentito, il che
+            forse è il punto.
+          effetti: { monete: 4, rep.velo: 0.5 }
+        fallimento:
+          titolo: La fiamma che trema
+          testo: |
+            A metà della notte scende una donna a parlare di suo figlio, e la
+            fiamma del candeliere comincia a tremarti in mano. La Madre alza
+            appena un dito senza voltarsi, e un altro velato ti toglie il
+            candeliere e ti accompagna alla scala. Sali piano, con la voce
+            della donna che ti segue fino in navata.
+          effetti: { tormento: 0.5 }
+
   # ------------------------------------------------------------ storia a 2 · i Giardini della Linfa
   - id: i-giardini-della-linfa
     presso: cattedrale-del-velo
@@ -402,7 +461,7 @@ storylet:
     sommario: "Nei Giardini la pianta più vecchia si sta spegnendo, e Sorella Giulia ha trovato sui fusti dei tagli che non ha fatto lei."
     luogo: Cattedrale del Velo, i Giardini della Linfa
     area: quartieri-alti
-    requisiti: [rep.velo >= 2, cattedrale.giardini == 0]
+    requisiti: [fazione.velo == 0]
     testo: |
       Sorella Giulia ti aspetta in fondo ai Giardini, davanti al cespuglio
       più vecchio, quello con le foglie larghe come mani che la sera si
@@ -554,7 +613,7 @@ storylet:
     tipo: seguito
     luogo: Cattedrale del Velo, il chiostro dei novizi
     area: quartieri-alti
-    requisiti: [cattedrale.giardini == 0]
+    requisiti: [fazione.velo == 0]
     testo: |
       Il ladro si chiama Lino. Ha quattordici anni e un velo corto da primo
       anno che gli scivola sempre su un orecchio, e lui lo rimette a posto
@@ -609,7 +668,7 @@ storylet:
             più sole.
           pe: { natura: 5 }
           imposta: { cattedrale.giardini: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1 }
 
       - testo: "Parlare con Ottilia della regola dei lumi"
         descrizione: "Una regola si cambia soltanto con chi l'ha scritta. Ottilia ascolta tutti, e cambia idea di rado."
@@ -632,7 +691,7 @@ storylet:
             rimprovero.
           pe: { persuasione: 5 }
           imposta: { cattedrale.giardini: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1 }
         fallimento:
           titolo: Il buio si impara
           testo: |
@@ -645,7 +704,7 @@ storylet:
             sera Giulia mette in mano a Lino una talea in un vaso, di
             nascosto, perché almeno il cespuglio smetta di spegnersi.
           imposta: { cattedrale.giardini: 1 }
-          effetti: { rep.velo: 0.5 }
+          effetti: { rep.velo: 0.5, fazione.velo: 1 }
 
       - testo: "Portare Lino da Ottilia"
         descrizione: "Un furto è un furto, anche di linfa. La disciplina dei novizi spetta a Ottilia, e Lino lo sa."
@@ -667,7 +726,7 @@ storylet:
             volta ci vuole un po' più di voce.
           pe: { galateo: 5 }
           imposta: { cattedrale.giardini: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1 }
 
       - testo: "Raccontare a Lino delle tue notti da novizio"
         descrizione: "Anche tu hai dormito in quel dormitorio senza lumi, e ricordi come si arrivava all'alba."
@@ -688,7 +747,7 @@ storylet:
             non sentire il mormorio del dormitorio.
           pe: { empatia: 5 }
           imposta: { cattedrale.giardini: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1 }
 
   # ------------------------------------------------------------ storia a 4 · gli archivi minori
   - id: gli-archivi-minori
@@ -698,7 +757,7 @@ storylet:
     sommario: "Ottilia Sanvel ha bisogno di qualcuno che ricopi le pagine salvate dal vecchio Santuario, prima che si sbriciolino."
     luogo: Cattedrale del Velo, gli archivi minori dietro il chiostro
     area: quartieri-alti
-    requisiti: [rep.velo >= 4, cattedrale.archivio == 0]
+    requisiti: [fazione.velo == 3]
     testo: |
       Gli archivi minori stanno dietro il chiostro, in tre stanze basse che
       erano le cantine del vecchio Santuario e che l'incendio ha
@@ -818,7 +877,7 @@ storylet:
     tipo: seguito
     luogo: Cattedrale del Velo, gli archivi minori
     area: quartieri-alti
-    requisiti: [cattedrale.archivio == 0]
+    requisiti: [fazione.velo == 3]
     testo: |
       L'ultimo foglio è diviso in due colonne. A sinistra ci sono i sei
       sacerdoti di turno quella notte, ognuno con accanto l'ora in cui ha
@@ -875,7 +934,7 @@ storylet:
             allineando i bordi con due colpetti.
           pe: { empatia: 5 }
           imposta: { cattedrale.archivio: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1 }
 
       - testo: "Ricopiare il foglio com'è, riga strappata compresa"
         descrizione: "La copia pulita la vuole la Madre. Quello che c'è sul foglio va sulla copia, anche il segno della cancellatura."
@@ -895,7 +954,7 @@ storylet:
             lo strappo.
           pe: { accademiche: 5 }
           imposta: { cattedrale.archivio: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1 }
 
       - testo: "Copiare di nascosto la colonna dei sacerdoti"
         descrizione: "Sei nomi con le loro ore. In città c'è chi li pagherebbe bene, e Ottilia adesso ti volta le spalle."
@@ -911,8 +970,8 @@ storylet:
             la pagina. Due di quei nomi li hai già sentiti in Cattedrale,
             durante le funzioni solenni. Richiudi il quaderno in fretta, e
             ti accorgi di esserti voltato a guardare se qualcuno ti segue.
-          imposta: { cattedrale.archivio: 1 }
-          effetti: { rep.velo: 1, informazioni.segreto: 1 }
+          imposta: { cattedrale.archivio: 1, velo.copia: 1 }
+          effetti: { rep.velo: 1, informazioni.segreto: 1, fazione.velo: 1 }
         fallimento:
           titolo: La pagina strappata
           testo: |
@@ -925,7 +984,7 @@ storylet:
             quaderno. Gli archivi te li apre ancora, ma da quel giorno resta
             nella stanza finché non te ne vai.
           imposta: { cattedrale.archivio: 1 }
-          effetti: { rep.velo: 0.5, scandalo: 0.5 }
+          effetti: { rep.velo: 0.5, scandalo: 0.5, fazione.velo: 1 }
 
       - testo: "Chiederle di Aurenne"
         descrizione: "Sul foglio la figlia del cappellano non ha la crocetta. Tu sai che dalle rovine è tornata viva."
@@ -954,7 +1013,7 @@ storylet:
     sommario: "Dopo la compieta Padre Vantes ti trattiene sulla prima panca. Ha una cosa da chiederti, e prima di chiederla ti prende il polso."
     luogo: Cattedrale del Velo, la navata, dopo la compieta
     area: quartieri-alti
-    requisiti: [rep.velo >= 6, cattedrale.voto == 0]
+    requisiti: [fazione.velo == 5]
     testo: |
       Dopo la compieta la navata si svuota in fretta, e gli accoliti
       spengono le candele partendo dall'ingresso. Padre Vantes ti trattiene
@@ -1058,6 +1117,7 @@ storylet:
 
       - testo: "Accettare"
         descrizione: "Stanotte, all'ultima ora, davanti al cristallo rosso. Si veglia fino al mattutino."
+        quando: [rep.scuri < 4]
         esito:
           titolo: Stanotte
           testo: |
@@ -1068,6 +1128,42 @@ storylet:
             accende una candela per ogni panca, al contrario degli accoliti,
             che le hanno appena spente e adesso lo guardano dal fondo con il
             moccolo in mano.
+          segue: la-veglia-del-voto
+
+      - testo: "Accettare"
+        descrizione: "Stanotte, all'ultima ora, davanti al cristallo rosso. Si veglia fino al mattutino."
+        quando: [rep.scuri >= 4, pista.pelle >= 6]
+        esito:
+          titolo: Stanotte
+          testo: |
+            Vantes annuisce piano, e per un momento le dita sul tuo polso
+            stringono un po' di più. «Allora stanotte» dice. «Torna quando
+            suona l'ultima ora, e non portare niente. Le armi le lasci al
+            portone, come tutti.» Si alza, e mentre va verso la sagrestia
+            accende una candela per ogni panca, al contrario degli accoliti,
+            che le hanno appena spente e adesso lo guardano dal fondo con il
+            moccolo in mano.
+          segue: la-veglia-del-voto
+
+      - testo: "Promettere di chiudere con gli Scuri"
+        descrizione: "Vantes sa a chi porti i saluti in Via dei Rasoi. Un laico consacrato, dice, non può avere due padroni in Città Bassa."
+        quando: [rep.scuri >= 4, pista.pelle < 6]
+        esito:
+          titolo: Due padroni
+          testo: |
+            Vantes non alza la voce. Ti dice che in Via dei Rasoi il tuo nome
+            lo conoscono, e che un laico consacrato non può portare i saluti
+            del Velo e quelli di Mirko Vesh nella stessa tasca. Glielo
+            prometti, e lui ti tiene il polso finché non lo hai detto tutto.
+            Il giorno dopo, in Via dei Rasoi, la voce gira prima di te, e un
+            ragazzo che ti salutava ogni mattina guarda dall'altra parte.
+            «Allora stanotte» dice Vantes. «Torna quando suona l'ultima ora,
+            e lascia le armi al portone, come tutti.»
+
+            {conoscenze-della-strada Media} Gli Scuri non perdonano chi se
+            ne va. Si limitano a ricordarselo, il che a lungo andare costa di
+            più.
+          effetti: { rep.scuri: -2 }
           segue: la-veglia-del-voto
 
       - testo: "Rifiutare con garbo"
@@ -1090,7 +1186,7 @@ storylet:
     tipo: seguito
     luogo: Cattedrale del Velo, l'altare, di notte
     area: quartieri-alti
-    requisiti: [cattedrale.voto == 0]
+    requisiti: [fazione.velo == 5]
     testo: |
       Quando suona l'ultima ora torni in Cattedrale. Le porte sono
       accostate, e dentro restano accese soltanto le candele dell'altare e
@@ -1139,14 +1235,17 @@ storylet:
             bassa ripete l'ultima parola con un attimo di ritardo. Celia
             suona un accordo solo. Ottilia scrive in piedi il tuo nome nel
             registro dei laici, e Vantes ti aiuta ad alzarti tenendoti il
-            polso.
+            polso. La mattina dopo, sul portale, Padre Walter ti aspetta con
+            le mani infilate nelle maniche del saio. I consacrati, ti dice,
+            fanno la prima notte di garitta con lui.
 
             {magia Media} Quando la voce ha ripetuto la parola, la fiamma
             della tua candela si è allungata di un dito. Qualcuno, laggiù,
             ha messo la sua firma accanto alla tua.
           pe: { resilienza: 5 }
           imposta: { cattedrale.voto: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1, oggetto.velo-sigillo-del-velo: 1 }
+          almeno: { rep.velo: 4 }
         fallimento:
           titolo: L'alba sul gradino
           testo: |
@@ -1173,10 +1272,13 @@ storylet:
             calda, e la candela si accende. Dici il voto, servire la vita
             che resta, e dalla scala della Cripta una voce bassa ripete
             l'ultima parola con un attimo di ritardo. Ottilia scrive il tuo
-            nome nel registro, e Celia suona un accordo solo.
+            nome nel registro, e Celia suona un accordo solo. La mattina
+            dopo, sul portale, Padre Walter ti aspetta per dirti che i
+            consacrati fanno la prima notte di garitta con lui.
           pe: { galateo: 5 }
           imposta: { cattedrale.voto: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1, oggetto.velo-sigillo-del-velo: 1 }
+          almeno: { rep.velo: 4 }
 
       - testo: "Vegliare con Aurenne accanto"
         descrizione: "Dalla sala di preghiera più interna arriva Aurenne, e si inginocchia sul gradino accanto al tuo senza chiedere permesso."
@@ -1193,14 +1295,17 @@ storylet:
             polso mentre accosti lo stoppino alla pietra calda. Dici il
             voto, e lei lo dice con te nelle parole vecchie, mezza sillaba
             avanti. Ottilia scrive il tuo nome nel registro e, dopo un
-            momento, nella riga sotto, quello di Aurenne come testimone.
+            momento, nella riga sotto, quello di Aurenne come testimone. La
+            mattina dopo, sul portale, Padre Walter ti aspetta per dirti che
+            i consacrati fanno la prima notte di garitta con lui.
 
             {empatia Media} Prima di scrivere quel nome Ottilia ha esitato.
             Per cinque anni l'ha detto ogni mattina fra i morti, e stanotte
             lo mette fra i vivi con la stessa grafia.
           pe: { empatia: 5 }
           imposta: { cattedrale.voto: 1 }
-          effetti: { rep.velo: 1 }
+          effetti: { rep.velo: 1, fazione.velo: 1, oggetto.velo-sigillo-del-velo: 1 }
+          almeno: { rep.velo: 4 }
 
       - testo: "Alzarti prima dell'ora"
         descrizione: "Forse non è la notte giusta. Vantes lo ha detto, si può ricominciare."

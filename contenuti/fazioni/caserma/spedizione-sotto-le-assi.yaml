@@ -1,0 +1,995 @@
+# La quest della Caserma, passo 5 (fazione.caserma == 4): «Sotto le assi», spedizione nei sottoponti sotto il Ponte
+# delle Mille Corde, a cercare Nando Rizza prima che lo trovino quelli che lo cercano.
+# Ci si entra da caserma-sotto-le-assi (Ponti Sospesi, ripetibile finché il passo è aperto): con Gaia se gaia >= 2,
+# pagandola, oppure da soli. Ritorno ai Ponti Sospesi, soglia 3, tre stanze alla volta.
+# Fasce di profondità: 0 la scala di corda, i teli cerati, il braciere di Mamma Tesh; 0-1 il vento; 1 le reti del
+# Mercato, il tavolato marcio; 1-2 i mutati della Marea; 2 le travi maestre, il tagliagole. Il cuore (3) è la rete
+# sotto il Mercato, con due uomini che ne tagliano le corde (combattimento Medio, oppure la trave, Difficile); poi
+# il seguito decide dove mettere Nando al sicuro (caserma.nando) e chiude il passo.
+aree:
+  - id: caserma-sotto-le-assi
+    immagine: ambientazione/ponti-sospesi
+    nome: Sotto le assi
+    sommario: "Il paese di reti e teli cerati appeso sotto il Ponte delle Mille Corde, sopra il vuoto della Cicatrice. Qui sotto la Guardia non scende mai."
+    spedizione: { ritorno: ponti-sospesi, soglia: 3, stanze: 3 }
+    testo: |
+      Sotto il tavolato del Ponte delle Mille Corde c'è un secondo ponte che
+      nessuno ha mai progettato. Le travi maestre reggono reti da pesca
+      annodate fra loro, e sulle reti stanno ripari di tela cerata con le
+      ceste appese fuori, e assi inchiodate dove serviva un pavimento. Ci vive
+      gente che di sopra non ha un posto. Si passa da una rete all'altra su
+      scale di corda e passerelle larghe un piede, con il vuoto della
+      Cicatrice sotto, e la luce arriva a strisce dalle fessure delle assi.
+
+      Il rumore dei carri di sopra arriva come un tuono lontano, ogni volta
+      che passa una ruota, e la polvere delle assi scende sulle reti come
+      farina da un setaccio.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, ai Ponti Sospesi
+  - id: caserma-sotto-le-assi
+    presso: ponte-delle-mille-corde
+    immagine: ambientazione/ponti-sospesi
+    titolo: Sotto le assi
+    sommario: "Il facchino della casa blu dorme nelle reti sotto il Ponte delle Mille Corde, e qualcuno lo sta cercando. Laggiù la Guardia non scende."
+    luogo: Ponte delle Mille Corde, il terzo pilone dopo il gabbiotto dei Custodi
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4]
+    testo: |
+      Il terzo pilone dopo il gabbiotto dei Custodi di Passaggio ha una scala
+      di corda legata al parapetto con un nodo da barcaiolo, e la scala
+      scende fra le travi fino a perdersi nel buio. Da sotto salgono odori di
+      catrame e di zuppa, insieme al cigolio delle reti che dondolano. Un
+      Custode, dal gabbiotto, ti guarda il mantello scarlatto e poi la scala,
+      e torna a contare le sue monete.
+
+      {conoscenze-della-strada Media} Sotto le assi si scende con un nome da
+      dire a chi ti ferma, o con qualcuno che lo dica per te. Il mantello
+      scarlatto, laggiù, non è un nome.
+
+      Seduta sul parapetto con le gambe penzoloni c'è una ragazzina con il
+      cappuccio blu scuro tirato sugli occhi, Gaia Acari, che mangia una mela
+      fino al torsolo e poi mangia anche il torsolo. Nando lo conosce, ti
+      dice. Dorme nella rete grande sotto il Mercato dei Nodi, e da stamattina
+      due uomini chiedono di lui a tutti i bracieri.
+
+      {origine figlio-della-citta-bassa} Sotto il Ponte delle Mille Corde ci
+      hai dormito anche tu, un inverno, quando a casa non c'era posto. Le
+      mani si ricordano ancora dove la scala ha il nodo che scivola.
+
+      {resistenza Facile fallita} Guardi giù fra le travi, e lo stomaco ti
+      sale in gola per conto suo. Gli spieghi che il vuoto è lontano, e lui
+      fa finta di crederci.
+    opzioni:
+      - testo: "Farsi guidare da Gaia"
+        descrizione: "Gaia passa le notti fra le reti come altri passano le strade. Per un pasto caldo e nessuna domanda ti porta dove serve."
+        immagine: personaggi/gaia-acari
+        quando: [gaia >= 2]
+        esito:
+          titolo: La guida
+          testo: |
+            Gaia butta il torsolo nel vuoto e lo ascolta cadere. Poi scende
+            per prima, senza voltarsi. Ti fa mettere i piedi dove li mette
+            lei, e a ogni nodo della scala ti dice il nome di chi l'ha fatto.
+            Quando arrivate alla prima rete ti chiede soltanto se al ritorno
+            al Grifone c'è lo stufato, e tu le dici di sì.
+          vai: caserma-sotto-le-assi
+
+      - testo: "Pagare Gaia perché ti guidi"
+        descrizione: "Gaia ti guarda il mantello e ti fa un prezzo da Guardia. Le reti le conosce, e le conoscono lei."
+        immagine: personaggi/gaia-acari
+        quando: [gaia < 2]
+        requisiti: [monete >= 5]
+        esito:
+          titolo: Il prezzo da Guardia
+          testo: |
+            Gaia conta le monete due volte e le fa sparire nel cappuccio.
+            Poi scende per prima e ti aspetta a ogni nodo della scala,
+            paziente come una nipote che accompagna un parente anziano. Alla prima rete
+            ti dice che il prezzo comprende la discesa, e che per la salita si
+            vedrà.
+          effetti: { monete: -5 }
+          vai: caserma-sotto-le-assi
+
+      - testo: "Scendere da solo"
+        descrizione: "La scala è lì. Laggiù nessuno ti aspetta, e nessuno ti dirà dove mettere i piedi."
+        costo: 2
+        esito:
+          titolo: La scala che scivola
+          testo: |
+            Scavalchi il parapetto sotto lo sguardo di Gaia, che non ti augura
+            niente e continua a masticare. La scala gira su sé stessa a ogni
+            piolo, e a metà discesa un nodo scivola di un palmo e ti lascia
+            appeso con il cuore in bocca. Quando metti il piede sulla prima
+            rete hai le mani segnate dalla corda e la sensazione che tutti i
+            ripari intorno abbiano già saputo del tuo arrivo.
+          vai: caserma-sotto-le-assi
+
+      - testo: "Scendere dal lato dei bambini"
+        descrizione: "Accanto alla scala dei grandi, sul pilone, ci sono le tacche che usano i bambini. Le hai usate anche tu."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        costo: 2
+        esito:
+          titolo: Le tacche
+          testo: |
+            Le tacche nel legno del pilone ci sono ancora, più consumate di
+            come le ricordi. Scendi con la pancia contro il legno, un piede
+            alla volta, e Gaia dal parapetto smette di masticare per
+            guardarti. Alla prima rete ti dice che quella strada la conoscono
+            soltanto quelli di sotto, e ti chiede da che rete venivi.
+          vai: caserma-sotto-le-assi
+
+  # ------------------------------------------------------------ 0 · le prime reti
+  - id: caserma-assi-la-scala-di-corda
+    immagine: ambientazione/ponti-sospesi
+    titolo: La seconda scala
+    sommario: "Dalla prima rete una seconda scala di corda scende verso le travi del Mercato, e qualcuno l'ha tirata su a metà."
+    luogo: Sotto le assi, la prima rete
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 0]
+    testo: |
+      La prima rete è larga come una stanza e ci sono stese ad asciugare
+      camicie da facchino, fermate con le mollette di legno perché il vento
+      non se le porti nel vuoto. Al bordo opposto parte una seconda scala di
+      corda verso le travi del Mercato dei Nodi, ma qualcuno l'ha tirata su a
+      metà e l'ha legata con un nodo a un anello di ferro. Per scendere
+      bisogna slegarla, oppure calarsi lungo la rete, che sotto si apre a
+      sacco.
+
+      {acrobazia Media} La rete regge, se ti tieni ai nodi e non alle maglie.
+      Le maglie le hanno rammendate in troppi, con troppi spaghi diversi.
+
+      Un vecchio seduto su una cassa ti guarda slegare il nodo con le mani
+      in grembo, e non ti dice che è legato al contrario.
+    opzioni:
+      - testo: "Calarsi lungo la rete"
+        descrizione: "Nodo dopo nodo, con il vuoto sotto. È la strada più corta."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Nodo dopo nodo
+          testo: |
+            Ti cali tenendoti ai nodi, e la rete si apre sotto di te come una
+            borsa che si svuota. In fondo trovi una trave con tutti e due i
+            piedi. Dall'alto il vecchio fa un cenno di approvazione con il
+            mento, l'unico movimento che ha fatto da quando sei arrivato.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Le maglie
+          testo: |
+            Afferri una maglia invece di un nodo, e la maglia si apre. Scivoli
+            per un braccio intero prima di fermarti con il gomito incastrato,
+            e il gomito te lo fa notare per il resto della giornata. Risali
+            sulla rete larga, dove il vecchio non si è mosso.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Chiedere al vecchio come si slega"
+        descrizione: "Il vecchio sa benissimo come si slega quel nodo. Bisogna convincerlo a dirlo."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il nodo al contrario
+          testo: |
+            Gli chiedi del nodo, e lui vuole sapere se il mantello tiene la
+            pioggia. Glielo fai toccare. Lui annuisce, si alza
+            dalla cassa con un rumore di ginocchia e slega il nodo con due
+            dita, tirando dalla parte che non avresti mai tirato. La scala si
+            srotola fino alle travi.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: La cassa
+          testo: |
+            Il vecchio ti ascolta, poi si gira sulla cassa e ti dà le spalle.
+            Provi il nodo da solo fino a romperti le unghie, e alla fine
+            rinunci. Lui, senza voltarsi, comincia a fischiettare.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Fare il giro dalla rete accanto"
+        descrizione: "C'è un'altra strada, più lunga, attraverso i ripari dei vicini."
+        costo: 2
+        esito:
+          titolo: Il giro lungo
+          testo: |
+            Passi alla rete accanto camminando su una passerella larga un
+            piede, e da lì a un'altra, chiedendo permesso a ogni riparo come
+            in un condominio. Una donna ti offre un sorso di brodo, un bambino
+            ti segue per tre reti. Arrivi alle travi del Mercato da un'altra
+            parte, con il brodo nello stomaco e i polpacci di pietra.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  - id: caserma-assi-i-teli-cerati
+    immagine: ambientazione/ponti-sospesi
+    titolo: I teli cerati
+    sommario: "Una fila di ripari di tela cerata chiude il passaggio, e dietro ogni tela c'è qualcuno che dorme o finge di dormire."
+    luogo: Sotto le assi, i ripari di tela cerata
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 0]
+    testo: |
+      Il passaggio fra due travi è chiuso da una fila di ripari di tela
+      cerata, tesi su pali di fortuna e cuciti l'uno all'altro come le
+      tende di un accampamento. Per andare avanti bisogna passarci in mezzo,
+      e dietro ogni tela c'è qualcuno. Si sentono un uomo che russa e un
+      bambino che chiede l'acqua, e da un riparo arriva odore di cipolla
+      fritta. Sul telo del primo riparo è cucito un pezzo di stoffa rossa, un
+      avanzo di mantello della Guardia.
+
+      {empatia Media} Il pezzo di mantello non è un insulto. Qualcuno l'ha
+      cucito lì perché la stoffa buona non si butta, e la Guardia, quaggiù,
+      si incontra soltanto quando ha già buttato via qualcosa.
+
+      Quando ti avvicini, il russare si interrompe.
+    opzioni:
+      - testo: "Chiedere il permesso di passare"
+        descrizione: "Sotto le assi si chiede permesso come in una casa. Basta chiederlo nel modo giusto."
+        prova: { attributo: sociale, abilita: [galateo, empatia], difficolta: Media }
+        successo:
+          titolo: Permesso
+          testo: |
+            Bussi sul palo del primo riparo, come su uno stipite, e aspetti.
+            Dopo un poco una donna scosta la tela, ti guarda il mantello e
+            poi la faccia, e ti fa passare in mezzo alla sua casa, fra la
+            pentola sul fuoco e la branda. Gli altri ripari si scostano uno dopo
+            l'altro, come porte di un corridoio. Dall'ultimo un uomo ti dice
+            che la rete di Nando è sotto il Mercato.
+          effetti: { profondita.caserma-sotto-le-assi: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La tela chiusa
+          testo: |
+            Bussi sul palo e chiedi permesso con la voce della Guardia, che
+            quaggiù suona come un ordine. Le tele restano chiuse. Da una
+            esce un braccio con un secchio, e il contenuto del secchio ti
+            arriva sugli stivali.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Passare dietro i ripari, sulla trave"
+        descrizione: "Dietro la fila di tende la trave è libera, larga quanto un piede e mezzo."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Dietro le tele
+          testo: |
+            Giri dietro i ripari camminando sulla trave, con la tela cerata
+            che ti sfiora la spalla e il vuoto dall'altra parte. Dietro le
+            tele senti una lite su chi ha finito l'olio, e più in là una ninna
+            nanna stonata. Nessuno sa che sei passato, tranne un gatto
+            che ti segue per tutta la trave con la coda alta.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Il palo
+          testo: |
+            A metà trave urti un palo, e un riparo intero si affloscia sui
+            suoi abitanti. Le urla ti accompagnano fino al punto da cui sei
+            partito, e qualcuno ti tira dietro una scarpa che ti prende alla
+            nuca.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Aspettare che il passaggio si svuoti"
+        descrizione: "Prima o poi quelli dei ripari escono a prendere l'acqua. Basta avere pazienza."
+        costo: 2
+        esito:
+          titolo: L'ora dell'acqua
+          testo: |
+            Ti siedi su una cassa e aspetti. Verso sera i ripari si aprono
+            uno dopo l'altro e la gente esce con i secchi verso la scala, e tu
+            passi in mezzo alle tende vuote, fra le brande disfatte e le
+            pentole sul fuoco spento. Un bambino rimasto di guardia ti guarda
+            passare e non dice niente a nessuno.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  - id: caserma-assi-il-braciere
+    immagine: ambientazione/ponti-sospesi
+    titolo: Il braciere di Mamma Tesh
+    sommario: "Sulla piattaforma più larga dei sottoponti brucia un braciere fatto con un elmo rovesciato. Intorno al fuoco si paga il posto."
+    luogo: Sotto le assi, la piattaforma di Mamma Tesh
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 0]
+    testo: |
+      Sulla piattaforma più larga dei sottoponti c'è un braciere ricavato da
+      un elmo rovesciato, e intorno al braciere una dozzina di persone sedute
+      su casse e rotoli di corda. Una donna piccola con le mani annerite
+      tiene il fuoco con un ferro lungo. È Mamma Tesh, e quando ti vede
+      arrivare dice all'elmo di fare meno fumo, perché c'è gente nuova.
+
+      {intimidire Facile fallita} Pensi che il mantello scarlatto ti dia
+      diritto a un posto vicino al fuoco. Il mantello, qui, ti dà diritto a
+      essere guardato.
+
+      «Intorno al Capitano si paga» dice Mamma Tesh, e batte il ferro
+      sull'elmo. «Con una storia o con un favore. Le monete, se proprio ci
+      tieni, le prendo lo stesso.» Dall'altra parte del fuoco un uomo
+      sta raccontando di due forestieri che stamattina hanno chiesto di un
+      ragazzino con la gerla.
+
+      {origine figlio-della-citta-bassa} Intorno a questo fuoco hai pagato
+      con le storie di tuo padre, quando avevi otto anni e nessuna storia
+      tua. Mamma Tesh se ne ricorda, a giudicare da come ti guarda le
+      mani.
+    opzioni:
+      - testo: "Pagare con una storia"
+        descrizione: "Intorno al braciere vince chi fa ridere o chi fa stare zitti tutti."
+        prova: { attributo: sociale, abilita: [espressivita, ingannare], difficolta: Media }
+        successo:
+          titolo: La storia del prosciutto
+          testo: |
+            Racconti della Caserma, del furiere che dà la ricevuta anche per
+            la paglia dei manichini, e la piattaforma ride. Mamma Tesh ride
+            più di tutti, con la bocca chiusa, e alla fine batte il ferro
+            sull'elmo per dire che il posto è pagato. L'uomo dall'altra parte
+            del fuoco ti dice dove sono andati i due forestieri, verso la rete
+            grande.
+          effetti: { profondita.caserma-sotto-le-assi: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La storia lunga
+          testo: |
+            La tua storia è lunga e finisce in un punto dove nessuno ride.
+            Mamma Tesh aspetta che tu abbia finito davvero, poi ti dice che
+            l'elmo l'ha sentita, e che per stasera basta così. Ti lascia
+            scaldare le mani e ti indica la scala da cui sei venuto.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Pagare con qualche moneta"
+        descrizione: "Mamma Tesh le prende, anche se le monete per lei sono il modo più triste di pagare."
+        requisiti: [monete >= 3]
+        esito:
+          titolo: Il modo triste
+          testo: |
+            Metti le monete sul bordo dell'elmo, e Mamma Tesh le fa sparire
+            con un sospiro, come una nonna a cui hanno portato un regalo
+            comprato. Poi ti indica la passerella che porta verso il Mercato,
+            e ti dice di tenerti a destra, dove le assi sono nuove.
+          effetti: { profondita.caserma-sotto-le-assi: 1, monete: -3 }
+
+      - testo: "Promettere un favore"
+        descrizione: "Un favore da Guardia vale qualcosa, quaggiù. Mamma Tesh se lo ricorderà."
+        costo: 2
+        esito:
+          titolo: Il favore
+          testo: |
+            Le prometti un favore, e lei ci pensa a lungo mescolando le
+            braci. Alla fine ti chiede di far togliere la catena che la
+            Gilda ha messo all'imbocco della scala nord, e tu le dici che
+            ci proverai. Mamma Tesh annuisce come se l'avessi già fatto, e
+            ti dice di tenerti a destra sulla passerella.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  # ------------------------------------------------------------ 0–1 · il vento
+  - id: caserma-assi-il-vento
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Il vento dalla Cicatrice
+    sommario: "Una raffica sale dalla Cicatrice e fa ballare le reti come lenzuola stese."
+    luogo: Sotto le assi, una passerella scoperta
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi <= 1]
+    testo: |
+      Sulla passerella scoperta fra due piloni non ci sono ripari, e il vento
+      freddo sale dalla Cicatrice a raffiche cariche di umido. A
+      ogni raffica le reti si gonfiano come lenzuola stese e la passerella
+      ondeggia di un palmo, poi torna al suo posto con uno schiocco di corde.
+      In mezzo alla passerella qualcuno ha legato un nastro rosso al
+      corrimano, per contare le raffiche.
+
+      {natura Media} Le raffiche vengono a gruppi di tre, con una pausa
+      lunga dopo la terza. È nella pausa che si passa.
+
+      {acrobazia Media fallita} Le ginocchia hanno già deciso che non si
+      muoveranno finché il vento non smette. Il vento, da parte sua, non ha
+      nessuna intenzione di smettere.
+    opzioni:
+      - testo: "Passare nella pausa fra le raffiche"
+        descrizione: "Contare le raffiche e partire dopo la terza. Se la conti giusta, la passerella sta ferma."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Dopo la terza
+          testo: |
+            Conti le raffiche tenendoti al corrimano, e dopo la terza parti.
+            La passerella è ferma sotto i piedi come un pavimento, e arrivi
+            al pilone opposto quando la prima raffica del gruppo dopo ti
+            prende alle spalle, troppo tardi per farti qualcosa.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: La quarta
+          testo: |
+            Parti dopo la terza raffica, e ne arriva una quarta. La passerella
+            ti scivola via sotto i piedi e resti appeso al corrimano con le
+            gambe nel vuoto, finché una mano dal pilone non ti tira su per la
+            cintura. Quando ti giri a ringraziare, sul pilone c'è soltanto una
+            gerla appoggiata.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+
+      - testo: "Attraversare carponi, legato al corrimano"
+        descrizione: "Con la cintura passata nel corrimano si va piano, però si arriva."
+        costo: 2
+        esito:
+          titolo: Carponi
+          testo: |
+            Passi la cintura intorno al corrimano e attraversi carponi,
+            facendola scorrere un palmo alla volta. Ci metti il tempo di tre
+            gruppi di raffiche, e quando arrivi dall'altra parte hai le
+            ginocchia piene di schegge e un rispetto nuovo per chi ci passa
+            ogni giorno con la gerla.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+      - testo: "Chiedere a chi passa di tenerti la corda"
+        descrizione: "I facchini passano di qui con la gerla piena. Uno di loro, per poco, ti tiene."
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: La corda del facchino
+          testo: |
+            Un facchino con la gerla vuota ti lega una corda alla vita e
+            tiene l'altro capo, e ti dice di guardare il nastro rosso e mai i
+            piedi. Arrivi dall'altra parte guardando il nastro. Il facchino
+            si riprende la corda, e la paga gliela dai in pane.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Il mantello
+          testo: |
+            I facchini ti guardano il mantello e passano oltre, uno dopo
+            l'altro. Uno ti dice che la corda la tiene ai suoi, e che i suoi,
+            quaggiù, non portano il rosso. Resti al pilone finché il vento non
+            ti ha gelato le mani.
+          effetti: { tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1 · sotto il Mercato
+  - id: caserma-assi-le-reti-del-mercato
+    immagine: ambientazione/mercato-dei-nodi
+    titolo: Le reti del Mercato
+    sommario: "Sotto il Mercato dei Nodi le reti sono piene di casse appese che di sopra nessuno ha mai pesato."
+    luogo: Sotto le assi, sotto il Mercato dei Nodi
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 1]
+    testo: |
+      Sotto il Mercato dei Nodi le reti sono tese fitte una sopra l'altra, e
+      da ognuna pendono casse legate con corde nuove. Sulle casse non c'è
+      il bollo della Gilda. Di sopra si sentono i banchi, le voci dei
+      mercanti e il rumore dei pesi sulle bilance, e ogni tanto da una
+      botola fra le assi scende una cassa, calata a mano, piano.
+
+      {politica-ed-economia Media} Ogni cassa che scende dalla botola è una
+      cassa che di sopra non paga la gabella. Varn Kett, alla Casa dei
+      Nodi, darebbe un dito per vedere queste reti.
+
+      {percezione Facile} Fra le reti, a tre casse di distanza, un uomo con
+      il cappuccio degli Scuri sta legando un nodo, troppo occupato per
+      accorgersi di te.
+    opzioni:
+      - testo: "Passare senza farsi vedere dall'uomo delle casse"
+        descrizione: "Dietro le casse appese si passa curvi. L'uomo è occupato con il suo nodo."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Dietro le casse
+          testo: |
+            Passi curvo dietro le casse una alla volta, e quando l'uomo alza
+            la testa sei già due reti più in là. Da lì lo vedi finire il nodo
+            e tirare una corda che scende, giù, verso la rete grande.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: La cassa che dondola
+          testo: |
+            Urti una cassa, e la cassa dondola e urta la vicina, e l'uomo alza
+            la testa. Vede il mantello scarlatto e sparisce fra le reti con un
+            fischio corto, che qualcuno più in basso ripete. Torni indietro
+            prima che arrivi chi ha risposto.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Contare le casse e i bolli"
+        descrizione: "Se le casse sono tante, qualcuno di sopra le cala. Un numero vale sempre qualcosa."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Ventisei casse
+          testo: |
+            Conti ventisei casse senza bollo e tre botole, e ti segni sulla
+            fodera del mantello, con il carboncino, le botole con il numero dei
+            banchi di sopra. Poi trovi la corda che l'uomo ha appena legato e
+            la segui fino a una passerella che scende.
+          effetti: { profondita.caserma-sotto-le-assi: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Le casse uguali
+          testo: |
+            Le casse sono tutte uguali e appese a tutte le altezze, e alla
+            ventesima non sai più se l'hai già contata. Mentre ricominci,
+            l'uomo con il cappuccio ti vede e sparisce. Torni indietro con il
+            collo indolenzito e nessun numero.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Prendere la strada lunga sotto le casse"
+        descrizione: "Si passa sotto, appesi alle reti, lontano dalle botole."
+        costo: 2
+        esito:
+          titolo: Sotto le casse
+          testo: |
+            Ti cali sotto le reti e attraversi appeso, mano dopo mano, con le
+            casse sopra la testa e il vuoto sotto i piedi. Ci metti molto, e
+            le spalle te lo fanno pagare tutto. Quando ti tiri su dall'altra
+            parte sei più in basso, vicino alla rete grande.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  - id: caserma-assi-il-tavolato-marcio
+    immagine: ambientazione/ponti-sospesi
+    titolo: Il tavolato marcio
+    sommario: "Un tratto di assi inchiodate su due travi, nero di umido, è l'unico passaggio verso il basso."
+    luogo: Sotto le assi, il tavolato vecchio
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 1]
+    testo: |
+      L'unico passaggio verso il basso è un tavolato inchiodato su due travi,
+      lungo una ventina di passi. Le assi sono nere di umido e verdi ai
+      bordi, e alcune mancano. Al centro c'è un buco largo quanto un uomo,
+      con i bordi spezzati di fresco. Qualcuno ci ha appoggiato sopra una
+      porta vecchia, con la maniglia ancora attaccata.
+
+      {percezione Media} I chiodi sono nuovi solo da un lato del tavolato.
+      Chi l'ha riparato ci passa sempre dalla stessa parte, e dall'altra si
+      fida della fortuna.
+
+      {resistenza Facile} L'umido sale dalle assi fino alle ginocchia, e le
+      ginocchia lo dicono a tutto il resto.
+    opzioni:
+      - testo: "Passare sul lato dei chiodi nuovi"
+        descrizione: "Le assi riparate reggono. Bisogna riconoscerle, una per una."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il lato giusto
+          testo: |
+            Passi sul lato dei chiodi nuovi, guardando ogni testa di chiodo
+            prima di posare il piede. Il tavolato scricchiola ma regge. Alla
+            fine ti accorgi di avere trattenuto il fiato per venti passi, e lo
+            lasci andare tutto insieme.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: La porta
+          testo: |
+            Metti il piede sulla porta appoggiata sopra il buco, e la porta
+            scivola. Ti salvi aggrappandoti alla maniglia, che ti resta in
+            mano. Torni indietro sulle ginocchia, con la maniglia
+            in tasca e il cuore che batte nelle orecchie.
+          effetti: { ferite: 1 }
+
+      - testo: "Camminare sulla trave sotto il tavolato"
+        descrizione: "Sotto le assi la trave è intera, ed è larga una spanna."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: La trave
+          testo: |
+            Ti cali sotto il tavolato e cammini sulla trave, con le assi
+            marce sopra la testa che ti fanno da corrimano. La trave è
+            scivolosa e larga quanto basta. Dall'altra parte ti tiri su e
+            trovi la discesa verso le travi maestre.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Il muschio
+          testo: |
+            Il muschio sulla trave è più viscido di quanto sembrasse, e a metà
+            strada ti ritrovi a cavalcioni, con le mani strette al legno e
+            una caviglia che pulsa. Torni indietro così, un palmo alla volta.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Rinforzare il passaggio con la porta"
+        descrizione: "La porta è pesante, e sistemarla bene sopra il buco richiede tempo."
+        costo: 2
+        esito:
+          titolo: La porta inchiodata
+          testo: |
+            Sposti la porta di traverso sul buco, in modo che poggi su due
+            travi e non su una, e la blocchi con due chiodi strappati a
+            un'asse marcia, battendoli con il tacco. Ci passi sopra a quattro
+            zampe. Il prossimo che arriva troverà un passaggio migliore, e non
+            saprà mai chi deve ringraziare.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  # ------------------------------------------------------------ 1–2 · i mutati
+  - id: caserma-assi-i-mutati
+    immagine: ambientazione/marea-grigia
+    titolo: Quelli della Marea
+    sommario: "In fondo a una rete vive gente che la Marea ha cambiato. Di sopra non salgono mai."
+    luogo: Sotto le assi, la rete dei mutati
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi >= 1, profondita.caserma-sotto-le-assi <= 2]
+    testo: |
+      La rete in fondo al passaggio è più bassa delle altre e più vicina al
+      vuoto, e la nebbia della Cicatrice ci arriva fino alle caviglie. Ci
+      vivono quattro o cinque persone sedute in cerchio intorno a una
+      lanterna di Mana. A uno brillano gli occhi come quelli di un gatto, e
+      una donna ha le vene dei polsi chiare come acqua. Quando arrivi
+      smettono di parlare e coprono le mani con le maniche.
+
+      {medicina Media} La Marea non si prende stando vicini. Il corpo invece
+      ha paura lo stesso, e ti fa fare mezzo passo indietro prima che tu
+      decida di restare dove sei.
+
+      Per passare bisogna attraversare il loro cerchio, perché la rete
+      finisce contro un pilone e la discesa parte dal centro.
+    opzioni:
+      - testo: "Sedersi un momento con loro"
+        descrizione: "Al cerchio si entra sedendosi, come a un tavolo. Bisogna sapere restare."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Il cerchio
+          testo: |
+            Ti siedi fra due di loro e tendi le mani verso la lanterna, come
+            loro. La donna con le vene chiare ti guarda a lungo, poi ti chiede
+            se è vero che di sopra adesso c'è il mercato anche di sera. Le
+            rispondi, e il cerchio si apre per lasciarti scendere dal centro.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: La lanterna
+          testo: |
+            Ti siedi, e la luce della lanterna ti entra negli occhi più del
+            dovuto. Quando torni in te sei ancora seduto, con la bocca secca e
+            un sapore di ferro sulla lingua, e il cerchio ti guarda con
+            pazienza mentre ti alzi e torni indietro.
+          effetti: { contaminazione: 0.5, tormento: 0.5 }
+
+      - testo: "Chiedere di Nando"
+        descrizione: "Quaggiù i bambini passano da tutti. Forse anche da loro."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il ragazzino delle mele
+          testo: |
+            All'uomo con gli occhi da gatto si illumina la faccia. Nando gli
+            porta le mele avanzate dal Mercato, e lui le conta sulle dita per
+            dirti quante. Ti accompagna fino al bordo del cerchio e ti indica
+            la discesa, e ti dice di sbrigarti, perché stamattina sono
+            passati in due, e cercavano le stesse mele.
+          effetti: { profondita.caserma-sotto-le-assi: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Le maniche
+          testo: |
+            Chiedi di Nando, e il cerchio si chiude come un pugno. Nessuno ti
+            risponde, e la donna con le vene chiare si alza e si mette davanti
+            alla discesa. Torni indietro, e loro restano in piedi finché non
+            sei sparito.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Girare largo, lungo il pilone"
+        descrizione: "C'è un appiglio freddo lungo il pilone, che evita il cerchio."
+        costo: 2
+        esito:
+          titolo: Il pilone
+          testo: |
+            Giri lungo il pilone, con le dita nelle fessure della pietra e la
+            nebbia che ti sale lungo le gambe. Il cerchio ti guarda passare
+            senza muoversi. Dall'altra parte la pietra è bagnata, e quando
+            scendi hai le mani gelate e grigie fino al polso, che ti sfreghi
+            sul mantello per un pezzo.
+          effetti: { profondita.caserma-sotto-le-assi: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 2 · le travi maestre
+  - id: caserma-assi-le-travi-maestre
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Le travi maestre
+    sommario: "Le travi che reggono il Ponte delle Mille Corde passano sopra il vuoto della Cicatrice, senza reti sotto."
+    luogo: Sotto le assi, le travi maestre
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 2]
+    testo: |
+      Qui finiscono le reti. Le travi maestre del Ponte delle Mille Corde
+      sono larghe come una panca e corrono sopra il vuoto della Cicatrice
+      senza niente sotto, per trenta passi, fino al pilone del Mercato.
+      Sulle travi qualcuno ha inchiodato dei listelli, uno ogni passo, per
+      dare presa agli stivali. Dalla Cicatrice sale una luce grigia che non
+      viene da nessun sole.
+
+      {atletica Media} Trenta passi su una panca. Messa per terra, la
+      faresti a occhi chiusi, e il problema è tutto in quel per terra.
+
+      {magia Facile} La luce che sale dalla Cicatrice vibra appena, come
+      l'aria sopra una strada d'estate. Il Mana laggiù non dorme mai.
+    opzioni:
+      - testo: "Camminare sulla trave"
+        descrizione: "Un listello alla volta, senza guardare giù."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Trenta listelli
+          testo: |
+            Conti i listelli, e al quindicesimo smetti di contarli perché le
+            gambe hanno capito il ritmo da sole. Al pilone del Mercato ti
+            appoggi alla pietra con tutte e due le mani e senti, sotto, il
+            cigolio di una rete grande che dondola.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Il listello rotto
+          testo: |
+            Al decimo passo un listello si stacca sotto lo stivale, e ti
+            ritrovi abbracciato alla trave, con il listello che cade nella luce
+            grigia senza fare rumore. Torni indietro strisciando, a cavalcioni,
+            con la guancia contro il legno.
+          effetti: { ferite: 1 }
+
+      - testo: "Passare sotto la trave, appesi"
+        descrizione: "Sotto la trave c'è una fune tesa, quella dei manutentori. Si va a forza di braccia."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La fune dei manutentori
+          testo: |
+            Ti appendi alla fune e vai avanti a forza di braccia, con le gambe
+            che penzolano sulla luce grigia. A metà le spalle bruciano, ai
+            due terzi non le senti più. Arrivi al pilone con le mani aperte a
+            fatica, come se non fossero tue.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Le braccia
+          testo: |
+            A metà fune le braccia smettono di obbedire, e torni indietro una
+            presa alla volta, con i denti stretti. Quando rimetti i piedi sulla
+            rete hai le mani spellate e il fiato che non torna.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Aspettare il carro dei manutentori"
+        descrizione: "Una volta al giorno i manutentori della Gilda passano sulla fune con un carrello. Basta aspettarli."
+        costo: 2
+        esito:
+          titolo: Il carrello
+          testo: |
+            Aspetti fino a sera. Il carrello dei manutentori passa sulla fune
+            con due uomini dentro e una lanterna, e tu ci salti sopra al
+            pilone. I due ti guardano il mantello e non dicono niente fino al
+            Mercato, dove ti fanno scendere con una spinta.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  - id: caserma-assi-il-tagliagole
+    immagine: fazioni/scuri
+    titolo: Uno che sale
+    sommario: "Su una scala di corda, fra le travi, un uomo con il coltello legato al polso sale verso di te."
+    luogo: Sotto le assi, la scala verso la rete grande
+    area: caserma-sotto-le-assi
+    ripetibile: true
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi == 2]
+    testo: |
+      La scala che scende verso la rete grande è stretta e gira intorno al
+      pilone, e a metà, fra le travi, sale un uomo magro. Ha il coltello
+      legato al polso da un laccio, così da non perderlo se cade, e quando ti
+      vede si ferma con un piede sul piolo e l'altro nel vuoto. Ti guarda il
+      mantello scarlatto e sorride, con i denti storti.
+
+      {rissa Media} Sulla scala vince chi sta sopra. Lui lo sa, e infatti non
+      sale più.
+
+      «Il ragazzino non c'è» dice. «Torna di sopra, che qui si cade.» Lo dice
+      con la cortesia di un oste che chiude.
+    opzioni:
+      - testo: "Affrontarlo sulla scala"
+        descrizione: "È solo, e tu stai sopra di lui sulla scala."
+        combattimento: caserma-un-tagliagole
+        vittoria:
+          titolo: Il laccio
+          testo: |
+            Il coltello ti passa due volte vicino alla faccia, e alla terza
+            gli pesti la mano sul piolo. Lui lascia la presa e resta appeso
+            per il laccio del coltello, impigliato nella corda. Quando si
+            sfila scivola giù fino alla rete di sotto, imprecando. Scendi
+            la scala dopo di lui, e lui scappa fra le reti senza voltarsi.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        sconfitta:
+          titolo: Di sopra
+          testo: |
+            Sulla scala il coltello arriva da sotto, dove non guardi. Ti tagli
+            sul braccio e perdi un piolo, e quando ti tiri su l'uomo è già
+            sotto di te, a guardarti salire. Torni sulla rete con il braccio
+            che sanguina dentro la manica.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Convincerlo che te ne vai"
+        descrizione: "Gli basta che tu sparisca dalla sua scala. Si può fare finta."
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
+        successo:
+          titolo: Il giro dietro il pilone
+          testo: |
+            Alzi le mani e risali, dicendogli che del ragazzino non ti
+            importa. Lui sale dietro di te fino alla rete, controlla che tu ti
+            allontani e poi riprende la sua strada verso l'alto. Appena sparisce
+            torni alla scala e scendi, e la rete grande è già sotto di te.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+        fallimento:
+          titolo: Il secondo coltello
+          testo: |
+            Gli dici che te ne vai, e lui ride. Dalla manica gli esce un
+            secondo coltello senza laccio. Lo lancia senza mirare, e ti prende
+            di striscio al polpaccio. Torni sulla rete prima che trovi il
+            terzo.
+          effetti: { ferite: 1 }
+
+      - testo: "Aspettare che se ne vada"
+        descrizione: "Prima o poi deve salire o scendere. Tu puoi aspettare dietro le casse."
+        costo: 2
+        esito:
+          titolo: Dietro le casse
+          testo: |
+            Ti nascondi dietro una cassa appesa e aspetti. L'uomo resta sulla
+            scala molto più di quanto vorresti, poi risale, passa a un braccio
+            da te senza vederti e sparisce di sopra. Scendi verso la rete
+            grande con le gambe addormentate.
+          effetti: { profondita.caserma-sotto-le-assi: 1 }
+
+  # ------------------------------------------------------------ il cuore · la rete grande
+  - id: caserma-assi-la-rete-grande
+    immagine: ambientazione/mercato-dei-nodi
+    titolo: La rete grande
+    sommario: "Sotto il Mercato dei Nodi, nella rete più grande dei sottoponti, due uomini stanno tagliando le corde."
+    luogo: Sotto le assi, la rete grande sotto il Mercato dei Nodi
+    area: caserma-sotto-le-assi
+    requisiti: [fazione.caserma == 4, profondita.caserma-sotto-le-assi >= 3]
+    testo: |
+      La rete grande è tesa fra quattro piloni, sotto il centro del Mercato
+      dei Nodi, ed è larga quanto una piazza. È piena di sacchi e di gerle
+      vuote, e nel mezzo c'è un mucchio di stracci e di tela dove dormono i
+      facchini. Adesso è vuota, tranne che per una gerla rovesciata vicino
+      al bordo e per una mano che spunta dalla tela, stretta a una maglia.
+
+      Sul pilone più vicino due uomini con il cappuccio stanno tagliando le
+      corde che reggono la rete, una alla volta, senza fretta. A ogni corda
+      tagliata la rete si inclina un poco verso il vuoto, e il mucchio di
+      stracci scivola di un palmo.
+
+      {armi-da-mischia Media} Tagliano con coltelli ricurvi da pescatore. Sono attrezzi da corda, e per farne armi bisogna averli già
+      in mano quando arrivi.
+
+      {empatia Facile} La mano sotto la tela si stringe a ogni corda che
+      cade. Nando è sveglio, e fa finta di non esserci perché è l'unica cosa
+      che può fare.
+
+      A uno dei due uomini il cappuccio scivola indietro, e ti vede. Taglia
+      un'altra corda, guardandoti.
+    opzioni:
+      - testo: "Affrontare i due uomini sul pilone"
+        descrizione: "Sono due, sul pilone, con i coltelli da corda. Ogni momento che passa la rete si inclina."
+        combattimento: caserma-la-rete
+        vittoria:
+          titolo: Le corde
+          testo: |
+            Il primo cade sulla rete e ci rimbalza, e scappa verso le travi a
+            quattro zampe. Il secondo ti lascia il coltello nella manica e si
+            butta giù per la scala del pilone. Quando ti volti, la rete è
+            inclinata come un tetto, e il mucchio di stracci è fermo a un
+            palmo dal bordo. Ne esce un ragazzino con le ginocchia nere di
+            catrame.
+          segue: caserma-assi-nando
+        sconfitta:
+          titolo: La rete che cede
+          testo: |
+            Ti tengono sul pilone con i coltelli finché non tagliano l'ultima
+            corda dal loro lato. La rete si affloscia, e il mucchio di stracci
+            scivola via. Lo vedi aggrapparsi a una maglia del bordo e
+            arrampicarsi verso le travi più svelto di un gatto, e sparire. I
+            due uomini se ne vanno da un'altra parte. Torni di sopra con il
+            sangue nella manica, e Nando è ancora là sotto, da qualche parte.
+          effetti: { tormento: 0.5 }
+          vai: ponti-sospesi
+
+      - testo: "Arrivare alla rete prima che cada"
+        descrizione: "Lungo la trave alta, sopra il pilone, si arriva alla rete senza passare dai due. Bisogna correre su una trave larga un piede."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: La trave alta
+          testo: |
+            Corri sulla trave alta con le braccia aperte, e ti lasci cadere
+            sulla rete proprio mentre l'ultima corda dal lato dei due uomini
+            si spezza. La rete si piega, e tu afferri il mucchio di stracci e
+            ci trovi dentro un braccio sottile. Tiri. Il ragazzino esce dalla
+            tela come un pesce dalla rete, e insieme vi aggrappate al bordo
+            sano. I due uomini, sul pilone, guardano la rete vuota e se ne
+            vanno.
+          pe: { acrobazia: 5 }
+          segue: caserma-assi-nando
+        fallimento:
+          titolo: La trave scivola
+          testo: |
+            La trave alta è bagnata di nebbia, e al terzo passo ti scivola
+            sotto lo stivale. Atterri sulla rete di schiena, a due braccia dal
+            mucchio di stracci, e la rete si inclina ancora. Rotoli verso il
+            bordo e ti fermi con le dita in una maglia. I due uomini ridono, e
+            sul pilone tagliano un'altra corda. Ti tiri su, e adesso sei
+            sulla rete con loro.
+          effetti: { ferite: 1 }
+
+      - testo: "Tornare indietro"
+        descrizione: "Due uomini armati sopra il vuoto della Cicatrice. Si può tornare con qualcuno in più."
+        costo: 0
+        esito:
+          titolo: Di sopra
+          testo: |
+            Torni indietro sulla scala, e l'ultima cosa che vedi della rete
+            grande è il mucchio di stracci che scivola ancora di un palmo.
+            Risali fino ai Ponti con le mani che tremano, e il rumore dei
+            carri di sopra ti sembra fortissimo.
+          vai: ponti-sospesi
+
+  - id: caserma-assi-nando
+    immagine: ambientazione/ponti-sospesi
+    titolo: Nando Rizza
+    tipo: seguito
+    luogo: Sotto le assi, la rete grande
+    area: caserma-sotto-le-assi
+    requisiti: [fazione.caserma == 4]
+    testo: |
+      Nando Rizza si siede sul bordo della rete con le ginocchia contro il
+      petto, e trema in un modo che non c'entra con il freddo. Ha una mela in
+      tasca, e la tira fuori per guardarla prima di rimetterla via. Poi parla, tutto
+      d'un fiato, guardando il vuoto.
+
+      «Era quello con la tosse» dice. «Quello della casa blu, con la sciarpa.
+      Sotto il ponte, di notte, contava i soldi con uno degli Scuri, e li
+      contava sulla mano. Poi l'altro gli ha dato un foglio, e lui l'ha
+      letto, e io ho fatto cadere la gerla.» Si stringe le ginocchia. «Non lo
+      dico a nessuno se mi dite dove dormire, basta che sia lontano da qua.»
+
+      {ingannare Media} Dice la verità. Ha paura di dire il nome, anche adesso,
+      ed è per questo che dice la sciarpa e la tosse.
+
+      {politica-ed-economia Media} Un nome, e nessuna prova scritta. Con un
+      nome solo la Caserma non si muove, e il furiere ti chiederà dove sta
+      la ricevuta.
+
+      *Fulvio Saldo.* Lo sapevi dalla prima sera, da come tossiva. Nando ti
+      guarda e aspetta di sapere dove lo porti.
+    opzioni:
+      - testo: "Portarlo in Caserma"
+        descrizione: "In Caserma ci sono le celle, e il furiere ha una branda in magazzino. È il posto più sicuro della città, se ti fidi di tutti quelli che ci lavorano."
+        esito:
+          titolo: La branda in magazzino
+          testo: |
+            Il furiere gli trova una branda in magazzino, fra i mantelli
+            piegati, e gli fa firmare la ricevuta per la coperta. Nando firma
+            con una croce. Poi ci ripensa e scrive *Nando* accanto alla croce,
+            storto. A sera, quando passi a vedere, dorme con la mela in mano.
+            Sulla via del ritorno, dalle mura, vedi del fumo verso il Ponte del
+            Conciatore.
+
+            {furtivita Media} Alla casa blu lo sapranno entro domani. In
+            Caserma le notizie corrono lungo la lavagna dei turni.
+          pe: { acrobazia: 5 }
+          imposta: { caserma.nando: 1 }
+          effetti: { fazione.caserma: 1, monete: 10, rep.ponti: 0.5, rep.caserma: 0.5 }
+          vai: ponti-sospesi
+
+      - testo: "Portarlo al Grifone di Ferro"
+        descrizione: "Al Grifone Brunella dà il latte caldo ai ragazzini senza chiedere niente. Bisogna convincere Liaren a tenerne uno per un po'."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Facile }
+        successo:
+          titolo: Il sottoscala del Grifone
+          testo: |
+            Liaren ti ascolta con la spalla appoggiata al bancone e guarda
+            Nando dalla testa ai piedi, poi chiama Brunella. Brunella gli mette
+            davanti una scodella e un pezzo di pane prima ancora di sapere come
+            si chiama. Il sottoscala ha una branda e una coperta che sa di
+            fumo, e da lì nessuno passa senza farsi sentire dalle assi.
+            Sulla via del ritorno vedi del fumo verso il Ponte del Conciatore.
+          pe: { acrobazia: 5 }
+          imposta: { caserma.nando: 2 }
+          effetti: { fazione.caserma: 1, monete: 10, rep.ponti: 0.5, rep.caserma: 0.5 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: Il prezzo del sottoscala
+          testo: |
+            Liaren dice che il Grifone è una locanda, e che i ragazzini
+            costano come gli adulti. Paghi una settimana di sottoscala con le
+            monete che avevi in tasca, e Brunella aggiunge il latte di sua
+            iniziativa, senza metterlo in conto. Sulla via del ritorno vedi del
+            fumo verso il Ponte del Conciatore.
+          pe: { acrobazia: 5 }
+          imposta: { caserma.nando: 2 }
+          effetti: { fazione.caserma: 1, monete: 4, rep.ponti: 0.5 }
+          vai: ponti-sospesi
+
+      - testo: "Lasciarlo da Mamma Tesh"
+        descrizione: "Intorno al braciere nessuno tocca chi sta sotto la protezione di Mamma Tesh. Lei chiederà qualcosa in cambio."
+        costo: 2
+        esito:
+          titolo: Sotto il Capitano
+          testo: |
+            Mamma Tesh guarda prima Nando e poi te, e batte il ferro
+            sull'elmo. Il
+            ragazzino si siede vicino al fuoco, e in un momento qualcuno gli
+            ha già messo in mano una scodella. «Adesso è mio» dice Mamma Tesh.
+            «E tu mi devi un favore da Guardia, di quelli grossi.» Lo dice
+            come si dice il prezzo del pane. Sulla via del ritorno, dal
+            parapetto, vedi del fumo verso il Ponte del Conciatore.
+          pe: { acrobazia: 5 }
+          imposta: { caserma.nando: 3 }
+          effetti: { fazione.caserma: 1, monete: 10, rep.ponti: 0.5 }
+          vai: ponti-sospesi

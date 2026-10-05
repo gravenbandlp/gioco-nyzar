@@ -1,0 +1,386 @@
+# I servizi ripetibili della quest dell'Accademia, che si aprono con i gradi (fazione.accademia), e la lettera di Besk.
+# - La lettera di Besk (dal passo 1, senza invito): Besk ti accompagna su fino all'Accademia, nei Quartieri Alti.
+# - L'ora dell'uditore (grado 1): le lezioni di Orvald a metà prezzo (livelli 1 e 2) e le sedute in laboratorio per
+#   chi ha Magia 0.
+# - Il laboratorio di notte (grado 2): la branda, il lavoro delle lanterne pagato, Leggere il Mana senza pagare.
+# - La stanza nella torretta (grado 3, con la cattedra): l'alloggio gratuito e i quaderni di Dalmas.
+# - Il turno alla Camera (grado 4): la rendita del turno, i cristalli sterili caricati gratis e, con la voce in
+#   Consiglio (grado 5), le sedute in Municipio.
+storylet:
+  # ------------------------------------------------------------ la lettera di Besk (invito limitato)
+  - id: accademia-la-lettera-di-besk
+    immagine: personaggi/besk-dravec
+    titolo: La lettera di Besk
+    sommario: "Le due righe di Besk Dravec per Orvald Temmerin bastano alle guardie dei Quartieri Alti, se le porti fino all'Accademia e non oltre."
+    luogo: Città Bassa, ai piedi dei Gradoni
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [accademia.lettera >= 1, invito == 0, fazione.accademia >= 1, fazione.accademia <= 14]
+    testo: |
+      Ai piedi dei Gradoni che salgono ai Quartieri Alti le guardie
+      controllano chi sale, e chi non ha l'invito torna indietro. Tu hai in
+      tasca la lettera di Besk, piegata in quattro, con le due righe per
+      Orvald e la firma in fondo. Il foglio ormai ha le pieghe consumate, e
+      una macchia di sidro su un angolo che Besk giura di non aver fatto lei.
+
+      {conoscenze-della-strada Facile} Le guardie la grafia di Besk la
+      conoscono. Metà di loro ha fatto lezione al tavolo di cucina di Ilka,
+      e l'altra metà ci beve il sidro.
+    opzioni:
+      - testo: "Salire all'Accademia con la lettera"
+        descrizione: "Le guardie leggono la lettera e ti lasciano salire fino all'Accademia. Per il resto dei Quartieri Alti serve l'invito."
+        costo: 1
+        esito:
+          titolo: Fino all'Accademia
+          testo: |
+            La guardia legge la lettera muovendo le labbra e riconosce la firma. Poi te la restituisce. «Dritto all'Accademia, e niente giri» dice, e ti
+            fa passare. Sali i Gradoni tenendo il foglio in mano come un lasciapassare, e lo tieni in vista finché il portone dell'Accademia
+            non si chiude alle tue spalle.
+          vai: quartieri-alti
+      - testo: "Restare in Città Bassa"
+        descrizione: "L'Accademia può aspettare."
+        costo: 0
+        esito:
+          titolo: La lettera in tasca
+          testo: |
+            Rimetti la lettera in tasca e torni indietro per i vicoli della
+            Città Bassa, dove nessuno ti chiede un invito per passare.
+
+  # ------------------------------------------------------------ grado 1 · l'ora dell'uditore
+  - id: accademia-l-ora-dell-uditore
+    presso: accademia-di-torvessa
+    immagine: personaggi/orvald-temmerin
+    titolo: L'ora dell'uditore
+    sommario: "Il tuo nome è sul registro degli uditori. Le lezioni di Orvald le paghi a metà, e il laboratorio ha sempre un banco libero."
+    luogo: Accademia di Torvessa, lo studio del preside
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.accademia >= 3]
+    testo: |
+      Gli uditori dell'Accademia hanno un banco in fondo a ogni aula e una
+      sedia nello studio del preside, quella con il libro sotto la gamba
+      corta. Orvald fa lezione agli uditori soltanto quando gli avanza un po' di tempo, e quando la fa la fa pagare a metà, perché la differenza la mette lui e
+      Querci lo segna su un registro apposta. Nel laboratorio, il pomeriggio,
+      Besk tiene le sedute per chi non ha ancora sentito un cristallo
+      rispondere.
+
+      {politica-ed-economia Facile} Il registro degli sconti di Querci ha già
+      tre pagine. Prima o poi qualcuno in consiglio lo farà notare.
+
+      Pett ti accoglie dallo stipite piegando la testa, come si fa con un
+      cliente abituale.
+    opzioni:
+      - testo: "Una seduta con Besk in laboratorio"
+        descrizione: "Per chi non ha mai sentito il Mana. Besk ti dà un cristallo grezzo e conta i respiri con te."
+        quando: [magia == 0]
+        prova: { attributo: mentale, abilita: magia, difficolta: "Molto facile" }
+        successo:
+          titolo: Il calore
+          testo: |
+            Besk ti mette fra le mani un cristallo grezzo e ti fa respirare
+            contando fino a quattro, e verso la fine dell'ora il cristallo si
+            intiepidisce. Lei annota qualcosa sul quaderno senza dire niente,
+            perché dice che le cose dette troppo presto si spaventano.
+          pe: { magia: 5 }
+        fallimento:
+          titolo: Il sasso
+          testo: |
+            Il cristallo resta freddo per tutta l'ora, e alla fine Besk te lo
+            lascia in mano, dicendo che si scalda anche in tasca, se ci pensi.
+          pe: { magia: 2 }
+
+      - testo: "Seguire una lezione dal banco degli uditori"
+        descrizione: "Una lezione qualunque, dal fondo dell'aula. Orvald risponde una volta sola, quindi conviene ascoltare."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Facile }
+        successo:
+          titolo: Il banco in fondo
+          testo: |
+            Segui la lezione del secondo anno dal banco in fondo, con le ginocchia strette sotto il piano inclinato, e prendi appunti fitti. A fine ora
+            Orvald ti guarda una volta, dal fondo del corridoio, per vedere se
+            hai capito.
+          pe: { accademiche: 4 }
+        fallimento:
+          titolo: Il sonno
+          testo: |
+            A metà lezione ti accorgi di aver dormito per un quarto d'ora con la
+            penna in mano. La pagina degli appunti ha una riga lunghissima che
+            scende fino in fondo.
+          pe: { accademiche: 1 }
+
+      - testo: "Scudo arcano, a metà prezzo"
+        descrizione: "La difesa prima dell'attacco, con lo sconto degli uditori."
+        immagine: personaggi/orvald-temmerin
+        requisiti: [magia >= 1, incantesimo.scudo-arcano == 0, monete >= 10]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: La lamina
+          testo: |
+            Orvald ti tira addosso tutto quello che trova sulla scrivania, a cominciare da una mela. La lamina regge a ogni cosa tranne la mela, perché l'ha lanciata per prima e ti prende in fronte. Pett fa il suo verso che somiglia a
+            una risata.
+          effetti: { monete: -10, incantesimo.scudo-arcano: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Orvald ascolta la formula fino alla fine con gli occhi chiusi, poi ti
+            dice di tornare la settimana prossima e di tenerti le monete.
+
+      - testo: "Sussurro di paura, a metà prezzo"
+        descrizione: "Una formula che si dice a bocca chiusa, con lo sconto degli uditori."
+        immagine: personaggi/orvald-temmerin
+        requisiti: [magia >= 1, incantesimo.sussurro-di-paura == 0, monete >= 10]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Dietro le mappe
+          testo: |
+            Provi la formula su Pett, che va a nascondersi dietro le mappe e ti
+            guarda con un occhio solo per il resto del pomeriggio. Orvald ti
+            ricorda le noci.
+          effetti: { monete: -10, incantesimo.sussurro-di-paura: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Orvald ascolta la formula fino alla fine con gli occhi chiusi, poi ti
+            dice di tornare la settimana prossima e di tenerti le monete.
+
+      - testo: "Fiamma, a metà prezzo"
+        descrizione: "Il fuoco azzurro dei cristalli, nel cortile, con lo sconto degli uditori."
+        immagine: personaggi/orvald-temmerin
+        requisiti: [magia >= 2, incantesimo.fiamma == 0, monete >= 25]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il bersaglio di paglia
+          testo: |
+            La prima fiamma ti strina le sopracciglia, la seconda arriva al
+            bersaglio di paglia in fondo al cortile e lo lascia fumante. Orvald
+            annuisce una volta sola, che da lui vale un applauso.
+          effetti: { monete: -25, incantesimo.fiamma: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Orvald ascolta la formula fino alla fine con gli occhi chiusi, poi ti
+            dice di tornare la settimana prossima e di tenerti le monete.
+
+      - testo: "Rapidità, a metà prezzo"
+        descrizione: "Il Mana nei muscoli, con lo sconto degli uditori."
+        immagine: personaggi/orvald-temmerin
+        requisiti: [magia >= 2, incantesimo.rapidita == 0, monete >= 25]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Le gocce della fontana
+          testo: |
+            Per qualche respiro le gocce della fontana del cortile cadono piano,
+            e tu riesci a contarne nove prima che tutto torni normale e ti giri
+            la testa. Orvald ti fa sedere sul bordo della vasca.
+          effetti: { monete: -25, incantesimo.rapidita: 1 }
+        fallimento:
+          titolo: Non ancora
+          testo: |
+            Orvald ascolta la formula fino alla fine con gli occhi chiusi, poi ti
+            dice di tornare la settimana prossima e di tenerti le monete.
+
+  # ------------------------------------------------------------ grado 2 · il laboratorio di notte
+  - id: accademia-il-laboratorio-di-notte
+    presso: accademia-di-torvessa
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Il laboratorio di notte
+    sommario: "La chiave del laboratorio adesso ce l'hai anche tu. Di notte c'è la branda degli assistenti, e le lanterne della scuola da caricare."
+    luogo: Accademia di Torvessa, il laboratorio, di notte
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.accademia >= 6]
+    testo: |
+      Di notte il laboratorio è silenzioso, con il banco di pietra nera
+      ancora tiepido e le canaline di rame che luccicano sotto la lampada.
+      In un angolo, dietro l'armadio dei vetri, c'è la branda degli
+      assistenti, con una coperta di lana grezza e un cuscino che sa di
+      gesso. Sulla mensola ci sono le lanterne della scuola, venti, con i
+      cristalli spenti, e accanto un foglio con la grafia di Agnese, *chi le
+      carica prende la paga di un turno*.
+
+      {magia Media} Nel buio il banco di prova ronza appena, come una
+      pentola lasciata sul fuoco spento. Il Mana del giorno ci è rimasto
+      dentro.
+
+      {resistenza Facile} La branda è stretta e cigola. Dopo una giornata
+      come questa, però, sembra un letto di piume.
+    opzioni:
+      - testo: "Dormire sulla branda degli assistenti"
+        descrizione: "Una notte sotto la mensola delle lanterne, con il ronzio del banco a farti compagnia, e agli assistenti è gratis."
+        esito:
+          titolo: Il ronzio del banco
+          testo: |
+            Ti addormenti con il ronzio del banco nelle orecchie e ti svegli
+            all'alba con la coperta di lana sul naso. Pett è sulla mensola e ti
+            guarda, e non sai da quanto. Ti alzi con le ossa che tirano meno.
+          effetti: { ferite: -1, tormento: -0.5 }
+
+      - testo: "Caricare le lanterne della scuola"
+        descrizione: "Venti cristalli spenti da riempire piano, uno alla volta. La paga di un turno, se ci riesci."
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Media }
+        successo:
+          titolo: Venti lanterne
+          testo: |
+            Carichi le lanterne una alla volta, con i guanti di Agnese e le mani
+            sul rame, finché all'alba sulla mensola c'è una fila di cristalli
+            azzurri. Querci passa a contarli e ti paga il turno sospirando a ogni
+            moneta.
+          pe: { magia: 3 }
+          effetti: { monete: 8 }
+        fallimento:
+          titolo: Tre incrinati
+          testo: |
+            Alla terza lanterna il Mana ti torna indietro, e alla fine della
+            notte tre cristalli sono incrinati. Querci te li paga lo stesso, ma
+            soltanto quelli interi.
+          effetti: { monete: 3, tormento: 0.5 }
+
+      - testo: "Imparare a leggere il Mana senza pagare la lezione"
+        descrizione: "Agnese tiene in laboratorio la cassetta dei cristalli veri e falsi. Agli assistenti la lezione la fa gratis."
+        requisiti: [magia >= 2, incantesimo.leggere-il-mana == 0]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La cassetta di Agnese
+          testo: |
+            Agnese ti fa toccare i cristalli della cassetta uno per uno con gli
+            occhi chiusi. Al settimo senti un battito lento, all'undicesimo un
+            ronzio storto, e lei ti dice che quello è un falso della Città Bassa,
+            dei migliori. Da stasera il Mana lo leggi.
+          pe: { magia: 3 }
+          effetti: { incantesimo.leggere-il-mana: 1 }
+        fallimento:
+          titolo: Tutti uguali
+          testo: |
+            Al decimo cristallo ti sembrano tutti uguali, e Agnese chiude la
+            cassetta. Domani, dice, con le mani riposate.
+
+  # ------------------------------------------------------------ grado 3 · la stanza nella torretta
+  - id: accademia-la-stanza-nella-torretta
+    presso: accademia-di-torvessa
+    immagine: ambientazione/accademia-di-torvessa
+    titolo: La stanza nella torretta
+    sommario: "Una stanza tua al penultimo piano della torretta, con un letto vero e la finestra sulla Cicatrice. Sopra c'è la stanza di Dalmas."
+    luogo: Accademia di Torvessa, la torretta
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.accademia >= 9, accademia.cattedra >= 1]
+    testo: |
+      La stanza che Orvald ti ha dato sta al penultimo piano della torretta,
+      sotto quella di Severo. Ha un letto vero, con il materasso di lana, un
+      tavolo sotto la finestra e un catino che la sera qualcuno riempie di
+      acqua calda senza che tu sappia chi. Dalla finestra si vede la
+      Cicatrice, e di notte le lanterne dei Raschiatori sul Ponte dei Morti.
+      Sul tavolo ci sono i quaderni di Severo che Orvald ti ha lasciato da
+      leggere.
+
+      {percezione Media} Il catino lo riempie il bidello, all'ora in cui
+      Orvald torna nello studio. Glielo ha chiesto lui, e non te lo dirà mai.
+
+      {resilienza Facile fallita} Di notte, dal piano di sopra, ti sembra di
+      sentire un gesso che scrive. Sai benissimo che lassù non c'è nessuno.
+    opzioni:
+      - testo: "Dormire nella torretta"
+        descrizione: "Un letto vero con l'acqua calda nel catino, che a un maestro aggiunto non costa niente."
+        esito:
+          titolo: Il materasso di lana
+          testo: |
+            Dormi fino a giorno fatto, e ti sveglia la campana dell'Accademia.
+            L'acqua del catino è ancora tiepida. Scendi le scale della torretta
+            con la testa leggera e le ferite che tirano meno.
+          effetti: { ferite: -1, tormento: -1 }
+
+      - testo: "Leggere i quaderni di Severo"
+        descrizione: "Severo scriveva di tutto, dal Mana al tempo che faceva. Fra le righe si impara qualcosa."
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Media }
+        successo:
+          titolo: I margini
+          testo: |
+            Leggi un quaderno intero fino a tarda notte, e nei margini Severo ha
+            scritto le cose che non diceva in aula. Come si tiene un cristallo
+            quando trema, come si capisce quando un allievo è stanco. Chiudi il
+            quaderno con la sensazione di aver fatto lezione con lui.
+          pe: { accademiche: 4, magia: 2 }
+        fallimento:
+          titolo: La grafia fitta
+          testo: |
+            La grafia di Severo ti si confonde davanti agli occhi dopo dieci
+            pagine, e ti addormenti sul tavolo con la guancia sul quaderno.
+          pe: { accademiche: 1 }
+
+  # ------------------------------------------------------------ grado 4 · il turno alla Camera
+  - id: accademia-il-turno-alla-camera
+    presso: accademia-camera-della-condotta
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Il turno alla Camera
+    sommario: "Il registro dei Regolatori ha una colonna con il tuo nome. Il turno lo paga il Municipio, e il supporto carica i cristalli a chi li porta."
+    luogo: Accademia di Torvessa, la Camera della Condotta
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [fazione.accademia >= 12]
+    testo: |
+      Nella Camera della Condotta il tavolo dei Regolatori ha una sedia in più per te, e il registro ha una colonna con il tuo nome in cima. Il turno dura una notte intera e lo paga il Municipio con una firma di Julia Castaldi in fondo a ogni foglio. Sul
+      supporto di lyssan, intorno alla base del cristallo, ci sono gli
+      alloggiamenti dove i cristalli sterili si caricano da soli in una
+      notte, se qualcuno li porta.
+
+      {magia Media} Il supporto perde un po' di Mana a ogni battito, come una
+      grondaia sotto la pioggia. Chi ci mette sotto un cristallo vuoto lo
+      ritrova pieno.
+
+      {resistenza Media} Una notte quaggiù è lunga, e il freddo della pietra
+      sale dalle suole fino alle ginocchia.
+    opzioni:
+      - testo: "Fare un turno da Regolatore"
+        descrizione: "Una notte intera accanto alla Vecchia a contare i battiti. La paga del Municipio è buona."
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Media }
+        successo:
+          titolo: Una notte tranquilla
+          testo: |
+            Conti tutta la notte senza perdere un giro, e all'alba la colonna
+            del registro è pulita. Querci passa con la busta del Municipio e ti
+            paga il turno, guardando la tua riga con qualcosa di simile al
+            rispetto.
+          pe: { resilienza: 3 }
+          effetti: { monete: 12 }
+        fallimento:
+          titolo: Il giro perso
+          testo: |
+            Verso le quattro perdi un giro, e la riga del registro resta con un
+            buco che Agnese, la mattina dopo, guarda a lungo. Il turno te lo
+            pagano lo stesso, ma meno.
+          effetti: { monete: 6, tormento: 0.5 }
+
+      - testo: "Mettere i cristalli sterili sul supporto"
+        descrizione: "Tre cristalli sterili negli alloggiamenti del supporto, e all'alba uno è carico. Ai Regolatori non costa niente."
+        requisiti: [cristalli.cristallo-sterile >= 3]
+        esito:
+          titolo: La grondaia
+          testo: |
+            Metti i tre cristalli negli alloggiamenti intorno alla base, e
+            all'alba due si sono incrinati e uno pulsa d'azzurro. Lo prendi con
+            i guanti, ancora tiepido.
+          effetti: { cristalli.cristallo-sterile: -3, cristalli.cristallo-carico: 1 }
+
+      - testo: "Parlare in Consiglio per l'Accademia"
+        descrizione: "Quando in Municipio si parla di acqua e di cristalli, l'Accademia ha una voce, e la voce sei tu. Il voto resta agli altri, e la seduta te la pagano."
+        requisiti: [accademia.voce >= 1]
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: La seduta
+          testo: |
+            Sali in Municipio con il registro della Camera sotto il braccio e
+            parli dell'acqua finché il Consiglio non smette di guardare fuori
+            dalla finestra. Julia ti ringrazia per nome, e la cassa ti paga la
+            seduta.
+          pe: { politica-ed-economia: 4 }
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: Le finestre
+          testo: |
+            Parli troppo a lungo, e a metà seduta il Consiglio guarda fuori dalle
+            finestre. La seduta te la pagano lo stesso, perché la voce c'era.
+          effetti: { monete: 5, scandalo: 0.5 }

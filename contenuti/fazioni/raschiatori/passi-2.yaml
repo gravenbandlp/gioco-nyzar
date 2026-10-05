@@ -1,0 +1,817 @@
+# La quest dei Raschiatori, Atto III e inizio dell'Atto IV (fazione.raschiatori 6 → 10).
+# - 6 → 7 `raschiatori-un-giorno-di-marcia-fuori` (Superficie, pista.acciaio >= 8): il campo della Compagnia del
+#   Gancio sopra il Pozzo Senzanome, la carne comprata a Ghoran dagli uomini del Pesatore, Nella di Ghoran
+#   (raschiatori.nella 1). Il passo 8 è la spedizione nel Pozzo (spedizione-pozzo.yaml).
+# - 8 → 9 il giudizio del Ferro (Caserma, grado 3, Caposquadra). Due scene secondo il doppio gioco del passo 3:
+#   `raschiatori-il-giudizio-del-ferro` (raschiatori.doppio != 1): il duello con Merlach (boss), il contratto
+#   smontato davanti a Galdrick, il riscatto; `raschiatori-il-giudizio-del-ferro-doppio` (raschiatori.doppio == 1):
+#   Dragna sa della paga del Gancio. Chi consegna contratto e ricevute prende il grado senza l'ascia e con mezzo
+#   punto di reputazione in meno; chi resta con Merlach perde due punti, non prende né l'ascia né la squadra e
+#   deve fare `raschiatori-la-penitenza` prima del passo 10 (raschiatori.penitenza 1 → 2). Nessun ramo chiude la
+#   quest. raschiatori.merlach: 1 scritto nel registro dei mercanti di schiavi, 2 libero.
+# - 9 → 10 `raschiatori-le-ombre-che-indicano` (Biblioteca, pista.capomozzo >= 7): le due ruote dei quattro segni
+#   e le ombre delle Stele dei Naviganti, che puntano alle Carcasse di Korith (spedizione-korith.yaml).
+storylet:
+  # ------------------------------------------------------------ 6 → 7 · un giorno di marcia fuori
+  - id: raschiatori-un-giorno-di-marcia-fuori
+    immagine: ambientazione/ghoran
+    titolo: Un giorno di marcia fuori
+    sommario: "Oltre il Gradone Rosso, sulla strada per Ghoran, la Compagnia del Gancio ha piantato un recinto sopra il Pozzo Senzanome. Una cordata è scesa due giorni fa, e la corda è ancora ferma."
+    luogo: Superficie Fratturata, oltre il Gradone Rosso sulla strada per Ghoran
+    area: superficie-fratturata
+    requisiti: [fazione.raschiatori == 6, pista.acciaio >= 8]
+    testo: |
+      Oltre il Gradone Rosso la Superficie si fa piatta e gialla, e la strada
+      per Ghoran è un solco di ruote nella polvere che non piega mai. Un
+      giorno di marcia fuori dalla città, accanto al solco, la Compagnia del
+      Gancio ha piantato il suo campo. Dentro un recinto di pali ci sono tre
+      carri e un argano di legno montato sopra un buco nel terreno, il Pozzo
+      Senzanome, che ha le pareti lisce come il vetro e manda su un freddo
+      che a mezzogiorno non ha senso.
+
+      Nel recinto stanno seduti una dozzina di legati con il collare di corda
+      al collo e le caviglie unite da una catena lunga. La Compagnia li ha
+      comprati a Ghoran, e glieli hanno venduti gli uomini del Pesatore,
+      quelli che riportano indietro gli schiavi fuggiti e poi li rivendono a
+      chi paga meglio. Due giorni fa una cordata di cinque è scesa nel pozzo
+      senza risalire, e la sua corda è ancora tesa sull'argano, immobile.
+
+      Merlach non manda nessuno a prenderli. Sta seduto su una cassa davanti
+      al carro più grande a fare i conti su un quaderno, con la matita dietro
+      l'orecchio, e ogni tanto alza gli occhi verso l'argano. *Cinque in
+      fondo al pozzo, e lui conta.* Ti si chiudono le mani a pugno per conto
+      loro.
+
+      Una ragazza legata al palo più vicino ti guarda da quando sei arrivato.
+      Ha i capelli rasati da poco e le mani screpolate dal freddo, e quando
+      passi accanto al recinto ti dice a bassa voce il suo nome, Nella di Ghoran, come la chiamavano al mercato, e che suo fratello è nella cordata.
+
+      {empatia Media} Ha detto il suo nome come si mette una cosa in mano a
+      qualcuno perché la tenga. Quello del fratello lo tiene ancora per sé.
+
+      {resistenza Facile} Il freddo del pozzo ti arriva alle ossa delle mani
+      anche a dieci passi di distanza. Là sotto, in cinque, ci stanno da due
+      giorni.
+
+      {origine fuggiasco-di-ghoran} Il collare di corda lo riconosci, e anche
+      la catena alle caviglie, che obbliga a camminare a passo corto. Lo
+      stomaco se ne ricorda prima della testa.
+    opzioni:
+      - testo: "Entrare nel campo come compratore"
+        descrizione: "La Compagnia vende quello che non le serve. Uno che vuole comprare può girare fra i legati e scegliere, anche una ragazza che scenda nel pozzo con lui."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Il compratore di Laresh
+          testo: |
+            Ti presenti al caposquadra del campo come il compratore di una
+            bottega di Laresh, con il tono annoiato di chi ne ha viste di
+            meglio, e lui ti lascia girare fra i legati. Scegli Nella per
+            scendere nel pozzo con te, e il caposquadra te la affida con una
+            ricevuta. Merlach alza gli occhi dal quaderno quando passi davanti
+            all'argano e ti augura buona caccia.
+
+            Sono le stesse due parole di Tenebra, dette con la stessa voce
+            bassa, e ti torna in mente dove l'avevi già sentita. Quei due
+            devono aver tirato le stesse corde per anni, e l'argano, fino
+            all'alba, è tuo.
+          pe: { ingannare: 3 }
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: La faccia del Grifone
+          testo: |
+            Ti presenti come un compratore di Laresh, e Merlach ti riconosce
+            prima che il caposquadra abbia finito di salutarti. Ride e chiude il
+            quaderno, e ti dice che puoi scendere lo stesso, se ci tieni, perché
+            un Raschiatore costa meno di una corda nuova. Con te scende anche la
+            ragazza, che lui ti regala con un gesto della matita.
+
+            Quando passi davanti all'argano ti augura buona caccia, con le
+            stesse due parole di Tenebra e la stessa voce bassa. Quei due
+            devono aver tirato le stesse corde per anni. Intanto al campo tutti
+            hanno visto la tua faccia.
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, sospetto: 0.5 }
+      - testo: "Chiedere a Merlach l'argano per andare a prenderli"
+        descrizione: "Cinque legati in fondo al pozzo sono una perdita per la Compagnia, e un Raschiatore che li riporta su gratis è un affare che Merlach deve vedere da solo."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: Costa meno di te
+          testo: |
+            Glielo chiedi davanti ai suoi uomini, e Merlach fa il conto sul
+            quaderno a voce alta. Secondo lui cinque legati persi pesano più
+            di un Raschiatore in prestito, e uno che torna su con cinque legati
+            è un regalo. Ti presta l'argano fino all'alba, e
+            quando Nella chiede di scendere con te scrive anche lei sul
+            quaderno, a matita, come una spesa.
+
+            Ti augura buona caccia con le stesse due parole di Tenebra e la
+            stessa voce bassa, e ti torna in mente dove l'avevi già sentita.
+            Quei due devono aver tirato le stesse corde per anni.
+          pe: { persuasione: 3 }
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il nolo
+          testo: |
+            Merlach ti ascolta fino in fondo e poi ti fa il conto del nolo
+            dell'argano al prezzo di Ghoran, freno compreso. Paghi,
+            perché sotto ci sono cinque persone e il tempo passa. Quando Nella
+            chiede di scendere con te lui alza le spalle e la scrive sul
+            quaderno come una spesa.
+
+            Ti augura buona caccia con le stesse due parole di Tenebra e la
+            stessa voce bassa. Quei due devono aver tirato le stesse corde per
+            anni, e ciascuno dei due ti ha guardato le mani prima di parlarti.
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, monete: -20 }
+      - testo: "Liberare Nella di notte"
+        descrizione: "La catena dei legati è lunga e il recinto è fatto di pali. Di notte ci sono due sorveglianti, e la carne del Gancio è merce registrata."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il palo
+          testo: |
+            Aspetti la seconda ronda e scivoli fra i pali con il coltello in
+            mano. La catena non la tocchi. Tagli il collare di Nella e la porti
+            fuori dal recinto per la parte dove i sorveglianti non guardano,
+            perché da quella parte c'è soltanto il pozzo. All'alba Merlach trova
+            il collare tagliato e la ragazza seduta accanto a te sull'argano, e
+            ti augura buona caccia con le stesse due parole di Tenebra e la
+            stessa voce bassa.
+
+            Quei due devono aver tirato le stesse corde per anni. Merlach
+            intanto segna la ragazza sul quaderno come merce rubata, e lo fa
+            senza fretta, perché a chi mandare il conto l'ha già deciso.
+          pe: { furtivita: 3 }
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, sospetto: 1 }
+        fallimento:
+          titolo: La catena
+          testo: |
+            Tagli il collare di Nella, ma la catena delle caviglie si muove e
+            sveglia l'uomo accanto, che grida. Il randello di un sorvegliante
+            ti trova la schiena mentre la tiri fuori dal recinto. All'alba
+            Merlach vi trova tutti e due seduti accanto all'argano, tu con la
+            schiena livida, e invece di chiamare i suoi ti augura buona caccia.
+
+            Sono le stesse due parole di Tenebra, dette con la stessa voce
+            bassa. Quei due devono aver tirato le stesse corde per anni.
+            Merlach segna la ragazza sul quaderno come merce rubata.
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, sospetto: 1, ferite: 1 }
+      - testo: "Far notare ai sorveglianti che da Ghoran arrivano soltanto lettere"
+        descrizione: "Dopo la caduta dei Malgrani il campo lo paga Ghoran per lettera, e i sorveglianti sono pochi e nervosi. Uno che glielo dice in faccia li fa pensare."
+        quando: [pista.pelle >= 7]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Le lettere di Ghoran
+          testo: |
+            Dici ai sorveglianti che da quando i Malgrani sono caduti la paga
+            arriva da Ghoran per lettera, e che le lettere non tirano su le
+            corde. Si guardano fra loro, e uno sputa. Quando chiedi l'argano e
+            la ragazza nessuno si mette in mezzo, e Merlach, dal suo carro, ti
+            augura buona caccia.
+
+            Sono le stesse due parole di Tenebra, dette con la stessa voce
+            bassa, e ti torna in mente dove l'avevi già sentita. Quei due
+            devono aver tirato le stesse corde per anni.
+          pe: { intimidire: 3 }
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: I sorveglianti nervosi
+          testo: |
+            Dici ai sorveglianti della paga che arriva per lettera, e uno di loro
+            è più nervoso di quanto pensavi. Ti spinge contro un carro prima
+            che Merlach gli dica di smettere. Poi Merlach ti presta l'argano e la
+            ragazza, e ti augura buona caccia con le stesse due parole di
+            Tenebra e la stessa voce bassa.
+
+            Quei due devono aver tirato le stesse corde per anni, e ciascuno dei
+            due ti ha guardato le mani prima di parlarti.
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, ferite: 0.5 }
+      - testo: "Pagare a Merlach il nolo dell'argano"
+        descrizione: "Merlach fa i conti, e i conti si possono pagare. Costa, e almeno è veloce."
+        requisiti: [monete >= 25]
+        esito:
+          titolo: Il prezzo di Ghoran
+          testo: |
+            Merlach conta le monete senza toccarle, spostandole sul coperchio
+            della cassa con la punta della matita. Ti dà l'argano fino all'alba
+            e, quando Nella chiede di scendere con te, la scrive sul quaderno
+            come un regalo. Ti augura buona caccia con le stesse due parole di
+            Tenebra e la stessa voce bassa.
+
+            Ti torna in mente dove l'avevi già sentita. Quei due devono aver
+            tirato le stesse corde per anni.
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, monete: -25 }
+      - testo: "Parlare ai legati nella lingua del mercato"
+        descrizione: "A Ghoran i legati si parlano con una lingua fatta di mezze parole e di dita. I sorveglianti del Gancio non la capiscono."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: La lingua del mercato
+          testo: |
+            Ti accucci accanto al recinto come per allacciarti uno scarpone e
+            parli a Nella con le dita e le mezze parole del mercato di Ghoran.
+            Lei risponde allo stesso modo, e in poco ti dice quanti sorveglianti
+            ci sono di notte, quale palo è marcio e quale sorvegliante si vende.
+            All'alba sei all'argano con lei, e Merlach ti augura buona caccia
+            con le stesse due parole di Tenebra e la stessa voce bassa.
+
+            Ti torna in mente dove l'avevi già sentita. Quei due devono aver
+            tirato le stesse corde per anni.
+          pe: { empatia: 3 }
+          imposta: { raschiatori.nella: 1 }
+          effetti: { fazione.raschiatori: 1, rep.raschiatori: 0.5 }
+
+  # ------------------------------------------------------------ 8 → 9 · il giudizio del Ferro (grado 3)
+  - id: raschiatori-il-giudizio-del-ferro
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/dragna-gro-malog
+    titolo: Il giudizio del Ferro
+    sommario: "All'alba, nel cortile della Caserma, Valdo Merlach reclama i salvati del Pozzo con il contratto e la ricevuta. Dragna risponde con l'usanza più vecchia dei Raschiatori."
+    luogo: Caserma, il cortile all'alba
+    area: quartieri-alti
+    requisiti: [fazione.raschiatori == 8, raschiatori.doppio != 1]
+    testo: |
+      Il cortile della Caserma all'alba è freddo e pulito, con la sabbia
+      rastrellata e il pozzo coperto da un'asse. Ci sono le reclute in fila
+      per l'appello e, davanti alla scuderia, quelli che hai tirato su dal
+      Pozzo Senzanome, con le coperte della Caserma sulle spalle e le
+      caviglie ancora segnate dalla catena. Nella sta in piedi accanto al
+      fratello e non gli lascia la mano.
+
+      Valdo Merlach è arrivato con due uomini e un notaio della Gilda. Ha il
+      contratto della Compagnia e una ricevuta di Ghoran, e chiede indietro
+      la sua merce davanti allo sceriffo. Toren Galdrick ascolta a braccia
+      conserte, e dice soltanto che lo ascolterà come testimone.
+
+      Al muro della scuderia ci sono i Quattro, che sono tre. Tenebra sta un
+      passo indietro, con la bruciatura che luccica nella luce grigia, e
+      Argento si appoggia al bastone. Poi Dragna fa un passo avanti sulla
+      sabbia.
+
+      «Chi accusa un Raschiatore davanti al Ferro si misura con il Ferro»
+      dice nella voce che usa per i turni. «Oppure con chi il Ferro
+      sceglie.» Si gira verso di te, e la sabbia le scricchiola sotto gli
+      stivali.
+
+      {intimidire Media} Merlach se l'aspettava meno di tutti, eppure resta dov'è. Si
+      slaccia il mantello con calma e lo piega sul braccio del notaio, che
+      non sa dove metterlo.
+
+      {politica-ed-economia Media} Il notaio tiene la ricevuta come una
+      cosa che scotta. Una ricevuta di Ghoran a Qir-Azel vale quanto il
+      timbro che c'è sopra, e il timbro è di una casata che in Consiglio ha
+      perso la voce.
+
+      *Davanti allo sceriffo, all'alba, con la Caserma che guarda.* Hai la
+      bocca secca, e il fratello di Nella ti fissa le mani.
+    opzioni:
+      - testo: "Accettare il duello"
+        descrizione: "Merlach ha tirato corde per vent'anni e combatte con l'ascia corta dei tunnel. Il Ferro ha scelto te, e davanti a tutti."
+        combattimento: raschiatori-merlach
+        vittoria:
+          titolo: Il Ferro ha scelto
+          testo: |
+            Merlach si batte bene, senza sprecare un colpo, e alla fine è
+            in ginocchio sulla sabbia con l'ascia a tre passi. Galdrick gli
+            chiede se rinuncia ai salvati, e lui rinuncia senza alzare la
+            testa. Lo sceriffo scrive il suo nome nel registro dei mercanti di
+            schiavi, il che a Qir-Azel vuol dire che non ci comprerà più niente.
+
+            Dragna ti mette in mano un'ascia da tunnel con il manico accorciato
+            come la sua. I salvati entrano in Caserma come reclute, e Nella
+            sceglie la tua squadra prima che qualcuno glielo chieda. Al Grifone,
+            la sera, i Quattro ti danno le lanterne della squadra da curare, e
+            Argento apre il quaderno dei titoli accanto al Disco e smette di
+            parlare a metà frase.
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1 }
+        sconfitta:
+          titolo: La sabbia del cortile
+          testo: |
+            Merlach ti batte senza fretta, un colpo pulito dopo l'altro, e ti
+            lascia sulla sabbia con il fiato che non torna. Argento allora apre
+            la cassa della bacheca davanti al notaio e ricompra i salvati uno
+            per uno, al prezzo di Ghoran. Merlach prende le monete e se ne va
+            libero, con il mantello sul braccio.
+
+            Dragna ti mette lo stesso in mano un'ascia da tunnel. Il Ferro ha
+            scelto chi ha combattuto, e non soltanto chi ha vinto. Nella sceglie
+            la tua squadra, e al Grifone, la sera, i Quattro ti danno le lanterne
+            da curare. Argento apre il quaderno dei titoli accanto al Disco e
+            smette di parlare a metà frase.
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 2, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: -0.5 }
+      - testo: "Smontare il contratto davanti allo sceriffo"
+        descrizione: "Un contratto della Gilda per la cartografia e una ricevuta di Ghoran per la carne non stanno nella stessa borsa. Bisogna farlo vedere a Galdrick, riga per riga."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: Riga per riga
+          testo: |
+            Chiedi al notaio il contratto e la ricevuta, e li leggi a Galdrick
+            uno accanto all'altro. Il contratto paga mappe e scavi, mentre la
+            ricevuta compra persone, e nessuna delle due carte parla dell'altra.
+            Galdrick prende la ricevuta, la piega in quattro e scrive il nome di
+            Merlach nel registro dei mercanti di schiavi.
+
+            Dragna ti mette in mano un'ascia da tunnel con il manico accorciato
+            come la sua. I salvati entrano in Caserma come reclute, e Nella
+            sceglie la tua squadra prima che qualcuno glielo chieda. Al Grifone,
+            la sera, i Quattro ti danno le lanterne della squadra da curare, e
+            Argento apre il quaderno dei titoli accanto al Disco e smette di
+            parlare a metà frase.
+          pe: { politica-ed-economia: 5 }
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: -0.5 }
+        fallimento:
+          titolo: Il notaio
+          testo: |
+            Leggi il contratto e la ricevuta, e il notaio della Gilda ti corregge
+            a ogni riga, citando clausole che non hai mai visto. Galdrick ascolta
+            tutti e due e alla fine dice che a Qir-Azel la ricevuta resta un
+            pezzo di carta valido. Argento intanto ha già aperto la cassa della
+            bacheca, e i salvati li ricompra lui al prezzo di Ghoran, mentre
+            Merlach se ne va libero.
+
+            Dragna ti mette in mano un'ascia da tunnel. Nella sceglie la tua
+            squadra, e al Grifone, la sera, i Quattro ti danno le lanterne della
+            squadra da curare. Argento apre il quaderno dei titoli accanto al
+            Disco e smette di parlare a metà frase.
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 2, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: -0.5, scandalo: 0.5 }
+      - testo: "Far raccontare ai salvati come sono scesi"
+        descrizione: "Hai riportato su abbastanza gente da avere testimoni. Il contratto parla di mappe, loro parlano di corde e di collari."
+        requisiti: [raschiatori.salvati >= 2]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: I testimoni
+          testo: |
+            Fai parlare i salvati uno alla volta davanti al notaio, e tu
+            metti le loro parole accanto alle righe del contratto. Il contratto
+            paga mappe, e loro raccontano di collari. Galdrick ascolta fino
+            all'ultimo, poi prende la ricevuta e scrive il nome di Merlach nel
+            registro dei mercanti di schiavi.
+
+            Dragna ti mette in mano un'ascia da tunnel con il manico accorciato
+            come la sua. I salvati entrano in Caserma come reclute, e Nella
+            sceglie la tua squadra prima che qualcuno glielo chieda. Al Grifone,
+            la sera, i Quattro ti danno le lanterne della squadra da curare, e
+            Argento apre il quaderno dei titoli accanto al Disco e smette di
+            parlare a metà frase.
+          pe: { politica-ed-economia: 3 }
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: -0.5 }
+        fallimento:
+          titolo: Le parole dei salvati
+          testo: |
+            I salvati parlano, ma davanti al notaio si confondono, e il notaio
+            li fa confondere di più con domande gentili. Galdrick dice che la
+            ricevuta resta valida a Ghoran. Argento apre la cassa della bacheca
+            e ricompra i salvati uno per uno, al prezzo di Ghoran, e Merlach se
+            ne va libero con il mantello sul braccio.
+
+            Dragna ti mette in mano un'ascia da tunnel. Nella sceglie la tua
+            squadra, e al Grifone, la sera, i Quattro ti danno le lanterne della
+            squadra da curare. Argento apre il quaderno dei titoli accanto al
+            Disco e smette di parlare a metà frase.
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 2, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: -0.5, scandalo: 0.5 }
+      - testo: "Ricomprarli subito con le tue monete"
+        descrizione: "Nessun duello e nessun processo. Paghi il prezzo di Ghoran, e Merlach resta libero di tornare a Ghoran a comprare altra carne."
+        requisiti: [monete >= 100]
+        esito:
+          titolo: Il prezzo di Ghoran
+          testo: |
+            Conti le monete sul tavolo del notaio una per una, al prezzo di
+            Ghoran, e il notaio le scrive sul suo libro con una grafia elegante.
+            Merlach le prende senza contarle e ti fa un cenno con il mento, quasi
+            di stima. Se ne va libero, e la Gilda annota che i Raschiatori pagano
+            i loro debiti.
+
+            Dragna ti mette in mano un'ascia da tunnel con il manico accorciato
+            come la sua. I salvati entrano in Caserma come reclute, e Nella
+            sceglie la tua squadra prima che qualcuno glielo chieda. Al Grifone,
+            la sera, i Quattro ti danno le lanterne della squadra da curare, e
+            Argento apre il quaderno dei titoli accanto al Disco e smette di
+            parlare a metà frase.
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 2, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: -20, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: 0.5 }
+      - testo: "Chiedere a Galdrick il registro dei mercanti di schiavi"
+        descrizione: "A Ghoran ti hanno venduto. Qui c'è uno sceriffo con un registro, e un uomo che compra carne davanti a lui."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Il registro dello sceriffo
+          testo: |
+            Ti sbottoni il colletto davanti a Galdrick e gli mostri il segno che
+            il collare ti ha lasciato al collo, poi indichi le caviglie dei
+            salvati. Galdrick guarda il segno e la ricevuta, e senza dire
+            niente si fa portare il registro dei mercanti di schiavi. Ci scrive
+            il nome di Merlach con la sua grafia piccola e dritta.
+
+            Dragna ti mette in mano un'ascia da tunnel con il manico accorciato
+            come la sua. I salvati entrano in Caserma come reclute, e Nella
+            sceglie la tua squadra prima che qualcuno glielo chieda. Al Grifone,
+            la sera, i Quattro ti danno le lanterne della squadra da curare, e
+            Argento apre il quaderno dei titoli accanto al Disco e smette di
+            parlare a metà frase.
+          pe: { intimidire: 3 }
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1, rep.gilda: -0.5 }
+
+  - id: raschiatori-il-giudizio-del-ferro-doppio
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/dragna-gro-malog
+    titolo: Il giudizio del Ferro
+    sommario: "All'alba, nel cortile della Caserma, Valdo Merlach reclama i salvati del Pozzo. Prima del giudizio Dragna ti prende da parte, e sa della paga del Gancio."
+    luogo: Caserma, dietro la scuderia all'alba
+    area: quartieri-alti
+    requisiti: [fazione.raschiatori == 8, raschiatori.doppio == 1]
+    testo: |
+      Nel cortile della Caserma, all'alba, ci sono le reclute in fila per
+      l'appello e i salvati del Pozzo Senzanome con le coperte sulle spalle.
+      Valdo Merlach è arrivato con due uomini e un notaio della Gilda, e
+      Toren Galdrick lo ascolta a braccia conserte, come testimone.
+
+      Prima che cominci Dragna ti prende per il gomito e ti porta dietro la
+      scuderia, dove l'odore del fieno copre quello della sabbia bagnata. Ha
+      in mano un foglietto piegato in quattro, e te lo mette davanti alla
+      faccia senza aprirlo. Dentro ci sono le date delle borse che hai preso
+      dal Gancio, scritte con la grafia ordinata di Merlach.
+
+      «Me l'ha mandato lui ieri sera» dice. «Per farmi sapere chi tengo in
+      squadra.» Non alza la voce. Le due dita che le mancano alla mano
+      sinistra battono piano sul legno della scuderia, sempre nello stesso
+      punto.
+
+      {empatia Media} Rabbia, in quella faccia, ce n'è poca. Ha fatto i conti
+      tutta la notte, e i conti hanno dato sempre lo stesso risultato.
+
+      {conoscenze-della-strada Facile} Merlach ti ha venduto per non
+      perdere i salvati. Una spia smascherata davanti al Ferro gli vale più
+      di un duello.
+
+      Dal cortile arriva la voce di Merlach, che chiede indietro la sua merce
+      davanti allo sceriffo. *Due paghe, e adesso ne devo restituire una.*
+      Dragna aspetta, con il foglietto in mano.
+    opzioni:
+      - testo: "Consegnare a Galdrick il contratto e le ricevute"
+        descrizione: "Le borse del Gancio sono arrivate con un contratto e con ricevute. Davanti allo sceriffo diventano prove contro chi le ha pagate."
+        esito:
+          titolo: Le ricevute
+          testo: |
+            Torni nel cortile e consegni a Galdrick le ricevute delle borse,
+            con il contratto che Merlach ti aveva fatto firmare. Spieghi che
+            cosa compravano, e lo sceriffo le mette accanto alla ricevuta di
+            Ghoran. Il nome di Merlach finisce nel registro dei mercanti di
+            schiavi, e il tuo nel rapporto, come testimone che ha preso la paga.
+
+            I salvati entrano in Caserma come reclute, e Nella sceglie la tua
+            squadra. Dragna ti dà le lanterne della squadra da curare, e
+            l'ascia da tunnel che teneva per te la appende di nuovo al suo
+            schienale. Argento apre il quaderno dei titoli accanto al Disco e
+            smette di parlare a metà frase.
+          almeno: { rep.raschiatori: 5.5 }
+          imposta: { raschiatori.doppio: 2, raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, raschiatori.squadra: 1, rep.raschiatori: -0.5 }
+      - testo: "Dirle che la paga la prendevi per i Raschiatori"
+        descrizione: "Le borse del Gancio ti hanno portato dentro il campo e fino al pozzo. Se Dragna ti crede, la spia era sua."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: La spia del Ferro
+          testo: |
+            Le dici che senza le borse del Gancio non saresti mai entrato nel
+            campo, e che senza il campo i salvati sarebbero ancora nella brina.
+            Dragna ti guarda a lungo. Poi strappa il foglietto in due e se lo
+            mette in tasca, e nel cortile, davanti a Galdrick, sei tu a leggere
+            la ricevuta di Ghoran accanto al contratto. Il nome di Merlach
+            finisce nel registro dei mercanti di schiavi.
+
+            Dragna ti mette in mano un'ascia da tunnel. Nella sceglie la tua
+            squadra, e la sera i Quattro ti danno le lanterne della squadra da
+            curare. Argento apre il quaderno dei titoli accanto al Disco e
+            smette di parlare a metà frase.
+          pe: { persuasione: 5 }
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.doppio: 2, raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1 }
+        fallimento:
+          titolo: Il foglietto
+          testo: |
+            Le spieghi che la paga la prendevi per i Raschiatori, e a metà ti
+            accorgi che non ci credi nemmeno tu. Dragna ripiega il foglietto e
+            ti porta nel cortile, dove consegni a Galdrick le ricevute delle
+            borse. Il nome di Merlach finisce nel registro dei mercanti di
+            schiavi, e il tuo nel rapporto, come testimone che ha preso la paga.
+
+            Nella sceglie la tua squadra, e Dragna ti dà le lanterne della
+            squadra da curare. L'ascia da tunnel resta appesa al suo schienale.
+            Argento apre il quaderno dei titoli accanto al Disco e smette di
+            parlare a metà frase.
+          almeno: { rep.raschiatori: 5.5 }
+          imposta: { raschiatori.doppio: 2, raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, raschiatori.squadra: 1, rep.raschiatori: -0.5, scandalo: 0.5 }
+      - testo: "Chiedere il duello con Merlach come penitenza"
+        descrizione: "Il Ferro sceglie chi si misura con chi accusa. Se scegli tu di misurarti, Dragna lo leggerà come una risposta."
+        combattimento: raschiatori-merlach
+        vittoria:
+          titolo: La risposta
+          testo: |
+            Nel cortile chiedi a Dragna di scegliere te, e lei lo fa senza una
+            parola. Merlach si batte bene, e alla fine è in ginocchio sulla
+            sabbia. Rinuncia ai salvati davanti allo sceriffo, e Galdrick scrive
+            il suo nome nel registro dei mercanti di schiavi. Il foglietto con le
+            date delle borse Dragna lo butta nel pozzo del cortile.
+
+            Dragna ti mette in mano un'ascia da tunnel, come a chi ha risposto
+            bene. Nella sceglie la tua squadra, e la sera i Quattro ti danno le
+            lanterne della squadra da curare. Argento apre il quaderno dei
+            titoli accanto al Disco e smette di parlare a metà frase.
+          almeno: { rep.raschiatori: 6 }
+          imposta: { raschiatori.doppio: 2, raschiatori.merlach: 1, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, oggetto.raschiatori-ascia-da-tunnel: 1, raschiatori.squadra: 1 }
+        sconfitta:
+          titolo: Due volte
+          testo: |
+            Merlach ti batte davanti alla Caserma, e prima di andarsene libero
+            legge ad alta voce le date delle borse, una per una. Argento ricompra
+            i salvati con la cassa della bacheca. Tu consegni a Galdrick le
+            ricevute, perché almeno quelle servano a qualcosa, e il tuo nome
+            finisce nel rapporto come testimone che ha preso la paga.
+
+            Nella sceglie la tua squadra lo stesso, e Dragna ti dà le lanterne
+            da curare senza guardarti. L'ascia da tunnel resta appesa al suo
+            schienale. Argento apre il quaderno dei titoli accanto al Disco e
+            smette di parlare a metà frase.
+          almeno: { rep.raschiatori: 5.5 }
+          imposta: { raschiatori.doppio: 2, raschiatori.merlach: 2, raschiatori.nella: 2 }
+          effetti: { fazione.raschiatori: 1, monete: 80, raschiatori.squadra: 1, rep.raschiatori: -0.5 }
+      - testo: "Restare con Merlach"
+        descrizione: "La paga del Gancio è doppia, e lui la mantiene. Dragna invece ti chiederà di ricominciare da una corda sola."
+        esito:
+          titolo: Matita
+          testo: |
+            Torni nel cortile e ti metti accanto a Merlach, e il notaio ti
+            guarda come si guarda un errore di conto. Galdrick ascolta e decide
+            che la ricevuta di Ghoran a Qir-Azel non vale. Merlach lascia i
+            salvati alla Caserma senza discutere, ti mette in mano una borsa e se
+            ne va libero verso la strada di Ghoran.
+
+            Al Grifone, la sera, Dragna cancella il tuo nome dalla bacheca e lo
+            riscrive a matita. Prima di tornare al tavolo dei Quattro dovrai
+            fare un turno da solo e appendere una lanterna a tue spese, dice,
+            come facevano i vecchi con chi aveva preso la paga sbagliata.
+          imposta: { raschiatori.doppio: 3, raschiatori.merlach: 2, raschiatori.penitenza: 1 }
+          effetti: { fazione.raschiatori: 1, monete: 60, rep.raschiatori: -2 }
+
+  # ------------------------------------------------------------ dopo il doppio gioco · la penitenza
+  - id: raschiatori-la-penitenza
+    presso: grifone-di-ferro
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: La penitenza
+    sommario: "Il tuo nome sulla bacheca è tornato a matita. Per ripassarlo a inchiostro serve un turno da solo e una lanterna appesa a tue spese."
+    luogo: Locanda del Grifone di Ferro, poi la Vena Storta
+    area: ponti-sospesi
+    requisiti: [fazione.raschiatori == 9, raschiatori.penitenza == 1]
+    testo: |
+      Sulla bacheca del Grifone il tuo nome è scritto a matita, in fondo,
+      sotto quelli delle reclute. Dragna non te lo fa notare. Ti batte due
+      volte i monconi sul tavolo e ti spinge davanti un foglio con una riga
+      sola, *Vena Storta, turno di notte*, e accanto lo spazio per un nome.
+
+      La penitenza dei vecchi Raschiatori è questa. Chi ha preso la paga
+      sbagliata scende da solo dove si scende in squadra, e prima di tornare
+      al tavolo appende sul Ponte dei Morti una lanterna per qualcuno che non
+      ha mai conosciuto, con un cristallo pagato di tasca sua.
+
+      {empatia Media} Dragna ha scritto la riga con più cura del solito.
+      Vuole che tu ce la faccia, e vuole che nessuno se ne accorga.
+
+      Nella è seduta al tavolo delle reclute. Quando ti vede guardare il
+      foglio si alza e viene a mettersi accanto a te, senza dire niente,
+      finché Dragna non le fa segno con il mento di tornare al suo posto.
+      *Da solo, e lo sanno tutti.* Al bancone qualcuno abbassa la voce
+      mentre passi.
+
+      {resistenza Media fallita} Le spalle ti ricordano l'ultima volta alla
+      Vena Storta, la seconda ora, quando sono i polsi a decidere.
+    opzioni:
+      - testo: "Fare il turno alla Vena Storta da solo"
+        descrizione: "Alla Vena Storta si lavora appesi alla corda con un piede contro la roccia. Di solito si è in cinque."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: La Vena Storta, di notte
+          testo: |
+            Lavori appeso per tutta la notte, con la guancia contro la roccia
+            fredda e il piccone corto nella mano libera, e all'alba risali con
+            il sacco pieno e le dita che non vogliono aprirsi. Con il primo
+            cristallo buono paghi la lanterna, e la appendi sul Ponte dei Morti
+            accanto a una che nessuno curava più.
+
+            Al Grifone Dragna ripassa il tuo nome a inchiostro e ti restituisce
+            la squadra. Nella si siede di nuovo accanto a te, e stavolta nessuno
+            le dice di tornare al suo posto.
+          pe: { resistenza: 5 }
+          imposta: { raschiatori.penitenza: 2, raschiatori.nella: 2 }
+          effetti: { raschiatori.squadra: 1, rep.raschiatori: 1, cristalli.cristallo-sterile: 1 }
+        fallimento:
+          titolo: La seconda ora
+          testo: |
+            Alla seconda ora il piede ti scivola, e resti appeso a girare sopra
+            il buio finché non riesci a puntare di nuovo lo stivale. Il resto
+            della notte lavori con una mano sola. All'alba risali con poco nel
+            sacco e una spalla che non si alza, e con quel poco paghi la
+            lanterna e la appendi sul Ponte dei Morti.
+
+            Al Grifone Dragna ripassa il tuo nome a inchiostro e ti restituisce
+            la squadra, e Nella ti porta il ghiaccio per la spalla senza che
+            nessuno glielo chieda.
+          imposta: { raschiatori.penitenza: 2, raschiatori.nella: 2 }
+          effetti: { raschiatori.squadra: 1, rep.raschiatori: 0.5, ferite: 1 }
+      - testo: "Restare sveglio sul Ponte dei Morti una notte intera"
+        descrizione: "La veglia è l'altra metà della penitenza. Una notte intera senza dormire accanto a una lanterna di qualcun altro."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La veglia
+          testo: |
+            Passi la notte sul Ponte dei Morti accanto a una lanterna senza
+            nome, di quelle che nessuna squadra cura più, e a ogni campana dici
+            a mezza voce i nomi dei salvati del Pozzo. All'alba ci metti dentro
+            un cristallo pagato di tasca tua, e la lasci accesa per chi verrà.
+
+            Al Grifone Dragna ripassa il tuo nome a inchiostro e ti restituisce
+            la squadra. Nella si siede di nuovo accanto a te, e stavolta nessuno
+            le dice di tornare al suo posto.
+          pe: { resilienza: 5 }
+          imposta: { raschiatori.penitenza: 2, raschiatori.nella: 2 }
+          effetti: { raschiatori.squadra: 1, rep.raschiatori: 1, monete: -10 }
+        fallimento:
+          titolo: Il sonno sul ponte
+          testo: |
+            Verso la terza campana il sonno ti prende seduto, con la schiena al
+            parapetto, e ti svegli all'alba con la lanterna spenta accanto e la
+            nebbia nei vestiti. Un vecchio della veglia ti guarda senza dire
+            niente. Ci metti dentro un cristallo pagato di tasca tua e la
+            riaccendi, e torni al Grifone con la vergogna sulla faccia.
+
+            Dragna ripassa il tuo nome a inchiostro lo stesso e ti restituisce
+            la squadra, e Nella ti porta una tazza di brodo caldo.
+          imposta: { raschiatori.penitenza: 2, raschiatori.nella: 2 }
+          effetti: { raschiatori.squadra: 1, rep.raschiatori: 0.5, monete: -10, tormento: 0.5 }
+      - testo: "Pagare la lanterna e un cristallo buono per un anno"
+        descrizione: "Un cristallo buono in una lanterna del Ponte dura un anno. Dragna accetta anche questa penitenza, se il cristallo è caro."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: Un anno di luce
+          testo: |
+            Compri al Mercato dei Nodi il cristallo migliore che trovi, e la
+            sera lo metti in una lanterna nuova sul Ponte dei Morti, accanto a
+            una che nessuno curava più. Il turno da solo alla Vena Storta lo
+            fai lo stesso, e lo fai male, ma lo finisci. All'alba Dragna
+            ripassa il tuo nome a inchiostro e ti restituisce la squadra.
+          imposta: { raschiatori.penitenza: 2, raschiatori.nella: 2 }
+          effetti: { raschiatori.squadra: 1, rep.raschiatori: 1, monete: -30 }
+
+  # ------------------------------------------------------------ 9 → 10 · le ombre che indicano
+  - id: raschiatori-le-ombre-che-indicano
+    presso: biblioteca-di-qir-azel
+    immagine: personaggi/mattias-crenn
+    titolo: Le ombre che indicano
+    sommario: "In due rovine che non c'entrano l'una con l'altra c'è la stessa ruota di quattro segni. Alla Biblioteca Mattias Crenn ha il rapporto del 142 sulle Stele dei Naviganti."
+    luogo: Biblioteca di Qir-Azel, il primo piano
+    area: quartieri-alti
+    requisiti: [fazione.raschiatori == 9, pista.capomozzo >= 7, raschiatori.penitenza != 1]
+    testo: |
+      Al primo piano della Biblioteca la luce entra di sbieco dalle finestre
+      alte e taglia i tavoli a metà fra il sole e l'ombra. Mattias
+      Crenn ha liberato un tavolo intero per te e per Argento, e ci ha steso
+      sopra le mappe della Superficie fino al Gradone Rosso. Sopra le mappe
+      ci sono il Disco della Gradinata e il disegno che hai fatto della
+      parete del Pozzo, con la stessa ruota di quattro segni.
+
+      «Due rovine che non c'entrano niente» dice Argento. «Quella a ovest
+      prende le cose e quella a est le gela. La ruota è la stessa.» Batte il
+      bastone sul pavimento, e Crenn si gira a guardare se qualcuno si è
+      lamentato. Tenebra, dice Argento, avrebbe preferito che le lasciassi
+      sottoterra, e lui invece vuole sapere.
+
+      Crenn apre una cartella legata con lo spago. È il rapporto della
+      campagna del 142 alle Stele dei Naviganti, sette colonne basse oltre la
+      Foresta Strisciante, e sull'ultima pagina c'è la riga famosa sulle
+      ombre che cadono sempre nella stessa direzione, ostinate come dita
+      puntate. Le misure ci sono tutte. La linea non l'ha tirata nessuno.
+
+      {accademiche Media} Nel 142 la Biblioteca misurava le ombre per sapere
+      perché erano storte. Non le venne in mente di chiedersi dove
+      puntassero, perché nessuno lassù pensava che una pietra potesse
+      indicare qualcosa.
+
+      {origine figlio-del-circolo} Al Circolo le ombre degli alberi si
+      leggono come le ore, e quelle che cadono nella direzione sbagliata
+      vogliono dire che sotto c'è qualcosa che tira. Le colonne del disegno
+      ti fanno lo stesso effetto di una radice storta.
+
+      *Dita puntate, e nessuno ha mai guardato dove.* Crenn ti porge il
+      compasso con la stessa delicatezza con cui porgerebbe un bambino.
+    opzioni:
+      - testo: "Tirare la linea sulle mappe"
+        descrizione: "Le misure del 142, il sole della stagione, le mappe della Gilda. Una linea tirata bene finisce da qualche parte."
+        prova: { attributo: mentale, abilita: [accademiche, natura], difficolta: Media }
+        successo:
+          titolo: Verso est
+          testo: |
+            Riporti le misure del 142 sulla mappa con il compasso di Crenn e
+            correggi per il sole della stagione. La linea parte dalle Stele,
+            passa a un dito dalla città e finisce due giorni a est, nell'ultima
+            conca prima della scarpata del Gradone Rosso. Lì le mappe dei
+            Raschiatori segnano tre archi neri in fila, le Carcasse di Korith.
+            Argento resta a guardare la linea finché Crenn non chiude le
+            finestre.
+          pe: { accademiche: 5 }
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Due notti
+          testo: |
+            La prima linea ti porta nel mezzo della Cicatrice, la seconda in un
+            campo di cavoli. Ci vogliono due notti, e Crenn che ti corregge i
+            conti con la matita senza dire una parola, prima che la linea vada a
+            finire due giorni a est, nell'ultima conca prima della scarpata del
+            Gradone Rosso. Lì le mappe dei Raschiatori segnano le Carcasse di
+            Korith.
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, tormento: 0.5 }
+      - testo: "Andare alle Stele a misurare le ombre"
+        descrizione: "Due giorni e mezzo a sud-ovest, con il sentiero che costeggia la Foresta Strisciante. Sul posto la linea si tira con un filo e due paletti."
+        costo: 2
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Il filo e i paletti
+          testo: |
+            Arrivi alle Stele con i piedi gonfi e il collo bruciato dal sole, e
+            per un giorno intero pianti paletti sulla punta delle ombre, una
+            alla volta. A sera tendi il filo, e il filo punta a est, dritto
+            sopra la città. Al ritorno Argento ci mette sopra la mappa, e la
+            linea finisce sulle Carcasse di Korith, tre archi neri nell'ultima
+            conca prima del Gradone Rosso.
+          pe: { resistenza: 5 }
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: Il margine della Foresta
+          testo: |
+            Il sentiero lungo la Foresta Strisciante ti costa una caviglia
+            storta e una notte su un albero, con qualcosa che passeggia di
+            sotto. Alle Stele ci arrivi zoppo, ma il filo lo tendi lo stesso, e
+            punta a est. Argento ci mette sopra la mappa, e la linea finisce
+            sulle Carcasse di Korith, nell'ultima conca prima del Gradone Rosso.
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, ferite: 1 }
+      - testo: "Pagare un copista che tiri la linea per te"
+        descrizione: "La Biblioteca ha copisti che sanno usare un compasso meglio di te. Costano, e ci mettono una settimana."
+        requisiti: [monete >= 20]
+        costo: 2
+        esito:
+          titolo: Il copista
+          testo: |
+            Il copista è un ragazzo con le dita macchiate e gli occhiali legati
+            con lo spago, e ci mette una settimana, durante la quale ti manda
+            due biglietti per chiedere più carta. Alla fine ti porta la mappa
+            con una linea sottile e dritta che finisce sulle Carcasse di Korith,
+            tre archi neri nell'ultima conca prima del Gradone Rosso.
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, monete: -20 }
+      - testo: "Leggere le ombre come si leggono nel Bosco"
+        descrizione: "Al Circolo le ombre storte vogliono dire che sotto c'è qualcosa che tira. Basta seguirle all'indietro."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: La radice storta
+          testo: |
+            Non ti serve il compasso. Segui le ombre del disegno come al Circolo
+            segui una radice che affiora, all'indietro, fino al punto dove tira,
+            e il dito ti si ferma due giorni a est della città. Crenn verifica
+            con le misure del 142, e il conto torna. Lì le mappe dei Raschiatori
+            segnano le Carcasse di Korith, tre archi neri nell'ultima conca
+            prima del Gradone Rosso.
+          pe: { natura: 5 }
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, rep.raschiatori: 0.5 }
+      - testo: "Riconoscere nel Disco una notazione di fasi"
+        descrizione: "All'Accademia i calcoli delle stagioni si scrivono in cerchio, con i segni che si danno il cambio. Il Disco ha la stessa forma."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: Le fasi
+          testo: |
+            Guardi il Disco, e ti torna in mente una lavagna dell'Accademia
+            piena di cerchi divisi in quattro, dove i segni si davano il cambio
+            con le stagioni. La ruota non indica un luogo. Indica un turno. Con
+            questa idea in testa le ombre del 142 tornano da sole, e la linea
+            finisce due giorni a est, sulle Carcasse di Korith, nell'ultima
+            conca prima del Gradone Rosso.
+          pe: { accademiche: 5 }
+          effetti: { fazione.raschiatori: 1, informazioni.segreto: 1, rep.raschiatori: 0.5 }

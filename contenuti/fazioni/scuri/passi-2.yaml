@@ -1,0 +1,1412 @@
+# La quest degli Scuri, passi 6-10 (fazione.scuri 5 → 10).
+# 6 Le chiavi vecchie (grado 2), alla Caserma. Prima: il ragazzo che faceva il palo in Via dei Rasoi è in cella, e
+#   Vesh lo vuole fuori prima che parli (Borso guarda altrove, la porta la apre qualcun altro; con galdrick.via 1 il
+#   cambio della guardia è più facile). Dopo: Mauro in attesa del processo (mauro 0 o 1) o, se è morto, Nestor in
+#   catene, che sa dov'è la seconda dispensa e può dare la ricetta della pasta nera (scuri.nestor).
+# 7 Il tavolo di Mirko. Prima: Vesh nel cortile delle risse, che ha capito che il tempo dei profili bassi è finito, e
+#   il messaggio a voce per Ottone Malgrani al mulino (seguito). Con il registro dei Malgrani negli Averi Vesh ne
+#   vuole una copia. Dopo: gli anelli tornati ai debitori, e i debiti di chi li riscuote per primo.
+# 8 Prima della prossima luna, con Gaia. Prima: Vesh l'ha condannata e vuole che sia tu a sistemare la cosa; nessuna
+#   strada la fa sparire (gaia 2 se l'avverti o la porti da Galdrick). Dopo: Gaia ha riconosciuto il segno dei
+#   gettoni, il marchio di un clan di Ghoran che ha anche lei sotto la spalla, e vuole sparire.
+# 9 L'ultimo ordine (grado 3) e il bivio con la Caserma (bivio.legge). Prima: la cantina della Pignatta il pomeriggio
+#   dell'assalto (pista.pelle == 5), Vesh ti dà le tre chiavi. Dopo: la veglia olvara per Vesh alla Locanda di Ilka,
+#   dove entra Durgan. In tutte e due la scena d'ingresso porta bivio.legge a 2 (con la scelta in scena e rep.caserma
+#   −2 se la quest della Caserma è cominciata, oppure la Caserma, con bivio.legge 1 e rep.scuri −2); il seguito chiude
+#   il passo. La veglia olvara è un'invenzione misurata: la sedia vuota del morto, il sidro, i debiti detti a voce.
+# 10 Il gettone d'argilla (bivio.legge == 2): la guerra con Durgan comincia. Hagra (scuri.hagra) si può staccare da
+#   lui se i trenta di Ghoran sono finiti bene (guarnigione.mercenari).
+storylet:
+  # ------------------------------------------------------------ 6 · le chiavi vecchie, prima di Vesh (grado 2)
+  - id: scuri-le-chiavi-vecchie
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/borso
+    titolo: Le chiavi vecchie
+    sommario: "Un ragazzo degli Scuri è in una cella della Caserma, e Mirko Vesh lo vuole fuori prima che parli. Borso guarderà altrove."
+    luogo: Guarnigione di Qir-Azel, il cortile e le celle
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 5, pista.pelle < 4]
+    testo: |
+      Il ragazzo che faceva il palo in Via dei Rasoi l'hanno preso una sera
+      di pioggia, e da allora sta in una cella del piano interrato della
+      Caserma. Ha sedici anni e una lingua lunga, e a Mirko le lingue lunghe
+      nelle celle non piacciono. Mauro te lo spiega appoggiato al bancone,
+      con un fico secco in mano che non si decide a mangiare. «Borso guarda
+      altrove, come sempre, però la porta non la apre lui. Le chiavi vecchie
+      ce le ha, e tocca a qualcuno usarle.»
+
+      Ti ha dato un mazzo di vecchie chiavi di ferro unte d'olio, legate con
+      un laccio da scarpe. Nel cortile della Caserma la Guardia si addestra
+      con i Raschiatori, e alla porta del piano interrato c'è sempre
+      qualcuno.
+
+      {furtivita Media} Il cambio della guardia alle celle si fa al rintocco
+      della sesta. Per il tempo di un respiro la porta del piano interrato
+      resta senza nessuno davanti.
+
+      {galateo Facile} Un ordine scritto con il sigillo giusto, alla
+      Caserma, apre più porte di un mazzo di chiavi. Lo legge il sergente, e
+      il sergente legge piano.
+
+      {origine figlio-della-citta-bassa} Il ragazzo lo conosci di vista. Era
+      uno di quelli che ti correvano dietro quando portavi i pacchi, e ti
+      chiedeva sempre di fargli portare il più pesante.
+
+      Nel cortile un miliziano si è seduto sul bordo del pozzo a cucirsi un
+      bottone, con l'ago tenuto fra i denti fra un punto e l'altro.
+      *Sedici anni, e una lingua lunga.* La mano ti va al mazzo di chiavi
+      nella tasca, e lo stringi perché non tintinni.
+    opzioni:
+      - testo: "Presentare un ordine di trasferimento falso"
+        descrizione: "Rozalia scrive un ordine di trasferimento con il sigillo della Caserma. Il sergente lo deve leggere senza farsi domande."
+        prova: { attributo: sociale, abilita: [galateo, ingannare], difficolta: Difficile }
+        successo:
+          titolo: Il trasferimento
+          testo: |
+            Il sergente legge l'ordine di Rozalia muovendo le labbra, guarda il
+            sigillo controluce e ti fa scendere con due miliziani. Il ragazzo
+            esce dalla cella con le mani legate davanti, per il trasferimento.
+            Al primo vicolo della Città Bassa le mani si slegano da sole. La
+            sera Mauro ti presenta a un uomo magro con un anello per dito, che
+            ti guarda a lungo e ti dice che adesso sei nel registro.
+          pe: { galateo: 5 }
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: Il sigillo controluce
+          testo: |
+            Il sergente guarda il sigillo controluce per troppo tempo, poi ti
+            dice che gli ordini di trasferimento li firma lo sceriffo, e lo
+            sceriffo non li firma di domenica. Te ne vai prima che finisca di
+            chiederti come ti chiami, e senti il suo sguardo sulla nuca fino al
+            portone.
+          effetti: { sospetto: 1 }
+
+      - testo: "Aprire la cella al cambio della guardia"
+        descrizione: "Al rintocco della sesta la porta del piano interrato resta sola per un respiro. Le chiavi vecchie fanno il resto."
+        quando: [galdrick.via == 0]
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il respiro
+          testo: |
+            Al rintocco della sesta scendi le scale mentre la guardia vecchia
+            sale e la nuova non è ancora arrivata. Le chiavi vecchie entrano
+            unte nella serratura e girano senza rumore. Il ragazzo esce scalzo,
+            con le scarpe in mano, e in fondo al corridoio Borso volta la testa
+            verso il muro. La sera Mauro ti presenta a un uomo magro con un
+            anello per dito, che ti dice che adesso sei nel registro.
+          pe: { furtivita: 5 }
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: La guardia nuova
+          testo: |
+            La guardia nuova arriva in anticipo, e ti trovi sulle scale con
+            le chiavi vecchie in mano. Le fai cadere in un secchio d'acqua
+            sporca e dici che stavi cercando il pozzo. Lui ti accompagna al
+            pozzo con molta cortesia, e il pozzo è nel cortile.
+          effetti: { sospetto: 1 }
+
+      - testo: "Aprire la cella mentre lo sceriffo è a Ghoran"
+        descrizione: "Con Galdrick a Ghoran la Caserma dorme di più. Il cambio della guardia si fa quando capita."
+        quando: [galdrick.via == 1]
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Facile }
+        successo:
+          titolo: La Caserma che dorme
+          testo: |
+            Senza lo sceriffo il cambio della guardia si fa quando capita, e
+            stasera capita tardi. Scendi le scale con le chiavi vecchie e
+            apri la cella. Il ragazzo esce scalzo con le scarpe in mano. In
+            fondo al corridoio Borso volta la testa verso il muro. La sera
+            Mauro ti presenta a un uomo magro con un anello per dito, che ti
+            dice che adesso sei nel registro.
+          pe: { furtivita: 5 }
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: Il sergente sveglio
+          testo: |
+            Lo sceriffo è a Ghoran, ma il sergente è sveglio, e ti trova
+            sulle scale con le chiavi vecchie in mano. Dici che cercavi il
+            pozzo. Il sergente ti accompagna al pozzo, che è nel cortile, e
+            ti guarda bere un sorso d'acqua fino in fondo.
+          effetti: { sospetto: 1 }
+
+      - testo: "Firmare tu il rilascio"
+        descrizione: "La Caserma ti conosce, e un rilascio firmato da uno di casa non lo controlla nessuno. Prima o poi però lo sceriffo legge tutto."
+        requisiti: [rep.caserma >= 4]
+        esito:
+          titolo: La tua firma
+          testo: |
+            Il sergente ti conosce, e quando gli porgi il rilascio con la tua
+            firma lo mette sul mucchio senza leggerlo. Il ragazzo sale le scale
+            senza credere ai suoi occhi. Ti guarda come si guarda un mago.
+            Mauro, la sera, ride così forte che il bancone trema, e ti presenta
+            a un uomo magro con un anello per dito, che ti dice che adesso sei
+            nel registro. Lo sceriffo, la settimana dopo, legge tutto.
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -2, oggetto.scuri-cappuccio-degli-scuri: 1 }
+
+      - testo: "Restituire le chiavi a Mauro"
+        descrizione: "Una cella della Caserma è un'altra cosa rispetto a un vetraio che non paga. Mauro se lo ricorderà."
+        costo: 0
+        esito:
+          titolo: Il fico secco
+          testo: |
+            Posi il mazzo di chiavi sul bancone. Mauro guarda le chiavi e
+            poi guarda te, e finalmente mangia il fico secco, masticandolo a
+            lungo. Ti dice che le chiavi restano lì sul bancone, nel caso tu
+            cambiassi idea. Per il resto della sera non ti versa da bere.
+          effetti: { rep.scuri: -1 }
+
+  # ------------------------------------------------------------ 6 · le chiavi vecchie, dopo Vesh, con Mauro in cella
+  - id: scuri-le-chiavi-vecchie-dopo
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/mauro-scrocco
+    titolo: Le chiavi vecchie
+    sommario: "Mauro Scrocco aspetta il processo in una cella della Caserma, e sa a memoria i debiti di tutta la Città Bassa."
+    luogo: Guarnigione di Qir-Azel, le celle del piano interrato
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 5, pista.pelle >= 6, mauro != 2]
+    testo: |
+      Mauro Scrocco aspetta il processo in fondo al corridoio delle celle, e
+      senza la camicia color zafferano sembra più vecchio e meno grasso.
+      Siede sulla panca con le mani sulle ginocchia, come un oste che aspetta
+      l'ultimo cliente. Quando ti vede alla grata sorride, e il sorriso è
+      ancora quello del bancone.
+
+      «Al processo mi chiederanno chi deve cosa a chi» dice. «Io i debiti
+      della Città Bassa li so tutti a memoria, e il giudice lo sa. Se li
+      dico, ho la vita salva. Se li dico, la Città Bassa paga la Caserma
+      invece di pagare voi.» Si gratta la pancia con un sospiro. «Gaia mi ha
+      detto che adesso sei tu quello che ci sale, alla Caserma.»
+
+      {empatia Media} Ha paura, e non della forca. Ha paura di arrivare al
+      processo senza nessuno che gli abbia chiesto di tacere, come se i suoi
+      debiti non interessassero più a nessuno.
+
+      {armi-da-mischia Facile} La guardia in fondo al corridoio ha la
+      mazza appesa alla cintura dalla parte sbagliata. Ci metterebbe un
+      momento di troppo a prenderla.
+
+      In fondo al corridoio, in un'altra cella, Borso sta seduto in catene e
+      guarda il muro, e non si volta nemmeno quando senti il nome di Mauro.
+      *I debiti di una città intera, in una testa sola.* Ti accorgi di avere
+      abbassato la voce.
+    opzioni:
+      - testo: "Convincerlo a tacere"
+        descrizione: "Mauro deve arrivare al processo con la bocca chiusa. Bisogna fargli capire che chi è rimasto si ricorderà di lui."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La bocca chiusa
+          testo: |
+            Gli dici che chi è rimasto pagherà la sua parte alla moglie ogni
+            mese, e che i suoi debiti restano suoi. Mauro ti ascolta con gli
+            occhi chiusi. Poi ti fa un cenno con il mento, il cenno del
+            bancone, e ti dice di salutargli Rozalia. La sera Gaia ti porta
+            un cappuccio di lana grigia cucito a mano, dicendoti che adesso
+            sei nel registro, anche se il registro non c'è più.
+          pe: { empatia: 5 }
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: Il bancone
+          testo: |
+            Gli parli dei debiti e della moglie, e Mauro ti ascolta sorridendo
+            come al bancone, quando un cliente gli raccontava una storia che
+            sapeva già. Alla fine ti dice che ci penserà. Torni su per le scale
+            senza sapere che cosa dirà al giudice.
+
+      - testo: "Fargli paura"
+        descrizione: "Mauro sa che cosa succede a chi parla. Gliel'ha fatto succedere lui, tante volte."
+        prova: { attributo: sociale, abilita: [intimidire, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La regola di casa
+          testo: |
+            Gli ricordi la regola di casa, che una gamba rotta non lavora, e
+            gli ricordi che in cella le gambe si rompono più facilmente.
+            Mauro smette di sorridere. Poi fa una risata corta e ti dice che
+            hai imparato bene. La sera Gaia ti porta un cappuccio di lana
+            grigia cucito a mano, dicendoti che adesso sei nel registro.
+          pe: { intimidire: 5 }
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: Il ragazzo
+          testo: |
+            Provi a fargli paura, e Mauro ti guarda come si guarda un ragazzo
+            che gioca a fare il grande. Ti dice di tornare quando avrai
+            rotto una gamba vera. La guardia in fondo al corridoio ti guarda
+            uscire, e ti segna sul suo foglio.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Pagare la guardia perché lo tratti bene"
+        descrizione: "Un uomo trattato bene aspetta il processo più tranquillo, e un uomo tranquillo tace. La guardia accetta monete."
+        requisiti: [monete >= 25]
+        esito:
+          titolo: Il vino della guardia
+          testo: |
+            Paghi la guardia perché a Mauro arrivi il vino al posto
+            dell'acqua, e una coperta. Mauro lo capisce al primo sorso, e la
+            volta dopo ti saluta con il bicchiere alzato. Al processo dice
+            soltanto i debiti dei morti. La sera Gaia ti porta un cappuccio
+            di lana grigia cucito a mano, dicendoti che adesso sei nel
+            registro.
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, monete: -25, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+
+      - testo: "Firmare tu il permesso di visita"
+        descrizione: "La Caserma ti conosce. Un permesso firmato da uno di casa porta Rozalia o Gaia alla grata, e Mauro con loro parla."
+        requisiti: [rep.caserma >= 4]
+        esito:
+          titolo: Le visite
+          testo: |
+            Firmi i permessi di visita, e per una settimana alla grata di
+            Mauro passano le facce di chi è rimasto. Lui tace al processo, e
+            lo sceriffo, quando legge il registro delle visite, trova il tuo
+            nome in fondo a ogni pagina. La sera Gaia ti porta un cappuccio
+            di lana grigia cucito a mano, dicendoti che adesso sei nel
+            registro.
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -2, oggetto.scuri-cappuccio-degli-scuri: 1 }
+
+  # ------------------------------------------------------------ 6 · le chiavi vecchie, dopo Vesh, con Mauro morto
+  - id: scuri-le-chiavi-vecchie-nestor
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/nestor-gramm
+    titolo: Le chiavi vecchie
+    sommario: "Nestor Gramm è in catene alla Caserma e prepara le tisane ai carcerieri. Sa dove sta la seconda dispensa degli Scuri."
+    luogo: Guarnigione di Qir-Azel, le celle del piano interrato
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 5, pista.pelle >= 6, mauro == 2]
+    testo: |
+      Nestor Gramm sta in catene in una cella del piano interrato, e la
+      catena è abbastanza lunga da arrivare alla stufa del corridoio, dove fa
+      bollire le tisane per i carcerieri. Ha ancora il grembiule grigio, e
+      nella tasca destra lo straccio. Ti versa una tazza senza chiederti se
+      la vuoi, e tu la tieni in mano senza berla.
+
+      «Mauro è morto sullo spiazzo, e i debiti se li è portati con sé» dice,
+      soffiando sulla sua. «La seconda dispensa invece è ancora piena. Sta
+      sotto il Mercato dei Nodi, dietro una porta che conosciamo in due, e
+      l'altro è morto.» Beve. «Io in questa cella ci resto vent'anni. Che
+      cosa mi date, per la porta?»
+
+      {medicina Media} La tisana è camomilla e scorza d'arancia, e basta.
+      Ai carcerieri la fa più forte, ed è per questo che lo lasciano arrivare
+      alla stufa.
+
+      {ingannare Media} Della dispensa dice la verità. Sulla porta ha
+      esitato un momento di troppo, e la porta non la conoscono in due.
+
+      Gaia ti ha detto di non bere niente di quello che offre Nestor. La
+      tisana intanto si raffredda nella tazza, e ha un buon profumo.
+    opzioni:
+      - testo: "Farti dare la ricetta della pasta nera"
+        descrizione: "La pasta nera chiude le ferite in una notte. Nestor la insegna solo a chi sa già di che cosa parla."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: La pasta nera
+          testo: |
+            Gli chiedi della pasta nera nominando le erbe giuste, e Nestor
+            ti guarda per la prima volta come un collega. Te la detta a voce
+            bassa ingrediente per ingrediente, e poi ti dice anche dove sta
+            la seconda dispensa. La sera Gaia ti porta un cappuccio di lana
+            grigia cucito a mano, dicendoti che adesso sei nel registro.
+          pe: { medicina: 5 }
+          almeno: { rep.scuri: 4 }
+          imposta: { scuri.nestor: 1 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: L'erba sbagliata
+          testo: |
+            Nomini un'erba sbagliata, e Nestor si mette a ridere così forte che
+            la catena tintinna. Ti versa un'altra tazza di camomilla e ti dice
+            di tornare quando saprai distinguere la ruta dalla salvia.
+
+      - testo: "Promettergli che i suoi avranno la loro parte"
+        descrizione: "Nestor ha una sorella al Mercato dei Nodi. Chi è rimasto può pagarle ogni mese quello che lui non guadagna."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: La sorella
+          testo: |
+            Gli prometti che sua sorella avrà la sua parte ogni mese. Nestor ci
+            pensa mescolando la tisana con lo straccio, poi ti dice della porta
+            dietro il banco delle spezie. Nella seconda dispensa Gaia trova
+            boccette e unguenti, e un cappuccio di lana grigia, cucito a mano,
+            che ti mette in mano dicendo che adesso sei nel registro.
+          pe: { persuasione: 5 }
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, rep.caserma: -1, unguento: 2, oggetto.scuri-cappuccio-degli-scuri: 1 }
+        fallimento:
+          titolo: Le promesse
+          testo: |
+            Gli prometti molte cose, e Nestor le ascolta tutte annuendo. Poi ti
+            dice che le promesse le faceva anche Mirko, e che lui è in catene lo
+            stesso. Ti versa altra tisana e si volta verso la stufa.
+
+      - testo: "Pagare la guardia perché gli allunghi la catena"
+        descrizione: "Una catena più lunga arriva alla finestra. Per un uomo in cella è un regalo grande."
+        requisiti: [monete >= 25]
+        esito:
+          titolo: La finestra
+          testo: |
+            Paghi la guardia, e la catena di Nestor si allunga di tre
+            anelli, abbastanza da arrivare alla finestra a bocca di lupo.
+            Nestor ci si mette sotto e guarda il cielo per un'ora intera.
+            Poi ti dice della porta dietro il banco delle spezie. La sera
+            Gaia ti porta un cappuccio di lana grigia cucito a mano,
+            dicendoti che adesso sei nel registro.
+          almeno: { rep.scuri: 4 }
+          effetti: { fazione.scuri: 1, monete: -25, rep.caserma: -1, oggetto.scuri-cappuccio-degli-scuri: 1 }
+
+  # ------------------------------------------------------------ 7 · il tavolo di Mirko, prima di Vesh
+  - id: scuri-il-tavolo-di-mirko
+    presso: pignatta-grassa
+    immagine: personaggi/mirko-vesh
+    titolo: Il tavolo di Mirko
+    sommario: "Mirko Vesh ti aspetta nel cortile delle risse, seduto sull'unica sedia. Vuole sapere tutto quello che hai visto da quando sei in città."
+    luogo: Pignatta Grassa, il cortile delle risse
+    area: citta-bassa
+    requisiti: [fazione.scuri == 6, pista.pelle < 4]
+    testo: |
+      Il cortile delle risse a quest'ora è vuoto, e nel cerchio di gesso c'è
+      una sedia sola. Mirko Vesh ci sta seduto con le gambe accavallate, magro
+      ed elegante, con un anello a ogni dito, e ti fa segno di sederti per
+      terra davanti a lui. Lo fai. Lui sorride, perché tutti lo fanno.
+
+      Ti chiede della razzia del Festival, e poi della Dama d'Argento, e poi
+      di Capomozzo, e ascolta ogni risposta girandosi gli anelli uno dopo
+      l'altro, dal pollice al mignolo, come un rosario. Quando arriva al
+      mignolo sinistro si ferma, perché l'anello di quel dito è liscio e
+      senza pietra, e quello non lo gira.
+
+      «Per dieci anni abbiamo tenuto un profilo basso» dice. «Il profilo
+      basso funziona finché la città è piccola. Dopo la razzia la città è
+      diventata grande, e Ottone Malgrani mi guarda come si guarda un debito
+      da chiudere.» Ride piano. «Gli abbiamo bruciato i mulini dei
+      concorrenti, a quell'uomo. Uno dopo l'altro.»
+
+      {empatia Media} Non ha paura di Ottone. Ha paura che sia finito il
+      tempo in cui bastava avere paura di lui.
+
+      {intimidire Facile} Tu stai seduto per terra e lui sulla sedia, e a
+      nessuno dei due serve aggiungere altro.
+
+      Ti dà un messaggio per Ottone, da portare a voce al mulino all'alba,
+      quando Ottone va a controllare la farina. *Uno che parla dei suoi
+      delitti come dei suoi raccolti.* Ti accorgi di stare annuendo.
+    opzioni:
+      - testo: "Portare il messaggio al mulino"
+        descrizione: "Un messaggio a voce, da dire a Ottone Malgrani e a nessun altro. Mirko te lo fa ripetere due volte."
+        esito:
+          titolo: Il messaggio
+          testo: |
+            Mirko ti fa ripetere il messaggio tre volte, e alla terza ti
+            corregge una parola. «I mulini bruciano anche per due» dici, e
+            lui annuisce. Ti batte piano una mano sulla spalla e ti manda
+            via prima che il cortile si riempia.
+          segue: scuri-il-mulino-all-alba
+
+      - testo: "Offrirgli il registro dei Malgrani da copiare"
+        descrizione: "Nei tuoi Averi c'è il registro dei pagamenti di Ottone agli Scuri. Rozalia può copiarlo in una notte, se qualcuno l'aiuta."
+        quando: [oggetto.registro-dei-malgrani >= 1]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Difficile }
+        successo:
+          titolo: La copia di una notte
+          testo: |
+            Passi la notte nel retrobottega con Rozalia, a dettarle le cifre del
+            registro mentre lei le copia con due penne, una per mano. All'alba
+            la copia è identica, compresa una macchia d'inchiostro. Mirko la
+            sfoglia e sorride. Poi ti dà il messaggio per Ottone, da portare a
+            voce al mulino.
+          pe: { accademiche: 5 }
+          effetti: { rep.scuri: 1, informazioni.segreto: 1 }
+          segue: scuri-il-mulino-all-alba
+        fallimento:
+          titolo: Le cifre sbagliate
+          testo: |
+            Passi la notte a dettare le cifre a Rozalia, e all'alba lei trova
+            tre righe sbagliate, tutte tue. La copia va bene lo stesso, dice, ma
+            ti guarda come si guarda un garzone. Mirko la sfoglia senza
+            commenti e ti dà il messaggio per Ottone.
+          effetti: { tormento: 0.5 }
+          segue: scuri-il-mulino-all-alba
+
+      - testo: "Raccontargli quello che non ti ha chiesto"
+        descrizione: "Mirko vuole sapere tutto. Una cosa che non sa ancora vale più delle risposte."
+        prova: { attributo: sociale, abilita: [persuasione, espressivita], difficolta: Media }
+        successo:
+          titolo: La cosa che non sapeva
+          testo: |
+            Gli racconti di una faccia che hai visto alla Caserma e che non
+            dovrebbe esserci, e Mirko smette di girarsi gli anelli. Ti ascolta
+            fino in fondo, e alla fine ti fa alzare da terra e ti dà la sedia.
+            Lui resta in piedi, e ti affida il messaggio per Ottone da portare
+            al mulino.
+          pe: { persuasione: 5 }
+          effetti: { rep.scuri: 0.5 }
+          segue: scuri-il-mulino-all-alba
+        fallimento:
+          titolo: La cosa che sapeva già
+          testo: |
+            Gli racconti di una faccia che hai visto alla Caserma, e Mirko ti
+            dice il nome di quella faccia prima che tu finisca. Lo sapeva già.
+            Ti dà il messaggio per Ottone con un sorriso gentile, come si dà
+            un dolce a un bambino che ha detto una bugia.
+          segue: scuri-il-mulino-all-alba
+
+  # ------------------------------------------------------------ 7 · il seguito, al mulino all'alba
+  - id: scuri-il-mulino-all-alba
+    presso: segheria-e-mulino-malgrani
+    immagine: personaggi/ottone-malgrani
+    titolo: Il mulino all'alba
+    tipo: seguito
+    luogo: Il mulino dei Malgrani, all'alba
+    area: citta-bassa
+    requisiti: [fazione.scuri == 6, pista.pelle < 4]
+    testo: |
+      All'alba il mulino è già bianco di farina, e lungo il canale del
+      cristallo la ruota gira con un rumore di pioggia. Ottone Malgrani
+      arriva a cavallo, con due guardie in livrea verde e l'alloro dorato sul
+      petto. Scende, si toglie i guanti un dito alla volta e infila una mano
+      in un sacco di farina, per sentire come è macinata. Quando ti vede
+      accanto alla ruota manda le guardie a controllare i carri.
+
+      Gli dici il messaggio parola per parola, come te l'ha fatto ripetere
+      Mirko. «I mulini bruciano anche per due.» Ottone si pulisce lentamente
+      la mano sulla giubba, e la farina gli resta nelle pieghe delle dita.
+
+      {empatia Media} La mano gli trema mentre la pulisce. Ha capito il
+      messaggio meglio di te.
+
+      {politica-ed-economia Media} I mulini dei concorrenti sono bruciati
+      uno dopo l'altro, e i Malgrani hanno avuto tutta la farina della
+      città. Un uomo che ha comprato un incendio sa quanto costa il secondo.
+
+      {origine rampollo-dei-quartieri-alti} Ottone ti ha visto ai ricevimenti,
+      e per un momento non capisce che cosa ci fa un figlio dei Quartieri
+      Alti accanto alla ruota del suo mulino. Poi lo capisce, e ti guarda
+      come si guarda un cane di casa che morde.
+    opzioni:
+      - testo: "Leggere la sua paura e riferirla a Mirko"
+        descrizione: "Mirko vuole sapere come l'ha presa. Le parole di Ottone contano meno delle sue mani."
+        prova: { attributo: sociale, abilita: [empatia, percezione], difficolta: Media }
+        successo:
+          titolo: Le mani di Ottone
+          testo: |
+            Ottone ti risponde che ha capito, e ti dice di riferire che non
+            dimentica gli amici. Le mani però le tiene dietro la schiena, e
+            la sinistra stringe la destra. Lo racconti a Mirko quella sera.
+            Lui si gira l'anello liscio per la prima volta da quando lo
+            conosci, e ti fa dare da Mauro una borsa pesante.
+          pe: { empatia: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 40, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le parole di Ottone
+          testo: |
+            Ottone ti dice che ha capito e che non dimentica gli amici, e tu
+            riferisci a Mirko le sue parole così come sono. Mirko ti
+            ascolta, e ti chiede delle mani, che tu non hai guardato. Ti fa
+            dare la borsa lo stesso, un po' più leggera.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 30 }
+
+      - testo: "Aggiungere qualcosa di tuo al messaggio"
+        descrizione: "Un messaggio è più forte se chi lo porta sembra sapere più di quello che dice."
+        prova: { attributo: sociale, abilita: [intimidire, ingannare], difficolta: Media }
+        successo:
+          titolo: Il mulino di Anselmo Brey
+          testo: |
+            Dopo il messaggio aggiungi che l'unico mulino ancora intero, oltre
+            ai suoi, è quello di Anselmo Brey, e che sarebbe un peccato. Ottone
+            impallidisce sotto la farina. Mirko, quando glielo racconti, ride
+            fino a tossire, e ti dice di non farlo mai più senza chiedere. Poi
+            ti fa dare da Mauro una borsa pesante.
+          pe: { intimidire: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 40, sospetto: 0.5 }
+        fallimento:
+          titolo: La guardia in livrea
+          testo: |
+            Aggiungi qualcosa di tuo, e Ottone chiama una guardia con un
+            fischio. La guardia ti accompagna fino al ponte con la mano
+            sulla spada. Mirko sospira quando glielo racconti, e ti dice che
+            i messaggi si portano interi, senza condimenti, mentre Mauro ti
+            conta una borsa leggera.
+          effetti: { fazione.scuri: 1, monete: 25, sospetto: 0.5 }
+
+      - testo: "Dire il messaggio e andartene"
+        descrizione: "Un messaggio a voce si dice e si lascia lì. Il resto lo capisce chi lo riceve."
+        esito:
+          titolo: La farina sulla giubba
+          testo: |
+            Dici il messaggio e te ne vai lungo il canale, senza voltarti. Alle
+            tue spalle la ruota continua a girare. A Mirko racconti soltanto
+            della farina che Ottone aveva sulla giubba, e lui annuisce come se
+            bastasse. Ti fa dare da Mauro una borsa.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 35 }
+
+  # ------------------------------------------------------------ 7 · i debiti di Mirko, dopo Vesh
+  - id: scuri-il-tavolo-di-mirko-dopo
+    immagine: ambientazione/citta-bassa
+    titolo: I debiti di Mirko
+    sommario: "Galdrick ha restituito gli anelli ai debitori di Mirko Vesh. Adesso i debiti sono di chi li riscuote per primo."
+    luogo: Città Bassa, le strade dei debitori
+    area: citta-bassa
+    requisiti: [fazione.scuri == 6, pista.pelle >= 6]
+    testo: |
+      Dopo la notte della Pignatta lo sceriffo ha restituito gli anelli di
+      Mirko ai debitori ancora vivi, uno per ogni dito, e in Città Bassa la
+      cosa è sembrata a tutti una gentilezza. Gli anelli però sono soltanto
+      metà del conto. L'altra metà sono i debiti, e quelli non li ha
+      restituiti nessuno. Adesso sono di chi li riscuote per primo.
+
+      Gaia ti porta nelle strade dei debitori con una lista che Rozalia ha
+      scritto a memoria. Sono una quindicina di nomi, quasi tutti di Via del
+      Salmone e dei vicoli dietro le fucine. Davanti a una porta c'è già un
+      gettone d'argilla inchiodato al legno. Gaia lo stacca con l'unghia e
+      lo butta nel tombino.
+
+      {conoscenze-della-strada Media} Adesso la gente paga a chi la minaccia
+      di più. Gli altri aspettano di capire chi vince, e intanto la borsa la
+      tengono chiusa.
+
+      {resistenza Facile} Le strade dei debitori sono in salita, e la lista
+      è lunga. Le gambe se ne accorgono al terzo nome.
+
+      Una vecchia con il fazzoletto in testa vi guarda passare dalla
+      finestra, e quando vede Gaia chiude le imposte. Al quarto nome della
+      lista c'è una donna con un neonato in braccio, che ti mostra l'anello
+      del marito appena restituito e ti chiede se adesso deve pagare lo
+      stesso.
+    opzioni:
+      - testo: "Condonare i debiti dei più poveri"
+        descrizione: "Una parte della lista non potrà mai pagare. Cancellarli davanti a tutti costa monete e fa parlare la strada."
+        esito:
+          titolo: La riga dritta
+          testo: |
+            Prendi la lista e tiri una riga dritta sui nomi dei più poveri, con
+            il carbone, davanti alla donna con il neonato. Gaia ti guarda come
+            se avessi bruciato una borsa. In una settimana mezza Via del Salmone
+            sa che chi è rimasto degli Scuri ha cancellato dei debiti, e l'altra
+            metà paga prima del previsto per farsi cancellare il prossimo.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, nomea.citta-bassa: 1, monete: 15 }
+
+      - testo: "Riscuotere prima dei mercenari"
+        descrizione: "I mercenari di Durgan passano il venerdì. Se arrivi il giovedì, la strada paga te."
+        prova: { attributo: sociale, abilita: [intimidire, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il giovedì
+          testo: |
+            Passi la lista il giovedì porta per porta, e a ognuna stacchi il
+            gettone d'argilla e lo butti nel tombino. Chi paga, paga a te.
+            Il venerdì i mercenari di Durgan trovano le porte pulite e le
+            borse vuote, e si fermano a guardare la strada come si guarda un
+            campo dopo la grandine.
+          pe: { intimidire: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 40 }
+        fallimento:
+          titolo: Il venerdì anticipato
+          testo: |
+            Passi la lista il giovedì, e al terzo nome trovi i mercenari di
+            Durgan già lì, che quella settimana sono passati in anticipo. Ti
+            guardano dall'alto e ridono. Riscuoti quello che resta, e la sera
+            Gaia conta le monete due volte e sospira.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 15 }
+
+      - testo: "Rinegoziare porta per porta"
+        descrizione: "Ogni debitore ha un prezzo che può pagare. Trovarlo è lavoro lungo."
+        costo: 2
+        esito:
+          titolo: Quindici porte
+          testo: |
+            Ti siedi in quindici cucine una dopo l'altra, e in ognuna chiedi
+            quanto si può pagare davvero, e lo segni. Ti offrono un
+            bicchiere di vino in sei, e una minestra in una. A sera la lista
+            è cambiata da cima a fondo, e i debiti sono più piccoli e più
+            sicuri. Gaia legge i numeri e ti dice che Mirko ci avrebbe messo
+            meno, e avrebbe preso di più.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 25, nomea.citta-bassa: 0.5 }
+
+      - testo: "Bussare alle porte dei vicoli della tua infanzia"
+        descrizione: "I vicoli dietro le fucine li conosci uno per uno. Alla gente che ti ha visto crescere si chiede in un altro modo."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Il figlio di quella del secondo piano
+          testo: |
+            Bussi alle porte dei vicoli dietro le fucine, e ognuno ti riconosce
+            come il figlio di quella del secondo piano. Chi può paga, e chi non
+            può ti dà da mangiare e ti racconta perché. Tiri una riga sui nomi
+            dei più poveri, e la strada lo sa prima di sera. Gaia ti guarda come
+            si guarda uno che ha un vantaggio ingiusto, e lo invidia.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, nomea.citta-bassa: 1, monete: 15 }
+
+  # ------------------------------------------------------------ 8 · prima della prossima luna, prima di Vesh
+  - id: scuri-prima-della-prossima-luna
+    presso: grifone-di-ferro
+    immagine: personaggi/gaia-acari
+    titolo: Prima della prossima luna
+    sommario: "Mirko Vesh sa per chi canta Gaia Acari, e l'ha condannata prima della prossima luna. Vuole che sia tu a sistemare la cosa."
+    luogo: Locanda del Grifone di Ferro, la sera
+    area: ponti-sospesi
+    requisiti: [fazione.scuri == 7, pista.pelle < 4]
+    testo: |
+      Mirko te l'ha detto girandosi l'anello del pollice, senza alzare la
+      voce. La ragazzina col cappuccio blu porta notizie allo sceriffo da
+      prima della razzia, e lui lo sa da altrettanto tempo. Per questo le ha
+      fatto portare soltanto notizie false. Adesso però è stanco, e l'ha
+      condannata prima della prossima luna. «Sistemala tu» ha detto. «Come
+      vuoi. Mi interessa sapere come.»
+
+      Gaia è al Grifone, al tavolo vicino al camino, con una tazza di latte
+      caldo che Brunella le porta sempre senza farla pagare. Imita la voce di
+      un Raschiatore che racconta una frana, e il Raschiatore vero ride più
+      di tutti. Quando ti vede entrare smette, e beve il latte con tutte e
+      due le mani intorno alla tazza.
+
+      {empatia Media} Sa che sei qui per lei. Non sa ancora per fare che
+      cosa, e sta decidendo se ha paura di te.
+
+      {furtivita Facile} Si è seduta con le spalle al muro e la porta della
+      cucina a due passi. Chi le ha insegnato a sedersi così le ha insegnato
+      bene.
+
+      {origine figlio-della-citta-bassa} Gaia correva fra i vicoli quando tu
+      portavi già i pacchi, una bambina con le ginocchia sbucciate e il
+      cappuccio troppo grande. Il cappuccio adesso le va giusto.
+    opzioni:
+      - testo: "Farne un canale di notizie false per Galdrick, come vuole Mirko"
+        descrizione: "Gaia continua a cantare per lo sceriffo, e le canzoni gliele scrive Mirko. Così resta viva e Mirko è contento, finché un giorno Gaia non lo capisce."
+        quando: [gaia < 2]
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
+        successo:
+          titolo: Le canzoni di Mirko
+          testo: |
+            Le dici che Mirko non sa niente e che d'ora in poi le notizie
+            per lo sceriffo gliele porti tu, più buone di quelle che trova
+            da sola. Lei ci crede, e il latte smette di tremarle nella
+            tazza. Mirko, quando glielo racconti, si toglie l'anello del
+            pollice e te lo fa vedere controluce, e ti dice che viva serve
+            di più.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 20 }
+        fallimento:
+          titolo: Il latte
+          testo: |
+            Le parli delle notizie e dello sceriffo, e a metà del discorso Gaia
+            posa la tazza. Ti guarda come si guarda un gatto che finge di
+            dormire. Poi si alza, ringrazia Brunella per il latte ed esce dalla
+            porta della cucina.
+
+      - testo: "Farne un canale di notizie false per Galdrick"
+        descrizione: "Gaia sa già che Mirko l'ha scoperta. Convincerla a continuare a cantare, con le canzoni di Mirko, è più difficile."
+        quando: [gaia >= 2]
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Viva serve di più
+          testo: |
+            Le dici la verità, quasi tutta. Mirko sa, e per restare viva deve
+            continuare a portare allo sceriffo quello che le darai tu. Gaia
+            ascolta con la tazza ferma a mezz'aria. Accetta. Prima di andarsene
+            ti dice che non ti perdonerà, e lo dice senza rabbia, come si dice
+            l'ora. Mirko, quando glielo racconti, annuisce soddisfatto.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 20 }
+        fallimento:
+          titolo: La porta della cucina
+          testo: |
+            Le dici che deve continuare a cantare, e lei capisce per chi prima
+            che tu finisca. Esce dalla porta della cucina senza voltarsi. Per
+            una settimana al Grifone nessuno la vede, e Brunella ti guarda come
+            se fosse colpa tua.
+
+      - testo: "Avvertirla e dire a Mirko che è scappata"
+        descrizione: "Gaia sparisce per un po', e Mirko deve credere che sia scappata da sola. A Mirko si mente una volta sola."
+        prova: { attributo: sociale, abilita: [ingannare, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: Scappata
+          testo: |
+            Le dici tutto sottovoce, e Gaia sparisce dalla porta della
+            cucina prima che il latte si raffreddi. A Mirko racconti che è
+            scappata ai Ponti, e lo racconti così bene che ci credi un poco
+            anche tu. Lui si gira l'anello liscio del mignolo e ti dice che
+            i Ponti sono grandi. Dopo una settimana Gaia torna più magra, e
+            adesso ti deve una cosa.
+          pe: { ingannare: 5 }
+          imposta: { gaia: 2 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5 }
+        fallimento:
+          titolo: L'anello liscio
+          testo: |
+            Le dici tutto sottovoce, e Gaia sparisce. A Mirko racconti che è
+            scappata ai Ponti, e lui ti ascolta girando l'anello liscio, cosa
+            che non fa mai. Alla fine ti dice che ti crede, e tu capisci che
+            non ti crede. Da quel giorno Mauro ti versa da bere un po' meno.
+          imposta: { gaia: 2 }
+          effetti: { fazione.scuri: 1, rep.scuri: -1 }
+
+      - testo: "Portarla da Galdrick"
+        descrizione: "Lo sceriffo la protegge, e gli Scuri lo sanno entro un'ora. È la scelta che si paga di più."
+        quando: [galdrick.via == 0]
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: Il taccuino dello sceriffo
+          testo: |
+            La porti alla Caserma per la scala di servizio, e Galdrick la
+            riceve in piedi, con i pollici nella cintura. Scrive il suo nome nel
+            taccuino e poi il tuo, sotto. Gaia dorme in una stanza della
+            Caserma per un mese. Gli Scuri lo sanno entro un'ora, e Mauro,
+            quando entri alla Pignatta, ti versa da bere e lascia il bicchiere
+            sul bancone senza spingerlo verso di te.
+          imposta: { gaia: 2 }
+          effetti: { fazione.scuri: 1, rep.scuri: -3, rep.caserma: 1 }
+
+      - testo: "Parlarle come uno dei vicoli"
+        descrizione: "Gaia correva fra i vicoli quando tu portavi i pacchi. Fra quelli dei vicoli certe cose si dicono senza giri."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Le ginocchia sbucciate
+          testo: |
+            Le ricordi di quando aveva le ginocchia sbucciate e il cappuccio
+            troppo grande, e lei ride per la prima volta stasera. Poi le dici
+            di Mirko, piano. Gaia sparisce per una settimana, e a Mirko
+            racconti che è scappata ai Ponti. Lui ti crede, perché tu sei uno
+            dei vicoli e lei anche. Quando torna, Gaia ti deve una cosa.
+          imposta: { gaia: 2 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5 }
+
+  # ------------------------------------------------------------ 8 · prima della prossima luna, dopo Vesh
+  - id: scuri-prima-della-prossima-luna-dopo
+    presso: ponte-dei-morti
+    immagine: personaggi/gaia-acari
+    titolo: Il segno sotto la spalla
+    sommario: "Gaia ha guardato bene il segno dei gettoni d'argilla, e da quel giorno non dorme. Ti aspetta sotto il Ponte dei Morti."
+    luogo: Ponte dei Morti, sotto le assi
+    area: ponti-sospesi
+    requisiti: [fazione.scuri == 7, pista.pelle >= 6]
+    testo: |
+      Gaia ti aspetta sotto le assi del Ponte dei Morti, dove le lanterne
+      dei Raschiatori dondolano sopra il vuoto, seduta su una trave con le
+      gambe a penzoloni. Ha in mano un gettone d'argilla e lo gira fra le
+      dita da quando sei arrivato. Senza dire niente si abbassa il cappuccio
+      e poi la spalla della camicia, e sotto la clavicola ti mostra un
+      vecchio segno inciso nella pelle, cicatrizzato bianco. È una mano
+      aperta con tre dita, la stessa dei gettoni.
+
+      «A Ghoran segnano così quelli che il clan ha comprato» dice, guardando
+      il vuoto. «Io avevo sei anni, e sono scappata a otto. Durgan non lo
+      sa. I suoi uomini però lo sanno leggere, e un giorno uno di loro mi
+      vedrà cambiare la camicia.» Si tira su la spalla. «Voglio sparire. Ho
+      bisogno di qualcuno che mi dica dove.»
+
+      {empatia Facile} Ti ha mostrato il segno per chiederti di non dire
+      niente. È la cosa più grande che abbia mai chiesto a qualcuno.
+
+      {resilienza Media} Sotto le assi il vento sale dalla Cicatrice e ti
+      gela le orecchie. Gaia ha la pelle d'oca sul collo, e non se ne
+      accorge.
+
+      {origine fuggiasco-di-ghoran} Il segno della mano con tre dita lo
+      conosci, e conosci anche il bianco che lascia quando guarisce. Ti
+      stringi il braccio sinistro senza volerlo, dove la tua cicatrice è
+      diversa ma è stata fatta dalla stessa gente.
+    opzioni:
+      - testo: "Dirle che la proteggete voi"
+        descrizione: "Gli Scuri proteggono i loro. Se Gaia resta, la strada deve vedere che nessuno la tocca."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Chi è rimasto
+          testo: |
+            Le dici che Gaia Acari è di chi è rimasto, e che chi la tocca lo
+            paga, e che la Città Bassa lo saprà entro domani. Lei ti guarda a
+            lungo. Poi rimette il gettone in tasca invece di buttarlo nel
+            vuoto. Il giorno dopo in Via del Salmone lo sanno tutti, e due
+            mercenari che la guardavano cambiano strada.
+          pe: { empatia: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, nomea.citta-bassa: 0.5 }
+        fallimento:
+          titolo: Parole
+          testo: |
+            Le dici che la proteggerete, e lei ti chiede chi, esattamente,
+            dato che degli Scuri sono rimasti in quattro, e a questo una
+            risposta non ce l'hai. Gaia si rimette il cappuccio e resta
+            sulla trave, e quando te ne vai sta ancora girando il gettone
+            fra le dita.
+
+      - testo: "Affidarla a Galdrick"
+        descrizione: "Galdrick ha un debito con Ghoran, e Gaia è una cosa che a Ghoran hanno perso. In Caserma nessun mercenario la tocca."
+        quando: [galdrick.via == 0]
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: La stanza in Caserma
+          testo: |
+            La accompagni alla Caserma, e Galdrick ascolta la sua storia senza
+            interromperla. Quando lei gli mostra il segno sulla spalla lo
+            sceriffo distoglie gli occhi. Le dà una stanza sopra le scuderie
+            della Caserma, e a te stringe la mano più a lungo del solito. In
+            Città Bassa qualcuno dice che chi è rimasto degli Scuri va a
+            chiedere aiuto allo sceriffo.
+          imposta: { gaia: 2 }
+          effetti: { fazione.scuri: 1, rep.caserma: 1 }
+
+      - testo: "Usarla come esca per trovare chi incide i gettoni"
+        descrizione: "I mercenari che sanno leggere il segno vorranno sapere chi è. Seguendo chi la cerca, si arriva a chi incide."
+        prova: { attributo: sociale, abilita: [ingannare, intimidire], difficolta: Media }
+        successo:
+          titolo: L'esca
+          testo: |
+            Gaia gira per Via del Salmone con la spalla scoperta, e tu la segui
+            a venti passi. Al secondo giorno un mercenario la vede e corre a
+            dirlo a qualcuno, e quel qualcuno ha le mani sporche d'argilla e un
+            punteruolo alla cintura. Lo segui fino a un magazzino vicino
+            all'Orlo. Gaia torna a coprirsi la spalla e da quel giorno ti parla
+            meno.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: La spalla scoperta
+          testo: |
+            Gaia gira per Via del Salmone con la spalla scoperta, e il
+            mercenario che la vede invece di correre a dirlo a qualcuno la
+            prende per il braccio. Arrivi in tempo per staccarglielo, e ti costa
+            un taglio sul polso. Gaia si copre la spalla, e quella sera non ti
+            rivolge la parola.
+          effetti: { ferite: 1 }
+
+      - testo: "Mostrarle che anche tu sei scappato da lì"
+        descrizione: "A Ghoran chi scappa riconosce chi è scappato. Con te Gaia può parlare senza difendersi."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Due cicatrici
+          testo: |
+            Ti tiri su la manica e le mostri la tua cicatrice, e Gaia la guarda
+            senza dire niente per molto tempo. Poi ti racconta di Ghoran come
+            non l'ha mai raccontato a nessuno, e quando ha finito ti dice che
+            resta. Il giorno dopo in Via del Salmone sanno tutti che chi tocca
+            la ragazzina col cappuccio blu lo paga.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, nomea.citta-bassa: 0.5 }
+
+  # ------------------------------------------------------------ 9 · l'ultimo ordine, prima di Vesh (il bivio)
+  - id: scuri-l-ultimo-ordine
+    presso: pignatta-grassa
+    immagine: personaggi/mirko-vesh
+    titolo: L'ultimo ordine
+    sommario: "Il pomeriggio prima della notte della Pignatta, Mirko Vesh ti fa chiamare in cantina. Sa già dove sarai stanotte."
+    luogo: Pignatta Grassa, la cantina, il pomeriggio
+    area: citta-bassa
+    requisiti: [fazione.scuri == 8, pista.pelle == 5, bivio.legge != 1]
+    testo: |
+      La cantina della Pignatta è fresca e buia, piena di botti con il nome
+      del vino scritto in gesso. Mirko Vesh siede su una botte vuota con una
+      candela accanto, e si sta pulendo le unghie con la punta di uno stiletto
+      da manica, uguale a quello che Rozalia ha dato a te. Di sopra Mauro fa
+      spostare i tavoli e appendere le lanterne ai fili, e il rumore arriva
+      attraverso il pavimento.
+
+      «Borso mi ha detto che stanotte Galdrick scende» dice, senza alzare gli
+      occhi dalle unghie. «Mi ha detto anche chi gli cammina dietro.» Posa lo
+      stiletto. «Non ti chiedo di tradirlo. Ti chiedo un'altra cosa, e
+      prima voglio che tu mi ascolti.»
+
+      {percezione Media} Ha tutti gli anelli, tranne uno. Al pollice destro
+      c'è il segno bianco di un anello tolto da poco.
+
+      {empatia Difficile} Ha già deciso come finisce stanotte. Ti ha chiamato
+      perché vuole che qualcuno sappia come finisce dopo.
+
+      Sul tavolo accanto alla candela c'è un anello di rame con tre chiavi di
+      ferro. *Lo sa, e mi ha chiamato lo stesso.* Ti accorgi che stai
+      trattenendo il fiato.
+    opzioni:
+      - testo: "Ascoltarlo fino in fondo"
+        descrizione: "Mirko Vesh non ha mai chiesto a nessuno di ascoltarlo. Oggi lo chiede."
+        quando: [fazione.caserma == 0]
+        esito:
+          titolo: Le tre chiavi
+          testo: |
+            Ti siedi su una botte davanti a lui, e lui ti spinge sul tavolo
+            l'anello con le tre chiavi. Ti spiega che sono le porte degli
+            Scuri al Mercato delle Ombre, e che da domani qualcuno deve
+            tenere i conti.
+          imposta: { bivio.legge: 2 }
+          segue: scuri-le-tre-chiavi
+
+      - testo: "Dirgli che stanotte non camminerai dietro Galdrick"
+        descrizione: "Hai cominciato a lavorare anche per la Caserma, e Mirko lo sa. Se resti, dalla Caserma esci adesso, e per sempre."
+        quando: [fazione.caserma >= 1]
+        esito:
+          titolo: Il distintivo
+          testo: |
+            Gli dici che stanotte non sarai dietro lo sceriffo. Mirko ti guarda
+            a lungo, poi annuisce una volta. «Allora da domani dalla Caserma non
+            ti aspettano più» dice, «e lo sceriffo, questo, lo capirà prima di
+            tutti.» Ti spinge sul tavolo l'anello con le tre chiavi.
+          imposta: { bivio.legge: 2 }
+          effetti: { rep.caserma: -2 }
+          segue: scuri-le-tre-chiavi
+
+      - testo: "Lasciargli le chiavi e tornare dalla Caserma"
+        descrizione: "Stanotte lo sceriffo scende, e tu cammini dietro di lui. Gli Scuri finiscono qui, per te."
+        quando: [fazione.caserma >= 1]
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: La scala della cantina
+          testo: |
+            Gli dici che stanotte camminerai dietro Galdrick. Mirko annuisce
+            come se avesse vinto una scommessa con sé stesso, e rimette le
+            chiavi in tasca. «Allora ci vediamo stanotte» dice. Risali la scala
+            della cantina, e Mauro, di sopra, smette di appendere lanterne per
+            guardarti uscire.
+          imposta: { bivio.legge: 1 }
+          effetti: { rep.scuri: -2 }
+
+      - testo: "Prendere tempo"
+        descrizione: "Una cosa così non si decide in una cantina. Ma il tempo, oggi, è poco."
+        quando: [fazione.caserma >= 1]
+        costo: 0
+        esito:
+          titolo: Fino al tramonto
+          testo: |
+            Gli dici che ci devi pensare. Mirko guarda la candela, che è
+            consumata a metà. «Fino a quando arriva qui» dice, e mette un dito
+            sulla cera, un pollice più in basso. Poi riprende a pulirsi le
+            unghie.
+
+  # ------------------------------------------------------------ 9 · il seguito, prima di Vesh (grado 3)
+  - id: scuri-le-tre-chiavi
+    presso: pignatta-grassa
+    immagine: personaggi/mirko-vesh
+    titolo: Le tre chiavi
+    tipo: seguito
+    luogo: Pignatta Grassa, la cantina, il pomeriggio
+    area: citta-bassa
+    requisiti: [fazione.scuri == 8, bivio.legge == 2]
+    testo: |
+      Mirko fa girare l'anello di rame sul tavolo con un dito, e le tre chiavi
+      tintinnano contro il legno. «Mauro è troppo rumoroso» dice. «Tiene i
+      debiti a memoria e li dice ad alta voce, e chi sente un debito ad alta
+      voce paga per paura e poi non paga più. Rozalia è troppo brava. Chi è
+      troppo bravo non si fida di nessuno, e un tavolo dove nessuno si fida
+      dura una settimana.» Si appoggia all'indietro sulla botte. «Domani
+      qualcuno deve tenere i conti. Le facce nuove sono quelle che durano di
+      più.»
+
+      Si guarda le mani, gli anelli uno per uno, e l'ultimo, quello liscio
+      sul mignolo sinistro, lo copre con l'altra mano.
+
+      {politica-ed-economia Media} Tre porte al Mercato delle Ombre sono
+      tre rendite. Chi le tiene decide che cosa si vende e a chi, e chi le
+      tiene domani sarà l'unico degli Scuri ad avere ancora un'entrata.
+
+      {resilienza Media} Di sopra qualcuno ride e sposta un tavolo. Fra
+      qualche ora quella risata sarà su un selciato, e lo sai soltanto tu.
+    opzioni:
+      - testo: "Prendere le chiavi e tacere"
+        descrizione: "Le chiavi in tasca, e nessuna domanda. È così che si sta al tavolo d'angolo."
+        esito:
+          titolo: In tasca
+          testo: |
+            Prendi l'anello con le tre chiavi e lo metti in tasca, dove
+            tintinna contro lo stiletto. Mirko annuisce. Prima che tu risalga ti
+            dà una borsa pesante e ti dice che è la tua parte di domani. Alla
+            porta della cantina ti volti, e lui si sta di nuovo pulendo le
+            unghie, alla luce della candela.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, oggetto.scuri-tre-chiavi: 1 }
+
+      - testo: "Chiedergli di andarsene stanotte"
+        descrizione: "I Ponti sono grandi, e Laresh è lontana. Un uomo che ha già deciso di morire a volte cambia idea, se qualcuno glielo chiede."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Difficile }
+        successo:
+          titolo: Dieci anni
+          testo: |
+            Gli dici che i Ponti sono grandi, e lui ride, una risata vera.
+            Poi ti racconta di dieci anni di inseguimenti con Galdrick, di
+            quando lo ha visto per la prima volta da giovane, e di quanto si
+            somigliavano. «Se scappo, lui mi aspetta per altri dieci anni»
+            dice. «Gli devo la fine.» Ti mette le chiavi in mano e ti dà una
+            borsa pesante.
+          pe: { persuasione: 5 }
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, informazioni.segreto: 1, oggetto.scuri-tre-chiavi: 1 }
+        fallimento:
+          titolo: I Ponti sono grandi
+          testo: |
+            Gli dici che i Ponti sono grandi, e lui ti guarda come si guarda un
+            ragazzo che consiglia a un vecchio di imparare a nuotare. Ti mette
+            le chiavi in mano e ti dà una borsa pesante, e non dice più niente
+            finché non risali la scala.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, tormento: 0.5, oggetto.scuri-tre-chiavi: 1 }
+
+      - testo: "Chiedergli dell'anello liscio"
+        descrizione: "È l'unico anello che Mirko non gira e che copre con l'altra mano. Tutti gli altri sono dei debitori."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: L'anello di sua madre
+          testo: |
+            Mirko si guarda il mignolo. Ti dice che l'anello liscio era di sua
+            madre, che lo portava sul pollice perché aveva le mani grandi, e che
+            ai suoi tempi gli olvari seppellivano i morti con l'anello. «Io
+            invece lo lascio a chi viene dopo» dice, «a chi se lo prende.» Ti
+            mette le chiavi in mano e ti dà una borsa pesante.
+          pe: { empatia: 5 }
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, oggetto.scuri-tre-chiavi: 1 }
+        fallimento:
+          titolo: Il mignolo
+          testo: |
+            Gli chiedi dell'anello liscio, e Mirko copre il mignolo con l'altra
+            mano e ti risponde che è un anello. Ti mette le chiavi in mano e ti
+            dà una borsa pesante, e la conversazione finisce lì.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, oggetto.scuri-tre-chiavi: 1 }
+
+  # ------------------------------------------------------------ 9 · la veglia, dopo Vesh (il bivio)
+  - id: scuri-la-veglia
+    immagine: ambientazione/locanda-di-ilka
+    titolo: La veglia
+    sommario: "Alla Locanda di Ilka i vecchi olvari vegliano Mirko Vesh, con una sedia vuota accanto al fuoco. Chi è rimasto degli Scuri c'è tutto."
+    luogo: Locanda di Ilka, la sera
+    area: citta-bassa
+    requisiti: [fazione.scuri == 8, pista.pelle >= 6, bivio.legge != 1]
+    testo: |
+      Alla Locanda di Ilka hanno spostato i tavoli contro le pareti e messo
+      una sedia vuota accanto al fuoco, con sopra un bicchiere di sidro che
+      nessuno beve. È la veglia olvara per Mirko Vesh. I vecchi olvari della
+      Città Bassa sono seduti in cerchio con il cappello sulle ginocchia, e
+      Besk passa con la brocca senza far pagare nessuno. Ilka Dravec siede
+      dall'altra parte del fuoco, con gli occhi lattiginosi rivolti alla
+      sedia vuota, e racconta Mirko com'era da bambino, quando rubava le
+      castagne dalla sua padella.
+
+      Chi è rimasto degli Scuri c'è tutto. Gaia siede per terra vicino alla
+      porta, Karn è appoggiato al muro con le braccia incrociate e non
+      fischia. Sulla sedia vuota qualcuno ha posato un biglietto di Nihali da
+      Pannion, ripiegato due volte, che Ilka si è fatta leggere ad alta voce
+      e che diceva soltanto *pagato*.
+
+      {accademiche Media} Alle veglie olvare ognuno dice ad alta voce un
+      debito con il morto, quello che gli doveva o quello che lui doveva, e
+      Ilka lo chiude con una goccia di sidro nel fuoco. Chi parla per ultimo
+      si prende i debiti che nessuno ha reclamato.
+
+      {origine figlio-della-citta-bassa} Alle veglie olvare ci andavi da
+      bambino per le patate speziate. Ti ricordi che si parlava sottovoce,
+      e che l'ultimo a parlare era sempre il più vecchio.
+
+      A metà della veglia la porta si apre, e il fuoco si piega. Sulla soglia
+      c'è Durgan, il nano delle cicatrici, con due mercenari di Ghoran alle
+      spalle e l'ascia sulla spalla come un attrezzo da lavoro. Entra senza
+      togliersi niente, appoggia l'ascia al muro accanto a Karn e si siede nel
+      cerchio. *Vuole parlare per ultimo.* Senti le mani di Gaia chiudersi,
+      dall'altra parte della stanza.
+    opzioni:
+      - testo: "Restare nel cerchio"
+        descrizione: "Durgan vuole parlare per ultimo. Bisogna essere ancora seduti quando tocca."
+        quando: [fazione.caserma == 0]
+        esito:
+          titolo: Il cerchio
+          testo: |
+            Resti seduto. Uno dopo l'altro i vecchi olvari dicono il loro
+            debito con Mirko, e Ilka fa cadere la goccia di sidro nel fuoco.
+            Durgan aspetta con le mani sulle ginocchia. Il cerchio si stringe,
+            e alla fine restate soltanto voi due a non avere parlato.
+          imposta: { bivio.legge: 2 }
+          segue: scuri-chi-parla-per-ultimo
+
+      - testo: "Dire a Gaia che dalla Caserma hai chiuso"
+        descrizione: "Gaia ti ha visto entrare e uscire dalla Caserma. Prima del cerchio ti chiede di scegliere, perché qui stanotte si sceglie."
+        quando: [fazione.caserma >= 1]
+        esito:
+          titolo: Il cappuccio blu
+          testo: |
+            Gaia ti raggiunge vicino al muro e ti chiede a bassa voce se stanotte
+            sei degli Scuri o dello sceriffo, perché alla veglia di Mirko non
+            si viene con tutte e due le facce. Le dici che dalla Caserma hai
+            chiuso. Lei annuisce e torna a sedersi. Lo sceriffo lo saprà domani,
+            e capirà.
+          imposta: { bivio.legge: 2 }
+          effetti: { rep.caserma: -2 }
+          segue: scuri-chi-parla-per-ultimo
+
+      - testo: "Alzarti e uscire"
+        descrizione: "Lavori anche per la Caserma, e stanotte bisogna scegliere. Se esci adesso, gli Scuri non ti chiameranno più."
+        quando: [fazione.caserma >= 1]
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: La porta
+          testo: |
+            Ti alzi ed esci mentre un vecchio olvaro dice il suo debito. Sulla
+            soglia ti volti. Gaia ti guarda andare senza muoversi, e Durgan
+            sorride appena, perché adesso nel cerchio c'è un posto in meno.
+          imposta: { bivio.legge: 1 }
+          effetti: { rep.scuri: -2 }
+
+      - testo: "Aspettare un altro giro"
+        descrizione: "La veglia dura tutta la notte. Si può ancora guardare, prima di scegliere."
+        quando: [fazione.caserma >= 1]
+        costo: 0
+        esito:
+          titolo: Un giro di sidro
+          testo: |
+            Besk ti riempie il bicchiere, e tu guardi il fuoco. Un vecchio
+            olvaro racconta di quando Mirko gli ha prestato i soldi per il
+            funerale della moglie e poi non glieli ha mai chiesti indietro. Ilka
+            fa cadere la goccia, e il cerchio aspetta.
+
+  # ------------------------------------------------------------ 9 · il seguito, dopo Vesh (grado 3)
+  - id: scuri-chi-parla-per-ultimo
+    immagine: ambientazione/locanda-di-ilka
+    titolo: Chi parla per ultimo
+    tipo: seguito
+    luogo: Locanda di Ilka, a notte fonda
+    area: citta-bassa
+    requisiti: [fazione.scuri == 8, bivio.legge == 2]
+    testo: |
+      Restate voi due. Durgan si alza in piedi senza riprendere l'ascia e
+      parla nella lingua comune, con l'accento dei clan, guardando la sedia
+      vuota. Mirko gli doveva tre mesi di paga, e quella paga se la prende
+      dalla Città Bassa. Secondo lui gli Scuri sono morti con Mirko, e che i
+      debiti dei morti li riscuote chi ha le braccia per farlo. Ilka non fa
+      cadere la goccia di sidro. Resta con la brocca sospesa sopra il fuoco,
+      e aspetta.
+
+      {intimidire Media} Durgan non ha paura di nessuno in questa stanza,
+      tranne che di Ilka. La goccia di sidro non è caduta, e lui il perché
+      non lo capisce.
+
+      {armi-da-mischia Media} L'ascia è appoggiata al muro a un passo dalla
+      sua mano. Dei due mercenari sulla porta, uno ha già la mano sul
+      coltello.
+
+      Ilka gira la testa verso di te. «Tocca a te» dice. Sul tavolo accanto a
+      lei c'è un anello di rame con tre chiavi di ferro. Mirko l'aveva
+      lasciato a lei, ti racconta Besk più tardi, per chi avesse parlato per
+      ultimo.
+    opzioni:
+      - testo: "Parlare per ultimo"
+        descrizione: "Un debito con Mirko, detto davanti a tutti, e la parola giusta perché i vecchi olvari ti diano ragione."
+        prova: { attributo: sociale, abilita: [persuasione, espressivita], difficolta: Difficile }
+        successo:
+          titolo: La goccia
+          testo: |
+            Dici il tuo debito con Mirko, e poi dici che i debiti dei morti
+            si chiudono e non si riscuotono, e che chi li riscuote è un
+            ladro di veglie. I vecchi olvari battono il cappello sulle
+            ginocchia. Ilka fa cadere la goccia di sidro nel fuoco, e il
+            fuoco sfrigola. Ti mette in mano l'anello con le tre chiavi, e
+            Besk una borsa pesante. Durgan riprende l'ascia ed esce senza
+            una parola, ma alla porta si volta a guardarti in faccia, per
+            ricordarsela.
+          pe: { persuasione: 5 }
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, nomea.citta-bassa: 0.5, oggetto.scuri-tre-chiavi: 1 }
+        fallimento:
+          titolo: La voce che si incrina
+          testo: |
+            Dici il tuo debito con Mirko, e a metà la voce ti si incrina. Durgan
+            sorride. I vecchi olvari restano zitti, e per un momento credi di
+            avere perso. Poi Ilka fa cadere la goccia lo stesso, perché alle
+            veglie conta chi parla e non come. Ti mette in mano l'anello con le
+            tre chiavi. Durgan esce, e alla porta si volta a guardarti.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 40, tormento: 0.5, oggetto.scuri-tre-chiavi: 1 }
+
+      - testo: "Lasciar parlare Rozalia per te"
+        descrizione: "Rozalia lavora per te, e le parole le sa scegliere meglio di chiunque. Alle veglie, però, chi parla conta."
+        quando: [macerie.rozalia == 3]
+        immagine: personaggi/rozalia-marga
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: Per la precisione
+          testo: |
+            Rozalia si alza dal fondo della stanza, dove nessuno l'aveva
+            vista entrare, e dice che parla a nome tuo. Elenca a memoria i
+            debiti di Mirko con la Città Bassa, ognuno con la sua data, e
+            alla fine dice che li chiude tutti a nome tuo. Ilka fa cadere la
+            goccia. Ti mette in mano l'anello con le tre chiavi, e Durgan
+            esce senza una parola.
+          pe: { persuasione: 5 }
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, oggetto.scuri-tre-chiavi: 1 }
+        fallimento:
+          titolo: A nome di un altro
+          testo: |
+            Rozalia parla a nome tuo, e i vecchi olvari si guardano fra loro,
+            perché alle veglie non si parla a nome di un altro. Ilka aspetta
+            che tu dica almeno una parola, e tu la dici. La goccia cade. Ti
+            mette in mano l'anello con le tre chiavi, ma la borsa di Besk è
+            più leggera.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 40, oggetto.scuri-tre-chiavi: 1 }
+
+      - testo: "Dire soltanto il tuo debito, e sederti"
+        descrizione: "Nessun discorso. Un debito detto a voce, come fanno i vecchi, e poi si aspetta."
+        esito:
+          titolo: Il debito detto a voce
+          testo: |
+            Dici il tuo debito con Mirko in una frase sola, come i vecchi
+            olvari, e ti risiedi. Durgan aspetta che tu continui, e tu non
+            continui. Ilka fa cadere la goccia nel fuoco, perché alle veglie
+            basta quello. Ti mette in mano l'anello con le tre chiavi. Durgan
+            esce, e alla porta si volta a guardarti in faccia.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 40, oggetto.scuri-tre-chiavi: 1 }
+
+      - testo: "Raccontare le tue consegne per Mirko"
+        descrizione: "Da ragazzino portavi i pacchi degli Scuri su e giù per Via del Salmone. Ilka ti ha visto crescere."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Il ragazzo delle consegne
+          testo: |
+            Racconti di quando portavi i pacchi per Mirko, e del pacco che
+            ti si è rotto in mano e che lui ti ha perdonato. Ilka ride con
+            la sua voce roca e ti lascia parlare fino in fondo. Fa cadere la
+            goccia senza che nessuno la chieda, e ti mette in mano l'anello
+            con le tre chiavi. Besk ti dà una borsa pesante, mentre Durgan
+            esce senza voltarsi.
+          almeno: { rep.scuri: 6 }
+          effetti: { fazione.scuri: 1, monete: 60, nomea.citta-bassa: 0.5, oggetto.scuri-tre-chiavi: 1 }
+
+  # ------------------------------------------------------------ 10 · il gettone d'argilla
+  - id: scuri-il-gettone-d-argilla
+    immagine: ambientazione/citta-bassa
+    titolo: Il gettone d'argilla
+    sommario: "Sulle porte della Città Bassa compaiono gettoni d'argilla inchiodati al legno. Chi li ha, paga la protezione ai mercenari di Durgan."
+    luogo: Città Bassa, Via del Salmone
+    area: citta-bassa
+    requisiti: [fazione.scuri == 9, pista.pelle >= 6, bivio.legge == 2]
+    testo: |
+      In una settimana i gettoni d'argilla sono comparsi su metà delle porte
+      di Via del Salmone, inchiodati al legno all'altezza degli occhi. Chi ha
+      il gettone sulla porta paga la protezione ai mercenari di Durgan ogni
+      venerdì, e chi non lo ha lo avrà presto. Il Consiglio i mercenari non li
+      paga, perché le casse sono vuote, e Durgan la loro paga l'ha trovata da
+      solo. Sulla porta del vetraio, accanto al gettone, qualcuno ha disegnato
+      con il carbone una pentola panciuta, e sotto la pentola un punto di
+      domanda.
+
+      {politica-ed-economia Media} Ogni gettone è una moneta che il Consiglio
+      non spende. Finché la Città Bassa paga Durgan, in Municipio nessuno ha
+      fretta di pagare i mercenari.
+
+      {rissa Facile} I mercenari che passano a riscuotere vanno in tre, e
+      quello in mezzo porta il sacco. È quello che si stende per primo, se si
+      vuole che il sacco cada.
+
+      Gaia ti cammina accanto con le mani in tasca e il cappuccio basso.
+      «Hagra non è d'accordo con lui» dice. «Una volta l'ho sentita dirgli
+      che a Ghoran chi taglieggia le donne perde la faccia. Lui le ha
+      risposto che a Ghoran adesso non ci tornano.»
+
+      {origine fuggiasco-di-ghoran} I mercenari dicono che il clan paga
+      quando torna, e a Ghoran lo sanno tutti che vuol dire mai. Il gettone
+      è un debito che nessuno ha intenzione di saldare, e lo stomaco ti si
+      stringe come quando lo sentivi dire ai sorveglianti.
+    opzioni:
+      - testo: "Seguire i gettoni fino a chi li incide"
+        descrizione: "Un gettone esce da una mano sola, e la mano sta da qualche parte con l'argilla sotto le unghie."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il magazzino dell'argilla
+          testo: |
+            Segui il mercenario con il sacco dal venerdì al sabato, e il sabato
+            entra in un magazzino vicino all'Orlo dove un vecchio dei clan
+            incide gettoni su un tavolo con il punteruolo. Ne conti duecento
+            pronti, in fila come pani. Gaia porta il conto a Rozalia, e Rozalia
+            dice che Durgan sta comprando i funzionari di Mirko con i soldi dei
+            gettoni, e che una cosa simile si batte soltanto con il timbro.
+          pe: { percezione: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 15, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il sacco
+          testo: |
+            Segui il mercenario con il sacco, e al secondo angolo lui si gira e
+            ti aspetta, con i due compagni. Ti chiedono se vuoi un gettone anche
+            tu. Te ne vai senza voltarti, e senti le loro risate fino in fondo
+            alla strada.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Liberare una strada intera"
+        descrizione: "Tre mercenari passano a riscuotere il venerdì. Se una strada li vede scappare, le altre se lo ricordano."
+        combattimento: scuri-la-strada-dei-gettoni
+        vittoria:
+          titolo: La strada pulita
+          testo: |
+            Li aspetti il venerdì in fondo a Via del Salmone, e quando il sacco
+            cade si rompe e i gettoni rotolano nel tombino. I mercenari se ne
+            vanno zoppicando. La strada ti guarda dalle finestre, e prima di sera
+            i gettoni sono spariti da tutte le porte. Rozalia ti fa sapere che
+            Durgan adesso compra i funzionari di Mirko, e che si batte soltanto
+            con il timbro.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 15, nomea.citta-bassa: 1 }
+        sconfitta:
+          titolo: Il venerdì
+          testo: |
+            Sono tre e tu sei uno, e il venerdì finisce con te seduto contro
+            una porta e un gettone d'argilla infilato nel colletto. La
+            strada ti ha visto dalle finestre. Gaia ti aiuta ad alzarti e ti
+            toglie il gettone dal colletto, e lo butta nel tombino.
+          effetti: { nomea.citta-bassa: -0.5 }
+
+      - testo: "Far arrivare le prove a Galdrick, tramite Gaia"
+        descrizione: "La Caserma ha portato i mercenari in città. Se lo sceriffo sa che taglieggiano la Città Bassa, fa il lavoro degli Scuri, e non lo sa."
+        quando: [galdrick.via == 0]
+        prova: { attributo: sociale, abilita: [ingannare, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La mossa di Mirko
+          testo: |
+            Dai a Gaia una lista di porte e di venerdì, scritta da Rozalia con
+            la grafia di un bottegaio spaventato, e Gaia la fa arrivare alla
+            Caserma come una volta faceva con le sue notizie. Tre giorni dopo
+            la milizia passa per Via del Salmone e stacca i gettoni dalle porte
+            uno per uno. Rozalia ride e dice che è la mossa che avrebbe fatto
+            Mirko. Poi aggiunge che Durgan adesso compra i funzionari.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 15, rep.caserma: 1 }
+        fallimento:
+          titolo: La grafia
+          testo: |
+            La lista arriva alla Caserma, e il sergente la confronta con la
+            grafia di Rozalia, che è nel registro delle visite. Galdrick fa
+            staccare i gettoni lo stesso, e poi fa chiamare te. Ti chiede se
+            hai altro da dirgli, e tu ti guardi bene dal rispondere di sì.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, rep.caserma: -1, sospetto: 1 }
+
+      - testo: "Parlare con Hagra"
+        descrizione: "Hagra non è d'accordo con Durgan. Se nella faccenda del prosciutto l'hai trattata bene, ti ascolta."
+        quando: [guarnigione.mercenari >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Facile }
+        successo:
+          titolo: La resina
+          testo: |
+            Trovi Hagra al Mercato dei Nodi, che mastica resina davanti a un
+            banco di prosciutti, e lei ti riconosce subito. Ti dice che una
+            parte dei mercenari non vuole riscuotere dalle donne, e che sta con
+            Durgan solo perché la Caserma non paga. «Eh» dice, e sputa la resina.
+            «Se paga qualcun altro, cambia tutto.» Rozalia, quando lo viene a
+            sapere, dice che Durgan sta comprando i funzionari.
+          pe: { persuasione: 5 }
+          imposta: { scuri.hagra: 1 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 15 }
+        fallimento:
+          titolo: Il prosciutto
+          testo: |
+            Trovi Hagra al Mercato dei Nodi, e lei ti ascolta masticando resina.
+            Poi ti dice che con il prosciutto sei stato gentile, e che la
+            gentilezza la ricorda, però la paga la dà Durgan. Sputa la resina
+            accanto ai tuoi stivali, e torna dai suoi.
+
+      - testo: "Dire ai mercenari quello che sa chi è scappato"
+        descrizione: "Il clan paga quando torna, e a Ghoran tutti sanno che vuol dire mai. Detto nella lingua dei clan, il gettone pesa diverso."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Mai
+          testo: |
+            Fermi il mercenario con il sacco e gli dici nella lingua dei clan che
+            il clan paga quando torna, e che lui a Ghoran non ci tornerà. Lui
+            ti guarda a lungo. Ti dice dov'è il magazzino dove incidono i
+            gettoni, e che Durgan con quei soldi compra i funzionari di Mirko.
+            Rozalia, quando glielo racconti, dice che si batte soltanto con il
+            timbro.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 15, informazioni.segreto: 1 }

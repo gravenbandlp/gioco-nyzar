@@ -1,0 +1,1114 @@
+# Il guado del Torvessa, spedizione del passo 8 della quest del Consiglio (fazione.consiglio == 7).
+# Si parte dal Maniero Castaldi con `consiglio-i-carri-di-laresh` (passi-2.yaml, imposta consiglio.partito 1).
+# La ritirata porta alla Superficie Fratturata, e da lì si torna ai carri con `consiglio-tornare-ai-carri`.
+# Due carri del Comune carichi del grano delle terre dei Castaldi a Laresh, con un carrettiere di Quintus Vael,
+# vanno verso la città per il guado vecchio del Torvessa, per non passare dal ponte del dazio.
+# Al posto dell'allarme c'è consiglio.carri-persi: i fallimenti gravi delle stanze e del cuore fanno perdere un
+# carro (o il suo carico). Il passo 9 legge quanti ne sono arrivati.
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+# 0 i granai (il granaio del fattore, le fiammelle sui campi; il carico storto, che vale anche a 1),
+# 1 la strada fra i campi (il guado del rio, la ruota spaccata), 2 le colline basse (il posto di blocco, gli orchi
+# profughi; l'osteria del bivio, che vale anche a 3), 3 la riva del Torvessa (il pesatore della Gilda, la barca dei
+# pescatori). Ogni stanza ha due prove e una via senza prova che costa due rintocchi.
+# Il cuore a 4 è il guado vecchio, con l'agguato di Guido Sarpa: prima della caduta di Ottone (pista.pelle < 7) i
+# suoi uomini sono sgherri dei Malgrani, dopo sono scagnozzi delle cellule dei villaggi pagati da Tebaldo Ronchi.
+# consiglio.sarpa: 1 battuto (o vincitore, se perdi lo scontro), 2 passa al Comune con i carrettieri, 3 aggirato
+# dal guado basso. Ogni ramo chiude il passo e riporta ai Quartieri Alti, con i carri nel seminterrato del Maniero.
+aree:
+  - id: consiglio-guado-del-torvessa
+    immagine: ambientazione/laresh
+    nome: Il guado del Torvessa
+    sommario: "Due carri del Comune carichi del grano dei Castaldi, dai granai di Laresh al guado vecchio del Torvessa. La strada del ponte è più corta, e al ponte c'è il dazio della Gilda."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      I granai dei Castaldi stanno ai margini di Laresh, tre fienili di pietra
+      con il tetto di coppi e un'aia in mezzo, dove i fattori battono il grano
+      e lo insaccano. Da lì una strada bianca corre fra i campi di stoppie
+      fino alle colline basse, che sono pascoli magri segnati da muretti e da
+      qualche casolare con il fumo dal camino.
+
+      Oltre le colline scorre il Torvessa. La strada maestra lo passa sul
+      ponte del dazio, dove la Gilda pesa ogni sacco e ne chiede la sua parte.
+      Più a valle c'è il guado vecchio, una lingua di ghiaia che d'estate
+      l'acqua copre appena fino ai mozzi, e che i carrettieri del grano usano
+      da generazioni quando preferiscono che nessuno conti i sacchi.
+
+      Sulla strada viaggiano due carri del Comune con le ruote cerchiate di
+      ferro, tirati da due coppie di buoi pazienti. Li guida un carrettiere
+      che Quintus Vael ti ha prestato insieme a una raccomandazione
+      borbottata, e sui teloni cerati qualcuno ha dipinto in fretta lo stemma
+      del Comune, che con la pioggia ha già cominciato a colare.
+
+storylet:
+  # ------------------------------------------------------------ il rientro, dalla Superficie
+  - id: consiglio-tornare-ai-carri
+    immagine: ambientazione/laresh
+    titolo: Tornare ai carri
+    sommario: "I carri del grano ti aspettano dove li hai lasciati, con il carrettiere di Quintus seduto sulla stanga."
+    luogo: Superficie Fratturata, la strada di Laresh
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.consiglio == 7, consiglio.partito >= 1]
+    testo: |
+      Ritrovi i carri del Comune fermi a lato della strada di Laresh, con i
+      buoi che ruminano a testa bassa e il carrettiere di Quintus seduto sulla
+      stanga a rammendarsi una calza con l'ago da sacchi. Ti vede arrivare e
+      non smette di cucire.
+
+      Il grano è ancora sotto i teloni, e il Torvessa è ancora dall'altra
+      parte delle colline.
+    opzioni:
+      - testo: "Riprendere la strada con i carri"
+        descrizione: "Si riparte dai granai, perché i buoi vanno abbeverati e i sacchi ricontati."
+        esito:
+          titolo: Di nuovo in strada
+          testo: |
+            Il carrettiere infila l'ago nella tesa del cappello e schiocca la
+            lingua ai buoi, che si muovono con la rassegnazione di sempre.
+            Prima di ripartire ricontate insieme i sacchi sotto i teloni, e il
+            conto torna. Lui lo ripete a mezza voce per tutta la prima salita,
+            come una preghiera che non ha imparato bene.
+          vai: consiglio-guado-del-torvessa
+
+  # ------------------------------------------------------------ 0 · i granai
+  - id: consiglio-guado-il-granaio-del-fattore
+    immagine: ambientazione/laresh
+    titolo: Il granaio del fattore
+    sommario: "Il fattore dei Castaldi ha il grano insaccato e la porta del granaio chiusa con la stanga. Prima di aprirla vuole capire chi lo pagherà."
+    luogo: Laresh, l'aia dei granai dei Castaldi
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 0]
+    testo: |
+      Sull'aia dei granai le galline si spostano davanti alle ruote dei carri
+      senza nessuna fretta. Il fattore dei Castaldi ti aspetta sulla soglia
+      del fienile più grande, con la stanga della porta appoggiata alla
+      spalla, e dietro di lui si vedono i sacchi impilati fino alle travi. È
+      un uomo magro con la camicia abbottonata fino al collo anche con questo
+      caldo, e tiene sotto il braccio un quaderno dalla copertina unta.
+
+      «Il grano è pronto da una settimana» dice. «Il signor Aldous mi ha
+      scritto di darlo ai carri del Comune. Poi però è passato uno a cavallo a
+      chiedere se il raccolto era già venduto, e chi lo pagava, e a che
+      prezzo.» Batte il quaderno contro la coscia. «Io i conti li rendo a chi
+      firma, e chi firma non lo so più.»
+
+      {politica-ed-economia Media} Quel quaderno è il suo scudo. Se il grano
+      sparisce senza una firma sopra, la colpa resta a lui e alla sua famiglia
+      per tre generazioni.
+
+      {origine rampollo-dei-quartieri-alti} I fattori delle terre di famiglia
+      li hai visti sempre da lontano, alle feste del raccolto. Non ti sei mai
+      chiesto chi firmasse per loro, e adesso tocca a te farlo.
+    opzioni:
+      - testo: "Convincerlo che il Comune risponde del carico"
+        descrizione: "Hai il nome di Julia Castaldi da spendere, e lui ha paura di sbagliare padrone."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La firma
+          testo: |
+            Gli spieghi che i carri sono del Comune e che il Comune risponde
+            di quello che porta, poi gli fai vedere come si scrive la
+            ricevuta. Lui ti presta la penna e guarda la tua firma asciugarsi
+            sul quaderno con l'attenzione di un notaio. Poi solleva la stanga,
+            e prima che tu te ne vada ti mette in mano un fagotto con il pane
+            e un pezzo di formaggio, perché la strada è lunga.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 2 }
+        fallimento:
+          titolo: Il cavaliere
+          testo: |
+            Gli parli del Comune e della Rappresentante, e più parli più lui
+            stringe la stanga. Alla fine ti dice che aspetterà un biglietto
+            del signor Aldous scritto di suo pugno, e rientra nel fienile.
+            Passi il pomeriggio sull'aia a cacciare le galline dalle ruote,
+            mentre il sole ti cuoce la nuca.
+          effetti: { ferite: 0.5 }
+      - testo: "Fare i conti del raccolto con lui"
+        descrizione: "Se i sacchi tornano sul suo quaderno e sulla tua ricevuta, non c'è niente da temere."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il quaderno unto
+          testo: |
+            Vi sedete su un sacco con il quaderno aperto fra voi, e rifate i
+            conti riga per riga, dai sacchi alla parte che spetta a lui, e
+            tornano tutti. Il fattore annuisce a ogni riga che torna e alla
+            fine ti scrive in fondo alla pagina un numero e un nome, quello
+            del cavaliere che è passato a chiedere. Il nome non ti dice
+            niente, la mano che l'ha scritto trema un poco.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il sacco in più
+          testo: |
+            I conti ti danno un sacco in più di quelli che vedi, e lo dici ad
+            alta voce. Il fattore diventa rosso fino alle orecchie e
+            ricomincia da capo, e trova l'errore nella tua colonna. Da quel
+            momento ti guarda come si guarda un esattore, e per farti caricare
+            i sacchi ci mette tutto il pomeriggio.
+          effetti: { sospetto: 0.5 }
+      - testo: "Caricare i sacchi con le tue mani"
+        descrizione: "Un fattore si fida di chi suda sul suo grano. Ci vuole il giorno intero."
+        costo: 2
+        esito:
+          titolo: Le spalle
+          testo: |
+            Ti togli la giubba e cominci a portare i sacchi ai carri, uno per
+            spalla, finché il fattore non viene ad aiutarti senza dire niente.
+            A sera i carri sono carichi e tu hai la schiena di un uomo
+            vecchio. Il fattore ti stringe la mano, e la stretta è di quelle
+            che dicono più di una ricevuta.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, ferite: 0.5 }
+
+  - id: consiglio-guado-le-fiammelle-sui-campi
+    immagine: ambientazione/laresh
+    titolo: Le fiammelle sui campi
+    sommario: "Al tramonto, sui campi di stoppie intorno ai granai, si accendono fiammelle azzurre che nessuno ha acceso."
+    luogo: Laresh, i campi di stoppie
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 0]
+    testo: |
+      Il sole scende dietro i fienili e i campi di stoppie diventano color
+      rame. Quando l'ultima luce se ne va, fra i covoni lasciati in piedi si
+      accendono delle fiammelle azzurre, piccole quanto la fiamma di una
+      candela, che galleggiano all'altezza del ginocchio e si spostano piano
+      verso i carri. I buoi sbuffano e puntano gli zoccoli.
+
+      Il carrettiere di Quintus si fa il segno dell'Albero e poi, per
+      sicurezza, anche un altro che non conosci. «Sono gli spiriti del
+      raccolto» dice. «Mia nonna diceva che contano i sacchi, e se ne manca
+      uno si prendono un bue.»
+
+      {natura Media} Le fiammelle girano intorno ai covoni come le api intorno
+      all'arnia. Vengono dietro al grano che c'era nei campi e che adesso sta
+      nei sacchi.
+
+      {origine figlio-del-circolo} Al Circolo le chiamano lucciole del
+      raccolto, e ai bambini insegnano a lasciare un pugno di spighe sul bordo
+      del campo, per buona creanza. Qui nessuno l'ha fatto.
+
+      {resilienza Media fallita} Ti si rizzano i peli delle braccia e ti
+      accorgi di aver fatto un passo indietro verso il carro, insieme ai buoi.
+    opzioni:
+      - testo: "Lasciare un sacco aperto sul bordo del campo"
+        descrizione: "Se contano il grano, forse si accontentano di contarne un po'."
+        prova: { attributo: mentale, abilita: [natura, empatia], difficolta: Media }
+        successo:
+          titolo: La parte degli spiriti
+          testo: |
+            Apri un sacco sul bordo del campo e spargi una manciata di grano
+            sulle stoppie, a mano larga, come hai visto fare alle donne nei
+            villaggi. Le fiammelle si posano sul grano una dopo l'altra e si
+            spengono. Al mattino il grano non c'è più, e sulle stoppie resta
+            una brina azzurrina che si scioglie al primo sole. I buoi
+            ripartono senza farsi pregare.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1 }
+        fallimento:
+          titolo: Il sacco sbagliato
+          testo: |
+            Spargi il grano sulle stoppie, e le fiammelle lo ignorano. Si
+            radunano intorno al secondo carro e ci restano tutta la notte,
+            mentre il carrettiere prega sottovoce e i buoi non dormono. Al
+            mattino un sacco è aperto da una parte e vuoto, e i buoi hanno gli
+            occhi rossi.
+          effetti: { tormento: 0.5 }
+      - testo: "Disperderle con il Mana"
+        descrizione: "Sono fuochi di Mana, e il Mana si può spingere da un'altra parte."
+        prova: { attributo: mentale, abilita: [magia, resilienza], difficolta: Media }
+        successo:
+          titolo: Il vento sulle stoppie
+          testo: |
+            Apri le mani verso il campo e senti il Mana delle fiammelle,
+            tiepido come il fiato di un animale. Lo spingi piano verso il
+            bosco in fondo ai campi, e le fiammelle lo seguono in fila, una
+            dietro l'altra, finché non si perdono fra i tronchi. Il
+            carrettiere ti guarda con un rispetto nuovo e un po' di
+            diffidenza, e ti offre un sorso dalla sua borraccia.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La scottatura fredda
+          testo: |
+            Spingi il Mana verso il bosco, e le fiammelle ti vengono addosso
+            invece di allontanarsi. Una ti si posa sul dorso della mano e
+            brucia di un freddo che arriva fino all'osso. Quando se ne vanno
+            da sole, verso l'alba, sulla mano ti resta un segno azzurro a
+            forma di moneta.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Vegliare fino all'alba accanto ai buoi"
+        descrizione: "Lasciate in pace, le fiammelle prima dell'alba se ne vanno da sole. Ci vuole una notte senza dormire."
+        costo: 2
+        esito:
+          titolo: La veglia
+          testo: |
+            Ti siedi fra i due carri con la schiena contro una ruota e una
+            coperta sulle spalle, e guardi le fiammelle girare intorno ai buoi
+            per tutta la notte. Il carrettiere russa. All'alba le fiammelle
+            rientrano nei covoni una alla volta, e tu ti alzi con gli occhi
+            che bruciano e le gambe di legno.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 0–1 · il carico storto
+  - id: consiglio-guado-il-carico-storto
+    immagine: ambientazione/laresh
+    titolo: Il carico storto
+    sommario: "Al primo sobbalzo il secondo carro si inclina da una parte. I sacchi sono stati impilati male, e il telone tira."
+    luogo: Laresh, la strada bianca fuori dai granai
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa <= 1]
+    testo: |
+      Appena fuori dall'aia la strada bianca scende in una buca, e il secondo
+      carro ci entra con la ruota destra e ne esce inclinato. Sotto il telone
+      i sacchi scivolano tutti dalla stessa parte con un rumore sordo, e una
+      corda si tende fino a cantare. Il carrettiere ferma i buoi con un
+      fischio e scende a guardare, grattandosi la nuca sotto il cappello.
+
+      «Li hanno impilati a piramide» dice. «A piramide si impilano le mele.»
+      Lo dice con il disprezzo profondo di un artigiano per il lavoro degli
+      altri.
+
+      {atletica Facile} Un sacco di grano pesa quanto un ragazzo, e ce ne sono
+      da spostare una ventina. Le braccia te lo hanno già detto prima che
+      finissi di contarli.
+
+      {tecnologia Media} Se si sposta il peso sull'asse posteriore e si tende
+      di nuovo la corda di traverso, il carro si raddrizza da solo alla prima
+      curva.
+    opzioni:
+      - testo: "Rifare il carico sacco per sacco"
+        descrizione: "Lavoro di schiena, e il carrettiere ti dice dove metterli."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: A mattoni
+          testo: |
+            Scaricate metà dei sacchi sul ciglio e li rimettete su a file
+            sfalsate, come si posano i mattoni, con il carrettiere che ti
+            corregge ogni sacco con un dito. Quando avete finito il carro sta
+            dritto, e lui gli dà una pacca sulla sponda, come a un cavallo che
+            si è comportato bene. Nel fondo del carico trovate qualche moneta
+            caduta dalla tasca di chi l'aveva impilato.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 3 }
+        fallimento:
+          titolo: Il sacco nel fosso
+          testo: |
+            Al terzo giro un sacco ti scivola dalla spalla, rotola giù dal
+            ciglio e si apre nel fosso pieno d'acqua. Mentre lo ripescate se
+            ne apre un altro. A sera il carro è dritto, e tu hai una spalla
+            che scricchiola e i calzoni pieni di grano bagnato.
+          effetti: { ferite: 0.5 }
+      - testo: "Tendere la corda di traverso"
+        descrizione: "Un nodo ben fatto vale una schiena intera."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il nodo del carrettiere
+          testo: |
+            Fai passare la corda sotto l'asse posteriore e la riporti sopra il
+            carico di traverso, poi la tiri con un nodo a scorsoio che il
+            carrettiere guarda prima con sospetto e poi con approvazione. Alla
+            prima curva il carro si raddrizza con un sospiro di legno. Lui ti
+            chiede di rifargli il nodo più piano, per impararlo.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1 }
+        fallimento:
+          titolo: La corda che salta
+          testo: |
+            Tiri la corda con tutta la forza che hai, e la corda salta dal
+            gancio e ti frusta il braccio. Il carico si sposta ancora di più,
+            e il carrettiere deve scaricare mezzo carro da solo mentre tu ti
+            tieni il gomito, e per rimettere a posto il carico ci mettete fino
+            al buio.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Andare piano fino alla prossima fattoria"
+        descrizione: "Al passo d'uomo, con le spalle contro la sponda per tenere su il carico."
+        costo: 2
+        esito:
+          titolo: Al passo
+          testo: |
+            Cammini accanto al carro con la spalla contro la sponda per tutta
+            la mattina, e ogni buca la senti nelle ossa. Alla fattoria più
+            vicina un ragazzo vi aiuta a rifare il carico in cambio di un
+            passaggio fino al bivio. Hai una spalla più bassa dell'altra.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · la strada fra i campi
+  - id: consiglio-guado-il-guado-del-rio
+    immagine: ambientazione/laresh
+    titolo: Il guado del rio
+    sommario: "Un rio che d'estate si salta con un passo ha rotto gli argini con la pioggia della notte, e la strada ci finisce dentro."
+    luogo: La strada fra i campi, il rio
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 1]
+    testo: |
+      A metà mattina la strada scende in un avvallamento e finisce dentro un
+      rio gonfio di pioggia. L'acqua è color caffellatte e corre veloce
+      portandosi dietro i rami spezzati della notte. Dall'altra parte la
+      strada risale fra due pioppi, e il fondo del guado non si vede.
+
+      Il carrettiere ferma i buoi sul bordo e misura l'acqua con il pungolo,
+      che sparisce quasi fino alla sua mano. «Coi carri pieni non passiamo»
+      dice. «O passiamo una volta sola.»
+
+      {cavalcare Media} I buoi hanno già deciso che l'acqua non gli piace, e
+      il bue di sinistra in particolare. Se ci entra lui per primo, l'altro lo
+      segue.
+
+      {atletica Media fallita} La corrente sembra lenta, a guardarla. È la
+      stessa impressione che danno i fiumi nelle storie dei ragazzi annegati.
+    opzioni:
+      - testo: "Entrare nell'acqua e tracciare il passaggio"
+        descrizione: "Una corda legata in vita e i piedi a tastare il fondo."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il fondo di ghiaia
+          testo: |
+            Entri nel rio con la corda legata in vita, e a ogni passo tasti il
+            fondo con il piede prima di caricarci il peso. A tre passi dalla
+            riva trovi la ghiaia buona e la segui fino all'altra sponda,
+            piantando paletti dove la strada è sicura. I carri passano con
+            l'acqua ai mozzi. Su uno dei paletti, a sera, qualcuno ha già
+            appeso una borsa di cuoio dimenticata dall'ultima piena, con
+            dentro qualche moneta verdastra.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 4 }
+        fallimento:
+          titolo: La corrente
+          testo: |
+            Al quarto passo il fondo sparisce e la corrente ti prende alle
+            gambe. Il carrettiere ti tira fuori con la corda come un pesce
+            mentre tossisci acqua marrone. Avete perso mezza giornata, e tu
+            hai un ginocchio gonfio e i vestiti che non si asciugano più.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Far passare il bue di sinistra per primo"
+        descrizione: "Le bestie da tiro sentono il fondo meglio degli uomini, se si fidano di chi le guida."
+        prova: { attributo: fisico, abilita: [cavalcare, resistenza], difficolta: Media }
+        successo:
+          titolo: Il bue che sa
+          testo: |
+            Prendi il bue di sinistra per la cavezza e gli parli piano, a
+            lungo, finché non smette di puntare gli zoccoli. Entra nell'acqua
+            da solo, con il muso alto, e si sceglie la strada sul fondo come
+            se la conoscesse da sempre. L'altro lo segue. Il carrettiere ti
+            guarda dalla riva grattandosi la nuca, perché ha appena perso una
+            scommessa con se stesso.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1 }
+        fallimento:
+          titolo: Il carro di traverso
+          testo: |
+            Il bue entra in acqua, poi cambia idea a metà guado e tira di
+            lato. Il primo carro si mette di traverso nella corrente, e per
+            tenerlo su dovete tagliare le corde e lasciar andare i sacchi
+            della sponda. Li vedete galleggiare lenti verso valle, gonfi
+            d'acqua.
+          effetti: { ferite: 0.5, consiglio.carri-persi: 1 }
+      - testo: "Aspettare che l'acqua cali"
+        descrizione: "Il rio si sgonfia in un giorno. Il grano aspetta, chi vi segue forse no."
+        costo: 2
+        esito:
+          titolo: Un giorno sulla riva
+          testo: |
+            Accampate i carri sotto i pioppi e aspettate. L'acqua cala di un
+            palmo al giorno, e voi la guardate calare. Al tramonto un uomo a
+            cavallo si ferma sulla collina dietro di voi, guarda i carri a
+            lungo e se ne va. All'alba passate con l'acqua alle ginocchia e un
+            brutto presentimento.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, tormento: 0.5 }
+
+  - id: consiglio-guado-la-ruota-spaccata
+    immagine: ambientazione/laresh
+    titolo: La ruota spaccata
+    sommario: "Il primo carro si ferma in mezzo alla strada con una ruota aperta come un melograno. Qualcuno ha segato i raggi."
+    luogo: La strada fra i campi, il bivio dei gelsi
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 1]
+    testo: |
+      Al bivio dei gelsi il primo carro dà uno strattone e si siede sulla
+      strada con un rumore di legno spezzato. La ruota destra si è aperta come
+      un melograno, con tre raggi rotti di netto e il cerchio di ferro piegato
+      verso l'interno. Il carrettiere si inginocchia nella polvere e passa il
+      pollice sulla rottura, poi te lo mostra senza dire niente.
+
+      {percezione Facile} Sui raggi c'è il segno pulito di una sega fino a
+      metà, e poi il legno strappato. Qualcuno ha lavorato di notte mentre i
+      carri dormivano sull'aia.
+
+      Dietro il gelso più grosso c'è una casupola con una forgia spenta e un
+      mucchio di ruote vecchie appoggiate al muro, e sulla porta un vecchio
+      con il grembiule di cuoio vi guarda come si guardano i clienti che non
+      possono andare da nessun'altra parte.
+
+      {origine mercante-dei-ponti} Il vecchio ha già fatto il prezzo, e lo
+      vedi da come si sistema il grembiule. Ai Ponti chi ripara le carrucole
+      rotte fa lo stesso gesto prima di spararla grossa.
+    opzioni:
+      - testo: "Rifare i raggi con il vecchio"
+        descrizione: "Lui ha le ruote vecchie e la forgia. Le mani e la pazienza ce le metti tu."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La ruota di un altro
+          testo: |
+            Smontate una delle ruote vecchie appoggiate al muro, che ha i
+            raggi buoni e il mozzo sbagliato, e passate il pomeriggio ad
+            adattarla con la raspa e il fuoco. Il vecchio smette di fare il
+            prezzo a metà lavoro e comincia a spiegarti come si stringe un
+            cerchio a caldo. Ti fa pagare meno di quanto pensavi e ti regala
+            due chiodi da ruota.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: -2, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il cerchio storto
+          testo: |
+            Stringete il cerchio a caldo, e il cerchio si piega da una parte.
+            Ci vuole un secondo giorno e una seconda ruota vecchia, che il
+            vecchio vi fa pagare cara. Mentre aspetti accanto alla forgia ti
+            scotti le dita su un ferro che sembrava freddo.
+          effetti: { ferite: 0.5, monete: -4 }
+      - testo: "Spingere il carro fino alla forgia con i buoi"
+        descrizione: "Con la ruota legata a un palo e tutto il peso sulle tue spalle, fino alla casupola."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il palo sotto l'asse
+          testo: |
+            Infilate un palo sotto l'asse a mo' di slitta e tu spingi dalla
+            parte della ruota rotta mentre i buoi tirano. Arrivate alla forgia
+            con la schiena fumante. Il vecchio, che si aspettava di dovervi
+            vendere anche il palo, vi ripara la ruota senza fiatare e vi offre
+            l'acqua del pozzo.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1 }
+        fallimento:
+          titolo: L'asse incrinato
+          testo: |
+            A metà strada il palo scivola e l'asse batte sulla pietra con un
+            crac che senti nei denti. Adesso è incrinato anche quello. Per
+            alleggerire il carro scaricate una parte dei sacchi sotto il
+            gelso, e quando tornate a prenderli non ci sono più.
+          effetti: { ferite: 0.5, consiglio.carri-persi: 1 }
+      - testo: "Pagare il vecchio quello che chiede"
+        descrizione: "Ha capito che siete in trappola al suo bivio, quindi il conto lo fa lui."
+        costo: 2
+        esito:
+          titolo: Il prezzo del bivio
+          testo: |
+            Paghi senza discutere. Il vecchio ripara la ruota con calma, un
+            raggio alla volta, fermandosi a ogni raggio per bere. Ripartite il
+            giorno dopo con la ruota nuova che cigola e la borsa più leggera.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: -5 }
+
+  # ------------------------------------------------------------ 2 · le colline basse
+  - id: consiglio-guado-il-posto-di-blocco
+    immagine: ambientazione/laresh
+    titolo: Il posto di blocco
+    sommario: "In cima alla prima collina due uomini con il mantello dei Custodi hanno messo una stanga di traverso alla strada."
+    luogo: Le colline basse, la stanga sulla strada
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 2]
+    testo: |
+      In cima alla prima collina la strada passa fra due muretti a secco, e
+      fra i muretti qualcuno ha messo una stanga di traverso, appoggiata su
+      due cavalletti. Due uomini con il mantello grigio dei Custodi ci stanno
+      seduti accanto, all'ombra di un fico selvatico, e quando arrivano i
+      carri il più grosso si alza e apre un registro sulla stanga.
+
+      «Dazio delle colline» dice. «Un tanto a sacco, per la manutenzione della
+      strada.» La strada, intorno a lui, non ha mai visto un badile.
+
+      {conoscenze-della-strada Facile} Un dazio che nessuno ha mai sentito
+      nominare, su una strada senza manutenzione, chiesto da due uomini soli.
+      A Qir-Azel si chiama in un altro modo.
+
+      {percezione Media} Il mantello del più grosso ha l'orlo nuovo e le
+      spalle scolorite dal sole. È stato tagliato da uno più lungo, e la
+      fibbia dei Custodi è cucita storta.
+
+      {origine figlio-della-citta-bassa} Nei vicoli si faceva lo stesso con le
+      fasce della milizia, comprate da un rigattiere e indossate per un
+      pomeriggio. Bastava che il cliente non sapesse leggere.
+    opzioni:
+      - testo: "Chiedere di vedere il suo sigillo"
+        descrizione: "Un Custode vero il sigillo ce l'ha. Uno falso deve inventarsi qualcosa."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il sigillo che manca
+          testo: |
+            Gli chiedi il sigillo della Gilda, quello che i Custodi portano al
+            collo, e lui si tocca il petto dove non c'è. Gli fai notare la
+            fibbia cucita storta. I due si guardano. Poi tolgono la stanga e
+            si allontanano per i campi senza voltarsi, lasciando sul
+            cavalletto il registro e il borsello delle monete raccolte
+            stamattina.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 5 }
+        fallimento:
+          titolo: Il registro
+          testo: |
+            Chiedi il sigillo, e il grosso ti sbatte sotto il naso il registro
+            pieno di croci. Mentre cerchi di leggerlo il secondo uomo ha già
+            tagliato le corde del telone e caricato due sacchi su un mulo.
+            Quando te ne accorgi sono già in fondo al campo.
+          effetti: { sospetto: 0.5, consiglio.carri-persi: 1 }
+      - testo: "Recitare la parte di un Custode più alto in grado"
+        descrizione: "Se lui è un Custode, tu puoi essere il suo superiore. Chi mente male ha paura di chi mente meglio."
+        prova: { attributo: sociale, abilita: [ingannare, intimidire], difficolta: Media }
+        successo:
+          titolo: L'ispezione
+          testo: |
+            Scendi dal carro con calma, ti fai dare il registro e cominci a
+            sfogliarlo adagio, con la faccia annoiata di un ispettore che
+            controlla i conti degli altri da anni. Chiedi dove sono stati
+            versati gli incassi della settimana scorsa. Il grosso balbetta,
+            l'altro guarda i campi. Alla fine tolgono la stanga e si scusano
+            per il disturbo, e il grosso ti allunga una manciata di monete
+            perché non scriva il suo nome.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 4 }
+        fallimento:
+          titolo: Il nome del capitano
+          testo: |
+            Il grosso ti chiede il nome del tuo capitano, e tu ne dici uno a
+            caso. Lui ride e chiama il compagno. Ve la cavate pagando il dazio
+            intero, più una parte per l'offesa, e il carrettiere per tutta la
+            discesa non ti rivolge la parola.
+          effetti: { monete: -4, scandalo: 0.5 }
+      - testo: "Pagare il dazio e tirare dritto"
+        descrizione: "Costa meno di una rissa, e le colline sono ancora lunghe."
+        costo: 2
+        esito:
+          titolo: Il dazio delle colline
+          testo: |
+            Paghi a sacco, e il grosso conta i sacchi due volte, sbagliando
+            sempre a suo favore. Poi alza la stanga con un inchino. Dalla
+            collina dopo lo vedi rimettere la stanga di traverso per il
+            prossimo carro, fischiettando.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: -6 }
+
+  - id: consiglio-guado-gli-orchi-profughi
+    immagine: ambientazione/laresh
+    titolo: Gli orchi profughi
+    sommario: "In un casolare bruciato lungo la strada si sono rifugiati degli orchi. Hanno fame, e i carri sono pieni di grano."
+    luogo: Le colline basse, il casolare bruciato
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 2]
+    testo: |
+      Dove la strada gira intorno alla seconda collina c'è un casolare con il
+      tetto crollato e i muri anneriti dal fuoco. Dalle finestre senza imposte
+      esce un filo di fumo, e quando i carri si avvicinano sulla soglia
+      compaiono quattro orchi magri, con le costole che si contano sotto la
+      pelle grigioverde. Uno ha un braccio fasciato con uno straccio. Nessuno
+      impugna un'arma, però non si spostano dalla strada.
+
+      Il carrettiere ferma i buoi e mette la mano sul coltello. «Spiumatori»
+      dice a denti stretti. «Scappati dopo la razzia.»
+
+      {empatia Media} Il più giovane guarda i sacchi e si lecca le labbra, poi
+      si vergogna di averlo fatto e abbassa gli occhi. Hanno più fame che
+      voglia di combattere.
+
+      {origine fuggiasco-di-ghoran} Le costole contate le conosci. A Ghoran il
+      peso si faceva prima di mangiare, e tu ti ricordi la fame di chi aspetta
+      la bilancia.
+
+      {rissa Media fallita} Ti metti a contarli e poi a contare quanti colpi
+      ti servirebbero, e il conto non viene mai a tuo favore.
+    opzioni:
+      - testo: "Dividere con loro un sacco di grano"
+        descrizione: "Un sacco in meno al Maniero, e una strada tranquilla. Bisogna farglielo capire senza che sembri una debolezza."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il sacco aperto
+          testo: |
+            Scendi dal carro a mani aperte e posi un sacco sulla soglia del
+            casolare, poi torni indietro di qualche passo. Quello con il
+            braccio fasciato lo apre con i denti. Ti fa un cenno con il mento
+            e i quattro si spostano, e mentre i carri passano il più giovane
+            ti dice in un comune stentato che più avanti, al fiume, ci sono
+            uomini che aspettano qualcuno.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La mano sul coltello
+          testo: |
+            Posi il sacco sulla soglia, e in quel momento il carrettiere
+            estrae il coltello. Gli orchi si buttano sul secondo carro e lo
+            svuotano a braccia, e quando riesci a calmare tutti hanno già
+            portato via mezzo carico dentro il casolare. Nessuno si è fatto
+            male, a parte il grano.
+          effetti: { consiglio.carri-persi: 1 }
+      - testo: "Farli spostare con la voce"
+        descrizione: "Hanno fame e paura. Basta che la paura sia più grande."
+        prova: { attributo: sociale, abilita: [intimidire, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: La strada libera
+          testo: |
+            Sali in piedi sul carro e gli parli forte e lento, con la mano
+            sulla cintura e lo sguardo sul più grosso. Si spostano uno alla
+            volta, senza voltarti le spalle, e rientrano nel casolare. Passi
+            davanti alla soglia con la nuca tesa. Dietro di te nessuno si
+            muove, e il carrettiere ti guarda con un'ammirazione che non ti fa
+            piacere.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1 }
+        fallimento:
+          titolo: Il sasso
+          testo: |
+            Alzi la voce, e il più giovane ti tira un sasso che ti prende
+            sullo zigomo. Gli altri lo trattengono, ma la strada resta chiusa
+            finché non torni indietro. Fate il giro largo per i campi, fra i
+            fossi, fino a sera.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Fare il giro largo per i pascoli"
+        descrizione: "I carri fra i muretti e i fossi dei pascoli, lontano dal casolare."
+        costo: 2
+        esito:
+          titolo: I muretti
+          testo: |
+            Lasciate la strada e passate per i pascoli aprendo e richiudendo i
+            varchi nei muretti, con i carri che sobbalzano sulle zolle. Dal
+            casolare vi guardano passare in silenzio. Riprendete la strada
+            dopo la collina, con un'asse rotta sul fondo del secondo carro.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2–3 · l'osteria del bivio
+  - id: consiglio-guado-l-osteria-del-bivio
+    immagine: ambientazione/laresh
+    titolo: L'osteria del bivio
+    sommario: "All'ultimo bivio prima del fiume c'è un'osteria con la pergola. I carrettieri del grano si fermano tutti lì, e tutti parlano."
+    luogo: Le colline basse, l'osteria del bivio
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa >= 2, profondita.consiglio-guado-del-torvessa <= 3]
+    testo: |
+      L'osteria sta dove la strada si divide, una parte verso il ponte del
+      dazio e l'altra giù verso il guado vecchio. Ha una pergola di vite con
+      l'uva ancora acerba e due tavoli all'aperto, dove siedono carrettieri
+      con il cappello sul tavolo e il bicchiere in mano. L'ostessa porta il
+      vino e intanto guarda i carri, e soprattutto le bilance dipinte sui
+      teloni.
+
+      {conoscenze-della-strada Media} In un posto così le notizie si vendono a
+      bicchieri. Chi passa per il guado vecchio di solito ha un motivo, e qui
+      lo sanno tutti prima di lui.
+
+      Uno dei carrettieri alza il bicchiere verso il tuo carrettiere e lo
+      chiama per nome. Il tuo carrettiere tira dritto senza rispondere e tiene
+      gli occhi sui buoi.
+
+      {galateo Media fallita} Dovresti offrire da bere, o forse no. Le regole
+      delle osterie di campagna non le hai mai imparate, e resti con la mano a
+      metà strada verso la borsa.
+    opzioni:
+      - testo: "Offrire da bere e ascoltare"
+        descrizione: "Un giro per i tavoli, e qualcuno parla."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, galateo], difficolta: Media }
+        successo:
+          titolo: Un giro di vino
+          testo: |
+            Offri un giro e ti siedi in fondo al tavolo. Dopo il secondo
+            bicchiere un carrettiere anziano ti racconta che giù al guado, da
+            due giorni, ci sono uomini accampati sotto i salici, e che non
+            pescano. Ti dice anche quanti sono contandoli sulle dita, e alla
+            fine ti chiede di non dire chi te l'ha detto.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: -2, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il bicchiere di troppo
+          testo: |
+            Offri un giro e poi un secondo giro. I carrettieri bevono
+            volentieri e parlano di buoi e del prezzo del fieno. Quando ti
+            alzi la borsa è più leggera e la testa più pesante. Il tuo
+            carrettiere ti aspetta sul carro con le braccia conserte.
+          effetti: { monete: -4, tormento: 0.5 }
+      - testo: "Chiedere al tuo carrettiere chi era quell'uomo"
+        descrizione: "Si conoscono, e il tuo carrettiere ha fatto finta di niente."
+        prova: { attributo: sociale, abilita: [empatia, intimidire], difficolta: Media }
+        successo:
+          titolo: I vecchi compagni
+          testo: |
+            Glielo chiedi quando l'osteria è dietro la curva. Lui ci pensa un
+            pezzo, poi ti dice che quello guidava i carri dei Malgrani insieme
+            a lui, prima che Quintus lo prendesse a servizio, e che ha chiesto
+            se il grano dei Castaldi passa dal guado. Lo dice guardando la
+            strada. Poi aggiunge che lui è stato zitto, e ti sembra sincero.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il muso
+          testo: |
+            Glielo chiedi con troppa insistenza, e lui si offende. Per il
+            resto della giornata guida i buoi in silenzio e troppo piano, e al
+            tramonto vi fermate a mezza collina, lontano da dove volevate
+            arrivare. Non sai più se fidarti di lui.
+          effetti: { tormento: 0.5, sospetto: 0.5 }
+      - testo: "Tirare dritto senza fermarsi"
+        descrizione: "Meno si parla di questi carri, meglio è. Si perde il fresco della pergola."
+        costo: 2
+        esito:
+          titolo: Senza fermarsi
+          testo: |
+            Passate davanti all'osteria senza fermarvi, sotto gli occhi dei
+            carrettieri, e il silenzio ai tavoli dura finché non avete
+            svoltato. Prendete la strada del guado vecchio. Dopo la curva
+            senti ridere alle tue spalle, e qualcuno si alza e se ne va a
+            cavallo per i campi.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, sospetto: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la riva del Torvessa
+  - id: consiglio-guado-il-pesatore-della-gilda
+    immagine: ambientazione/laresh
+    titolo: Il pesatore della Gilda
+    sommario: "Sulla riva del Torvessa vi aspetta Fabrizio Lodde con la stadera della Gilda e un'idea tutta sua di come si contano i sacchi."
+    luogo: La riva del Torvessa, sotto i salici
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 3]
+    testo: |
+      La strada del guado vecchio scende fra i salici fino alla riva, dove il
+      Torvessa si allarga e rallenta. Sotto l'ultimo salice c'è un uomo seduto
+      su uno sgabello pieghevole, con una stadera appesa a un ramo e un
+      registro della Gilda sulle ginocchia. È Fabrizio Lodde, il pesatore. Ha
+      lasciato il cavallo legato poco più su, e ha la faccia di chi ha
+      cavalcato dal ponte del dazio per non perdere un affare.
+
+      «Il grano che passa il fiume è grano che entra in città» dice, senza
+      alzarsi. «Che passi dal ponte o dal guado, la Gilda lo pesa.» Batte la
+      penna sul registro. «A modo mio, s'intende, perché qui il ponte non
+      c'è.»
+
+      {politica-ed-economia Media} Il dazio della Gilda si paga al ponte, e
+      sul guado nessuno l'ha mai chiesto. Quello che Lodde vuole fare qui lo
+      sa soltanto Lodde, e nel registro non lo scriverà.
+
+      {intimidire Media} Sta seduto per sembrare a suo agio, e ha messo lo
+      sgabello in modo da avere il cavallo alle spalle.
+    opzioni:
+      - testo: "Fargli notare che il guado non è del ponte"
+        descrizione: "La Gilda pesa al ponte, e lui lo sa meglio di te. Basta dirlo nel modo giusto."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Media }
+        successo:
+          titolo: Le regole del ponte
+          testo: |
+            Gli citi il regolamento del dazio, le parole che lui stesso legge
+            ai carrettieri sul ponte, e gli chiedi in quale articolo si parla
+            del guado. Lodde ti guarda a lungo, poi chiude il registro con un
+            colpo secco. Smonta la stadera, si piega lo sgabello sotto il
+            braccio e risale verso il cavallo, borbottando che il Comune ha
+            fretta di imparare.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La pesata
+          testo: |
+            Gli citi il regolamento, e lui lo conosce meglio di te. Ti ricorda
+            la clausola sul grano destinato alla vendita, e pesa i sacchi uno
+            per uno, appoggiando il pollice alla stadera quando crede che tu
+            non guardi. Alla fine paghi per un carico più grande di quello che
+            hai, e lui ti scrive la ricevuta con una bella calligrafia.
+          effetti: { monete: -5, sospetto: 0.5 }
+      - testo: "Fargli capire che è solo"
+        descrizione: "È lontano dal ponte, senza Custodi, con due carri del Comune davanti."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: Il cavallo alle spalle
+          testo: |
+            Ti avvicini senza fretta e ti siedi sulla sponda del carro,
+            proprio davanti al suo sgabello, e gli chiedi quanto ci mette un
+            uomo a cavallo a tornare al ponte prima di buio. Lodde ci pensa.
+            Poi si alza e smonta la stadera, augurandoti buona strada con
+            molta cortesia, dimenticando sotto il salice il sacchetto dei pesi
+            di ottone.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 3 }
+        fallimento:
+          titolo: Il nome nel registro
+          testo: |
+            Ti avvicini troppo in fretta, e Lodde si alza e scrive il tuo nome
+            nel registro, scandendolo ad alta voce, insieme al numero dei
+            sacchi e all'ora. Poi monta a cavallo e se ne va verso il ponte.
+            Quel registro finirà sul tavolo della Casa dei Nodi prima della
+            fine del mese.
+          effetti: { sospetto: 1 }
+      - testo: "Lasciargli pesare i sacchi a modo suo"
+        descrizione: "Si paga e si passa. Lodde è lento, e il sole è già basso."
+        costo: 2
+        esito:
+          titolo: A modo suo
+          testo: |
+            Lasci che pesi i sacchi, uno alla volta, con il pollice sul piatto
+            e la lingua fra i denti. Ci mette fino al tramonto. Quando finisce
+            paghi quello che chiede, e lui ti scrive una ricevuta che vale
+            meno della carta. I carri arrivano al guado con il buio.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: -6 }
+
+  - id: consiglio-guado-la-barca-dei-pescatori
+    immagine: ambientazione/roccia-di-wren
+    titolo: La barca dei pescatori
+    sommario: "Sulla riva due pescatori riparano una rete accanto a una barca tirata in secca. Il guado vecchio lo conoscono, e conoscono chi ci passa."
+    luogo: La riva del Torvessa, la spiaggia dei pescatori
+    area: consiglio-guado-del-torvessa
+    ripetibile: true
+    requisiti: [profondita.consiglio-guado-del-torvessa == 3]
+    testo: |
+      Dove la riva si apre in una spiaggetta di sabbia grigia, due pescatori
+      riparano una rete stesa fra due pali, accanto a una barca a fondo piatto
+      tirata in secca. Hanno le mani svelte e le dita fasciate con lo spago, e
+      quando passano i carri non alzano la testa. La foschia sale dall'acqua
+      in fili lenti e si ferma fra i giunchi.
+
+      Più giù, dove il fiume fa un'ansa, si vede la lingua di ghiaia del guado
+      vecchio, e oltre i salici dell'altra sponda sale un filo di fumo.
+
+      {natura Media} I gabbiani se ne stanno sulla sponda di qua. Di là c'è
+      qualcuno che li ha fatti alzare, e non li ha lasciati tornare.
+
+      {origine apprendista-raschiatore} I pescatori fanno il nodo della rete
+      con lo stesso giro di pollice che si usa sulle piattaforme per le corde
+      di sicurezza. Qualcuno dei loro, una volta, deve essere salito in città.
+    opzioni:
+      - testo: "Chiedere ai pescatori chi c'è sull'altra sponda"
+        descrizione: "Vedono tutto quello che passa sul fiume, e non parlano con tutti."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Il fumo di là
+          testo: |
+            Ti accucci accanto alla rete e tieni il capo che uno dei due ti
+            porge senza chiedere, finché il nodo non è fatto. Poi ti dicono
+            che di là ci sono uomini da due giorni, con i cavalli nascosti fra
+            i salici, e che di notte non accendono il fuoco. Il più vecchio ti
+            regala una lenza e ti consiglia di passare con il sole alle
+            spalle.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La rete
+          testo: |
+            Fai domande, e i pescatori rispondono parlando della corrente e di
+            un luccio grosso come un bambino. Quando insisti uno dei due si
+            alza, spinge la barca in acqua e si allontana a remi lenti, verso
+            l'altra sponda. Lo guardi sparire nella foschia con un nodo allo
+            stomaco.
+          effetti: { sospetto: 0.5, tormento: 0.5 }
+      - testo: "Prendere la barca e guardare l'altra sponda"
+        descrizione: "Una barca a fondo piatto e la foschia a coprirti. Bisogna sapersi muovere senza schizzi."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: I cavalli fra i salici
+          testo: |
+            Spingi la barca nella foschia e ti lasci portare dalla corrente
+            lungo l'altra sponda, a remi fermi. Fra i salici vedi i cavalli
+            legati e gli uomini sdraiati con le armi accanto, e conti quanti
+            sono. Sotto un salice qualcuno ha dimenticato una borsa con il
+            pranzo e qualche moneta. Torni indietro risalendo la corrente, con
+            le braccia che bruciano.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, monete: 3 }
+        fallimento:
+          titolo: Lo schizzo
+          testo: |
+            Il remo ti scivola sul bordo con uno schiocco che rimbalza
+            sull'acqua. Dall'altra sponda partono dei sassi, e uno ti prende
+            alla spalla. Torni a riva remando con un braccio solo, mentre i
+            pescatori ti guardano arrivare scuotendo la testa.
+          effetti: { ferite: 0.5, sospetto: 0.5 }
+      - testo: "Aspettare la notte sulla spiaggia"
+        descrizione: "Con il buio si vedrà se di là accendono un fuoco. La notte sulla riva è fredda."
+        costo: 2
+        esito:
+          titolo: La notte sulla riva
+          testo: |
+            Accampate i carri dietro la barca e aspettate il buio, senza
+            fuoco. Dall'altra sponda non arriva nessuna luce, e a mezzanotte
+            senti un cavallo nitrire fra i salici, uno solo, subito zittito.
+            Passi la notte con il mantello umido e i denti che battono.
+          effetti: { profondita.consiglio-guado-del-torvessa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · il guado vecchio
+  - id: consiglio-il-guado
+    immagine: ambientazione/roccia-di-wren
+    titolo: Il guado vecchio
+    sommario: "A metà del guado vecchio del Torvessa, con l'acqua ai mozzi, dai salici dell'altra sponda escono uomini armati, e davanti a loro c'è un carrettiere con un pungolo di frassino."
+    luogo: Il Torvessa, il guado vecchio
+    area: consiglio-guado-del-torvessa
+    requisiti: [fazione.consiglio == 7, profondita.consiglio-guado-del-torvessa >= 4]
+    testo: |
+      Il guado vecchio è una lingua di ghiaia che attraversa il Torvessa di
+      sbieco, larga quanto un carro, segnata da due file di pali neri piantati
+      chissà quando. I carri ci entrano uno dietro l'altro, e l'acqua sale
+      fino ai mozzi e spinge di lato con una forza paziente. I buoi camminano
+      a testa bassa, sbuffando nella corrente. A metà del fiume il carrettiere
+      di Quintus si ferma di colpo e tira le redini.
+
+      Dai salici dell'altra sponda escono degli uomini con i bastoni e le lame
+      corte, e si dispongono sulla ghiaia, dove il guado risale. Davanti a
+      loro c'è un uomo largo di spalle, con la barba grigia tagliata col
+      coltello e un pungolo di frassino in mano, che entra in acqua fino alle
+      ginocchia e si appoggia al pungolo.
+
+      «Guido Sarpa» dice il tuo carrettiere sottovoce, e non sembra sorpreso.
+      «Vent'anni sui carri del grano dei Malgrani, e ogni guado di questo
+      fiume lo conosce a occhi chiusi.»
+
+      «Il grano lo portiamo noi da qui in avanti» dice Sarpa, con la voce
+      grossa che si usa per chiamare i buoi. «Voi tornate a casa a piedi, e
+      nessuno si bagna più del necessario. Ho la paga in tasca e non ho niente
+      contro di te.»
+
+      {armi-da-mischia Media} Il pungolo è lungo il doppio di una spada, e lui
+      lo tiene basso, all'altezza delle ginocchia. In acqua chi cade non si
+      rialza in fretta.
+
+      {conoscenze-della-strada Media} Dietro di lui i carrettieri si guardano
+      fra loro più di quanto guardino te. Sono uomini comprati per una
+      giornata, e qualcuno sta già facendo il conto di quanto vale la sua.
+
+      {natura Facile fallita} La corrente ti tira i polpacci e la ghiaia ti
+      scappa sotto i piedi. Il fiume non ha nessuna intenzione di prendere
+      posizione.
+    opzioni:
+      - testo: "Affrontare Sarpa e i suoi uomini nel guado"
+        descrizione: "Sono gli sgherri dei Malgrani, con la livrea sotto i mantelli. In acqua fino alle ginocchia, e Sarpa colpisce basso."
+        quando: [pista.pelle < 7]
+        combattimento: consiglio-l-agguato-al-guado
+        vittoria:
+          titolo: Il pungolo
+          testo: |
+            Sarpa cade all'indietro nella corrente con il pungolo che gli
+            scivola dalle mani, e tu lo raccogli prima che il fiume se lo
+            porti. Gli sgherri dei Malgrani scappano sulla ghiaia, lasciando
+            sulla riva i mantelli e qualche borsa. Sarpa si rialza zuppo e
+            risale la sponda senza dire una parola.
+
+            Tre giorni dopo i carri arrivano in città con quello che resta del
+            carico, e il carrettiere di Quintus li porta dritti nel
+            seminterrato del Maniero Castaldi, dove Eolio Drest fa sistemare i
+            sacchi contro il muro e segna ogni sacco su una lavagnetta.
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, oggetto.consiglio-pungolo-di-sarpa: 1, monete: 10 }
+          imposta: { consiglio.sarpa: 1 }
+          vai: quartieri-alti
+        sconfitta:
+          titolo: In acqua
+          testo: |
+            Il pungolo ti prende dietro le ginocchia e finisci sotto, con il
+            fiume in bocca. Quando riemergi gli sgherri hanno già staccato i
+            buoi del secondo carro e lo stanno trascinando verso i salici.
+            Sarpa ti guarda dalla riva e alza il pungolo in segno di saluto.
+
+            Arrivi in città con un carro solo e le costole ammaccate. Nel
+            seminterrato del Maniero Castaldi Eolio Drest conta i sacchi due
+            volte, e la seconda volta non dice il numero ad alta voce.
+          effetti: { fazione.consiglio: 1, consiglio.carri-persi: 1 }
+          imposta: { consiglio.sarpa: 1 }
+          vai: quartieri-alti
+      - testo: "Affrontare Sarpa e i suoi uomini nel guado"
+        descrizione: "Sono ragazzi delle cellule dei villaggi, pagati da Tebaldo Ronchi. In acqua fino alle ginocchia, e Sarpa colpisce basso."
+        quando: [pista.pelle >= 7]
+        combattimento: consiglio-l-agguato-al-guado-dopo
+        vittoria:
+          titolo: Il pungolo
+          testo: |
+            Sarpa cade all'indietro nella corrente con il pungolo che gli
+            scivola dalle mani, e tu lo raccogli prima che il fiume se lo
+            porti. I ragazzi delle cellule scappano sulla ghiaia, e uno perde
+            una borsa con le monete di Ronchi ancora contate a mucchietti.
+            Sarpa si rialza zuppo e risale la sponda senza dire una parola.
+
+            Tre giorni dopo i carri arrivano in città con quello che resta del
+            carico, e il carrettiere di Quintus li porta dritti nel
+            seminterrato del Maniero Castaldi, dove Eolio Drest fa sistemare i
+            sacchi contro il muro e segna ogni sacco su una lavagnetta.
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, oggetto.consiglio-pungolo-di-sarpa: 1, monete: 10 }
+          imposta: { consiglio.sarpa: 1 }
+          vai: quartieri-alti
+        sconfitta:
+          titolo: In acqua
+          testo: |
+            Il pungolo ti prende dietro le ginocchia e finisci sotto, con il
+            fiume in bocca. Quando riemergi i ragazzi delle cellule hanno già
+            staccato i buoi del secondo carro e lo stanno trascinando verso i
+            salici. Sarpa ti guarda dalla riva e alza il pungolo in segno di
+            saluto.
+
+            Arrivi in città con un carro solo e le costole ammaccate. Nel
+            seminterrato del Maniero Castaldi Eolio Drest conta i sacchi due
+            volte, e la seconda volta non dice il numero ad alta voce.
+          effetti: { fazione.consiglio: 1, consiglio.carri-persi: 1 }
+          imposta: { consiglio.sarpa: 1 }
+          vai: quartieri-alti
+      - testo: "Convincere i carrettieri che non li pagheranno"
+        descrizione: "Sono uomini a giornata, e chi paga per un furto di solito paga a metà. Bisogna dirlo forte, in mezzo al fiume, sopra la voce di Sarpa."
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: La paga in tasca
+          testo: |
+            Parli ai carrettieri e non a Sarpa, con l'acqua alle ginocchia e
+            la voce alta sopra il fiume. Chiedi a ciascuno quanto gli hanno
+            dato prima e quanto gli daranno dopo, e chi glielo garantisce,
+            adesso che il grano è del Comune. Uno abbassa il bastone, poi un
+            altro. Sarpa si volta a guardarli e capisce prima di loro. Fa una
+            risata breve e amara e ti chiede se il Comune ha bisogno di un
+            carrettiere che conosce i guadi.
+
+            I carri arrivano in città con quello che resta del carico e Sarpa
+            in testa che fischia ai buoi. Nel seminterrato del Maniero
+            Castaldi Eolio Drest segna i sacchi su una lavagnetta e guarda il
+            nuovo carrettiere senza fare domande.
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+          imposta: { consiglio.sarpa: 2 }
+          vai: quartieri-alti
+        fallimento:
+          titolo: Le bastonate
+          testo: |
+            Parli ai carrettieri, e Sarpa ti lascia parlare fino a metà. Poi
+            fa un cenno, e il primo bastone ti arriva sulla spalla prima che
+            tu finisca la frase. Ne arrivano altri. Quando riesci a rialzarti
+            nella corrente il secondo carro è già sulla riva, fra i salici,
+            con i suoi buoi.
+
+            Arrivi in città con un carro solo e la spalla gonfia. Eolio Drest
+            ti apre il seminterrato del Maniero e conta i sacchi in silenzio.
+          effetti: { fazione.consiglio: 1, ferite: 1, consiglio.carri-persi: 1 }
+          imposta: { consiglio.sarpa: 1 }
+          vai: quartieri-alti
+      - testo: "Tornare indietro e passare di notte dal guado basso"
+        descrizione: "Più a valle c'è un secondo guado, più fondo, che Sarpa forse non sorveglia. Con il buio e la corrente un carro si rischia di perderlo comunque."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il guado basso
+          testo: |
+            Fai voltare i carri e li riporti sulla riva come se rinunciassi, e
+            Sarpa ti guarda andare appoggiato al pungolo. Con il buio scendi a
+            valle e cerchi il guado basso tastando il fondo con un palo,
+            guidato dal rumore dell'acqua sui sassi. Il primo carro passa. Il
+            secondo scivola in una buca a metà fiume, e per salvare i buoi
+            tagli le corde e lasci andare il carico nella corrente.
+
+            All'alba sei dall'altra parte con un carro e mezzo, mentre Sarpa
+            fa ancora la guardia al guado vecchio. Nel seminterrato del
+            Maniero Castaldi Eolio Drest fa stendere i sacchi bagnati ad
+            asciugare.
+          effetti: { fazione.consiglio: 1, consiglio.carri-persi: 1 }
+          imposta: { consiglio.sarpa: 3 }
+          vai: quartieri-alti
+        fallimento:
+          titolo: Il fiume di notte
+          testo: |
+            Nel buio sbagli guado, e il fondo ti manca sotto i piedi. La
+            corrente ti trascina per un tratto, sbattendoti sui sassi, finché
+            non ti aggrappi a una radice. Quando risali sulla riva trovi Sarpa
+            che ti aspetta con una lanterna, e il secondo carro è già legato
+            ai suoi buoi.
+
+            Arrivi in città con un carro solo e le ginocchia scorticate. Eolio
+            Drest ti apre il seminterrato del Maniero senza fare domande.
+          effetti: { fazione.consiglio: 1, ferite: 1, consiglio.carri-persi: 1 }
+          imposta: { consiglio.sarpa: 1 }
+          vai: quartieri-alti
+      - testo: "Mostrare ai carrettieri come sono legati i carri"
+        descrizione: "Le corde dei loro carri sono annodate con il doppio nodo dei carri del mercato di Ghoran. Quel nodo l'hai visto da sotto, e sai chi lo paga."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Il nodo di Ghoran
+          testo: |
+            Indichi ai carrettieri le corde dei loro carri sulla riva,
+            annodate con il doppio nodo che a Ghoran si usa per i carri del
+            mercato, quelli che arrivano alla bilancia. Racconti a che cosa
+            serve quel nodo, con le parole più semplici che trovi, e senti la
+            voce restarti ferma. I carrettieri ti ascoltano. Uno dopo l'altro
+            abbassano i bastoni, e Sarpa, che quel nodo lo fa da vent'anni
+            senza chiedersi da dove viene, si guarda le mani e ti chiede se il
+            Comune ha bisogno di un carrettiere.
+
+            I carri arrivano in città con quello che resta del carico e Sarpa
+            in testa che fischia ai buoi. Nel seminterrato del Maniero
+            Castaldi Eolio Drest segna i sacchi su una lavagnetta.
+          pe: { persuasione: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+          imposta: { consiglio.sarpa: 2 }
+          vai: quartieri-alti

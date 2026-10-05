@@ -1,0 +1,516 @@
+# I lavori e i servizi della quest degli Scuri, che si aprono con i gradi (fazione.scuri).
+# Grado 1 (passo 3): la settimana, cioè consegne, palo e riscossioni piccole (rep.scuri fino a 4), e il modo di
+#   riavere il Contatto nell'ombra se una crisi del Sospetto l'ha bruciato.
+# Grado 2 (passo 6): le carte pulite (Sospetto e Scandalo che scendono, a pagamento) e il ricettatore all'Orlo dei
+#   Rottami, dove Grusk compra i pezzi grossi meglio del suo banco e con poco Sospetto.
+# Grado 3 (passo 9): il banco del tavolo d'angolo al Mercato delle Ombre, che paga meglio dei banchi senza timbro con
+#   metà del Sospetto, e la lezione di Correzione dall'uomo del banco del fondo (gratis, con Magia 3). Con la matrice
+#   del timbro (passo 11) i meccanismi escono timbrati, senza Sospetto.
+# Grado 4 (passo 12): il rifugio delle Vie di Sotto (luogo scuri-il-rifugio), con la decima della porta (minore se una
+#   porta è caduta, doppia con il tavolo nuovo del passo 15) e una branda per far scendere Sospetto e Ferite.
+# Grado 5, finale 3 (il registro allo sceriffo): la parola dello sceriffo alla Caserma, al posto della decima.
+storylet:
+  # ------------------------------------------------------------ grado 1 · la settimana
+  - id: scuri-la-settimana
+    immagine: fazioni/scuri
+    titolo: La settimana
+    sommario: "Ogni lunedì chi tiene il registro degli Scuri scrive i lavori della settimana su un foglietto, e le facce nuove se li dividono."
+    luogo: Città Bassa, dietro le fucine
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.scuri >= 3]
+    testo: |
+      Il lunedì, dietro le fucine, Gaia tira fuori dalla tasca un foglietto
+      piegato in otto con i lavori della settimana, scritti nella grafia
+      diritta di Rozalia. Ci sono pacchi da portare e porte da guardare, e
+      in fondo i debiti piccoli da riscuotere. Le facce nuove se li dividono
+      seduti sul muretto, e chi arriva tardi prende quello che resta, di
+      solito il palo sotto la pioggia.
+
+      {conoscenze-della-strada Facile} I lavori della settimana pagano poco.
+      Servono a far vedere la tua faccia a chi deve impararla, e a imparare
+      tu le loro.
+
+      Accanto al muretto un ragazzino delle fucine soffia sul ferro caldo di
+      un ferro di cavallo e ti guarda con invidia, perché a lui il foglietto
+      non lo fanno ancora leggere.
+    opzioni:
+      - testo: "Portare un pacco dall'altra parte della Città Bassa"
+        descrizione: "Un pacco avvolto nella tela cerata, da portare senza passare davanti alla Guardia."
+        requisiti: [rep.scuri < 4]
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: La tela cerata
+          testo: |
+            Porti il pacco per i vicoli di sotto, dove la Guardia non passa
+            mai, e lo consegni a una porta che si apre di una spanna. Ti torna
+            indietro una moneta e un cenno. Il pacco era leggero, e non hai
+            chiesto che cosa contenesse.
+          effetti: { monete: 4, rep.scuri: 0.5 }
+        fallimento:
+          titolo: La Guardia all'angolo
+          testo: |
+            All'angolo di Via del Salmone c'è un miliziano che non doveva
+            esserci, e tu fai il giro largo con il pacco sotto il braccio. Arrivi
+            tardi, e alla porta ti aprono soltanto per dirti di tornare domani.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Fare il palo a una partita"
+        descrizione: "Mentre al tavolo si gioca forte, qualcuno deve guardare la strada e fischiare se arriva la Guardia."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: Il fischio
+          testo: |
+            Passi la notte appoggiato al muro, a guardare la strada, e la Guardia
+            non passa. All'alba ti pagano la notte e ti offrono il fondo di una
+            bottiglia, che bevi per il freddo.
+          effetti: { monete: 3 }
+        fallimento:
+          titolo: Il sonno
+          testo: |
+            Verso le tre ti addormenti in piedi, e ti sveglia la Guardia che
+            passa a tre passi da te senza vederti. Fischiare adesso
+            servirebbe a poco, perché è già passata. Al tavolo non se ne
+            accorge nessuno, e la paga è dimezzata lo stesso.
+          effetti: { monete: 1 }
+
+      - testo: "Riscuotere un debito piccolo"
+        descrizione: "Un bottegaio che deve poco e paga tardi. Basta ricordarglielo nel modo giusto."
+        requisiti: [rep.scuri < 4]
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: Il bottegaio
+          testo: |
+            Ti siedi sul bancone del bottegaio e gli chiedi della moglie e dei
+            figli, per nome, finché lui non apre il cassetto da solo. Conti le
+            monete davanti a lui, e una te la tieni.
+          effetti: { monete: 5, rep.scuri: 0.5 }
+        fallimento:
+          titolo: Domani
+          testo: |
+            Il bottegaio ti giura che domani paga tutto, e tu gli credi per un
+            momento più del necessario. Quando torni, il giorno dopo, la bottega
+            è chiusa e c'è un cartello che dice *torno subito*.
+
+      - testo: "Farti ridare una porta del Mercato delle Ombre"
+        descrizione: "Il Sospetto ti ha bruciato il contatto, e la porta del Mercato è cambiata. Una faccia degli Scuri sa dove si scende adesso."
+        quando: [contatto-ombra == 0]
+        esito:
+          titolo: La porta nuova
+          testo: |
+            Gaia ti porta davanti a una cantina nuova, ti fa vedere come si
+            bussa e ti fa ripetere la parola due volte. Ti dice che stavolta la
+            porta te la sei pagata con la settimana, e che la prossima volta
+            che ti bruci la paghi in un altro modo.
+          imposta: { contatto-ombra: 1 }
+
+  # ------------------------------------------------------------ grado 2 · le carte pulite
+  - id: scuri-carte-pulite
+    immagine: personaggi/rozalia-marga
+    titolo: Le carte pulite
+    sommario: "Un copista che lavorava per Rozalia sa far sparire un rapporto della Caserma dal mucchio giusto, e far arrivare una lettera nelle mani sbagliate."
+    luogo: Città Bassa, il retro di una rivendita di sale
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.scuri >= 6]
+    testo: |
+      Il copista sta nel retro di una rivendita di sale, a un tavolino con
+      tre calamai e una lente d'ingrandimento legata al collo con lo spago.
+      Ha imparato il mestiere da Rozalia e ne ha preso il modo di battere la
+      penna sul calamaio, due volte, senza averne la grazia. Per chi è nel
+      registro degli Scuri fa sparire i rapporti della Caserma dal mucchio
+      dello sceriffo, o li fa arrivare al sergente con un nome sbagliato.
+
+      {ingannare Media} In realtà li ricopia con una data diversa, e i
+      rapporti con la data sbagliata finiscono in fondo al mucchio, dove
+      nessuno legge.
+
+      Sul tavolino, in un bicchiere d'acqua, galleggia un pennino rotto.
+      Il copista dice che lo tiene per ricordarsi di non premere troppo.
+    opzioni:
+      - testo: "Pagare per un rapporto ricopiato"
+        descrizione: "Un rapporto della Caserma che scende in fondo al mucchio. Costa, ma il copista non sbaglia."
+        requisiti: [sospetto >= 1, monete >= 15]
+        esito:
+          titolo: La data sbagliata
+          testo: |
+            Il copista prende le monete e ti chiede il giorno e il nome del
+            miliziano. Due giorni dopo il rapporto che ti riguardava è in
+            fondo al mucchio dello sceriffo, con una data dell'anno scorso.
+          effetti: { sospetto: -1, monete: -15 }
+
+      - testo: "Ricopiare tu il rapporto, sotto la sua lente"
+        descrizione: "Il copista fa pagare meno a chi gli presta la mano. Ma la mano deve essere buona."
+        requisiti: [sospetto >= 1, monete >= 5]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La mano buona
+          testo: |
+            Ricopi il rapporto con la grafia del sergente, la lente del
+            copista sul naso, e cambi la data con un tratto solo. Il copista
+            guarda il lavoro e batte due volte la penna senza grazia, poi ti
+            fa pagare soltanto l'inchiostro.
+          effetti: { sospetto: -1, monete: -5 }
+        fallimento:
+          titolo: Il pennino
+          testo: |
+            Premi troppo, e il pennino si spezza a metà della data. Il
+            copista lo raccoglie e lo mette nel bicchiere d'acqua insieme
+            all'altro senza dire niente. L'inchiostro sprecato te lo fa
+            pagare.
+          effetti: { monete: -5 }
+
+      - testo: "Far sparire una lettera che parla di te"
+        descrizione: "Una lettera di un salotto dei Quartieri Alti, con il tuo nome dentro, può finire in un camino invece che sul tavolo giusto."
+        requisiti: [scandalo >= 1, monete >= 15]
+        esito:
+          titolo: Il camino
+          testo: |
+            Il copista sa da chi passa la posta di quel salotto, e quanto costa
+            il ragazzo che la porta. La lettera che parlava di te finisce in un
+            camino, e al suo posto arriva un biglietto di scuse per un invito
+            mancato, scritto con la grafia giusta.
+          effetti: { scandalo: -1, monete: -15 }
+
+  # ------------------------------------------------------------ grado 2 · il ricettatore
+  - id: scuri-il-ricettatore
+    presso: orlo-dei-rottami
+    immagine: personaggi/grusk
+    titolo: Il ricettatore
+    sommario: "Dietro la baracca Grusk tiene un'altra bilancia per chi è nel registro degli Scuri, e su quella paga meglio."
+    luogo: Orlo dei Rottami, dietro la baracca di Grusk
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.scuri >= 6]
+    testo: |
+      Davanti alla baracca Grusk ha la bilancia storta, quella che vedono
+      tutti. Dietro, sotto un telo incerato, ne ha un'altra, dritta, che usa
+      per chi è nel registro degli Scuri. Lì compra i pezzi grossi che al
+      banco davanti lascia stare, e li paga meglio. La carriola rossa sta
+      appoggiata al muro, e dentro dorme un gatto con un orecchio solo.
+
+      {conoscenze-della-strada Media} La bilancia dritta è il modo di Grusk
+      di dirti che sei uno di casa. Paga meglio perché rivende meglio, e
+      rivende meglio perché nessuno gli chiede da dove viene la merce.
+
+      Grusk ha i tatuaggi fino alle dita, e quando pesa un pezzo lo guarda
+      come si guarda un animale da comprare al mercato.
+    opzioni:
+      - testo: "Vendere un meccanismo dei Precursori"
+        descrizione: "Un congegno intero, anche spento. Grusk lo rivende all'Accademia, o a chi paga di più."
+        requisiti: [reliquie.meccanismo-spento >= 1]
+        esito:
+          titolo: La bilancia dritta
+          testo: |
+            Grusk pesa il meccanismo sulla bilancia dritta, lo gira due volte e
+            ti conta le monete in mano, una sopra l'altra. Lo avvolge nel telo e
+            lo mette nella carriola, sotto il gatto, che non si sveglia.
+          effetti: { reliquie.meccanismo-spento: -1, monete: 32, sospetto: 0.5 }
+
+      - testo: "Vendere un cristallo carico"
+        descrizione: "Un cristallo pieno di Mana e senza timbro. Grusk sa a chi rivenderlo."
+        requisiti: [cristalli.cristallo-carico >= 1]
+        esito:
+          titolo: Il ronzio
+          testo: |
+            Grusk prende il cristallo con due dita tatuate e se lo avvicina
+            all'orecchio, come fanno al Mercato delle Ombre. Annuisce. Ti paga
+            senza contrattare, e il cristallo sparisce in una tasca del suo
+            grembiule di cuoio.
+          effetti: { cristalli.cristallo-carico: -1, monete: 30, sospetto: 0.5 }
+
+      - testo: "Vendere un reperto sigillato"
+        descrizione: "Un pezzo di macchina chiuso nel suo guscio. Grusk lo compra senza aprirlo, e ci scommette."
+        requisiti: [reperto.sigillato >= 1]
+        esito:
+          titolo: La scommessa
+          testo: |
+            Grusk scuote il reperto vicino all'orecchio e lo pesa, poi ti
+            dice un prezzo, che è quello di una scommessa. Ti paga e lo
+            butta nella carriola con gli altri. Il gatto apre l'occhio buono
+            e lo richiude.
+          effetti: { reperto.sigillato: -1, monete: 8 }
+
+      - testo: "Vendere un frammento inciso"
+        descrizione: "Un pezzo di metallo dei Precursori con i segni incisi. Grusk paga i segni, non il metallo."
+        requisiti: [reliquie.frammento-inciso >= 1]
+        esito:
+          titolo: I segni
+          testo: |
+            Grusk passa il pollice sui segni incisi come se sapesse leggerli, e
+            forse sa. Ti paga un po' più di quanto paga davanti, e ti dice che
+            i frammenti con i segni a spirale li paga il doppio.
+          effetti: { reliquie.frammento-inciso: -1, monete: 6 }
+
+  # ------------------------------------------------------------ grado 3 · il banco del tavolo d'angolo
+  - id: scuri-il-banco-del-tavolo-d-angolo
+    presso: mercato-delle-ombre
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: Il banco del tavolo d'angolo
+    sommario: "Al Mercato delle Ombre chi tiene le chiavi delle porte degli Scuri ha un banco suo, dietro la colonna, dove si compra senza che il Velo guardi."
+    luogo: Mercato delle Ombre, dietro la colonna
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.scuri >= 9]
+    testo: |
+      Dietro la colonna con il detto inciso c'è un banco che non si vede
+      dalle porte del Velo, con una tenda di sacco e uno sgabello. È il banco
+      del tavolo d'angolo, e ci si siede chi ha le tre chiavi. L'uomo del
+      banco del fondo, quello che ascolta i segreti con gli occhi chiusi come
+      un accordatore, viene a sedersi lì quando arrivi tu, e porta il suo
+      sacchetto di monete di conî diversi.
+
+      {politica-ed-economia Media} Qui si compra al prezzo dei banchi senza
+      timbro, e i cappucci del Velo dalla porta non vedono chi vende. Il
+      Sospetto, a scendere qui, è la metà.
+
+      {magia Media} L'uomo del banco del fondo ha le dita sporche di gesso, e
+      sul banco ci sono cerchi tracciati e cancellati. Conosce formule che
+      all'Accademia non insegnano.
+
+      Sotto il banco c'è una cassetta di formaggio vuota. L'uomo del fondo ci
+      appoggia i piedi, e ogni tanto ci batte il tallone a tempo con qualcosa
+      che solo lui sente.
+    opzioni:
+      - testo: "Vendere un segreto dietro la tenda"
+        descrizione: "Al banco del fondo i segreti si pagano bene, e dietro la tenda nessuno vede chi li vende."
+        requisiti: [informazioni.segreto >= 1]
+        esito:
+          titolo: Dietro la tenda
+          testo: |
+            L'uomo del banco del fondo ascolta il tuo segreto con gli occhi
+            chiusi e la testa piegata, e quando hai finito resta così ancora un
+            poco. Poi ti paga in colonne di monete di conî diversi, e dietro la
+            tenda nessuno vede le colonne.
+          effetti: { informazioni.segreto: -1, monete: 42, sospetto: 0.5 }
+
+      - testo: "Vendere un cristallo carico"
+        descrizione: "Un cristallo senza timbro, venduto dietro la tenda invece che sotto gli occhi delle porte."
+        requisiti: [cristalli.cristallo-carico >= 1]
+        esito:
+          titolo: Il cristallo
+          testo: |
+            L'uomo del fondo si avvicina il cristallo all'orecchio e lo ascolta
+            con gli occhi chiusi, come i segreti. Ti paga senza contrattare e lo
+            fa sparire nel sacchetto, dove tintinna contro le monete.
+          effetti: { cristalli.cristallo-carico: -1, monete: 42, sospetto: 0.5 }
+
+      - testo: "Vendere un meccanismo dei Precursori"
+        descrizione: "Un congegno intero, venduto dietro la tenda. L'uomo del fondo sa a chi serve."
+        requisiti: [reliquie.meccanismo-spento >= 1]
+        esito:
+          titolo: Gli ingranaggi
+          testo: |
+            L'uomo del fondo passa le dita sugli ingranaggi senza aprire gli
+            occhi, e ti dice che il congegno ha girato per anni nello stesso
+            verso. Ti paga, e lo avvolge nella tenda di sacco come un neonato.
+          effetti: { reliquie.meccanismo-spento: -1, monete: 42, sospetto: 0.5 }
+
+      - testo: "Timbrare un meccanismo con la matrice"
+        descrizione: "Con il timbro della Gilda un meccanismo esce dal Mercato in regola, e nessuno si ricorda di te."
+        quando: [scuri.matrice >= 1]
+        requisiti: [reliquie.meccanismo-spento >= 1]
+        esito:
+          titolo: Il timbro
+          testo: |
+            Appoggi la matrice sul meccanismo e premi, e il sigillo della Gilda
+            resta impresso nell'ottone, nitido. L'uomo del fondo lo guarda e
+            ride senza fare rumore. Ti paga il prezzo della Casa dei Nodi, e
+            per il Mercato delle Ombre quella merce non è mai passata.
+          effetti: { reliquie.meccanismo-spento: -1, monete: 45 }
+
+      - testo: "Farti insegnare la formula di Correzione"
+        descrizione: "L'uomo del banco del fondo conosce la formula dei Profeti delle Geometrie, per cui ciò che si disegna accade. A chi tiene le chiavi la insegna gratis. Ogni lancio costa mezza tacca di Tormento."
+        immagine: ambientazione/rovine-dei-precursori
+        requisiti: [magia >= 3, incantesimo.correzione == 0]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il cerchio sul banco
+          testo: |
+            L'uomo del fondo rovescia una moneta sul banco e ti fa disegnare con
+            il gesso un cerchio intorno, dicendo la formula mentre lo chiudi.
+            Quando alzi il gesso la moneta è tornata nel suo sacchetto. Ti fa
+            ripetere il cerchio finché lo chiudi senza staccare il gesso, e poi
+            cancella tutto con la manica.
+
+            {magia Difficile} Hai disegnato una cosa, e la cosa è accaduta. Ti
+            fa male la testa sopra l'occhio, come se la cosa avesse protestato.
+          effetti: { incantesimo.correzione: 1 }
+        fallimento:
+          titolo: Il cerchio aperto
+          testo: |
+            Il cerchio ti si apre a metà, e la moneta resta dov'è. L'uomo del
+            fondo ti guarda con un occhio solo e ti dice di ripassare il cerchio
+            a casa, sul tavolo della cucina, finché non lo chiudi senza
+            staccare il gesso.
+          effetti: { tormento: 0.5 }
+
+  # ------------------------------------------------------------ grado 4 · la decima della porta
+  - id: scuri-la-decima
+    presso: scuri-il-rifugio
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: La decima della porta
+    sommario: "Nella cassetta di ferro sulla mensola i portinai lasciano la parte della tua porta del Mercato."
+    luogo: Il rifugio delle Vie di Sotto
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.scuri >= 12, scuri.decima >= 1]
+    testo: |
+      La cassetta di ferro sta sulla mensola del rifugio, chiusa con il
+      lucchetto di cui hai l'unica chiave. Il ragazzo dell'Orlo che fa il
+      portinaio alla tua porta ci lascia la decima la sera, e accanto alla
+      cassetta un sasso dipinto, che vuol dire che è passato. A volte il
+      sasso ha un colore diverso, e il colore vuol dire com'è andata la
+      settimana.
+
+      {politica-ed-economia Facile} Una porta del Mercato rende quanto la
+      gente che ci passa. Una settimana tranquilla rende poco, e una
+      settimana di retate rende moltissimo, perché scendono tutti.
+
+      Il sasso di questa settimana è dipinto di blu, e il ragazzo ci ha
+      disegnato sopra una faccia sorridente.
+    opzioni:
+      - testo: "Ritirare la decima"
+        descrizione: "La parte della tua porta, che il portinaio conta e chiude nella cassetta."
+        quando: [scuri.decima == 1, scuri.porta == 0]
+        costo: 2
+        esito:
+          titolo: La cassetta
+          testo: |
+            Apri la cassetta e conti le monete della settimana, e sotto le
+            monete trovi un biglietto del ragazzo con i nomi di quelli che sono
+            scesi. Le monete te le tieni, e il biglietto lo bruci nella candela.
+          effetti: { monete: 9 }
+
+      - testo: "Ritirare la decima delle due porte rimaste"
+        descrizione: "Durgan si è preso una delle porte, e la decima è più leggera."
+        quando: [scuri.decima == 1, scuri.porta >= 1]
+        costo: 2
+        esito:
+          titolo: La cassetta leggera
+          testo: |
+            Apri la cassetta e conti le monete della settimana. Sono meno di
+            quelle che erano, e il biglietto del ragazzo dice che alla porta
+            di Durgan scende più gente. Il biglietto lo bruci nella candela,
+            come sempre.
+          effetti: { monete: 6 }
+
+      - testo: "Ritirare la decima di tutte le porte"
+        descrizione: "Al tavolo nuovo la decima arriva da tutte le porte degli Scuri, e la cassetta pesa il doppio."
+        quando: [scuri.decima >= 2]
+        costo: 2
+        esito:
+          titolo: La cassetta piena
+          testo: |
+            La cassetta è piena fino al coperchio, e il lucchetto si apre a
+            fatica. Conti le monete delle porte, e il biglietto del ragazzo
+            questa volta è lungo due facciate. Lo leggi tutto prima di
+            bruciarlo.
+          effetti: { monete: 16 }
+
+      - testo: "Farti dare la decima in cristalli"
+        descrizione: "Alla porta passano anche cristalli senza timbro. Il portinaio può mettere da parte quelli, invece delle monete, se si aspetta."
+        costo: 3
+        esito:
+          titolo: Il cristallo nella cassetta
+          testo: |
+            Dici al ragazzo di mettere da parte i cristalli invece delle monete,
+            e una settimana dopo nella cassetta c'è un cristallo carico avvolto
+            in uno straccio, che ronza piano contro il ferro.
+          effetti: { cristalli.cristallo-carico: 1 }
+
+  # ------------------------------------------------------------ grado 4 · la branda del rifugio
+  - id: scuri-la-branda-del-rifugio
+    presso: scuri-il-rifugio
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: La branda del rifugio
+    sommario: "Una branda di corda contro la parete più asciutta, e due uscite. Qui sotto non ti cerca nessuno."
+    luogo: Il rifugio delle Vie di Sotto
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.scuri >= 12]
+    testo: |
+      La branda di corda sta contro la parete più asciutta del rifugio, con
+      una coperta di lana grigia e un cuscino che sa di cantina. La mattina
+      dalla scala del bottaio arriva il rumore dei martelli sui cerchi, e la
+      notte dalla galleria delle Vie di Sotto il gocciolare dell'acqua. Qui
+      sotto la Guardia non scende, e chi ti cerca in Città Bassa trova
+      soltanto una porta chiusa.
+
+      {resistenza Facile} Il corpo riconosce un posto dove dormire prima
+      della testa. Le spalle ti scendono di un dito appena varchi la soglia.
+
+      Sul muro sopra la branda qualcuno ha inciso con il coltello una tacca
+      per ogni notte passata qui, e le tacche arrivano fino all'angolo.
+    opzioni:
+      - testo: "Dormire nel rifugio"
+        descrizione: "Una notte intera sotto la Città Bassa, dove la Guardia non scende."
+        costo: 2
+        esito:
+          titolo: Le tacche
+          testo: |
+            Dormi sulla branda di corda con la coperta tirata fino al naso, e ti
+            svegli con i martelli del bottaio. In Città Bassa, per una notte,
+            nessuno ti ha visto. Prima di risalire incidi anche tu una tacca nel
+            muro.
+          effetti: { sospetto: -1, ferite: -0.5 }
+
+      - testo: "Ascoltare le Vie di Sotto, la notte"
+        descrizione: "Dalla galleria arrivano voci di contrabbandieri che passano. Chi ascolta sa chi porta che cosa."
+        esito:
+          titolo: Le voci della galleria
+          testo: |
+            Resti sveglio vicino all'uscita della galleria, con la candela
+            spenta, e ascolti i contrabbandieri che passano. Parlano di
+            prezzi e di carichi, e uno racconta della moglie che lo ha
+            lasciato per un Raschiatore. Delle cose che senti, ti tieni
+            quelle utili.
+          effetti: { informazioni.voce: 2 }
+
+  # ------------------------------------------------------------ grado 5 · la parola dello sceriffo (finale 3)
+  - id: scuri-la-parola-dello-sceriffo
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/toren-galdrick
+    titolo: La parola dello sceriffo
+    sommario: "Hai portato allo sceriffo le chiavi e i nomi degli Scuri. In Caserma c'è una porta che per te resta aperta."
+    luogo: Guarnigione di Qir-Azel, l'ufficio dello sceriffo
+    area: quartieri-alti
+    ripetibile: true
+    requisiti: [scuri.finale == 3]
+    testo: |
+      In Caserma ti salutano tutti, e nessuno ti stringe la mano. Il sergente
+      ti fa passare davanti alla coda senza chiederti niente, e la porta
+      dell'ufficio dello sceriffo è sempre socchiusa quando arrivi. Galdrick
+      scrive nel taccuino con la matita corta, e alza gli occhi solo quando
+      hai chiuso la porta.
+
+      {empatia Media} Ti è grato, e non gli piace esserlo. Ogni volta che
+      entri, guarda prima le tue mani e poi la tua faccia.
+
+      In Città Bassa, sulle porte, il segno della pentola tagliata in due
+      compare ancora ogni tanto. Il sergente lo fa lavare, e la notte dopo
+      torna.
+    opzioni:
+      - testo: "Chiedergli di stracciare un rapporto"
+        descrizione: "Un rapporto della Guardia con il tuo nome dentro. Allo sceriffo basta una riga."
+        requisiti: [sospetto >= 1]
+        esito:
+          titolo: La riga
+          testo: |
+            Galdrick prende il rapporto dal mucchio e tira una riga sul tuo
+            nome con la matita corta, senza stracciarlo. Lo rimette in fondo
+            al mucchio e ti dice che la riga la può tirare anche al
+            contrario.
+          effetti: { sospetto: -1 }
+
+      - testo: "Raccontargli una cosa della Città Bassa"
+        descrizione: "Lo sceriffo vuole sapere che cosa succede dove tu passi e lui no. Una voce raccolta in giro vale qualcosa."
+        requisiti: [informazioni.voce >= 2, rep.caserma < 8]
+        esito:
+          titolo: Il taccuino
+          testo: |
+            Gli racconti quello che hai sentito nei vicoli, e lui lo scrive nel
+            taccuino senza commenti. Quando hai finito ti ringrazia, e ti guarda
+            le mani.
+          effetti: { informazioni.voce: -2, rep.caserma: 0.5 }

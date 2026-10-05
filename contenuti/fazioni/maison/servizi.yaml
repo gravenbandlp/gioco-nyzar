@@ -1,0 +1,624 @@
+# La quest della Maison des Lunes: i servizi e i lavori che si aprono con i gradi (quest.yaml).
+# - Grado 1 (passo 3): la sala interna, ripetibile. Zekar con il mercante dell'argento (poste piccole, rep.maison
+#   fino a 8) e con Chiara (poste alte); i conti di Gretchen sulla lavagnetta (rep.maison fino a 8).
+# - Grado 2 (passo 6): la Stanza della Luna Nuova, l'alloggio della Maison (Ferite −1, Tormento −1). Si paga fino al
+#   grado 4, poi è gratis.
+# - Grado 3 (passo 9): le commissioni della signora (tre lavori a caso fra sei, rep.maison fino a 10) e il tavolino
+#   della signora: le lezioni dell'Arte dei cristalli (Sussurro di paura, Voce di seta e, al grado 5 per chi ha
+#   bruciato il libro o l'ha chiuso nella scatola, Oblio), pagate in informazioni; la ricarica del cristallo
+#   accoppiato. Dal grado 4 i favori della signora (maison.favori: Scandalo −2, Sospetto −2, oppure un invito ai
+#   Quartieri Alti). Al grado 5, a chi è Custode dei nomi, un segreto chiesto a Nerissa. Con rep.maison >= 9 il
+#   tavolino compra segreti e pettegolezzi al prezzo migliore della città.
+# - Dagli Averi: il cristallo accoppiato (si lascia in ascolto nei Quartieri Alti, in Municipio o alla Casa dei Nodi:
+#   un segreto e ½ Sospetto per carica), la chiave della porta di servizio (ci si nasconde alla Maison: Sospetto −1;
+#   con Oblio si fa dimenticare chi ti ha visto) e, per chi l'ha tenuto, il libro dei clienti di Vesh (una pagina
+#   alla volta: un segreto e ½ Sospetto).
+# Chi ha venduto il quaderno dello scrivano (maison.chiusa 1) o tenuto il libro (maison.libro 5) trova chiusi i
+# servizi della casa.
+zekar:
+  - id: maison-chiara
+    nome: Chiara
+    immagine: ambientazione/maison-des-lunes
+    descrizione: "Gioca con il portasigarette d'osso fra le dita e non guarda mai le tue carte. Si ferma presto e usa le negative per farti sbagliare il conto."
+    laterali: [-4, -2, 1, 3]
+    soglia: 17
+    mira: 19
+
+storylet:
+  # ------------------------------------------------------------ grado 1 · la sala interna
+  - id: maison-la-sala-interna
+    presso: via-dei-rasoi
+    immagine: ambientazione/maison-des-lunes
+    titolo: La sala interna
+    sommario: "Dietro la tenda di velluto del salone si gioca a Zekar con biglietti piegati in quattro, e qualche sera anche con le monete."
+    luogo: Maison des Lunes, la sala interna
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.maison >= 3, maison.chiusa == 0, maison.libro != 5]
+    testo: |
+      Nella sala interna la lampada bassa illumina soltanto il panno verde, e
+      le facce dei giocatori restano in ombra, che è il motivo per cui ci
+      vengono. Chiara dà le carte con il portasigarette d'osso fra le dita.
+      Gretchen tiene i conti in un angolo, sulla lavagnetta da scuola, e la
+      cancella con il palmo a fine sera. Stasera il mercante dell'argento è
+      al suo posto con il suo panciotto. Ha già perso tutto una volta, e
+      adesso ci riprova con poste più piccole.
+
+      {conoscenze-della-strada Media} Qui le poste piccole si giocano con le
+      monete, quelle grandi con i biglietti piegati. Le monete le vinci. I
+      biglietti, quando li vinci, li bruci senza aprirli.
+    opzioni:
+      - testo: "Una mano con il mercante dell'argento"
+        descrizione: "Poste piccole, e il mercante che si ferma sempre tardi."
+        requisiti: [monete >= 10]
+        zekar: maison-mercante-dell-argento
+        vittoria:
+          titolo: L'argento nuovo
+          testo: |
+            Il mercante sbuffa e ti conta le monete sul panno, argento nuovo che
+            luccica sotto la lampada. Gretchen segna un punto sulla lavagnetta
+            accanto al tuo nome, che lì non è scritto.
+          effetti: { monete: 10, rep.maison: 0.5 }
+        sconfitta:
+          titolo: Il conto
+          testo: |
+            Il mercante raccoglie le tue monete con cura, una per una. A questo
+            tavolo ha perso molto, e adesso si rifà un poco alla volta. Chiara ti guarda con un
+            mezzo sorriso, ed è già una consolazione.
+          effetti: { monete: -10 }
+      - testo: "Una mano alta con Chiara"
+        descrizione: "Chiara gioca di rado, e soltanto per poste che valgano la sua sera."
+        requisiti: [monete >= 25]
+        zekar: maison-chiara
+        vittoria:
+          titolo: Il portasigarette
+          testo: |
+            Chiara posa le carte e ti spinge la posta con la punta del
+            portasigarette, senza commentare. Poi si accende una sigaretta e ti
+            guarda, per la prima volta stasera, come si guarda un avversario.
+          effetti: { monete: 25 }
+        sconfitta:
+          titolo: La cenere
+          testo: |
+            Chiara raccoglie la posta senza guardarla e fa cadere la cenere nel
+            piattino di peltro. Ti dice che hai giocato bene, il complimento
+            più crudele che sappia fare.
+          effetti: { monete: -25 }
+      - testo: "Tenere la lavagnetta dei conti al posto di Gretchen"
+        descrizione: "I debiti della sera scritti col gesso, che Gretchen cancella prima di andare a letto."
+        requisiti: [rep.maison < 8]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Il gesso
+          testo: |
+            Tieni i conti per tutta la sera, con il gesso fra le dita e la
+            lavagnetta sulle ginocchia, e a fine partita tornano al primo colpo.
+            Gretchen li controlla a mente e poi li cancella con il palmo.
+            Ti paga dalla cassetta della cucina.
+          effetti: { monete: 4, rep.maison: 0.5 }
+        fallimento:
+          titolo: Il favore in più
+          testo: |
+            A metà sera ti accorgi di aver segnato un favore due volte, e al
+            tavolo se ne accorge il mercante prima di te. Gretchen sistema il
+            conto con una battuta, e a te paga soltanto il gesso.
+          effetti: { monete: 1 }
+
+  # ------------------------------------------------------------ grado 2 · la Stanza della Luna Nuova
+  - id: maison-la-stanza-della-luna-nuova
+    presso: via-dei-rasoi
+    immagine: ambientazione/maison-des-lunes
+    titolo: La Stanza della Luna Nuova
+    sommario: "In fondo al corridoio del secondo piano c'è una stanza che non usa nessuna ragazza. È per gli ospiti della casa che hanno bisogno di dormire."
+    luogo: Maison des Lunes, il secondo piano
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.maison >= 6, maison.chiusa == 0, maison.libro != 5]
+    testo: |
+      La Luna Nuova è l'unica stanza della Maison che non ha uno specchio. È
+      piccola, con un letto alto e le lenzuola che sanno di lavanda, e una
+      finestra che dà sui tetti invece che sulla strada. Gretchen ci porta su
+      una brocca d'acqua calda e un catino, e sul comodino lascia sempre una
+      mela. Dal piano di sotto arrivano le voci del salone, attutite come
+      dentro una conchiglia.
+
+      {resistenza Facile} Il corpo riconosce il letto prima di te, e le
+      spalle ti scendono di due dita appena chiudi la porta.
+    opzioni:
+      - testo: "Dormire nella Luna Nuova"
+        descrizione: "Una notte intera con l'acqua calda e la mela sul comodino. Gretchen ti segna sul libro dei conti, a matita."
+        quando: [fazione.maison < 12]
+        requisiti: [monete >= 8]
+        esito:
+          titolo: La mela
+          testo: |
+            Dormi fino a tardi di un sonno senza sogni, e ti svegli con il sole
+            sui tetti e la mela ancora sul comodino. La mangi seduto sul letto.
+            Scendendo le scale ti accorgi che le ferite tirano meno, e che la
+            testa è più sgombra di quanto sia stata da settimane.
+          effetti: { monete: -8, ferite: -1, tormento: -1 }
+      - testo: "Dormire nella Luna Nuova"
+        descrizione: "Da quando parli a nome della signora, la stanza è tua quando vuoi. Gretchen non apre nemmeno il libro dei conti."
+        quando: [fazione.maison >= 12]
+        esito:
+          titolo: La mela
+          testo: |
+            Dormi fino a tardi di un sonno senza sogni, e ti svegli con il sole
+            sui tetti e la mela ancora sul comodino. Qualcuno, mentre dormivi,
+            ti ha appeso il soprabito alla sedia. Scendendo le scale ti accorgi
+            che le ferite tirano meno, e che la testa è più sgombra.
+          effetti: { ferite: -1, tormento: -1 }
+
+  # ------------------------------------------------------------ grado 3 · le commissioni della signora
+  - id: maison-le-commissioni-della-signora
+    presso: via-dei-rasoi
+    immagine: personaggi/nerissa-dalvane
+    titolo: Le commissioni della signora
+    sommario: "Ogni mattina Nerissa lascia sul tavolo della cucina un foglio piegato con le commissioni del giorno. Non ci scrive mai un nome."
+    luogo: Maison des Lunes, la cucina
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.maison >= 9, maison.chiusa == 0, maison.libro != 5]
+    mostra: 3
+    testo: |
+      Sul tavolo della cucina, sotto la tazza col manico incollato di
+      Gretchen, c'è il foglio piegato delle commissioni della signora. È
+      scritto nella sua grafia larga e diritta, e i nomi non ci sono mai, al
+      loro posto ci sono le cose. *Il signore del garofano*, *la casa con le
+      persiane verdi*, *il fornitore del tè*. Chi è di cucina sa di chi si
+      parla, e chi non è di cucina il foglio non lo vede.
+
+      {galateo Media} Le commissioni della signora sono piccole cortesie che
+      tengono in piedi la casa più dei buttafuori. Una visita, un
+      accompagnamento, una parola detta prima che serva.
+    opzioni:
+      - testo: "Portare un messaggio a voce nei Quartieri Alti"
+        descrizione: "La casa con le persiane verdi aspetta una risposta della signora, che non si scrive."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Le persiane verdi
+          testo: |
+            Ti fanno entrare dalla porta di servizio della casa con le persiane
+            verdi, e una cameriera ti accompagna da una signora anziana che
+            ascolta il messaggio con gli occhi chiusi. Ti ringrazia e ti dà una
+            busta per Nerissa, chiusa con la cera, e una moneta per te.
+          effetti: { monete: 8, rep.maison: 0.5 }
+        fallimento:
+          titolo: La porta sbagliata
+          testo: |
+            Bussi alla porta principale invece che a quella di servizio, e il
+            maggiordomo ti guarda dall'alto con molta pazienza. Il messaggio
+            arriva lo stesso, ma la signora anziana lo fa sapere a Nerissa, e
+            Nerissa a te.
+          effetti: { monete: 3 }
+      - testo: "Riaccompagnare a casa il signore del garofano"
+        descrizione: "Esce dalla porta di servizio e abita in un quartiere dove non deve essere visto rientrare a quell'ora."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: Il garofano
+          testo: |
+            Lo accompagni per i vicoli dietro Via del Salmone, tenendolo lontano
+            dalle lanterne, e lui si toglie il garofano dall'occhiello quando
+            arrivate nel suo quartiere. Lo vedi entrare da una porta laterale,
+            e alla finestra del primo piano si accende una candela.
+          effetti: { monete: 8, rep.maison: 0.5 }
+        fallimento:
+          titolo: La ronda
+          testo: |
+            All'angolo della sua strada vi trovate davanti una ronda della
+            Guardia, e il signore del garofano si nasconde dietro di te come un
+            bambino. La ronda vi chiede i nomi, e tu dai i tuoi. Lui arriva a
+            casa, e tu ti ritrovi su un registro.
+          effetti: { monete: 3, sospetto: 0.5 }
+      - testo: "Controllare i conti del fornitore del tè"
+        descrizione: "Il tè della scatola di latta costa sempre un poco di più, ogni mese. La signora vuole sapere perché."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Media }
+        successo:
+          titolo: Il tè buono
+          testo: |
+            Passi una mattina nel retrobottega del fornitore, fra i sacchi di
+            tè e le bilance, e trovi la ragione nel registro delle consegne. Il
+            tè arriva da Laresh via chiatta, e la chiatta paga un pedaggio in
+            più a ogni ponte. Il fornitore ti offre un pacchetto per la signora,
+            a mo' di scusa.
+          effetti: { monete: 8, rep.maison: 0.5 }
+        fallimento:
+          titolo: I sacchi
+          testo: |
+            Passi una mattina fra i sacchi di tè del fornitore, che ti segue
+            ovunque con un sorriso e ti offre da assaggiare tutto. Esci con la
+            lingua che sa di fumo e nessuna idea del perché il tè costi di più.
+          effetti: { monete: 3 }
+      - testo: "Parlare a un cliente che ha alzato le mani"
+        descrizione: "Ha fatto male a una ragazza, e la signora l'ha fatto mettere fuori. Adesso qualcuno deve spiegargli che è finita, senza rompergli niente."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: La spiegazione
+          testo: |
+            Lo trovi in un'osteria del Mercato dei Nodi, e gli parli a bassa
+            voce, con la mano sul suo bicchiere. Gli spieghi che alla Maison non
+            torna, né con la barba né senza, e che Sara si ricorda la sua spada.
+            Lui guarda la tua mano e poi il bicchiere, e annuisce.
+          effetti: { monete: 8, rep.maison: 0.5 }
+        fallimento:
+          titolo: Il bicchiere
+          testo: |
+            Gli parli a bassa voce, e lui ti tira il bicchiere in faccia. Ci
+            vogliono due avventori per separarvi. Alla fine il messaggio gli
+            arriva lo stesso, insieme a un occhio nero, e il tuo zigomo se ne
+            ricorderà per qualche giorno.
+          effetti: { monete: 3, ferite: 0.5 }
+      - testo: "Accompagnare Irmelin al mercato"
+        descrizione: "Irmelin va al mercato da sola il martedì, e da qualche settimana qualcuno la segue."
+        prova: { attributo: mentale, abilita: [percezione, furtivita], difficolta: Media }
+        successo:
+          titolo: Il martedì
+          testo: |
+            Cammini due passi dietro Irmelin fra i banchi del mercato, e dopo
+            un'ora vedi l'uomo che la segue, un ragazzo innamorato con un mazzo
+            di violette che non ha il coraggio di darle. Glielo indichi. Lei lo
+            guarda a lungo con i suoi occhi d'argento, poi va da lui e si prende
+            le violette.
+          effetti: { monete: 8, rep.maison: 0.5 }
+        fallimento:
+          titolo: I banchi
+          testo: |
+            Perdi di vista Irmelin fra i banchi del pesce, e quando la ritrovi
+            è lei che ti aspetta, con le braccia conserte e un cesto di
+            cipolle. Ti dice che oggi nessuno l'ha seguita, a parte te.
+          effetti: { monete: 3 }
+      - testo: "Convincere un creditore della casa con la Voce di seta"
+        descrizione: "Un vinaio che vuole essere pagato prima del tempo. Una frase detta piano, e l'idea di aspettare gli sembrerà sua."
+        incantesimo: maison-voce-di-seta
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La pazienza del vinaio
+          testo: |
+            Gli parli piano della vendemmia e della pazienza dei vinai di una
+            volta, e il Mana ti scivola sotto le parole. Il vinaio si
+            accarezza la barba e ti dice che, a pensarci, il conto può
+            aspettare fino a dopo la vendemmia. Gli sembra un'idea sua, e ne è
+            contento.
+          effetti: { monete: 10, rep.maison: 0.5 }
+        fallimento:
+          titolo: La voce stonata
+          testo: |
+            Il Mana ti sfugge a metà della frase, e il vinaio sente soltanto
+            una voce strana che gli parla del tempo. Ti guarda male e chiede di
+            essere pagato entro la settimana.
+          effetti: { tormento: 0.5 }
+
+  # ------------------------------------------------------------ grado 3 e oltre · il tavolino della signora
+  - id: maison-il-tavolino-della-signora
+    presso: via-dei-rasoi
+    immagine: personaggi/nerissa-dalvane
+    titolo: Il tavolino della signora
+    sommario: "Nel salotto del primo piano Nerissa riceve chi è di casa, con la porta accostata e la teiera sul tavolino."
+    luogo: Maison des Lunes, il salotto del primo piano
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.maison >= 9, maison.chiusa == 0, maison.libro != 5]
+    testo: |
+      Il salotto del primo piano è piccolo, due poltrone con un tavolino in
+      mezzo e le tende di velluto sempre accostate alla finestra.
+      Nerissa ti versa il tè buono e accende la lampada con due dita senza
+      più nasconderlo, e la luce color miele riempie la stanza piano, come
+      l'acqua un catino. Ti ascolta senza prendere appunti. Quando ha finito
+      di ascoltare gira la tazza sul piattino di un quarto di giro.
+
+      {magia Media} Qui il Mana della casa è più fitto che altrove, come il
+      calore vicino a una stufa. Insegnare, in questa stanza, le viene
+      facile.
+    opzioni:
+      - testo: "Imparare il Sussurro di paura"
+        descrizione: "Una formula a bocca chiusa. Nerissa la paga con un pettegolezzo verificato, che le racconti tu."
+        requisiti: [magia >= 1, incantesimo.sussurro-di-paura == 0, informazioni.pettegolezzo >= 1]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: La bocca chiusa
+          testo: |
+            Nerissa ti fa ripetere la formula finché la candela sul davanzale
+            non trema senza vento. Poi ti chiede il pettegolezzo, e lo ascolta
+            con la tazza ferma a mezz'aria.
+          effetti: { informazioni.pettegolezzo: -1, incantesimo.sussurro-di-paura: 1 }
+        fallimento:
+          titolo: La candela ferma
+          testo: |
+            La candela resta ferma. Nerissa ti dice di tornare un'altra sera e
+            di tenerti il pettegolezzo, perché una lezione non riuscita non si
+            paga.
+      - testo: "Imparare la Voce di seta"
+        descrizione: "La voce che fa fare alle persone quello che volevano già fare. Si paga con un segreto."
+        requisiti: [magia >= 2, incantesimo.maison-voce-di-seta == 0, informazioni.segreto >= 1]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il tappeto
+          testo: |
+            Nerissa ti dice di parlare piano e di stendere il Mana sotto le
+            parole come un tappeto davanti a un ospite. Ci provi su di lei, e
+            lei si alza a versarti il tè prima di accorgersi di averlo deciso.
+            Ride, piano, con la mano davanti alla bocca, e ti chiede il segreto.
+          effetti: { informazioni.segreto: -1, incantesimo.maison-voce-di-seta: 1 }
+        fallimento:
+          titolo: Il tappeto storto
+          testo: |
+            Ci provi su di lei, e Nerissa resta seduta con la tazza in mano e
+            un sopracciglio alzato. Ti dice che la voce c'era e il tappeto no, e
+            di tenerti il segreto per un'altra sera.
+      - testo: "Imparare l'Oblio"
+        descrizione: "Due dita sulla tempia e una parola che non si ricorda. Nerissa la insegna soltanto a chi tiene la scatola di latta con lei, e la paga con due segreti."
+        quando: [maison.libro >= 1, maison.libro <= 2]
+        requisiti: [magia >= 3, incantesimo.maison-oblio == 0, informazioni.segreto >= 2]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La parola
+          testo: |
+            Nerissa ti posa due dita sulla tempia e ti dice la parola. Un
+            momento dopo non la ricordi più, e però le dita sanno dove andare.
+            Ci provi su Gretchen, che entra a portare il latte, e lei esce
+            chiedendosi perché è salita. Nerissa ti chiede i due segreti e li
+            ascolta con gli occhi chiusi.
+          effetti: { informazioni.segreto: -2, incantesimo.maison-oblio: 1 }
+        fallimento:
+          titolo: La parola persa
+          testo: |
+            Nerissa ti dice la parola, e tu la dimentichi prima di averla
+            usata, insieme a quello che stavi per chiederle. Ti ritrovi sulla
+            scala con la tazza in mano e un leggero mal di testa.
+          effetti: { tormento: 0.5 }
+      - testo: "Far ricaricare il cristallo accoppiato"
+        descrizione: "Nerissa tiene in mano le due metà per il tempo di una tazza di tè, e il Mana torna. Vuole in cambio quello che hai sentito."
+        requisiti: [oggetto.maison-cristallo-accoppiato >= 1, maison.cariche < 3, informazioni.pettegolezzo >= 1]
+        esito:
+          titolo: Le due metà
+          testo: |
+            Nerissa tiene le due gabbiette d'ottone nei palmi per il tempo di
+            una tazza di tè, e intanto ascolta il pettegolezzo che le racconti.
+            Quando te le restituisce sono tiepide, come due sassi lasciati al
+            sole.
+          imposta: { maison.cariche: 3 }
+          effetti: { informazioni.pettegolezzo: -1 }
+      - testo: "Chiederle di far dimenticare uno scandalo"
+        descrizione: "Un favore della signora. Due parole nei salotti giusti, e la storia che gira su di te smette di girare."
+        requisiti: [maison.favori >= 1, scandalo >= 1]
+        esito:
+          titolo: Due parole
+          testo: |
+            Nerissa ascolta la storia che circola su di te e ruota la tazza di
+            un quarto di giro, in silenzio. Nei giorni seguenti la storia si fa
+            più corta nei salotti, e poi smette di girare.
+          effetti: { maison.favori: -1, scandalo: -2 }
+      - testo: "Chiederle di far dimenticare un sospetto"
+        descrizione: "Un favore della signora. Lo sceriffo passa per servizio, e certi registri della Guardia perdono una pagina."
+        requisiti: [maison.favori >= 1, sospetto >= 1]
+        esito:
+          titolo: Per servizio
+          testo: |
+            Nerissa ti ascolta e non ti chiede niente. Qualche sera dopo, in
+            salone, ci sono due tazze sul tavolino, e la settimana seguente le
+            guardie del Ponte del Pesce smettono di guardarti passare.
+          effetti: { maison.favori: -1, sospetto: -2 }
+      - testo: "Chiederle una porta dei Quartieri Alti"
+        descrizione: "Un favore della signora. Un biglietto con il sigillo di una famiglia buona, che ti aspetta da un portiere."
+        quando: [invito == 0]
+        requisiti: [maison.favori >= 1]
+        esito:
+          titolo: Il biglietto
+          testo: |
+            Due giorni dopo un ragazzo in livrea ti porta un biglietto con il
+            sigillo di una famiglia dei Quartieri Alti, e non ti dice chi lo
+            manda. Ai cancelli, d'ora in poi, i portieri ti salutano.
+          effetti: { maison.favori: -1, invito: 1 }
+      - testo: "Chiederle un nome"
+        descrizione: "Da Custode dei nomi puoi chiederle una cosa che sa lei. Lo paghi con quello che sai tu."
+        requisiti: [maison.custode >= 1, informazioni.pettegolezzo >= 2]
+        costo: 2
+        esito:
+          titolo: La scatola di latta
+          testo: |
+            Le racconti i tuoi due pettegolezzi, e Nerissa li ascolta con gli
+            occhi chiusi. Poi apre la scatola di latta, guarda dentro senza
+            toccare niente e la richiude. Ti dice un nome e una cosa sola su
+            quel nome, a voce così bassa che devi sporgerti per sentirla.
+          effetti: { informazioni.pettegolezzo: -2, informazioni.segreto: 1 }
+      - testo: "Raccontarle un segreto"
+        descrizione: "Da chi è di casa da tanto, Nerissa compra quello che sa al prezzo migliore della città."
+        requisiti: [rep.maison >= 9, informazioni.segreto >= 1]
+        costo: 0
+        esito:
+          titolo: Il prezzo migliore
+          testo: |
+            Le racconti il segreto a voce bassa, e lei lo ascolta senza
+            muovere la tazza. Poi apre il cassetto del tavolino e ti conta le
+            monete sul piano di legno, una per una, come fa Sara al bancone.
+          effetti: { informazioni.segreto: -1, monete: 40 }
+      - testo: "Raccontarle un pettegolezzo"
+        descrizione: "Una voce verificata, raccontata alla persona giusta, vale più che al mercato."
+        requisiti: [rep.maison >= 9, informazioni.pettegolezzo >= 1]
+        costo: 0
+        esito:
+          titolo: Il pettegolezzo
+          testo: |
+            Le racconti il pettegolezzo, e lei sorride a metà. Ti conta le
+            monete sul tavolino e ti versa un'altra tazza, perché quella storia
+            le è piaciuta.
+          effetti: { informazioni.pettegolezzo: -1, monete: 8 }
+
+  # ------------------------------------------------------------ dagli Averi · il cristallo accoppiato
+  - id: maison-il-cristallo-in-ascolto
+    titolo: Il cristallo accoppiato
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/cristalli-conduttori
+    requisiti: [oggetto.maison-cristallo-accoppiato >= 1]
+    sommario: "La metà di un cristallo conduttore nella sua gabbietta d'ottone. Lasciata in una stanza, ti porta quello che vi si dice."
+    testo: |
+      La gabbietta d'ottone è grande come una noce, e dentro la metà del
+      cristallo ha una luce appena accennata, color miele come le lampade
+      della Maison. Se la lasci in una stanza, quello che si dice lì arriva
+      all'altra metà, nella cucina della Maison, e a te quando la riprendi.
+      Ogni volta la carica si consuma, e la ricarica soltanto Nerissa.
+
+      {magia Media} Nelle notti silenziose, se la tieni all'orecchio, il
+      cristallo porta un rumore regolare e lento come un respiro, che viene
+      da molto più in basso di qualunque stanza.
+
+      {conoscenze-della-strada Media} Ascoltare le stanze degli altri è il
+      mestiere di Bastiano Rell. Adesso, a piccole dosi, è anche il tuo, e chi
+      ti vede entrare due volte nello stesso salotto se lo ricorderà.
+    opzioni:
+      - testo: "Lasciarlo in un salotto dei Quartieri Alti"
+        descrizione: "Dietro un vaso, sotto una poltrona. Il tempo di un ricevimento, e di tornare a prenderlo."
+        requisiti: [maison.cariche >= 1, invito >= 1]
+        prova: { attributo: sociale, abilita: [galateo, furtivita], difficolta: Media }
+        successo:
+          titolo: Dietro il vaso
+          testo: |
+            Lo lasci dietro un vaso di ortensie durante un ricevimento, e lo
+            riprendi al congedo. La sera, nella cucina della Maison, l'altra
+            metà ti restituisce mezz'ora di conversazione fra due consiglieri
+            convinti di essere soli.
+          effetti: { maison.cariche: -1, informazioni.segreto: 1, sospetto: 0.5 }
+        fallimento:
+          titolo: Il vaso spostato
+          testo: |
+            Quando torni a prenderlo, il vaso è stato spostato, e la gabbietta
+            la trova un valletto davanti a te. Te la restituisce senza capire
+            che cos'è, e ti guarda uscire.
+          effetti: { maison.cariche: -1, sospetto: 1 }
+      - testo: "Lasciarlo nell'anticamera del Municipio"
+        descrizione: "Sotto la panca delle udienze del mattino, dove i consiglieri si fermano a parlare."
+        requisiti: [maison.cariche >= 1]
+        prova: { attributo: sociale, abilita: [ingannare, furtivita], difficolta: Media }
+        successo:
+          titolo: La panca
+          testo: |
+            Lo lasci sotto la panca delle udienze con una supplica in mano, e lo
+            riprendi a mezzogiorno. L'altra metà ti restituisce i discorsi di
+            una mattina intera, e in mezzo una frase detta a mezza voce sulla
+            scala, che vale molto.
+          effetti: { maison.cariche: -1, informazioni.segreto: 1, sospetto: 0.5 }
+        fallimento:
+          titolo: Tullio Merga
+          testo: |
+            Quando torni a prenderlo, Tullio Merga sta spazzando sotto la panca
+            con una scopa che non è sua. Ti porge la gabbietta con un sorriso e
+            ti chiede se l'hai persa.
+          effetti: { maison.cariche: -1, sospetto: 1 }
+      - testo: "Lasciarlo sotto i portici della Casa dei Nodi"
+        descrizione: "Dove i mercanti della Gilda si fermano a fare i conti a voce alta."
+        requisiti: [maison.cariche >= 1]
+        prova: { attributo: fisico, abilita: [furtivita, percezione], difficolta: Media }
+        successo:
+          titolo: I portici
+          testo: |
+            Lo nascondi in una crepa del colonnato e torni a prenderlo al
+            tramonto. L'altra metà ti restituisce i conti di tre mercanti, e
+            uno dei tre parla di una partita di merce che la Gilda non registra.
+          effetti: { maison.cariche: -1, informazioni.segreto: 1, sospetto: 0.5 }
+        fallimento:
+          titolo: La crepa
+          testo: |
+            Quando torni la crepa è vuota, e la gabbietta la trovi dopo un'ora
+            in mano a un ragazzino che ci giocava. Gliela ricompri, e una
+            guardia della Gilda ti guarda fare.
+          effetti: { maison.cariche: -1, sospetto: 1, monete: -2 }
+      - testo: "Tenerlo all'orecchio, di notte"
+        descrizione: "Senza lasciarlo da nessuna parte. Soltanto per sentire."
+        costo: 0
+        esito:
+          titolo: Il respiro
+          testo: |
+            Tieni la gabbietta all'orecchio nel buio, e sotto il silenzio della
+            Maison c'è quel rumore regolare, lento, che sale da molto più in
+            basso della condotta. Lo ascolti finché non ti addormenti, e la
+            mattina non ricordi se l'hai sognato.
+
+  # ------------------------------------------------------------ dagli Averi · la chiave della porta di servizio
+  - id: maison-la-porta-di-servizio
+    titolo: La porta di servizio
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/maison-des-lunes
+    requisiti: [oggetto.maison-chiave-della-porta-di-servizio >= 1]
+    sommario: "La chiave di ferro con il nastro verde. Apre la cucina della Maison a qualunque ora, anche quando fuori ti cercano."
+    testo: |
+      La chiave è di ferro, con l'anello consumato da molte mani prima della
+      tua, e il nastro verde è lo stesso del quaderno di Sara. Con questa
+      chiave la cucina della Maison è aperta a qualunque ora, e in cucina
+      nessuno chiede perché sei venuto. Sopra la stufa c'è una soffitta bassa
+      dove Gretchen tiene le mele d'inverno, e dove un ospite della casa può
+      restare qualche giorno senza che la strada lo veda.
+
+      {furtivita Media} Dalla porta di servizio, al cortile, a Via del
+      Salmone. Chi ti cerca guarda la porta grande, e quella di servizio non
+      la conosce nessuno.
+    opzioni:
+      - testo: "Nasconderti qualche giorno nella soffitta delle mele"
+        descrizione: "Qualche giorno fuori dalla strada, con le mele di Gretchen e il rumore del salone dal pavimento. Chi ti cercava si stanca."
+        quando: [maison.libro != 5]
+        requisiti: [sospetto >= 1]
+        costo: 2
+        esito:
+          titolo: Le mele d'inverno
+          testo: |
+            Passi tre giorni nella soffitta delle mele, con un materasso di
+            paglia e una candela, e Gretchen ti porta da mangiare due volte al
+            giorno senza farti domande. Dal pavimento arrivano le voci del
+            salone. Quando esci, la ronda che ti cercava in Via dei Rasoi ha
+            cambiato turno e strada.
+          effetti: { sospetto: -1 }
+      - testo: "Far dimenticare chi ti ha visto"
+        descrizione: "Due dita sulla tempia di chi ti ha visto, e una parola. Se ne va con un'ora in meno."
+        incantesimo: maison-oblio
+        requisiti: [sospetto >= 0.5]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Un'ora in meno
+          testo: |
+            Aspetti la guardia che ti ha visto uscire da dove non dovevi, e le
+            chiedi l'ora con due dita sulla tempia, come per scostarle un
+            capello. Lei ti risponde, e poi resta un momento a guardare la
+            strada, cercando di ricordare che cosa stava facendo.
+          effetti: { sospetto: -0.5, scandalo: -0.5 }
+        fallimento:
+          titolo: La parola sbagliata
+          testo: |
+            La parola ti si confonde in bocca, e la guardia si ricorda
+            benissimo di te, e in più di uno sconosciuto che le ha toccato la
+            tempia.
+          effetti: { tormento: 0.5, sospetto: 0.5 }
+
+  # ------------------------------------------------------------ dagli Averi · il libro dei clienti di Vesh (per chi l'ha tenuto)
+  - id: maison-il-libro-di-vesh
+    titolo: Il libro dei clienti di Vesh
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/pignatta-grassa
+    requisiti: [oggetto.maison-libro-dei-clienti >= 1]
+    sommario: "Pelle nera, angoli d'ottone, anni di nomi. Ogni pagina vale qualcosa a qualcuno."
+    testo: |
+      Il libro dei clienti di Vesh è rilegato in pelle nera, con gli angoli
+      d'ottone consumati e una macchia di fuliggine sul dorso, l'unico segno
+      che ha lasciato la notte della Pignatta. Le pagine sono fitte di nomi e
+      di date, con la calligrafia di Rozalia e qualche correzione di una
+      mano più frettolosa. Lo tieni avvolto in una tela cerata, in fondo alla
+      bisaccia, e la sera lo senti pesare.
+
+      {politica-ed-economia Media} Su ogni pagina c'è un nome dei Quartieri Alti
+      che pagherebbe per non esserci. Ogni pagina che usi è un nemico in più
+      che ancora non sa di esserlo.
+    opzioni:
+      - testo: "Leggere una pagina"
+        descrizione: "Un nome con le sue date, e quello che decidi di farne."
+        requisiti: [maison.pagine >= 1]
+        esito:
+          titolo: Una pagina
+          testo: |
+            Apri il libro a caso e leggi una pagina, con il nome in cima e le
+            sere sotto, una per riga. Lo conosci. La strappi lungo la cucitura,
+            come faceva Ottone con i suoi conti sbagliati, e la pieghi in tasca.
+          effetti: { maison.pagine: -1, informazioni.segreto: 1, sospetto: 0.5 }

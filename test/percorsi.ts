@@ -46,7 +46,11 @@ export function percorri(origine: string, seme: number, pista: string, fine: num
       && x.requisiti.some((r) => r.replace(/\s/g, '') === `${pista}==${v}`)
       && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0)); // uno storylet senza opzioni giocabili adesso si salta
     // si gioca nell'area in cui si è (in spedizione si resta dentro); altrimenti ci si sposta
-    const qui = tutti.filter((x) => x.area === s.area);
+    let qui = tutti.filter((x) => x.area === s.area);
+    // in una spedizione le stanze possono non chiedere la pista: si gioca quello che la spedizione mostra
+    if (!qui.length && c.aree.find((a) => a.id === s.area)?.spedizione) {
+      qui = storyletDisponibili(s, c).filter((x) => x.area === s.area && x.opzioni.some((o) => anteprima(s, o, c).mancanti.length === 0));
+    }
     const scelta = qui.length ? qui : tutti;
     const st = scelta[Math.floor(rng() * scelta.length)];
     if (!st) throw new Error(`${origine}/${seme}: bloccato a ${pista} = ${v} (area ${s.area})`);

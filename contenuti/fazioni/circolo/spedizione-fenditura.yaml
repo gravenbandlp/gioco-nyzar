@@ -1,0 +1,1243 @@
+# La fenditura del Respiro, spedizione della quest del Circolo di Velthar (dal passo 13, poi ripetibile).
+# Ci si entra dal Bosco di Velthar con la corda (chiave «fenditura»): la prima volta con `circolo-la-discesa`
+# (passi-3.yaml), dopo la quest con `circolo-fenditura-scendere`. La ritirata riporta alla Superficie Fratturata.
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+# 0 la gola calda (la corda che si sfilaccia; i getti di vapore, che valgono anche a 1),
+# 1 le radici di metallo (le radici che diventano cavi; il guardiano di radici, che vale anche a 2),
+# 2 la città sepolta (le case piene di terra; la Salvaguardia che dorme in piazza, che vale anche a 3),
+# 3 il sonno dei Silenti (la porta della parola, che con circolo.parola == 1 salta una fascia ma Voren la sente;
+#   il bracciale di Selara; i Silenti nelle radici, che valgono anche a 4),
+# 4 l'anticamera (il ferro che si sposta; le pozze di linfa azzurra).
+# Il cuore a 5: il Custode di linfa (boss, fazione.circolo == 12, porta a 13 e apre subito gli occhi dorati) e, dopo la
+# quest, la cavità dell'Albero (fazione.circolo >= 14). Il passo 14, `circolo-occhi-dorati`, sta qui in fondo.
+# Ogni stanza ha una via senza prova che costa due rintocchi e un poco di Ferite, Tormento o Contaminazione.
+aree:
+  - id: circolo-fenditura
+    immagine: ambientazione/rovine-dei-precursori
+    nome: La fenditura del Respiro
+    sommario: "Sotto la spirale del Circolo una gola calda scende fra radici diventate metallo, fino a una città sepolta e più giù ancora."
+    spedizione: { ritorno: superficie-fratturata, soglia: 5, stanze: 3 }
+    testo: |
+      Sotto il Circolo del Respiro la fenditura si allarga in una gola di
+      pietra scura, calda come il fianco di un forno, dove il vapore sale
+      a sbuffi lenti da crepe che non si vedono. Più giù le radici del Bosco scendono lungo le pareti grosse come gomene, finché a un certo punto smettono di essere legno. Diventano lisce, grigie, fredde al
+      tatto in mezzo a tutto quel caldo.
+
+      Ancora più sotto c'è una città. Le case sono di pietra e metallo,
+      con le porte troppo alte e le finestre troppo strette, e sono piene
+      di terra fino al soffitto, come vasi. Il Bosco ci è cresciuto sopra
+      per due secoli senza saperlo. In fondo, dove la città finisce, il
+      calore viene da un punto solo.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dopo la quest
+  - id: circolo-fenditura-scendere
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: La fenditura del Respiro
+    sommario: "La corda è ancora legata alla pietra più bassa della spirale, e sotto aspettano la gola calda e la città sepolta."
+    luogo: Il Bosco di Velthar, il bordo della fenditura
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 14]
+    testo: |
+      La corda è rimasta legata alla pietra più bassa della spirale, e i
+      novizi a turno la bagnano con una spugna perché il calore non la
+      secchi. Ogni tanto qualcuno scende fino alla città sepolta a
+      prendere le misure per Serha, e torna con i capelli bianchi di
+      polvere e gli occhi rossi. Più giù di così scendono in pochi.
+
+      {atletica Facile} Le braccia ricordano i duecento passi di corda. Si
+      fanno sentire già adesso, solo a guardarla.
+
+      Dalla fenditura sale un vapore che d'inverno scalda tutta la
+      spirale, e i druidi anziani ci si siedono vicino con le mani aperte.
+    opzioni:
+      - testo: "Scendere nella fenditura"
+        descrizione: "Duecento passi di corda nel buio caldo. La strada fino alla cavità la conosci."
+        requisiti: [chiave.fenditura >= 1]
+        esito:
+          titolo: Di nuovo giù
+          testo: |
+            Ti infili i guanti e ti cali nel buio, una mano sotto l'altra,
+            finché la spirale sopra la testa non è un cerchio di luce e poi
+            niente. I piedi toccano la roccia calda della gola.
+          vai: circolo-fenditura
+
+  # ------------------------------------------------------------ 0 · la gola calda
+  - id: circolo-fenditura-la-corda-che-si-sfilaccia
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La corda che si sfilaccia
+    sommario: "A metà della gola la roccia è così calda che la corda comincia a fumare."
+    luogo: La fenditura del Respiro, la gola calda
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 0]
+    testo: |
+      La gola scende ripida per un tratto lungo, e la corda ci corre sopra
+      appoggiata alla roccia. A metà strada la roccia diventa così calda
+      che la corda comincia a fumare dove la tocca, con un odore di
+      canapa bruciata o di radice cotta, a seconda della corda che hai. Da
+      sotto, nel buio, arriva un fruscio continuo, il vapore che sale da
+      cento crepe.
+
+      {resistenza Media} Il caldo ti asciuga gli occhi e la bocca, e le
+      mani nei guanti sono già bagnate di sudore. Il corpo dice che di qui
+      si passa una volta, e svelti.
+
+      {tecnologia Media fallita} Provi a capire da dove venga tanto calore,
+      e ti vengono in mente solo le fornaci dell'Acciaieria e un'idea
+      vaga di tubi.
+    opzioni:
+      - testo: "Scendere svelto prima che la corda ceda"
+        descrizione: "Mani rapide e piedi sulla parete. Se la corda tiene altri cinquanta passi, sei in fondo."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Cinquanta passi
+          testo: |
+            Scendi a balzi, i piedi sulla parete e le mani che scivolano
+            sulla corda calda. In fondo alla gola ti butti a sedere su un
+            sasso, e sopra di te la corda smette di fumare.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Le mani bruciate
+          testo: |
+            La corda ti scotta attraverso i guanti, e a metà discesa la molli
+            per un attimo e scivoli di tre passi. Torni su, al pianerottolo
+            fresco, con i palmi in fiamme.
+          effetti: { ferite: 0.5 }
+      - testo: "Bagnare la corda e la roccia"
+        descrizione: "Con la borraccia e un panno la corda si raffredda. L'acqua finisce presto, e la roccia la beve."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il panno bagnato
+          testo: |
+            Bagni il panno e lo passi sulla corda dove tocca la roccia,
+            scegliendo i punti in cui fuma di più. Scendi piano dietro il
+            vapore del panno, e in fondo alla borraccia restano due sorsi.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: L'acqua che sparisce
+          testo: |
+            L'acqua sparisce sulla roccia con un sibilo prima ancora di
+            toccare la corda. Resti appeso a guardare la borraccia vuota, poi
+            torni su a cercarne altra.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere piano e sopportare il caldo"
+        descrizione: "Un passo alla volta, con la corda che fuma. Il caldo si sopporta, se non si ha fretta."
+        costo: 2
+        esito:
+          titolo: Il caldo
+          testo: |
+            Scendi un passo alla volta, fermandoti a ogni pianerottolo a
+            respirare. In fondo alla gola hai la camicia fradicia e la testa
+            che gira come dopo un bagno troppo caldo.
+          effetti: { profondita.circolo-fenditura: 1, ferite: 0.5 }
+
+  - id: circolo-fenditura-i-getti-di-vapore
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: I getti di vapore
+    sommario: "Il fondo della gola è attraversato da getti di vapore che escono dalle crepe a intervalli. Uno ti è passato a un palmo dalla faccia."
+    luogo: La fenditura del Respiro, il fondo della gola
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura <= 1]
+    testo: |
+      Il fondo della gola è un corridoio di roccia scura lungo cento passi,
+      con le pareti segnate da crepe sottili. Da ogni crepa, a intervalli,
+      esce un getto di vapore bianco con un fischio corto, e il getto
+      attraversa il corridoio da parte a parte prima di sparire. Sul
+      pavimento il vapore ha lasciato una crosta di sale bianco, e in mezzo
+      c'è lo scheletro di un animale piccolo, cotto fino a essere pulito.
+
+      {percezione Media} I getti non sono a caso. Ogni crepa fischia dopo
+      quella accanto, e il fischio corre lungo il corridoio come un'onda.
+
+      {acrobazia Facile} Il pavimento è liscio di sale, e i piedi lo
+      sanno. Correre lì sopra vuol dire scivolare.
+    opzioni:
+      - testo: "Contare i fischi e passare fra un getto e l'altro"
+        descrizione: "I getti corrono in fila come un'onda. Basta stare dietro all'onda."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Dietro l'onda
+          testo: |
+            Conti i fischi finché non trovi il ritmo, poi ti metti a
+            camminare dietro all'ultimo getto, al suo passo. Arrivi in fondo
+            al corridoio con il sale fino alle caviglie e la pelle intatta.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il getto in faccia
+          testo: |
+            Sbagli il conto di un fischio, e il getto ti prende sul braccio.
+            Torni indietro con la pelle rossa e lucida fino al gomito.
+          effetti: { ferite: 0.5 }
+      - testo: "Attraversare di corsa trattenendo il fiato"
+        descrizione: "Cento passi di corsa sul sale, con i getti che ti cercano. I polmoni devono reggere il caldo."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Cento passi
+          testo: |
+            Corri a testa bassa, con il fiato trattenuto, e due getti ti
+            sfiorano la schiena senza toccarti. In fondo ti appoggi alla
+            parete e respiri l'aria calda come fosse fresca.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il sale
+          testo: |
+            A metà corsa scivoli sul sale e cadi, e un getto ti passa sopra
+            mentre sei a terra. Torni indietro carponi, con la schiena che
+            brucia sotto la camicia.
+          effetti: { ferite: 1 }
+      - testo: "Passare rasente alla parete"
+        descrizione: "I getti partono dalle crepe e si allargano. Rasente alla parete, sotto il getto, il caldo è peggio e il colpo è minore."
+        costo: 2
+        esito:
+          titolo: Rasente al muro
+          testo: |
+            Passi con la schiena contro la parete, sotto i getti che partono
+            sopra la tua testa. Il caldo ti cuoce le orecchie, e in fondo al
+            corridoio hai le mani piene di vesciche.
+          effetti: { profondita.circolo-fenditura: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · le radici di metallo
+  - id: circolo-fenditura-le-radici-di-metallo
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le radici di metallo
+    sommario: "Le radici del Bosco scendono lungo le pareti, e a un certo punto smettono di essere legno."
+    luogo: La fenditura del Respiro, le radici di metallo
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 1]
+    testo: |
+      Qui le radici del Bosco, grosse come gomene, scendono a fasci lungo le pareti, e l'unico modo di andare avanti è scendere con loro. Più in basso la corteccia si fa liscia e grigia fino a diventare lucida, e alla fine le radici sono cavi di metallo che entrano nella roccia senza una giuntura. Nel punto in cui cambiano c'è una fascia di un palmo dove sono legno e metallo insieme, calda come una mano.
+
+      {tecnologia Media} Nessuno ha saldato niente. Il metallo è cresciuto
+      dentro la radice, o la radice dentro il metallo, e nessuno dei due
+      ha vinto.
+
+      {origine allievo-di-torvessa} All'Accademia c'era un cristallo che
+      Orvald teneva sotto una campana di vetro perché nessuno lo toccasse,
+      con dentro una fibra di legno. Lo chiamava l'errore, e adesso sai
+      di che cosa.
+    opzioni:
+      - testo: "Scendere lungo le radici di legno"
+        descrizione: "Finché sono di legno le radici si afferrano. Il metallo è liscio."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il fascio
+          testo: |
+            Scendi lungo un fascio di radici tenendoti dove il legno è ancora
+            ruvido, e quando diventa metallo ti lasci scivolare per l'ultimo
+            tratto, con gli stivali puntati. Tocchi terra dove comincia una
+            strada lastricata.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: La presa liscia
+          testo: |
+            La mano trova il metallo dove ti aspettavi il legno, e scivoli
+            per un tratto lungo prima di fermarti contro un nodo. Risali a
+            fatica, con un ginocchio sbucciato.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire la radice che porta più giù"
+        descrizione: "Le radici vanno tutte verso un punto. La più grossa ci arriva prima."
+        prova: { attributo: mentale, abilita: [natura, tecnologia], difficolta: Media }
+        successo:
+          titolo: La radice madre
+          testo: |
+            Cerchi la radice più grossa e la segui, e lei scende in una
+            spaccatura della parete dove si cammina quasi dritti. Esci in
+            fondo, sul lastricato di una strada.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: La radice sbagliata
+          testo: |
+            Segui una radice che sembrava la madre, ed entra nella roccia
+            senza lasciarti passare. Torni indietro per un tratto lungo, con
+            il caldo che ti schiaccia le spalle.
+          effetti: { tormento: 0.5 }
+      - testo: "Calarti con la corda lungo la parete"
+        descrizione: "La corda arriva fin qui, a stento. Bisogna slegarla in fondo e lasciarla pendere."
+        costo: 2
+        esito:
+          titolo: In fondo alla corda
+          testo: |
+            Ti cali lungo la parete fino all'ultimo palmo di corda, e
+            l'ultimo tratto lo fai saltando. Atterri male, su una caviglia.
+          effetti: { profondita.circolo-fenditura: 1, ferite: 0.5 }
+
+  - id: circolo-fenditura-il-guardiano-di-radici
+    immagine: icone/tree-roots
+    titolo: Il guardiano di radici
+    sommario: "Fra le pareti si tende un groviglio di radici di metallo, con una luce azzurra che pulsa nel mezzo. Quando ti avvicini si stringe."
+    luogo: La fenditura del Respiro, il passaggio delle radici
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura >= 1, profondita.circolo-fenditura <= 2]
+    testo: |
+      Il passaggio si stringe fra due pareti, e fra le due pareti è tesa
+      una rete di radici diventate cavi, fitta come una tela di ragno. Nel
+      mezzo pulsa una luce azzurra grande come un pugno. Quando fai un
+      passo i cavi si tendono con un suono di corde di liuto, e la rete si
+      stringe verso di te.
+
+      {armi-da-mischia Media} I cavi più sottili si tagliano. Quelli grossi vicino alla luce resistono, e tengono su tutto il resto.
+
+      {furtivita Difficile} Si muove quando senti il suono delle corde, e
+      il suono lo fai tu, camminando. Un passo leggero le lascia ferme.
+    opzioni:
+      - testo: "Tagliarti la strada fino alla luce"
+        descrizione: "Una rete di cavi che si stringe. Nel mezzo c'è la luce, e lì si colpisce."
+        combattimento: circolo-il-guardiano-di-radici
+        vittoria:
+          titolo: La luce spenta
+          testo: |
+            Colpisci la luce azzurra finché non si spegne, e la rete si
+            affloscia di colpo, come una tela tagliata. Fra i cavi trovi un
+            nucleo opaco che si stacca con le dita.
+          effetti: { profondita.circolo-fenditura: 1, parte.nucleo-1: 1 }
+        sconfitta:
+          titolo: La rete
+          testo: |
+            I cavi ti si stringono intorno al braccio e alla gola, e ti
+            liberi soltanto lasciando dentro la rete mezzo mantello. Risali
+            fino al fondo della gola con il collo segnato.
+      - testo: "Passare fra i cavi senza toccarli"
+        descrizione: "La rete si muove quando sente le corde vibrare. Un passo che non fa vibrare niente passa."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Fra le corde
+          testo: |
+            Passi fra i cavi un piede alla volta, con il fiato trattenuto, e
+            la rete resta tesa e immobile, come se dormisse. Dall'altra parte
+            ti accorgi di avere i muscoli delle gambe duri come legno.
+          pe: { furtivita: 5 }
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il cavo che suona
+          testo: |
+            Il tallone sfiora un cavo, e il cavo suona come una corda di
+            liuto. La rete si stringe di colpo, e tu ti butti indietro con un
+            taglio lungo sull'avambraccio.
+          effetti: { ferite: 1 }
+      - testo: "Arrampicarti sopra la rete"
+        descrizione: "In alto i cavi sono meno fitti, e la parete ha appigli. Ci vuole tempo."
+        costo: 2
+        esito:
+          titolo: Sopra la rete
+          testo: |
+            Ti arrampichi lungo la parete fino a dove i cavi si diradano, e
+            passi sopra la rete con la schiena contro la roccia calda. Due
+            cavi ti sfiorano le caviglie e lasciano il segno.
+          effetti: { profondita.circolo-fenditura: 1, ferite: 1 }
+
+  # ------------------------------------------------------------ 2 · la città sepolta
+  - id: circolo-fenditura-le-case-piene-di-terra
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le case piene di terra
+    sommario: "Una strada di case di pietra e metallo, con le porte troppo alte. Dentro sono piene di terra fino al soffitto."
+    luogo: La fenditura del Respiro, la città sepolta
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 2]
+    testo: |
+      La strada è lastricata di pietre esagonali tutte uguali, e ai lati
+      ci sono case di pietra scura e metallo con le porte alte il doppio di
+      un uomo e le finestre strette come feritoie. Le porte sono aperte, e
+      dentro le case sono piene fino al soffitto di una terra compatta e scura, con le radici del Bosco che la attraversano come vene. Da una
+      finestra spunta il dorso di una sedia di metallo, piccola, che
+      potrebbe essere stata di un bambino.
+
+      {accademiche Media} Le cronache della Caduta parlano di città dei
+      Precursori sotto la Superficie. Nessuna dice che qualcuno le abbia
+      riempite di terra, con cura, casa per casa.
+
+      {empatia Media fallita} Guardi la sedia piccola e non ti viene in
+      mente niente, se non che la terra ci è entrata piano.
+    opzioni:
+      - testo: "Leggere i segni sulle porte"
+        descrizione: "Ogni porta ha un segno inciso all'altezza degli occhi di qualcuno molto alto."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Media }
+        successo:
+          titolo: I segni
+          testo: |
+            I segni sulle porte sono numeri, o qualcosa che ci somiglia, e
+            vanno in ordine lungo la strada fino a una piazza. Sull'ultima
+            porta ne trovi uno inciso su una lastrina che si stacca, e te la
+            metti in tasca.
+          pe: { accademiche: 2 }
+          effetti: { profondita.circolo-fenditura: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: I segni muti
+          testo: |
+            I segni ti scivolano sotto gli occhi senza dire niente, e a forza
+            di guardarli ti accorgi di aver fatto il giro dello stesso
+            isolato due volte.
+          effetti: { tormento: 0.5 }
+      - testo: "Scavare in una casa per vedere che cosa c'è sotto"
+        descrizione: "La terra è compatta, ma una mano decisa la smuove. Qualcosa sotto ci sarà."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il tavolo
+          testo: |
+            Scavi per un'ora con le mani e il coltello, finché sotto la terra
+            non trovi un tavolo di metallo apparecchiato, con le ciotole
+            ancora al loro posto. In una c'è un guscio chiuso che non si apre
+            con le mani.
+          effetti: { profondita.circolo-fenditura: 1, reperto.sigillato: 1 }
+        fallimento:
+          titolo: La terra che cede
+          testo: |
+            Scavi, e la terra del soffitto ti cade addosso tutta insieme.
+            Ne esci tossendo, con la bocca piena di una terra che sa di ferro.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Percorrere la strada senza fermarti"
+        descrizione: "Una città sepolta non ha fretta di raccontarsi. Si passa e basta, e il silenzio si porta addosso."
+        costo: 2
+        esito:
+          titolo: La strada lunga
+          testo: |
+            Percorri la strada fino in fondo senza guardare dentro le porte,
+            e il silenzio della città ti si posa sulle spalle come polvere.
+            Quando arrivi alla piazza ti accorgi di avere camminato in punta
+            di piedi per tutto il tempo.
+          effetti: { profondita.circolo-fenditura: 1, tormento: 0.5 }
+
+  - id: circolo-fenditura-la-salvaguardia-che-dorme
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La Salvaguardia che dorme
+    sommario: "In mezzo alla piazza c'è una macchina con quattro braccia, alta due volte un uomo, ferma. Va lasciata dormire."
+    luogo: La fenditura del Respiro, la piazza della città sepolta
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura >= 2, profondita.circolo-fenditura <= 3]
+    testo: |
+      La strada sbocca in una piazza rotonda, e nel mezzo della piazza c'è
+      una macchina della Salvaguardia alta due volte un uomo, con quattro
+      braccia ripiegate contro il corpo e la testa china sul petto. Le radici del Bosco le sono cresciute sulle spalle e intorno alle gambe. Dentro il petto, dietro le sbarre di una grata, c'è una luce azzurra che
+      pulsa piano una volta ogni tanto, come il respiro di uno che dorme.
+
+      {tecnologia Media} Dorme davvero. La luce rallenta quando la piazza
+      è silenziosa e accelera a ogni rumore, come l'orecchio di un cane
+      che sogna.
+
+      {intimidire Media fallita} Ti viene da tenere il mento alto e passare
+      in mezzo alla piazza come uno che ha il diritto di farlo. È una pessima
+      idea, e ci metti un momento ad ammetterlo.
+
+      Per andare oltre bisogna attraversare la piazza, e la piazza è
+      piccola.
+    opzioni:
+      - testo: "Attraversare la piazza in silenzio"
+        descrizione: "Un passo alla volta, lungo il bordo. La luce nel petto deve restare lenta."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il respiro lento
+          testo: |
+            Attraversi la piazza lungo il bordo, un passo ogni respiro della
+            luce, e la macchina resta china sul petto. Quando sei dall'altra
+            parte ti accorgi di aver respirato con lei.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: La testa che si alza
+          testo: |
+            Un sasso ti rotola sotto lo stivale, e la luce nel petto si fa
+            veloce. La testa della macchina si alza di un dito. Scappi
+            indietro lungo la strada, e dietro di te un braccio si apre con
+            un suono di ferro, e colpisce il punto dove stavi.
+          effetti: { ferite: 1.5 }
+      - testo: "Tenerla addormentata con il congegno di Aurenne"
+        descrizione: "Il congegno di controllo teneva a bada le macchine della Salvaguardia. Può tenerne una addormentata."
+        requisiti: [oggetto.congegno-di-controllo >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il pollice nella conca
+          testo: |
+            Premi il pollice nella conca del congegno, e la luce nel petto
+            della macchina si fa lenta, lentissima, come una brace coperta.
+            Attraversi la piazza camminando, e la macchina non si muove.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il congegno sbagliato
+          testo: |
+            Il congegno manda un ronzio, e la macchina alza la testa per
+            ascoltarlo. Torni indietro di corsa, e il congegno ti scalda il
+            palmo fino a bruciarlo.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Fare il giro per le case"
+        descrizione: "Dietro le case c'è una strada stretta, piena di terra. Si passa scavando."
+        costo: 2
+        esito:
+          titolo: Dietro le case
+          testo: |
+            Giri dietro le case, scavando con le mani dove la terra chiude la
+            strada, e ci metti metà della giornata. Dall'altra parte della
+            piazza la macchina dorme ancora, e tu hai la terra fin dentro i
+            denti.
+          effetti: { profondita.circolo-fenditura: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 3 · il sonno dei Silenti
+  - id: circolo-fenditura-la-porta-della-parola
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La porta della parola
+    sommario: "In fondo alla città c'è una porta di metallo senza maniglia, con quattro segni incisi al centro."
+    luogo: La fenditura del Respiro, la porta in fondo alla città
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 3]
+    testo: |
+      Dove la città finisce c'è un muro di metallo grigio che chiude la
+      caverna da parete a parete, e nel muro c'è una porta alta tre uomini, senza nessuna maniglia. Al centro della porta ci sono quattro
+      segni incisi in fila, ognuno grande quanto una mano. Ai piedi della
+      porta le radici del Bosco si infilano in una fessura e passano sotto.
+      Accanto, a sinistra, una galleria stretta gira intorno al muro e si
+      perde nel buio.
+
+      {accademiche Difficile} Ogni segno è una sillaba. Sono la scrittura delle porte di sopra, e qui dicono un nome.
+
+      {percezione Media} La galleria a sinistra è stata scavata dopo, a
+      mano, da qualcuno che non poteva aprire la porta.
+    opzioni:
+      - testo: "Dire la parola della Spina"
+        descrizione: "Quattro sillabe, quelle che la Spina ti ha restituito. La porta forse le aspetta da due secoli, e dalla spirale Voren le sentirà."
+        quando: [circolo.parola == 1]
+        esito:
+          titolo: La porta si apre
+          testo: |
+            Dici la parola ad alta voce, quattro sillabe, come la cantava la
+            Spina. I segni si accendono uno dopo l'altro, e la porta si apre
+            verso l'interno senza un suono. Dietro c'è una scala che scende
+            ripida, e in fondo alla scala arriva un calore che viene da un
+            punto solo. Mentre scendi senti dietro gli occhi una pressione
+            che conosci, e poi più niente, come una porta chiusa piano.
+
+            {resilienza Media} Voren ti ha sentito. Da lassù, dalla spirale,
+            ha sentito il nome detto nel posto dove non andava detto.
+          effetti: { profondita.circolo-fenditura: 2, tormento: 1 }
+          imposta: { circolo.parola: 2 }
+      - testo: "Prendere la galleria intorno al muro"
+        descrizione: "Una galleria stretta, scavata a mano nel buio. Chi l'ha scavata sapeva dove andava."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: La galleria
+          testo: |
+            Segui la galleria nel buio, tenendo una mano sulla parete, e
+            trovi a ogni bivio un segno inciso, tre tacche, quelle del
+            Circolo. Esci dall'altra parte del muro, dove le radici
+            riemergono dal pavimento.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il bivio
+          testo: |
+            Al terzo bivio non trovi il segno e scegli a caso. La galleria
+            finisce contro la roccia, e torni indietro al buio contando i
+            passi.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare sotto la porta con le radici"
+        descrizione: "Dove passano le radici passa un corpo magro. Il metallo sopra è caldo."
+        costo: 2
+        esito:
+          titolo: Sotto la porta
+          testo: |
+            Strisci nella fessura insieme alle radici, con il metallo caldo
+            della porta che ti sfiora la schiena per tutta la sua altezza.
+            Dall'altra parte ti rialzi con la camicia bruciata in tre punti.
+          effetti: { profondita.circolo-fenditura: 1, ferite: 0.5 }
+
+  - id: circolo-fenditura-il-bracciale-di-selara
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il bracciale nella radice
+    sommario: "Dentro una radice, come una pietra in un frutto, c'è un bracciale di corteccia pietrificata con un nome inciso."
+    luogo: La fenditura del Respiro, oltre la porta
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 3]
+    testo: |
+      Una radice più grossa delle altre attraversa la galleria all'altezza
+      del petto, e dentro la radice, come una pietra in un frutto, c'è un
+      bracciale. È di corteccia diventata pietra lucida, largo come un polso di donna. Il legno ci è cresciuto intorno lasciandolo
+      scoperto da una parte sola, e su quella parte c'è un nome inciso a
+      punta di coltello. *Selara.*
+
+      {accademiche Media} Selara Vyn scese nel Rito e ne tornò con un
+      bracciale di corteccia pietrificata che non riusciva a togliersi.
+      Questo è uguale, o è lo stesso.
+
+      {empatia Media} Chi l'ha inciso premeva poco sul coltello, come si
+      scrive il nome di uno che dorme per non svegliarlo.
+    opzioni:
+      - testo: "Leggere quello che c'è inciso sotto il nome"
+        descrizione: "Sotto il nome ci sono altri segni, più piccoli, consumati. Ci vuole luce e pazienza."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Sotto il nome
+          testo: |
+            Avvicini la lanterna e leggi i segni piccoli sotto il nome. Sono le tre tacche del Circolo, e accanto c'è una data che non è nel
+            calendario della Caduta. Le ricopi sul palmo con il carbone, e
+            prosegui.
+          effetti: { profondita.circolo-fenditura: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: I segni consumati
+          testo: |
+            I segni sotto il nome sono troppo consumati, e a forza di
+            sfregarli con il pollice ti accorgi di averne cancellato uno. Ti
+            senti un ladro, e torni indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare un'offerta alla radice"
+        descrizione: "Al Circolo, davanti a un Silente, si lascia qualcosa. Questa radice somiglia a un Silente."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: L'offerta
+          testo: |
+            Lasci sulla radice un pezzo di pane accanto al bracciale, e ti inchini come fanno i novizi. La radice non si muove. La galleria
+            davanti a te però è più larga di come la ricordavi.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il pane che cade
+          testo: |
+            Il pane ti scivola dalle dita e rotola nel buio della galleria.
+            Lo cerchi per un pezzo, poi torni indietro a mani vuote.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare sotto la radice senza toccarla"
+        descrizione: "La radice taglia la galleria a metà. Sotto si passa piegati."
+        costo: 2
+        esito:
+          titolo: Piegato in due
+          testo: |
+            Passi sotto la radice piegato in due, con il bracciale sopra la
+            testa. Per tutto il resto della galleria ti senti addosso una mano leggera, quella di un padrone di casa che ti accompagna alla porta.
+          effetti: { profondita.circolo-fenditura: 1, tormento: 0.5 }
+
+  - id: circolo-fenditura-i-silenti-nelle-radici
+    immagine: fazioni/circolo-di-velthar
+    titolo: I Silenti nelle radici
+    sommario: "Nelle radici della galleria ci sono forme che sembrano persone sedute. Respirano, piano, tutte insieme."
+    luogo: La fenditura del Respiro, il sonno dei Silenti
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura >= 3]
+    testo: |
+      Le pareti della galleria sono fatte di radici intrecciate, e dentro
+      le radici ci sono forme che sembrano persone sedute a gambe
+      incrociate, con la testa china. Una ha ancora un lembo di tunica
+      grigio-verde, e un'altra un sandalo di corda. Il legno le ha
+      avvolte fino al collo. Respirano, tutte insieme, una volta ogni
+      dieci battiti, e il respiro passa lungo la galleria come vento in un
+      corridoio.
+
+      {resilienza Media} Ti preme qualcosa dietro gli occhi da tutte le parti insieme. Sono tante voci che dicono la stessa cosa, e
+      non riesci a capire che cosa.
+
+      {medicina Facile} Il respiro è lento come quello del Silente sotto
+      il tasso, e le forme sono calde. In qualche modo sono vivi, tutti quanti.
+    opzioni:
+      - testo: "Ascoltarli senza voce"
+        descrizione: "I Silenti ti hanno insegnato a parlare senza voce. Qui ce ne sono tanti, e parlano tutti insieme."
+        quando: [circolo.sussurro >= 1]
+        esito:
+          titolo: Tutte le voci
+          testo: |
+            Lasci entrare la pressione, e le voci si fanno parole. Dicono tutte a turno lo stesso nome come in una preghiera, e il nome è quello della città su cui il Bosco è cresciuto. In fondo
+            al coro ce n'è una più lontana, che non dice niente e ascolta.
+          effetti: { profondita.circolo-fenditura: 1, tormento: 0.5 }
+      - testo: "Passare senza lasciarli entrare"
+        descrizione: "La pressione cresce a ogni passo. Bisogna tenere la porta chiusa fino in fondo alla galleria."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La porta chiusa
+          testo: |
+            Cammini con i denti stretti e la testa piena del loro respiro,
+            senza lasciarlo entrare, finché la galleria non si allarga e la
+            pressione si fa leggera alle tue spalle.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: La porta aperta
+          testo: |
+            A metà galleria la pressione entra, e per un tempo lungo respiri
+            con loro, una volta ogni dieci battiti. Quando torni in te sei
+            seduto contro la parete, e le radici ti sono salite sulle
+            caviglie.
+          effetti: { tormento: 1 }
+      - testo: "Correre fino in fondo"
+        descrizione: "Una galleria si fa anche di corsa. Il respiro dei Silenti ti segue, però."
+        costo: 2
+        esito:
+          titolo: Di corsa
+          testo: |
+            Corri lungo la galleria senza guardare le forme, e il loro
+            respiro ti corre dietro, una volta ogni dieci battiti, fino in
+            fondo. Ti fermi solo quando non lo senti più, con il cuore che
+            batte a modo suo.
+          effetti: { profondita.circolo-fenditura: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4 · l'anticamera
+  - id: circolo-fenditura-il-ferro-che-si-sposta
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il ferro che si sposta
+    sommario: "In una sala calda e vuota il pavimento trema, e da sotto arriva un rumore di ferro che si sposta."
+    luogo: La fenditura del Respiro, l'anticamera
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 4]
+    testo: |
+      La galleria finisce in una sala rotonda e vuota, con il soffitto a
+      cupola e le pareti lisce di metallo grigio, calde come il fianco di
+      un animale. Il pavimento trema sotto gli stivali, piano, a lunghi
+      intervalli. Da sotto, molto più sotto, arriva un rumore di ferro che
+      si sposta, lento, enorme, come una catena da nave che qualcuno
+      tira su un anello alla volta.
+
+      {resistenza Media} Il tremito ti sale nelle ossa delle gambe e si
+      ferma nei denti, che ti battono da soli.
+
+      Sulla parete di fronte c'è un'apertura bassa, da cui viene una luce
+      azzurra e un calore secco.
+    opzioni:
+      - testo: "Restare fermo finché il tremito passa"
+        descrizione: "Il ferro sotto si sposta e si ferma. Bisogna aspettare che si fermi, e non avere paura nel frattempo."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: L'anello successivo
+          testo: |
+            Resti in piedi in mezzo alla sala con le mani aperte, e conti gli
+            anelli della catena che non vedi. Al dodicesimo il tremito si
+            ferma, e tu attraversi la sala fino all'apertura.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: La catena
+          testo: |
+            Al quinto anello ti siedi per terra senza volerlo, con le mani
+            sulle orecchie, e resti così finché il tremito non smette. Ti
+            rialzi con le ginocchia molli, e torni nella galleria.
+          effetti: { tormento: 1 }
+      - testo: "Attraversare la sala di corsa fra due tremiti"
+        descrizione: "Fra un tremito e l'altro c'è un tempo lungo. Venti passi di corsa bastano."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Venti passi
+          testo: |
+            Aspetti la fine di un tremito e corri, e arrivi all'apertura
+            prima che il pavimento ricominci. Ti volti, e la sala è vuota e
+            tranquilla come una cappella.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il pavimento
+          testo: |
+            Il tremito ricomincia a metà sala, e il pavimento ti butta a terra
+            come la coperta di una nave. Torni indietro gattonando.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare lungo la parete"
+        descrizione: "Lungo la parete il tremito si sente di meno. La parete però scotta."
+        costo: 2
+        esito:
+          titolo: La parete calda
+          testo: |
+            Cammini lungo la parete con una mano appoggiata, e il metallo ti
+            scalda il palmo fino al dolore. All'apertura arrivi con la mano
+            rossa e il tremito nelle ginocchia.
+          effetti: { profondita.circolo-fenditura: 1, ferite: 0.5 }
+
+  - id: circolo-fenditura-le-pozze-di-linfa-azzurra
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Le pozze di linfa azzurra
+    sommario: "Nel pavimento dell'anticamera ci sono pozze di una linfa azzurra che fuma. Il passaggio corre fra le pozze."
+    luogo: La fenditura del Respiro, l'anticamera
+    area: circolo-fenditura
+    ripetibile: true
+    requisiti: [profondita.circolo-fenditura == 4]
+    testo: |
+      Un corridoio basso corre fra due file di pozze rotonde scavate nel pavimento di metallo, piene di una linfa azzurra che fuma piano. È più densa della linfa verdina dei ruscelli del Bosco, e manda una luce e un ronzio che senti nei denti. Sul bordo di
+      una pozza qualcuno ha lasciato una ciotola di legno, vecchia, con il
+      fondo azzurro.
+
+      {magia Media} È Mana, quasi puro, sciolto in qualcosa che somiglia
+      alla linfa. Viene da più in fondo, e scorre verso l'alto.
+
+      {medicina Media} Il fumo fa lacrimare gli occhi e pizzica in gola. Dentro c'è anche la Marea, sciolta.
+    opzioni:
+      - testo: "Raccogliere la linfa azzurra"
+        descrizione: "Il Mana sciolto si raccoglie con la ciotola, se la mano è ferma. Una goccia sulla pelle brucia."
+        prova: { attributo: mentale, abilita: [magia, natura], difficolta: Media }
+        successo:
+          titolo: La ciotola
+          testo: |
+            Riempi due fiale con la ciotola di legno, piano, senza toccare la
+            superficie con le dita. La linfa nelle fiale ronza, e la luce ti
+            colora le mani di azzurro.
+          effetti: { profondita.circolo-fenditura: 1, circolo.linfa: 2, contaminazione: 0.5 }
+        fallimento:
+          titolo: La goccia
+          testo: |
+            Una goccia ti cade sul dorso della mano e brucia come un tizzone.
+            Ti allontani dalle pozze soffiandoci sopra.
+          effetti: { ferite: 0.5, contaminazione: 0.5 }
+      - testo: "Passare fra le pozze senza respirarne il fumo"
+        descrizione: "Il corridoio è stretto, e il fumo sale da tutte e due le parti."
+        prova: { attributo: fisico, abilita: [resistenza, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il corridoio
+          testo: |
+            Passi con il fiato trattenuto e i piedi sul ciglio, e arrivi in
+            fondo al corridoio con gli occhi che lacrimano e i polmoni
+            puliti.
+          effetti: { profondita.circolo-fenditura: 1 }
+        fallimento:
+          titolo: Il fumo
+          testo: |
+            Respiri a metà corridoio, e il fumo azzurro ti entra in gola come
+            un ago. Torni indietro tossendo.
+          effetti: { contaminazione: 1 }
+      - testo: "Avanzare lentamente con un panno sulla bocca"
+        descrizione: "Lentamente, con il fumo che passa dal panno. Ne passa poco, ma passa."
+        costo: 2
+        esito:
+          titolo: Il panno azzurro
+          testo: |
+            Avanzi piano con il panno sulla bocca, e quando arrivi in fondo il
+            panno è diventato azzurro. Lo butti in una pozza, che lo inghiotte
+            senza un suono.
+          effetti: { profondita.circolo-fenditura: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · il Custode di linfa (passo 13)
+  - id: circolo-fenditura-il-custode
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Il Custode di linfa
+    sommario: "Davanti alla cavità dell'Albero c'è una macchina cresciuta dentro un tronco, con una camera di linfa azzurra al posto del cuore."
+    luogo: La fenditura del Respiro, davanti alla cavità
+    area: circolo-fenditura
+    requisiti: [profondita.circolo-fenditura >= 5, fazione.circolo == 12]
+    testo: |
+      L'apertura dà su una caverna calda, alta come una navata, e in fondo
+      alla caverna c'è un'altra apertura da cui viene tutta la luce azzurra
+      del mondo. Davanti, a sbarrare la strada, c'è un tronco. È largo
+      quanto tre uomini, con la corteccia spaccata dall'alto in basso, e
+      dalla spaccatura escono braccia. Ne conti quattro, di legno intrecciato al metallo, con le dita lunghe come rastrelli. Al centro del
+      tronco, dove avrebbe il cuore, c'è una camera di vetro piena di linfa
+      azzurra che pulsa.
+
+      Quando fai un passo nella caverna le quattro braccia si aprono tutte
+      insieme, e il tronco si stacca dalla roccia con un suono di radici
+      strappate.
+
+      {tecnologia Media} È una macchina della Salvaguardia. Il tronco le è
+      cresciuto addosso come l'edera su un muro, e adesso è difficile dire
+      dove finisca uno e cominci l'altra.
+
+      {natura Difficile} Le radici del tronco scendono ancora nella roccia,
+      e da lì bevono. Se le leghi, il tronco resta dov'è.
+
+      *Il seme di Serha scalda il palmo attraverso la tasca.* Le dita ti si
+      chiudono sull'arma da sole.
+    opzioni:
+      - testo: "Affrontare il Custode di linfa"
+        descrizione: "Una macchina dentro un tronco con quattro braccia, protetta da una corteccia che para i colpi. Il cuore è la camera di linfa."
+        combattimento: circolo-il-custode-di-linfa
+        vittoria:
+          titolo: La camera rotta
+          testo: |
+            La camera di vetro si spacca con un suono di campana, e la linfa
+            azzurra cola sulla roccia e fuma. Le quattro braccia si fermano a
+            mezz'aria e ricadono una dopo l'altra. Dalla corteccia del tronco
+            stacchi una scheggia di metallo che si piega sotto il pollice, e
+            fra le radici trovi un guscio chiuso. Poi passi oltre, verso la
+            luce.
+          pe: { natura: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, circolo.corteccia: 1, reperto.sigillato: 1 }
+          imposta: { circolo.custode: 1 }
+          segue: circolo-occhi-dorati
+        sconfitta:
+          titolo: Le braccia
+          testo: |
+            Le quattro braccia ti prendono insieme e ti scagliano contro la
+            parete della caverna. Dal pavimento, con la testa che gira, vedi
+            Voren uscire dall'ombra delle radici dove ti aveva seguito senza
+            farsi sentire. Infila il bastone nella camera di vetro mentre le
+            braccia sono ancora girate verso di te, e la camera si spacca con
+            un suono di campana mentre lui ti sta già caricando sulle spalle.
+
+            Ti tirano su dalla spirale con la corda quando sei già svenuto, e
+            Serha ti cuce la spalla alla luce del vapore. Il Custode è caduto,
+            e al Circolo tutti sanno chi l'ha buttato giù.
+          effetti: { fazione.circolo: 1, rep.circolo: -0.5, ferite: 1.5, tormento: 1 }
+          imposta: { circolo.custode: 2 }
+          vai: superficie-fratturata
+      - testo: "Legarlo al suo tronco con Radici e la corda"
+        descrizione: "Il tronco beve dalle radici. Se le leghi con il Respiro e con la corda, non si stacca dalla roccia. Ci vuole tempo, e molto Mana."
+        requisiti: [incantesimo.radici >= 1]
+        costo: 2
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Legato
+          testo: |
+            Dici le parole di Radici e passi la corda intorno alle radici del
+            tronco, giro dopo giro, mentre le braccia ti cercano nel vuoto.
+            Le radici vive della corda si attaccano a quelle del Custode e
+            le tengono. Il tronco si piega e resta lì, con le braccia aperte,
+            come un albero sotto la neve, e tu passi accanto alla camera di
+            linfa senza toccarla. Prima di passare stacchi una scheggia di
+            corteccia di metallo.
+          pe: { magia: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, circolo.corteccia: 1 }
+          imposta: { circolo.custode: 1 }
+          segue: circolo-occhi-dorati
+        fallimento:
+          titolo: Il tronco si stacca
+          testo: |
+            La corda scivola sulle radici di metallo, e il tronco si stacca
+            dalla roccia con le braccia aperte. Ti prende al fianco prima che
+            tu riesca a scappare. Risali la fenditura a fatica, e Serha ti
+            cuce alla luce del vapore.
+          effetti: { ferite: 2.5, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Confonderlo con il congegno di Aurenne"
+        descrizione: "Il congegno di controllo parla alle macchine della Salvaguardia. Questa ha un tronco intorno, ma la lingua è la stessa."
+        requisiti: [oggetto.congegno-di-controllo >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La lingua delle macchine
+          testo: |
+            Premi il pollice nella conca del congegno e lo tieni lì, mentre
+            il disco si scalda fino a bruciare. Le quattro braccia si fermano
+            a mezz'aria, poi si ripiegano contro il tronco, piano, come le
+            zampe di un insetto che dorme. Passi accanto alla camera di linfa
+            con il congegno che ti brucia la mano, e prima di passare stacchi
+            una scheggia di corteccia di metallo.
+          pe: { tecnologia: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, circolo.corteccia: 1, tormento: 1 }
+          imposta: { circolo.custode: 1 }
+          segue: circolo-occhi-dorati
+        fallimento:
+          titolo: Il congegno che urla
+          testo: |
+            Il congegno manda un ronzio acuto, e il Custode si gira verso di
+            te con tutte e quattro le braccia. Ti prende al fianco. Risali la
+            fenditura a fatica, con il disco che ti ha lasciato un cerchio
+            bruciato sul palmo.
+          effetti: { ferite: 2.5, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Tornare indietro"
+        descrizione: "Il Custode non lascia la caverna. La fenditura, però, ricomincia da capo."
+        costo: 0
+        esito:
+          titolo: Indietro
+          testo: |
+            Esci dalla caverna camminando all'indietro, e le quattro braccia
+            si richiudono contro il tronco. Risali la fenditura con il seme
+            di Serha che ti scalda la tasca.
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ il cuore · la cavità dell'Albero (dopo la quest)
+  - id: circolo-fenditura-la-cavita
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La cavità dell'Albero
+    sommario: "La caverna davanti all'Albero è come l'hai lasciata. Il tronco del Custode ha messo nuove braccia, e la linfa azzurra cola ancora."
+    luogo: La fenditura del Respiro, la cavità dell'Albero
+    area: circolo-fenditura
+    requisiti: [profondita.circolo-fenditura >= 5, fazione.circolo >= 14]
+    testo: |
+      La caverna davanti alla cavità è calda come l'ultima volta, e la luce
+      che viene dall'apertura in fondo ha il colore che le hai lasciato. Il
+      tronco del Custode è ancora lì, e dalla spaccatura sono spuntate due braccia nuove e sottili di legno verde e metallo, che si muovono
+      piano come le antenne di un insetto. Sulla roccia, dove la linfa
+      azzurra era colata, è cresciuto un muschio che luccica.
+
+      {natura Media} Il Custode ricresce, come ricresce un ramo tagliato.
+      Non è più quello di prima, e non ci metterà molto a tornarlo.
+
+      {magia Media} Dall'apertura in fondo il Mana arriva a ondate lunghe e
+      regolari. Laggiù l'Albero respira, a modo suo, nel modo che hai scelto
+      tu.
+    opzioni:
+      - testo: "Potare le braccia nuove del Custode"
+        descrizione: "Due braccia giovani, più svelte che forti. Chi le pota per primo prende la linfa che portano."
+        combattimento: circolo-il-guardiano-di-radici
+        vittoria:
+          titolo: La potatura
+          testo: |
+            Tagli le due braccia giovani alla base, e la linfa che portano
+            cola nelle fiale che hai preparato. Dalla spaccatura del tronco
+            stacchi una scheggia di corteccia di metallo, prima che si
+            richiuda.
+          effetti: { circolo.linfa: 2, circolo.corteccia: 1, contaminazione: 0.5 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Le braccia giovani
+          testo: |
+            Le braccia giovani sono più svelte di quanto sembrasse, e ti
+            cacciano dalla caverna a colpi di frusta. Risali la fenditura con
+            la schiena segnata.
+          vai: superficie-fratturata
+      - testo: "Raccogliere il muschio che luccica"
+        descrizione: "Il muschio è cresciuto sulla linfa colata. Serha lo vorrà vedere, e i guaritori lo pagano."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: Il muschio
+          testo: |
+            Stacchi il muschio dalla roccia a strisce sottili con la lama del coltello, e lo avvolgi in un panno umido. In città lo
+            chiameranno linfa, perché non hanno un nome migliore.
+          pe: { natura: 5 }
+          effetti: { circolo.linfa: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il muschio che si spegne
+          testo: |
+            Il muschio si spegne appena lo stacchi, e in mano ti resta una
+            poltiglia grigia che puzza di ferro.
+          effetti: { contaminazione: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Restare in ascolto davanti all'Albero"
+        descrizione: "Dall'apertura il respiro dell'Albero arriva a ondate. Si può stare ad ascoltarlo, e imparare."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Il respiro dell'Albero
+          testo: |
+            Ti siedi sulla soglia della cavità e respiri con l'Albero, a ondate
+            lunghe, finché non ti accorgi di averlo fatto per ore. Risali con
+            la testa leggera, e le formule del Respiro, per qualche giorno, ti
+            vengono più facili.
+          pe: { magia: 10 }
+          effetti: { tormento: 0.5 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Gli occhi
+          testo: |
+            Ti siedi sulla soglia, e per un momento, nella roccia sotto
+            l'Albero, ti sembra di vedere due fessure dorate che si aprono.
+            Quando guardi meglio non c'è niente, e risali di corsa senza voltarti.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Tornare indietro"
+        descrizione: "L'Albero resta dov'è. La fenditura, anche."
+        costo: 0
+        esito:
+          titolo: Indietro
+          testo: |
+            Guardi la luce dell'apertura ancora un poco prima di voltarti e risalire, e il respiro dell'Albero ti accompagna fino alla corda.
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ 13 → 14 · occhi dorati
+  - id: circolo-occhi-dorati
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Occhi dorati
+    sommario: "In fondo alla cavità c'è l'Albero di Metallo Vivo, acceso. Sotto di lui la roccia ha due occhi."
+    luogo: La fenditura del Respiro, la cavità dell'Albero
+    area: circolo-fenditura
+    tipo: seguito
+    requisiti: [fazione.circolo == 13]
+    testo: |
+      La cavità è rotonda e calda come l'interno di un forno spento da
+      poco, e nel mezzo c'è l'Albero. È alto quanto un campanile, con il
+      tronco liscio e grigio e i rami che si allargano contro la volta. La
+      corteccia si muove sotto la luce come la pelle di un cavallo quando ci
+      si posa una mosca. Dai rami sale un vapore azzurro denso come
+      incenso, e dalle radici esce una nebbia grigia che scende nelle crepe
+      della roccia e da lì sale verso il Bosco.
+
+      Da vicino si capisce. L'Albero fa due cose insieme. Produce Mana e spinge fuori la Marea, e il Bosco di sopra è cresciuto per bere quella Marea. Quando l'Albero era spento il Bosco respirava, e adesso che è acceso lo soffoca.
+
+      {magia Difficile} Il Mana che esce dai rami è più puro di qualunque
+      cristallo tu abbia mai toccato. Chi lo avesse in mano potrebbe
+      accendere una città, o spegnerla.
+
+      Poi la roccia sotto l'Albero si muove. Si aprono due occhi dorati senza pupille, grandi come porte, incastonati in qualcosa che sta sotto la roccia e che si muove con un rumore di ferro. Ti guardano per un tempo lungo e si richiudono piano, mentre il rumore di ferro continua, sempre più lontano.
+
+      {resilienza Media fallita} Le gambe hanno deciso di sedersi per
+      terra senza consultarti, e tu le lasci fare.
+
+      Quattro strade, ti ha detto il Circolo Ristretto, una per ogni voce.
+      Adesso tocca a te.
+    opzioni:
+      - testo: "Chiuderlo con le radici e il seme di Serha"
+        descrizione: "La strada di Tharn e del Maestro. Si soffoca l'Albero con le radici del Bosco e il seme che hai in tasca, e il Mana resta sotto."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: L'Albero chiuso
+          testo: |
+            Pianti il seme di Serha fra le radici dell'Albero, e il seme si
+            apre nella terra calda e cresce, in un'ora, come in un anno. Le
+            sue radici si avvolgono a quelle di metallo e le stringono, e
+            l'Albero rallenta, il vapore si fa sottile, la nebbia grigia
+            smette di scendere nelle crepe. Quando risali, la cavità è buia e
+            fredda, e sotto la roccia il rumore di ferro si è fermato.
+          pe: { natura: 15 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1 }
+          imposta: { circolo.albero: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il seme che brucia
+          testo: |
+            Il seme si apre e brucia nella terra calda prima di mettere
+            radici, e l'Albero ti scaccia con uno sbuffo di vapore che ti
+            ustiona le braccia. Puoi riprovare, o scegliere un'altra strada.
+          effetti: { ferite: 2 }
+          segue: circolo-occhi-dorati
+      - testo: "Dargli un ritmo, accordato al respiro del Bosco"
+        descrizione: "La strada di Serha. L'Albero si accorda con il Mana al respiro lento del Bosco, e il Circolo avrà una sorgente da custodire."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il ritmo
+          testo: |
+            Appoggi le mani sulla corteccia di metallo e la senti battere,
+            troppo in fretta. La rallenti con il Mana, un battito alla volta,
+            finché non respira come il Bosco di sopra, a ondate lunghe. Il
+            vapore si fa regolare, e la nebbia grigia scende nelle crepe solo
+            quanto il Bosco ne può bere. Quando risali, la cavità respira
+            dietro di te. Serha, settimane dopo, scambierà le misure con
+            Orvald Temmerin.
+          pe: { magia: 15 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, rep.accademia: 1 }
+          imposta: { circolo.albero: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il battito che scappa
+          testo: |
+            Il battito ti scappa sotto le dita e accelera, e la corteccia ti
+            scotta i palmi. Ti stacchi con le mani ustionate. Puoi riprovare,
+            o scegliere un'altra strada.
+          effetti: { ferite: 2 }
+          segue: circolo-occhi-dorati
+      - testo: "Dargli un ritmo, con la vena che conosce il tuo sangue"
+        descrizione: "La vena ti ha già riconosciuto una volta. Qui il Mana è lo stesso, e il ritmo lo trovi più in fretta."
+        quando: [circolo.vena >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il ritmo
+          testo: |
+            Appoggi le mani sulla corteccia, e il calore che ti è rimasto nel
+            polso dalla vena di Serha si sveglia e corre incontro al Mana
+            dell'Albero. Lo rallenti insieme a lui, un battito alla volta,
+            finché non respira come il Bosco di sopra. Quando risali, la
+            cavità respira dietro di te. Serha, settimane dopo, scambierà le
+            misure con Orvald Temmerin.
+          pe: { magia: 15 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, rep.accademia: 1 }
+          imposta: { circolo.albero: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il battito che scappa
+          testo: |
+            La vena nel polso risponde troppo, e il Mana ti risale nel
+            braccio come acqua bollente. Ti stacchi con le mani ustionate.
+            Puoi riprovare, o scegliere un'altra strada.
+          effetti: { ferite: 2 }
+          segue: circolo-occhi-dorati
+      - testo: "Dargli un ritmo con il congegno di Aurenne"
+        descrizione: "Il congegno parla alle macchine dei Precursori. L'Albero è una macchina anche lui, e il congegno gli può dare il passo."
+        requisiti: [oggetto.congegno-di-controllo >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il passo
+          testo: |
+            Premi il congegno contro la corteccia, e il disco si scalda e
+            comincia a battere, lento. L'Albero lo ascolta, e dopo un poco
+            batte con lui, a ondate lunghe, come il Bosco di sopra. Quando
+            risali, la cavità respira dietro di te. Serha, settimane dopo,
+            scambierà le misure con Orvald Temmerin.
+          pe: { magia: 15 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, rep.accademia: 1 }
+          imposta: { circolo.albero: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il disco che brucia
+          testo: |
+            Il congegno si scalda fino a bruciare, e l'Albero lo respinge con
+            uno sbuffo di vapore. Ti stacchi con le mani ustionate. Puoi
+            riprovare, o scegliere un'altra strada.
+          effetti: { ferite: 2 }
+          segue: circolo-occhi-dorati
+      - testo: "Lasciarlo ai Silenti, e tenere aperta la via a Voren"
+        descrizione: "La strada di Voren. Lui scende e si fonde con l'Albero, e da quel giorno l'Albero ascolta con le orecchie dei Silenti. Tu tieni aperta la via, con la testa."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: La voce di Voren
+          testo: |
+            Voren arriva alle tue spalle senza che tu l'abbia sentito
+            scendere. Si toglie il cappuccio, e per la prima volta gli vedi la
+            faccia, che è una faccia qualunque, stanca. Ti posa una mano sulla
+            spalla e parla ad alta voce, l'unica volta. «Grazie» dice, con la
+            voce roca di uno che non la usa da tredici anni. Poi entra fra le
+            radici dell'Albero, e tu tieni aperta la via nella tua testa
+            mentre le radici lo avvolgono. La pressione che conoscevi si allarga fino a diventare enorme, e diventa l'Albero. Quando risali la
+            cavità è in ascolto.
+          pe: { resilienza: 15 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, rep.velo: -1, tormento: 1 }
+          imposta: { circolo.albero: 3 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La via che si chiude
+          testo: |
+            Voren entra fra le radici, e a metà la via nella tua testa si
+            chiude come una porta sbattuta dal vento. Lui si ferma e torna
+            indietro, e ti guarda senza rimprovero. Hai il naso che sanguina.
+            Puoi riprovare, o scegliere un'altra strada.
+          effetti: { ferite: 2, tormento: 1 }
+          segue: circolo-occhi-dorati
+      - testo: "Tagliare un ramo vivo per il Velo"
+        descrizione: "Hai promesso a Padre Vantes un campione. Un ramo vivo dell'Albero vale più di una fiala, e il Velo ne farà una reliquia che il Circolo non perdonerà."
+        quando: [circolo.promessa-velo == 1]
+        prova: { attributo: fisico, abilita: [armi-da-mischia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il ramo per il Velo
+          testo: |
+            Sali sull'Albero fino al primo ramo e lo tagli alla base, con la
+            corteccia che si stringe sulla lama come una bocca. Ne tagli due,
+            uno per il Velo e uno per te, e il secondo lo nascondi sotto il
+            mantello. Il primo lo porti in Cattedrale avvolto nel lino. Padre
+            Vantes lo prende in ginocchio, e il Velo ti paga come si paga una
+            reliquia. Una settimana dopo i carri della Confraternita passano
+            dal margine, e i druidi li guardano passare.
+          pe: { armi-da-mischia: 15 }
+          effetti: { fazione.circolo: 1, rep.velo: 2, rep.circolo: -3, monete: 200 }
+          imposta: { circolo.albero: 4 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La corteccia che si stringe
+          testo: |
+            La corteccia si stringe sulla lama e non la lascia, e quando la
+            strappi via l'Albero ti scaccia con uno sbuffo di vapore. Puoi
+            riprovare, o scegliere un'altra strada.
+          effetti: { ferite: 2 }
+          segue: circolo-occhi-dorati
+      - testo: "Segnare il posto per i Raschiatori"
+        descrizione: "La squadra di Dragna è accampata al margine. Basta un segno sulla roccia perché domani scendano, e il Circolo non lo perdonerà a lungo."
+        quando: [circolo.dragna == 1]
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il segno di gesso
+          testo: |
+            Segni con il gesso la strada dalla corda all'Albero, un segno a
+            ogni svolta, come fanno i Raschiatori, e prima di risalire tagli
+            un ramo per te e lo nascondi sotto il mantello. Il giorno dopo la
+            squadra di Dragna scende con i picconi e le casse. Dragna ti paga
+            al Grifone davanti a tutta la sala, e i druidi, al margine,
+            guardano passare le casse.
+          pe: { tecnologia: 15 }
+          effetti: { fazione.circolo: 1, rep.raschiatori: 2, rep.circolo: -3, monete: 200 }
+          imposta: { circolo.albero: 4, circolo.dragna: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il gesso che si scioglie
+          testo: |
+            Il gesso si scioglie sulla roccia calda prima di asciugare, e i
+            segni colano come lacrime. Ti accorgi di aver segnato a metà, e
+            l'Albero ti scaccia con uno sbuffo di vapore. Puoi riprovare, o
+            scegliere un'altra strada.
+          effetti: { ferite: 2 }
+          segue: circolo-occhi-dorati
+      - testo: "Restare accanto all'Albero finché il Maestro non scende"
+        descrizione: "Se nessuna strada è la tua, si aspetta chi sa. Aelion resta sempre sopra, e proprio per questo scenderà, anche se ci vorranno giorni passati al caldo."
+        costo: 3
+        esito:
+          titolo: Il Maestro scende
+          testo: |
+            Ti siedi accanto all'Albero e aspetti, per tre giorni, con il
+            caldo che ti secca la pelle e gli occhi dorati che sogni da
+            sveglio. Il terzo giorno Aelion scende con la corda, che non era
+            mai sceso. Insieme piantate il seme di Serha fra le radici, e lui
+            lo fa crescere con le mani, cantando a voce bassa, finché
+            l'Albero non rallenta e si chiude. Risalite insieme, e lui non
+            ti dice niente per tutta la salita.
+          effetti: { fazione.circolo: 1, ferite: 1, tormento: 1 }
+          imposta: { circolo.albero: 1 }
+          vai: superficie-fratturata

@@ -1,0 +1,1457 @@
+# La quest del Circolo di Velthar, passi 6-10 (fazione.circolo 5 → 10).
+# 6 La radura sigillata (grado 2, pista.corin >= 3): l'eco nella radura della Foresta Strisciante, poi la spirale.
+#   Con braska == 2 il puma tiene ferma la forma; il Figlio del Circolo riconosce il cinghiale della porta nord.
+# 7 Quello che restituisce la Spina: Voren di notte sulla strada di Velthar, poi la Spina dell'Eco (circolo.parola).
+# 8 Il Circolo Ristretto: si sostiene una voce (o si tace), poi si sceglie la via (circolo.via).
+# 9 La prova della via (grado 3): due scene per via (Irriducibili la notte col branco, Radicanti la vena e il sangue,
+#   Silenti tre notti nel tronco), poi `circolo-il-nome-della-via`, dove Aelion dà il nome e il dono.
+# 10 L'Albero si è riacceso (pista.capomozzo >= 7): Aelion racconta (circolo.acceso), poi la corda per la fenditura
+#   si trova in tre posti: Serha al Bosco, Dragna al Grifone di Ferro, Oda Krell nella sua baracca.
+storylet:
+  # ------------------------------------------------------------ 5 → 6 · la radura sigillata
+  - id: circolo-la-radura-sigillata
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/foresta-strisciante
+    titolo: La radura sigillata
+    sommario: "Nella Foresta Strisciante c'è una radura chiusa da un anello di piante che bevono la Marea. Metà sono secche, e dentro qualcosa respira."
+    luogo: Foresta Strisciante, la radura del cinghiale
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 5, pista.corin >= 3]
+    testo: |
+      Serha ti accompagna fino alla Foresta Strisciante con un sacco di
+      tela sulla spalla buona, pieno di piantine avvolte nel muschio
+      bagnato. Cammina più svelta di te, e ogni tanto si ferma ad
+      aspettarti senza voltarsi. Alla radura dove Corin Ashdale ha
+      abbattuto il cinghiale, il Circolo ha piantato un anello di felci e
+      di ortiche, largo trenta passi, per tenere dentro la Marea che il
+      cinghiale ha lasciato morendo.
+
+      Metà dell'anello è secca, e le felci si sbriciolano come carta
+      bruciata. Nel mezzo della radura la Marea si è rappresa in una forma
+      grande quanto un cinghiale, che respira. Ha il muso e le zanne di un cinghiale, e sotto una pelle di nebbia ne ha anche le vene, ma dentro non c'è nessun cinghiale. Gira lungo l'anello, piano, cercando il punto
+      dove le piante sono morte.
+
+      {natura Media} Copia un cinghiale che non c'è più. La Marea ha
+      imparato la forma da quello che è morto qui, e adesso la ripete
+      come un bambino ripete una parola che non capisce.
+
+      {origine figlio-del-circolo} Il respiro lo conosci. È quello del cinghiale della porta nord il giorno del Festival, spezzato, con il sibilo in fondo. *Quello lo guidavano con il dolore, questo non lo guida nessuno.* Le mani ti si stringono da sole.
+
+      «Se esce dall'anello, impara la Foresta» dice Serha, e apre il
+      sacco delle piantine.
+    opzioni:
+      - testo: "Combattere l'eco"
+        descrizione: "Una forma di Marea che respira e carica. Si richiude come acqua, e qualcuno dice che l'Esorcismo la ferisce più del ferro."
+        combattimento: circolo-l-eco-della-radura
+        vittoria:
+          titolo: La forma che si disfa
+          testo: |
+            L'eco si disfa sotto i colpi un pezzo alla volta, dalle zanne fino al muso, finché resta un respiro senza corpo che si posa
+            sulla terra come brina. Serha pianta le felci nuove nei buchi
+            dell'anello mentre tu riprendi fiato. Quando ha finito si pulisce
+            le mani sui calzoni e guarda la terra dove l'eco si è posata.
+          effetti: { contaminazione: 0.5 }
+          segue: circolo-sulla-spirale
+        sconfitta:
+          titolo: Il respiro addosso
+          testo: |
+            L'eco ti passa attraverso, e per un lungo momento respiri con
+            lei, a scatti. Serha ti trascina fuori dall'anello per il colletto
+            e ti tiene la testa fra le ginocchia finché non tossisci tutto. Per riprovare ci vorrà almeno un altro giorno.
+          effetti: { contaminazione: 1, tormento: 0.5 }
+      - testo: "Riseminare l'anello mentre l'eco gira"
+        descrizione: "Le piantine di Serha vanno messe nei buchi dell'anello, una alla volta, mentre la forma passa a due passi. Le mani si sporcano di Marea comunque."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: L'anello chiuso
+          testo: |
+            Pianti le felci di Serha nei buchi dell'anello, una alla volta,
+            contando i passi dell'eco per non trovartela davanti. Quando
+            l'ultimo buco si chiude, la forma si ferma in mezzo alla radura e
+            si affloscia come un mantice. Le mani ti sono diventate grigie
+            fino al polso.
+
+            {natura Difficile} L'anello beve, adesso. Lo senti dalle ortiche,
+            che si raddrizzano tutte verso il centro.
+          pe: { natura: 10 }
+          effetti: { contaminazione: 1 }
+          segue: circolo-sulla-spirale
+        fallimento:
+          titolo: La zanna
+          testo: |
+            Pianti la quarta felce al posto sbagliato, e l'eco ci passa
+            attraverso con il fianco. Ti prende di striscio con una zanna
+            di nebbia che taglia come una vera. Serha ti tira fuori
+            dall'anello e ti dice di riprovare quando avrai smesso di
+            tremare.
+          effetti: { contaminazione: 1, ferite: 1 }
+      - testo: "Lasciare che Braska tenga ferma la forma"
+        descrizione: "Il puma è venuto con te, a distanza. Una forma di cinghiale davanti a un puma si ferma, anche se è di nebbia."
+        quando: [braska == 2]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Il puma e la forma
+          testo: |
+            Braska entra nella radura senza un rumore e si siede davanti
+            all'eco, con la coda che batte. La forma si ferma e la guarda,
+            come si fermava il cinghiale vero. Tu intanto pianti le felci
+            nei buchi, una dopo l'altra. Quando l'anello si chiude l'eco si
+            affloscia, e Braska se ne va annoiata. Le mani ti sono diventate
+            grigie fino al polso.
+          pe: { natura: 10 }
+          effetti: { contaminazione: 1 }
+          segue: circolo-sulla-spirale
+        fallimento:
+          titolo: Il puma si annoia
+          testo: |
+            Braska tiene ferma la forma per un po' e poi si annoia. Quando se ne va, l'eco ti trova con le mani nella terra. Ti prende di
+            striscio con una zanna di nebbia, e Serha ti tira fuori
+            dall'anello.
+          effetti: { contaminazione: 1, ferite: 1 }
+      - testo: "Scacciare l'eco con l'Esorcismo"
+        descrizione: "Il Velo ha parole per quello che non dovrebbe restare. A Serha piacciono poco, e qui funzionano."
+        incantesimo: esorcismo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Le parole del Velo
+          testo: |
+            Dici le parole dell'Esorcismo davanti all'eco, e la forma si
+            ferma a metà di un passo, poi si sfilaccia dalle zanne in giù.
+            Serha pianta le felci nei buchi dell'anello senza commentare.
+            Solo alla fine ti dice che le parole del Velo funzionano, e che
+            è proprio questo il problema.
+          pe: { magia: 5 }
+          effetti: { contaminazione: 0.5 }
+          segue: circolo-sulla-spirale
+        fallimento:
+          titolo: Le parole a metà
+          testo: |
+            Le parole ti si impastano in bocca, e l'eco ti carica mentre sei
+            ancora alla seconda strofa. Serha ti tira fuori dall'anello per
+            il colletto.
+          effetti: { contaminazione: 1, tormento: 0.5 }
+      - testo: "Rinforzare l'anello un pezzo alla volta, per giorni"
+        descrizione: "Si lavora piano, restando fuori. Si piantano le felci dal di fuori, a braccio teso, finché l'anello non regge."
+        costo: 3
+        esito:
+          titolo: Tre giorni a braccio teso
+          testo: |
+            Per tre giorni pianti felci dal di fuori dell'anello, a braccio
+            teso, con l'eco che ti passa davanti a ogni giro. La sera ti
+            addormenti con il suo respiro nelle orecchie. Il terzo giorno
+            l'anello si chiude, e la forma si affloscia nel mezzo della
+            radura come un mantice vuoto.
+          effetti: { contaminazione: 1.5, tormento: 0.5 }
+          segue: circolo-sulla-spirale
+      - testo: "Rispondere al respiro del cinghiale"
+        descrizione: "Quel respiro spezzato l'hai già sentito alla porta nord. Al Circolo si risponde alle bestie con il loro stesso respiro, e poi si rallenta."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: Il respiro rallentato
+          testo: |
+            Ti siedi sul bordo dell'anello e respiri come l'eco, a scatti,
+            con il sibilo in fondo. La forma si ferma e ti guarda. Poi rallenti piano, e lei rallenta con te, finché si accuccia
+            sulla terra e si affloscia. Serha intanto ha chiuso i buchi
+            dell'anello, e le mani ti sono diventate grigie fino al polso
+            senza che tu ti accorgessi di averle messe nella terra.
+          pe: { natura: 10 }
+          effetti: { contaminazione: 1 }
+          segue: circolo-sulla-spirale
+
+  - id: circolo-sulla-spirale
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Sulla spirale
+    sommario: "Il sigillo regge, e Serha ha capito che cosa copia la Marea. Aelion ti chiama a sedere sulla spirale."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 5]
+    testo: |
+      Torni al Circolo con Serha la sera dopo, quando il vapore della
+      fenditura sale dritto perché non c'è vento. Lei cammina tutta la
+      strada in silenzio, e soltanto sulla spirale si ferma e parla, a
+      voce alta, rivolta più alle pietre che a te.
+
+      «La Marea copia quello che respira» dice. «Nella radura ha copiato
+      il cinghiale. Sotto il Bosco, e sotto la Cicatrice, copia qualcosa
+      che respira allo stesso modo, ed è per questo che gli impulsi
+      coincidono.» Il braccio di legnoscuro le pulsa più forte, e lei ci
+      appoggia sopra l'altra mano come per calmarlo.
+
+      {magia Media} Due respiri uguali a una giornata di cammino l'uno
+      dall'altro vogliono dire una cosa sola, che c'è un solo polmone e
+      due bocche.
+
+      Aelion è seduto sulla pietra più bassa, a un passo dalla fenditura,
+      e quando Serha ha finito ti indica la pietra accanto alla sua.
+      Sulla spirale i druidi si spostano di un posto, senza alzarsi, per
+      fartene uno.
+
+      {galateo Facile} Al Circolo non si ringrazia a parole. Ci si siede
+      e si sta zitti, e chi si alza subito offende tutti.
+    opzioni:
+      - testo: "Sederti accanto al Maestro"
+        descrizione: "Il posto sulla spirale è il grado di Novizio. Lo si prende sedendosi, e restando."
+        esito:
+          titolo: Novizio della Spirale
+          testo: |
+            Ti siedi accanto ad Aelion e resti lì finché il vapore non gira
+            verso di te, e allora lui ti dice che da oggi sei Novizio della
+            Spirale. Tharn ti mette in mano un arco di tasso tagliato da un
+            ramo caduto da solo, teso con il budello, e Serha ti insegna come
+            si purifica una pianta senza diventare una pianta. Il resto della
+            notte lo passi sulla pietra, con le gambe che si addormentano
+            prima di te.
+          pe: { natura: 5 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-arco-di-tasso: 1 }
+          almeno: { rep.circolo: 4 }
+      - testo: "Chiedere che cosa respira sotto il Bosco"
+        descrizione: "Serha l'ha detto alle pietre. Aelion forse lo sa, e forse lo dice."
+        prova: { attributo: sociale, abilita: [empatia, espressivita], difficolta: Media }
+        successo:
+          titolo: Un temporale lontano
+          testo: |
+            Glielo chiedi per immagini, come si fa qui, con una casa che
+            scricchiola di notte. Aelion ti risponde con un temporale che si
+            sente arrivare da tanto lontano che i bambini nel frattempo si
+            addormentano. Poi ti dice che da oggi sei Novizio della Spirale.
+            Tharn ti mette in mano un arco di tasso teso con il budello, e
+            Serha ti insegna come si purifica una pianta.
+
+            {empatia Media} Il temporale lontano era una risposta. Sa che
+            cosa respira sotto il Bosco, e spera che arrivi dopo di lui.
+          pe: { empatia: 5 }
+          effetti: { fazione.circolo: 1, oggetto.circolo-arco-di-tasso: 1, rep.circolo: 0.5 }
+          almeno: { rep.circolo: 4 }
+        fallimento:
+          titolo: La domanda diretta
+          testo: |
+            Glielo chiedi dritto e senza immagini, e la spirale si irrigidisce
+            tutta insieme. Aelion lascia passare tre sbuffi di vapore. Poi ti
+            dice che da oggi sei Novizio della Spirale, come se la domanda
+            non l'avessi fatta. Tharn ti mette in mano un arco di tasso, e
+            Serha ti insegna come si purifica una pianta.
+          effetti: { fazione.circolo: 1, oggetto.circolo-arco-di-tasso: 1, tormento: 0.5 }
+          almeno: { rep.circolo: 4 }
+
+  # ------------------------------------------------------------ 6 → 7 · quello che restituisce la Spina
+  - id: circolo-voren-sulla-strada
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/rovolungo
+    titolo: Una parola nella testa
+    sommario: "Di notte, sulla strada di Velthar, ti cammina accanto qualcuno che non hai sentito arrivare."
+    luogo: La strada di Velthar, di notte
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 6]
+    testo: |
+      Torni dal Bosco di notte, perché al Circolo il giorno l'hai passato
+      a piantare felci, e la strada di Velthar sotto la luna è una striscia
+      chiara fra due valli nere. A metà strada ti accorgi di avere qualcuno
+      accanto. Cammina al tuo passo, alla tua sinistra, con un cappuccio
+      basso e una tunica grigio-verde, e non l'hai sentito arrivare.
+
+      Non riesci a guardargli la faccia. Ogni volta che ci provi gli occhi
+      ti scivolano sulla spalla o sulla strada, e ti rimangono in mente soltanto il mento e forse un naso. È Voren, quello che al Circolo chiamano
+      Manto di Nebbia, e che i novizi nominano a bassa voce.
+
+      {resilienza Media} Ti preme qualcosa dietro gli occhi, leggero, come un dito su una porta chiusa. Se lo lasci entrare, la porta si apre da sola.
+
+      Dentro la testa, senza passare dalle orecchie, ti arriva una parola sola, detta con una voce calda e un poco roca. *Spina.* Poi la stessa parola un'altra
+      volta, con un'altra voce sotto, più lontana.
+
+      {accademiche Facile} La Spina dell'Eco sta sulla pianura fra il Bosco
+      e il Rovolungo. Restituisce le voci dopo nove battiti, e le
+      restituisce sbagliate.
+    opzioni:
+      - testo: "Lasciarlo entrare"
+        descrizione: "Il dito sulla porta chiusa aspetta. Si può aprire."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La strada della Spina
+          testo: |
+            Smetti di spingere, e la pressione dietro gli occhi si fa
+            un'immagine, un pilastro nero sulla pianura con la luna dietro.
+            Voren si stacca dalla strada e prende per i campi verso nord, e tu lo segui.
+          pe: { resilienza: 5 }
+          segue: circolo-la-spina-dell-eco
+        fallimento:
+          titolo: La porta chiusa
+          testo: |
+            Ti irrigidisci senza volerlo, e la pressione diventa un mal di
+            testa che ti piega in due sul ciglio della strada. Quando ti
+            rialzi Voren ti aspetta a dieci passi, verso nord, senza fretta.
+            Lo segui con le tempie che pulsano.
+          effetti: { tormento: 0.5 }
+          segue: circolo-la-spina-dell-eco
+      - testo: "Chiedergli che cosa vuole"
+        descrizione: "A voce, perché tu la voce ce l'hai. Lui risponderà come può."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Il gesto
+          testo: |
+            Glielo chiedi a voce bassa, come si parla accanto a un malato.
+            Voren si ferma, ti prende la mano e la volta verso nord, con il
+            palmo in su, come si porge una cosa. Poi prende per i campi, e
+            tu lo segui.
+          pe: { empatia: 5 }
+          segue: circolo-la-spina-dell-eco
+        fallimento:
+          titolo: Troppo forte
+          testo: |
+            La domanda ti esce troppo forte nel silenzio dei campi, e Voren
+            si ritrae come se l'avessi colpito. La pressione dietro gli occhi
+            si fa dolore. Quando passa, lui è già a dieci passi verso nord,
+            e ti aspetta.
+          effetti: { tormento: 0.5 }
+          segue: circolo-la-spina-dell-eco
+      - testo: "Seguirlo senza fare domande"
+        descrizione: "Al Circolo nessuno fa domande ai Silenti. Si segue e basta, anche per tutta la notte."
+        costo: 2
+        esito:
+          titolo: Per i campi
+          testo: |
+            Voren si stacca dalla strada e prende per i campi, e tu gli vai
+            dietro per ore fra i solchi e i muretti, finché la luna non
+            scende e davanti a te, sulla pianura, si alza un pilastro nero.
+          effetti: { ferite: 0.5 }
+          segue: circolo-la-spina-dell-eco
+
+  - id: circolo-la-spina-dell-eco
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/superficie-fratturata
+    titolo: La Spina dell'Eco
+    sommario: "Un pilastro di pietra nera sulla pianura, che restituisce le voci dopo nove battiti, sbagliate."
+    luogo: La pianura verso il Rovolungo, la Spina dell'Eco
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 6]
+    testo: |
+      La Spina dell'Eco è un pilastro di pietra nera alto quanto tre uomini,
+      ritto in mezzo alla pianura come un dito puntato, e intorno c'è soltanto l'erba della pianura. La pietra è liscia e fredda, e la
+      luna ci scivola sopra senza riflettersi. Ai piedi, nella terra, c'è
+      una buca larga un palmo dove qualcuno ha provato a scavare e si è
+      fermato.
+
+      Voren si ferma a dieci passi dalla Spina e alza la testa. Grida un
+      nome, il primo suono che gli senti fare, ed è un nome di donna. La
+      voce è rauca, di uno che non la usa da anni. Conti i battiti senza
+      volerlo. Al nono dalla Spina torna una parola sola, che non è il
+      nome, cantata lenta, con una cadenza che ti fa rizzare i peli sulle
+      braccia.
+
+      {origine accolito-del-velo} La cadenza la conosci. Al Velo le
+      testimonianze della Notte dei Sussurri si leggono in cripta, e
+      dicono tutte che le voci del suolo cantavano così.
+
+      {percezione Difficile} La parola che torna non arriva dal pilastro.
+      Arriva da sotto la buca, e il pilastro la porta su come un
+      camino porta su il fumo.
+
+      Voren si volta verso di te e ti indica la Spina con il mento.
+    opzioni:
+      - testo: "Ascoltare la parola che torna"
+        descrizione: "Nove battiti, e poi la parola. Bisogna ascoltarla tutta, anche se entra dove non dovrebbe."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La parola
+          testo: |
+            Voren grida il nome un'altra volta, e tu ascolti con tutto il
+            corpo. La parola di quattro sillabe torna lenta, e stavolta la prendi intera. Voren ti prende la mano e la appoggia sulla terra, accanto alla buca. La stessa parola vibra nel suolo, lontana, ripetuta da sotto. Lui annuisce una volta sola e ti fa capire con le
+            mani che la devi portare al Circolo Ristretto. Il nome di una
+            città, ti pare di capire. Quella su cui il Bosco è cresciuto.
+
+            {resilienza Media} Ti resta in testa come una canzone sentita a una festa, di quelle che tornano per settimane.
+          pe: { percezione: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, tormento: 0.5 }
+          imposta: { circolo.parola: 1 }
+        fallimento:
+          titolo: Il ronzio
+          testo: |
+            La parola ti arriva confusa, mescolata al sangue che ti batte
+            nelle orecchie, e ne afferri solo la cadenza. Voren ti guarda a
+            lungo, poi ti appoggia la mano sulla terra accanto alla buca, e
+            senti qualcosa vibrare, lontano. Ti fa capire che devi portare
+            al Circolo quello che hai sentito, anche se è poco.
+          effetti: { fazione.circolo: 1, tormento: 1 }
+      - testo: "Gridare il tuo nome"
+        descrizione: "Voren ha gridato un nome. Se gridi il tuo, la Spina ti restituirà qualcosa, ed è meglio che sia il tuo."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: Il tuo nome
+          testo: |
+            Gridi il tuo nome con tutto il fiato che hai, e conti. Al nono
+            battito la Spina ti restituisce il tuo nome, giusto, con la tua
+            voce, e subito dopo la parola di prima, a voce più bassa, come
+            una risposta. Voren ti stringe il polso così forte che ti lascia
+            il segno delle dita. Poi ti appoggia la mano sulla terra, dove la
+            parola vibra ancora, e ti fa capire che la devi portare al
+            Circolo Ristretto. Il nome di una città, quella su cui il Bosco
+            è cresciuto.
+          pe: { espressivita: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, tormento: 0.5 }
+          imposta: { circolo.parola: 1 }
+        fallimento:
+          titolo: Il nome sbagliato
+          testo: |
+            Gridi il tuo nome, e al nono battito la tua voce torna con un nome che appartiene a un altro. Ti si gela il sangue. Voren ti porta via
+            dalla Spina tenendoti per il gomito, e per tutta la strada del
+            ritorno ti senti chiamare da dietro con quel nome.
+          effetti: { fazione.circolo: 1, tormento: 1.5 }
+      - testo: "Leggere il pilastro con il Mana"
+        descrizione: "Se la parola passa dal pilastro, il pilastro ha un canale. Il Mana lo sente."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il camino
+          testo: |
+            Appoggi il palmo sulla pietra e lasci che il Mana ti salga nel
+            braccio. Il pilastro è vuoto dentro come un camino, e scende
+            molto più giù di quanto sia alto. Dal fondo sale la parola, a
+            ondate. La prendi intera, quattro sillabe. Voren ti tocca la
+            spalla e ti fa capire che la devi portare al Circolo Ristretto.
+            È il nome di una città, quella su cui il Bosco è cresciuto.
+          pe: { magia: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, tormento: 0.5 }
+          imposta: { circolo.parola: 1 }
+        fallimento:
+          titolo: La pietra fredda
+          testo: |
+            La pietra ti risucchia il calore della mano fino al gomito, e il
+            Mana ti torna indietro come un pugno. Ti siedi per terra con il
+            braccio intorpidito, e Voren aspetta che passi. Ti fa capire che
+            devi portare al Circolo quello che hai sentito.
+          effetti: { fazione.circolo: 1, tormento: 1 }
+      - testo: "Aspettare l'alba accanto a Voren"
+        descrizione: "Lui sa che cosa vuole farti vedere. Basta restare, e non avere fretta."
+        costo: 2
+        esito:
+          titolo: L'alba sulla pianura
+          testo: |
+            Ti siedi accanto a Voren e aspetti. Lui grida il nome tre volte
+            ancora, a distanza di un'ora, e ogni volta la parola torna
+            uguale. All'alba ti appoggia la mano sulla terra accanto alla buca, dove la parola vibra ancora lontana, e ti fa capire che la devi portare al Circolo Ristretto. È il nome di una città, quella su cui il Bosco è cresciuto, e lo porti via con le ossa gelate.
+          effetti: { fazione.circolo: 1, tormento: 0.5, ferite: 0.5 }
+          imposta: { circolo.parola: 1 }
+
+  # ------------------------------------------------------------ 7 → 8 · il Circolo Ristretto
+  - id: circolo-il-circolo-ristretto
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il Circolo Ristretto
+    sommario: "Le quattro voci del Circolo si riuniscono sulla spirale, e ognuna vuole una cosa diversa dalla stessa ferita."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro, di notte
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 7]
+    testo: |
+      Il Circolo Ristretto si riunisce di notte, sulle quattro pietre più
+      basse della spirale, e gli altri druidi stanno più su, nel buio. Sulla prima pietra siede Aelion. Accanto a lui c'è Tharn con i lupi ai piedi, e dopo ancora Serha, con il braccio di legnoscuro appoggiato sul ginocchio. La quarta è vuota, e Voren sta in piedi dietro, con il
+      cappuccio basso. Tu siedi sul bordo, dove ti hanno detto.
+
+      {origine figlio-del-circolo} Da bambino guardavi il Circolo Ristretto
+      dal punto più alto della spirale, e la quarta pietra era vuota anche
+      allora. Nessuno ti ha mai detto di chi fosse.
+
+      Si parla quando il vapore della fenditura gira verso di te. Il primo a trovarselo in faccia è Tharn, e dice che il boschetto grigio va bruciato fino alle radici, prima che il grigio arrivi alla spirale. Dopo di lui tocca a Serha, secondo cui bisogna scavare fino al muro precuriano con gli strumenti dell'Accademia, e capire. Alla fine il vapore gira verso Voren. Lui non apre bocca, e
+      nella testa di tutti arriva la stessa cosa, chiara come un'immagine.
+      Lasciare che il Bosco beva finché guarisce, o finché muore.
+
+      {politica-ed-economia Media} Tre voci e un Maestro che non decide. Il
+      voto di chi siede sul bordo, stanotte, pesa più del suo posto.
+
+      Aelion ascolta tutto con gli occhi chiusi, e non dice niente. Poi il
+      vapore gira verso di te.
+    opzioni:
+      - testo: "Stare con Tharn"
+        descrizione: "Bruciare il grigio prima che cresca. Per convincere un Irriducibile bisogna dimostrare di saperlo fare."
+        prova: { attributo: fisico, abilita: [atletica, armi-da-distanza], difficolta: Media }
+        successo:
+          titolo: Il fuoco
+          testo: |
+            Racconti del capobranco e della conca, e di come il grigio
+            salisse dal muro più in fretta di quanto camminassi. Poi ti alzi
+            e mostri a Tharn come si accende un fuoco controvento con le
+            mani bagnate. Lui ride, e i lupi alzano la testa. Sulla prima pietra, intanto, Aelion ha aperto gli occhi.
+          pe: { atletica: 5 }
+          effetti: { rep.circolo: 0.5 }
+          segue: circolo-con-chi-passerai-la-luna
+        fallimento:
+          titolo: Il fuoco che non prende
+          testo: |
+            Ti alzi per mostrare come si brucia il grigio, e l'esca non ti
+            prende fra le dita umide di vapore. Tharn ti guarda con simpatia, che è peggio. Quando torni a sederti, Aelion ha aperto gli occhi.
+          effetti: { ferite: 0.5 }
+          segue: circolo-con-chi-passerai-la-luna
+      - testo: "Stare con Serha"
+        descrizione: "Scavare e capire. Per convincere i Radicanti bisogna parlare la loro lingua, quella dei registri."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Media }
+        successo:
+          titolo: La lettera
+          testo: |
+            Racconti della curva del Velo e delle incisioni che scendono dentro il muro, e Serha annuisce a ogni cosa. Alla fine ti affida una lettera per Orvald Temmerin con le misure delle sue tavole, chiusa da una ceralacca verde. La consegni all'Accademia la settimana dopo, e Orvald la legge tre volte. Sulla spirale, intanto, Aelion ha aperto gli occhi.
+          pe: { accademiche: 5 }
+          effetti: { rep.circolo: 0.5, rep.accademia: 0.5 }
+          segue: circolo-con-chi-passerai-la-luna
+        fallimento:
+          titolo: Le misure sbagliate
+          testo: |
+            Citi le misure del muro a memoria e ne sbagli due. Serha ti corregge con dolcezza davanti a tutti, e il vapore gira altrove prima che tu abbia finito. Quando alzi lo sguardo, Aelion ha aperto gli occhi.
+          effetti: { tormento: 0.5 }
+          segue: circolo-con-chi-passerai-la-luna
+      - testo: "Stare con Voren"
+        descrizione: "Lasciare bere il Bosco. Per stare con un Silente bisogna reggere la sua voce dentro la testa."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La pressione
+          testo: |
+            Lasci che la voce di Voren ti entri nella testa senza dire niente, e la pressione cresce senza fermarsi. La reggi a occhi aperti finché lui non la ritira. Sulla spirale qualcuno respira forte, e Aelion, sulla prima pietra, ha aperto gli occhi.
+          pe: { resilienza: 5 }
+          effetti: { rep.circolo: 0.5, tormento: 0.5 }
+          segue: circolo-con-chi-passerai-la-luna
+        fallimento:
+          titolo: Ceduto
+          testo: |
+            La pressione cresce e tu cedi, piegandoti in avanti con le mani
+            sulle tempie. Voren la ritira subito, e nella tua testa resta un vuoto che fa più male della voce. Quando rialzi la testa, Aelion ha aperto gli occhi.
+          effetti: { tormento: 1 }
+          segue: circolo-con-chi-passerai-la-luna
+      - testo: "Tacere come Aelion"
+        descrizione: "Il Maestro non decide. Si può fare come lui, e lasciare la scelta alla luna che viene."
+        costo: 2
+        esito:
+          titolo: Il silenzio del Maestro
+          testo: |
+            Quando il vapore gira verso di te resti zitto, con le mani sulle
+            ginocchia, e lo lasci passare. Gira tre volte, e tre volte lo
+            lasci passare. Alla terza Aelion apre gli occhi e ti guarda.
+          segue: circolo-con-chi-passerai-la-luna
+      - testo: "Portare tu la lettera per Orvald"
+        descrizione: "All'Accademia ti conoscono, e le misure di Serha le sai leggere meglio di chiunque altro qui."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: La lettera
+          testo: |
+            Dici a Serha che le misure le porti tu a Orvald, e gliele spieghi
+            come te le spiegherebbe lui, con i numeri dei cristalli. Lei ti
+            affida la lettera con la ceralacca verde, e la settimana dopo la
+            consegni nello studio di Orvald, che la legge tre volte. Aelion,
+            sulla spirale, apre gli occhi.
+          pe: { accademiche: 5 }
+          effetti: { rep.circolo: 0.5, rep.accademia: 0.5 }
+          segue: circolo-con-chi-passerai-la-luna
+
+  - id: circolo-con-chi-passerai-la-luna
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Con chi passerai la luna
+    sommario: "Aelion ti chiede con chi passerai la prossima luna. Al Circolo è il modo di chiedere quale via scegli."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro, di notte
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 7]
+    testo: |
+      Aelion ti guarda per la prima volta da quando è cominciata la notte.
+      Ha gli occhi argentei screziati di verde, e nel buio della spirale
+      sembrano trattenere la luce della luna.
+
+      «Con chi passerai la prossima luna?» dice.
+
+      Sulla spirale nessuno si muove. Tharn accarezza la testa di un
+      lupo, Serha guarda un punto vuoto a metà della fenditura, e Voren è
+      sparito, anche se la pressione dietro gli occhi ti dice che è ancora
+      lì. Gli Irriducibili vivono fra le bestie, i Radicanti studiano il
+      Mana, i Silenti si sciolgono nel Bosco. La domanda è quella.
+
+      {empatia Media} Aelion spera in una risposta, e ha paura di
+      un'altra. Non lascia capire quale delle due.
+
+      {origine figlio-del-circolo} Da bambino ti avevano detto che la via
+      si sceglie a vent'anni. Qualcuno, a quanto pare, ha deciso di farti
+      scegliere adesso.
+    opzioni:
+      - testo: "Con Tharn e i lupi"
+        descrizione: "La via degli Irriducibili. Una luna fra le bestie del margine, a caccia."
+        esito:
+          titolo: Irriducibile
+          testo: |
+            Lo dici, e Tharn si alza in piedi senza volerlo. I lupi si alzano
+            con lui. Aelion annuisce una volta, e ti dice che la luna comincia domani al margine, e che la notte col branco ti
+            insegnerà quello che lui non può.
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5 }
+          imposta: { circolo.via: 1 }
+      - testo: "Con Serha e le tavole"
+        descrizione: "La via dei Radicanti. Una luna nell'archivio e nelle rovine, a misurare il Mana."
+        esito:
+          titolo: Radicante
+          testo: |
+            Lo dici, e Serha smette di guardare il punto vuoto e guarda te.
+            Il braccio di legnoscuro le pulsa una volta, forte. Aelion
+            annuisce e ti dice che la luna comincia domani nell'archivio, e che la vena e il sangue ti insegneranno quello che le tavole non
+            dicono.
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5 }
+          imposta: { circolo.via: 2 }
+      - testo: "Con Voren e i Silenti"
+        descrizione: "La via dei Silenti. Una luna vicino alla fenditura, a dormire in un tronco."
+        esito:
+          titolo: Silente
+          testo: |
+            Lo dici, e la pressione dietro gli occhi si scioglie in un
+            calore lento, come una mano sulla nuca. Sulla spirale qualcuno
+            trattiene il fiato. Aelion ti guarda a lungo prima di annuire. Ti dice che la luna comincia domani, nel tronco cavo accanto alla
+            fenditura, e che le tre notti ti insegneranno quello che nessuno
+            di loro sa dire.
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5 }
+          imposta: { circolo.via: 3 }
+
+  # ------------------------------------------------------------ 8 → 9 · Irriducibili, la notte col branco
+  - id: circolo-la-notte-col-branco
+    presso: circolo-bosco-di-velthar
+    immagine: icone/wolf-howl
+    titolo: La notte col branco
+    sommario: "Una notte di caccia con i lupi di Tharn, dietro un cervo con le corna di metallo che ha smesso di scappare."
+    luogo: Il Bosco di Velthar, il margine nord, di notte
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 8, circolo.via == 1]
+    testo: |
+      La caccia comincia al tramonto, sul margine nord, dove il Bosco
+      scende in una valle di erba alta. Tharn ha portato tutti e sette i lupi del branco, e li ha fatti sedere in cerchio intorno a te. Ti hanno
+      annusato uno alla volta, cominciando dalla lupa vecchia con la
+      spalla guarita, e poi si sono messi a guardare la valle.
+
+      «Il cervo ha le corna di metallo da un inverno» dice Tharn. «Non
+      scappa più, e quando lo incontri ti carica. Stanotte il branco lo
+      caccia, e tu cacci con il branco. Chi resta indietro passa la notte da solo.»
+
+      {addestrare-animali Media} I lupi corrono in fila, e chi sta in
+      fondo sente dove va il primo dalle orecchie di quello davanti.
+      Basta guardare le orecchie.
+
+      {resistenza Facile fallita} Le gambe hanno capito che cosa vuol dire
+      una notte intera di corsa, e ti fanno già sapere la loro opinione.
+
+      Una lupa giovane, grigia con una macchia bianca sotto la gola, si
+      mette accanto a te invece che nella fila. Tharn la guarda e non dice
+      niente.
+    opzioni:
+      - testo: "Correre con il branco"
+        descrizione: "Una notte intera di corsa fra l'erba alta e il bosco, con i lupi che non aspettano."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: In fila
+          testo: |
+            Corri in fila con il branco per tutta la notte, e a un certo
+            punto smetti di contare i passi e di sentire le gambe. Alla
+            terza ora la lupa con la macchia bianca ti corre accanto
+            spalla a spalla. Prima dell'alba il branco si ferma, con le
+            orecchie dritte, davanti a una gola di roccia.
+          pe: { atletica: 10 }
+          segue: circolo-il-cervo-di-metallo
+        fallimento:
+          titolo: Indietro
+          testo: |
+            Alla seconda ora le gambe ti mollano, e il branco sparisce
+            nell'erba. Corri a vuoto per un tratto, poi trovi la lupa con la
+            macchia bianca che ti aspetta, seduta. Ti porta lei fino alla gola di roccia a passo d'uomo, e ci arrivi con i polmoni in
+            fiamme.
+          effetti: { ferite: 1 }
+          segue: circolo-il-cervo-di-metallo
+      - testo: "Seguire le orecchie della lupa"
+        descrizione: "La lupa con la macchia bianca ti ha scelto. Se le guardi le orecchie, sai dove va il branco prima di lui."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Le orecchie
+          testo: |
+            Corri accanto alla lupa con gli occhi sulle sue orecchie, e
+            quando si girano giri anche tu. Tagliate insieme le curve del
+            branco, e arrivate alla gola di roccia prima di Tharn, che vi
+            trova lì seduti ad aspettarlo.
+          pe: { addestrare-animali: 10 }
+          segue: circolo-il-cervo-di-metallo
+        fallimento:
+          titolo: La curva sbagliata
+          testo: |
+            La lupa gira a destra e tu, che guardavi le orecchie sbagliate,
+            giri a sinistra. Ci metti un'ora a ritrovarla, e lei ti accoglie
+            con uno sbuffo dal naso. Arrivate alla gola di roccia per ultimi.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+          segue: circolo-il-cervo-di-metallo
+      - testo: "Restare indietro e seguire le tracce"
+        descrizione: "Il branco lascia tracce che anche un cittadino sa leggere, se ha la notte intera e non si vergogna."
+        costo: 2
+        esito:
+          titolo: Le tracce
+          testo: |
+            Lasci andare il branco e segui le tracce nell'erba piegata, al
+            passo, con la lanterna coperta. Ci metti tutta la notte. All'alba
+            trovi la gola di roccia, con il branco seduto davanti, e Tharn
+            che ti guarda arrivare.
+          effetti: { ferite: 0.5 }
+          segue: circolo-il-cervo-di-metallo
+
+  - id: circolo-il-cervo-di-metallo
+    presso: circolo-bosco-di-velthar
+    immagine: icone/deer
+    titolo: Il cervo dalle corna di metallo
+    sommario: "In fondo alla gola il cervo aspetta il branco, con le corna di metallo abbassate."
+    luogo: Il Bosco di Velthar, una gola di roccia
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 8, circolo.via == 1]
+    testo: |
+      In fondo alla gola c'è il cervo. È grande, con il collo largo come un
+      tronco e le corna che non sono più corna, rami di metallo grigio
+      ramificati come una lampada da chiesa, che tintinnano quando muove la
+      testa. Ha le zampe davanti piantate nella ghiaia e il muso basso, e non accenna a scappare. Il branco si apre a ventaglio davanti alla gola, e i lupi si
+      siedono, tutti insieme, a guardare te.
+
+      {armi-da-distanza Media} Il collo è scoperto, e la luce dell'alba
+      gli batte sul fianco sinistro. Un tiro buono lo prende lì.
+
+      {natura Difficile} Le corna gli pesano. Tiene la testa bassa perché
+      non riesce più a tenerla alta, e carica perché scappare con quel peso
+      è peggio.
+
+      Tharn ti è accanto, con l'arco in mano e la freccia non incoccata.
+      Ti dice a bassa voce che il branco ha fatto la sua parte, e che il resto tocca a te. Puoi abbatterlo o lasciarlo andare, e Tharn ti avverte che si può sbagliare in tutti e due i modi.
+    opzioni:
+      - testo: "Abbattere il cervo"
+        descrizione: "Un cervo con le corna di metallo che carica. Il branco guarda."
+        combattimento: circolo-il-cervo-di-metallo
+        vittoria:
+          titolo: La carne al branco
+          testo: |
+            Il cervo cade sulla ghiaia e le corna tintinnano un'ultima volta.
+            Tharn ti fa tagliare la carne e darla al branco, un pezzo per
+            lupo, cominciando dalla lupa vecchia. La lupa con la macchia
+            bianca prende il suo pezzo dalla tua mano. Tornate al Circolo
+            a mezzogiorno, e Aelion vi aspetta sulla spirale.
+          pe: { natura: 5 }
+          effetti: { fazione.circolo: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+        sconfitta:
+          titolo: Le corna
+          testo: |
+            Il cervo ti prende di fianco con le corna e ti scaglia contro la
+            parete della gola. Lo abbatte Tharn, con una freccia sola, mentre
+            ti rialzi. La lupa con la macchia bianca ti lecca il sangue dalla
+            mano. Tornate al Circolo a mezzogiorno, e Aelion vi aspetta sulla
+            spirale.
+          effetti: { fazione.circolo: 1, tormento: 0.5 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+      - testo: "Lasciarlo andare guidando il branco"
+        descrizione: "Un cervo che non scappa più si può rimettere a scappare, se il branco gli lascia la strada. Bisogna muovere sette lupi con la voce."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: La strada aperta
+          testo: |
+            Chiami il branco con la voce bassa e lo sposti, lupo per lupo,
+            finché a destra della gola non si apre un varco. Il cervo lo
+            vede. Alza la testa, piano, con le corna che tintinnano, e se ne
+            va dal varco al passo. Tharn ti guarda a lungo, poi ride. Tornate
+            al Circolo a mezzogiorno, e Aelion vi aspetta sulla spirale.
+          pe: { addestrare-animali: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+        fallimento:
+          titolo: Il branco non ascolta
+          testo: |
+            Il branco ti ascolta a metà, e il cervo carica nel varco
+            sbagliato, dritto su di te. Ti butti a terra e le corna ti
+            passano sopra la schiena, strappandoti il mantello. Il cervo se
+            ne va lo stesso. Tornate al Circolo a mezzogiorno, e Aelion vi
+            aspetta sulla spirale.
+          effetti: { fazione.circolo: 1, ferite: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+      - testo: "Lasciarlo andare con Richiamo"
+        descrizione: "Un cervo che carica capisce il Richiamo, se è fatto bene. Il branco, intanto, deve restare seduto."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La strada aperta
+          testo: |
+            Dici il Richiamo al cervo e lo tieni fermo con le parole, mentre
+            il branco si sposta da solo e apre un varco. Il cervo alza la
+            testa e se ne va dal varco al passo, con le corna che tintinnano.
+            Tharn ride. Tornate al Circolo a mezzogiorno, e Aelion vi aspetta
+            sulla spirale.
+          pe: { magia: 5, addestrare-animali: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+        fallimento:
+          titolo: La carica
+          testo: |
+            Il Richiamo arriva al cervo nel momento in cui carica, e non
+            basta a fermarlo. Le corna ti passano a un palmo dal fianco e ti
+            strappano il mantello. Il cervo se ne va lo stesso. Tornate al
+            Circolo a mezzogiorno, e Aelion vi aspetta sulla spirale.
+          effetti: { fazione.circolo: 1, ferite: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+
+  # ------------------------------------------------------------ 8 → 9 · Radicanti, la vena e il sangue
+  - id: circolo-la-vena-e-il-sangue
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La vena e il sangue
+    sommario: "Serha vuole travasare la Marea di un cristallo carico dentro una pianta, come fece nel 140. Serve un cristallo, e una mano ferma."
+    luogo: Il Bosco di Velthar, l'archivio sotto la spirale
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 8, circolo.via == 2]
+    testo: |
+      Nell'archivio Serha ha sgombrato il banco di pietra e ci ha messo
+      sopra un vaso di terracotta con una piantina di felce, e accanto un
+      ago di legnoscuro lungo come un dito, cavo dentro. Il vapore della fenditura arriva tiepido fin qui, e appanna le tavole incise lungo
+      le pareti.
+
+      «Nel 140 l'ho fatto la prima volta» dice. «Ci vogliono un cristallo carico e una pianta, con l'ago in mezzo. La Marea del cristallo passa nella pianta, la
+      pianta la beve e la rende innocua. Il Bosco lo fa da solo con le
+      radici. Noi lo facciamo con le mani, quando il Bosco non ce la fa.»
+      Si guarda il braccio di legnoscuro. «A volte le mani ci rimettono.»
+
+      {medicina Media} L'ago è cavo come quelli dei cerusici per i
+      salassi. Chi lo tiene deve sapere dove passa il sangue, oltre che il
+      Mana.
+
+      {conoscenze-della-strada Facile} Un cristallo carico lo vende Oda
+      Krell nella sua baracca, e al Nodo d'Ossidiana li tengono sotto il
+      bancone. Il prezzo lo fa chi ti vede arrivare.
+
+      {origine apprendista-raschiatore} Sulle piattaforme un cristallo
+      carico si tiene con due dita, mai con il palmo. Serha lo sa, e ti
+      guarda le mani per vedere se lo sai anche tu.
+    opzioni:
+      - testo: "Travasare la Marea del cristallo nella pianta"
+        descrizione: "Il cristallo carico si consuma. Il Mana si guida con l'ago, e la Marea che scappa resta a te."
+        requisiti: [cristalli.cristallo-carico >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il travaso
+          testo: |
+            Pianti l'ago nel cristallo e lo guidi verso la felce con il Mana,
+            un filo alla volta. La Marea grigia passa nel legnoscuro come acqua in una radice, e la felce la beve. Le foglie le diventano
+            grigie, poi verdi di nuovo, dalla punta. Serha non respira finché
+            non hai finito.
+          pe: { magia: 10 }
+          effetti: { cristalli.cristallo-carico: -1, contaminazione: 1 }
+          segue: circolo-la-vena
+        fallimento:
+          titolo: Il travaso storto
+          testo: |
+            L'ago ti scappa a metà, e la Marea esce dal cristallo dalla parte
+            sbagliata, sulle tue dita. La felce resta verde, e il cristallo
+            è vuoto. Serha ti fascia la mano e ti dice di procurarne un
+            altro.
+          effetti: { cristalli.cristallo-carico: -1, contaminazione: 1.5 }
+      - testo: "Cercare un cristallo carico nelle rovine con Serha"
+        descrizione: "Sotto le radici, dove il Bosco non ha ancora bevuto tutto, qualche cristallo è ancora carico. Ci vogliono giorni, e la Marea di quelle rovine."
+        costo: 3
+        esito:
+          titolo: Il cristallo delle rovine
+          testo: |
+            Scendi con Serha nelle rovine sotto le radici e cercate per tre
+            giorni fra i cristalli inghiottiti dal legno, finché lei non ne
+            sente uno che batte ancora. Il travaso lo fa lei, con le tue mani
+            sotto le sue, e la Marea che scappa dall'ago la prendete tutti e
+            due.
+          effetti: { contaminazione: 1.5 }
+          segue: circolo-la-vena
+
+  - id: circolo-la-vena
+    presso: circolo-bosco-di-velthar
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La vena
+    sommario: "La felce ha bevuto, e adesso trema. Sotto la terra del vaso è comparsa una vena di luce."
+    luogo: Il Bosco di Velthar, l'archivio sotto la spirale
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 8, circolo.via == 2]
+    testo: |
+      La felce ha bevuto, e adesso trema. Le foglie si aprono e si chiudono
+      a scatti, come se respirassero troppo in fretta, e sulla terra del
+      vaso è comparsa una vena di luce sottile, azzurra, che gira intorno
+      al gambo e scende nella terracotta. Serha la guarda con la bocca
+      aperta e il braccio di legnoscuro stretto contro il petto.
+
+      «Questa l'ho vista una volta sola» dice piano. «Anni fa. Mana puro,
+      senza cristallo. Si è mossa verso di me, e poi è sparita.» Si gira a
+      guardarti le mani. Hai un taglietto sul pollice, da quando hai preso
+      l'ago, e una goccia di sangue sta per cadere.
+
+      {magia Difficile} La vena si è girata verso la goccia. Si muove come
+      la limatura di ferro quando le avvicini una calamita.
+
+      {medicina Media} La felce sta morendo di troppo, come un uomo che ha
+      bevuto acqua dopo tre giorni di sete. Se le togli la terra in eccesso,
+      forse ce la fa.
+    opzioni:
+      - testo: "Salvare la felce"
+        descrizione: "La pianta ha bevuto troppo. Bisogna toglierle la terra dalle radici, piano, prima che si spacchi."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: La felce che respira
+          testo: |
+            Le togli la terra dalle radici con le dita, un pizzico alla
+            volta, e la felce rallenta finché respira come una pianta. La
+            vena di luce si spegne nella terracotta. Serha ti prende il
+            pollice ferito e ci soffia sopra, poi ti porta sulla spirale,
+            dove Aelion vi aspetta.
+          pe: { medicina: 10 }
+          effetti: { fazione.circolo: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+        fallimento:
+          titolo: La foglia spaccata
+          testo: |
+            Togli troppa terra in una volta, e una foglia si spacca per il
+            lungo con un suono di carta. La felce vive, con una foglia in
+            meno. Serha non dice niente e ti porta sulla spirale, dove Aelion
+            vi aspetta.
+          effetti: { fazione.circolo: 1, tormento: 0.5 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+      - testo: "Lasciare che la vena tocchi il tuo sangue"
+        descrizione: "La vena si muove verso la goccia. Serha l'ha vista una volta sola, e non ha mai saputo perché."
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Difficile }
+        successo:
+          titolo: La vena e il sangue
+          testo: |
+            Lasci cadere la goccia sulla terra del vaso. La vena ci corre sopra e la circonda, e per un momento diventa rossa. Poi torna azzurra e ti sale calda lungo il dito, sotto la pelle, fino al polso, dove sparisce. Serha ti afferra il polso con la mano di legnoscuro. Ti chiede di non dirlo a nessuno, neanche ad Aelion, con la voce di una donna che ha aspettato trent'anni per rivederlo. Poi ti porta sulla spirale, dove Aelion vi aspetta.
+
+            {magia Difficile} Nel polso ti è rimasto un calore che non è tuo, e il Mana, da adesso, ti riconosce.
+          pe: { magia: 10 }
+          effetti: { fazione.circolo: 1, tormento: 0.5 }
+          imposta: { circolo.vena: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+        fallimento:
+          titolo: La vena che morde
+          testo: |
+            La goccia cade, e la vena ci si getta sopra come un cane affamato.
+            Ti sale fredda nel dito, e ti morde dentro fino al gomito
+            prima di spegnersi. Serha ti fascia il braccio con le mani che
+            tremano, poi ti porta sulla spirale, dove Aelion vi aspetta.
+          effetti: { fazione.circolo: 1, contaminazione: 1, ferite: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+      - testo: "Lasciare fare a Serha"
+        descrizione: "Lei l'ha già visto una volta. Le sue mani sanno che cosa fare meglio delle tue."
+        costo: 2
+        esito:
+          titolo: Le mani di Serha
+          testo: |
+            Ti fai da parte e lasci il vaso a Serha. Lei toglie la terra in
+            eccesso con il braccio di legnoscuro, e la vena di luce si spegne
+            prima di arrivare al tuo sangue. Ti guarda il pollice ferito come
+            si guarda un'occasione persa, e poi ti porta sulla spirale, dove
+            Aelion vi aspetta.
+          effetti: { fazione.circolo: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+
+  # ------------------------------------------------------------ 8 → 9 · Silenti, tre notti nel tronco
+  - id: circolo-tre-notti-nel-tronco
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Tre notti nel tronco
+    sommario: "Accanto alla fenditura c'è un tronco cavo dove i Silenti dormono la prima volta. Ci si entra la sera e si esce dopo tre notti."
+    luogo: Il Bosco di Velthar, il tronco cavo accanto alla fenditura
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 8, circolo.via == 3]
+    testo: |
+      Il tronco cavo sta a venti passi dalla spirale, sul lato dove il vapore della fenditura scende invece di salire. È un tasso morto da
+      secoli e ancora in piedi, con dentro uno spazio dove un uomo sta
+      seduto con le ginocchia al petto. Il legno all'interno è liscio,
+      lucidato da chissà quante schiene, e caldo come la pelle di un
+      animale.
+
+      Voren ti aspetta davanti al tronco e tace anche dentro la tua testa. Ti indica l'apertura e si siede sulla radice di fronte, con il
+      cappuccio basso, per vegliare.
+
+      {resilienza Media} La prima notte è la più lunga, dicono i novizi.
+      La seconda non la ricorda nessuno, e della terza nessuno parla.
+
+      {furtivita Facile fallita} Cerchi con gli occhi una via d'uscita dal
+      tronco, per abitudine. C'è solo l'apertura da cui entri, e davanti
+      c'è Voren.
+
+      Dentro il tronco l'odore del vapore è più forte, e sotto c'è un
+      odore di ferro caldo che ti ricorda le forge della Città Bassa.
+    opzioni:
+      - testo: "Passare la prima notte senza uscire"
+        descrizione: "Il buio, il caldo, il vapore. Si resta dentro fino all'alba, qualunque cosa arrivi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: La prima notte
+          testo: |
+            Il buio dentro il tronco si fa così fitto che ti dimentichi dove
+            finiscono le mani. Verso mezzanotte il legno comincia a battere
+            piano, come un cuore lontano, e tu lo lasci battere. All'alba
+            esci con le gambe addormentate, e Voren è ancora sulla radice,
+            nella stessa posizione. La seconda e la terza notte passano senza
+            che tu riesca a contarle.
+          pe: { resilienza: 10 }
+          effetti: { tormento: 0.5 }
+          segue: circolo-i-ricordi-non-tuoi
+        fallimento:
+          titolo: Fuori dal tronco
+          testo: |
+            Verso mezzanotte il legno comincia a battere, e tu esci di corsa,
+            con il cuore in gola. Voren ti guarda dalla radice, poi ti indica
+            l'apertura un'altra volta. Rientri. Le tre notti ricominciano da
+            capo, e stavolta le passi tutte, con le unghie piantate nel legno.
+          effetti: { tormento: 1.5 }
+          segue: circolo-i-ricordi-non-tuoi
+      - testo: "Dormire con una candela accesa"
+        descrizione: "Una candela tiene lontano il buio, e al Circolo nessuno lo ha vietato. Le notti però diventano sei."
+        costo: 3
+        esito:
+          titolo: Sei notti
+          testo: |
+            Accendi una candela e la tieni fra le ginocchia, e il legno non
+            batte finché la fiamma resta accesa. Alla quarta notte la candela
+            finisce, e le notti vere cominciano solo allora. Esci dal tronco
+            dopo sei notti, con la cera sulle dita e la testa vuota.
+          effetti: { tormento: 1 }
+          segue: circolo-i-ricordi-non-tuoi
+
+  - id: circolo-i-ricordi-non-tuoi
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: I ricordi non tuoi
+    sommario: "La terza notte nel tronco ti arrivano ricordi che non sono tuoi, di qualcuno che è stato qui molto tempo fa."
+    luogo: Il Bosco di Velthar, il tronco cavo accanto alla fenditura
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 8, circolo.via == 3]
+    testo: |
+      La terza notte arrivano i ricordi. Sono ricordi veri, che hanno il freddo e l'odore delle cose successe, e non sono tuoi. Hai le mani piccole di una bambina e sporche di terra, e sei sdraiata ai piedi di un albero che non è di legno.
+      La corteccia è di metallo e si muove sotto le dita come la pelle di
+      un cavallo. Dai rami sale un vapore azzurro denso come incenso, e tu dormi lì per tre notti, con il branco intorno.
+
+      L'ultima notte del ricordo, in fondo, nel buio sotto l'albero, ci
+      sono due occhi dorati senza pupille. Sono grandi, e incastonati in
+      qualcosa che si muove con un rumore di ferro.
+
+      {percezione Media} Il ricordo ha un difetto, come una moneta tosata.
+      Il branco intorno alla bambina sono lupi, e uno ha la macchia bianca
+      sulla gola che hai visto altrove.
+
+      {resilienza Difficile fallita} Ti accorgi di avere gli occhi aperti
+      nel buio del tronco e di non riuscire a chiuderli. Gli occhi dorati
+      ti restano davanti anche dopo.
+
+      Quando esci all'alba, Voren è in piedi davanti all'apertura. Ti posa la mano sulla fronte, e nella tua testa arriva per la prima volta la sua voce con le parole intere, a dirti che adesso sai parlare come i Silenti.
+    opzioni:
+      - testo: "Guardare il ricordo fino in fondo"
+        descrizione: "Gli occhi dorati, il vapore, l'albero. Si può tenere il ricordo e guardarlo, invece di lasciarlo andare."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il ricordo tenuto
+          testo: |
+            Tieni il ricordo come si tiene una lettera sotto la luce, e lo
+            guardi da ogni lato. Quello che ti resta è il posto, una cavità
+            calda sotto la fenditura. Voren lo vede nella tua testa, e la sua
+            mano sulla fronte si fa pesante. Ti accompagna sulla spirale,
+            dove Aelion ti aspetta.
+          pe: { percezione: 10 }
+          effetti: { fazione.circolo: 1, tormento: 0.5 }
+          imposta: { circolo.sussurro: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+        fallimento:
+          titolo: Il ricordo che scappa
+          testo: |
+            Provi a tenerlo, e il ricordo ti scappa come l'acqua dalle mani,
+            lasciandoti solo gli occhi dorati, che non se ne vanno. Voren ti
+            tiene la mano sulla fronte finché smetti di tremare, e poi ti
+            accompagna sulla spirale, dove Aelion ti aspetta.
+          effetti: { fazione.circolo: 1, tormento: 1 }
+          imposta: { circolo.sussurro: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+      - testo: "Lasciarlo andare"
+        descrizione: "Non è tuo, e non sei obbligato a tenerlo. I Silenti dicono che i ricordi del Bosco tornano quando servono."
+        esito:
+          titolo: Il ricordo restituito
+          testo: |
+            Lasci andare il ricordo, e il ricordo se ne va senza voltarsi,
+            come una persona che esce da una stanza. Ti restano il freddo
+            nelle mani e la voce di Voren nella testa. Lui ti accompagna
+            sulla spirale, dove Aelion ti aspetta.
+          effetti: { fazione.circolo: 1, tormento: 0.5 }
+          imposta: { circolo.sussurro: 1 }
+          almeno: { rep.circolo: 6 }
+          segue: circolo-il-nome-della-via
+
+  # ------------------------------------------------------------ 9 · il nome della via e il dono
+  - id: circolo-il-nome-della-via
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il nome della via
+    sommario: "Sulla spirale Aelion ti dà il nome della tua via, e la via ti dà il suo dono."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro
+    area: superficie-fratturata
+    tipo: seguito
+    requisiti: [fazione.circolo == 9]
+    testo: |
+      Aelion ti aspetta in piedi, a un passo dalla fenditura, e quando
+      arrivi ti posa le dita sulla fronte, leggere, come si saggia la
+      temperatura di un bambino. Sulla spirale ci sono tutti, anche quelli
+      che di solito non vengono. Dice il nome della tua via ad alta voce una volta sola, e i druidi lo ripetono a mezza voce, uno dopo
+      l'altro, dall'alto in basso.
+
+      Poi si gira verso il sud del Bosco, dove il grigio non si è ritirato.
+
+      «Il Bosco aspetta un tuono» dice. «Prima del tuono non si muove.»
+
+      {politica-ed-economia Facile} Da Iniziato hai un posto nei lavori del
+      Circolo, e le lezioni dei druidi anziani. Il resto, a quanto pare,
+      dipende dal tuono.
+
+      {empatia Media} Ha detto tuono come si dice il nome di un parente
+      che deve arrivare e che nessuno ha voglia di vedere.
+    opzioni:
+      - testo: "Accogliere la lupa con la macchia bianca"
+        descrizione: "La lupa giovane ti ha scelto la notte della caccia. Tharn dice che si chiama Fumo, e che adesso è tua."
+        quando: [circolo.via == 1, braska != 2]
+        esito:
+          titolo: Fumo
+          testo: |
+            Tharn ti porta la lupa con la macchia bianca sulla gola e te la
+            lascia ai piedi, senza guinzaglio. Dice che si chiama Fumo, e
+            che da oggi corre con te. Lei ti annusa la mano e si siede alla
+            tua sinistra, mezzo passo avanti, dove resterà.
+          effetti: { oggetto.circolo-lupa-brina: 1 }
+      - testo: "Accogliere Braska"
+        descrizione: "Il puma della Foresta Strisciante è venuto fino al margine, e i lupi gli hanno fatto spazio."
+        quando: [circolo.via == 1, braska == 2]
+        esito:
+          titolo: Braska
+          testo: |
+            Al margine i lupi di Tharn si fanno da parte tutti insieme, e
+            dall'erba alta esce Braska, nera con i fianchi rossi, e si siede
+            davanti a te come se avesse un appuntamento. Tharn dice che il
+            Bosco ha scelto per lui, e che non si discute. Da oggi Braska va
+            dove vai tu, sempre un poco prima di te.
+          effetti: { oggetto.circolo-braska: 1 }
+      - testo: "Ricevere l'innesto di legnoscuro"
+        descrizione: "Serha ti innesta una vena di legnoscuro sotto la pelle dell'avambraccio, e da lì non si toglie più."
+        quando: [circolo.via == 2]
+        esito:
+          titolo: L'innesto
+          testo: |
+            Serha ti incide l'avambraccio con un ago di legnoscuro e ci
+            infila una vena di legno scuro e sottile, lunga come un dito, che
+            si attacca alla carne da sola e comincia a pulsare con il tuo
+            cuore. Fa male per una notte. Il mattino dopo il Mana ti passa
+            nel braccio come l'acqua in una radice.
+          effetti: { oggetto.circolo-innesto-di-legnoscuro: 1, ferite: 0.5 }
+      - testo: "Prendere il cappuccio dei Silenti"
+        descrizione: "Sulla pietra accanto alla tua qualcuno ha lasciato un cappuccio grigio-verde. Nessuno ti dice di chi era."
+        quando: [circolo.via == 3]
+        esito:
+          titolo: Il cappuccio
+          testo: |
+            Prendi il cappuccio dalla pietra e te lo metti. La lana è calda e
+            sa di vapore, e quando alzi gli occhi i druidi sulla spirale ti
+            guardano come si guarda qualcuno di cui non si ricorda bene la
+            faccia. Voren, dietro di tutti, abbassa il mento di un dito.
+          effetti: { oggetto.circolo-cappuccio-di-nebbia: 1 }
+      - testo: "Prendere il cappuccio, e lasciare che il Bosco ti tenga la mente"
+        descrizione: "I Silenti offrono anche una mente silenziosa, che il Tormento scalfisce meno e che degli altri sente meno. Una volta presa, resta."
+        quando: [circolo.via == 3, mutazione.mente-silenziosa == 0]
+        esito:
+          titolo: La mente silenziosa
+          testo: |
+            Prendi il cappuccio dalla pietra e te lo metti, e Voren ti posa
+            la mano sulla nuca. Qualcosa nella testa si abbassa, come una
+            fiamma quando chiudi la porta, e il rumore dei pensieri degli
+            altri si fa lontano. Le paure sono più lontane anche loro. Sulla
+            spirale i druidi ti guardano come si guarda qualcuno di cui non
+            si ricorda bene la faccia.
+          effetti: { oggetto.circolo-cappuccio-di-nebbia: 1 }
+          imposta: { mutazione.mente-silenziosa: 1 }
+
+  # ------------------------------------------------------------ 9 → 10 · l'Albero si è riacceso
+  - id: circolo-l-albero-si-e-riacceso
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: L'Albero si è riacceso
+    sommario: "Il giorno in cui è caduto il Costruttore la fenditura ha soffiato vapore azzurro per un'ora. Aelion ti racconta perché."
+    luogo: Il Bosco di Velthar, il Circolo del Respiro
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 9, pista.capomozzo >= 7, circolo.acceso == 0]
+    testo: |
+      Al Circolo ti aspettano già da giorni. Sulla spirale le pietre più
+      vicine alla fenditura sono bagnate di una rugiada azzurrina che non
+      asciuga, e i druidi ci passano accanto senza sedersi. A sud il grigio
+      ha fatto un salto di cento passi in una notte sola, e i lupi di Tharn
+      sono tornati a dormire al margine nord.
+
+      Aelion ti porta in disparte, dietro le pietre, dove il vapore non
+      arriva. Parla senza immagini, per la prima volta da quando lo
+      conosci.
+
+      «Il giorno in cui il Costruttore è caduto a Capomozzo» dice, «la
+      fenditura ha soffiato vapore azzurro per un'ora. Tanti inverni fa
+      una bambina del branco dormì tre notti accanto a un albero di metallo
+      vivo, sotto la fenditura. Poi l'albero si chiuse, e lei non lo
+      ritrovò più. Era acceso, allora. Adesso lo è di nuovo.» Si guarda le
+      mani. «La Madre del Velo ha detto che le rovine si sono ricordate i
+      loro nomi. L'ha detto senza sapere quanto aveva ragione.»
+
+      {accademiche Media} Un albero di metallo che si accende quando un
+      Costruttore cade. Le cronache della Caduta dicono che le macchine dei
+      Precursori si parlavano fra loro, e che quando una tace l'altra
+      risponde.
+
+      {origine figlio-del-circolo} La storia della bambina del branco te
+      l'hanno raccontata da piccolo, come una favola per dormire. Nessuno
+      ti aveva detto che l'albero esisteva davvero.
+
+      Per scendere nella fenditura serve una corda che non si tagli. Aelion
+      lo dice guardando il vapore.
+    opzioni:
+      - testo: "Chiedere dove sta l'Albero"
+        descrizione: "Sotto la fenditura, ha detto. Bisogna sapere quanto sotto, e che cosa c'è in mezzo."
+        esito:
+          titolo: Sotto la spirale
+          testo: |
+            Aelion ti dice il poco che sa. Sotto la fenditura c'è una gola calda, e sotto la gola la città su cui il Bosco è cresciuto. L'Albero sta ancora più giù. Le corde normali si tagliano da sole a metà strada. Quella che serve la può intrecciare Serha con le radici vive, oppure ce l'hanno i Raschiatori che scendono nel Labirinto. Anche Oda Krell, nella sua baracca, potrebbe averne una.
+          imposta: { circolo.acceso: 1 }
+      - testo: "Indossare la Maschera della Natura"
+        descrizione: "La maschera lega la carne alla macchina. Qui, vicino a un albero di metallo che respira, forse ti dice qualcosa."
+        requisiti: [oggetto.maschera-della-natura >= 1]
+        esito:
+          titolo: Il Bosco si piega
+          testo: |
+            Ti metti la maschera di corteccia nera, e il Bosco intorno si
+            piega verso di te. Le cime degli alberi si inclinano tutte nella
+            stessa direzione, i rami si abbassano, e dal fondo della
+            fenditura sale un sospiro caldo che ti arriva in faccia attraverso
+            la maschera. Aelion fa un passo indietro e ti guarda con paura,
+            per la prima volta. Quando te la togli ti tremano le mani. Sai dove
+            sta l'Albero, adesso, sotto la gola calda, e sai che per arrivarci
+            serve una corda che non si tagli.
+
+            {magia Difficile} La maschera e l'Albero si conoscono. Le altre
+            maschere il Bosco le sente come un temporale lontano, questa
+            come una voce di casa.
+          pe: { magia: 5 }
+          effetti: { tormento: 0.5 }
+          imposta: { circolo.acceso: 1 }
+      - testo: "Rispondere ad Aelion a chi credi quando nessuno guarda"
+        descrizione: "Al Velo hai dato molto, e Aelion lo sa. Prima di dirti dove scendere ti fa una domanda sola."
+        quando: [rep.velo >= 5]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Quando nessuno guarda
+          testo: |
+            Aelion ti chiede a chi credi quando nessuno guarda. Gli rispondi
+            senza girarci intorno, e lui ascolta fino in fondo. Poi annuisce una volta sola e ti dice dove sta l'Albero, sotto la gola calda, e
+            che per arrivarci serve una corda che non si tagli. La può
+            intrecciare Serha, o la può avere chi scende nel Labirinto.
+          pe: { empatia: 5 }
+          effetti: { rep.circolo: 0.5 }
+          imposta: { circolo.acceso: 1 }
+        fallimento:
+          titolo: La risposta preparata
+          testo: |
+            Gli rispondi con una frase che suona bene, e lui sente che
+            l'avevi preparata. Ti guarda a lungo. Poi ti dice lo stesso dove
+            sta l'Albero, sotto la gola calda, e che serve una corda che non
+            si tagli, con la voce di uno che ha deciso di fidarsi a metà.
+          effetti: { tormento: 0.5 }
+          imposta: { circolo.acceso: 1 }
+
+  - id: circolo-la-corda-di-radici
+    presso: circolo-bosco-di-velthar
+    immagine: icone/rope-coil
+    titolo: La corda di radici vive
+    sommario: "Serha sa intrecciare una corda con le radici vive del Bosco, che non si taglia perché ricresce. Ci vogliono giorni, e mani che non si stancano."
+    luogo: Il Bosco di Velthar, l'archivio sotto la spirale
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 9, circolo.acceso == 1]
+    testo: |
+      Serha ha già cominciato. Nell'archivio, sul banco di pietra, ci sono
+      fasci di radici sottili e bianche tagliate da un salice vicino alla
+      fenditura, ancora vive, che si muovono piano quando le tocchi.
+      Lei le intreccia a tre a tre con la mano buona, e con il braccio di
+      legnoscuro tiene ferma la treccia. La corda arriva già a dieci passi,
+      arrotolata ai suoi piedi come un serpente che dorme.
+
+      «Una corda di canapa si taglia perché giù c'è qualcosa che taglia»
+      dice. «Le radici si tagliano anche loro, e poi ricrescono. Ne servono
+      duecento passi. Da sola ci metto un mese.»
+
+      {natura Media} Le radici vanno intrecciate finché sono vive, e
+      bagnate di continuo. Se seccano a metà, la corda si spezza nel punto
+      secco.
+
+      {resistenza Facile} Duecento passi di treccia sono giorni di mani
+      nell'acqua fredda. Le dita lo sanno già, e cominciano a gonfiarsi
+      per conto loro.
+    opzioni:
+      - testo: "Intrecciare con Serha"
+        descrizione: "Tre radici alla volta, bagnate, senza lasciarle seccare. Giorni di lavoro, e un occhio attento."
+        costo: 2
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Duecento passi
+          testo: |
+            Intrecciate per cinque giorni seduti uno di fronte all'altra, bagnando le radici con una spugna ogni dieci giri. La sera del quinto giorno la corda bianca è lunga duecento passi. È tiepida al tatto, e quando la pieghi si raddrizza da sola. La notte stessa
+            dalla pianura sale un vento basso che odora di ferro.
+          pe: { natura: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, oggetto.circolo-corda-della-fenditura: 1 }
+        fallimento:
+          titolo: Il punto secco
+          testo: |
+            Al terzo giorno lasci seccare un tratto di treccia mentre mangi,
+            e quando Serha lo tira la corda si spezza nel punto secco con un
+            suono di ramo. Si ricomincia da quel punto, e le mani ti si
+            screpolano fino a sanguinare.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Bagnare le radici per un mese"
+        descrizione: "Se non sai intrecciare, puoi tenere bagnate le radici mentre intreccia Serha per un mese intero, anche di notte."
+        costo: 3
+        esito:
+          titolo: Un mese con la spugna
+          testo: |
+            Per un mese tieni bagnate le radici con la spugna mentre Serha
+            intreccia, e dormi accanto al banco per non lasciarle seccare di
+            notte. Alla fine la corda è lunga duecento passi, e tu hai le
+            mani bianche e grinzose come quelle di una lavandaia. La notte
+            stessa dalla pianura sale un vento basso che odora di ferro.
+          effetti: { fazione.circolo: 1, oggetto.circolo-corda-della-fenditura: 1, ferite: 0.5, tormento: 0.5 }
+
+  - id: circolo-la-corda-dei-raschiatori
+    presso: grifone-di-ferro
+    immagine: personaggi/dragna-gro-malog
+    titolo: Una corda dai Raschiatori
+    sommario: "I Raschiatori scendono nel Labirinto con corde che reggono dove le altre si tagliano. Dragna Gro-Malog le presta, se le dici dove scendi."
+    luogo: Locanda del Grifone di Ferro, il tavolo di Dragna
+    area: ponti-sospesi
+    requisiti: [fazione.circolo == 9, circolo.acceso == 1]
+    testo: |
+      Dragna Gro-Malog occupa il suo solito tavolo in fondo alla sala, con
+      un boccale davanti e una mappa del Labirinto aperta sotto il gomito,
+      e il gomito ci sta sopra apposta. Le chiedi una corda per scendere
+      dove le corde si tagliano da sole. Lei beve, poi posa il boccale con
+      molta calma.
+
+      «Le corde dei Raschiatori hanno l'anima di filo di lyssan» dice.
+      «Reggono dove le altre si tagliano, e le vendo solo alle squadre.
+      Tu non sei una squadra.» Si pulisce la schiuma dal labbro con il
+      dorso della mano. «Se mi dici dove scendi, ne parliamo.»
+
+      {conoscenze-della-strada Media} Dove scende uno che chiede una corda
+      così ci sono cose da raschiare. Dragna lo sa, e il prezzo della corda
+      è il posto.
+
+      {origine apprendista-raschiatore} La corda con l'anima di lyssan te
+      l'hanno messa in mano il primo giorno sulle piattaforme, con la
+      raccomandazione di riportarla anche se tu non torni. Dragna se lo
+      ricorda, e ti guarda come una che ha già deciso.
+    opzioni:
+      - testo: "Dirle dove scendi"
+        descrizione: "Il Bosco di Velthar, sotto la fenditura. Dragna ti darà la corda, e i Raschiatori sapranno dove andare."
+        esito:
+          titolo: Il posto
+          testo: |
+            Glielo dici. Dragna non scrive niente, e non serve, perché te lo
+            fa ripetere due volte e lo impara a memoria. Ti dà una matassa di duecento passi di corda con l'anima di lyssan, e ti dice che i suoi ti aspetteranno al margine, per sicurezza. La notte stessa,
+            tornando al Bosco, senti dalla pianura un vento basso che odora
+            di ferro.
+          effetti: { fazione.circolo: 1, rep.raschiatori: 1, rep.circolo: -0.5, oggetto.circolo-corda-della-fenditura: 1 }
+          imposta: { circolo.dragna: 1 }
+      - testo: "Convincerla senza dirle dove"
+        descrizione: "Una squadra di uno resta una squadra. Bisogna farglielo credere."
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Una squadra di uno
+          testo: |
+            Le dici che scendi da solo dove i Raschiatori non scendono, e che
+            se torni le racconti che cosa c'era. Dragna ride forte una volta sola, e mezza sala si volta. Ti dà duecento passi di corda e ti fa pagare soltanto il filo di lyssan. La notte stessa, tornando al
+            Bosco, senti dalla pianura un vento basso che odora di ferro.
+          pe: { persuasione: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, monete: -20, oggetto.circolo-corda-della-fenditura: 1 }
+        fallimento:
+          titolo: Il gomito sulla mappa
+          testo: |
+            Dragna ti ascolta fino in fondo con il gomito sulla mappa, poi
+            torna al suo boccale. La corda resta dov'è, e mezza sala ha
+            sentito che non ti è stata data.
+          effetti: { scandalo: 0.5 }
+      - testo: "Chiederla come una volta sulle piattaforme"
+        descrizione: "La corda l'hai già riportata una volta, anche quando la squadra non è tornata. Dragna lo sa."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: La corda riportata
+          testo: |
+            Le ricordi la corda del primo giorno, e Dragna smette di bere. Va nel retro e torna con una matassa di duecento passi dall'anima di lyssan. Ti fa pagare il filo e nient'altro, e ti dice
+            di riportarla anche se tu non torni. La notte stessa, tornando al
+            Bosco, senti dalla pianura un vento basso che odora di ferro.
+          pe: { conoscenze-della-strada: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, monete: -20, oggetto.circolo-corda-della-fenditura: 1 }
+
+  - id: circolo-la-corda-di-oda
+    presso: baracca-di-oda
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: La corda di Oda Krell
+    sommario: "Fra i ferrivecchi di Oda Krell c'è una corda precuriana di filo grigio. Lei la vende, e il prezzo è alto."
+    luogo: Superficie Fratturata, la baracca di Oda Krell
+    area: superficie-fratturata
+    requisiti: [fazione.circolo == 9, circolo.acceso == 1]
+    testo: |
+      Oda Krell ti ascolta seduta al banco da lavoro, con la gamba di legno
+      allungata verso la stufa e una tazza di qualcosa di caldo fra le
+      mani. Quando nomini una corda che non si tagli si alza, zoppica fino
+      a una cassa in fondo alla baracca e ne tira fuori una matassa di filo
+      grigio, sottile come uno spago e pesante come una catena.
+
+      «Precuriana» dice. «L'ho trovata in uno scavo trent'anni fa, e non l'ho mai tagliata perché non ci sono riuscita. Ci ho appeso due muli insieme. Quello che c'è sotto il tuo Bosco lo ignoro, e questa lo regge lo stesso.» Si rimette a sedere e beve. «Costa cara. Mi tiene
+      compagnia da trent'anni.»
+
+      {tecnologia Media} Il filo è intrecciato a mano, ma da mani che non
+      erano umane. Ogni capo è fatto di capi più piccoli, e quelli di capi
+      ancora più piccoli, fino a dove l'occhio smette di vedere.
+
+      {ingannare Media} Oda è sola da troppo tempo per vendere a uno
+      sconosciuto. Una storia buona, raccontata bene, vale per lei quanto
+      mezzo prezzo.
+    opzioni:
+      - testo: "Pagare il prezzo pieno"
+        descrizione: "Una borsa pesante. La corda regge due muli, e Oda non tratta."
+        requisiti: [monete >= 120]
+        esito:
+          titolo: Il prezzo pieno
+          testo: |
+            Conti le monete sul banco, e Oda le guarda senza contarle. Ti
+            mette in mano la matassa e ti chiede di tornare a raccontarle che
+            cosa c'era sotto. Tornando al Bosco, la notte stessa, senti dalla
+            pianura un vento basso che odora di ferro.
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, monete: -120, oggetto.circolo-corda-della-fenditura: 1 }
+      - testo: "Raccontarle che serve per un pozzo"
+        descrizione: "Un pozzo fondo, una famiglia senz'acqua, un bambino malato. Oda ama le storie, e forse fa lo sconto."
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Media }
+        successo:
+          titolo: Il pozzo
+          testo: |
+            Le racconti del pozzo e della famiglia che ci beve, e Oda ti ascolta con la tazza ferma a metà strada. Alla fine ti dà la
+            corda per metà del prezzo, e mentre conti le monete ti dice che
+            la storia era brutta ma raccontata bene. La notte stessa, tornando
+            al Bosco, senti dalla pianura un vento basso che odora di ferro.
+          pe: { ingannare: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 0.5, monete: -60, oggetto.circolo-corda-della-fenditura: 1 }
+        fallimento:
+          titolo: Il bambino di troppo
+          testo: |
+            Al bambino malato Oda posa la tazza. Ti dice che i pozzi della
+            Superficie li conosce tutti, e che il tuo non esiste. Rimette la
+            corda nella cassa e ti offre da bere lo stesso, perché la
+            compagnia è compagnia.
+          effetti: { scandalo: 0.5 }

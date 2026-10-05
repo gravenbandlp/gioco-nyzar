@@ -1,0 +1,852 @@
+# La quest della Maison des Lunes, passo 11: la cena di Marella, una spedizione sociale senza nemici
+# (`maison-cena-al-maniero-castaldi`, ritorno citta-bassa, soglia 4). Ci si entra da `maison-l-invito-a-cena`
+# (passi-2.yaml), con l'invito o come accompagnatore. Tutte le stanze chiedono fazione.maison == 10 e
+# maison.imbarazzo < 3: le gaffe fanno salire l'imbarazzo, e a tre Quintus Vael ti accompagna alla carrozza
+# (`maison-cena-quintus-alla-carrozza`: Scandalo +½, l'imbarazzo torna a zero, si rientra dall'invito).
+# Le fasce: 0 l'anticamera dei mantelli (i segnali della Maison aiutano) e le cucine; 1 la sala da pranzo; 1-2 la
+# biblioteca con il rappresentante del Velo ed Ettore alla credenza; 2 lo studio con Annibaldi e la terrazza con lo
+# sceriffo (solo se è in città); 3 il salotto del caffè con Marella e la galleria dei ritratti. Sala da pranzo,
+# biblioteca e studio possono valere un voto contro il registro (maison.voti). Ogni gaffe vale mezzo punto
+# d'imbarazzo; la via senza prova costa due rintocchi.
+# Il cuore a 4 è Julia sulla terrazza, Difficile: sul merito (maison.julia 1, rep.castaldi +1), con la verità su
+# Ettore (2, rep.castaldi −1), con la minaccia del segreto di Ettore (3, sempre riesce, rep.castaldi −2 e
+# rep.maison −1), con la pagina strappata contro Annibaldi (maison.annibaldi 1). Chi fallisce non la convince
+# (maison.julia 4) e paga in Scandalo, ma il passo va avanti.
+# In fondo al file, la musica e l'ambiente dell'area (colonna sonora).
+aree:
+  - id: maison-cena-al-maniero-castaldi
+    immagine: fazioni/famiglia-castaldi
+    nome: La cena di Marella
+    sommario: "Il Maniero Castaldi la sera prima della seduta. A tavola si parla di Stato e mai dei Castaldi, e ogni portata è un giro di voti."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      Il Maniero Castaldi è fra le case più sobrie dei Quartieri Alti, tre
+      piani di pietra chiara con le finestre alte e nessuna statua in
+      giardino. Stasera tutte le finestre del pianterreno sono accese. Nel
+      vestibolo i valletti in livrea grigia prendono i mantelli senza
+      guardare in faccia nessuno, e da una porta socchiusa arriva il rumore
+      delle posate disposte una per una.
+
+      Le stanze si aprono l'una nell'altra, la sala da pranzo, la biblioteca,
+      lo studio, il salotto del caffè, e in ognuna c'è qualcuno che parla a
+      voce bassa con qualcun altro. Marella Castaldi passa dall'una all'altra
+      con un vestito grigio perla, e dove passa le conversazioni cambiano
+      argomento.
+
+storylet:
+  # ------------------------------------------------------------ 0 · l'anticamera dei mantelli
+  - id: maison-cena-l-anticamera
+    immagine: fazioni/famiglia-castaldi
+    titolo: L'anticamera dei mantelli
+    sommario: "I mantelli degli ospiti appesi in fila, e una dama anziana che vuole sapere chi sei prima di lasciarti passare."
+    luogo: Maniero Castaldi, l'anticamera
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi == 0]
+    testo: |
+      L'anticamera è una stanza stretta con i mantelli degli ospiti appesi
+      in fila su ganci d'ottone, ciascuno con un cartellino scritto a mano.
+      Su una sedia accanto alla porta della sala siede una dama anziana con
+      un ventaglio chiuso in grembo, la zia di qualcuno, che guarda chi passa
+      come una dogana. Ti chiede da quale ramo della famiglia vieni.
+
+      {galateo Media} La domanda non è curiosità. Se non le rispondi con il
+      nome giusto, entro il secondo piatto lo sapranno tutti che sei
+      arrivato senza averne uno.
+
+      {empatia Facile} Si annoia a morte. Le hanno dato la sedia vicino
+      alla porta perché nessuno vuole sedersi vicino a lei a tavola.
+    opzioni:
+      - testo: "Risponderle come si risponde nei Quartieri Alti"
+        descrizione: "Un nome detto con il tono giusto, un complimento al ventaglio, e la dogana si apre."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: La dogana
+          testo: |
+            Le dici un nome che suona abbastanza vecchio e le fai un
+            complimento sul ventaglio, che è di madreperla e ha più anni di te.
+            La dama sorride e ti batte il ventaglio sul polso, due volte, che
+            fra le dame della sua età vuol dire passa pure. La porta della sala
+            si apre davanti a te.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+        fallimento:
+          titolo: Il ramo sbagliato
+          testo: |
+            Le dici un nome, e lei ti fa notare con molta gentilezza che quel
+            ramo si è estinto quarant'anni fa. Lo dice abbastanza forte da
+            farlo sentire nella sala. Entri lo stesso, con le orecchie che ti
+            scottano.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Rispondere con il ventaglio, come in salone"
+        descrizione: "La dama ha in grembo un ventaglio chiuso. I segnali della Maison li ha imparati qualcuno anche nei Quartieri Alti, prima delle ragazze."
+        requisiti: [chiave.segnali >= 1]
+        prova: { attributo: sociale, abilita: [galateo, empatia], difficolta: Facile }
+        successo:
+          titolo: Il ventaglio
+          testo: |
+            Apri il ventaglio a metà e lo richiudi con un colpo secco, come ti
+            ha insegnato Tachek. La dama ti guarda a lungo, poi ride come una
+            ragazza e ti fa segno di passare. Mentre entri ti dice sottovoce
+            che quel segnale non lo vedeva da cinquant'anni.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+        fallimento:
+          titolo: Il ventaglio aperto
+          testo: |
+            Apri il ventaglio del tutto invece che a metà, e alla dama sembra di
+            capire che hai caldo. Ti offre un bicchiere d'acqua e ti tiene lì a
+            parlare del tempo per mezz'ora, mentre la cena comincia senza di te.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Aspettare che si addormenti"
+        descrizione: "Le zie che fanno la dogana prima o poi si appisolano. Bisogna avere pazienza e non farsi notare."
+        costo: 2
+        esito:
+          titolo: La pazienza
+          testo: |
+            Fingi di cercare il tuo mantello fra quelli appesi finché la dama,
+            con il mento sul petto, comincia a respirare piano. Entri in sala
+            in punta di piedi, e un valletto ti guarda come si guarda un ladro
+            di cappelli.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 0 · le cucine
+  - id: maison-cena-le-cucine
+    immagine: fazioni/famiglia-castaldi
+    titolo: Le cucine
+    sommario: "Dalle cucine passano tutti i piatti e tutti i bicchieri. Le serve sanno chi ha bevuto, e quanto."
+    luogo: Maniero Castaldi, le cucine
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi == 0]
+    testo: |
+      Una porta di servizio ti porta per sbaglio nelle cucine, dove fa
+      caldo come in una fucina e tre cuoche si muovono fra i fornelli senza
+      mai urtarsi. Le serve entrano ed escono con i vassoi, e fra un vassoio
+      e l'altro si dicono chi ha già chiesto il secondo bicchiere. Su un
+      tavolo di legno c'è una fila di brocche, ognuna con un nome scritto col
+      gesso.
+
+      {empatia Media} Le serve sono stanche e hanno ancora sei portate davanti.
+      Una che ti chiede scusa per averti urtato è la prima persona della
+      serata che ti guarda in faccia.
+
+      {resistenza Facile fallita} L'odore dell'arrosto ti arriva dritto allo
+      stomaco, che ti ricorda di non aver mangiato da stamattina per non
+      macchiare l'abito.
+    opzioni:
+      - testo: "Chiedere alle serve chi ha già bevuto"
+        descrizione: "Una parola gentile e un aiuto con un vassoio. Le serve vedono tutto e non le ascolta mai nessuno."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Le brocche col nome
+          testo: |
+            Porti un vassoio fino alla porta della sala per una ragazza con le
+            braccia che tremano, e lei in cambio ti dice chi beve stasera e
+            quanto. Il cugino della Rappresentante è già alla seconda brocca, e
+            un consigliere della Gilda alla terza, che per lui è un record. Torni
+            in sala dalla porta giusta, con la mappa della tavola in testa.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La cuoca
+          testo: |
+            Fai una domanda di troppo, e la cuoca più anziana ti mette in mano
+            un mestolo e ti chiede se sei venuto a lavorare. Esci dalle cucine
+            con una macchia di sugo sulla manica, che in sala vedono tutti.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Rubare un boccone e tornare in sala"
+        descrizione: "Lo stomaco vuoto, a una cena di consiglio, si sente nella voce."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il pasticcino
+          testo: |
+            Sfili un pasticcino da un vassoio di passaggio e lo mangi in due
+            morsi dietro una colonna, poi rientri in sala con la voce più ferma
+            e le mani che non tremano più. Nessuno ti ha visto, a parte una
+            serva, che ti ha fatto l'occhiolino.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+        fallimento:
+          titolo: Lo zucchero a velo
+          testo: |
+            Sfili un pasticcino, e lo zucchero a velo ti cade sul davanti
+            dell'abito come una nevicata. Lo spazzoli via per cinque minuti, e
+            quando rientri in sala Marella ti guarda il petto con un sopracciglio
+            alzato.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Tornare in sala per la porta lunga"
+        descrizione: "Un corridoio, una scala di servizio, un'altra porta. Ci vuole tempo, e si arriva in ritardo."
+        costo: 2
+        esito:
+          titolo: In ritardo
+          testo: |
+            Giri per il corridoio di servizio e la scala dei valletti, e arrivi
+            in sala quando gli ospiti sono già seduti. Il tuo posto ti aspetta
+            vuoto, e lo raggiungi sotto lo sguardo di tutta la tavola.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 1 · la sala da pranzo
+  - id: maison-cena-la-sala-da-pranzo
+    immagine: fazioni/famiglia-castaldi
+    titolo: La sala da pranzo
+    sommario: "Marella ti ha messo accanto a un consigliere che non ha ancora deciso come votare. È una coincidenza soltanto in apparenza."
+    luogo: Maniero Castaldi, la sala da pranzo
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi == 1]
+    testo: |
+      La tavola è ovale come quella che Nerissa ha disegnato a matita, con la
+      tovaglia di lino e un candelabro ogni quattro coperti. Il tuo posto è
+      accanto a un consigliere anziano con la barba bianca e la forchetta da
+      pesce in mano, che la tiene come uno scalpello. Dall'altra parte della
+      tavola Ruggero Annibaldi parla di decoro a chi gli siede vicino, e
+      l'anello con lo stemma della Gilda gli gira sul dito, sempre verso il
+      palmo.
+
+      {politica-ed-economia Media} Il tuo vicino vota con la Gilda da
+      trent'anni, e quest'anno non ha deciso. Marella non mette mai un
+      indeciso vicino a qualcuno per caso.
+
+      {galateo Facile} La forchetta da pesce la sta usando per l'arrosto.
+      Nessuno glielo dirà mai, ed è il modo più sicuro per capire che conta
+      qualcosa.
+    opzioni:
+      - testo: "Parlare al tuo vicino del registro"
+        descrizione: "Il registro in sé lo annoia. Lo interessa di più chi lo leggerebbe, e quali nomi ci finirebbero dentro."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La forchetta da pesce
+          testo: |
+            Gli parli dei suoi nipoti e della passeggiata che fa la sera lungo
+            Via del Salmone, e soltanto alla fine del registro.
+            Lui si ferma con la forchetta a mezz'aria. Al dolce ti dice, senza
+            guardarti, che una legge che scrive i nomi delle passeggiate non è
+            una legge che lui voterà.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, maison.voti: 1 }
+        fallimento:
+          titolo: La moglie
+          testo: |
+            Gli parli della passeggiata che fa la sera lungo Via del Salmone, e
+            lui posa la forchetta da pesce e ti chiede, a voce alta, che cosa
+            intendi. Mezza tavola si volta. Cambi argomento e parli del tempo
+            fino al dolce.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Ascoltare Annibaldi e prendere nota a memoria"
+        descrizione: "Parla a voce alta perché lo sentano tutti. Chi ascolta bene sente anche quello che non dice."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il decoro
+          testo: |
+            Annibaldi dice decoro sette volte fra la minestra e l'arrosto, e
+            ogni volta che lo dice guarda un consigliere diverso. Sono quelli
+            che conta di avere. Fra di loro manca il tuo vicino, e alla fine
+            della cena sai a chi conviene parlare prima del voto.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La minestra
+          testo: |
+            Ascolti Annibaldi così attentamente che ti dimentichi della
+            minestra, e il cucchiaio ti scivola nel piatto con un rumore che
+            interrompe il discorso. Annibaldi si ferma e ti sorride, molto
+            educato.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Mangiare in silenzio e passare oltre"
+        descrizione: "Sei portate di silenzio sono una forma di galateo anche questa. Lunga."
+        costo: 2
+        esito:
+          titolo: Sei portate
+          testo: |
+            Mangi tutte e sei le portate in silenzio, sorridendo al tuo vicino
+            ogni volta che ti passa il sale. Alla fine ti alzi con lo stomaco
+            pieno e la sensazione di essere stato un mobile.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 1-2 · la biblioteca
+  - id: maison-cena-la-biblioteca
+    immagine: ambientazione/cattedrale-del-velo
+    titolo: La biblioteca
+    sommario: "Il rappresentante del Velo in Consiglio si è rifugiato fra i libri, lontano dal vino. Ha una domanda da farti."
+    luogo: Maniero Castaldi, la biblioteca
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi >= 1, profondita.maison-cena-al-maniero-castaldi <= 2]
+    testo: |
+      La biblioteca è una stanza quadrata con gli scaffali fino al soffitto
+      e una scala a pioli che scorre su una guida d'ottone. Davanti al
+      camino, con un libro aperto sulle ginocchia e un bicchiere d'acqua sul
+      bracciolo, siede il chierico che rappresenta il Velo in Consiglio, un
+      uomo minuto con la tonsura che ricresce. Ti chiede, senza alzare gli
+      occhi, se è vero che la casa di Via dei Rasoi non scrive mai un nome.
+
+      {accademiche Media} Il libro sulle sue ginocchia è un trattato sulla
+      confessione dei primi Padri del Velo. Al capitolo sul segreto, a
+      giudicare dal segnalibro.
+
+      {origine accolito-del-velo} Al Velo chi ascolta le confessioni giura
+      di non scriverle mai. È una delle prime cose che ti hanno insegnato, e
+      lui lo sa meglio di te.
+    opzioni:
+      - testo: "Parlargli del segreto della confessione"
+        descrizione: "Il registro che vogliono imporre alla Maison è lo stesso che il Velo rifiuterebbe per sé. Bisogna dirlo con le parole dei Padri."
+        prova: { attributo: mentale, abilita: [accademiche, persuasione], difficolta: Media }
+        successo:
+          titolo: Il capitolo sul segreto
+          testo: |
+            Gli citi il capitolo sul segreto, quello che ha sotto il segnalibro,
+            e gli chiedi se il Velo terrebbe un registro di chi va a confessarsi.
+            Il chierico chiude il libro e ti guarda per la prima volta. Ti dice
+            che ci penserà, il che per un uomo di chiesa vuol dire di sì.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, maison.voti: 1 }
+        fallimento:
+          titolo: Il capitolo sbagliato
+          testo: |
+            Gli citi un capitolo, e lui ti corregge con gentilezza, perché
+            quello parla della penitenza e non del segreto. Torna al suo libro.
+            Esci dalla biblioteca con la sensazione di aver sbagliato esame.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Rispondergli con le parole del Velo"
+        descrizione: "Hai detto le stesse preghiere di quando era novizio. Lui lo sente, se gliele dici."
+        quando: [origine.accolito-del-velo >= 1]
+        prova: { attributo: sociale, abilita: [empatia, accademiche], difficolta: Facile }
+        successo:
+          titolo: Il capitolo sul segreto
+          testo: |
+            Gli rispondi a voce bassa con la formula del giuramento dei
+            confessori, e lui alza la testa. Chiude il libro e ti dice che il Velo ha
+            sempre rispettato chi tace, anche nelle case di Via dei Rasoi.
+            Ti promette che voterà contro, e la sua parola ce l'hai.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, maison.voti: 1 }
+        fallimento:
+          titolo: Il capitolo sbagliato
+          testo: |
+            Cominci la formula, e a metà ti accorgi di averla confusa con quella
+            del vespro. Il chierico ti corregge con un sorriso da maestro di
+            novizi e torna al suo libro.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Lasciarlo leggere e passare oltre"
+        descrizione: "Un uomo che si rifugia in biblioteca a una cena non vuole compagnia."
+        costo: 2
+        esito:
+          titolo: Il camino
+          testo: |
+            Gli fai un mezzo inchino e attraversi la biblioteca fino alla porta
+            dello studio. Ti fermi un momento davanti al camino a scaldarti le
+            mani, e un valletto ti chiede se ti sei perso.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 1-2 · Ettore alla credenza
+  - id: maison-cena-ettore-alla-credenza
+    immagine: personaggi/ettore-castaldi
+    titolo: Ettore alla credenza
+    sommario: "Il cugino della Rappresentante si è appoggiato alla credenza con un bicchiere in mano, e ha voglia di raccontare dove passa il giovedì."
+    luogo: Maniero Castaldi, la sala da pranzo
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi >= 1, profondita.maison-cena-al-maniero-castaldi <= 2]
+    testo: |
+      Ettore Castaldi si è staccato dalla tavola e si è appoggiato alla
+      credenza, con un bicchiere d'idromele in mano e la faccia accaldata.
+      Racconta a due giovani della Gilda di un posto in Città Bassa dove il
+      tè è buono e nessuno ti chiede niente, e i due ridono e si guardano.
+      Sta per dire dove. Dall'altra parte della sala Marella ha smesso di
+      parlare e lo guarda.
+
+      {empatia Media} Lo fa in buona fede, ed è peggio. Ettore vuole soltanto
+      che qualcuno sappia che da qualche parte, in questa città, si sente
+      ancora a casa.
+
+      {galateo Media} Fra due frasi il nome della Maison sarà sulla bocca di
+      tutta la tavola, insieme a quello dei Castaldi. Marella lo farebbe
+      pagare a chiunque, e a te per primo.
+    opzioni:
+      - testo: "Interromperlo con un pretesto"
+        descrizione: "Un brindisi, una domanda sul Santuario, un bicchiere rovesciato. Qualunque cosa, purché arrivi prima del nome."
+        prova: { attributo: sociale, abilita: [ingannare, galateo], difficolta: Media }
+        successo:
+          titolo: Il brindisi
+          testo: |
+            Alzi il bicchiere e proponi un brindisi ai paladini del Grande
+            Albero, ad alta voce, prima che Ettore arrivi al nome. Lui si
+            commuove e brinda con tutta la tavola, e si dimentica di quello che
+            stava dicendo. Marella ti guarda da lontano e torna a sorridere al
+            suo vicino.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+        fallimento:
+          titolo: Il nome
+          testo: |
+            Proponi un brindisi, ma Ettore ci brinda sopra e poi riprende il
+            discorso dove l'aveva lasciato, e nel silenzio che segue il nome di
+            Via dei Rasoi lo sentono tutti. Marella si alza e lo porta in
+            giardino. Più di uno, a tavola, si volta a guardare te.
+          effetti: { maison.imbarazzo: 0.5, scandalo: 0.5 }
+      - testo: "Prenderlo sottobraccio e portarlo in giardino"
+        descrizione: "Un amico che ha bisogno d'aria. Si fa con un sorriso e con la presa giusta sul gomito."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Media }
+        successo:
+          titolo: L'aria
+          testo: |
+            Lo prendi sottobraccio come quella sera in Via dei Rasoi, e lui ti
+            riconosce e ride. In giardino gli fai bere un bicchiere d'acqua e lo
+            lasci seduto sul bordo di una fontana, a guardare le stelle. Quando
+            rientri, la conversazione alla credenza è passata al prezzo del
+            grano.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+        fallimento:
+          titolo: Il gomito
+          testo: |
+            Lo prendi per il gomito, ma Ettore pesa come un paladino in
+            armatura e non ha voglia di muoversi. Ti scrolla via ridendo, e il
+            bicchiere d'idromele finisce sul tuo abito, sotto gli occhi di tutta
+            la sala.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Allontanarti e lasciare che se ne occupi Marella"
+        descrizione: "È suo cugino, e casa sua. Ma passare accanto a lui senza fermarsi si nota."
+        costo: 2
+        esito:
+          titolo: Marella
+          testo: |
+            Ti allontani dalla credenza, e Marella arriva prima che Ettore dica
+            il nome e gli posa una mano sul braccio, sorridendo. Mentre lo porta
+            via ti lancia un'occhiata che vuol dire che ha visto anche te.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 2 · lo studio con Annibaldi
+  - id: maison-cena-lo-studio
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: Lo studio
+    sommario: "Nello studio Ruggero Annibaldi fuma un sigaro con due consiglieri della Gilda. Sta promettendo qualcosa."
+    luogo: Maniero Castaldi, lo studio
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi == 2]
+    testo: |
+      Lo studio è pieno di fumo di sigaro e di mappe incorniciate della
+      regione, con i confini delle concessioni tracciati in rosso. Ruggero
+      Annibaldi è in piedi davanti al camino, con la barba grigia tagliata a
+      punta e un bicchiere di brandy in mano, e parla a due consiglieri della
+      Gilda seduti nelle poltrone. Gli promette un appalto in cambio di un
+      voto.
+
+      {politica-ed-economia Media} Due voti comprati con una promessa che si
+      mantiene dopo il voto. Se la promessa vale meno di quello che i due
+      rischiano, si comprano anche al contrario.
+
+      {percezione Facile} L'anello con lo stemma della Gilda gli gira sul
+      dito anche adesso, sempre verso il palmo. Lo fa quando mente, o forse
+      quando ha caldo.
+    opzioni:
+      - testo: "Fare i conti della promessa ai due consiglieri"
+        descrizione: "Un appalto che arriva fra un anno, contro un nome scritto su un registro che resta dieci. Basta mettere le due cifre una accanto all'altra."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, persuasione], difficolta: Media }
+        successo:
+          titolo: Le due cifre
+          testo: |
+            Aspetti che Annibaldi esca a prendere un altro sigaro e ti siedi sul
+            bracciolo di una poltrona. Fai ai due consiglieri i conti della
+            promessa con calma, l'appalto da una parte e il registro dall'altra.
+            Uno dei due si alza a guardare una mappa, e quando Annibaldi rientra
+            gli dice che ci deve ancora pensare.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, maison.voti: 1 }
+        fallimento:
+          titolo: Il sigaro
+          testo: |
+            Cominci a fare i conti, e Annibaldi rientra a metà. Ti ascolta fino
+            alla fine con un sorriso, poi ti offre un sigaro e dice ai due
+            consiglieri che la Maison ha mandato una persona molto preparata.
+            Quando esci dallo studio li senti ridere tutti e tre.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Leggere le mappe delle concessioni"
+        descrizione: "Le promesse di Annibaldi hanno un luogo. Le mappe sul muro dicono quale."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Il confine rosso
+          testo: |
+            Sulla mappa della regione una concessione nuova è stata tracciata
+            a matita sopra il confine rosso, accanto ai magazzini della Gilda
+            sul Torvessa. È la promessa. Te la stampi in testa e lasci lo
+            studio prima che Annibaldi si volti.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La mappa storta
+          testo: |
+            Ti avvicini troppo alla mappa, e la cornice si sposta sul chiodo con
+            un rumore di legno. Annibaldi si volta e ti chiede se ti interessa
+            la cartografia. Rispondi di sì, e lui te ne parla per un quarto
+            d'ora.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Passare dallo studio senza fermarti"
+        descrizione: "Il fumo, le mappe, un sorriso ai presenti, e l'altra porta."
+        costo: 2
+        esito:
+          titolo: Il fumo
+          testo: |
+            Attraversi lo studio con un sorriso per tutti, e il fumo del sigaro
+            ti segue fino alla porta del salotto. Annibaldi ti guarda passare
+            e intanto si gira l'anello sul dito.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 2 · la terrazza con lo sceriffo
+  - id: maison-cena-la-terrazza
+    immagine: personaggi/toren-galdrick
+    titolo: La terrazza
+    sommario: "Sulla terrazza, da solo, lo sceriffo guarda la città con il bicchiere vuoto in mano. Domani voterà, e lo farà a viso aperto."
+    luogo: Maniero Castaldi, la terrazza
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, galdrick.via == 0, profondita.maison-cena-al-maniero-castaldi == 2]
+    testo: |
+      Sulla terrazza c'è un vento fresco che sale dalla Città Bassa, e la
+      città là sotto è un tappeto di lanterne. Toren Galdrick è appoggiato
+      alla balaustra con un bicchiere vuoto in mano e la divisa abbottonata
+      fino al collo, come uno in servizio anche a cena. Ti riconosce e ti fa
+      posto accanto a sé senza dire niente.
+
+      «Domani voto contro» dice dopo un po', guardando le lanterne. «E lo
+      dico in aula, perché un registro di nomi in mano alla Guardia è un
+      registro in mano a chi compra la Guardia.»
+
+      {empatia Media} Lo farebbe davvero, e lo farebbe bene. Il problema è
+      che in aula qualcuno si chiederà perché lo sceriffo tiene tanto a una
+      casa di Via dei Rasoi.
+
+      {armi-da-mischia Facile} Anche a cena tiene la mano sinistra lontana
+      dal fianco, dove di solito porta la spada. Un'abitudine di trent'anni
+      non si toglie con una giacca buona.
+    opzioni:
+      - testo: "Chiedergli di aspettare"
+        descrizione: "Se i voti bastano senza di lui, non deve dire niente in aula. Basta che te lo prometta."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La promessa
+          testo: |
+            Gli dici che i voti forse bastano senza il suo, e che una casa che
+            non scrive nomi preferisce che lo sceriffo non debba spiegare
+            niente. Lui ci pensa a lungo, girando il bicchiere vuoto. Poi ti
+            promette che alzerà la mano soltanto se servirà, e che non dirà una
+            parola più del necessario.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, rep.caserma: 0.5 }
+        fallimento:
+          titolo: Il bicchiere vuoto
+          testo: |
+            Gli dici di aspettare, e lui ti guarda come si guarda una recluta
+            che dà consigli sul turno di guardia. Ti risponde che il suo voto è
+            suo, e torna a guardare le lanterne. Rientri con la sensazione di
+            aver detto la cosa giusta nel modo sbagliato.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Restare in silenzio a guardare la città"
+        descrizione: "Lui è venuto qui per non parlare con nessuno. Puoi fargli compagnia così."
+        costo: 2
+        esito:
+          titolo: Le lanterne
+          testo: |
+            Resti accanto a lui a guardare la città senza dire niente, finché il
+            vento non ti entra nella giacca. Quando rientri, lui alza appena il
+            bicchiere vuoto, come per un brindisi.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 3 · il salotto del caffè
+  - id: maison-cena-il-salotto-del-caffe
+    immagine: personaggi/marella-castaldi
+    titolo: Il salotto del caffè
+    sommario: "Marella Castaldi serve il caffè di persona, e a ogni tazza decide chi ti siederà vicino."
+    luogo: Maniero Castaldi, il salotto del caffè
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi == 3]
+    testo: |
+      Il salotto del caffè è tappezzato di seta grigia. Sul tavolo basso c'è
+      un servizio di porcellana sottile come un guscio d'uovo. Marella
+      Castaldi versa il caffè di persona, una tazza alla volta, e a ogni
+      tazza dice all'ospite dove sedersi. Quando arriva il tuo turno ti
+      guarda sopra la caffettiera.
+
+      {galateo Difficile} Ti ha messo a cena in un posto preciso, e adesso
+      sta decidendo se metterti vicino alla porta della terrazza o vicino a
+      quella d'uscita. Dipende da come prendi la tazza.
+
+      {resilienza Facile fallita} Hai bevuto due bicchieri di troppo per
+      tenere il ritmo della tavola, e la porcellana sottile ti fa paura.
+    opzioni:
+      - testo: "Prendere la tazza come si deve"
+        descrizione: "Pollice e due dita, il piattino nell'altra mano, e un complimento per il caffè che non sembri un complimento."
+        prova: { attributo: sociale, abilita: [galateo, espressivita], difficolta: Media }
+        successo:
+          titolo: La porta della terrazza
+          testo: |
+            Prendi la tazza come ti hanno insegnato a prendere le cose fragili e
+            dici che il caffè è amaro al punto giusto. Marella sorride, ed è un
+            sorriso vero. Ti indica il divano vicino alla porta della terrazza,
+            dove fra poco uscirà la Rappresentante. La serata, all'improvviso,
+            ti sembra meno lunga.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, maison.imbarazzo: -1 }
+        fallimento:
+          titolo: Il piattino
+          testo: |
+            La tazza tintinna sul piattino come una campanella, e il caffè ti
+            bagna il pollice. Marella ti porge un tovagliolo con molta grazia e
+            ti indica il divano vicino alla porta d'uscita.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Parlare a Marella di Nerissa, con garbo"
+        descrizione: "A quella tavola non si parla dei Castaldi. Della Maison, forse, sì, se lo si fa come una padrona di casa con un'altra."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Fra padrone di casa
+          testo: |
+            Le dici che la padrona di una casa di Via dei Rasoi ti ha chiesto di
+            portarle i suoi omaggi, e che anche lei decide chi siede dove.
+            Marella posa la caffettiera e ti guarda come si guarda una lettera
+            inattesa. Poi ti dice che le case si somigliano più di quanto si
+            creda, e ti indica la porta della terrazza.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, maison.imbarazzo: -1 }
+        fallimento:
+          titolo: L'argomento
+          testo: |
+            Nomini la Maison, e Marella posa la caffettiera con un rumore
+            appena più forte del necessario. Ti ricorda che a questa tavola si
+            parla di Stato, e passa a servire l'ospite successivo.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Prendere il caffè in piedi, vicino alla finestra"
+        descrizione: "Nessuno ti siede vicino, e nessuno ti nota."
+        costo: 2
+        esito:
+          titolo: La finestra
+          testo: |
+            Bevi il caffè in piedi vicino alla finestra, guardando il giardino.
+            Dopo un po' la porta della terrazza si apre e qualcuno esce, e tu
+            lo segui con la tazza ancora in mano.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ 3 · la galleria dei ritratti
+  - id: maison-cena-la-galleria
+    immagine: fazioni/famiglia-castaldi
+    titolo: La galleria dei ritratti
+    sommario: "Un corridoio di ritratti dei Castaldi vestiti di scuro. Uno è girato verso il muro."
+    luogo: Maniero Castaldi, la galleria
+    area: maison-cena-al-maniero-castaldi
+    ripetibile: true
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi == 3]
+    testo: |
+      La galleria che porta alla terrazza è un corridoio lungo con i
+      ritratti dei Castaldi su una parete e le finestre sull'altra. Sono
+      ritratti sobri, di gente vestita di scuro che guarda il pittore come
+      un creditore. Uno solo, verso la fine, è girato verso il muro, con il
+      cartellino del nome coperto da un nastro.
+
+      {percezione Media} Sulla cornice del ritratto girato la polvere manca
+      in due punti, dove qualcuno lo prende per voltarlo. Lo fa spesso, e
+      poi lo rimette com'era.
+
+      {origine rampollo-dei-quartieri-alti} In ogni casa dei Quartieri Alti
+      c'è un ritratto girato. Da ragazzo ti hanno insegnato a non chiedere
+      mai di chi è, e a guardarlo con la coda dell'occhio quando passi.
+    opzioni:
+      - testo: "Lasciare il ritratto com'è e proseguire"
+        descrizione: "In una casa come questa i ritratti girati restano girati. Saperlo è già galateo."
+        prova: { attributo: sociale, abilita: [galateo, resilienza], difficolta: Media }
+        successo:
+          titolo: Il nastro
+          testo: |
+            Passi davanti al ritratto girato senza rallentare, e alla fine della
+            galleria incroci un valletto che ti apre la porta della terrazza con
+            un inchino di approvazione. Hai l'impressione di aver superato un
+            esame che nessuno ti aveva annunciato.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+        fallimento:
+          titolo: La curiosità
+          testo: |
+            Rallenti davanti al ritratto, e un valletto ti chiede con molta
+            cortesia se desideri qualcosa. Gli dici di no. Lui resta lì a
+            guardarti finché non sei in fondo alla galleria.
+          effetti: { maison.imbarazzo: 0.5 }
+      - testo: "Voltare il ritratto e guardare"
+        descrizione: "Un attimo, e lo rimetti com'era. Nessuno passa di qui durante il caffè."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il ritratto girato
+          testo: |
+            Lo volti per un momento. È un giovane con l'armatura del Grande
+            Albero e una faccia aperta, che somiglia molto a Ettore com'era
+            prima del Santuario. Lo rimetti com'era, con il nastro sul nome, e
+            prosegui verso la terrazza con un nodo in gola che non ti
+            aspettavi.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il chiodo
+          testo: |
+            Lo volti, e il ritratto ti scivola dal chiodo e finisce sul
+            pavimento con un colpo che si sente fino al salotto. Lo rimetti a
+            posto prima che arrivi qualcuno, ma la cornice ora pende di lato.
+          effetti: { maison.imbarazzo: 0.5, scandalo: 0.5 }
+      - testo: "Passare dalla finestra e fare il giro dal giardino"
+        descrizione: "La galleria è sorvegliata dai ritratti. Il giardino è sorvegliato dalle zanzare."
+        costo: 2
+        esito:
+          titolo: Il giardino
+          testo: |
+            Esci da una finestra bassa e fai il giro dal giardino, fra le siepi
+            potate. Rientri dalla terrazza con le scarpe bagnate di rugiada e
+            una foglia di bosso nei capelli.
+          effetti: { profondita.maison-cena-al-maniero-castaldi: 1 }
+
+  # ------------------------------------------------------------ l'imbarazzo · Quintus alla carrozza
+  - id: maison-cena-quintus-alla-carrozza
+    immagine: personaggi/quintus-vael
+    titolo: Quintus alla carrozza
+    sommario: "Il comandante della guardia dei Castaldi ti si avvicina con il tuo mantello sul braccio."
+    luogo: Maniero Castaldi, il vestibolo
+    area: maison-cena-al-maniero-castaldi
+    requisiti: [fazione.maison == 10, maison.imbarazzo >= 3]
+    testo: |
+      Quintus Vael ti si avvicina con il tuo mantello piegato sul braccio
+      come un valletto, e la cicatrice sotto il mento è appena più pallida
+      del solito. Ti dice che la carrozza è pronta e la padrona di casa ti
+      ringrazia della visita. Fuori comincia a piovere.
+
+      {galateo Facile} Ti stanno accompagnando alla porta con tutti i riguardi, ed è
+      peggio di una cacciata, perché lo fanno davanti a tutti con la massima cortesia.
+    opzioni:
+      - testo: "Prendere il mantello e salire in carrozza"
+        descrizione: "Si esce come si entra, con un sorriso. Tornerai alla prossima cena, se Nerissa te ne trova un'altra."
+        costo: 0
+        esito:
+          titolo: La pioggia
+          testo: |
+            Prendi il mantello e lo ringrazi, e Quintus ti accompagna fino alla
+            carrozza tenendoti l'ombrello sopra la testa. In Città Bassa la
+            pioggia ti aspetta più forte. Domani nei salotti diranno che la
+            persona mandata dalla Maison non ha retto il vino, e Nerissa ti
+            farà sapere quando c'è un'altra cena.
+          imposta: { maison.imbarazzo: 0 }
+          effetti: { scandalo: 0.5 }
+          vai: citta-bassa
+
+  # ------------------------------------------------------------ il cuore · Julia sulla terrazza
+  - id: maison-cena-julia-sulla-terrazza
+    immagine: personaggi/julia-castaldi
+    titolo: Julia sulla terrazza
+    sommario: "La Rappresentante è uscita a prendere aria. Ha cinque minuti, e li concede a te."
+    luogo: Maniero Castaldi, la terrazza
+    area: maison-cena-al-maniero-castaldi
+    requisiti: [fazione.maison == 10, maison.imbarazzo < 3, profondita.maison-cena-al-maniero-castaldi >= 4]
+    testo: |
+      Julia Castaldi è appoggiata alla balaustra della terrazza con le
+      braccia incrociate, i capelli corti spettinati dal vento e una cartella
+      di pelle sotto il gomito, perché alle cene di sua cognata porta sempre
+      il lavoro. Ti guarda arrivare senza sorpresa. Sa chi sei e per chi sei
+      venuto, e te lo fa capire prima che tu apra bocca.
+
+      «Ha cinque minuti» dice. «Domani il registro passa o cade per un voto,
+      e io ho letto la bozza tre volte. Mi dica perché dovrei votare contro
+      una legge che tiene in ordine una strada che tutti vorrebbero più
+      ordinata.»
+
+      {politica-ed-economia Media} Julia ha costruito la sua carriera
+      sull'ordine e sulle carte in regola. Un argomento sul merito la può
+      convincere, se regge come una pratica.
+
+      {empatia Difficile} Sotto la cartella stringe il gomito con la mano,
+      forte. Suo cugino è dentro alla terza brocca, e lei lo sa. La cosa che
+      teme di più stasera non ha niente a che fare con il voto.
+    opzioni:
+      - testo: "Convincerla sul merito"
+        descrizione: "Un registro di nomi in mano alla Guardia è un registro in mano a chi compra la Guardia. Bisogna dirglielo con le cifre, come piace a lei."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: La pratica
+          testo: |
+            Le parli come a un ufficio, con le cifre. Quanti uomini della
+            Guardia hanno preso la paga degli Scuri, quanti nomi entrerebbero
+            nel registro in un anno, e quante porte quei nomi aprirebbero a chi
+            li legge. Julia ascolta senza interromperti. Alla fine apre la
+            cartella e scrive qualcosa a matita a margine della bozza.
+            Poi ti dice che domani voterà contro.
+          pe: { politica-ed-economia: 10 }
+          imposta: { maison.julia: 1, maison.imbarazzo: 0 }
+          effetti: { maison.voti: 1, rep.castaldi: 1, rep.maison: 1, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Le cifre sbagliate
+          testo: |
+            Le parli con le cifre, e Julia ti corregge la seconda prima che tu
+            arrivi alla terza. Le cifre le conosce meglio di te. Ti ringrazia
+            per i cinque minuti e rientra, e dalla porta della terrazza Marella
+            ti guarda come un ospite che non sarà invitato di nuovo.
+          pe: { politica-ed-economia: 10 }
+          imposta: { maison.julia: 4, maison.imbarazzo: 0 }
+          effetti: { scandalo: 1, rep.castaldi: -0.5, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Dirle di Ettore, perché il registro scriverebbe anche il suo nome"
+        descrizione: "Lei lo sa già, o lo teme. Dirglielo con garbo è darle una ragione che non deve confessare a nessuno."
+        quando: [segreto.ettore >= 1]
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Difficile }
+        successo:
+          titolo: Il nome di suo cugino
+          testo: |
+            Le dici, piano, che in quel registro ci sarebbe anche il nome di un
+            uomo a cui lei vuole bene, e che il registro lo leggerebbero i suoi
+            nemici prima dei suoi amici. Julia guarda verso la sala, dove Ettore
+            ride troppo forte. Resta in silenzio a lungo. Poi ti dice che domani
+            voterà contro, e che non vuole più vederti alle cene di sua cognata.
+            Da domani Ettore smetterà di salutarti per strada, senza sapere
+            perché.
+          pe: { empatia: 10 }
+          imposta: { maison.julia: 2, maison.imbarazzo: 0 }
+          effetti: { maison.voti: 1, rep.castaldi: -1, rep.maison: 1, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Il nome sbagliato al momento sbagliato
+          testo: |
+            Le parli di Ettore, e lei si irrigidisce come se l'avessi colpita.
+            Ti dice con voce ferma che la famiglia Castaldi non si discute sulla
+            terrazza della famiglia Castaldi, e rientra. Marella, dalla porta,
+            ha sentito abbastanza.
+          pe: { empatia: 10 }
+          imposta: { maison.julia: 4, maison.imbarazzo: 0 }
+          effetti: { scandalo: 1, rep.castaldi: -1, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Minacciarla con quello che sai di Ettore"
+        descrizione: "Una leva lunga, tenuta in un cassetto per un giorno come questo. Funziona sempre, e lei non lo dimenticherà."
+        quando: [maison.leva-ettore >= 1]
+        esito:
+          titolo: La leva
+          testo: |
+            Le dici dove passa le sere suo cugino e a che ora ci arriva, e che domani potrebbero saperlo tutti. Julia ti ascolta
+            fino in fondo senza cambiare espressione. Poi ti dice che domani
+            voterà contro, con la voce di una che firma un atto di resa, e
+            rientra senza salutare. Quando lo saprà, e lo saprà, Nerissa non ti
+            verserà il tè per un pezzo.
+
+            {resilienza Media} Ha funzionato. Ti accorgi di avere le mani fredde,
+            e di non riuscire a ricordare il momento preciso in cui hai deciso
+            di farlo.
+          imposta: { maison.julia: 3, maison.imbarazzo: 0 }
+          effetti: { maison.voti: 1, rep.castaldi: -2, rep.maison: -1, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+      - testo: "Mostrare ad Annibaldi la pagina con il suo nome"
+        descrizione: "La pagina che hai strappato dal quaderno dello scrivano. Annibaldi è sulla porta della terrazza, e sulla pagina ci sono tre date e il suo nome."
+        quando: [maison.pagina == 1]
+        prova: { attributo: sociale, abilita: [ingannare, intimidire], difficolta: Difficile }
+        successo:
+          titolo: Tre date
+          testo: |
+            Lasci Julia alla balaustra e raggiungi Annibaldi sulla porta.
+            Gli mostri la pagina tenendola fra due dita, il tempo di leggere tre
+            date e un nome, e gli dici che la copia è in un posto sicuro. Lui
+            impallidisce sopra la barba a punta. Domani, ti dice, la proposta
+            sarà ritirata per ragioni di opportunità. Julia ha visto tutto dalla
+            balaustra senza capirci niente.
+          pe: { ingannare: 10 }
+          imposta: { maison.annibaldi: 1, maison.julia: 4, maison.imbarazzo: 0 }
+          effetti: { rep.maison: 1, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La copia
+          testo: |
+            Gli mostri la pagina, e Annibaldi ti chiede con un sorriso dove sia
+            la copia. Esiti. Lui ti strappa la pagina di mano con un gesto da
+            prestigiatore e se la infila piegata nel taschino. Poi torna dentro
+            a dire a mezza sala che la Maison manda ricattatori alle cene.
+          pe: { ingannare: 10 }
+          imposta: { maison.pagina: 0, maison.julia: 4, maison.imbarazzo: 0 }
+          effetti: { scandalo: 1.5, informazioni.segreto: 1, fazione.maison: 1 }
+          vai: citta-bassa
+
+colonna:
+  - { contesto: area, id: maison-cena-al-maniero-castaldi, musica: kingdom-of-branevil, ambiente: nessuno }

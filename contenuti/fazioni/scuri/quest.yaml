@@ -1,0 +1,72 @@
+# La quest di fazione degli Scuri (ottobre 2026): la pista fazione.scuri (0 → 15), i cinque gradi, gli stati che
+# le scene si passano, il rifugio delle Vie di Sotto e Nihali al tavolo di Zekar.
+# La quest ha due metà. Sotto Vesh (passi 1-9) la rete è intera e la storia principale le stringe il cappio; dopo
+# Vesh (passi 10-15) gli Scuri sono macerie, e la scalata è contro Durgan e i mercenari di Ghoran rimasti senza paga.
+# Dove stanno i passi:
+# - 1-5 in passi-1.yaml (5 è la spedizione delle Vie di Sotto, in spedizione-vie-di-sotto.yaml);
+# - 6-10 in passi-2.yaml (9 è il bivio con la Caserma);
+# - 11-15 in passi-3.yaml (11 è la spedizione della Casa dei Nodi, in spedizione-casa-dei-nodi.yaml).
+# - I lavori e i servizi dei gradi in servizi.yaml; oggetti in oggetti.yaml; nemici e scontri in nemici.yaml;
+#   la voce del glossario di Cosimo Venn in glossario.yaml.
+# Trama. I passi 1-8 hanno due versioni: "prima" con pista.pelle < 4 (Vesh vivo, la Pignatta in piedi) e "dopo"
+# con pista.pelle >= 6. Con pista.pelle 4 o 5 la quest è ferma (Borso latitante, la rete in guerra), tranne il
+# passo 9 "prima", che chiede pista.pelle == 5 (il pomeriggio dell'assalto). I passi 9 "dopo" e 10-15 chiedono
+# pista.pelle >= 6. Chi arriva a pista.pelle 6 a metà dei passi 1-8 li finisce nella versione "dopo".
+# Il bivio (contenuti/fazioni/comuni.yaml): il passo 9 chiede bivio.legge != 1 e lo porta a 2; se la quest della
+# Caserma è cominciata (fazione.caserma >= 1) la scelta è messa in scena e costa 2 di rep.caserma. I passi 10-15
+# chiedono bivio.legge == 2.
+# Reputazione: i passi di grado portano rep.scuri almeno a 2, 4, 6, 8, 10; gli altri danno +½ o +1.
+# Il debito.scuri della prigione si riscuote al passo 1 e il grado 1 lo azzera. La quest legge e scrive
+# macerie.rozalia (passo 3 "dopo": se era 0 o 1 passa a 3) e gaia (passo 8).
+quality:
+  - { id: fazione.scuri, immagine: fazioni/scuri, nome: "Il tavolo d'angolo", categoria: pista, descrizione: "Gli Scuri hanno sempre bisogno di facce nuove, e di un tavolo dove farle sedere. Da lì si vede chi entra e chi paga." }
+  - { id: scuri.sala, nome: La sala del Mercato, categoria: stato, nascosta: true, descrizione: "La sala nuova del Mercato delle Ombre scelta nelle Vie di Sotto. Vale 1 per quella asciutta e 2 per quella con l'uscita sul vuoto." }
+  - { id: scuri.salvaguardia, nome: La Salvaguardia delle nove colonne, categoria: stato, nascosta: true, descrizione: "1 spenta o distrutta, 2 lasciata dormire." }
+  - { id: scuri.venn, nome: I pagamenti di Venn, categoria: stato, nascosta: true, descrizione: "1 se hai tenuto una copia dei pagamenti di Cosimo Venn a Rozalia." }
+  - { id: scuri.nestor, nome: La ricetta della pasta nera, categoria: stato, nascosta: true, descrizione: "1 se Nestor Gramm ti ha dato la ricetta della pasta nera." }
+  - { id: scuri.matrice, immagine: icone/stamper, nome: La matrice del timbro, categoria: stato, descrizione: "La matrice del timbro della Gilda, presa dalla cassaforte della Casa dei Nodi. Una reliquia timbrata da te vale quanto una timbrata da loro." }
+  - { id: scuri.libro, immagine: icone/black-book, nome: Il registro dei funzionari pagati, categoria: stato, descrizione: "Il registro in cui Cosimo Venn segna le date e le cifre dei funzionari della Gilda a libro paga." }
+  - { id: scuri.hagra, nome: Hagra, categoria: stato, nascosta: true, descrizione: "1 se Hagra e una parte dei mercenari non stanno più con Durgan." }
+  - { id: scuri.porta, nome: La porta caduta, categoria: stato, nascosta: true, descrizione: "1 se una delle tre porte del Mercato è andata a Durgan." }
+  - { id: scuri.squiggor, nome: Squiggor dopo Vesh, categoria: stato, nascosta: true, descrizione: "1 è tornato con te, 2 sta con Durgan." }
+  - { id: scuri.nihali, nome: Nihali dopo Pannion, categoria: stato, nascosta: true, descrizione: "1 se Nihali Cuzan sta dalla tua parte." }
+  - { id: scuri.anello, immagine: icone/ring, nome: L'anello liscio di Vesh, categoria: stato, descrizione: "L'unico anello che Mirko Vesh portava di suo, preso dal deposito della Caserma. Per gli olvari e per le bande dei villaggi, chi lo porta ha parlato con il morto." }
+  - { id: scuri.durgan, nome: Durgan, categoria: stato, nascosta: true, descrizione: "1 piegato nel cerchio di gesso, 2 preso dalla Caserma." }
+  - { id: scuri.allarme, immagine: icone/old-lantern, nome: Allarme alla Casa dei Nodi, categoria: stato, descrizione: "Quanti Custodi di Passaggio hanno sentito qualcosa, stanotte. A tre arriva la ronda dei balestrieri; a due, alla cassaforte dei timbri c'è Varn Kett." }
+  - { id: scuri.finale, nome: Chi tiene i conti, categoria: stato, nascosta: true, descrizione: "1 il tavolo nuovo è tuo, 2 la mano sinistra (al tavolo siede un altro), 3 il registro allo sceriffo." }
+  - { id: scuri.decima, immagine: icone/receive-money, nome: La decima della porta, categoria: stato, descrizione: "Chi passa dalla tua porta del Mercato delle Ombre lascia la sua parte. La ritiri al rifugio delle Vie di Sotto." }
+
+fazioni:
+  - id: scuri
+    nome: Scuri
+    immagine: fazioni/scuri
+    reputazione: rep.scuri
+    pista: fazione.scuri
+    gradi:
+      - { passo: 3, nome: Faccia nuova, ricompensa: "Lo stiletto da manica, i lavori della settimana, il Contatto nell'ombra se manca, il debito con gli Scuri saldato e una borsa." }
+      - { passo: 6, nome: Nel registro, ricompensa: "Il cappuccio degli Scuri, le carte pulite contro il Sospetto e il ricettatore all'Orlo dei Rottami." }
+      - { passo: 9, nome: Del tavolo d'angolo, ricompensa: "Le tre chiavi del Mercato delle Ombre, il banco del tavolo d'angolo, la formula di Correzione e una borsa." }
+      - { passo: 12, nome: Chiave, ricompensa: "La brigantina degli Scuri, la decima della tua porta e il rifugio nelle Vie di Sotto." }
+      - { passo: 15, nome: Chi tiene i conti, ricompensa: "La sciabola di Vesh e il suo anello liscio, una borsa pesante e, secondo come finisce, la decima doppia o la parola dello sceriffo." }
+
+luoghi:
+  - id: scuri-il-rifugio
+    area: citta-bassa
+    nome: Il rifugio delle Vie di Sotto
+    immagine: ambientazione/mercato-delle-ombre
+    sommario: "Una cantina sotto la Città Bassa con due uscite e una branda. Sulla mensola c'è la cassetta della tua porta."
+    requisiti: [fazione.scuri >= 12]
+    testo: |
+      Il rifugio è una cantina di contrabbandieri scavata nel tufo sotto un bottaio di Via del Salmone, con il
+      soffitto puntellato da travi di nave. Ha due uscite, una verso la scala del bottaio e una verso le gallerie delle
+      Vie di Sotto, e una branda di corda contro la parete più asciutta. Sulla mensola c'è la cassetta di
+      ferro dove i portinai lasciano la decima, chiusa con un lucchetto di cui hai l'unica chiave.
+
+zekar:
+  - id: scuri-nihali
+    nome: Nihali Cuzan
+    immagine: personaggi/nihali-cuzan
+    descrizione: "Si ferma presto e aspetta che sia tu a sbagliare. Le laterali le tiene per il venti esatto, e quando gioca la più alta tossisce."
+    laterali: [-4, -1, 3, 5]
+    soglia: 17
+    mira: 20

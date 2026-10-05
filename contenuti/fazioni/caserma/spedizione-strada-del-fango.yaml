@@ -1,0 +1,1158 @@
+# La quest della Caserma, passo 12 (fazione.caserma == 11, grado 4): «La strada del fango», all'inseguimento del
+# Pesatore sulla strada per Ghoran, ai margini della Palude Acquanera, per riportare indietro Brina.
+# Ci si entra da caserma-la-strada-del-fango (Città Bassa, ripetibile finché il passo è aperto): con Hagra
+# (caserma.guida 1, che apre un'opzione sociale in ogni fascia), con una guida a pagamento (2) o da soli (3).
+# Ritorno in Città Bassa, soglia 4, tre stanze alla volta.
+# Fasce di profondità: 0 la pietra miliare, la locanda; 0-1 la pioggia; 1 il guado, i canneti; 1-2 il fango;
+# 2 il bivacco dei cacciatori, i cani da presa (combattimento); 2-3 le tracce; 3 la bilancia nel fango.
+# Il cuore (4) è il carro-gabbia: il Pesatore con un cacciatore (boss Difficile); oppure Hagra contesta il sigillo
+# (caserma.guida == 1, Difficile, caserma.hagra), il cavillo (caserma.cavillo == 1, Difficile), o per il Fuggiasco di
+# Ghoran salire sulla bilancia al posto di Brina (Difficile). Chi perde torna in città con le Ferite dello scontro.
+# Il seguito chiude il passo: Brina libera, il registro del Pesatore, il grado di luogotenente e, con
+# caserma.anticipo == 1, il rimborso della paga anticipata.
+aree:
+  - id: caserma-strada-del-fango
+    immagine: ambientazione/palude-acquanera
+    nome: La strada del fango
+    sommario: "La strada del sud verso Ghoran, che dopo l'ultima pietra miliare diventa una pista di fango ai margini della Palude Acquanera. Il Pesatore ha due giorni di vantaggio."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      La strada del sud esce da Qir-Azel lastricata, e dopo una mezza
+      giornata di cammino il lastricato finisce di colpo, come se chi lo
+      posava si fosse stancato. Da lì in poi è una pista di fango battuto
+      dalle ruote dei carri, con la Palude Acquanera grigia sulla sinistra
+      fino all'orizzonte. Sulla destra ci sono le colline spoglie. A Ghoran
+      ci vogliono sei giorni. Il Pesatore ne ha due di vantaggio, un carro
+      con la gabbia e i cani.
+
+      Sul fango le ruote del carro hanno lasciato due solchi profondi, più
+      profondi di quanto dovrebbero per un carro vuoto. Accanto ai solchi
+      ci sono le orme larghe dei cani.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, in Città Bassa
+  - id: caserma-la-strada-del-fango
+    immagine: ambientazione/palude-acquanera
+    titolo: La strada del fango
+    sommario: "Galdrick ha firmato un ordine con il tuo grado. Il Pesatore ha portato via Brina, e la legge della città finisce all'ultima pietra miliare."
+    luogo: Città Bassa, la porta del sud
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, bivio.legge == 1]
+    testo: |
+      Galdrick ti ha consegnato l'ordine nella casa blu, la mattina dopo, con
+      la zuppa di Brina ancora calda sul fuoco. Era rosso fino alla testa
+      rasata. L'ordine ha il tuo grado scritto in cima e una riga sola sotto,
+      *riportarla indietro*, con la firma e il timbro della Caserma.
+
+      {politica-ed-economia Media} Un ordine della Caserma vale fino
+      all'ultima pietra miliare della strada del sud. Dopo, vale quanto la
+      carta su cui è scritto, e Galdrick lo sa meglio di te.
+
+      Alla porta del sud, accanto ai carri che aspettano la gabella, c'è
+      Hagra con la sua lancia e un sacco sulla spalla. Mastica resina e
+      guarda la strada. Dice che conosce la pista fino al Guado e che il
+      Pesatore lo conosce anche meglio, eh. Oggi, comunque, non aveva altro
+      da fare.
+
+      {origine fuggiasco-di-ghoran} È la strada da cui sei arrivato, a
+      piedi, di notte, con le ginocchia sanguinanti. In città ci sei
+      arrivato da sud, e adesso ci stai tornando.
+
+      {resistenza Media fallita} Sei giorni di fango. Le gambe ci pensano un
+      momento, poi decidono di non dirti ancora che cosa ne pensano.
+    opzioni:
+      - testo: "Partire con Hagra"
+        descrizione: "Hagra conosce la pista e i clan del Guado. Ha anche un'idea sul sigillo del Pesatore, e un prezzo che non ha ancora detto."
+        immagine: ambientazione/ghoran
+        esito:
+          titolo: La lancia di Hagra
+          testo: |
+            Hagra sputa la resina nel fango della porta e si mette in cammino
+            senza aspettarti, con la lancia sulla spalla come un bastone da
+            pastore. Al primo miglio ti chiede se sai perché la chiamano la
+            strada del fango. Glielo chiedi tu, e lei ride. «Lo vedrai, eh.»
+          imposta: { caserma.guida: 1 }
+          vai: caserma-strada-del-fango
+
+      - testo: "Pagare una guida della porta del sud"
+        descrizione: "Alla porta del sud ci sono uomini che accompagnano i carri fino alla palude. Al prezzo giusto, le domande se le tengono."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: La guida della porta
+          testo: |
+            La guida è un uomo piccolo con un cappello di paglia, che conta le
+            monete due volte e poi si mette davanti a te sulla pista senza
+            parlare. Sa dove il fango tiene e dove no. Al primo miglio ti dice
+            che fino al Guado ci va, e oltre no.
+          imposta: { caserma.guida: 2 }
+          effetti: { monete: -15 }
+          vai: caserma-strada-del-fango
+
+      - testo: "Partire da solo"
+        descrizione: "I solchi del carro si vedono dalla porta. Basta seguirli, finché si vedono."
+        costo: 2
+        esito:
+          titolo: I solchi
+          testo: |
+            Esci dalla porta del sud con l'ordine nella tasca interna e
+            l'acqua per tre giorni, e segui i solchi del carro nel fango.
+            Hagra, appoggiata alla lancia, ti guarda andare senza chiamarti.
+          imposta: { caserma.guida: 3 }
+          vai: caserma-strada-del-fango
+
+  # ------------------------------------------------------------ 0 · l'ultima pietra
+  - id: caserma-fango-la-pietra-miliare
+    immagine: ambientazione/palude-acquanera
+    titolo: L'ultima pietra miliare
+    sommario: "Una pietra con la torre di Qir-Azel incisa, mezza affondata nel fango. Oltre, la legge della città è soltanto una parola."
+    luogo: La strada del fango, l'ultima pietra miliare
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 0]
+    testo: |
+      Dove il lastricato finisce c'è una pietra miliare alta fino al
+      ginocchio, con la torre di Qir-Azel incisa sulla faccia che guarda la
+      città. Dall'altra parte è liscia. Qualcuno ci ha appoggiato sopra
+      una ciotola di legno con dentro una moneta, e la moneta è verde di
+      muschio. Oltre la pietra il fango comincia subito, profondo fino alla
+      caviglia, con i solchi del carro che ci affondano dritti.
+
+      {accademiche Media} Le pietre miliari della Guardia le ha messe il
+      Consiglio cent'anni fa, una per ogni giorno di cammino. Questa è
+      l'ultima, e la faccia liscia verso sud l'hanno lasciata così apposta.
+
+      {percezione Media} Accanto alla pietra, nel fango, ci sono le impronte
+      di un ginocchio. Qualcuno si è fermato qui a pregare, o a vomitare,
+      prima di andare avanti.
+    opzioni:
+      - testo: "Seguire i solchi nel fango"
+        descrizione: "I solchi sono profondi e dritti. Il fango invece è traditore."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il passo del fango
+          testo: |
+            Impari presto il passo corto del fango, piatto, senza mai
+            spingere sulla punta. I solchi ti portano dritto per mezza
+            giornata, finché il fango non comincia a sapere di palude.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Lo stivale
+          testo: |
+            Al terzo passo il fango si prende uno stivale, e lo recuperi
+            soltanto infilando il braccio fino al gomito. Torni alla pietra a
+            vuotarlo, con la gamba bagnata fino alla coscia e i piedi che non
+            senti.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Lasciare una moneta nella ciotola"
+        descrizione: "Chi passa di qui lascia una moneta nella ciotola. Il perché bisogna chiederlo a chi l'ha lasciata."
+        requisiti: [monete >= 1]
+        esito:
+          titolo: La ciotola
+          testo: |
+            Metti una moneta nella ciotola accanto a quella verde di muschio,
+            e ti senti un po' stupido e un po' meglio. Poi passi la pietra.
+            Il fango oltre la pietra è lo stesso di prima, ma lo attraversi
+            con un passo più leggero.
+          effetti: { profondita.caserma-strada-del-fango: 1, monete: -1 }
+
+      - testo: "Chiedere a Hagra della pietra"
+        descrizione: "Hagra la guarda come si guarda un cartello conosciuto."
+        quando: [caserma.guida == 1]
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: La moneta per tornare
+          testo: |
+            «La moneta è per tornare» dice Hagra. «Chi va a Ghoran la lascia
+            qui, e se torna se la riprende. Quella verde, eh, non l'ha ripresa
+            nessuno.» Poi passa la pietra senza lasciare niente, perché lei,
+            dice, a Ghoran non ci va.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Le storie dei clan
+          testo: |
+            Hagra ti dice che è una storia dei clan, roba che a te non
+            riguarda. Poi passa oltre. Tu ti fermi un momento di troppo a
+            guardare la moneta verde, e il fango intanto ti prende fino alla
+            caviglia.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare che il fango si asciughi un poco"
+        descrizione: "A mezzogiorno il sole indurisce la crosta. Si perde mezza giornata."
+        costo: 2
+        esito:
+          titolo: La crosta
+          testo: |
+            Aspetti seduto sulla pietra fino a mezzogiorno, finché il sole non
+            fa una crosta sul fango. Ci cammini sopra come sul ghiaccio sottile,
+            con il peso sui talloni. Il carro intanto è mezza giornata più
+            lontano.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  - id: caserma-fango-la-locanda
+    immagine: ambientazione/palude-acquanera
+    titolo: La locanda della palude
+    sommario: "Una locanda di canne e fango a un giorno da Qir-Azel. Due giorni fa il Pesatore ci ha pagato da bere a tutti."
+    luogo: La strada del fango, la locanda della palude
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 0]
+    testo: |
+      A un giorno di cammino c'è una locanda fatta di canne intrecciate e di
+      fango seccato, con il tetto di paglia nera e una lanterna appesa a un
+      palo. Dentro c'è un bancone di assi e quattro tavoli, e l'oste è una
+      donna enorme con un fazzoletto rosso in testa. Sulla parete dietro il
+      bancone, appeso a un chiodo, c'è un collare da cane nuovo, di cuoio
+      con le borchie.
+
+      {conoscenze-della-strada Media} Un collare nuovo appeso al chiodo è un
+      debito pagato in natura. Il Pesatore è passato di qui, e ha lasciato
+      il collare di un cane morto per strada.
+
+      «Due giorni fa» dice l'oste prima che tu chieda, asciugando un
+      boccale. «Ha pagato da bere a tutti, e i cacciatori hanno dormito nel
+      fienile. Nella gabbia c'era una donna con un mestolo in mano.»
+    opzioni:
+      - testo: "Farsi raccontare dei cacciatori"
+        descrizione: "L'oste ha visto tutto e ricorda tutto. Bisogna sapere che cosa chiederle."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il fienile
+          testo: |
+            L'oste ti racconta che con il Pesatore ci sono due cacciatori. I
+            cani erano tre, ma uno è morto di una zampa rotta al guado. Il
+            Pesatore ha dormito seduto vicino alla gabbia. La donna con il
+            mestolo ha chiesto acqua per tutti quelli nella gabbia, e il
+            Pesatore gliel'ha data.
+
+            {empatia Media} L'oste lo racconta con un rispetto riluttante. Le
+            è piaciuta la donna con il mestolo, e il Pesatore no.
+          effetti: { profondita.caserma-strada-del-fango: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il boccale
+          testo: |
+            L'oste ti risponde che lei vende da bere e non storie, e ti mette
+            davanti un boccale di birra di palude, che sa di torba. Lo paghi.
+            Quando esci il sole è già basso.
+          effetti: { monete: -1 }
+
+      - testo: "Dormire nel fienile dei cacciatori"
+        descrizione: "Nel fienile la paglia è ancora schiacciata dove hanno dormito. Chi dorme lascia sempre qualcosa."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La paglia
+          testo: |
+            Nella paglia schiacciata trovi una cordicella con tre nodi e un
+            pezzo di carta piegato, con un elenco di villaggi scritto nella
+            grafia dritta del Pesatore. È il suo giro. Dormi qualche ora e
+            riparti all'alba sapendo dove sarà il carro fra due giorni.
+          effetti: { profondita.caserma-strada-del-fango: 1, ferite: -0.5 }
+        fallimento:
+          titolo: Le pulci
+          testo: |
+            Nella paglia trovi soltanto le pulci dei cani, che ti trovano
+            prima che tu trovi loro. Ti svegli all'alba grattandoti fino al
+            sangue, e l'oste ride dalla porta.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Lasciare che parli Hagra"
+        descrizione: "L'oste guarda Hagra con un rispetto diverso. Fra la gente della palude e i clan ci sono conti vecchi."
+        quando: [caserma.guida == 1]
+        prova: { attributo: sociale, abilita: [galateo, empatia], difficolta: Facile }
+        successo:
+          titolo: La resina
+          testo: |
+            Hagra offre all'oste un pezzo della sua resina, e l'oste lo
+            accetta e lo mastica con lei, in silenzio, per un tempo lungo.
+            Poi le dice che il Pesatore guarderà il Guado di Pietra domani
+            notte, perché il Guado Grande è in piena. Hagra annuisce come se
+            lo sapesse.
+          effetti: { profondita.caserma-strada-del-fango: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: I conti vecchi
+          testo: |
+            L'oste rifiuta la resina di Hagra con un gesto della mano, e
+            Hagra si offende in un modo che non capisci. Uscite tutti e due
+            senza aver saputo niente, e lei non ti parla fino a sera.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Mangiare e ripartire"
+        descrizione: "Una scodella calda e via, senza domande."
+        costo: 2
+        esito:
+          titolo: La zuppa di torba
+          testo: |
+            Mangi una zuppa pepata che ha il gusto della torba, seduto da
+            solo a un tavolo, e ascolti i due avventori che parlano del
+            carro con la gabbia come di un temporale passato. Riparti con lo
+            stomaco pieno e i solchi davanti.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  # ------------------------------------------------------------ 0–1 · la pioggia
+  - id: caserma-fango-la-pioggia
+    immagine: ambientazione/palude-acquanera
+    titolo: La pioggia sulla palude
+    sommario: "Dalla palude arriva un temporale, e i solchi del carro cominciano a riempirsi d'acqua."
+    luogo: La strada del fango, sotto la pioggia
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango <= 1]
+    testo: |
+      Il temporale arriva dalla palude come un muro grigio, e in un momento
+      la pista diventa un torrente basso. I solchi del carro si riempiono
+      d'acqua e spariscono, e le orme dei cani si sciolgono come zucchero.
+      Davanti, a duecento passi, c'è un boschetto di salici con i rami che
+      toccano terra.
+
+      {natura Media} Il temporale passerà in un'ora. Ma in un'ora la
+      pista si sarà già cancellata, e il carro avrà preso un'ora in più.
+
+      {resistenza Facile} La pioggia ti entra nel colletto e ti scende lungo
+      la schiena, fredda come un pensiero cattivo.
+    opzioni:
+      - testo: "Andare avanti sotto la pioggia"
+        descrizione: "Finché i solchi si vedono ancora, seguirli. Dopo, a occhio."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Sotto l'acqua
+          testo: |
+            Vai avanti a testa bassa, con la pioggia che ti batte sulle
+            spalle, e segui i solchi finché si vedono e poi la linea dei
+            salici, che il carro ha costeggiato. Quando il temporale passa
+            sei oltre il boschetto, fradicio fino alle ossa. Davanti a te i
+            solchi ricominciano.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Il torrente
+          testo: |
+            Il torrente basso ti porta via una gamba, e scivoli lungo la pista
+            per dieci passi prima di fermarti contro una radice. Ti rialzi
+            coperto di fango fino ai capelli, e la pista non c'è più.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Ripararsi sotto i salici"
+        descrizione: "Sotto i salici si sta asciutti. Dopo, bisogna ritrovare la pista."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: I rami spezzati
+          testo: |
+            Sotto i salici aspetti la fine del temporale con la schiena
+            contro un tronco. Quando smette, la pista è sparita, e tu la
+            ritrovi dai rami spezzati all'altezza del tetto di un carro, uno
+            ogni dieci passi, come briciole.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Il fango liscio
+          testo: |
+            Il temporale passa, e la pista è sparita sotto un fango liscio
+            come un lenzuolo. Giri per un'ora intorno ai salici prima di
+            capire che stai seguendo le tue impronte.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare che Hagra trovi la strada"
+        descrizione: "Hagra annusa l'aria e guarda le colline, non il fango."
+        quando: [caserma.guida == 1]
+        esito:
+          titolo: Le colline
+          testo: |
+            Hagra lascia perdere il fango e guarda le colline sulla destra,
+            contando qualcosa sulle dita. Poi si mette in cammino in
+            diagonale sotto la pioggia senza voltarsi. Dopo un'ora ritrovate
+            i solchi esattamente dove lei li aspettava. «I carri vanno dove
+            la strada è dura, eh» dice, «e basta sapere dov'è dura.»
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  # ------------------------------------------------------------ 1 · il guado e i canneti
+  - id: caserma-fango-il-guado
+    immagine: ambientazione/palude-acquanera
+    titolo: Il Guado di Pietra
+    sommario: "Il fiume che scende dalle colline si passa su una fila di pietre piatte. Su una pietra c'è una macchia scura."
+    luogo: La strada del fango, il Guado di Pietra
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 1]
+    testo: |
+      Il fiume giallo di fango che scende dalle colline verso la palude è
+      largo una trentina di passi, e si passa su una fila di pietre piatte
+      messe lì da qualcuno molto tempo fa. L'acqua corre fra le pietre
+      veloce e rumorosa. Sulla quarta pietra c'è una macchia scura, e sulla
+      riva opposta, impigliato fra le canne, il corpo di un cane da presa
+      con una zampa storta.
+
+      {addestrare-animali Facile} In un viaggio come questo un cane con la
+      zampa rotta resta indietro. Il Pesatore l'ha lasciato qui a morire, e
+      il cane ha provato a seguirlo lo stesso.
+
+      {armi-da-distanza Media} Il carro con le ruote larghe non è passato
+      sulle pietre. Ha guadato più a valle, dove l'acqua è bassa e il
+      fondo è duro, e là le ruote hanno lasciato due tagli nella riva.
+    opzioni:
+      - testo: "Passare sulle pietre"
+        descrizione: "Pietra dopo pietra, con l'acqua che corre in mezzo. La quarta è sporca di sangue."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Le pietre piatte
+          testo: |
+            Passi da una pietra all'altra con le braccia larghe, e sulla
+            quarta metti il piede accanto alla macchia scura, non sopra.
+            Arrivi dall'altra parte con gli stivali asciutti fino alla
+            caviglia, e il cane fra le canne ti guarda passare con gli occhi
+            aperti.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: La quarta pietra
+          testo: |
+            Sulla quarta pietra il sangue secco è scivoloso, e finisci in
+            acqua fino al petto. La corrente ti porta per venti passi prima
+            che tu riesca ad aggrapparti alle canne della riva da cui eri
+            partito.
+          effetti: { ferite: 1 }
+
+      - testo: "Guadare dove è passato il carro"
+        descrizione: "Più a valle l'acqua è bassa e il fondo è duro. Ci si bagna, ma si passa."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: I tagli nella riva
+          testo: |
+            Trovi i tagli delle ruote nella riva e guadi lì, con l'acqua
+            alle ginocchia e il fondo di ghiaia sotto gli stivali.
+            Dall'altra parte i solchi riprendono, e c'è una seconda serie di
+            orme di cani, più piccole, con un'impronta che strascica perché
+            uno dei cani adesso zoppica.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Il fondo molle
+          testo: |
+            Guadi nel punto sbagliato, e il fondo di fango ti tiene un piede
+            per un tempo lunghissimo, con l'acqua che sale. Lo liberi
+            lasciandoci lo stivale, che recuperi più tardi, pieno di sabbia.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Passare il guado al modo dei clan"
+        descrizione: "Hagra conosce il guado. Dice che c'è un modo di passarlo che si insegna ai bambini dei clan."
+        quando: [caserma.guida == 1]
+        esito:
+          titolo: Il passo dei clan
+          testo: |
+            Hagra ti fa togliere gli stivali e legarli al collo. Poi entra in
+            acqua di traverso alla corrente, con la lancia piantata a monte
+            come un terzo piede, e ti dice di mettere i piedi dove li mette
+            lei. Arrivate dall'altra parte con l'acqua fino alla vita e gli
+            stivali asciutti.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+      - testo: "Cercare un passaggio più a monte"
+        descrizione: "Risalendo il fiume, a monte, diventa un torrente che si salta."
+        costo: 2
+        esito:
+          titolo: A monte
+          testo: |
+            Risali il fiume per un'ora, finché diventa un torrente fra due
+            sassi, e lo salti. Poi ridiscendi per l'altra riva fino ai solchi.
+            Hai perso mezza giornata, e il cane fra le canne è ancora lì
+            quando ripassi.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  - id: caserma-fango-i-canneti
+    immagine: ambientazione/palude-acquanera
+    titolo: I canneti
+    sommario: "La pista attraversa un canneto alto più di un uomo. Dentro, qualcosa si muove contro il vento."
+    luogo: La strada del fango, i canneti della palude
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 1]
+    testo: |
+      La pista entra in un canneto più alto di un uomo, e dentro la luce
+      diventa verde e l'aria ferma. Le canne frusciano tutte nella stessa
+      direzione, piegate dal vento della palude. In un punto, a una ventina
+      di passi dalla pista, un gruppo di canne si piega dalla parte opposta.
+
+      {furtivita Media} Qualcuno è accucciato lì dentro, e respira piano.
+      Le canne, però, non sanno respirare piano.
+
+      {armi-da-distanza Media fallita} Ti chiedi se sia a portata di
+      balestra, e ti accorgi di non sapere quanto sia lunga una portata di
+      balestra in un canneto.
+    opzioni:
+      - testo: "Andare a vedere chi c'è"
+        descrizione: "Venti passi fra le canne, piano. Se è un nemico, lo trovi prima che trovi te."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il ragazzo
+          testo: |
+            Ti avvicini piano e scosti le canne. C'è un ragazzo di forse
+            sedici anni, magro come un ramo, con una corda segata ai polsi.
+            Ti guarda il mantello scarlatto e non capisce. Ti dice che è
+            scappato dal carro la seconda notte, mentre i cani dormivano, e
+            che dentro sono rimasti in quattro, e una donna con un mestolo.
+            Gli dai il tuo pane e la strada per la città.
+          effetti: { profondita.caserma-strada-del-fango: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il ragazzo che scappa
+          testo: |
+            Le canne frusciano sotto i tuoi stivali, e quello che c'era si
+            alza e scappa verso la palude, svelto. Vedi soltanto una schiena
+            magra e una corda che penzola da un polso. Non lo raggiungi, e
+            torni sulla pista con le gambe tagliate dalle canne.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Chiamarlo da lontano"
+        descrizione: "Se è uno che scappa, ha più paura di te che tu di lui. Una voce gentile basta."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La voce
+          testo: |
+            Lo chiami a voce bassa, dicendo che sei della città e che il carro
+            lo stai inseguendo. Dopo un tempo lungo dal canneto esce un ragazzo
+            magro con una corda segata ai polsi. Ti dice che dentro la gabbia
+            sono rimasti in quattro, più una donna con un mestolo, e che la
+            donna gli ha segato la corda con il bordo del mestolo.
+          effetti: { profondita.caserma-strada-del-fango: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il silenzio delle canne
+          testo: |
+            Chiami, e le canne smettono di muoversi. Aspetti a lungo, e quando
+            vai a vedere non c'è più nessuno. Soltanto un pezzo di corda
+            segata nel fango.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Tirare dritto per la pista"
+        descrizione: "Chiunque sia, non è il Pesatore. Il carro è più avanti."
+        costo: 2
+        esito:
+          titolo: La pista
+          testo: |
+            Tiri dritto per la pista senza voltarti, con la mano sull'elsa,
+            finché il canneto non finisce. Le canne dietro di te si piegano
+            dalla parte sbagliata un'ultima volta, e poi tornano come le
+            altre.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  # ------------------------------------------------------------ 1–2 · il pantano
+  - id: caserma-fango-il-pantano
+    immagine: ambientazione/palude-acquanera
+    titolo: Il pantano
+    sommario: "Per un tratto la pista sparisce sotto un pantano nero. Il carro l'ha passato, e tu devi passarlo a piedi."
+    luogo: La strada del fango, il pantano
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango >= 1, profondita.caserma-strada-del-fango <= 2]
+    testo: |
+      Qui la strada si merita il nome. Per un tratto lungo quanto un
+      tiro d'arco la pista sparisce sotto un pantano nero, lucido, che
+      ribolle piano in qualche punto. I solchi del carro ci entrano e
+      riescono dall'altra parte, e in mezzo ci sono le assi che i cacciatori
+      hanno buttato sotto le ruote, mezze affondate.
+
+      {natura Media} Dove ribolle il fango è profondo, e il gas che sale
+      viene da sotto. Le assi stanno dove il fondo regge.
+
+      {resistenza Media} L'odore ti prende alla gola. Le gambe sanno già che
+      cosa le aspetta, e cominciano a protestare prima ancora di entrare.
+    opzioni:
+      - testo: "Passare sulle assi dei cacciatori"
+        descrizione: "Le assi sono mezze affondate e storte. Una alla volta, senza fermarsi."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Le assi
+          testo: |
+            Passi da un'asse all'altra senza fermarti, perché se ti fermi
+            l'asse affonda. Arrivi dall'altra parte con il fango fino alle
+            ginocchia e il fiato corto, e ti volti a guardare le assi che
+            affondano dietro di te una dopo l'altra.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Fino alla vita
+          testo: |
+            Un'asse si gira sotto il piede, e affondi fino alla vita. Il
+            fango ti tiene come una mano. Ne esci tirandoti a un'asse a
+            forza di braccia, e torni indietro coperto di nero, con un odore
+            addosso che ti accompagnerà per giorni.
+          effetti: { ferite: 1 }
+
+      - testo: "Girare dove il fango non ribolle"
+        descrizione: "Il fondo che regge si riconosce. Bisogna saperlo leggere."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Il fondo duro
+          testo: |
+            Giri largo, lontano dalle bolle, seguendo le chiazze dove crescono
+            i giunchi, che vogliono il fondo duro. Ci metti il doppio, e
+            arrivi dall'altra parte con il fango soltanto fino alle caviglie.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: La bolla
+          testo: |
+            Scegli una chiazza di giunchi che giunchi non sono, e la chiazza
+            ti cede sotto i piedi con una bolla di gas che ti scoppia in
+            faccia. Torni indietro tossendo, con gli occhi che lacrimano.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+
+      - testo: "Tagliare canne e farsi un passaggio"
+        descrizione: "Con un fascio di canne sotto i piedi si galleggia un poco. Ci vuole tempo, e le mani."
+        costo: 2
+        esito:
+          titolo: Il fascio di canne
+          testo: |
+            Tagli canne per un'ora e ne fai fasci legati con le cinghie, e li
+            butti nel pantano uno davanti all'altro. Ci passi sopra a quattro
+            zampe. Arrivi dall'altra parte con le mani piene di tagli sottili,
+            e il pantano si richiude sui fasci con un rumore di bocca.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  # ------------------------------------------------------------ 2 · il bivacco e i cani
+  - id: caserma-fango-il-bivacco
+    immagine: ambientazione/palude-acquanera
+    titolo: Il bivacco dei cacciatori
+    sommario: "Il fuoco dei cacciatori è ancora tiepido. Qui il carro si è fermato una notte intera."
+    luogo: La strada del fango, il bivacco dei cacciatori
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 2]
+    testo: |
+      In una radura asciutta, fra due ontani, c'è il cerchio di sassi di un
+      fuoco spento, con la cenere ancora tiepida sotto la crosta. Intorno ci
+      sono le impronte di tre uomini e dei cani, e il segno delle ruote dove
+      il carro è rimasto fermo tutta la notte. Accanto al segno, nel fango,
+      c'è una ciotola di latta rovesciata e un mucchietto di ossa di pollo
+      spolpate fino al midollo.
+
+      {medicina Media} La cenere è tiepida di mezza giornata. Sei più vicino
+      di quanto credevi, e loro non sanno che sei qui.
+
+      {percezione Facile} Sulla corteccia di un ontano, all'altezza del
+      fondo di una gabbia, qualcuno ha inciso un segno con un'unghia. Due
+      righe e un cerchio, che a Ghoran vuol dire *aspetta*.
+    opzioni:
+      - testo: "Leggere le tracce del bivacco"
+        descrizione: "Quanti erano, dove hanno dormito, quando sono partiti. Le tracce lo dicono a chi le sa leggere."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Mezza giornata
+          testo: |
+            Sono partiti all'alba, e il carro va più piano adesso, perché
+            uno dei cavalli zoppica. Il Pesatore ha dormito seduto vicino
+            alla gabbia, e i cacciatori facevano la guardia a turno. Sono
+            due. I cani sono due, uno zoppo. Calcoli che li raggiungerai
+            prima di notte.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Le ossa di pollo
+          testo: |
+            Giri intorno al fuoco senza capirci molto, e alla fine ti accorgi
+            che le impronte che segui sono le tue. Le ossa di pollo invece ti
+            dicono soltanto che hanno mangiato meglio di te.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Mangiare e riposare sulla cenere tiepida"
+        descrizione: "Due giorni di fango. Un'ora accanto a un fuoco ti rimette in piedi."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Facile }
+        successo:
+          titolo: La cenere
+          testo: |
+            Ravvivi la cenere con due rami e ti scaldi le mani e i piedi, e
+            mangi il pane duro della bisaccia. Quando riparti le gambe sono di
+            nuovo tue.
+          effetti: { profondita.caserma-strada-del-fango: 1, ferite: -0.5 }
+        fallimento:
+          titolo: Il sonno
+          testo: |
+            Ti siedi un momento accanto alla cenere, e ti svegli che il sole è
+            già calato di un palmo. Hai perso un'ora, e il collo ti fa male.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Chiedere a Hagra del segno sull'ontano"
+        descrizione: "Una riga, un'altra riga, un cerchio. Hagra lo legge come si legge una parola."
+        quando: [caserma.guida == 1]
+        esito:
+          titolo: Aspetta
+          testo: |
+            Hagra guarda il segno a lungo, poi ci passa sopra il pollice.
+            «L'ha fatto qualcuno dei recinti» dice. «Vuol dire aspetta, eh.
+            Lo si scrive per chi viene dietro.» Si toglie la resina di
+            bocca, che è la prima volta che glielo vedi fare, e la attacca
+            sul segno.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  - id: caserma-fango-i-cani
+    immagine: icone/hound
+    titolo: I cani da presa
+    sommario: "Il Pesatore ha lasciato indietro i cani, per vedere chi lo segue."
+    luogo: La strada del fango, un argine
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 2]
+    testo: |
+      Sull'argine che separa la pista dalla palude ci sono due cani da presa,
+      seduti, con la catena legata a un paletto piantato nel fango. Sono
+      larghi di petto e hanno le orecchie tagliate corte. Quando ti vedono
+      non abbaiano. Si alzano tutti e due insieme, e la catena si tende.
+
+      {addestrare-animali Media} Li hanno lasciati qui per vedere se
+      qualcuno segue il carro. La catena è lunga, e il paletto è piantato
+      male. Un cane da presa non abbaia perché a Ghoran glielo levano da
+      cucciolo, insieme alla voglia di giocare.
+
+      {intimidire Facile fallita} Provi a guardarli negli occhi per farli
+      sedere. Loro ti guardano negli occhi per un motivo diverso.
+    opzioni:
+      - testo: "Affrontare i cani"
+        descrizione: "Due cani da presa con il paletto piantato male. Arriveranno insieme."
+        combattimento: caserma-i-cani-da-presa
+        vittoria:
+          titolo: La catena
+          testo: |
+            Il primo cane ti prende la manica e non la lascia finché non lo
+            colpisci, e il secondo resta impigliato nella catena del primo.
+            Quando è finita hai il braccio che pulsa sotto la manica strappata.
+            Riprendi la pista con il paletto in mano, per ricordo.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        sconfitta:
+          titolo: Il morso
+          testo: |
+            Il primo cane ti prende alla gamba, e il secondo alla manica, e
+            ti ritrovi nel fango sotto il loro peso. Riesci a scalciare via
+            il paletto, e i cani, trascinati dalla catena, scivolano giù
+            dall'argine nella palude, e tu torni indietro zoppicando.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Girare lontano dalla catena"
+        descrizione: "La catena è lunga, ma non infinita. Basta passare oltre il cerchio dei denti."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: Il cerchio
+          testo: |
+            Scendi dall'argine sul lato della palude, con l'acqua fino alle
+            ginocchia, e passi oltre il cerchio della catena mentre i cani
+            tirano fino a strozzarsi. Risali sull'argine trenta passi più in
+            là, e loro ti guardano andare in silenzio.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Il paletto
+          testo: |
+            Mentre passi oltre il cerchio il paletto si sfila dal fango, e la
+            catena ti arriva addosso con i cani attaccati. Ti salvi buttandoti
+            in acqua, e torni indietro bagnato con un morso sulla caviglia.
+          effetti: { ferite: 1 }
+
+      - testo: "Calmarli con la voce"
+        descrizione: "I cani da presa obbediscono a una voce sola. Si può provare a imitarla."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La voce del padrone
+          testo: |
+            Parli piano, con la voce bassa e uguale che usano i cacciatori,
+            senza guardarli. Dopo un tempo lunghissimo i cani si siedono. Passi
+            accanto al paletto a un braccio dai denti, e loro ti seguono con gli
+            occhi senza alzarsi.
+          pe: { addestrare-animali: 5 }
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: La voce sbagliata
+          testo: |
+            La voce ti esce troppo alta, e i cani la prendono per una sfida. La
+            catena si tende fino a far vibrare il paletto, e tu torni indietro
+            senza voltare le spalle, un passo alla volta.
+          effetti: { tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2–3 · le tracce
+  - id: caserma-fango-le-tracce
+    immagine: ambientazione/palude-acquanera
+    titolo: Le tracce che si dividono
+    sommario: "Le orme dei cani si dividono in due, e i solchi del carro spariscono su un tratto di ghiaia."
+    luogo: La strada del fango, la ghiaia
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango >= 2, profondita.caserma-strada-del-fango <= 3]
+    testo: |
+      La pista sale su un dosso di ghiaia, e sulla ghiaia i solchi del carro
+      spariscono. Le orme dei cani, invece, si dividono. Una fila va verso
+      le colline e l'altra verso la palude. Sono fresche tutte e due. Il
+      vento porta odore di fumo, ma da dove venga non si capisce.
+
+      {natura Media} Un carro carico sulla ghiaia lascia comunque un segno,
+      sassi rovesciati con la parte umida verso il cielo. Bisogna guardarli
+      da vicino, con il sole basso.
+
+      {origine figlio-del-circolo} Al Circolo ti hanno insegnato che un cane
+      che tira la catena lascia le unghie davanti più profonde. Una delle
+      due file non ha le unghie, perché quei cani camminavano liberi, di
+      ritorno.
+    opzioni:
+      - testo: "Leggere i sassi rovesciati"
+        descrizione: "Sulla ghiaia il carro ha lasciato sassi rovesciati, con la parte umida in su."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il lato umido
+          testo: |
+            Ti chini sulla ghiaia con il sole basso dietro di te, e i sassi
+            rovesciati luccicano uno dopo l'altro come una fila di lanterne.
+            Vanno verso le colline, e oltre il dosso il fumo diventa una
+            colonna sottile.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: La palude
+          testo: |
+            Segui le orme verso la palude, e dopo mezz'ora trovi il paletto di
+            un cane e nient'altro. Torni al dosso con il sole che cala e i
+            piedi bagnati.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Seguire le orme dei cani verso le colline"
+        descrizione: "Tirare a indovinare, ma a passo svelto."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La colonna di fumo
+          testo: |
+            Corri verso le colline sulle orme dei cani, e dopo il dosso vedi la
+            colonna di fumo sottile, e sotto il fumo la sagoma di un carro con
+            una gabbia.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: La salita
+          testo: |
+            Corri verso le colline, e la salita ti spezza il fiato a metà.
+            Le orme, in cima, girano indietro verso la palude, e capisci di
+            avere corso dalla parte sbagliata.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Leggere le unghie dei cani"
+        descrizione: "Al Circolo un cane alla catena e un cane libero si distinguono dalle unghie. Una fila va, l'altra torna."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Facile }
+        successo:
+          titolo: Le unghie
+          testo: |
+            Ti accucci sulle orme e le leggi come ti hanno insegnato nel Bosco
+            di Velthar, unghia per unghia. Una fila tira la catena e va verso
+            le colline. Prendi quella, e oltre il dosso vedi il fumo sottile e
+            il carro.
+
+            {origine figlio-del-circolo} Il maestro del Circolo te lo faceva
+            fare sulle orme delle volpi. Non pensavi che sarebbe servito per
+            gli uomini.
+          pe: { natura: 5 }
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Le unghie sbagliate
+          testo: |
+            Le unghie nella ghiaia sono confuse, e prendi la fila sbagliata.
+            Dopo mezz'ora trovi il paletto di un cane nella palude, e torni
+            indietro con il sole che cala.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare il buio e cercare il fuoco"
+        descrizione: "Di notte un fuoco si vede da lontano. Basta aspettare."
+        costo: 2
+        esito:
+          titolo: Il fuoco nel buio
+          testo: |
+            Aspetti il buio seduto sulla ghiaia, con la mano sull'elsa e il
+            freddo che sale dalla palude. Quando la notte è piena, sulle
+            colline si accende un piccolo punto arancione. Ti ci avvicini
+            piano, tenendoti basso nel buio.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  # ------------------------------------------------------------ 3 · la bilancia
+  - id: caserma-fango-la-bilancia
+    immagine: ambientazione/ghoran
+    titolo: La bilancia nel fango
+    sommario: "A cento passi dal carro, sul ciglio della pista, c'è una bilancia da grano piantata nel fango."
+    luogo: La strada del fango, a cento passi dal carro
+    area: caserma-strada-del-fango
+    ripetibile: true
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango == 3]
+    testo: |
+      A cento passi dal carro, sul ciglio della pista, c'è una bilancia da
+      grano a due piatti, piantata nel fango con un palo. I piatti sono di
+      ferro, consumati al centro. Sotto, appoggiata al palo, c'è una pila di
+      pesi di bronzo con un numero inciso su ognuno, e la catenella di un
+      collare. Oltre, sulla collina, si vede il carro con la gabbia, e
+      accanto al fuoco un uomo grosso seduto su un ceppo.
+
+      {politica-ed-economia Media} La bilancia non serve a pesare. L'ha
+      piantata qui perché chi arriva la veda prima di vedere lui, e capisca
+      con chi ha a che fare.
+
+      {origine fuggiasco-di-ghoran} La bilancia è la stessa, o una uguale.
+      I piatti di ferro, i pesi con i numeri. Le gambe ti si fermano da sole
+      a cento passi, dove si fermavano allora.
+    opzioni:
+      - testo: "Avvicinarsi al carro dal lato della palude"
+        descrizione: "Dal lato della palude il fuoco acceca chi guarda verso il buio. Bisogna passare senza farsi sentire."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Dal buio
+          testo: |
+            Giri dal lato della palude, dove il fuoco acceca, e ti avvicini al
+            carro fino a sentire le voci. Nella gabbia c'è Brina, seduta, con
+            il mestolo in grembo. Ti vede e non dice niente. Muove soltanto il
+            mestolo di un dito, per dirti che ti ha visto.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: Il ramo
+          testo: |
+            Un ramo secco ti si spezza sotto il piede, e accanto al fuoco un
+            cacciatore si alza con la balestra. Ti butti nel fango e aspetti
+            che si risieda, e poi torni indietro fino alla bilancia, con il
+            fango in bocca.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Avvicinarsi a viso aperto, con l'ordine in mano"
+        descrizione: "Un ordine della Caserma qui non vale niente. Il Pesatore però è uno che rispetta le carte."
+        prova: { attributo: sociale, abilita: [intimidire, galateo], difficolta: Media }
+        successo:
+          titolo: L'ordine
+          testo: |
+            Cammini verso il fuoco senza fretta, con l'ordine aperto in
+            mano, e i cacciatori si alzano mentre il Pesatore resta seduto.
+            Ti guarda arrivare e ti fa segno di sederti dall'altra parte del
+            fuoco, come a un tavolo di trattative. Nella gabbia, dietro di
+            lui, Brina tiene il mestolo in grembo.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+        fallimento:
+          titolo: La balestra
+          testo: |
+            A metà strada un dardo di balestra si pianta nel fango ai tuoi
+            piedi, un avvertimento. Torni indietro fino alla bilancia con le
+            mani alzate, e il Pesatore, accanto al fuoco, non si è nemmeno
+            girato.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Chiedere a Hagra di andare avanti da sola"
+        descrizione: "Una donna dei clan accanto al fuoco del Pesatore è una visita. Un mantello scarlatto è un attacco."
+        quando: [caserma.guida == 1]
+        esito:
+          titolo: La visita
+          testo: |
+            Hagra pianta la lancia accanto alla bilancia e va avanti senza,
+            con le mani aperte, masticando. Al fuoco il Pesatore la saluta
+            con il nome del suo clan, e lei risponde con quello del Guado. Ti
+            fa segno di venire. Arrivi al fuoco dietro di lei, come un
+            parente.
+          effetti: { profondita.caserma-strada-del-fango: 1 }
+
+  # ------------------------------------------------------------ il cuore · il carro-gabbia
+  - id: caserma-fango-il-carro-gabbia
+    immagine: ambientazione/ghoran
+    titolo: Il carro-gabbia
+    sommario: "Accanto al fuoco, sulla collina, il Pesatore aspetta seduto su un ceppo. Nella gabbia c'è Brina, con il mestolo in grembo."
+    luogo: La strada del fango, il carro del Pesatore
+    area: caserma-strada-del-fango
+    requisiti: [fazione.caserma == 11, profondita.caserma-strada-del-fango >= 4]
+    testo: |
+      Il carro è fermo sulla collina con la gabbia di legno sul pianale, e
+      dentro ci sono cinque persone sedute sulla paglia con i polsi legati.
+      Una è Brina. Il Pesatore sta seduto su un ceppo accanto al fuoco, con
+      un randello cerchiato di ferro appoggiato alle ginocchia, e con lui
+      c'è un cacciatore con la balestra e una rete zavorrata arrotolata
+      sulla spalla. L'altro cacciatore è ancora nella palude a cercarti.
+
+      «La legge della tua città finisce alla pietra» dice il Pesatore, con
+      la sua voce calma. «Qui c'è la mia.» Batte il randello sul ceppo, una
+      volta. «Ho un foglio firmato dal tuo sceriffo, e tu hai un foglio
+      firmato dal tuo sceriffo. Uno dei due fogli vale di più, e lo sappiamo
+      tutti e due.»
+
+      {intimidire Media} Non ha paura di te. Ha fatto questo mestiere
+      abbastanza a lungo da sapere che a questo punto chi insegue è stanco,
+      mentre chi aspetta ha mangiato.
+
+      {armi-da-mischia Difficile} Il randello è pesante, e lui lo tiene
+      basso. Aspetta che sia tu a muoverti per primo, come si aspetta che
+      un piatto della bilancia si abbassi.
+    opzioni:
+      - testo: "Affrontare il Pesatore e il suo cacciatore"
+        descrizione: "Il Pesatore è grosso e paziente, il cacciatore ha la rete. Sono due, e hanno mangiato."
+        combattimento: caserma-il-pesatore
+        vittoria:
+          titolo: Il randello nel fango
+          testo: |
+            La rete del cacciatore ti prende alle gambe una volta, e la
+            seconda la tagli prima che si chiuda. Il Pesatore combatte come
+            pesa, senza fretta. Quando finalmente si sbilancia lo fa tutto
+            insieme, come un sacco che cade. Resta nel fango sulla schiena,
+            con il randello lontano, e ti guarda dal basso senza rabbia.
+            «Allora vale di più il tuo» dice.
+          segue: caserma-fango-il-registro
+        sconfitta:
+          titolo: La rete zavorrata
+          testo: |
+            La rete zavorrata ti prende alle gambe e ti stende nel fango, e il
+            randello del Pesatore fa il resto, con calma. Ti risvegli sulla
+            pista con l'alba, lontano dalla collina. Ti hanno lasciato
+            l'ordine nella tasca, piegato in quattro. Torni verso la città
+            un passo alla volta.
+          effetti: { tormento: 0.5 }
+          vai: citta-bassa
+
+      - testo: "Lasciare che Hagra contesti il sigillo"
+        descrizione: "Davanti ai prigionieri e al cacciatore, Hagra può dire che la cera verde del Guado per il suo clan non vale. Ma deve reggere lo sguardo del Pesatore."
+        quando: [caserma.guida == 1]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Il sigillo contestato
+          testo: |
+            Hagra si mette fra te e il fuoco e dice il nome del suo clan, ad
+            alta voce, davanti ai prigionieri. Poi dice che per il suo clan
+            il sigillo del Guado non vale niente, e sputa la resina nel
+            fuoco. Tu le stai accanto e non abbassi gli occhi. Il Pesatore
+            guarda tutti e tre e conta le teste come si contano i sacchi.
+            Alla fine si alza con il randello in mano e se ne va nel buio
+            con il suo uomo, lasciando il carro.
+
+            {conoscenze-della-strada Media} Hagra ha appena messo il suo clan
+            contro il Guado, per te. A Ghoran questo si paga, e il conto
+            arriverà a nome tuo.
+          imposta: { caserma.hagra: 1 }
+          segue: caserma-fango-il-registro
+        fallimento:
+          titolo: Lo sguardo del Pesatore
+          testo: |
+            Hagra contesta il sigillo, e il Pesatore la lascia finire. Poi le
+            chiede quanto le hai promesso, e quando lei esita, il cacciatore
+            alza la balestra. Vi ritirate nel buio, e la mattina dopo il carro
+            non c'è più. Torni verso la città con Hagra che non ti parla.
+          effetti: { ferite: 1 }
+          vai: citta-bassa
+
+      - testo: "Mostrargli il cavillo della clausola"
+        descrizione: "La clausola dice chi fuggirà, al futuro. Brina era alla casa blu prima dell'accordo, e il Pesatore rispetta le carte."
+        quando: [caserma.cavillo == 1]
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Difficile }
+        successo:
+          titolo: Al futuro
+          testo: |
+            Gli chiedi il suo foglio e glielo leggi ad alta voce davanti al
+            fuoco, parola per parola, fino al verbo al futuro. Poi gli dici
+            la data in cui Brina è arrivata alla casa blu. Il Pesatore
+            ascolta con la testa inclinata, come si ascolta il cigolio di
+            una bilancia tarata male. Alla fine apre la gabbia e fa scendere
+            soltanto Brina. Le carte, ti dice, per lui sono carte.
+          segue: caserma-fango-il-registro
+        fallimento:
+          titolo: Le carte
+          testo: |
+            Gli leggi il foglio, e lui ti risponde che le carte le scrivono
+            quelli che hanno i cacciatori. Il cacciatore ride. Resti accanto al
+            fuoco con il foglio in mano, e il Pesatore ti guarda come un sacco
+            che non vale la pena pesare.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Salire sulla bilancia al posto di Brina"
+        descrizione: "Il Pesatore ti ha riconosciuto. Ti offre uno scambio, tu sul piatto della bilancia al posto suo. Si accetta per scendere dopo, quando ti hanno voltato le spalle."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il piatto della bilancia
+          testo: |
+            Sali sul piatto di ferro, e il Pesatore mette i pesi sull'altro,
+            uno per uno, come allora. Brina scende dalla gabbia e corre giù
+            per la pista. Quando il cacciatore si volta a guardarla, tu scendi
+            dal piatto e gli strappi la balestra di mano, e il Pesatore resta
+            con un peso di bronzo in mano e niente da pesare.
+
+            {origine fuggiasco-di-ghoran} Sulla bilancia le gambe ti tremavano
+            come la prima volta. Ma sei sceso, e la seconda volta sei sceso
+            tu.
+          pe: { resilienza: 5 }
+          segue: caserma-fango-il-registro
+        fallimento:
+          titolo: Come allora
+          testo: |
+            Sali sul piatto, e il ferro sotto i piedi ti riporta indietro di
+            anni, e le gambe restano lì. Il Pesatore ti guarda con
+            curiosità. Alla fine ti spinge giù lui con il randello e ti dice
+            di tornare in città, che la merce che scappa due volte non vale
+            niente. Torni con le gambe che non smettono di tremare.
+          effetti: { tormento: 0.5 }
+          vai: citta-bassa
+
+      - testo: "Tornare in città"
+        descrizione: "Il Pesatore è forte e riposato. Si può tornare a prenderlo un'altra volta, se il carro non sarà già a Ghoran."
+        costo: 0
+        esito:
+          titolo: La strada indietro
+          testo: |
+            Torni indietro nel buio, e alle tue spalle il fuoco del Pesatore
+            resta acceso, piccolo, fino al dosso. Ti fermi alla pietra miliare
+            all'alba, e lasci una moneta nella ciotola.
+          vai: citta-bassa
+
+  - id: caserma-fango-il-registro
+    immagine: ambientazione/ghoran
+    titolo: Il registro del Pesatore
+    tipo: seguito
+    luogo: La strada del fango, il carro del Pesatore
+    area: caserma-strada-del-fango
+    requisiti: [fazione.caserma == 11]
+    testo: |
+      Apri la gabbia con la chiave che il Pesatore teneva alla cintura, e i
+      prigionieri scendono uno dopo l'altro, stringendosi i polsi. Brina
+      scende per ultima, con il mestolo in mano. Ti guarda e ti dice che la
+      zuppa sul fuoco della casa blu sarà andata a male, e che le dispiace.
+
+      {empatia Media} Ha tenuto il mestolo per tutto il viaggio. Era l'unica
+      cosa sua che il Pesatore non le ha tolto, e lei non l'ha mollato
+      nemmeno per dormire.
+
+      Sul pianale del carro, sotto la bilancia smontata, c'è un quaderno con
+      la copertina di cuoio unto. Sono le vendite del Pesatore degli ultimi
+      dieci anni, scritte in una grafia dritta. Accanto a ogni peso c'è un
+      prezzo, con il segno del clan che ha comprato. A metà quaderno, otto
+      anni fa, c'è una riga che ti ferma il dito. *Due figli del naso rotto,
+      al clan del Guado.*
+
+      {accademiche Media} Otto anni fa Borso è arrivato in città con il naso
+      rotto e nient'altro. Lo sceriffo lo ha preso alla Caserma, e lui ha
+      cominciato a risparmiare.
+    opzioni:
+      - testo: "Riportare Brina in città"
+        descrizione: "Sei giorni di fango all'indietro, insieme ai prigionieri liberati."
+        quando: [caserma.anticipo != 1]
+        esito:
+          titolo: Luogotenente
+          testo: |
+            Il ritorno dura sei giorni. Alla pietra miliare Brina si ferma,
+            guarda la faccia liscia rivolta a sud e poi la torre incisa
+            dall'altra parte, e passa. In Caserma Galdrick vi aspetta sul
+            portone, e quando vede Brina con il mestolo in mano si gira verso
+            il cortile e resta così per un poco. Poi ti nomina luogotenente
+            davanti alla Guardia schierata. Il furiere ti consegna una cotta di
+            maglia con gli anelli doppi sulle spalle e la chiave dell'archivio
+            dei rapporti, e ti fa firmare le ricevute.
+
+            {politica-ed-economia Media} Luogotenente vuol dire che in sua
+            assenza firmi tu. Vuol dire anche che d'ora in poi gli errori
+            della Caserma portano la tua firma.
+          pe: { resilienza: 5 }
+          effetti: { fazione.caserma: 1, oggetto.caserma-cotta-della-caserma: 1, oggetto.caserma-registro-del-pesatore: 1, monete: 60, informazioni.segreto: 1 }
+          almeno: { rep.caserma: 8 }
+          vai: citta-bassa
+
+      - testo: "Riportare Brina in città"
+        descrizione: "Sei giorni di fango all'indietro, insieme ai prigionieri liberati. In Caserma c'è una ricevuta che ti aspetta."
+        quando: [caserma.anticipo == 1]
+        esito:
+          titolo: Luogotenente
+          testo: |
+            Il ritorno dura sei giorni. Alla pietra miliare Brina si ferma,
+            guarda la faccia liscia rivolta a sud e poi la torre incisa
+            dall'altra parte, e passa. In Caserma Galdrick vi aspetta sul
+            portone, e quando vede Brina con il mestolo in mano si gira verso
+            il cortile e resta così per un poco. Poi ti nomina luogotenente
+            davanti alla Guardia schierata. Il furiere ti consegna una cotta
+            di maglia con gli anelli doppi sulle spalle, la chiave
+            dell'archivio dei rapporti e una borsa. È la paga che avevi
+            anticipato, con la ricevuta che avevi firmato tu, barrata con una
+            riga dritta.
+
+            {politica-ed-economia Media} Il furiere ha rimborsato fino
+            all'ultima moneta. Dove abbia trovato i soldi non te lo dirà, e
+            sulla ricevuta c'è scritto *spese di servizio*.
+          pe: { resilienza: 5 }
+          imposta: { caserma.anticipo: 2 }
+          effetti: { fazione.caserma: 1, oggetto.caserma-cotta-della-caserma: 1, oggetto.caserma-registro-del-pesatore: 1, monete: 100, informazioni.segreto: 1 }
+          almeno: { rep.caserma: 8 }
+          vai: citta-bassa

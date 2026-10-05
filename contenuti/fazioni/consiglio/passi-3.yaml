@@ -1,0 +1,661 @@
+# Quest del Consiglio, terzo atto (fazione.consiglio 10 → 15). Chiede pista.acciaio >= 8 (Ondrel è morto e la
+# sedia dei Tarvelin è vuota) e resta chiuso con pista.pelle fra 4 e 6, come l'Arena: gli ingressi dei passi hanno
+# i requisiti pista.pelle != 4, != 5, != 6, oppure due versioni, prima (pista.pelle < 4) e dopo (pista.pelle >= 7)
+# la caduta di Ottone.
+# - passo 11: `consiglio-le-sedie-vuote` (prima: Ottone vuole la sedia dei Tarvelin per la Gilda finché l'erede non
+#   si presenta) e `consiglio-le-sedie-vuote-dopo` (dopo: Tebaldo Ronchi chiede la sedia dei Malgrani per il
+#   primogenito sotto la tutela di Urtilia e offre il debito in cambio). Tutti e due portano all'archivio che
+#   allaga (`consiglio-l-archivio-che-allaga`) e alle pagine incollate del registro del Patto
+#   (`consiglio-le-pagine-incollate`). Con la lettera col sigillo (chiave.sigillo-del-consiglio) la Casa dei Nodi
+#   presta la sua copia, e la prova è Facile. La clausola: il seggio di una casa firmataria va a chi la casa nomina
+#   sulla soglia del proprio maniero.
+# - passo 12 `consiglio-il-giardino-di-maerith` (Grifone di Ferro): Liaren non vuole il seggio né il Maniero.
+#   consiglio.tarvelin: 1 siede lei (Empatia Difficile, Media con rep.tarvelin >= 2; il Figlio del Circolo legge il
+#   giardino), 2 nomina un altro (Irsa con acciaieria.futuro 3, Abele Torsi con 2), 3 nessuno e il seggio va al voto.
+#   Le prove fallite lasciano la scena aperta. 1 e 2 portano a `consiglio-la-soglia-del-maniero`; ogni ramo dà il
+#   grado IV (Cancelliere): l'anello delle bilance e la stanza degli ospiti (servizi.yaml).
+# - passo 13 `consiglio-la-notte-prima-della-seduta`: l'ingresso nella spedizione spedizione-maniero.yaml (imposta
+#   consiglio.notte 1 e consiglio.gazza 0). La pista sale al cuore.
+# - passo 14 (passi-3b.yaml): la vigilia, la seduta, lo spoglio. passo 15 (passi-3b.yaml): la spilla.
+storylet:
+  # ------------------------------------------------------------ passo 11 · le sedie vuote
+  - id: consiglio-le-sedie-vuote
+    presso: municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: Le sedie vuote
+    sommario: "Sulla sedia dei Tarvelin, in sala consiliare, c'è un nastro nero da quando Ondrel è morto. Ottone Malgrani ha una proposta per riempirla."
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 10, pista.acciaio >= 8, pista.pelle < 4]
+    testo: |
+      Sulla sedia dei Tarvelin, in sala consiliare, c'è un nastro nero legato
+      allo schienale, e da quando Ondrel è morto nessuno ci si siede. Julia ti
+      riceve con la porta chiusa e una pratica nuova sulla scrivania, scritta
+      con la grafia elegante del segretario di Ottone Malgrani. La Gilda
+      propone di tenere la sedia dei Tarvelin finché l'erede non si presenta,
+      e di votare al posto suo nel frattempo.
+
+      {politica-ed-economia Media} Con la sedia dei Tarvelin la Gilda avrebbe
+      due voti al tavolo, e le licenze sul grano tornerebbero in fondo alla
+      pila per altri cinque anni.
+
+      «L'erede è Liaren, e Liaren fa la locandiera sui Ponti» dice Julia.
+      «Ottone lo sa benissimo. Conta sul fatto che lei non salga mai le scale
+      del Municipio.» Si sfila la penna da dietro l'orecchio. «Voglio sapere
+      che cosa dice il Patto delle Corde sui seggi rimasti senza capo. La
+      copia del Comune sta nell'archivio sotto il Municipio, e l'archivio
+      allaga ogni primavera.»
+
+      {empatia Media} Ha detto Liaren con la voce che usa per le pratiche
+      rinviate. Non le piace dover sperare in una che non conosce.
+    opzioni:
+      - testo: "Scendere in archivio con Tullio"
+        descrizione: "L'archivio sta oltre la grata della banca cittadina, in fondo al corridoio. Tullio ha la chiave e una lanterna."
+        esito:
+          titolo: Oltre la grata
+          testo: |
+            Tullio prende la lanterna e il mazzo delle chiavi, e scendete
+            insieme le scale del seminterrato, oltre la grata della banca e la
+            stanza delle casse dei respinti, fino a una porta bassa con i
+            cardini verdi di ruggine.
+          segue: consiglio-l-archivio-che-allaga
+
+  - id: consiglio-le-sedie-vuote-dopo
+    presso: municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: Le sedie vuote
+    sommario: "In sala consiliare sono vuote due sedie, la sedia dei Tarvelin accanto a quella dei Malgrani. Un procuratore vestito di nero ha una proposta per riempirne una."
+    luogo: Municipio, l'ufficio della Rappresentante
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 10, pista.acciaio >= 8, pista.pelle >= 7]
+    testo: |
+      In sala consiliare due sedie sono vuote. Su quella dei Tarvelin c'è un
+      nastro nero legato allo schienale, e quella dei Malgrani l'hanno spinta
+      contro il muro il giorno della condanna di Ottone. Julia ti riceve con
+      la porta chiusa e una lettera sulla scrivania, firmata da Tebaldo Ronchi
+      con l'inchiostro marrone di Ghoran. Urtilia Mendion chiede che il seggio
+      dei Malgrani passi al primogenito di Ottone, sotto la sua tutela finché
+      il ragazzo non avrà l'età. In cambio, con molta cortesia, offre di
+      cancellare le obbligazioni di grano dei Castaldi.
+
+      {politica-ed-economia Media} Un seggio in cambio di un debito, offerto
+      per iscritto alla Rappresentante. Se lei accetta l'ha comprata Ghoran, e
+      se rifiuta ha preferito i suoi debiti alla città.
+
+      «Ronchi vuole una risposta in seduta, davanti a tutti» dice Julia. «E io
+      prima voglio sapere che cosa dice il Patto delle Corde sui seggi rimasti
+      senza capo. La copia del Comune sta nell'archivio sotto il Municipio, e
+      l'archivio allaga ogni primavera.» Si sfila la penna da dietro
+      l'orecchio, e la rimette subito dov'era.
+
+      {empatia Media} La lettera è piegata in quattro, come le petizioni della
+      panca. L'ha ripiegata lei tante volte che la carta si è consumata sulle
+      pieghe.
+    opzioni:
+      - testo: "Scendere in archivio con Tullio"
+        descrizione: "L'archivio sta oltre la grata della banca cittadina, in fondo al corridoio. Tullio ha la chiave e una lanterna."
+        esito:
+          titolo: Oltre la grata
+          testo: |
+            Tullio prende la lanterna e il mazzo delle chiavi, e scendete
+            insieme le scale del seminterrato, oltre la grata della banca e la
+            stanza delle casse dei respinti, fino a una porta bassa con i
+            cardini verdi di ruggine.
+          segue: consiglio-l-archivio-che-allaga
+
+  - id: consiglio-l-archivio-che-allaga
+    immagine: ambientazione/biblioteca-di-qir-azel
+    titolo: L'archivio che allaga
+    tipo: seguito
+    luogo: Municipio, l'archivio
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 10]
+    testo: |
+      L'archivio del Municipio è una sala lunga con il soffitto a volta, più
+      bassa del corridoio di due gradini, e sul pavimento c'è ancora la riga
+      scura lasciata dall'acqua dell'ultima primavera, all'altezza di una
+      caviglia. Le casse stanno sopra assi appoggiate su mattoni, in file che
+      si perdono oltre la luce della lanterna. Sulle casse più vicine il gesso
+      dice l'anno, e su quelle in fondo non dice più niente.
+
+      {resistenza Media fallita} L'umido ti entra nei polmoni al terzo respiro
+      e ci si sistema comodo. Per i prossimi due giorni tossirai ogni volta
+      che ti chini.
+
+      Tullio appende la lanterna a un gancio del soffitto e si guarda intorno
+      con le mani sui fianchi. Il Patto delle Corde, dice, il Comune l'ha
+      ricopiato in un registro rilegato in pelle, e il registro dovrebbe stare
+      in una cassa degli anni della fondazione. Quali siano gli anni della
+      fondazione, sulle casse in fondo, non lo sa più nessuno da quando il
+      gesso si è sciolto.
+
+      {accademiche Media} I registri della fondazione hanno le borchie di
+      ottone agli angoli, perché allora il Comune voleva sembrare una banca.
+      Basta cercare il verde dell'ottone sotto la polvere.
+
+      Dall'alto arriva il passo regolare delle sentinelle della banca, e ogni
+      tanto una goccia cade dalla volta in una pozza che nessuno ha mai
+      asciugato.
+    opzioni:
+      - testo: "Cercare il registro fra le casse"
+        descrizione: "Due giorni di casse aperte e richiuse, con l'umido nei polmoni. Chi sa che cosa cercare ne apre la metà."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Le borchie di ottone
+          testo: |
+            Cerchi gli angoli verdi sotto la polvere, e al secondo giorno li
+            trovi, in una cassa senza gesso dietro una fila di registri del
+            catasto. Il registro del Patto è rilegato in pelle scura con le
+            borchie di ottone, e le pagine di mezzo si sono incollate con
+            l'umido in un blocco solo. Tullio lo prende con due mani, come un
+            neonato.
+          pe: { accademiche: 5 }
+          segue: consiglio-le-pagine-incollate
+        fallimento:
+          titolo: Il catasto
+          testo: |
+            Apri casse per due giorni, e trovi i registri del catasto e quelli
+            delle multe, più tre anni di petizioni respinte che Tullio
+            riconosce con un sospiro. Il registro del Patto salta fuori al
+            terzo giorno, in fondo all'ultima fila, quando hai già la febbre
+            dell'umido e la voce rauca. Le pagine di mezzo si sono incollate
+            in un blocco solo.
+          effetti: { ferite: 0.5 }
+          segue: consiglio-le-pagine-incollate
+
+      - testo: "Restare giù finché non salta fuori"
+        descrizione: "Non serve sapere dove cercare se le apri tutte. Servono le spalle e i polmoni per resistere all'umido."
+        costo: 2
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Facile }
+        successo:
+          titolo: Tutte le casse
+          testo: |
+            Apri le casse una dopo l'altra, dalla prima all'ultima fila, e le
+            richiudi con ordine perché Tullio ti guarda. Il registro del Patto
+            lo trovi verso sera del secondo giorno, rilegato in pelle scura
+            con le borchie di ottone, e quando lo apri le pagine di mezzo
+            restano attaccate in un blocco solo.
+          pe: { resistenza: 5 }
+          segue: consiglio-le-pagine-incollate
+        fallimento:
+          titolo: La febbre dell'umido
+          testo: |
+            Il secondo giorno l'umido ti ha preso il petto, e il terzo
+            tossisci a ogni cassa che apri. Il registro lo trova Tullio,
+            mentre tu sei seduto su un gradino a riprendere fiato, e te lo
+            porta con le pagine di mezzo incollate in un blocco solo.
+          effetti: { ferite: 1 }
+          segue: consiglio-le-pagine-incollate
+
+      - testo: "Chiedere la copia della Casa dei Nodi"
+        descrizione: "La Gilda tiene alla Casa dei Nodi una copia del Patto rilegata di nuovo e ben asciutta. Con la lettera col sigillo te la devono mostrare. Cordani lo saprà prima di sera."
+        immagine: icone/wax-seal
+        requisiti: [chiave.sigillo-del-consiglio >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Facile }
+        successo:
+          titolo: La copia della Gilda
+          testo: |
+            Il custode dei registri della Casa dei Nodi legge la lettera due
+            volte, poi ti porta in una stanza con le finestre sul Mercato dei
+            Nodi e un leggio di noce. La copia della Gilda è asciutta e
+            leggibile, ricopiata vent'anni fa da un calligrafo che si è
+            permesso qualche svolazzo. La clausola la trovi alla terza pagina
+            del capitolo sulle casate. Il seggio di una casa firmataria va a
+            chi la casa nomina sulla soglia del proprio maniero, detto ad alta
+            voce davanti a un testimone del Consiglio. Prima di sera, in
+            Municipio, arriva un biglietto di Cordani che saluta la
+            Rappresentante e si congratula per lo zelo dei suoi incaricati.
+
+            {politica-ed-economia Media} Adesso Cordani sa che cosa cercava
+            Julia, e Julia sa che lui lo sa. In Consiglio, a volte, è il modo
+            più cortese di dirsi le cose.
+          pe: { accademiche: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il leggio vuoto
+          testo: |
+            Il custode dei registri legge la lettera, ti porta a un leggio di
+            noce e torna con la notizia che la copia della Gilda è in
+            rilegatura, e che lo sarà per un mese. Lo dice guardandoti negli
+            occhi. Torni in Municipio, e Tullio ha già preso la lanterna per
+            scendere in archivio con te. Il registro del Comune lo trovate in
+            due giorni, con le pagine di mezzo incollate in un blocco solo.
+          segue: consiglio-le-pagine-incollate
+
+  - id: consiglio-le-pagine-incollate
+    immagine: ambientazione/biblioteca-di-qir-azel
+    titolo: Le pagine incollate
+    tipo: seguito
+    luogo: Municipio, il bancone di Tullio
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 10]
+    testo: |
+      Il registro del Patto sta sul bancone di Tullio, sopra un panno pulito,
+      con le borchie di ottone che lasciano aloni verdi sulla stoffa. Le prime
+      pagine si leggono e sono le firme delle casate, con i nomi scritti
+      grandi e gli svolazzi del tempo. Le pagine di mezzo sulle casate e sui
+      seggi si sono incollate in un blocco spesso un dito, e sui bordi la
+      carta è diventata scura e dura come un biscotto.
+
+      {tecnologia Media} La colla di un tempo si scioglie con il vapore, non
+      con la forza. Una lama sottile scaldata sopra la lanterna passa fra i
+      fogli senza strapparli, se si va piano.
+
+      Tullio si toglie gli occhiali e li pulisce due volte. Poi va a prendere
+      il bricco del tè dalla stufa dell'anticamera e lo posa sul bancone
+      accanto al registro senza dire niente, e resta a guardarti con le mani
+      intrecciate sul ventre.
+
+      {percezione Facile} Fra il terzo e il quarto foglio del blocco c'è un
+      filo di luce. Lì la colla ha ceduto da sola, ed è da lì che si comincia.
+    opzioni:
+      - testo: "Staccare le pagine con una lama scaldata"
+        descrizione: "Un coltello sottile scaldato sulla lanterna, un foglio alla volta, cominciando dal filo di luce."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La soglia del maniero
+          testo: |
+            Passi la lama scaldata fra i fogli con la pazienza di un chirurgo,
+            e la colla cede con un sospiro ogni volta. La clausola la trovi
+            alla quinta pagina, scritta piccola in fondo al capitolo sulle
+            casate. Il seggio di una casa firmataria va a chi la casa nomina
+            sulla soglia del proprio maniero, detto ad alta voce davanti a un
+            testimone del Consiglio. Julia la legge da sopra la tua spalla,
+            con una mano appoggiata al bancone. «Per questo la città aspetta
+            che l'erede dei Tarvelin torni a casa» dice, «e lo sapevano tutti
+            senza sapere perché.»
+          pe: { tecnologia: 5 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: La pagina strappata
+          testo: |
+            Alla quarta pagina la lama si raffredda e il foglio si strappa a
+            metà con un rumore che fa sobbalzare Tullio. Sulla metà che ti
+            resta in mano c'è l'inizio della clausola. Il seggio di una casa
+            firmataria va a chi la casa nomina sulla soglia del proprio
+            maniero, e poi lo strappo. Julia dice che basta così. Tullio
+            raccoglie l'altra metà con due dita e la mette in una busta, e per
+            tutto il giorno non ti guarda.
+          effetti: { fazione.consiglio: 1 }
+
+      - testo: "Scollarle al vapore del bricco"
+        descrizione: "Tullio ha portato il bricco del tè. Ci vuole un pomeriggio intero, un foglio alla volta, e il tè di Tullio non lo beve nessuno."
+        costo: 2
+        esito:
+          titolo: Il pomeriggio del bricco
+          testo: |
+            Tieni il blocco di pagine sopra il becco del bricco, e Tullio
+            rimette l'acqua sulla stufa ogni volta che si fredda. Per tutto il
+            pomeriggio la carta si ammorbidisce un foglio alla volta, e la
+            panca dell'anticamera vi guarda lavorare come al teatro. La
+            clausola è alla quinta pagina. Il seggio di una casa firmataria va
+            a chi la casa nomina sulla soglia del proprio maniero, davanti a
+            un testimone del Consiglio. Julia la legge e dice che per questo
+            la città aspetta che l'erede dei Tarvelin torni a casa.
+          pe: { accademiche: 3 }
+          effetti: { fazione.consiglio: 1, rep.castaldi: 0.5 }
+
+  # ------------------------------------------------------------ passo 12 · il giardino di Maerith
+  - id: consiglio-il-giardino-di-maerith
+    presso: grifone-di-ferro
+    immagine: personaggi/liaren-tarvelin
+    titolo: Il giardino di Maerith
+    sommario: "Il seggio dei Tarvelin va a chi Liaren nominerà sulla soglia del Maniero. Liaren non mette piede al Maniero da anni, e stasera suona al Grifone."
+    luogo: Locanda del Grifone di Ferro, la sala
+    area: ponti-sospesi
+    requisiti: [fazione.consiglio == 11, pista.acciaio >= 8, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
+    testo: |
+      Al Grifone di Ferro è sera, e la sala è piena di Raschiatori con gli
+      stivali ancora sporchi della piattaforma. Liaren Tarvelin suona il
+      samisen seduta sul bancone, con una gamba piegata sotto l'altra, e canta
+      una canzone sui ponti che tutta la sala conosce e che a metà cambia le
+      parole per prendere in giro un Raschiatore in prima fila. Brunella esce
+      dalla cucina con due piatti per mano e ti guarda la lettera col sigillo
+      che spunta dalla giubba prima ancora della faccia.
+
+      {galateo Facile} Ha visto il sigillo e ha già capito da chi vieni. Il
+      piatto che ti mette davanti è il migliore della cucina, ed è un modo
+      cortese di dirti di sbrigarti.
+
+      Quando la canzone finisce Liaren scende dal bancone e si siede al tuo
+      tavolo, girando la sedia al contrario. Le spieghi la clausola del Patto
+      e la proposta che aspetta in Consiglio, e lei ascolta con il mento sullo
+      schienale. Dice che al Maniero dei Tarvelin non entra da anni e che il
+      seggio di suo padre lo lascia volentieri a chi lo vuole. Se però sulla
+      soglia non nomina nessuno, al voto vincono quelli che il seggio lo
+      vogliono troppo.
+
+      {empatia Media} Ha detto suo padre e non mio padre. Il Maniero per lei è
+      ancora la casa di Ondrel, e il giardino chiuso è la cosa che le fa più
+      paura di tutte.
+
+      {origine figlio-del-circolo} Il giardino dei Tarvelin l'hai visto dal
+      muro, passando, con i rami che scavalcano il cancello e le catene. Al
+      Circolo ti hanno insegnato che un giardino chiuso da dieci anni non è
+      morto, e che si legge da quello che è cresciuto senza nessuno.
+    opzioni:
+      - testo: "Convincerla a sedere lei"
+        descrizione: "Liaren non vuole il seggio, e forse proprio per questo sarebbe la persona giusta. Bisogna dirglielo senza parlare di suo padre."
+        quando: [rep.tarvelin < 2]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: La sedia al contrario
+          testo: |
+            Non le parli del seggio. Le parli della sala del Grifone, dei
+            Raschiatori che stasera hanno cantato con lei, e di quanti di loro
+            in Consiglio non hanno nessuno che si ricordi come si chiamano.
+            Liaren gira la sedia per il verso giusto e ci si siede come si
+            deve, con le mani in grembo. Ci resta a lungo. Poi dice che
+            domattina va al Maniero, e che vuole te alla soglia come testimone
+            del Consiglio.
+          pe: { empatia: 6 }
+          imposta: { consiglio.tarvelin: 1 }
+          segue: consiglio-la-soglia-del-maniero
+        fallimento:
+          titolo: Il samisen
+          testo: |
+            Le parli del dovere della casata, e a ogni parola Liaren si fa più
+            lontana, anche se non si muove dalla sedia. Alla fine si alza e
+            torna sul bancone a riprendere il samisen. Suona una canzone sola,
+            lenta, che in sala nessuno conosce. Brunella ti porta via il
+            piatto e ti dice di tornare quando avrai un'idea migliore.
+
+      - testo: "Convincerla a sedere lei"
+        descrizione: "Liaren ti conosce e si fida di te. Il seggio di suo padre lo rifiuta da anni. Da te, forse, può ascoltare perché dovrebbe prenderlo."
+        quando: [rep.tarvelin >= 2]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La sedia al contrario
+          testo: |
+            Le parli della sala del Grifone, dei Raschiatori che stasera hanno
+            cantato con lei, e di quanti di loro in Consiglio non hanno
+            nessuno che si ricordi come si chiamano. Liaren ti ascolta come si
+            ascolta un amico che ha ragione e lo sa. Poi gira la sedia per il
+            verso giusto e ci si siede come si deve. Dice che domattina va al
+            Maniero, e che vuole te alla soglia come testimone del Consiglio.
+          pe: { empatia: 5 }
+          imposta: { consiglio.tarvelin: 1 }
+          segue: consiglio-la-soglia-del-maniero
+        fallimento:
+          titolo: Il samisen
+          testo: |
+            Le parli del dovere della casata, e Liaren ti ferma con una mano.
+            Ti dice che proprio tu dovresti saperlo meglio degli altri, perché
+            di suo padre non vuole niente, e torna sul bancone a riprendere il
+            samisen. Brunella ti porta via il piatto e ti dice di tornare
+            quando avrai un'idea migliore.
+
+      - testo: "Portarle il nome di Irsa Valbrun"
+        descrizione: "Irsa è socia di Liaren all'Acciaieria e siede nel consiglio della Gilda. Al tavolo del Consiglio saprebbe tenere testa a chiunque."
+        immagine: personaggi/irsa-valbrun
+        quando: [acciaieria.futuro == 3]
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il grembiule in Consiglio
+          testo: |
+            Le dici che il seggio non deve per forza sederlo lei, se sulla
+            soglia nomina qualcuno di cui si fida. Liaren ride, perché ha
+            capito subito a chi pensi. Irsa in Consiglio con il grembiule da
+            bottega, dice, sarebbe la cosa più bella che la sala abbia visto
+            da anni. Domattina va al Maniero, e vuole te alla soglia come
+            testimone del Consiglio.
+          pe: { persuasione: 5 }
+          imposta: { consiglio.tarvelin: 2 }
+          segue: consiglio-la-soglia-del-maniero
+        fallimento:
+          titolo: La socia
+          testo: |
+            Le proponi Irsa, e Liaren ti ricorda che Irsa siede già nel
+            consiglio della Gilda. Una Tarvelin che regala il seggio di
+            famiglia a una della Gilda, in sala, lo leggerebbero tutti allo
+            stesso modo. Torna sul bancone a riprendere il samisen, e Brunella
+            ti dice di tornare quando avrai un'idea migliore.
+
+      - testo: "Portarle il nome di Abele Torsi"
+        descrizione: "Il capoturno del turno di giorno manda avanti l'Acciaieria con gli operai in società. In Consiglio nessuno ha mai sentito parlare uno che lavora alla colata."
+        quando: [acciaieria.futuro == 2]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Uno della colata
+          testo: |
+            Le dici che il seggio dei Tarvelin era il seggio dell'Acciaieria,
+            e che all'Acciaieria adesso decidono gli operai. Liaren ci pensa
+            girando il bicchiere sul tavolo. Poi dice che Abele Torsi in
+            Consiglio, con le scottature sulle braccia e le scarpe della
+            fonderia, sarebbe la cosa più giusta che suo padre non avrebbe mai
+            fatto. Domattina va al Maniero, e vuole te alla soglia come
+            testimone del Consiglio.
+          pe: { persuasione: 5 }
+          imposta: { consiglio.tarvelin: 2 }
+          segue: consiglio-la-soglia-del-maniero
+        fallimento:
+          titolo: Il capoturno
+          testo: |
+            Le proponi Abele, e Liaren ti chiede se Abele lo sa. Non lo sa, e
+            lei dice che un uomo non si nomina in Consiglio a sua insaputa, se
+            si vuole che ci resti più di una seduta. Torna sul bancone a
+            riprendere il samisen, e Brunella ti dice di tornare quando avrai
+            un'idea migliore.
+
+      - testo: "Lasciare che il seggio vada al voto"
+        descrizione: "Liaren non vuole scegliere, e nessuno può farlo al posto suo. Il seggio andrà al voto, e a portarlo al voto dovrà essere qualcuno di fiducia."
+        esito:
+          titolo: Cancelliere
+          testo: |
+            Le dici che va bene così, e Liaren ti ringrazia con una pacca
+            sulla spalla e una canzone in più. Il giorno dopo racconti tutto a
+            Julia. Lei ascolta, poi apre un astuccio di velluto e ne tira
+            fuori un anello d'argento con le bilance dei Castaldi. «Se il
+            seggio va al voto, la nomina la porta il Cancelliere» dice, «e da
+            oggi il Cancelliere sei tu.» Marella, che è passata a prenderla,
+            aggiunge che al Maniero la stanza degli ospiti è pronta, e che da
+            stasera è tua quando vuoi.
+
+            {politica-ed-economia Media} Un seggio al voto, portato dal
+            Cancelliere della Rappresentante. Julia ha perso la speranza di
+            una nomina sulla soglia, e intanto si è presa la sala.
+          pe: { politica-ed-economia: 5 }
+          imposta: { consiglio.tarvelin: 3 }
+          almeno: { rep.castaldi: 8 }
+          effetti: { fazione.consiglio: 1, oggetto.consiglio-anello-delle-bilance: 1 }
+
+      - testo: "Raccontarle che cosa c'è nel giardino di sua madre"
+        descrizione: "Dal muro hai visto quello che è cresciuto in dieci anni senza nessuno. Al Circolo un giardino chiuso si legge come una lettera."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Quello che Maerith ha piantato
+          testo: |
+            Le racconti del giardino come lo hai visto dal muro. I meli potati
+            a spalliera hanno preso la forma del muro e ci sono rimasti, e
+            sotto il glicine c'è una fila di rose che qualcuno ha piantato
+            dove il sole arriva soltanto la mattina, perché la mattina era
+            l'ora in cui Maerith ci stava. Liaren ti ascolta con gli occhi
+            bassi. Poi dice che domattina va al Maniero, e che vuole te alla
+            soglia come testimone del Consiglio.
+
+            {natura Media} Le rose della mattina si piantano per chi le
+            guarda, e non per chi le coglie. Maerith le guardava dalla
+            finestra della figlia.
+          pe: { natura: 5 }
+          imposta: { consiglio.tarvelin: 1 }
+          segue: consiglio-la-soglia-del-maniero
+        fallimento:
+          titolo: Il samisen
+          testo: |
+            Le racconti del giardino, e ti accorgi tardi di aver nominato le
+            piante con i nomi del Circolo, che lei non conosce. Liaren ti
+            ascolta per cortesia, poi torna sul bancone a riprendere il
+            samisen. Brunella ti porta via il piatto e ti dice di tornare
+            quando avrai un'idea migliore.
+
+  - id: consiglio-la-soglia-del-maniero
+    immagine: ambientazione/maniero-tarvelin
+    titolo: La soglia del Maniero
+    tipo: seguito
+    luogo: Maniero Tarvelin, il giardino chiuso
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 11]
+    testo: |
+      Il Maniero Tarvelin è la casa più silenziosa dei Quartieri Alti, con le
+      persiane chiuse e i gradini puliti da un servitore che non c'è più. Il
+      cancello del giardino è tenuto da una catena arrugginita, girata tre
+      volte intorno alle sbarre. Liaren arriva a piedi da sola, con il samisen
+      a tracolla e una cesoia da potatura presa in prestito dalla cucina di
+      Brunella.
+
+      Si ferma davanti al cancello per un tempo lungo. Poi infila la cesoia
+      nell'anello più consumato della catena e ci si appende con tutto il peso
+      finché l'anello non cede con uno schiocco secco. Ti dice di aspettarla
+      sulla soglia ed entra nel giardino da sola.
+
+      {empatia Media} La cesoia della cucina, e non le chiavi del padre. Ha
+      voluto entrare con una cosa di Brunella, che l'ha cresciuta, invece che
+      con una cosa di Ondrel.
+
+      Resta dentro un'ora. Dal cancello vedi soltanto i rami dei meli e il
+      glicine che ha mangiato il pergolato, e una volta senti il samisen,
+      poche note, che si interrompono. Quando esce ha le mani sporche di terra
+      e gli occhi asciutti. Sale i gradini del Maniero, si gira verso di te
+      sulla soglia e aspetta che tu tiri fuori la lettera col sigillo, perché
+      un testimone del Consiglio deve avere un sigillo da mostrare.
+
+      {galateo Facile} Sulla soglia, ad alta voce, davanti a un testimone. Il
+      Patto non dice altro, e quello che il Patto non dice, in una famiglia
+      come i Tarvelin, si fa con la massima solennità possibile.
+    opzioni:
+      - testo: "Ascoltarla dire il suo nome"
+        descrizione: "Liaren Tarvelin, sulla soglia della casa di suo padre, nomina se stessa."
+        quando: [consiglio.tarvelin == 1]
+        esito:
+          titolo: Liaren Tarvelin
+          testo: |
+            «Il seggio dei Tarvelin lo siede Liaren Tarvelin» dice, ad alta
+            voce, verso la strada vuota. Poi scende i gradini e si pulisce le
+            mani sui calzoni. Il giorno dopo Julia ascolta il tuo racconto e
+            apre un astuccio di velluto, da cui tira fuori un anello d'argento
+            con le bilance dei Castaldi. «La nomina in Consiglio la porta il
+            Cancelliere» dice, «e da oggi il Cancelliere sei tu.» Marella
+            aggiunge che al Maniero la stanza degli ospiti è pronta, e che da
+            stasera è tua quando vuoi.
+          pe: { galateo: 5 }
+          almeno: { rep.castaldi: 8 }
+          effetti: { fazione.consiglio: 1, rep.tarvelin: 1, oggetto.consiglio-anello-delle-bilance: 1 }
+      - testo: "Ascoltarla dire il nome di chi siederà"
+        descrizione: "Liaren Tarvelin, sulla soglia della casa di suo padre, nomina qualcuno al suo posto."
+        quando: [consiglio.tarvelin == 2]
+        esito:
+          titolo: Un nome sulla soglia
+          testo: |
+            Liaren dice il nome ad alta voce verso la strada vuota, scandendo
+            il cognome, perché il testimone non abbia dubbi. Poi scende i
+            gradini e si pulisce le mani sui calzoni, e ti dice che adesso il
+            seggio di suo padre lavora all'Acciaieria, che è dove doveva
+            stare. Il giorno dopo Julia ascolta il tuo racconto e apre un
+            astuccio di velluto, da cui tira fuori un anello d'argento con le
+            bilance dei Castaldi. «La nomina in Consiglio la porta il
+            Cancelliere» dice, «e da oggi il Cancelliere sei tu.» Marella
+            aggiunge che al Maniero la stanza degli ospiti è pronta, e che da
+            stasera è tua quando vuoi.
+          pe: { galateo: 5 }
+          almeno: { rep.castaldi: 8 }
+          effetti: { fazione.consiglio: 1, rep.tarvelin: 1, oggetto.consiglio-anello-delle-bilance: 1 }
+
+  # ------------------------------------------------------------ passo 13 · la notte prima della seduta
+  - id: consiglio-la-notte-prima-della-seduta
+    immagine: fazioni/famiglia-castaldi
+    titolo: La notte prima della seduta
+    sommario: "Domani c'è seduta, e stanotte Eolio Drest ha visto un'ombra sul tetto che non è un gatto. Quintus Vael ti manda a chiamare."
+    luogo: Maniero Castaldi, la porta di servizio, di notte
+    area: quartieri-alti
+    requisiti: [fazione.consiglio == 12, consiglio.notte == 0, pista.acciaio >= 8, pista.pelle != 4, pista.pelle != 5, pista.pelle != 6]
+    testo: |
+      Il ragazzo di Quintus ti trova a mezzanotte e non ti dà il tempo di
+      allacciarti la giubba. Alla porta di servizio del Maniero Castaldi le
+      lanterne sono spente, e Quintus Vael ti aspetta nel buio con l'armatura
+      di cuoio e la spada già fuori dal fodero, appoggiata alla gamba.
+
+      Domani c'è seduta, e chi vuole Julia senza maggioranza ha bisogno di
+      leggere in sala il debito dei Castaldi, nero su bianco. Le carte stanno
+      nello studio di Aldous, nel cassetto nuovo con la serratura. Stanotte
+      Eolio Drest, che non dorme mai prima della campana dell'una, ha visto
+      un'ombra passare sui tetti di rame, sopra le stanze dei bambini, e ha
+      fatto a Quintus il segnale che in trent'anni non aveva mai usato.
+
+      {conoscenze-della-strada Media} Una che entra in un maniero dalla parte
+      dei tetti è venuta per una stanza sola, e sa già quale. È una
+      professionista, e qualcuno l'ha pagata bene.
+
+      «Brem fa il turno di notte, e non risponde al fischio» dice Quintus a
+      voce bassissima. «Gli altri li ho messi alle porte. Tu vieni dentro con
+      me, e se la trovi prima tu, non la lasci andare.»
+
+      {armi-da-mischia Media} Quintus tiene la spada bassa, con la punta verso
+      terra, per non farla luccicare. In una casa piena di bambini e di scale
+      strette, sa già che la userà poco e male.
+
+      Sopra di voi, fra le tegole di rame, scivola un rumore leggero, e poi
+      più niente.
+    opzioni:
+      - testo: "Entrare con Quintus dalla porta di servizio"
+        descrizione: "Dal cortile ai tetti di rame, passando per il seminterrato e i piani nobili. Quintus conosce la casa, tu devi conoscere la ladra."
+        esito:
+          titolo: Dentro
+          testo: |
+            Quintus apre la porta con due dita, e la casa vi accoglie con
+            l'odore di cera e di cenere fredda. Il cortile è buio, e il fico
+            nel mezzo è una macchia più nera delle altre.
+          imposta: { consiglio.notte: 1, consiglio.gazza: 0 }
+          vai: consiglio-maniero-di-notte
+      - testo: "Chiedere a Eolio dove l'ha vista"
+        descrizione: "Il maggiordomo dei segnali muti sa dov'era l'ombra e dove andava. Bisogna capire quello che ti dice senza parole."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Due dita verso l'alto
+          testo: |
+            Eolio è in piedi in fondo al corridoio di servizio, con il
+            campanello di bronzo stretto nel pugno perché non suoni. Alza due
+            dita verso il soffitto, poi le piega verso il seminterrato, poi
+            indica lo studio. Capisci che la ladra è passata dai tetti per
+            scendere a cercare, e che ha ancora da fare. Entri nel cortile con
+            un vantaggio che lei non sa di averti dato.
+          pe: { empatia: 5 }
+          imposta: { consiglio.notte: 1, consiglio.gazza: 0 }
+          vai: consiglio-maniero-di-notte
+        fallimento:
+          titolo: Il campanello
+          testo: |
+            Chiedi a Eolio ad alta voce dove l'ha vista, e il maggiordomo
+            chiude gli occhi. Sopra le vostre teste il rumore fra le tegole si
+            ferma e riparte più veloce. Quintus ti spinge dentro il cortile
+            con una mano sulla schiena, senza commenti.
+          imposta: { consiglio.notte: 1, consiglio.gazza: 1 }
+          vai: consiglio-maniero-di-notte
+      - testo: "Salire sui tetti dalla casa accanto"
+        descrizione: "Se la ladra è entrata dai tetti, uscirà dai tetti. Si può aspettarla lassù, o almeno cominciare dall'alto."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il cortile dall'alto
+          testo: |
+            Sali dalla grondaia della casa accanto e ti affacci sul cortile
+            del Maniero da sopra le tegole. Da lassù vedi il fico e le
+            finestre buie, con una corda sottile tesa fra un ramo e il
+            ballatoio del primo piano, che dal basso nessuno avrebbe visto.
+            Scendi piano lungo la corda stessa, e Quintus ti raggiunge nel
+            cortile già sapendo da che parte guardare.
+          pe: { atletica: 5 }
+          imposta: { consiglio.notte: 1, consiglio.gazza: 0 }
+          effetti: { profondita.consiglio-maniero-di-notte: 1 }
+          vai: consiglio-maniero-di-notte
+        fallimento:
+          titolo: La tegola
+          testo: |
+            A metà della grondaia una tegola si stacca e scivola giù per il
+            tetto con un rumore di campanaccio, e la senti spaccarsi nel
+            cortile. Scendi dalla parte da cui sei salito, con le mani
+            sbucciate, e rientri dalla porta di servizio con Quintus che ti
+            guarda senza dire niente. Sopra di voi, qualcuno adesso sa di non
+            essere solo.
+          imposta: { consiglio.notte: 1, consiglio.gazza: 1 }
+          effetti: { ferite: 0.5 }
+          vai: consiglio-maniero-di-notte

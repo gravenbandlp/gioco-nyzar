@@ -1,0 +1,942 @@
+# La quest dei Raschiatori, passo 11 (fazione.raschiatori 10 → 11): la spedizione alle Carcasse di Korith, due
+# giorni a est di Qir-Azel nell'ultima conca prima della scarpata del Gradone Rosso (codex sf-carcasse-di-korith).
+# Si scende con la propria squadra nello scafo sepolto sotto i tre archi neri. L'ingresso
+# (`raschiatori-le-costole-nella-conca`, nella Superficie) costa un rintocco in meno con lo Scandaglio o a cavallo.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# 0 lo scavo dei venti palmi o il portello, 1 le costole che cantano o l'eco del cartografo (innocuo, ripete i
+# gesti), 2 le cuccette fatte per corpi molto più alti o la stiva con le sonde, 3 la sala delle carte o il
+# corridoio delle sonde; la squadra nel buio vale da 1 a 3.
+# Il cuore a 4 è il timone: la Carta di Korith infilata nella ruota, e il pilota che si sveglia quando la Carta si
+# accende (boss). Le vie sono Difficili; chi fallisce o perde torna in Superficie senza la Carta e senza passo.
+aree:
+  - id: raschiatori-korith
+    immagine: ambientazione/gradone-rosso
+    nome: Le Carcasse di Korith
+    sommario: "Tre archi di metallo nero affiorano in fila nell'ultima conca prima del Gradone Rosso. Sotto, a venti palmi, c'è lo scafo di una nave che non ha mai visto il mare."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto i tre archi neri, a venti palmi di terra, c'è uno scafo. Il
+      metallo è lucido come un coltello appena passato alla mola, e la
+      ruggine non l'ha mai toccato. Le pareti dentro sono curve come le
+      costole di una bestia, con le giunture fatte per piegarsi, e
+      dappertutto c'è una polvere fine e asciutta che non si alza quando ci
+      cammini.
+
+      I tuoi della squadra scendono dietro di te uno alla volta, con le
+      lampade alte. Nella è la seconda della fila, come le hai insegnato, e
+      ripete a mezza voce le regole del turno come una preghiera.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, nella Superficie
+  - id: raschiatori-le-costole-nella-conca
+    immagine: ambientazione/gradone-rosso
+    titolo: Le costole nella conca
+    sommario: "Due giorni a est, nell'ultima conca prima della scarpata, tre archi neri escono dal terreno in fila. Le ombre delle Stele puntavano qui."
+    luogo: Superficie Fratturata, l'ultima conca prima del Gradone Rosso
+    area: superficie-fratturata
+    requisiti: [fazione.raschiatori == 10]
+    testo: |
+      L'ultima conca prima della scarpata del Gradone Rosso è un catino di
+      terra rossa e di erba bruciata, e nel mezzo escono dal terreno tre
+      archi di metallo nero, in fila, ciascuno più piccolo del precedente.
+      Curvano tutti verso un centro che non si vede, e il vento della
+      Superficie ci passa in mezzo senza un fischio. Intorno ci sono le
+      buche degli scavi di altri anni, mezze riempite dalla pioggia, e un
+      badile arrugginito piantato in piedi come una croce.
+
+      {percezione Media} La terra intorno agli archi è più asciutta del
+      resto della conca, per dieci passi tutto intorno. Qualcosa là sotto
+      scalda il terreno, oppure se ne beve l'acqua.
+
+      Gerardo Crine diceva che chi ha scavato qui ha smesso quando le pale,
+      a venti palmi, hanno cominciato a vibrare nelle mani. La tua squadra
+      ha le pale in spalla e aspetta che tu dica dove.
+
+      {conoscenze-della-strada Facile fallita} Ti viene in mente di chiedere
+      quanto paga la Gilda per una nave sepolta. Poi ti ricordi che stavolta
+      la Gilda non paga, e che sei tu il caposquadra.
+
+      {origine apprendista-raschiatore} È la prima volta che scendi in un
+      sito con dei Raschiatori che aspettano un tuo cenno. Ti accorgi di
+      tenere la pala come la teneva Gerardo il primo giorno, con il manico
+      sulla spalla e la lama verso l'esterno.
+
+      *Dita puntate, e adesso ci sono sotto.* Nella ti porge la lampada già
+      accesa.
+    opzioni:
+      - testo: "Scavare dove le pale vibrano"
+        descrizione: "A venti palmi le pale vibrano. È lì che bisogna scavare, con le mani che ronzano."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Venti palmi
+          testo: |
+            Scavate a turno sotto l'arco più grande, e a venti palmi la pala
+            comincia a ronzarti nelle mani come un'ape chiusa nel pugno.
+            Continui. A ventidue palmi la lama batte su un portello di metallo
+            lucido, e il ronzio si ferma. Il portello si apre verso l'interno
+            senza che nessuno lo spinga.
+          pe: { atletica: 2 }
+          vai: raschiatori-korith
+        fallimento:
+          titolo: Le mani che ronzano
+          testo: |
+            A venti palmi la pala ti vibra nelle mani così forte che non riesci
+            più a tenerla, e ti scivola via e ti batte sullo stinco. Scavate con
+            le mani per gli ultimi palmi, e le mani ti ronzano ancora quando il
+            portello di metallo si apre verso l'interno, da solo.
+          effetti: { ferite: 0.5 }
+          vai: raschiatori-korith
+      - testo: "Cercare l'ingresso seguendo la curva degli archi"
+        descrizione: "Gli archi curvano verso un centro. Se sono costole, il centro è la schiena, e da qualche parte c'è un'apertura."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La schiena
+          testo: |
+            Tracci con il piede le linee degli archi sul terreno fino al punto
+            dove si incontrerebbero, e fai scavare lì. A poco più di un braccio
+            la pala tocca un portello di metallo lucido, più piccolo di quanto
+            pensavi, che si apre verso l'interno appena lo liberi dalla terra.
+          pe: { percezione: 2 }
+          vai: raschiatori-korith
+        fallimento:
+          titolo: Le buche vecchie
+          testo: |
+            Fai scavare dove ti sembra che gli archi si incontrino, e trovate
+            soltanto le buche degli scavi di altri anni, una sotto l'altra. Ci
+            vuole tutto il pomeriggio prima che Nella trovi il portello per
+            caso, inciampandoci.
+          effetti: { tormento: 0.5 }
+          vai: raschiatori-korith
+      - testo: "Mandare avanti lo Scandaglio"
+        descrizione: "Il cristallo vibra dove sotto c'è un vuoto. Sotto una nave il vuoto è grande, e il cristallo lo trova subito."
+        requisiti: [chiave.scandaglio >= 1]
+        costo: 0
+        esito:
+          titolo: La nota
+          testo: |
+            Cammini fra gli archi con lo Scandaglio teso sulla catenella, e il
+            cristallo comincia a vibrare forte a tre passi dall'arco più
+            piccolo. Lì sotto, a un braccio di terra, c'è un portello di metallo
+            lucido che si apre verso l'interno appena lo liberate.
+          vai: raschiatori-korith
+      - testo: "Arrivare a cavallo prima della squadra"
+        descrizione: "A cavallo la conca arriva un giorno prima, e il portello lo trovi con calma, prima che arrivino gli altri."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Un giorno prima
+          testo: |
+            Arrivi alla conca un giorno prima della squadra e passi il
+            pomeriggio a girare fra gli archi con il cavallo che non vuole
+            avvicinarsi. Dove lui si rifiuta di passare, scavi. Quando la
+            squadra arriva il portello è già scoperto, e si apre verso
+            l'interno appena ci appoggi la mano.
+          vai: raschiatori-korith
+      - testo: "Far scavare la squadra a turni"
+        descrizione: "Hai una squadra, e una squadra scava a turni. Ci vuole più tempo, e nessuno si fa male."
+        requisiti: [raschiatori.squadra >= 1]
+        costo: 2
+        esito:
+          titolo: A turni
+          testo: |
+            Fai scavare la squadra a turni sotto l'arco più grande, un'ora a
+            testa, mentre tu stai sul bordo a guardare le mani di chi scava. Quando le
+            pale cominciano a vibrare cambi il turno più spesso. A ventidue
+            palmi Nella grida, e il portello di metallo lucido si apre verso
+            l'interno da solo.
+          effetti: { tormento: 0.5 }
+          vai: raschiatori-korith
+
+  # ------------------------------------------------------------ 0 · lo scavo e il portello
+  - id: raschiatori-korith-lo-scavo
+    immagine: ambientazione/gradone-rosso
+    titolo: Il ronzio nelle pareti
+    sommario: "Appena dentro lo scafo il metallo delle pareti ronza come le pale fuori. Il ronzio ti entra nei denti."
+    luogo: Le Carcasse di Korith, il primo corridoio
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 0]
+    testo: |
+      Il primo corridoio dello scafo è alto due volte un uomo e stretto
+      quanto le spalle di uno solo. Il metallo delle pareti ronza, piano, lo
+      stesso ronzio delle pale fuori, e ti entra nei denti e nelle ossa
+      delle mani. La polvere sul pavimento è segnata da una fila di impronte
+      vecchie, più lunghe di un piede umano e più strette.
+
+      {resistenza Media} Il ronzio stanca come una salita. Dopo un poco le
+      gambe ti tremano senza aver fatto niente.
+
+      Dietro di te uno della squadra si tappa le orecchie con le mani, e
+      Nella gli tira giù le braccia, perché tanto non serve.
+    opzioni:
+      - testo: "Resistere al ronzio e avanzare"
+        descrizione: "È soltanto un rumore. Lungo, e dentro le ossa, ma soltanto un rumore."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Dentro le ossa
+          testo: |
+            Avanzi con i denti stretti, e a metà corridoio il ronzio diventa una
+            cosa a cui ci si abitua, come il rumore del vento sui Ponti. In
+            fondo il corridoio si apre in uno spazio più largo, e la squadra ti
+            segue respirando forte.
+          pe: { resistenza: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Il sangue dal naso
+          testo: |
+            A metà corridoio ti cola dal naso il sangue caldo, e la squadra si
+            ferma a guardarti. Tornate fino al portello, dove il ronzio è più
+            debole, e aspettate che smetta di sanguinare.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire le impronte vecchie"
+        descrizione: "Chi le ha lasciate conosceva lo scafo. Dove lui camminava, il ronzio forse è più debole."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: I piedi lunghi
+          testo: |
+            Le impronte camminano rasente alla parete sinistra, dove il metallo
+            ha una fascia scura che non ronza. La segui con la mano, e la
+            squadra ti viene dietro in fila, ciascuno con la mano sulla spalla
+            di quello davanti, come vuole la regola.
+          pe: { percezione: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Le impronte che girano
+          testo: |
+            Le impronte girano su se stesse in un cerchio largo, e tu ci giri
+            dietro due volte prima di accorgertene. La squadra ti guarda senza
+            dire niente, e tu fai finta di aver controllato il pavimento.
+          effetti: { tormento: 0.5 }
+      - testo: "Fasciarsi le orecchie e passare in fretta"
+        descrizione: "Bende sulle orecchie e corsa. Non è elegante, e qualcosa ti resta nella testa."
+        costo: 2
+        esito:
+          titolo: Le bende sulle orecchie
+          testo: |
+            Vi fasciate la testa con le bende come feriti di guerra e passate di
+            corsa, in fila. Il ronzio arriva attutito, ma arriva lo stesso. Per tutto il
+            resto del giorno ti resta dietro gli occhi una nota sola che non va
+            via.
+          effetti: { profondita.raschiatori-korith: 1, tormento: 0.5 }
+
+  - id: raschiatori-korith-il-portello-interno
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il portello interno
+    sommario: "Un secondo portello chiude il corridoio, più grande del primo, con un pannello di placche che si accendono quando ti avvicini."
+    luogo: Le Carcasse di Korith, il portello interno
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 0]
+    testo: |
+      Il corridoio finisce contro un portello rotondo, più grande di quello
+      di fuori, con il bordo lucido di mani. Accanto c'è un pannello di
+      placche quadrate che si accendono una dopo l'altra quando ti avvicini,
+      con una luce bianca e fredda, e si spengono quando ti allontani.
+
+      {tecnologia Media} Le placche si accendono nell'ordine in cui cammini.
+      Il pannello fa una domanda, e la risposta forse è il modo in cui ci si
+      arriva.
+
+      Uno della squadra prova a spingere il portello con la spalla, e il
+      portello non si muove di un dito.
+    opzioni:
+      - testo: "Rispondere al pannello"
+        descrizione: "Le placche seguono i passi. Bisogna trovare il passo giusto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il passo giusto
+          testo: |
+            Cammini davanti al pannello in diagonale e poi torni indietro a
+            riprovare dall'altra parte, finché le placche si accendono tutte insieme. Il portello
+            ruota sul bordo con un sospiro e si apre su uno spazio più grande,
+            curvo, con il soffitto fatto di costole di metallo.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: La luce rossa
+          testo: |
+            Le placche si accendono di rosso tutte insieme, e il portello
+            manda una scossa che butta per terra quello che ci stava appoggiato.
+            Lo tirate su in due. Il pannello si spegne, e torna bianco soltanto
+            dopo un lungo momento.
+          effetti: { ferite: 0.5 }
+      - testo: "Forzarlo con le leve della squadra"
+        descrizione: "Le leve di ferro della squadra contro un portello che non vuole aprirsi. Si vedrà chi cede per primo."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Le leve
+          testo: |
+            Infilate le leve nella fessura del bordo e tirate insieme al tuo
+            via, e alla terza volta il portello cede di un palmo. Basta per
+            passarci di fianco, uno alla volta. Dall'altra parte c'è uno spazio
+            curvo con il soffitto fatto di costole.
+          pe: { atletica: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: La leva spezzata
+          testo: |
+            Una leva si spezza con un rumore di sparo, e il pezzo di ferro vola
+            a un dito dalla faccia di Nella. Lei non si muove. Tu invece ti
+            siedi per terra a respirare finché non ti smette il tremito.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che si apra da solo"
+        descrizione: "Quello di fuori si è aperto da solo. Forse anche questo, se si ha pazienza."
+        costo: 2
+        esito:
+          titolo: Il sospiro
+          testo: |
+            Vi sedete per terra davanti al portello a mangiare il pane del
+            sacco, e dopo un tempo lungo il portello ruota da solo con un
+            sospiro, come un vecchio che si stanca di aspettare. Dall'altra parte l'aria è
+            più fredda, e ti entra nelle ossa prima ancora che tu ti alzi.
+          effetti: { profondita.raschiatori-korith: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · le costole e l'eco
+  - id: raschiatori-korith-le-costole-che-cantano
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le costole che cantano
+    sommario: "Il soffitto della sala è fatto di costole di metallo che cantano quando le tocchi con il ferro, ognuna con la sua nota."
+    luogo: Le Carcasse di Korith, la sala delle costole
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 1]
+    testo: |
+      La sala è lunga e curva, con il soffitto fatto di costole di metallo
+      che scendono fino al pavimento a intervalli regolari. Uno della
+      squadra ci sbatte contro con la pala, e la costola canta con una
+      nota lunga e pulita che rimbalza in tutto lo scafo. Le altre rispondono
+      piano, ognuna con la sua.
+
+      {espressivita Media} È una scala. Le note salgono da prua a poppa, e
+      quella che manca è una porta, perché chi ha fatto la nave suonava per
+      aprirla.
+
+      In fondo alla sala c'è un passaggio chiuso da una lastra.
+    opzioni:
+      - testo: "Suonare la nota che manca"
+        descrizione: "Una scala con un buco. Il buco si canta, o si fa cantare a una costola."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: La nota
+          testo: |
+            Suoni le costole una per una con il manico del piccone, da prua a
+            poppa, e dove la scala si interrompe canti tu la nota che manca,
+            con la voce che ti trema un poco. La lastra in fondo alla sala
+            scivola di lato.
+          pe: { espressivita: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: La nota stonata
+          testo: |
+            Canti la nota, e la stoni. Tutte le costole insieme ti rispondono
+            con la stessa nota stonata, più forte, finché la squadra si tappa le
+            orecchie e tu ti accorgi di non sentire più la tua voce.
+          effetti: { tormento: 0.5 }
+      - testo: "Contare le costole e trovare quella diversa"
+        descrizione: "Se c'è una porta, c'è una costola che non è una costola. Basta guardarle tutte."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La costola cava
+          testo: |
+            Le conti, e la diciassettesima ha un riflesso diverso, più opaco.
+            La tocchi con le nocche invece che con il ferro, e suona cava. Dietro
+            c'è una leva semplice, e quando la tiri la lastra in fondo alla sala
+            scivola di lato.
+          pe: { percezione: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Il conto delle costole
+          testo: |
+            Le conti due volte e ti tornano due numeri diversi. Alla terza volta
+            Nella ti tocca il braccio e ti fa notare che hai contato anche le
+            ombre delle costole sul pavimento.
+          effetti: { tormento: 0.5 }
+      - testo: "Forzare la lastra senza toccare le costole"
+        descrizione: "Niente musica stavolta, soltanto leve. Le costole è meglio lasciarle stare."
+        costo: 2
+        esito:
+          titolo: La lastra forzata
+          testo: |
+            Forzate la lastra con le leve, piano, senza mai toccare le costole,
+            e ci vuole molto. Quando finalmente cede di un palmo uno della
+            squadra si appoggia per sbaglio a una costola. La costola canta, e la
+            nota ti resta nelle orecchie fino a sera.
+          effetti: { profondita.raschiatori-korith: 1, tormento: 0.5 }
+
+  - id: raschiatori-korith-l-eco-del-cartografo
+    immagine: ambientazione/regno-profondo
+    titolo: L'eco del cartografo
+    sommario: "In una cabina stretta una figura di luce si china su un tavolo vuoto e misura con un compasso che non c'è. Ripete gli stessi gesti da secoli."
+    luogo: Le Carcasse di Korith, la cabina del cartografo
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 1]
+    testo: |
+      In una cabina stretta c'è una figura di luce sottile come un palo,
+      china su un tavolo vuoto. Tiene in mano un compasso che non c'è e misura una
+      mappa che non c'è, e ogni tanto alza la testa come per guardare fuori
+      da un oblò. Poi torna al tavolo e ricomincia.
+
+      {accademiche Media} I cartografi dei Precursori, nei frammenti della
+      Biblioteca, segnavano le distanze in tempi di cammino. Questo misura e
+      alza la testa ad aspettare, e misura di nuovo, come un guardiano che
+      conta le ore.
+
+      La figura non ti vede. Quando passi fra lei e l'oblò che non c'è,
+      ripete il gesto di alzare la testa, e ti attraversa con lo sguardo.
+    opzioni:
+      - testo: "Guardare dove guarda lui"
+        descrizione: "Alza la testa sempre verso lo stesso punto. Lì c'è qualcosa che gli serve per misurare."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: L'oblò
+          testo: |
+            Nel punto che la figura guarda, sulla parete, c'è un cerchio
+            graffiato nel metallo, con dentro quattro tacche. Le tocchi, e una
+            si illumina. La figura alza la testa, guarda la tacca accesa e
+            annuisce, e poi sparisce per la prima volta in secoli. Dietro il
+            tavolo si apre un passaggio.
+          pe: { accademiche: 2 }
+          effetti: { profondita.raschiatori-korith: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il compasso
+          testo: |
+            Guardi dove guarda lui, e non vedi niente. Quando ti volti la figura
+            sta misurando te con il compasso che non c'è, dalla testa ai piedi,
+            con calma. Esci dalla cabina camminando all'indietro, senza
+            voltargli le spalle.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare il suo gesto accanto a lui"
+        descrizione: "Un eco che ripete i gesti forse aspetta che qualcuno li completi. Gli serve un compagno di misura."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il compagno di misura
+          testo: |
+            Ti metti accanto alla figura e fai il gesto di tenere l'altra punta
+            del compasso, e la figura si gira verso di te, per la prima volta.
+            Sorride, o fa qualcosa che con la luce somiglia a un sorriso, e
+            sparisce. Dietro il tavolo si apre un passaggio basso.
+          pe: { empatia: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Il gesto a metà
+          testo: |
+            Fai il gesto a metà, e la figura si blocca a metà del suo, con il
+            compasso alzato. Resta così, e nella cabina la luce si fa più fredda.
+            Esci prima che decida che cosa fare.
+          effetti: { tormento: 0.5 }
+      - testo: "Passargli dietro e cercare un'altra uscita"
+        descrizione: "È innocuo, e ha il suo lavoro. Lo lasci lavorare e giri intorno."
+        costo: 2
+        esito:
+          titolo: Alle sue spalle
+          testo: |
+            Gli passi dietro piano, come dietro uno scrivano chino sul registro,
+            e trovi una porticina bassa dietro una tenda di polvere. Mentre esci
+            la figura alza la testa verso l'oblò, e per un momento ti sembra di
+            sentirla sospirare.
+          effetti: { profondita.raschiatori-korith: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1–3 · la squadra nel buio
+  - id: raschiatori-korith-la-squadra
+    immagine: fazioni/raschiatori
+    titolo: La squadra nel buio
+    sommario: "La lampada di uno della squadra si spegne, e lui non risponde quando lo chiami. È fermo in mezzo al corridoio, con gli occhi aperti."
+    luogo: Le Carcasse di Korith, un corridoio curvo
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith >= 1, profondita.raschiatori-korith <= 3]
+    testo: |
+      In un corridoio curvo la lampada del più giovane della squadra si
+      spegne, e quando ti volti lui è fermo in mezzo al passaggio con gli
+      occhi aperti e la bocca socchiusa, e al suo nome resta muto. Gli altri
+      si sono fermati, e ti guardano.
+
+      {medicina Media} Respira bene e il polso è regolare. È la paura, o
+      quello che lo scafo fa alla testa di chi ci entra per la prima volta.
+
+      Nella ha già la mano sulla spalla del ragazzo, e ti guarda per sapere
+      se deve scuoterlo o lasciarlo stare.
+    opzioni:
+      - testo: "Dargli un ordine chiaro"
+        descrizione: "Un caposquadra parla, e la squadra fa. Anche quando la testa è da un'altra parte."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: La voce del caposquadra
+          testo: |
+            Gli dici di respirare col naso, con la voce di Gerardo, e lui sbatte
+            le palpebre come uno che si sveglia. Riaccende la lampada da solo e
+            riprende in silenzio il suo posto nella fila, e la squadra riparte.
+          pe: { persuasione: 2 }
+          effetti: { profondita.raschiatori-korith: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: La voce sbagliata
+          testo: |
+            Alzi la voce, e il ragazzo si accuccia per terra con le mani sulla
+            testa. Nella lo tira su e lo tiene per il braccio, e la squadra
+            torna indietro di un tratto, fino a un posto dove lo scafo ronza
+            meno, a lasciargli il tempo di tornare.
+          effetti: { tormento: 0.5 }
+      - testo: "Portarlo avanti a braccia"
+        descrizione: "Quando la testa è altrove, si porta il resto del corpo. La testa arriva dopo."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: A braccia
+          testo: |
+            Te lo carichi sulle spalle come un sacco di cristalli, e dopo un
+            tratto lui comincia a protestare, sempre più forte. Lo
+            rimetti in piedi, e lui ti chiede scusa e riaccende la lampada.
+          pe: { atletica: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Il peso
+          testo: |
+            Te lo carichi sulle spalle, e a metà corridoio la schiena ti avvisa
+            con una fitta che sale fino al collo. Lo rimetti giù, e aspettate
+            insieme, seduti, che torni da solo.
+          effetti: { ferite: 0.5 }
+      - testo: "Fermare tutta la squadra e aspettare"
+        descrizione: "Si aspetta insieme. Si perde tempo, e nessuno resta indietro."
+        costo: 2
+        esito:
+          titolo: Chi resta indietro si trascina
+          testo: |
+            Fermi la squadra e vi sedete tutti in cerchio intorno al ragazzo,
+            con le lampade basse. Ci vuole un'ora. Quando torna piange un poco,
+            e nessuno lo guarda mentre piange, perché fra i Raschiatori si fa
+            così.
+          effetti: { profondita.raschiatori-korith: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2 · le cuccette e la stiva
+  - id: raschiatori-korith-le-cuccette
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le cuccette lunghe
+    sommario: "Una cabina con le cuccette scavate nelle pareti, una sopra l'altra. Sono lunghe il doppio di un uomo, e strette."
+    luogo: Le Carcasse di Korith, il dormitorio
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 2]
+    testo: |
+      Il dormitorio dello scafo ha le cuccette scavate nelle pareti, una
+      sopra l'altra fino al soffitto, e sono lunghe il doppio di un uomo e
+      strette quanto una spalla. Su ognuna c'è un incavo per la testa, molto
+      più in alto di dove lo metteresti tu. In una cuccetta in basso c'è
+      ancora una coperta grigia piegata, che si sbriciola quando
+      ci passi vicino.
+
+      {origine allievo-di-torvessa} A Mahr-Kel, dicono le relazioni che si
+      leggono all'Accademia, le impronte sul pavimento erano lunghe così.
+      Chi dormiva qui camminava anche là.
+
+      In fondo al dormitorio c'è una scaletta che scende.
+    opzioni:
+      - testo: "Misurare le cuccette e capire chi ci dormiva"
+        descrizione: "Un letto dice molto di chi lo usa. Questo dice qualcosa che nessuna relazione della Biblioteca ha scritto."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il doppio di un uomo
+          testo: |
+            Misuri le cuccette con la corda a nodi, e le misure vanno nel tuo
+            quaderno accanto a quelle della Gradinata. Chi dormiva qui era alto
+            il doppio di te e sottile come un palo. In fondo a una cuccetta
+            trovi un frammento di metallo inciso che qualcuno aveva nascosto
+            sotto la coperta.
+          pe: { accademiche: 2 }
+          effetti: { profondita.raschiatori-korith: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: La coperta
+          testo: |
+            Tocchi la coperta per misurare la cuccetta, e la coperta si
+            sbriciola in una nuvola grigia che ti entra in gola. Tossisci a
+            lungo, piegato in due, mentre la squadra si tira indietro.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Scendere subito dalla scaletta"
+        descrizione: "Le cuccette sono di qualcun altro. La scaletta invece porta dove bisogna andare."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Gradini lunghi
+          testo: |
+            La scaletta ha i gradini distanti il doppio di quelli di una scala
+            umana, e la scendi saltando da uno all'altro, con la squadra che ti
+            imita. In fondo l'aria è più fredda e odora di olio vecchio.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Il salto lungo
+          testo: |
+            Salti da un gradino al successivo e lo manchi, e finisci in fondo
+            alla scaletta sulla schiena. Ti rialzi con un fianco che duole, e
+            torni su a dire agli altri di scendere piano.
+          effetti: { ferite: 0.5 }
+      - testo: "Calare la corda dalla scaletta e scendere uno alla volta"
+        descrizione: "Una corda tesa lungo la scaletta, e si scende appesi. Lento e sicuro."
+        costo: 2
+        esito:
+          titolo: Uno alla volta
+          testo: |
+            Leghi la corda in cima alla scaletta e scendete uno alla volta,
+            appesi, con te per ultimo. Ci vuole molto, e l'ultimo pezzo lo fai
+            al buio perché la lampada ti si è impigliata. In fondo trovi la
+            squadra seduta ad aspettarti, e Nella ti porge la sua lampada.
+          effetti: { profondita.raschiatori-korith: 1, ferite: 0.5 }
+
+  - id: raschiatori-korith-la-stiva
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La stiva
+    sommario: "Nella stiva ci sono casse aperte piene di celle e di pale ripiegate. Sopra le casse galleggiano due fusi di metallo che si svegliano."
+    luogo: Le Carcasse di Korith, la stiva
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 2]
+    testo: |
+      La stiva è una sala bassa piena di casse di metallo aperte. Dentro ci
+      sono celle di cristallo ancora cariche in file ordinate, e pale
+      ripiegate come ali di pipistrello. Sopra le casse galleggiano a
+      mezz'aria due fusi di metallo con tre pale ciascuno, immobili, finché
+      uno della squadra non tocca una cassa con il piede.
+
+      {armi-da-distanza Media} Volano a scatti, e prima di ogni scatto le
+      pale si fermano un momento. È lì che si colpiscono, e con un sasso
+      basta.
+
+      I due fusi si girano verso di voi.
+    opzioni:
+      - testo: "Abbattere le sonde"
+        descrizione: "Sono due, e le pale si fermano prima di ogni scatto."
+        combattimento: raschiatori-sonde
+        vittoria:
+          titolo: Le pale ferme
+          testo: |
+            La seconda sonda cade sulle casse con un rumore di pentole, e le pale
+            si richiudono da sole. La squadra riempie i sacchi di celle e di
+            pale ripiegate, e uno dei ragazzi ride per la prima volta da quando
+            siete scesi.
+          effetti: { profondita.raschiatori-korith: 1, cella: 1, bottino.parti-di-drone: 1 }
+        sconfitta:
+          titolo: La stiva chiusa
+          testo: |
+            Le sonde vi spingono fuori dalla stiva a colpi di pale, e quando
+            l'ultimo di voi è uscito la porta si richiude. Vi curate i tagli
+            nel corridoio, e Nella conta le teste due volte.
+      - testo: "Passare sotto le casse senza farle muovere"
+        descrizione: "Le sonde si svegliano quando qualcuno tocca le casse. Basta non toccarle."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Sotto le casse
+          testo: |
+            Strisciate sotto le casse uno alla volta, con le lampade coperte,
+            e le sonde vi galleggiano sopra senza girarsi. Dall'altra parte
+            della stiva prendi piano una cella da una cassa aperta, e nessuno
+            se ne accorge.
+          pe: { furtivita: 2 }
+          effetti: { profondita.raschiatori-korith: 1, cella: 1 }
+        fallimento:
+          titolo: Il piede
+          testo: |
+            Il piede di uno della squadra tocca una cassa, e le sonde si
+            girano tutte e due. Tornate indietro di corsa, e una pala ti apre la
+            giubba sulla schiena prima che la porta della stiva si chiuda.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciare la stiva e prendere il corridoio di servizio"
+        descrizione: "Le celle sono una tentazione. Il corridoio di servizio è più lungo e più buio, e le sonde non ci sono."
+        costo: 2
+        esito:
+          titolo: Il corridoio di servizio
+          testo: |
+            Prendete il corridoio di servizio, un budello che gira intorno alla
+            stiva. Ci vuole molto a schiena curva, e quando ne uscite vi fa male
+            il collo a tutti. Dalla stiva arriva il ronzio delle sonde,
+            tranquillo.
+          effetti: { profondita.raschiatori-korith: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la sala delle carte e il corridoio delle sonde
+  - id: raschiatori-korith-la-sala-delle-carte
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La sala delle carte
+    sommario: "Le pareti della sala sono coperte di lastre di vetro scuro incise. Sono carte, e una mostra la Cicatrice."
+    luogo: Le Carcasse di Korith, la sala delle carte
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 3]
+    testo: |
+      La sala delle carte è rotonda, e le pareti sono coperte di lastre di
+      vetro scuro incise di linee sottili. Sono carte. Alcune mostrano coste
+      che non conosci, altre cieli con stelle segnate in quattro colori. Una,
+      più grande, mostra una spaccatura lunga nella terra con dentro qualcosa
+      di intricato e sospeso, e capisci che è la Cicatrice prima di capire
+      perché lo sai.
+
+      {accademiche Media} Il nome di Korith viene dai frammenti della
+      Biblioteca, che lo chiamano cartografo. Questa sala è il suo
+      laboratorio, e la lastra grande è il lavoro di una vita.
+
+      Al centro della lastra grande c'è un incavo vuoto, sottile, della
+      forma di una lastra più piccola.
+    opzioni:
+      - testo: "Leggere la carta grande"
+        descrizione: "Una carta della Cicatrice fatta prima della città. Chi la legge sa dove guardare."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Media }
+        successo:
+          titolo: La carta della Cicatrice
+          testo: |
+            Segui le linee della lastra grande con il dito, e le linee si
+            accendono dove passi. Il Labirinto è disegnato quattro volte, una
+            sopra l'altra, in quattro colori. Ricopi quello che puoi sul
+            quaderno. L'incavo vuoto al centro ha una forma che ricorderai,
+            perché la lastra che manca è altrove nello scafo, più avanti.
+          pe: { accademiche: 2 }
+          effetti: { profondita.raschiatori-korith: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le linee che si accendono
+          testo: |
+            Segui le linee con il dito, e le linee si accendono tutte insieme,
+            troppo. Ti si stampano negli occhi, e per un'ora vedi la Cicatrice
+            sovrapposta ai muri dello scafo e alle facce della squadra.
+          effetti: { tormento: 0.5 }
+      - testo: "Cercare da dove è stata tolta la lastra piccola"
+        descrizione: "Qualcuno ha tolto la lastra dall'incavo. Le tracce portano a dove è adesso."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Le tracce nella polvere
+          testo: |
+            Nella polvere davanti all'incavo ci sono le impronte lunghe e
+            strette, una sola fila, che escono dalla sala verso prua. Chi ha
+            tolto la lastra l'ha portata al timone. Le segui con la squadra in
+            fila dietro di te.
+          pe: { percezione: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Le tracce tue
+          testo: |
+            Nella polvere ci sono soltanto le vostre impronte, e a un certo punto
+            ti accorgi che ne conti una fila in più di quante siete. Torni
+            indietro, e la squadra ti segue senza fare domande.
+          effetti: { tormento: 0.5 }
+      - testo: "Ricopiare tutto e pensarci dopo"
+        descrizione: "Per copiare serve soltanto pazienza, e un po' di tempo che forse c'è."
+        costo: 2
+        esito:
+          titolo: Il quaderno pieno
+          testo: |
+            Ricopi le carte una per una sul quaderno, finché non ti resta una
+            pagina bianca e ti fa male il polso. Non capisci quasi niente di
+            quello che hai copiato. Argento capirà. Uscendo dalla sala noti le
+            impronte lunghe che vanno verso prua, e le segui.
+          effetti: { profondita.raschiatori-korith: 1, tormento: 0.5 }
+
+  - id: raschiatori-korith-il-corridoio-di-prua
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Il corridoio di prua
+    sommario: "Il corridoio verso prua è pieno di fili tesi fra le pareti all'altezza della gola. Toccarne uno sveglia qualcosa."
+    luogo: Le Carcasse di Korith, il corridoio di prua
+    area: raschiatori-korith
+    ripetibile: true
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith == 3]
+    testo: |
+      Il corridoio verso prua è attraversato da fili sottili tesi da una
+      parete all'altra, a decine, all'altezza della gola di un uomo e del
+      petto di chi dormiva nelle cuccette. Brillano appena alla luce della
+      lampada, e vibrano quando ci respiri vicino.
+
+      {furtivita Media} Sono tesi a intervalli regolari. Chi li ha messi
+      voleva che si passasse piegati, e piegati si passa.
+
+      In fondo al corridoio c'è una porta con un cerchio inciso sopra,
+      diviso in quattro.
+    opzioni:
+      - testo: "Passare piegati fra i fili"
+        descrizione: "A schiena curva, un passo alla volta, senza respirare troppo forte."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Piegati
+          testo: |
+            Passi piegato, e la squadra ti segue mettendo i piedi dove li metti
+            tu. Un filo ti sfiora la nuca senza vibrare. In fondo al corridoio
+            vi raddrizzate tutti insieme, con le schiene che scricchiolano.
+          pe: { furtivita: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: Il filo
+          testo: |
+            Un filo ti tocca la spalla e vibra, e tutti gli altri vibrano con
+            lui. Dal soffitto scende una scossa che ti butta in ginocchio.
+            Tornate indietro a gattoni, e i fili smettono di vibrare soltanto
+            quando siete fuori.
+          effetti: { ferite: 0.5 }
+      - testo: "Staccare i fili dal loro attacco"
+        descrizione: "Ogni filo ha un attacco nella parete. Un attacco si svita."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Gli attacchi
+          testo: |
+            Sviti gli attacchi uno per uno con la punta del coltello, e i fili
+            si arrotolano su se stessi come capelli. Ci vuole un poco, e alla
+            fine il corridoio è libero fino alla porta con il cerchio.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.raschiatori-korith: 1 }
+        fallimento:
+          titolo: L'attacco che morde
+          testo: |
+            Sviti un attacco, e il filo ti scatta sul dorso della mano come
+            una frusta. Ti resta una riga rossa che brucia, e il resto dei fili
+            vibra per un pezzo prima di calmarsi.
+          effetti: { ferite: 0.5 }
+      - testo: "Mandare avanti la lampada su un bastone"
+        descrizione: "Una lampada legata a un bastone trova i fili prima delle gole. Lento, e la lampada rischia."
+        costo: 2
+        esito:
+          titolo: La lampada sul bastone
+          testo: |
+            Leghi la lampada a un manico di pala e la mandi avanti bassa, e la
+            luce ti mostra ogni filo prima che tu ci arrivi. A metà strada un
+            filo tocca il vetro della lampada, e la lampada si spegne con un
+            sibilo. Il resto lo fate al buio, a memoria.
+          effetti: { profondita.raschiatori-korith: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · il timone
+  - id: raschiatori-il-timone
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Il timone
+    sommario: "A prua, davanti a una ruota di metallo, siede il pilota dello scafo. Nella ruota è infilata una lastra di vetro scuro, la carta che manca alla sala."
+    luogo: Le Carcasse di Korith, la plancia
+    area: raschiatori-korith
+    requisiti: [fazione.raschiatori == 10, profondita.raschiatori-korith >= 4]
+    testo: |
+      La plancia è a prua, sotto il più piccolo dei tre archi, ed è una
+      stanza a mezzaluna con una ruota di metallo grande come una macina al
+      centro. Davanti alla ruota è seduto il pilota, un corpo di metallo
+      alto il doppio di un uomo, con le mani posate sulla ruota e la testa
+      china in avanti, come un timoniere addormentato al suo turno.
+
+      Nel mozzo della ruota è infilata una lastra di vetro scuro, sottile,
+      della forma dell'incavo della sala delle carte. Quando entri con la
+      lampada la lastra si scalda di una luce debole, e sopra si vedono
+      linee che si muovono.
+
+      {tecnologia Difficile} La lastra fa due cose insieme. È la carta, e
+      quando si accende sveglia anche il pilota. Toglierla vuol dire
+      spegnerla, e spegnerla in fretta vuol dire farlo prima che lui alzi la
+      testa.
+
+      {resilienza Media fallita} Ti accorgi di trattenere il fiato, e che
+      anche la squadra alle tue spalle lo trattiene, come se un respiro
+      potesse svegliarlo.
+
+      Le dita del pilota si muovono appena sulla ruota, una alla volta.
+      *Il cartografo, o quello che ha portato la nave fin qui.* La squadra ha
+      le pale in mano e ti guarda.
+    opzioni:
+      - testo: "Prendere la carta e affrontare il pilota"
+        descrizione: "Quando la lastra esce dal mozzo lui si alza. È alto il doppio di te, ed è stato fatto per tenere una nave."
+        combattimento: raschiatori-timone
+        vittoria:
+          titolo: La Carta di Korith
+          testo: |
+            Il pilota cade sulla ruota con un rumore di campana spezzata, e
+            resta lì, le mani ancora sulle razze. La lastra ti scotta fra le
+            dita. Quando la tieni contro la luce ci vedi il primo strato del
+            Labirinto in quattro disposizioni che si danno il cambio, ognuna
+            sotto uno dei quattro segni della ruota. In un angolo è incisa una
+            riga che non sai leggere.
+
+            Al Grifone Argento ci passa sopra le dita per un'ora intera. Per
+            scendere dove la Carta indica, dice alla fine, ci vuole il permesso
+            del Velo, e la chiave forse sta nella Cripta.
+          pe: { armi-da-mischia: 5 }
+          effetti: { fazione.raschiatori: 1, oggetto.raschiatori-carta-di-korith: 1, reliquie.frammento-inciso: 2, bottino.parti-di-drone: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: La ruota che gira
+          testo: |
+            Il pilota si alza e ti butta contro la parete, e la squadra ti tira
+            fuori dalla plancia per le gambe. Mentre scappate la nave intera
+            sussulta, come se la ruota avesse girato per la prima volta in
+            secoli. Risalite al portello senza la Carta, e in superficie, nella
+            conca, i tre archi si sono spostati di un palmo.
+          vai: superficie-fratturata
+      - testo: "Sfilare la carta senza svegliarlo"
+        descrizione: "Se la lastra si spegne prima che lui alzi la testa, il pilota resta a dormire. Bisogna farlo con le dita ferme."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Le dita ferme
+          testo: |
+            Trovi con il pollice il punto del mozzo che fa scattare la lastra, e
+            la sfili con un movimento solo, mentre la luce si spegne sotto le tue
+            dita. Il pilota resta con la testa china. Quando la lastra è fuori
+            la tieni contro la lampada, e ci vedi il primo strato del Labirinto
+            in quattro disposizioni che si danno il cambio, ognuna sotto uno dei
+            quattro segni della ruota.
+
+            Al Grifone Argento ci passa sopra le dita per un'ora intera. Per
+            scendere dove la Carta indica, dice alla fine, ci vuole il permesso
+            del Velo, e la chiave forse sta nella Cripta.
+          pe: { tecnologia: 5 }
+          effetti: { fazione.raschiatori: 1, oggetto.raschiatori-carta-di-korith: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La testa che si alza
+          testo: |
+            La lastra si incastra a metà, e la luce invece di spegnersi si fa
+            più forte. Il pilota alza la testa. Fai uscire la squadra prima di
+            te, l'ultimo a passare la soglia, e una mano di metallo ti prende il
+            braccio e lo stringe finché non senti qualcosa che cede. Risalite al
+            portello senza la Carta.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Ordinargli di restare seduto"
+        descrizione: "La formula del Comando parla alle macchine dei Precursori nella loro lingua. Questa è una macchina che aspetta ordini da secoli."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Resta
+          testo: |
+            Dici la formula, e la parola ti esce dalla bocca in una lingua che
+            non è tua. Il pilota alza la testa a guardarti, e poi la rimette giù. Le
+            sue dita si fermano sulla ruota. Sfili la lastra dal mozzo con calma,
+            e ci vedi il primo strato del Labirinto in quattro disposizioni che
+            si danno il cambio, ognuna sotto uno dei quattro segni.
+
+            Al Grifone Argento ci passa sopra le dita per un'ora intera. Per
+            scendere dove la Carta indica, dice alla fine, ci vuole il permesso
+            del Velo, e la chiave forse sta nella Cripta.
+          pe: { magia: 5 }
+          effetti: { fazione.raschiatori: 1, oggetto.raschiatori-carta-di-korith: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La parola sbagliata
+          testo: |
+            La formula ti si spezza in bocca a metà, e il pilota sente soltanto
+            la prima parte. Si alza. La squadra ti trascina fuori dalla plancia
+            mentre lui gira la ruota, e la nave intera sussulta. Risalite al
+            portello senza la Carta, con la testa che ti pulsa.
+          effetti: { tormento: 1, ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Far tenere ferme le sue mani alla squadra"
+        descrizione: "Tre leve sulle dita del pilota, mentre tu sfili la lastra. Serve una squadra che si fidi del suo caposquadra."
+        requisiti: [raschiatori.squadra >= 1]
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: Tre leve
+          testo: |
+            Metti tre della squadra con le leve sulle dita del pilota, e Nella
+            con la lampada alta. Al tuo cenno spingono tutti insieme, e tu sfili
+            la lastra. Il pilota alza la testa e prova a muovere le mani, ma le
+            mani non si muovono, e la luce della lastra si spegne. Quando la
+            tieni contro la lampada ci vedi il primo strato del Labirinto in
+            quattro disposizioni, ognuna sotto uno dei quattro segni.
+
+            Al Grifone Argento ci passa sopra le dita per un'ora intera. Per
+            scendere dove la Carta indica, dice alla fine, ci vuole il permesso
+            del Velo, e la chiave forse sta nella Cripta.
+          pe: { persuasione: 5 }
+          effetti: { fazione.raschiatori: 1, oggetto.raschiatori-carta-di-korith: 1, reliquie.frammento-inciso: 2, rep.raschiatori: 0.5 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La leva che scivola
+          testo: |
+            Uno della squadra esita mezzo respiro, e la sua leva scivola. Il
+            pilota libera una mano e la squadra salta indietro, e tu con lei.
+            Risalite al portello senza la Carta, contando le teste due volte, e
+            il ragazzo che ha esitato non ti guarda per tutto il viaggio.
+          effetti: { ferite: 1, tormento: 1 }
+          vai: superficie-fratturata

@@ -1,0 +1,1027 @@
+# La quest della Caserma, passo 14 (fazione.caserma == 13, pista.pelle >= 6): «Il Mulino Nero», uno dei mulini che gli
+# Scuri bruciarono per i Malgrani, sulla strada di Laresh oltre il Ponte del Conciatore. Ci si sono chiusi Brando
+# Selli, tre miliziani disertori e Nihali Cuzan con il libro delle paghe di Vesh.
+# Ci si entra da caserma-il-mulino-nero (Città Bassa, ripetibile finché il passo è aperto). Ritorno in Città Bassa,
+# soglia 4, tre stanze alla volta.
+# Fasce di profondità: 0 i campi bruciati, il canale; 0-1 la vedetta; 1 il cortile, la stalla (Fulvio Saldo secondo
+# caserma.saldo); 1-2 le travi in fiamme; 2 la sala delle macine (combattimento), la scala del mulino; 2-3 la ruota;
+# 3 il granaio annerito. In quattro stanze si può convincere un disertore a deporre le armi (caserma.disertori): con
+# due, nella cantina restano soltanto Brando e Nihali (scontro caserma-la-cantina-ridotta).
+# Il cuore (4) è la cantina sotto la ruota: Brando e Nihali (boss Difficile), oppure parlare con Brando (Difficile).
+# Il seguito chiude il passo: Nihali preso o fuggito con metà del libro (caserma.nihali), la colonna con l'occhio
+# chiuso nel libro (crepuscolo.indizi), la cassa dei disertori e il mazzo di Nihali.
+aree:
+  - id: caserma-mulino-nero
+    immagine: ambientazione/mulino-malgrani
+    nome: Il Mulino Nero
+    sommario: "Un mulino dei Malgrani bruciato dagli Scuri, sulla strada di Laresh. Dentro ci sono Brando Selli e i disertori, con il libro delle paghe di Vesh."
+    spedizione: { ritorno: citta-bassa, soglia: 4, stanze: 3 }
+    testo: |
+      Il mulino sta sulla riva di un canale che scende verso il Torvessa, a
+      mezza giornata dal Ponte del Conciatore. Era dei Malgrani, finché una
+      notte gli Scuri non gli hanno dato fuoco, e adesso lo chiamano il
+      Mulino Nero. I muri di pietra sono in piedi, anneriti fino al tetto,
+      e il tetto è crollato a metà. La ruota è ferma nel canale con le pale
+      spezzate, e dal comignolo del granaio esce un filo di fumo.
+
+      Intorno ci sono campi di grano bruciati e mai riseminati, con le
+      stoppie nere che si sbriciolano sotto gli stivali.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, in Città Bassa
+  - id: caserma-il-mulino-nero
+    immagine: ambientazione/mulino-malgrani
+    titolo: Il Mulino Nero
+    sommario: "Brando Selli e i disertori sono al Mulino Nero, sulla strada di Laresh. Galdrick ha la ferita al fianco, così la squadra la guidi tu."
+    luogo: Città Bassa, la porta dell'ovest
+    area: citta-bassa
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, bivio.legge == 1, pista.pelle >= 6]
+    testo: |
+      La squadra ti aspetta alla porta dell'ovest con i mantelli piegati
+      sul braccio, come ha insegnato Brando a tutti quelli che sono passati
+      dal cortile. Sono sei miliziani e Linna Varo, che ormai porta il
+      mantello e ha smesso di tenerlo sollevato con la mano. Nessuno parla
+      di Brando. Galdrick vi ha salutato dal portone con la mano sul fianco,
+      e ha detto una cosa sola, che li vuole vivi.
+
+      {empatia Media} I miliziani della squadra hanno fatto la ronda con
+      Brando, chi per un anno e chi per dieci. Andranno dove dici tu, ma
+      ognuno di loro spera di non dover essere il primo.
+
+      {armi-da-mischia Media} Brando para alto e corto con la spada
+      d'ordinanza, come si insegna in cortile. Lo sai perché la parata te
+      l'ha insegnata lui.
+
+      Oltre il Ponte del Conciatore, con le tre campate nuove o con quelle
+      vecchie, la strada di Laresh corre fra i campi verso ovest. Il Mulino
+      Nero si vede da lontano per il filo di fumo.
+    opzioni:
+      - testo: "Partire con la squadra"
+        descrizione: "Mezza giornata a piedi con la squadra. Si arriva al mulino nel pomeriggio."
+        esito:
+          titolo: La strada di Laresh
+          testo: |
+            Partite a passo di ronda, con il sole alle spalle, e nessuno canta.
+            Linna cammina accanto a te e ti racconta di suo padre e del Ponte
+            dei Morti, a voce bassa, per riempire la strada. Nel pomeriggio il
+            filo di fumo diventa un comignolo, e sotto il comignolo un mulino
+            nero.
+          vai: caserma-mulino-nero
+
+      - testo: "Partire a cavallo, prima della squadra"
+        descrizione: "A cavallo si arriva prima, e si guarda il mulino da lontano prima che i disertori vedano la squadra."
+        quando: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Davanti a tutti
+          testo: |
+            Parti a cavallo all'alba e arrivi al mulino a metà mattina,
+            molto prima della squadra. Lo guardi a lungo da una collinetta
+            di stoppie e conti le finestre. Quando la squadra ti raggiunge
+            sai già da che parte entrare.
+          vai: caserma-mulino-nero
+
+  # ------------------------------------------------------------ 0 · fuori dal mulino
+  - id: caserma-mulino-i-campi-bruciati
+    immagine: ambientazione/mulino-malgrani
+    titolo: I campi bruciati
+    sommario: "Fra il mulino e la strada ci sono i campi bruciati, dove non c'è un riparo. Dalle finestre si vede chi arriva."
+    luogo: Il Mulino Nero, i campi bruciati
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 0]
+    testo: |
+      Fra la strada e il mulino ci sono trecento passi di campi bruciati,
+      piatti, con le stoppie nere che arrivano al ginocchio e nient'altro.
+      Dalle finestre del primo piano del mulino si vede tutto. In una delle
+      finestre, ogni tanto, si muove qualcosa.
+
+      {armi-da-distanza Media} Trecento passi sono lunghi per una balestra
+      leggera e corti per una pesante. Chi è alla finestra lo sa, e aspetta
+      che arriviate a metà.
+
+      {natura Facile} Il vento viene dal mulino verso la strada, e porta via
+      i rumori. Chi cammina nelle stoppie dal lato giusto non si sente.
+    opzioni:
+      - testo: "Attraversare i campi a gruppi, di corsa"
+        descrizione: "Due alla volta, di corsa, da un filare di stoppie all'altro. Chi è alla finestra può tirare a uno solo."
+        prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Media }
+        successo:
+          titolo: Di filare in filare
+          testo: |
+            Mandi la squadra a coppie, di corsa, da un filare all'altro, e tu
+            vai con l'ultima coppia. Dalla finestra parte un dardo che si
+            pianta nelle stoppie dietro Linna, troppo tardi. Arrivate tutti
+            al muro del cortile con il fiato corto.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il dardo
+          testo: |
+            Partite troppo insieme, e dalla finestra il dardo trova un
+            miliziano alla spalla. Lo trascinate indietro fino alla strada,
+            e ci vuole un'ora per rimandarlo in città e rimettere in piedi la
+            squadra.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+
+      - testo: "Arrivare dal lato del vento"
+        descrizione: "Il vento porta via i rumori. Girando largo, dal lato giusto, si arriva al muro senza farsi vedere."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Sottovento
+          testo: |
+            Fai girare la squadra largo, dal lato da cui viene il vento, curvi
+            fra le stoppie. Ci mettete il doppio. Arrivate al muro del cortile
+            senza che dalla finestra parta niente, e senti dentro una voce che
+            dice che non arriverà nessuno prima di sera.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il vento che gira
+          testo: |
+            A metà del giro il vento gira, come fa il vento di pianura nel
+            pomeriggio, e dalla finestra qualcuno grida. Vi ritirate sulla
+            strada prima che arrivino i dardi.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare il buio"
+        descrizione: "Di notte i campi sono soltanto buio. Si perde un giorno, e la squadra si innervosisce."
+        costo: 2
+        esito:
+          titolo: La notte nelle stoppie
+          testo: |
+            Aspettate il buio sdraiati nel fosso della strada, con la squadra
+            che si passa il pane senza parlare. Quando la luna è coperta
+            attraversate i campi uno alla volta. Linna arriva al muro per
+            ultima, e ti dice che ha contato le stelle per non pensare.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  - id: caserma-mulino-il-canale
+    immagine: ambientazione/mulino-malgrani
+    titolo: Il canale
+    sommario: "Il canale del mulino arriva fino alla ruota. Si può risalire nell'acqua, sotto la riva."
+    luogo: Il Mulino Nero, il canale
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 0]
+    testo: |
+      Il canale che porta l'acqua alla ruota scorre torbido fra due rive di
+      pietra, con l'erba che pende dai bordi. Dal ponticello della strada
+      arriva fino al mulino senza che dalle finestre lo si veda. In fondo,
+      sotto la ruota ferma, c'è un'apertura nel muro, dove l'acqua entra
+      nella cantina.
+
+      {resistenza Media} L'acqua di un canale d'autunno è fredda. Le gambe
+      se ne accorgeranno al primo passo, e il resto del corpo al decimo.
+
+      {percezione Facile} Sulla riva, all'altezza del ponticello, c'è un
+      mantello scarlatto piegato con cura su un sasso. Qualcuno se l'è tolto
+      prima di andarsene, e non l'ha buttato.
+    opzioni:
+      - testo: "Risalire il canale nell'acqua"
+        descrizione: "Nell'acqua fino alla vita, sotto la riva, fino al muro del mulino."
+        prova: { attributo: fisico, abilita: [resistenza, furtivita], difficolta: Media }
+        successo:
+          titolo: Sotto la riva
+          testo: |
+            Risalite il canale nell'acqua fino alla vita, curvi sotto la riva,
+            con le armi sopra la testa. Arrivate al muro del mulino gelati e
+            muti, e nessuno vi ha visti.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: La buca
+          testo: |
+            A metà canale il fondo sparisce in una buca, e tu ci finisci
+            dentro fino al collo. Il rumore che fai basta a far affacciare
+            qualcuno alla finestra, e dovete tornare indietro nell'acqua.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Prendere il mantello piegato sul sasso"
+        descrizione: "È di uno dei tre disertori. Chi l'ha piegato così forse non è del tutto convinto."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: Il cartellino
+          testo: |
+            Sotto il colletto il mantello ha ancora il cartellino del furiere,
+            con un nome che conosci. È un ragazzo dei Ponti, che ha fatto la
+            ronda mista con te. Lo pieghi sul braccio e lo porti con te, per
+            restituirglielo. Seguite la riva fino al mulino.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Un mantello
+          testo: |
+            È soltanto un mantello piegato bene. Lo lasci sul sasso e torni
+            sulla strada, con la sensazione di avere perso qualcosa che non
+            sai dire.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Fare il giro largo dal ponticello"
+        descrizione: "Dal ponticello si arriva al mulino girando dietro gli alberi. È lungo."
+        costo: 2
+        esito:
+          titolo: Il giro degli alberi
+          testo: |
+            Passate il ponticello e girate dietro una fila di pioppi, piano,
+            per un tempo lungo. Arrivate al muro posteriore del mulino con le
+            scarpe asciutte e il sole già basso.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ 0–1 · la vedetta
+  - id: caserma-mulino-la-vedetta
+    immagine: icone/cape
+    titolo: La vedetta
+    sommario: "Seduto sul muro del cortile c'è un disertore con il mantello rovesciato, di vedetta. Ha la balestra sulle ginocchia e la testa fra le mani."
+    luogo: Il Mulino Nero, il muro del cortile
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero <= 1]
+    testo: |
+      Sul muro del cortile, seduto con le gambe penzoloni, c'è uno dei
+      disertori. Porta il mantello scarlatto rovesciato, con la fodera
+      grigia di fuori, e ha una balestra leggera sulle ginocchia. Invece di
+      guardare la strada tiene la testa fra le mani.
+
+      {intimidire Media} Non è uno che ha voglia di tirare. È uno che ha
+      paura di dover tirare, e non sa ancora a chi.
+
+      {empatia Facile} Lo conosci. Ti ha prestato la sciarpa una notte di
+      ronda d'inverno, e non te l'ha più chiesta indietro.
+    opzioni:
+      - testo: "Parlargli dal basso del muro"
+        descrizione: "Dirgli che si può ancora tornare. Se ci crede posa la balestra, così nella cantina ci sarà un uomo in meno."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: La sciarpa
+          testo: |
+            Dal basso del muro gli parli piano di quella notte d'inverno,
+            quando ti ha prestato la sciarpa. Lui alza la testa. Gli dici
+            che Galdrick li vuole vivi, e che un mantello rovesciato si
+            rigira. Dopo un tempo lungo posa la balestra sul muro e scende
+            dalla tua parte, e Linna gli dà la sua borraccia.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        fallimento:
+          titolo: La balestra
+          testo: |
+            Gli parli dal basso del muro, e lui si alza di scatto con la
+            balestra puntata, più spaventato di te. Il dardo ti passa accanto e
+            si pianta nel fosso. Lui sparisce dall'altra parte del muro
+            gridando che arrivano.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Arrivargli alle spalle"
+        descrizione: "Ha la testa fra le mani. Da dietro, sul muro, lo si prende prima che alzi la balestra."
+        prova: { attributo: fisico, abilita: [furtivita, rissa], difficolta: Media }
+        successo:
+          titolo: Il polso
+          testo: |
+            Sali sul muro da dietro e gli prendi il polso della balestra prima
+            che si volti. Lui non lotta. Lo leghi al cancello del cortile con la
+            sua cinghia, e scavalchi.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il grido
+          testo: |
+            Una pietra del muro si stacca sotto la tua mano, e lui si volta e
+            grida. Dal mulino rispondono. Vi ritirate nelle stoppie prima che
+            arrivino gli altri.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare che scenda dal muro"
+        descrizione: "Prima del tramonto deve scendere per il cambio. Basta aspettare nel fosso."
+        costo: 2
+        esito:
+          titolo: Il cambio
+          testo: |
+            Aspettate nel fosso finché lui scende dal muro per il cambio, e
+            nessuno sale al suo posto. Scavalcate il muro nel momento in cui il
+            cortile è vuoto.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ 1 · il cortile e la stalla
+  - id: caserma-mulino-il-cortile
+    immagine: ambientazione/mulino-malgrani
+    titolo: Il cortile del mulino
+    sommario: "Nel cortile ci sono i sacchi di farina bruciata e un disertore che spacca legna."
+    luogo: Il Mulino Nero, il cortile
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 1]
+    testo: |
+      Il cortile del mulino è lastricato e coperto di cenere, e lungo il
+      muro ci sono i sacchi di farina dei Malgrani, con la tela intatta e la
+      farina bruciata dentro. In mezzo al cortile un disertore spacca legna
+      con la spada d'ordinanza, perché l'ascia non l'hanno trovata. Ogni
+      colpo rimbomba sui muri anneriti.
+
+      {armi-da-mischia Facile} Spaccare legna con la spada d'ordinanza la
+      rovina in una settimana. Lo sa anche lui, e lo fa lo stesso, perché
+      è l'unica cosa che ha.
+
+      {galateo Media fallita} Ti chiedi se fra disertori e miliziani ci si
+      saluti ancora con il pugno sul petto. Il pugno ti resta a metà strada.
+    opzioni:
+      - testo: "Convincerlo a posare la spada"
+        descrizione: "È uno dei tre di Brando. Se posa la spada adesso, nella cantina ci sarà un uomo in meno."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: La legna
+          testo: |
+            Gli dici che la legna gliela spacca un altro, e lui guarda la spada
+            rovinata come se la vedesse per la prima volta. Poi la pianta nel
+            ceppo e si siede sui sacchi. Ti dice che Brando è giù, con
+            l'uomo delle carte, e che hanno paura tutti e due, ognuno a modo
+            suo.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        fallimento:
+          titolo: La spada nel ceppo
+          testo: |
+            Gli parli, e lui ti risponde con la spada, un fendente da cortile
+            che pari per abitudine. Poi scappa dentro il mulino gridando, e voi
+            vi buttate dietro i sacchi.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Prenderlo prima che gridi"
+        descrizione: "Ha le mani occupate con la legna. Tre passi di corsa nel cortile."
+        prova: { attributo: fisico, abilita: [rissa, atletica], difficolta: Media }
+        successo:
+          titolo: I tre passi
+          testo: |
+            Tre passi di corsa nella cenere, e lo prendi per la cintura prima
+            che si giri. Lo stendete sui sacchi e lo legate, e lui non grida.
+            Ti guarda il mantello scarlatto, e chiude gli occhi.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: La cenere
+          testo: |
+            Scivoli nella cenere al secondo passo, e lui ha il tempo di girarsi
+            e gridare. Vi ritirate dietro il muro del cortile.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Girare dietro i sacchi"
+        descrizione: "Lungo il muro, dietro i sacchi bruciati, si arriva alla porta del mulino."
+        costo: 2
+        esito:
+          titolo: Dietro i sacchi
+          testo: |
+            Passate curvi dietro i sacchi, uno alla volta, mentre il disertore
+            spacca legna e il rumore copre i vostri passi. La farina bruciata
+            vi si attacca ai mantelli. Arrivate alla porta del mulino grigi
+            come fantasmi.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  - id: caserma-mulino-la-stalla
+    immagine: ambientazione/mulino-malgrani
+    titolo: La stalla
+    sommario: "La stalla del mulino ha una porta che dà sulla sala delle macine. Qualcuno ci ha messo la paglia nuova."
+    luogo: Il Mulino Nero, la stalla
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 1]
+    testo: |
+      La stalla del mulino è l'unica stanza con il tetto intero. Ci sono
+      due muli legati alla mangiatoia e paglia nuova sul pavimento, e in
+      fondo una porta di legno che dà sulla sala delle macine. La porta è
+      sprangata dall'interno. Dalla fessura sotto la porta arriva la luce di
+      una lanterna, e si sentono voci.
+
+      {addestrare-animali Facile} I muli sono della Caserma, con il marchio
+      sulla coscia. Brando ha portato via anche quelli, e li ha strigliati
+      stamattina.
+
+      {percezione Media} La spranga si sposta da fuori, con una lama infilata
+      nella fessura, se chi sta dentro non ci si appoggia.
+    opzioni:
+      - testo: "Alzare la spranga con la lama"
+        descrizione: "Una lama nella fessura, piano, mentre dentro parlano."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: La spranga
+          testo: |
+            Infili la lama nella fessura e alzi la spranga un dito alla volta,
+            mentre dall'altra parte qualcuno racconta di una partita di carte.
+            La spranga cade nel suo gancio senza rumore, e la porta si apre di
+            un palmo.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: La lama
+          testo: |
+            La spranga scivola dal gancio e cade sul pavimento della sala
+            con un colpo che sveglia i muli. Dentro le voci smettono, e voi
+            vi ritirate nel cortile.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Bussare come Fulvio"
+        descrizione: "Fulvio Saldo è con loro, e riferisce a te. Ha detto che alla stalla bussa due volte, poi una."
+        quando: [caserma.saldo == 2]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Due volte, poi una
+          testo: |
+            Bussi due volte, poi una. Dopo un momento la spranga si alza e
+            nella fessura compare la faccia di Fulvio, con la sciarpa sul naso.
+            Ti guarda a lungo, e poi apre. «Io non ho visto niente» dice, e si
+            mette contro il muro con le mani alzate.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        fallimento:
+          titolo: La faccia di Fulvio
+          testo: |
+            Bussi due volte, poi una. La spranga si alza, e nella fessura
+            compare la faccia di Fulvio. Ti guarda, poi grida il tuo nome
+            verso la sala e ti chiude la porta in faccia. Il foglio dei
+            turni, alla fine, l'ha venduto anche a te.
+          effetti: { sospetto: 1 }
+
+      - testo: "Chiamare Fulvio dalla fessura"
+        descrizione: "Fulvio Saldo è con loro. Gli hai pagato il debito, e lui ha detto che sa quali porte si aprono."
+        quando: [caserma.saldo == 3]
+        esito:
+          titolo: La porta aperta
+          testo: |
+            Chiami Fulvio piano dalla fessura. Dopo un momento la spranga si
+            alza, e lui apre la porta con la sciarpa sul naso e il debito
+            pagato negli occhi. «Brando è giù in cantina con quello delle
+            carte» dice. «Gli altri due sono di sopra, nel granaio.» Poi
+            esce nel cortile e si siede sui sacchi ad aspettare.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+
+      - testo: "Uscire dalla stalla e cercare un'altra porta"
+        descrizione: "La sala ha anche una porta sul canale, più lontana."
+        costo: 2
+        esito:
+          titolo: La porta sul canale
+          testo: |
+            Girate intorno al mulino fino alla porta sul canale, socchiusa.
+            Entrate uno alla volta nella sala delle macine, dove la luce
+            della lanterna arriva soltanto a metà.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ 1–2 · le travi in fiamme
+  - id: caserma-mulino-le-travi-in-fiamme
+    immagine: ambientazione/mulino-malgrani
+    titolo: Le travi che bruciano ancora
+    sommario: "Dentro il mulino una trave del tetto brucia ancora piano, dalla notte dell'incendio. Sotto bisogna passare."
+    luogo: Il Mulino Nero, il corridoio delle travi
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero >= 1, profondita.caserma-mulino-nero <= 2]
+    testo: |
+      Il corridoio che porta alla sala delle macine ha il tetto mezzo
+      crollato, e una trave maestra brucia ancora piano, dall'interno, come
+      un tizzone. Ogni tanto ne cade un pezzo di brace sul pavimento di
+      pietra. L'aria sa di fumo vecchio. Sotto la trave c'è il solo passaggio,
+      largo quanto un uomo.
+
+      {medicina Media} Le travi di quercia bruciano così per settimane,
+      dentro. Il giorno che cedono vengono giù tutte insieme, senza
+      avvisare.
+
+      {resistenza Facile fallita} Il fumo ti prende alla gola prima che tu
+      abbia deciso se passare, e la tosse ti viene vera, da miliziano.
+    opzioni:
+      - testo: "Passare sotto la trave di corsa"
+        descrizione: "Un passaggio solo, sotto una trave che brucia. Uno alla volta, di corsa."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La brace
+          testo: |
+            Passi per primo di corsa, e una brace ti cade sulla spalla e ti
+            brucia il mantello senza arrivare alla pelle. Gli altri passano
+            dietro di te uno alla volta, e Linna per ultima, con il mantello
+            sulla testa.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il pezzo di trave
+          testo: |
+            A metà passaggio un pezzo di trave si stacca e ti cade sul braccio.
+            Torni indietro con la manica che fuma e la pelle che brucia sotto.
+          effetti: { ferite: 1 }
+
+      - testo: "Puntellare la trave"
+        descrizione: "Con una trave del pavimento messa di traverso, la trave che brucia regge per il tempo di passare."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il puntello
+          testo: |
+            Fai portare una trave dal pavimento crollato e la pianti di
+            traverso sotto quella che brucia, con un sasso alla base. Regge.
+            Passate tutti senza fretta, e il puntello comincia a fumare quando
+            l'ultimo è dall'altra parte.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il puntello storto
+          testo: |
+            Il puntello scivola sul pavimento bagnato, e la trave che brucia ci
+            scende sopra di un palmo con uno sbuffo di brace. Vi ritirate nel
+            cortile tossendo.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+
+      - testo: "Aspettare che la trave cada"
+        descrizione: "Prima o poi cade da sola. Bisogna avere pazienza e stare lontani."
+        costo: 2
+        esito:
+          titolo: Il crollo
+          testo: |
+            Aspettate nel cortile per un'ora. Poi la trave cede tutta insieme,
+            con un rumore che fa volare i corvi dal tetto, e dentro il mulino
+            qualcuno grida. Quando la polvere si posa, il passaggio è libero e
+            pieno di brace che si spegne.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ 2 · la sala delle macine e la scala
+  - id: caserma-mulino-la-sala-delle-macine
+    immagine: ambientazione/mulino-malgrani
+    titolo: La sala delle macine
+    sommario: "Fra le macine ferme ci sono due uomini con le balestre. Uno è degli Scuri, l'altro ha il mantello rovesciato."
+    luogo: Il Mulino Nero, la sala delle macine
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 2]
+    testo: |
+      La sala delle macine è alta due piani, con le due macine di pietra
+      ferme al centro e l'albero di trasmissione spezzato che pende dal
+      soffitto. Dietro le macine ci sono due uomini con le balestre leggere.
+      Uno porta il cappuccio degli Scuri e ha la faccia di chi ha perso tutto
+      la notte della Pignatta. L'altro ha il mantello scarlatto rovesciato.
+
+      {armi-da-distanza Media} Lo Scuro tira bene e ricarica senza guardare.
+      Il disertore tiene la balestra come un attrezzo che gli hanno messo in
+      mano stamattina.
+
+      {intimidire Media} Il disertore guarda lo Scuro prima di guardare te.
+      Se lo Scuro cade, lui posa la balestra.
+    opzioni:
+      - testo: "Affrontarli fra le macine"
+        descrizione: "Due balestre e due macine di pietra. Si avanza da una macina all'altra."
+        combattimento: caserma-i-balestrieri
+        vittoria:
+          titolo: Le macine
+          testo: |
+            Avanzi da una macina all'altra mentre i dardi si piantano nella
+            pietra, e arrivi sullo Scuro mentre ricarica. Il disertore posa la
+            balestra per terra prima ancora che tu ti giri, e si siede sulla
+            macina con le mani in grembo.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        sconfitta:
+          titolo: Il dardo nella gamba
+          testo: |
+            Un dardo ti prende alla coscia, e un altro si pianta nella macina a
+            un dito dalla tua faccia. Ti trascini fuori dalla sala con Linna che
+            ti tira per il mantello.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Parlare al disertore sopra la testa dello Scuro"
+        descrizione: "Dirgli il suo nome, il suo turno, chi lo aspetta in città. Se posa la balestra, lo Scuro resta solo."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Il nome del turno
+          testo: |
+            Dici il nome del disertore ad alta voce, e il suo turno di ronda, e
+            il nome di sua sorella che vende il pane al Mercato dei Nodi. Lui
+            abbassa la balestra. Lo Scuro capisce di essere solo, tira un dardo
+            che non va da nessuna parte e scappa per la porta sul canale.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        fallimento:
+          titolo: Il dardo dello Scuro
+          testo: |
+            Cominci a parlare, e lo Scuro tira prima che il disertore possa
+            decidere. Il dardo ti prende di striscio al fianco, e vi
+            ritirate fuori dalla sala.
+          effetti: { ferite: 1 }
+
+      - testo: "Aspettare che finiscano i dardi"
+        descrizione: "Le balestre leggere hanno pochi dardi. Al riparo dietro la porta, si aspetta."
+        costo: 2
+        esito:
+          titolo: I dardi contati
+          testo: |
+            Restate al riparo dietro la porta e fate sporgere un mantello su
+            un bastone, ogni tanto, perché tirino. Dopo un'ora i dardi
+            finiscono. Lo Scuro scappa dalla porta sul canale, e il disertore
+            resta seduto sulla macina.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  - id: caserma-mulino-la-scala
+    immagine: ambientazione/mulino-malgrani
+    titolo: La scala del granaio
+    sommario: "La scala di legno che sale al granaio è bruciata a metà. In cima c'è un disertore che non sa se scendere."
+    luogo: Il Mulino Nero, la scala
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 2]
+    testo: |
+      La scala che sale dalla sala delle macine al granaio è di legno, e
+      metà gradini sono bruciati e caduti. In cima, seduto sull'ultimo
+      gradino intero, c'è un ragazzo con il mantello rovesciato e la spada
+      sulle ginocchia. È il più giovane dei tre. Ti guarda salire con gli
+      occhi lucidi.
+
+      {empatia Media} Ha diciannove anni, forse meno. È qui perché Brando
+      era il suo sergente, e un sergente non si lascia solo.
+
+      {acrobazia Media} I gradini bruciati reggono soltanto sul bordo, dove
+      sono inchiodati al montante.
+    opzioni:
+      - testo: "Convincerlo a scendere"
+        descrizione: "Un sergente non si lascia solo. Ma un sergente non chiede a un ragazzo di morire per lui."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il sergente
+          testo: |
+            Gli ricordi che Brando gli ha detto di andarsene, quando poteva.
+            Il ragazzo piange senza vergogna, con la spada sulle ginocchia,
+            e alla fine scende la scala sul bordo dei gradini e ti dà la
+            spada con l'elsa avanti, come insegnano in cortile.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        fallimento:
+          titolo: La spada
+          testo: |
+            Gli dici di scendere, e lui si alza con la spada in mano. Ti dice
+            che Brando è il suo sergente e che tu non lo sei. Torni giù dalla
+            scala prima che un gradino ti ceda sotto il piede.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Salire sul bordo dei gradini"
+        descrizione: "Sul bordo i gradini reggono. Si sale prima che lui decida che cosa fare."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Il bordo
+          testo: |
+            Sali svelto sul bordo dei gradini, e sei in cima prima che lui
+            si alzi. Gli prendi la spada dalle ginocchia, e lui non te la
+            nega.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il gradino
+          testo: |
+            Un gradino ti cede sotto il piede, e ti ritrovi appeso al
+            montante con le gambe nel vuoto. Il ragazzo resta in cima a
+            guardarti tornare giù.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Lasciarlo lì e cercare un'altra strada"
+        descrizione: "Dalla sala delle macine si scende anche in cantina, per la scala del canale."
+        costo: 2
+        esito:
+          titolo: La scala del canale
+          testo: |
+            Lasci il ragazzo in cima alla scala e cerchi un'altra strada. La
+            trovi dietro le macine, una scaletta di pietra che scende verso il
+            canale e la ruota.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ 2–3 · la ruota
+  - id: caserma-mulino-la-ruota
+    immagine: ambientazione/mulino-malgrani
+    titolo: La ruota
+    sommario: "La ruota ferma del mulino scende nel canale fino alla cantina. Fra le pale spezzate si può passare."
+    luogo: Il Mulino Nero, la ruota
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero >= 2, profondita.caserma-mulino-nero <= 3]
+    testo: |
+      La ruota del mulino è alta tre uomini, ferma nel canale con le pale
+      di legno spezzate. Sotto, dove l'acqua entra nella cantina, c'è
+      un'apertura nel muro grande quanto una porta. Dalla cantina sale la
+      luce di una lanterna, e una voce che conta piano, in una lingua che
+      sembra la tua e non lo è.
+
+      {tecnologia Media} L'asse della ruota è bloccato da un cuneo. Se lo
+      togli, la ruota gira di mezzo giro sotto il peso dell'acqua, e
+      l'apertura si chiude.
+
+      {conoscenze-della-strada Media} È il gergo dei bari della Pignatta.
+      Nihali conta le carte, come faceva al tavolo, per calmarsi.
+    opzioni:
+      - testo: "Passare fra le pale della ruota"
+        descrizione: "Le pale spezzate lasciano un varco. Bisogna non toccare il cuneo."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Fra le pale
+          testo: |
+            Passi fra le pale spezzate con l'acqua fino alle ginocchia,
+            piano, con il cuneo a un palmo dalla spalla. Arrivi sotto
+            l'apertura della cantina, e la voce che conta smette per un
+            momento e poi riprende.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il cuneo
+          testo: |
+            Urti il cuneo con la spalla, e la ruota cigola e gira di un palmo.
+            Torni indietro di corsa nell'acqua, prima che l'apertura si chiuda
+            con te dentro.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Bloccare la ruota per sempre"
+        descrizione: "Con una trave infilata fra le pale, la ruota non gira più e l'apertura resta aperta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La trave fra le pale
+          testo: |
+            Infili una trave fra due pale e la blocchi contro il muro, e la
+            ruota non si muove più. Passate tutti sotto l'apertura senza
+            fretta.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: La trave che scivola
+          testo: |
+            La trave scivola sulle pale bagnate e cade nel canale con uno
+            schizzo che si sente fino in cantina. La voce che conta smette, e
+            non riprende.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Aspettare la notte nel canale"
+        descrizione: "Di notte la lanterna in cantina si vede, e chi sta dentro no."
+        costo: 2
+        esito:
+          titolo: Il canale di notte
+          testo: |
+            Aspettate la notte nel canale, con l'acqua alle ginocchia e le
+            gambe che non si sentono più. Quando la lanterna in cantina si
+            abbassa, passate fra le pale uno alla volta.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ 3 · il granaio
+  - id: caserma-mulino-il-granaio
+    immagine: ambientazione/mulino-malgrani
+    titolo: Il granaio annerito
+    sommario: "Nel granaio, sotto il tetto crollato, c'è l'ultimo dei disertori, con la cassa delle paghe."
+    luogo: Il Mulino Nero, il granaio
+    area: caserma-mulino-nero
+    ripetibile: true
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero == 3]
+    testo: |
+      Il granaio sta sotto il tetto mezzo crollato, e dal buco si vede il
+      cielo. Il grano bruciato fa uno strato nero sul pavimento che
+      scricchiola sotto gli stivali. In un angolo, seduto su una cassa di
+      ferro con un lucchetto, c'è l'ultimo dei disertori, un uomo grosso con
+      i capelli bianchi. Ha la spada sguainata appoggiata alla cassa.
+
+      {politica-ed-economia Media} La cassa di ferro è la cassa delle paghe
+      della ronda dei Ponti, quella che Brando portava al furiere ogni fine
+      mese. Se l'è portata dietro, e non l'ha aperta.
+
+      {rissa Media} È vecchio e grosso, e si muove piano. Ma ha la spada in
+      mano da trent'anni, e non la tiene come un attrezzo.
+    opzioni:
+      - testo: "Convincerlo a lasciare la cassa"
+        descrizione: "Trent'anni di servizio, e una cassa che non ha aperto. Forse vuole soltanto che qualcuno gliela riprenda."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: La cassa chiusa
+          testo: |
+            Gli chiedi perché non l'ha aperta. Lui ci pensa a lungo, poi ti
+            risponde che la paga dei Ponti non è roba sua. Si alza dalla cassa,
+            ti dà la chiave del lucchetto e rinfodera la spada.
+          effetti: { profondita.caserma-mulino-nero: 1, caserma.disertori: 1 }
+        fallimento:
+          titolo: Trent'anni
+          testo: |
+            Lui ti ascolta e ti risponde che in trent'anni ne ha sentiti tanti
+            come te. Poi si alza con la spada in mano, e voi tornate giù dalla
+            scala.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Disarmarlo"
+        descrizione: "È vecchio e grosso. Se lo prendi prima che si alzi, non ha spazio per la spada."
+        prova: { attributo: fisico, abilita: [rissa, armi-da-mischia], difficolta: Media }
+        successo:
+          titolo: La spada a terra
+          testo: |
+            Gli sei addosso prima che si alzi, e la spada gli cade sul grano
+            bruciato. Lui non lotta. Ti guarda e ti dice che una volta, al
+            cortile, era lui a insegnare quella presa.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+        fallimento:
+          titolo: Il vecchio
+          testo: |
+            Si alza più svelto di quanto credessi, e il pomo della spada ti
+            prende alla tempia. Ti ritrovi sul grano bruciato con la testa che
+            gira. Linna ti tira fuori dal granaio per il mantello.
+          effetti: { ferite: 1 }
+
+      - testo: "Lasciarlo con la sua cassa"
+        descrizione: "Dal granaio una botola scende in cantina. Lui non si muoverà dalla cassa."
+        costo: 2
+        esito:
+          titolo: La botola
+          testo: |
+            Lo lasci seduto sulla cassa e trovi la botola nel pavimento del
+            granaio, sotto il grano bruciato. La apri piano. Sotto c'è la scala
+            della cantina, e una luce di lanterna.
+          effetti: { profondita.caserma-mulino-nero: 1 }
+
+  # ------------------------------------------------------------ il cuore · la cantina sotto la ruota
+  - id: caserma-mulino-la-cantina
+    immagine: personaggi/nihali-cuzan
+    titolo: La cantina sotto la ruota
+    sommario: "Nella cantina sotto la ruota Brando Selli e Nihali Cuzan aspettano alla luce di una lanterna, con il libro delle paghe di Vesh sul tavolo."
+    luogo: Il Mulino Nero, la cantina
+    area: caserma-mulino-nero
+    requisiti: [fazione.caserma == 13, profondita.caserma-mulino-nero >= 4]
+    testo: |
+      La cantina sotto la ruota è bassa e umida, con l'acqua del canale che
+      entra da un'apertura e scorre in una canaletta lungo il muro. Al
+      centro c'è un tavolo fatto con una porta su due botti, e sul tavolo
+      una lanterna, un mazzo di carte e un libro con la copertina di cuoio
+      rosso. Seduto al tavolo c'è Nihali Cuzan, con la pipa spenta fra i
+      denti e le mani curate che mischiano le carte. In piedi fra te e il
+      tavolo c'è Brando Selli. Ha il mantello rovesciato e la spada
+      d'ordinanza in mano, tenuta bassa, come si insegna in cortile.
+
+      «Il libro lo vende lui» dice Brando, senza girarsi verso Nihali. «Nei
+      villaggi, una pagina alla volta. A chi c'è scritto sopra, e a chi lo
+      vuole leggere.» Ti guarda il mantello. «Il mio nome è a pagina tre.
+      Vent'anni di ronde e il mio nome a pagina tre.»
+
+      {empatia Media} Non ti sta chiedendo pietà. Vuole che tu capisca che
+      lui lo sa, quanto è caduto in basso, e che non ha intenzione di
+      sentirselo dire.
+
+      {percezione Difficile} Nihali ha una carta fra le dita della mano
+      sinistra, sotto il tavolo. La tiene lì da quando sei entrato.
+    opzioni:
+      - testo: "Parlare con Brando"
+        descrizione: "Il suo nome nel registro del furiere ha la stessa grafia del tuo. Ha firmato vent'anni prima di te allo stesso banco, e se lo capisce posa la spada da solo."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Difficile }
+        successo:
+          titolo: Lo stesso banco
+          testo: |
+            Gli dici che hai visto la sua firma sul registro del furiere,
+            quella del primo giorno, e che è uguale alla tua. Avete firmato
+            allo stesso banco la ricevuta del mantello, forse con la stessa
+            penna. Brando ti ascolta con la spada bassa. Poi la gira e te la
+            porge con l'elsa avanti, come si insegna in cortile, e si toglie
+            il mantello rovesciato. Dietro di lui, Nihali ha smesso di
+            mischiare.
+          imposta: { caserma.brando: 1 }
+          segue: caserma-mulino-il-libro
+        fallimento:
+          titolo: La spada alzata
+          testo: |
+            Gli parli del registro, e Brando ride, corto. «Il furiere fa
+            firmare tutti allo stesso modo» dice, e alza la spada. Pari il
+            primo colpo per abitudine, perché è una parata che ti ha
+            insegnato lui, e il secondo ti prende al braccio, mentre
+            indietreggi verso la scala.
+          effetti: { ferite: 1 }
+
+      - testo: "Affrontare Brando e Nihali"
+        descrizione: "Brando para come si insegna in cortile, e Nihali bara anche quando combatte. Con loro c'è ancora un disertore."
+        quando: [caserma.disertori < 2]
+        combattimento: caserma-la-cantina
+        vittoria:
+          titolo: La parata
+          testo: |
+            Brando para tutte le parate che conosci, perché le conosce anche
+            lui, e ti batte su quelle che hai imparato da solo. Alla fine è
+            una che non ti ha insegnato nessuno a farlo cadere, una finta
+            storta da vicolo. Resta sul pavimento bagnato con la gamba ferita,
+            e ti dice di prendere il libro, prima che lo prenda l'altro.
+          imposta: { caserma.brando: 2 }
+          segue: caserma-mulino-il-libro
+        sconfitta:
+          titolo: Linna
+          testo: |
+            Nihali ti tira una carta in faccia, e Brando ti passa sotto la
+            guardia. Ti ritrovi contro il muro della cantina, e Linna si mette
+            fra te e la spada. La ferita la prende lei, al fianco. La squadra vi
+            trascina fuori dal mulino, e Linna ti chiede, a denti stretti, se
+            le hanno rovinato il mantello.
+          effetti: { tormento: 0.5 }
+          vai: citta-bassa
+
+      - testo: "Affrontare Brando e Nihali"
+        descrizione: "I disertori hanno deposto le armi. Nella cantina restano Brando, con la spada bassa, e Nihali con le sue carte."
+        quando: [caserma.disertori >= 2]
+        combattimento: caserma-la-cantina-ridotta
+        vittoria:
+          titolo: La parata
+          testo: |
+            Brando para tutte le parate che conosci, perché le conosce anche
+            lui, e ti batte su quelle che hai imparato da solo. Alla fine è
+            una che non ti ha insegnato nessuno a farlo cadere, una finta
+            storta da vicolo. Resta sul pavimento bagnato con la gamba ferita,
+            e ti dice di prendere il libro, prima che lo prenda l'altro.
+          imposta: { caserma.brando: 2 }
+          segue: caserma-mulino-il-libro
+        sconfitta:
+          titolo: Linna
+          testo: |
+            Nihali ti tira una carta in faccia, e Brando ti passa sotto la
+            guardia. Ti ritrovi contro il muro della cantina, e Linna si mette
+            fra te e la spada. La ferita la prende lei, al fianco. La squadra vi
+            trascina fuori dal mulino, e Linna ti chiede, a denti stretti, se
+            le hanno rovinato il mantello.
+          effetti: { tormento: 0.5 }
+          vai: citta-bassa
+
+      - testo: "Ritirarsi e tornare con più uomini"
+        descrizione: "La cantina ha una scala sola. Si può tornare un'altra volta."
+        costo: 0
+        esito:
+          titolo: La scala
+          testo: |
+            Indietreggi verso la scala con la spada alzata, e Brando non ti
+            segue. Dal tavolo Nihali ti saluta con una carta, il re dei
+            Ponti, e la rimette nel mazzo.
+          vai: citta-bassa
+
+  - id: caserma-mulino-il-libro
+    immagine: personaggi/nihali-cuzan
+    titolo: Il libro delle paghe
+    tipo: seguito
+    luogo: Il Mulino Nero, la cantina
+    area: caserma-mulino-nero
+    requisiti: [fazione.caserma == 13]
+    testo: |
+      Il libro delle paghe di Vesh è sul tavolo, aperto alla pagina tre,
+      accanto alle carte di Nihali. Nihali si è alzato. È in piedi accanto
+      all'apertura del canale, con la pipa spenta in mano, e ti guarda
+      tossendo nel fazzoletto. Fra te e lui c'è il tavolo.
+
+      Il libro ha le colonne scritte in due grafie, una minuta per i nomi e
+      una larga per le cifre. Le pagine sono tante, e l'ultima ha la data
+      della notte della Pignatta.
+
+      {percezione Media} In fondo al libro c'è una colonna che non torna. È
+      una serie di versamenti mai usciti, che non vengono da Vesh. Accanto a
+      ogni cifra c'è un segno disegnato con cura, un occhio chiuso.
+
+      {accademiche Difficile fallita} L'occhio chiuso non lo hai mai visto
+      in nessun libro, e la tua memoria, interrogata, risponde soltanto con
+      un vago senso di colpa.
+
+      In Caserma nessuno saprà dirti che cosa sia quell'occhio. Nihali, se
+      lo sa, non lo dirà.
+    opzioni:
+      - testo: "Prendere Nihali sulla scala del canale"
+        descrizione: "I disertori hanno deposto le armi, e due di loro aspettano sulla riva del canale. Nihali non ha dove andare."
+        quando: [caserma.disertori >= 2]
+        esito:
+          titolo: La riva
+          testo: |
+            Nihali si infila nell'apertura del canale, e sulla riva lo
+            aspettano i due disertori che hanno deposto le armi, con Linna.
+            Lo riportano dentro bagnato fino alla vita, mentre tossisce
+            ridendo. Chiudi il libro intero e lo metti sotto il mantello.
+            Nella cassa dei disertori c'è la paga di un mese di ronde, e sul
+            tavolo il mazzo di Nihali, che lui ti guarda prendere.
+
+            {ingannare Media} Ride perché ha già perso, e un baro ride sempre
+            quando perde. È l'unico momento della partita in cui non deve
+            fingere.
+          pe: { persuasione: 5 }
+          imposta: { caserma.nihali: 1 }
+          effetti: { fazione.caserma: 1, monete: 120, oggetto.caserma-mazzo-di-nihali: 1, crepuscolo.indizi: 1, rep.caserma: 1 }
+          vai: citta-bassa
+
+      - testo: "Inseguire Nihali nel canale"
+        descrizione: "Nihali si infila nell'apertura del canale con metà del libro strappato in mano. Bisogna essere svelti."
+        quando: [caserma.disertori < 2]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il canale
+          testo: |
+            Nihali strappa metà del libro e si butta nell'apertura del
+            canale, e tu gli sei dietro prima che arrivi alla ruota. Lo
+            prendi per il colletto nell'acqua fino alla vita. Lui tossisce
+            ridendo e ti dà le pagine strappate, bagnate, che si possono
+            ancora leggere. Nella cassa dei disertori c'è la paga di un mese
+            di ronde, e sul tavolo il mazzo di Nihali.
+
+            {atletica Media} Corre male, Nihali, con quei polmoni. Ma nell'acqua
+            correte male tutti e due.
+          pe: { atletica: 5 }
+          imposta: { caserma.nihali: 1 }
+          effetti: { fazione.caserma: 1, monete: 120, oggetto.caserma-mazzo-di-nihali: 1, crepuscolo.indizi: 1, rep.caserma: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: Metà del libro
+          testo: |
+            Nihali strappa metà del libro e si butta nell'apertura del canale,
+            e quando ci arrivi tu è già oltre la ruota, nell'acqua alta, con le
+            pagine sopra la testa. Lo perdi nei campi bruciati. Ti resta l'altra
+            metà del libro, quella con la colonna dell'occhio chiuso, e sul
+            tavolo il mazzo di carte che ha lasciato. Nella cassa dei disertori
+            c'è la paga di un mese di ronde.
+          imposta: { caserma.nihali: 2 }
+          effetti: { fazione.caserma: 1, monete: 120, oggetto.caserma-mazzo-di-nihali: 1, crepuscolo.indizi: 1 }
+          vai: citta-bassa
+
+      - testo: "Lasciarlo andare e restare con i feriti"
+        descrizione: "Brando sanguina, e la squadra ha bisogno di te. Nihali porta via metà del libro."
+        esito:
+          titolo: I feriti
+          testo: |
+            Lasci che Nihali strappi metà del libro e sparisca nel canale. Ti
+            inginocchi accanto a Brando e gli stringi la cintura sopra la ferita
+            finché il sangue non rallenta. Lui ti guarda fare senza dire niente.
+            Sul tavolo restano l'altra metà del libro, con la colonna
+            dell'occhio chiuso, e il mazzo di Nihali. Nella cassa dei disertori
+            c'è la paga di un mese di ronde.
+
+            {medicina Media} La ferita è brutta ma pulita. Brando arriverà in
+            Caserma, e arriverà al processo.
+          pe: { medicina: 5 }
+          imposta: { caserma.nihali: 2 }
+          effetti: { fazione.caserma: 1, monete: 120, oggetto.caserma-mazzo-di-nihali: 1, crepuscolo.indizi: 1, rep.caserma: 1 }
+          vai: citta-bassa

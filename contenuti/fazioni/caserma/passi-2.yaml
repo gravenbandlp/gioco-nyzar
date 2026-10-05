@@ -1,0 +1,814 @@
+# La quest della Caserma, passi 6, 7 e 8.
+# 6 il fuoco al Ponte del Conciatore (grado 2, Capo di ronda): una scena a fasi. Le tre fasi (i secchi, il sergente
+#   sotto la trave, la sbarra del Custode) si giocano una volta ciascuna, in qualsiasi ordine, e segnano caserma.secchi,
+#   .sergente e .sbarra (1 riuscita, 2 fallita) e caserma.fuoco (le riuscite). Fatte tutte e tre, si chiude: con due
+#   riuscite il ponte si salva (caserma.incendio 1, più reputazione), altrimenti perde tre campate e Linna si ustiona
+#   (caserma.incendio 2). Il grado arriva in tutti e due i casi.
+# 7 la paga che non arriva: i conti del furiere in Caserma, poi il Consiglio in Municipio (Ottone finché pista.pelle < 6,
+#   le casse vuote della ricostruzione dopo). Si può anche anticipare la paga di tasca propria (caserma.anticipo, che la
+#   Caserma rimborsa al passo 12).
+# 8 il miliziano con la tosse: Fulvio Saldo alla casa blu, poi la bettola dell'Orlo e la scelta (caserma.saldo).
+storylet:
+  # ------------------------------------------------------------ passo 6 · il fuoco al Ponte del Conciatore (grado 2)
+  - id: caserma-il-fuoco-al-conciatore
+    immagine: ambientazione/conceria-kasselt
+    titolo: Il fuoco al Ponte del Conciatore
+    sommario: "All'imbocco del Ponte del Conciatore brucia un magazzino di pelli. La sbarra dei Custodi è abbassata, e la ronda mista guarda te."
+    luogo: Città Bassa, l'imbocco del Ponte del Conciatore
+    area: citta-bassa
+    requisiti: [fazione.caserma == 5]
+    testo: |
+      Il magazzino di pelli all'imbocco del Ponte del Conciatore brucia dal
+      tetto, con una fiamma bassa e grassa che puzza di grasso di concia e di
+      peli bruciati. Il fumo scende sul ponte invece di salire. Le travi del
+      primo arco sono già nere, e se il fuoco le prende il ponte perde le
+      campate fino al fiume.
+
+      Sei arrivato con la ronda mista del pomeriggio, cinque in tutto fra
+      miliziani e Raschiatori. Linna Varo ha ancora la mazza in mano. Il
+      sergente che comandava la ronda è entrato nel magazzino a cercare il
+      guardiano, e una trave del soffitto gli è caduta sulle gambe. Lo senti
+      chiamare da dentro, con la voce calma di chi ha deciso di non
+      spaventare nessuno.
+
+      {medicina Media} Chiama ogni dieci respiri, sempre con la stessa
+      voce. Finché la voce non cambia ha ancora aria, e il fumo non gli è
+      sceso nel petto.
+
+      L'acqua è nel Torvessa sotto il ponte. Per arrivarci la catena dei
+      secchi deve passare dalla scala dei Custodi. Davanti alla scala c'è la
+      sbarra abbassata della gabella, con dietro un Custode di Passaggio con
+      il registro aperto che ripete che la scala è della Gilda e che senza
+      la gabella di lì non passano nemmeno i secchi.
+
+      {politica-ed-economia Facile} Il Custode non è cattivo. Ha paura che
+      domani qualcuno gli chieda perché la sbarra era alzata, e il registro
+      è l'unica cosa che ha in mano.
+
+      I miliziani guardano te, e i Raschiatori guardano i miliziani. Linna
+      ti chiede che cosa facciamo, al plurale. *Tre cose, e una sola
+      persona.* Ti senti il mantello scarlatto addosso come se pesasse il
+      doppio.
+    opzioni:
+      - testo: "Mettere in piedi la catena dei secchi"
+        descrizione: "Miliziani e Raschiatori in fila mescolati, dal fiume al tetto. Fra loro non si parlano, e adesso devono passarsi i secchi."
+        quando: [caserma.secchi == 0]
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: La catena
+          testo: |
+            Metti un miliziano fra due Raschiatori, poi un Raschiatore fra
+            due miliziani, e quando uno protesta gli metti in mano il secchio
+            pieno prima che finisca la frase. La catena comincia a muoversi
+            storta e poi si raddrizza. Dopo dieci secchi nessuno guarda più il
+            colore del mantello di chi gli sta accanto, e la fiamma sul
+            tetto si abbassa di un braccio.
+
+            {persuasione Facile} Con i secchi non si discute. Gli hai dato una
+            cosa da fare con le mani, e alle mani la politica non interessa.
+          pe: { persuasione: 3 }
+          imposta: { caserma.secchi: 1 }
+          effetti: { caserma.fuoco: 1 }
+        fallimento:
+          titolo: I secchi per terra
+          testo: |
+            Per fare prima metti i miliziani da una parte e i Raschiatori
+            dall'altra. Le due mezze catene si passano i secchi a velocità
+            diverse. A metà scala i secchi si accumulano, qualcuno ne fa
+            cadere uno, e la lite arriva prima dell'acqua. Quando la catena
+            riparte il tetto del magazzino è già crollato da un lato.
+          imposta: { caserma.secchi: 2 }
+          effetti: { ferite: 0.5 }
+
+      - testo: "Tirare fuori il sergente"
+        descrizione: "La trave gli è caduta sulle gambe, dentro il magazzino. Ci vogliono spalle buone e fiato per il fumo."
+        quando: [caserma.sergente == 0]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La trave
+          testo: |
+            Entri con il mantello bagnato sulla testa e lo trovi seduto per
+            terra, con la trave sulle gambe e un fazzoletto sulla bocca. Metti
+            la spalla sotto la trave e spingi finché lui non sfila le gambe,
+            e lo trascini fuori per la cintura mentre dietro di voi il
+            soffitto viene giù a pezzi. Fuori, sdraiato sulla strada, lui ti
+            dice grazie e poi ti chiede se il guardiano l'ha trovato qualcun
+            altro.
+
+            {resistenza Media} Il fumo ti è entrato nei polmoni, e ci resterà
+            fino a stasera. La spalla invece lo dirà per una settimana.
+          pe: { atletica: 3 }
+          imposta: { caserma.sergente: 1 }
+          effetti: { caserma.fuoco: 1 }
+        fallimento:
+          titolo: Il fumo
+          testo: |
+            Entri, e il fumo ti chiude la gola al terzo passo. Lo trovi a
+            tentoni e spingi la trave, ma la trave non si muove finché due
+            Raschiatori non entrano dietro di te con una leva. Escono tutti e
+            tre tossendo, il sergente con una gamba storta, e tu ultimo, con
+            le mani ustionate dove hai toccato il legno.
+          imposta: { caserma.sergente: 2 }
+          effetti: { ferite: 1 }
+
+      - testo: "Alzare la sbarra con la forza"
+        descrizione: "La sbarra è un palo di legno con un lucchetto. Il Custode farà rapporto alla Gilda, e la Gilda se lo ricorderà."
+        quando: [caserma.sbarra == 0]
+        esito:
+          titolo: Il lucchetto
+          testo: |
+            Prendi la mazza di Linna e colpisci il lucchetto due volte, e alla
+            seconda il lucchetto salta e la sbarra si alza da sola sul suo
+            contrappeso. La catena dei secchi passa sotto. Il Custode scrive
+            sul registro con la mano che trema, e prima di scrivere ti chiede
+            come ti chiami, e tu glielo dici, perché tanto il mantello
+            scarlatto lo hanno visto tutti.
+          imposta: { caserma.sbarra: 1 }
+          effetti: { caserma.fuoco: 1, rep.gilda: -1 }
+
+      - testo: "Convincere il Custode ad alzare la sbarra"
+        descrizione: "Il Custode ha paura del registro più che del fuoco. Bisogna trovare la riga giusta da scriverci."
+        quando: [caserma.sbarra == 0]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: La riga sul registro
+          testo: |
+            Gli chiedi il registro e la penna, e scrivi tu la riga che lo fa
+            dormire tranquillo. Sbarra alzata per ordine della Guardia a
+            causa di incendio. Sotto ci metti l'ora e la tua firma con il
+            grado. Il Custode la legge due volte muovendo le labbra, poi
+            alza la sbarra e si mette a passare i secchi anche lui.
+          pe: { politica-ed-economia: 3 }
+          imposta: { caserma.sbarra: 1 }
+          effetti: { caserma.fuoco: 1 }
+        fallimento:
+          titolo: Il regolamento della Gilda
+          testo: |
+            Il Custode ti risponde articolo per articolo, con il regolamento
+            della Gilda a memoria, e tu perdi il tempo di venti secchi a
+            discutere. Alla fine la sbarra la alza un Raschiatore anziano con
+            un calcio, mentre il Custode scrive il nome di tutti.
+          imposta: { caserma.sbarra: 2 }
+          effetti: { rep.gilda: -0.5 }
+
+      - testo: "Mandare a chiamare Varn Kett"
+        descrizione: "Varn Kett è stato vent'anni nella milizia prima di passare alla Gilda. Con lui il Custode alza la sbarra, ma bisogna aspettare che arrivi."
+        immagine: personaggi/varn-kett
+        quando: [caserma.sbarra == 0]
+        costo: 2
+        esito:
+          titolo: Le dita nell'aria
+          testo: |
+            Mandi un ragazzo di corsa alla Casa dei Nodi, e Varn Kett arriva
+            con il cappotto color tabacco abbottonato storto, e gli stivali
+            da pioggia sotto un cielo senza nuvole. Guarda il fuoco e la
+            sbarra, poi muove le dita nell'aria come se scrivesse su una
+            pergamena che vede soltanto lui. «Soccorso pubblico» dice al
+            Custode. «Lo metti a carico della Guardia, e la Guardia lo paga
+            a fine mese, come sempre.» La sbarra si alza. Il fuoco intanto
+            si è preso un'altra trave.
+
+            {conoscenze-della-strada Media} *Come sempre* vuol dire che non lo
+            paga mai nessuno, e che lui lo sa da vent'anni.
+          imposta: { caserma.sbarra: 1 }
+          effetti: { caserma.fuoco: 1, rep.gilda: 0.5 }
+
+      - testo: "Fare la catena alla maniera dei Raschiatori"
+        descrizione: "Sulle piattaforme i secchi si passano con il canto della squadra, uno per ogni presa. I Raschiatori lo conoscono, e i miliziani lo imparano in fretta."
+        quando: [caserma.secchi == 0, origine.apprendista-raschiatore >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, espressivita], difficolta: Facile }
+        successo:
+          titolo: Il canto della squadra
+          testo: |
+            Attacchi il canto dei turni, quello che si usa sulla Cicatrice per
+            passarsi i secchi di detriti, e i tre Raschiatori lo riprendono
+            alla seconda battuta. I miliziani ci mettono un po' di più, ma il
+            ritmo li prende lo stesso. La catena scende al fiume e risale come
+            una cosa sola, e sul tetto la fiamma si abbassa di un braccio.
+
+            {origine apprendista-raschiatore} L'ultima volta che l'hai cantato
+            eri sulla piattaforma con la tua squadra. Uno dei Raschiatori della
+            catena ti guarda, e capisce da dove vieni senza chiedertelo.
+          pe: { persuasione: 3 }
+          imposta: { caserma.secchi: 1 }
+          effetti: { caserma.fuoco: 1 }
+        fallimento:
+          titolo: Il canto stonato
+          testo: |
+            Attacchi il canto dei turni, e lo attacchi troppo veloce. I
+            Raschiatori ti seguono, mentre i miliziani restano indietro, e
+            la catena si spezza in due ritmi che si pestano i piedi. Prima
+            che riparta il tetto è crollato da un lato.
+          imposta: { caserma.secchi: 2 }
+          effetti: { ferite: 0.5 }
+
+      - testo: "Citare al Custode la clausola dei soccorsi"
+        descrizione: "Ai Ponti lo sanno tutti i mercanti. Lo statuto della Gilda ha una clausola per gli incendi, e i Custodi giovani non la leggono mai."
+        quando: [caserma.sbarra == 0, origine.mercante-dei-ponti >= 1]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Facile }
+        successo:
+          titolo: L'articolo dei soccorsi
+          testo: |
+            Gli citi a memoria l'articolo con il suo numero. Poi gli dici
+            che lo statuto lo ha firmato suo nonno, se è di famiglia Custode
+            come sembra. Il Custode arrossisce e alza la sbarra. Poi scrive
+            sul registro la clausola, parola per parola, perché il giorno
+            dopo nessuno possa dire che se l'è inventata.
+
+            {origine mercante-dei-ponti} Tuo padre la recitava ai Custodi
+            ogni volta che gli prendeva fuoco un carro, il che nella vostra
+            famiglia succedeva più spesso del necessario.
+          pe: { politica-ed-economia: 3 }
+          imposta: { caserma.sbarra: 1 }
+          effetti: { caserma.fuoco: 1 }
+        fallimento:
+          titolo: Lo statuto vecchio
+          testo: |
+            Citi l'articolo, e il Custode ti mostra che lo statuto l'hanno
+            rifatto l'anno scorso e che la clausola adesso ha un comma in più.
+            Mentre leggete il comma la sbarra la alza un Raschiatore con un
+            calcio.
+          imposta: { caserma.sbarra: 2 }
+          effetti: { rep.gilda: -0.5 }
+
+      - testo: "Contare i danni all'alba"
+        descrizione: "Il fuoco è spento. Il magazzino non c'è più, e il ponte è ancora in piedi."
+        quando: [caserma.secchi >= 1, caserma.sergente >= 1, caserma.sbarra >= 1, caserma.fuoco >= 2]
+        esito:
+          titolo: Il nome in rosso
+          testo: |
+            All'alba il magazzino è un mucchio di travi nere che fumano sul
+            selciato, e il ponte è intero, con il primo arco annerito e le
+            campate al loro posto. I Raschiatori e i miliziani dormono seduti
+            contro il parapetto, mescolati come li avevi messi in fila. Linna
+            ha le mani nere e un sorriso storto, e ti offre un sorso d'acqua
+            del fiume dal secchio.
+
+            {intimidire Media} Da ieri sera i miliziani della ronda, quando ti
+            parlano, aspettano che tu finisca prima di rispondere. È una cosa
+            che si impara una volta sola.
+
+            In Caserma, sulla lavagna dei turni, Gasti scrive il tuo nome in
+            rosso, con il gesso dei capi di ronda. Il furiere ti consegna una
+            lanterna di ronda con lo sportello che si chiude a metà, e la
+            chiave della branda in fondo al magazzino. Il giorno dopo ti dice,
+            senza alzare gli occhi dal registro, che la ronda dell'incendio
+            non sa con che cosa pagarla.
+          pe: { persuasione: 5 }
+          imposta: { caserma.incendio: 1 }
+          effetti: { fazione.caserma: 1, oggetto.caserma-lanterna-di-ronda: 1, monete: 25, rep.caserma: 1, rep.raschiatori: 1 }
+          almeno: { rep.caserma: 4 }
+
+      - testo: "Contare i danni all'alba"
+        descrizione: "Il fuoco è spento. Il ponte ha perso tre campate, e Linna ha le mani fasciate."
+        quando: [caserma.secchi >= 1, caserma.sergente >= 1, caserma.sbarra >= 1, caserma.fuoco < 2]
+        esito:
+          titolo: Tre campate
+          testo: |
+            All'alba il primo arco del Ponte del Conciatore è nero, e tre
+            campate sono cadute nel Torvessa con le loro travi. I carri per
+            Laresh faranno il giro lungo per un mese. Linna è seduta sul
+            parapetto con le mani fasciate, perché ha tenuto un secchio
+            rovente più del dovuto, e quando ti vede nasconde le mani sotto le
+            ascelle e ti dice che non fanno male.
+
+            {empatia Media} Fanno male, e lei non vuole che sia colpa tua. Lo
+            dice per te, ed è la cosa più gentile che qualcuno ti abbia
+            detto da quando porti il mantello.
+
+            In Caserma Gasti scrive il tuo nome in rosso sulla lavagna, perché
+            il ponte è in piedi, e il furiere ti consegna la lanterna di ronda
+            e la chiave della branda in fondo al magazzino. Il giorno dopo ti
+            dice che la ronda dell'incendio non sa con che cosa pagarla.
+          pe: { resilienza: 5 }
+          imposta: { caserma.incendio: 2 }
+          effetti: { fazione.caserma: 1, oggetto.caserma-lanterna-di-ronda: 1, monete: 25, tormento: 0.5 }
+          almeno: { rep.caserma: 4 }
+
+  # ------------------------------------------------------------ passo 7 · la paga che non arriva
+  - id: caserma-la-paga-che-non-arriva
+    presso: guarnigione-di-qir-azel
+    immagine: ambientazione/guarnigione-di-qir-azel
+    titolo: La paga che non arriva
+    sommario: "Il Consiglio non vota la paga delle ronde, e il furiere la anticipa di tasca sua. Qualcuno deve andare in Municipio con i conti."
+    luogo: Guarnigione di Qir-Azel, il banco del furiere
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 6]
+    testo: |
+      Il furiere paga le ronde dal cassetto del suo banco, una moneta alla
+      volta, e su ogni ricevuta scrive *anticipo* con la sua grafia piccola.
+      Il cassetto è quasi vuoto. Dietro di lui c'è una pila di fogli legata
+      con lo spago, le richieste della Caserma al Consiglio degli ultimi sei
+      mesi, ognuna con il timbro *rinviata* in rosso.
+
+      {politica-ed-economia Media} Il Consiglio non vota la paga perché
+      quando la Caserma ha fame dipende di più da chi la sfama. Chi rinvia
+      sa benissimo che cosa fa.
+
+      Il furiere ti mostra il registro. «La seduta è dopodomani» dice. «Ci
+      vuole qualcuno che vada su con i conti, e che li sappia dire. Lo
+      sceriffo li conosce, i numeri, ma li dice come si leggono le
+      condanne, e il Consiglio si offende. Gasti invece in Municipio non
+      apre bocca.» Si toglie gli occhiali e li pulisce con il lembo della
+      camicia. «Tu hai la faccia nuova, e il nome in rosso sulla lavagna.»
+
+      {percezione Facile} Le ricevute degli anticipi sono firmate tutte,
+      tranne la riga dove dovrebbe esserci la mano del furiere stesso. Si
+      è pagato per ultimo, e per adesso non si è pagato.
+
+      Nel cortile i miliziani aspettano il loro turno al banco con le mani
+      in tasca. Ti accorgi che uno di loro conta gli spiccioli che ha, e poi
+      li riconta.
+    opzioni:
+      - testo: "Rifare i conti del furiere"
+        descrizione: "Sei mesi di ronde, di cristalli da lanterna e di paglia per i manichini. Messi bene in colonna, in Municipio si leggono da soli."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Una colonna sola
+          testo: |
+            Passi la notte al banco con il furiere, che ti passa i fogli uno
+            alla volta e ti corregge le somme con la punta della penna. All'alba
+            hai una colonna sola, scritta in bella, con quanto costa una notte
+            di ronda e quante notti la Caserma ha fatto senza paga. In fondo,
+            sottolineato due volte, c'è quello che il Consiglio deve. Il
+            furiere la arrotola e te la mette in mano come un diploma.
+          pe: { politica-ed-economia: 3 }
+          segue: caserma-in-municipio
+        fallimento:
+          titolo: Le somme
+          testo: |
+            Alla terza pagina sbagli un riporto, e alla quinta il riporto
+            sbagliato si è mangiato mezza colonna. Il furiere se ne accorge
+            all'alba e rifà tutto da capo con un sospiro lungo, e ti dice di
+            tornare quando hai dormito.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Anticipare tu la paga delle ronde"
+        descrizione: "Una borsa delle tue, e i miliziani mangiano da stasera. La Caserma te la renderà quando potrà."
+        requisiti: [monete >= 40]
+        esito:
+          titolo: La ricevuta del furiere
+          testo: |
+            Metti la borsa sul banco. Il furiere la guarda a lungo prima di
+            aprirla, poi conta le monete a mucchietti e ti scrive una ricevuta
+            alla voce *anticipo, da restituire*, con la data e la sua firma,
+            che è la prima firma sua che vedi su quel registro. I miliziani in
+            fila prendono la paga senza sapere da dove viene. Il furiere,
+            mentre chiude il cassetto, dice soltanto che c'è una cosa strana.
+            Fra tutti quelli in fila, l'unico che non ha mai chiesto quando
+            arriva la paga è Fulvio Saldo.
+
+            {politica-ed-economia Media} Uno che non chiede della paga, quando
+            nessuno la riceve da un mese, una paga ce l'ha. Il furiere lo ha
+            capito prima di te, e te lo ha detto apposta.
+          imposta: { caserma.anticipo: 1 }
+          effetti: { fazione.caserma: 1, monete: -40, rep.caserma: 1 }
+
+      - testo: "Andare in Municipio senza i conti in bella"
+        descrizione: "I fogli sono quelli che sono. Il furiere te li dà legati con lo spago, e il resto lo dici a voce."
+        costo: 2
+        esito:
+          titolo: Lo spago
+          testo: |
+            Il furiere ti dà la pila di fogli legata con lo spago, e tu passi
+            la sera a leggerli seduto sul bordo del pozzo, finché non sai a
+            memoria almeno i totali. La mattina dopo sali la scalinata del
+            Municipio con la pila sotto il braccio, e lo spago ti segna le dita.
+          segue: caserma-in-municipio
+
+      - testo: "Rifare i conti come all'Accademia"
+        descrizione: "All'Accademia i bilanci dei laboratori si fanno con il metodo delle due colonne, che Orvald Temmerin insegna con la riga sulle dita."
+        quando: [origine.allievo-di-torvessa >= 1]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Facile }
+        successo:
+          titolo: Le due colonne
+          testo: |
+            Metti in una colonna quello che la Caserma ha speso e nell'altra
+            quello che il Consiglio ha rinviato, e le due colonne si guardano in
+            faccia per tutta la pagina. Il furiere segue il metodo con il dito,
+            e alla fine ti chiede se all'Accademia lo insegnano a chiunque o
+            soltanto a chi paga la retta.
+
+            {origine allievo-di-torvessa} Orvald diceva che un bilancio ben
+            fatto è un'accusa che non alza la voce. Era l'unica lezione in cui
+            sorrideva.
+          pe: { politica-ed-economia: 3 }
+          segue: caserma-in-municipio
+        fallimento:
+          titolo: La terza colonna
+          testo: |
+            Il metodo delle due colonne funziona finché il furiere non tira
+            fuori una terza pila di fogli, le spese di servizio, che non
+            stanno in nessuna delle due. All'alba hai tre colonne che non
+            tornano, e il furiere ti manda a dormire.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Rifare i conti come al banco dei Ponti"
+        descrizione: "Al Mercato dei Nodi i conti dei fornitori si rifanno a voce alta, una voce alla volta, finché chi deve pagare non si stanca."
+        quando: [origine.mercante-dei-ponti >= 1]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Facile }
+        successo:
+          titolo: A voce alta
+          testo: |
+            Rifai i conti a voce alta come al banco, e il furiere a metà
+            notte comincia a rispondere ai totali prima che tu li dica.
+            All'alba la colonna è una sola, e sotto c'è la cifra che il
+            Consiglio deve, sottolineata due volte.
+
+            {origine mercante-dei-ponti} Tuo padre diceva che un conto detto a
+            voce alta pesa il doppio di uno scritto, perché chi lo ascolta deve
+            anche far finta di non capirlo.
+          pe: { politica-ed-economia: 3 }
+          segue: caserma-in-municipio
+        fallimento:
+          titolo: La voce roca
+          testo: |
+            A metà notte hai la voce roca e il furiere si è addormentato sul
+            registro. All'alba la colonna è a metà, e il riporto della quinta
+            pagina lo sbagliate tutti e due.
+          effetti: { tormento: 0.5 }
+
+  - id: caserma-in-municipio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: La seduta del Consiglio
+    tipo: seguito
+    luogo: Municipio, la sala del Consiglio
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 6]
+    testo: |
+      La sala del Consiglio ha le finestre alte e un tavolo a ferro di
+      cavallo, e la richiesta della Caserma è l'ultimo punto della seduta,
+      dopo le fontane della piazza alta. Quando arriva il tuo turno metà dei
+      consiglieri ha già lo sguardo sull'orologio. Julia Castaldi, a
+      capotavola, sfoglia la pratica della Caserma e alza gli occhi su di te
+      prima di chiamarti, come per misurarti.
+
+      {galateo Media} In questa sala si parla in piedi e si guarda chi
+      presiede, mai chi interrompe. Chi interrompe, qui dentro, lo fa
+      apposta per farsi guardare.
+
+      Dal lato della Gilda un consigliere ha già pronta l'obiezione. Dice
+      che la Caserma spende troppo e conta male, e che una vigilanza dei
+      Custodi sui suoi conti farebbe bene a tutti. Ha un fascicolo davanti,
+      con le cifre della Caserma ricopiate da qualcuno che non le ha
+      capite.
+
+      {ingannare Media} Il fascicolo è aperto alla pagina giusta da prima
+      che tu entrassi. Qualcuno sapeva di che cosa avresti parlato.
+
+      Julia ti dà la parola con un cenno della penna.
+    opzioni:
+      - testo: "Parlare al Consiglio"
+        descrizione: "Una notte di ronda costa quanto una cena in questa sala. Dirlo bene, senza offendere nessuno, è difficile."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Difficile }
+        successo:
+          titolo: Il prezzo di una notte
+          testo: |
+            Non parli di soldi. Parli della notte dell'incendio al Ponte del
+            Conciatore, e di quanto sarebbe costato rifare tre campate, e
+            soltanto alla fine metti sul tavolo il prezzo di una notte di
+            ronda accanto a quello di un arco di ponte. Julia lascia che il
+            silenzio lavori per lei, poi mette ai voti. La paga passa con due
+            voti contrari. Uscendo, il consigliere della Gilda ti guarda come
+            si guarda un debito che è stato pagato in anticipo.
+
+            {persuasione Media} Hai fatto fare al Consiglio un conto che il
+            Consiglio sapeva già fare. L'hai soltanto lasciato concludere da
+            solo.
+          pe: { persuasione: 5 }
+          effetti: { fazione.caserma: 1, rep.castaldi: 0.5, rep.caserma: 1 }
+        fallimento:
+          titolo: Rinviata a metà
+          testo: |
+            Parli troppo a lungo, e a metà del discorso il consigliere della
+            Gilda ti interrompe con una domanda sui cristalli da lanterna a
+            cui non sai rispondere. Julia ti salva mettendo ai voti metà
+            della paga adesso e l'altra metà al mese prossimo. Passa. Il
+            furiere, quando glielo dici, scrive *metà* sul registro e
+            sospira.
+          effetti: { fazione.caserma: 1, scandalo: 0.5 }
+
+      - testo: "Smontare il fascicolo di Ottone Malgrani"
+        descrizione: "Il consigliere della Gilda è un uomo di Ottone, e il fascicolo glielo ha preparato il Maniero. Le cifre sono sbagliate da qualche parte."
+        immagine: personaggi/ottone-malgrani
+        quando: [pista.pelle < 6]
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il mese sbagliato
+          testo: |
+            Chiedi di vedere il fascicolo, e il consigliere te lo passa con
+            sufficienza. Le cifre sono giuste, e sono del mese della razzia,
+            quando la Caserma ha comprato in una settimana tutte le lance di
+            un anno. Lo dici ad alta voce, con la data. Dal fondo della sala
+            Ottone Malgrani, che non siede al tavolo e ascolta in piedi, se
+            ne va prima del voto. La paga passa.
+
+            {politica-ed-economia Media} Ottone voleva la Caserma sotto la
+            vigilanza dei Custodi della Gilda, che vuol dire sotto la sua.
+            Oggi non l'ha avuta, e se lo ricorderà con il tuo nome.
+          pe: { percezione: 5 }
+          effetti: { fazione.caserma: 1, rep.castaldi: 0.5, rep.caserma: 1, rep.malgrani: -1 }
+        fallimento:
+          titolo: Le lance
+          testo: |
+            Sfogli il fascicolo e non trovi l'errore, perché l'errore è nella
+            data, e tu guardi le somme. Il consigliere chiude il fascicolo con
+            un sorriso. Julia mette ai voti metà della paga, e passa. Dal fondo
+            della sala Ottone Malgrani ti guarda uscire.
+          effetti: { fazione.caserma: 1, scandalo: 0.5 }
+
+      - testo: "Proporre di pagare la Guardia con le licenze del grano"
+        descrizione: "Le casse della ricostruzione sono vuote, ma le licenze nuove del grano rendono. Una parte potrebbe andare alle ronde che le fanno rispettare."
+        quando: [pista.pelle >= 6]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Le licenze
+          testo: |
+            Dici che le licenze del grano senza le ronde sono carta, perché i
+            mulini delle cooperative li controlla la Guardia, e chi controlla
+            deve mangiare. Julia ti guarda con un interesse nuovo e prende un
+            appunto a margine della pratica. La paga passa, a carico delle
+            licenze, e la Caserma ha per la prima volta un'entrata che non
+            dipende dall'umore del Consiglio.
+
+            {politica-ed-economia Facile} Julia ci aveva già pensato. Le
+            mancava qualcuno che lo dicesse al posto suo, così che non
+            sembrasse un'idea dei Castaldi.
+          pe: { politica-ed-economia: 5 }
+          effetti: { fazione.caserma: 1, rep.castaldi: 0.5, rep.caserma: 1 }
+        fallimento:
+          titolo: La ricostruzione
+          testo: |
+            Il consigliere della Gilda ti risponde che le licenze servono a
+            ricostruire la Città Bassa, e che la Guardia può aspettare. Julia
+            mette ai voti metà della paga, e passa. Il furiere scrive *metà*
+            sul registro.
+          effetti: { fazione.caserma: 1, scandalo: 0.5 }
+
+      - testo: "Aspettare la seduta del mese dopo"
+        descrizione: "Si può tornare con la stessa richiesta, e intanto la Caserma tira la cinghia."
+        costo: 2
+        esito:
+          titolo: Un mese
+          testo: |
+            Julia rinvia il punto alla seduta dopo, e tu torni il mese seguente
+            con la stessa pila di fogli e qualche ricevuta in più. Stavolta la
+            paga passa senza discussione, perché i consiglieri hanno altro per
+            la testa, e il furiere la conta sul banco moneta per moneta.
+
+            {resistenza Facile} Un mese di ronde con la cinghia tirata, e lo
+            stomaco lo sa contare meglio del furiere.
+          effetti: { fazione.caserma: 1 }
+
+      - testo: "Parlarne a cena dai Castaldi, la sera prima"
+        descrizione: "Nei Quartieri Alti un voto si ottiene la sera prima, a tavola. Nella sala del Consiglio lo si mette soltanto per iscritto."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: Il secondo piatto
+          testo: |
+            La sera prima della seduta sei a cena dai Castaldi, a un posto
+            dove si siede chi conosce le posate, e la Caserma la nomini solo
+            al secondo piatto, di passaggio, come una cosa che ti hanno
+            raccontato. Julia, a capotavola, finge di non sentire. La mattina
+            dopo, in sala, mette ai voti la paga prima delle fontane, e passa
+            senza discussione.
+
+            {origine rampollo-dei-quartieri-alti} A tavola tua madre faceva lo
+            stesso con i fornitori. Ti ritrovi a usare perfino il suo tono, e
+            non ti piace quanto funziona.
+          pe: { persuasione: 5 }
+          effetti: { fazione.caserma: 1, rep.castaldi: 0.5, rep.caserma: 1 }
+        fallimento:
+          titolo: Il piatto sbagliato
+          testo: |
+            Nomini la Caserma già al primo piatto, e a tavola cala un gelo
+            cortese. La mattina dopo il consigliere della Gilda ha già
+            pronta la risposta. Julia mette ai voti metà della paga, e
+            passa.
+          effetti: { fazione.caserma: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ passo 8 · il miliziano con la tosse
+  - id: caserma-il-miliziano-con-la-tosse
+    presso: caserma-casa-blu
+    immagine: ambientazione/citta-bassa
+    titolo: Il miliziano con la tosse
+    sommario: "Il furiere ha notato che Fulvio Saldo non chiede mai quando arriva la paga. Oggi Fulvio ha chiesto un altro permesso."
+    luogo: Città Bassa, la casa di pietra blu
+    area: citta-bassa
+    requisiti: [fazione.caserma == 7]
+    testo: |
+      Quando è arrivata la paga, contando le monete sul banco, il furiere ti
+      ha fatto notare una cosa. In tutto il mese di ritardo l'unico che non
+      gli ha mai chiesto quando arrivava era Fulvio Saldo. L'ha detto senza
+      alzare gli occhi, e poi è passato alla riga dopo.
+
+      Alla casa blu Fulvio tossisce nella sciarpa e chiede il permesso per
+      il pomeriggio, perché il figlio piccolo ha la febbre. Ha moglie e due
+      figli in Via del Salmone, e lo sai perché lo sa tutta la Città Bassa.
+      Brina, dalla cucina, lo guarda uscire con il mestolo fermo a mezz'aria.
+
+      {empatia Media} Fulvio non ha la faccia di uno cattivo. Ha la faccia di
+      uno che ha paura da mesi e si è abituato, e la sciarpa serve a
+      nascondere anche quella.
+
+      {conoscenze-della-strada Media} Un miliziano con un debito di carte
+      con gli Scuri non deve fare niente di grave. Gli basta guardare da
+      un'altra parte all'ora giusta, e vendere i suoi turni a chi li vuole
+      sapere.
+
+      Sul registro dei turni, che ormai tieni tu, i permessi di Fulvio sono
+      segnati con una crocetta. Quest'anno sono trentadue. Il figlio
+      piccolo, a contarli, ha avuto la febbre una volta ogni dieci giorni.
+    opzioni:
+      - testo: "Seguirlo durante il permesso"
+        descrizione: "Fulvio esce verso Via del Salmone. Bisogna vedere se ci arriva."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La bettola dell'Orlo
+          testo: |
+            Lo segui a distanza di due vicoli. Fulvio passa davanti a Via del
+            Salmone senza girare, si toglie il mantello e lo piega sotto il
+            braccio, e scende verso l'Orlo dei Rottami. Entra in una bettola
+            con la porta bassa, e dalla finestra lo vedi sedersi a un tavolo
+            dove c'è già un uomo con il cappuccio. Fulvio tira fuori un foglio
+            piegato e lo spinge sul tavolo.
+
+            {furtivita Media} La sciarpa se l'è abbassata appena svoltato
+            l'angolo. Fra questi vicoli la tosse non gli serve.
+          pe: { furtivita: 3 }
+          segue: caserma-il-debito-di-fulvio
+        fallimento:
+          titolo: Via del Salmone
+          testo: |
+            Al secondo vicolo Fulvio si ferma a comprare un'arancia, e mentre
+            paga ti vede riflesso nella vetrina. Va dritto a casa, in Via del
+            Salmone, e dalla finestra lo vedi sedersi accanto al letto di un
+            bambino con la febbre vera.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Farlo parlare alla casa blu, prima che esca"
+        descrizione: "Una porta chiusa con la stufa accesa, e sul registro dei turni trentadue crocette."
+        prova: { attributo: sociale, abilita: [empatia, intimidire], difficolta: Media }
+        successo:
+          titolo: Trentadue
+          testo: |
+            Chiudi la porta e gli metti davanti il registro aperto alla pagina
+            delle crocette, senza dire niente. Fulvio le conta con gli occhi.
+            Arrivato a venti si toglie la sciarpa, e sotto ha la faccia di un
+            uomo che non dorme da mesi. Dice che non è come pensi, e poi ti
+            racconta che è esattamente come pensi.
+          pe: { empatia: 3 }
+          segue: caserma-il-debito-di-fulvio
+        fallimento:
+          titolo: La febbre
+          testo: |
+            Gli chiedi dei permessi, e Fulvio ti risponde parlando della
+            febbre del figlio e del medico troppo caro per lui. Se ne va con
+            il permesso firmato, e tu resti con la penna in mano e la
+            sensazione di avere sbagliato domanda.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Mettergli davanti Nando"
+        descrizione: "Nando l'ha visto sotto il Ponte delle Mille Corde. Davanti a lui, Fulvio non può raccontare della febbre."
+        costo: 2
+        esito:
+          titolo: Il testimone
+          testo: |
+            Mandi a chiamare Nando, che arriva con la gerla e una mela, e lo
+            fai sedere sulla panca della casa blu. Quando Fulvio rientra e lo
+            vede, si ferma sulla porta. Nando guarda la mela, e Fulvio guarda
+            Nando. Poi si siede anche lui, dall'altra parte della panca, e si
+            abbassa la sciarpa.
+
+            {empatia Facile} Nando ha più paura di Fulvio che Fulvio di te.
+            Ma è rimasto seduto, e Fulvio l'ha visto.
+          segue: caserma-il-debito-di-fulvio
+
+  - id: caserma-il-debito-di-fulvio
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: Il debito di Fulvio Saldo
+    tipo: seguito
+    luogo: Città Bassa, una bettola dell'Orlo dei Rottami
+    area: citta-bassa
+    requisiti: [fazione.caserma == 7]
+    testo: |
+      Fulvio racconta guardando il tavolo. Il debito è cominciato tre anni
+      fa con una partita di Zekar alla Pignatta, e da allora è cresciuto da
+      solo, come i debiti degli Scuri. Lui non ha fatto male a nessuno. Ha
+      guardato da un'altra parte quando gli dicevano di guardare da un'altra
+      parte, e ha venduto i turni della casa blu, chi era di ronda e dove,
+      una notte alla volta. Ogni turno valeva una riga in meno sul debito.
+
+      {percezione Media} Il foglio piegato che spingeva sul tavolo è il
+      registro dei turni della settimana, ricopiato con la sua grafia
+      lenta. Ci ha messo anche la tua ronda.
+
+      «Di altri non so niente» dice, prima che tu lo chieda. «Io portavo il
+      foglio e prendevo la riga. Chi c'era sopra di me lo sapevano loro, e
+      io mi guardavo bene dal chiederlo.» Si stringe la sciarpa fra le mani.
+      «Ho due figli.»
+
+      {intimidire Media} Non ti sta minacciando. Ti sta mostrando l'unica
+      cosa che ha, sperando che basti.
+
+      *Un nome solo, e la Caserma ne ha cento.* Il rapporto, comunque vada,
+      finisce sul tavolo dello sceriffo.
+    opzioni:
+      - testo: "Arrestarlo"
+        descrizione: "Le celle della Caserma e poi un processo. Fulvio sarà un testimone, se arriva vivo al processo."
+        esito:
+          titolo: Le manette
+          testo: |
+            Gli dici di alzarsi, e Fulvio si alza. Lungo la strada verso la
+            Caserma non tossisce mai, e quando passate davanti a Via del
+            Salmone tiene gli occhi a terra. Il furiere lo scrive sul registro
+            delle celle con la data, e sotto, a matita, il nome della moglie.
+            In Città Bassa, entro sera, si sa che alla casa blu hanno preso uno
+            degli Scuri, e qualcuno al tavolo d'angolo della Pignatta smette di
+            ridere.
+
+            {politica-ed-economia Media} Per gli Scuri un miliziano in cella
+            è un miliziano che parla. Domani qualcuno farà i conti di quanto
+            sa, e cercherà di farlo tacere.
+          pe: { resilienza: 3 }
+          imposta: { caserma.saldo: 1 }
+          effetti: { fazione.caserma: 1, rep.scuri: -1, rep.caserma: 0.5, informazioni.segreto: 1 }
+
+      - testo: "Girarlo perché riferisca a te"
+        descrizione: "Fulvio continua a portare il foglio, e tu decidi che cosa c'è scritto. In cambio, ti dice chi glielo chiede."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Il foglio giusto
+          testo: |
+            Gli spieghi come funzionerà, piano, perché capisca ogni parola.
+            Ogni settimana il foglio dei turni lo scrivi tu, e lui lo porta
+            al tavolo dell'Orlo come sempre, e poi ti dice chi lo ha preso e
+            dove l'ha portato. Fulvio ci pensa a lungo. Poi annuisce, e per la
+            prima volta da quando lo conosci la tosse non gli viene nemmeno
+            quando te ne vai.
+
+            {ingannare Media} Un uomo che ha venduto i turni una volta può
+            vendere anche te. Lo sapete tutti e due, e adesso dovete fare
+            finta di fidarvi.
+          pe: { persuasione: 3 }
+          imposta: { caserma.saldo: 2 }
+          effetti: { fazione.caserma: 1, rep.caserma: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: La paura più grande
+          testo: |
+            Gli proponi di riferire a te, e Fulvio diventa grigio. Degli Scuri
+            ha più paura che della Caserma, e lo dice. Alla fine ti chiede di
+            arrestarlo, perché in cella almeno sa dove sta, e tu lo porti in
+            Caserma. Il furiere scrive il suo nome sul registro delle celle.
+          imposta: { caserma.saldo: 1 }
+          effetti: { fazione.caserma: 1, rep.scuri: -1, informazioni.segreto: 1 }
+
+      - testo: "Pagare il suo debito e lasciarlo andare"
+        descrizione: "Una borsa delle tue al tavolo degli Scuri, e il debito di Fulvio è chiuso. Lui torna dalla moglie, e tu resti con una ricevuta."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: La ricevuta con la croce
+          testo: |
+            Vai tu al tavolo dell'Orlo, con il mantello piegato sotto il
+            braccio, e paghi all'uomo con il cappuccio il debito di Fulvio
+            fino all'ultima riga. Lui conta le monete e ti guarda a lungo
+            prima di firmare la ricevuta con una croce. Fulvio, quando
+            gliela dai, la legge tre volte. Poi ti dice che se un giorno ti
+            serve una porta aperta, lui sa quali porte si aprono.
+
+            {conoscenze-della-strada Media} Hai comprato un uomo, e l'hai
+            comprato in contanti. Nella Città Bassa è il modo più sicuro, e
+            anche il più caro.
+          pe: { empatia: 3 }
+          imposta: { caserma.saldo: 3 }
+          effetti: { fazione.caserma: 1, monete: -30 }
+
+      - testo: "Rispondere al ricatto di Fulvio"
+        descrizione: "Fulvio ti ha visto al tavolo degli Scuri alla Pignatta, e te lo ricorda. Se lui cade, dice, cadi anche tu."
+        immagine: fazioni/scuri
+        quando: [rep.scuri >= 3, pista.pelle < 6]
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: Per servizio
+          testo: |
+            Gli dici che alla Pignatta ci andavi per servizio, e che lo
+            sceriffo lo sa da sempre. Lo dici annoiato, ripetendo una cosa
+            nota, e Fulvio ci crede, perché è la sola cosa che gli conviene
+            credere. Si siede, e accetta di riferire a te.
+
+            {ingannare Difficile} La bugia regge perché non l'hai difesa. Se
+            avessi alzato la voce, ci avrebbe visto dentro.
+          pe: { ingannare: 5 }
+          imposta: { caserma.saldo: 2 }
+          effetti: { fazione.caserma: 1, rep.caserma: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le sere alla Pignatta
+          testo: |
+            Gli dici che alla Pignatta ci andavi per servizio, e Fulvio ride,
+            per la prima volta. Ti elenca le sere, con i nomi di chi c'era.
+            Alla fine lo porti in cella lo stesso, e il giorno dopo Galdrick
+            ha sul taccuino le tue sere alla Pignatta, scritte con la grafia
+            lenta di Fulvio.
+          imposta: { caserma.saldo: 1 }
+          effetti: { fazione.caserma: 1, rep.scuri: -1, sospetto: 1.5, informazioni.segreto: 1 }

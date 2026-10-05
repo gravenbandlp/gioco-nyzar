@@ -37,7 +37,7 @@ export function iconeCitate(c: TContenuti): { icone: Record<string, string>; err
   return { icone, errori };
 }
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar', 'fazioni'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -159,7 +159,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
       else if (Math.abs((eff![k]! * 2) % 1) > 1e-9) errori.push(`${dove}: "${k}" deve variare a mezzi punti`);
     }
   };
-  const esito = (dove: string, e?: { testo?: string; effetti?: Record<string, number>; vai?: string; segue?: string; imposta?: Record<string, number>; pe?: Record<string, number> }) => {
+  const esito = (dove: string, e?: { testo?: string; effetti?: Record<string, number>; vai?: string; segue?: string; imposta?: Record<string, number>; almeno?: Record<string, number>; pe?: Record<string, number> }) => {
     if (!e) return;
     for (const x of erroriVoci(e.testo ?? '', c.origini.map((o) => o.id))) errori.push(`${dove}: ${x}`);
     effetti(dove, e.effetti);
@@ -167,7 +167,16 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     if (e.segue && !storylet.has(e.segue)) errori.push(`${dove}: "segue" verso storylet sconosciuto "${e.segue}"`);
     for (const k of Object.keys(e.imposta ?? {})) if (!quality.has(k) && !pe.includes(k)) errori.push(`${dove}: "imposta" su chiave sconosciuta "${k}"`);
     for (const k of Object.keys(e.pe ?? {})) if (!TUTTE_LE_ABILITA.includes(k)) errori.push(`${dove}: PE a un'abilità sconosciuta "${k}"`);
+    for (const k of Object.keys(e.almeno ?? {})) if (!quality.has(k)) errori.push(`${dove}: "almeno" su quality sconosciuta "${k}"`);
   };
+
+  for (const f of c.fazioni) {
+    const dove = `fazione ${f.id}`;
+    const rep = c.quality.find((q) => q.id === f.reputazione), pista = c.quality.find((q) => q.id === f.pista);
+    if (rep?.categoria !== 'reputazione') errori.push(`${dove}: "${f.reputazione}" non è una reputazione`);
+    if (pista?.categoria !== 'pista') errori.push(`${dove}: "${f.pista}" non è una pista`);
+    if (f.gradi.some((g, i) => i > 0 && g.passo <= f.gradi[i - 1]!.passo)) errori.push(`${dove}: i passi dei gradi devono salire`);
+  }
 
   for (const a of c.aree) {
     requisiti(`area ${a.id}`, a.accesso);

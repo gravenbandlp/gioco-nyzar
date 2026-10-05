@@ -21,6 +21,7 @@ export const Esito = z.object({
   imposta: z.record(z.string(), z.number()).optional(), // fissa un valore (quality o pe.<abilità>), es. { ferite: 3 }
   pe: z.record(z.string(), z.number().min(0)).optional(), // PE regalati a un'abilità, es. { resistenza: 10 }
   effetti: Effetti.optional(),
+  almeno: z.record(z.string(), z.number()).optional(), // porta una quality almeno a questo valore (i gradi delle fazioni)
   vai: Id.optional(), // cambia area
   segue: Id.optional(), // apre subito un altro storylet (concatenazione)
 });
@@ -392,6 +393,20 @@ export const VoceColonna = z.object({
   if (!v.musica && !v.ambiente) ctx.addIssue({ code: 'custom', message: 'serve almeno la musica o l\'ambiente' });
 });
 
+/** Una fazione a cui ci si unisce: la sua quest (una pista da 15 passi) e i cinque gradi, mostrati nella scheda. */
+export const Fazione = z.object({
+  id: Id,
+  nome: z.string(), // la fazione, es. "Confraternita del Velo"
+  immagine: Immagine.optional(),
+  reputazione: Id, // la reputazione della fazione (rep.x)
+  pista: Id, // la quest (quality di categoria pista, fazione.x)
+  gradi: z.array(z.object({
+    passo: z.number().int().min(1), // il grado si prende quando la quest arriva a questo valore
+    nome: z.string(),
+    ricompensa: z.string(), // una riga per la scheda: che cosa dà il grado
+  })).length(5),
+});
+
 /** Un avversario a Zekar: le sue quattro laterali e come gioca (motore/zekar.ts). */
 export const AvversarioZekar = z.object({
   id: Id,
@@ -424,6 +439,7 @@ export const Contenuti = z.object({
   tracce: z.array(Traccia).default([]),
   colonna: z.array(VoceColonna).default([]),
   zekar: z.array(AvversarioZekar).default([]),
+  fazioni: z.array(Fazione).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -450,4 +466,5 @@ export type TLuogo = z.infer<typeof Luogo>;
 export type TTraccia = z.infer<typeof Traccia>;
 export type TVoceColonna = z.infer<typeof VoceColonna>;
 export type TAvversarioZekar = z.infer<typeof AvversarioZekar>;
+export type TFazione = z.infer<typeof Fazione>;
 export type TContenuti = z.infer<typeof Contenuti>;

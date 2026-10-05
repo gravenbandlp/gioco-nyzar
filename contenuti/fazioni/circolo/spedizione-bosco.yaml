@@ -1,0 +1,1103 @@
+# Il Bosco interno, spedizione della quest del Circolo di Velthar (dal passo 4, poi ripetibile).
+# Ci si entra dal Bosco di Velthar (luogo circolo-bosco-di-velthar della Superficie): la prima volta con la scena del
+# passo 4 (passi-1.yaml, circolo-il-boschetto-grigio), poi con `circolo-bosco-entrare`. La cavalcatura toglie il
+# rintocco dell'ingresso. La ritirata riporta alla Superficie Fratturata.
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+# 0 il margine (la volpe; le bestie che misurano le lame, che vale anche a 1),
+# 1 i sentieri che cambiano (il sentiero che si chiude; la sacca di Marea; il ruscello di linfa, che vale anche a 2),
+# 2 le rovine sotto le radici (il muro nel tronco; i cristalli nel legno; il Silente addormentato, che vale anche a 3),
+# 3-4 il boschetto grigio (le cortecce color cenere, le spore, i lupi grigi).
+# Il cuore a 5 ha due versioni: il capobranco grigio (fazione.circolo == 3, porta a 4) e, dopo, il giro delle
+# sentinelle (fazione.circolo >= 4), che si rifà e la prima volta rende di più (circolo.sentinelle).
+# Ogni stanza ha una via senza prova che costa due rintocchi e un poco di Ferite, Tormento o Contaminazione.
+aree:
+  - id: circolo-bosco-interno
+    immagine: fazioni/circolo-di-velthar
+    nome: Il Bosco interno
+    sommario: "I sentieri del Bosco di Velthar che cambiano di stagione in stagione, le rovine sotto le radici e, a sud, il boschetto grigio."
+    spedizione: { ritorno: superficie-fratturata, soglia: 5, stanze: 3 }
+    testo: |
+      Oltre il margine il Bosco di Velthar si chiude sopra la testa, e la
+      luce arriva verde e a chiazze, filtrata da foglie grandi come mani
+      aperte. I tronchi hanno le cortecce solcate da venature che di tanto
+      in tanto si accendono una dopo l'altra, con il
+      ritmo lento di un respiro che dorme. Il terreno è morbido di foglie
+      marce e cede sotto i piedi senza fare rumore.
+
+      I sentieri ci sono, e cambiano. Quello che hai preso entrando non è
+      quello che troverai uscendo, e i druidi lo dicono con la stessa calma
+      con cui in città si parla della pioggia. Più a sud il verde si fa grigio a chiazze, e l'aria prende un odore di ferro bagnato che ti si
+      attacca in fondo alla gola.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dopo il passo 4
+  - id: circolo-bosco-entrare
+    presso: circolo-bosco-di-velthar
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il Bosco interno
+    sommario: "Dalla spirale si scende verso i sentieri che cambiano, le rovine sotto le radici e il grigio a sud."
+    luogo: Il Bosco di Velthar, il sentiero che scende dalla spirale
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.circolo >= 4]
+    testo: |
+      Dal bordo della spirale parte un sentiero che scende fra due pietre
+      coperte di muschio, e dopo dieci passi è già un altro sentiero. I
+      druidi lo prendono senza pensarci per andare a raccogliere la linfa
+      o a fare il giro delle sentinelle, e tornano a sera con le ginocchia
+      sporche di terra e le mani verdi fino al polso. Un novizio sta
+      seduto sulla prima pietra con una ciotola di bacche, e a chi scende
+      ne offre una senza alzare gli occhi.
+
+      {natura Facile} Le bacche sono di sorbo, così aspre da torcere la bocca. Al Circolo
+      le mangiano prima di scendere, perché tengono sveglio lo stomaco
+      nella nebbia.
+
+      Più giù il grigio è rimasto, anche se meno di prima, e le sentinelle
+      del branco tornano ogni volta che qualcuno le scaccia.
+    opzioni:
+      - testo: "Scendere nel Bosco interno"
+        descrizione: "Un giorno di sentieri fino alle rovine, e più in fondo il grigio."
+        esito:
+          titolo: Il sentiero che scende
+          testo: |
+            Prendi una bacca dalla ciotola del novizio e la mastichi
+            scendendo, con la smorfia che fanno tutti. Dopo cento passi la
+            spirale alle tue spalle non si vede più, e davanti il sentiero si
+            piega da una parte che non avevi notato.
+          vai: circolo-bosco-interno
+      - testo: "Scendere a cavallo"
+        descrizione: "In sella i primi sentieri passano in fretta. Il cavallo lo lascerai legato al margine del grigio."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: In sella
+          testo: |
+            Il cavallo scende fra le pietre con il passo corto e le orecchie
+            dritte, e i sentieri gli cambiano davanti più piano, quasi con
+            riguardo. Il novizio ti guarda passare e si tiene stretta la
+            ciotola delle bacche.
+          vai: circolo-bosco-interno
+
+  # ------------------------------------------------------------ 0 · il margine
+  - id: circolo-bosco-la-volpe
+    immagine: fazioni/circolo-di-velthar
+    titolo: La volpe sul sentiero
+    sommario: "In mezzo al sentiero una volpe rossa ti aspetta seduta, e quando ti avvicini si alza e fa tre passi avanti."
+    luogo: Il Bosco interno, i primi sentieri
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno == 0]
+    testo: |
+      Il sentiero entra fra due faggi così vicini che le cortecce si sono
+      saldate a metà altezza, e oltre la porta che fanno ti aspetta una
+      volpe. È seduta in mezzo al sentiero con la coda girata sulle zampe,
+      e ha un orecchio strappato in punta. Quando fai un passo si alza e
+      ne fa tre avanti, poi si volta a vedere se la segui.
+
+      {addestrare-animali Media} Non ha paura e non ha fame. Ha deciso
+      qualcosa su di te, e adesso aspetta di vedere se ti meriti la
+      decisione.
+
+      Il sentiero dietro di lei si divide in tre, e nessuno dei tre somiglia
+      a quello che avevi in mente.
+    opzioni:
+      - testo: "Seguire la volpe"
+        descrizione: "Le volpi del Bosco conoscono i sentieri di oggi. Basta non perderla di vista."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Facile }
+        successo:
+          titolo: La coda rossa
+          testo: |
+            Le stai dietro a cinque passi, e quando sparisce fra le felci
+            la ritrovi dalla punta della coda, che spunta rossa nel verde.
+            Ti porta per un sentiero che scende piano e poi ti lascia, senza
+            salutare, davanti a un ruscello.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Le felci
+          testo: |
+            La perdi fra le felci al secondo giro, e quando ti rialzi dal
+            fango il sentiero ha cambiato idea. Torni alla porta dei due
+            faggi, dove la volpe è di nuovo seduta ad aspettarti, con
+            un'aria paziente che ti offende.
+          effetti: { tormento: 0.5 }
+      - testo: "Mostrarle il segno delle tre tacche"
+        descrizione: "Le bestie del margine conoscono quel segno meglio dei druidi giovani."
+        requisiti: [chiave.bosco >= 1]
+        esito:
+          titolo: Il segno
+          testo: |
+            Ti accucci e le mostri il dischetto di corteccia sul palmo. La volpe ci passa sopra il naso e starnutisce. Poi si mette a trotterellare avanti senza più voltarsi.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+      - testo: "Chiamarla con Richiamo"
+        descrizione: "Una volpe che ha deciso di guidarti capisce meglio se le parli nella sua lingua."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Facile }
+        successo:
+          titolo: Due passi davanti
+          testo: |
+            Al Richiamo la volpe torna indietro e ti cammina accanto, a due
+            passi, con l'orecchio strappato girato verso di te. Il sentiero
+            che sceglie è il più corto.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: La parola sbagliata
+          testo: |
+            Sbagli una sillaba, e la volpe ti guarda come si guarda uno
+            straniero che chiede la strada urlando. Se ne va per conto suo,
+            e il sentiero si chiude dietro di lei.
+          effetti: { tormento: 0.5 }
+      - testo: "Prendere il sentiero più largo"
+        descrizione: "Senza guida si va per tentativi. Il sentiero largo è il più lungo, e il più pieno di rovi."
+        costo: 2
+        esito:
+          titolo: I rovi
+          testo: |
+            Prendi il sentiero più largo, che dopo un tratto diventa stretto
+            e poi diventa un roveto. Ne esci con le maniche a brandelli e i
+            polsi graffiati, molto più avanti di dove volevi arrivare, e la
+            volpe è seduta lì ad aspettarti.
+          effetti: { profondita.circolo-bosco-interno: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-1 · le bestie che misurano
+  - id: circolo-bosco-le-bestie-misurano
+    immagine: fazioni/circolo-di-velthar
+    titolo: Le bestie che misurano
+    sommario: "Un cervo e due cornacchie ti sbarrano il sentiero e ti guardano le mani."
+    luogo: Il Bosco interno, una radura di felci
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno <= 1]
+    testo: |
+      La radura è piena di felci alte fino alla vita, e in mezzo c'è un cervo con le corna di velluto che resta dov'è. Sopra di lui, su un ramo
+      basso, due cornacchie si passano un pezzo di corteccia dal becco
+      dell'una a quello dell'altra, e smettono quando entri. Tutti e tre
+      ti guardano le mani, e poi la cintura.
+
+      {armi-da-mischia Facile} Hai una lama alla cintura, e lo sanno
+      anche loro. Il cervo la guarda come guarderebbe un lupo.
+
+      Il sentiero passa proprio dove sta il cervo. Le felci intorno sono
+      troppo fitte per girarci attorno senza fare rumore.
+    opzioni:
+      - testo: "Restare fermo e lasciarti misurare"
+        descrizione: "Le bestie del Bosco misurano chi passa. Bisogna lasciarle fare, con le mani lontane dalla cintura."
+        prova: { attributo: mentale, abilita: [resilienza, natura], difficolta: Media }
+        successo:
+          titolo: Il cervo si sposta
+          testo: |
+            Resti fermo con le mani aperte lungo i fianchi finché il cervo
+            non abbassa la testa a brucare. Le cornacchie riprendono il loro
+            gioco con la corteccia. Passi accanto al cervo, e lui ti lascia
+            passare annusandoti la manica.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il grido
+          testo: |
+            Ti prude il naso, alzi una mano per grattarti, e la mano passa
+            vicino all'elsa. Le cornacchie gridano insieme e il cervo
+            sparisce nelle felci. Il sentiero, dove stava lui, adesso non
+            c'è più.
+          effetti: { tormento: 0.5 }
+      - testo: "Parlare al cervo"
+        descrizione: "Voce bassa, occhi bassi. Un cervo che non scappa ha voglia di essere convinto."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Il velluto
+          testo: |
+            Gli parli piano del tempo e delle felci, di cose che non contano. Il cervo
+            muove le orecchie a ogni pausa, poi fa un passo di lato e ti
+            lascia il sentiero. Quando passi, una cornacchia ti lascia
+            cadere sulla spalla il pezzo di corteccia.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: La voce troppo alta
+          testo: |
+            La voce ti esce più alta di come volevi, e il cervo batte uno
+            zoccolo per terra. Lo batte ancora, finché non arretri. Le
+            cornacchie ridono, o fanno qualcosa che ci somiglia molto.
+          effetti: { tormento: 0.5 }
+      - testo: "Girare largo fra le felci"
+        descrizione: "Le felci sono fitte e nascondono buche. Il cervo ti seguirà con gli occhi per tutto il tempo."
+        costo: 2
+        esito:
+          titolo: Le buche
+          testo: |
+            Giri largo fra le felci, e al terzo passo il piede ti sprofonda
+            in una buca fino al ginocchio. Ci metti un'ora ad arrivare
+            dall'altra parte, con la caviglia che pulsa, e il cervo non ti
+            ha perso di vista un momento.
+          effetti: { profondita.circolo-bosco-interno: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · i sentieri che cambiano
+  - id: circolo-bosco-il-sentiero-che-si-chiude
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il sentiero che si chiude
+    sommario: "Dietro di te il sentiero non c'è più. Davanti ce n'è uno nuovo, e somiglia molto a quello di prima."
+    luogo: Il Bosco interno, i sentieri che cambiano
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno == 1]
+    testo: |
+      Ti volti per controllare la strada fatta, e la strada fatta non c'è.
+      Al suo posto ci sono due tronchi coperti d'edera che ti sembra di
+      non aver mai visto, e un'edera che non ha l'aria di essere appena
+      cresciuta. Davanti a te il sentiero continua, uguale a prima, con le
+      stesse radici che affiorano a distanze regolari, come i gradini di
+      una scala distesa.
+
+      {percezione Media} Il muschio sui tronchi cresce più fitto da una
+      parte sola. Il nord, almeno lui, è rimasto dov'era.
+
+      {resilienza Media fallita} La nuca ti si gela, e ti viene una gran
+      voglia di voltarti un'altra volta per controllare. Sai benissimo che
+      sarebbe peggio, e lo sa anche la nuca.
+    opzioni:
+      - testo: "Leggere il muschio e andare a sud"
+        descrizione: "Il sentiero cambia, il muschio no. Il grigio sta a sud."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Il muschio
+          testo: |
+            Cammini con una mano sui tronchi per contare il muschio, e tieni il nord sulla schiena. Il sentiero prova due volte a girarti verso ovest, e ogni volta lo lasci girare da solo.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il cerchio
+          testo: |
+            Dopo un'ora ripassi davanti ai due tronchi con l'edera, e capisci
+            di aver fatto un cerchio largo e perfetto. Ti siedi su una radice
+            a ricominciare il conto.
+          effetti: { tormento: 0.5 }
+      - testo: "Andare avanti senza voltarti"
+        descrizione: "I druidi lo dicono ai novizi il primo giorno. Dietro il sentiero non è più lo stesso, e voltarsi lo cambia ancora."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Gli occhi avanti
+          testo: |
+            Tieni gli occhi sul sentiero e conti i passi, e i passi diventano
+            una cantilena che ti tiene compagnia. Quando smetti di contare
+            sei più a sud di quanto avresti detto.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Ti volti
+          testo: |
+            Al centesimo passo ti volti, e dietro c'è un sentiero che non
+            hai mai visto e che finisce contro una parete d'edera. Davanti
+            succede lo stesso.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprirti la strada fra l'edera"
+        descrizione: "Dove il Bosco chiude un sentiero, si può sempre passare di traverso. Il Bosco però se lo ricorda."
+        costo: 2
+        esito:
+          titolo: L'edera
+          testo: |
+            Ti apri la strada fra l'edera con le mani, strappando i tralci
+            uno alla volta. Dall'altra parte trovi il sentiero giusto, e
+            sulle braccia una ragnatela di graffi che brucia fino a sera.
+          effetti: { profondita.circolo-bosco-interno: 1, ferite: 0.5 }
+
+  - id: circolo-bosco-la-sacca-di-marea
+    immagine: ambientazione/marea-grigia
+    titolo: La sacca di Marea
+    sommario: "In una conca le felci sono diventate grigie, e sul fondo ristagna una nebbia bassa che le piante stanno bevendo."
+    luogo: Il Bosco interno, una conca di felci grigie
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno == 1]
+    testo: |
+      Il sentiero scende in una conca dove le felci hanno il colore della
+      cenere, piegate tutte verso il fondo. Sul fondo ristagna una nebbia
+      bassa e lattiginosa, ferma come acqua in una pozza. Le radici degli
+      alberi intorno ci affondano dentro, e le venature delle cortecce si
+      accendono a scatti, più in fretta del solito.
+
+      {natura Media} Le piante la stanno bevendo. È il lavoro che il
+      Circolo insegna ai novizi, aiutare il Bosco a mandar giù la Marea
+      un sorso alla volta.
+
+      Il sentiero attraversa la conca nel punto più basso, dove la nebbia
+      arriva alla cintura.
+    opzioni:
+      - testo: "Aiutare le piante a bere"
+        descrizione: "Bisogna smuovere la terra intorno alle radici e piantarci le felci sane del bordo. Il lavoro è lungo, e la nebbia sta lì."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Un sorso alla volta
+          testo: |
+            Smuovi la terra con le mani intorno alle radici e ci pianti le
+            felci verdi del bordo, una per una. La nebbia si abbassa di un
+            palmo mentre lavori, e quando hai finito arriva solo alle
+            caviglie. Attraversi la conca a fiato corto e con le unghie
+            nere.
+          pe: { natura: 5 }
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Le mani grigie
+          testo: |
+            Pianti le felci troppo in fretta e troppo vicine, e le radici si
+            rubano la terra a vicenda. La nebbia ti sale sulle braccia
+            mentre lavori, e le mani ti diventano grigie fino al polso per
+            un'ora.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Attraversare trattenendo il fiato"
+        descrizione: "La nebbia arriva alla cintura per trenta passi. Trenta passi si fanno, con il fiato giusto."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Trenta passi
+          testo: |
+            Riempi i polmoni e attraversi la conca a passi lunghi, con le
+            braccia alzate sopra la nebbia. Dall'altra parte ti butti a
+            sedere e respiri come un pesce sulla riva.
+
+            {resistenza Media} I polmoni bruciano, ma sono puliti. La nebbia
+            ti è rimasta sui calzoni, e quella si lava.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il ventesimo passo
+          testo: |
+            Al ventesimo passo il fiato finisce e il petto lo riprende per
+            conto suo, pieno di nebbia. Tossisci fino alla fine della conca
+            e torni indietro piegato in due.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Bere la Marea al posto delle piante"
+        descrizione: "Quello che le piante fanno con le radici il Respiro lo insegna anche alle mani. Una parte resta a te."
+        incantesimo: bere-la-marea
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il sorso
+          testo: |
+            Immergi le mani nella nebbia e la tiri su, piano, come si tira
+            l'acqua da un pozzo. La conca si schiarisce fino al fondo, e le
+            felci più vicine cominciano a tornare verdi dalla punta. Un poco
+            di quel grigio ti resta in gola.
+          pe: { magia: 5 }
+          effetti: { profondita.circolo-bosco-interno: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Troppo in una volta
+          testo: |
+            Tiri troppo forte, e la nebbia ti sale nelle braccia tutta
+            insieme, fredda come neve. Ti ritrovi in ginocchio sul bordo,
+            con le vene dei polsi chiare e la conca piena come prima.
+          effetti: { contaminazione: 1 }
+      - testo: "Girare largo intorno alla conca"
+        descrizione: "Sui bordi la nebbia non arriva. I bordi sono ripidi, e franano."
+        costo: 2
+        esito:
+          titolo: Il bordo che frana
+          testo: |
+            Giri largo tenendoti agli arbusti, e a metà strada il bordo ti
+            frana sotto i piedi. Scivoli per un tratto fra le felci grigie,
+            e quando ti fermi hai il fiato pieno del loro odore di ferro.
+          effetti: { profondita.circolo-bosco-interno: 1, contaminazione: 0.5 }
+
+  - id: circolo-bosco-il-ruscello-di-linfa
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il ruscello di linfa
+    sommario: "Fra le radici scorre un ruscello che non è acqua. Fa luce verde, e l'unico guado è un tronco coperto di muschio."
+    luogo: Il Bosco interno, il ruscello di linfa
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno >= 1, profondita.circolo-bosco-interno <= 2]
+    testo: |
+      Fra le radici di due querce scorre un ruscello largo quattro passi, denso come miele, che manda una luce verdina sulle cortecce intorno. È
+      linfa, uscita da chissà quale ferita del Bosco, e scorre verso sud
+      come un'acqua qualunque. Sopra c'è un tronco caduto coperto di
+      muschio bagnato, e sul tronco le impronte di un animale piccolo che
+      l'ha attraversato senza scivolare.
+
+      {medicina Media} I guaritori della città la pagano bene, questa
+      luce. La mettono sulle bende delle ferite più ostinate, e le ferite si chiudono.
+
+      {acrobazia Facile fallita} Il muschio sul tronco brilla di umido. I
+      tuoi piedi lo guardano con sospetto e ti fanno sapere che loro non
+      sono quelli dell'animale piccolo.
+    opzioni:
+      - testo: "Passare sul tronco"
+        descrizione: "Il muschio è bagnato e il tronco gira un poco. Bisogna andare svelti e non guardare giù."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Sul tronco
+          testo: |
+            Passi sul tronco con le braccia larghe e lo sguardo sull'altra
+            riva. A metà il tronco gira di un dito, e tu giri con lui
+            senza perdere il passo.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Nella linfa
+          testo: |
+            A metà il tronco gira, e tu no. Finisci nella linfa tiepida fino al petto, e ne esci verde e luminoso come una
+            lanterna. Per il resto della giornata le lucciole ti seguono.
+          effetti: { ferite: 0.5 }
+      - testo: "Raccogliere la linfa e guadare dove è bassa"
+        descrizione: "Una fiala di linfa vale qualche moneta in città. Il guado basso sta più a valle, dove la linfa rallenta."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: La fiala
+          testo: |
+            Riempi una fiala dove la linfa è più chiara e cammini lungo la
+            riva finché il ruscello non si allarga in un guado. Lo passi con
+            la linfa alle caviglie, che ti lascia gli stivali verdi e
+            tiepidi.
+          effetti: { profondita.circolo-bosco-interno: 1, circolo.linfa: 1 }
+        fallimento:
+          titolo: La fiala rotta
+          testo: |
+            La fiala ti scivola dalle dita appiccicose e si rompe su un
+            sasso. Ti tagli il palmo raccogliendo i cocci, e la linfa nella
+            ferita brucia come aceto.
+          effetti: { ferite: 0.5 }
+      - testo: "Guadare dove capita"
+        descrizione: "La linfa non è profonda dappertutto. È densa dappertutto, però."
+        costo: 2
+        esito:
+          titolo: Il guado
+          testo: |
+            Entri nella linfa e la attraversi con fatica, come si cammina
+            nel miele, mentre lei ti trattiene le gambe a ogni passo. Ne
+            esci dall'altra parte con i polpacci che tremano.
+          effetti: { profondita.circolo-bosco-interno: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · le rovine sotto le radici
+  - id: circolo-bosco-il-muro-nel-tronco
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il muro nel tronco
+    sommario: "Un albero enorme è cresciuto attorno a un muro dei Precursori, e il metallo esce dalla corteccia come un osso da una ferita."
+    luogo: Il Bosco interno, le rovine sotto le radici
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno == 2]
+    testo: |
+      Il terreno si alza in una collinetta, e sulla collinetta c'è una
+      quercia così larga che cinque uomini non la abbraccerebbero. Il
+      tronco è cresciuto attorno a un muro di metallo grigio e liscio,
+      alto il doppio di te, che spunta dalla corteccia da una parte e
+      dall'altra. Sul metallo si vedono incisioni fini, dritte, che
+      continuano dentro il legno e lì si perdono.
+
+      {tecnologia Media} Il metallo non ha ruggine e non ha giunture. È lo
+      stesso dei reperti di Oda Krell, solo che qui ce n'è un muro intero,
+      e chissà quanto ne sta sotto.
+
+      Il sentiero passa attraverso una fessura fra il metallo e la
+      corteccia, larga quanto una spalla. Dall'altra parte arriva un'aria
+      più fredda.
+    opzioni:
+      - testo: "Leggere le incisioni"
+        descrizione: "Le incisioni dei Precursori a volte sono indicazioni. A volte sono avvisi."
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: Le linee che scendono
+          testo: |
+            Segui le incisioni con il dito. Sono linee che scendono, tutte
+            verso lo stesso punto, sotto le radici, dove il Bosco è più
+            vecchio. Ai piedi del muro trovi una scheggia di metallo che il
+            legno ha spinto fuori, e te la metti in tasca prima di passare.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.circolo-bosco-interno: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Il freddo del metallo
+          testo: |
+            Le incisioni sotto il dito sono così fredde che ti intorpidiscono
+            la mano, e quando la ritiri le dita non vogliono chiudersi. Te le
+            scaldi sotto l'ascella per un quarto d'ora, imprecando a bassa
+            voce.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare dalla fessura"
+        descrizione: "Larga quanto una spalla, e lunga quanto il tronco. Bisogna passarci di fianco e senza fretta."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Di fianco
+          testo: |
+            Ti infili nella fessura di fianco, con il metallo freddo sulla
+            schiena e la corteccia sul petto, e avanzi un palmo alla volta.
+            Dall'altra parte il Bosco è più buio e più vecchio.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Incastrato
+          testo: |
+            A metà fessura il petto si incastra, e per un lungo momento non
+            vai né avanti né indietro. Ti liberi soffiando fuori tutta l'aria,
+            e torni indietro con la camicia strappata.
+          effetti: { ferite: 0.5 }
+      - testo: "Arrampicarti sopra il muro"
+        descrizione: "Il muro è liscio, la corteccia no. Ci vuole tempo, e le mani."
+        costo: 2
+        esito:
+          titolo: In cima
+          testo: |
+            Sali dalla parte della corteccia, una nocca alla volta, e
+            scavalchi il muro dove il legno l'ha coperto. Scendendo ti
+            sbucci le mani su una cresta di metallo affilata come una lama.
+          effetti: { profondita.circolo-bosco-interno: 1, ferite: 0.5 }
+
+  - id: circolo-bosco-i-cristalli-nel-legno
+    immagine: ambientazione/cristalli-conduttori
+    titolo: I cristalli nel legno
+    sommario: "Le radici di un faggio hanno inghiottito una fila di cristalli esausti, e li hanno spenti del tutto."
+    luogo: Il Bosco interno, le rovine sotto le radici
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno == 2]
+    testo: |
+      Il sentiero passa sotto le radici di un faggio caduto, che si alzano
+      come un muro di terra e legno alto due uomini. Dentro le radici,
+      come semi in un frutto, ci sono cristalli conduttori grandi come un pugno, diventati opachi. Il legno li ha avvolti uno per uno, e le
+      venature della corteccia passano dentro i cristalli e ne escono
+      dall'altra parte.
+
+      {magia Media} I cristalli sono vuoti. Il Mana che avevano l'ha
+      bevuto il faggio, e il faggio l'ha restituito alla terra, piano,
+      come si restituisce un prestito.
+
+      {origine allievo-di-torvessa} All'Accademia un cristallo esausto
+      lo buttano, perché non serve più a niente. Qui il Bosco ci ha
+      fatto crescere dentro un albero.
+
+      Fra le radici c'è un passaggio basso, buio, che puzza di terra
+      smossa.
+    opzioni:
+      - testo: "Sentire quale cristallo ha ancora qualcosa"
+        descrizione: "Uno su dieci, forse, non è vuoto del tutto. Bisogna sentirlo con il Mana, non con le dita."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il battito lento
+          testo: |
+            Passi la mano sui cristalli senza toccarli. Al settimo senti un battito lontano, e quello lo stacchi dal legno con la punta del coltello, senza che il faggio se ne lamenti.
+          effetti: { profondita.circolo-bosco-interno: 1, cristalli.frammento-esausto: 2 }
+        fallimento:
+          titolo: Il cristallo sbagliato
+          testo: |
+            Stacchi il cristallo che ti sembrava vivo, ed è vuoto come gli
+            altri. Nel buco che lascia la linfa del faggio cola scura, e ti senti un cerusico che ha tolto il dente sbagliato.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare nel passaggio fra le radici"
+        descrizione: "Il passaggio è buio e basso. Le radici trattengono la terra, finché non le tocchi."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La terra smossa
+          testo: |
+            Strisci sui gomiti nel buio, con le radici che ti sfiorano la
+            nuca, e dall'altra parte riemergi in una conca dove il Bosco è
+            più fitto e l'aria più fredda.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: La frana
+          testo: |
+            Tocchi una radice con la spalla, e la terra ti cade addosso a
+            secchiate. Torni indietro sputando, con la bocca piena di
+            terra.
+          effetti: { ferite: 0.5 }
+      - testo: "Scavalcare il muro di radici"
+        descrizione: "Le radici reggono quasi tutte. È un'arrampicata lunga."
+        costo: 2
+        esito:
+          titolo: Le radici che reggono
+          testo: |
+            Ti arrampichi sulle radici come su una scala storta. Due volte
+            una radice cede e ti lascia appeso per le braccia, e dall'altra
+            parte arrivi con le spalle in fiamme.
+          effetti: { profondita.circolo-bosco-interno: 1, ferite: 0.5 }
+
+  - id: circolo-bosco-il-silente-addormentato
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il Silente addormentato
+    sommario: "Seduto fra le radici di un tasso c'è un uomo con gli occhi chiusi. Le radici gli sono cresciute sulle gambe."
+    luogo: Il Bosco interno, il tasso dei Silenti
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno >= 2, profondita.circolo-bosco-interno <= 3]
+    testo: |
+      Ai piedi di un tasso vecchissimo, con il tronco cavo e scuro, c'è un
+      uomo seduto a gambe incrociate e gli occhi chiusi. Indossa una
+      tunica grigio-verde che il muschio ha cominciato a ricoprire, e le
+      radici del tasso gli sono salite sulle ginocchia e gli girano
+      intorno alle caviglie come le dita di una mano. Respira, piano, una
+      volta ogni tanto.
+
+      {medicina Media} Un respiro ogni dieci battiti. Il cuore va piano
+      come d'inverno nei ricci, e la pelle è calda.
+
+      {empatia Facile} Sta bene, e dorme soltanto in apparenza. Il resto di lui sta da qualche altra parte, e il corpo l'ha lasciato qui ad aspettarlo.
+
+      Il sentiero passa a un passo dalle sue ginocchia. Sulla radice
+      accanto qualcuno ha lasciato una ciotola con dell'acqua e una
+      mela.
+    opzioni:
+      - testo: "Passare senza fare rumore"
+        descrizione: "Un Silente che si sveglia di colpo può svegliare anche il Bosco intorno. Meglio che non si svegli."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: In punta di piedi
+          testo: |
+            Passi a un passo dalle sue ginocchia senza spezzare un rametto.
+            Quando sei oltre, senti dietro di te un respiro più lungo degli
+            altri.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il rametto
+          testo: |
+            Il rametto si spezza sotto il tuo tallone, e il Silente apre gli occhi senza guardarti. Gli alberi intorno invece ti guardano, e il sentiero
+            davanti si chiude come una porta.
+          effetti: { tormento: 1 }
+      - testo: "Lasciare qualcosa nella ciotola"
+        descrizione: "Al Circolo chi passa davanti a un Silente lascia un'offerta piccola per chi lo accudisce."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: L'offerta
+          testo: |
+            Lasci nella ciotola un pezzo di pane accanto alla mela, e ti inchini come hai visto fare ai novizi. Le radici del tasso si
+            spostano di un dito, e il sentiero si apre più largo di prima.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: L'offerta sbagliata
+          testo: |
+            Lasci nella ciotola un pezzo di carne secca, e capisci troppo
+            tardi che al Circolo la carne non si offre ai Silenti. Il tasso
+            fa cadere un ramo secco a un palmo dalla tua testa.
+          effetti: { tormento: 0.5 }
+      - testo: "Salutarlo senza voce"
+        descrizione: "I Silenti ti hanno insegnato a parlare senza muovere la bocca. A uno di loro si risponde così."
+        quando: [circolo.sussurro >= 1]
+        esito:
+          titolo: Il saluto
+          testo: |
+            Lo saluti dentro la testa, come ti hanno insegnato, e dalla sua
+            ti arriva una parola sola, calda, che somiglia a un nome di
+            pianta. Il sentiero davanti si apre senza bisogno di altro.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+      - testo: "Fare un lungo giro intorno al tasso"
+        descrizione: "Lontano dal Silente il Bosco è più fitto. Si passa, con pazienza."
+        costo: 2
+        esito:
+          titolo: Il giro lungo
+          testo: |
+            Giri intorno al tasso a cento passi di distanza, fra i rovi. Per
+            tutto il giro ti senti addosso uno sguardo, e ogni volta che ti
+            volti il Silente ha gli occhi chiusi.
+          effetti: { profondita.circolo-bosco-interno: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3-4 · il boschetto grigio
+  - id: circolo-bosco-le-cortecce-cenere
+    immagine: ambientazione/marea-grigia
+    titolo: Le cortecce color cenere
+    sommario: "Gli alberi del boschetto grigio respirano a scatti, e dalle crepe della corteccia esce una nebbia che sembra latte."
+    luogo: Il Bosco interno, il boschetto grigio
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno >= 3]
+    testo: |
+      Qui gli alberi hanno la corteccia del colore della cenere fredda, e
+      le foglie pendono grigie e molli come stracci stesi. Le venature non
+      si accendono più a ritmo. Si accendono tutte insieme a scatti, e a ogni scatto dalle crepe della corteccia esce uno sbuffo di nebbia
+      lattiginosa, che si allarga fra i tronchi e resta sospesa.
+
+      {resistenza Media} Il naso ti si è chiuso da solo, e la gola fa lo
+      stesso. Il corpo ha capito prima di te che quell'aria non è da
+      respirare.
+
+      {natura Difficile} Gli scatti hanno un ritmo, e il ritmo viene da
+      sotto. Gli alberi non soffiano fuori la nebbia, la rigettano, come
+      uno stomaco che ha mandato giù troppo.
+    opzioni:
+      - testo: "Attraversare con un panno bagnato sulla bocca"
+        descrizione: "La nebbia si ferma sulla stoffa bagnata, quasi tutta. Bisogna sapere come piegarlo."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: Il panno
+          testo: |
+            Bagni un lembo di camicia nella borraccia, lo pieghi in quattro
+            e lo leghi sulla bocca e sul naso. Attraversi il boschetto
+            respirando piano, e il panno diventa grigio, mentre tu no.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il panno asciutto
+          testo: |
+            Il panno si asciuga a metà strada, e da lì in avanti respiri
+            nebbia e stoffa insieme. Tossisci per un'ora.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Correre fra uno sbuffo e l'altro"
+        descrizione: "Gli scatti hanno un ritmo. Fra due scatti l'aria è quasi pulita, per qualche passo."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Fra due respiri
+          testo: |
+            Aspetti lo scatto, conti fino a sei e corri. Al settimo ti butti
+            dietro un tronco e trattieni il fiato mentre la nebbia passa. Lo
+            fai cinque volte, e alla quinta sei dall'altra parte.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il conto sbagliato
+          testo: |
+            Al terzo scatto sbagli il conto e ti ritrovi in mezzo allo
+            sbuffo. Respiri latte freddo, e torni indietro piegato.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Attraversare e basta"
+        descrizione: "Il boschetto non è grande. La nebbia però si attacca ai vestiti e ai polmoni."
+        costo: 2
+        esito:
+          titolo: Dritto in mezzo
+          testo: |
+            Attraversi il boschetto a testa bassa, con la manica sulla bocca.
+            Dall'altra parte i vestiti ti sanno di ferro, e la gola pure.
+          effetti: { profondita.circolo-bosco-interno: 1, contaminazione: 1 }
+
+  - id: circolo-bosco-le-spore
+    immagine: ambientazione/marea-grigia
+    titolo: Le spore della linfa nera
+    sommario: "Da una corteccia spaccata cola una linfa nera, e dalla linfa si alza una nuvola di spore che ti viene incontro."
+    luogo: Il Bosco interno, il boschetto grigio
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno >= 3]
+    testo: |
+      Un tronco si è spaccato per il lungo, dalle radici fino ai rami, e
+      dalla spaccatura cola una linfa nera e lucida, densa come pece.
+      Sulla linfa sono cresciuti funghi piccoli e grigi a migliaia, che
+      tremano tutti insieme quando ti avvicini. Poi si apre una nuvola di
+      spore, densa come fumo di pipa, e ti viene incontro contro vento.
+
+      {medicina Media} Le spore cercano la bocca e gli occhi, dove la
+      pelle è sottile. Quello che portano dentro è grigio, e non va via
+      con l'acqua.
+
+      La nuvola si divide in due e ti gira intorno, lenta.
+    opzioni:
+      - testo: "Disperderle a colpi"
+        descrizione: "Una nuvola si sparpaglia, se la colpisci abbastanza forte. Bisogna farlo prima che si posi."
+        combattimento: circolo-le-spore
+        vittoria:
+          titolo: La nuvola sparpagliata
+          testo: |
+            Colpisci la nuvola finché non si sparpaglia in fili che il vento
+            si porta via. Ti resta addosso una polvere grigia, e ti spazzoli
+            i vestiti con le mani fino a farle arrossare.
+          effetti: { profondita.circolo-bosco-interno: 1, contaminazione: 0.5 }
+        sconfitta:
+          titolo: Nella nuvola
+          testo: |
+            Le spore ti si posano sulla faccia e sulle mani, e per un'ora
+            vedi il Bosco attraverso un velo grigio. Torni indietro a tastoni
+            finché non lo vedi più.
+          effetti: { contaminazione: 1 }
+      - testo: "Scappare controvento"
+        descrizione: "Le spore vanno dove va il vento. Basta correre dalla parte giusta."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Controvento
+          testo: |
+            Ti bagni un dito e lo alzi, poi corri dalla parte fredda, fra
+            i tronchi grigi, saltando le radici. La nuvola ti segue per un
+            tratto e poi si ferma, come un cane alla fine della catena.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il vento gira
+          testo: |
+            Corri dalla parte giusta, e a metà strada il vento gira. La
+            nuvola ti raggiunge fra due tronchi e ti si posa addosso come
+            farina.
+          effetti: { contaminazione: 1 }
+      - testo: "Aspettare che si posino"
+        descrizione: "Le spore prima o poi cadono, e la pazienza costa meno delle ferite."
+        costo: 2
+        esito:
+          titolo: L'attesa
+          testo: |
+            Ti siedi a venti passi e aspetti, con la manica sulla bocca, che
+            la nuvola si posi sulla linfa nera. Ci mette tutto il pomeriggio,
+            e qualche filo arriva lo stesso fino a te.
+          effetti: { profondita.circolo-bosco-interno: 1, contaminazione: 0.5 }
+
+  - id: circolo-bosco-i-lupi-grigi
+    immagine: icone/wolf-head
+    titolo: I lupi grigi
+    sommario: "Due lupi grigi con le gengive di metallo ti tagliano la strada senza ringhiare."
+    luogo: Il Bosco interno, il boschetto grigio
+    area: circolo-bosco-interno
+    ripetibile: true
+    requisiti: [profondita.circolo-bosco-interno >= 3]
+    testo: |
+      Li senti prima di vederli, perché respirano a scatti come gli alberi
+      del boschetto. Poi escono dalla nebbia ai due lati del sentiero, con il pelo ritto e rigido come fil di ferro
+      e la testa bassa. Quando aprono la bocca le gengive sono di metallo
+      lucido, e dalla gola non esce un ringhio.
+
+      {armi-da-distanza Media} Quello di sinistra zoppica appena sulla
+      zampa davanti. Se attacca lo fa per secondo, e da quella parte.
+
+      {addestrare-animali Difficile} Non sono più lupi del tutto. Le orecchie però sono ancora quelle di un lupo, e ascoltano.
+    opzioni:
+      - testo: "Affrontarli"
+        descrizione: "Due lupi grigi che si muovono in silenzio e mordono basso."
+        combattimento: circolo-lupi-grigi
+        vittoria:
+          titolo: Le pelli grigie
+          testo: |
+            L'ultimo lupo cade senza un guaito, come era arrivato. La pelle
+            è rigida e pesante, e ne stacchi una con il coltello prima di
+            andare avanti. Sotto il pelo la carne è grigia fino all'osso.
+          effetti: { profondita.circolo-bosco-interno: 1, circolo.pelle-grigia: 1 }
+        sconfitta:
+          titolo: I morsi bassi
+          testo: |
+            I lupi ti mordono ai polpacci finché non cadi, poi se ne vanno,
+            come se avessero finito un lavoro. Torni indietro zoppicando,
+            con i calzoni a brandelli.
+      - testo: "Mandarli via con Richiamo"
+        descrizione: "Le orecchie sono ancora di lupo. Se senti la lingua giusta, forse il resto obbedisce."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Le orecchie
+          testo: |
+            Dici le parole del Richiamo, e i due lupi girano le orecchie
+            verso di te nello stesso momento. Restano fermi un lungo
+            respiro. Poi se ne vanno nella nebbia, piano, voltandosi.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Le parole che non arrivano
+          testo: |
+            Le parole arrivano alle orecchie e lì si fermano. Il lupo di
+            destra ti salta alla gamba, e lo scrolli via lasciandogli un
+            pezzo di calzone.
+          effetti: { ferite: 1 }
+      - testo: "Fissarli finché non cedono"
+        descrizione: "Un branco senza il suo capo non sa bene che cosa fare. Bisogna farglielo capire."
+        prova: { attributo: sociale, abilita: [intimidire, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: Lo sguardo
+          testo: |
+            Allarghi le braccia per farti grande e li fissi uno dopo l'altro, senza battere ciglio. Il lupo zoppo abbassa gli occhi
+            per primo, e l'altro lo segue nella nebbia.
+          effetti: { profondita.circolo-bosco-interno: 1 }
+        fallimento:
+          titolo: Il primo a cedere
+          testo: |
+            Il primo ad abbassare gli occhi sei tu, e i lupi lo capiscono.
+            Ti girano intorno finché non arretri fino agli alberi verdi.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Fare un giro largo"
+        descrizione: "I lupi grigi non lasciano il sentiero. Fuori dal sentiero c'è la nebbia."
+        costo: 2
+        esito:
+          titolo: Fuori dal sentiero
+          testo: |
+            Ti allontani piano dal sentiero dentro la nebbia, e i lupi ti guardano andare senza seguirti. Il giro è lungo, e alla fine
+            hai la gola che raschia e gli occhi che lacrimano.
+          effetti: { profondita.circolo-bosco-interno: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · il capobranco (passo 4)
+  - id: circolo-bosco-il-capobranco
+    immagine: icone/wolf-howl
+    titolo: Il cuore del boschetto grigio
+    sommario: "Al centro del grigio le radici entrano in un muro dei Precursori, e davanti al muro ti aspetta il capobranco."
+    luogo: Il Bosco interno, il cuore del boschetto grigio
+    area: circolo-bosco-interno
+    requisiti: [profondita.circolo-bosco-interno >= 5, fazione.circolo == 3]
+    testo: |
+      Al centro del boschetto il terreno sprofonda in una conca larga come
+      una piazza, e sul fondo della conca le radici di tutti gli alberi
+      intorno scendono e si infilano in un muro di metallo che affiora dalla terra come la chiglia di una nave. Dalle giunture del muro sale a sbuffi una nebbia lattiginosa, e i tronchi tutto intorno respirano insieme a
+      lei.
+
+      Davanti al muro, sdraiato sulla terra nuda, c'è il capobranco. È un
+      lupo grande come un vitello, con la schiena coperta di placche
+      lucide e il muso grigio fino agli occhi. Quando ti vede si alza
+      senza fretta, e dalla nebbia escono altri due lupi che si siedono dietro di lui ad aspettare. Il suo respiro è quello del muro, uno sbuffo dopo
+      l'altro, e il branco si muove con lui.
+
+      {natura Media} La pianura non c'entra. Il grigio sale dal muro,
+      dalle radici, da sotto, come il grigio nel cuore dei tronchi della
+      Segheria.
+
+      {addestrare-animali Difficile} Il capobranco respira a scatti perché
+      gli fa male. Se lo porti fuori dal ritmo del muro, forse torna a
+      respirare da lupo.
+
+      *Tharn mi ha lasciato al margine del grigio, e adesso tocca a me.*
+      Ti asciughi le mani sui calzoni e ti accorgi che sudano lo stesso.
+    opzioni:
+      - testo: "Abbattere il capobranco"
+        descrizione: "Un lupo grande come un vitello, con il branco che guarda. Se cade il capo, il branco si sparpaglia."
+        combattimento: circolo-il-capobranco-grigio
+        vittoria:
+          titolo: Il branco si sparpaglia
+          testo: |
+            Il capobranco cade sulle zampe davanti, come un cavallo che si
+            inginocchia, e il respiro del muro si spezza con il suo. Gli
+            altri lupi scappano nella nebbia senza un suono. Ti avvicini al
+            muro e guardi le radici che ci entrano, e la nebbia che sale.
+            Viene da sotto, non dalla pianura. Al margine del grigio Tharn
+            ti aspetta, e quando gli racconti del muro decide di portarti
+            da Serha.
+          pe: { natura: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1, circolo.pelle-grigia: 2 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il morso alla spalla
+          testo: |
+            Il capobranco ti prende alla spalla e ti trascina per un tratto
+            sulla terra nuda, poi ti lascia andare, come si lascia una cosa
+            che non vale la pena. Tharn ti trova al margine del grigio e ti
+            porta fuori dal Bosco sulle spalle, senza dire una parola.
+          effetti: { tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Portarlo fuori dal grigio con la voce"
+        descrizione: "Il capobranco respira a scatti perché gli fa male. Con la voce giusta, forse, smette di seguire il muro e segue te."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: Il respiro di un lupo
+          testo: |
+            Ti siedi sulla terra nuda e cominci a respirare piano, a voce,
+            come si fa con un cavallo spaventato, finché il capobranco non
+            sbaglia uno sbuffo e poi un altro. Alla fine respira con te.
+            Lo porti fuori dalla conca camminando all'indietro, e gli altri
+            due lupi ti seguono a distanza. Al margine del grigio Tharn lo
+            vede arrivare e si mette a ridere piano, con le mani sulla
+            faccia. Del muro e delle radici, poi, parlerai con Serha.
+          pe: { addestrare-animali: 10 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1 }
+          imposta: { circolo.capobranco: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il ritmo del muro
+          testo: |
+            Respiri piano, e per un momento il capobranco ti segue. Poi il
+            muro sbuffa più forte, e lui torna al suo ritmo e ti carica.
+            Rotoli via in tempo per prenderti solo una zampata sul fianco,
+            e risali la conca carponi.
+          effetti: { ferite: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Portarlo fuori dal grigio con Richiamo"
+        descrizione: "La lingua che il Circolo insegna ai bambini arriva anche a un lupo che sta male. Serve un Richiamo forte."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il nome del lupo
+          testo: |
+            Dici il Richiamo lentamente, una sillaba per ogni sbuffo del muro,
+            e alla terza volta il capobranco smette di sbuffare e ti guarda.
+            Lo porti fuori dalla conca camminando all'indietro, e gli altri
+            due lupi ti seguono a distanza. Al margine del grigio Tharn lo
+            vede arrivare e si mette a ridere piano, con le mani sulla
+            faccia. Del muro e delle radici, poi, parlerai con Serha.
+          pe: { magia: 5, addestrare-animali: 5 }
+          effetti: { fazione.circolo: 1, rep.circolo: 1 }
+          imposta: { circolo.capobranco: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il ritmo del muro
+          testo: |
+            Il Richiamo ti esce a metà, coperto da uno sbuffo del muro, e il
+            capobranco ti carica. Rotoli via in tempo per prenderti solo una
+            zampata sul fianco, e risali la conca carponi.
+          effetti: { ferite: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Tornare indietro"
+        descrizione: "Il capobranco non ti segue fuori dalla conca. Il Bosco interno però ricomincia da capo."
+        costo: 0
+        esito:
+          titolo: Fuori dal grigio
+          testo: |
+            Risali la conca camminando all'indietro, e il capobranco torna
+            a sdraiarsi davanti al muro senza toglierti gli occhi di dosso.
+            Al margine del grigio Tharn ti guarda arrivare e non ti chiede
+            niente.
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ il cuore · il giro delle sentinelle (dopo il passo 4)
+  - id: circolo-bosco-le-sentinelle
+    immagine: icone/wolf-head
+    titolo: Il giro delle sentinelle
+    sommario: "Davanti al muro nel cuore del grigio il branco torna sempre. Qualcuno deve fare il giro e mandarlo via."
+    luogo: Il Bosco interno, il cuore del boschetto grigio
+    area: circolo-bosco-interno
+    requisiti: [profondita.circolo-bosco-interno >= 5, fazione.circolo >= 4]
+    testo: |
+      La conca nel cuore del boschetto è come l'hai lasciata, con le
+      radici che scendono nel muro di metallo e la nebbia che sale a
+      sbuffi dalle giunture. Davanti al muro, dove dormiva il capobranco,
+      adesso fanno la guardia tre lupi grigi più giovani, magri, che si
+      alzano tutti insieme quando entri nella conca.
+
+      {percezione Media} Sulla terra nuda intorno al muro ci sono le
+      impronte di molti lupi, alcune vecchie di giorni. Il branco viene a
+      dormire qui, e se ne va solo se qualcuno lo scaccia.
+
+      I druidi del Circolo lo chiamano il giro delle sentinelle, e lo fa
+      chi scende. Sul muro qualcuno ha appoggiato una fila di fiale vuote,
+      per la linfa che cola dalle radici.
+    opzioni:
+      - testo: "Scacciare le sentinelle"
+        descrizione: "Tre lupi grigi giovani. Il primo giro rende di più, perché la linfa si è raccolta da mesi."
+        quando: [circolo.sentinelle == 0]
+        combattimento: circolo-le-sentinelle-grigie
+        vittoria:
+          titolo: Il primo giro
+          testo: |
+            I lupi scappano nella nebbia uno dopo l'altro, e l'ultimo si
+            volta a guardarti prima di sparire. Alle radici del muro la linfa
+            si è raccolta per mesi in una pozza scura e luminosa, e ne riempi
+            tutte le fiale. Al Circolo, la sera, Tharn conta le pelli e le
+            fiale e ti dice che il giro l'hai fatto da druido.
+          pe: { natura: 5 }
+          effetti: { circolo.linfa: 3, circolo.pelle-grigia: 2, rep.circolo: 0.5 }
+          imposta: { circolo.sentinelle: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: I giovani
+          testo: |
+            I lupi giovani sono più svelti del loro capo, e ti mordono finché
+            non lasci la conca. Risali fino al margine del grigio con le
+            gambe che sanguinano.
+          vai: superficie-fratturata
+      - testo: "Scacciare le sentinelle"
+        descrizione: "Tre lupi grigi giovani, come ogni volta. La linfa alle radici è poca, ma c'è."
+        quando: [circolo.sentinelle >= 1]
+        combattimento: circolo-le-sentinelle-grigie
+        vittoria:
+          titolo: Il giro
+          testo: |
+            I lupi scappano nella nebbia come ogni volta, e tu riempi le
+            fiale con la linfa che cola dalle radici. Ne viene meno della
+            prima volta, e la pelle che stacchi è di un lupo giovane.
+          effetti: { circolo.linfa: 1, circolo.pelle-grigia: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: I giovani
+          testo: |
+            I lupi giovani sono più svelti del loro capo, e ti mordono finché
+            non lasci la conca. Risali fino al margine del grigio con le
+            gambe che sanguinano.
+          vai: superficie-fratturata
+      - testo: "Mandarli via con Richiamo"
+        descrizione: "I lupi giovani ascoltano più volentieri dei vecchi. Si raccoglie la linfa con calma."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La conca vuota
+          testo: |
+            Al Richiamo i tre lupi abbassano la testa e se ne vanno in fila
+            nella nebbia. Raccogli la linfa alle radici con calma, una fiala
+            alla volta.
+          pe: { magia: 2 }
+          effetti: { circolo.linfa: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: I denti
+          testo: |
+            Il Richiamo arriva a due lupi su tre, e il terzo ti salta addosso
+            per tutti e tre. Te ne vai con il braccio sanguinante.
+          effetti: { ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Tornare indietro"
+        descrizione: "Il giro lo farà qualcun altro, stavolta."
+        costo: 0
+        esito:
+          titolo: Un'altra volta
+          testo: |
+            Risali la conca senza voltarti, e i lupi tornano a sdraiarsi
+            davanti al muro.
+          vai: superficie-fratturata

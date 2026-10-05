@@ -1,0 +1,805 @@
+# La quest della Caserma, passi 11, 13 e 15 (il 12 e il 14 sono le spedizioni della strada del fango e del Mulino
+# Nero), più la lettura del registro del Pesatore dagli Averi.
+# 11 il Pesatore: Ulmo Strass in ufficio con la clausola firmata da Galdrick per avere i trenta di Ghoran, e il nome
+#    di Brina sul foglio (caserma.cavillo se trovi il cavillo). Qualunque cosa si faccia, quella notte il Pesatore la
+#    porta via dalla casa blu; il seguito della notte chiude il passo.
+# 13 la lettera da Ghoran (pista.pelle >= 6): Borso in catene e i nomi del quarto senza paga. La promessa a Borso
+#    (caserma.promessa) usa la riga del registro del Pesatore; se Borso scopre la bugia tace (caserma.borso).
+#    Il seguito, in cima alla colonna, è Brando Selli.
+# 15 il capitano (grado 5): la veglia per Carstan e il libro delle paghe di Vesh (caserma.libro), la teca all'alba
+#    (la spada di Carstan o le piastre della Caserma, caserma.carstan) e, dopo, il voto in Municipio (caserma.municipio).
+#    Il segreto usato: le strade, la notte di Carstan, le tenne Mastrel, mentre Galdrick era in ginocchio accanto a lui.
+storylet:
+  # ------------------------------------------------------------ passo 11 · il Pesatore
+  - id: caserma-il-pesatore
+    presso: guarnigione-di-qir-azel
+    immagine: ambientazione/ghoran
+    titolo: Il Pesatore
+    sommario: "Dietro i trenta di Ghoran è arrivato in città un uomo che non è un mercenario. Stamattina è nell'ufficio dello sceriffo, con un foglio sigillato."
+    luogo: Guarnigione di Qir-Azel, l'ufficio dello sceriffo
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 10, bivio.legge == 1, galdrick.via == 0]
+    testo: |
+      La sera dei trenta Hagra ti ha offerto un pezzo della sua resina sotto
+      il portico, e mentre masticavate ti ha detto che da Ghoran, dietro ai
+      mercenari, era arrivato anche un uomo che non è un mercenario. Lo ha
+      detto e poi ha sputato, lontano.
+
+      Stamattina quell'uomo è seduto nell'ufficio di Galdrick, sulla sedia
+      degli ospiti, che sotto di lui sembra una sedia da bambini. È grosso e
+      calmo, con le mani larghe da mugnaio appoggiate sulle ginocchia, e si
+      chiama Ulmo Strass. A Ghoran lo chiamano il Pesatore. Sul tavolo fra
+      lui e lo sceriffo c'è un foglio con il sigillo di cera verde di un
+      clan e due firme. Una è di un capo dei recinti, l'altra è di Galdrick.
+
+      {accademiche Media} È la clausola che i clan di Ghoran mettono in ogni
+      accordo con le città, da sempre. Niente asilo ai fuggiaschi dei
+      recinti. Per avere i trenta, lo sceriffo l'ha firmata.
+
+      «Era il prezzo» dice Galdrick, senza guardare il foglio. «L'ho firmata
+      per i trenta, e non pensavo che qualcuno sarebbe venuto a riscuotere.»
+      Il Pesatore gira il foglio verso di te con due dita. Sotto le firme
+      c'è un elenco corto di nomi scritti con cura. Il terzo è *Brina,
+      cucina della casa di pietra blu*.
+
+      {empatia Media} Galdrick terrà Brina lontana dal carro finché può, e
+      il Pesatore lo sa. Ma la firma è sua, e lui le sue firme le onora
+      tutte, anche le peggiori.
+
+      {origine fuggiasco-di-ghoran} L'ultimo nome della lista è il tuo, con
+      il segno del recinto da cui sei scappato. Galdrick allunga la mano e ci
+      mette sopra il pollice, come per tenere fermo il foglio, e lo lascia
+      lì finché il Pesatore non smette di guardare.
+
+      Il Pesatore sorride, paziente, da uomo che ha pesato sacchi tutta la
+      vita.
+    opzioni:
+      - testo: "Cercare il cavillo nella clausola"
+        descrizione: "Un accordo scritto ha sempre una data. Se la clausola vale da quel giorno in poi, chi è arrivato prima è fuori."
+        prova: { attributo: mentale, abilita: [accademiche, politica-ed-economia], difficolta: Difficile }
+        successo:
+          titolo: La data
+          testo: |
+            Chiedi di leggere il foglio, e il Pesatore te lo lascia leggere con
+            indulgenza. In fondo c'è la data dell'accordo, e la clausola dice
+            *chi fuggirà*, al futuro. Brina è alla casa blu da due anni. Lo dici
+            ad alta voce, e Galdrick si appoggia allo schienale con un respiro
+            lungo. Il Pesatore riprende il foglio, lo piega in quattro e lo
+            mette in tasca, senza smettere di sorridere.
+
+            {politica-ed-economia Media} Ha capito che il foglio non basta più.
+            Adesso gli serve un'altra cosa, e la troverà di notte.
+          pe: { accademiche: 5 }
+          imposta: { caserma.cavillo: 1 }
+          segue: caserma-la-porta-delle-cucine
+        fallimento:
+          titolo: Il futuro
+          testo: |
+            Leggi il foglio tre volte e non trovi niente che non sia già
+            chiaro. Il Pesatore ti guarda leggere con pazienza, come si guarda
+            un bambino che cerca di sollevare un sacco. Poi riprende il foglio,
+            lo piega in quattro e lo mette in tasca.
+          segue: caserma-la-porta-delle-cucine
+
+      - testo: "Chiedere a Hagra quanto vale il sigillo"
+        descrizione: "Il sigillo è di un clan. A Ghoran i clan si contestano i sigilli fra loro, e Hagra viene da un altro clan."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La cera verde
+          testo: |
+            Trovi Hagra sotto il portico e le chiedi del sigillo. Lei smette
+            di masticare e ci pensa un poco prima di rispondere. «La cera
+            verde è del clan del Guado, e al Guado vale, eh, ma se un altro
+            clan la contesta davanti a testimoni non vale più niente» dice.
+            Si gratta l'argilla secca sulla guancia. «Il mio clan lo
+            contesterebbe a pagamento. Il prezzo lo decido quando serve.»
+
+            {conoscenze-della-strada Media} Hagra ha lasciato il prezzo in
+            sospeso apposta. Fra i clan è il modo di dire che sarà alto, e
+            che vale la pena pagarlo.
+          pe: { empatia: 5 }
+          segue: caserma-la-porta-delle-cucine
+        fallimento:
+          titolo: Affari di clan
+          testo: |
+            Hagra ti ascolta masticando e poi ti dice che i sigilli sono
+            affari dei clan, eh. La Guardia della città farebbe bene a non
+            metterci il naso. Lo dice gentile. Poi ti volta le spalle e
+            torna a guardare il cortile.
+          segue: caserma-la-porta-delle-cucine
+
+      - testo: "Nascondere Brina prima di sera"
+        descrizione: "In Città Bassa una sguattera si può far sparire per una notte. Galdrick non deve sapere dove."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, ingannare], difficolta: Media }
+        successo:
+          titolo: La cantina del bottaio
+          testo: |
+            Il bottaio del vicolo delle Fasce ti deve una firma, e accetta di
+            tenere Brina in cantina fra le botti per una notte. Lei viene senza
+            fare domande e si porta il mestolo. Galdrick, quando glielo dici,
+            ti risponde che non vuole sapere niente, e intanto scrive una riga
+            sul taccuino.
+          pe: { conoscenze-della-strada: 5 }
+          segue: caserma-la-porta-delle-cucine
+        fallimento:
+          titolo: Il mestolo
+          testo: |
+            Brina non vuole andare. Dice che la casa blu è l'unico posto dove
+            ha dormito tranquilla da quando è scappata, e che i detenuti stasera
+            devono mangiare. Si rimette a mescolare la zuppa, e tu non trovi le
+            parole per farla smettere.
+          segue: caserma-la-porta-delle-cucine
+
+      - testo: "Restare a guardare il Pesatore"
+        descrizione: "Gli occhi del Pesatore cercano il tuo nome sotto il pollice di Galdrick. Si può reggere quello sguardo."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Lo sguardo
+          testo: |
+            Il Pesatore ti guarda come guardava la merce sulla bilancia, dai
+            polsi alle caviglie, e tu lo lasci fare senza abbassare gli occhi.
+            Dopo un poco è lui a girarsi verso Galdrick. «Questa la conosco»
+            dice, e poi non dice altro.
+
+            {origine fuggiasco-di-ghoran} Le spalle volevano curvarsi, come al
+            mercato. Le hai tenute dritte, e adesso ti fanno male fino alle
+            scapole.
+          pe: { resilienza: 5 }
+          segue: caserma-la-porta-delle-cucine
+        fallimento:
+          titolo: La bilancia
+          testo: |
+            Il Pesatore ti guarda come guardava la merce sulla bilancia, e a
+            metà sguardo ti accorgi di avere le spalle curve e gli occhi sul
+            pavimento. Lui sorride appena. Galdrick tiene il pollice sul foglio
+            finché non sei uscito.
+          segue: caserma-la-porta-delle-cucine
+
+  - id: caserma-la-porta-delle-cucine
+    immagine: ambientazione/citta-bassa
+    titolo: La porta delle cucine
+    tipo: seguito
+    luogo: Città Bassa, la casa di pietra blu, di notte
+    area: citta-bassa
+    requisiti: [fazione.caserma == 10]
+    testo: |
+      Quella notte resti alla casa blu. Fulvio è di turno alla porta
+      principale, e due miliziani della Città Bassa, mandati dal sergente
+      dei Ponti per rinforzo, stanno sul retro, vicino alla porta delle
+      cucine. La stufa è accesa e la zuppa di Brina è sul fuoco, coperta,
+      per i detenuti del mattino. Il vicolo è silenzioso, di un silenzio
+      pulito, perché stanotte anche i gatti sono rimasti dentro.
+
+      {furtivita Media} Due miliziani di rinforzo che nessuno ti ha
+      presentato, e messi proprio sul retro. Le porte di una casa si aprono
+      da dentro più facilmente che da fuori.
+
+      Verso la terza campana senti un cane, uno solo, che non abbaia ma
+      ringhia basso, dalla parte del vicolo delle cucine.
+
+      {addestrare-animali Media} È un cane da presa. Non abbaia perché gli
+      hanno insegnato a tacere fino al morso, e a Ghoran i cani così li
+      tengono soltanto i cacciatori di uomini.
+    opzioni:
+      - testo: "Correre alla porta delle cucine"
+        descrizione: "Il ringhio viene dal retro. Ci sono dieci passi fra la stufa e la porta."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Media }
+        successo:
+          titolo: Il carro nel vicolo
+          testo: |
+            Arrivi alla porta delle cucine e la trovi aperta, con il paletto
+            tirato da dentro. I due miliziani di rinforzo non ci sono. Nel
+            vicolo c'è un carro con una gabbia di legno, e dentro la gabbia
+            Brina tiene ancora il mestolo in mano. Colpisci il primo uomo che
+            ti si para davanti e lo mandi contro il muro, poi il cane ti prende
+            il braccio e un'altra mano ti spinge giù. Quando ti rialzi il carro
+            è in fondo al vicolo, e poi non c'è più.
+
+            {rissa Media} L'uomo che hai colpito si è rialzato subito. Sono
+            gente che si fa colpire per mestiere, e che conta le botte come
+            spese di viaggio.
+          pe: { rissa: 3 }
+          effetti: { fazione.caserma: 1, ferite: 1, rep.scuri: -0.5, rep.caserma: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il paletto
+          testo: |
+            Inciampi nella panca al buio, e quando arrivi alla porta delle
+            cucine il paletto è tirato da dentro e il vicolo è vuoto. Sul
+            selciato ci sono le impronte larghe di un cane e il solco di due
+            ruote. I due miliziani di rinforzo non ci sono più.
+          effetti: { fazione.caserma: 1, ferite: 0.5, rep.scuri: -0.5, rep.caserma: 0.5, informazioni.segreto: 1 }
+
+      - testo: "Guardare in faccia i miliziani di rinforzo"
+        descrizione: "Prima di correre, conviene sapere chi ha aperto la porta."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Due facce
+          testo: |
+            Dalla finestra della cucina li vedi tirare piano il paletto e
+            fare un passo indietro nel buio mentre il carro entra nel
+            vicolo. Hanno il mantello scarlatto e le facce che conosci dal
+            cortile, due di quelli che non chiedevano mai della paga. Quando
+            arrivi alla porta il carro è già in fondo al vicolo, con Brina
+            nella gabbia e il mestolo ancora in mano, e i due miliziani sono
+            spariti dall'altra parte.
+
+            {percezione Media} Le facce te le sei segnate. Uno dei due ha la
+            toppa dello stemma cucita al rovescio.
+          pe: { percezione: 3 }
+          effetti: { fazione.caserma: 1, rep.scuri: -0.5, rep.caserma: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il buio
+          testo: |
+            Dalla finestra della cucina vedi soltanto il buio, e una sagoma che
+            potrebbe essere chiunque. Quando arrivi alla porta il paletto è
+            tirato e il vicolo è vuoto. Sulla stufa la zuppa bolle ancora.
+          effetti: { fazione.caserma: 1, rep.scuri: -0.5, rep.caserma: 0.5, informazioni.segreto: 1 }
+
+      - testo: "Restare accanto alla stufa fino all'alba"
+        descrizione: "Nel vicolo andrà come deve andare. Qualcuno deve restare con la zuppa e i detenuti."
+        esito:
+          titolo: La zuppa calda
+          testo: |
+            Resti seduto accanto alla stufa con la mano sull'elsa, e il ringhio
+            nel vicolo si allontana con un rumore di ruote. All'alba la porta
+            delle cucine è aperta, con il paletto tirato da dentro, e i due
+            miliziani di rinforzo non ci sono più. Sul fuoco la zuppa è ancora
+            calda.
+
+            {resilienza Media} Hai scelto di non correre, e lo sapevi mentre lo
+            sceglievi. Questa cosa te la porterai dietro per un pezzo.
+          effetti: { fazione.caserma: 1, tormento: 0.5, rep.scuri: -0.5, rep.caserma: 0.5, informazioni.segreto: 1 }
+
+  # ------------------------------------------------------------ passo 13 · la lettera da Ghoran
+  - id: caserma-la-lettera-da-ghoran
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/borso
+    titolo: La lettera da Ghoran
+    sommario: "Vesh è morto, e un quarto della Caserma è rimasto senza la seconda paga. I loro nomi li sa soltanto Borso, che portava le buste."
+    luogo: Guarnigione di Qir-Azel, le celle, a notte fonda
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 12, bivio.legge == 1, pista.pelle >= 6]
+    testo: |
+      Dalla notte della Pignatta il quarto della Caserma che prendeva anche
+      la paga di Vesh è rimasto con una paga sola. Sei miliziani hanno
+      chiesto il congedo nella stessa settimana, con la stessa scusa della
+      madre malata, e due non si sono presentati al turno e non si sono più
+      visti. Galdrick ha la fasciatura al fianco e non può fare le scale
+      delle celle. Ti ha detto chi deve sapere i nomi, e poi si è girato
+      verso la finestra.
+
+      In fondo al corridoio delle celle c'è Borso, con le catene ai polsi e
+      il grembiule di cuoio. Siede sulla paglia con la schiena al muro e il
+      naso rotto girato verso lo spioncino. Quando senti i tuoi passi alza la
+      testa.
+
+      «È arrivata una lettera da Ghoran?» chiede, con la voce bassa di
+      sempre.
+
+      {empatia Media} Lo chiede ogni notte a chiunque passi. Ha imparato a
+      chiederlo senza speranza, per non doverla perdere ogni volta.
+
+      {politica-ed-economia Media} Le buste della paga di Vesh le portava
+      lui, una per uomo, ogni primo del mese. Ha in testa il libro dei nomi
+      meglio di qualsiasi registro.
+
+      *Due figli venduti al clan del Guado.* La riga del Pesatore ti torna in
+      mente da sola, scritta nella grafia stretta del registro, e la mano va
+      alla tasca dove lo tieni.
+    opzioni:
+      - testo: "Dargli la riga del Pesatore e promettergli il riscatto"
+        descrizione: "Nel registro del Pesatore c'è la riga dei suoi figli. Hagra può far arrivare un'offerta al clan del Guado. È una promessa che andrà mantenuta."
+        quando: [caserma.borso == 0]
+        requisiti: [oggetto.caserma-registro-del-pesatore >= 1]
+        esito:
+          titolo: La riga
+          testo: |
+            Apri il registro alla pagina e lo infili per lo spioncino,
+            aperto. Borso lo prende con le mani incatenate e lo avvicina
+            alla lanterna del corridoio, e per molto tempo non dice niente.
+            Poi ti chiede se Hagra conosce qualcuno al Guado. Gli dici di
+            sì. Lui chiude il registro e te lo restituisce. Poi comincia a
+            dettare i nomi uno per uno, ciascuno con il suo turno, e non si
+            ferma finché non ha finito.
+
+            {empatia Media} Non ti ha chiesto di giurare. Gli basta che tu
+            sappia che lui se lo ricorderà ogni notte.
+          imposta: { caserma.promessa: 1 }
+          segue: caserma-la-colonna-di-brando
+
+      - testo: "Mentirgli sulla lettera"
+        descrizione: "Una lettera da Ghoran si può inventare. Se se ne accorge, però, non parlerà mai più."
+        quando: [caserma.borso == 0]
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: La lettera
+          testo: |
+            Gli dici che una lettera è arrivata, a nome del clan del Guado, e
+            che i due ragazzi sono vivi. Borso ti guarda a lungo dallo
+            spioncino. Poi chiude gli occhi e ti detta i nomi, uno per uno,
+            con la voce più bassa del solito.
+
+            {ingannare Difficile} Hai detto la bugia che lui voleva sentire, e
+            per questo ha funzionato. Ti resterà addosso come la paglia delle
+            celle sui vestiti.
+          pe: { ingannare: 5 }
+          effetti: { tormento: 0.5 }
+          segue: caserma-la-colonna-di-brando
+        fallimento:
+          titolo: Il nome del clan
+          testo: |
+            Gli dici che una lettera è arrivata, e lui ti chiede il nome del
+            capo clan che l'ha mandata. Esiti un respiro di troppo. Borso
+            torna a sedersi sulla paglia, con la schiena al muro, e da quella
+            notte, quando passi davanti allo spioncino, non alza più la testa.
+          imposta: { caserma.borso: 1 }
+          effetti: { tormento: 0.5 }
+
+      - testo: "Strappargli i nomi"
+        descrizione: "È in catene, e tu hai le chiavi. Si può fare, e lo si paga dopo."
+        quando: [caserma.borso == 0]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Metà dei nomi
+          testo: |
+            Entri nella cella e gli parli da vicino, abbastanza da sentire
+            l'odore della paglia sulla sua pelle. Borso ti dà i nomi a denti
+            stretti. A metà smette, e nessuna minaccia lo fa ricominciare.
+            La metà, però, basta per arrivare in cima.
+
+            {intimidire Media} Hai avuto quello che volevi. Uscendo, la chiave
+            gira nella serratura più rumorosa di come la ricordavi.
+          pe: { intimidire: 5 }
+          effetti: { tormento: 0.5 }
+          segue: caserma-la-colonna-di-brando
+        fallimento:
+          titolo: Le catene
+          testo: |
+            Entri nella cella e alzi la voce, e Borso ti guarda senza paura.
+            Poi allunga le mani incatenate e ti tira contro le sbarre,
+            piano, quanto basta per farti capire che potrebbe, e poi ti
+            lascia andare.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Incrociare le ricevute del furiere con i turni"
+        descrizione: "Il furiere ha le ricevute di ogni paga. Chi ha chiesto meno anticipi degli altri, nei mesi di ritardo, una paga ce l'aveva."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: Chi non chiedeva
+          testo: |
+            Passi tre notti con il furiere al banco del magazzino, a incrociare
+            le ricevute degli anticipi con i registri dei turni. Chi non ha mai
+            chiesto un anticipo e ha sempre avuto il turno giusto nelle notti
+            giuste finisce in una colonna. La colonna ha quindici nomi, e in
+            cima c'è un sergente con vent'anni di servizio.
+          pe: { politica-ed-economia: 5 }
+          segue: caserma-la-colonna-di-brando
+        fallimento:
+          titolo: Troppe ricevute
+          testo: |
+            Le ricevute sono migliaia e i turni cambiano ogni settimana. Alla
+            terza notte hai una colonna di trenta nomi, metà dei quali sono
+            soltanto prudenti. Il furiere ti dice che così si accusa mezza
+            Caserma, e ti rimanda a dormire.
+          effetti: { tormento: 0.5 }
+
+      - testo: "Mettere insieme quello che sanno Fulvio e Nando"
+        descrizione: "Fulvio sa chi prendeva il foglio dei turni, e Nando ha visto chi contava i soldi sotto il ponte. Ci vuole tempo, e pazienza con tutti e due."
+        costo: 3
+        esito:
+          titolo: Due testimoni
+          testo: |
+            Ci vogliono quattro giorni. Fulvio ti dice chi prendeva il foglio
+            e a chi lo portava, e Nando, seduto sulla panca della casa blu,
+            riconosce le facce che gli descrivi. A ogni nome il primo trema e
+            il secondo mangia una mela. Alla fine la colonna ha dodici nomi, e
+            in cima c'è un sergente con vent'anni di servizio.
+
+            {resistenza Media} Quattro giorni di colloqui ti lasciano la gola
+            secca e la schiena dura, e ti accorgi di avere cominciato a
+            tossire anche tu.
+          segue: caserma-la-colonna-di-brando
+
+  - id: caserma-la-colonna-di-brando
+    immagine: ambientazione/guarnigione-di-qir-azel
+    titolo: In cima alla colonna
+    tipo: seguito
+    luogo: Guarnigione di Qir-Azel, il magazzino del furiere, all'alba
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 12]
+    testo: |
+      In cima alla colonna c'è Brando Selli, sergente dei Ponti, con vent'anni
+      di servizio e i baffi tagliati corti come vuole il regolamento. Lo
+      conosci dal cortile. Ti ha insegnato lui come si piega il mantello
+      sul braccio prima di uscire di ronda, e stanotte non è rientrato dal
+      turno.
+
+      Con lui mancano tre miliziani dei Ponti. E manca una cosa che Borso,
+      quando gliel'hai chiesto, ha descritto con precisione. Un libro con la
+      copertina di cuoio rosso, il libro delle paghe di Vesh, con i nomi di
+      chi in Caserma prendeva la seconda paga e quanto. Borso lo ha visto
+      l'ultima volta la notte della Pignatta, in mano a Nihali Cuzan, che
+      scappava dalla porta sul retro.
+
+      {politica-ed-economia Media} Senza Vesh, quel libro è l'unica paga che
+      resta. Chi lo ha in mano può vendere ogni nome due volte, a chi è
+      scritto dentro e a chi lo vuole leggere.
+
+      {percezione Facile} Sulla colonna del registro del furiere la firma
+      di Brando, ogni mese, è identica alla tua di quando sei entrato. Stessa
+      penna, stesso banco, stessa ricevuta.
+
+      Il furiere ti guarda dal banco con gli occhiali in mano. Galdrick, dal
+      corridoio, ti fa chiamare.
+    opzioni:
+      - testo: "Portare la colonna a Galdrick"
+        descrizione: "Lo sceriffo ha la fasciatura al fianco e non può cavalcare. Ma è lui che decide chi va."
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: Un ordine con il tuo grado
+          testo: |
+            Galdrick legge la colonna seduto, con una mano sul fianco, e
+            quando arriva al nome di Brando chiude gli occhi per un momento.
+            «Mi ha portato il pane quando ero in letto» dice. Poi firma un
+            ordine con il tuo grado, perché la squadra la guidi tu, e ti dice
+            che i disertori sono stati visti sulla strada di Laresh, oltre il
+            Ponte del Conciatore, verso i mulini bruciati.
+          pe: { resilienza: 3 }
+          effetti: { fazione.caserma: 1, rep.caserma: 0.5, informazioni.segreto: 1 }
+
+      - testo: "Contare i mantelli in magazzino"
+        descrizione: "Chi diserta porta via il mantello. Il furiere sa quanti ne mancano, e di chi."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Facile }
+        successo:
+          titolo: Quattro cartellini
+          testo: |
+            Il furiere apre lo scaffale dei mantelli di scorta e conta con il
+            dito. Ne mancano quattro, e i cartellini sono rimasti appesi ai
+            chiodi, con i nomi. Uno dei quattro è quello di Brando. Dietro lo
+            scaffale trovi una mappa della strada di Laresh strappata da un
+            almanacco della Gilda, con un cerchio a carboncino intorno a un
+            mulino bruciato.
+          pe: { percezione: 3 }
+          effetti: { fazione.caserma: 1, rep.caserma: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: I cartellini
+          testo: |
+            Conti i mantelli e i cartellini due volte, e i conti non tornano
+            perché il furiere, la settimana scorsa, ne ha dati tre alle
+            reclute nuove. A mezzogiorno Galdrick ti manda a dire che i
+            disertori sono stati visti sulla strada di Laresh, verso i mulini
+            bruciati.
+          effetti: { fazione.caserma: 1, informazioni.segreto: 1 }
+
+      - testo: "Andare al gabbiotto della ronda dei Ponti"
+        descrizione: "Brando ha passato vent'anni sui Ponti. Qualcuno l'ha visto andare via, e non l'ha fermato."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          titolo: Il Custode del turno di notte
+          testo: |
+            Al gabbiotto della ronda dei Ponti il Custode del turno di notte
+            ti dice che Brando è passato all'alba con tre dei suoi, a piedi,
+            con le gerle come i facchini. Gli ha anche pagato la gabella, cosa
+            che in vent'anni non aveva mai fatto. Erano diretti al Ponte del
+            Conciatore, verso la strada di Laresh.
+
+            {empatia Media} Il Custode gli voleva bene. Ti racconta della
+            gabella pagata come di un addio.
+          pe: { empatia: 3 }
+          effetti: { fazione.caserma: 1, rep.caserma: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Nessuno ha visto
+          testo: |
+            Al gabbiotto nessuno ha visto niente, e lo dicono tutti con la
+            stessa faccia. A mezzogiorno Galdrick ti manda a dire che i
+            disertori sono stati visti sulla strada di Laresh, verso i mulini
+            bruciati.
+          effetti: { fazione.caserma: 1, informazioni.segreto: 1 }
+
+  # ------------------------------------------------------------ passo 15 · il capitano (grado 5)
+  - id: caserma-la-veglia-per-carstan
+    presso: guarnigione-di-qir-azel
+    immagine: ambientazione/evento-notti-cucite-145
+    titolo: La veglia per Carstan
+    sommario: "Una notte all'anno la Guardia veglia la spada di Ivo Carstan fino all'alba. Quest'anno hai sotto il mantello il libro delle paghe di Vesh."
+    luogo: Guarnigione di Qir-Azel, il corridoio del mastio, di notte
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 14, bivio.legge == 1, pista.pelle >= 6, galdrick.via == 0]
+    testo: |
+      Una notte all'anno, l'anniversario dell'ultima delle Notti Cucite, la
+      Guardia veglia la spada di Ivo Carstan fino all'alba. Nel corridoio
+      del mastio ci sono candele su ogni gradino, e i miliziani si danno il
+      cambio davanti alla teca a coppie, un'ora per coppia, in silenzio. Il
+      furiere ha tolto il registro dal banco. Galdrick sta seduto su una
+      sedia portata dall'ufficio, con la mano sul fianco, e non dorme.
+
+      Sotto il mantello hai il libro delle paghe di Vesh, che ti pesa contro
+      le costole come una pietra. Nel cortile, fra quelli che aspettano il
+      loro turno di veglia, ci sono uomini il cui nome sta in quel libro.
+
+      {origine accolito-del-velo} Al Velo le veglie si fanno con le parole,
+      qui con il silenzio. Le labbra cominciano la preghiera dei morti per
+      abitudine, e tu le lasci fare piano.
+
+      Verso la seconda campana Livio Mastrel si siede accanto a te sul
+      gradino, con la sua liquirizia, e te ne offre un pezzo. «Quella notte
+      ero di ronda» dice, guardando la spada. «Galdrick era il vice. Quando
+      hanno trovato Carstan nel vicolo lui gli si è inginocchiato accanto e
+      non si è più alzato fino al mattino, a tenergli la mano. Le strade le
+      ho tenute io con quattro ragazzi.» Mastica. «La città ha deciso che
+      l'aveva fermato lui, il Cucitore. Lui non l'ha mai smentito. Gli
+      serviva che la Caserma avesse un uomo così, e allora ha fatto l'uomo
+      così per cinque anni.»
+
+      {empatia Media} Mastrel non è amaro. Te lo racconta perché domani
+      anche tu avrai un titolo che la città ha deciso per te, e vuole che tu
+      sappia quanto costa.
+
+      *Il libro sotto il mantello, e la spada nella teca.* All'alba dovrai
+      decidere che cosa farne, del primo.
+    opzioni:
+      - testo: "Leggere il libro in cortile, nome per nome"
+        descrizione: "All'alba, davanti alla Guardia schierata. La Caserma perde un quarto degli uomini, e la Città Bassa vede che la Guardia si guarda allo specchio."
+        prova: { attributo: sociale, abilita: [espressivita, intimidire], difficolta: Media }
+        successo:
+          titolo: I nomi
+          testo: |
+            All'alba sali sul gradino del portico e apri il libro. Leggi i nomi
+            uno per uno, con la paga accanto, senza alzare la voce, e a ogni
+            nome un uomo del cortile esce dalla fila e va a mettersi contro il
+            muro. Nessuno scappa. Quando chiudi il libro, contro il muro ci
+            sono ventisei mantelli scarlatti, e in fila ne restano settanta.
+            In Città Bassa entro mezzogiorno lo sanno tutti, e alla casa blu,
+            per la prima volta, c'è la coda per denunciare.
+
+            {espressivita Media} La voce non ti ha tradito nemmeno una volta. Ti
+            tremano le mani adesso, a libro chiuso.
+          pe: { espressivita: 5 }
+          imposta: { caserma.libro: 1 }
+          effetti: { nomea.citta-bassa: 1 }
+          segue: caserma-la-teca
+        fallimento:
+          titolo: La voce
+          testo: |
+            All'alba sali sul gradino del portico e apri il libro, e al quinto
+            nome la voce ti si incrina. Il resto lo leggi peggio, con le
+            pause sbagliate, mentre i miliziani escono dalla fila uno dopo
+            l'altro. Quando chiudi il libro il cortile è diviso in due, e
+            qualcuno contro il muro ride di te a mezza voce. La Città Bassa lo
+            sa entro mezzogiorno lo stesso.
+          imposta: { caserma.libro: 1 }
+          effetti: { nomea.citta-bassa: 1, scandalo: 0.5 }
+          segue: caserma-la-teca
+
+      - testo: "Dare il libro a Galdrick"
+        descrizione: "La legge di Galdrick è paziente. Deciderà lui caso per caso, con tutto il tempo che serve."
+        immagine: personaggi/toren-galdrick
+        esito:
+          titolo: Caso per caso
+          testo: |
+            All'alba porti il libro a Galdrick e glielo metti in mano. Lui
+            lo apre alla prima pagina e legge un nome, poi chiude gli occhi.
+            Poi lo infila nella tasca interna della divisa, contro il petto,
+            accanto al taccuino. «Uno alla volta» dice. «Ci vorrà un anno.»
+            Lo dice come una promessa fatta anche ai nomi.
+
+            {politica-ed-economia Media} In un anno qualcuno scapperà, e
+            qualcuno cambierà vita. Galdrick lo sa, e ha deciso che il prezzo
+            è giusto.
+          pe: { resilienza: 5 }
+          imposta: { caserma.libro: 2 }
+          effetti: { rep.caserma: 0.5 }
+          segue: caserma-la-teca
+
+      - testo: "Bruciarlo nella stufa del furiere"
+        descrizione: "La Caserma resta intera, e il debito con Vesh sparisce con lui. Galdrick lo disapproverà senza impedirtelo."
+        esito:
+          titolo: La stufa
+          testo: |
+            Prima dell'alba scendi al magazzino, apri lo sportello della
+            stufa del furiere e ci metti dentro il libro, pagina per pagina,
+            perché intero non brucia. Il furiere arriva quando l'ultima
+            pagina si sta arricciando. Guarda il fuoco e poi te. Prende dal
+            banco una ricevuta in bianco. Ci scrive *legna*, la data, e te
+            la fa firmare.
+
+            {empatia Media} Il furiere non è d'accordo. Ma ha scritto la
+            ricevuta, e nel suo alfabeto vuol dire che il fatto è registrato,
+            e che lui se lo porterà dietro insieme a te.
+          pe: { furtivita: 5 }
+          imposta: { caserma.libro: 3 }
+          effetti: { rep.caserma: 1, nomea.citta-bassa: -0.5 }
+          segue: caserma-la-teca
+
+  - id: caserma-la-teca
+    immagine: ambientazione/guarnigione-di-qir-azel
+    titolo: La teca
+    tipo: seguito
+    luogo: Guarnigione di Qir-Azel, il corridoio del mastio, all'alba
+    area: quartieri-alti
+    requisiti: [fazione.caserma == 14]
+    testo: |
+      Quando l'ultima coppia ha finito il turno di veglia, Galdrick si alza
+      dalla sedia, piano, con la mano sul fianco. Prende una chiave dalla
+      tasca della divisa e apre la teca, e il vetro cigola sui cardini che
+      nessuno ha unto da anni. Toglie la spada dal panno rosso e te la porge
+      di piatto, sulle due mani.
+
+      «In una teca non serve a niente» dice. «Carstan non l'avrebbe voluta
+      qui dentro.» Si guarda intorno, il corridoio con le candele consumate
+      e i miliziani addormentati sui gradini. «Il Consiglio ti conferma
+      capitano della Guardia stamattina. Julia l'ha già scritto, e lo mette
+      ai voti per farlo sapere.»
+
+      {armi-da-mischia Media} La lama è ancora buona, con il filo ammaccato
+      a metà, dove Carstan ha parato l'ultima volta. Il bilanciamento è
+      quello di una spada usata ogni giorno da un uomo che sapeva usarla.
+
+      {origine rampollo-dei-quartieri-alti} A casa tua le spade dei nonni
+      stavano appese sopra il camino, e nessuno le ha mai tolte. Qui un
+      uomo apre una teca e te la dà in mano, e ti accorgi di non sapere
+      nemmeno come si ringrazia.
+
+      Dietro Galdrick, sulla soglia del magazzino, il furiere tiene fra le
+      braccia un'armatura a piastre brunita, che ha unto ogni primavera per
+      cinque anni senza che nessuno la indossasse.
+    opzioni:
+      - testo: "Prendere la spada di Carstan"
+        descrizione: "La spada del vecchio sceriffo, con il filo ammaccato. In città la riconosceranno tutti."
+        esito:
+          titolo: Il filo ammaccato
+          testo: |
+            Prendi la spada, e il corridoio si sveglia. I miliziani sui
+            gradini si alzano uno dopo l'altro, e qualcuno batte il pugno
+            sul petto. Galdrick chiude la teca vuota e ci lascia la chiave
+            sopra. Il furiere ti consegna il distintivo d'argento brunito
+            del capitano insieme a una borsa pesante, la paga arretrata del
+            titolo, che il Consiglio non pagava da cinque anni a nessuno, e
+            ti fa firmare la ricevuta per tutte e due le cose. In fondo al
+            corridoio, contro il portone aperto, c'è una donna con uno
+            scialle grigio che guarda il tuo mantello.
+
+            {empatia Facile} Il rammendo sulla spalla è ancora lì. Lei lo ha
+            cercato prima della tua faccia, e poi ti ha sorriso.
+          imposta: { caserma.carstan: 1, caserma.capitano: 1 }
+          effetti: { fazione.caserma: 1, oggetto.caserma-spada-di-ivo-carstan: 1, oggetto.caserma-distintivo-del-capitano: 1, monete: 350, racconto: 1, informazioni.segreto: 1 }
+          almeno: { rep.caserma: 10 }
+          segue: caserma-il-voto-del-consiglio
+
+      - testo: "Lasciare la spada nella teca"
+        descrizione: "È la spada di Carstan, e la Guardia ci tiene. Il furiere ha in braccio un'altra cosa."
+        esito:
+          titolo: Le piastre
+          testo: |
+            Rimetti la spada sul panno rosso con le due mani, come te l'ha data.
+            Galdrick ti guarda a lungo, poi chiude la teca e annuisce, una
+            volta. Il furiere si fa avanti con l'armatura a piastre e te la
+            mette contro il petto. «Questa allora» dice. «È del capitano, e
+            l'ho unta per cinque anni.» Poi ti consegna il distintivo d'argento
+            brunito e una borsa pesante con la paga arretrata del titolo, e ti
+            fa firmare la ricevuta per tutte e tre le cose. In fondo al
+            corridoio, contro il portone, c'è una donna con uno scialle grigio
+            che guarda il tuo mantello.
+
+            {galateo Media} In Caserma rimettere la spada nella teca sarà
+            raccontato come una cosa giusta, e domani lo racconteranno anche
+            fuori.
+          imposta: { caserma.carstan: 2, caserma.capitano: 1 }
+          effetti: { fazione.caserma: 1, oggetto.caserma-piastre-della-caserma: 1, oggetto.caserma-distintivo-del-capitano: 1, monete: 350, racconto: 1, informazioni.segreto: 1 }
+          almeno: { rep.caserma: 10 }
+          segue: caserma-il-voto-del-consiglio
+
+  - id: caserma-il-voto-del-consiglio
+    immagine: fazioni/consiglio-di-qir-azel
+    titolo: Il voto del Consiglio
+    tipo: seguito
+    luogo: Municipio, la sala del Consiglio
+    area: quartieri-alti
+    requisiti: [caserma.capitano == 1, caserma.municipio == 0]
+    testo: |
+      A metà mattina sali la scalinata del Municipio con il distintivo sul
+      mantello, e l'usciere ti apre la porta della sala prima che tu bussi.
+      Il punto è il primo della seduta. Julia Castaldi lo legge ad alta voce
+      dalla pratica, *conferma del titolo di Capitano della Guardia di
+      Qir-Azel*, e poi alza gli occhi su di te, come quando sei venuto per
+      la paga.
+
+      {galateo Media} Davanti al Consiglio un capitano sta in piedi con il
+      mantello chiuso, e ringrazia chi presiede prima del voto, perché dopo
+      sembrerebbe un pagamento.
+
+      I consiglieri della Gilda guardano il distintivo, quelli dei Castaldi
+      guardano Julia. Il furiere, dalla galleria, tiene il registro aperto
+      sulle ginocchia.
+    opzioni:
+      - testo: "Ringraziare il Consiglio prima del voto"
+        descrizione: "Due parole, in piedi, con il mantello chiuso. Il voto c'è già, e qui si tratta di farlo bene."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Facile }
+        successo:
+          titolo: All'unanimità
+          testo: |
+            Ringrazi Julia e il Consiglio con due frasi, e ti siedi. Il voto è
+            all'unanimità, perfino la Gilda alza la mano, e il furiere dalla
+            galleria lo scrive sul registro con una grafia più grande del
+            solito. Uscendo, l'usciere ti dice che da oggi in Municipio si
+            entra senza invito.
+          pe: { galateo: 5 }
+          imposta: { caserma.municipio: 1 }
+          effetti: { rep.castaldi: 1 }
+        fallimento:
+          titolo: Dopo il voto
+          testo: |
+            Ringrazi dopo il voto, e per troppo tempo, e un consigliere della
+            Gilda guarda l'orologio. Il voto passa lo stesso con due astenuti.
+            Il furiere dalla galleria lo scrive sul registro e chiude il
+            libro con un colpo secco.
+          imposta: { caserma.municipio: 1 }
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Fare un cenno a Julia, come si fa a casa"
+        descrizione: "Nei Quartieri Alti un voto già scritto si ringrazia con un cenno, non con un discorso."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Il cenno
+          testo: |
+            Fai a Julia il cenno che tua madre faceva ai padroni di casa
+            quando la cena era riuscita, e lei te lo restituisce senza
+            sorridere. Il voto è all'unanimità. Uscendo, l'usciere ti dice che
+            da oggi in Municipio si entra senza invito.
+          pe: { galateo: 5 }
+          imposta: { caserma.municipio: 1 }
+          effetti: { rep.castaldi: 1 }
+
+  # ------------------------------------------------------------ dagli Averi · il registro del Pesatore
+  - id: caserma-leggere-il-registro-del-pesatore
+    titolo: Il registro del Pesatore
+    tipo: oggetto
+    area: citta-bassa
+    immagine: ambientazione/ghoran
+    requisiti: [oggetto.caserma-registro-del-pesatore >= 1]
+    sommario: "Un quaderno di cuoio unto, con le vendite del Pesatore degli ultimi dieci anni. Ogni riga ha un peso e un prezzo, con il segno di un clan."
+    testo: |
+      Il quaderno ha la copertina di cuoio unto e l'odore del carro su cui è
+      stato per anni accanto alla bilancia. Le pagine sono divise in colonne
+      con la riga, e il Pesatore scrive piccolo e dritto, con una grafia da
+      scrivano che non ti aspettavi. In ogni riga ci sono una data e un
+      peso. Accanto al prezzo c'è il segno del clan che ha comprato. Nessuna
+      riga ha un nome. Al posto dei nomi ci sono le descrizioni, *ragazza,
+      denti buoni*, *uomo, mano sinistra storta*, *due fratelli, venduti
+      insieme*.
+
+      {accademiche Media} Le colonne sono le stesse dei registri del grano
+      del Mercato dei Nodi, con le stesse abbreviazioni. Ha imparato il
+      mestiere da un mercante di grano, e non l'ha mai cambiato.
+
+      A metà quaderno, otto anni fa, c'è la riga che hai già letto. *Due
+      figli del naso rotto, al clan del Guado.*
+
+      {origine fuggiasco-di-ghoran} Sfogli le pagine dell'anno in cui sei
+      scappato, e ti fermi prima di arrivare al mese. Chiudi il quaderno con
+      il dito in mezzo, e ti accorgi che stai trattenendo il fiato.
+    opzioni:
+      - testo: "Cercare il segno del Guado nelle altre pagine"
+        descrizione: "Il clan del Guado compare molte volte. Si può contare quante."
+        costo: 0
+        esito:
+          titolo: Il segno del Guado
+          testo: |
+            Conti il segno del Guado con il dito pagina dopo pagina, e ti
+            fermi a quaranta. Quaranta righe in dieci anni, quasi tutte di
+            ragazzi. Il clan del Guado compra giovani, e li paga bene.
+
+            {politica-ed-economia Media} Un clan che compra tanti ragazzi li
+            rivende, o li usa per un lavoro che consuma la gente. In tutti e
+            due i casi, il riscatto costerà caro.
+
+      - testo: "Chiudere il registro"
+        descrizione: "Basta così, per stasera."
+        costo: 0
+        esito:
+          titolo: Il cuoio unto
+          testo: |
+            Chiudi il registro e lo rimetti nella bisaccia, e per un po' ti
+            resta sulle dita l'odore del cuoio unto. Lo lavi via con l'acqua
+            fredda, due volte.

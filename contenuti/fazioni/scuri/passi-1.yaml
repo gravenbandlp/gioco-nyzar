@@ -1,0 +1,1532 @@
+# La quest degli Scuri, passi 1-5 (fazione.scuri 0 → 5). Ogni passo ha la versione "prima" (pista.pelle < 4,
+# Mauro alla Pignatta e Vesh vivo) e la versione "dopo" (pista.pelle >= 6, Gaia fra le macerie).
+# 1 Il conto del vetraio: si entra con rep.scuri >= 0 prima di Vesh, senza condizioni dopo; il debito.scuri della
+#   prigione si salda qui.
+# 2 La spalla del baro, alla cisterna dell'Orlo (prima: Nihali e l'ispettore della Gilda, con la variante per chi ha
+#   svuotato la bisca con Galdrick; dopo: i gettoni d'argilla dei mercenari di Ghoran e il nome di Durgan).
+# 3 Firme (grado 1): la licenza falsa per Cosimo Venn della Casa dei Nodi. Prima nel retrobottega di Rozalia, dopo
+#   nel suo nascondiglio (macerie.rozalia 0, 1 o 3, che passa a 3) o dietro la grata di una cella (2). Il seguito con
+#   Venn è lo stesso per tutti e chiude il passo.
+# 4 La colonna della Maison: prima Vesh vuole sapere chi sale le scale (varianti secondo jass), dopo alla porta di
+#   servizio riscuote un mercenario di Ghoran.
+# 5 Le Vie di Sotto: l'ingresso alla spedizione (spedizione-vie-di-sotto.yaml), che chiude il passo al cuore.
+storylet:
+  # ------------------------------------------------------------ 1 · il conto del vetraio, prima di Vesh
+  - id: scuri-il-conto-del-vetraio
+    presso: pignatta-grassa
+    immagine: personaggi/mauro-scrocco
+    titolo: Il conto del vetraio
+    sommario: "Mauro Scrocco ti fa sedere al tavolo d'angolo, quello che vede la porta e il bancone. Ha un debitore da farti conoscere."
+    luogo: Pignatta Grassa, il tavolo d'angolo
+    area: citta-bassa
+    requisiti: [fazione.scuri == 0, pista.pelle < 4, rep.scuri >= 0]
+    testo: |
+      Alla Pignatta Grassa c'è un tavolo d'angolo con la gamba zoppa
+      rincalzata da un tappo di sughero, e da lì si vedono insieme la porta e
+      il bancone. Mauro Scrocco ti ci fa sedere con una mano sulla spalla, e
+      la mano resta lì anche dopo che ti sei seduto. Ha addosso una camicia
+      color zafferano e un odore di cipolla e di vino cotto che arriva prima
+      di lui, e ti abbraccia come un cugino tornato dalla guerra.
+
+      «Una faccia nuova» dice, e lo dice come si dice di un vino. «Al banco
+      del vetro di Via del Salmone c'è un uomo che non paga da tre mesi. Lo
+      voglio pagante, e lo voglio intero. Una gamba rotta non lavora, e chi
+      resta a casa dal banco i debiti non li paga.» Ti versa da bere senza
+      chiederti se ne vuoi.
+
+      {conoscenze-della-strada Facile} Tre mesi sono tanti, per gli Scuri.
+      Se ti mandano a riscuoterli vuol dire che non ci tengono abbastanza da
+      mandare Squiggor, oppure che vogliono vedere come lavori.
+
+      Mauro racconta che il vetraio ha una figlia apprendista e una partita
+      di vetri pronta per la Maison des Lunes, la sola cosa di valore che
+      abbia in bottega. Poi ti dice a memoria il nome dell'uomo e anche
+      quelli della moglie e della figlia.
+
+      {empatia Media} I nomi li ricorda tutti perché gli piace. Per lui un
+      debitore è una persona di famiglia che ha smesso di scrivere.
+
+      {origine figlio-della-citta-bassa} La figlia del vetraio la conosci.
+      Quando portavi le consegne per Via del Salmone lei spazzava i cocci
+      davanti al banco, e ti chiedeva sempre che cosa c'era nel pacco.
+    opzioni:
+      - testo: "Guardare bene i vetri della partita"
+        descrizione: "Una partita di vetri per la Maison costa più di quanto un vetraio di Via del Salmone possa comprare. Da qualche parte ha trovato il materiale."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il verde nel vetro
+          testo: |
+            Mentre il vetraio ti racconta dei suoi debiti alzi una lastra
+            controluce, e dentro il vetro c'è una vena verdina che le lastre
+            buone non hanno. Ci ha fuso dentro polvere di cristalli senza
+            timbro, comprata chissà dove. Glielo dici piano, perché la figlia
+            non senta. Il vetraio si siede sullo sgabello e conta i soldi del
+            primo mese senza discutere. La lastra la tieni tu, come ricordo.
+          pe: { percezione: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+        fallimento:
+          titolo: Il vetro è vetro
+          testo: |
+            Alzi le lastre controluce una per una, strizzando un occhio come
+            un intenditore, e il vetraio ti guarda fare. Per te sono vetri e basta.
+            Lui capisce che non hai capito, e da lì in poi si fa coraggio e
+            ti spiega che i tempi sono duri. Torni alla Pignatta senza
+            monete, e Mauro ti riempie di nuovo il bicchiere.
+
+            {percezione Media fallita} C'era qualcosa di verde, in una lastra.
+            Hai pensato che fosse il riflesso della tua faccia.
+
+      - testo: "Proporgli di pagare a rate"
+        descrizione: "Un debito diviso in dodici è un debito che si paga. Al vetraio serve qualcuno che glielo faccia sembrare possibile."
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Dodici rate
+          testo: |
+            Ti siedi al banco con il vetraio e fate i conti su una lastra
+            scartata, con il carbone. Viene fuori una rata alla settimana per
+            dodici settimane, con la prima da pagare subito. Lui la paga contando le monete due volte, e la
+            figlia ti porta un bicchiere d'acqua senza che nessuno glielo
+            chieda. Alla Pignatta Mauro ascolta la storia delle rate e ride,
+            con la pancia che gli trema sotto la camicia.
+          pe: { persuasione: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+        fallimento:
+          titolo: Il pianto
+          testo: |
+            Proponi le rate, e il vetraio scoppia a piangere sul banco, con le
+            spalle che gli vanno su e giù. Non riesci a capire se è sollievo
+            o disperazione, e alla fine non lo capisce nemmeno lui. Te ne vai
+            con la promessa di un pagamento che domani avrà già dimenticato,
+            e la figlia ti guarda uscire dalla porta senza salutarti.
+
+      - testo: "Fargli paura"
+        descrizione: "Basta rompere una lastra sola davanti alla figlia. Mauro però ha detto intero."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Facile }
+        successo:
+          titolo: Una lastra sola
+          testo: |
+            Prendi una lastra dal mucchio e la lasci cadere sul pavimento, con
+            calma. Il rumore riempie la bottega, e la figlia si ferma con la
+            scopa a mezz'aria. Il vetraio paga il primo mese senza contarlo.
+            Alla Pignatta Mauro prende le monete e ti chiede quante lastre
+            hai rotto, e quando gli dici una sospira come davanti a un
+            bicchiere versato.
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 8, sospetto: 0.5 }
+        fallimento:
+          titolo: La figlia
+          testo: |
+            Alzi una lastra per buttarla a terra, e la figlia del vetraio te la
+            toglie di mano prima che tu decida di farlo. Ha le dita piene di
+            tagli vecchi e la presa di chi maneggia il vetro da quando è nata.
+            Il vetraio grida aiuto dalla porta, e due vicini si affacciano a
+            vedere. Te ne vai prima che arrivi qualcuno con il mantello rosso.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Pagare tu il suo debito"
+        descrizione: "Un debito saldato da un altro resta un debito saldato. Agli Scuri interessa che il conto torni."
+        requisiti: [monete >= 20]
+        esito:
+          titolo: Chi paga
+          testo: |
+            Posi la borsa sul tavolo d'angolo e dici a Mauro che il vetraio ha
+            pagato. Lui la pesa sul palmo senza aprirla, poi ti guarda a lungo
+            con gli occhi piccoli nella faccia grande. «Tu sei uno che compra
+            la gente» dice alla fine, e ride. «Sbagli il prezzo, però.» Ti
+            restituisce qualche moneta, la tua parte del lavoro.
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: -12 }
+
+      - testo: "Chiedere se il lavoro sconta il debito della prigione"
+        descrizione: "Gli Scuri ti hanno tirato fuori da una cella, e Rozalia ha scritto il tuo nome nel registro dei favori."
+        quando: [debito.scuri >= 1]
+        costo: 0
+        esito:
+          titolo: Il registro dei favori
+          testo: |
+            Mauro ride tanto che il tavolo zoppo dondola sul suo tappo di
+            sughero. Ti spiega che il conto lo tiene Rozalia, e che Rozalia
+            non sconta niente a nessuno. Poi si china verso di te e abbassa la
+            voce, come se il tavolo potesse riferire. «Porta il vetraio, e io
+            le dico di tirare una riga dritta sul tuo nome» dice, e si batte
+            un dito sul naso, che è il suo modo di firmare.
+
+      - testo: "Ascoltare Mauro che ti ricorda Rozalia"
+        descrizione: "Avevi promesso a Rozalia Marga un resoconto, all'ora del mercato. Alla Pignatta se lo ricordano."
+        quando: [resoconto.scuri >= 1, pista.dama-argento >= 10]
+        costo: 0
+        esito:
+          titolo: L'ora del mercato
+          testo: |
+            «Rozalia ti ha aspettato all'ora del mercato» dice Mauro, con il
+            bicchiere a mezz'aria. «Due volte. La seconda volta ha comprato le
+            pere, per non perdere la mattina.» Beve. «Le pere erano buone. Il
+            resoconto no, perché non è mai arrivato.» Te lo dice sorridendo, e
+            tu senti la sedia diventare più dura.
+
+      - testo: "Chiedere alla figlia del vetraio che cosa sa"
+        descrizione: "Lei spazzava i cocci quando tu portavi i pacchi. Le ragazze di bottega sanno dove i padri nascondono le cose."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: La polvere verde
+          testo: |
+            La figlia ti riconosce, e ti chiede che cosa c'è nel pacco come
+            quando eravate ragazzi. Poi, mentre il padre è nel retro, ti
+            mostra la cassetta della polvere verde che lui fonde nel vetro, e
+            ti chiede di non fargli male. Al padre basta vedere la cassetta in
+            mano a te per pagare il primo mese. Uscendo lei ti dà un pezzo di
+            vetro verde, levigato come un sasso di fiume.
+          pe: { empatia: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+        fallimento:
+          titolo: Il pacco
+          testo: |
+            La figlia ti riconosce e si fa scura in faccia. Si ricorda dei
+            pacchi, e adesso sa anche per chi li portavi. Rientra nel retro e
+            chiude la porta, e il vetraio ti dice che oggi non c'è nessuno da
+            pagare. Torni al tavolo d'angolo con le mani vuote.
+
+      - testo: "Offrirgli di vendere i vetri ai Ponti"
+        descrizione: "Al Mercato dei Nodi una partita di lastre buone si vende in un pomeriggio, e il debito si paga con la differenza."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Il pomeriggio ai Ponti
+          testo: |
+            Proponi al vetraio di vendere metà della partita ai banchi dei
+            Ponti, dove le lastre valgono di più che alla Maison, e lui ti
+            affida un carretto e la figlia per tirarlo. In un pomeriggio vendi
+            tutto a un mercante che conosci. Con la differenza il vetraio paga
+            il primo mese, e Mauro conta le monete leccandosi il pollice.
+          pe: { politica-ed-economia: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+
+  # ------------------------------------------------------------ 1 · il conto del vetraio, dopo Vesh
+  - id: scuri-il-conto-del-vetraio-dopo
+    presso: macerie-della-pignatta
+    immagine: personaggi/gaia-acari
+    titolo: Il conto del vetraio
+    sommario: "Fra le macerie della Pignatta una ragazzina col cappuccio blu ti aspetta seduta sul bancone bruciato. Dice che chi è rimasto ha bisogno di una faccia nuova."
+    luogo: Le macerie della Pignatta, il bancone di quercia
+    area: citta-bassa
+    requisiti: [fazione.scuri == 0, pista.pelle >= 6]
+    testo: |
+      Gaia Acari è seduta sul bancone di quercia della Pignatta, l'unica cosa
+      che il fuoco non è riuscito a mangiarsi, con le gambe a penzoloni e il
+      cappuccio blu tirato giù fino al naso. Batte i talloni sul legno nero,
+      e a ogni colpo si alza un filo di cenere. Quando ti vede smette, e ti
+      fa segno di sederti accanto a lei come se il bancone fosse suo.
+
+      «Quelli che sono rimasti hanno bisogno di una faccia che le guardie
+      non conoscono» dice. «Il vetraio di Via del Salmone, quello dei vetri
+      per la Maison, non paga da quando qui è bruciato tutto. Secondo lui
+      gli Scuri sono morti con Mirko.» Fa una voce grossa e strascicata,
+      quella di Mauro, così uguale che ti volti a cercarlo. «Una gamba rotta
+      non lavora, e chi resta a casa dal banco i debiti non li paga.» Poi
+      ritorna la sua voce. «Era la regola di casa, e noi la teniamo.»
+
+      {intimidire Media} Ha detto *teniamo* guardando la strada, per
+      sentire come suona. Ha paura che sia una parola troppo grande per lei,
+      e la dice lo stesso.
+
+      Il vetraio ha una figlia apprendista e una partita di lastre pronta.
+      Gaia aggiunge che da qualche settimana in Via del Salmone bussano
+      anche certi uomini con le orecchie piene di anelli di rame, e quelli
+      la regola delle gambe non la conoscono.
+
+      {conoscenze-della-strada Media} Il vetraio pagherà chi arriva per
+      primo alla sua porta, e Gaia ha intenzione di arrivarci prima dei
+      mercenari.
+    opzioni:
+      - testo: "Guardare bene i vetri della partita"
+        descrizione: "Una partita di vetri per la Maison costa più di quanto un vetraio di Via del Salmone possa comprare."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Il verde nel vetro
+          testo: |
+            Alzi una lastra controluce e ci trovi dentro la vena verdina della
+            polvere di cristalli senza timbro. Gliela fai vedere, e il vetraio
+            capisce che chi sa del vetro sa anche dove lo compra. Paga il primo
+            mese a te, e ti chiede se quelli con gli anelli di rame torneranno.
+            Gaia, sulla soglia, gli dice di no con una sicurezza che non ha.
+          pe: { percezione: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+        fallimento:
+          titolo: Il vetro è vetro
+          testo: |
+            Alzi le lastre controluce una per una, e per te sono vetri e basta.
+            Il vetraio si accorge che non hai capito e ti spiega che con la
+            Pignatta è bruciato anche il suo debito. Gaia lo ascolta con la
+            testa piegata, poi ti tira per la manica fuori dalla bottega.
+            «Ripassiamo» dice, e sputa nel tombino.
+
+      - testo: "Proporgli di pagare a rate"
+        descrizione: "Un debito diviso in dodici è un debito che si paga, e un vetraio che paga voi non ha monete per gli altri."
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Prima degli altri
+          testo: |
+            Fate i conti sul banco con un pezzo di carbone, e viene fuori una
+            rata alla settimana con la prima da pagare subito. Gli fai notare che chi paga una rata agli Scuri ha
+            già un padrone, e i padroni nuovi bussano soltanto dove non ce n'è
+            uno. Il vetraio ci pensa, poi paga. Gaia conta le monete due volte
+            e te ne mette in mano la parte tua senza fare commenti.
+          pe: { persuasione: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+        fallimento:
+          titolo: Chi bussa più forte
+          testo: |
+            Proponi le rate, e il vetraio ti risponde che ci penserà. In Via
+            del Salmone vuol dire che pagherà chi bussa più forte. Gaia ti
+            guarda come si guarda un cane che riporta il bastone sbagliato.
+            Fuori ti dice che domani ci torni, e che stavolta bussi tu.
+
+      - testo: "Fargli paura"
+        descrizione: "Una lastra rotta davanti alla figlia, una sola. La regola di casa dice intero."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Facile }
+        successo:
+          titolo: Una lastra sola
+          testo: |
+            Lasci cadere una lastra sul pavimento senza nessuna fretta, e il
+            rumore riempie la bottega. Il vetraio paga il primo mese senza
+            contarlo. Fuori Gaia cammina in silenzio per un pezzo, poi ti dice
+            che Mirko avrebbe rotto la lastra più piccola. Costava meno, e
+            faceva lo stesso rumore.
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 8, sospetto: 0.5 }
+        fallimento:
+          titolo: La figlia
+          testo: |
+            Alzi una lastra, e la figlia del vetraio te la sfila di mano con le
+            dita piene di tagli vecchi. Il vetraio grida dalla porta, e due
+            vicini si affacciano. Gaia è già in fondo alla via, e dietro
+            l'angolo fa finta di non averti mai visto.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Pagare tu il suo debito"
+        descrizione: "Un debito saldato da un altro resta un debito saldato. A chi è rimasto interessa che il conto torni."
+        requisiti: [monete >= 20]
+        esito:
+          titolo: Chi paga
+          testo: |
+            Posi la borsa sul bancone bruciato e dici a Gaia che il vetraio ha
+            pagato. Lei la soppesa, poi ti guarda di sotto il cappuccio. «Così
+            non funziona» dice. «Se paghi tu, domani lui non paga nessuno.»
+            Però la borsa la tiene, e ti restituisce qualche moneta, la tua
+            parte, contata con molta cura.
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: -12 }
+
+      - testo: "Chiedere se il lavoro sconta il debito della prigione"
+        descrizione: "Gli Scuri ti hanno tirato fuori da una cella, e il tuo nome era nel registro dei favori di Rozalia."
+        quando: [debito.scuri >= 1]
+        costo: 0
+        esito:
+          titolo: Il registro bruciato
+          testo: |
+            Gaia ci pensa battendo i talloni sul bancone. «Il registro dei
+            favori è bruciato insieme al retrobottega, però il tuo nome me lo
+            ricordo io» dice, e ti guarda di traverso da sotto il cappuccio.
+            «Porta il vetraio, e vedrai che me lo dimentico.»
+
+      - testo: "Chiedere alla figlia del vetraio che cosa sa"
+        descrizione: "Lei spazzava i cocci quando tu portavi i pacchi per Via del Salmone."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: La polvere verde
+          testo: |
+            La figlia ti riconosce, e ti dice che quelli con gli anelli di rame
+            sono già passati una volta e hanno preso una lastra senza pagarla.
+            Ti mostra la cassetta della polvere verde e ti chiede di tenerli
+            lontani. Il padre, quando capisce che lo proteggerai, paga il primo
+            mese. Gaia ti guarda come si guarda un attrezzo che funziona meglio
+            del previsto.
+          pe: { empatia: 5 }
+          imposta: { debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: 8 }
+        fallimento:
+          titolo: Il pacco
+          testo: |
+            La figlia ti riconosce e si fa scura in faccia, perché adesso sa
+            per chi portavi i pacchi. Chiude la porta del retro, e il vetraio
+            ti dice che oggi non c'è nessuno da pagare. Gaia ti aspetta fuori,
+            seduta su un paracarro, e non ti chiede com'è andata.
+
+  # ------------------------------------------------------------ 2 · la spalla del baro, prima di Vesh
+  - id: scuri-la-spalla-del-baro
+    presso: orlo-dei-rottami
+    immagine: personaggi/nihali-cuzan
+    titolo: La spalla del baro
+    sommario: "Alla cisterna rovesciata dell'Orlo un ispettore della Gilda vince troppo, sempre al tavolo di Nihali Cuzan."
+    luogo: Orlo dei Rottami, la cisterna rovesciata, di notte
+    area: citta-bassa
+    requisiti: [fazione.scuri == 1, pista.pelle < 4]
+    testo: |
+      Mauro ti ha mandato all'Orlo con un biglietto piegato in quattro, e
+      alla cisterna rovesciata dei Precursori il biglietto lo legge Nihali
+      Cuzan, seduto sulla sua cassa di ferro inchiodata al pavimento. Lo
+      legge due volte, tossisce nel fazzoletto ricamato e lo ripiega dal
+      lato pulito. Ha le mani più curate di tutta la Città Bassa, e le tiene
+      sempre in vista sul tavolo.
+
+      Al suo tavolo, da tre sere, siede un ispettore della Gilda con la
+      giubba sbottonata e il distintivo dei Custodi infilato in tasca. Vince
+      quasi sempre, e alla bisca la cosa non piace a nessuno. «Mi serve una
+      spalla» dice Nihali a voce bassa. «Uno che perde quando serve, e che
+      intanto guarda le mani giuste. Le mie le guardano già tutti.»
+
+      {ingannare Media} L'ispettore ride troppo quando vince, e troppo poco
+      quando perde. Ha bisogno che la bisca lo veda vincere.
+
+      {medicina Facile} Il fazzoletto, ripiegato, ha una macchia nera che
+      passa da un lato all'altro. Nihali sputa più di quanto respira.
+
+      {origine apprendista-raschiatore} Sul retro della cisterna c'è una
+      fessura all'altezza del ginocchio, dove la lamiera si è aperta quando
+      l'hanno rovesciata. Da ragazzino ci passavi per rubare le candele.
+    opzioni:
+      - testo: "Sederti al tavolo e perdere al momento giusto"
+        descrizione: "Perdere sempre è sospetto, e vincere è peggio. Bisogna perdere la mano che conta, e farlo sembrare sfortuna."
+        quando: [colpo.bisca == 0]
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Media }
+        successo:
+          titolo: La mano che conta
+          testo: |
+            Perdi tre mani piccole sbuffando, e quando l'ispettore alza la
+            posta cali una carta sbagliata con l'aria offesa del perdente
+            nato. Lui ride e si rilassa, e alla mano dopo guarda te invece di
+            Nihali. Serviva soltanto questo. A fine serata l'ispettore se ne va
+            più leggero di quando è arrivato, convinto di avere avuto
+            sfortuna, e Nihali ti allunga una regina di picche con l'angolo
+            piegato perché tu la porti a Rozalia.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 10 }
+        fallimento:
+          titolo: La mano sbagliata
+          testo: |
+            Perdi le mani piccole come d'accordo, e poi per distrazione vinci
+            quella grossa. L'ispettore si alza, ti guarda come si guarda un
+            baro, e se ne va senza finire il bicchiere. Nihali raccoglie le
+            carte con le sue mani pulite e ti dice di tornare quando avrai
+            imparato a perdere.
+
+            {ingannare Media fallita} Ti eri preparato tutto, tranne la
+            possibilità di avere una mano buona davvero.
+
+      - testo: "Guardare le mani dell'ispettore"
+        descrizione: "Chi vince tre sere di fila contro Nihali ha un aiuto. Bisogna trovarlo senza farsi notare."
+        quando: [colpo.bisca == 0]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Difficile }
+        successo:
+          titolo: La cera della Gilda
+          testo: |
+            Ti siedi alle spalle dell'ispettore con un boccale in mano, e alla
+            quarta mano vedi il suo pollice passare sull'angolo di una carta
+            prima di girarla. Sugli angoli c'è un velo di cera rossa, la stessa
+            dei sigilli della Gilda, che al tatto si sente e alla luce gialla
+            della bisca non si vede. Lo dici a Nihali a fine serata, e lui
+            sorride per la prima volta. Ti dà una regina di picche con l'angolo
+            piegato, da portare a Rozalia.
+          pe: { percezione: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 10, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Lo sguardo
+          testo: |
+            Ti siedi alle spalle dell'ispettore e lo guardi giocare così a lungo
+            che alla fine lui si volta. Ti chiede se vuoi una sedia o un
+            ritratto. Mezza bisca ride, e Nihali smette di guardarti. Per
+            stasera la spalla la fa qualcun altro.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Passare la serata a servire da bere"
+        descrizione: "Chi porta i boccali ai tavoli sente tutto e non lo guarda nessuno. È lavoro lungo, e paga poco."
+        quando: [colpo.bisca == 0]
+        costo: 2
+        esito:
+          titolo: I boccali
+          testo: |
+            Fai avanti e indietro con i boccali per tutta la notte, finché le
+            braccia non ti fanno male fino alle spalle. Al tavolo di Nihali
+            l'ispettore beve molto, e a ogni giro ordina da bere anche per due
+            uomini seduti in fondo, che non giocano. Lo racconti a Nihali
+            all'alba. Lui guarda i due uomini andarsene e ti dà una regina di
+            picche con l'angolo piegato, da portare a Rozalia.
+          pe: { resistenza: 3 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 4 }
+
+      - testo: "Convincere Nihali che quella notte non c'eri"
+        descrizione: "Nihali ti guarda come si guarda una carta già vista. La notte in cui hai svuotato la sua cassa con Galdrick se la ricorda bene."
+        quando: [colpo.bisca >= 1]
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Una faccia somigliante
+          testo: |
+            Gli racconti che quella notte eri a Laresh, e gli dici il nome
+            della locanda e il prezzo della zuppa. Nihali ti ascolta mescolando
+            le carte. Alla fine ti dice che hai una faccia molto somigliante,
+            e che a lui le facce somiglianti portano sfortuna. Poi ti mette al
+            tavolo lo stesso, perché la sfortuna degli altri è il suo mestiere.
+            A fine serata ti dà una regina di picche con l'angolo piegato.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 10 }
+        fallimento:
+          titolo: Il conto della cassa
+          testo: |
+            Gli racconti di Laresh e della zuppa, e Nihali ti lascia finire.
+            Poi ti elenca moneta per moneta quello che mancava nella cassa
+            quella notte, e ti dice che il conto adesso è tuo. Paghi una parte,
+            e lui ti mette al tavolo a perdere per lui finché non gli sembra
+            pari. All'alba ti dà la regina di picche, e le monete restano sue.
+          effetti: { fazione.scuri: 1, rep.scuri: -0.5, monete: -10 }
+
+      - testo: "Pagare la cassa della bisca e chiedere scusa"
+        descrizione: "Quella notte con Galdrick hai preso quello che c'era. Restituirlo è il modo più rapido per sedersi di nuovo al suo tavolo."
+        quando: [colpo.bisca >= 1]
+        requisiti: [monete >= 25]
+        esito:
+          titolo: Le monete sul tavolo
+          testo: |
+            Posi sul tavolo di Nihali le monete già contate in pile. Lui le
+            guarda senza toccarle, poi le fa scivolare nel cassetto con il
+            dorso della mano. «Le scuse non le prendo» dice. «Queste sì.» Per
+            il resto della notte fai da spalla al suo tavolo, e all'alba ti dà
+            una regina di picche con l'angolo piegato, per Rozalia.
+          effetti: { fazione.scuri: 1, monete: -25 }
+
+      - testo: "Guardare il tavolo dalla fessura sul retro"
+        descrizione: "Dalla fessura nella lamiera si vedono le mani dei giocatori da sotto il tavolo, dove nessuno pensa di nasconderle."
+        quando: [origine.apprendista-raschiatore >= 1, colpo.bisca == 0]
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Facile }
+        successo:
+          titolo: Sotto il tavolo
+          testo: |
+            Ti infili nella fessura come da ragazzino, con la differenza che
+            adesso ci passi a fatica. Da lì vedi le mani dell'ispettore sotto il
+            tavolo, e il suo pollice che liscia l'angolo delle carte dove c'è un
+            velo di cera rossa, quella dei sigilli della Gilda. Lo dici a Nihali
+            all'alba. Lui sorride, e ti dà una regina di picche con l'angolo
+            piegato, da portare a Rozalia.
+          pe: { furtivita: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 10, informazioni.segreto: 1 }
+        fallimento:
+          titolo: La lamiera
+          testo: |
+            La fessura è più stretta di come la ricordavi, o tu sei più largo.
+            Resti incastrato per le spalle con mezzo corpo dentro la cisterna,
+            e a liberarti viene un ragazzino dell'Orlo che ride così forte da
+            farsi sentire fino ai tavoli. Nihali ti guarda passare con le mani
+            sbucciate e non dice niente.
+
+  # ------------------------------------------------------------ 2 · la spalla del baro, dopo Vesh
+  - id: scuri-la-spalla-del-baro-dopo
+    presso: orlo-dei-rottami
+    immagine: ambientazione/orlo-dei-rottami
+    titolo: I gettoni d'argilla
+    sommario: "La bisca della cisterna rovesciata ha nuovi padroni. Si gioca ancora, e chi perde paga con gettoni d'argilla."
+    luogo: Orlo dei Rottami, la cisterna rovesciata, di notte
+    area: citta-bassa
+    requisiti: [fazione.scuri == 1, pista.pelle >= 6]
+    testo: |
+      La cassa di ferro inchiodata al pavimento della cisterna c'è ancora,
+      ma sopra non siede più Nihali Cuzan. Ci siede un mercenario di Ghoran
+      con la faccia cotta dal sole e le orecchie piene di anelli di rame,
+      che si pulisce le unghie con la punta di un coltello da caccia. I
+      tavoli sono gli stessi, e la luce gialla anche. Sui tavoli però, al
+      posto delle monete, ci sono pile di gettoni d'argilla con un segno
+      inciso, e chi perde paga con quelli.
+
+      {politica-ed-economia Media} Un gettone vale finché qualcuno lo fa
+      valere. Qui lo fanno valere quelli con la lancia, e domani quelli con
+      la lancia verranno a riscuoterlo in moneta vera.
+
+      Gaia ti ha accompagnato fin sulla soglia e si è fermata dove la luce
+      non arriva. «Prima era di Nihali» dice. «Adesso è di quelli che la
+      Caserma ha portato da Ghoran e poi si è scordata di pagare.» Fra un
+      tavolo e l'altro senti un nome, sempre lo stesso, detto a mezza voce
+      come quello di uno che potrebbe entrare da un momento all'altro.
+      Durgan.
+
+      {origine fuggiasco-di-ghoran} Il segno sui gettoni lo conosci, o ne
+      conosci di simili. A Ghoran ogni clan ha il suo, e chi non sa leggere
+      firma con quello. Ti si stringe lo stomaco come quando passavi
+      davanti alla bilancia del mercato.
+    opzioni:
+      - testo: "Giocare e contare le carte"
+        descrizione: "I mercenari giocano forte e contano male. Chi tiene il conto delle carte uscite si porta a casa una pila di gettoni."
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: La pila
+          testo: |
+            Giochi fino a tardi tenendo a mente le carte uscite, e alla fine
+            davanti a te c'è una pila di gettoni d'argilla alta un palmo. Il
+            mercante della cassa li cambia in monete brontolando, e uno te ne
+            lascia, perché lo porti a chi deve vederlo. Fuori Gaia lo rigira
+            fra le dita e smette di parlare.
+          pe: { percezione: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 10 }
+        fallimento:
+          titolo: I gettoni degli altri
+          testo: |
+            Perdi tutto quello che avevi cambiato, e il mercenario della cassa
+            ti dà un gettone d'argilla al posto del resto. «Il clan paga quando
+            torna» dice, e gli altri ridono. Gaia ti aspetta fuori e ti chiede
+            quanto. Glielo dici, e lei fa una smorfia che le arriccia tutte le
+            lentiggini.
+          effetti: { monete: -5 }
+
+      - testo: "Capire chi conia i gettoni"
+        descrizione: "Un gettone d'argilla è facile da fare. Il segno inciso, invece, lo incide sempre la stessa mano."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, accademiche], difficolta: Media }
+        successo:
+          titolo: La mano che incide
+          testo: |
+            Ti fai dare un gettone in cambio di una moneta e lo guardi alla
+            luce della lanterna. Il segno è una mano aperta con tre dita, e il
+            solco è più profondo a sinistra, come lo fa chi incide con la
+            destra e preme troppo. Su tutti i gettoni della bisca il solco è lo
+            stesso. «Li fa uno solo» dici a Gaia, e lei ripete il nome che si
+            sente fra i tavoli.
+          pe: { politica-ed-economia: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 6, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Tutti uguali
+          testo: |
+            Confronti i gettoni alla luce della lanterna finché non ti si
+            incrociano gli occhi, e ti sembrano tutti uguali. Un mercenario ti
+            chiede se li vuoi comprare o sposare. Gaia ti porta via per la
+            manica prima che la domanda diventi un'offerta.
+
+      - testo: "Offrire da bere al tavolo dei mercenari"
+        descrizione: "Chi non vede la paga da settimane beve volentieri a spese d'altri, e quando beve parla del capo."
+        requisiti: [monete >= 6]
+        esito:
+          titolo: Il nano
+          testo: |
+            Paghi un giro e poi un altro ancora, e al terzo i mercenari ti parlano di
+            Durgan. È un nano con la faccia piena di cicatrici, e sedeva al
+            tavolo di Mauro prima del fuoco. Adesso è l'unico che a fine mese
+            trova da pagarli. Uno ti regala un gettone d'argilla, perché sei
+            stato gentile. Gaia, quando glielo mostri, smette di parlare.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: -6 }
+
+      - testo: "Riconoscere il segno del clan"
+        descrizione: "A Ghoran ogni clan firma con il suo segno, e questo l'hai già visto sui carri della bilancia."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, intimidire], difficolta: Facile }
+        successo:
+          titolo: La mano con tre dita
+          testo: |
+            La mano aperta con tre dita è il segno di un clan che a Ghoran
+            comprava e rivendeva, e lo vedevi sui carri coperti. Lo dici al
+            mercenario della cassa nella lingua dei clan, e lui smette di
+            pulirsi le unghie. Ti cambia i gettoni in monete senza discutere e
+            te ne lascia uno, perché lo porti a chi deve vederlo.
+          pe: { conoscenze-della-strada: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, monete: 6, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La lingua dei clan
+          testo: |
+            Parli al mercenario nella lingua dei clan, e lui ti risponde con
+            una frase che non capisci, in un dialetto più a sud del tuo. Ride.
+            Ti senti di nuovo piccolo come in un recinto, e te ne vai prima che lui
+            ti chieda da quale clan sei scappato.
+
+  # ------------------------------------------------------------ 3 · firme, prima di Vesh
+  - id: scuri-firme
+    presso: pignatta-grassa
+    immagine: personaggi/rozalia-marga
+    titolo: Firme
+    sommario: "Nel retrobottega della Pignatta Rozalia Marga guarda l'angolo piegato della tua carta e decide che puoi portare una lettera."
+    luogo: Pignatta Grassa, il retrobottega
+    area: citta-bassa
+    requisiti: [fazione.scuri == 2, pista.pelle < 4]
+    testo: |
+      Il retrobottega della Pignatta è più ordinato della bottega di un
+      notaio. Sugli scaffali le cartelle di cuoio stanno in fila per famiglia
+      e per mestiere, e su ogni cartella c'è un'etichetta scritta nella
+      stessa grafia diritta. Rozalia Marga lavora a un tavolo sotto la sola
+      finestra, con la piuma d'oca dietro l'orecchio e l'inchiostro fino alla
+      seconda falange. Prende la regina di picche che ti ha dato Nihali e ne
+      guarda l'angolo piegato, poi la infila in una cartella senza commenti.
+
+      «Per la precisione, tesoro, Nihali non regala carte a nessuno» dice, e
+      batte due volte la penna sull'orlo del calamaio. Dal tavolo prende un
+      foglio con il sigillo della Gilda, una licenza per i carichi notturni
+      sui Ponti, e ci soffia sopra. «Questa va a Cosimo Venn, alla Casa dei
+      Nodi. Da sei anni compra i suoi permessi da me, e da sei anni prova a
+      pagarli meno. Tu porti la licenza e riporti la cifra intera.»
+
+      {accademiche Media} Il sigillo è perfetto, e la firma sotto anche. Il
+      funzionario che l'ha firmata, se esiste, la riconoscerebbe come sua e
+      si chiederebbe quando l'ha scritta.
+
+      {politica-ed-economia Facile} Un ispettore della Casa dei Nodi che
+      compra licenze dagli Scuri ha bisogno di licenze che la Casa dei Nodi
+      non gli darebbe. Ti chiedi per chi le compra.
+
+      {origine rampollo-dei-quartieri-alti} Una delle cartelle porta il
+      nome di un Casato che a casa tua si invitava a cena. L'etichetta è
+      scritta con la stessa calma delle altre.
+
+      In fondo alla licenza manca una firma, quella del collaudo. Rozalia
+      te la indica con la punta della piuma. *Vuole vedere che mano ho.* Le
+      tue dita, sul bordo del tavolo, si sono già messe a tamburellare.
+    opzioni:
+      - testo: "Prendere la licenza così com'è"
+        descrizione: "La firma del collaudo la mette Venn, che è il suo mestiere. Tu sei il corriere."
+        esito:
+          titolo: La busta
+          testo: |
+            Rozalia piega la licenza in tre, la chiude in una busta e ci passa
+            sopra il dorso dell'unghia per segnare la piega. «La firma la
+            mette lui, che per una volta lavora» dice. Ti accompagna alla
+            porta del vicolo e ti ripete la cifra due volte, la seconda più
+            piano.
+          segue: scuri-firme-venn
+
+      - testo: "Firmare tu la riga del collaudo"
+        descrizione: "Rozalia ha lasciato una riga vuota apposta. Accanto c'è la firma dello stesso funzionario su un'altra carta, da copiare."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La mano ferma
+          testo: |
+            Copi la firma tenendo la penna più in alto di come la tieni di
+            solito, perché quel funzionario scrive così, e chiudi l'ultima
+            lettera con lo stesso ricciolo stanco. Rozalia avvicina il foglio
+            alla finestra, poi guarda te. «Tesoro, hai la mano di un
+            impiegato del catasto» dice, e da lei è un complimento. Chiude la
+            licenza in una busta e ti ripete la cifra due volte.
+          pe: { accademiche: 5 }
+          segue: scuri-firme-venn
+        fallimento:
+          titolo: Il ricciolo
+          testo: |
+            Copi la firma con cura, e alla fine il ricciolo ti viene grasso
+            come quello di un bambino che impara le lettere. Rozalia gratta via
+            l'inchiostro con il coltellino prima che si asciughi e rifà la
+            firma lei, senza guardare il modello. «Un'altra volta» dice, e ti
+            consegna la busta con la cifra ripetuta due volte.
+
+            {accademiche Media fallita} La firma ti sembrava facile perché
+            l'avevi guardata al contrario.
+          segue: scuri-firme-venn
+
+      - testo: "Chiederle chi è Cosimo Venn"
+        descrizione: "Un ispettore della Casa dei Nodi che compra permessi falsi da sei anni. Rozalia sa sempre un po' di più di quello che dice."
+        costo: 0
+        esito:
+          titolo: La cartella della Gilda
+          testo: |
+            Rozalia apre una cartella più spessa delle altre, con l'etichetta
+            *Gilda*. Dentro ci sono decine di nomi, e accanto a ogni nome una
+            colonna di date. Ti lascia guardare il tempo di contare le
+            pagine, poi la richiude. Ti spiega che Venn è un ispettore dei
+            lotti con gli stivali sempre puliti, e che gli altri della
+            cartella stanno più in alto. «A quelli, tesoro, gli stivali li
+            puliscono altri» dice.
+
+      - testo: "Sfogliare la cassetta delle firme di famiglia"
+        descrizione: "Sul tavolo c'è una cassetta di ferro con le firme dei Casati, divise per nome. Una delle cartelle ti riguarda."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: La firma di tuo padre
+          testo: |
+            Mentre Rozalia sigilla la licenza apri la cartella con il nome
+            della tua famiglia. C'è la firma di tuo padre ricopiata venti
+            volte, ogni volta un po' meglio, finché l'ultima è più sua della
+            sua. Rozalia ti vede e non ti ferma. «Firma bene, tuo padre»
+            dice. «Con le maiuscole si vede che ha studiato.» Poi ti mette in
+            mano la busta per Venn e ti ripete la cifra due volte.
+          segue: scuri-firme-venn
+
+  # ------------------------------------------------------------ 3 · firme, dopo Vesh, con Rozalia libera
+  - id: scuri-firme-dopo
+    immagine: personaggi/rozalia-marga
+    titolo: Firme
+    sommario: "Gaia ti porta in una cantina di Via del Salmone, dove Rozalia Marga tiene la cassetta delle firme lontano dal fuoco e dalla Guardia."
+    luogo: Città Bassa, una cantina di Via del Salmone
+    area: citta-bassa
+    requisiti: [fazione.scuri == 2, pista.pelle >= 6, macerie.rozalia != 2]
+    testo: |
+      La cantina sta sotto una rivendita di sale, e ci si scende da una
+      botola dietro il banco. Gaia ti ci accompagna con il gettone d'argilla
+      in tasca, che ogni tanto tocca per controllare che ci sia. In fondo,
+      su un tavolo fatto con due botti e una porta, c'è la cassetta di
+      ferro annerita dal fuoco della Pignatta, e accanto la lanterna cieca
+      di Rozalia Marga.
+
+      Rozalia guarda il gettone che Gaia le porge, lo gira due volte fra le
+      dita macchiate d'inchiostro e lo fa sparire in una tasca. «Di giorno
+      scrivo lettere per le lavandaie, tesoro. La notte, per la precisione,
+      scrivo ancora per chi paga meglio» dice. Dalla cassetta tira fuori un
+      foglio con il sigillo della Gilda, una licenza per i carichi notturni
+      sui Ponti. «Cosimo Venn, alla Casa dei Nodi. Da sei anni compra i suoi
+      permessi da me, e il fuoco non gli ha fatto passare la voglia.»
+
+      {galateo Media} Ha detto *tesoro* a te e non a Gaia. Gaia se n'è
+      accorta, e guarda il soffitto.
+
+      {politica-ed-economia Media} Mirko è morto e la Pignatta è cenere, e
+      i permessi falsi si vendono lo stesso. Alla Casa dei Nodi la domanda
+      è rimasta uguale, ed è cambiato soltanto chi la soddisfa.
+
+      In fondo alla licenza manca una firma, quella del collaudo. Rozalia
+      te la indica con la punta della piuma, e intanto si pulisce l'altra
+      mano sulla gonna.
+    opzioni:
+      - testo: "Prendere la licenza così com'è"
+        descrizione: "La firma del collaudo la mette Venn. Tu sei il corriere."
+        esito:
+          titolo: La busta
+          testo: |
+            Rozalia piega la licenza in tre e passa il dorso dell'unghia sulla
+            piega. Ti ripete la cifra due volte, la seconda guardando Gaia.
+            Quando risali dalla botola il venditore di sale sta pesando una
+            manciata di sale grosso per una vecchia, e non alza gli occhi.
+          imposta: { macerie.rozalia: 3 }
+          segue: scuri-firme-venn
+
+      - testo: "Firmare tu la riga del collaudo"
+        descrizione: "Rozalia ha lasciato la riga vuota apposta. Accanto, su un'altra carta, c'è la firma da copiare."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La mano ferma
+          testo: |
+            Copi la firma tenendo la penna alta, come la tiene quel funzionario,
+            e chiudi l'ultima lettera con il suo ricciolo stanco. Rozalia
+            avvicina il foglio alla lanterna e poi guarda te più a lungo del
+            foglio. «Tesoro, con una mano così ti apro un tavolo» dice, e
+            chiude la licenza in una busta.
+          pe: { accademiche: 5 }
+          imposta: { macerie.rozalia: 3 }
+          segue: scuri-firme-venn
+        fallimento:
+          titolo: Il ricciolo
+          testo: |
+            Il ricciolo ti viene grasso come quello di uno scolaro. Rozalia
+            gratta via l'inchiostro con il coltellino e rifà la firma lei,
+            senza guardare il modello, mentre Gaia ridacchia nel cappuccio.
+            Poi ti consegna la busta con la cifra ripetuta due volte.
+          imposta: { macerie.rozalia: 3 }
+          segue: scuri-firme-venn
+
+      - testo: "Chiederle chi è Cosimo Venn"
+        descrizione: "Un ispettore dei lotti che compra permessi falsi da sei anni, e che il fuoco non ha spaventato."
+        costo: 0
+        esito:
+          titolo: La cartella della Gilda
+          testo: |
+            Rozalia apre la cassetta e ti fa vedere un fascio di fogli legato
+            da uno spago, sull'etichetta c'è scritto *Gilda*. Dentro ci sono
+            decine di nomi, ognuno con una colonna di date. Ti spiega che Venn
+            è un ispettore dei lotti con gli stivali sempre puliti, e che gli
+            altri del fascio stanno più in alto. «Adesso che Mirko non paga
+            più, tesoro, qualcuno li sta comprando» dice.
+
+  # ------------------------------------------------------------ 3 · firme, dopo Vesh, con Rozalia in cella
+  - id: scuri-firme-dalla-cella
+    presso: guarnigione-di-qir-azel
+    immagine: personaggi/rozalia-marga
+    titolo: Firme
+    sommario: "Rozalia Marga è in una cella della Caserma, e una licenza falsa si può fare anche attraverso una grata."
+    luogo: Guarnigione di Qir-Azel, le celle del piano interrato
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 2, pista.pelle >= 6, macerie.rozalia == 2]
+    testo: |
+      Gaia ti ha detto quale guardia lascia passare chi porta una pagnotta,
+      e la guardia si è presa la pagnotta e ti ha lasciato passare. Le celle
+      del piano interrato sono umide, e ogni tanto da una grata in alto cade
+      una goccia d'acqua sempre nello stesso punto. Rozalia Marga ha messo
+      sotto la goccia il piatto del rancio, e la conta.
+
+      «In cella mi hai portata tu, e adesso vieni a chiedermi lavoro» dice
+      senza voltarsi. «Per la precisione è la cosa più divertente che
+      mi sia successa da quando sono entrata.» Si avvicina alla grata. La
+      piuma gliel'hanno tolta, e dietro l'orecchio si è infilata uno stecco
+      di paglia. «Cosimo Venn, alla Casa dei Nodi, compra da me da sei anni,
+      e vuole una licenza per i carichi notturni. Io qui dentro sono senza
+      carta, e tu fuori sei senza mano. Vediamo chi dei due la fa, tesoro.»
+
+      {empatia Media} Ride, e intanto si stringe le braccia intorno ai
+      fianchi per il freddo. Il lavoro le serve per sentirsi ancora Rozalia.
+
+      {furtivita Facile} La guardia in cima alle scale si è seduta, e ha
+      girato lo sgabello verso il cortile. Per una pagnotta, gira lo
+      sgabello.
+    opzioni:
+      - testo: "Copiare la firma seguendo la sua voce"
+        descrizione: "Rozalia ti detta la firma un tratto alla volta, attraverso la grata. Tu scrivi sul ginocchio."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Un tratto alla volta
+          testo: |
+            Rozalia ti detta la firma tratto per tratto, con la fronte contro
+            le sbarre e gli occhi chiusi, e tu la copi sul ginocchio con la
+            penna che hai portato. Quando hai finito la guarda alla luce
+            della grata e resta zitta a lungo. Alla fine ti dice di piegarla in
+            tre e di passare l'unghia sulla piega.
+          pe: { accademiche: 5 }
+          segue: scuri-firme-venn
+        fallimento:
+          titolo: L'inchiostro sul ginocchio
+          testo: |
+            Rozalia ti detta la firma tratto per tratto, e al terzo tratto la
+            goccia della grata cade sul foglio. L'inchiostro si allarga come un
+            fiore. Rozalia guarda il foglio e poi guarda te, e torna a contare
+            le gocce nel piatto dicendoti di ripassare domani.
+
+      - testo: "Farle passare carta e inchiostro sotto la porta"
+        descrizione: "La guardia ha girato lo sgabello. Un foglio e una boccetta passano sotto la porta, se non fanno rumore."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: La sua mano
+          testo: |
+            Fai scivolare il foglio e la boccetta sotto la porta della cella,
+            e Rozalia li prende con due dita come una cosa che le appartiene.
+            Scrive in ginocchio sulla panca, con lo stecco di paglia intinto
+            nell'inchiostro, e la firma le viene perfetta lo stesso. Ti
+            restituisce la licenza piegata in tre e la boccetta vuota.
+          pe: { furtivita: 5 }
+          segue: scuri-firme-venn
+        fallimento:
+          titolo: La boccetta
+          testo: |
+            La boccetta ti scivola dalle dita e rotola sul pavimento di pietra
+            con un rumore che sale su per le scale. La guardia si gira con lo
+            sgabello e ti chiede che cosa fai. Te ne vai con la scusa della
+            pagnotta, e Rozalia, dietro la grata, si rimette a contare le
+            gocce.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Pagare un copista del Municipio"
+        descrizione: "Al Municipio c'è sempre un copista che arrotonda la paga. Rozalia ti dice quale, e quanto chiede."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: Il copista
+          testo: |
+            Rozalia ti dà il nome di un copista del Municipio, e ti dice anche
+            come si chiama sua moglie, perché è con lei che si tratta. La
+            licenza è pronta prima di sera, con una firma un po' troppo
+            pulita. Quando gliela mostri attraverso la grata Rozalia sospira e
+            ti dice che Venn non se ne accorgerà, e che lei se ne accorge
+            benissimo.
+          effetti: { monete: -15 }
+          segue: scuri-firme-venn
+
+  # ------------------------------------------------------------ 3 · il seguito, alla Casa dei Nodi (grado 1)
+  - id: scuri-firme-venn
+    immagine: personaggi/rozalia-marga
+    titolo: Cosimo Venn
+    tipo: seguito
+    luogo: Casa dei Nodi, la sala degli ispettori dei lotti
+    area: quartieri-alti
+    requisiti: [fazione.scuri == 2]
+    testo: |
+      Alla Casa dei Nodi gli ispettori dei lotti lavorano in una sala lunga
+      al primo piano, con gli scrittoi in fila e una finestra ogni due. Cosimo
+      Venn ha lo scrittoio in fondo, il più vicino alla finestra. È un uomo
+      magro con le maniche protette da due manicotti di tela e gli stivali
+      puliti, e mastica menta. Quando vede la busta la copre con il libro dei
+      lotti prima ancora che tu l'abbia posata.
+
+      Apre la licenza sotto il libro, la legge con un dito e arrossisce
+      fino alle orecchie, perché è proprio quella che voleva. Poi apre un
+      cassetto e comincia a contare le monete in pile da cinque. Le pile sono
+      meno di quelle che ti ha detto Rozalia, e lui lo sa. «I tempi sono
+      quelli che sono» dice, «e i carichi di notte rendono meno.»
+
+      {ingannare Media} I carichi di notte rendono come sempre. Ha provato
+      lo stesso discorso con Rozalia per sei anni, e lo prova con te perché
+      sei nuovo.
+
+      {percezione Media} Nel cassetto, sotto le monete, c'è un quaderno con
+      la copertina nera. Venn lo apre ogni volta che paga qualcuno, e ci
+      scrive una riga tirando fuori la lingua all'angolo della bocca.
+
+      Allo scrittoio accanto un ispettore più vecchio dorme seduto, con la
+      testa appoggiata a un registro aperto, e la sua penna ha macchiato una
+      pagina intera di puntini. *Quanto in alto arrivano, gli Scuri?* La mano
+      ti va da sola alla busta vuota nella tasca.
+    opzioni:
+      - testo: "Pretendere la cifra intera"
+        descrizione: "Rozalia ti ha ripetuto la cifra due volte. Una licenza che nessun altro gli darebbe si paga intera."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Le pile da cinque
+          testo: |
+            Gli dici a voce bassa che le licenze per i carichi notturni le
+            fa una persona sola in città, e che quella persona ha una memoria
+            eccellente. Venn conta altre due pile senza alzare gli occhi. La
+            sera Rozalia pesa la borsa sul palmo e ti scrive nel suo registro,
+            e da quel momento sei una faccia nuova degli Scuri. Con la tua
+            parte ti dà uno stiletto da manica già cucito nel fodero.
+          pe: { persuasione: 5 }
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, monete: 35, oggetto.scuri-stiletto-da-manica: 1 }
+        fallimento:
+          titolo: I tempi
+          testo: |
+            Provi a dirgli che la cifra è quella, e Venn ti spiega i tempi con
+            tanta pazienza che alla fine ti sembrano duri anche a te. Prendi
+            le pile che ti dà. La sera Rozalia pesa la borsa con un sospiro, e
+            ti scrive lo stesso nel suo registro. Con una parte più piccola ti
+            dà uno stiletto da manica già cucito nel fodero.
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, monete: 20, oggetto.scuri-stiletto-da-manica: 1 }
+
+      - testo: "Copiare il quaderno nero mentre conta"
+        descrizione: "Venn scrive una riga nel quaderno a ogni pagamento. Mentre conta le pile da cinque, il quaderno resta aperto nel cassetto."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il quaderno nero
+          testo: |
+            Mentre Venn conta ti sporgi sul cassetto come per controllare le
+            pile, e leggi le ultime pagine del quaderno nero. Sono nomi di
+            funzionari della Gilda, ognuno con le sue date e le sue cifre. Le
+            ricopi la sera a memoria, prima che svaniscano. Rozalia guarda la
+            tua copia più a lungo della borsa, e ti scrive nel suo registro.
+            Con la tua parte ti dà uno stiletto da manica.
+
+            {politica-ed-economia Media} I permessi falsi a Venn servono per
+            pagare altri, e il quaderno nero dice chi.
+          pe: { furtivita: 5 }
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0, scuri.venn: 1 }
+          effetti: { fazione.scuri: 1, monete: 25, oggetto.scuri-stiletto-da-manica: 1 }
+        fallimento:
+          titolo: La lingua
+          testo: |
+            Ti sporgi sul cassetto, e Venn lo chiude con il ginocchio senza
+            smettere di contare. Ti guarda con la lingua ancora all'angolo
+            della bocca, e il rossore gli sale fino alle orecchie. Quella
+            sera alla Casa dei Nodi qualcuno chiede il tuo nome al portiere.
+            Rozalia pesa la borsa e ti scrive lo stesso nel registro, con
+            uno stiletto da manica e la tua parte.
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, monete: 25, sospetto: 1, oggetto.scuri-stiletto-da-manica: 1 }
+
+      - testo: "Prendere quello che dà e andartene"
+        descrizione: "Una borsa leggera è sempre una borsa. Rozalia farà i suoi conti, e tu avrai fatto il tuo lavoro."
+        esito:
+          titolo: La borsa leggera
+          testo: |
+            Prendi le pile senza contarle e le infili nella borsa. Venn ti
+            saluta con un cenno, sollevato. La sera Rozalia pesa la borsa sul
+            palmo, la soppesa una seconda volta e ti scrive nel suo registro
+            con un tratto più corto del solito. Con una parte piccola ti dà
+            uno stiletto da manica già cucito nel fodero.
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, monete: 20, oggetto.scuri-stiletto-da-manica: 1 }
+
+      - testo: "Parlargli nella lingua dei banchi"
+        descrizione: "Al Mercato dei Nodi chi abbassa il prezzo con la scusa dei tempi viene messo in fila con gli altri. Venn lo sa."
+        quando: [origine.mercante-dei-ponti >= 1]
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Facile }
+        successo:
+          titolo: Il listino
+          testo: |
+            Gli citi il prezzo dei carichi notturni sul listino del Mercato
+            dei Nodi di questa settimana, e quello della settimana prima. Venn
+            capisce che sei uno della Gilda e smette di parlare dei tempi, e
+            conta le pile giuste. La sera Rozalia ti scrive nel suo registro e
+            ti dà uno stiletto da manica, cucito nel fodero, con la tua parte.
+          pe: { politica-ed-economia: 5 }
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, monete: 35, oggetto.scuri-stiletto-da-manica: 1 }
+        fallimento:
+          titolo: Uno della Gilda
+          testo: |
+            Gli citi il listino del Mercato dei Nodi, e Venn ti riconosce per
+            uno della Gilda. Invece di pagarti di più si spaventa, e ti dà le
+            pile in fretta per mandarti via. La sera Rozalia pesa la borsa e
+            ti scrive lo stesso nel registro, con uno stiletto da manica e
+            una parte più piccola.
+          almeno: { rep.scuri: 2 }
+          imposta: { contatto-ombra: 1, debito.scuri: 0 }
+          effetti: { fazione.scuri: 1, monete: 20, oggetto.scuri-stiletto-da-manica: 1 }
+
+  # ------------------------------------------------------------ 4 · la colonna della Maison, prima di Vesh
+  - id: scuri-la-colonna-della-maison
+    presso: via-dei-rasoi
+    immagine: ambientazione/maison-des-lunes
+    titolo: La colonna della Maison
+    sommario: "Nel registro di Rozalia la Maison des Lunes ha una colonna sua, e paga ogni mese. Mirko Vesh vuole sapere chi sale le scale."
+    luogo: Via dei Rasoi, davanti alla Maison des Lunes
+    area: citta-bassa
+    requisiti: [fazione.scuri == 3, pista.pelle < 4]
+    testo: |
+      Nel registro di Rozalia la Maison des Lunes ha una colonna tutta sua,
+      e in quella colonna ogni mese c'è la stessa cifra scritta nella stessa
+      grafia. La porta con la catena di bronzo paga sempre, e in tempo.
+      Mauro te lo dice al bancone, e poi ti dice il resto a voce più bassa,
+      con il fiato che sa di cipolla. «A Mirko le monete della Maison non
+      interessano. Vuole sapere chi sale quelle scale e quante volte al
+      mese, e Nerissa Dalvane i nomi non li dà a nessuno.»
+
+      A quest'ora davanti alla Maison i panni stesi fra le finestre
+      gocciolano sulla strada. Nerissa riceve nel salotto del primo piano
+      con la porta accostata, e Gretchen tiene il salone. Dalla finestra si
+      sente la sua risata profonda, che arriva fino al cristallo spento al
+      gomito della via.
+
+      {empatia Media} Mauro ti manda come si manda un ragazzo a prendere il
+      vino in cantina, sapendo che la scala è rotta. Gli dispiace un poco, e
+      non abbastanza da farlo lui.
+
+      {furtivita Media} La Maison ha tre ingressi. Quello della catena, la
+      porta di servizio sul vicolo, e una finestra al primo piano che
+      qualcuno lascia sempre socchiusa.
+
+      {origine rampollo-dei-quartieri-alti} Alcuni di quelli che salgono
+      quelle scale li hai visti a cena a casa tua, con la moglie al braccio.
+      Ti viene da girare la faccia verso il muro, come se toccasse a te
+      nasconderti.
+    opzioni:
+      - testo: "Trattare con Nerissa"
+        descrizione: "Nerissa non vende nomi. Forse accetta di scegliere lei che cosa raccontare, e quando, in cambio della pace con gli Scuri."
+        immagine: personaggi/nerissa-dalvane
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Difficile }
+        successo:
+          titolo: Le notizie scelte
+          testo: |
+            Nerissa ti riceve con una tazza di tè e ti ascolta senza prendere
+            appunti, con una mano sul medaglione sotto la stoffa. Le proponi un
+            patto che Mirko può accettare. Lei sceglierà una notizia al mese
+            da dare agli Scuri, e i nomi resteranno suoi. Ci pensa finché il tè non si
+            raffredda. Poi ti racconta di un consigliere che sale ogni giovedì
+            e piange, e ti dice che questo, a Mirko, può bastare per un mese.
+          pe: { persuasione: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: La porta accostata
+          testo: |
+            Nerissa ti ascolta fino in fondo, poi ti versa dell'altro tè e ti
+            spiega con molta gentilezza che nella sua casa decidono le ragazze,
+            e che le ragazze hanno deciso di non avere memoria. Ti accompagna
+            alla porta lei stessa. Sulla soglia ti dice che il tè, la prossima
+            volta, sarà più caldo.
+
+      - testo: "Piazzare un orecchio al primo piano"
+        descrizione: "La finestra socchiusa dà su un corridoio. Chi ci passa la sera sente le voci delle stanze, e qualche nome."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il corridoio
+          testo: |
+            Sali dalla grondaia del vicolo e scavalchi la finestra socchiusa,
+            e passi la sera seduto nel buio del corridoio, con la schiena contro
+            la carta da parati. Dalle stanze arrivano risate e una canzone
+            stonata, e due nomi detti per intero. Te li porti alla Pignatta e
+            Mauro li ripete sottovoce, contento come un bambino. Alla Maison
+            qualcuno trova una tegola spostata, e da quel giorno la finestra è
+            chiusa.
+          pe: { furtivita: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: -1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Gretchen
+          testo: |
+            Scavalchi la finestra e ti trovi davanti Gretchen, truccata con
+            molta cura e una candela in mano. Ti guarda dall'alto in basso e ride
+            con quella sua risata profonda, che stavolta ti mette i brividi.
+            Ti accompagna giù per la scala di servizio tenendoti per l'orecchio,
+            e in strada c'è già chi guarda.
+          effetti: { rep.maison: -1, scandalo: 0.5 }
+
+      - testo: "Coprire Jass con Mauro"
+        descrizione: "Jass passa a te quello che sente nelle stanze, e Mirko la rivuole per sé. Basta raccontare a Mauro che il canale l'hai trovato da solo."
+        quando: [jass == 1]
+        prova: { attributo: sociale, abilita: [ingannare, persuasione], difficolta: Media }
+        successo:
+          titolo: Il canale
+          testo: |
+            Racconti a Mauro che le notizie della Maison vengono da un
+            cliente chiacchierone che hai fatto bere, e gli porti come prova un
+            nome che ti ha passato Jass la sera prima. Mauro ride e ti versa da
+            bere, e non chiede più di lei. Jass, quando glielo racconti, ti
+            bacia su una guancia e poi ti chiede la sua parte.
+          pe: { ingannare: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Mauro sa contare
+          testo: |
+            Racconti a Mauro del cliente chiacchierone, e lui ti fa ripetere il
+            nome del cliente due volte. La seconda volta lo sbagli. Mauro non
+            dice niente, prende il nome che gli hai portato e ti batte una mano
+            sulla spalla, più forte del solito. Jass, la settimana dopo, torna
+            a riferire a lui.
+          effetti: { fazione.scuri: 1, rep.scuri: -0.5, informazioni.segreto: 1 }
+
+      - testo: "Fare tu l'orecchio che era di Jass"
+        descrizione: "Jass alla Maison non c'è più, e il suo posto nel salone è vuoto. Ci vuole qualcuno che passi le serate a sentire, e il tempo per farlo."
+        quando: [jass >= 2]
+        costo: 2
+        esito:
+          titolo: Le serate nel salone
+          testo: |
+            Passi tre serate nel salone della Maison con un bicchiere che non
+            finisci mai, e ascolti i clienti mentre aspettano. Il posto dove
+            sedeva Jass è vuoto, e nessuno ci si siede. Alla terza sera
+            Gretchen capisce che cosa fai e ti fa portare il conto del vino, che
+            è un modo gentile di mandarti via. Due nomi però li hai già, e
+            Mauro li ripete sottovoce, contento.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: -1, informazioni.segreto: 1 }
+
+      - testo: "Comprare da Gretchen una lista di nomi"
+        descrizione: "Gretchen manda avanti la casa quando Nerissa è altrove. Anche una lista vecchia di clienti che hanno smesso di venire può valere qualcosa."
+        immagine: personaggi/nerissa-dalvane
+        requisiti: [monete >= 20]
+        esito:
+          titolo: I clienti di una volta
+          testo: |
+            Gretchen conta le monete a occhi chiusi, con la punta delle dita, e
+            ti scrive su un ventaglio di carta i nomi di quattro clienti che
+            alla Maison non vengono più. Sono nomi vecchi, e Mirko non li ha.
+            Mauro li legge ridendo, e dice che Gretchen è la donna più onesta della
+            Città Bassa, perché ti ha venduto esattamente quello che ha
+            promesso e niente di più.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, monete: -20, informazioni.segreto: 1 }
+
+      - testo: "Salire le scale da cliente"
+        descrizione: "Nel salone si entra con le buone maniere e un vestito giusto. Chi sa stare in un salotto dei Quartieri Alti sa anche dove guardare."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        prova: { attributo: sociale, abilita: [galateo, ingannare], difficolta: Facile }
+        successo:
+          titolo: Il salone
+          testo: |
+            Entri dalla porta della catena come entrava tuo zio, con il
+            mantello sul braccio, e Gretchen ti fa accomodare nel salone senza
+            una domanda. Per una sera fai il cliente che aspetta. Due uomini ti
+            riconoscono e ti salutano con il nome di tuo padre, e ti dicono
+            anche i loro. Mauro li ripete sottovoce, contento come un bambino.
+          pe: { galateo: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: -1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il nome di tuo padre
+          testo: |
+            Entri dalla porta della catena con il mantello sul braccio, e
+            Gretchen ti riconosce per il figlio di tuo padre prima che tu apra
+            bocca. Ti offre un bicchiere e ti chiede, con la sua risata
+            profonda, se in famiglia sanno che sei qui. Prima di domenica lo
+            saprà anche tua madre.
+          effetti: { rep.maison: -1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 4 · la colonna della Maison, dopo Vesh
+  - id: scuri-la-colonna-della-maison-dopo
+    presso: via-dei-rasoi
+    immagine: ambientazione/maison-des-lunes
+    titolo: La porta di servizio
+    sommario: "Alla porta di servizio della Maison des Lunes riscuote un mercenario di Ghoran, e il mese è raddoppiato."
+    luogo: Via dei Rasoi, il vicolo della porta di servizio
+    area: citta-bassa
+    requisiti: [fazione.scuri == 3, pista.pelle >= 6]
+    testo: |
+      Il vicolo della porta di servizio della Maison è stretto e storto, con
+      un tombino nel mezzo e i bidoni della cucina allineati contro il muro.
+      Gaia ti ci porta all'ora in cui la cucina butta l'acqua dei piatti, e
+      ti fa accucciare dietro i bidoni con una mano sulla tua spalla, perché
+      tu non ti alzi prima del tempo.
+
+      Alla porta bussa un mercenario di Ghoran con la lancia corta appoggiata
+      alla spalla e un compagno che aspetta all'imbocco del vicolo. Gli apre
+      una ragazza della cucina, che gli mette in mano una borsa senza dire
+      niente. Lui la pesa sul palmo e conta le monete una per una, e poi
+      chiede l'altra metà.
+
+      {intimidire Media} Non alza la voce e non ne ha bisogno. Tiene il
+      piede sulla soglia, e la ragazza non riesce a chiudere.
+
+      «Prima la Maison pagava gli Scuri e basta» dice Gaia, mentre la ragazza
+      torna dentro a prendere l'altra metà. «Adesso paga il doppio a Durgan,
+      perché Nerissa sangue sulla porta non ne vuole. Se la
+      Maison ricomincia a pagare noi, la strada lo vede.» Si soffia sulle
+      dita per scaldarle. Ha le unghie mangiate fino alla carne.
+
+      {armi-da-mischia Media} Il riscossore sulla porta ha la lancia troppo
+      lunga per il vicolo. Il compagno all'imbocco porta un'ascia corta e sa
+      bene dove metterla.
+
+      {origine fuggiasco-di-ghoran} Il riscossore parla con l'accento dei
+      clan del sud. È lo stesso accento dei sorveglianti che contavano le
+      teste nei recinti la sera, e le tue spalle se lo ricordano prima di te.
+    opzioni:
+      - testo: "Difendere la porta"
+        descrizione: "Due mercenari in un vicolo stretto. Se li mandi via davanti alla cucina, la Maison sa chi l'ha protetta."
+        combattimento: scuri-la-porta-di-servizio
+        vittoria:
+          titolo: Il vicolo
+          testo: |
+            Il vicolo è troppo stretto per la lancia, e quando il primo
+            mercenario prova a girarla ti è già addosso. Il secondo resiste di
+            più, poi raccoglie il compagno e se ne vanno zoppicando, con la
+            borsa lasciata sulla soglia. La ragazza della cucina la riporta
+            dentro. La sera Nerissa manda a dire, per mano di Gretchen, che la
+            colonna della Maison tornerà nel registro di chi è rimasto.
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: 1 }
+        sconfitta:
+          titolo: I bidoni
+          testo: |
+            Il secondo mercenario ti prende alle spalle con il manico
+            dell'ascia, e finisci fra i bidoni della cucina, con l'acqua dei
+            piatti che ti cola nel colletto. Quando ti rialzi se ne sono andati
+            con tutte e due le metà. Gaia ti aiuta a tirarti su e resta zitta
+            per tutta la strada, che da lei è la cosa più crudele.
+
+      - testo: "Pagare tu la loro parte del mese"
+        descrizione: "Una borsa per il riscossore, e la promessa che il mese prossimo bussa qualcun altro. Si compra tempo, e a volte basta."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: Il tempo comprato
+          testo: |
+            Esci da dietro i bidoni e metti la tua borsa in mano al
+            mercenario, e gli dici che per questo mese la Maison ha pagato. Lui
+            la pesa e ti guarda la faccia per ricordarsela. Se ne va con il
+            compagno senza fretta. Nerissa, quando lo viene a sapere, ti manda
+            una bottiglia di vino buono e un biglietto senza firma.
+          effetti: { fazione.scuri: 1, rep.scuri: 0.5, rep.maison: 1, monete: -30 }
+
+      - testo: "Convincere Nerissa a pagare soltanto voi"
+        descrizione: "Nerissa paga Durgan per non avere sangue sulla porta. Bisogna convincerla che chi è rimasto degli Scuri la protegge meglio."
+        immagine: personaggi/nerissa-dalvane
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Difficile }
+        successo:
+          titolo: Una colonna sola
+          testo: |
+            Nerissa ti riceve nel salotto, con la porta accostata e il tè già
+            versato. Le dici che Durgan raddoppia oggi e triplica domani,
+            mentre gli Scuri per vent'anni hanno chiesto sempre la stessa
+            cifra. Lei ascolta con la mano sul medaglione. Poi ti racconta di un
+            consigliere che sale ogni giovedì, perché tu lo porti a chi è
+            rimasto come prova che la Maison è tornata.
+          pe: { persuasione: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il sangue sulla porta
+          testo: |
+            Nerissa ti ascolta, poi ti chiede chi difenderà la porta il giorno
+            che Durgan si arrabbia. Le rispondi, e la risposta non la convince.
+            Ti versa altro tè e ti accompagna alla scala. «Quando sarete di più
+            di loro» dice, e ti chiude la porta alle spalle.
+
+      - testo: "Spaventare il riscossore"
+        descrizione: "Un mercenario lontano da casa e senza paga ha più paura di quanto mostri. Basta fargli capire che questa porta costa più di quello che rende."
+        prova: { attributo: sociale, abilita: [intimidire, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Quello che rende
+          testo: |
+            Esci da dietro i bidoni e ti metti fra il mercenario e la porta. Gli
+            dici a voce bassa i nomi delle strade dove si dorme male senza
+            amici, e il nome del fabbro che non ripara le lance di chi non
+            conosce. Lui guarda il compagno all'imbocco del vicolo, poi se ne
+            vanno tutti e due. La ragazza della cucina chiude la porta e ci
+            appoggia contro la schiena, ridendo per lo spavento.
+          pe: { intimidire: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: 0.5, sospetto: 0.5 }
+        fallimento:
+          titolo: La lancia
+          testo: |
+            Ti metti fra il mercenario e la porta e cominci a parlare, e lui ti
+            appoggia la punta della lancia sotto lo sterno senza cambiare
+            espressione. Ti fa indietreggiare fino ai bidoni. Prende la seconda
+            metà e se ne va, e per due giorni hai un livido tondo come una
+            moneta proprio sopra lo stomaco.
+          effetti: { ferite: 1 }
+
+      - testo: "Parlargli nella lingua dei clan"
+        descrizione: "Un uomo dei clan lontano da Ghoran ascolta chi parla la sua lingua, anche quando non gli piace quello che sente."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: sociale, abilita: [intimidire, conoscenze-della-strada], difficolta: Facile }
+        successo:
+          titolo: Il clan paga quando torna
+          testo: |
+            Gli parli nella lingua dei clan, con l'accento del nord che lui
+            riconosce subito. Gli dici che a Ghoran un clan che taglieggia una
+            casa di donne perde la faccia, e che la notizia arriva prima di lui.
+            Il mercenario sputa, poi guarda il compagno e se ne va. Gaia ti
+            fissa da dietro i bidoni come se ti vedesse per la prima volta.
+          pe: { intimidire: 5 }
+          effetti: { fazione.scuri: 1, rep.scuri: 1, rep.maison: 0.5, sospetto: 0.5 }
+        fallimento:
+          titolo: Il dialetto del sud
+          testo: |
+            Gli parli nella lingua dei clan, e lui ti risponde nel dialetto del
+            sud ridendoti in faccia. Ti appoggia la punta della lancia sotto lo
+            sterno e ti fa indietreggiare fino ai bidoni, e per due giorni hai
+            un livido tondo come una moneta sopra lo stomaco.
+          effetti: { ferite: 1 }
+
+  # ------------------------------------------------------------ 5 · le Vie di Sotto, l'ingresso prima di Vesh
+  - id: scuri-le-vie-di-sotto
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: Le Vie di Sotto
+    sommario: "Il Mercato delle Ombre deve cambiare stanza, e tocca agli Scuri aprire la strada dalle loro tre porte alla sala nuova."
+    luogo: Città Bassa, il banco del formaggio
+    area: citta-bassa
+    requisiti: [fazione.scuri == 4, pista.pelle < 4]
+    testo: |
+      Il Mercato delle Ombre cambia stanza ogni due o tre mesi, e questa
+      volta tocca agli Scuri aprire la strada dalle loro porte alla sala
+      nuova. Le altre cinque porte sono della Confraternita del Velo, e dei
+      cappucci nessuno parla volentieri. Il messaggio te l'ha portato un
+      ragazzino dell'Orlo, insieme a una candela di sego e a un pezzo di
+      gesso. Gaia ti aspetta dietro il banco del formaggio del mercato
+      piccolo, dove sotto una botola c'è una scala che scende nel buio.
+
+      Con lei c'è Karn, il tagliagole dei tetti, che fischia a mezza voce la
+      sua canzone di sempre e si interrompe a metà per sputare. «Le Vie di
+      Sotto sono cantine attaccate alle cisterne dei Precursori» dice Gaia,
+      contando sulle dita. «Ci passano i contrabbandieri senza
+      banda e ci passano i cappucci del Velo. Da qualche parte c'è una sala
+      grande abbastanza per il Mercato, e la troviamo noi.»
+
+      {atletica Media} La scala è di pioli di ferro, e i pioli più bassi
+      sono lucidi d'acqua. Ci vorranno le braccia, al ritorno.
+
+      {conoscenze-della-strada Facile} Chi apre la strada al Mercato decide
+      da quale porta si entra. Gli Scuri lo fanno da soli perché non
+      vogliono che lo decida il Velo.
+
+      {origine figlio-della-citta-bassa} Da ragazzino ti avevano detto che
+      sotto il banco del formaggio c'era la tana di un mostro. Era la scala
+      degli Scuri, e il mostro era il formaggiaio.
+    opzioni:
+      - testo: "Scendere con Gaia e Karn"
+        descrizione: "La scala è lunga e il buio è fitto. Gaia conosce i primi passi, il resto lo trovate insieme."
+        esito:
+          titolo: I pioli
+          testo: |
+            Scendi per ultimo, con la candela fra i denti, e conti i pioli
+            finché smetti di contarli. In fondo c'è acqua fino alla caviglia,
+            fredda come una lama, e un odore di muffa e di cera. Karn accende
+            una lanterna cieca e la gira verso il muro, e Gaia segna con il
+            gesso una freccia all'altezza del ginocchio.
+          vai: scuri-vie-di-sotto
+
+      - testo: "Farti raccontare da Gaia le Vie di Sotto"
+        descrizione: "Gaia conosce ogni passaggio sotto i ponti, e qualcosa anche sotto la Città Bassa."
+        costo: 0
+        esito:
+          titolo: Le regole di sotto
+          testo: |
+            Gaia te le dice in fila mentre si allaccia le scarpe. Si segna la
+            strada con il gesso basso, dove lo vedono solo quelli che
+            sanno. Con i contrabbandieri si tratta, e ai cappucci del Velo si
+            cede il passo. Se si sente un ronzio si torna indietro, e basta.
+            Karn smette di fischiare per dirti che il ronzio, l'ultima volta,
+            l'ha sentito un suo amico, e che l'amico non è tornato.
+          segue: scuri-le-vie-di-sotto
+
+      - testo: "Scendere dalla cantina del bottaio"
+        descrizione: "Più avanti nella stessa strada c'è un bottaio con una cantina che finisce in un muro mezzo crollato. È più corto, se non ti spaventano i calcinacci."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Facile }
+        successo:
+          titolo: Il muro crollato
+          testo: |
+            Passi dalla cantina del bottaio, fra le doghe accatastate e i
+            cerchi di ferro, e ti infili nel varco del muro crollato. Dall'altra
+            parte ritrovi Gaia e Karn che scendono dalla scala, e Gaia ti guarda
+            con un rispetto nuovo, quello che si dà a chi conosce una strada
+            che lei non conosceva.
+          pe: { atletica: 3 }
+          vai: scuri-vie-di-sotto
+        fallimento:
+          titolo: I calcinacci
+          testo: |
+            Ti infili nel varco del muro, e un calcinaccio ti cade sulla spalla
+            insieme a una pioggia di polvere. Arrivi dall'altra parte tossendo
+            con la spalla che pulsa. In fondo alla scala Gaia e Karn ti
+            aspettano già, asciutti come se fossero scesi in carrozza.
+          effetti: { ferite: 0.5 }
+          vai: scuri-vie-di-sotto
+
+  # ------------------------------------------------------------ 5 · le Vie di Sotto, l'ingresso dopo Vesh
+  - id: scuri-le-vie-di-sotto-dopo
+    immagine: ambientazione/mercato-delle-ombre
+    titolo: Le Vie di Sotto
+    sommario: "La Caserma ha trovato la vecchia sala del Mercato delle Ombre. Chi apre la strada a quella nuova decide di chi sono le porte."
+    luogo: Città Bassa, il banco del formaggio
+    area: citta-bassa
+    requisiti: [fazione.scuri == 4, pista.pelle >= 6]
+    testo: |
+      Dopo la notte della Pignatta la Caserma ha trovato la vecchia sala del
+      Mercato delle Ombre, e l'ha murata con mattoni freschi e uno stemma
+      dipinto sopra, perché si sapesse chi l'aveva fatto. Il Mercato si
+      sposta come ha sempre fatto, e questa volta la strada verso la sala
+      nuova non la apre nessuno. I cappucci del Velo aspettano che qualcuno trovi la
+      sala per prendersi le porte, e i mercenari di Durgan hanno già chiesto
+      in giro dove si scende.
+
+      Gaia ti aspetta dietro il banco del formaggio del mercato piccolo,
+      dove sotto una botola c'è una scala di ferro che scende nel buio. Con
+      lei c'è Karn, il tagliagole dei tetti, che fischia a mezza voce la sua
+      canzone di sempre. È smagrito, e porta un cappuccio nuovo. «Se la sala
+      la troviamo noi, tre porte sono nostre» dice Gaia. «Se la trova
+      Durgan si prende tutte le porte che vuole, e il Velo glielo lascia
+      fare.»
+
+      {resilienza Media} Il tuo stomaco ha capito prima di te che sotto la
+      Città Bassa si scende al buio. Si stringe un poco quando l'aria fredda
+      sale dalla botola.
+
+      {conoscenze-della-strada Media} Karn non fischia per allegria. Fischia
+      perché sotto il suono si sente lo stesso, e così chi è dalla sua parte
+      sa dove si trova.
+    opzioni:
+      - testo: "Scendere con Gaia e Karn"
+        descrizione: "La scala è lunga e il buio è fitto. Gaia conosce i primi passi, il resto lo trovate insieme."
+        esito:
+          titolo: I pioli
+          testo: |
+            Scendi per ultimo, con la candela fra i denti, e in fondo trovi
+            acqua fino alla caviglia, fredda come una lama. Karn accende una
+            lanterna cieca e la gira verso il muro, e Gaia segna con il gesso
+            una freccia all'altezza del ginocchio, accanto a un'altra freccia
+            più vecchia, segnata da una mano che non c'è più.
+          vai: scuri-vie-di-sotto
+
+      - testo: "Farti raccontare da Gaia le Vie di Sotto"
+        descrizione: "Gaia conosce ogni passaggio sotto i ponti, e qualcosa anche sotto la Città Bassa."
+        costo: 0
+        esito:
+          titolo: Le regole di sotto
+          testo: |
+            Gaia te le dice in fila mentre si allaccia le scarpe. Si segna la
+            strada con il gesso basso, dove lo vedono solo quelli che sanno.
+            Con i contrabbandieri si tratta, e ai cappucci del Velo si cede il
+            passo. Se si sente un ronzio si torna indietro. Karn smette di
+            fischiare per dirti che quelle regole le aveva scritte Mirko, e che
+            fino a prova contraria valgono ancora.
+          segue: scuri-le-vie-di-sotto-dopo
+
+      - testo: "Scendere dalla cantina del bottaio"
+        descrizione: "Più avanti nella stessa strada c'è un bottaio con una cantina che finisce in un muro mezzo crollato. È più corto, se non ti spaventano i calcinacci."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Facile }
+        successo:
+          titolo: Il muro crollato
+          testo: |
+            Passi dalla cantina del bottaio, fra le doghe accatastate e i
+            cerchi di ferro, e ti infili nel varco del muro crollato.
+            Dall'altra parte ritrovi Gaia e Karn che scendono dalla scala, e
+            Gaia ti guarda con un rispetto nuovo, quello che si dà a chi
+            conosce una strada che lei non conosceva.
+          pe: { atletica: 3 }
+          vai: scuri-vie-di-sotto
+        fallimento:
+          titolo: I calcinacci
+          testo: |
+            Ti infili nel varco del muro, e un calcinaccio ti cade sulla spalla
+            insieme a una pioggia di polvere. Arrivi dall'altra parte tossendo
+            con la spalla che pulsa. In fondo alla scala Gaia e Karn ti
+            aspettano già, asciutti come se fossero scesi in carrozza.
+          effetti: { ferite: 0.5 }
+          vai: scuri-vie-di-sotto

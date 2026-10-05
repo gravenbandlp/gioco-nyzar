@@ -1,0 +1,1095 @@
+# I monconi del Ventisette, spedizione del passo 11 della quest della Gilda (fazione.gilda == 10).
+# I piloni dei due ponti bruciati nel 127, sopra la Cicatrice. Ci si entra da `gilda-le-tre-versioni` (passi-3.yaml),
+# con Ormun Pell o, con chiatta.posto, sulla Mula di Ilde (si salta la prima fascia). Ritorno ai Ponti, soglia 5.
+# Le stanze vanno in fasce di profondità, e una stanza superata non ricompare nella stessa visita:
+#   0 il pilone di ponente (la base; la scala di ferro, che vale anche a 1);
+#   1 le corde vecchie (le corde del 127; il ponte di funi, che vale anche a 2);
+#   2 la loggia delle tiracorde (la parete dei nodi; i segni delle famiglie);
+#   3 le travi bruciate (le travi; i gabbiani di cresta grigia e l'uomo della scorta, che valgono anche a 4);
+#   4 il cuore di metallo del pilone.
+# Ogni stanza ha una via lunga che costa due rintocchi e fa avanzare comunque.
+# Il cuore a 5 è la camera del pilone, con il vano dei Precursori: si apre con Tecnologia (Difficile), con l'incantesimo
+# Sigillo o svegliando il guardiano (droni ciechi). Aperto il vano (gilda.vano 1), il seguito `gilda-monconi-la-scorta`
+# mostra il documento firmato del 127 e porta la scorta di Morlacchi: combattimento, Persuasione o la discesa per le corde
+# vecchie, tutte Difficili. Chi perde torna ai Ponti, e al ritorno il vano è già aperto.
+# Il documento (canone proposto e approvato): i sigilli delle tre famiglie del Patto, quello di Hakkos Cordani per primo.
+aree:
+  - id: gilda-monconi-del-ventisette
+    immagine: ambientazione/cicatrice-del-mondo
+    nome: I monconi del Ventisette
+    sommario: "I piloni dei due ponti bruciati nel 127 escono ancora dalla parete della Cicatrice come denti rotti. Nella loggia del pilone di ponente un tiracorde nascose la verità sull'incendio."
+    spedizione: { ritorno: ponti-sospesi, soglia: 5, stanze: 3 }
+    testo: |
+      A valle delle Mille Corde, dove la Cicatrice si allarga, due piloni di
+      ferro nero escono dalla parete come i denti rotti di una mascella.
+      Sono quello che resta dei due ponti che presero fuoco nella notte del
+      127 e crollarono fra le scintille. Nessuno li ha mai abbattuti, perché
+      abbatterli costava più che lasciarli lì, e nessuno ci sale da
+      cinquant'anni.
+
+      Dalle loro cime pendono ancora le corde vecchie annerite dal catrame e
+      dal fuoco, che il vento della Cicatrice fa oscillare a ogni raffica.
+      Sulle travi bruciate nidificano i gabbiani di cresta grigia. Nel
+      pilone di ponente, a metà altezza, c'è una loggia di pietra con le
+      finestre strette, dove le tiracorde del Patto si riparavano dal vento.
+
+# La musica della spedizione (come le altre aree in contenuti/audio.yaml).
+colonna:
+  - { contesto: area, id: gilda-monconi-del-ventisette, musica: unsettling-paths, ambiente: forest-night }
+
+storylet:
+  # ------------------------------------------------------------ 0 · il pilone di ponente
+  - id: gilda-monconi-il-pilone-di-ponente
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: La base del pilone
+    sommario: "Il pilone di ponente esce dalla roccia come un dente rotto. Per salire ci sono soltanto i pioli di ferro dei tiracorde, arrugginiti da cento anni."
+    luogo: I monconi del Ventisette, la base del pilone di ponente
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette == 0]
+    testo: |
+      La base del pilone di ponente è un blocco di ferro nero grande come
+      una casa, piantato nella roccia della parete. Più in alto il ferro si
+      stringe e sale verso il cielo grigio per cento braccia, fino al
+      moncone dove il ponte si attaccava. Lungo il fianco i tiracorde
+      piantarono pioli di ferro, uno ogni braccio, per salire a lavorare.
+      Metà sono arrugginiti fino al filo, e qualcuno manca.
+
+      {atletica Media} Cento braccia di pioli sono una salita lunga. Le
+      braccia tirano e le gambe spingono, e il fiato deve restare dove sta.
+
+      {tecnologia Media} Il ferro del pilone è più vecchio di quello dei
+      pioli, e non è ferro di Qir-Azel. Sotto la ruggine c'è un metallo
+      liscio e scuro che i tiracorde non sapevano fare.
+
+      Ormun Pell si sputa nelle mani e guarda in su con la pipa spenta fra i
+      denti. «Mio padre ci saliva» dice. «Lui diceva che il pilone regge
+      perché non è nostro.»
+    opzioni:
+      - testo: "Salire per i pioli"
+        descrizione: "Uno alla volta, saggiando ogni piolo prima di metterci il peso."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: I pioli
+          testo: |
+            Sali piolo dopo piolo, saggiando ognuno con la mano prima di
+            metterci il peso. Al trentesimo il vento della Cicatrice ti
+            prende di fianco, e tu resti incollato al ferro finché passa. Al
+            sessantesimo arrivi a una porticina aperta nel fianco del
+            pilone, e ti ci infili dentro con le mani che tremano.
+          pe: { atletica: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il piolo che si stacca
+          testo: |
+            Al ventesimo piolo il ferro si stacca sotto il tuo piede, e
+            resti appeso con le mani mentre il piolo cade nella Cicatrice
+            senza un suono. Ormun ti afferra la caviglia da sotto e ti
+            rimette su un piolo buono. Poi scendete insieme a riprendere
+            fiato alla base.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare la via dei tiracorde"
+        descrizione: "I tiracorde non salivano a caso. Da qualche parte c'è la via buona, segnata come la segnavano loro."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Le tacche
+          testo: |
+            Giri intorno alla base e trovi le tacche incise nel ferro
+            accanto ai pioli buoni, tre righe corte che i tiracorde facevano
+            con lo scalpello. Le segui. La via buona sale a zig zag ed è più
+            lunga della diretta, ma ti porta sano fino a una porticina nel
+            fianco del pilone.
+          pe: { percezione: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Ruggine
+          testo: |
+            Cerchi segni sul ferro, e trovi soltanto ruggine e cacca di
+            gabbiano. Ormun ti guarda cercare per un'ora, poi si stringe
+            nelle spalle e ti dice che domani ci riprovate.
+          effetti: { tormento: 0.5 }
+      - testo: "Salire legati a Ormun, piano"
+        descrizione: "Una corda fra te e lui. Lui sale per primo e ti aspetta a ogni sosta."
+        costo: 2
+        esito:
+          titolo: In cordata
+          testo: |
+            Ormun ti lega a sé con una corda di canapa e sale per primo,
+            piano, fermandosi a ogni sosta ad aspettarti e a fumare la pipa
+            spenta. Ci mettete mezza giornata. Quando arrivate alla
+            porticina nel fianco del pilone il sole è già basso sulla
+            Cicatrice.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 0–1 · la scala di ferro
+  - id: gilda-monconi-la-scala-di-ferro
+    immagine: icone/ladder
+    titolo: La scala di ferro
+    sommario: "Dentro il pilone sale una scala di ferro a chiocciola, buia, con i gradini mangiati dalla ruggine."
+    luogo: I monconi del Ventisette, dentro il pilone
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette <= 1]
+    testo: |
+      Dentro il pilone il buio ha l'odore della ruggine bagnata. Una scala
+      di ferro a chiocciola sale lungo la parete interna, fissata al metallo
+      liscio con staffe che non sono state fatte da mano umana. I gradini
+      invece li hanno messi i tiracorde, in ferro di Qir-Azel, e la ruggine
+      se ne è mangiata uno su quattro.
+
+      {resistenza Media} L'aria qui dentro è ferma e umida. Dopo venti
+      gradini i polmoni la vorrebbero più fresca.
+
+      {acrobazia Media fallita} Il primo gradino che provi si piega sotto il
+      piede come carta bagnata, e il tuo equilibrio si offende.
+
+      In alto, molto in alto, un filo di luce entra da una feritoia.
+    opzioni:
+      - testo: "Salire saltando i gradini marci"
+        descrizione: "Uno su quattro cede. Bisogna capire quale prima di metterci il piede."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Uno su quattro
+          testo: |
+            Sali tenendoti alla parete, e ogni quarto gradino lo salti. La
+            chiocciola gira e gira, e dopo un tempo lungo arrivi alla
+            feritoia, dove una passerella esce dal pilone verso le corde
+            vecchie.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il gradino
+          testo: |
+            Un gradino cede, e scivoli giù per la chiocciola per un giro
+            intero, sbattendo le ginocchia sul ferro, prima di fermarti
+            contro una staffa. Ricominci da capo, zoppicando.
+          effetti: { ferite: 1 }
+      - testo: "Provare i gradini con il coltello"
+        descrizione: "La lama entra nel ferro marcio e rimbalza su quello buono. È lento, ma è sicuro."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La lama
+          testo: |
+            Batti la lama su ogni gradino prima di salirci. Il ferro buono
+            suona, quello marcio tace. Arrivi alla feritoia con la lama
+            spuntata e le gambe intere, e oltre la feritoia c'è una
+            passerella verso le corde vecchie.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il suono uguale
+          testo: |
+            Batti la lama sui gradini, e a un certo punto ti sembrano
+            suonare tutti allo stesso modo. Ti fermi a metà scala al buio,
+            aspetti che il cuore rallenti e poi scendi.
+          effetti: { tormento: 0.5 }
+      - testo: "Salire sulla parete, lungo le staffe"
+        descrizione: "Le staffe dei Precursori non arrugginiscono. Sono scomode e distanti, ma reggono."
+        costo: 2
+        esito:
+          titolo: Le staffe
+          testo: |
+            Lasci la scala e sali da una staffa all'altra, aggrappato al
+            metallo liscio che non arrugginisce. Ci metti il doppio del
+            tempo, e le dita ti si coprono di vesciche. Alla feritoia ti
+            siedi e ti guardi le mani a lungo.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 1 · le corde vecchie
+  - id: gilda-monconi-le-corde-vecchie
+    immagine: icone/rope-coil
+    titolo: Le corde del 127
+    sommario: "Dal moncone del ponte pendono le corde vecchie, bruciate a metà. Per arrivare alla loggia bisogna passarci sopra."
+    luogo: I monconi del Ventisette, le corde vecchie
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette == 1]
+    testo: |
+      Fuori dalla feritoia una passerella di ferro corre lungo il fianco del
+      pilone e finisce nel vuoto, dove il ponte si attaccava. Da lì pendono
+      una dozzina di corde del 127, annerite dal catrame e dal fuoco. Alcune
+      sono ancora tese verso la loggia, dall'altra parte del pilone, e altre
+      pendono libere sulla Cicatrice, ondeggiando a ogni raffica.
+
+      {tecnologia Media} Le corde bruciate dal fuoco cedono dall'interno.
+      Fuori sembrano intere, dentro sono cenere. Quelle buone hanno il
+      catrame lucido, perché il catrame si è sciolto e ha protetto la fibra.
+
+      {origine apprendista-raschiatore} Le corde vecchie le leggi come le
+      leggevi sulla piattaforma, a fine turno, con le dita. Ognuna ha il suo
+      peso e la sua voce, e due di queste hanno la voce sbagliata.
+
+      {empatia Facile} Ormun le guarda con la pipa fra i denti e non dice
+      niente. Queste corde gliele hanno raccontate da bambino, e adesso le
+      riconosce.
+    opzioni:
+      - testo: "Scegliere la corda buona"
+        descrizione: "Quella con il catrame lucido, che ha retto il fuoco. Bisogna trovarla prima di metterci il peso."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il catrame lucido
+          testo: |
+            Tocchi le corde una alla volta e scegli quella con il catrame
+            più lucido, che sotto le dita è dura come legno. Ormun annuisce.
+            Passi appeso a lei, mano dopo mano, fino alla loggia, mentre
+            sotto di te la Cicatrice manda su il suo bagliore azzurro.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: La cenere
+          testo: |
+            Scegli una corda che sembra buona, e appena ci metti il peso
+            senti la fibra sbriciolarsi dentro, come pane secco. Ormun ti
+            tira indietro per la giubba. La corda si spezza e cade nella
+            Cicatrice in due pezzi.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare che scelga Ormun"
+        descrizione: "Suo padre ci saliva. Lui le corde le conosce meglio di te, e lo sa."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il padre di Ormun
+          testo: |
+            Gli chiedi di suo padre, e Ormun ti racconta mentre tocca le
+            corde. Suo padre era ponteggiatore, la notte del 127, e la
+            mattina dopo è salito qui a tagliare le funi che bruciavano
+            ancora. Poi sceglie una corda e ci passa per primo, e tu lo
+            segui tenendo gli occhi sulle sue mani.
+          pe: { empatia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il silenzio di Ormun
+          testo: |
+            Glielo chiedi, e Ormun ti guarda come se gli avessi chiesto di
+            portarti in braccio. Poi scende dalla passerella e torna alla
+            feritoia. Lo raggiungi giù e gli chiedi scusa, e lui ti dice che
+            domani forse.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare il giro per la passerella di sotto"
+        descrizione: "Sotto la passerella grande ce n'è un'altra, di servizio, che gira intorno al pilone. È lunga, e manca di qualche asse."
+        costo: 2
+        esito:
+          titolo: Il giro
+          testo: |
+            Scendi alla passerella di servizio e giri intorno al pilone
+            tenendoti al ferro, saltando le assi che mancano. Ci metti il
+            tempo di un pasto. Quando risali sei dall'altra parte, sotto la
+            loggia.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+      - testo: "Leggere le corde con le dita"
+        descrizione: "Sulla piattaforma si fa a fine turno, una corda alla volta. Due di queste hanno la voce sbagliata."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: La voce delle corde
+          testo: |
+            Passi le dita sulle corde una alla volta ascoltando la fibra, e
+            scarti le due che suonano vuote. Ormun ti guarda fare e alla
+            fine si toglie la pipa di bocca. «Come mio padre» dice soltanto.
+            Passi sulla corda buona fino alla loggia.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 1–2 · il ponte di funi
+  - id: gilda-monconi-il-ponte-di-funi
+    immagine: icone/rope-bridge
+    titolo: Il ponte di funi
+    sommario: "Fra il moncone e la loggia i tiracorde tesero un ponte di funi. Ne restano tre corde e qualche asse, e il vento della Cicatrice."
+    luogo: I monconi del Ventisette, il ponte di funi
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette >= 1, profondita.gilda-monconi-del-ventisette <= 2]
+    testo: |
+      Il ponte di funi dei tiracorde attraversa il vuoto fra il moncone del
+      ponte e la loggia del pilone. Una volta aveva le assi e i corrimano.
+      Adesso ha tre corde, due per le mani e una per i piedi, e qualche asse
+      rimasta legata per caso. Il vento della Cicatrice lo fa dondolare come
+      un'altalena.
+
+      {atletica Media} Tre corde sono abbastanza. Bisogna tenere il peso
+      sulle mani e far scivolare i piedi, senza sollevarli mai.
+
+      {acrobazia Facile fallita} Guardi giù. Te l'avevano detto di non
+      farlo, e le ginocchia adesso te lo ricordano.
+
+      Dall'altra parte la porta della loggia è aperta, e sbatte nel vento.
+    opzioni:
+      - testo: "Attraversare a mani strette"
+        descrizione: "Il peso sulle mani, i piedi che scivolano. Senza guardare giù."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Dall'altra parte
+          testo: |
+            Attraversi con il peso sulle mani e i piedi che scivolano sulla
+            corda di sotto, senza mai sollevarli. A metà il vento ti prende,
+            e tu ti fermi e aspetti che passi. Dall'altra parte ti siedi
+            sulla soglia della loggia con le mani che bruciano.
+          pe: { atletica: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: L'altalena
+          testo: |
+            A metà strada una raffica fa girare il ponte su se stesso, e ti
+            ritrovi appeso a testa in giù con le gambe intrecciate alla
+            corda. Torni indietro così, a forza di braccia, e sul moncone
+            resti sdraiato a lungo a guardare il cielo.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Legare una corda tua alle funi vecchie"
+        descrizione: "Una corda di sicurezza fra la tua cintura e la fune di sopra. Se cadi, resti appeso."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: La sicura
+          testo: |
+            Leghi una corda alla cintura e la fai scorrere sulla fune di
+            sopra con un nodo che scivola soltanto in avanti. Attraversi
+            piano. A metà il vento ti sposta, e la sicura ti tiene. Arrivi
+            alla loggia con la corda tesa e il cuore che rallenta.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il nodo sbagliato
+          testo: |
+            Il nodo della sicura si stringe al primo strappo e ti blocca a
+            metà ponte. Ci metti un'eternità a scioglierlo con le dita
+            intirizzite, e alla fine torni indietro, a tentoni, verso il
+            moncone.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che il vento cali"
+        descrizione: "I tiracorde dicono che prima o poi cala, e non dicono quando."
+        costo: 2
+        esito:
+          titolo: La calma
+          testo: |
+            Aspetti seduto sul moncone con la schiena al ferro, e verso il
+            tramonto il vento della Cicatrice si calma. Allora il ponte di
+            funi si ferma come un'amaca vuota, e lo attraversi senza fretta.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 2 · la loggia delle tiracorde
+  - id: gilda-monconi-la-loggia
+    immagine: icone/knot
+    titolo: La parete dei nodi
+    sommario: "La loggia delle tiracorde è una stanza di pietra con una parete coperta di nodi. Ogni nodo è un nome, e i nomi raccontano qualcosa."
+    luogo: I monconi del Ventisette, la loggia delle tiracorde
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette == 2]
+    testo: |
+      La loggia è una stanza di pietra con le finestre strette, costruita
+      dentro il pilone come un nido. C'è un focolare spento da cinquant'anni
+      e una panca lunga, e lungo la parete di fondo pendono corde annodate,
+      centinaia, appese a chiodi di ferro. Ogni corda ha un nodo diverso, e
+      ogni nodo è una firma, come sulla fune dei soci alla Casa.
+
+      {accademiche Media} I tiracorde che non sapevano scrivere firmavano
+      con un nodo, e i nodi si leggevano come lettere. Questa parete è un
+      registro, il più vecchio della città, e quasi nessuno sa più leggerlo.
+
+      {percezione Media} Alcune corde sono più nuove delle altre. Qualcuno è
+      tornato qui dopo il 127 e ha appeso altri nodi tutti uguali, ogni
+      volta un po' più in basso.
+
+      Ormun si toglie il cappello, cosa che non gli hai mai visto fare.
+    opzioni:
+      - testo: "Leggere i nodi"
+        descrizione: "Due giri sono un nome, tre una famiglia, la volta è l'anno. Qualcosa del genere."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Il registro dei nodi
+          testo: |
+            Leggi i nodi dall'alto verso il basso, come un libro. In cima ci
+            sono le famiglie del Patto. Più in basso, dopo il 127, c'è un
+            nodo solo, ripetuto ogni anno, sempre lo stesso, fino a quaranta
+            anni fa. Ormun te lo dice a mezza voce. È il nodo dei Vennari.
+            Qualcuno della famiglia di Clelia è tornato qui ogni anno a dire
+            che era ancora vivo, e che sapeva.
+          pe: { accademiche: 5 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Nodi
+          testo: |
+            Guardi i nodi finché diventano soltanto nodi, corde annodate su
+            una parete di pietra. Ormun ti tocca il braccio e ti indica la
+            porta in fondo alla loggia, verso le travi.
+          effetti: { tormento: 0.5 }
+      - testo: "Appendere un nodo tuo"
+        descrizione: "Sulla fune dei soci ne hai già uno. Qui sarebbe un'altra cosa, e Ormun ti guarderebbe."
+        prova: { attributo: fisico, abilita: [acrobazia, tecnologia], difficolta: Facile }
+        successo:
+          titolo: Il tuo nodo
+          testo: |
+            Prendi un pezzo di corda dalla panca e ci fai lo stesso nodo che
+            hai fatto alla Casa. Lo appendi a un chiodo vuoto, sotto quelli
+            dei Vennari. Ormun ti guarda e si rimette il cappello. Poi ti
+            indica la porta in fondo alla loggia, verso le travi.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, rep.ponti: 0.5 }
+        fallimento:
+          titolo: Il chiodo
+          testo: |
+            Il chiodo cede appena ci appendi il nodo, e porta con sé tre
+            corde vecchie, che si sbriciolano sul pavimento. Ormun le
+            raccoglie una per una e le mette sulla panca, senza guardarti.
+          effetti: { rep.ponti: -0.5 }
+      - testo: "Passare oltre senza toccare niente"
+        descrizione: "È un registro. I registri si rispettano anche quando non si sanno leggere."
+        costo: 2
+        esito:
+          titolo: Il rispetto
+          testo: |
+            Passi davanti alla parete senza toccarla, piano, come si passa
+            in una chiesa. Ormun ti segue con il cappello in mano. In fondo
+            alla loggia una porta bassa dà sulle travi bruciate.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  - id: gilda-monconi-i-segni-delle-famiglie
+    immagine: icone/wax-seal
+    titolo: I segni delle famiglie
+    sommario: "Sul pavimento della loggia sono incisi i segni delle famiglie dei tiracorde. Quelli dei Vennari e dei Lusardi sono i più consumati."
+    luogo: I monconi del Ventisette, il pavimento della loggia
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette == 2]
+    testo: |
+      Sul pavimento della loggia, accanto al focolare, sono incisi nella
+      pietra i segni delle famiglie che lavoravano sul pilone. Sono piccoli
+      disegni, una spola, un ago da vela, un nodo doppio, ognuno con la sua
+      tacca per ogni anno. I più consumati sono quelli dei Vennari e dei
+      Lusardi. Su quello dei Vennari qualcuno ha lasciato un mozzicone di
+      candela, consumato fino alla pietra.
+
+      {galateo Media} Le famiglie dei tiracorde sono diventate famiglie del
+      Patto, e poi hanno venduto tutto. I loro segni sono rimasti qui, dove
+      nessuno veniva a comprarli.
+
+      {empatia Media} La candela l'ha accesa qualcuno che pregava, non molto
+      tempo fa. La cera è ancora morbida sotto l'unghia.
+    opzioni:
+      - testo: "Ricopiare i segni"
+        descrizione: "Basta un carboncino del focolare e la pazienza di ricopiarli tutti. Clelia vorrà vederli."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il foglio dei segni
+          testo: |
+            Ricopi i segni uno per uno su un foglio, con un carboncino del
+            focolare, e accanto scrivi i nomi che Ormun conosce. Quando hai
+            finito il foglio è nero di carbone e di storia. Lo pieghi nella
+            giubba accanto al cuore e prendi la porta bassa verso le travi.
+          pe: { accademiche: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il carbone
+          testo: |
+            Il carboncino si sbriciola fra le dita, e il foglio diventa una
+            macchia nera. Ormun ride per la prima volta da quando siete
+            saliti, e ti dice di lasciar perdere i segni e pensare alle
+            travi.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, tormento: 0.5 }
+      - testo: "Accendere la candela dei Vennari"
+        descrizione: "Qualcuno l'ha lasciata per un motivo. Accenderla è un gesto, e i gesti qui contano."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La candela
+          testo: |
+            Accendi il mozzicone con l'acciarino, e la fiamma sta dritta
+            anche con il vento che entra dalle finestre. Ormun si toglie di
+            nuovo il cappello. Restate a guardarla finché si spegne da sola,
+            poi prendete la porta bassa verso le travi.
+          pe: { empatia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, tormento: -0.5 }
+        fallimento:
+          titolo: Lo stoppino
+          testo: |
+            Lo stoppino è troppo corto, e la fiamma ti brucia le dita prima
+            di prendere. La candela si spegne in un filo di fumo. Ormun non
+            dice niente, e prendete la porta bassa verso le travi in
+            silenzio.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, ferite: 0.5 }
+      - testo: "Tirare dritto verso le travi"
+        descrizione: "I segni restano qui. La scorta di Morlacchi, intanto, sale."
+        costo: 2
+        esito:
+          titolo: Verso le travi
+          testo: |
+            Passi sopra i segni senza fermarti, attento a non calpestarli, e
+            prendi la porta bassa in fondo alla loggia. Ormun resta indietro
+            un momento, chinato sul segno dei Lusardi, poi ti raggiunge.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 3 · le travi bruciate
+  - id: gilda-monconi-le-travi-bruciate
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: Le travi bruciate
+    sommario: "Oltre la loggia le travi annerite del ponte bruciato sporgono sul vuoto. Il fuoco del 127 le ha piegate come candele."
+    luogo: I monconi del Ventisette, le travi bruciate
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette == 3]
+    testo: |
+      Oltre la porta bassa la loggia finisce, e cominciano le travi del
+      ponte bruciato. Sporgono dal pilone sul vuoto annerite e storte,
+      piegate dal calore come candele lasciate al sole. Fra una trave e
+      l'altra ci sono le staffe di ferro dove si attaccavano le assi, e
+      sotto c'è la Cicatrice, con il suo bagliore azzurro che sale piano.
+
+      {resistenza Media} Il vento qui è freddo e costante, e le dita lo
+      sentono prima del resto. Fra poco faranno fatica a chiudersi.
+
+      {accademiche Difficile} Il ferro si piega così soltanto con un fuoco
+      lungo e caldo, molto più caldo di un incendio di legno. Qualcuno, nel
+      127, aveva preparato bene le funi da far bruciare.
+
+      In fondo alle travi, dove il pilone si stringe, una porta di metallo
+      senza maniglia chiude il cuore del pilone.
+    opzioni:
+      - testo: "Camminare sulle travi"
+        descrizione: "Sono larghe un piede, e storte. Bisogna tenere il peso basso e non pensarci."
+        prova: { attributo: fisico, abilita: [acrobazia, resistenza], difficolta: Media }
+        successo:
+          titolo: Il peso basso
+          testo: |
+            Cammini sulle travi con il peso basso e le braccia larghe, da
+            una staffa all'altra, mentre il vento ti tira la giubba. In
+            fondo arrivi al metallo liscio del cuore del pilone, e ci
+            appoggi la mano.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: La trave storta
+          testo: |
+            Una trave si inclina sotto il tuo peso più di quanto pensavi, e
+            ti ritrovi a cavalcioni del ferro, abbracciato a lui, con le
+            gambe nel vuoto. Ormun ti tira indietro con una corda. Tornate
+            alla loggia a scaldarvi le mani.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Studiare il ferro piegato"
+        descrizione: "Il fuoco del 127 ha lasciato il segno sul ferro. Un segno si legge, se si sa come."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Media }
+        successo:
+          titolo: L'olio
+          testo: |
+            Gratti la crosta nera di una trave con la lama. Sotto c'è una
+            macchia lucida che sa ancora d'olio, dopo cinquant'anni. Le funi
+            del ponte erano state bagnate d'olio prima del fuoco. Te lo
+            segni sul polsino e passi oltre lungo la trave più dritta.
+          pe: { accademiche: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: La crosta
+          testo: |
+            Gratti la crosta, ma sotto c'è soltanto altra crosta, e la lama
+            ti scivola sul ferro tagliandoti il dorso della mano. Ti fasci
+            con il fazzoletto e torni alla loggia.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare per le staffe, sotto le travi"
+        descrizione: "Sotto le travi le staffe sono vicine e solide. Ci si passa appesi, a forza di braccia."
+        costo: 2
+        esito:
+          titolo: Appesi
+          testo: |
+            Passi sotto le travi appeso alle staffe, una dopo l'altra, con
+            la Cicatrice che ti illumina le suole. Ci metti molto, e le
+            braccia alla fine non le senti più. Ma arrivi in fondo, accanto
+            alla porta di metallo.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 3–4 · i gabbiani di cresta grigia
+  - id: gilda-monconi-i-gabbiani
+    immagine: icone/seagull
+    titolo: I gabbiani di cresta grigia
+    sommario: "Sulle travi nidificano i gabbiani di cresta grigia. Hanno le uova, e non vogliono visite."
+    luogo: I monconi del Ventisette, i nidi sulle travi
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette >= 3, profondita.gilda-monconi-del-ventisette <= 4]
+    testo: |
+      Sulle travi più alte, dove il vento non arriva, i gabbiani di cresta
+      grigia hanno fatto i nidi con le fibre delle corde bruciate. Sono
+      grossi, con la cresta grigia ritta sulla testa e il becco giallo
+      grosso come un pollice. Quando ti vedono se ne alzano una trentina
+      tutti insieme, e ti girano intorno gridando.
+
+      {natura Media} Difendono le uova. Se ti tieni lontano dai nidi ti
+      seguono gridando senza attaccare. Se ti avvicini, sì.
+
+      {rissa Facile} I gabbiani attaccano agli occhi. Un braccio alzato
+      davanti alla faccia vale più di un'arma.
+
+      Il passaggio verso la porta di metallo passa proprio sotto i nidi.
+    opzioni:
+      - testo: "Passare sotto i nidi con il braccio alzato"
+        descrizione: "Lo stormo attaccherà. Bisogna tenere la faccia coperta e non fermarsi."
+        combattimento: gilda-lo-stormo
+        vittoria:
+          titolo: Lo stormo
+          testo: |
+            I gabbiani ti si buttano addosso a ondate, e tu passi sotto i
+            nidi con il braccio alzato e la lama nell'altra mano. Quando ne
+            cadono due, gli altri si alzano e se ne vanno sopra la
+            Cicatrice, gridando. Hai il braccio pieno di beccate e la giubba
+            sporca.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        sconfitta:
+          titolo: Le beccate
+          testo: |
+            I gabbiani ti si buttano addosso tutti insieme, e tu indietreggi
+            fino alla loggia con le braccia sopra la testa e le mani piene
+            di sangue. Ormun ti fascia le dita bestemmiando contro tutti gli
+            uccelli del mondo.
+          effetti: { tormento: 0.5 }
+      - testo: "Girare lontano dai nidi"
+        descrizione: "I gabbiani attaccano soltanto chi si avvicina alle uova. Bisogna sapere dove sono."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Lontano dalle uova
+          testo: |
+            Guardi dove si posano i gabbiani e capisci dove sono i nidi.
+            Giri intorno, lungo il bordo esterno delle travi, con lo stormo
+            che ti grida sopra la testa senza toccarti. In fondo arrivi alla
+            porta di metallo, con le orecchie che fischiano.
+          pe: { natura: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il nido nascosto
+          testo: |
+            Giri lontano dai nidi che vedi, e metti il piede in uno che non
+            vedevi. Le uova si rompono, e lo stormo ti piomba addosso.
+            Scappi fino alla loggia con il braccio sopra la testa.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Aspettare che lo stormo vada a pescare"
+        descrizione: "Al tramonto i gabbiani scendono nella Cicatrice. Lasciano i nidi per poco."
+        costo: 2
+        esito:
+          titolo: Il tramonto
+          testo: |
+            Aspetti nella loggia fino al tramonto, quando lo stormo si butta
+            giù nella Cicatrice a caccia di qualcosa. Passi sotto i nidi in
+            fretta, mentre restano soltanto le uova e qualche piuma grigia.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ 3–4 · l'uomo della scorta
+  - id: gilda-monconi-l-uomo-della-scorta
+    immagine: icone/hooded-figure
+    titolo: L'uomo della scorta
+    sommario: "Sulle travi c'è un uomo con la livrea dei magazzini di scarico, che guarda giù verso la base del pilone. È uno della scorta di Morlacchi, mandato avanti."
+    luogo: I monconi del Ventisette, le travi alte
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette >= 3, profondita.gilda-monconi-del-ventisette <= 4]
+    testo: |
+      Su una trave alta, accucciato contro il pilone, c'è un uomo con il
+      mantello della Gilda sopra un giaco di cuoio. Sulla manica ha la
+      livrea dei magazzini di scarico, e guarda giù, verso la base del
+      pilone, con una mano sopra gli occhi. È uno della scorta di Morlacchi,
+      mandato avanti a vedere la strada. Gli altri non sono lontani.
+
+      {armi-da-mischia Media} Ha una lama corta e la tiene sul fianco
+      sbagliato per una trave così stretta. Se si gira, deve cambiare mano.
+
+      {furtivita Media} Guarda giù, non di lato. Il vento copre i passi, se
+      li fai quando soffia.
+    opzioni:
+      - testo: "Arrivargli addosso prima che si giri"
+        descrizione: "Una trave stretta, un uomo solo. Bisogna arrivare prima che chiami gli altri."
+        combattimento: gilda-un-uomo-della-scorta
+        vittoria:
+          titolo: La livrea
+          testo: |
+            Gli arrivi addosso mentre si gira, e la lama gli scappa di mano
+            e cade nella Cicatrice. Lui si arrende con la schiena al pilone.
+            Lo leghi alla trave con la sua stessa cintura e prosegui verso
+            la porta di metallo, mentre lui ti promette che Morlacchi lo
+            saprà.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        sconfitta:
+          titolo: Il fischio
+          testo: |
+            Lui ti vede arrivare e ti colpisce di piatto, e poi fischia
+            forte verso il basso. Torni indietro fino alla loggia prima che
+            arrivino gli altri, con il fischio che ti rimbomba nelle
+            orecchie.
+          effetti: { sospetto: 0.5 }
+      - testo: "Passargli alle spalle con il vento"
+        descrizione: "Un passo per ogni raffica, e la schiena contro il pilone."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Con il vento
+          testo: |
+            Ti muovi soltanto quando soffia il vento, un passo per raffica,
+            e gli passi alle spalle mentre lui guarda giù. Arrivi alla porta
+            di metallo senza che si sia voltato una volta.
+          pe: { furtivita: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: La raffica che cala
+          testo: |
+            Il vento cala proprio mentre fai il passo, e la suola gratta sul
+            ferro. Lui si volta e ti vede. Fischia verso il basso, e tu
+            torni indietro fino alla loggia.
+          effetti: { sospetto: 0.5 }
+      - testo: "Fargli contare i soldi altrove"
+        descrizione: "Un uomo della scorta è pagato per salire. Nessuno lo paga per cadere."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Il conto
+          testo: |
+            Gli parli con calma dalla trave accanto, e gli fai notare quanto
+            è alta la Cicatrice e quanto è bassa la sua paga. Lui ci pensa.
+            Poi scende per la via da cui è salito, e ti dice che agli altri
+            dirà che la loggia era vuota.
+          pe: { persuasione: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: La paga
+          testo: |
+            Gli parli della paga, e lui ride. Dice che Morlacchi paga bene,
+            anche chi cade. Fischia verso il basso, e tu torni indietro fino
+            alla loggia.
+          effetti: { sospetto: 0.5 }
+
+  # ------------------------------------------------------------ 4 · il cuore di metallo del pilone
+  - id: gilda-monconi-il-metallo-del-pilone
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il metallo del pilone
+    sommario: "In cima alle travi il ferro dei tiracorde finisce, e comincia il metallo liscio dei Precursori. Dentro il pilone qualcosa ronza."
+    luogo: I monconi del Ventisette, il cuore del pilone
+    area: gilda-monconi-del-ventisette
+    ripetibile: true
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette == 4]
+    testo: |
+      Dove le travi finiscono il ferro dei tiracorde si ferma, e comincia il
+      metallo scuro del pilone vero, che non ha una giuntura. Al tatto è
+      tiepido, anche con il vento della Cicatrice. Dentro, molto in fondo,
+      qualcosa ronza, come un alveare chiuso in una cassa.
+
+      {magia Media} Il Mana qui dentro gira lento, in cerchio, come intorno
+      ai reperti chiusi. Il pilone non è soltanto un pilone.
+
+      {tecnologia Media} Ci sono linee incise sul metallo, sottili come
+      capelli, che girano intorno al pilone e scendono verso una porta. Sono
+      le stesse dei gusci sigillati che si trovano sulla Superficie.
+
+      Ormun tiene la mano lontana dal metallo e guarda la porta. Non ha
+      maniglia né serratura, proprio come nel disegno del nonno di Clelia.
+    opzioni:
+      - testo: "Seguire le linee incise"
+        descrizione: "Girano intorno al pilone e scendono. Dove scendono, c'è la porta."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Le linee
+          testo: |
+            Segui le linee con la punta del dito senza toccarle, girando
+            intorno al pilone fino a un incavo accanto alla porta, grande
+            come una mano aperta. Le linee finiscono tutte lì, e Ormun ti
+            guarda annuendo con la pipa fra i denti.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+        fallimento:
+          titolo: Il giro
+          testo: |
+            Segui le linee intorno al pilone e ti accorgi tardi che hai
+            fatto tre giri, e che le linee girano all'infinito. La testa ti
+            gira con loro. Ti siedi su una trave finché il mondo non si
+            ferma.
+          effetti: { tormento: 0.5 }
+      - testo: "Ascoltare il ronzio"
+        descrizione: "Il Mana gira in cerchio. Chi sa ascoltarlo sente dove si ferma."
+        prova: { attributo: mentale, abilita: [magia, resilienza], difficolta: Media }
+        successo:
+          titolo: Dove si ferma
+          testo: |
+            Appoggi l'orecchio al metallo tiepido, e il ronzio ti entra nei
+            denti. Gira e gira, e in un punto solo si ferma per un battito,
+            come un respiro trattenuto. È accanto alla porta, dove c'è un
+            incavo grande come una mano.
+          pe: { magia: 3 }
+          effetti: { profondita.gilda-monconi-del-ventisette: 1, tormento: 0.5 }
+        fallimento:
+          titolo: Nei denti
+          testo: |
+            Il ronzio ti entra nei denti e non se ne va più. Ti stacchi dal
+            metallo con la mascella che vibra e le orecchie che fischiano, e
+            ti ci vuole un'ora per smettere di sentirlo.
+          effetti: { tormento: 1 }
+      - testo: "Aspettare che Ormun trovi la porta"
+        descrizione: "Suo padre è salito fin qui, la mattina dopo il fuoco. Forse ha raccontato qualcosa."
+        costo: 2
+        esito:
+          titolo: Il racconto di Ormun
+          testo: |
+            Ormun si siede su una trave e si accende finalmente la pipa. Ti
+            racconta che suo padre, la mattina dopo il fuoco, vide un
+            tiracorde vecchio uscire dal pilone con le mani vuote, e
+            richiudere la porta appoggiandoci il palmo. Poi ti indica
+            l'incavo accanto alla porta.
+          effetti: { profondita.gilda-monconi-del-ventisette: 1 }
+
+  # ------------------------------------------------------------ il cuore · la camera del pilone
+  - id: gilda-monconi-la-camera-del-pilone
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La camera del pilone
+    sommario: "Accanto alla porta di metallo c'è un incavo grande come una mano. Il nonno di Clelia sapeva aprirla, e dentro ci ha lasciato la verità sul 127."
+    luogo: I monconi del Ventisette, la porta del cuore del pilone
+    area: gilda-monconi-del-ventisette
+    requisiti: [fazione.gilda == 10, profondita.gilda-monconi-del-ventisette >= 5]
+    testo: |
+      La porta del cuore del pilone è un pannello di metallo scuro alto due
+      uomini, liscio come l'acqua ferma. Accanto c'è un incavo grande come
+      una mano aperta, e intorno all'incavo le linee incise del pilone si
+      stringono e si fermano. Dentro, dietro il pannello, il ronzio è più
+      forte, e ogni tanto si interrompe, come un respiro. Sul pavimento,
+      davanti alla porta, la polvere conserva le impronte vecchie di un paio
+      di stivali, venuti fin qui una volta sola.
+
+      {tecnologia Difficile} I congegni dei Precursori si aprono con una
+      sequenza di pressioni nel punto giusto. Chi l'ha aperta prima di te ha
+      lasciato il segno del pollice sul metallo, tre volte.
+
+      {magia Media} Il Mana che gira nel pilone si ferma qui. Un incantesimo
+      che sigilla e disigilla, come quelli dell'Accademia, ci parlerebbe.
+
+      In un angolo, contro il metallo, c'è una cosa rotonda grande come un
+      pugno, coperta di polvere. Ha linee incise che si accendono a
+      intermittenza, molto piano. Ormun la guarda e si mette fra te e lei.
+    opzioni:
+      - testo: "Aprire il congegno"
+        descrizione: "Tre segni di pollice per tre pressioni. Bisogna trovare l'ordine, prima che il guardiano si svegli."
+        quando: [gilda.vano == 0]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Tre pressioni
+          testo: |
+            Premi il palmo nell'incavo, poi il pollice sui tre segni, uno
+            alla volta, nell'ordine in cui sono più consumati. Il ronzio si
+            ferma. Il pannello scivola di lato senza un suono, e dentro c'è
+            una camera stretta, con le pareti che brillano piano e una
+            nicchia all'altezza del petto.
+          pe: { tecnologia: 10 }
+          imposta: { gilda.vano: 1 }
+          segue: gilda-monconi-la-scorta
+        fallimento:
+          titolo: Il guardiano
+          testo: |
+            Premi i segni nell'ordine sbagliato, e la cosa rotonda
+            nell'angolo si accende tutta e si alza nell'aria. Ti colpisce
+            sulla tempia prima di tornare a terra a spegnersi. Ti rialzi con
+            il sangue negli occhi e la porta ancora chiusa.
+          effetti: { ferite: 1 }
+      - testo: "Aprirla con il Sigillo"
+        descrizione: "L'incantesimo dell'Accademia che sigilla e disigilla. Il pilone dovrebbe riconoscerlo."
+        quando: [gilda.vano == 0]
+        incantesimo: sigillo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il Mana che si apre
+          testo: |
+            Appoggi la mano nell'incavo e dici la formula del Sigillo al
+            contrario, come insegnano in Accademia. Il Mana che gira nel
+            pilone ti passa nel palmo, e il pannello scivola di lato. Dentro
+            c'è una camera stretta con una nicchia all'altezza del petto.
+          pe: { magia: 5 }
+          imposta: { gilda.vano: 1 }
+          segue: gilda-monconi-la-scorta
+        fallimento:
+          titolo: Il Mana che torna
+          testo: |
+            La formula ti si spezza in bocca, e il Mana torna indietro fino
+            al gomito, freddo come acqua di pozzo. La porta resta chiusa, e
+            la cosa rotonda nell'angolo si accende per un momento.
+          effetti: { tormento: 0.5 }
+      - testo: "Svegliare il guardiano e farla finita"
+        descrizione: "La cosa rotonda nell'angolo è un drone dei Precursori, e non è da solo. Se cadono, la porta si apre."
+        quando: [gilda.vano == 0]
+        combattimento: gilda-il-guardiano-dormiente
+        vittoria:
+          titolo: I droni a terra
+          testo: |
+            I droni si alzano dall'angolo e dal soffitto, due sfere che
+            ronzano, e tu li abbatti uno dopo l'altro sul metallo del
+            pilone. Quando l'ultimo si spegne il ronzio dietro la porta si
+            ferma, e il pannello scivola di lato da solo. Dentro c'è una
+            camera stretta con una nicchia all'altezza del petto.
+          imposta: { gilda.vano: 1 }
+          segue: gilda-monconi-la-scorta
+        sconfitta:
+          titolo: Il ronzio
+          testo: |
+            I droni ti colpiscono da due parti, e tu ti ritrovi a
+            indietreggiare sulle travi con le braccia sopra la testa. Ormun
+            ti tira giù per la via della loggia. Tornate ai Ponti con il
+            ronzio che vi segue fin dentro le orecchie.
+          vai: ponti-sospesi
+      - testo: "Tornare al vano aperto"
+        descrizione: "Il pannello è come l'hai lasciato, scostato di lato. Dentro c'è la nicchia."
+        quando: [gilda.vano >= 1]
+        costo: 0
+        esito:
+          titolo: Il vano aperto
+          testo: |
+            Il pannello è rimasto scostato, come l'avevi lasciato. Entri
+            nella camera stretta e ti fermi davanti alla nicchia, con il
+            cuore che ti batte fino in gola.
+          segue: gilda-monconi-la-scorta
+      - testo: "Scendere e tornare un'altra volta"
+        descrizione: "Il pilone resta qui, e il guardiano anche."
+        costo: 0
+        esito:
+          titolo: La discesa
+          testo: |
+            Scendete per la via della loggia e delle corde vecchie, con il
+            ronzio del pilone che vi accompagna fino alla base. Ormun non
+            dice niente per tutta la strada.
+          vai: ponti-sospesi
+      - testo: "Aprire il congegno come un reperto"
+        descrizione: "Sulle piattaforme i gusci dei Precursori si aprono con la pressione giusta, mai con la forza. Questo è un guscio grande come una casa."
+        quando: [gilda.vano == 0, origine.apprendista-raschiatore >= 1]
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La pressione giusta
+          testo: |
+            Appoggi il palmo nell'incavo come sui gusci delle piattaforme, e
+            aspetti che il metallo ti dica dove premere. Tre volte, piano.
+            Il ronzio si ferma, e il pannello scivola di lato. Dentro c'è
+            una camera stretta con una nicchia all'altezza del petto.
+          pe: { tecnologia: 10 }
+          imposta: { gilda.vano: 1 }
+          segue: gilda-monconi-la-scorta
+        fallimento:
+          titolo: Il guscio che punge
+          testo: |
+            Premi, e il metallo ti respinge la mano con una scossa. La cosa
+            rotonda nell'angolo si alza e ti colpisce sulla tempia prima di
+            tornare a terra, e la porta resta chiusa davanti a te.
+          effetti: { ferite: 1 }
+
+  - id: gilda-monconi-la-scorta
+    immagine: icone/tied-scroll
+    titolo: Il documento e la scorta
+    tipo: seguito
+    luogo: I monconi del Ventisette, la camera del pilone
+    area: gilda-monconi-del-ventisette
+    requisiti: [fazione.gilda == 10, gilda.vano >= 1]
+    testo: |
+      Nella nicchia c'è un rotolo di pergamena avvolto nella tela cerata e
+      legato con una corda da tiracorde. Lo apri sotto la luce delle pareti.
+      È il documento del 127, la versione unica, e porta i sigilli delle tre
+      famiglie del Patto, uno accanto all'altro, in cera rossa. Il primo è
+      quello dei Cordani, il sigillo di Hakkos Cordani, il primo
+      Sovrintendente.
+
+      Le tre famiglie bruciarono insieme i tre ponti, nella notte del 127,
+      per raddoppiare i pedaggi e ricostruirli con il denaro della Gilda. Le
+      bande in livrea che per sette notti si ammazzarono nei vicoli non lo
+      seppero mai. Accanto ai sigilli c'è un nodo da tiracorde, fatto con
+      una corda bruciata.
+
+      {intimidire Media} Il capo della scorta batte la mazza sul ferro per
+      farsi sentire. Chi fa tanto rumore prima di arrivare spera che l'altro
+      scappi.
+
+      {accademiche Media} Il nodo è quello dei Vennari. Il nonno di Clelia
+      ha firmato anche lui, sotto i padroni, per dire che c'era.
+
+      Dalla loggia arrivano passi e voci, e il rumore di una mazza ferrata
+      che batte sul ferro. La scorta di Morlacchi è salita. Sono tre, e il
+      capo ha i guanti da carico e la livrea dei magazzini.
+
+      {origine rampollo-dei-quartieri-alti} Il sigillo dei Cordani l'hai
+      visto sulle lettere d'invito, sopra il camino di casa tua. Vederlo
+      qui, in cima a questo foglio, ti stringe lo stomaco come un tradimento
+      in famiglia.
+    opzioni:
+      - testo: "Affrontare la scorta sulle travi"
+        descrizione: "Tre uomini pagati bene, su travi strette, sopra la Cicatrice. È una battaglia da non perdere."
+        combattimento: gilda-la-scorta-di-morlacchi
+        vittoria:
+          titolo: Le travi
+          testo: |
+            Il capo della scorta cade sulle travi con la mazza fuori
+            portata, e gli altri due scappano per la via della loggia. Lui
+            ti guarda da terra e ti chiede soltanto di non dirlo a
+            Morlacchi. Nella loggia, mentre scendi, trovi su un chiodo un
+            paio di guanti da tiracorde con il palmo intrecciato di corda, e
+            li prendi. Il documento è nella tua giubba, contro il petto.
+          pe: { atletica: 5, accademiche: 5 }
+          effetti: { oggetto.gilda-guanti-delle-tiracorde: 1, reliquie.frammento-inciso: 2, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi
+        sconfitta:
+          titolo: Il documento nella nicchia
+          testo: |
+            Il capo della scorta ti colpisce con la mazza, e tu cadi contro
+            il pannello. Fai appena in tempo a rimettere il rotolo nella
+            nicchia, dove loro non arrivano, prima che ti trascinino fuori.
+            Ti lasciano sulle travi, convinti che il pilone fosse vuoto, e
+            Ormun ti porta giù appoggiato alla sua spalla.
+          vai: ponti-sospesi
+      - testo: "Convincerli a contare i soldi altrove"
+        descrizione: "Sono pagati per tornare con un documento. Bisogna convincerli che il documento non c'era."
+        prova: { attributo: sociale, abilita: [persuasione, ingannare], difficolta: Difficile }
+        successo:
+          titolo: La loggia vuota
+          testo: |
+            Esci dalla camera con le mani vuote e il rotolo nella giubba, e
+            dici al capo della scorta che la nicchia era vuota da
+            cinquant'anni. Gli mostri il pannello aperto e la polvere. Lui
+            ci pensa guardando la Cicatrice e i suoi uomini, e alla fine se
+            ne vanno. Nella loggia, scendendo, trovi un paio di guanti da
+            tiracorde su un chiodo, e li prendi.
+          pe: { persuasione: 5, accademiche: 5 }
+          effetti: { oggetto.gilda-guanti-delle-tiracorde: 1, reliquie.frammento-inciso: 2, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: Le tasche
+          testo: |
+            Gli dici che la nicchia era vuota, e lui ti chiede di vuotare le
+            tasche. Rimetti il rotolo nella nicchia con un gesto che lui non
+            vede, e intanto ti mettono le mani addosso. Ti lasciano sulle
+            travi con un occhio nero, convinti di avere perso tempo.
+          effetti: { ferite: 1 }
+          vai: ponti-sospesi
+      - testo: "Scendere per le corde vecchie con il documento"
+        descrizione: "Dalla camera c'è una feritoia sulle corde del 127. Si scende appesi, sopra il vuoto, prima che arrivino."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Le corde del 127
+          testo: |
+            Ti infili nella feritoia e scendi lungo le corde vecchie, mano
+            dopo mano, con il rotolo nella giubba e la Cicatrice sotto i
+            piedi. Sopra di te la scorta grida e cerca. A metà discesa trovi
+            su una staffa un paio di guanti da tiracorde, lasciati lì da
+            qualcuno tanto tempo fa, e li infili. Ormun ti aspetta alla base
+            con la pipa accesa.
+          pe: { acrobazia: 5, accademiche: 5 }
+          effetti: { oggetto.gilda-guanti-delle-tiracorde: 1, reliquie.frammento-inciso: 2, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: La corda che brucia
+          testo: |
+            Una corda vecchia si sbriciola sotto le tue mani, e fai appena
+            in tempo a tornare nella camera e a rimettere il rotolo nella
+            nicchia prima che la scorta ti trovi. Ti lasciano sulle travi
+            con le mani scorticate, e Ormun ti porta giù per la via della
+            loggia.
+          effetti: { ferite: 1 }
+          vai: ponti-sospesi
+      - testo: "Scendere per le corde come sulla Cicatrice"
+        descrizione: "Sulle piattaforme si scende appesi tutti i giorni. Le corde del 127 sono soltanto più vecchie."
+        quando: [origine.apprendista-raschiatore >= 1]
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Come sulla piattaforma
+          testo: |
+            Scendi per le corde vecchie come scendevi sulle piattaforme, con
+            una mano sempre su una corda buona e il rotolo nella giubba. A
+            metà discesa trovi su una staffa un paio di guanti da tiracorde,
+            e li infili. Sopra di te la scorta grida, mentre Ormun ti
+            aspetta alla base con la pipa accesa.
+          pe: { acrobazia: 5, accademiche: 5 }
+          effetti: { oggetto.gilda-guanti-delle-tiracorde: 1, reliquie.frammento-inciso: 2, racconto: 1, rep.gilda: 0.5, fazione.gilda: 1 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: La corda che brucia
+          testo: |
+            Una corda si sbriciola sotto le tue mani, e torni nella camera
+            in tempo per rimettere il rotolo nella nicchia. La scorta ti
+            lascia sulle travi con le mani scorticate, e Ormun ti porta giù
+            per la via della loggia.
+          effetti: { ferite: 1 }
+          vai: ponti-sospesi

@@ -343,6 +343,21 @@ function rigaPista(s: Stato, c: TContenuti, id: string, nomeSerie: string, descr
   return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}${dopo}</div>${segno}</li>`;
 }
 
+/** Una riga della sezione Fazioni: il grado raggiunto, la quest a che punto è e il grado che viene dopo. */
+function rigaFazione(s: Stato, c: TContenuti, f: TContenuti['fazioni'][number]): string {
+  const z = serieDi(c).serie.find((x) => x.quality === f.pista);
+  const q = c.quality.find((x) => x.id === f.pista);
+  const fatti = z ? avanzamento(s, z) : Math.floor(s.quality[f.pista] ?? 0);
+  const massimo = z?.massimo ?? f.gradi[f.gradi.length - 1]!.passo;
+  const presi = f.gradi.filter((g) => fatti >= g.passo);
+  const grado = presi[presi.length - 1];
+  const prossimo = f.gradi.find((g) => fatti < g.passo);
+  const titolo = grado ? `${etichetta(`Grado ${presi.length} · ${grado.nome}`, 'velo')}` : etichetta('Aspirante', 'dim');
+  const dopo = prossimo ? `<p>Prossimo grado al passo ${prossimo.passo}: ${h(prossimo.nome)}. ${h(prossimo.ricompensa)}</p>` : '';
+  const ottenuti = grado ? `<p>${h(grado.ricompensa)}</p>` : '';
+  return `<li class="${fatti >= massimo ? 'conclusa' : ''}">${tavola(f.immagine ?? q?.immagine, { classe: 'icona' })}<div><b>${h(f.nome)}</b><div class="grado-fazione">${titolo}</div>${q?.nome ? `<p>${h(q.nome)}</p>` : ''}${ottenuti}${dopo}</div><span class="serie">${tacche(fatti, massimo)}${fatti >= massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}</span></li>`;
+}
+
 /** Le tacche di una serie: piene fino a dove sei, quella del passo in corso accesa. */
 export function tacche(fatti: number, massimo: number, ora?: number): string {
   const segni = Array.from({ length: massimo }, (_, i) => `<i class="${i < fatti ? 'piena' : ''}${i === ora ? ' ora' : ''}"></i>`).join('');
@@ -579,7 +594,8 @@ export function personaggio(x: Contesto): string {
     const v = s.quality[q.id] ?? 0;
     return `<li class="${v === 0 ? 'zero' : v < 0 ? 'neg' : 'pos'}">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}</span><b>${segno(v)}</b></li>`;
   }).join('');
-  const piste = c.quality.filter((q) => q.categoria === 'pista' && (s.quality[q.id] ?? 0) > 0);
+  const piste = c.quality.filter((q) => q.categoria === 'pista' && (s.quality[q.id] ?? 0) > 0 && !c.fazioni.some((f) => f.pista === q.id));
+  const fazioni = c.fazioni.filter((f) => (s.quality[f.pista] ?? 0) > 0);
   const luoghiAvviati = serieDi(c).serie.filter((z) => z.tipo === 'luogo' && avanzamento(s, z) > 0);
   const mutazioni = mutazioniDi(s, c);
   const conosciuti = incantesimiConosciuti(s, c);
@@ -610,6 +626,7 @@ export function personaggio(x: Contesto): string {
     </header>
     <h2 class="titolo-sezione">Attributi e abilità</h2>
     <div class="attributi-griglia">${colonne}</div>
+    ${fazioni.length ? `<h2 class="titolo-sezione">Fazioni</h2><ul class="elenco-piste elenco-fazioni">${fazioni.map((f) => rigaFazione(s, c, f)).join('')}</ul>` : ''}
     ${piste.length ? `<h2 class="titolo-sezione">Le tue storie</h2><ul class="elenco-piste">${piste.map((q) => rigaPista(s, c, q.id, q.nome, q.descrizione, q.immagine)).join('')}</ul>` : ''}
     ${luoghiAvviati.length ? `<h2 class="titolo-sezione">Nei luoghi della città</h2><ul class="elenco-piste">${luoghiAvviati.map((z) => rigaPista(s, c, z.id, z.nome, undefined, z.immagine)).join('')}</ul>` : ''}
     <h2 class="titolo-sezione">Incantesimi ${conosciuti.length ? `<small>repertorio ${rep.length}/${limite} · Energia ${energia}</small>` : ''}</h2>
