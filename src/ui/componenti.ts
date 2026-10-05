@@ -5,6 +5,7 @@ import { NOMI_DIFETTI } from '../motore/contenuto';
 import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, RINTOCCHI_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
 import { h, mezzi } from './formato';
+import { leggiVoce, nomeVoce, senzaSegni, type Voce } from '../motore/voci';
 
 /** Le icone minori (game-icons.net, CC BY 3.0) sono SVG in linea, colorati dal CSS. */
 export const èIcona = (t: string): boolean => t.startsWith('icone/');
@@ -77,16 +78,29 @@ function registri(html: string): string {
     .replace(/\*([^*]+)\*/g, (_, t: string) => (/[.!?…]\s*$/.test(t) ? `<span class="pensiero">${t}</span>` : `<em>${t}</em>`));
 }
 
-/** Testo narrativo: paragrafi separati da una riga vuota, *corsivo* con asterischi, nomi del glossario. */
-export function prosa(testo: string, classe = 'prosa'): string {
+/**
+ * Testo narrativo: paragrafi separati da una riga vuota, *corsivo* con asterischi, nomi del glossario.
+ * I paragrafi che cominciano con {abilità Difficoltà} sono voci delle abilità (motore/voci.ts): `valuta` fa il
+ * check passivo, e la voce compare con il suo esito e il colore dell'attributo. Senza `valuta` non compaiono.
+ */
+export function prosa(testo: string, classe = 'prosa', valuta?: (v: Voce) => boolean): string {
   const paragrafi = testo.trim().split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
   const viste = new Set<string>();
-  return `<div class="${classe}">${paragrafi.map((p) => `<p>${registri(annota(h(p), viste))}</p>`).join('')}</div>`;
+  const html = paragrafi.map((p) => {
+    const v = leggiVoce(p);
+    if (!v) return `<p>${registri(annota(h(p), viste))}</p>`;
+    if (!valuta) return '';
+    const riuscita = valuta(v);
+    if (riuscita === v.seFallita) return '';
+    // classe propria: `voce` è già quella dei nomi del glossario con il tooltip
+    return `<p class="abilita-voce ${v.attributo}"><b class="abilita-nome">${h(nomeVoce(v.abilita))}<span> [${h(v.difficolta)}: ${riuscita ? 'riuscita' : 'fallita'}]</span> –</b> ${registri(annota(h(v.testo), viste))}</p>`;
+  }).join('');
+  return `<div class="${classe}">${html}</div>`;
 }
 
 /** Prima frase di un testo, per gli elenchi quando manca il sommario. */
 export function primaFrase(testo: string): string {
-  const t = testo.trim().replace(/\s+/g, ' ').replace(/\*/g, '');
+  const t = senzaSegni(testo).trim().replace(/\s+/g, ' ').replace(/\*/g, '');
   const f = t.match(/^.+?[.!?»](?=\s|$)/)?.[0] ?? t;
   if (f.length <= 170) return f;
   return `${f.slice(0, 160).replace(/\s+\S*$/, '')}…`; // taglia a parola intera

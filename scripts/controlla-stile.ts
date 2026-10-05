@@ -4,6 +4,7 @@
 //      npm run stile -- --soglia 0  (mostra anche i blocchi puliti)
 import { pathToFileURL } from 'node:url';
 import { caricaContenuti } from './build-contenuti';
+import { senzaSegni } from '../src/motore/voci';
 
 interface Regola { nome: string; spiegazione: string; trova: (t: string) => string[] }
 
@@ -100,7 +101,7 @@ function blocchi(dati: unknown, dove = ''): { dove: string; testo: string }[] {
     const o = dati as Record<string, unknown>;
     const qui = typeof o['id'] === 'string' ? `${dove}${dove ? ' › ' : ''}${o['id']}` : dove;
     for (const [k, v] of Object.entries(o)) {
-      if (['testo', 'sommario', 'descrizione', 'titolo'].includes(k) && typeof v === 'string') out.push({ dove: `${qui} [${k}]`, testo: v });
+      if (['testo', 'sommario', 'descrizione', 'titolo'].includes(k) && typeof v === 'string') out.push({ dove: `${qui} [${k}]`, testo: senzaSegni(v) });
       else if (k !== 'id') out.push(...blocchi(v, typeof v === 'object' && !Array.isArray(v) ? `${qui} › ${k}` : qui));
     }
   }

@@ -9,6 +9,7 @@ import { parse } from 'yaml';
 import { Contenuti, COSTI_PROPRIETA, DIFETTI, OVUNQUE, type TContenuti } from '../src/motore/contenuto';
 import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
 import { parseRequisito } from '../src/motore/personaggio';
+import { erroriVoci } from '../src/motore/voci';
 
 const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const CARTELLA = join(RADICE, 'contenuti');
@@ -158,8 +159,9 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
       else if (Math.abs((eff![k]! * 2) % 1) > 1e-9) errori.push(`${dove}: "${k}" deve variare a mezzi punti`);
     }
   };
-  const esito = (dove: string, e?: { effetti?: Record<string, number>; vai?: string; segue?: string; imposta?: Record<string, number>; pe?: Record<string, number> }) => {
+  const esito = (dove: string, e?: { testo?: string; effetti?: Record<string, number>; vai?: string; segue?: string; imposta?: Record<string, number>; pe?: Record<string, number> }) => {
     if (!e) return;
+    for (const x of erroriVoci(e.testo ?? '')) errori.push(`${dove}: ${x}`);
     effetti(dove, e.effetti);
     if (e.vai && !aree.has(e.vai)) errori.push(`${dove}: "vai" verso area sconosciuta "${e.vai}"`);
     if (e.segue && !storylet.has(e.segue)) errori.push(`${dove}: "segue" verso storylet sconosciuto "${e.segue}"`);
@@ -180,6 +182,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
 
   for (const st of c.storylet) {
     const dove = `storylet ${st.id}`;
+    for (const x of erroriVoci(st.testo)) errori.push(`${dove}: ${x}`);
     if (!aree.has(st.area) && !(st.area === OVUNQUE && st.tipo === 'carta')) errori.push(`${dove}: area sconosciuta "${st.area}"`);
     if ((st.tipo === 'crisi' || st.tipo === 'prologo') && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di ${st.tipo === 'crisi' ? 'una crisi' : 'un prologo'} costano 0 rintocchi`);
     requisiti(dove, st.requisiti);

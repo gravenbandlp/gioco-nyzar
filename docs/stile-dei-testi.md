@@ -116,6 +116,66 @@ Le caporali sono riservate al parlato: una parola scritta su un cartello, un reg
 corsivo (*defunto*, *rinviata*), mai fra «…».
 Per questo un titolo, un'insegna o una parola straniera in corsivo non va chiusa dal punto dentro gli asterischi.
 
+## Le voci delle abilità (dal 5 ottobre 2026: Disco Elysium sul serio)
+
+Luca ha scelto di spingere la voce fino in fondo: le abilità del personaggio parlano dentro la prosa, come in Disco
+Elysium. Ogni voce è un paragrafo a sé che comincia con un segno fra graffe:
+
+    {percezione Facile} Ce n'è una più vicina delle altre. Sul vetro qualcuno ha inciso ...
+    {resilienza Facile fallita} Hai freddo. Lo sapevi già, ma adesso lo sanno anche le mani ...
+
+Il gioco fa un check passivo, senza tirare dadi (`src/motore/voci.ts`): riesce se attributo più abilità darebbero
+almeno metà delle probabilità di riuscire alla prova. In pratica servono 1 dado per Molto facile, 3 per Facile,
+5 per Media, 7 per Difficile, 9 per Molto difficile; un personaggio nuovo ha da 2 a 6 dadi nelle sue abilità
+migliori. La voce semplice compare se il check riesce; quella con `fallita` compare solo se fallisce. Sullo schermo
+il nome dell'abilità, in maiuscoletto, ha il colore del suo attributo (Fisico rosso-arancio, Sociale viola, Mentale
+blu) e accanto l'esito: PERCEZIONE [Facile: riuscita].
+
+Le regole:
+- **Le voci stanno solo nel `testo` degli storylet e dei loro esiti.** Luoghi, aree, negozi, origini e frammenti
+  non le mostrano.
+- **Quello che serve a giocare resta nella narrazione.** Una voce può non comparire, quindi aggiunge e non
+  sostituisce: una persona, un oggetto o un indizio che le opzioni o gli esiti nominano va detto nella
+  narrazione. La voce interpreta, ricorda, sospetta, commenta.
+- **Quante.** Nel testo di una scena da una a tre voci, di solito due. Negli esiti al massimo una, e solo quando
+  aggiunge qualcosa; gli esiti brevi restano senza.
+- **Quale abilità.** Quella che naturalmente noterebbe la cosa. Nel corso di un file si alternano i tre attributi:
+  - Fisico: Rissa (chi si può stendere, dove colpire), Armi da mischia e Armi da distanza (le armi degli altri,
+    le distanze), Resistenza (fame, freddo, fatica, il corpo che protesta), Atletica (salti, salite, corse),
+    Acrobazia (equilibrio, appigli, cadute), Furtività (ombre, vie di fuga, rumori), Cavalcare (bestie da sella
+    e da tiro).
+  - Sociale: Conoscenze della strada (prezzi, traffici, gerghi, chi comanda davvero), Galateo (rango, buone
+    maniere, sgarbi), Persuasione, Intimidire (chi ha paura, chi la finge), Ingannare (chi mente e come),
+    Empatia (cosa prova chi hai davanti), Espressività (teatro, musica, il pubblico), Addestrare animali.
+  - Mentale: Accademiche (storia, testi, nomi antichi), Percezione (dettagli che sfuggono), Politica ed economia
+    (Casati, Gilde, denaro che si muove), Tecnologia (congegni, reperti, macchine), Magia (il Mana e i suoi
+    segni), Medicina (ferite, malattie, veleni), Natura (piante, bestie, la Marea), Resilienza (nervi, paura,
+    Tormento).
+- **La difficoltà.** Molto facile e Facile per cose evidenti a chi ha anche poca pratica; Media per la maggior
+  parte; Difficile e Molto difficile per le intuizioni rare, che un personaggio nuovo non sente.
+- **Le voci fallite** sono circa una su quattro: l'abilità che ti tradisce, con un'ironia gentile (Accademiche
+  che non ricorda niente e ti fa venire fame, Resistenza che si arrende al freddo).
+- **Come parlano.** Ogni abilità ha un carattere e ti parla in seconda persona: Percezione è precisa,
+  Empatia gentile, Conoscenze della strada cinica, Accademiche un po' pedante, Medicina clinica, Intimidire
+  sbrigativa, Galateo snob, Resistenza parla del corpo, Magia sente il Mana. Da una a tre frasi per voce,
+  niente discorso diretto fra caporali dentro una voce.
+- Le regole di "Da evitare" valgono anche per le voci, compresa la chiusa a battuta.
+
+Un esempio, dal Ponte dei Morti di notte (`contenuti/piste/registro.yaml`):
+
+> Al Ponte dei Morti arrivi con la giubba incollata alle spalle e un brivido che ti è salito lungo la schiena al
+> terzo pilone e non se n'è più andato. Appoggi la mano al parapetto. [...] Sopra il vuoto dondolano a centinaia
+> le lanterne dei Raschiatori, ognuna con il suo piccolo cristallo acceso per un compagno rimasto nel Labirinto.
+>
+> {percezione Facile} Ce n'è una più vicina delle altre. Sul vetro qualcuno ha inciso con la punta di un
+> coltello *paga il debito*, e sotto, più piccolo, *quando torni*.
+>
+> {empatia Media} La seconda frase l'ha scritta un'altra persona. Ha premuto meno sul coltello, per non rovinare
+> quella che c'era già.
+
+Per controllare un file riscritto: `npx tsx scripts/controlla-file.ts <file>` (struttura invariata rispetto al
+repository, segni validi, stile pulito).
+
 ## Cosa resta
 
 Seconda persona, presente. Dettagli concreti del mondo del Codex. I PNG parlano ciascuno a modo
