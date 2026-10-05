@@ -1,0 +1,315 @@
+# Lo Zekar al Grifone di Ferro (ottobre 2026). Regole in src/motore/zekar.ts, dal regolamento di Luca e dal Codex.
+# Si apre con rep.grifone >= 2. Ogni partita costa un rintocco.
+# - Il tavolo dello Zekar: una partita secca con tre poste. Le due basse contro i Raschiatori, la più alta contro
+#   Dragna, che per meno non lascia i suoi fogli. Vinci la posta o la perdi.
+# - Il torneo del Grifone: quattro tavoli in fila (Raschiatori, Dragna, Orazio Belcanto, Liaren). La quota si paga
+#   al primo tavolo; zekar.torneo conta i tavoli vinti. Chi cade al secondo riprende metà quota, al terzo la quota,
+#   al quarto il doppio e mezzo punto di rep.grifone; chi batte Liaren il quadruplo e un punto. La reputazione dal
+#   torneo arriva fino a 4, come quella della sala (contenuti/citta/grifone.yaml): oltre servono le storie.
+#   Il torneo lo tiene Liaren, quindi è chiuso mentre lei è sparita o ferita (pista.acciaio da 1 a 5).
+# Probabilità di vittoria con una mano equilibrata (simulate): Raschiatori 61%, Dragna 53%, Orazio 49%, Liaren 45%.
+
+zekar:
+  - id: raschiatori
+    nome: I Raschiatori del turno lungo
+    immagine: fazioni/raschiatori
+    descrizione: "Giocano in fretta per tornare al boccale e si fermano presto, ma con le laterali cercano sempre il venti tondo."
+    laterali: [-1, 1, 2, 3]
+    soglia: 16
+    mira: 20
+
+  - id: dragna-gro-malog
+    nome: Dragna Gro-Malog
+    immagine: personaggi/dragna-gro-malog
+    descrizione: "Tiene le carte con le tre dita che le restano e non ha fretta. Si ferma quando conviene, e le negative le tiene per salvarsi."
+    laterali: [-4, -3, 2, 3]
+    soglia: 17
+    mira: 19
+
+  - id: orazio-belcanto
+    nome: Orazio Belcanto
+    immagine: personaggi/orazio-belcanto
+    descrizione: "Gioca per il pubblico. Ha laterali alte e le cala con un gesto largo, sempre a caccia del venti esatto."
+    laterali: [-1, 3, 4, 5]
+    soglia: 17
+    mira: 20
+
+  - id: liaren-tarvelin
+    nome: Liaren Tarvelin
+    immagine: personaggi/liaren-tarvelin
+    descrizione: "Si spinge più in alto di tutti perché ha in mano solo carte per tornare indietro."
+    laterali: [-5, -3, -2, -1]
+    soglia: 18
+    mira: 19
+
+quality:
+  - { id: zekar.torneo, immagine: icone/card-random, nome: Il torneo del Grifone, categoria: stato, descrizione: "I tavoli che hai vinto nel torneo di Zekar in corso al Grifone di Ferro." }
+
+storylet:
+  # ------------------------------------------------------------ la partita secca
+  - id: zekar-al-grifone
+    presso: grifone-di-ferro
+    immagine: fazioni/raschiatori
+    titolo: Il tavolo dello Zekar
+    sommario: "Sotto la scala del Grifone i Raschiatori giocano a Zekar fino a tardi, e una sedia libera c'è sempre."
+    luogo: Locanda del Grifone di Ferro, sotto la scala
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [rep.grifone >= 2]
+    testo: |
+      Il tavolo dello Zekar sta sotto la scala, dove il calore del camino
+      arriva appena e la luce viene da una lanterna appesa a una trave
+      bassa, che chi si alza di scatto prende sempre con la fronte. I
+      Raschiatori del turno lungo giocano lì da quando Liaren ha comprato la
+      locanda, e il mazzo è ancora quello, con le carte gonfie di birra e un
+      sette segnato a matita sul dorso che tutti riconoscono e nessuno ha mai
+      voluto cambiare.
+
+      Ti fanno posto spingendo una sedia con il piede. Un ragazzo con la
+      polvere delle rovine ancora nelle pieghe del collo mescola il mazzo e
+      ti fa scivolare davanti la scatoletta delle laterali, perché scegli le
+      tue quattro. Dal tavolo dei turni Dragna Gro-Malog alza gli occhi dai
+      fogli e conta le monete che hai davanti prima di guardare te.
+
+      *Lo dicono tutti che bisogna sapersi fermare, e perdono lo stesso.* Le
+      dita ti vanno da sole alla scatoletta.
+    opzioni:
+      - testo: "Una mano a poste basse"
+        descrizione: "I Raschiatori giocano per passare la serata e puntano poco."
+        requisiti: [monete >= 3]
+        zekar: raschiatori
+        vittoria:
+          titolo: Il piatto è tuo
+          testo: |
+            L'ultima carta che giri è quella giusta, e il ragazzo con la
+            polvere sul collo ti spinge il piatto con due dita, senza
+            guardarlo. «Un'altra» propone qualcuno dal fondo del tavolo.
+            Intanto Brunella passa con le scodelle e ti lascia accanto al
+            gomito un pezzo di pane che non hai chiesto.
+          effetti: { monete: 3 }
+        sconfitta:
+          titolo: Il venti scappa
+          testo: |
+            Il venti ti sfugge di un punto, poi di due. I Raschiatori
+            raccolgono il piatto senza commenti, e uno di loro ti batte sulla
+            spalla la stessa pacca che si danno fra loro quando qualcuno
+            risale dai tunnel a mani vuote.
+          effetti: { monete: -3 }
+
+      - testo: "Alzare la posta"
+        descrizione: "Al secondo boccale i Raschiatori puntano volentieri qualche moneta in più."
+        requisiti: [monete >= 8]
+        zekar: raschiatori
+        vittoria:
+          titolo: Il tavolo si zittisce
+          testo: |
+            Ti fermi un punto prima di quanto vorresti, e il ragazzo che ti
+            sta di fronte sballa cercando di superarti. Il tavolo si zittisce
+            per un momento. Poi il ragazzo ride per primo, e qualcuno ordina un
+            giro a nome tuo prima che tu possa dire di no. Le monete del piatto te le contano in mano una
+            per una, come si fa al Grifone con chi ha vinto bene.
+          effetti: { monete: 8 }
+        sconfitta:
+          titolo: Una laterale di troppo
+          testo: |
+            Cali la laterale un turno troppo presto e la carta dopo ti porta
+            oltre il venti. Il ragazzo raccoglie le monete con un sorriso che
+            cerca di nascondere senza riuscirci. «Capita» dice, e intanto
+            impila le monete per bene davanti al suo boccale.
+          effetti: { monete: -8 }
+
+      - testo: "Sfidare Dragna Gro-Malog"
+        descrizione: "Il Ferro dei Raschiatori lascia i suoi fogli solo per una posta che valga la serata."
+        requisiti: [monete >= 15]
+        zekar: dragna-gro-malog
+        vittoria:
+          titolo: Il Ferro paga
+          testo: |
+            Dragna confronta i due totali e posa le carte a faccia in giù con
+            le tre dita della mano sinistra. Paga senza discutere,
+            dalla borsa che tiene legata alla cintura, e torna ai suoi fogli.
+            Più tardi, passandoti accanto, ti dice che un posto in prima
+            squadra per chi sa fermarsi lo trova sempre.
+          effetti: { monete: 15 }
+        sconfitta:
+          titolo: Tre dita bastano
+          testo: |
+            Dragna si ferma presto e aspetta. Tu peschi per superarla, e la
+            carta è troppo alta. Lei raccoglie il piatto con la mano mutilata, senza
+            fretta. *Speriamo che non mi segni fra quelli da mandare giù per
+            primi.* Poi intinge la penna e scrive qualcosa sul foglio dei
+            turni, e non ti dice cosa.
+          effetti: { monete: -15 }
+
+  # ------------------------------------------------------------ il torneo
+  - id: torneo-del-grifone
+    presso: grifone-di-ferro
+    immagine: personaggi/liaren-tarvelin
+    titolo: Il torneo del Grifone
+    sommario: "L'ultima sera della settimana Liaren mette in fila quattro tavoli di Zekar, e chi li vince tutti si porta a casa il boccale."
+    luogo: Locanda del Grifone di Ferro, la sala
+    area: ponti-sospesi
+    ripetibile: true
+    requisiti: [rep.grifone >= 2, pista.acciaio != 1, pista.acciaio != 2, pista.acciaio != 3, pista.acciaio != 4, pista.acciaio != 5]
+    testo: |
+      L'ultima sera di ogni settimana Liaren fa sgomberare il fondo della sala
+      e lascia quattro tavoli in fila, dalla porta al camino. Sulla lavagna
+      dei piatti del giorno Brunella cancella lo stufato e scrive con il
+      gesso i nomi degli iscritti, e tira una riga sopra ogni nome che perde.
+      Le quote finiscono in un boccale di peltro sul bancone, che resta lì
+      sotto gli occhi di tutti fino alla fine.
+
+      Al primo tavolo siedono i Raschiatori, al secondo Dragna Gro-Malog con
+      i suoi fogli piegati in tasca. Al terzo c'è Orazio Belcanto, con un
+      anello per dito e una sciarpa che non serve a niente. All'ultimo,
+      vicino al fuoco, aspetta Liaren. Dicono che abbia vinto la locanda a
+      una partita di Zekar, e quando glielo chiedono lei accorda il samisen
+      e parla d'altro.
+    opzioni:
+      - testo: "Iscriverti e sederti al primo tavolo"
+        descrizione: "La quota va nel boccale prima di vedere le carte. Chi perde al primo tavolo non riprende niente."
+        quando: [zekar.torneo == 0]
+        requisiti: [monete >= 20]
+        zekar: raschiatori
+        vittoria:
+          titolo: Il primo tavolo
+          testo: |
+            I Raschiatori ti stringono la mano uno dopo l'altro, e il ragazzo
+            con la polvere sul collo racconta a tutta la sala di averlo capito
+            subito, che sei uno che sa fermarsi. Brunella non tira la riga sul tuo nome.
+            Liaren, dal fondo, alza il boccale di un dito.
+          effetti: { monete: -20, zekar.torneo: 1 }
+        sconfitta:
+          titolo: Una riga di gesso
+          testo: |
+            Al primo tavolo, contro i Raschiatori. Brunella tira la riga sul
+            tuo nome con un colpo deciso e soffia via la polvere del gesso. La
+            quota resta nel boccale, insieme a quelle degli altri che ci
+            hanno provato.
+          effetti: { monete: -20 }
+
+      - testo: "Il secondo tavolo, contro Dragna"
+        descrizione: "Chi cade al secondo tavolo riprende una parte della quota."
+        quando: [zekar.torneo == 1]
+        zekar: dragna-gro-malog
+        vittoria:
+          titolo: Il secondo tavolo
+          testo: |
+            Dragna ti guarda a lungo, come guarda le reclute alla prima
+            discesa. Quando si alza per cederti la sedia lo fa con un cenno
+            del mento, che da lei vale quanto una stretta di mano.
+            «Al prossimo tavolo Orazio parlerà per tutta la partita» dice
+            mentre si rimette i fogli in tasca, «e tu lascialo fare e guarda
+            le sue carte, che la voce non ti serve a niente.»
+          effetti: { zekar.torneo: 1 }
+        sconfitta:
+          titolo: Fuori al secondo
+          testo: |
+            Dragna chiude la partita senza alzare la voce. Liaren pesca nel
+            boccale e ti rende una parte della quota, perché al Grifone chi
+            supera il primo tavolo non torna a casa a mani vuote.
+          effetti: { monete: 10 }
+          imposta: { zekar.torneo: 0 }
+
+      - testo: "Il terzo tavolo, contro Orazio Belcanto"
+        descrizione: "Chi cade al terzo tavolo riprende la quota intera."
+        quando: [zekar.torneo == 2]
+        zekar: orazio-belcanto
+        vittoria:
+          titolo: Il terzo tavolo
+          testo: |
+            Orazio getta le carte per aria e applaude prima di tutti, così la
+            sala applaude con lui e sembra quasi che abbia vinto lui. «Che
+            serata, amici miei, che serata per il Grifone» esclama, e ti
+            stringe le mani fra le sue piene di anelli.
+            «Dovresti salire sul palco, uno di questi giorni. Stasera però ti
+            aspetta lei, e lei il palco non lo cede a nessuno.»
+          effetti: { zekar.torneo: 1 }
+        sconfitta:
+          titolo: Fuori al terzo
+          testo: |
+            Orazio cala una laterale con un gesto da ultimo atto e chiude il
+            round sul venti tondo. Si inchina alla sala, e la sala ride. Liaren ti rende
+            la quota intera dal boccale, e Orazio insiste per offrirti da bere
+            con i tuoi stessi soldi.
+          effetti: { monete: 20 }
+          imposta: { zekar.torneo: 0 }
+
+      # la finale ha tre varianti solo per la reputazione: dal torneo arriva fino a 4, come quella della sala
+      - testo: "L'ultimo tavolo, contro Liaren"
+        descrizione: "Arrivare fin qui paga comunque bene. Battere Liaren vale il boccale e il rispetto della sala."
+        quando: [zekar.torneo == 3, rep.grifone <= 3]
+        zekar: liaren-tarvelin
+        vittoria:
+          titolo: Il boccale
+          testo: |
+            Liaren posa l'ultima carta e ti guarda, e il tuo totale sul tavolo
+            è più alto del suo. Per un momento al Grifone non si sente
+            altro che il camino. Poi lei ride, ti mette davanti il boccale di
+            peltro con tutto quello che c'è dentro, e prende il samisen dalla
+            parete per suonare qualcosa che parla di un forestiero fortunato.
+            Brunella cancella la lavagna e ci scrive il tuo nome da solo.
+          effetti: { monete: 80, rep.grifone: 1 }
+          imposta: { zekar.torneo: 0 }
+        sconfitta:
+          titolo: All'ultimo tavolo
+          testo: |
+            Liaren sta alta e non sbaglia mai le negative. Quando chiudi
+            l'ultimo round lei ti tende la mano sopra le carte. «Fin qui ci
+            arrivano in pochi» dice, e dal boccale ti conta una parte che pesa
+            più di quanto hai messo. In sala qualcuno brinda al tuo nome, anche
+            se la riga sulla lavagna c'è.
+          effetti: { monete: 40, rep.grifone: 0.5 }
+          imposta: { zekar.torneo: 0 }
+
+      - testo: "L'ultimo tavolo, contro Liaren"
+        descrizione: "Arrivare fin qui paga comunque bene. Battere Liaren vale il boccale e il rispetto della sala."
+        quando: [zekar.torneo == 3, rep.grifone == 3.5]
+        zekar: liaren-tarvelin
+        vittoria:
+          titolo: Il boccale
+          testo: |
+            Liaren posa l'ultima carta e ti guarda, e il tuo totale sul tavolo
+            è più alto del suo. Per un momento al Grifone non si sente
+            altro che il camino. Poi lei ride, ti mette davanti il boccale di
+            peltro con tutto quello che c'è dentro, e prende il samisen dalla
+            parete per suonare qualcosa che parla di un forestiero fortunato.
+            Brunella cancella la lavagna e ci scrive il tuo nome da solo.
+          effetti: { monete: 80, rep.grifone: 0.5 }
+          imposta: { zekar.torneo: 0 }
+        sconfitta:
+          titolo: All'ultimo tavolo
+          testo: |
+            Liaren sta alta e non sbaglia mai le negative. Quando chiudi
+            l'ultimo round lei ti tende la mano sopra le carte. «Fin qui ci
+            arrivano in pochi» dice, e dal boccale ti conta una parte che pesa
+            più di quanto hai messo. In sala qualcuno brinda al tuo nome, anche
+            se la riga sulla lavagna c'è.
+          effetti: { monete: 40, rep.grifone: 0.5 }
+          imposta: { zekar.torneo: 0 }
+
+      - testo: "L'ultimo tavolo, contro Liaren"
+        descrizione: "Arrivare fin qui paga comunque bene. Battere Liaren vale il boccale."
+        quando: [zekar.torneo == 3, rep.grifone >= 4]
+        zekar: liaren-tarvelin
+        vittoria:
+          titolo: Il boccale
+          testo: |
+            Liaren posa l'ultima carta e ti guarda, e il tuo totale sul tavolo
+            è più alto del suo. Per un momento al Grifone non si sente
+            altro che il camino. Poi lei ride, ti mette davanti il boccale di
+            peltro con tutto quello che c'è dentro, e prende il samisen dalla
+            parete per suonare qualcosa che parla di un forestiero fortunato.
+            Brunella cancella la lavagna e ci scrive il tuo nome da solo.
+          effetti: { monete: 80 }
+          imposta: { zekar.torneo: 0 }
+        sconfitta:
+          titolo: All'ultimo tavolo
+          testo: |
+            Liaren sta alta e non sbaglia mai le negative. Quando chiudi
+            l'ultimo round lei ti tende la mano sopra le carte. «Fin qui ci
+            arrivano in pochi» dice, e dal boccale ti conta una parte che pesa
+            più di quanto hai messo. In sala qualcuno brinda al tuo nome, anche
+            se la riga sulla lavagna c'è.
+          effetti: { monete: 40 }
+          imposta: { zekar.torneo: 0 }

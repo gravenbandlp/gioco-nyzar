@@ -19,6 +19,8 @@ import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { vistaCombattimento } from './scontro';
 import type { StatoCombattimento } from '../motore/combattimento';
+import type { StatoZekar } from '../motore/zekar';
+import { vistaZekar } from './zekar';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile, tempoGiocato } from './formato';
 import {
   tavola, prosa, primaFrase, campanaGrande, campanaPiccola, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
@@ -30,7 +32,8 @@ export type Vista =
   | { tipo: 'area' }
   | { tipo: 'storylet'; id: string }
   | { tipo: 'risultato'; id: string; risultato: Risultato; indice?: number; prima?: Stato }
-  | { tipo: 'combattimento'; id: string; indice: number; cs: StatoCombattimento };
+  | { tipo: 'combattimento'; id: string; indice: number; cs: StatoCombattimento }
+  | { tipo: 'zekar'; id: string; indice: number; zs: StatoZekar };
 
 export interface Contesto {
   s: Stato;
@@ -42,6 +45,7 @@ export interface Contesto {
   avviso: string;
   ora: number;
   bersaglio?: string;
+  zekarScelte?: number[]; // le laterali scelte prima di sedersi al tavolo
   luogo?: string; // il luogo (mini-hub) aperto dentro l'area, se c'è
 }
 
@@ -176,6 +180,7 @@ export function storia(x: Contesto): string {
     case 'storylet': return vistaStorylet(x, x.vista.id);
     case 'risultato': return vistaRisultato(x, x.vista.id, x.vista.risultato);
     case 'combattimento': return vistaCombattimento(x, x.vista.cs);
+    case 'zekar': return vistaZekar(x, x.vista.zs, x.zekarScelte ?? []);
     default: {
       const crisi = crisiAttiva(x.s, x.c);
       return crisi ? vistaStorylet(x, crisi.id) : vistaArea(x);
@@ -407,6 +412,21 @@ function vistaStorylet(x: Contesto, id: string): string {
         <p class="probabilita">${percentuale(a.combattimento.probabilita)} di vittoria</p></div>
       </div>`;
     }
+    if (a.zekar) {
+      // la posta, la quota del torneo o quello che si incassa vincendo e perdendo, letti dagli esiti
+      const vinci = o.vittoria?.effetti?.['monete'] ?? 0;
+      const perdi = o.sconfitta?.effetti?.['monete'] ?? 0;
+      const avanti = (o.vittoria?.effetti?.['zekar.torneo'] ?? 0) > 0;
+      const segnato = (n: number) => `${n > 0 ? '+' : '−'}${Math.abs(n)} monete`;
+      const soldi = vinci > 0 && vinci === -perdi ? `Posta: ${vinci} monete.`
+        : vinci < 0 && vinci === perdi ? `Quota: ${-vinci} monete.${avanti ? ' Se vinci passi al tavolo dopo.' : ''}`
+        : [vinci ? `Se vinci: ${segnato(vinci)}.` : avanti ? 'Se vinci passi al tavolo dopo.' : '', perdi ? `Se perdi: ${segnato(perdi)}.` : ''].filter(Boolean).join(' ');
+      sfida = `<div class="sfida zekar">
+        <span class="icona-sfida carte" aria-hidden="true">${tavola('icone/card-random', { classe: 'icona' })}</span>
+        <div><p><b>Partita a Zekar ${h(a.zekar.etichetta.toLowerCase())}.</b> Contro ${h(a.zekar.avversario.replace(/^I /, 'i '))}, al meglio dei cinque round. ${soldi}</p>
+        <p class="probabilita">${percentuale(a.zekar.probabilita)} di vittoria</p></div>
+      </div>`;
+    }
     const mancanti = a.mancanti.map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
     const costo = a.costo === 0 ? 'Gratis' : `${a.costo} ${a.costo === 1 ? 'rintocco' : 'rintocchi'}`;
     const inc = a.incantesimo;
@@ -452,6 +472,8 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       <span class="icona-riga dadi">${r.tiro.facce.map(dado).join('')}</span>
       <p>${r.riuscito ? 'Ce l\'hai fatta' : 'Non è bastato'}: ${r.tiro.successi} ${r.tiro.successi === 1 ? 'successo' : 'successi'} su ${r.tiro.richiesti} richiesti con ${h(NOMI[r.tiro.abilita] ?? r.tiro.abilita)} (${percentuale(r.tiro.probabilita)}).</p>
     </li>`);
+  } else if (r.riuscito !== undefined && r.zekar) {
+    righe.push(`<li class="esito-riga"><span class="icona-riga simbolo">♦</span><p>${r.riuscito ? 'Hai vinto la partita a Zekar.' : 'Hai perso la partita a Zekar.'}</p></li>`);
   } else if (r.riuscito !== undefined) {
     righe.push(`<li class="esito-riga"><span class="icona-riga simbolo">⚔</span><p>${r.riuscito ? 'Hai vinto lo scontro.' : 'Hai perso lo scontro.'}</p></li>`);
   }

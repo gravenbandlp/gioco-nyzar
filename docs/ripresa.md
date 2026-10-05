@@ -63,6 +63,15 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
 - Le varianti di stato del mondo sulle opzioni usano `quando` (l'opzione non compare) o requisiti su piste e flag
   (il motore le nasconde se chiuse); i requisiti su monete, merci, abilità e reputazione mostrano l'opzione chiusa.
 
+## Lo Zekar (5 ottobre 2026)
+Il gioco di carte del Grifone di Ferro, aperto con `rep.grifone >= 2`. Regole e IA in `src/motore/zekar.ts` (le scelte
+dove il regolamento di Luca lascia spazio sono in testa al file), il tavolo in `src/ui/zekar.ts`, i contenuti in
+`contenuti/citta/zekar.yaml`, i test in `test/zekar.test.ts`. Un'opzione con `zekar: <avversario>` e gli esiti
+`vittoria`/`sconfitta` apre una partita, come `combattimento`; ogni partita costa un rintocco. Gli avversari stanno
+nella raccolta `zekar:` con le quattro laterali, la `soglia` a cui stanno e la `mira` per le laterali. La percentuale
+sull'opzione viene da una simulazione con le laterali dell'ultima partita del giocatore (`s.zekarLaterali`).
+Torneo: `zekar.torneo` conta i tavoli vinti; la reputazione del torneo si ferma a 4 come quella della sala.
+
 ## La Superficie Fratturata
 Il quarto hub, fuori città, aperto da subito e senza gabella (`contenuti/superficie/`, 2 ottobre 2026). Viene dalla
 tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le carte "ovunque" della città lì non arrivano.

@@ -36,7 +36,7 @@ export function iconeCitate(c: TContenuti): { icone: Record<string, string>; err
   return { icone, errori };
 }
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)
@@ -197,6 +197,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
         for (const a of lista) if (!TUTTE_LE_ABILITA.includes(a)) errori.push(`${d}: abilità sconosciuta "${a}"`);
       }
       if (o.combattimento && !scontri.has(o.combattimento)) errori.push(`${d}: scontro sconosciuto "${o.combattimento}"`);
+      if (o.zekar && !c.zekar.some((z) => z.id === o.zekar)) errori.push(`${d}: avversario di Zekar sconosciuto "${o.zekar}"`);
       if (o.incantesimo) {
         const inc = c.incantesimi.find((i) => i.id === o.incantesimo);
         if (!inc) errori.push(`${d}: incantesimo sconosciuto "${o.incantesimo}"`);

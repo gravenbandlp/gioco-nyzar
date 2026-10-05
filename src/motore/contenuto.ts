@@ -45,16 +45,18 @@ export const Opzione = z
     successo: Esito.optional(),
     fallimento: Esito.optional(),
     combattimento: Id.optional(),
+    zekar: Id.optional(), // una partita a Zekar contro questo avversario: vittoria e sconfitta come nel combattimento
     vittoria: Esito.optional(),
     sconfitta: Esito.optional(),
     esito: Esito.optional(),
   })
   .superRefine((o, ctx) => {
-    const tipi = [o.prova ? 1 : 0, o.combattimento ? 1 : 0].reduce((a, b) => a + b, 0);
-    if (tipi > 1) ctx.addIssue({ code: 'custom', message: 'un\'opzione ha una prova oppure un combattimento, non entrambi' });
+    const tipi = [o.prova ? 1 : 0, o.combattimento ? 1 : 0, o.zekar ? 1 : 0].reduce((a, b) => a + b, 0);
+    if (tipi > 1) ctx.addIssue({ code: 'custom', message: 'un\'opzione ha una prova, un combattimento o una partita, una cosa sola' });
     if (o.prova && (!o.successo || !o.fallimento)) ctx.addIssue({ code: 'custom', message: 'la prova richiede successo e fallimento' });
     if (o.combattimento && (!o.vittoria || !o.sconfitta)) ctx.addIssue({ code: 'custom', message: 'il combattimento richiede vittoria e sconfitta' });
-    if (!o.prova && !o.combattimento && !o.esito) ctx.addIssue({ code: 'custom', message: 'un\'opzione senza prova né combattimento richiede esito' });
+    if (o.zekar && (!o.vittoria || !o.sconfitta)) ctx.addIssue({ code: 'custom', message: 'la partita a Zekar richiede vittoria e sconfitta' });
+    if (!o.prova && !o.combattimento && !o.zekar && !o.esito) ctx.addIssue({ code: 'custom', message: 'un\'opzione senza prova né combattimento richiede esito' });
     if (o.incantesimo) {
       const ab = o.prova ? (Array.isArray(o.prova.abilita) ? o.prova.abilita : [o.prova.abilita]) : [];
       if (!o.prova || o.prova.attributo !== 'mentale' || ab.join() !== 'magia') {
@@ -383,6 +385,18 @@ export const VoceColonna = z.object({
   if (!v.musica && !v.ambiente) ctx.addIssue({ code: 'custom', message: 'serve almeno la musica o l\'ambiente' });
 });
 
+/** Un avversario a Zekar: le sue quattro laterali e come gioca (motore/zekar.ts). */
+export const AvversarioZekar = z.object({
+  id: Id,
+  nome: z.string(),
+  immagine: Immagine.optional(),
+  descrizione: z.string().optional(), // come gioca, una riga per chi si siede al tavolo
+  laterali: z.array(z.number().int().min(-5).max(5).refine((v) => v !== 0)).length(4)
+    .refine((l) => new Set(l).size === 4, 'le quattro laterali sono valori diversi'),
+  soglia: z.number().int().min(12).max(20), // sta quando ci arriva
+  mira: z.number().int().min(12).max(20), // usa una laterale se lo porta almeno qui
+});
+
 export const Contenuti = z.object({
   aree: z.array(Area),
   storylet: z.array(Storylet),
@@ -402,6 +416,7 @@ export const Contenuti = z.object({
   luoghi: z.array(Luogo).default([]),
   tracce: z.array(Traccia).default([]),
   colonna: z.array(VoceColonna).default([]),
+  zekar: z.array(AvversarioZekar).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -427,4 +442,5 @@ export type TVoce = z.infer<typeof Voce>;
 export type TLuogo = z.infer<typeof Luogo>;
 export type TTraccia = z.infer<typeof Traccia>;
 export type TVoceColonna = z.infer<typeof VoceColonna>;
+export type TAvversarioZekar = z.infer<typeof AvversarioZekar>;
 export type TContenuti = z.infer<typeof Contenuti>;

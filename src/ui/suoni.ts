@@ -1,7 +1,8 @@
 // Gli effetti sonori del combattimento, sintetizzati al momento con Web Audio: niente campioni registrati,
 // quindi niente file da importare né licenze. Ogni suono è breve e passa per il canale «effetti» del lettore.
 
-export type Suono = 'dadi' | 'colpo' | 'caduto' | 'parata' | 'magia' | 'cura' | 'dissonanza' | 'minaccia' | 'fermo' | 'vittoria' | 'sconfitta';
+export type Suono = 'dadi' | 'colpo' | 'caduto' | 'parata' | 'magia' | 'cura' | 'dissonanza' | 'minaccia' | 'fermo' | 'vittoria' | 'sconfitta'
+  | 'carta' | 'laterale' | 'sta' | 'round' | 'mescola';
 
 let rumoreBianco: AudioBuffer | null = null;
 function rumore(ctx: BaseAudioContext): AudioBuffer {
@@ -86,6 +87,29 @@ export function suona(ctx: BaseAudioContext, out: AudioNode, s: Suono): void {
     case 'fermo':
       soffio(ctx, out, t, 0.08, 'lowpass', 400, 0.4);
       break;
+    case 'carta': // una carta che scivola sul legno e si posa
+      soffio(ctx, out, t, 0.09, 'bandpass', 2600, 0.35, 0.8);
+      soffio(ctx, out, t + 0.07, 0.03, 'lowpass', 900, 0.4);
+      break;
+    case 'laterale':
+      soffio(ctx, out, t, 0.08, 'bandpass', 3200, 0.3, 0.8);
+      nota(ctx, out, t + 0.05, 880, 0.35, 0.08, 'triangle');
+      nota(ctx, out, t + 0.1, 1318.5, 0.4, 0.06, 'triangle');
+      break;
+    case 'sta': // le nocche sul tavolo, due volte
+      soffio(ctx, out, t, 0.06, 'lowpass', 700, 0.6);
+      nota(ctx, out, t, 180, 0.08, 0.3, 'sine', 120);
+      soffio(ctx, out, t + 0.14, 0.06, 'lowpass', 700, 0.5);
+      nota(ctx, out, t + 0.14, 170, 0.08, 0.25, 'sine', 115);
+      break;
+    case 'round':
+      nota(ctx, out, t, 659.25, 0.5, 0.11, 'triangle', undefined, 0.01);
+      nota(ctx, out, t + 0.11, 987.77, 0.7, 0.1, 'triangle', undefined, 0.01);
+      break;
+    case 'mescola': { // il mazzo che si mescola: un fruscio fitto
+      for (let i = 0; i < 14; i++) soffio(ctx, out, t + i * 0.025 + Math.random() * 0.01, 0.025, 'bandpass', 3000 + Math.random() * 1500, 0.18, 1.5);
+      break;
+    }
     case 'vittoria':
       [392, 493.88, 587.33, 783.99].forEach((f, i) => nota(ctx, out, t + i * 0.13, f, 1.4 - i * 0.15, 0.13, 'triangle', undefined, 0.01));
       break;

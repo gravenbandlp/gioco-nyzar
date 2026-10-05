@@ -38,6 +38,7 @@ export interface Stato {
   // la stanza da cui vengono (motore/spedizioni.ts). Si azzerano quando si esce.
   stanzePassate?: string[];
   seguitiDa?: Record<string, string>;
+  zekarLaterali?: number[]; // le quattro laterali dell'ultima partita a Zekar, proposte alla successiva
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {

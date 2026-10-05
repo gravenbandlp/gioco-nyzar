@@ -6,6 +6,7 @@ import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } 
 import { chiaveIncantesimo, repertorio } from './magia';
 import { ricevi, talento, haProprieta, haDifetto, oggetto, indossato } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
+import { nuovaPartita, probabilitaZekar, lateraliValide, LATERALI_PREDEFINITE, type StatoZekar } from './zekar';
 import { areaAttuale, cambiaArea, inSpedizione, profondita, segnaStanza } from './spedizioni';
 import {
   abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiRintocchi, scarta, aggiornaTempo,
@@ -23,7 +24,22 @@ export interface Anteprima {
   costo: number;
   prova?: { abilita: string; pool: number; richiesti: number; probabilita: number; difficolta: string };
   combattimento?: { probabilita: number; etichetta: string };
+  zekar?: { probabilita: number; etichetta: string; avversario: string };
   incantesimo?: TIncantesimo;
+}
+
+/** Le laterali con cui ti siedi: quelle dell'ultima partita, o una mano equilibrata. */
+export const lateraliDi = (s: Stato) => (s.zekarLaterali && lateraliValide(s.zekarLaterali) ? s.zekarLaterali : LATERALI_PREDEFINITE);
+
+const cacheZekar = new Map<string, number>();
+function vittoriaZekar(s: Stato, id: string, c: TContenuti): number {
+  const avv = c.zekar.find((z) => z.id === id);
+  if (!avv) throw new Error(`Avversario di Zekar sconosciuto: ${id}`);
+  const lat = lateraliDi(s);
+  const chiave = `${id}|${lat.join(',')}`;
+  let p = cacheZekar.get(chiave);
+  if (p === undefined) { p = probabilitaZekar(avv, lat); cacheZekar.set(chiave, p); }
+  return p;
 }
 
 function migliorAbilita(s: Stato, opz: TOpzione, c: TContenuti): { abilita: string; pool: number } {
@@ -66,6 +82,10 @@ export function anteprima(s: Stato, opz: TOpzione, c: TContenuti): Anteprima {
     const p = vittoria(s, opz.combattimento, c);
     a.combattimento = { probabilita: p, etichetta: etichettaCombattimento(p) };
   }
+  if (opz.zekar) {
+    const p = vittoriaZekar(s, opz.zekar, c);
+    a.zekar = { probabilita: p, etichetta: etichettaCombattimento(p), avversario: c.zekar.find((z) => z.id === opz.zekar)!.nome };
+  }
   if (opz.incantesimo) a.incantesimo = c.incantesimi.find((i) => i.id === opz.incantesimo);
   return a;
 }
@@ -75,6 +95,7 @@ export interface Risultato {
   immagine?: string;
   testo: string;
   riuscito?: boolean;
+  zekar?: string; // l'avversario, se l'esito chiude una partita a Zekar
   tiro?: { facce: number[]; successi: number; richiesti: number; abilita: string; probabilita: number };
   variazioni: Variazione[];
   crescite: Crescita[];
@@ -155,6 +176,7 @@ function applicaEsitoDentro(s: Stato, e: TEsito, c: TContenuti, r: Risultato, da
 export type Scelta =
   | { tipo: 'risultato'; risultato: Risultato }
   | { tipo: 'combattimento'; combattimento: StatoCombattimento }
+  | { tipo: 'zekar'; zekar: StatoZekar }
   | { tipo: 'errore'; messaggio: string };
 
 export function scegli(
@@ -176,6 +198,11 @@ export function scegli(
       tipo: 'combattimento',
       combattimento: iniziaCombattimento(combattenteDaStato(s, c), sc, c, consumabili, rng, repertorio(s, c), repertiDaStato(s, c)),
     };
+  }
+
+  if (opz.zekar) {
+    spendiRintocchi(s, ante.costo, ora);
+    return { tipo: 'zekar', zekar: nuovaPartita(c.zekar.find((z) => z.id === opz.zekar)!) };
   }
 
   spendiRintocchi(s, ante.costo, ora);
@@ -226,6 +253,15 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   if (cs.log.some((l) => cs.incantesimi.some((i) => l.startsWith(`${i.nome}`)))) r.crescite.push(...assegnaPE(s, 'magia', peDaProbabilita(p)));
   if (st.tipo === 'carta') scarta(s, st.id);
   applicaEsito(s, cs.vinto ? opz.vittoria! : opz.sconfitta!, c, r, st.id);
+  return r;
+}
+
+/** Chiude una partita a Zekar: l'esito di vittoria o di sconfitta dell'opzione. */
+export function concludiZekar(s: Stato, st: TStorylet, indice: number, zs: StatoZekar, c: TContenuti): Risultato {
+  const opz = st.opzioni[indice]!;
+  const r: Risultato = { testo: '', riuscito: zs.vinto, zekar: zs.avversario.nome, variazioni: [], crescite: [] };
+  if (st.tipo === 'carta') scarta(s, st.id);
+  applicaEsito(s, zs.vinto ? opz.vittoria! : opz.sconfitta!, c, r, st.id);
   return r;
 }
 

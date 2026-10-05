@@ -6,13 +6,15 @@ import type { TFrammento } from '../motore/contenuto';
 import {
   nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
 } from '../motore/personaggio';
-import { scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, vendibili, correggi, secondaScelta } from '../motore/azioni';
+import { scegli, concludiCombattimento, concludiZekar, lateraliDi, puoEntrare, muovi, compra, vendi, vendibili, correggi, secondaScelta } from '../motore/azioni';
 import { ritirati } from '../motore/spedizioni';
 import { annota, strappa } from '../motore/diario';
 import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
 import { round } from '../motore/combattimento';
 import { riproduci, saltaScena, cambiaVelocita } from './scontro';
+import { riproduciZekar, saltaZekar } from './zekar';
+import { siediti, muovi as muoviZekar, lateraliValide, LATERALI_IN_MANO } from '../motore/zekar';
 import { durata } from './formato';
 import { impostaGlossario } from './componenti';
 import { avviaSchede, nascondiScheda } from './tooltip';
@@ -52,6 +54,8 @@ let confermaNuovo = false;
 let avviso = '';
 let frammentoId: string | null = null;
 let bersaglio: string | undefined;
+let zekarScelte: number[] | null = null; // le laterali scelte prima di sedersi al tavolo dello Zekar
+let ultimoContesto: Contesto | undefined;
 let luogo: string | undefined; // il mini-hub aperto dentro l'area
 let info: PaginaInfo | null = null; // regolamento, termini, crediti o salvataggio, aperti dal piè di pagina
 let salvatoAl = 0; // ultima modifica del personaggio: decide quale copia è più recente fra browser e account
@@ -92,7 +96,7 @@ function adotta(d: DatiSalvati, messaggio: string): void {
 
 const sincro = new Sincronia(
   () => { if (info) render(); else if (stato) aggiornaIndicatore(); },
-  (d) => { if (vista.tipo !== 'combattimento') adotta(d, `Hai giocato ${d.stato.nome} da un altro dispositivo: riprendi da lì.`); },
+  (d) => { if (vista.tipo !== 'combattimento' && vista.tipo !== 'zekar') adotta(d, `Hai giocato ${d.stato.nome} da un altro dispositivo: riprendi da lì.`); },
 );
 
 /** L'indicatore del salvataggio nella barra in alto, senza ridisegnare la pagina. */
@@ -265,7 +269,9 @@ function render(): void {
   precaricaIntorno(s, c);
   const ora = Date.now();
   aggiornaTempo(stato, ora);
-  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, luogo };
+  if (vista.tipo === 'zekar' && !zekarScelte) zekarScelte = [...lateraliDi(s)]; // una partita ripresa da un salvataggio
+  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, zekarScelte: zekarScelte ?? [], luogo };
+  ultimoContesto = x;
   const centro = info ? contenutoInfo(info)
     : scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
@@ -379,6 +385,10 @@ function azione(az: string, el: HTMLElement): void {
         cambia({ tipo: 'combattimento', id, indice, cs: r.combattimento });
         app.querySelector('.scena.combattimento')?.classList.add('entrata');
       }
+      else if (r.tipo === 'zekar') {
+        zekarScelte = [...lateraliDi(s)];
+        cambia({ tipo: 'zekar', id, indice, zs: r.zekar });
+      }
       else cambia({ tipo: 'risultato', id, risultato: r.risultato, indice, prima });
       break;
     }
@@ -396,7 +406,38 @@ function azione(az: string, el: HTMLElement): void {
       void riproduci(app, vista.cs, daRiga, (s) => lettore.effetto(s));
       break;
     }
-    case 'salta-scena': saltaScena(); break;
+    case 'salta-scena': if (!saltaZekar()) saltaScena(); break;
+    case 'zk-scegli': {
+      const v = Number(el.dataset['i']);
+      zekarScelte ??= [];
+      zekarScelte = zekarScelte.includes(v) ? zekarScelte.filter((z) => z !== v) : zekarScelte.length < LATERALI_IN_MANO ? [...zekarScelte, v] : zekarScelte;
+      render();
+      break;
+    }
+    case 'zk-siediti': {
+      if (vista.tipo !== 'zekar' || !zekarScelte || !lateraliValide(zekarScelte)) break;
+      s.zekarLaterali = [...zekarScelte].sort((a, b) => a - b);
+      siediti(vista.zs, zekarScelte);
+      salva(); render();
+      if (ultimoContesto) void riproduciZekar(app, vista.zs, ultimoContesto, 0, (x) => lettore.effetto(x));
+      break;
+    }
+    case 'zk-gioca': case 'zk-passa': case 'zk-stai': {
+      if (vista.tipo !== 'zekar') break;
+      const da = vista.zs.eventi.length;
+      const m = az === 'zk-gioca' ? { tipo: 'laterale' as const, indice: Number(el.dataset['i']) } : { tipo: az === 'zk-stai' ? ('stai' as const) : ('passa' as const) };
+      if (!muoviZekar(vista.zs, m)) break;
+      salva(); render();
+      if (ultimoContesto) void riproduciZekar(app, vista.zs, ultimoContesto, da, (x) => lettore.effetto(x));
+      break;
+    }
+    case 'zk-concludi': {
+      if (vista.tipo !== 'zekar' || vista.zs.fase !== 'finita') break;
+      const st = c.storylet.find((z) => z.id === (vista as { id: string }).id)!;
+      const r = concludiZekar(s, st, vista.indice, vista.zs, c);
+      cambia({ tipo: 'risultato', id: st.id, risultato: r, indice: vista.indice });
+      break;
+    }
     case 'ritmo': cambiaVelocita(el); break;
     case 'indossa': {
       const motivo = perchéNonIndossabile(s, c, id);
@@ -538,7 +579,7 @@ setInterval(() => {
   aggiornaTempo(stato, ora);
   if (`${stato.rintocchi}|${stato.coda}` !== prima) {
     scriviLocale(); // il tempo che passa non è una mossa: non cambia quale copia è più recente
-    if (vista.tipo !== 'combattimento') render();
+    if (vista.tipo !== 'combattimento' && vista.tipo !== 'zekar') render();
     return;
   }
   const pc = msAlProssimoRintocco(stato, ora);
