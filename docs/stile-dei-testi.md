@@ -59,6 +59,10 @@ Cosa funziona:
     le mostra già negli effetti e nei costi, e le cifre si ribilanciano spesso. Nella prosa si resta sul
     generico: qualche moneta, una manciata di monete, una borsa pesante, il prezzo della lezione, quanto
     chiede, meno del dovuto. Una moneta come oggetto (lanciata, rigirata fra le dita) va bene.
+12. **Le scritte corrette da altri.** Il cartello con la parola cancellata e riscritta sopra, la riga aggiunta
+    sotto "con un'altra mano", il disegnino a margine, la scritta grattata via o ripassata: era diventato il
+    dettaglio umano di ogni scena (Luca, 5 ottobre 2026). Al massimo una volta per file, e solo dove dice
+    qualcosa che serve. Il dettaglio storto si cerca altrove: un gesto, un oggetto, un'abitudine, il corpo.
 
 ## La voce (dal 1° ottobre 2026: un po' di Disco Elysium)
 
@@ -72,8 +76,9 @@ quella di prima con un margine del 10–25%.
 - **Un pensiero in corsivo, ogni tanto.** Una riga che il protagonista dice a se stesso, al massimo una per
   storylet, mai in chiusura di paragrafo. *Questa donna non si pulisce le unghie per igiene.*
 - **La città guardata con affetto e con un po' di amarezza.** Un dettaglio umano, specifico e un po'
-  storto per scena: il cartello corretto a mano, la tazza sbeccata tenuta per affetto, la guardia che ha
-  cucito la toppa dello stemma al rovescio. Dice qualcosa di chi vive lì.
+  storto per scena: la tazza sbeccata tenuta per affetto, la guardia che ha cucito la toppa dello stemma al
+  rovescio, l'oste che asciuga lo stesso bicchiere da mezz'ora. Dice qualcosa di chi vive lì. Variare:
+  le scritte e i cartelli corretti da altri non più di una volta per file (vedi la regola 12).
 - **L'ironia sta dentro la frase, asciutta.** Un aggettivo, un accostamento, un dettaglio che stona. Non
   diventa mai la battuta finale del paragrafo.
 - **I periodi possono allungarsi.** Nelle descrizioni una frase lunga, con subordinate e un inciso, che
