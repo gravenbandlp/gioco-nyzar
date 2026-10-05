@@ -73,7 +73,7 @@ describe('zekar: regole', () => {
 describe('zekar: al Grifone', () => {
   it('la partita secca costa un rintocco e paga la posta', () => {
     const s = pg();
-    const i = st('zekar-al-grifone').opzioni.findIndex((o) => o.requisiti?.includes('monete >= 8'));
+    const i = st('zekar-al-grifone').opzioni.findIndex((o) => o.requisiti?.includes('monete >= 15'));
     const r = scegli(s, st('zekar-al-grifone'), i, c, 0, rngConSeme(1));
     expect(r.tipo).toBe('zekar');
     expect(s.rintocchi).toBe(39);
@@ -82,7 +82,7 @@ describe('zekar: al Grifone', () => {
     siediti(zs, [-3, -2, 2, 3], rng);
     giocaTutta(zs, rng);
     concludiZekar(s, st('zekar-al-grifone'), i, zs, c);
-    expect(s.quality['monete']).toBe(zs.vinto ? 108 : 92);
+    expect(s.quality['monete']).toBe(zs.vinto ? 115 : 85);
   });
   it("l'anteprima dice contro chi e con che probabilità", () => {
     const s = pg();
@@ -98,7 +98,7 @@ describe('zekar: al Grifone', () => {
       const v = s.quality[k!] ?? 0;
       return op === '==' ? v === Number(n) : op === '<=' ? v <= Number(n) : v >= Number(n);
     }));
-    // vince tre tavoli e perde la finale: due volte la quota e mezzo punto di reputazione
+    // vince tre tavoli e perde la finale: tre volte la quota e mezzo punto di reputazione
     const s = pg();
     const esiti = [true, true, true, false];
     for (const vinto of esiti) {
@@ -108,12 +108,12 @@ describe('zekar: al Grifone', () => {
       zs.fase = 'finita'; zs.vinto = vinto;
       concludiZekar(s, torneo, i, zs, c);
     }
-    expect(s.quality['monete']).toBe(100 - 20 + 40);
+    expect(s.quality['monete']).toBe(100 - 20 + 60);
     expect(s.quality['rep.grifone']).toBe(2.5);
     expect(s.quality['zekar.torneo'] ?? 0).toBe(0);
     expect(s.rintocchi).toBe(36);
   });
-  it('il torneo vinto paga quattro volte la quota', () => {
+  it('il torneo vinto paga sei volte la quota', () => {
     const torneo = st('torneo-del-grifone');
     const s = pg();
     for (let k = 0; k < 4; k++) {
@@ -122,7 +122,7 @@ describe('zekar: al Grifone', () => {
       zs.fase = 'finita'; zs.vinto = true;
       concludiZekar(s, torneo, i, zs, c);
     }
-    expect(s.quality['monete']).toBe(100 - 20 + 80);
+    expect(s.quality['monete']).toBe(100 - 20 + 120);
     expect(s.quality['rep.grifone']).toBe(3);
   });
   it('senza reputazione 2 al Grifone lo Zekar non si vede', () => {
