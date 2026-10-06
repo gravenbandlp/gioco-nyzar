@@ -4,7 +4,7 @@ import {
   nuovoPersonaggio, requisitoSoddisfatto, applicaEffetti, assegnaPE, aggiornaTempo, spendiRintocchi,
   msAlProssimoRintocco, pesca, storyletDisponibili, type Stato,
 } from '../src/motore/personaggio';
-import { anteprima, scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi } from '../src/motore/azioni';
+import { anteprima, scegli, concludiCombattimento, puoEntrare, muovi, compra, vendi, negozioAperto } from '../src/motore/azioni';
 import { round, feriteDopo, type StatoCombattimento } from '../src/motore/combattimento';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 
@@ -233,8 +233,24 @@ describe('spostamenti e negozi', () => {
     s.quality['oggetto.arco-di-isvaro'] = 1;
     expect(vendi(s, 'banco-di-grusk', 'oggetto.spadone-di-uzgreth', c)).toBe(false);
     expect(vendi(s, 'fucina-dei-due-mastini', 'oggetto.spadone-di-uzgreth', c)).toBe(true);
-    expect(s.quality['monete']).toBe(760); // (120 + 700 × 2) / 2
+    expect(s.quality['monete']).toBe(685); // (120 + 700 × 2 − 150 per Pesante) / 2
     expect(vendi(s, 'armeria-di-irsa', 'oggetto.arco-di-isvaro', c)).toBe(true);
-    expect(s.quality['monete']).toBe(760 + 387);
+    expect(s.quality['monete']).toBe(685 + 387);
+  });
+  it('Ambrin compra gli accessori magici e Dolovan le cavalcature', () => {
+    const s = figlio();
+    s.quality['monete'] = 0;
+    s.quality['oggetto.maison-ventaglio-dei-segnali'] = 1;
+    s.quality['oggetto.ombrafosca'] = 1;
+    s.quality['oggetto.maschera-della-forza'] = 1;
+    const nodo = c.negozi.find((n) => n.id === 'nodo-d-ossidiana')!;
+    expect(vendi(s, 'nodo-d-ossidiana', 'oggetto.ombrafosca', c)).toBe(false);
+    expect(vendi(s, 'nodo-d-ossidiana', 'oggetto.maschera-della-forza', c)).toBe(false); // Legata
+    expect(vendi(s, 'nodo-d-ossidiana', 'oggetto.maison-ventaglio-dei-segnali', c)).toBe(true);
+    expect(s.quality['monete']).toBe(400); // (700 + 100 per la chiave) / 2
+    expect(vendi(s, 'stalla-di-dolovan', 'oggetto.ombrafosca', c)).toBe(true);
+    expect(s.quality['monete']).toBe(400 + 750);
+    expect(negozioAperto(s, c.negozi.find((n) => n.id === 'stalla-di-dolovan')!, c)).toBe(false); // niente da vendergli
+    expect(negozioAperto(s, nodo, c)).toBe(true);
   });
 });

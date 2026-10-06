@@ -321,34 +321,41 @@ export function listino(s: Stato, voci: TVoceNegozio[], c: TContenuti, verso: 'c
   });
 }
 
-/** Un negozio è aperto se ha almeno una merce che si vede. */
+/** Un negozio è aperto se ha almeno una merce che si vede; gli oggetti che compra contano solo se li possiedi. */
 export function negozioAperto(s: Stato, n: TNegozio, c: TContenuti): boolean {
-  return listino(s, n.compra, c, 'compra').length > 0 || listino(s, n.vende, c, 'vende').length > 0;
+  const compra = listino(s, vociCompra(n, c), c, 'compra').filter(({ voce }) => !voce.quality.startsWith('oggetto.') || (s.quality[voce.quality] ?? 0) > 0);
+  return compra.length > 0 || listino(s, n.vende, c, 'vende').length > 0;
 }
 
-/** Valore di un'arma, armatura o scudo magico: il prezzo scritto, oppure quello della base più 700 per grado. */
+/** Il genere di un oggetto per le botteghe che comprano oggetti magici: le cavalcature sono accessori a parte. */
+const genereMagico = (o: TOggetto) => (o.proprieta.chiave.includes('cavalcatura') ? 'cavalcatura' : o.slot);
+
+/**
+ * Valore di un oggetto magico: il prezzo scritto, oppure 700 per grado (più il prezzo della base per armi, armature e
+ * scudi), meno 150 per difetto, più 100 se apre opzioni nelle storie (una chiave).
+ */
 export function valoreMagico(o: TOggetto, c: TContenuti): number {
+  if (o.prezzo !== undefined) return o.prezzo;
   const base = [...c.armi, ...c.armature, ...c.scudi].find((b) => b.id === o.base);
-  return o.prezzo ?? (base?.prezzo ?? 0) + 700 * o.grado;
+  return (base?.prezzo ?? 0) + 700 * o.grado - 150 * o.difetti.length + (o.proprieta.chiave.length ? 100 : 0);
 }
 
 /**
  * Quello che il negozio compra dal giocatore: il listino `compra` più le armi, gli scudi e le armature che vende,
- * ripresi a metà prezzo arrotondato per difetto e con gli stessi requisiti. Gli armaioli (`reliquie`) comprano
- * anche armi, armature e scudi magici, a metà del loro valore.
+ * ripresi a metà prezzo arrotondato per difetto e con gli stessi requisiti. Le botteghe con `reliquie` comprano
+ * anche gli oggetti magici di quei generi, a metà del loro valore; i Legati non li compra nessuno.
  */
 export function vociCompra(n: TNegozio, c: TContenuti): TVoceNegozio[] {
-  const rivendibile = (o: TOggetto | undefined): o is TOggetto =>
-    !!o && ['arma', 'armatura', 'scudo'].includes(o.slot) && !(o.difetti as string[]).includes('legata');
+  const legata = (o: TOggetto) => (o.difetti as string[]).includes('legata');
   const usato = n.vende.flatMap((v) => {
     const o = v.quality.startsWith('oggetto.') ? oggetto(c, v.quality.slice(8)) : undefined;
     const prezzo = Math.floor(v.prezzo / 2);
-    if (!rivendibile(o) || prezzo < 1) return [];
+    if (!o || !['arma', 'armatura', 'scudo'].includes(o.slot) || legata(o) || prezzo < 1) return [];
     return [{ ...v, prezzo }];
   });
-  const magici = n.reliquie
-    ? c.oggetti.filter((o) => rivendibile(o) && o.grado > 0).map((o) => ({ quality: `oggetto.${o.id}`, prezzo: Math.floor(valoreMagico(o, c) / 2) }))
-    : [];
+  const magici = c.oggetti
+    .filter((o) => o.grado > 0 && !legata(o) && n.reliquie.includes(genereMagico(o) as (typeof n.reliquie)[number]))
+    .map((o) => ({ quality: `oggetto.${o.id}`, prezzo: Math.floor(valoreMagico(o, c) / 2) }));
   return [...n.compra, ...usato, ...magici];
 }
 
