@@ -407,7 +407,7 @@ function rigaChiusa(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, z: Serie, manca
     return requisitoLeggibile(r, s, c);
   });
   const fatti = avanzamento(s, z);
-  return `<li class="storylet-riga storia chiusa genere-${z.genere}">
+  return `<li class="storylet-riga storia chiusa">
     ${tavola(st.immagine, { classe: 'ritratto' })}
     <div class="corpo">
       <div class="testa">${marchioGenere(z.genere, z.fazione ?? NOMI_GENERE[z.genere])}<span class="serie"><span class="nome-serie">${h(z.nome)}</span>${tacche(fatti, z.massimo, fatti)}</span></div>
@@ -420,8 +420,7 @@ function rigaChiusa(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, z: Serie, manca
 
 function rigaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, stanza = false): string {
   const tipo = stanza ? 'Stanza' : tipoStorylet(st);
-  const { genere } = genereDi(x.c, st);
-  return `<li class="storylet-riga ${st.ripetibile ? 'ripetibile' : 'storia'}${genere ? ` genere-${genere}` : ''}">
+  return `<li class="storylet-riga ${st.ripetibile ? 'ripetibile' : 'storia'}">
     ${tavola(st.immagine, { classe: 'ritratto' })}
     <div class="corpo">
       <div class="testa">${testaStorylet(x, st, tipo)}</div>
