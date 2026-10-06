@@ -14,7 +14,7 @@ import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonI
 import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
-import { serieDi, avanzamento, prossimaTappa, type Serie } from '../motore/serie';
+import { serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, type Serie, type Genere } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { vistaCombattimento } from './scontro';
@@ -67,7 +67,8 @@ export function luoghiQui(s: Stato, c: TContenuti): TLuogo[] {
 export function luogoAperto(x: Pick<Contesto, 's' | 'c' | 'luogo'>): TLuogo | undefined {
   return x.luogo ? luoghiQui(x.s, x.c).find((l) => l.id === x.luogo) : undefined;
 }
-const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia');
+const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia singola');
+const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', fazione: 'Fazione', luogo: 'Storia del luogo' };
 
 // ================================================================ impianto
 
@@ -364,13 +365,35 @@ export function tacche(fatti: number, massimo: number, ora?: number): string {
   return `<span class="tacche" role="img" aria-label="${fatti} passi su ${massimo}">${segni}</span><span class="conta-serie">${fatti}/${massimo}</span>`;
 }
 
+/** Il genere dello storylet: quello della sua serie, o la fazione per i servizi e le spedizioni di una quest. */
+function genereDi(c: TContenuti, st: TStorylet): { genere?: Genere; serie?: Serie; nome?: string } {
+  const serie = st.ripetibile ? undefined : serieDi(c).diStorylet.get(st.id);
+  if (serie) return { genere: serie.genere, serie, nome: serie.fazione ?? NOMI_GENERE[serie.genere] };
+  const f = fazioneDi(c, st);
+  return f ? { genere: 'fazione', nome: f } : {};
+}
+
+/** Il marchio del genere: storia principale, la fazione o storia del luogo. */
+const marchioGenere = (genere: Genere, nome: string) => `<span class="genere ${genere}">${h(nome)}</span>`;
+
 /** L'etichetta della serie di uno storylet (la storia lunga a cui appartiene e a che punto sei), o quella del tipo. */
 function testaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, tipo: string): string {
-  const serie: Serie | undefined = st.ripetibile ? undefined : serieDi(x.c).diStorylet.get(st.id);
+  const { genere, serie, nome: nomeGenere } = genereDi(x.c, st);
   const luogo = st.luogo ? `<span class="luogo">${h(st.luogo)}</span>` : '';
-  if (!serie) return `${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}${luogo}`;
+  const marchio = genere ? marchioGenere(genere, nomeGenere!) : '';
+  if (!serie) return `${marchio}${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}${luogo}`;
   const fatti = avanzamento(x.s, serie);
-  return `<span class="serie"><span class="nome-serie">${h(serie.nome)}</span>${tacche(fatti, serie.massimo, fatti < serie.massimo ? fatti : undefined)}</span>${luogo}`;
+  return `${marchio}<span class="serie"><span class="nome-serie">${h(serie.nome)}</span>${tacche(fatti, serie.massimo, fatti < serie.massimo ? fatti : undefined)}</span>${luogo}`;
+}
+
+/** Le serie di cui questo storylet apre il prossimo passo, in una riga: «Apre il seguito di …». */
+function rigaSblocchi(x: Pick<Contesto, 's' | 'c'>, st: TStorylet): string {
+  const sb = sblocchi(x.s, x.c, st);
+  if (!sb.length) return '';
+  const voci = sb.map((b) => {
+    return `${marchioGenere(b.serie.genere, b.serie.fazione ?? NOMI_GENERE[b.serie.genere])} <b>${h(b.serie.nome)}</b>${nome(b.quality, x.c) === b.serie.nome ? '' : ` <span class="con">con ${h(nome(b.quality, x.c))}</span>`}`;
+  });
+  return `<p class="sblocca"><span class="freccia" aria-hidden="true">→</span> Porta avanti ${voci.join(' · ')}</p>`;
 }
 
 /** La prossima storia di un luogo, ancora chiusa: titolo, serie e che cosa manca per aprirla. */
@@ -384,10 +407,10 @@ function rigaChiusa(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, z: Serie, manca
     return requisitoLeggibile(r, s, c);
   });
   const fatti = avanzamento(s, z);
-  return `<li class="storylet-riga storia chiusa">
+  return `<li class="storylet-riga storia chiusa genere-${z.genere}">
     ${tavola(st.immagine, { classe: 'ritratto' })}
     <div class="corpo">
-      <div class="testa"><span class="serie"><span class="nome-serie">${h(z.nome)}</span>${tacche(fatti, z.massimo, fatti)}</span></div>
+      <div class="testa">${marchioGenere(z.genere, z.fazione ?? NOMI_GENERE[z.genere])}<span class="serie"><span class="nome-serie">${h(z.nome)}</span>${tacche(fatti, z.massimo, fatti)}</span></div>
       <h3>${h(st.titolo)}</h3>
       <ul class="mancanti">${cosa.map((t) => `<li>${h(t)}</li>`).join('')}</ul>
     </div>
@@ -397,12 +420,14 @@ function rigaChiusa(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, z: Serie, manca
 
 function rigaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, stanza = false): string {
   const tipo = stanza ? 'Stanza' : tipoStorylet(st);
-  return `<li class="storylet-riga ${st.ripetibile ? 'ripetibile' : 'storia'}">
+  const { genere } = genereDi(x.c, st);
+  return `<li class="storylet-riga ${st.ripetibile ? 'ripetibile' : 'storia'}${genere ? ` genere-${genere}` : ''}">
     ${tavola(st.immagine, { classe: 'ritratto' })}
     <div class="corpo">
       <div class="testa">${testaStorylet(x, st, tipo)}</div>
       <h3>${h(st.titolo)}</h3>
       <p class="sommario">${h(st.sommario ?? primaFrase(st.testo))}</p>
+      ${rigaSblocchi(x, st)}
     </div>
     <button type="button" class="bottone vai" data-az="apri" data-id="${st.id}">Vai</button>
   </li>`;
@@ -477,6 +502,7 @@ function vistaStorylet(x: Contesto, id: string): string {
       <div class="scena-titoli">
         <div class="testa">${testaStorylet(x, st, tipoStorylet(st))}</div>
         <h2>${h(st.titolo)}</h2>
+        ${rigaSblocchi(x, st)}
         <div data-lettura="st:${h(st.id)}">${prosa(st.testo, 'prosa', voci(x), originePg(x))}</div>
       </div>
     </header>
