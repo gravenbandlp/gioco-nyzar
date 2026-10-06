@@ -2,9 +2,9 @@
 import { probabilita, tira, type Rng } from './dadi';
 import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
 import { serieDi, type Serie } from './serie';
-import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOpzione, TStorylet } from './contenuto';
+import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOggetto, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
-import { ricevi, talento, haProprieta, haDifetto, oggetto, indossato } from './oggetti';
+import { ricevi, talento, haProprieta, haDifetto, oggetto, indossato, baseArma } from './oggetti';
 import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
 import { nuovaPartita, probabilitaZekar, lateraliValide, LATERALI_PREDEFINITE, type StatoZekar } from './zekar';
 import { areaAttuale, cambiaArea, inSpedizione, profondita, segnaStanza } from './spedizioni';
@@ -251,7 +251,7 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   if (Object.keys(costi).length) r.variazioni.push(...applicaEffetti(s, costi, c));
   const ferite = feriteDopo(cs, sc.feriteSconfitta);
   if (ferite > 0) r.variazioni.push(...applicaEffetti(s, { ferite }, c));
-  const arma = c.armi.find((a) => a.id === s.arma);
+  const { arma } = baseArma(s, c); // gli oggetti magici contano come la loro arma base
   const p = anteprima(s, opz, c).combattimento?.probabilita ?? 0.5;
   // PE all'arma, e alla Magia se nello scontro hai lanciato incantesimi
   r.crescite.push(...assegnaPE(s, arma?.abilita ?? 'rissa', peDaProbabilita(p)));
@@ -326,18 +326,30 @@ export function negozioAperto(s: Stato, n: TNegozio, c: TContenuti): boolean {
   return listino(s, n.compra, c, 'compra').length > 0 || listino(s, n.vende, c, 'vende').length > 0;
 }
 
+/** Valore di un'arma, armatura o scudo magico: il prezzo scritto, oppure quello della base più 700 per grado. */
+export function valoreMagico(o: TOggetto, c: TContenuti): number {
+  const base = [...c.armi, ...c.armature, ...c.scudi].find((b) => b.id === o.base);
+  return o.prezzo ?? (base?.prezzo ?? 0) + 700 * o.grado;
+}
+
 /**
  * Quello che il negozio compra dal giocatore: il listino `compra` più le armi, gli scudi e le armature che vende,
- * ripresi a metà prezzo arrotondato per difetto e con gli stessi requisiti.
+ * ripresi a metà prezzo arrotondato per difetto e con gli stessi requisiti. Gli armaioli (`reliquie`) comprano
+ * anche armi, armature e scudi magici, a metà del loro valore.
  */
 export function vociCompra(n: TNegozio, c: TContenuti): TVoceNegozio[] {
+  const rivendibile = (o: TOggetto | undefined): o is TOggetto =>
+    !!o && ['arma', 'armatura', 'scudo'].includes(o.slot) && !(o.difetti as string[]).includes('legata');
   const usato = n.vende.flatMap((v) => {
     const o = v.quality.startsWith('oggetto.') ? oggetto(c, v.quality.slice(8)) : undefined;
     const prezzo = Math.floor(v.prezzo / 2);
-    if (!o || !['arma', 'armatura', 'scudo'].includes(o.slot) || (o.difetti as string[]).includes('legata') || prezzo < 1) return [];
+    if (!rivendibile(o) || prezzo < 1) return [];
     return [{ ...v, prezzo }];
   });
-  return [...n.compra, ...usato];
+  const magici = n.reliquie
+    ? c.oggetti.filter((o) => rivendibile(o) && o.grado > 0).map((o) => ({ quality: `oggetto.${o.id}`, prezzo: Math.floor(valoreMagico(o, c) / 2) }))
+    : [];
+  return [...n.compra, ...usato, ...magici];
 }
 
 /** Quanti pezzi di una merce si possono vendere: degli oggetti non conta quello indossato, e i legati non si vendono. */

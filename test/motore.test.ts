@@ -128,8 +128,9 @@ describe('storylet', () => {
 });
 
 describe('combattimento', () => {
-  function combatti(seme: number): { s: Stato; cs: StatoCombattimento } {
+  function combatti(seme: number, prepara?: (s: Stato) => void): { s: Stato; cs: StatoCombattimento } {
     const s = figlio();
+    prepara?.(s);
     s.quality['pista.dama-argento'] = 2;
     const rng = rngConSeme(seme);
     const r = scegli(s, storylet('segheria-malgrani'), 1, c, 0, rng);
@@ -165,6 +166,11 @@ describe('combattimento', () => {
     }
     expect(vinte).toBeGreaterThan(0);
     expect(perse).toBeGreaterThan(0);
+  });
+  it("con un'arma magica i PE vanno all'abilità della sua arma base", () => {
+    const { s, cs } = combatti(3, (s) => { s.quality['oggetto.spadone-di-uzgreth'] = 1; s.arma = 'spadone-di-uzgreth'; });
+    const r = concludiCombattimento(s, storylet('segheria-malgrani'), 1, cs, c);
+    expect(r.crescite[0]!.chiave).toBe('armi-da-mischia');
   });
   it('ferite a fine scontro in base ai PF rimasti', () => {
     const cs = { vinto: true, combattenti: [{ lato: 'pg', pf: 7, pfMax: 7 }] } as unknown as StatoCombattimento;
@@ -219,5 +225,16 @@ describe('spostamenti e negozi', () => {
     expect(vendi(s, 'armeria-di-irsa', 'oggetto.pugnale', c)).toBe(true);
     expect(s.quality['monete']).toBe(prima + 5);
     expect(s.quality['oggetto.pugnale']).toBe(0);
+  });
+  it('gli armaioli comprano armi e armature magiche a metà del loro valore', () => {
+    const s = figlio();
+    s.quality['monete'] = 0;
+    s.quality['oggetto.spadone-di-uzgreth'] = 1;
+    s.quality['oggetto.arco-di-isvaro'] = 1;
+    expect(vendi(s, 'banco-di-grusk', 'oggetto.spadone-di-uzgreth', c)).toBe(false);
+    expect(vendi(s, 'fucina-dei-due-mastini', 'oggetto.spadone-di-uzgreth', c)).toBe(true);
+    expect(s.quality['monete']).toBe(760); // (120 + 700 × 2) / 2
+    expect(vendi(s, 'armeria-di-irsa', 'oggetto.arco-di-isvaro', c)).toBe(true);
+    expect(s.quality['monete']).toBe(760 + 387);
   });
 });

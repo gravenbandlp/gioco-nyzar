@@ -11,7 +11,9 @@ magici da +1 a +5, reperti con cariche e celle, consumabili.
 - Un'arma a due mani toglie lo scudo e impedisce di indossarlo.
 - Armi, scudi e armature si rivendono alle botteghe che le vendono, a metà del loro prezzo arrotondato per
   difetto e con gli stessi requisiti (`vociCompra` in `src/motore/azioni.ts`). Quello indossato va tolto prima;
-  i Legati non si vendono.
+  i Legati non si vendono. Gli armaioli (Irsa e Bram, `reliquie: true` in `negozi.yaml`) comprano anche armi,
+  armature e scudi magici a metà del loro valore: il `prezzo` dell'oggetto o, se manca, il prezzo della base più
+  700 per grado.
 - Anti-accumulo: armatura e scudo danno dadi in difesa, ma vale il più alto dei due. Lo stesso vale
   per l'iniziativa (Leggera o Rapida) e per i Talenti sulla stessa abilità.
 

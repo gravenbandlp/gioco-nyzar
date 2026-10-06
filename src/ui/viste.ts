@@ -657,8 +657,15 @@ function banco(s: Stato, c: Contesto['c']): string {
   }).join('');
   const punti = ([['potenza', 'Potenza'], ['stabilita', 'Stabilità'], ['stranezza', 'Stranezza']] as const)
     .map(([k, n]) => `<li class="oggetto"><span>${n}</span><b>${mezzi(s.quality[`banco.${k}`] ?? 0)}</b></li>`).join('');
+  // a congegno finito, chi lo compra: gli storylet con il requisito banco.parti >= 4, e se il congegno gli basta
+  const compratori = montate < 4 ? '' : c.storylet.filter((st) => st.requisiti?.includes('banco.parti >= 4')).map((st) => {
+    const area = c.aree.find((a) => a.id === st.area)?.nome ?? '';
+    const basta = st.opzioni.some((o) => requisitiSoddisfatti(s, o.requisiti, c));
+    return `<li class="oggetto">${tavola(st.immagine ?? 'icone/cube', { classe: 'icona' })}<span>${h(st.luogo ?? st.titolo)}${area ? `, ${h(area)}` : ''}</span><b>${basta ? 'lo compra' : 'non ancora'}</b></li>`;
+  }).join('');
   return `<h2 class="titolo-sezione">Sul banco di Oda <small>${montate >= 4 ? 'il congegno è finito e si può vendere' : `${montate} parti su 4`}</small></h2>
-    <ul class="oggetti">${parti}${punti}</ul>`;
+    <ul class="oggetti">${parti}${punti}</ul>
+    ${compratori ? `<h3 class="titolo-sezione">Chi lo compra</h3><ul class="oggetti">${compratori}</ul>` : ''}`;
 }
 
 export function averi(x: Contesto): string {

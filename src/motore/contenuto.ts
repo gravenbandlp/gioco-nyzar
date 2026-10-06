@@ -274,6 +274,7 @@ export const Negozio = z.object({
   // fra le voci aperte, e la voce migliore ancora chiusa si mostra come suggerimento.
   compra: z.array(VoceNegozio).default([]), // il negozio compra dal giocatore
   vende: z.array(VoceNegozio).default([]), // il giocatore compra
+  reliquie: z.boolean().default(false), // l'armaiolo compra anche armi, armature e scudi magici (vociCompra)
 });
 
 export const Origine = z.object({
