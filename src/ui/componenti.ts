@@ -196,7 +196,6 @@ export function descriviOggetto(id: string, c: TContenuti): { nome: string; dett
   }
   if (scudo) { parti.push(`+${scudo.dadi} ${scudo.dadi === 1 ? 'dado' : 'dadi'} in difesa`); for (const [k, v] of Object.entries(scudo.penalita)) parti.push(`${NOMI[k]} ${v}`); }
   if (og) {
-    if (og.grado) parti.push(`magico +${og.grado}`);
     if (og.dadi && og.slot !== 'scudo') parti.push(`+${og.dadi} ${og.dadi === 1 ? 'dado' : 'dadi'} ${og.slot === 'arma' ? 'in attacco' : 'in difesa'}`);
     const p = og.proprieta;
     if (p.penetrante) parti.push(`ignora ${p.penetrante} di armatura`);

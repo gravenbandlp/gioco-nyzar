@@ -110,7 +110,8 @@ function blocchi(dati: unknown, dove = ''): { dove: string; testo: string }[] {
 
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   const { contenuti } = caricaContenuti({ tavole: false });
-  const tutti = blocchi(contenuti);
+  const { tracce: _tracce, ...prosa } = contenuti; // i titoli delle tracce audio sono nomi di brani, non prosa
+  const tutti = blocchi(prosa);
   const totali: Record<string, number> = {};
   let parolaTot = 0, segnalati = 0;
   for (const b of tutti) {

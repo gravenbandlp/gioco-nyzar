@@ -275,6 +275,8 @@ function crediti(): string {
 
   <h3>Musica</h3>
   <p>Colonna sonora di <b>${a('https://itch.io/profile/lisetteamago', 'Lisette Amago')}</b>.</p>
+  <p>Nelle spedizioni: <em>Uncharted Dreams</em>, <em>The Light That Failed</em>, <em>A Hundred Deaths</em> e
+  <em>Our Wounds, Our Crown</em> di <b>Graven</b>, il progetto black metal di Luca Pasini.</p>
   <p>Ambienti sonori: <em>Fantasy Ambiences</em> di <b>Andrea Baroni</b>, Cyberleaf Studio
   (${a('https://andreabaroni.com', 'andreabaroni.com')}).</p>
 

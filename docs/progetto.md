@@ -15,7 +15,7 @@ luoghi presi da Rise of the Runelords rinominati. Il protagonista è uno solo, n
 origini. Tono della prosa: seconda persona, concreta, con un po' di Disco Elysium nella voce interiore.
 
 È un progetto personale, fatto per passione e senza guadagno: tavole tratte da stampe d'epoca di
-pubblico dominio (Piranesi, Callot, Hollar e altri, virate in seppia), musiche di Lisette Amago e ambienti di Andrea
+pubblico dominio (Piranesi, Callot, Hollar e altri, virate in seppia), musiche di Lisette Amago e, nelle spedizioni, di Graven (il progetto black metal di Luca), ambienti di Andrea
 Baroni (Cyberleaf). Niente immagini né voci generate con l'IA (dal 4 ottobre 2026).
 
 ## Scope
