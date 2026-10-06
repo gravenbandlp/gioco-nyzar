@@ -51,13 +51,9 @@ e regia in `../doppiaggio-archivio`, il codice nella storia git.
 
 ## 4. Pubblicare
 
-Due strade, che possono convivere.
+Si pubblica solo sul sito. L'Artifact su claude.ai, usato fino all'inizio di ottobre 2026, non si aggiorna più.
 
-**Artifact su claude.ai.** È quella usata finora: salva nell'account claude.ai di chi gioca (tu e chi inviti per email
-come Editor). Si pubblica da una conversazione su claude.ai con Claude, seguendo `docs/ripresa.md`, sezione
-«Pubblicare»; Claude Code in locale non pubblica Artifact.
-
-**Sito proprio su Cloudflare Pages, con il login Google.** Chiunque abbia il link può giocare e salvare nel proprio
+**Sito su Cloudflare Pages, con il login Google.** Chiunque abbia il link può giocare e salvare nel proprio
 account Google. Serve una volta sola la configurazione qui sotto, poi:
 
 ```sh

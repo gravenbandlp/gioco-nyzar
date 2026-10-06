@@ -6,14 +6,15 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
-- Gioco pubblicato: Artifact https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR (versione 48 al 2 ottobre).
+- Gioco pubblicato: https://gioco-nyzar.pages.dev (Cloudflare Pages, salvataggi negli account Google su Supabase).
+  L'Artifact su claude.ai (https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR) è fermo dal 6 ottobre e non si aggiorna.
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
 - In locale le cartelle stanno accanto al repository: `../codex-nyzar`, `../audio-nyzar/{musica,ambienti}`.
 - Fuori dal repository (Luca li ha come file): lo schedario del Codex (`nyzar-schedario-codex.md`) e il verbale del
   Capitolo I (`verbale-capitolo-I-rinominato.md`). Servono solo per scrivere storie nuove: chiedili se servono.
-- Audio: `public/audio/` è escluso da git (pesa troppo). Musiche e ambienti sono già dentro l'Artifact del gioco e
-  restano lì a ogni ripubblicazione.
+- Audio: `public/audio/` è escluso da git (pesa troppo) e si importa con `npm run audio`: per questo il sito si
+  pubblica da questa macchina.
 
 ## Comandi
 `npm install`, poi:
@@ -24,14 +25,9 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 - `npm run pubblica:pages`: build e pubblicazione su Cloudflare Pages (`docs/locale.md`).
 
 ## Pubblicare
-Come Artifact su claude.ai (da una conversazione con Claude, che ha lo strumento Artifact; Claude Code in locale non
-ce l'ha). Per il sito proprio vedi `docs/locale.md`.
-1. `npm run build`.
-2. `python3 scripts/strumenti/prepara-artifact.py <cartella-temporanea>`: scrive `gioco-nyzar.html` e la mappa delle
-   tavole nuove.
-3. Artifact publish con `url` del gioco e `file_path` del file preparato; le tavole e gli audio nuovi vanno passati in
-   `files` (percorso pubblicato → `dist/...`). Gli altri file già pubblicati restano. Le capacità (`db`, `user` con
-   scope `profile`, `downloads`) restano quelle dichiarate: non passare `capabilities` se non cambiano.
+`npm run pubblica:pages` da questa macchina: build e caricamento di `dist/` sul progetto Pages `gioco-nyzar`
+(`docs/locale.md`, sezione 4). Prima i controlli (`npm run contenuti`, `npm run stile`, `npx vitest run`), il commit
+e il push su `main`.
 
 Per provare il gioco in un browser: `scripts/strumenti/servi.py` (server dentro lo stesso processo di Playwright);
 in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con un clic su una scheda.
@@ -104,9 +100,5 @@ Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di re
 incongruenze. A progetto: lo strato 3 dell'economia (`docs/progetto-reperti.md`).
 
 Da fare:
-- **Salvataggi** (`docs/salvataggi.md`): nell'Artifact il personaggio si salva nell'account claude.ai (base dati
-  dell'Artifact, spazio privato di chi gioca); salvano il proprietario e chi è invitato per email come Editor, gli altri
-  restano al browser e al file. Fuori da claude.ai c'è l'accesso Google con Supabase, pronto ma spento: per accenderlo
-  servono il progetto Supabase, il client OAuth Google e un sito proprio (passi in `docs/salvataggi.md`).
 - **Glossario**: i personaggi nuovi delle carte della città (Ilde Sarrocchi, Ugo Bracco, Clelia Vennari, Berengario
   Lusardi, Fosco Ambri, ecc., elencati in testa ai file `contenuti/citta/carte-*.yaml`) non hanno ancora una voce.
