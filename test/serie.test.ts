@@ -38,4 +38,10 @@ describe('serie', () => {
     Object.assign(s.quality, { 'fazione.raschiatori': 9, 'pista.capomozzo': 3 });
     expect(attese(s, c, rasch).map((a) => a.serie.quality)).toEqual(['pista.capomozzo']);
   });
+  it('un seguito già giocato allo stesso passo non nasconde quello che manca', () => {
+    const s = nuovoPersonaggio('X', c.origini[0]!, 0, 'citta-bassa');
+    const maison = serieDi(c).serie.find((z) => z.quality === 'fazione.maison')!;
+    Object.assign(s.quality, { 'fazione.maison': 12, 'pista.pelle': 3 });
+    expect(attese(s, c, maison).map((a) => [a.serie.quality, a.op, a.valori])).toEqual([['pista.pelle', '>=', [7]]]);
+  });
 });

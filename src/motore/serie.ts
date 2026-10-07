@@ -132,7 +132,9 @@ function prossimi(s: Stato, c: TContenuti, serie: Serie): TStorylet[] {
   }
   const ora = avanzamento(s, serie);
   if (ora >= serie.massimo) return [];
-  return c.storylet.filter((st) => req(st).some((r) => r.chiave === serie.quality && r.op === '==' && r.n === ora));
+  // i seguiti li apre la scena prima di loro, non la pista: «Voce del salotto» (fazione.maison == 12, già giocata)
+  // non deve far credere che il passo 13 della Maison sia libero
+  return c.storylet.filter((st) => st.tipo !== 'seguito' && req(st).some((r) => r.chiave === serie.quality && r.op === '==' && r.n === ora));
 }
 
 export interface Sblocco { serie: Serie; quality: string }
