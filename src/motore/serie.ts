@@ -8,7 +8,7 @@
 // I seguiti senza serie prendono quella della scena che li apre.
 // Il genere dice che storia è: principale (le piste), di fazione (le quest di `fazioni:`) o di un luogo.
 import type { TContenuti, TStorylet } from './contenuto';
-import { parseRequisito, type Stato } from './personaggio';
+import { parseRequisito, requisitoSoddisfatto, type Stato } from './personaggio';
 
 export interface Serie {
   id: string;
@@ -159,4 +159,45 @@ export function sblocchi(s: Stato, c: TContenuti, st: TStorylet): Sblocco[] {
     if (manca) fuori.push({ serie: z, quality: manca.chiave });
   }
   return fuori;
+}
+
+/** Una condizione su un'altra storia che ferma il prossimo passo di una serie. */
+export interface Attesa { serie: Serie; op: string; valori: number[] }
+
+/**
+ * Le altre storie da cui dipende il prossimo passo di una pista: se nessuna delle storie del passo successivo si può
+ * aprire perché chiede un'altra pista a un certo punto, torna le condizioni mancanti della più vicina. Vuoto se il
+ * passo non dipende da altre storie, o se la serie è chiusa.
+ */
+export function attese(s: Stato, c: TContenuti, serie: Serie): Attesa[] {
+  if (serie.tipo !== 'pista') return [];
+  const piste = new Map(serieDi(c).serie.filter((z) => z.tipo === 'pista' && z !== serie).map((z) => [z.quality!, z]));
+  const vale = (v: number, op: string, n: number) =>
+    op === '>=' ? v >= n : op === '>' ? v > n : op === '<=' ? v <= n : op === '<' ? v < n : op === '==' ? v === n : op === '!=' ? v !== n : true;
+  // le storie del passo con le altre condizioni già a posto contano per prime (al passo 9 dei Raschiatori la penitenza
+  // vale solo per chi è rimasto con Merlach, e non deve nascondere quello che chiede la strada normale)
+  const candidati = prossimi(s, c, serie).map((st) => {
+    const r = req(st);
+    return {
+      mancanti: r.filter((x) => piste.has(x.chiave) && !vale(s.quality[x.chiave] ?? 0, x.op, x.n)),
+      altriOk: r.every((x) => piste.has(x.chiave) || x.chiave === serie.quality || requisitoSoddisfatto(s, `${x.chiave} ${x.op} ${x.n}`, c)),
+    };
+  });
+  // le piste salgono e basta: una storia che chiede un'altra pista più indietro di dove sei non si aprirà più
+  const possibili = candidati.filter((x) => x.mancanti.every((r) => ['>=', '>', '!='].includes(r.op) || (r.op === '==' && (s.quality[r.chiave] ?? 0) < r.n)));
+  const validi = possibili.some((x) => x.altriOk) ? possibili.filter((x) => x.altriOk) : possibili;
+  let meglio: Attesa[] | undefined;
+  for (const { mancanti } of validi) {
+    if (!mancanti.length) return [];
+    // più condizioni sulla stessa pista (pista.arena != 1, != 2, ...) diventano una sola
+    const unite = new Map<string, Attesa>();
+    for (const r of mancanti) {
+      const k = `${r.chiave}|${r.op}`;
+      const a = unite.get(k) ?? { serie: piste.get(r.chiave)!, op: r.op, valori: [] };
+      a.valori.push(r.n);
+      unite.set(k, a);
+    }
+    if (!meglio || unite.size < meglio.length) meglio = [...unite.values()];
+  }
+  return meglio ?? [];
 }

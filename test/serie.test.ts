@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { CONTENUTI as c } from '../src/dati/contenuti';
-import { serieDi, avanzamento } from '../src/motore/serie';
+import { serieDi, avanzamento, attese } from '../src/motore/serie';
 import { nuovoPersonaggio } from '../src/motore/personaggio';
 
 describe('serie', () => {
@@ -25,5 +25,17 @@ describe('serie', () => {
     s.quality['biblioteca.scaffali'] = 1;
     expect(avanzamento(s, m.serie.find((z) => z.quality === 'pista.registro')!)).toBe(3);
     expect(avanzamento(s, m.serie.find((z) => z.id === 'luogo.rep.biblioteca')!)).toBe(1);
+  });
+
+  it("una quest ferma per un'altra storia dice quale", () => {
+    const s = nuovoPersonaggio('X', c.origini[0]!, 0, 'citta-bassa');
+    const rasch = serieDi(c).serie.find((z) => z.quality === 'fazione.raschiatori')!;
+    Object.assign(s.quality, { 'fazione.raschiatori': 6, 'pista.acciaio': 7 });
+    expect(attese(s, c, rasch).map((a) => [a.serie.quality, a.op, a.valori])).toEqual([['pista.acciaio', '>=', [8]]]);
+    s.quality['pista.acciaio'] = 8;
+    expect(attese(s, c, rasch)).toEqual([]);
+    // al passo 9 la penitenza (solo per chi è rimasto con Merlach) non nasconde quello che chiede la strada normale
+    Object.assign(s.quality, { 'fazione.raschiatori': 9, 'pista.capomozzo': 3 });
+    expect(attese(s, c, rasch).map((a) => a.serie.quality)).toEqual(['pista.capomozzo']);
   });
 });

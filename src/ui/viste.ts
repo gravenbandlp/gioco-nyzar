@@ -14,7 +14,7 @@ import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonI
 import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
-import { serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, type Serie, type Genere } from '../motore/serie';
+import { serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, attese, type Serie, type Genere } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { vistaCombattimento } from './scontro';
@@ -341,7 +341,21 @@ function rigaPista(s: Stato, c: TContenuti, id: string, nomeSerie: string, descr
   const segno = z ? `<span class="serie">${tacche(fatti, z.massimo)}${fatti >= z.massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}${tempo}</span>` : `<span class="etichetta velo">Capitolo ${mezzi(fatti)}</span>`;
   const prossima = z?.tipo === 'luogo' ? prossimaTappa(s, z) : undefined;
   const dopo = prossima ? `<p>Prossima storia: «${h(trova(c, prossima)?.titolo ?? '')}».</p>` : '';
-  return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}${dopo}</div>${segno}</li>`;
+  return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}${dopo}${z ? rigaAttese(s, c, z) : ''}</div>${segno}</li>`;
+}
+
+/** Che cosa ferma il prossimo passo di una pista, se dipende da un'altra storia. */
+function rigaAttese(s: Stato, c: TContenuti, z: Serie): string {
+  const voci = attese(s, c, z).map((a) => {
+    const nome = `<b>«${h(a.serie.nome)}»</b>`;
+    const ora = avanzamento(s, a.serie);
+    const n = a.valori[0]!;
+    if (a.op === '!=') return `aspetta che finisca ${nome}`;
+    if ((a.op === '>=' && n >= a.serie.massimo) || (a.op === '>' && n + 1 >= a.serie.massimo)) return `chiudi ${nome} (sei a ${ora} su ${a.serie.massimo})`;
+    if (a.op === '>=' || a.op === '>') return `porta ${nome} almeno al passo ${a.op === '>' ? n + 1 : n} (sei a ${ora})`;
+    return `porta ${nome} al passo ${n} (sei a ${ora})`;
+  });
+  return voci.length ? `<p class="serve-prima"><span class="freccia" aria-hidden="true">→</span> Per andare avanti: ${voci.join('; ')}.</p>` : '';
 }
 
 /** Una riga della sezione Fazioni: il grado raggiunto, la quest a che punto è e il grado che viene dopo. */
@@ -356,7 +370,7 @@ function rigaFazione(s: Stato, c: TContenuti, f: TContenuti['fazioni'][number]):
   const titolo = grado ? `${etichetta(`Grado ${presi.length} · ${grado.nome}`, 'velo')}` : etichetta('Aspirante', 'dim');
   const dopo = prossimo ? `<p>Prossimo grado al passo ${prossimo.passo}: ${h(prossimo.nome)}. ${h(prossimo.ricompensa)}</p>` : '';
   const ottenuti = grado ? `<p>${h(grado.ricompensa)}</p>` : '';
-  return `<li class="${fatti >= massimo ? 'conclusa' : ''}">${tavola(f.immagine ?? q?.immagine, { classe: 'icona' })}<div><b>${h(f.nome)}</b><div class="grado-fazione">${titolo}</div>${q?.nome ? `<p>${h(q.nome)}</p>` : ''}${ottenuti}${dopo}</div><span class="serie">${tacche(fatti, massimo)}${fatti >= massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}</span></li>`;
+  return `<li class="${fatti >= massimo ? 'conclusa' : ''}">${tavola(f.immagine ?? q?.immagine, { classe: 'icona' })}<div><b>${h(f.nome)}</b><div class="grado-fazione">${titolo}</div>${q?.nome ? `<p>${h(q.nome)}</p>` : ''}${ottenuti}${dopo}${z ? rigaAttese(s, c, z) : ''}</div><span class="serie">${tacche(fatti, massimo)}${fatti >= massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}</span></li>`;
 }
 
 /** Le tacche di una serie: piene fino a dove sei, quella del passo in corso accesa. */
