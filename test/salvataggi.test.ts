@@ -1,175 +1,68 @@
-// Il salvataggio nell'account: forma dei dati, diario a blocchi, confronto fra copie, protezione dai dispositivi rimasti
-// indietro, file, e il client Supabase con un server finto.
+// Il salvataggio: un solo personaggio nell'account Google su Supabase, con le versioni che impediscono a un dispositivo
+// rimasto indietro di sovrascrivere i progressi fatti altrove. Il client Supabase gira contro un server finto.
 import { describe, it, expect, beforeEach } from 'vitest';
 import { nuovoPersonaggio } from '../src/motore/personaggio';
 import { CONTENUTI as c } from '../src/dati/contenuti';
-import {
-  blocchiDiario, confronta, aFile, daFile, nomeFile, archivioSuDb, archivioGoogle, idPersonaggio, sessioneDaIndirizzo, Sincronia,
-  type DatiSalvati, type Archivio,
-} from '../src/ui/salvataggi';
-import type { PaginaDiario } from '../src/motore/diario';
+import { archivioGoogle, idPersonaggio, sessioneDaIndirizzo, Sincronia, type DatiSalvati } from '../src/ui/salvataggi';
 
+const cfg = { url: 'https://progetto.supabase.co', chiave: 'chiave-pubblica' };
 const pg = (nome = 'Vessa') => { const s = nuovoPersonaggio(nome, c.origini[0]!, 0, 'citta-bassa'); idPersonaggio(s); return s; };
-const dati = (stato = pg(), salvatoAl = 1000): DatiSalvati => ({ stato, vista: { tipo: 'area' }, scheda: 'storia', salvatoAl });
-const pagina = (i: number, lunghezza = 3000): PaginaDiario => ({ quando: i, storylet: `s${i}`, scena: 'Scena', luogo: 'Qir-Azel', titolo: `T${i}`, testo: 'x'.repeat(lunghezza) });
+const dati = (stato = pg(), salvatoAl = 1000): DatiSalvati => ({ stato, vista: { tipo: 'area' }, scheda: 'storia', salvatoAl, rev: 0 });
 
-/** Una base dati in memoria con la stessa forma della capacità `db` (solo quello che serve qui). */
-function dbFinto() {
-  const docs = new Map<string, Record<string, unknown>>();
-  let scritture = 0;
-  const ref = (path: string) => ({
-    async get() { const d = docs.get(path); return { exists: !!d, data: () => (d ? structuredClone(d) : undefined) }; },
-    async set(d: Record<string, unknown>) {
-      if (JSON.stringify(d).length > 256 * 1024) throw Object.assign(new Error('troppo grande'), { code: 'invalid_argument' });
-      scritture++; docs.set(path, structuredClone(d));
-    },
-    async delete() { docs.delete(path); },
-    collection: (p: string) => ({ doc: (id: string) => ref(`${path}/${p}/${id}`) }),
-  });
-  return { db: { doc: ref }, docs, scritture: () => scritture };
+/** Un Supabase in memoria: una riga per utente, PATCH con il filtro sulla versione come PostgREST. */
+function supabaseFinto() {
+  const righe = new Map<string, { dati: DatiSalvati }>();
+  const chiamate: string[] = [];
+  const ok = (body: unknown, status = 200) => ({ ok: status < 300, status, json: async () => body }) as Response;
+  const fetchFinto = (utente: string) => (async (url: string, init?: RequestInit) => {
+    const metodo = init?.method ?? 'GET';
+    const percorso = url.replace(cfg.url, '');
+    chiamate.push(`${metodo} ${percorso}`);
+    expect((init?.headers as Record<string, string>)?.['apikey']).toBe(cfg.chiave);
+    if (percorso === '/auth/v1/user') return ok({ id: utente, email: `${utente}@example.com`, user_metadata: { full_name: 'Luca' } });
+    if (percorso === '/auth/v1/logout') return ok({});
+    const q = new URLSearchParams(percorso.split('?')[1] ?? '');
+    const riga = righe.get(utente);
+    if (metodo === 'GET' && q.get('select') === 'dati') return ok(riga ? [{ dati: structuredClone(riga.dati) }] : []);
+    if (metodo === 'GET' && q.get('select') === 'rev:dati->rev') return ok(riga ? [{ rev: riga.dati.rev ?? null }] : []);
+    if (metodo === 'POST') {
+      if (riga) return ok({ code: '23505' }, 409);
+      const b = JSON.parse(String(init!.body)) as { utente: string; dati: DatiSalvati };
+      righe.set(b.utente, { dati: b.dati });
+      return ok(null, 201);
+    }
+    if (metodo === 'PATCH') {
+      const filtro = q.get('dati->>rev')!;
+      const vale = filtro === 'is.null' ? riga?.dati.rev == null : String(riga?.dati.rev) === filtro.replace('eq.', '');
+      if (!riga || !vale) return ok([]);
+      riga.dati = (JSON.parse(String(init!.body)) as { dati: DatiSalvati }).dati;
+      return ok([{ utente }]);
+    }
+    return ok({}, 404);
+  }) as typeof fetch;
+  return { righe, chiamate, fetchFinto };
 }
 
-describe('salvataggio nell\'account', () => {
-  it('il diario si spezza in blocchi sotto il limite di un documento', () => {
-    const pagine = Array.from({ length: 300 }, (_, i) => pagina(i));
-    const blocchi = blocchiDiario(pagine);
-    expect(blocchi.flat()).toEqual(pagine);
-    for (const b of blocchi) expect(JSON.stringify(b).length).toBeLessThan(160_000);
+/** Un dispositivo: la sua memoria del browser (solo il login) e la sua sincronia. */
+function dispositivo(server: ReturnType<typeof supabaseFinto>, utente = 'uid-1') {
+  const memoria: Record<string, string> = { 'gioco-nyzar/sessione': JSON.stringify({ access_token: 'AT', refresh_token: 'RT', scade: Date.now() + 3_600_000 }) };
+  const ripresi: DatiSalvati[] = [];
+  const sincro = new Sincronia(() => {}, (d) => ripresi.push(d), () => {}, 0);
+  const usa = () => Object.assign(globalThis, {
+    localStorage: { getItem: (k: string) => memoria[k] ?? null, setItem: (k: string, v: string) => { memoria[k] = v; }, removeItem: (k: string) => { delete memoria[k]; } },
   });
+  return {
+    sincro, ripresi, memoria,
+    async collega() { usa(); return sincro.collega(() => archivioGoogle(cfg, server.fetchFinto(utente))); },
+    async mossa(d: DatiSalvati) { usa(); sincro.segnala(d); await sincro.subito(); },
+    async controlla() { usa(); await sincro.controlla(); },
+  };
+}
 
-  it('confronto fra copia del browser e copia dell\'account', () => {
-    const s = pg();
-    expect(confronta(dati(s, 2000), null)).toBe('scrivi');
-    expect(confronta(null, dati(s))).toBe('adotta');
-    expect(confronta(dati(s, 1000), dati(structuredClone(s), 2000))).toBe('adotta');
-    expect(confronta(dati(s, 3000), dati(structuredClone(s), 2000))).toBe('scrivi');
-    expect(confronta(dati(s, 2000), dati(structuredClone(s), 2000))).toBe('niente');
-    expect(confronta(dati(pg('Vessa')), dati(pg('Orsk')))).toBe('conflitto');
-    // salvataggi di prima dell'identità: decide nome e origine
-    const vecchio = structuredClone(s) as typeof s & { id?: string }; delete vecchio.id;
-    const vecchio2 = structuredClone(vecchio);
-    expect(confronta(dati(vecchio, 1), dati(vecchio2, 2))).toBe('adotta');
-  });
-
-  it('nella base dati dell\'Artifact il personaggio torna intero, diario compreso, e i blocchi inutili spariscono', async () => {
-    const { db, docs, scritture } = dbFinto();
-    const a = archivioSuDb(db, 'u_1');
-    const s = pg();
-    s.diario = Array.from({ length: 300 }, (_, i) => pagina(i));
-    const d = { ...dati(s, 5000), vista: { tipo: 'risultato', id: 'x', prima: structuredClone(s) } };
-    await a.scrivi(d);
-    expect([...docs.keys()].every((k) => k.startsWith('data/users/u_1/'))).toBe(true);
-    const letto = await archivioSuDb(db, 'u_1').leggi();
-    expect(letto!.stato).toEqual(s);
-    expect((letto!.vista as Record<string, unknown>)['prima']).toBeUndefined();
-    expect(await a.ultimo()).toBe(5000);
-    // una seconda scrittura senza cambi al diario riscrive solo il documento principale
-    const prima = scritture();
-    await a.scrivi({ ...d, salvatoAl: 6000 });
-    expect(scritture() - prima).toBe(1);
-    // il diario si accorcia: i blocchi in più vengono tolti
-    s.diario = s.diario.slice(0, 5);
-    await a.scrivi({ ...d, stato: s, salvatoAl: 7000 });
-    expect([...docs.keys()].filter((k) => k.includes('/diario/')).length).toBe(1);
-    expect((await archivioSuDb(db, 'u_1').leggi())!.stato.diario).toHaveLength(5);
-  });
-
-  it('un dispositivo rimasto indietro non sovrascrive l\'account: riprende la copia più recente', async () => {
-    const { db } = dbFinto();
-    const s = pg();
-    await archivioSuDb(db, 'u_1').scrivi(dati(s, 1000));
-    const ripresi: DatiSalvati[] = [];
-    const sincro = new Sincronia(() => {}, (d) => ripresi.push(d), 0);
-    const adottato = await sincro.collega(async () => archivioSuDb(db, 'u_1'), 'claude', dati(structuredClone(s), 1000));
-    expect(adottato).toBeNull();
-    // un altro dispositivo gioca e salva dopo
-    const altrove = structuredClone(s); altrove.quality['monete'] = 99;
-    await archivioSuDb(db, 'u_1').scrivi(dati(altrove, 9000));
-    // questo dispositivo fa una mossa con lo stato vecchio
-    sincro.segnala(dati(structuredClone(s), 2000));
-    await new Promise((r) => setTimeout(r, 20));
-    expect(ripresi.length).toBe(1);
-    expect(ripresi[0]!.stato.quality['monete']).toBe(99);
-    expect((await archivioSuDb(db, 'u_1').leggi())!.stato.quality['monete']).toBe(99);
-  });
-
-  it('due personaggi diversi: decide il giocatore, e la scelta si scrive', async () => {
-    const { db } = dbFinto();
-    await archivioSuDb(db, 'u_1').scrivi(dati(pg('Orsk'), 9000));
-    const sincro = new Sincronia(() => {}, () => {}, 0);
-    const locale = dati(pg('Vessa'), 1000);
-    expect(await sincro.collega(async () => archivioSuDb(db, 'u_1'), 'claude', locale)).toBeNull();
-    expect(sincro.stato.conflitto?.remoto.stato.nome).toBe('Orsk');
-    sincro.segnala(locale); // finché non sceglie, non si scrive niente
-    await new Promise((r) => setTimeout(r, 20));
-    expect((await archivioSuDb(db, 'u_1').leggi())!.stato.nome).toBe('Orsk');
-    sincro.risolvi(locale);
-    await new Promise((r) => setTimeout(r, 20));
-    expect((await archivioSuDb(db, 'u_1').leggi())!.stato.nome).toBe('Vessa');
-  });
-
-  it('il personaggio di un altro account rimasto nel browser non finisce nell\'account di chi entra', async () => {
-    const { db } = dbFinto();
-    const conUtente = (id: string): Archivio => ({ ...archivioSuDb(db, id), utente: id });
-    const sincro = new Sincronia(() => {}, () => {}, 0);
-    // account vuoto: non si scrive niente e non si adotta niente
-    expect(await sincro.collega(async () => conUtente('u_2'), 'google', dati(pg('Prova'), 1000), 'u_1')).toBeNull();
-    expect(sincro.stato.estraneo).toBe(true);
-    expect(await archivioSuDb(db, 'u_2').leggi()).toBeNull();
-    // account con un suo personaggio: si riprende quello, senza conflitto
-    await archivioSuDb(db, 'u_2').scrivi(dati(pg('Orsk'), 500));
-    const adottato = await new Sincronia(() => {}, () => {}, 0).collega(async () => conUtente('u_2'), 'google', dati(pg('Prova'), 1000), 'u_1');
-    expect(adottato?.stato.nome).toBe('Orsk');
-    // stesso account, o personaggio senza proprietario: si scrive come sempre
-    const stesso = new Sincronia(() => {}, () => {}, 0);
-    await stesso.collega(async () => conUtente('u_3'), 'google', dati(pg('Vessa'), 1000), null);
-    expect(stesso.stato.estraneo).toBeUndefined();
-    expect((await archivioSuDb(db, 'u_3').leggi())!.stato.nome).toBe('Vessa');
-    expect(stesso.utente()).toBe('u_3');
-  });
-
-  it('uscendo dall\'account si scrive prima la mossa in attesa', async () => {
-    const { db } = dbFinto();
-    let uscito = false;
-    const sincro = new Sincronia(() => {}, () => {}, 60_000);
-    const s = pg();
-    await sincro.collega(async () => ({ ...archivioSuDb(db, 'u_1'), esci: async () => { uscito = true; } }), 'google', dati(s, 1000));
-    sincro.segnala(dati(s, 5000)); // il ritardo è lungo: senza esci() non partirebbe
-    expect(await sincro.esci()).toBe(true);
-    expect(uscito).toBe(true);
-    expect(await archivioSuDb(db, 'u_1').ultimo()).toBe(5000);
-    expect(sincro.utente()).toBeUndefined();
-  });
-
-  it('chi non può scrivere nell\'account resta al salvataggio nel browser, con un messaggio', async () => {
-    const negato: Archivio = {
-      tipo: 'claude', leggi: async () => null, ultimo: async () => null,
-      scrivi: async () => { throw Object.assign(new Error('no'), { code: 'invalid_argument' }); },
-    };
-    const sincro = new Sincronia(() => {}, () => {}, 0);
-    await sincro.collega(async () => negato, 'claude', dati());
-    expect(sincro.stato.connesso).toBe(false);
-    expect(sincro.stato.errore).toMatch(/non si può salvare/);
-  });
-
-  it('il file di salvataggio si scarica e si ricarica', () => {
-    const d = dati(pg(), Date.UTC(2026, 9, 2));
-    const letto = daFile(aFile(d))!;
-    expect(letto.stato).toEqual(d.stato);
-    expect(nomeFile(d)).toBe('nyzar-vessa-2026-10-02.json');
-    expect(daFile('{"ciao":1}')).toBeNull();
-    expect(daFile('non è json')).toBeNull();
-  });
-});
-
-describe('accesso Google (Supabase)', () => {
-  const cfg = { url: 'https://progetto.supabase.co', chiave: 'chiave-pubblica' };
-  let memoria: Record<string, string>;
+describe('salvataggio nell\'account Google', () => {
   beforeEach(() => {
-    memoria = {};
     Object.assign(globalThis, {
-      localStorage: { getItem: (k: string) => memoria[k] ?? null, setItem: (k: string, v: string) => { memoria[k] = v; }, removeItem: (k: string) => { delete memoria[k]; } },
-      location: { hash: '#access_token=AT&refresh_token=RT&expires_in=3600&token_type=bearer', pathname: '/', search: '', origin: 'https://nyzar.pages.dev' },
+      location: { hash: '', pathname: '/', search: '', origin: 'https://gioco-nyzar.pages.dev' },
       history: { replaceState: () => {} },
     });
   });
@@ -179,35 +72,98 @@ describe('accesso Google (Supabase)', () => {
     expect(sessioneDaIndirizzo('#altro=1')).toBeNull();
   });
 
-  it('dopo il login salva e legge la propria riga', async () => {
-    const righe = new Map<string, unknown>();
-    const chiamate: string[] = [];
-    const finto = (async (url: string, init?: RequestInit) => {
-      chiamate.push(`${init?.method ?? 'GET'} ${url.replace(cfg.url, '')}`);
-      const ok = (body: unknown) => ({ ok: true, status: 200, json: async () => body }) as Response;
-      expect((init?.headers as Record<string, string>)?.['apikey']).toBe(cfg.chiave);
-      if (url.endsWith('/auth/v1/user')) return ok({ id: 'uid-1', email: 'luca@example.com', user_metadata: { full_name: 'Luca' } });
-      if (url.includes('/rest/v1/salvataggi?select=dati')) return ok(righe.has('uid-1') ? [{ dati: righe.get('uid-1') }] : []);
-      if (url.includes('/rest/v1/salvataggi?select=aggiornato')) return ok([]);
-      if (url.endsWith('/rest/v1/salvataggi') && init?.method === 'POST') {
-        const b = JSON.parse(String(init.body)) as { utente: string; dati: unknown };
-        righe.set(b.utente, b.dati);
-        return ok(null);
-      }
-      return { ok: false, status: 404, json: async () => ({}) } as Response;
-    }) as typeof fetch;
-    const a = (await archivioGoogle(cfg, finto))!;
-    expect(a.chi).toBe('Luca');
-    expect(await a.leggi()).toBeNull();
-    const d = dati();
-    await a.scrivi(d);
-    expect((await a.leggi())!.stato).toEqual(d.stato);
-    expect(JSON.parse(memoria['gioco-nyzar/sessione']!).access_token).toBe('AT');
-    expect(chiamate.some((x) => x.startsWith('POST /rest/v1/salvataggi'))).toBe(true);
+  it('senza sessione non c\'è archivio', async () => {
+    Object.assign(globalThis, { localStorage: { getItem: () => null, setItem: () => {}, removeItem: () => {} } });
+    expect(await archivioGoogle(cfg, (async () => { throw new Error('non dovrebbe chiamare'); }) as typeof fetch)).toBeNull();
   });
 
-  it('senza sessione non c\'è archivio', async () => {
-    (globalThis as unknown as { location: { hash: string } }).location.hash = '';
-    expect(await archivioGoogle(cfg, (async () => { throw new Error('non dovrebbe chiamare'); }) as typeof fetch)).toBeNull();
+  it('il primo personaggio si crea nell\'account, poi ogni mossa alza la versione', async () => {
+    const server = supabaseFinto();
+    const pc = dispositivo(server);
+    expect(await pc.collega()).toBeNull();
+    const s = pg();
+    await pc.mossa(dati(s, 1));
+    expect(server.righe.get('uid-1')!.dati.rev).toBe(1);
+    await pc.mossa(dati(s, 2));
+    expect(server.righe.get('uid-1')!.dati.rev).toBe(2);
+    expect(server.righe.get('uid-1')!.dati.stato).toEqual(s);
+  });
+
+  it('un altro dispositivo riprende il personaggio dall\'account', async () => {
+    const server = supabaseFinto();
+    const pc = dispositivo(server);
+    await pc.collega();
+    const s = pg('Daeran');
+    await pc.mossa(dati(s, 1));
+    const telefono = dispositivo(server);
+    const preso = await telefono.collega();
+    expect(preso!.stato.nome).toBe('Daeran');
+    expect(preso!.rev).toBe(1);
+  });
+
+  it('un dispositivo rimasto indietro non sovrascrive: la sua mossa è respinta e riprende la copia dell\'account', async () => {
+    const server = supabaseFinto();
+    const pc = dispositivo(server);
+    await pc.collega();
+    const s = pg('Daeran');
+    await pc.mossa(dati(s, 1));
+    const portatile = dispositivo(server);
+    await portatile.collega(); // versione 1
+    await pc.mossa(dati({ ...s, nome: 'A' }, 2)); // il PC va avanti: versione 2
+    // il portatile, con l'orologio avanti di un giorno, fa una mossa dalla versione 1
+    await portatile.mossa(dati({ ...s, nome: 'B' }, 2 + 86_400_000));
+    expect(server.righe.get('uid-1')!.dati.stato.nome).toBe('A');
+    expect(portatile.ripresi.at(-1)!.stato.nome).toBe('A');
+    // e da lì in poi scrive sopra la versione giusta
+    await portatile.mossa(dati({ ...s, nome: 'C' }, 3));
+    expect(server.righe.get('uid-1')!.dati).toMatchObject({ rev: 3 });
+    expect(server.righe.get('uid-1')!.dati.stato.nome).toBe('C');
+  });
+
+  it('tornando sulla pagina si scopre che un altro dispositivo ha salvato', async () => {
+    const server = supabaseFinto();
+    const pc = dispositivo(server);
+    await pc.collega();
+    const s = pg();
+    await pc.mossa(dati(s, 1));
+    const telefono = dispositivo(server);
+    await telefono.collega();
+    await telefono.controlla();
+    expect(telefono.ripresi).toHaveLength(0); // niente di nuovo
+    await pc.mossa(dati({ ...s, nome: 'D' }, 2));
+    await telefono.controlla();
+    expect(telefono.ripresi.at(-1)!.stato.nome).toBe('D');
+  });
+
+  it('un salvataggio di prima delle versioni si riprende e si sovrascrive', async () => {
+    const server = supabaseFinto();
+    const s = pg();
+    const vecchio = dati(s, 5) as Partial<DatiSalvati>;
+    delete vecchio.rev;
+    server.righe.set('uid-1', { dati: vecchio as DatiSalvati });
+    const pc = dispositivo(server);
+    expect((await pc.collega())!.rev).toBe(0);
+    await pc.mossa(dati(s, 6));
+    expect(pc.ripresi).toHaveLength(0);
+    expect(server.righe.get('uid-1')!.dati.rev).toBe(1);
+  });
+
+  it('nel browser resta solo il login', async () => {
+    const server = supabaseFinto();
+    const pc = dispositivo(server);
+    await pc.collega();
+    await pc.mossa(dati(pg(), 1));
+    expect(Object.keys(pc.memoria)).toEqual(['gioco-nyzar/sessione']);
+  });
+
+  it('uscendo dall\'account si scrive prima la mossa in attesa', async () => {
+    const server = supabaseFinto();
+    const pc = dispositivo(server);
+    await pc.collega();
+    const s = pg();
+    pc.sincro.segnala(dati(s, 1));
+    expect(await pc.sincro.esci()).toBe(true);
+    expect(server.righe.get('uid-1')!.dati.stato).toEqual(s);
+    expect(pc.memoria['gioco-nyzar/sessione']).toBeUndefined();
   });
 });

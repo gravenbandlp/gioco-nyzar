@@ -78,8 +78,8 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
   Nodo dei Precursori) e le partenze per le spedizioni fuori città.
 - **Tavole**: stampe d'epoca di pubblico dominio da Wikimedia Commons, ritagliate e virate in seppia
   (`scripts/strumenti/tavole/`); fonti e licenze in `src/dati/fonti-tavole.json`, mostrate nei Crediti.
-- **Salvataggio**: nel browser sempre; nell'account claude.ai dentro l'Artifact; con Google e Supabase fuori da
-  claude.ai (pronto, spento); su file per tutti (`docs/salvataggi.md`).
+- **Salvataggio**: solo nell'account Google, un personaggio per account su Supabase, con le versioni contro i
+  dispositivi rimasti indietro (`docs/salvataggi.md`).
 - **Interfaccia**: lingua visiva del Codex, tre colonne (campana e statistiche, schede, luogo e frammenti),
   tooltip del glossario sui nomi, musica e ambienti per area/luogo/scena.
 
@@ -119,8 +119,6 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - [x] Creare il progetto Supabase, il client OAuth Google e accendere il login (`docs/locale.md`, sezione Google).
 - [x] Pubblicare su Cloudflare Pages con le variabili `VITE_SUPABASE_*`.
 - [ ] Provare il salvataggio su due dispositivi diversi con lo stesso account Google.
-- [ ] Se si condivide l'Artifact con amici: invitarli per email come Editor (con un link pubblico non salvano
-      nell'account).
 
 ### Contenuti da sistemare
 - [ ] Voci di glossario per i personaggi nuovi delle carte della città (Ilde Sarrocchi, Ugo Bracco, Clelia Vennari,

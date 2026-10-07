@@ -98,7 +98,7 @@ function topbar(x: Contesto): string {
     <div class="chi">
       <span class="nome-pg">${h(x.s.nome)}</span>
       <span class="origine-pg">${h(origine?.nome ?? '')}</span>
-      <button type="button" class="link stato-salvataggio" data-az="pagina" data-id="salvataggio" data-indicatore="salvataggio">Salvato nel browser</button>
+      <button type="button" class="link stato-salvataggio" data-az="pagina" data-id="salvataggio" data-indicatore="salvataggio">Salvataggio…</button>
       <button type="button" class="link${x.confermaNuovo ? ' allarme' : ''}" data-az="nuovo">${x.confermaNuovo ? 'Confermi? Il personaggio va perso' : 'Nuovo personaggio'}</button>
     </div>
   </header>`;

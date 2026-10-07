@@ -25,10 +25,7 @@ import { montaIngresso } from './ingresso';
 import { avviaSfondo } from './sfondo';
 import { sceltaAudio } from './colonna';
 import { paginaInfo, corpoSalvataggio, PAGINE_INFO, type PaginaInfo } from './pagine';
-import {
-  Sincronia, archivioClaude, archivioGoogle, configSupabase, dentroClaude, entraConGoogle, idPersonaggio, aFile, daFile, nomeFile,
-  type DatiSalvati,
-} from './salvataggi';
+import { Sincronia, archivioGoogle, configSupabase, entraConGoogle, idPersonaggio, type DatiSalvati } from './salvataggi';
 import { crisiAttiva } from '../motore/crisi';
 import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
@@ -36,15 +33,10 @@ import {
   pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
 } from './viste';
 
-interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string; salvatoAl?: number }
+interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string | null; salvatoAl?: number }
 
-const CHIAVE = 'gioco-nyzar/prototipo/v1';
-/** L'account Google a cui appartiene il personaggio nel browser: un altro account non se lo ritrova. */
-const PROPRIETARIO = 'gioco-nyzar/proprietario';
-const leggiProprietario = (): string | null => { try { return localStorage.getItem(PROPRIETARIO); } catch { return null; } };
-const scriviProprietario = (id: string | null | undefined): void => {
-  try { if (id) localStorage.setItem(PROPRIETARIO, id); else localStorage.removeItem(PROPRIETARIO); } catch { /* niente */ }
-};
+const VECCHIE_CHIAVI = ['gioco-nyzar/prototipo/v1', 'gioco-nyzar/proprietario']; // il salvataggio nel browser non esiste più
+try { for (const k of VECCHIE_CHIAVI) localStorage.removeItem(k); } catch { /* niente */ }
 const AREA_INIZIALE = 'citta-bassa';
 
 let stato: Stato | null = null;
@@ -59,8 +51,7 @@ let zekarScelte: number[] | null = null; // le laterali scelte prima di sedersi 
 let ultimoContesto: Contesto | undefined;
 let luogo: string | undefined; // il mini-hub aperto dentro l'area
 let info: PaginaInfo | null = null; // regolamento, termini, crediti o salvataggio, aperti dal piè di pagina
-let salvatoAl = 0; // ultima modifica del personaggio: decide quale copia è più recente fra browser e account
-let daImportare: DatiSalvati | undefined; // file scelto nella pagina del salvataggio, in attesa di conferma
+let salvatoAl = 0; // ultima modifica del personaggio, mostrata nella pagina del salvataggio
 
 const app = document.getElementById('app')!;
 const lettore = new Lettore(c.tracce);
@@ -69,122 +60,73 @@ const lettore = new Lettore(c.tracce);
 
 function salva(): void {
   if (stato) salvatoAl = Date.now();
-  scriviLocale();
   sincro.segnala(dati());
 }
 
-function scriviLocale(): void {
-  try {
-    if (stato) localStorage.setItem(CHIAVE, JSON.stringify({ stato, vista, scheda, luogo, salvatoAl } satisfies Salvataggio));
-    else localStorage.removeItem(CHIAVE);
-  } catch { /* senza memoria del browser si gioca lo stesso, solo senza salvare */ }
-}
-
-/** Il personaggio in gioco, nella forma della copia remota e del file. */
+/** Il personaggio in gioco, nella forma del salvataggio. */
 function dati(): DatiSalvati | null {
-  return stato ? { stato, vista, scheda, luogo, salvatoAl } : null;
+  return stato ? { stato, vista, scheda, luogo: luogo ?? null, salvatoAl, rev: 0 } : null;
 }
 
-/** Sostituisce il personaggio in gioco con una copia dall'account o da un file. */
-function adotta(d: DatiSalvati, messaggio: string): void {
+/** Sostituisce il personaggio in gioco con la copia dell'account. */
+function adotta(d: DatiSalvati, messaggio?: string): void {
   carica({ stato: d.stato, vista: (d.vista as Vista | undefined) ?? { tipo: 'area' }, scheda: d.scheda as Scheda | undefined, luogo: d.luogo, salvatoAl: d.salvatoAl });
   if (vista.tipo === 'risultato' && !c.storylet.some((z) => z.id === (vista as { id: string }).id)) vista = { tipo: 'area' };
-  scriviLocale();
-  info = null;
-  avviso = messaggio;
+  if (messaggio) avviso = messaggio;
   render();
 }
 
 const sincro = new Sincronia(
   () => { if (info) render(); else if (stato) aggiornaIndicatore(); },
-  (d) => { if (vista.tipo !== 'combattimento' && vista.tipo !== 'zekar') adotta(d, `Hai giocato ${d.stato.nome} da un altro dispositivo: riprendi da lì.`); },
+  (d) => { info = null; adotta(d, `Hai giocato ${d.stato.nome} da un altro dispositivo: riprendi da lì.`); },
+  () => soglia.mostra('accedi', 'La sessione è scaduta: rientra con Google per continuare a salvare.'),
 );
 
 /** L'indicatore del salvataggio nella barra in alto, senza ridisegnare la pagina. */
 function aggiornaIndicatore(): void {
   const el = app.querySelector<HTMLElement>('[data-indicatore=salvataggio]');
-  if (el) { el.textContent = etichettaSalvataggio(); el.classList.toggle('account', sincro.stato.connesso); }
+  if (el) { el.textContent = etichettaSalvataggio(); el.classList.toggle('account', sincro.stato.connesso && !sincro.stato.errore); }
 }
 
 function etichettaSalvataggio(): string {
   const a = sincro.stato;
-  if (a.conflitto) return 'Salvataggio: scegli il personaggio';
-  if (a.connesso) return a.errore ? 'Salvataggio: errore' : 'Salvato nell\'account';
-  return 'Salvato nel browser';
+  if (!a.connesso) return 'Non salvato: rientra con Google';
+  return a.errore ? 'Salvataggio: errore, riprovo' : "Salvato nell'account";
 }
 
-/** All'avvio: collega l'archivio remoto, se c'è, e riprende la copia dell'account se è più recente. */
+/** All'avvio: si entra nell'account e si riprende il personaggio che vi è salvato. */
 async function avviaArchivio(): Promise<void> {
-  let remoto: DatiSalvati | null = null;
-  if (dentroClaude()) remoto = await sincro.collega(archivioClaude, 'claude', dati());
-  else {
-    const cfg = configSupabase();
-    if (cfg) remoto = await sincro.collega(() => archivioGoogle(cfg), 'google', dati(), leggiProprietario());
-  }
-  if (remoto) adotta(remoto, `Hai ripreso ${remoto.stato.nome} dal tuo account.`);
-  else if (sincro.stato.estraneo) {
-    // il personaggio nel browser era di un altro account e questo non ne ha uno: si comincia da capo
-    ricomincia();
-    avviso = 'Il personaggio rimasto in questo browser è di un altro account. Crea il tuo.';
-    render();
-  }
-  if (sincro.utente()) scriviProprietario(sincro.utente());
-  if (serveAccount) {
-    if (sincro.stato.connesso) soglia.mostra('entra', remoto ? `Bentornato: riprendi ${remoto.stato.nome}.` : undefined);
-    else soglia.mostra('accedi', sincro.stato.errore);
-  }
+  const cfg = configSupabase();
+  if (!cfg) { soglia.mostra('accedi', 'Il salvataggio non è configurato in questa versione del gioco.'); return; }
+  const remoto = await sincro.collega(() => archivioGoogle(cfg));
+  if (remoto) adotta(remoto);
+  if (sincro.stato.connesso) soglia.mostra('entra', remoto ? `Bentornato: riprendi ${remoto.stato.nome}.` : undefined);
+  else soglia.mostra('accedi', sincro.stato.errore);
 }
 
-/** Toglie il personaggio dal browser e torna alla creazione. */
+/** Toglie il personaggio dalla pagina e torna alla creazione. */
 function ricomincia(): void {
-  stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; scriviLocale();
+  stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false;
 }
 
-/** Uscendo dall'account il personaggio resta nell'account e lascia il browser, così chi entra dopo non se lo ritrova. */
 async function esciDallAccount(): Promise<void> {
   const allineato = await sincro.esci();
-  if (allineato) {
-    ricomincia();
-    scriviProprietario(null);
-  }
+  ricomincia();
   info = null;
   render();
   soglia.mostra('accedi', allineato
     ? 'Sei uscito. Il personaggio è salvato nel tuo account: rientra con Google per riprenderlo.'
-    : 'Sei uscito, ma l\'ultima mossa non è arrivata nell\'account: rientra con lo stesso account per non perderla.');
+    : "Sei uscito, ma l'ultima mossa non è arrivata nell'account.");
 }
 
-async function scaricaFile(nome: string, testo: string): Promise<void> {
-  const cl = (window as unknown as { claude?: { use(n: string): Promise<unknown> } }).claude;
-  const dl = cl?.use ? (await cl.use('downloads')) as { save(r: { filename: string; data: string }): Promise<unknown> } | null : null;
-  if (dl) {
-    try { await dl.save({ filename: nome, data: testo }); } catch (e) {
-      if ((e as { code?: string }).code !== 'declined') { avviso = 'Non è stato possibile scaricare il file.'; render(); }
-    }
-    return;
-  }
-  const url = URL.createObjectURL(new Blob([testo], { type: 'application/json' }));
-  const a = document.createElement('a');
-  a.href = url; a.download = nome;
-  document.body.append(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
-
-function carica(dati?: Partial<Salvataggio>): void {
-  let s = dati;
-  if (!s?.stato) {
-    try {
-      const grezzo = localStorage.getItem(CHIAVE);
-      if (grezzo) s = JSON.parse(grezzo) as Salvataggio;
-    } catch { s = undefined; }
-  }
-  if (s?.stato?.versione === 1 && c.aree.some((a) => a.id === s!.stato!.area)) {
+function carica(s: Partial<Salvataggio>): void {
+  if (s.stato?.versione === 1 && c.aree.some((a) => a.id === s.stato!.area)) {
     stato = s.stato;
     stato.repertorio ??= [];
     migraOggetti(stato);
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';
-    luogo = s.luogo;
+    luogo = s.luogo ?? undefined;
     salvatoAl = s.salvatoAl ?? 0;
     idPersonaggio(stato);
   }
@@ -231,32 +173,14 @@ function contenutoInfo(id: PaginaInfo): string {
   return paginaInfo(id, corpoSalvataggio({
     archivio: sincro.stato,
     personaggio: stato ? { nome: stato.nome, salvatoAl } : undefined,
-    daImportare,
     messaggio: stato ? undefined : avviso, // in gioco l'avviso lo mostra già la pagina
-    google: !dentroClaude() && !!configSupabase(),
   }));
-}
-
-/** Il campo per scegliere un file di salvataggio: si legge appena scelto, e si carica dopo la conferma. */
-function agganciaCaricamento(): void {
-  const inp = app.querySelector<HTMLInputElement>('input[data-carica=salvataggio]');
-  inp?.addEventListener('change', () => {
-    const f = inp.files?.[0];
-    if (!f) return;
-    void f.text().then((testo) => {
-      const d = daFile(testo);
-      if (!d) avviso = 'Questo file non è un salvataggio di Ny\'Zar.';
-      daImportare = d ?? undefined;
-      render();
-    });
-  });
 }
 
 function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
     app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
-    agganciaCaricamento();
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
     return;
@@ -281,7 +205,6 @@ function render(): void {
     : scheda === 'diario' ? diario(x)
     : storia(x);
   app.innerHTML = pagina(x, centro);
-  agganciaCaricamento();
   avviaLettura(app);
   aggiornaIndicatore();
   avviso = '';
@@ -332,27 +255,9 @@ function azione(az: string, el: HTMLElement): void {
     return;
   }
   if (az === 'pagina' && (PAGINE_INFO as string[]).includes(id)) { info = id as PaginaInfo; render(); if (stato) scorriAlPannello(); else window.scrollTo({ top: 0 }); return; }
-  if (az === 'chiudi-pagina') { info = null; daImportare = undefined; render(); scorriAlPannello(); return; }
+  if (az === 'chiudi-pagina') { info = null; render(); scorriAlPannello(); return; }
   if (az === 'entra-google') { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); return; }
   if (az === 'esci-account') { void esciDallAccount(); return; }
-  if (az === 'esporta') { const d = dati(); if (d) void scaricaFile(nomeFile(d), aFile(d)); return; }
-  if (az === 'annulla-import') { daImportare = undefined; render(); return; }
-  if (az === 'conferma-import') {
-    const d = daImportare;
-    if (!d) return;
-    daImportare = undefined;
-    adotta({ ...d, salvatoAl: Date.now() }, `Hai caricato ${d.stato.nome} dal file.`);
-    sincro.risolvi(dati()!); // il personaggio caricato diventa quello dell'account
-    return;
-  }
-  if (az === 'tieni-account') {
-    const r = sincro.stato.conflitto?.remoto;
-    if (!r) return;
-    adotta(r, `Hai ripreso ${r.stato.nome} dal tuo account.`);
-    sincro.risolvi(r);
-    return;
-  }
-  if (az === 'tieni-browser') { const d = dati(); if (d) sincro.risolvi(d); render(); return; }
   const s = stato;
   if (!s) return;
   const ora = Date.now();
@@ -557,9 +462,12 @@ app.addEventListener('click', (e) => {
 // la pagina in background non conta: si chiude il conto e si riapre al ritorno
 document.addEventListener('visibilitychange', () => {
   if (!stato) return;
-  if (document.hidden) { sospendiTempo(stato, Date.now(), serieInCorso()); salva(); sincro.subito(); }
-  else { segnaTempo(stato, Date.now()); void sincro.controlla(dati()); }
+  if (document.hidden) { sospendiTempo(stato, Date.now(), serieInCorso()); salva(); void sincro.subito(); }
+  else { segnaTempo(stato, Date.now()); void sincro.controlla(); }
 });
+// una finestra può restare visibile senza essere in primo piano: si controlla anche al ritorno del fuoco e ogni tanto
+window.addEventListener('focus', () => void sincro.controlla());
+setInterval(() => { if (!document.hidden) void sincro.controlla(); }, 20_000);
 
 app.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -582,7 +490,6 @@ setInterval(() => {
   const ora = Date.now();
   aggiornaTempo(stato, ora);
   if (`${stato.rintocchi}|${stato.coda}` !== prima) {
-    scriviLocale(); // il tempo che passa non è una mossa: non cambia quale copia è più recente
     if (vista.tipo !== 'combattimento' && vista.tipo !== 'zekar') render();
     return;
   }
@@ -594,23 +501,18 @@ setInterval(() => {
 }, 1000);
 
 // ---------------------------------------------------------------- avvio
-interface Hot { snapshot?: (f: () => unknown) => void; ready?: (f: (d: unknown) => void) => void; data?: unknown }
-const hot = (window as unknown as { claude?: { hot?: Hot } }).claude?.hot;
-hot?.snapshot?.(() => ({ stato, vista, scheda, luogo }));
 avviaSchede(c.glossario);
 montaControlli(lettore);
 montaOpzioneLettura();
-/** Sul sito con l'accesso Google si gioca solo da dentro un account (dentro claude.ai l'account è quello di Claude). */
-const serveAccount = !dentroClaude() && !!configSupabase();
-avviaSfondo();
+// si gioca solo da dentro l'account Google: la soglia resta chiusa finché il personaggio non arriva dall'account
 const soglia = montaIngresso(lettore, {
-  modo: serveAccount ? 'attesa' : 'entra',
+  modo: 'attesa',
   accedi: () => { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); },
   caricamento: () => (stato ? `Torni a Qir-Azel con ${stato.nome}…` : 'Scendi a Qir-Azel…'),
 });
-const avvia = (d: unknown) => { carica(d as Partial<Salvataggio> | undefined); render(); precaricaMiniature(c); void avviaArchivio(); };
-if (hot?.ready) hot.ready(avvia);
-else avvia(hot?.data);
+render();
+precaricaMiniature(c);
+void avviaArchivio();
 
 // Per il debug dalla console del browser: window.nyzar.stato
 (window as unknown as Record<string, unknown>)['nyzar'] = { get stato() { return stato; }, contenuti: c, lettore, sincro, soglia };

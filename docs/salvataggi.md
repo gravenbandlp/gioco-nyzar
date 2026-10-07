@@ -1,37 +1,43 @@
 # Salvataggi
 
-Dal 6 ottobre 2026 si gioca sul sito, https://gioco-nyzar.pages.dev, e i personaggi stanno nell'account Google di chi
-gioca: una riga per account nella tabella `salvataggi` di Supabase, con il personaggio in jsonb. L'Artifact su
-claude.ai non si usa più. Il browser tiene solo una copia di riserva fra una scrittura e l'altra (`localStorage`,
-chiave `gioco-nyzar/prototipo/v1`). Chiunque può scaricare una copia su file e ricaricarla (pagina «Salvataggio» dal
-piè di pagina o dalla barra in alto). Codice: `src/ui/salvataggi.ts`, test: `test/salvataggi.test.ts`.
+Dal 7 ottobre 2026 c'è un solo salvataggio: il personaggio sta nell'account Google di chi gioca, una riga per account
+nella tabella `salvataggi` di Supabase (personaggio in jsonb, colonna `dati`). Si gioca solo sul sito,
+https://gioco-nyzar.pages.dev, e solo dopo essere entrati con Google. Nel browser non resta nessuna copia del
+personaggio: solo i gettoni del login (`gioco-nyzar/sessione`). Niente Artifact di claude.ai, niente file da scaricare
+o caricare. Codice: `src/ui/salvataggi.ts`, test: `test/salvataggi.test.ts`.
 
-Per leggere un personaggio da fuori: con il sito aperto nel browser dell'account, il gettone è in `localStorage`
-(`gioco-nyzar/sessione`, campo `access_token`); con quello e la chiave pubblica di `.env.local` si chiama
-`<VITE_SUPABASE_URL>/rest/v1/salvataggi?select=dati`. La policy RLS fa vedere a ciascuno solo la propria riga.
+Le vecchie chiavi del browser (`gioco-nyzar/prototipo/v1`, `gioco-nyzar/proprietario`) vengono cancellate all'avvio.
 
-Regole della sincronia:
-- a ogni mossa la copia del browser si aggiorna subito, quella dell'account dopo qualche secondo di quiete e quando la
-  pagina va in secondo piano;
-- all'apertura, se nell'account c'è una versione più recente dello stesso personaggio, si riprende quella;
-- tornando su una scheda rimasta aperta, o facendo una mossa da un dispositivo rimasto indietro, si riprende la copia più
-  recente invece di sovrascriverla;
-- se nell'account c'è un personaggio diverso da quello in gioco, sceglie il giocatore quale tenere.
+## Versioni
+
+Ogni salvataggio porta `dati.rev`, un intero che sale di uno a ogni scrittura. Un dispositivo scrive solo se
+nell'account c'è ancora la versione da cui è partito: un solo `PATCH .../salvataggi?utente=eq.<id>&dati->>rev=eq.<base>`,
+atomico in Postgres. Se non aggiorna niente, un altro dispositivo ha salvato nel frattempo: si rilegge la copia
+dell'account e si riprende da lì, e le mosse fatte sul dispositivo rimasto indietro si perdono. L'orologio dei
+dispositivi non decide niente (`salvatoAl` è solo informativo).
+
+Base 0 vuol dire riga assente o salvataggio di prima delle versioni: si prova `dati->>rev=is.null`, poi l'inserimento
+(409 se un altro dispositivo l'ha appena creata).
+
+Regole della sincronia (`Sincronia`):
+- all'avvio si legge il personaggio dall'account, e la soglia resta chiusa finché non arriva;
+- ogni mossa si scrive dopo un secondo e mezzo di quiete, e subito quando la pagina va in secondo piano;
+- al ritorno sulla pagina, al ritorno del fuoco sulla finestra e ogni 20 secondi si confronta la versione dell'account;
+  se è cambiata si riprende quella;
+- senza rete la mossa resta in attesa e si riprova ogni 10 secondi; con la sessione scaduta si torna alla soglia
+  «Entra con Google».
+
+Per leggere un personaggio da fuori: con il sito aperto nel browser dell'account (meglio la pagina `/privacy`, che non
+avvia il gioco), il gettone è in `localStorage` (`gioco-nyzar/sessione`, campo `access_token`); con quello e la chiave
+pubblica si chiama `<VITE_SUPABASE_URL>/rest/v1/salvataggi?select=dati`. La policy RLS fa vedere a ciascuno solo la
+propria riga.
 
 ## L'accesso Google
 
-Serve il sito su Cloudflare Pages e il progetto Supabase gratuito. Nel gioco l'accesso Google compare solo se il build
-ha `VITE_SUPABASE_URL` e `VITE_SUPABASE_CHIAVE` (in `.env.local`, vedi `.env.example`). I passi, dalla tabella
-(`supabase/schema.sql`) al client OAuth e alla pubblicazione, sono in `docs/locale.md`, sezioni 5 e 6.
+Serve il sito su Cloudflare Pages e il progetto Supabase gratuito, con `VITE_SUPABASE_URL` e `VITE_SUPABASE_CHIAVE`
+nel build (in `.env.local`, vedi `.env.example`). I passi, dalla tabella (`supabase/schema.sql`) al client OAuth e alla
+pubblicazione, sono in `docs/locale.md`, sezioni 5 e 6.
 
 Il login usa il flusso implicito di Supabase senza librerie: il pulsante porta a Google, il ritorno arriva con i
-gettoni nel frammento dell'indirizzo, il gioco li legge, li conserva nel browser (`gioco-nyzar/sessione`) e li
-rinnova da solo.
-
-## Solo con l'account, sul sito (3 ottobre 2026)
-
-Sul sito con l'accesso Google configurato non si gioca senza account: la soglia (`src/ui/ingresso.ts`) mostra
-«Entra con Google» finché l'account non è collegato, poi «Entra a Qir-Azel». La copia nel browser resta come riserva
-fra una scrittura e l'altra, porta il nome dell'account a cui appartiene (`gioco-nyzar/proprietario`) e si toglie
-uscendo dall'account; un altro account non se la ritrova (`stato.estraneo` in `Sincronia.collega`).
-Senza le variabili `VITE_SUPABASE_*` il gioco resta giocabile nel browser, come in sviluppo.
+gettoni nel frammento dell'indirizzo, il gioco li legge, li conserva nel browser e li rinnova da solo (se un'altra
+scheda li ha già rinnovati usa i suoi).
