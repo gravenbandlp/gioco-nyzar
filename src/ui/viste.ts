@@ -395,7 +395,7 @@ function testaStorylet(x: Pick<Contesto, 's' | 'c'>, st: TStorylet, tipo: string
   const { genere, serie, nome: nomeGenere } = genereDi(x.c, st);
   const luogo = st.luogo ? `<span class="luogo">${h(st.luogo)}</span>` : '';
   const marchio = genere ? marchioGenere(genere, nomeGenere!) : '';
-  if (!serie) return `${marchio}${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}${luogo}`;
+  if (!serie) return `<span class="etichette">${marchio}${etichetta(tipo, st.ripetibile ? 'dim' : 'velo')}</span>${luogo}`;
   const fatti = avanzamento(x.s, serie);
   return `${marchio}<span class="serie"><span class="nome-serie">${h(serie.nome)}</span>${tacche(fatti, serie.massimo, fatti < serie.massimo ? fatti : undefined)}</span>${luogo}`;
 }
@@ -593,7 +593,7 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
     <header class="scena-testa">
       ${tavola(r.immagine ?? st?.immagine, { classe: 'ritratto grande', taglio: 'l' })}
       <div class="scena-titoli">
-        <div class="testa">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}${r.corretto ? etichetta('Corretto', 'velo') : ''}</div>
+        <div class="testa"><span class="etichette">${r.riuscito === undefined ? etichetta(st?.titolo ?? '', 'dim') : etichetta(r.riuscito ? 'Successo' : 'Fallimento', r.riuscito ? 'precursore' : 'mana')}${r.corretto ? etichetta('Corretto', 'velo') : ''}</span></div>
         <h2>${h(titolo)}</h2>
         <div data-lettura="es:${h(id)}:${hash(r.testo)}">${prosa(r.testo, 'prosa', voci(x), originePg(x))}</div>
       </div>
