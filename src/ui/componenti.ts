@@ -214,6 +214,63 @@ export function descriviOggetto(id: string, c: TContenuti): { nome: string; dett
     difetti: (og?.difetti ?? []).map((d) => NOMI_DIFETTI[d]) };
 }
 
+/** Che cosa fanno le proprietà e i difetti degli oggetti magici (docs/regolamento-oggetti.md), per chi deve decidere se comprarli. */
+const EFFETTI_PROPRIETA: Record<string, string> = {
+  assetata: 'Assetata: recuperi 1 PF a ogni colpo a segno.',
+  schermata: 'Schermata: la Contaminazione che prendi si dimezza.',
+  lucida: 'Lucida: il Tormento che prendi si dimezza.',
+  ultimoRespiro: 'Ultimo respiro: quando arrivi a 0 PF resti a 1, una volta per scontro.',
+  secondaScelta: 'Seconda scelta: una volta per esito ripeti una prova fallita; se la seconda riesce, +½ Tormento.',
+  ostinata: 'Ostinata: +2 danno quando hai meno di metà dei PF.',
+  silenziosa: "Silenziosa: niente penalità di Furtività dall'armatura.",
+  caricatore: "Caricatore: l'arma non perde un round a ricaricare dopo ogni tiro.",
+};
+const EFFETTI_DIFETTI: Record<string, string> = {
+  pesante: 'Pesante: serve Fisico 3 per indossarla.',
+  rumorosa: 'Rumorosa: −1 Furtività.',
+  riconoscibile: 'Riconoscibile: in certe storie chi la vede la riconosce.',
+  inquieta: 'Inquieta: +½ Tormento a ogni scontro in cui la usi.',
+  stancante: 'Stancante: +½ Ferite dopo ogni scontro in cui la indossi.',
+  inceppamento: 'Inceppamento: con zero successi in attacco perdi il round dopo.',
+  legata: 'Legata: non si vende, non si cede e non si toglie.',
+};
+
+/** Le statistiche di un oggetto in chiaro, una riga per voce: quello che serve sapere prima di comprarlo. */
+export function spiegaOggetto(id: string, c: TContenuti): { voci: string[]; difetti: string[] } {
+  const og = c.oggetti.find((o) => o.id === id);
+  if (!og) return { voci: [], difetti: [] };
+  const voci: string[] = [];
+  const slot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio', nessuno: 'Oggetto' };
+  const arma = og.slot === 'arma' ? c.armi.find((a) => a.id === og.base) : undefined;
+  const armatura = og.slot === 'armatura' ? c.armature.find((a) => a.id === og.base) : undefined;
+  const scudo = og.slot === 'scudo' ? c.scudi.find((a) => a.id === og.base) : undefined;
+  const base = arma ?? armatura ?? scudo;
+  voci.push(`${slot[og.slot]}${base ? `, ${base.nome.toLowerCase()}` : ''}${og.grado ? `, grado ${og.grado}` : ''}.`);
+  const p = og.proprieta;
+  if (arma) {
+    voci.push(`Si usa con ${NOMI[arma.abilita]}. Danno +${arma.danno + p.affilata}${p.affilata ? ` (${p.affilata} dall'affilatura)` : ''}.`);
+    if (arma.proprieta.length) voci.push(`Proprietà dell'arma: ${arma.proprieta.join(', ')}.`);
+  }
+  if (armatura) {
+    voci.push(`Riduce il danno di ${armatura.riduzione + p.robusta}${p.robusta ? ` (${p.robusta} in più perché robusta)` : ''}.`);
+    const pen = Object.entries(armatura.penalita).filter(([k]) => !(k === 'furtivita' && p.silenziosa));
+    if (pen.length) voci.push(`Penalità: ${pen.map(([k, v]) => `${NOMI[k]} ${v}`).join(', ')}.`);
+  }
+  if (scudo) {
+    voci.push(`+${scudo.dadi} ${scudo.dadi === 1 ? 'dado' : 'dadi'} in difesa.`);
+    const pen = Object.entries(scudo.penalita);
+    if (pen.length) voci.push(`Penalità: ${pen.map(([k, v]) => `${NOMI[k]} ${v}`).join(', ')}.`);
+  }
+  if (og.dadi && og.slot !== 'scudo') voci.push(`+${og.dadi} ${og.dadi === 1 ? 'dado' : 'dadi'} ${og.slot === 'arma' ? 'in attacco' : 'in difesa'}.`);
+  if (p.penetrante) voci.push(`Ignora ${p.penetrante} di armatura del nemico.`);
+  if (p.riserva) voci.push(`+${p.riserva * 2} Energia per gli incantesimi.`);
+  if (p.rapida) voci.push(`+${p.rapida} ${p.rapida === 1 ? 'dado' : 'dadi'} di iniziativa.`);
+  for (const k of Object.keys(EFFETTI_PROPRIETA)) if ((p as Record<string, unknown>)[k]) voci.push(EFFETTI_PROPRIETA[k]!);
+  for (const [k, v] of Object.entries(p.talento)) voci.push(`+${v} ${v === 1 ? 'dado' : 'dadi'} ${/^a/i.test(NOMI[k] ?? '') ? 'ad' : 'a'} ${NOMI[k]} fuori dal combattimento.`);
+  if (p.chiave.length) voci.push('Apre opzioni in più in alcune storie.');
+  return { voci, difetti: og.difetti.map((d) => EFFETTI_DIFETTI[d] ?? NOMI_DIFETTI[d]) };
+}
+
 export function descriviArma(id: string, c: TContenuti) { return descriviOggetto(id, c); }
 export function descriviArmatura(id: string, c: TContenuti) { return descriviOggetto(id, c); }
 

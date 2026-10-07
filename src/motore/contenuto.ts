@@ -42,6 +42,7 @@ export const Opzione = z
     requisiti: z.array(z.string()).optional(), // se mancano, l'opzione si vede chiusa con quello che manca
     quando: z.array(z.string()).optional(), // se mancano, l'opzione non compare affatto (es. il passo successivo dei lavori di casa)
     costo: z.number().int().min(0).max(3).optional(), // rintocchi, default 1
+    vende: Id.optional(), // l'oggetto in vendita, se non è già negli effetti: se ne mostrano statistiche e prezzo
     prova: Prova.optional(),
     successo: Esito.optional(),
     fallimento: Esito.optional(),

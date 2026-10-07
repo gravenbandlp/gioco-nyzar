@@ -25,7 +25,7 @@ import { checkPassivo, type Voce } from '../motore/voci';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile, tempoGiocato } from './formato';
 import {
   tavola, prosa, primaFrase, campanaGrande, campanaPiccola, dado, pallini, barraPE, barraNegativa, barraVariazione, etichetta,
-  descriviArma, descriviArmatura, descriviOggetto, srcTavola, ROMBO,
+  descriviArma, descriviArmatura, descriviOggetto, spiegaOggetto, srcTavola, ROMBO,
 } from './componenti';
 
 export type Scheda = 'storia' | 'personaggio' | 'averi' | 'bazar' | 'mappa' | 'diario';
@@ -488,7 +488,21 @@ function vistaStorylet(x: Contesto, id: string): string {
         <p class="probabilita">${percentuale(a.zekar.probabilita)} di vittoria</p></div>
       </div>`;
     }
-    const mancanti = a.mancanti.map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
+    // un oggetto in vendita: prezzo sempre in vista e statistiche in chiaro, prima di comprarlo
+    const effetti = o.esito?.effetti ?? {};
+    const inVendita = o.vende ?? Object.keys(effetti).map((k) => k.replace(/^oggetto\./, '')).find((k) => (effetti[`oggetto.${k}`] ?? 0) > 0 && c.oggetti.some((og) => og.id === k));
+    const prezzo = -(effetti['monete'] ?? 0);
+    let vendita = '';
+    if (inVendita) {
+      const { voci, difetti } = spiegaOggetto(inVendita, c);
+      const hai = s.quality['monete'] ?? 0;
+      vendita = `<div class="scheda-vendita">
+        ${prezzo > 0 ? `<p class="costa${hai < prezzo ? ' manca' : ''}">Prezzo: <b>${prezzo}</b> ${h(nome('monete', c).toLowerCase())}${hai < prezzo ? ` (ne hai ${mezzi(hai)})` : ''}</p>` : ''}
+        <ul>${voci.map((v) => `<li>${h(v)}</li>`).join('')}${difetti.map((d) => `<li class="difetto">${h(d)}</li>`).join('')}</ul>
+      </div>`;
+    }
+    // il prezzo lo dice già la scheda: fra le cose che mancano non si ripete
+    const mancanti = a.mancanti.filter((r) => !(vendita && prezzo > 0 && parseRequisito(r).chiave === 'monete')).map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
     const costo = a.costo === 0 ? 'Gratis' : `${a.costo} ${a.costo === 1 ? 'rintocco' : 'rintocchi'}`;
     const inc = a.incantesimo;
     const magia = inc ? `<p class="nota-incantesimo">${etichetta(`Incantesimo · ${inc.nome}`, 'precursore')}
@@ -498,6 +512,7 @@ function vistaStorylet(x: Contesto, id: string): string {
       <div class="corpo">
         <h3>${h(o.testo)}</h3>
         ${o.descrizione ? `<p class="descrizione">${h(o.descrizione)}</p>` : ''}
+        ${vendita}
         ${magia}
         ${sfida}
         ${mancanti ? `<ul class="mancanti">${mancanti}</ul>` : ''}
