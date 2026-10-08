@@ -72,6 +72,9 @@ Torneo: `zekar.torneo` conta i tavoli vinti; la reputazione del torneo si ferma 
 Nove fazioni a cui ci si unisce (Velo, Caserma, Gilda, Raschiatori, Circolo, Accademia, Scuri, Maison, Consiglio con
 i Castaldi), ognuna con una quest da 15 passi in `contenuti/fazioni/<id>/`. Malgrani e Tarvelin restano famiglie.
 - La quest è una pista, `fazione.<id>`: la scena del passo N chiede `fazione.<id> == N-1` e la chiude con +1.
+- **Si aprono dopo Capomozzo** (Luca, 8 ottobre 2026): il primo passo di ogni quest chiede anche `pista.capomozzo >= 10`,
+  perché le ricompense dei primi gradi, rivendute, valevano più di mille lyssan nei primi giorni di gioco. I seguiti
+  del primo passo non lo chiedono, così chi li ha già aperti non resta bloccato.
 - I gradi sono cinque, ai passi 3, 6, 9, 12 e 15, e stanno nella raccolta `fazioni:` con il nome e la ricompensa da
   mostrare: la scheda del personaggio ha la sezione «Fazioni». Ogni passo di grado porta la reputazione almeno a 2, 4,
   6, 8, 10 con l'esito `almeno`, che alza una quality fino a una soglia senza mai abbassarla.
@@ -93,6 +96,16 @@ tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le
 - `ripartenze.yaml`: da lì si riparte per Capomozzo e per gli scavi. Le ritirate dalle spedizioni fuori città portano alla
   Superficie, e la strada per la Roccia e quella per la Palude partono da lì.
 - Test: `test/superficie.test.ts`.
+
+## Combattimento (8 ottobre 2026)
+- Uno scontro dà il triplo dei PE di una prova (`PE_COMBATTIMENTO` in `src/motore/regole.ts`), all'arma e alla Magia.
+- I nemici di Acciaio, Rovine, Arena, Capomozzo e delle quest di fazione sono stati ritarati per un combattente di fine
+  capitolo con lo Spadone di Uzgreth (Fisico 3, Armi da mischia 3, cuoio): boss al 50-65%, gregari quasi sempre vinti
+  ma con PF persi, nessuno più a danno 1. La leva principale è la riduzione, che gli incantesimi ignorano, per non
+  lasciare senza speranza il mago. I nemici dell'inizio (prologo, Città Bassa, Sepolcro, Registro, Foresta, Pelle,
+  Superficie) sono rimasti com'erano.
+- Le quest di fazione riusano nemici dell'inizio: lo scontro li rinforza con `rinforzo: { pf, danno, riduzione, attacco,
+  solo }` (`src/motore/contenuto.ts`), senza toccare il nemico negli altri scontri.
 
 ## Stato del lavoro
 Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di recente: economia (strati 1 e 2,

@@ -63,6 +63,12 @@ Cosa funziona:
     sotto "con un'altra mano", il disegnino a margine, la scritta grattata via o ripassata: era diventato il
     dettaglio umano di ogni scena (Luca, 5 ottobre 2026). Al massimo una volta per file, e solo dove dice
     qualcosa che serve. Il dettaglio storto si cerca altrove: un gesto, un oggetto, un'abitudine, il corpo.
+13. **Lo stomaco e il respiro.** Lo stomaco che si chiude o si stringe, il respiro trattenuto, il fiato che si
+    ferma, il respiro che va a tempo con qualcos'altro: erano diventati la reazione fissa di ogni scena (Luca,
+    8 ottobre 2026). Il corpo reagisce in mille modi (le mani, i piedi, la voce, quello che fai senza deciderlo):
+    sceglierne uno diverso ogni volta, e nominare respiro e stomaco solo quando contano per la scena (l'aria che
+    manca davvero, un veleno, un annegamento). `npm run stile` segnala le formule e i blocchi che li nominano più
+    di una volta. Restano liberi i nomi propri: il Respiro di Velthar, la Frattura che respira, il respiratore.
 
 ## La voce (dal 1° ottobre 2026: un po' di Disco Elysium)
 
@@ -71,7 +77,7 @@ la voce è Disco Elysium, preso con misura. Le regole di "Da evitare" valgono tu
 quella di prima con un margine del 10–25%.
 
 - **Il narratore sta dentro la testa del protagonista.** Il corpo reagisce prima del pensiero (le mani che
-  cercano la cintura, lo stomaco che si chiude, il sudore che si raffredda sulla nuca). La mente associa:
+  cercano la cintura, il passo che rallenta da solo davanti a una porta, il pollice che torna sulla cicatrice). La mente associa:
   un odore riporta un ricordo, un gesto fa venire in mente qualcuno. Sempre seconda persona e presente.
 - **Un pensiero in corsivo, ogni tanto.** Una riga che il protagonista dice a se stesso, al massimo una per
   storylet, mai in chiusura di paragrafo. *Questa donna non si pulisce le unghie per igiene.*

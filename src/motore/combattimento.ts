@@ -218,7 +218,13 @@ function nemiciDelloScontro(sc: TScontro, c: TContenuti): Combattente[] {
     const n = c.nemici.find((x) => x.id === id);
     if (!n) throw new Error(`Nemico sconosciuto: ${id}`);
     conta[id] = (conta[id] ?? 0) + 1;
-    return combattenteDaNemico(n, conta[id]!, c);
+    const r = sc.rinforzo;
+    if (!r || (r.solo && !r.solo.includes(id))) return combattenteDaNemico(n, conta[id]!, c);
+    const rinforzato = {
+      ...n, attacco: n.attacco + r.attacco, difesa: n.difesa + r.difesa, pf: n.pf + r.pf, danno: n.danno + r.danno,
+      riduzione: n.riduzione + r.riduzione,
+    };
+    return combattenteDaNemico(rinforzato, conta[id]!, c);
   });
   for (const id of Object.keys(conta)) {
     if (conta[id]! > 1) lista.filter((x) => x.id.startsWith(id + '#')).forEach((x, i) => (x.nome = `${x.nome} ${i + 1}`));

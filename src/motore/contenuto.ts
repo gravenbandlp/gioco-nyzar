@@ -154,6 +154,16 @@ export const Scontro = z.object({
   nome: z.string(),
   nemici: z.array(Id).min(1),
   feriteSconfitta: z.number().min(2).max(4).default(2),
+  // nemici comuni rinforzati per uno scontro di fine capitolo (le quest di fazione riusano quelli dell'inizio):
+  // valori da sommare alle loro statistiche, solo per i nemici in `solo` se c'è
+  rinforzo: z.object({
+    attacco: z.number().int().default(0),
+    difesa: z.number().int().default(0),
+    pf: z.number().int().default(0),
+    danno: z.number().int().default(0),
+    riduzione: z.number().int().default(0),
+    solo: z.array(Id).optional(),
+  }).optional(),
 });
 
 export const Arma = z.object({

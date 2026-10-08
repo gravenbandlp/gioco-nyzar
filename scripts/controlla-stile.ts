@@ -72,6 +72,18 @@ export const REGOLE: Regola[] = [
   },
   { nome: 'trattino lungo', spiegazione: 'Inciso con trattino lungo.', trova: tutte(/[—–]/g) },
   {
+    nome: 'stomaco e respiro',
+    spiegazione: 'Lo stomaco che si chiude e il respiro che si ferma o va a tempo erano diventati la reazione di ogni scena (Luca, 8 ottobre 2026). Le formule fatte non si usano, e il resto al massimo una volta per blocco.',
+    trova: (t) => {
+      const piatto = t.replace(/\s+/g, ' ');
+      const formule = tutte(/(stomaco (?:ti |gli |le )?si (?:\p{L}+ )?(?:chiude|stringe|rovescia|annoda|contrae|attorciglia|torce|rivolta)|nodo (?:allo|nello) stomaco|stomaco che si|(?:trattien\p{L}*|tratten\p{L}*) (?:il|un) (?:respiro|fiato)|(?:il )?(?:respiro|fiato) (?:ti |gli |le )?si (?:\p{L}+ )?(?:ferma|blocca|spezza|accorcia|mozza|fa corto|incastra)|(?:a|al|col|con il|sul) (?:ritmo|tempo) del (?:tuo |suo |loro )?respiro|(?:respiro|fiato) sospeso|riprendi fiato|respiri a fondo|respiri piano)/giu)(piatto);
+      // le parole che restano, senza i nomi propri e gli oggetti (il Respiro di Velthar, la Frattura che respira, il respiratore)
+      const ripulito = piatto.replace(/Respir\p{L}*|Frattura che respira|respirator\p{L}*|[Uu]ltimo respiro|respiro corto/gu, '');
+      const parole = ripulito.match(/\b(?:stomaco|respir\p{L}*|fiato)\b/giu) ?? [];
+      return parole.length > 1 ? [...formule, `${parole.length} volte in un blocco: ${parole.join(', ')}`] : formule;
+    },
+  },
+  {
     nome: 'cifra di denaro',
     spiegazione: 'Prezzi, paghe e ricompense restano generici nei testi: le cifre stanno solo negli effetti, che si ribilanciano.',
     trova: tutte(/\b(?:due|tre|quattro|cinque|sei|sette|otto|nove|dieci|undici|dodici|tredici|quattordici|quindici|sedici|diciassette|diciotto|diciannove|venti|trenta|quaranta|cinquanta|sessanta|settanta|ottanta|novanta|cento|mille|[a-zàé]+(?:uno|due|tré|tre|quattro|cinque|sei|sette|otto|nove|dici|anta|enta|cento|mila))\s+(?:monete|lyssan)\b/gi),

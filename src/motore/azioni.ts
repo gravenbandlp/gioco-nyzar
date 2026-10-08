@@ -1,6 +1,6 @@
 // Risoluzione delle opzioni degli storylet, spostamenti e negozi.
 import { probabilita, tira, type Rng } from './dadi';
-import { DIFFICOLTA, peDaProbabilita, type Difficolta } from './regole';
+import { DIFFICOLTA, PE_COMBATTIMENTO, peDaProbabilita, type Difficolta } from './regole';
 import { serieDi, type Serie } from './serie';
 import type { TContenuti, TEsito, TIncantesimo, TNegozio, TOggetto, TOpzione, TStorylet } from './contenuto';
 import { chiaveIncantesimo, repertorio } from './magia';
@@ -254,12 +254,13 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   const { arma } = baseArma(s, c); // gli oggetti magici contano come la loro arma base
   const p = anteprima(s, opz, c).combattimento?.probabilita ?? 0.5;
   // PE all'arma, e alla Magia se nello scontro hai lanciato incantesimi
-  r.crescite.push(...assegnaPE(s, arma?.abilita ?? 'rissa', peDaProbabilita(p)));
+  const pe = peDaProbabilita(p) * PE_COMBATTIMENTO;
+  r.crescite.push(...assegnaPE(s, arma?.abilita ?? 'rissa', pe));
   // conta solo i lanci del giocatore: anche i nemici con la magia lanciano incantesimi dagli stessi nomi
   const haLanciato = cs.eventi?.length
     ? cs.eventi.some((e) => e.chi === 'pg' && !!e.nome && cs.incantesimi.some((i) => i.nome === e.nome))
     : cs.log.some((l) => cs.incantesimi.some((i) => l.startsWith(`${i.nome}`)));
-  if (haLanciato) r.crescite.push(...assegnaPE(s, 'magia', peDaProbabilita(p)));
+  if (haLanciato) r.crescite.push(...assegnaPE(s, 'magia', pe));
   if (st.tipo === 'carta') scarta(s, st.id);
   applicaEsito(s, cs.vinto ? opz.vittoria! : opz.sconfitta!, c, r, st.id);
   return r;
