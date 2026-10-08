@@ -293,23 +293,6 @@ main.creazione .pagina-info { margin: 0 auto; padding-top: 20px; }
 /* ------------------------------------------------ schede e pannello */
 .barra-schede { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--bg); padding-top: 6px; }
 .schede { display: flex; gap: 4px 22px; flex-wrap: wrap; padding-inline: 18px; border-bottom: 1px solid var(--filetto); }
-.mini-stato { display: none; }
-@media (max-width: 860px) {
-  .centro { order: 1; }
-  .sinistra { order: 2; }
-  .destra { order: 3; }
-  .impianto { display: flex; flex-direction: column; align-items: stretch; }
-  .mini-stato {
-    display: flex; flex-wrap: wrap; gap: 4px 10px; align-items: center; padding: 8px 14px 6px;
-    font-family: var(--f-etichetta); font-size: var(--t-s); color: var(--inchiostro-vivo); font-variant-numeric: tabular-nums;
-  }
-  .mini-stato .timer { margin-right: auto; }
-  .mini-campana { width: 13px; height: 19px; fill: var(--velo-vivo); }
-  .schede { flex-wrap: nowrap; overflow-x: auto; gap: 18px; padding-inline: 14px; scrollbar-width: none; }
-  .schede button { flex: none; }
-  .fondale, .fondale.alto { height: auto; min-height: 200px; display: flex; align-items: flex-end; }
-  .fondale-testo { position: relative; left: auto; right: auto; bottom: auto; padding: 90px 16px 16px; }
-}
 .schede button {
   background: none; border: none; cursor: pointer; padding: 10px 0 12px;
   font-family: var(--f-etichetta); font-size: var(--t-xs); letter-spacing: 0.28em; text-transform: uppercase; color: var(--inchiostro-spento);
@@ -319,7 +302,7 @@ main.creazione .pagina-info { margin: 0 auto; padding-top: 20px; }
 .schede button.attiva { color: var(--inchiostro-vivo); border-bottom-color: var(--velo); }
 .schede button.chiusa { opacity: 0.35; }
 .schede button.chiusa:hover { color: inherit; }
-.pannello { padding-top: 22px; }
+.pannello { padding-top: 22px; container-type: inline-size; } /* le liste si adattano alla larghezza del racconto, non dello schermo */
 .avviso { margin-top: 14px; padding: 10px 14px; border-left: 2px solid var(--velo); background: rgba(184, 138, 62, 0.08); font-size: var(--t-s); }
 .avviso.crisi { border-left-color: var(--mana); background: rgba(198, 58, 74, 0.1); margin-top: 0; margin-bottom: 18px; }
 .titolo-sezione {
@@ -425,13 +408,21 @@ main.creazione .pagina-info { margin: 0 auto; padding-top: 20px; }
 }
 
 /* ------------------------------------------------ scena (storylet aperto, esito) */
-.scena { display: grid; gap: 24px; }
+.scena { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; } /* niente figlio può allargare la colonna */
 .scena-testa { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 28px; align-items: start; }
 .scena-titoli { display: grid; gap: 12px; min-width: 0; }
 .scena-titoli h2, .scena > h2 { font-family: var(--f-titolo); font-size: var(--t-xxl); line-height: 1.05; text-transform: uppercase; letter-spacing: 0.01em; color: var(--inchiostro-vivo); }
+/* sul telefono la tavola sta accanto al titolo, come una carta di Fallen London, e il testo prende tutta la riga sotto */
 @media (max-width: 640px) {
-  .scena-testa { grid-template-columns: minmax(0, 1fr); gap: 18px; }
-  .scena-testa > .tavola.ritratto { aspect-ratio: 16 / 9; }
+  .scena-testa { grid-template-columns: 84px minmax(0, 1fr); grid-template-rows: auto 1fr; gap: 10px 14px; }
+  .scena-testa > .tavola { grid-row: 1 / span 2; align-self: start; }
+  .scena-testa > .tavola.ritratto { aspect-ratio: 3 / 4; }
+  .scena-titoli { display: contents; }
+  .scena-titoli > * { grid-column: 1 / -1; }
+  .scena-titoli > :nth-child(-n + 2) { grid-column: 2; }
+  .scena-titoli > :nth-child(2) { align-self: start; }
+  .scena-titoli h2, .scena > h2 { font-size: 1.75rem; }
+  .scena { gap: 18px; }
 }
 .rami { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
 .ramo {
@@ -532,6 +523,7 @@ p.mancanti { padding-left: 0; }
 .elenco-piste, .negative-dettaglio, .reputazioni { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 14px; }
 .elenco-piste li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; gap: 14px; align-items: center; }
 .elenco-piste p { font-size: var(--t-s); color: var(--inchiostro-spento); font-style: italic; }
+.elenco-piste li > div { display: grid; gap: 4px; }
 .negative-dettaglio { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px 28px; }
 .negative-dettaglio p { font-size: var(--t-s); color: var(--inchiostro-spento); margin-top: 6px; }
 .reputazioni { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px 28px; }
@@ -690,7 +682,7 @@ button.combattente:hover { border-color: var(--filetto); }
 .chip.buono { color: var(--precursore); border-color: rgba(58, 138, 153, 0.5); }
 .chip.cattivo { color: var(--mana); border-color: rgba(198, 58, 74, 0.45); }
 .suggerimento { font-size: var(--t-s); color: var(--inchiostro-spento); font-style: italic; }
-.barra-azioni { display: grid; gap: 8px; padding: 16px; background: rgba(15, 26, 31, 0.75); border: 1px solid var(--filetto-tenue); }
+.barra-azioni { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 16px; background: rgba(15, 26, 31, 0.75); border: 1px solid var(--filetto-tenue); }
 .barra-azioni .etichetta { margin-top: 4px; }
 .gruppo { display: flex; flex-wrap: wrap; gap: 8px; }
 .bottone.incantesimo { border-color: rgba(184, 138, 62, 0.55); color: var(--velo-vivo); }
@@ -1062,10 +1054,11 @@ html.con-soglia { overflow: hidden; }
 
 /* le azioni: i due colpi principali grandi, con il tiro in anteprima */
 .gruppo.principali { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.azione-grande { display: grid; gap: 4px; justify-items: start; text-align: left; padding: 12px 16px; }
+.azione-grande { display: grid; gap: 4px; justify-items: start; min-width: 0; text-align: left; padding: 12px 16px; white-space: normal; }
 .azione-grande span { font-size: 0.8rem; letter-spacing: 0.22em; }
 .azione-grande small { font-size: 0.66rem; letter-spacing: 0.06em; text-transform: none; color: inherit; opacity: 0.75; font-variant-numeric: tabular-nums; }
 .bottone.incantesimo small { font-variant-numeric: tabular-nums; }
+.barra-azioni .gruppo .bottone { white-space: normal; text-align: left; max-width: 100%; } /* cure e incantesimi lunghi vanno a capo */
 .ritmo[aria-pressed="true"] { border-color: var(--velo); color: var(--velo-vivo); }
 .salta-scena { display: none; justify-self: end; margin-top: -12px; }
 
@@ -1083,7 +1076,7 @@ html.con-soglia { overflow: hidden; }
 @keyframes proclama { from { opacity: 0; letter-spacing: 0.5em; transform: scale(1.2); filter: blur(4px); } to { opacity: 1; letter-spacing: 0.04em; transform: none; filter: none; } }
 
 /* il registro diviso per round */
-.registro { display: grid; gap: 8px; padding: 14px 16px; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--filetto-tenue); }
+.registro { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; padding: 14px 16px; background: rgba(0, 0, 0, 0.25); border: 1px solid var(--filetto-tenue); }
 .registro-righe { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-family: var(--f-etichetta); font-size: 0.74rem; line-height: 1.55; color: var(--inchiostro); }
 .registro-righe li { padding-left: 10px; border-left: 2px solid var(--filetto-tenue); }
 .registro-righe li.bene { border-left-color: var(--precursore); }
@@ -1107,6 +1100,11 @@ html.con-soglia { overflow: hidden; }
 @keyframes entra-dx { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
 
 @media (max-width: 560px) {
+  /* le cinque statistiche su una riga: ogni combattente occupa meno schermo */
+  .statistiche { grid-template-columns: repeat(auto-fit, minmax(42px, 1fr)); gap: 4px 6px; }
+  .stat dt { font-size: 0.5rem; letter-spacing: 0.04em; }
+  .stat dd { font-size: 1.1rem; }
+  .combattente { padding: 12px; gap: 12px; }
   .tavolo { padding: 12px; gap: 8px; }
   .mano-dadi .conto { font-size: 1.8rem; }
   .tavolo .dado { width: 22px; height: 22px; padding: 3px; }
@@ -1126,7 +1124,7 @@ html.con-soglia { overflow: hidden; }
 .zk-avversario > div { display: grid; gap: 10px; }
 .zk-avversario h2 { font-family: var(--f-titolo); font-size: var(--t-xxl); line-height: 1.05; text-transform: uppercase; color: var(--inchiostro-vivo); }
 .zk-regola { font-size: var(--t-s); color: var(--inchiostro-spento); line-height: 1.6; }
-.zk-scelta { display: grid; gap: 12px; padding: 18px; background: rgba(15, 26, 31, 0.75); border: 1px solid var(--filetto-tenue); }
+.zk-scelta { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 18px; background: rgba(15, 26, 31, 0.75); border: 1px solid var(--filetto-tenue); }
 @media (max-width: 640px) { .zk-avversario { grid-template-columns: 90px minmax(0, 1fr); gap: 16px; } }
 
 /* le carte */
@@ -1167,7 +1165,7 @@ button.zk-carta:disabled { cursor: default; opacity: 0.45; }
 
 /* il tavolo */
 .zk-tavolo {
-  position: relative; display: grid; gap: 14px; padding: 16px;
+  position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; padding: 16px;
   background: radial-gradient(ellipse at 50% 50%, rgba(58, 138, 153, 0.08), transparent 70%), rgba(0, 0, 0, 0.3);
   border: 1px solid var(--filetto-velo); box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.5);
 }
@@ -1281,3 +1279,123 @@ button.zk-carta:disabled { cursor: default; opacity: 0.45; }
 /* i paragrafi d'origine: il tuo passato che parla, in oro come il Velo e le etichette */
 .prosa p.abilita-voce.voce-origine { --voce: var(--velo-vivo); }
 .grado-fazione { margin: 2px 0 4px; }
+
+/* ================================================================ telefono
+   Sotto gli 860px il gioco prende l'impianto di Fallen London sul telefono: una riga di stato fissa in cima
+   (rintocchi, monete, audio), il racconto a tutta larghezza, le sezioni nella barra in basso e il resto nel foglio
+   «Altro». Le colonne laterali spariscono: attributi e negative stanno nella Scheda, il frammento del Codex in «Altro». */
+.stato-mobile, .nav-mobile, .foglio-altro, .velatura-altro { display: none; }
+
+/* le liste lunghe della Scheda: con poca larghezza le tacche vanno sotto il testo, non accanto */
+@container (max-width: 600px) {
+  .elenco-piste li { grid-template-columns: 40px minmax(0, 1fr); align-items: start; gap: 6px 12px; }
+  .elenco-piste li > .serie { grid-column: 2; justify-content: flex-start; }
+  .elenco-piste .tempo-serie { text-align: left; }
+}
+
+@media (max-width: 860px) {
+  html { scroll-padding-top: 56px; scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  body { padding-inline: 12px; }
+  body:not(.in-creazione) { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
+
+  /* la riga di stato */
+  .stato-mobile {
+    position: sticky; top: 0; z-index: 20; display: flex; align-items: center; gap: 6px;
+    margin-inline: -12px; padding: calc(env(safe-area-inset-top, 0px) + 11px) 58px 11px 14px;
+    background: var(--bg); border-bottom: 1px solid var(--precursore);
+    font-family: var(--f-etichetta); font-size: var(--t-s); line-height: 1.2; color: var(--inchiostro-vivo); font-variant-numeric: tabular-nums;
+  }
+  .stato-mobile b { font-weight: 500; }
+  .stato-mobile small { margin-left: -4px; color: var(--inchiostro-spento); font-size: 0.72rem; }
+  .stato-mobile .timer { flex: 1; min-width: 0; margin-left: 6px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .stato-mobile .moneta { width: 15px; height: 15px; }
+  .mini-campana { width: 13px; height: 19px; flex: none; fill: var(--velo-vivo); }
+
+  /* via testata, colonne laterali, linguette e piè di pagina: tutto passa dalla barra in basso e da «Altro» */
+  body:not(.in-creazione) .topbar, body:not(.in-creazione) .piede-pagina, .sinistra, .destra, .barra-schede { display: none; }
+  .impianto { display: block; margin-top: 16px; }
+  .pannello { padding-top: 0; }
+  .avviso { margin: 0 0 14px; }
+
+  /* il fondale dell'area, basso, e solo sull'elenco delle storie */
+  .fondale, .fondale.alto { height: auto; margin-top: 12px; display: flex; align-items: flex-end; }
+  .fondale.ridotto { display: none; }
+  .fondale-testo { position: relative; left: auto; right: auto; bottom: auto; gap: 2px; padding: 64px 14px 12px; }
+  .fondale-testo h1 { font-size: 2.1rem; }
+  .fondale-testo p { font-size: var(--t-s); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+  /* la barra in basso */
+  .nav-mobile {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 45;
+    display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+    padding: 0 2px env(safe-area-inset-bottom, 0px);
+    background: rgba(13, 20, 24, 0.98); border-top: 1px solid var(--precursore); box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.45);
+  }
+  .voce-nav {
+    display: grid; justify-items: center; align-content: center; gap: 3px; min-width: 0; min-height: 58px; padding: 6px 0 5px;
+    margin-top: -1px; background: none; border: 0; border-top: 2px solid transparent;
+    font-family: var(--f-etichetta); font-size: 0.56rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--inchiostro-spento);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .voce-nav span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .voce-nav .tavola { width: 25px; height: 25px; background: none; color: currentColor; }
+  .voce-nav .tavola::after { display: none; }
+  .voce-nav .icona-svg svg { width: 100%; height: 100%; }
+  .voce-nav.attiva { color: var(--velo-vivo); border-top-color: var(--velo); }
+  .voce-nav:disabled { opacity: 0.3; }
+  /* col foglio aperto si accende solo «Altro» */
+  .nav-mobile.altro-aperto .voce-nav.attiva { color: var(--inchiostro-spento); border-top-color: transparent; }
+  .nav-mobile.altro-aperto .voce-nav[data-az=altro] { color: var(--velo-vivo); border-top-color: var(--velo); }
+
+  /* «Altro»: un foglio che sale sopra la barra */
+  html.foglio-aperto { overflow: hidden; }
+  .velatura-altro {
+    display: block; position: fixed; inset: 0; z-index: 43; background: rgba(5, 9, 11, 0.62);
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+  }
+  .velatura-altro.aperto { opacity: 1; pointer-events: auto; }
+  .foglio-altro {
+    display: grid; gap: 16px; align-content: start;
+    position: fixed; left: 0; right: 0; bottom: calc(58px + env(safe-area-inset-bottom, 0px)); z-index: 44;
+    max-height: calc(100dvh - 58px - 48px - env(safe-area-inset-bottom, 0px)); overflow-y: auto; overscroll-behavior: contain;
+    padding: 18px 16px 20px; background: var(--bg-cella); border-top: 1px solid var(--filetto-velo); box-shadow: 0 -14px 30px rgba(0, 0, 0, 0.5);
+    transform: translateY(calc(100% + 70px)); visibility: hidden;
+    transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s linear 0.26s;
+  }
+  .foglio-altro.aperto { transform: none; visibility: visible; transition: transform 0.26s cubic-bezier(0.2, 0.7, 0.2, 1), visibility 0s; }
+  .foglio-testa { display: grid; gap: 4px; padding-bottom: 12px; border-bottom: 1px solid var(--filetto-tenue); }
+  .foglio-voci { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .foglio-voci li:first-child { grid-column: 1 / -1; }
+  .foglio-voci .bottone { width: 100%; padding: 13px 8px; white-space: normal; }
+  .foglio-voci .bottone small { margin-left: 4px; }
+  .foglio-voci .stato-salvataggio { color: var(--inchiostro-spento); }
+  .foglio-voci .stato-salvataggio.account { color: var(--velo-vivo); border-color: var(--filetto-velo); }
+  .foglio-altro .frammento .tavola { aspect-ratio: 16 / 9; }
+  .foglio-altro > .link { justify-self: start; padding: 6px 0; }
+
+  /* l'audio sale nella riga di stato, a destra; il pannello si apre verso il basso */
+  .audio { top: calc(env(safe-area-inset-top, 0px) + 5px); right: 8px; bottom: auto; }
+  .audio-tasto { order: -1; width: 34px; height: 34px; box-shadow: none; }
+  .audio-tasto svg { width: 17px; height: 17px; }
+  .audio-pannello { width: min(260px, calc(100vw - 16px)); }
+  body.in-creazione .topbar { padding-right: 44px; }
+}
+
+@media (max-width: 640px) {
+  .titolo-sezione { margin-top: 26px; }
+  .tabella-regole th, .tabella-regole td { padding: 5px 5px; }
+  /* averi: schede più basse, una per riga */
+  .slot-equip { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .slot { grid-template-columns: 48px minmax(0, 1fr); gap: 12px; padding: 10px 12px; align-items: start; }
+  .slot b { font-size: 1.15rem; line-height: 1.2; }
+  .slot small { font-size: 0.76rem; }
+  .slot.vuoto-slot { padding-block: 8px; align-items: center; }
+  .slot.vuoto-slot .tavola.ritratto { aspect-ratio: auto; height: 36px; }
+  .oggetti { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+  .oggetto { gap: 10px; }
+  .oggetto .tavola.icona { width: 32px; height: 32px; }
+  /* elenchi delle storie e opzioni un po' più stretti */
+  .storylet-riga { padding: 14px 0; }
+  .ramo { gap: 12px; }
+  .ramo h3 { font-size: 1.2rem; }
+}

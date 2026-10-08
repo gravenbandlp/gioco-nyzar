@@ -48,6 +48,7 @@ export interface Contesto {
   bersaglio?: string;
   zekarScelte?: number[]; // le laterali scelte prima di sedersi al tavolo
   luogo?: string; // il luogo (mini-hub) aperto dentro l'area, se c'è
+  altro?: boolean; // sul telefono, il foglio «Altro» aperto sopra la barra in basso
 }
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
@@ -73,9 +74,12 @@ const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', f
 // ================================================================ impianto
 
 export function pagina(x: Contesto, centro: string): string {
+  // sul telefono il fondale dell'area resta solo sull'elenco delle storie: nelle scene e nelle altre schede ruba lo schermo
+  const ridotto = x.scheda !== 'storia' || x.vista.tipo !== 'area' || !!luogoAperto(x);
   return `
+  ${statoMobile(x)}
   ${topbar(x)}
-  ${fondale(x)}
+  ${fondale(x, ridotto)}
   <div class="impianto">
     <aside class="colonna sinistra" aria-label="Rintocchi e statistiche">${sinistra(x)}</aside>
     <main class="colonna centro">
@@ -85,7 +89,70 @@ export function pagina(x: Contesto, centro: string): string {
     </main>
     <aside class="colonna destra" aria-label="Luogo e frammenti del Codex">${destra(x)}</aside>
   </div>
-  ${piede()}`;
+  ${piede()}
+  ${navMobile(x)}
+  ${foglioAltro(x)}`;
+}
+
+// ================================================================ telefono: barra di stato, navigazione in basso, «Altro»
+
+/** La riga fissa in cima sul telefono: rintocchi, il prossimo, monete. A destra resta il posto per il tasto dell'audio. */
+function statoMobile(x: Contesto): string {
+  const prossima = msAlProssimoRintocco(x.s, x.ora);
+  return `<div class="stato-mobile" aria-label="Rintocchi e monete">
+    ${campanaPiccola()}<b>${x.s.rintocchi}</b><small>/${RINTOCCHI_MAX}</small>
+    <span class="timer" data-timer="rintocco">${prossima === null ? 'Tutti pronti' : `Il prossimo tra ${durata(prossima)}`}</span>
+    <span class="moneta" aria-hidden="true"></span><b>${mezzi(x.s.quality['monete'] ?? 0)}</b>
+  </div>`;
+}
+
+/** Le voci della barra in basso, alla maniera di Fallen London sul telefono. Diario e il resto stanno in «Altro». */
+const VOCI_NAV: [Scheda, string, string][] = [
+  ['storia', 'Storia', 'open-book'], ['personaggio', 'Scheda', 'cowled'], ['averi', 'Averi', 'knapsack'],
+  ['bazar', 'Bazar', 'shop'], ['mappa', 'Mappa', 'treasure-map'],
+];
+
+function navMobile(x: Contesto): string {
+  const voci = VOCI_NAV.map(([id, t, ic]) => {
+    const aperta = schedaAperta(x.s, id);
+    const attiva = x.scheda === id;
+    return `<button type="button" class="voce-nav${attiva ? ' attiva' : ''}" ${aperta ? `data-az="scheda" data-id="${id}"` : 'disabled'} ${attiva ? 'aria-current="page"' : ''}>
+      ${tavola(`icone/${ic}`)}<span>${t}</span></button>`;
+  }).join('');
+  const altroAttivo = x.scheda === 'diario' || (x.scheda as string) === 'info';
+  return `<nav class="nav-mobile${x.altro ? ' altro-aperto' : ''}" aria-label="Sezioni">${voci}
+    <button type="button" class="voce-nav${altroAttivo ? ' attiva' : ''}" data-az="altro" aria-expanded="${!!x.altro}" aria-controls="foglio-altro">
+      ${tavola('icone/hamburger-menu')}<span>Altro</span></button>
+  </nav>`;
+}
+
+/** Il foglio che sale dal basso: chi sei, diario, frammento del Codex, salvataggio e pagine informative. */
+function foglioAltro(x: Contesto): string {
+  const origine = x.c.origini.find((o) => o.id === x.s.origine);
+  const a = areaDi(x);
+  const f = x.frammento;
+  const diario = schedaAperta(x.s, 'diario');
+  return `<div class="velatura-altro${x.altro ? ' aperto' : ''}" data-az="chiudi-altro" aria-hidden="true"></div>
+  <section class="foglio-altro${x.altro ? ' aperto' : ''}" id="foglio-altro" aria-label="Altro">
+    <header class="foglio-testa">
+      <div><span class="nome-pg">${h(x.s.nome)}</span> <span class="origine-pg">${h(origine?.nome ?? '')}</span></div>
+      <span class="etichetta precursore">${h(a.nome)}${luogoAperto(x) ? ` · ${h(luogoAperto(x)!.nome)}` : ''}</span>
+    </header>
+    <ul class="foglio-voci">
+      <li><button type="button" class="bottone stato-salvataggio" data-az="pagina" data-id="salvataggio" data-indicatore="salvataggio">Salvataggio…</button></li>
+      <li><button type="button" class="bottone" data-az="scheda" data-id="diario" ${diario ? '' : 'disabled'}>Diario${(x.s.diario ?? []).length ? ` <small>${(x.s.diario ?? []).length}</small>` : ''}</button></li>
+      <li><button type="button" class="bottone" data-az="pagina" data-id="regolamento">Regolamento</button></li>
+      <li><button type="button" class="bottone" data-az="pagina" data-id="crediti">Crediti</button></li>
+      <li><button type="button" class="bottone" data-az="pagina" data-id="termini">Termini</button></li>
+    </ul>
+    ${f ? `<article class="frammento">
+      <header><span class="etichetta velo">Dal Codex</span><h2>${h(f.titolo)}</h2></header>
+      ${f.immagine ? tavola(f.immagine, { classe: 'frammento-tavola' }) : ''}
+      ${prosa(f.testo, 'prosa piccola')}
+      <button type="button" class="link" data-az="frammento">Un altro frammento ↻</button>
+    </article>` : ''}
+    <button type="button" class="link${x.confermaNuovo ? ' allarme' : ''}" data-az="nuovo">${x.confermaNuovo ? 'Confermi? Il personaggio va perso' : 'Nuovo personaggio'}</button>
+  </section>`;
 }
 
 /** Il marchio del gioco nella barra in alto. */
@@ -104,9 +171,9 @@ function topbar(x: Contesto): string {
   </header>`;
 }
 
-function fondale(x: Contesto): string {
+function fondale(x: Contesto, ridotto = false): string {
   const a = areaDi(x);
-  return `<div class="fondale">
+  return `<div class="fondale${ridotto ? ' ridotto' : ''}">
     ${a.immagine ? `<img src="${srcTavola(a.immagine, 'l')}" alt="" decoding="sync">` : ''}
     <div class="fondale-testo">
       <span class="etichetta precursore">Qir-Azel · 150 D.C.</span>
@@ -123,13 +190,7 @@ export const schedaAperta = (s: Stato, k: Scheda): boolean => !inPrologo(s) || S
 
 function schede(x: Contesto): string {
   const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa'], ['diario', 'Diario']];
-  const prossima = msAlProssimoRintocco(x.s, x.ora);
   return `<div class="barra-schede">
-    <p class="mini-stato" aria-label="Rintocchi e monete">
-      ${campanaPiccola()}<b>${x.s.rintocchi}</b>/${RINTOCCHI_MAX}
-      <span class="timer" data-timer="rintocco">${prossima === null ? 'Tutti pronti' : `Il prossimo tra ${durata(prossima)}`}</span>
-      <span class="moneta" aria-hidden="true"></span><b>${mezzi(x.s.quality['monete'] ?? 0)}</b>
-    </p>
     <nav class="schede" aria-label="Sezioni">${voci
     .map(([id, t]) => schedaAperta(x.s, id)
       ? `<button type="button" data-az="scheda" data-id="${id}" ${x.scheda === id ? 'aria-current="page" class="attiva"' : ''}>${t}</button>`

@@ -107,6 +107,17 @@ tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le
 - Le quest di fazione riusano nemici dell'inizio: lo scontro li rinforza con `rinforzo: { pf, danno, riduzione, attacco,
   solo }` (`src/motore/contenuto.ts`), senza toccare il nemico negli altri scontri.
 
+## Il gioco sul telefono (8 ottobre 2026)
+Sotto gli 860px l'interfaccia segue Fallen London sul telefono (`src/ui/viste.ts`, sezione «telefono»; in fondo a
+`src/ui/stile.css`): una riga di stato fissa in cima (rintocchi, monete, tasto dell'audio), il racconto a tutta
+larghezza, la barra fissa in basso con Storia, Scheda, Averi, Bazar, Mappa e Altro. «Altro» è un foglio che sale dal
+basso (diario, salvataggio, regolamento, crediti, termini, frammento del Codex, nuovo personaggio), aperto e chiuso
+da `mostraAltro` in `main.ts` senza ridisegnare la pagina. Le colonne laterali, la testata e il piè di pagina lì non
+si vedono; il fondale dell'area resta solo sull'elenco delle storie. Nelle scene la tavola sta accanto al titolo
+(`.scena-titoli` diventa `display: contents`). `.pannello` è un container: le liste lunghe si adattano alla larghezza
+del racconto con `@container`. I contenitori a griglia che ospitano pulsanti lunghi hanno `minmax(0, 1fr)`, sennò un
+`.bottone` (che non va a capo) allarga la pagina oltre lo schermo.
+
 ## Stato del lavoro
 Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di recente: economia (strati 1 e 2,
 `contenuti/economia/`), rintocchi a 40 che tornano solo col tempo, revisione finale delle

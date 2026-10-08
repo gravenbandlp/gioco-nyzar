@@ -52,6 +52,7 @@ let ultimoContesto: Contesto | undefined;
 let luogo: string | undefined; // il mini-hub aperto dentro l'area
 let info: PaginaInfo | null = null; // regolamento, termini, crediti o salvataggio, aperti dal piè di pagina
 let salvatoAl = 0; // ultima modifica del personaggio, mostrata nella pagina del salvataggio
+let altro = false; // sul telefono, il foglio «Altro» sopra la barra in basso
 
 const app = document.getElementById('app')!;
 const lettore = new Lettore(c.tracce);
@@ -84,8 +85,10 @@ const sincro = new Sincronia(
 
 /** L'indicatore del salvataggio nella barra in alto, senza ridisegnare la pagina. */
 function aggiornaIndicatore(): void {
-  const el = app.querySelector<HTMLElement>('[data-indicatore=salvataggio]');
-  if (el) { el.textContent = etichettaSalvataggio(); el.classList.toggle('account', sincro.stato.connesso && !sincro.stato.errore); }
+  app.querySelectorAll<HTMLElement>('[data-indicatore=salvataggio]').forEach((el) => {
+    el.textContent = etichettaSalvataggio();
+    el.classList.toggle('account', sincro.stato.connesso && !sincro.stato.errore);
+  });
 }
 
 function etichettaSalvataggio(): string {
@@ -106,7 +109,7 @@ async function avviaArchivio(): Promise<void> {
 
 /** Toglie il personaggio dalla pagina e torna alla creazione. */
 function ricomincia(): void {
-  stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false;
+  stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; altro = false;
 }
 
 async function esciDallAccount(): Promise<void> {
@@ -180,6 +183,7 @@ function contenutoInfo(id: PaginaInfo): string {
 function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
+    document.documentElement.classList.remove('foglio-aperto');
     app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
@@ -195,7 +199,7 @@ function render(): void {
   const ora = Date.now();
   aggiornaTempo(stato, ora);
   if (vista.tipo === 'zekar' && !zekarScelte) zekarScelte = [...lateraliDi(s)]; // una partita ripresa da un salvataggio
-  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, zekarScelte: zekarScelte ?? [], luogo };
+  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, zekarScelte: zekarScelte ?? [], luogo, altro };
   ultimoContesto = x;
   const centro = info ? contenutoInfo(info)
     : scheda === 'personaggio' ? personaggio(x)
@@ -205,6 +209,7 @@ function render(): void {
     : scheda === 'diario' ? diario(x)
     : storia(x);
   app.innerHTML = pagina(x, centro);
+  document.documentElement.classList.toggle('foglio-aperto', altro);
   avviaLettura(app);
   aggiornaIndicatore();
   avviso = '';
@@ -235,17 +240,34 @@ function cambia(v: Vista, nuovaScheda: Scheda = 'storia'): void {
   scorriAlPannello();
 }
 
+/** Sul telefono le sezioni si cambiano dalla barra in basso: ogni pagina nuova riparte dall'alto. */
+const telefono = matchMedia('(max-width: 860px)');
+
 function scorriAlPannello(): void {
+  if (telefono.matches) { window.scrollTo({ top: 0 }); return; }
   const el = app.querySelector('.barra-schede');
   if (!el) return;
   const y = el.getBoundingClientRect().top + window.scrollY - 8;
-  if (window.scrollY > y || window.innerWidth < 900) window.scrollTo({ top: Math.max(0, y) });
+  if (window.scrollY > y) window.scrollTo({ top: Math.max(0, y) });
+}
+
+/** Apre o chiude il foglio «Altro» senza ridisegnare la pagina (la lettura a pezzi resta dov'è). */
+function mostraAltro(aperto: boolean): void {
+  altro = aperto;
+  app.querySelectorAll('.foglio-altro, .velatura-altro').forEach((el) => el.classList.toggle('aperto', aperto));
+  app.querySelector('.nav-mobile')?.classList.toggle('altro-aperto', aperto);
+  app.querySelector('.nav-mobile [data-az=altro]')?.setAttribute('aria-expanded', String(aperto));
+  document.documentElement.classList.toggle('foglio-aperto', aperto);
 }
 
 // ---------------------------------------------------------------- azioni
 
 function azione(az: string, el: HTMLElement): void {
   const id = el.dataset['id'] ?? '';
+  if (az === 'altro') { mostraAltro(!altro); return; }
+  if (az === 'chiudi-altro') { mostraAltro(false); return; }
+  // ogni altra scelta chiude il foglio, tranne quelle che si fanno dentro il foglio stesso
+  if (altro && az !== 'frammento' && az !== 'nuovo') mostraAltro(false);
   if (az === 'origine') {
     const nomeAttuale = (document.getElementById('nome-pg') as HTMLInputElement | null)?.value ?? '';
     origineScelta = id;
@@ -468,6 +490,8 @@ document.addEventListener('visibilitychange', () => {
 // una finestra può restare visibile senza essere in primo piano: si controlla anche al ritorno del fuoco e ogni tanto
 window.addEventListener('focus', () => void sincro.controlla());
 setInterval(() => { if (!document.hidden) void sincro.controlla(); }, 20_000);
+
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && altro) mostraAltro(false); });
 
 app.addEventListener('submit', (e) => {
   e.preventDefault();

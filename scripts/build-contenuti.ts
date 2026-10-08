@@ -24,8 +24,12 @@ function catalogo(): Record<string, { body: string }> {
   return catalogoIcone;
 }
 /** Le icone citate nei contenuti, con il loro disegno. */
-/** Icone usate direttamente dall'interfaccia (ripieghi per le quality senza immagine). */
-export const ICONE_INTERFACCIA = ['icone/scroll-quill', 'icone/stairs'];
+/** Icone usate direttamente dall'interfaccia: ripieghi per le quality senza immagine e barra di navigazione. */
+export const ICONE_INTERFACCIA = [
+  'icone/scroll-quill', 'icone/stairs',
+  // la barra di navigazione in basso, sul telefono (src/ui/viste.ts, VOCI_NAV)
+  'icone/open-book', 'icone/cowled', 'icone/knapsack', 'icone/shop', 'icone/treasure-map', 'icone/hamburger-menu',
+];
 export function iconeCitate(c: TContenuti): { icone: Record<string, string>; errori: string[] } {
   const icone: Record<string, string> = {}; const errori: string[] = [];
   for (const t of [...tavoleCitate(c), ...ICONE_INTERFACCIA]) {
