@@ -56,6 +56,13 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   in testa a ogni file. Una stanza scritta come luogo o oggetto unico va messa nella sua fascia, mai lasciata libera.
   Gli oggetti unici dati da stanze ripetibili si proteggono con `quando: [oggetto.<id> == 0]`.
   `test/spedizioni-percorribili.test.ts` controlla che ogni spedizione arrivi al cuore con le sole stanze mostrate.
+- **Statistiche negative** (10 ottobre 2026, su richiesta di Luca): nelle storie, nei seguiti e nelle carte ogni
+  fallimento dà almeno ½ di una negativa (Scandalo se c'è un testimone, Sospetto se c'è qualcosa di losco, Tormento,
+  Contaminazione vicino alla Marea), scelta sul testo; le ripetibili e gli allenamenti restano senza. I malus di
+  Scandalo, Sospetto, Tormento e Contaminazione da ½ e 1 sono saliti di ½. Le Ferite non sono state toccate.
+- **Domande nei seguiti**: un'opzione a costo 0 che non chiude il seguito deve avere `segue: <il seguito stesso>`,
+  sennò il seguito si perde e torna in cima la scena che lo apriva. Dopo un esito, «Riprova» compare solo se la prova
+  è fallita; una scena che resta aperta si riprende con «Prosegui», un'azione ripetibile con «Di nuovo».
 - Le varianti di stato del mondo sulle opzioni usano `quando` (l'opzione non compare) o requisiti su piste e flag
   (il motore le nasconde se chiuse); i requisiti su monete, merci, abilità e reputazione mostrano l'opzione chiusa.
 

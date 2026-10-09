@@ -3,7 +3,20 @@ import { describe, it, expect } from 'vitest';
 import { nuovoPersonaggio, storyletDisponibili } from '../src/motore/personaggio';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 import { percorri, scendi } from './percorsi';
+import { scegli } from '../src/motore/azioni';
+import { rngConSeme } from '../src/motore/dadi';
 describe('piste', () => {
+  it('le domande a Galdrick dopo Vesh restano nel seguito', () => {
+    const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
+    delete s.quality['prologo'];
+    s.quality['pista.pelle'] = 5;
+    const st = c.storylet.find((x) => x.id === 'galdrick-e-vesh')!;
+    for (let i = 0; i < 3; i++) {
+      const r = scegli(s, st, i, c, 0, rngConSeme(1));
+      expect(r.tipo === 'risultato' && r.risultato.segue).toBe('galdrick-e-vesh');
+      expect(s.sospeso).toBe('galdrick-e-vesh');
+    }
+  });
   it('la Dama d\'Argento arriva a 11 con ogni origine e scelte a caso', () => {
     for (const o of c.origini) for (let seme = 1; seme <= 25; seme++) expect(percorri(o.id, seme, 'pista.dama-argento', 11)).toBeGreaterThan(5);
   }, 30000);

@@ -663,6 +663,10 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
   // con una statistica negativa al massimo la crisi viene prima: niente Riprova
   const ancora = st && !crisiAttiva(s, c) && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
   const segue = r.segue ? trova(c, r.segue) : undefined;
+  // «Riprova» solo dopo una prova fallita; una scena della storia che resta aperta (una domanda, una scelta senza
+  // tiro) si riprende con «Prosegui», un'azione ripetibile con «Di nuovo»
+  const ripresa = !ancora || segue?.id === st!.id ? '' : r.riuscito === false ? 'Riprova' : st!.ripetibile ? 'Di nuovo' : 'Prosegui';
+  const ripresaPrimaria = ripresa === 'Prosegui' && !segue;
   const titolo = r.titolo ?? (r.riuscito === undefined ? st?.titolo ?? '' : r.riuscito ? 'Riuscito' : 'Fallito');
   const annotato = nelDiario(s, { storylet: id, titolo, testo: r.testo });
   return `<article class="scena risultato">
@@ -679,9 +683,9 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
       <button type="button" class="bottone diario-btn" data-az="annota" ${annotato ? 'disabled' : ''} title="Conserva questa pagina per rileggerla">${annotato ? 'Nel diario' : 'Annota nel diario'}</button>
       ${puoiSecondaScelta ? `<button type="button" class="bottone" data-az="seconda-scelta" title="Lo specchio ti lascia ripetere la prova; se riesce, +½ Tormento">Seconda scelta</button>` : ''}
       ${puoiCorreggere ? `<button type="button" class="bottone" data-az="correggi" title="Un rintocco e una prova Media di Magia; costa ½ Tormento">Correzione</button>` : ''}
-      ${ancora ? `<button type="button" class="bottone" data-az="apri" data-id="${st!.id}">Riprova</button>` : ''}
+      ${ripresa ? `<button type="button" class="bottone${ripresaPrimaria ? ' primario' : ''}" data-az="apri" data-id="${st!.id}">${ripresa}</button>` : ''}
       ${segue ? `<button type="button" class="bottone primario" data-az="apri" data-id="${segue.id}">Prosegui</button>` : ''}
-      <button type="button" class="bottone${segue ? '' : ' primario'}" data-az="area">Torna: ${h(areaDi(x).nome)}</button>
+      <button type="button" class="bottone${segue || ripresaPrimaria ? '' : ' primario'}" data-az="area">Torna: ${h(areaDi(x).nome)}</button>
     </div>
   </article>`;
 }
