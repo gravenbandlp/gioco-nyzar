@@ -1,0 +1,1147 @@
+# La Campana Sepolta, strato 1: gli sfiati della Ripamuta (campana.strato 0 → 1). Docs/piano-superficie.md, blocco 8.
+# Ci si entra dall'ingresso sulla costa grigia (sblocco.yaml), oltre l'arco nero ai piedi della scogliera. La
+# ritirata riporta alla Superficie e azzera la profondità.
+# - area `campana-sfiati`: undici stanze ripetibili in fasce di profondità (una stanza superata non ricompare nella
+#   stessa visita, src/motore/spedizioni.ts):
+#   0 la seconda porta (misura.mara) o la galleria dei cirripedi (i pulitori);
+#   1 il condotto del soffio (misura.aculeo) o la chiusa della marea (dono.laresh, Old Marrek e la macina);
+#   2 il basalto fuso (il primo indizio: le colate vanno tutte verso l'esterno) o la pozza nera (la murena);
+#   2-3 le sette bocche (misura.stele, l'ombra in più della settima Stele indica la galleria giusta);
+#   3 la nicchia del turno (i pulitori) o il pozzo del soffio (opzione d'origine dell'apprendista raschiatore);
+#   4 la sala delle pompe (la murena) o i bracci rotti.
+#   Ogni stanza ha una prova Difficile, una Molto difficile o un combattimento, e una via senza prova da 2 o 3
+#   rintocchi con Ferite, Tormento o Contaminazione.
+# - il cuore `campana-sfiati-lo-spurgatore` a profondità 5: lo scontro `campana-lo-spurgatore`, o la valvola dello
+#   spurgo (Tecnologia, Difficile), il Comando (Difficile), il soffio lungo dell'Aculeo (misura.aculeo, Difficile).
+#   Chi passa: campana.strato 1, la conchiglia sorda, una cassa sigillata e due cristalli carichi dalla nicchia ai
+#   piedi della scala, e `vai: campana-canne`. Chi perde torna in Superficie con Tormento e Contaminazione, e lo
+#   strato è da rifare.
+# Origini: mercante-dei-ponti (le sette bocche, la nicchia del turno), apprendista-raschiatore (il pozzo del soffio,
+# i bracci rotti).
+aree:
+  - id: campana-sfiati
+    immagine: ambientazione/rovine-dei-precursori
+    nome: Gli sfiati della Ripamuta
+    sommario: "Oltre l'arco nero ai piedi della scogliera, gallerie scavate nel basalto dove la marea entra ed esce due volte al giorno. Il soffio della Campana le attraversa e sale verso l'alto."
+    spedizione: { ritorno: superficie-fratturata, soglia: 5, stanze: 3 }
+    testo: |
+      Oltre l'arco la scogliera si apre in una galleria bassa, scavata nel
+      basalto con una precisione che nessun piccone ha mai avuto. Il
+      pavimento scende verso l'interno, e la marea ci entra ed esce due volte
+      al giorno lasciando sulle pareti una riga di sale bianco all'altezza del
+      petto. Sopra la riga la roccia è nera e liscia. Sotto è coperta di
+      cirripedi e di alghe secche, e dei chiodi di ferro che qualcuno ci ha
+      piantato per appendere le lampade restano soltanto macchie di ruggine a
+      forma di lacrima.
+
+      Da qualche parte più avanti l'aria si muove a soffi lunghi, che arrivano
+      dal buio e salgono per condotti che non vedi. Ogni soffio porta un odore
+      di mare chiuso e di metallo caldo. Fra un soffio e l'altro l'acqua
+      gocciola dal soffitto, e senti ogni goccia cadere. Le onde là fuori,
+      invece, da quando sei sceso sulla spiaggia non le hai sentite nemmeno
+      una volta.
+
+colonna:
+  - { contesto: area, id: campana-sfiati, musica: the-light-that-failed, ambiente: cave }
+
+storylet:
+  # ------------------------------------------------------------ 0 · la seconda porta (misura.mara)
+  - id: campana-sfiati-la-seconda-porta
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La seconda porta
+    sommario: "Cento passi dopo l'arco la galleria finisce contro una lastra di metallo nero. In basso, sotto la riga del sale, l'acqua passa da una fessura."
+    luogo: Gli sfiati della Ripamuta, la seconda porta
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 0]
+    testo: |
+      Cento passi dopo l'arco la galleria finisce contro una lastra di
+      metallo nero, liscia come l'interno di una conchiglia, che chiude il
+      passaggio da una parete all'altra. In basso, sotto la riga del sale, la
+      lastra non arriva al pavimento, e da quella fessura l'acqua entra ed
+      esce con la marea. Nel mezzo della lastra c'è un incavo della forma di
+      una mano aperta, con un dito in più.
+
+      {tecnologia Difficile} La lastra scorre di lato dentro la parete. Lo
+      dice la riga di ruggine lungo lo stipite, dove qualche ferro aggiunto
+      dopo si è consumato contro il metallo nero.
+
+      {atletica Molto difficile fallita} Sotto la fessura l'acqua è nera e
+      profonda. Le gambe, in anticipo, hanno già freddo.
+
+      Ti accorgi di aver messo la mano nell'incavo senza deciderlo. Il dito
+      in più resta vuoto, e il metallo è tiepido.
+    opzioni:
+      - testo: "Far scorrere la lastra"
+        descrizione: "Dentro lo stipite c'è un meccanismo, e un meccanismo si può convincere. Ci vuole la mano giusta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Di lato
+          testo: |
+            Trovi con le unghie il punto dove la lastra cede, una scanalatura
+            sottile nascosta dal sale, e la spingi di lato con tutte e due le
+            mani. La lastra scorre dentro la parete per un palmo, poi per un
+            braccio, senza un rumore. Dall'altra parte la galleria continua,
+            più fredda.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Le dita
+          testo: |
+            La lastra scorre di colpo per un palmo e torna indietro, e le dita
+            ti restano prese nella fessura quanto basta perché le unghie
+            diventino nere. Le liberi tirando, con l'altra mano puntata contro
+            il metallo, e per un pezzo non riesci a chiudere il pugno.
+          effetti: { ferite: 1 }
+      - testo: "Passare sotto, con l'acqua"
+        descrizione: "La fessura è larga abbastanza per un corpo. Quanto sia lunga sott'acqua, non lo sai."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Molto difficile }
+        successo:
+          titolo: Il sale negli occhi
+          testo: |
+            Ti tuffi nell'acqua nera e ti tiri sotto la lastra con le mani
+            sul fondo, una presa dopo l'altra, finché il metallo sopra di te
+            finisce. Riemergi dall'altra parte con il sale negli occhi e la
+            lampada spenta, e ci metti un pezzo a riaccenderla con le dita che
+            tremano.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La risacca
+          testo: |
+            A metà della fessura la marea tira indietro, e l'acqua ti riporta
+            fuori come una mano che ti prende per la cintura. Sbatti la
+            schiena contro il bordo della lastra e riemergi dalla parte da cui
+            eri partito, con la bocca piena di sale.
+          effetti: { ferite: 1 }
+      - testo: "Fare il gesto della Soglia"
+        descrizione: "La porta di servizio sotto la scogliera si apre come l'arco di Mara. Questa è dello stesso metallo, e forse della stessa famiglia."
+        requisiti: [misura.mara >= 1]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Difficile }
+        successo:
+          titolo: La porta che riconosce
+          testo: |
+            Rifai il gesto della Soglia davanti alla lastra, lento, come la
+            prima volta sul crinale. Per tre battiti senti odore di fuoco di
+            legna, e poi la lastra si ritira nella parete da sola. Sullo
+            stipite, all'altezza degli occhi, c'è un segno inciso che prima
+            il sale copriva. Lo ricalchi su un pezzo di carta prima di passare.
+          pe: { accademiche: 5 }
+          effetti: { profondita.campana-sfiati: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il gesto sbagliato
+          testo: |
+            Fai il gesto, e l'odore di fuoco di legna arriva e se ne va senza
+            che la lastra si muova. Ti resta in bocca per tutta la sera, e la
+            sera, quaggiù, non finisce mai.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare la bassa marea e strisciare sotto"
+        descrizione: "Con la marea al minimo la fessura resta mezza vuota. È lunga e stretta, con il fondo pieno di gusci."
+        costo: 3
+        esito:
+          titolo: I gusci
+          testo: |
+            Aspetti seduto sul bagnato finché l'acqua si ritira, poi ti infili
+            nella fessura sulla pancia, con la lampada spinta davanti. I gusci
+            dei cirripedi ti aprono i gomiti e le ginocchia, e la lastra è così
+            bassa che la senti passare sulla nuca per tutto il tempo.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 0 · la galleria dei cirripedi (i pulitori)
+  - id: campana-sfiati-la-galleria-dei-cirripedi
+    immagine: icone/ceiling-barnacle
+    titolo: La galleria dei cirripedi
+    sommario: "Il soffitto si abbassa fino a sfiorarti i capelli, e ogni palmo di roccia è coperto di cirripedi con il guscio aperto. Più avanti qualcosa gratta."
+    luogo: Gli sfiati della Ripamuta, la galleria dei cirripedi
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 0]
+    testo: |
+      Qui il soffitto si abbassa, e la galleria diventa un budello lungo e
+      storto dove si cammina con la testa piegata. Pareti e soffitto sono
+      coperti di cirripedi grandi come un'unghia, con i gusci aperti verso il
+      centro, e ogni volta che passa un soffio si chiudono tutti insieme con
+      un rumore di grandine sul tetto.
+
+      Più avanti, nel buio, qualcosa gratta la roccia con pazienza. Il rumore
+      si ferma quando ti fermi tu.
+
+      {percezione Difficile} Su un tratto di parete i cirripedi mancano,
+      raschiati via in strisce parallele larghe una spanna. Le strisce sono
+      fresche, e vengono verso di te.
+
+      {armi-da-mischia Media} In un budello così una lama lunga sbatte
+      contro le pareti al primo colpo. Conviene tenerla corta e colpire di punta.
+    opzioni:
+      - testo: "Andare incontro a quello che gratta"
+        descrizione: "Due macchine basse, incrostate di sale fino alle giunture. Sono lente, e sono dure."
+        combattimento: campana-i-pulitori
+        vittoria:
+          titolo: I raschietti fermi
+          testo: |
+            La seconda macchina si ferma con il raschietto alzato e resta
+            così, inclinata contro la parete, con l'acqua che le cola dalle
+            giunture. Il budello oltre di loro è pulito fino alla roccia nera,
+            e ci cammini dentro con le spalle che ancora non vogliono
+            scendere.
+          effetti: { profondita.campana-sfiati: 1 }
+        sconfitta:
+          titolo: Raschiato
+          testo: |
+            I raschietti ti prendono a turno sulle gambe e sulla schiena, con
+            la stessa cura che mettono sulle pareti. Torni
+            indietro carponi fino all'arco, e le macchine non ti seguono. Hanno
+            ripreso a grattare la parete dove l'avevano lasciata.
+      - testo: "Passare fra i gusci senza toccarli"
+        descrizione: "I cirripedi si chiudono al soffio. Fra un soffio e l'altro sono lame aperte, e il budello è stretto."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Di fianco
+          testo: |
+            Avanzi di fianco, con la pancia in dentro e le braccia strette al
+            corpo, e ti fermi ogni volta che il soffio arriva e i gusci si
+            chiudono. Le macchine passano dall'altra parte della galleria senza
+            girarsi. Esci dal budello con un solo taglio, sul dorso della mano.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La grandine
+          testo: |
+            Un soffio arriva quando hai la spalla contro la parete, e i gusci si
+            chiudono sulla stoffa e sulla pelle insieme. Ti strappi via
+            lasciando un pezzo di manica alla roccia, e lo scricchiolio fa
+            voltare le macchine verso di te.
+          effetti: { ferite: 1 }
+      - testo: "Strisciare nell'acqua sotto le macchine"
+        descrizione: "Sul fondo del budello corre un rigagnolo di mare. È gelato e poco profondo, e le macchine ci passano sopra."
+        costo: 2
+        esito:
+          titolo: Nel rigagnolo
+          testo: |
+            Ti stendi nel rigagnolo e avanzi sui gomiti con la faccia a un dito
+            dall'acqua, mentre una macchina ti passa sopra e il suo raschietto
+            ti sfiora la schiena. Esci dall'altra parte fradicio fino alle
+            ossa. Per il resto della giornata hai i denti che battono, e un
+            graffio lungo dalla spalla al fianco.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 1 · il condotto del soffio (misura.aculeo)
+  - id: campana-sfiati-il-condotto-del-soffio
+    immagine: ambientazione/regno-profondo
+    titolo: Il condotto del soffio
+    sommario: "Una galleria rotonda e liscia, senza un sasso sul pavimento. Ogni tanto il soffio della Campana la attraversa da un capo all'altro, e porta via quello che trova."
+    luogo: Gli sfiati della Ripamuta, il condotto del soffio
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 1]
+    testo: |
+      La galleria si allarga e si fa rotonda, liscia come l'interno di un
+      tubo da stufa, e sale piano verso un buio da cui scende aria fredda.
+      Sul pavimento non c'è niente. Nessun sasso e nessuna alga, nemmeno il
+      sale, che qui non fa in tempo a posarsi.
+
+      Poi arriva il soffio. Lo senti prima nelle orecchie, che si chiudono da
+      sole. Poi ti prende i vestiti e ti spinge contro la parete per tutta la
+      sua durata, e ti lascia andare soltanto quando è passato.
+
+      {resistenza Difficile} Dura più di quanto si possa stare senza aria. Se
+      ti prende in mezzo alla galleria ti porta dove va lui.
+
+      {natura Media fallita} Ti viene da pensare a una balena, e poi alla
+      gola di una balena, e smetti di pensare a tutto il resto.
+    opzioni:
+      - testo: "Correre fra un soffio e l'altro"
+        descrizione: "La galleria sale per un bel pezzo. Bisogna arrivare in fondo prima del soffio successivo."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Molto difficile }
+        successo:
+          titolo: La corsa
+          testo: |
+            Parti appena il soffio finisce e corri in salita con la lampada che
+            ti sbatte contro il fianco. Il soffio dopo ti trova già oltre la
+            curva, aggrappato a una sporgenza, e passa sopra la tua testa senza
+            prenderti.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Portato indietro
+          testo: |
+            Il soffio ti prende a metà salita e ti rimanda giù per la galleria
+            rotolando, con la lampada che rimbalza davanti a te. Ti fermi contro
+            la curva di prima con un ginocchio gonfio e la bocca piena di
+            polvere di sale.
+          effetti: { ferite: 1 }
+      - testo: "Contare il tempo fra i soffi"
+        descrizione: "Il soffio torna. Se torna sempre allo stesso ritmo, il ritmo si può imparare."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Difficile }
+        successo:
+          titolo: Il ritmo
+          testo: |
+            Conti sulle dita, appoggiato alla parete, per sei soffi di fila.
+            Tornano sempre uguali, con una pausa lunga ogni tre. Aspetti la
+            pausa lunga e sali, e arrivi in cima mentre il soffio dopo comincia
+            appena a fischiare nelle tue orecchie.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Il conto sbagliato
+          testo: |
+            Conti, ti sembra di aver capito, parti. Il soffio arriva in
+            anticipo e ti schiaccia contro la parete per tutta la sua durata,
+            con le orecchie che ronzano. Quando ti lascia, il conto non te lo
+            ricordi più.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Aspettare la pausa del fischio"
+        descrizione: "La Volta dell'Aculeo fischia una notte all'anno, e sai quanto dura. Questo soffio viene dalla stessa macchina."
+        requisiti: [misura.aculeo >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: La stessa durata
+          testo: |
+            Ogni soffio dura esattamente quanto il fischio dell'Aculeo, né un
+            battito in più né uno in meno, e la pausa fra due soffi ha la
+            stessa misura. Sali al passo contando sottovoce, e quando il soffio passa
+            sei già fermo in una nicchia. Senti l'aria salire sopra di te per i
+            condotti, verso la cima della scogliera e l'aperto.
+
+            *Questa macchina vuole che la si senta lassù.* Il pensiero ti resta
+            addosso mentre riprendi a salire.
+          pe: { accademiche: 5 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Fuori tempo
+          testo: |
+            La durata è giusta, l'attacco no. Il soffio parte mezzo battito
+            prima di quanto pensavi, e ti fa sbattere la testa contro la volta
+            della galleria.
+          effetti: { tormento: 0.5 }
+      - testo: "Avanzare aggrappato alle giunture"
+        descrizione: "Le pareti hanno giunture sottili ogni tanto. Ci entrano le dita, e le dita reggono finché reggono."
+        costo: 3
+        esito:
+          titolo: Le giunture
+          testo: |
+            Sali di giuntura in giuntura, e a ogni soffio ti appiattisci contro
+            la parete con le dita infilate nella fessura e il resto del corpo
+            sollevato dall'aria. Quando arrivi in cima hai due unghie spezzate
+            e le braccia che non ti obbediscono più.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1 · la chiusa della marea (dono.laresh)
+  - id: campana-sfiati-la-chiusa
+    immagine: icone/big-gear
+    titolo: La chiusa della marea
+    sommario: "Una paratia di metallo nero sbarra la galleria. Accanto gira una ruota grande come quella di un mulino, mossa dall'acqua che entra dal mare."
+    luogo: Gli sfiati della Ripamuta, la chiusa della marea
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 1]
+    testo: |
+      La galleria finisce contro una paratia di metallo nero alta tre uomini.
+      Accanto, in una nicchia scavata nella parete, gira una ruota dentata
+      grande come quella di un mulino, con le pale immerse nell'acqua che
+      entra dal mare. Gira piano, e a ogni giro la paratia sale di un dito e
+      poi riscende.
+
+      Fra due denti della ruota è rimasto preso lo scheletro di un gabbiano,
+      pulito dal sale fino all'ultimo osso, e gira con lei da chissà quanto
+      tempo.
+
+      {tecnologia Difficile} La paratia è legata alla marea. Si apre del tutto
+      una volta sola, quando l'acqua è al colmo, e per poco.
+
+      {atletica Media} Le pale escono dall'acqua a ogni giro. A salirci sopra,
+      la ruota porterebbe chiunque fino all'architrave della paratia.
+    opzioni:
+      - testo: "Bloccare la ruota con la paratia aperta"
+        descrizione: "Se la ruota si ferma al punto giusto, la paratia resta su. Bisogna capire quale sia il punto giusto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Il cuneo
+          testo: |
+            Aspetti il colmo, con la paratia alta, e infili un cuneo di metallo
+            preso dal fondo fra i denti della ruota. La ruota si ferma con un
+            gemito, e la paratia resta sollevata quanto basta per passarci
+            sotto curvo. Dall'altra parte, quando togli il cuneo da lontano con
+            una corda, la senti ricadere.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Il braccio nella ruota
+          testo: |
+            Il cuneo scivola, e la ruota si porta dietro la tua manica e il
+            braccio dentro la manica per mezzo giro, prima che la stoffa si
+            strappi. Resti seduto nell'acqua a guardarti il polso, che si gonfia.
+          effetti: { ferite: 1 }
+      - testo: "Salire sulle pale fino all'architrave"
+        descrizione: "Una pala dopo l'altra, con la ruota che ti porta su. In cima c'è il bordo della paratia, e dall'altra parte l'acqua."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Molto difficile }
+        successo:
+          titolo: In cima alla ruota
+          testo: |
+            Sali sulla pala più bassa e ti lasci portare su, poi passi alla
+            successiva, e in cima ti butti sul bordo della paratia con la
+            pancia. Dall'altra parte ti cali nell'acqua fonda e nuoti fino al
+            primo gradino.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La pala bagnata
+          testo: |
+            La pala è viscida di alghe e il piede parte da solo. Cadi di
+            schiena fra due pale, e la ruota ti spinge sott'acqua per tutto il
+            tempo che ci mette a passare.
+          effetti: { ferite: 1 }
+      - testo: "Ascoltare la ruota come la ascolterebbe Old Marrek"
+        descrizione: "Il mugnaio cieco di Laresh sente la macina sotto le assi e sa quando il grano è macinato. Una ruota che gira si sente prima di vederla."
+        requisiti: [dono.laresh >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il dente che manca
+          testo: |
+            Ti torna in mente Old Marrek, chino sulla macina del mulino
+            centrale con l'orecchio sul legno. Chiudi gli occhi e appoggi
+            l'orecchio al metallo della nicchia. A ogni giro la ruota fa un
+            rumore diverso nel punto dove manca un dente, e subito dopo la
+            paratia sale. Conti tre giri, e al quarto sei già passato sotto.
+          pe: { percezione: 5 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Troppo rumore
+          testo: |
+            L'acqua della ruota copre tutto il resto, e l'orecchio contro il
+            metallo ti porta soltanto un ronzio. Passi sotto la paratia
+            nel momento sbagliato e la senti scendere sulla schiena.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare il colmo e passare a nuoto"
+        descrizione: "Quando l'acqua è alta la paratia si apre del tutto, e l'acqua passa con te."
+        costo: 2
+        esito:
+          titolo: Con l'acqua
+          testo: |
+            Aspetti il colmo seduto su un gradino, con l'acqua che sale fino
+            alla vita, e quando la paratia si alza ti lasci prendere dalla
+            corrente. Passi dall'altra parte rotolando nell'acqua torbida,
+            sbatti contro un muro e riemergi in un pozzo buio, senza sapere
+            per un lungo momento dove sia l'alto.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 2 · il basalto fuso (il primo indizio)
+  - id: campana-sfiati-il-basalto-fuso
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il basalto fuso
+    sommario: "In una sala rotonda la roccia delle pareti si è fusa ed è colata, e si è rappresa in onde lucide, tutte rivolte dalla stessa parte."
+    luogo: Gli sfiati della Ripamuta, la sala del basalto fuso
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 2]
+    testo: |
+      La galleria sbocca in una sala rotonda dove il basalto delle pareti non
+      sembra più roccia scavata. A un certo punto si è fuso ed è colato, e si
+      è rappreso in onde basse e lisce, tutte rivolte dalla stessa parte,
+      verso l'uscita a mare. Le onde sono lucide come vetro scuro, e la luce
+      della lampada ci scivola sopra senza fermarsi.
+
+      In terra, presa nel basalto rappreso fino alla caviglia, c'è una
+      scarpa piccola, di un materiale grigio e morbido. Dentro la scarpa non
+      c'è niente.
+
+      {accademiche Difficile} Le colate puntano tutte lontano da un punto che
+      sta più in basso, verso l'interno della scogliera. Quello che le ha
+      fuse veniva da là.
+
+      {resilienza Molto difficile fallita} Ti ritrovi a misurare la scarpa
+      con gli occhi contro il tuo piede, e poi a non guardarla più.
+    opzioni:
+      - testo: "Leggere le colate"
+        descrizione: "La roccia fusa si è fermata nel momento in cui si è raffreddata. Quel momento, sulle pareti, è rimasto scritto."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Verso l'esterno
+          testo: |
+            Giri la sala con la lampada bassa, seguendo le colate con le dita.
+            Sono tutte spinte dallo stesso calore, arrivato in un colpo solo
+            dal basso e dall'interno, e corrono verso il mare come l'acqua
+            corre via da un sasso gettato in uno stagno. In un angolo trovi
+            una scheggia di metallo nero rimasta presa nel vetro, con un segno
+            inciso sopra, e la stacchi con la punta del coltello.
+
+            {politica-ed-economia Media} Una vampata così, in città, la
+            chiamerebbero un incidente di fucina. Qui non c'è nessuna fucina,
+            e il colpo è partito da dove sta la Campana.
+          pe: { accademiche: 3 }
+          effetti: { profondita.campana-sfiati: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il vetro tagliente
+          testo: |
+            Segui una colata con le dita, e il bordo del vetro scuro ti apre il
+            polpastrello come un rasoio. La sala ti gira intorno per un momento,
+            con tutte le sue onde ferme, e non riesci più a dire da che parte
+            corrano.
+          effetti: { tormento: 0.5, ferite: 0.5 }
+      - testo: "Attraversare la sala sulle onde di vetro"
+        descrizione: "Il passaggio dall'altra parte è in alto, e le onde rapprese ci salgono come gradini lisci."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Molto difficile }
+        successo:
+          titolo: I gradini lisci
+          testo: |
+            Sali sulle onde rapprese a piedi nudi, con gli stivali legati al
+            collo, perché le suole sul vetro scivolano e la pelle tiene. In cima
+            ti siedi sul bordo del passaggio a rimetterti gli stivali, con le
+            piante dei piedi che bruciano di freddo.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La scivolata
+          testo: |
+            A metà salita il piede parte sul vetro e scivoli giù per tutta
+            l'onda, fino al pavimento, con le mani che non trovano niente a cui
+            attaccarsi. Atterri vicino alla scarpa piccola, e per un po' resti
+            lì a guardare il soffitto.
+          effetti: { ferite: 1 }
+      - testo: "Tirare dritto senza guardare la scarpa"
+        descrizione: "Dall'altra parte della sala c'è un varco basso, nel punto dove le colate sono più spesse. Bisogna passare in mezzo al vetro."
+        costo: 2
+        esito:
+          titolo: In mezzo al vetro
+          testo: |
+            Attraversi la sala in linea retta, con gli occhi sul varco, e il
+            vetro scuro ti taglia gli stivali e poi le caviglie. Passi accanto
+            alla scarpa senza guardarla. Te la ritrovi davanti agli occhi per
+            tutto il resto della galleria, e anche dopo, nel buio, quando provi
+            a dormire.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 2 · la pozza nera (la murena)
+  - id: campana-sfiati-la-pozza-nera
+    immagine: icone/drowning
+    titolo: La pozza nera
+    sommario: "Una vasca d'acqua ferma occupa tutta la galleria. Sull'acqua galleggia una pellicola grigia, e sotto la pellicola qualcosa di bianco si muove."
+    luogo: Gli sfiati della Ripamuta, la pozza nera
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 2]
+    testo: |
+      Il pavimento sparisce sotto una vasca d'acqua ferma che occupa la
+      galleria da parete a parete. Sull'altra sponda il passaggio riprende, a
+      una trentina di passi. In superficie galleggia una pellicola grigia e
+      sottile, che si rompe in fili quando cade una goccia dal soffitto e poi
+      torna a chiudersi.
+
+      Lungo il bordo corre una cornice di pietra larga quanto un piede, mezza
+      sommersa. Sotto la pellicola, ogni tanto, passa una cosa lunga e bianca.
+
+      {natura Difficile} I fili grigi sono Marea, poca ma viva. La cosa bianca
+      ci nuota dentro da abbastanza tempo da averla nel sangue.
+
+      {furtivita Media} Sulla cornice il rumore dei passi arriva all'acqua.
+      Va fatta un piede alla volta, con il peso sui talloni.
+    opzioni:
+      - testo: "Aspettarla sulla cornice con l'arma in mano"
+        descrizione: "Una murena lunga quanto una barca, con i denti rivolti all'indietro. Sulla cornice c'è posto per un piede, e per un colpo."
+        combattimento: campana-la-murena
+        vittoria:
+          titolo: La cosa bianca
+          testo: |
+            La murena esce dall'acqua tre volte, e alla terza la prendi dietro
+            la testa. Si dibatte sulla cornice finché non smette, lunga quanto
+            la vasca, e la pellicola grigia si richiude sopra il punto dove è
+            caduta. Arrivi all'altra sponda con le mani che puzzano di pesce e
+            di Marea.
+          effetti: { profondita.campana-sfiati: 1 }
+        sconfitta:
+          titolo: I denti all'indietro
+          testo: |
+            La murena ti prende alla gamba e tira, e i denti rivolti
+            all'indietro non lasciano. Finisci nell'acqua grigia fino al collo
+            prima di riuscire a liberarti, e torni indietro lungo la cornice
+            zoppicando, con la Marea che ti pizzica nelle ferite.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Passare sulla cornice senza farti sentire"
+        descrizione: "Trenta passi su una pietra larga un piede, sopra l'acqua dove nuota lei."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Sui talloni
+          testo: |
+            Cammini sulla cornice di fianco, un piede alla volta, con il peso
+            sui talloni e la schiena contro la roccia. A metà strada la cosa
+            bianca ti passa sotto lentamente e prosegue. Sull'altra sponda ti
+            accorgi di avere i pugni chiusi da trenta passi.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Lo schizzo
+          testo: |
+            Un sasso si stacca dalla cornice e cade nell'acqua con un tonfo
+            piccolo. La murena arriva prima delle onde, e ti apre il polpaccio
+            prima che tu riesca a tornare indietro. La ferita ha un orlo
+            grigiastro che non ti piace per niente.
+          effetti: { ferite: 1, contaminazione: 0.5 }
+      - testo: "Gettarle da mangiare e attraversare a nuoto"
+        descrizione: "Le razioni nello zaino, gettate lontano, dall'altra parte della vasca. Poi si nuota, e si spera che abbia fame."
+        costo: 3
+        esito:
+          titolo: Le razioni
+          testo: |
+            Getti la carne secca nell'angolo opposto e ti butti in acqua appena
+            senti lo schiocco dei denti dall'altra parte. Nuoti con la testa
+            fuori e la pellicola grigia che ti si attacca alle labbra. Arrivi
+            sulla sponda senza razioni, con un sapore amaro in bocca che non va
+            via per tutto il giorno.
+          effetti: { profondita.campana-sfiati: 1, ferite: 0.5, contaminazione: 1 }
+
+  # ------------------------------------------------------------ 2-3 · le sette bocche (misura.stele)
+  - id: campana-sfiati-le-sette-bocche
+    immagine: ambientazione/regno-profondo
+    titolo: Le sette bocche
+    sommario: "Una caverna allagata fino alle ginocchia, e nella parete di fondo sette gallerie che partono a raggiera, tutte uguali."
+    luogo: Gli sfiati della Ripamuta, le sette bocche
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati >= 2, profondita.campana-sfiati <= 3]
+    testo: |
+      L'acqua fredda e salata ti arriva alle ginocchia, e la caverna è così
+      larga che la lampada non ne trova i bordi. Nella parete di fondo si
+      aprono sette gallerie a raggiera, tutte della stessa misura, con l'acqua
+      che ci entra. Da una sola, per volta, arriva il soffio.
+
+      Sopra ogni bocca è inciso un segno nel metallo nero dell'architrave.
+      Sono sette segni diversi, e nessuno ti dice niente.
+
+      {percezione Difficile} Il soffio cambia bocca. Esce da una galleria e
+      poi da un'altra in un giro sempre uguale, che dopo un po' ricomincia.
+
+      {origine mercante-dei-ponti} Sette strade dallo stesso incrocio, e una
+      sola che porta al mercato. Sui Ponti hai imparato presto a cercare
+      quella dove passano i carri carichi, e qui di carri non ne passano da
+      secoli.
+    opzioni:
+      - testo: "Seguire la direzione dell'ombra in più"
+        descrizione: "Nella notte di luna nuova la settima Stele proietta un'ombra in più. Tu sai dove punta."
+        requisiti: [misura.stele >= 1]
+        prova: { attributo: mentale, abilita: [natura, accademiche], difficolta: Difficile }
+        successo:
+          titolo: L'ombra in più
+          testo: |
+            Ti fermi in mezzo alla caverna e ti orienti come sotto le Stele, con
+            le spalle alla parete da cui sei entrato. La direzione dell'ombra
+            in più cade su una delle sette bocche, la quarta da sinistra, e il
+            segno sopra l'architrave è fatto di sette righe, lo stesso che sta sull'ottava pietra dell'Anello. La galleria scende dritta e asciutta, ed è
+            la prima volta da quando sei qui sotto.
+          pe: { natura: 5 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Il nord perso
+          testo: |
+            Sotto la scogliera il nord non sai più dove sia, e l'ombra in più
+            senza il nord non indica niente. Scegli una bocca che ti sembra
+            giusta, e dopo cento passi l'acqua ti arriva al petto.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire il soffio"
+        descrizione: "Il soffio va verso la Campana, o ne viene. In tutti e due i casi, sa la strada."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: La bocca che respira per ultima
+          testo: |
+            Conti il giro del soffio per tre volte, e una delle sette bocche
+            soffia sempre per ultima, più forte delle altre. Ti infili lì appena
+            tace. La galleria scende verso il basso e verso l'interno, e
+            l'acqua resta dietro di te.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: In tondo
+          testo: |
+            Segui il soffio da una bocca all'altra, e dopo un'ora ti ritrovi
+            nella caverna con l'acqua alle ginocchia, nello stesso punto,
+            davanti alla stessa bocca. Le gambe sono fredde fino alle anche, e
+            la testa comincia a farti male.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Provarle una per una"
+        descrizione: "Sette gallerie in tutto, e una di queste va dove serve. Ci vuole tempo, e le gallerie sbagliate sono piene d'acqua."
+        costo: 3
+        esito:
+          titolo: Sei gallerie sbagliate
+          testo: |
+            Entri in sei gallerie e torni indietro sei volte, ogni volta con
+            l'acqua un po' più alta, e la settima la prendi quasi a nuoto. Ne
+            esci con le dita bianche e rugose come quelle di un annegato, e
+            un'idea molto precisa di quante gallerie ci siano sotto questa
+            scogliera.
+          effetti: { profondita.campana-sfiati: 1, ferite: 0.5, tormento: 1 }
+
+  # ------------------------------------------------------------ 3 · la nicchia del turno (i pulitori)
+  - id: campana-sfiati-la-nicchia-del-turno
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La nicchia del turno
+    sommario: "Una nicchia asciutta, scavata più in alto della riga del sale. Dentro c'è un giaciglio di metallo, e sul giaciglio una coperta piegata che nessuno ha mai disfatto."
+    luogo: Gli sfiati della Ripamuta, la nicchia del turno
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 3]
+    testo: |
+      Due braccia sopra la riga del sale la parete si apre in una nicchia
+      asciutta, la prima che trovi da quando sei entrato. Dentro c'è un
+      giaciglio di metallo nero così corto che ci starebbe a malapena un
+      ragazzo. Sopra ci sono una coperta grigia piegata in quattro e una
+      tazza capovolta. Su una mensola stanno sei bastoncini di una cera dura,
+      consumati tutti alla stessa altezza.
+
+      {tecnologia Difficile} La coperta non ha cuciture. Il tessuto è tutto
+      un pezzo, e torna liscio sotto le dita appena smetti di premere.
+
+      {origine mercante-dei-ponti} Una coperta così, ai Ponti, la venderesti
+      tre volte, e alla terza sapresti ancora meno che cos'è. La tasti
+      dall'angolo, come si tasta la merce, e ti vergogni un poco.
+
+      Dalla galleria, sotto la nicchia, arriva il rumore di qualcosa che
+      gratta.
+    opzioni:
+      - testo: "Aspettare quello che gratta, dall'alto della nicchia"
+        descrizione: "Due pulitori incrostati risalgono la galleria. Dalla nicchia li vedi arrivare, e loro vedono te."
+        combattimento: campana-i-pulitori
+        vittoria:
+          titolo: Dall'alto
+          testo: |
+            Li aspetti sul bordo della nicchia e li colpisci dall'alto, dove le
+            giunture del dorso non hanno la crosta. Il secondo cade di fianco
+            nell'acqua e resta lì, con le zampe che grattano il vuoto sempre
+            più piano. Rimetti la tazza dritta sul giaciglio prima di andare,
+            senza sapere bene perché.
+          effetti: { profondita.campana-sfiati: 1 }
+        sconfitta:
+          titolo: Giù dalla nicchia
+          testo: |
+            Il primo pulitore ti prende la caviglia con il raschietto e ti tira
+            giù dalla nicchia, e il secondo ti è sopra prima che tu riesca ad
+            alzarti. Scappi verso l'arco a pezzi, lasciando nell'acqua la
+            lampada di riserva.
+      - testo: "Cercare nella nicchia la strada del turno"
+        descrizione: "Chi dormiva qui scendeva al lavoro da qualche parte. La strada del turno è più corta di quella dell'acqua."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: La botola
+          testo: |
+            Sotto il giaciglio, nel pavimento della nicchia, c'è una botola
+            della misura di un ragazzo. Si apre su una scala stretta che scende
+            asciutta lontano dalla galleria e da quello che gratta. Dentro la
+            botola, appoggiato sul primo gradino, c'è un guscio di metallo
+            scuro rimasto intatto, e te lo porti via.
+          effetti: { profondita.campana-sfiati: 1, parte.involucro-2: 1 }
+        fallimento:
+          titolo: Il rumore
+          testo: |
+            Frughi la nicchia troppo a lungo e con troppo rumore. Quando ti giri
+            uno dei pulitori ha già il raschietto sul bordo, e ti lascia un
+            solco nel braccio prima che tu riesca a ricacciarlo giù.
+          effetti: { ferite: 1 }
+      - testo: "Scendere di corsa oltre la cosa che gratta"
+        descrizione: "Saltare giù dalla nicchia dall'altra parte e correre nell'acqua, prima che le macchine si girino."
+        costo: 2
+        esito:
+          titolo: Di corsa
+          testo: |
+            Salti giù e corri nell'acqua alta, con i pulitori che si girano
+            lenti alle tue spalle. Uno ti prende di striscio alla schiena, e il
+            raschietto ti porta via la giubba insieme a un po' di pelle. Ti
+            fermi cento passi più avanti, piegato in due, ad ascoltare se ti
+            seguono.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 3 · il pozzo del soffio
+  - id: campana-sfiati-il-pozzo-del-soffio
+    immagine: ambientazione/regno-profondo
+    titolo: Il pozzo del soffio
+    sommario: "La galleria finisce in fondo a un pozzo verticale. Il soffio scende dall'alto, e il passaggio prosegue in cima, molto più su."
+    luogo: Gli sfiati della Ripamuta, il pozzo del soffio
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 3]
+    testo: |
+      La galleria finisce in fondo a un pozzo rotondo, largo quanto una
+      stanza, che sale dritto nel buio. Il passaggio prosegue in cima, dove la
+      lampada arriva appena a mostrare il bordo di un'apertura. Sulle pareti
+      corrono anelli di metallo nero a un braccio l'uno dall'altro, fatti per
+      mani più lunghe delle tue. A ogni soffio l'aria scende dall'alto e ti
+      preme sulle spalle.
+
+      Sul fondo, nell'acqua bassa, c'è una lampada da operatore ancora
+      intera, con il vetro pieno di sale.
+
+      {atletica Difficile} Gli anelli reggono. Il guaio è il soffio, che
+      arriva senza avvisare e vuole staccarti dalla parete.
+
+      {origine apprendista-raschiatore} Sulle piattaforme della Cicatrice si
+      sale così, un anello alla volta con il peso sulle gambe. Le mani si
+      ricordano dei turni prima di te, e cercano un moschettone che qui non
+      c'è.
+    opzioni:
+      - testo: "Salire anello dopo anello"
+        descrizione: "Un braccio alla volta, fermandoti a ogni soffio. Il pozzo è alto, e in cima non c'è nessuno a tirarti su."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: In cima
+          testo: |
+            Sali un anello alla volta, e a ogni soffio ti fermi con le braccia
+            infilate fino al gomito e la fronte contro il metallo. In cima ti
+            tiri sul bordo dell'apertura con le ultime forze, e resti lì sdraiato
+            ad ascoltare il soffio successivo che ti passa accanto senza
+            toccarti.
+          pe: { atletica: 3 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Il soffio a metà
+          testo: |
+            Il soffio ti prende a metà pozzo e ti strappa una mano dall'anello.
+            Resti appeso per l'altra mentre l'aria ti schiaccia, poi la mano
+            cede e scivoli giù di tre anelli prima di riprenderne uno. Scendi
+            fino in fondo con la spalla che ti fa male a ogni movimento.
+          effetti: { ferite: 1 }
+      - testo: "Chiudere la grata del soffio"
+        descrizione: "In fondo al pozzo, sotto l'acqua bassa, c'è una grata che si apre e si chiude. Se resta chiusa, il soffio passa da un'altra parte."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto difficile }
+        successo:
+          titolo: La grata chiusa
+          testo: |
+            Trovi la leva della grata sotto l'acqua e la tiri finché la grata si
+            chiude con un colpo che senti nei piedi. Il soffio cambia strada e
+            il pozzo resta fermo e silenzioso. Sali senza fretta, e in cima, da
+            lontano, lo senti passare per un altro condotto.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La grata aperta
+          testo: |
+            La leva resiste, e quando cede la grata si apre del tutto invece di
+            chiudersi. Il soffio che arriva è il doppio di prima, e ti butta
+            nell'acqua bassa contro la lampada dell'operatore, che si rompe
+            sotto di te.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Salire a forza di braccia, senza fermarti"
+        descrizione: "Senza aspettare i soffi, a forza. Arrivi su prima, o non arrivi."
+        costo: 3
+        esito:
+          titolo: A forza
+          testo: |
+            Sali senza fermarti e incassi i soffi uno dopo l'altro con le
+            braccia piegate e i denti stretti. In cima hai le mani aperte in
+            due punti e una spalla che non sale più sopra l'orecchio. Ci metti
+            un pezzo a riprendere a camminare.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1.5 }
+      - testo: "Salire come sulle piattaforme della Cicatrice"
+        descrizione: "Un anello alla volta, con il peso sulle gambe e una corda di sicurezza fatta con la cintura, come ti hanno insegnato sui Ponti."
+        quando: [origine.apprendista-raschiatore >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La cintura
+          testo: |
+            Ti passi la cintura intorno all'anello e alla vita a ogni sosta
+            come un moschettone, e lasci che il soffio ti schiacci contro il
+            metallo senza staccarti. In cima ti siedi sul bordo a riallacciarti
+            i calzoni, e ridi da solo per la prima volta da quando sei qui
+            sotto.
+          pe: { atletica: 3 }
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La fibbia
+          testo: |
+            La fibbia della cintura si apre al terzo soffio, e la cintura vola
+            giù nel pozzo. Torni in fondo a riprenderla con le ginocchia
+            sbucciate e i calzoni che scendono.
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4 · la sala delle pompe (la murena)
+  - id: campana-sfiati-la-sala-delle-pompe
+    immagine: icone/cog
+    titolo: La sala delle pompe
+    sommario: "Due file di cilindri di metallo nero alti come alberi, e in mezzo ai cilindri la traccia larga di qualcosa che ci passa ogni giorno."
+    luogo: Gli sfiati della Ripamuta, la sala delle pompe
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 4]
+    testo: |
+      La sala è alta e lunga, con due file di cilindri di metallo nero che
+      salgono fino alla volta come i tronchi di un bosco potato. Alcuni
+      battono piano, un colpo sordo ogni tanto, e l'acqua sul pavimento trema
+      a ogni colpo. Fra le due file il sale è stato raschiato via in una
+      striscia larga quanto un carro, che va dall'ingresso fino al fondo.
+
+      Lungo la parete di destra corre un canale d'acqua nera. Ogni tanto la
+      superficie si gonfia senza rompersi.
+
+      {rissa Difficile} Qualunque cosa passi di qui pesa quanto un carro
+      carico, e fra i cilindri non gira intorno. Ci passa in mezzo.
+
+      {tecnologia Media fallita} I cilindri battono, e tu non hai idea del
+      perché. Che qualcosa li tenga in funzione, invece, lo capisci benissimo.
+    opzioni:
+      - testo: "Affrontare quello che sale dal canale"
+        descrizione: "Il canale è stretto e l'acqua è nera. Quello che c'è dentro è bianco e lungo, e ti ha già sentito."
+        combattimento: campana-la-murena
+        vittoria:
+          titolo: Nel canale
+          testo: |
+            La murena esce dal canale in un'onda sola e ti cade addosso con
+            tutto il corpo. La colpisci finché si ritira, e la seconda volta
+            che esce la aspetti. Quando smette di muoversi la sua coda è ancora
+            nell'acqua, e il canale torna liscio.
+          effetti: { profondita.campana-sfiati: 1 }
+        sconfitta:
+          titolo: L'onda bianca
+          testo: |
+            La murena ti trascina nel canale per il braccio, e l'acqua nera ti
+            chiude gli occhi. Ne esci con la manica a brandelli e un morso che
+            sanguina grigio, e torni indietro fra i cilindri.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Nasconderti fra i cilindri e aspettare"
+        descrizione: "Se qualcosa passa di qui ogni giorno, oggi non farà eccezione. Meglio vederlo prima che lui veda te."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Lo scoglio che cammina
+          testo: |
+            Aspetti schiacciato fra due cilindri, con i colpi sordi che ti
+            arrivano nella schiena. Dopo un'ora lungo la striscia passa uno
+            scoglio coperto di cirripedi, con sei zampe corte e una pompa sul
+            dorso, e va verso il fondo della sala. Lo segui da lontano, nella
+            strada che ha appena pulito.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: Il cilindro che batte
+          testo: |
+            Il cilindro a cui sei appoggiato batte proprio mentre ti sistemi, e
+            il colpo ti scaraventa in mezzo alla striscia. Ti rialzi con la
+            testa che rimbomba e torni fra i cilindri, ma il tempo per
+            aspettare è passato.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Correre lungo la striscia fino al fondo"
+        descrizione: "La strada più corta è quella pulita. È anche quella dove passa lui."
+        costo: 2
+        esito:
+          titolo: Sulla striscia
+          testo: |
+            Corri sulla striscia raschiata fino al fondo della sala, e a metà il
+            canale si gonfia e ti arriva addosso un'onda grigia che ti fa
+            cadere in ginocchio. Ti rialzi bagnato fino alle ossa e arrivi in
+            fondo con la pelle che pizzica dappertutto.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ 4 · i bracci rotti
+  - id: campana-sfiati-i-bracci-rotti
+    immagine: icone/crab-claw
+    titolo: I bracci rotti
+    sommario: "In una galleria laterale sono ammucchiati bracci di macchina spezzati, con i raschietti consumati fino al moncone. Il mucchio arriva al soffitto."
+    luogo: Gli sfiati della Ripamuta, la galleria dei bracci rotti
+    area: campana-sfiati
+    ripetibile: true
+    requisiti: [campana.strato == 0, profondita.campana-sfiati == 4]
+    testo: |
+      In una galleria laterale sono ammucchiati a centinaia bracci di
+      macchina spezzati, con i raschietti consumati fino al moncone. Il
+      mucchio arriva al soffitto e chiude metà del passaggio. Fra i bracci il
+      sale ha fatto cristalli lunghi come dita, che tengono insieme il
+      mucchio meglio della calce.
+
+      {percezione Molto difficile} I bracci in cima sono più nuovi di quelli
+      in fondo. Qualcosa li cambia ancora quando si consumano, e butta qui
+      quelli vecchi.
+
+      {origine apprendista-raschiatore} Ai Ponti i picconi rotti si portano
+      su e si rifondono, e chi lascia un attrezzo in fondo lo paga di tasca
+      sua. Qui nessuno è mai venuto a chiedere il conto, e i bracci restano
+      dove cadono.
+
+      {resilienza Difficile fallita} Il mucchio ticchetta. Ti dici che sono i
+      cristalli di sale che si assestano, e continui a ripetertelo.
+    opzioni:
+      - testo: "Arrampicarti sopra il mucchio"
+        descrizione: "Il passaggio libero è dall'altra parte, in alto. I bracci sono tenuti insieme dal sale, finché il sale tiene."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Sopra i bracci
+          testo: |
+            Sali sul mucchio di sbieco, mettendo i piedi sulle giunture e mai
+            sui raschietti, e a ogni passo il sale scricchiola senza cedere. In
+            cima passi strisciando fra il mucchio e il soffitto, e scendi
+            dall'altra parte su un tappeto di cristalli che si rompono come
+            zucchero.
+          effetti: { profondita.campana-sfiati: 1 }
+        fallimento:
+          titolo: La frana
+          testo: |
+            Un braccio ti si sfila sotto il piede e se ne porta dietro una
+            decina, e la frana ti trascina giù fino al pavimento. Ti rialzi con
+            un raschietto spezzato piantato nella coscia, e lo togli con un
+            gemito che rimbalza per tutta la galleria.
+          effetti: { ferite: 1 }
+      - testo: "Smontare un varco nel mucchio"
+        descrizione: "Ogni braccio ha una giuntura, e una giuntura si apre. Uno alla volta, senza far crollare il resto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto difficile }
+        successo:
+          titolo: Il varco
+          testo: |
+            Sfili i bracci dal basso uno alla volta, aprendo le giunture con la
+            punta del coltello, e il mucchio si assesta sopra il varco senza
+            cadere. Uno dei bracci ha l'impugnatura ancora intatta, fatta per
+            una mano che non esiste più, e te la porti via nello zaino.
+          effetti: { profondita.campana-sfiati: 1, parte.impugnatura-2: 1 }
+        fallimento:
+          titolo: Il mucchio che scende
+          testo: |
+            Sfili il braccio sbagliato, e il mucchio scende di un palmo tutto
+            insieme con un rumore di ossa. Fai appena in tempo a ritirare le
+            mani, e la galleria resta chiusa come prima.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Infilarti nel varco più basso"
+        descrizione: "Sul fondo c'è un buco stretto fra i bracci, pieno di punte. Per passarci serve lasciare un po' di pelle."
+        costo: 3
+        esito:
+          titolo: Fra le punte
+          testo: |
+            Ti infili nel buco più basso con le braccia avanti e ti tiri fra i
+            monconi a forza di gomiti. Le punte dei raschietti ti trovano dalla
+            nuca ai talloni, e quando esci dall'altra parte hai la camicia a
+            strisce e un ticchettio di sale nelle orecchie che non se ne va.
+          effetti: { profondita.campana-sfiati: 1, ferite: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · il cuore · lo Spurgatore
+  - id: campana-sfiati-lo-spurgatore
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Lo Spurgatore
+    sommario: "In fondo agli sfiati la galleria scende in una conca dove arriva tutta l'acqua. In mezzo alla conca c'è uno scoglio, e lo scoglio si alza."
+    luogo: Gli sfiati della Ripamuta, la conca dello spurgo
+    area: campana-sfiati
+    requisiti: [campana.strato == 0, profondita.campana-sfiati >= 5]
+    testo: |
+      Tutti gli sfiati, a un certo punto, scendono qui. La galleria si apre su
+      una conca larga quanto una piazza, con il fondo coperto da un palmo
+      d'acqua salata, e dalle pareti sbucano bocche di condotti di ogni
+      misura, che secondo la marea sputano l'acqua oppure la bevono.
+      Dall'altra parte della conca una scala di metallo nero sale verso
+      un'apertura da cui arriva un suono continuo e basso, che senti più nei
+      denti che nelle orecchie.
+
+      In mezzo alla conca c'è uno scoglio coperto di cirripedi e di alghe,
+      alto due volte un uomo. Quando entri nell'acqua lo scoglio si alza su
+      sei zampe corte. Sotto la crosta di sale si vede il metallo nero, e due
+      bracci a raschietto si aprono ai lati come le chele di un granchio. Sul
+      dorso, fra i cirripedi, una pompa comincia a battere.
+
+      {tecnologia Difficile} È la macchina che teneva puliti gli sfiati. Lo fa
+      ancora a modo suo, e adesso la cosa da pulire sei tu.
+
+      {rissa Media} I bracci sono lenti a richiudersi. Fra un colpo e l'altro
+      c'è il tempo di entrare sotto, dove la crosta è più sottile.
+
+      Il sale ti brucia nelle crepe delle mani, e ti accorgi di aver contato
+      le zampe due volte.
+    opzioni:
+      - testo: "Affrontare lo Spurgatore"
+        descrizione: "Una macchina grande come un carro, coperta da una scogliera di sale. Lenta e durissima, e non si stanca mai."
+        combattimento: campana-lo-spurgatore
+        vittoria:
+          titolo: Lo scoglio che si ferma
+          testo: |
+            Entri sotto i bracci per l'ultima volta e colpisci dove la crosta si
+            è crepata, e qualcosa dentro lo Spurgatore cede con un rumore di
+            vetro. La pompa sul dorso batte ancora due volte e si ferma. Lo
+            scoglio si accascia nell'acqua su un fianco, e il sale gli scivola
+            via a pezzi.
+
+            Ai piedi della scala, in una nicchia asciutta, trovi le cose che
+            gli operatori tenevano a portata di mano. C'è una cassa sigillata,
+            ci sono due cristalli ancora carichi, e c'è una conchiglia di
+            metallo nero grande come un pugno. Quando la avvicini all'orecchio
+            il suono basso che scende dalla scala si spegne. Sali con la
+            conchiglia stretta in mano, verso il suono.
+          pe: { resistenza: 5 }
+          imposta: { campana.strato: 1 }
+          effetti: { oggetto.campana-conchiglia-sorda: 1, parte.involucro-3: 1, cristalli.cristallo-carico: 2 }
+          vai: campana-canne
+        sconfitta:
+          titolo: Portato via dalla marea
+          testo: |
+            Un raschietto ti prende in pieno e ti butta in un condotto che sta
+            bevendo, e il mare ti porta via. Riemergi sotto la scogliera, fuori
+            dall'arco, con la bocca piena di sale e le costole che scricchiolano
+            a ogni movimento. Per tornare in fondo agli sfiati dovrai rifare
+            tutta la strada.
+          effetti: { tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Mandarlo a spurgare un condotto"
+        descrizione: "Lo Spurgatore pulisce i condotti che si intasano. Se uno si intasa davanti ai suoi occhi, forse va a pulirlo e ti lascia la scala."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Il condotto intasato
+          testo: |
+            Corri alla bocca di condotto più vicina alla scala e ci infili
+            dentro alghe e gusci a manciate, finché l'acqua non passa più.
+            Lo Spurgatore si gira, punta la pompa sulla bocca e ci si
+            appoggia con tutto il corpo, sparando acqua finché il condotto non
+            si libera. Mentre spurga ti lascia passare senza nemmeno voltarsi.
+
+            Ai piedi della scala, in una nicchia asciutta, trovi le cose degli
+            operatori. C'è una cassa sigillata, ci sono due cristalli ancora
+            carichi, e c'è una conchiglia di metallo nero che, vicino
+            all'orecchio, spegne il suono che scende dalla scala.
+          pe: { tecnologia: 5 }
+          imposta: { campana.strato: 1 }
+          effetti: { oggetto.campana-conchiglia-sorda: 1, parte.involucro-3: 1, cristalli.cristallo-carico: 2 }
+          vai: campana-canne
+        fallimento:
+          titolo: La pompa
+          testo: |
+            Lo Spurgatore non guarda il condotto. Guarda te, con le mani
+            ancora piene di alghe, e la pompa ti spara addosso un getto d'acqua
+            che ti butta contro la parete e poi nella corrente. Ti ritrovi fuori
+            dall'arco, sulla spiaggia muta, con tutti gli sfiati da rifare.
+          effetti: { ferite: 2, tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinare alla macchina di fermarsi"
+        descrizione: "Il Comando parla alla Salvaguardia nella sua lingua. Questa macchina ha più sale che memoria, e non è detto che ascolti."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: In ginocchio nell'acqua
+          testo: |
+            Dici la formula, e la parola ti esce dalla bocca in una lingua che
+            non è la tua. Lo Spurgatore si ferma con i bracci aperti, poi
+            piega le zampe e si accuccia nell'acqua, e la pompa rallenta fino a
+            un battito ogni tanto. Passi accanto alla sua crosta tanto vicino
+            da toccarla.
+
+            Ai piedi della scala, in una nicchia asciutta, ci sono una cassa
+            sigillata, due cristalli ancora carichi e una conchiglia di metallo
+            nero che, vicino all'orecchio, spegne il suono che scende dalla
+            scala.
+          pe: { magia: 5 }
+          imposta: { campana.strato: 1 }
+          effetti: { oggetto.campana-conchiglia-sorda: 1, parte.involucro-3: 1, cristalli.cristallo-carico: 2 }
+          vai: campana-canne
+        fallimento:
+          titolo: Il sale nella voce
+          testo: |
+            La formula ti si rompe in gola, e lo Spurgatore risponde con la
+            pompa. Il getto ti prende al petto e ti porta via con l'acqua che
+            esce, giù per un condotto, fino al mare sotto la scogliera. Lo
+            strato è da rifare dall'arco.
+          effetti: { ferite: 2, tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Aspettare il soffio lungo dell'Aculeo"
+        descrizione: "Una volta all'anno la Volta dell'Aculeo fischia per una durata che conosci. Quaggiù il soffio lungo arriva ogni giorno, e quando arriva lo Spurgatore deve pulire il condotto grande."
+        requisiti: [misura.aculeo >= 1]
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Sotto la pancia
+          testo: |
+            Aspetti fermo nell'acqua contando, e quando il soffio lungo
+            comincia lo Spurgatore si gira verso il condotto grande e ci punta
+            la pompa, immobile. Gli passi sotto la pancia piegato in due, fra
+            le sei zampe, e sei sulla scala prima che il soffio finisca.
+
+            Ai piedi della scala, in una nicchia asciutta, ci sono una cassa
+            sigillata, due cristalli ancora carichi e una conchiglia di metallo
+            nero che, vicino all'orecchio, spegne il suono che scende dalla
+            scala.
+          pe: { acrobazia: 5 }
+          imposta: { campana.strato: 1 }
+          effetti: { oggetto.campana-conchiglia-sorda: 1, parte.involucro-3: 1, cristalli.cristallo-carico: 2 }
+          vai: campana-canne
+        fallimento:
+          titolo: Il soffio finisce
+          testo: |
+            Il soffio finisce mentre sei ancora sotto la macchina. Lo
+            Spurgatore abbassa la pancia sull'acqua, e tu ti ritrovi schiacciato
+            fra la crosta e il fondo finché non riesci a sgusciare via verso un
+            condotto. La corrente ti riporta al mare, e lo strato è da rifare.
+          effetti: { ferite: 2, tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata

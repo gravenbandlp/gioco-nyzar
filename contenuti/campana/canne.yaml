@@ -1,0 +1,1097 @@
+# La Campana Sepolta, strato 2: le canne (campana.strato 1 → 2). Si arriva dal cuore degli sfiati
+# (`campana-sfiati-lo-spurgatore`, sfiati.yaml) o, dopo una ritirata, dall'ingresso sulla costa grigia
+# (`campana-la-strada-della-ripamuta`, sblocco.yaml, con campana.strato == 1).
+# - area `campana-canne`: la caverna delle canne, i condotti della voce della Campana. Qui la negativa principale è
+#   il Tormento. Undici stanze ripetibili, tutte con `campana.strato == 1`, in fasce di profondità (una stanza
+#   superata non ricompare nella stessa visita):
+#   0 la scala che sale dagli sfiati (Atletica, Resilienza), il primo ponte di catena (Acrobazia, i picchiatori);
+#   1 le incisioni sulle canne (Accademiche, Percezione), la foresta che urla (Resilienza, Resistenza, il dono di
+#     Tuarmir), e da 1 a 3 il silenzio improvviso (Percezione, Resilienza, l'opzione del Figlio del Circolo);
+#   2 la canna spaccata (Tecnologia, Atletica, la nota della Costola), chi parla forte (Furtività, le eco, il richiamo
+#     della Spina, l'opzione dell'Accolito del Velo);
+#   3 il nido dei picchiatori (Furtività, i picchiatori), la nota che svuota (Resilienza, Medicina);
+#   4 le eco in fila (Magia, le eco), la canna maestra (Atletica, Percezione).
+#   Ogni stanza ha una via senza prova a 2 o 3 rintocchi con Tormento e Ferite.
+# - il cuore `campana-canne-l-accordatore` a profondità 5: l'Accordatore ai piedi della canna maestra. Vie: lo scontro
+#   (`campana-l-accordatore`), la nota della Costola cantata (misura.costola, Sociale + Espressività, Difficile), i freni
+#   delle zampe (Tecnologia, Difficile), il Comando (Difficile). La vittoria dà la Sordina, campana.strato 2 e porta al
+#   coro; la sconfitta riporta in Superficie con lo strato da rifare.
+# - Misure: la nota della Costola (la canna spaccata e il cuore), la voce della Spina (chi parla forte).
+#   Dono: Tuarmir (la foresta che urla, la maschera d'erbe). Origini: figlio-del-circolo (il silenzio, con
+#   un'opzione), accolito-del-velo (chi parla forte, con un'opzione; la nota che svuota).
+aree:
+  - id: campana-canne
+    immagine: ambientazione/gradone-rosso
+    nome: Le canne
+    sommario: "Sopra gli sfiati si apre una caverna senza soffitto visibile, piena di canne di metallo nero alte come torri. Dentro le canne c'è la voce della Campana, e la voce fa male."
+    spedizione: { ritorno: superficie-fratturata, soglia: 5, stanze: 3 }
+    testo: |
+      La scala di ferro sale dagli sfiati per un tempo che le gambe smettono
+      di contare, e ti lascia su una cengia di basalto a metà di una caverna
+      così alta che la lanterna non ne trova il soffitto. Le canne salgono da un fondo che
+      da qui resta nel buio. Sono tubi di metallo nero larghi quanto
+      un pozzo e alti quanto un campanile, a centinaia, piantati così fitti che
+      fra l'uno e l'altro passa appena un uomo. Fra le canne corrono passerelle
+      di ferro e ponti di catena aggiunti dopo da qualcuno con meno pazienza dei
+      Precursori, e la ruggine li ha mangiati a metà.
+
+      Il suono viene da dentro. È una nota bassa e sempre uguale, che senti più
+      nei denti che nelle orecchie, e ogni tanto una canna vicina la riprende
+      più alta e te la spinge dritta nella testa. Il basalto della cengia è
+      crepato in linee che partono dalle canne e corrono verso la parete. Ti
+      accorgi che stringi la mascella da quando sei arrivato, e che a lasciarla
+      andare fa male lo stesso.
+
+colonna:
+  - { contesto: area, id: campana-canne, musica: the-light-that-failed, ambiente: hellish-dungeon-ii }
+
+storylet:
+  # ------------------------------------------------------------ 0 · la scala e il primo ponte
+  - id: campana-canne-la-scala-di-ferro
+    immagine: icone/pipe-organ
+    titolo: La scala di ferro
+    sommario: "Una scala a chiocciola di ferro arrugginito sale dagli sfiati lungo la prima canna. A ogni giro il suono è più forte."
+    luogo: Le canne, la scala che sale dagli sfiati
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 0]
+    testo: |
+      La scala gira intorno alla prima canna come un tralcio intorno a un palo,
+      fissata al metallo nero con collari di ferro che i Precursori non avrebbero
+      mai messo. Alcuni collari hanno ceduto, e in quei punti la scala pende nel
+      vuoto di una spanna. Più sali, più la nota della canna ti passa nei gradini
+      e dai gradini nelle suole.
+
+      {atletica Difficile} A occhio sono trecento gradini, e i primi cento li
+      hai già fatti negli sfiati. Le cosce lo sanno e ti avvisano con anticipo.
+
+      Sul quarto giro qualcuno ha lasciato un guanto di cuoio infilato in un
+      collare, con le dita rivolte verso l'alto.
+
+      {resilienza Molto difficile} Il guanto indica la strada, o chi lo ha
+      lasciato voleva le mani libere per tapparsi le orecchie. Tutte e due le
+      cose ti sembrano ragionevoli.
+    opzioni:
+      - testo: "Salire di slancio i giri rotti"
+        descrizione: "Dove la scala pende bisogna saltare. Il ferro regge, se non ci resti sopra troppo."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: In cima ai giri
+          testo: |
+            Salti i tratti che pendono senza guardare in basso e atterri ogni
+            volta un gradino più su di quanto avevi previsto. In cima la scala
+            finisce su una passerella che corre fra le canne. Ti tremano le
+            ginocchia, e la nota adesso ti arriva anche dalle ringhiere.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il collare che cede
+          testo: |
+            Il collare a cui ti aggrappi si apre come una mano stanca, e scivoli
+            per mezzo giro di scala con la schiena sui gradini. Ti fermi contro
+            la canna, che vibra contro la tua guancia finché non ti tiri su.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Salire piano, con la nota addosso"
+        descrizione: "Un gradino alla volta, senza fretta, lasciando che il suono passi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: Il suono che passa
+          testo: |
+            Smetti di combattere la nota e la lasci entrare, come si lascia
+            passare un'onda restando fermi. Sali i giri contando i collari invece
+            dei gradini. In cima le mani tremano ancora, ma la testa è tua.
+          pe: { resilienza: 3 }
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: A metà scala
+          testo: |
+            A metà scala la nota trova un punto dietro gli occhi e ci si
+            pianta. Ti siedi sui gradini con la fronte sulle ginocchia, e quando
+            riesci a rialzarti hai perso il conto dei giri e la voglia di salire.
+          effetti: { tormento: 1 }
+      - testo: "Salire a forza di braccia, senza fermarti"
+        descrizione: "Trecento gradini tutti di fila, con la nota nelle ossa. Arrivi in cima, e a pezzi."
+        costo: 2
+        esito:
+          titolo: Trecento gradini
+          testo: |
+            Sali senza fermarti, con le braccia sulle ringhiere e la testa
+            bassa, e in cima ti lasci cadere sulla passerella. Il cuore ti batte
+            nelle tempie a un ritmo diverso da quello della canna, e i due ritmi
+            litigano a lungo prima che tu riesca a rimetterti in piedi.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 1 }
+
+  - id: campana-canne-il-primo-ponte
+    immagine: icone/crossed-chains
+    titolo: Il primo ponte di catena
+    sommario: "Un ponte di catene tese fra due canne, sopra un vuoto senza fondo. Sulla canna di fronte qualcosa batte il metallo con un martelletto."
+    luogo: Le canne, il primo ponte
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 0]
+    testo: |
+      Il ponte è fatto di tre catene, una per i piedi e due per le mani, tese
+      fra la tua canna e quella di fronte. Sotto c'è il buio, e dal buio sale la
+      nota, più forte. A metà del ponte una delle catene per le mani è stata
+      rattoppata con una corda di canapa, ormai nera.
+
+      Sulla canna di fronte due macchine sottili corrono in su e in giù sulle
+      zampe a uncino. Ogni tanto si fermano, battono il metallo con un
+      martelletto e restano ferme ad ascoltare.
+
+      {acrobazia Difficile} Tre catene sono un lusso. Se tieni il peso basso e i
+      piedi di traverso, la catena di sotto basta da sola.
+
+      {tecnologia Media fallita} Le macchine fanno qualcosa di preciso, e tu non
+      hai idea di che cosa. Ti consola che il martelletto sia piccolo.
+    opzioni:
+      - testo: "Passare il ponte di traverso, piano"
+        descrizione: "Il peso basso, i piedi sulla catena di sotto, le mani leggere su quelle di sopra."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Di traverso
+          testo: |
+            Passi il ponte con i piedi di traverso e le mani appena appoggiate,
+            e le catene oscillano meno di quanto temevi. Le due macchine battono
+            le loro canne senza voltarsi. Dall'altra parte trovi una passerella
+            che porta più dentro la foresta.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: La corda di canapa
+          testo: |
+            Metti la mano sulla corda di canapa e la corda si sfilaccia sotto le
+            dita. Resti appeso alla catena di sotto con le gambe nel vuoto finché
+            non riesci a tornare indietro, e le macchine sulla canna di fronte
+            hanno smesso di battere per guardarti.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Affrontare le due macchine sulla canna"
+        descrizione: "Sono sottili e svelte, e il martelletto colpisce dove sente vuoto. Ma sono due sole."
+        combattimento: campana-i-picchiatori
+        vittoria:
+          titolo: Le macchine che non battono più
+          testo: |
+            La seconda macchina cade nel vuoto battendo il martelletto contro
+            ogni catena che incontra, e la senti suonare per molto tempo prima
+            che smetta. La prima resta incastrata fra la canna e il ponte, con le
+            zampe che grattano il metallo, e tu passi oltre senza voltarti a guardarla.
+          effetti: { profondita.campana-canne: 1 }
+        sconfitta:
+          titolo: Il martelletto
+          testo: |
+            Il martelletto ti trova le costole dove l'armatura non arriva, e ogni
+            colpo suona dentro di te come dentro una canna. Torni indietro
+            sulla cengia trascinandoti sulle catene, e le macchine riprendono a
+            battere il metallo come se niente fosse.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che le macchine se ne vadano, e correre"
+        descrizione: "Prima o poi scendono a battere un'altra canna. Il ponte, intanto, dondola."
+        costo: 2
+        esito:
+          titolo: La corsa sulle catene
+          testo: |
+            Aspetti aggrappato alla tua canna per un tempo lunghissimo, con la nota
+            che ti entra nelle braccia. Quando le macchine scendono corri sul
+            ponte, e a metà la corda di canapa cede. Arrivi dall'altra parte con
+            una mano sola e una spalla che non vuole più alzarsi.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 1 · dentro la foresta
+  - id: campana-canne-le-incisioni
+    immagine: icone/compass
+    titolo: Le canne incise
+    sommario: "Una fila di canne più basse, ognuna incisa alla base con un segno e una linea. Le linee puntano tutte fuori dalla caverna."
+    luogo: Le canne, la fila incisa
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 1]
+    testo: |
+      La passerella costeggia una fila di canne più basse delle altre, e ognuna
+      ha un segno inciso alla base, una figura dei Precursori grande come una
+      mano con una linea dritta che ne esce. Le linee non puntano tutte dalla
+      stessa parte. Le segui con la lanterna e ne conti nove che vanno verso
+      punti diversi della parete, e poi altre, molte, che vanno più lontano.
+
+      {accademiche Difficile} È una rosa dei venti, ma al posto dei venti ci
+      sono luoghi. Una delle figure somiglia a una costola, un'altra a un arco
+      senza muri.
+
+      {origine accolito-del-velo} In Cattedrale le campane si suonano perché
+      la gente venga. Questa ha nove canne che portano il suono fuori, verso
+      chi doveva sentirlo, e tante altre verso chi non conosci.
+    opzioni:
+      - testo: "Leggere la rosa delle canne"
+        descrizione: "Nove linee verso i nove luoghi neri, e le altre verso posti che sulle carte non ci sono."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Verso chi doveva sentire
+          testo: |
+            Ricopi le figure su un pezzo di carta appoggiato al ginocchio, e
+            alla fine le nove linee ti tornano tutte. Sono i nove luoghi neri,
+            ognuno con la sua canna. Le altre linee vanno verso est, oltre le carte della
+            Gilda, e una scende dritta nel pavimento. Segui l'ultima canna
+            della fila, che porta più dentro.
+          pe: { accademiche: 3 }
+          effetti: { profondita.campana-canne: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Le linee che si confondono
+          testo: |
+            Più guardi le linee più si incrociano, e a un certo punto ti
+            accorgi che stai seguendo il tremolio della lanterna sul metallo e
+            non le incisioni. Ti gira la testa, e la nota ti si infila nel
+            capogiro come un dito in una ferita.
+          effetti: { tormento: 1 }
+      - testo: "Seguire la linea che scende"
+        descrizione: "Una linea sola punta nel pavimento invece che fuori. Dove va, va la strada."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: La linea che scende
+          testo: |
+            La linea che scende continua sotto la ruggine della passerella, e la
+            segui grattando con il tacco. Ti porta a una scaletta
+            nascosta dietro una canna, che scende di un piano fino a un ponte
+            più largo.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: La ruggine
+          testo: |
+            Gratti la ruggine con il tacco per un pezzo, e sotto c'è altra
+            ruggine. Quando ti rialzi la passerella ti sembra più stretta di
+            prima, e le canne più vicine.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare la fila tappandoti le orecchie"
+        descrizione: "Le canne basse cantano più forte. Con le mani sulle orecchie non guardi dove metti i piedi."
+        costo: 2
+        esito:
+          titolo: Le mani sulle orecchie
+          testo: |
+            Passi la fila con le mani sulle orecchie e i gomiti larghi, e la
+            nota ti arriva lo stesso, attraverso le ossa del cranio. Inciampi due
+            volte sui rivetti della passerella. In fondo alla fila hai le
+            ginocchia sbucciate e un fischio nell'orecchio sinistro che non va
+            più via.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 1 }
+
+  - id: campana-canne-la-foresta-che-urla
+    immagine: icone/screaming
+    titolo: La foresta che urla
+    sommario: "Un tratto dove le canne sono così fitte che il suono rimbalza dall'una all'altra senza uscire. L'aria stessa trema."
+    luogo: Le canne, il tratto fitto
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 1]
+    testo: |
+      Qui le canne crescono fitte come i fusti di un canneto, e la passerella si
+      infila fra loro in un corridoio largo una spalla. Il suono entra da una
+      canna e rimbalza sulla vicina per tornare indietro, e dopo dieci passi non
+      capisci più da che parte arriva. La lanterna trema nella tua mano, e la
+      fiamma trema con lei.
+
+      Sul pavimento della passerella c'è una macchia scura e secca, e accanto
+      un orecchino d'osso.
+
+      {resistenza Difficile} Il corridoio è lungo. Le gambe ce la fanno, se la
+      testa non le ferma a metà.
+
+      {medicina Media} La macchia è sangue vecchio, uscito dalle orecchie di
+      qualcuno che si è fermato qui troppo a lungo.
+    opzioni:
+      - testo: "Attraversare tenendo la testa sgombra"
+        descrizione: "Pensare a una cosa sola, e camminare. Il suono cerca le teste piene."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Una cosa sola
+          testo: |
+            Scegli una cosa sola a cui pensare, il rumore della pioggia sul
+            tetto di una casa dove hai dormito bene, e la tieni stretta fino in
+            fondo al corridoio. Il suono ti scivola addosso. Quando esci
+            dalle canne fitte non ricordi più quale casa fosse.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il punto della macchia
+          testo: |
+            A metà corridoio ti fermi, e ti accorgi di esserti fermato soltanto
+            quando vedi la macchia scura sotto i tuoi piedi. Torni indietro
+            camminando all'indietro, con il naso che sanguina.
+          effetti: { tormento: 1 }
+      - testo: "Correre fino in fondo"
+        descrizione: "Il corridoio sembra senza fine. Le gambe però sono più svelte della testa."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Molto difficile }
+        successo:
+          titolo: Fino in fondo
+          testo: |
+            Corri con la testa bassa e i gomiti stretti, e la passerella ti
+            rimbomba sotto i piedi. Il suono ti insegue e non ti raggiunge. In
+            fondo al corridoio ti appoggi a una canna più larga, che per fortuna
+            sta zitta.
+          pe: { resistenza: 3 }
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: La passerella che gira
+          testo: |
+            La passerella fa una curva che non avevi visto, e la spalla va a
+            sbattere contro una canna. La canna suona per il colpo. Il suono ti
+            butta in ginocchio, e torni indietro a carponi.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Passare dentro il corridoio a occhi chiusi"
+        descrizione: "Tre rintocchi di cammino con la nota in testa, una mano sulla ringhiera."
+        costo: 3
+        esito:
+          titolo: A occhi chiusi
+          testo: |
+            Cammini con gli occhi chiusi e la mano sulla ringhiera, e la nota ti
+            riempie la testa fino a non lasciare posto a nient'altro. Esci dal
+            corridoio con il sangue che ti cola da un orecchio e un sapore di
+            ferro in bocca che non è il tuo.
+          effetti: { profondita.campana-canne: 1, ferite: 0.5, tormento: 1.5 }
+      - testo: "Metterti nelle orecchie il muschio sordo di Tuarmir"
+        descrizione: "Madre Cerya te l'ha dato per quando avresti sentito la stessa nota da un'altra parte. Cresce intorno alla grata della Sella, dove il ronzio non smette mai."
+        requisiti: [dono.tuarmir >= 1]
+        prova: { attributo: mentale, abilita: [natura, resilienza], difficolta: Media }
+        successo:
+          titolo: Il muschio della Sella
+          testo: |
+            Apri il sacchetto di tela e ti infili nelle orecchie due ciuffi di
+            muschio grigioverde, fine come capelli. Lassù alla grata i
+            raccoglitori fanno lo stesso. La nota arriva attutita, lontana come la voce di
+            qualcuno in un'altra stanza, e attraversi il corridoio da un capo
+            all'altro senza fermarti.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il ciuffo che cade
+          testo: |
+            A metà corridoio un ciuffo di muschio ti scivola fuori
+            dall'orecchio, e per cercarlo ti fermi proprio dove non dovresti.
+            Torni indietro con il muschio in mano e il naso che sanguina.
+          effetti: { tormento: 0.5 }
+
+  - id: campana-canne-il-silenzio
+    immagine: icone/silence
+    titolo: Il silenzio
+    sommario: "Di colpo tutte le canne tacciono insieme. Il silenzio dura, e non si sa quanto durerà."
+    luogo: Le canne, nel mezzo della foresta
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne >= 1, profondita.campana-canne <= 3]
+    testo: |
+      La nota si ferma. Non sfuma, si spegne tutta insieme in ogni canna, e il
+      silenzio che resta è così fitto che senti il sangue nelle orecchie e
+      lo sfrigolio dello stoppino della lanterna. Le passerelle smettono di
+      vibrare. Da qualche parte, molto in basso, una goccia cade nell'acqua.
+
+      Resti fermo con un piede alzato, e lo appoggi solo dopo un lungo momento.
+
+      {percezione Difficile} Il silenzio non è uguale dappertutto. A sinistra le
+      canne sono ferme, a destra una ronza ancora appena, come un gatto che fa
+      finta di dormire.
+
+      {origine figlio-del-circolo} Nel Bosco di Velthar gli uccelli tacciono
+      tutti insieme prima della grandine. Ti hanno insegnato a cercare un riparo
+      in quel momento, e a non chiedere perché.
+    opzioni:
+      - testo: "Andare dove le canne ronzano ancora"
+        descrizione: "Dove la nota resta accesa la strada è usata. Nel tratto spento qualcosa sta aspettando."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Difficile }
+        successo:
+          titolo: La canna che ronza
+          testo: |
+            Vai verso la canna che ronza ancora, piano, con l'orecchio teso. Il
+            ronzio ti porta fuori dal tratto fermo. Quando la nota riparte, tutta
+            insieme, sei già due ponti più avanti, e ti ritrovi a ringraziarla.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Dalla parte sbagliata
+          testo: |
+            Scegli le canne ferme, e quando la nota riparte ti esplode addosso
+            da tutte insieme. Ti ritrovi steso sulla passerella senza sapere
+            quanto ci sei rimasto.
+          effetti: { tormento: 1 }
+      - testo: "Restare fermo finché il suono torna"
+        descrizione: "Restare immobili e zitti a reggere il silenzio. Il difficile è tenerlo vuoto dai pensieri."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: Il silenzio retto
+          testo: |
+            Resti immobile, e nel silenzio ti tornano in mente cose che non
+            volevi, una dopo l'altra, finché non smettono. Quando la nota
+            riparte la accogli quasi con sollievo, e riprendi il cammino con la
+            testa più leggera.
+          pe: { resilienza: 3 }
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: I pensieri
+          testo: |
+            Nel silenzio i pensieri arrivano tutti insieme, e non riesci a
+            mandarli via. Quando la nota riparte sei seduto con la schiena contro
+            una canna e le unghie piantate nei palmi.
+          effetti: { tormento: 1 }
+      - testo: "Camminare nel silenzio senza fermarti"
+        descrizione: "Tre rintocchi di cammino nel vuoto del suono, sperando di essere lontano quando torna."
+        costo: 3
+        esito:
+          titolo: Quando torna
+          testo: |
+            Cammini nel silenzio a passo svelto, e i tuoi stivali sulla
+            passerella fanno un rumore enorme. Quando la nota torna ti prende
+            alle spalle, e cadi in avanti battendo il mento sul ferro. Ti
+            rialzi più avanti di dove volevi, con un dente che dondola.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 0.5 }
+      - testo: "Cercare il riparo, come prima della grandine"
+        descrizione: "Nel Bosco, quando tutto tace, ci si mette sotto qualcosa. Qui il riparo sono le canne più larghe."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: Sotto la canna larga
+          testo: |
+            Ti infili nello spazio fra due canne larghe come ci si infila sotto
+            una radice, e aspetti. Quando la nota riparte ti passa sopra la
+            testa senza toccarti. Esci dal riparo e prosegui, con la sensazione
+            di aver fatto la cosa giusta per il motivo giusto.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il riparo sbagliato
+          testo: |
+            Le canne larghe sono le più rumorose, e quando la nota riparte ti
+            schiaccia fra le due come fra due mani. Esci dal riparo con le
+            orecchie che fischiano.
+          effetti: { tormento: 1 }
+
+  # ------------------------------------------------------------ 2 · la canna spaccata e le voci
+  - id: campana-canne-la-canna-spaccata
+    immagine: icone/pipes
+    titolo: La canna spaccata
+    sommario: "Una canna larga come una torre ha una spaccatura lunga dal basso all'alto. Dentro si può salire, e il suono che ne esce è stonato."
+    luogo: Le canne, la canna spaccata
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 2]
+    testo: |
+      La passerella finisce contro una canna più larga delle altre, spaccata in
+      verticale da una fenditura dove entra un uomo di fianco. I lembi del
+      metallo nero sono piegati verso l'esterno, come se qualcosa fosse uscito
+      da dentro. Dalla fenditura esce una nota storta, più alta delle altre, che
+      le canne vicine riprendono male.
+
+      {tecnologia Difficile} La canna è stonata perché è aperta. Se la si
+      accordasse sulle altre, smetterebbe di cantare.
+
+      {percezione Media} Dentro la canna ci sono dei pioli, fatti per chi doveva
+      salire a ripararla. Portano in alto, verso un altro ponte.
+    opzioni:
+      - testo: "Salire dentro la canna, sui pioli"
+        descrizione: "Dentro il suono è più forte e lo spazio stretto, ma i pioli portano in alto."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Molto difficile }
+        successo:
+          titolo: Dentro la canna
+          testo: |
+            Sali i pioli dentro la canna con la nota che ti rimbalza intorno da
+            tutte le parti, e ti sembra di essere la lingua di una bocca che
+            parla. In alto la fenditura si apre su un ponte di catena. Ne esci
+            con le orecchie piene e le mani rosse di ruggine.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il piolo
+          testo: |
+            Un piolo ti resta in mano, e scivoli giù per la canna con la schiena
+            contro il metallo che vibra. Esci dalla fenditura da dove eri
+            entrato, e il suono ti rimane nei denti per un'ora.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Raddrizzare i lembi della spaccatura"
+        descrizione: "Se la canna si chiude abbastanza smette di stonare, e le altre si calmano. Serve forza nelle mani e un'idea di dove spingere."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: I lembi accostati
+          testo: |
+            Trovi il punto dove il metallo cede, e con la spalla e una sbarra di
+            ferro accosti i lembi quanto basta. La nota storta si abbassa e si
+            confonde con le altre. Le canne intorno smettono di tremare, e passi
+            oltre per il ponte dall'altra parte.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il lembo che torna
+          testo: |
+            Il lembo cede di un dito e poi torna indietro di colpo, e la sbarra
+            ti sfugge di mano. La canna risponde con una nota così storta che ti
+            piega le ginocchia.
+          effetti: { ferite: 0.5, tormento: 1 }
+      - testo: "Cantare la nota della Costola alla canna"
+        descrizione: "La nota della Costola la sai fare con la gola, bassa fino a far male. È la nota giusta di tutte queste canne, e una canna stonata la riconosce."
+        requisiti: [misura.costola >= 1]
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Difficile }
+        successo:
+          titolo: La nota giusta
+          testo: |
+            Appoggi la fronte alla canna e canti la nota della Costola a bocca chiusa, finché ti vibra nei denti. La nota entra nel metallo, e la canna spaccata smette di
+            stonare e la prende. Poi tace del tutto, e tacciono anche le tre
+            canne vicine. Nel silenzio la fenditura si richiude di un palmo,
+            e i pioli dentro ti portano su senza fatica.
+          pe: { espressivita: 5 }
+          effetti: { profondita.campana-canne: 1, cristalli.cristallo-carico: 1 }
+        fallimento:
+          titolo: La nota fuori tempo
+          testo: |
+            Attacchi la nota quando la canna sta già cantando, e le due note si scontrano. La gola ti brucia, e per un po' riesci soltanto a tossire sull'orlo della passerella.
+          effetti: { tormento: 0.5 }
+      - testo: "Infilarti nella fenditura senza pensarci"
+        descrizione: "Due rintocchi dentro una canna che stona, con le mani sui pioli arrugginiti."
+        costo: 2
+        esito:
+          titolo: La canna stonata
+          testo: |
+            Ti infili nella fenditura e sali alla cieca, con il metallo che
+            ti graffia le spalle e la nota storta che ti entra nella testa da
+            dietro. Esci in alto su un ponte di catena, e per un pezzo non
+            riesci a ricordare da che parte sei venuto.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 1 }
+
+  - id: campana-canne-chi-parla-forte
+    immagine: icone/echo-ripples
+    titolo: Chi parla forte
+    sommario: "Una piazza di ferro sospesa fra le canne. Quando ci metti piede, le canne ripetono il rumore dei tuoi passi, e poi anche altro."
+    luogo: Le canne, la piazza sospesa
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 2]
+    testo: |
+      Le passerelle si incontrano su una piattaforma rotonda di ferro, larga
+      quanto una piazzetta, appesa alle canne con dodici catene. Quando ci metti
+      piede, le canne intorno ripetono il rumore del tuo passo, un po' più tardi
+      e un po' più forte. Ti scappa un colpo di tosse, e le canne lo ripetono, e
+      poi lo ripetono ancora, e da una delle bocche esce una sagoma d'aria che
+      trema.
+
+      {furtivita Difficile} Qui il rumore è il nemico. Si passa da un'altra
+      parte, dove le catene tengono il ferro più fermo.
+
+      {origine accolito-del-velo} In Cattedrale ti hanno insegnato a parlare a
+      bassa voce. Per la prima volta ti sembra una regola scritta da qualcuno che
+      era stato qui.
+    opzioni:
+      - testo: "Attraversare la piazza senza un suono"
+        descrizione: "Sulle punte, lungo il bordo, senza toccare le catene. Le canne non ripetono quello che non sentono."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Senza un suono
+          testo: |
+            Passi lungo il bordo con il peso sulle punte, e la piattaforma non
+            dice niente. La sagoma d'aria resta sospesa davanti alla sua canna,
+            girata dalla parte sbagliata. Dall'altra parte della piazza una
+            scala scende verso un piano più basso.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il ferro che parla
+          testo: |
+            Il ferro geme sotto un piede, e le canne lo ripetono dieci volte.
+            Le sagome escono da tre bocche insieme, e scappi indietro prima che
+            ti arrivino, con il gemito del ferro che ti segue per un pezzo.
+          effetti: { tormento: 1 }
+      - testo: "Affrontare le sagome d'aria"
+        descrizione: "Sono suoni rimasti chiusi troppo a lungo. Si colpiscono, ma parlano dentro la testa."
+        combattimento: campana-le-eco
+        vittoria:
+          titolo: Le bocche vuote
+          testo: |
+            Le sagome si sfaldano una dopo l'altra in un colpo di vento che sa
+            di metallo, e le loro canne restano mute. Attraversi la piazza con
+            le orecchie che ronzano, e scendi la scala dall'altra parte.
+          effetti: { profondita.campana-canne: 1 }
+        sconfitta:
+          titolo: Le voci dentro
+          testo: |
+            Le sagome non ti colpiscono le braccia. Ti parlano nella testa con
+            la tua voce, e dicono cose che non hai mai detto a nessuno. Torni
+            indietro sulla passerella tenendoti la testa fra le mani.
+          effetti: { tormento: 0.5 }
+      - testo: "Dare alle canne il richiamo della Spina"
+        descrizione: "La Spina dell'Eco restituisce sempre lo stesso richiamo. È la voce a cui la Campana risponde, e forse queste canne la riconoscono."
+        requisiti: [misura.spina >= 1]
+        prova: { attributo: sociale, abilita: [espressivita, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Il richiamo
+          testo: |
+            Dai alla piazza il richiamo della Spina, con tutta la voce che hai.
+            Le canne lo ripetono tutte insieme una volta sola, poi tacciono.
+            Le sagome rientrano nelle loro bocche come cani richiamati, e il
+            ferro della piazza smette di vibrare. Nel silenzio una catena si
+            abbassa e ti fa da scala.
+          pe: { espressivita: 5 }
+          effetti: { profondita.campana-canne: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il richiamo storpiato
+          testo: |
+            Ti si incrina la voce a metà del richiamo, e le canne ti restituiscono
+            la parte storpiata, più forte, dieci volte. Le sagome escono tutte
+            insieme, e scappi giù dalla passerella da dove sei venuto.
+          effetti: { tormento: 1 }
+      - testo: "Correre attraverso la piazza"
+        descrizione: "Due rintocchi di corsa, con le canne che ripetono ogni passo e le sagome dietro."
+        costo: 2
+        esito:
+          titolo: La corsa
+          testo: |
+            Corri attraverso la piazza, e ogni passo ti torna indietro dalle
+            canne raddoppiato. Una sagoma d'aria ti passa attraverso il petto e
+            ti lascia un freddo che non se ne va. Arrivi alla scala con le gambe
+            che tremano e un gemito tuo nelle orecchie.
+          effetti: { profondita.campana-canne: 1, ferite: 0.5, tormento: 1.5 }
+      - testo: "Recitare la litania a bassa voce, come in Cattedrale"
+        descrizione: "Un accolito sa pregare con le labbra e senza la voce. Le canne non ripetono quello che non sentono."
+        quando: [origine.accolito-del-velo >= 1]
+        prova: { attributo: mentale, abilita: [resilienza, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La litania senza voce
+          testo: |
+            Attraversi la piazza recitando la litania della sera con le labbra
+            sole, come ai vespri quando la Madre passava fra i banchi. Le canne
+            non trovano niente da ripetere. Arrivi alla scala dall'altra parte e
+            ti accorgi di aver finito la litania esattamente sull'ultimo gradino.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: La parola che scappa
+          testo: |
+            A metà litania ti scappa una parola a voce alta, e le canne la
+            ripetono fino a farla diventare un'altra. Torni indietro di corsa con
+            le sagome alle spalle.
+          effetti: { tormento: 1 }
+
+  # ------------------------------------------------------------ 3 · più in basso
+  - id: campana-canne-il-nido-dei-picchiatori
+    immagine: icone/pipe-organ
+    titolo: Il nido dei picchiatori
+    sommario: "Un ripiano fra le canne pieno di macchine sottili accucciate. Alcune dormono, altre battono il metallo per sentire chi arriva."
+    luogo: Le canne, il ripiano dei picchiatori
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 3]
+    testo: |
+      Il ponte scende su un ripiano di ferro incastrato fra quattro canne, e il
+      ripiano è pieno di macchine sottili accucciate sulle zampe a uncino,
+      decine, ammucchiate le une sulle altre come granchi in una cesta. Quasi
+      tutte sono ferme. Due battono il metallo a turno con il loro martelletto
+      e ascoltano la risposta.
+
+      {tecnologia Molto difficile} Battono e ascoltano, e dall'eco capiscono
+      dove c'è un vuoto. Una persona, per loro, è un vuoto che si muove.
+
+      Sul bordo del ripiano c'è uno scalpello abbandonato, con il manico
+      consumato da una mano che non era umana.
+    opzioni:
+      - testo: "Passare in mezzo alle macchine ferme"
+        descrizione: "Fra un colpo di martelletto e l'altro, quando le due sveglie ascoltano altrove."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Fra un colpo e l'altro
+          testo: |
+            Conti i colpi dei martelletti e ti muovi nelle pause, un passo per
+            pausa, fra le zampe delle macchine ferme. Una ti sfiora la caviglia
+            con un uncino e non si sveglia. In fondo al ripiano una scala di
+            ferro scende ancora.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il colpo sulla caviglia
+          testo: |
+            Il martelletto ti trova la caviglia nel buio, e ti sente. Mezzo
+            ripiano si sveglia insieme, e torni indietro sul ponte con la
+            caviglia gonfia e le macchine che battono le canne dietro di te.
+          effetti: { ferite: 1 }
+      - testo: "Affrontare le due macchine sveglie"
+        descrizione: "Prima che sveglino le altre. Sono due, e svelte."
+        combattimento: campana-i-picchiatori
+        vittoria:
+          titolo: Il ripiano fermo
+          testo: |
+            Le due macchine sveglie cadono fra le altre senza svegliarle, perché
+            le hai prese prima che finissero di battere. Attraversi il ripiano
+            in punta di piedi, e prendi lo scalpello abbandonato passando.
+          effetti: { profondita.campana-canne: 1, parte.impugnatura-2: 1 }
+        sconfitta:
+          titolo: Tutto il nido
+          testo: |
+            Al rumore della lotta il nido si sveglia, e le macchine ti salgono
+            addosso a decine. Ti butti giù dal ripiano sul ponte di sotto, e
+            torni indietro zoppicando.
+          effetti: { tormento: 0.5 }
+      - testo: "Fermare i martelletti dall'interno"
+        descrizione: "Le macchine hanno un punto dove il martelletto si attacca. Se lo trovi, le spegni senza combattere."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto difficile }
+        successo:
+          titolo: Il perno
+          testo: |
+            Trovi il perno del martelletto sulla prima macchina sveglia e lo
+            sfili con lo scalpello abbandonato. La seconda si gira verso il
+            rumore, e sfili anche il suo. Passi in mezzo al nido zitto con due
+            perni in tasca.
+          pe: { tecnologia: 5 }
+          effetti: { profondita.campana-canne: 1, parte.camera-2: 1 }
+        fallimento:
+          titolo: Il perno sbagliato
+          testo: |
+            Sfili il perno sbagliato, e la macchina invece di spegnersi comincia a
+            battere più forte. Il nido si sveglia, e torni indietro sul ponte
+            con un uncino piantato nella manica.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Calarti dal ripiano lungo una canna"
+        descrizione: "Due rintocchi aggrappato al metallo nero che vibra, lontano dal nido."
+        costo: 2
+        esito:
+          titolo: Lungo la canna
+          testo: |
+            Ti cali lungo il fianco di una canna aggrappato ai rivetti, con la
+            nota che ti passa nelle braccia fino ai gomiti. Tocchi il ripiano di
+            sotto con le mani che non si aprono più, e devi aspettare un pezzo
+            prima di riuscire a staccare le dita dal metallo.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 1 }
+
+  - id: campana-canne-la-nota-che-svuota
+    immagine: icone/sound-waves
+    titolo: La nota che svuota
+    sommario: "Una canna canta una nota così bassa che non si sente. Chi passa vicino si ferma, e dimentica perché era venuto."
+    luogo: Le canne, la canna bassa
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 3]
+    testo: |
+      Questa canna non si sente. Si vede soltanto la polvere che le trema
+      intorno, e si sente il ferro della passerella che ronza sotto le suole.
+      A tre passi dalla bocca, seduto contro la ringhiera, c'è un Raschiatore
+      morto da anni, con la lanterna in grembo e lo zaino ancora chiuso. Sul corpo non
+      si vedono ferite. Ha gli occhi aperti e le mani posate sulle ginocchia.
+
+      {medicina Molto difficile} Non è morto di fame né di freddo. Si è seduto,
+      ha smesso di pensare e non ha più ricominciato.
+
+      {origine accolito-del-velo} I novizi più vecchi dicevano che nella
+      Caduta la gente ha dimenticato il mondo di prima tutta insieme, in una
+      notte. Davanti a quest'uomo la frase ti sembra meno una metafora.
+    opzioni:
+      - testo: "Passare davanti alla canna con la testa piena"
+        descrizione: "Contare, recitare, ricordare a voce bassa qualsiasi cosa. La nota cerca le teste vuote."
+        prova: { attributo: mentale, abilita: [resilienza, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La testa piena
+          testo: |
+            Passi davanti alla canna recitando sottovoce i nomi delle vie della
+            Città Bassa uno dopo l'altro, e la nota non trova spazio. Al di là
+            ti fermi a riprendere il filo, e ti accorgi di aver saltato una via
+            che adesso non riesci più a ricordare.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Seduto
+          testo: |
+            Ti ritrovi seduto accanto al Raschiatore, con la schiena contro la
+            ringhiera e le mani sulle ginocchia, senza sapere da quanto. Ti
+            alzi con uno strappo e scappi indietro, piangendo senza motivo.
+          effetti: { tormento: 1.5 }
+      - testo: "Chiudere la bocca della canna con lo zaino del morto"
+        descrizione: "Una canna tappata canta più piano. Bisogna arrivare alla bocca e restarci il tempo di farlo."
+        prova: { attributo: mentale, abilita: [medicina, tecnologia], difficolta: Molto difficile }
+        successo:
+          titolo: Lo zaino nella bocca
+          testo: |
+            Ti avvicini alla bocca della canna tenendo il polso del morto, per
+            sentire il tuo battito contro la sua pelle fredda e ricordarti chi
+            dei due è vivo. Infili lo zaino nella bocca e la nota cala. Prima di
+            andare chiudi gli occhi al Raschiatore e gli prendi la piastrina.
+          pe: { medicina: 3 }
+          effetti: { profondita.campana-canne: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: La bocca vuota
+          testo: |
+            Arrivi alla bocca della canna e lo zaino ti cade di mano, perché
+            non ricordi più perché lo tenevi. Ti riprendi con la fronte contro il
+            metallo freddo, e torni indietro a fatica.
+          effetti: { tormento: 1 }
+      - testo: "Passare di corsa, con le mani sulle orecchie"
+        descrizione: "Tre rintocchi di corsa davanti a una nota che non si sente. Le mani sulle orecchie servono a poco, e fanno compagnia."
+        costo: 3
+        esito:
+          titolo: Il pezzo che manca
+          testo: |
+            Corri davanti alla canna con le mani sulle orecchie, e al di là ti
+            fermi con il cuore in gola. Più tardi, cercando di ricordare il
+            nome di tua madre, ti accorgi che ti ci vuole un momento di troppo
+            per trovarlo.
+          effetti: { profondita.campana-canne: 1, ferite: 0.5, tormento: 1.5 }
+
+  # ------------------------------------------------------------ 4 · davanti alla canna maestra
+  - id: campana-canne-le-eco-in-fila
+    immagine: icone/echo-ripples
+    titolo: Le eco in fila
+    sommario: "Sulla passerella che porta alla canna maestra le sagome d'aria aspettano in fila, una davanti a ogni bocca."
+    luogo: Le canne, la passerella delle bocche
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 4]
+    testo: |
+      L'ultima passerella corre dritta verso il centro della caverna, e lungo il
+      percorso le canne hanno le bocche rivolte verso di lei, una dopo l'altra.
+      Davanti a ogni bocca trema una sagoma d'aria, ferma come una sentinella.
+      In fondo, più alta di tutte, si vede la canna maestra, e accanto qualcosa
+      che si muove su zampe lunghe.
+
+      {magia Difficile} Le sagome sono fatte di Mana piegato dal suono. Il
+      Mana si raddrizza, se qualcuno gli dà un'altra forma.
+
+      {empatia Media fallita} Ti sembra che le sagome aspettino qualcuno, e ti
+      viene il sospetto assurdo di essere in ritardo.
+    opzioni:
+      - testo: "Raddrizzare il Mana delle sagome"
+        descrizione: "Con la magia, una sagoma alla volta, finché la passerella resta libera."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il Mana dritto
+          testo: |
+            Tocchi il Mana di ogni sagoma come si tocca una corda storta, e una
+            dopo l'altra le sagome si sciolgono in un filo di vento. La
+            passerella resta libera fino alla canna maestra.
+          pe: { magia: 5 }
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il Mana che torna
+          testo: |
+            Il Mana della prima sagoma ti torna indietro piegato, e ti entra
+            dalle dita fino alle tempie. Ti trovi in ginocchio sulla passerella,
+            e le sagome hanno fatto un passo avanti.
+          effetti: { tormento: 1 }
+      - testo: "Aprirti la strada a colpi"
+        descrizione: "Due sagome si staccano dalle bocche e ti vengono incontro. Le altre aspettano di vedere."
+        combattimento: campana-le-eco
+        vittoria:
+          titolo: La passerella libera
+          testo: |
+            Le due sagome si sfaldano, e le altre rientrano nelle loro bocche
+            come se avessero visto abbastanza. Cammini fino in fondo alla
+            passerella con le orecchie che ronzano.
+          effetti: { profondita.campana-canne: 1 }
+        sconfitta:
+          titolo: In fila con loro
+          testo: |
+            Le sagome ti parlano nella testa con la voce di qualcuno che conosci,
+            e finisci in ginocchio. Torni indietro sulla passerella, e per un
+            pezzo ti sembra di sentirle seguirti.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare in mezzo alle sagome"
+        descrizione: "Due rintocchi fra le bocche, con le sagome che ti attraversano a una a una."
+        costo: 2
+        esito:
+          titolo: Attraverso le sagome
+          testo: |
+            Passi in mezzo alle sagome senza fermarti, e ognuna ti attraversa con
+            un freddo diverso. Alla fine della passerella ti accorgi che hai
+            lasciato indietro qualcosa, e solo dopo un pezzo capisci che è un
+            ricordo, e che non sai quale.
+          effetti: { profondita.campana-canne: 1, ferite: 0.5, tormento: 1.5 }
+
+  - id: campana-canne-la-canna-maestra
+    immagine: icone/pipe-organ
+    titolo: La canna maestra
+    sommario: "Al centro della caverna c'è la canna più grande, con la bocca chiusa da un disco nero. Intorno corre un'impalcatura di ferro, e qualcosa la sta battendo."
+    luogo: Le canne, l'impalcatura della canna maestra
+    area: campana-canne
+    ripetibile: true
+    requisiti: [campana.strato == 1, profondita.campana-canne == 4]
+    testo: |
+      La canna maestra è larga quanto una piazza e sale fino al buio. La sua
+      bocca, all'altezza dei tuoi occhi, è chiusa da un disco di metallo nero
+      grande come una ruota di mulino. Intorno corre un'impalcatura di ferro a
+      più piani, e dall'alto arrivano colpi regolari, sordi, distanziati, che
+      fanno vibrare tutta la foresta.
+
+      {atletica Difficile} L'impalcatura sale a scatti, un piano dopo l'altro.
+      Le scale fra un piano e l'altro sono marce, ma i montanti reggono.
+
+      {percezione Molto difficile} I colpi arrivano tutti dallo stesso lato
+      della canna. Chi batte ha bisogno di vedere la bocca chiusa per sapere
+      che cosa fare.
+    opzioni:
+      - testo: "Salire l'impalcatura dai montanti"
+        descrizione: "Le scale sono marce. I montanti di ferro reggono, ma le braccia devono fare tutto."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Sui montanti
+          testo: |
+            Sali dai montanti a forza di braccia, un piano dopo l'altro, e i
+            colpi si fanno più vicini a ogni piano. All'ultimo ti affacci sopra
+            un ripiano largo. Chi batte è lì, ai piedi del disco nero.
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: La scala marcia
+          testo: |
+            Ti fidi di una scala per un piano solo, e la scala si piega sotto il
+            tuo peso come carta bagnata. Cadi sul piano di sotto con un colpo
+            che ti toglie la voglia di risalire per un pezzo.
+          effetti: { ferite: 1 }
+      - testo: "Aggirare la canna dal lato dei colpi"
+        descrizione: "Da dove si sente, si arriva. Il lato dei colpi ha un passaggio che chi batte usa ogni giorno."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: Il passaggio usato
+          testo: |
+            Giri intorno alla canna verso i colpi e trovi una rampa di ferro
+            lucidata dall'uso, dove la ruggine non attacca. Sali la rampa con il
+            ferro che ti risponde a ogni passo. In cima c'è un ripiano largo, e
+            chi batte ti volta le spalle.
+          pe: { percezione: 3 }
+          effetti: { profondita.campana-canne: 1 }
+        fallimento:
+          titolo: Il lato sbagliato
+          testo: |
+            Giri dalla parte sbagliata, e la canna ti nasconde i colpi finché
+            non li hai sopra la testa. Un pezzo di impalcatura si stacca e ti
+            sfiora una spalla. Torni indietro con la spalla pesta e le orecchie
+            che fischiano.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Salire le scale marce, una dopo l'altra"
+        descrizione: "Tre rintocchi di salita sulle scale che cedono, aggrappandoti a quello che c'è."
+        costo: 3
+        esito:
+          titolo: Le scale che cedono
+          testo: |
+            Le scale cedono una dopo l'altra, e tu ti aggrappi ogni volta a
+            quello che resta, ai montanti, alle catene, al bordo del piano. In
+            cima hai le mani spellate e un fianco livido, e i colpi ti arrivano
+            da così vicino che li senti nelle unghie.
+          effetti: { profondita.campana-canne: 1, ferite: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ il cuore · l'Accordatore
+  - id: campana-canne-l-accordatore
+    immagine: bestiario/salvaguardia-precursori
+    titolo: L'Accordatore
+    sommario: "Ai piedi del disco nero che chiude la canna maestra, una macchina su sei zampe batte il metallo con i suoi martelli. Accorda le canne sulla nota che fa più male."
+    luogo: Le canne, il ripiano della canna maestra
+    area: campana-canne
+    requisiti: [campana.strato == 1, profondita.campana-canne >= 5]
+    testo: |
+      Il ripiano gira intorno alla canna maestra come un ballatoio. Davanti al
+      disco nero che chiude la bocca c'è una macchina alta quanto le canne più
+      basse, sottile, su sei zampe che si piantano nel ferro come chiodi. Le
+      braccia finiscono in martelli fasciati di qualcosa che un tempo era
+      feltro e adesso è ferro. Batte il disco e ascolta, poi batte ancora.
+
+      A ogni colpo tutta la foresta risponde, e la nota che torna indietro è
+      un poco più alta di quella di prima, e un poco più dolorosa.
+
+      {tecnologia Difficile} Le zampe hanno un freno ciascuna, per stare ferme
+      mentre batte. Se i freni si chiudono tutti insieme, la macchina resta
+      piantata dov'è.
+
+      {espressivita Media} Sta cercando una nota. Ogni colpo la cerca un poco
+      più in alto, come un musicista che ha perso il la e non si arrende.
+
+      Sul ripiano, accanto alle zampe, ci sono gli attrezzi lasciati dagli
+      operatori, fra cui delle chiavi lunghe e un'asta con nove tacche. *Qui qualcuno
+      decideva quale nota fosse giusta.* La macchina smette di battere e gira
+      verso di te la testa piatta, e i martelli si alzano tutti insieme.
+    opzioni:
+      - testo: "Affrontare l'Accordatore"
+        descrizione: "Ha sei zampe e martelli pesanti, e una nota che ti cerca la testa. Si muove meno di quanto colpisce."
+        combattimento: campana-l-accordatore
+        vittoria:
+          immagine: icone/bell-shield
+          titolo: La Sordina
+          testo: |
+            L'ultima zampa si piega, e l'Accordatore cade contro il disco nero
+            con un colpo che fa tacere tutta la foresta. Nel silenzio stacchi il
+            disco dalla bocca della canna, e la canna resta muta, con la sua
+            bocca aperta sul buio. Il disco è leggero e non suona quando lo
+            batti. Gli monti due cinghie di cuoio e te lo leghi al braccio.
+
+            Dietro la canna maestra, una scala scende verso una luce grigia.
+          pe: { armi-da-mischia: 5, resilienza: 5 }
+          imposta: { campana.strato: 2 }
+          effetti: { oggetto.campana-la-sordina: 1, parte.camera-3: 1, reliquie.meccanismo-spento: 1 }
+          vai: campana-coro
+        sconfitta:
+          titolo: La nota più alta
+          testo: |
+            I martelli ti prendono alla schiena e alla testa, e l'Accordatore
+            trova la sua nota proprio su di te. Della discesa non ti resta niente.
+            Ti ritrovi sulla spiaggia ai piedi della Ripamuta con la marea che ti
+            arriva ai fianchi, le orecchie che sanguinano e le canne ancora da
+            attraversare tutte.
+          effetti: { tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Cantare la nota della Costola al disco"
+        descrizione: "La nota della Costola è quella che l'Accordatore ha perso. Se la sente, forse smette di cercare."
+        requisiti: [misura.costola >= 1]
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Difficile }
+        successo:
+          immagine: icone/bell-shield
+          titolo: Il la ritrovato
+          testo: |
+            Appoggi la bocca al disco nero mentre i martelli scendono e canti la nota della Costola con tutta la gola. La nota entra nel metallo, e
+            l'Accordatore si ferma con i martelli a mezz'aria. Ascolta. Poi
+            ripete piano la nota sul disco, e si accuccia sulle sei
+            zampe come un vecchio che si siede.
+
+            Stacchi il disco dalla bocca della canna, e la canna resta muta.
+            Gli monti due cinghie e te lo leghi al braccio. Dietro la canna
+            maestra una scala scende verso una luce grigia.
+          pe: { espressivita: 5, resilienza: 5 }
+          imposta: { campana.strato: 2 }
+          effetti: { oggetto.campana-la-sordina: 1, parte.camera-3: 1, reliquie.meccanismo-spento: 1 }
+          vai: campana-coro
+        fallimento:
+          titolo: La nota sbagliata
+          testo: |
+            Attacchi la nota un attimo dopo il martello, e le due note si spezzano l'una contro l'altra. L'Accordatore ti batte come si
+            batte una canna stonata, con molta attenzione. Ti risvegli sulla
+            spiaggia ai piedi della Ripamuta, e le canne sono da rifare.
+          effetti: { ferite: 2, tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Chiudere i freni delle sei zampe"
+        descrizione: "Un freno per zampa, comandati insieme da una leva sotto il ventre. Bisogna arrivarci fra un martello e l'altro."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          immagine: icone/bell-shield
+          titolo: Le sei zampe
+          testo: |
+            Ti butti sotto il ventre della macchina fra un colpo e l'altro e
+            trovi la leva dei freni. Le sei zampe si piantano nel ferro tutte
+            insieme, e i martelli battono l'aria senza arrivare a niente.
+            L'Accordatore resta lì, piantato, a cercare una nota che non trova.
+
+            Stacchi il disco dalla bocca della canna maestra e te lo leghi al
+            braccio con due cinghie. Dietro la canna una scala scende verso una
+            luce grigia.
+          pe: { tecnologia: 5, resilienza: 5 }
+          imposta: { campana.strato: 2 }
+          effetti: { oggetto.campana-la-sordina: 1, parte.camera-3: 1, reliquie.meccanismo-spento: 1 }
+          vai: campana-coro
+        fallimento:
+          titolo: La leva
+          testo: |
+            La leva è dura, e mentre ci tiri sopra un martello ti trova la
+            spalla. Il resto lo ricordi a pezzi. Ti risvegli sulla spiaggia ai
+            piedi della Ripamuta con un braccio che non si alza, e le canne da
+            attraversare di nuovo.
+          effetti: { ferite: 2, tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinargli di fermarsi"
+        descrizione: "La formula del Comando parla alla Salvaguardia nella sua lingua. L'Accordatore ascolta tutto."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          immagine: icone/bell-shield
+          titolo: L'ordine
+          testo: |
+            Dici la formula, e la parola ti esce in una lingua che la foresta
+            riprende e porta lontano. L'Accordatore abbassa i martelli. Resta
+            in piedi davanti al disco, in attesa di un ordine successivo che non
+            gli dai.
+
+            Stacchi il disco dalla bocca della canna maestra e te lo leghi al
+            braccio con due cinghie. Dietro la canna una scala scende verso una
+            luce grigia.
+          pe: { magia: 5, resilienza: 5 }
+          imposta: { campana.strato: 2 }
+          effetti: { oggetto.campana-la-sordina: 1, parte.camera-3: 1, reliquie.meccanismo-spento: 1 }
+          vai: campana-coro
+        fallimento:
+          titolo: La foresta risponde
+          testo: |
+            Dici la formula, e la foresta la ripete cento volte, ognuna storta in
+            un modo diverso. L'Accordatore alza i martelli. Ti risvegli sulla
+            spiaggia ai piedi della Ripamuta, con la formula che ti gira in testa
+            e le canne da rifare.
+          effetti: { ferite: 2, tormento: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata

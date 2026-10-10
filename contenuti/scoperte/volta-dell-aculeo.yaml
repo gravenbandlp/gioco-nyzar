@@ -1,0 +1,954 @@
+# La Volta dell'Aculeo, spedizione di un luogo nero (docs/piano-superficie.md, «Le nove spedizioni dei luoghi neri»).
+# Nella Conca dei Rovi, a ovest di Laresh, il foro dai bordi vetrificati dove i ragazzi tirano i sassi è la cima
+# sfondata della cupola di uno sfiato dei Precursori (codex sf-volta-dell-aculeo). Una notte all'anno lo sfiato
+# fischia: è la prova annuale dello strumento. In fondo alla gola dello sfiato c'è la ruota dei giorni, spinta di un
+# dente a notte dalla Lancetta; il dente lungo è la notte del fischio, e la colonna di vetro accanto alla valvola ne
+# dà la durata. La misura del luogo è la data (misura.aculeo).
+# - Ingresso: `volta-dell-aculeo-il-foro` (Superficie, traccia.aculeo >= 3), ripetibile.
+# - Stanze in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0 appesi nel buio o il letto di polvere; 1 la volta segnata; 1-2 lo stormo della volta (combattimento contro
+#   gregari); 2 la gola dello sfiato o le radici dei rovi; 3 le lamelle o il quadrante delle nove lancette.
+# - Cuore a 4: `volta-dell-aculeo-la-ruota-dei-giorni` (misura.aculeo == 0), boss o prove Difficili; la vittoria
+#   dà la data, l'aculeo della Lancetta e reliquie. Poi `volta-dell-aculeo-la-lancetta-che-torna`
+#   (misura.aculeo >= 1), ripetibile, rende parti e reperti.
+# Il segno che lega il luogo agli altri: il cerchio di nove incavi con uno più profondo, sul quadrante delle nove
+# lancette (tutte puntate sullo stesso incavo) e sulla valvola dello sfiato. Il condotto sotto la valvola scende
+# nella roccia verso il resto dello strumento.
+aree:
+  - id: volta-dell-aculeo
+    immagine: ambientazione/laresh
+    nome: La Volta dell'Aculeo
+    sommario: "Sotto il foro della Conca dei Rovi c'è una cupola di metallo nero sfondata in cima, e dal suo fondo scende la gola di uno sfiato che fischia una notte all'anno."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto il foro della Conca dei Rovi si apre una cupola di metallo nero,
+      larga come la piazza di un paese e sfondata in cima. Dal foro scende
+      una colonna di luce che si posa sul fondo, dove la polvere grigia è
+      alta un braccio e ha inghiottito tutti i sassi che i ragazzi di Laresh
+      ci hanno tirato in tante generazioni. Dalle crepe della volta pendono
+      le radici nere dei rovi, lunghe come corde.
+
+      In mezzo al fondo si apre la bocca dello sfiato, un pozzo rotondo dai
+      bordi lisci che scende nella roccia. Dalla bocca sale un'aria fredda
+      che sa di pietra bagnata, e ogni tanto la bocca la riprende, come se
+      la terra tirasse il fiato prima di parlare.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, nella Superficie
+  - id: volta-dell-aculeo-il-foro
+    immagine: ambientazione/laresh
+    titolo: Il foro nella Conca dei Rovi
+    sommario: "A ovest dei campi di Laresh, in mezzo ai rovi alti come un uomo, si apre un foro largo un braccio con i bordi lisci come vetro. I ragazzi ci tirano i sassi per sentirli non cadere."
+    luogo: Superficie Fratturata, la Conca dei Rovi a ovest di Laresh
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [traccia.aculeo >= 3]
+    testo: |
+      La Conca dei Rovi è un avvallamento a ovest dei campi di Laresh, e i
+      rovi la riempiono fino all'orlo, alti come un uomo e fitti come una
+      siepe. I ragazzi del villaggio ci hanno aperto dei cunicoli bassi, da
+      percorrere carponi, che portano tutti al centro. Lì i rovi si
+      ritirano in cerchio intorno a un foro largo quanto un braccio teso,
+      con i bordi lisci come vetro di bottiglia.
+
+      {percezione Facile} Il vetro del bordo ha un solco, consumato da
+      anni di spago calato dai ragazzi. È l'unico punto dove una corda non
+      si taglia.
+
+      Intorno al foro la terra è segnata dalle ginocchia e dai gomiti di chi
+      si è steso a pancia in giù per ascoltare. Da una radice pende uno
+      spago con un nodo ogni braccio, tagliato all'ultimo nodo. Lasci cadere
+      un sasso e aspetti, e non arriva niente.
+
+      {origine mercante-dei-ponti} Sulle mappe della Gilda la Conca dei Rovi
+      è segnata come pascolo magro e senza valore, e in concessione non l'ha
+      mai chiesta nessuno. Ai Ponti, quando un posto non interessa a nessuno,
+      è il primo che ti fa venire dei sospetti.
+
+      *Secondo i Raschiatori questa è una cupola, e io ci sto sopra.* Dal foro
+      sale
+      un filo d'aria fredda che ti asciuga il sudore sulla fronte.
+    opzioni:
+      - testo: "Calarsi con la corda nel solco del vetro"
+        descrizione: "La corda nel solco, e giù a forza di braccia. Il buio sotto è lungo."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Nel solco
+          testo: |
+            Leghi la corda alla radice più grossa e la fai passare nel solco
+            del vetro, e ti cali a forza di braccia. Dopo un tratto le pareti
+            del foro spariscono, e resti appeso nel buio di una cupola
+            enorme, con la luce del giorno sopra la testa.
+          pe: { atletica: 2 }
+          vai: volta-dell-aculeo
+        fallimento:
+          titolo: Il vetro
+          testo: |
+            La corda esce dal solco a metà discesa e il vetro la sfrangia.
+            Risali di corsa prima che si spezzi, e sul bordo ti tagli il palmo
+            fino all'osso del pollice.
+          effetti: { ferite: 0.5 }
+      - testo: "Allargare il foro dove il vetro è incrinato"
+        descrizione: "Un vetro così ha sempre un punto debole. Basta trovarlo e batterlo con il manico del coltello."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il vetro che cede
+          testo: |
+            Trovi una crepa sottile che corre nel bordo come un capello, e la
+            batti con il manico del coltello finché un pezzo di vetro non
+            cade nel buio. Il foro adesso è largo abbastanza per scendere con
+            lo zaino in spalla, e scendi.
+          pe: { tecnologia: 2 }
+          vai: volta-dell-aculeo
+        fallimento:
+          titolo: La scheggia
+          testo: |
+            Batti dove ti sembra incrinato, e una scheggia di vetro ti salta
+            sullo zigomo. Il foro resta com'era, e tu torni ai campi con un
+            fazzoletto premuto sulla faccia.
+          effetti: { ferite: 0.5 }
+      - testo: "Legare la corda alla sella e farsi calare"
+        descrizione: "Il cavallo non entra nei cunicoli dei ragazzi. Dall'orlo della conca, però, una corda lunga ci arriva."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Il cavallo sull'orlo
+          testo: |
+            Lasci il cavallo sull'orlo della conca con la corda legata alla
+            sella e la fai correre fra i rovi fino al foro. Il cavallo
+            arretra piano quando glielo dici, e tu scendi nel buio senza
+            fatica, con la corda che passa nel solco del vetro.
+          vai: volta-dell-aculeo
+      - testo: "Scavare fino alla crepa sul fianco della cupola"
+        descrizione: "Sul fondo della conca la terra copre il fianco della cupola. Una crepa ci sarà, e ci vuole la pala."
+        costo: 2
+        esito:
+          titolo: Il fianco nero
+          testo: |
+            Scavi sul lato basso della conca fino a toccare il metallo nero
+            del fianco, e lo segui con la pala finché non trovi una crepa larga
+            quanto una spalla. Ci entri di fianco, e ti ritrovi sulla volta
+            della cupola, dalla parte interna.
+          vai: volta-dell-aculeo
+
+  # ------------------------------------------------------------ 0 · appesi nel buio e il letto di polvere
+  - id: volta-dell-aculeo-appeso-nel-buio
+    immagine: ambientazione/laresh
+    titolo: Appeso nel buio
+    sommario: "La corda gira su se stessa e tu con lei, sotto il foro, con il fondo della cupola ancora lontano."
+    luogo: La Volta dell'Aculeo, sotto il foro
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 0]
+    testo: |
+      Appeso sotto il foro, nella colonna di luce, la corda comincia a
+      girare su se stessa e tu giri con lei. La cupola nera ti passa davanti
+      agli occhi una volta e poi un'altra, con le radici dei
+      rovi che pendono dalle crepe. Il fondo è ancora lontano, e a vederlo da
+      qui sembra un letto di farina.
+
+      {acrobazia Media} Una gamba tesa e l'altra piegata intorno alla
+      corda, e il giro si ferma. Il corpo lo sa fare, se la testa non si
+      mette in mezzo.
+
+      Una radice nera e robusta passa a un braccio da te e scende fino a metà
+      altezza.
+    opzioni:
+      - testo: "Fermare il giro e scendere piano"
+        descrizione: "Una gamba intorno alla corda, l'altra tesa. Poi giù, una mano alla volta."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Il giro fermo
+          testo: |
+            Pieghi la gamba intorno alla corda e tendi l'altra, e la cupola
+            smette di girarti intorno. Scendi una mano alla volta fino alla
+            polvere grigia, che ti accoglie fino alle ginocchia senza un
+            rumore.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: La corda che brucia
+          testo: |
+            Il giro ti fa venire la nausea, e allenti la presa per un momento.
+            Scivoli per un tratto con la corda che ti brucia le mani, e ti
+            fermi a fatica. Risali sotto il foro a riprendere coraggio.
+          effetti: { ferite: 0.5 }
+      - testo: "Afferrare la radice e scendere lungo quella"
+        descrizione: "La radice è più ferma della corda. Bisogna arrivarci, e fidarsi di un rovo."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il rovo
+          testo: |
+            Dai una spinta con i piedi e afferri la radice al secondo giro.
+            Scendi lungo di lei con le mani fasciate nelle maniche, fino a
+            dove finisce, e da lì ti lasci cadere nella polvere morbida.
+          pe: { atletica: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: Le spine
+          testo: |
+            Afferri la radice, e la radice ha le spine anche quaggiù. Lasci la
+            presa con le mani piene di punte nere e torni sulla corda, dove
+            passi un pezzo a togliertele con i denti.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere a tratti, riposando sui nodi"
+        descrizione: "Un nodo ogni tanto per fermarsi. Lento, e le braccia pagano lo stesso."
+        costo: 2
+        esito:
+          titolo: I nodi
+          testo: |
+            Fai un nodo nella corda ogni tanto e ti ci fermi sopra a riposare
+            le braccia, girando piano nella luce. Ci metti molto. Quando tocchi
+            la polvere hai le spalle in fiamme e i palmi lucidi di vesciche.
+          effetti: { profondita.volta-dell-aculeo: 1, ferite: 0.5 }
+
+  - id: volta-dell-aculeo-il-letto-di-polvere
+    immagine: ambientazione/marea-grigia
+    titolo: Il letto di polvere
+    sommario: "Il fondo della cupola è coperto di polvere grigia, soffice come farina. Dentro ci sono i sassi dei ragazzi, e altro."
+    luogo: La Volta dell'Aculeo, il fondo della cupola
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 0]
+    testo: |
+      Il fondo della cupola è un letto di polvere grigia alto fino al
+      ginocchio, soffice come farina appena macinata, che ingoia ogni passo
+      senza un rumore. Sotto il foro, dove cadono, i sassi tondi dei ragazzi
+      affiorano a centinaia. In mezzo ai sassi c'è una
+      trottola di legno con lo spago ancora arrotolato, che qualcuno ha
+      lanciato giù per vedere se girava anche lì.
+
+      {natura Media} La polvere viene dallo sfiato. È quello che la gola
+      soffia fuori la notte del fischio e che poi ricade, anno dopo anno.
+
+      La bocca dello sfiato è al centro della cupola, lontana. Lungo le
+      pareti la polvere sembra più bassa.
+    opzioni:
+      - testo: "Attraversare la polvere fino alla bocca"
+        descrizione: "È polvere, alta fino al ginocchio. Si cammina come nella neve fresca."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Come nella neve
+          testo: |
+            Cammini alzando le ginocchia come nella neve fresca, e la polvere
+            si richiude dietro di te senza lasciare il segno. Arrivi alla
+            bocca dello sfiato con le cosce dure e la polvere fin dentro gli
+            stivali.
+          pe: { atletica: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: La buca
+          testo: |
+            A metà strada la polvere sotto il piede diventa vuoto, e affondi
+            fino alla vita. Ne esci tossendo, e torni dove la polvere è bassa
+            con la gola che gratta.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire la parete dove la polvere è bassa"
+        descrizione: "Lungo le pareti la polvere scivola via. Il giro è più lungo, e i piedi restano sul duro."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Sul duro
+          testo: |
+            Lungo la parete la polvere ti arriva alla caviglia, e sotto c'è il
+            metallo duro della cupola. Fai il giro largo con una mano sulla
+            parete, e nella polvere bassa trovi una scheggia di metallo
+            staccata dalla volta, che ti metti in tasca.
+          pe: { percezione: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Il giro lungo
+          testo: |
+            La polvere lungo la parete è bassa per un tratto, e poi torna alta
+            all'improvviso. Ti ritrovi sotto il foro, dove eri partito, con il
+            fiato corto e gli occhi che bruciano.
+          effetti: { tormento: 0.5 }
+      - testo: "Coprirsi la bocca e tirare dritto"
+        descrizione: "La polvere si alza a ogni passo. Con un fazzoletto sulla bocca si arriva, tossendo."
+        costo: 2
+        esito:
+          titolo: Il fazzoletto grigio
+          testo: |
+            Ti leghi il fazzoletto sulla bocca e tiri dritto verso la bocca
+            dello sfiato. Quando arrivi il fazzoletto è grigio come la
+            polvere, e tossisci a lungo, piegato sul bordo del pozzo.
+          effetti: { profondita.volta-dell-aculeo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · la volta segnata
+  - id: volta-dell-aculeo-la-volta-segnata
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La volta segnata
+    sommario: "Tutto intorno alla cupola corre un anello di tacche fitte. La luce del foro ne illumina una sola."
+    luogo: La Volta dell'Aculeo, sotto la volta
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 1]
+    testo: |
+      Dal bordo della bocca dello sfiato si vede tutta la cupola. A mezza
+      altezza corre intorno alla volta un anello di tacche incise nel
+      metallo, fitte come i denti di un pettine, e la macchia di luce che
+      scende dal foro ne illumina una sola. Sotto l'anello, a intervalli,
+      ci sono altri segni più grandi, come le ore su una meridiana.
+
+      {accademiche Media} Il sole si sposta lungo l'anello con le
+      stagioni. È un calendario, e la cupola stessa è la meridiana. Chi
+      l'ha costruito voleva sapere che giorno era anche sotto terra.
+
+      Dove la luce tocca l'anello, sotto la tacca illuminata, una scala di
+      pioli scende lungo la parete fino alla bocca dello sfiato.
+    opzioni:
+      - testo: "Leggere i segni sotto l'anello"
+        descrizione: "I segni grandi dividono l'anello in parti. Contarli dice come è fatto l'anno di chi li ha incisi."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: L'anno dei Precursori
+          testo: |
+            Conti i segni grandi e le tacche fra un segno e l'altro, e li
+            ricopi sul quaderno. Il loro anno è lungo quanto il nostro, diviso
+            in un modo diverso. Uno dei segni ha accanto una tacca più
+            profonda delle altre, e ci torni con gli occhi più volte prima di
+            scendere per la scala di pioli.
+          pe: { accademiche: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il conto delle tacche
+          testo: |
+            Conti le tacche e a metà anello perdi il segno, e la luce si è
+            spostata di un dito mentre contavi. Ti siedi sul bordo dello
+            sfiato con il collo che fa male a forza di guardare in su.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire la macchia di luce fino alla scala"
+        descrizione: "La luce indica una tacca, e sotto la tacca c'è una scala. Chi ha fatto la cupola voleva che si scendesse lì."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La scala sotto la luce
+          testo: |
+            Segui la macchia di luce con gli occhi fino all'anello, e poi
+            giù lungo la parete, dove la scala di pioli è nascosta da una
+            radice nera. Scendi fino al bordo dello sfiato, dove i pioli
+            continuano dentro la gola.
+          pe: { percezione: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: La luce negli occhi
+          testo: |
+            Guardi la macchia di luce troppo a lungo, e quando abbassi gli
+            occhi vedi soltanto una macchia verde dappertutto. Aspetti seduto
+            nella polvere che ti torni la vista.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere nella gola senza scala"
+        descrizione: "Il bordo dello sfiato è liscio. Con la corda si scende lo stesso, e il bordo non perdona."
+        costo: 2
+        esito:
+          titolo: Il bordo liscio
+          testo: |
+            Leghi la corda a una radice e ti cali oltre il bordo liscio della
+            bocca, che ti scivola sotto gli stivali. Sbatti il ginocchio due
+            volte prima di trovare i pioli dentro la gola.
+          effetti: { profondita.volta-dell-aculeo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1–2 · lo stormo della volta
+  - id: volta-dell-aculeo-lo-stormo
+    immagine: ambientazione/marea-grigia
+    titolo: Lo stormo della volta
+    sommario: "Nella gola dello sfiato dormono appesi pipistrelli grigi grandi come gatti. Si svegliano quando la luce li tocca."
+    luogo: La Volta dell'Aculeo, la bocca dello sfiato
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo >= 1, profondita.volta-dell-aculeo <= 2]
+    testo: |
+      Appena dentro la gola dello sfiato, sotto il bordo, le pareti sono
+      coperte di pipistrelli appesi a testa in giù, stretti uno all'altro
+      come le tegole di un tetto. Sono grigi come la polvere e grandi come
+      gatti, con le ali chiuse intorno al corpo e i musi schiacciati. Sotto
+      di loro i pioli sono incrostati di guano.
+
+      {armi-da-distanza Media} Volano bene soltanto quando sono in
+      tanti. Uno che si stacca dal gruppo è un bersaglio lento, e ci si può
+      lavorare.
+
+      La luce della lampada ne tocca uno. Apre gli occhi bianchi, e poi li
+      aprono anche gli altri.
+    opzioni:
+      - testo: "Affrontare lo stormo"
+        descrizione: "Sono tanti, e i denti sono piccoli. Si combatte con la schiena alla parete."
+        combattimento: volta-dell-aculeo-stormo
+        vittoria:
+          titolo: Il guano
+          testo: |
+            Gli ultimi pipistrelli si staccano dalle pareti e salgono verso
+            il foro, in una nuvola grigia che si sfilaccia nella luce. Quelli
+            caduti restano sui pioli. Scendi tenendoti al metallo incrostato,
+            e fra il guano trovi un frammento di metallo inciso.
+          effetti: { profondita.volta-dell-aculeo: 1, reliquie.frammento-inciso: 1 }
+        sconfitta:
+          titolo: La nuvola grigia
+          testo: |
+            Lo stormo ti si chiude intorno in una nuvola di ali, e i denti
+            piccoli ti trovano dappertutto. Ti lasci cadere dalla gola sulla
+            polvere e ti copri la testa finché non tornano alle pareti.
+      - testo: "Spegnere la lampada e scendere al buio"
+        descrizione: "Li ha svegliati la luce. Al buio, forse, si riaddormentano."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Al buio
+          testo: |
+            Spegni la lampada e resti immobile finché i fruscii non si
+            calmano. Poi scendi per i pioli a tentoni, passando fra i corpi
+            caldi appesi, e nessuno si muove. Riaccendi la lampada molto più
+            in basso.
+          pe: { furtivita: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: Il piolo incrostato
+          testo: |
+            Al buio il piede scivola sul guano di un piolo, e lo stormo si
+            stacca dalle pareti tutto insieme. Ti arrampichi fuori dalla gola
+            con le ali che ti sbattono in faccia.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che escano a caccia"
+        descrizione: "Al tramonto i pipistrelli escono dal foro. Basta aspettare la sera, nella polvere."
+        costo: 2
+        esito:
+          titolo: Il tramonto
+          testo: |
+            Ti siedi nella polvere a guardare la luce del foro diventare
+            rossa. Al tramonto lo stormo si stacca tutto insieme e sale nel
+            cielo con un rumore di stoffa. La gola è libera, e tu scendi al
+            buio con le gambe intorpidite dall'attesa.
+          effetti: { profondita.volta-dell-aculeo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · la gola e le radici
+  - id: volta-dell-aculeo-la-gola
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La gola dello sfiato
+    sommario: "La gola scende dritta nella roccia, e l'aria scende con te. Ogni tanto la gola tira, e ti tira giù."
+    luogo: La Volta dell'Aculeo, la gola dello sfiato
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 2]
+    testo: |
+      La gola dello sfiato è un pozzo rotondo di metallo nero, liscio, che
+      scende dritto nella roccia, e i pioli corrono lungo una parete sola.
+      L'aria scende insieme a te. A intervalli irregolari la gola tira, con
+      un risucchio lungo che ti appiccica i vestiti alla schiena e ti spinge
+      verso il basso, e poi molla.
+
+      {resistenza Media} Le braccia reggono il peso del corpo. Il
+      risucchio però vale un secondo corpo appeso alla cintura, e quello le
+      braccia non l'avevano messo in conto.
+
+      Più giù, dove la lampada non arriva, si sente un ronzio leggero di
+      metallo, come quello di un'arpa toccata dal vento.
+    opzioni:
+      - testo: "Scendere tenendosi forte durante i risucchi"
+        descrizione: "Durante il risucchio ci si ferma e si tiene forte. Poi la gola molla, e si scende."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Tenere
+          testo: |
+            Scendi a tratti, e quando la gola tira ti fermi con le braccia
+            intorno a un piolo e la fronte contro il metallo. Il risucchio ti
+            passa addosso e ti lascia. Arrivi al ronzio con le braccia che
+            tremano, ma ci arrivi.
+          pe: { resistenza: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: Il piolo perso
+          testo: |
+            Il risucchio ti prende fra un piolo e l'altro e ti strappa la mano
+            sinistra. Resti appeso a una mano sola finché non molla, e risali
+            fino al bordo con la spalla che urla.
+          effetti: { ferite: 0.5 }
+      - testo: "Contare i risucchi e scendere nelle pause"
+        descrizione: "Irregolari, sembrano. Le cose dei Precursori di irregolare hanno poco."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: Il ritmo
+          testo: |
+            Resti aggrappato in cima a contare i risucchi, e il ritmo salta
+            fuori. Sono due lunghi e uno corto. Scendi nelle pause lunghe e ti
+            fermi prima del corto, e la gola ti lascia passare come una porta
+            che si apre a chi conosce la bussata.
+          pe: { percezione: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: Il ritmo sbagliato
+          testo: |
+            Il ritmo che hai trovato vale per tre risucchi, e al quarto cambia.
+            Ti ritrovi appeso con le gambe nel vuoto, e torni su per i pioli
+            con le dita intorpidite.
+          effetti: { tormento: 0.5 }
+      - testo: "Legarsi ai pioli con la corda"
+        descrizione: "Un giro di corda a ogni tratto. Il risucchio tira la corda al posto tuo, e la discesa si fa lunga."
+        costo: 2
+        esito:
+          titolo: Legato
+          testo: |
+            Ti leghi ai pioli con un giro di corda a ogni tratto, e ogni volta
+            devi sciogliere il nodo di sopra prima di fare quello di sotto. Ci
+            vuole una vita. Arrivi in fondo con la corda bruciata dove il
+            risucchio l'ha tirata e i polsi segnati di rosso.
+          effetti: { profondita.volta-dell-aculeo: 1, ferite: 0.5 }
+
+  - id: volta-dell-aculeo-le-radici
+    immagine: ambientazione/marea-grigia
+    titolo: Le radici dei rovi
+    sommario: "Le radici dei rovi sono entrate nella gola da una crepa e la chiudono come una rete. Hanno la linfa grigia."
+    luogo: La Volta dell'Aculeo, la crepa nella gola
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 2]
+    testo: |
+      In un punto la parete della gola è spaccata, e dalla crepa sono
+      entrate le radici dei rovi della conca. Attraversano il pozzo da una
+      parte all'altra, intrecciate come una rete da pescatore e coperte di
+      spine nere lunghe un dito. Dove una spina è spezzata cola una
+      linfa grigia e densa, che sull'aria fa una pellicola lucida.
+
+      {origine figlio-del-circolo} Nel Bosco di Velthar il Circolo insegna
+      a riconoscere le piante che hanno bevuto la Marea dal colore della
+      linfa. Questa l'ha bevuta per molto tempo, e alcune radici sono
+      morte di sete lo stesso.
+
+      {natura Media} Le radici morte sono più chiare, e le spine si spezzano
+      senza sanguinare, per questo vanno tagliate quelle.
+    opzioni:
+      - testo: "Aprirsi un varco a colpi di lama"
+        descrizione: "Colpi netti e dritti, senza lasciare che la linfa schizzi."
+        prova: { attributo: fisico, abilita: armi-da-mischia, difficolta: Media }
+        successo:
+          titolo: Colpi netti
+          testo: |
+            Tagli le radici con colpi corti, ciascuno nel punto dove la radice
+            è più sottile, e la linfa cola lungo la lama senza toccarti. Il
+            varco si apre, e scendi oltre la rete con la lama da pulire.
+          pe: { armi-da-mischia: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: La linfa
+          testo: |
+            Una radice si spezza storta e ti schizza la linfa grigia sul
+            polso. Ti strofini la pelle con la polvere finché non smette di
+            pizzicare, e torni su a pensare a un'altra strada.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Tagliare soltanto le radici morte"
+        descrizione: "Quelle chiare sono morte, e non sanguinano. Il varco viene stretto, ma pulito."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Le radici chiare
+          testo: |
+            Tagli le radici chiare una dopo l'altra, e si spezzano secche
+            come rami di un'estate lunga. Il varco che resta è stretto, e ci
+            passi di fianco senza che una spina ti tocchi.
+          pe: { natura: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: La radice viva
+          testo: |
+            Una radice che sembrava chiara è viva sotto la scorza, e quando la
+            tagli la linfa ti cola sulle dita. Te le pulisci sul muro e torni
+            su per i pioli.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Strisciare fra le radici"
+        descrizione: "Fra una radice e l'altra c'è spazio per un corpo magro. Le spine però sono lunghe."
+        costo: 2
+        esito:
+          titolo: Fra le spine
+          testo: |
+            Ti infili fra le radici di fianco, con la giubba tirata sulla
+            testa. Le spine ti trovano lo stesso, e quando esci dalla rete hai
+            la schiena punteggiata di piccoli tagli che pizzicano di grigio.
+          effetti: { profondita.volta-dell-aculeo: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 3 · le lamelle e il quadrante
+  - id: volta-dell-aculeo-le-lamelle
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le lamelle
+    sommario: "In fondo alla gola file di lamelle di metallo attraversano il pozzo come i denti di un pettine. Sono la voce del fischio."
+    luogo: La Volta dell'Aculeo, le lamelle
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 3]
+    testo: |
+      In fondo alla gola il pozzo è attraversato da lamelle di metallo
+      sottili come lame di coltello e lunghe quanto un uomo, in file, una
+      sotto l'altra. Ronzano piano anche così, mosse dall'aria che scende.
+      Fra una lamella e l'altra c'è lo spazio per far passare un corpo,
+      di traverso. Più giù si vede una luce bianca e ferma.
+
+      {espressivita Media} Sono le canne del fischio. Una notte all'anno
+      l'aria sale da sotto tutta insieme, e queste cantano. Toccarne una
+      vuol dire farla cantare adesso, a un palmo dalle orecchie.
+
+      Su una lamella c'è una macchia scura, vecchia, a forma di mano.
+    opzioni:
+      - testo: "Passare fra le lamelle senza toccarle"
+        descrizione: "Di traverso e piano, con le braccia strette al corpo."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Di traverso
+          testo: |
+            Ti infili fra le lamelle di traverso, con le braccia strette al
+            petto, e scendi da una fila all'altra con i piedi sui bordi del
+            pozzo. Le lamelle ronzano intorno a te senza cambiare nota.
+            Sotto l'ultima fila la luce bianca è vicina.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: Il gomito
+          testo: |
+            Il gomito tocca una lamella, e la lamella canta. È un fischio
+            acuto che ti entra in un orecchio ed esce dall'altro, e per un
+            pezzo il mondo è soltanto quel fischio, mentre risali alla cieca.
+          effetti: { tormento: 0.5 }
+      - testo: "Bloccare le lamelle con dei cunei"
+        descrizione: "Una lamella ferma non canta. Bastano dei cunei di legno, messi al punto giusto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: I cunei
+          testo: |
+            Tagli dei cunei da un pezzo di radice secca e li infili alla base
+            delle lamelle, dove si attaccano alla parete. Una dopo l'altra le
+            lamelle smettono di ronzare, e scendi così piano da sentire il
+            sangue nelle orecchie.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1 }
+        fallimento:
+          titolo: Il cuneo che salta
+          testo: |
+            Il primo cuneo salta via appena lo infili, e la lamella vibra
+            contro la tua mano. Ti resta sul palmo una riga rossa e dritta, e
+            nelle orecchie un fischio che non se ne va.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare in fretta e lasciarle cantare"
+        descrizione: "Le lamelle canteranno, e tu sarai già sotto. Le orecchie protesteranno."
+        costo: 2
+        esito:
+          titolo: Il canto
+          testo: |
+            Scendi in fretta sbattendo contro le lamelle una dopo l'altra, e
+            ognuna canta la sua nota. Arrivi in fondo con un coro di fischi
+            nella testa che si spegne piano, una voce alla volta.
+          effetti: { profondita.volta-dell-aculeo: 1, tormento: 1 }
+
+  - id: volta-dell-aculeo-le-nove-lancette
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il quadrante delle nove lancette
+    sommario: "Nella parete della gola è incassato un quadrante con nove lancette. Puntano tutte sullo stesso incavo, il più profondo dei nove."
+    luogo: La Volta dell'Aculeo, il quadrante
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo == 3]
+    testo: |
+      Dove la gola si allarga, nella parete è incassato un quadrante di
+      metallo chiaro, grande come una ruota di carro, chiuso da un vetro.
+      Sul bordo sono incisi nove incavi in cerchio, e uno è più profondo
+      degli altri. Al centro sono fissate nove lancette sottili, di nove
+      lunghezze diverse, e sono tutte puntate sull'incavo profondo, una
+      sopra l'altra, ferme.
+
+      {tecnologia Media} Le lancette hanno ciascuna il suo perno. Possono
+      muoversi una alla volta, e sono state fatte per farlo. Adesso
+      aspettano insieme, come una fila di persone davanti a una porta.
+
+      Sotto il quadrante una lastra si apre su un passaggio che scende verso
+      la luce bianca.
+    opzioni:
+      - testo: "Guardare dentro il vetro"
+        descrizione: "Ogni lancetta ha il suo perno. Dietro il vetro c'è il meccanismo, e il meccanismo dice che cosa contano."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Nove perni
+          testo: |
+            Accosti la lampada al vetro. Dietro il quadrante ogni perno ha un
+            filo sottile che esce dal retro e sparisce nella roccia, ognuno in
+            una direzione diversa. Uno solo scende verso la luce bianca. Sul
+            fondo del telaio, staccato, c'è un frammento di metallo inciso che
+            prendi prima di scendere.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il vetro freddo
+          testo: |
+            Il vetro è così freddo che la lampada si appanna appena lo tocca,
+            e non vedi niente. Quando lo pulisci con la manica ti accorgi di
+            aver lasciato l'impronta della mano, e ti allontani in fretta,
+            come un ladro.
+          effetti: { tormento: 0.5 }
+      - testo: "Leggere i segni accanto alle lancette"
+        descrizione: "Accanto a ogni lancetta c'è un segno. Nove segni, che forse sono nove nomi."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Nove nomi
+          testo: |
+            Ricopi i nove segni sul quaderno. Uno lo hai già visto sopra la
+            bocca dello sfiato, ed è quello della lancetta più corta. Gli
+            altri otto non li hai mai visti, e li copi con cura lo stesso.
+          pe: { accademiche: 2 }
+          effetti: { profondita.volta-dell-aculeo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Segni storti
+          testo: |
+            I segni ti si confondono con il riflesso delle lancette nel vetro,
+            e li copi storti. Quando te ne accorgi hai già riempito una pagina
+            inutile, e la strappi.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare il quadrante e scendere"
+        descrizione: "Le lancette aspettano. Puoi lasciarle aspettare."
+        costo: 2
+        esito:
+          titolo: Verso la luce bianca
+          testo: |
+            Apri la lastra sotto il quadrante e scendi per il passaggio. Alle
+            tue spalle una delle lancette scatta di un capello, e poi torna al
+            suo posto. Ti volti, e sono di nuovo tutte ferme.
+          effetti: { profondita.volta-dell-aculeo: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ il cuore · la ruota dei giorni
+  - id: volta-dell-aculeo-la-ruota-dei-giorni
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La ruota dei giorni
+    sommario: "In fondo allo sfiato una ruota grande come un'aia gira di un dente a notte. La spinge una macchina lunga e sottile, la Lancetta, che non vuole nessuno sulla sua strada."
+    luogo: La Volta dell'Aculeo, la camera della ruota
+    area: volta-dell-aculeo
+    requisiti: [profondita.volta-dell-aculeo >= 4, misura.aculeo == 0]
+    testo: |
+      La gola finisce in una camera bassa e larga, illuminata da una luce
+      bianca e ferma che viene dalle pareti. Il pavimento è quasi tutto
+      occupato da una ruota di metallo distesa in piano, grande come l'aia
+      di una cascina, con il bordo intagliato a denti fitti. Uno dei denti è
+      più lungo degli altri. Sopra di lui, sul soffitto, si apre la valvola
+      che porta l'aria alle lamelle.
+
+      Accanto alla valvola c'è una colonna di vetro alta quanto un uomo,
+      piena per metà di un liquido grigio, con tacche incise lungo il vetro.
+      Sul piatto della valvola è inciso il cerchio di nove incavi, e uno è
+      più profondo degli altri.
+
+      Lungo il bordo della ruota cammina la Lancetta. È una macchina lunga e
+      sottile come la gamba di un compasso, con una punta di metallo
+      lucido in fondo, e a ogni passo spinge un dente. Ti ha sentito. Si
+      ferma, e la punta si gira verso di te.
+
+      {origine allievo-di-torvessa} All'Accademia si insegna a misurare il
+      tempo con il cristallo e con l'acqua. Qui hanno usato tutti e due, e
+      contare i denti dalla Lancetta al dente lungo vuol dire sapere quante
+      notti mancano.
+
+      {acrobazia Media} Cammina sul bordo, e il bordo è stretto. Chi ci
+      sale sopra la obbliga a fermarsi o a passarci attraverso.
+    opzioni:
+      - testo: "Affrontare la Lancetta"
+        descrizione: "È veloce e la punta passa le armature. Però ha un passo solo, e lo ripete."
+        combattimento: volta-dell-aculeo-lancetta
+        vittoria:
+          titolo: La data
+          testo: |
+            La Lancetta si piega a metà con un rumore di molla rotta e
+            resta ferma sul bordo, con la punta a terra. Conti due volte i
+            denti da dove si è fermata fino al dente lungo, e ricopi il numero
+            sul quaderno. Poi leggi la tacca a cui arriva il liquido
+            grigio nella colonna, che dice quanto dura il fischio. Stacchi
+            la punta lucida dalla Lancetta, e dalla base della colonna
+            prendi una camera di cristallo che pulsa ancora.
+
+            {accademiche Media} Una prova all'anno, puntuale. Chi prova uno
+            strumento ogni anno vuole essere sicuro che suoni il giorno che
+            servirà.
+
+            Quando risali, la Lancetta si è già raddrizzata di un poco.
+          pe: { armi-da-mischia: 5 }
+          effetti: { misura.aculeo: 1, oggetto.volta-dell-aculeo-aculeo-della-lancetta: 1, reliquie.frammento-inciso: 2, parte.camera-3: 1, bottino.parti-di-drone: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: La punta
+          testo: |
+            La Lancetta ti passa la giubba con la punta e la spalla sotto la
+            giubba, e ti spinge giù dal bordo della ruota. Risali la gola con
+            un braccio solo, e quando esci dal foro le stelle sono già alte
+            sopra la Conca dei Rovi.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Contare i denti mentre la Lancetta cammina"
+        descrizione: "Bisogna contare i denti fino a quello lungo e leggere la colonna, restando fuori dalla sua strada. La Lancetta non si ferma mai a lungo."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il conto delle notti
+          testo: |
+            Ti tieni sempre dalla parte della ruota dove la Lancetta non è, e
+            conti i denti mentre lei cammina, ricominciando ogni volta dal suo
+            passo. Al terzo giro il conto è sempre quello, e lo ricopi. La
+            colonna la leggi da lontano, con la lampada alta. Prima di
+            risalire raccogli dal bordo una punta di ricambio, lucida, che la
+            Lancetta ha lasciato in una nicchia.
+          pe: { accademiche: 5 }
+          effetti: { misura.aculeo: 1, oggetto.volta-dell-aculeo-aculeo-della-lancetta: 1, reliquie.frammento-inciso: 2, parte.camera-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il conto rotto
+          testo: |
+            Al secondo giro perdi il conto, e quando alzi gli occhi la
+            Lancetta è davanti a te. La punta ti apre il braccio dal gomito al
+            polso. Risali la gola stringendoti la ferita, senza la data.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinare alla Lancetta di fermarsi"
+        descrizione: "La formula del Comando parla alle macchine nella loro lingua. Una macchina che conta può fermarsi un momento, se glielo si dice bene."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Ferma
+          testo: |
+            Dici la formula, e la Lancetta si ferma con la punta alzata, a
+            metà di un passo. Conti con calma i denti fino al dente lungo, e
+            dopo averli ricontati leggi la colonna. Nella nicchia sotto la
+            valvola c'è una
+            punta di ricambio lucida, e la prendi. Quando sei sulla gola senti
+            alle tue spalle la Lancetta che riprende il passo.
+          pe: { magia: 5 }
+          effetti: { misura.aculeo: 1, oggetto.volta-dell-aculeo-aculeo-della-lancetta: 1, reliquie.frammento-inciso: 2, parte.camera-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La formula a metà
+          testo: |
+            La formula ti si spezza in bocca, e la Lancetta accelera. Scappi
+            verso la gola con la punta che ti sfiora la nuca, e sui pioli ti
+            accorgi di avere i capelli tagliati a metà testa.
+          effetti: { ferite: 1, tormento: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Correre sulla ruota davanti alla Lancetta"
+        descrizione: "Sul bordo della ruota si contano i denti con i piedi. Bisogna correre più veloce di lei, per un giro intero."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Un giro
+          testo: |
+            Salti sul bordo della ruota davanti alla Lancetta e corri, contando
+            i denti sotto i piedi. Lei ti insegue con la punta bassa. Al dente
+            lungo hai il numero, e salti giù accanto alla colonna per leggerla
+            mentre la Lancetta ti passa accanto senza fermarsi. Nella nicchia
+            sotto la valvola c'è una punta di ricambio, e la prendi.
+          pe: { atletica: 5 }
+          effetti: { misura.aculeo: 1, oggetto.volta-dell-aculeo-aculeo-della-lancetta: 1, reliquie.frammento-inciso: 2, parte.camera-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il dente
+          testo: |
+            Il piede ti si incastra fra due denti a metà giro, e la Lancetta ti
+            raggiunge. La punta ti entra nel polpaccio. Ti trascini via dalla
+            ruota e risali la gola con la gamba fasciata alla meglio.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ dopo la misura · la Lancetta che torna (ripetibile)
+  - id: volta-dell-aculeo-la-lancetta-che-torna
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La Lancetta che torna
+    sommario: "La Lancetta cammina di nuovo sul bordo della ruota, raddrizzata. La data la sai già, e nella camera ci sono pezzi di ricambio."
+    luogo: La Volta dell'Aculeo, la camera della ruota
+    area: volta-dell-aculeo
+    ripetibile: true
+    requisiti: [profondita.volta-dell-aculeo >= 4, misura.aculeo >= 1]
+    testo: |
+      Nella camera bassa la ruota è più avanti di qualche dente, e la
+      Lancetta cammina di nuovo sul bordo, raddrizzata, con una punta nuova.
+      Il dente lungo è più vicino di quanto l'hai lasciato. La colonna di
+      vetro è ferma alla stessa tacca. Sul bordo della ruota, dove la Lancetta
+      si era piegata, il metallo ha un graffio lucido.
+
+      {tecnologia Media} Nelle nicchie sotto la valvola la macchina tiene
+      i pezzi per ripararsi. Qualcuno è nuovo, e qualcuno è stato
+      sostituito da poco.
+
+      La Lancetta si ferma, e la punta si gira verso di te.
+    opzioni:
+      - testo: "Affrontare la Lancetta"
+        descrizione: "Ha una punta nuova, e lo stesso passo."
+        combattimento: volta-dell-aculeo-lancetta
+        vittoria:
+          titolo: Le nicchie
+          testo: |
+            La Lancetta si piega a metà e resta ferma sul bordo. Svuoti le
+            nicchie sotto la valvola di quello che c'è, e risali prima che si
+            raddrizzi.
+          effetti: { parte.camera-2: 1, reperto.sigillato: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il passo
+          testo: |
+            La punta nuova taglia come la vecchia. Risali la gola tenendoti il
+            fianco, e la Lancetta non ti segue oltre l'ultima lamella.
+          vai: superficie-fratturata
+      - testo: "Svuotare le nicchie alle sue spalle"
+        descrizione: "La Lancetta fa il giro della ruota. Dietro di lei, per mezzo giro, le nicchie sono libere."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Difficile }
+        successo:
+          titolo: Mezzo giro
+          testo: |
+            Aspetti che la Lancetta ti volti la schiena e corri alle nicchie,
+            e le svuoti in mezzo giro di ruota. Quando lei torna sei già sui
+            pioli, con un reperto chiuso nella bisaccia.
+          pe: { furtivita: 3 }
+          effetti: { reperto.sigillato: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il giro corto
+          testo: |
+            La Lancetta torna indietro a metà giro, cosa che l'altra volta non
+            faceva, e la punta ti prende la mano dentro la nicchia. Risali a
+            mani vuote, con le dita fasciate.
+          effetti: { ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Guardare la ruota girare e risalire"
+        descrizione: "La data la sai. La ruota può girare senza di te."
+        costo: 0
+        esito:
+          titolo: Un dente
+          testo: |
+            Resti sulla soglia a guardare la Lancetta che spinge un dente, e
+            poi risali. In cima alla gola, dalla cupola, ti arriva il ronzio
+            leggero delle lamelle, che aspettano la loro notte.
+          vai: superficie-fratturata
+
+nemici:
+  - id: volta-dell-aculeo-pipistrello
+    immagine: ambientazione/marea-grigia
+    nome: Pipistrello della volta
+    descrizione: "Un pipistrello grigio grande come un gatto, con gli occhi bianchi e il muso schiacciato. Vive a stormi nella gola dello sfiato della Volta dell'Aculeo e si sveglia con la luce."
+    attacco: 4
+    difesa: 5
+    difesaMentale: 3
+    pf: 4
+    danno: 1
+    riduzione: 0
+    iniziativa: 4
+    tratti: [animale]
+
+  - id: volta-dell-aculeo-lancetta
+    immagine: bestiario/salvaguardia-precursori
+    nome: La Lancetta
+    descrizione: "Una macchina lunga e sottile come la gamba di un compasso, con una punta di metallo lucido. Cammina sul bordo della ruota dei giorni in fondo alla Volta dell'Aculeo e la spinge di un dente a notte, e chi le sta davanti è un dente da spingere."
+    attacco: 6
+    difesa: 5
+    difesaMentale: 5
+    pf: 10
+    danno: 3
+    riduzione: 3
+    iniziativa: 4
+
+scontri:
+  - { id: volta-dell-aculeo-stormo, nome: "Lo stormo della volta", nemici: [volta-dell-aculeo-pipistrello, volta-dell-aculeo-pipistrello, volta-dell-aculeo-pipistrello], feriteSconfitta: 2 }
+  - { id: volta-dell-aculeo-lancetta, nome: "La Lancetta", nemici: [volta-dell-aculeo-lancetta], feriteSconfitta: 4 }
+
+oggetti:
+  - id: volta-dell-aculeo-aculeo-della-lancetta
+    nome: Aculeo della Lancetta
+    immagine: icone/stiletto
+    descrizione: "La punta di metallo lucido della Lancetta che spinge la ruota dei giorni sotto la Volta dell'Aculeo, montata su un manico corto. È sottile come un ago da materasso, e arriva prima che l'altro abbia finito di alzare la guardia."
+    slot: arma
+    base: pugnale
+    grado: 3
+    dadi: 1
+    proprieta: { rapida: 1, penetrante: 1 }
+
+colonna:
+  - { contesto: area, id: volta-dell-aculeo, musica: the-light-that-failed, ambiente: forest-creepy }

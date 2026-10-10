@@ -1,0 +1,313 @@
+# Tuarmir come luogo della Superficie Fratturata (piano-superficie.md, «I villaggi»): si vede dopo la fine dell'Arena.
+# - `tuarmir-la-raccolta`: l'attività ripetibile, a fasce di rep.tuarmir (< 2, 2-4, 4-6, >= 6). Rende poco (qualche
+#   moneta, voci, un unguento, ogni tanto un reperto trovato sotto il muschio) e alza la reputazione di ½ fino a 6; sopra
+#   il 6 la alzano solo i gradi della quest. Le ripetibili non danno negative quando falliscono.
+# - `tuarmir-il-seccatoio`: il servizio. I fumi di Madre Cerya contro la Marea e contro il Tormento, e gli unguenti
+#   della raccolta; dal grado 2 della quest (fazione.tuarmir >= 6) al prezzo del villaggio.
+luoghi:
+  - id: tuarmir
+    area: superficie-fratturata
+    nome: Tuarmir
+    immagine: ambientazione/tuarmir
+    requisiti: [pista.arena >= 5]
+    sommario: "Il villaggio delle erbe, scavato nelle pareti di una gola dove il sole arriva poche ore al giorno. Qui si parla a voce bassa."
+    testo: |
+      La strada di Tuarmir scende fra due pareti di roccia scura che si stringono a ogni curva, finché il cielo
+      diventa una striscia sopra la testa. Il villaggio sta nelle pareti stesse. Sono case-grotta scavate nella
+      pietra, con le porte di legno grigio e un muschio così fitto sopra gli architravi che da lontano le case
+      sembrano escrescenze della roccia. Fra un uscio e l'altro corrono corde con le maschere di stoffa appese ad
+      asciugare, e sotto il villaggio la gola continua a scendere per terrazzi di erbe fino a dove la luce non
+      arriva. Il sole entra nella gola verso mezzogiorno e ci resta poco, e in quell'ora tutti escono sulle soglie.
+      La gente parla piano, e i forestieri finiscono per abbassare la voce anche loro senza accorgersene.
+
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: tuarmir-la-raccolta
+    presso: tuarmir
+    immagine: ambientazione/tuarmir
+    titolo: La raccolta
+    sommario: "A Tuarmir c'è sempre un lavoro da fare fra i terrazzi e il seccatoio. Chi lavora con le maschere grigie viene pagato poco e ascoltato molto."
+    luogo: Tuarmir, i terrazzi sotto le case
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [pista.arena >= 5]
+    testo: |
+      La mattina le raccoglitrici scendono ai terrazzi con le ceste sulla
+      schiena e le maschere tirate su fino agli occhi. Ilenia distribuisce i
+      lavori senza alzare la voce, contando i nomi sui nodi della sua
+      maschera, e chi è nuovo prende quello che resta. Le ceste piene si
+      portano al seccatoio di Madre Cerya, in cima al villaggio, dove le erbe
+      pendono dal soffitto a mazzi e l'aria pizzica il naso.
+
+      {natura Facile} Le erbe si tagliano sopra il primo nodo dello stelo,
+      così ricrescono. Qui lo sanno anche i bambini, e ti guardano le mani
+      per vedere se lo sai anche tu.
+
+      {conoscenze-della-strada Media fallita} Provi a capire chi comanda la
+      paga, e l'unica risposta che trovi è una cesta vuota che ti mettono in
+      braccio.
+    opzioni:
+      - testo: "Tagliare muschio con le raccoglitrici"
+        descrizione: "Il muschio della parete va tagliato a strisce, senza strapparlo. Le raccoglitrici vecchie lavorano zitte e guardano come tagli."
+        requisiti: [rep.tuarmir < 2]
+        prova: { attributo: mentale, abilita: natura, difficolta: Facile }
+        successo:
+          titolo: Le strisce verdi
+          testo: |
+            Tagli il muschio a strisce lunghe un braccio, senza strappare
+            le radici, e a metà mattina le dita ti si sono tinte di verde
+            fino alle nocche. La raccoglitrice accanto a te, una vecchia con
+            la maschera rattoppata, smette di guardarti le mani dopo la
+            terza striscia. A mezzogiorno Ilenia ti mette in tasca uno
+            spicciolo e ti chiede come ti chiami, piano.
+          effetti: { monete: 1, rep.tuarmir: 0.5 }
+        fallimento:
+          titolo: Le radici
+          testo: |
+            Al primo taglio strappi un ciuffo con tutte le radici, e la
+            vecchia accanto a te lo raccoglie dal sentiero e lo rimette
+            contro la parete, premendolo con il palmo. Ti fa vedere il nodo
+            dello stelo tre volte senza dire niente. Per oggi Ilenia ti
+            manda a portare l'acqua.
+      - testo: "Portare le ceste su per le scale"
+        descrizione: "Dai terrazzi al seccatoio ci sono centoventi gradini scavati nella roccia, coperti di muschio bagnato."
+        requisiti: [rep.tuarmir < 2]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Centoventi gradini
+          testo: |
+            Porti su le ceste una alla volta, con la cinghia sulla fronte
+            come fanno qui, e al quinto viaggio le gambe hanno imparato dove
+            il muschio scivola. Sulla porta del seccatoio un ragazzo conta
+            le ceste e ti dà una moneta ogni due. Una donna che stende le
+            maschere ti offre un sorso d'acqua dalla zucca.
+          effetti: { monete: 2, rep.tuarmir: 0.5 }
+        fallimento:
+          titolo: Il gradino bagnato
+          testo: |
+            Al terzo viaggio un gradino bagnato ti manda giù sul ginocchio,
+            e mezza cesta di salvia finisce sui terrazzi di sotto. Le
+            raccoglitrici la raccolgono foglia per foglia senza lamentarsi,
+            e tu ti siedi sul gradino a guardarti il ginocchio sbucciato.
+      - testo: "Legare i mazzi nel seccatoio"
+        descrizione: "Le erbe si legano a mazzi della stessa grandezza, con lo spago che non stringe troppo. Cerya li controlla al tatto, uno per uno."
+        requisiti: [rep.tuarmir >= 2, rep.tuarmir < 4]
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: I mazzi giusti
+          testo: |
+            Leghi mazzi di cardo del sonno sotto le travi del seccatoio,
+            tutti della stessa grandezza, con lo spago a due giri. Madre
+            Cerya passa con le dita lungo la fila senza fermarsi, e al
+            dodicesimo mazzo dice soltanto che va bene. Ilenia, che la
+            segue di un passo, ti fa l'occhiolino da sopra la maschera e ti
+            paga la giornata.
+          effetti: { monete: 3, rep.tuarmir: 0.5 }
+        fallimento:
+          titolo: Lo spago stretto
+          testo: |
+            Stringi lo spago troppo, e i gambi si piegano come colli rotti.
+            Cerya se ne accorge al primo mazzo, scioglie il nodo con due
+            dita e lo rifà senza una parola, poi passa al secondo e al
+            terzo. Alla fine della fila ti lascia lo spago in mano.
+      - testo: "Accompagnare il mulo fino alla piana"
+        descrizione: "Le ceste dei funghi partono per la città sul mulo di Lonn Var, e il sentiero fino alla piana di basalto è stretto. Il mulo va convinto."
+        requisiti: [rep.tuarmir >= 2, rep.tuarmir < 4]
+        prova: { attributo: sociale, abilita: [addestrare-animali, persuasione], difficolta: Media }
+        successo:
+          titolo: Il mulo testardo
+          testo: |
+            Il mulo si ferma a ogni ciuffo d'erba, e tu impari presto che
+            si muove soltanto se gli cammini davanti senza guardarlo. Alla
+            piana lo consegni al mulattiere di Lonn Var, che conta le ceste
+            e ti allunga qualche moneta e una notizia della città, di quelle
+            che i mulattieri raccontano gratis.
+          effetti: { monete: 2, informazioni.voce: 1, rep.tuarmir: 0.5 }
+        fallimento:
+          titolo: Mezza giornata
+          testo: |
+            Il mulo decide che il sentiero non gli piace e si siede. Ci vuole
+            mezza giornata per convincerlo a rialzarsi, e alla piana il
+            mulattiere ti guarda arrivare con l'aria di uno che l'aveva
+            previsto e non dice niente.
+      - testo: "Cercare il fungo di mezzogiorno"
+        descrizione: "Cresce soltanto dove il sole tocca la gola nell'ora di luce, e appassisce prima di sera. Bisogna trovarlo in quell'ora e non perderla."
+        requisiti: [rep.tuarmir >= 4, rep.tuarmir < 6]
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: L'ora di luce
+          testo: |
+            Quando il sole entra nella gola ti metti a camminare sotto la
+            parete, con gli occhi bassi, e lo trovi dove la luce batte da più
+            tempo, un fungo giallo pallido grande come un'unghia. Ne trovi
+            altri sei prima che il sole se ne vada. Cerya ne annusa uno e lo
+            mette da parte per gli unguenti, e te ne regala un vasetto.
+          effetti: { unguento: 1, rep.tuarmir: 0.5 }
+        fallimento:
+          titolo: L'ora persa
+          testo: |
+            Cerchi dalla parte sbagliata della gola, dove il sole non arriva,
+            e quando te ne accorgi la luce è già risalita sulla parete di
+            fronte. Ilenia ti consola dicendo che anche lei, il primo anno,
+            ne ha trovati soltanto due.
+      - testo: "Riconoscere le erbe al tatto, a occhi chiusi"
+        descrizione: "Madre Cerya insegna così i novizi della raccolta. Ti benda con la tua maschera e ti mette in mano un mazzo misto."
+        requisiti: [rep.tuarmir >= 4, rep.tuarmir < 6]
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Difficile }
+        successo:
+          titolo: Al tatto
+          testo: |
+            Con la maschera sugli occhi riconosci la salvia d'argento dalla
+            peluria e il cardo dalla spina sotto la foglia, e dopo un poco
+            anche la menta di roccia dall'odore che lascia sulle dita. Cerya
+            ti toglie la maschera e ti tocca la fronte con le dita verdi,
+            che a Tuarmir vale quanto un nome scritto.
+          pe: { natura: 2 }
+          effetti: { rep.tuarmir: 0.5, monete: 2 }
+        fallimento:
+          titolo: La menta e l'ortica
+          testo: |
+            Con gli occhi bendati scambi l'ortica di roccia per la menta e ti
+            ritrovi con le dita che bruciano. Cerya ride piano, una cosa che
+            fa di rado, e ti dice di annusare prima di toccare, come fanno i
+            cani e le persone sagge.
+      - testo: "Fare la guardia ai seccatoi di notte"
+        descrizione: "Di notte qualcuno sale a rubare i funghi dai seccatoi per venderli in città. Chi è di casa fa la guardia, e chi fa la guardia trova cose."
+        requisiti: [rep.tuarmir >= 6]
+        prova: { attributo: fisico, abilita: [furtivita, percezione], difficolta: Media }
+        successo:
+          titolo: La notte sulle scale
+          testo: |
+            Passi la notte seduto sulle scale del seccatoio con una coperta
+            sulle spalle, e verso l'alba senti un passo leggero sul muschio.
+            È un ragazzo di un altro villaggio, magro come un gatto, che
+            scappa lasciando il sacco. Dentro ci sono funghi rubati e un
+            guscio di metallo scuro, trovato chissà dove. Cerya si tiene i
+            funghi e il guscio lo lascia a te.
+          effetti: { reperto.sigillato: 1, monete: 2 }
+        fallimento:
+          titolo: Il sonno
+          testo: |
+            Ti addormenti sulle scale prima della seconda campana, e ti
+            svegli con il muschio stampato sulla guancia. Dal seccatoio non
+            manca niente, e Ilenia, passando, ti posa sulle spalle una
+            coperta che qualcuno ti aveva già messo.
+      - testo: "Sedersi sulla soglia nell'ora di sole"
+        descrizione: "Quando il sole entra nella gola il villaggio esce sulle soglie. Ci si siede e si ascolta."
+        esito:
+          titolo: L'ora di sole
+          testo: |
+            Ti siedi su una soglia di pietra con la schiena contro il muschio
+            tiepido, e per un'ora la gola si riempie di gente che chiacchiera
+            piano fra le maschere stese. Una vecchia ti spiega
+            come si capisce dal colore del muschio se domani pioverà, e un
+            uomo le dà torto con molta educazione. Quando il sole risale la
+            parete tutti rientrano insieme.
+          pe: { natura: 2 }
+
+  # ------------------------------------------------------------ il servizio · il seccatoio di Madre Cerya
+  - id: tuarmir-il-seccatoio
+    presso: tuarmir
+    immagine: ambientazione/marea-grigia
+    titolo: Il seccatoio di Madre Cerya
+    sommario: "In cima al villaggio, nella grotta dove pendono le erbe, Madre Cerya brucia i muschi per chi ha addosso la Marea o le visioni."
+    luogo: Tuarmir, il seccatoio in cima al villaggio
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [pista.arena >= 5]
+    testo: |
+      Il seccatoio è la grotta più alta del villaggio, una galleria bassa con le
+      erbe appese alle travi a mazzi capovolti e un braciere di coccio in
+      fondo, dove brucia sempre un poco di muschio. Chi sale fin qui con la
+      Marea addosso o con le notti piene di visioni si siede su uno sgabello
+      con la testa sotto un telo, e Madre Cerya gli tiene una mano sulla
+      nuca finché il fumo non ha fatto il suo lavoro. Il prezzo lo dice
+      Ilenia, perché Cerya di monete non parla.
+
+      {medicina Media} Il fumo del muschio di gola apre il naso e fa
+      lacrimare, e con le lacrime esce un poco di quello che hai respirato
+      nei posti sbagliati. Il resto del lavoro lo fa la mano sulla nuca.
+
+      {origine accolito-del-velo} I muschi che in Cattedrale si bruciano nei
+      riti di purificazione vengono da questa grotta. Qui li bruciano senza
+      preghiere, e funzionano lo stesso.
+    opzioni:
+      - testo: "Farti fare i fumi per la Marea"
+        descrizione: "Mezz'ora sotto il telo, con il muschio di gola. La Marea si ritira di un passo."
+        quando: [contaminazione >= 0.5]
+        requisiti: [fazione.tuarmir < 6, monete >= 20]
+        esito:
+          titolo: Sotto il telo
+          testo: |
+            Respiri il fumo amaro sotto il telo finché gli occhi non ti
+            lacrimano, e Cerya ti tiene la mano sulla nuca senza premere. Il
+            sapore di ferro sotto la lingua si allontana. Ilenia conta le tue
+            monete in un piattino di legno.
+          effetti: { contaminazione: -1, monete: -20 }
+      - testo: "Farti fare i fumi per la Marea, come uno di casa"
+        descrizione: "Chi raccoglie con il villaggio paga i fumi quanto li paga il villaggio."
+        quando: [contaminazione >= 0.5]
+        requisiti: [fazione.tuarmir >= 6, monete >= 10]
+        esito:
+          titolo: Il prezzo di casa
+          testo: |
+            Cerya ti fa sedere sullo sgabello buono, quello con lo schienale,
+            e il fumo sotto il telo fa il suo lavoro con calma. Ilenia prende
+            soltanto metà del solito, e il resto te lo lascia in mano.
+          effetti: { contaminazione: -1, monete: -10 }
+      - testo: "Farti fare i fumi per la testa"
+        descrizione: "Un'erba diversa sulla brace, più dolce, per chi dorme male e vede cose. Il Tormento cala."
+        quando: [tormento >= 0.5]
+        requisiti: [fazione.tuarmir < 6, monete >= 15]
+        esito:
+          titolo: Il cardo del sonno
+          testo: |
+            Sulla brace Cerya mette il cardo del sonno, che fa un fumo bianco
+            e dolce. Sotto il telo le immagini delle ultime notti si sciolgono
+            come zucchero nell'acqua calda, e per un poco non pensi a niente.
+          effetti: { tormento: -1, monete: -15 }
+      - testo: "Farti fare i fumi per la testa, come uno di casa"
+        descrizione: "Il cardo del sonno al prezzo del villaggio."
+        quando: [tormento >= 0.5]
+        requisiti: [fazione.tuarmir >= 6, monete >= 8]
+        esito:
+          titolo: Il fumo bianco
+          testo: |
+            Il fumo bianco del cardo ti scioglie le spalle prima ancora della
+            testa. Quando togli il telo Cerya ti chiede se hai sognato, e tu
+            le dici di no, che qui è il complimento migliore.
+          effetti: { tormento: -1, monete: -8 }
+      - testo: "Comprare un vasetto di unguento della raccolta"
+        descrizione: "Unguento di salvia d'argento e grasso di capra, che chiude i tagli in una notte."
+        requisiti: [fazione.tuarmir < 6, monete >= 18]
+        costo: 0
+        esito:
+          titolo: L'unguento
+          testo: |
+            Ilenia ti dà un vasetto di coccio chiuso con la cera verde e conta
+            le monete nel piattino, una per una, a voce bassissima.
+          effetti: { unguento: 1, monete: -18 }
+      - testo: "Comprare un vasetto di unguento al prezzo di casa"
+        descrizione: "Lo stesso vasetto, a chi raccoglie con il villaggio."
+        requisiti: [fazione.tuarmir >= 6, monete >= 11]
+        costo: 0
+        esito:
+          titolo: La cera verde
+          testo: |
+            Ilenia ti mette in mano il vasetto prima che tu lo chieda, e il
+            piattino delle monete lo guarda appena.
+          effetti: { unguento: 1, monete: -11 }
+      - testo: "Restare a sentire Cerya che parla del vento"
+        descrizione: "Mentre il muschio brucia Cerya parla, a chi ha la pazienza di sedersi."
+        esito:
+          titolo: Il naso di Cerya
+          testo: |
+            Ti siedi accanto al braciere e Cerya, senza voltarsi, ti racconta
+            dei venti che conosce. Quello della sera, che sale dai terrazzi e
+            sa di salvia, e quello delle piogge, che arriva dalla piana. Ti
+            dice di imparare i venti dal naso, perché gli occhi si possono
+            ingannare e il naso no.
+          pe: { natura: 2 }
+
+colonna:
+  - { contesto: luogo, id: tuarmir, musica: unsettling-paths, ambiente: village }

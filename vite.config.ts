@@ -14,5 +14,5 @@ export default defineConfig({
   base: './', // percorsi relativi: le tavole si caricano anche fuori dalla radice del sito
   plugins: [viteSingleFile()],
   define: { __VERSIONE__: JSON.stringify(commit ? `${versione} (${commit})` : versione) },
-  test: { globals: true },
+  test: { globals: true, setupFiles: ['test/cedi.ts'] },
 });

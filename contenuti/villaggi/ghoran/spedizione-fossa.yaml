@@ -1,0 +1,895 @@
+# La quest di Ghoran, passo 11 (fazione.ghoran 10 → 11): la spedizione nella Fossa del Seme, l'arena sotto il campo
+# dei gladiatori, più antica del villaggio (codex sf-fossa-del-seme e mn-ghoran). Si scende dalla grata del campo
+# (`ghoran-la-grata-della-fossa`, presso Ghoran): a cavallo per la rampa delle bestie non costa rintocchi.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# 0 l'arena di sotto o le gradinate di pietra, 1 le radici che cercano o i nomi sul muro, 2 la pozza nera o il muro
+# liscio, 3 le ossa dell'inverno o la strettoia; la muta dei cani rimasti di sotto vale da 1 a 3.
+# Il cuore a 4 è la porta dell'ascia: la bipenne di Ragh piantata in una radice davanti a una porta di pietra, e il
+# verro radicato che la guarda (boss). Le vie sono Difficili; chi fallisce o perde torna in superficie senza passo.
+aree:
+  - id: ghoran-fossa-del-seme
+    immagine: ambientazione/regno-profondo
+    nome: La Fossa del Seme
+    sommario: "Sotto il campo dei gladiatori di Ghoran c'è un'arena più vecchia del villaggio, con pareti che nessun martello scheggia e radici nere che battono."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto la grata del campo la Fossa del Seme si apre in una conca di
+      pietra grigia, liscia come l'interno di una conchiglia, molto più larga
+      del campo che ci sta sopra. Le gradinate sono scavate nella roccia
+      stessa in file basse e strette, fatte per gente che stava seduta più vicina
+      di quanto starebbe chiunque adesso. Dal pavimento escono le radici
+      nere, spesse quanto un braccio, e scendono verso il fondo come acqua
+      che cerca la strada.
+
+      Battono. Si gonfiano e si sgonfiano piano tutte insieme, e il colpo lo
+      senti nella pianta dei piedi prima che nelle orecchie. Sopra di te,
+      oltre la grata, i tamburi del campo tacciono da tre notti.
+
+colonna:
+  - { contesto: area, id: ghoran-fossa-del-seme, musica: our-wounds-our-crown, ambiente: hellish-dungeon }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dal campo dei gladiatori
+  - id: ghoran-la-grata-della-fossa
+    presso: ghoran
+    immagine: ambientazione/regno-profondo
+    titolo: La grata della Fossa
+    sommario: "Sotto le gradinate del campo la grata della Fossa del Seme è aperta, per la prima volta in tre anni. I clan sono venuti a guardare chi scende."
+    luogo: Ghoran, la grata sotto il campo dei gladiatori
+    area: superficie-fratturata
+    requisiti: [fazione.ghoran == 10]
+    testo: |
+      Stanotte la grata della Fossa è aperta, rovesciata sulla sabbia con i
+      cardini all'aria. Intorno ci sono i capi dei clan con le torce, e
+      dietro di loro mezzo villaggio, in piedi sulle gradinate del campo
+      vuoto. Nessuno parla. Dal buio sotto la grata sale un'aria tiepida che
+      sa di terra smossa, e insieme all'aria sale il colpo delle radici,
+      lento, che fa tremare la fiamma delle torce.
+
+      Ragh ti aspetta accanto al bordo con la catena della lanterna avvolta
+      intorno al braccio. Più in là, verso il recinto delle bestie, c'è la
+      rampa da cui un tempo si facevano scendere i verri per le dispute,
+      chiusa da una porta di tavole.
+
+      {atletica Media} La catena è lunga quaranta braccia, e il fondo si
+      vede appena. Con i piedi contro la parete si scende senza strappi.
+
+      {intimidire Facile} Ostrav ti guarda dal bordo come si guarda una
+      bestia che entra nel campo per la prima volta. Aspetta che tu esiti,
+      per poterlo raccontare.
+
+      «Chi scende si conta da solo» dice Ragh, e ti porge la catena.
+    opzioni:
+      - testo: "Calarti con la catena della lanterna"
+        descrizione: "Quaranta braccia di catena e i piedi contro la parete liscia. Le radici battono anche sulla catena."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Quaranta braccia
+          testo: |
+            Scendi con i piedi contro la pietra e le mani sulla catena, un
+            anello alla volta. A metà la catena comincia a battere sotto le
+            dita insieme alle radici. Quando tocchi il fondo, sopra di te le
+            torce dei clan sono un cerchio piccolo.
+          pe: { atletica: 2 }
+          vai: ghoran-fossa-del-seme
+        fallimento:
+          titolo: La catena che batte
+          testo: |
+            A metà discesa la catena batte così forte che ti scivola fra le
+            dita, e gli ultimi passi li fai cadendo. Atterri su un fianco sulla
+            pietra liscia, e sopra di te qualcuno del Guado ride.
+          effetti: { ferite: 0.5 }
+          vai: ghoran-fossa-del-seme
+      - testo: "Cercare la scala dei vecchi"
+        descrizione: "Chi ha scavato la Fossa ci scendeva a piedi. Da qualche parte, nella parete, ci sono i gradini."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: I gradini nella parete
+          testo: |
+            Giri intorno alla grata con la torcia bassa, e sul lato nord trovi
+            i gradini scavati a spirale nella parete, così stretti che ci sta
+            mezzo piede. Li
+            scendi con la mano sulla roccia. Ragh, dal bordo, ti guarda andare
+            giù come se se li ricordasse.
+          pe: { percezione: 2 }
+          vai: ghoran-fossa-del-seme
+        fallimento:
+          titolo: Il gradino che manca
+          testo: |
+            Trovi i gradini, e a metà discesa ne manca uno. Resti appeso con
+            le dita alla parete finché il piede non trova il successivo, e
+            arrivi in fondo con le ginocchia molli.
+          effetti: { tormento: 0.5 }
+          vai: ghoran-fossa-del-seme
+      - testo: "Scendere a cavallo per la rampa delle bestie"
+        descrizione: "La rampa dei verri porta al fondo con una pendenza che una bestia da sella regge. Basta togliere le tavole."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: La rampa dei verri
+          testo: |
+            I ragazzi della Pece tolgono le tavole, e la tua bestia annusa la
+            rampa a lungo prima di decidersi. Poi scende al passo, con le
+            orecchie dritte, fino al fondo della Fossa. Quando ci arrivi le
+            radici battono sotto gli zoccoli, e lei non vuole più fermarsi.
+          vai: ghoran-fossa-del-seme
+      - testo: "Farti calare con l'argano della Pece"
+        descrizione: "La Pece ha un argano per tirare su i morti dal campo. Cala anche i vivi, lentamente, davanti a tutti."
+        costo: 2
+        esito:
+          titolo: L'argano dei morti
+          testo: |
+            Ti siedi nell'imbragatura dei morti, e i ragazzi della Pece ti
+            calano piano, un giro di manovella alla volta, mentre i clan
+            guardano. Ci vuole mezza notte. Arrivi in fondo con le gambe
+            addormentate e la sensazione di essere stato pesato un'altra volta.
+          effetti: { tormento: 0.5 }
+          vai: ghoran-fossa-del-seme
+
+  # ------------------------------------------------------------ 0 · l'arena di sotto e le gradinate
+  - id: ghoran-fossa-l-arena-di-sotto
+    immagine: ambientazione/regno-profondo
+    titolo: L'arena di sotto
+    sommario: "Il fondo della Fossa è un'arena di pietra grigia. Sul pavimento le macchie delle dispute non sono mai andate via."
+    luogo: La Fossa del Seme, l'arena di sotto
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 0]
+    testo: |
+      L'arena di sotto è un cerchio di pietra grigia largo il doppio del
+      campo di sopra. Sul pavimento ci sono macchie scure che la pietra ha
+      bevuto, e intorno a ogni macchia le radici si sono ammassate come
+      maiali intorno a un trogolo. Dall'altra parte del cerchio si apre un
+      passaggio basso che scende.
+
+      {percezione Media} Le macchie hanno la forma di chi è caduto. Le
+      radici intorno sono più grosse dove la macchia è più vecchia.
+
+      Le radici battono, e a ogni colpo la polvere sul pavimento si alza di
+      un dito.
+    opzioni:
+      - testo: "Attraversare il cerchio senza calpestare le macchie"
+        descrizione: "Dove c'è stato sangue le radici sono fitte. Si passa nei vuoti, un passo alla volta."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: I vuoti
+          testo: |
+            Attraversi il cerchio saltando da un vuoto all'altro, e le radici
+            ti lasciano passare senza muoversi. Il passaggio basso dall'altra
+            parte sa di terra bagnata.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Il piede nella macchia
+          testo: |
+            Metti un piede in una macchia, e le radici intorno si stringono
+            intorno alla caviglia finché non lo strappi via. Torni indietro
+            zoppicando fino alla parete.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere le macchie per capire dove si combatteva"
+        descrizione: "Un'arena ha un centro e dei bordi. Chi la conosce sa da che parte si esce vivi."
+        prova: { attributo: mentale, abilita: [percezione, armi-da-mischia], difficolta: Media }
+        successo:
+          titolo: Il lato dei vivi
+          testo: |
+            Le macchie stanno quasi tutte al centro. Sul bordo destro non ce
+            n'è nessuna, perché da lì si usciva in piedi. Fai il giro largo da
+            quella parte, e arrivi al passaggio basso senza toccare una radice.
+          pe: { percezione: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Il centro
+          testo: |
+            Leggi le macchie al contrario e ti ritrovi nel mezzo del cerchio,
+            con le radici che si alzano intorno ai tuoi stivali. Arretri fino
+            alla parete senza voltarti.
+          effetti: { tormento: 0.5 }
+      - testo: "Camminare piano lungo la parete"
+        descrizione: "Lungo la parete le radici sono poche, e la strada è lunga il doppio."
+        costo: 2
+        esito:
+          titolo: Lungo la parete
+          testo: |
+            Fai il giro intero del cerchio con la spalla contro la pietra
+            liscia, e ci metti un'ora. Arrivi al passaggio basso con la spalla
+            fredda e una radice che ti ha seguito per un tratto, battendo.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, tormento: 0.5 }
+
+  - id: ghoran-fossa-le-gradinate-di-pietra
+    immagine: ambientazione/regno-profondo
+    titolo: Le gradinate di pietra
+    sommario: "Le gradinate della Fossa sono file strette scavate nella roccia. Sull'ultima fila c'è qualcosa che luccica."
+    luogo: La Fossa del Seme, le gradinate
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 0]
+    testo: |
+      Le gradinate della Fossa salgono dal cerchio fino al buio, scavate
+      nella roccia in file basse e strette. Ci si siede con le ginocchia in
+      bocca, e dietro l'ultima fila corre un corridoio che gira intorno a
+      tutta l'arena e poi scende. Sull'ultima fila, in mezzo alla polvere,
+      luccica qualcosa di piccolo.
+
+      {accademiche Media} Chi ha scavato queste file non le ha fatte per
+      sedersi a guardare. Sono troppo vicine, e troppo regolari, come le
+      file di un archivio.
+
+      {resistenza Facile fallita} Le gambe ti fanno male soltanto a
+      guardarle, quelle file.
+    opzioni:
+      - testo: "Salire fino all'ultima fila"
+        descrizione: "Le file sono strette e la polvere scivola. In cima c'è il corridoio, e quello che luccica."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: L'ultima fila
+          testo: |
+            Sali le file a quattro zampe fino in cima. Quello che luccica è un
+            anello di rame da orecchio, come quelli dei mercenari di Ghoran,
+            perso da qualcuno anni fa. Lo intaschi e prendi il corridoio.
+          pe: { atletica: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: La polvere
+          testo: |
+            A metà salita la polvere ti scivola sotto le mani e torni giù
+            sedendoti tre file per volta, con i calzoni strappati.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare l'ingresso del corridoio dal basso"
+        descrizione: "Un corridoio che gira intorno all'arena ha una porta anche in basso, dove scendevano quelli che lavoravano qui."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La porta bassa
+          testo: |
+            Sotto la prima fila, dietro una cortina di radici secche, c'è una
+            porta bassa scavata nella pietra. Le radici secche si sbriciolano
+            quando le sposti, e il corridoio dall'altra parte scende.
+          pe: { percezione: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Le radici vive
+          testo: |
+            Sposti una cortina di radici credendole secche, e sono vive. Si
+            stringono intorno al polso e battono contro la tua vena, finché le
+            tagli con il coltello.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Fare il giro lungo dietro le gradinate"
+        descrizione: "Dietro le file c'è sempre un passaggio. Si cammina piegati, e ci si mette molto."
+        costo: 2
+        esito:
+          titolo: Piegato
+          testo: |
+            Cammini piegato dietro le file per un tempo che non sai misurare,
+            con la torcia che ti fuma in faccia. Quando trovi il corridoio che
+            scende hai la schiena di un vecchio.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · le radici e i nomi
+  - id: ghoran-fossa-le-radici-che-cercano
+    immagine: icone/root-tip
+    titolo: Le radici che cercano
+    sommario: "Nel corridoio le radici si staccano dalla parete quando passi. Cercano il caldo."
+    luogo: La Fossa del Seme, il corridoio delle radici
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 1]
+    testo: |
+      Il corridoio scende in curva, e le radici ne coprono le pareti fino al
+      soffitto come una rete messa ad asciugare. Quando ci passi accanto con
+      la torcia le più vicine si staccano dalla pietra e si allungano verso
+      di te, lente, fino a un palmo dalla faccia. Poi tornano indietro e si riattaccano alla pietra.
+
+      {natura Media} Seguono il caldo. Il fuoco della torcia le attira più
+      del tuo corpo, e una torcia lasciata a terra ne tiene occupate parecchie.
+
+      {magia Difficile} Il Mana qui non scorre. Si ferma fra un colpo e
+      l'altro, e riparte tutto insieme quando le radici battono.
+    opzioni:
+      - testo: "Lasciare la torcia a terra e passare al buio"
+        descrizione: "Le radici vanno al caldo. Si passa nel buio, con la mano sulla parete."
+        prova: { attributo: mentale, abilita: [natura, resilienza], difficolta: Media }
+        successo:
+          titolo: Al buio
+          testo: |
+            Pianti la torcia in una fessura e le radici ci si avvolgono
+            intorno come serpi a un sasso caldo. Passi al buio, con la mano
+            sulla pietra, finché il corridoio non si allarga.
+          pe: { natura: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: La mano sulla radice
+          testo: |
+            Al buio appoggi la mano su una radice invece che sulla pietra, e la
+            radice si chiude. Riprendi la torcia e torni indietro con il polso
+            segnato da un anello rosso.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Tagliarsi la strada con la lama"
+        descrizione: "Le radici si tagliano, e quelle tagliate smettono di battere. Le altre però se ne accorgono."
+        combattimento: ghoran-le-radici
+        vittoria:
+          titolo: Le radici tagliate
+          testo: |
+            Tagli la radice che ti viene addosso in tre pezzi, e i pezzi
+            smettono di battere sul pavimento. Le altre si ritirano contro la
+            parete, e il corridoio resta libero.
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        sconfitta:
+          titolo: La stretta
+          testo: |
+            La radice ti si avvolge intorno al braccio della lama e stringe
+            finché la lama cade. Te ne liberi con i denti stretti e torni
+            indietro di corsa.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Passare in fretta, lasciandosi toccare"
+        descrizione: "Le radici toccano e poi tornano indietro. Si passa di corsa, e si lascia che tocchino."
+        costo: 2
+        esito:
+          titolo: Di corsa
+          testo: |
+            Corri lungo il corridoio con la torcia alta, e le radici ti
+            sfiorano la faccia e il collo, fredde, a ogni passo. In fondo ti
+            pulisci la pelle con la manica finché non brucia.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, contaminazione: 0.5 }
+
+  - id: ghoran-fossa-i-nomi-sul-muro
+    immagine: ambientazione/regno-profondo
+    titolo: I nomi sul muro
+    sommario: "In una nicchia del corridoio ci sono dei nomi incisi nella pietra che nessun martello scheggia. Qualcuno ci è riuscito lo stesso."
+    luogo: La Fossa del Seme, la nicchia dei nomi
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 1]
+    testo: |
+      In una nicchia del corridoio la pietra liscia è coperta di decine di
+      nomi incisi con una punta dura in grafie diverse. Alcuni hanno
+      accanto il segno di un clan, la mano aperta con tre dita, la cera del
+      Guado rifatta con il coltello. Altri sono soli. In fondo alla nicchia
+      c'è un nome inciso più fondo degli altri, quello di Ragh, con una fila
+      di tacche sotto, fatte da mani diverse.
+
+      {tecnologia Media} Nessun martello scheggia questa pietra. I nomi però
+      ci sono, e i solchi hanno il fondo lucido, come se la pietra si fosse
+      lasciata incidere.
+
+      {empatia Facile fallita} Cerchi un nome che non c'è. Non sapresti dire
+      quale, e la cosa ti mette addosso una tristezza senza oggetto.
+    opzioni:
+      - testo: "Incidere il tuo nome accanto agli altri"
+        descrizione: "Chi scende lascia il nome. La pietra sceglie se tenerlo."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Il tuo nome
+          testo: |
+            Incidi il tuo nome con la punta del coltello, e la pietra si lascia
+            segnare come cera tiepida. Quando togli la lama ti accorgi di un
+            corridoio dietro la nicchia, aperto, che prima ti era sfuggito.
+          pe: { resilienza: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: La lama che scivola
+          testo: |
+            La lama ti scivola sulla pietra senza lasciare segno e ti apre il
+            pollice. Il sangue cola sulla pietra, e intorno alla nicchia tutte
+            le radici battono insieme, più forte.
+          effetti: { ferite: 0.5 }
+      - testo: "Contare le tacche e capire il conto di Ragh"
+        descrizione: "Una fila di tacche sotto un nome. Un conto si fa per sapere quando finisce."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il conto delle discese
+          testo: |
+            C'è una tacca per ogni discesa venuta dopo quella di Ragh, ognuna
+            fatta da un clan con il suo attrezzo, e sull'ultima c'è la polvere
+            di tre anni. Nessuno è mai andato più giù di qui. Dietro le
+            tacche la nicchia ha una fessura, e la fessura scende.
+          pe: { accademiche: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: I nomi che si muovono
+          testo: |
+            Conti le tacche, e alla terza volta ti accorgi che i nomi intorno
+            sembrano più vicini di prima. Esci dalla nicchia all'indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Leggere tutti i nomi, uno per uno"
+        descrizione: "Ci vuole tempo, e i nomi restano dentro a chi li legge."
+        costo: 2
+        esito:
+          titolo: I nomi letti
+          testo: |
+            Li leggi tutti a mezza voce, alla luce della torcia. Quando arrivi a
+            quello di Ragh hai la gola secca, e la fessura dietro le tacche è
+            lì dove non l'avevi vista.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1–3 · la muta
+  - id: ghoran-fossa-la-muta
+    immagine: icone/wolf-head
+    titolo: La muta
+    sommario: "Nel buio della Fossa vivono i cani buttati di sotto con i perdenti delle dispute. Sono grigi e senza pelo, e nessuno di loro abbaia."
+    luogo: La Fossa del Seme, la tana dei cani
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme >= 1, profondita.ghoran-fossa-del-seme <= 3]
+    testo: |
+      Il corridoio si apre in una caverna bassa dove l'aria puzza di bestia,
+      e nel buio si accendono gli occhi. Sono cani, o lo sono stati, con il
+      dorso grigio senza pelo e le costole che si contano. Discendono dai cani
+      da combattimento buttati di sotto con i clan che perdevano, e nessuno di
+      loro abbaia. Ti guardano e aspettano, mentre il più grosso si mette fra
+      te e l'uscita.
+
+      {addestrare-animali Media} Aspettano un ordine, come i cani dei recinti.
+      Nessuno glielo dà da generazioni, e se ne ricordano lo stesso.
+
+      {furtivita Media} La caverna ha una seconda uscita in alto, dove le
+      radici fanno da scala. I cani la guardano meno spesso dell'altra.
+    opzioni:
+      - testo: "Dare l'ordine dei recinti"
+        descrizione: "I cani di Ghoran rispondono a un fischio e a un gesto della mano. Questi forse se lo ricordano."
+        prova: { attributo: sociale, abilita: [addestrare-animali, intimidire], difficolta: Media }
+        successo:
+          titolo: A cuccia
+          testo: |
+            Fischi corto e abbassi la mano aperta, come fanno i cacciatori del
+            Guado. Il cane grosso esita prima di sdraiarsi, e gli altri lo
+            imitano uno alla volta. Passi in mezzo alla muta senza che nessuno alzi la testa.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Il fischio sbagliato
+          testo: |
+            Fischi, e il fischio esce storto. Il cane grosso ringhia per la
+            prima volta, e la muta si alza tutta insieme. Esci dalla caverna
+            all'indietro con la lama davanti.
+          effetti: { tormento: 0.5 }
+      - testo: "Salire per le radici fino all'uscita alta"
+        descrizione: "Le radici della parete fanno da scala. I cani non si arrampicano."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: L'uscita alta
+          testo: |
+            Sali piano per le radici come per una scala di corda, e la muta ti
+            segue con gli occhi senza muoversi. L'uscita alta porta in un
+            corridoio che scende dall'altra parte.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: La radice che cede
+          testo: |
+            Una radice ti cede sotto il piede e cadi fra i cani. Ti alzi prima
+            che decidano, e scappi da dove sei venuto con un morso sul polpaccio.
+          effetti: { ferite: 0.5 }
+      - testo: "Affrontare la muta"
+        descrizione: "Sono magri e veloci, e il buio è casa loro."
+        combattimento: ghoran-la-muta
+        vittoria:
+          titolo: La muta dispersa
+          testo: |
+            Quando i due più grossi restano a terra gli altri spariscono nel
+            buio senza un verso. Attraversi la caverna con la lama ancora
+            alzata.
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        sconfitta:
+          titolo: I denti nel buio
+          testo: |
+            I cani ti spingono fuori dalla caverna a morsi senza mai abbaiare,
+            e si fermano sulla soglia a guardarti andare.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciargli quello che hai da mangiare"
+        descrizione: "Una muta affamata si compra con il pane. Il pane però era per te."
+        costo: 2
+        esito:
+          titolo: Il pane
+          testo: |
+            Butti nel mezzo della caverna tutto il pane e la carne secca che
+            avevi, e la muta ci si getta sopra in silenzio. Passi mentre
+            mangiano, e per il resto della discesa ti brontola la pancia.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · la pozza nera e il muro liscio
+  - id: ghoran-fossa-la-pozza-nera
+    immagine: ambientazione/marea-grigia
+    titolo: La pozza nera
+    sommario: "Le radici scendono tutte in una pozza d'acqua nera che non riflette la torcia. Bevono."
+    luogo: La Fossa del Seme, la pozza
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 2]
+    testo: |
+      Più in basso le radici del corridoio si riuniscono e scendono tutte in
+      una pozza d'acqua nera larga quanto una stanza. L'acqua non riflette la
+      torcia. A ogni colpo delle radici la superficie si increspa in cerchi
+      che partono dal centro, e per passare dall'altra parte c'è soltanto
+      una cengia stretta lungo il bordo.
+
+      {medicina Media} L'acqua ha l'odore della pelle di chi è stato troppo
+      vicino alla Marea Grigia. Meglio non toccarla con le mani, e nemmeno
+      con gli stivali bucati.
+
+      {percezione Facile} Sul fondo, vicino al bordo, c'è una forma chiara
+      che potrebbe essere un osso.
+    opzioni:
+      - testo: "Passare sulla cengia"
+        descrizione: "La cengia è larga mezzo piede, e la parete non ha appigli."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Mezzo piede
+          testo: |
+            Passi sulla cengia con il petto contro la parete e i talloni sul
+            vuoto, un piede alla volta. L'acqua sotto di te si increspa a ogni
+            colpo, e tu non la guardi.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Fino al ginocchio
+          testo: |
+            A metà cengia il piede ti scivola e finisci nell'acqua fino al
+            ginocchio. È tiepida, e appiccica. Torni indietro e ti strofini le
+            gambe con la sabbia finché non bruciano.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Capire dove la pozza è bassa"
+        descrizione: "Le radici scendono dove l'acqua è profonda. Lungo il bordo libero, forse, si tocca il fondo."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il guado
+          testo: |
+            Le radici lasciano libera una striscia d'acqua lungo il bordo
+            sinistro, e lì il fondo si vede. La attraversi con l'acqua alle
+            caviglie, sollevando gli stivali a ogni passo, e dall'altra parte trovi un
+            frammento di metallo inciso fra i sassi.
+          pe: { natura: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: La buca
+          testo: |
+            Dove ti sembrava basso c'è una buca, e ci finisci dentro fino alla
+            vita. Ne esci con l'acqua nera nei vestiti e il freddo nelle ossa.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Fare il giro per il cunicolo asciutto"
+        descrizione: "Un cunicolo sale e gira intorno alla pozza. È stretto, e lungo."
+        costo: 2
+        esito:
+          titolo: Il cunicolo
+          testo: |
+            Strisci nel cunicolo sulla pancia per un tempo lunghissimo, con la
+            torcia spenta fra i denti e le radici che ti battono sulla schiena.
+            Sbuchi dall'altra parte della pozza coperto di terra.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, tormento: 0.5 }
+
+  - id: ghoran-fossa-il-muro-liscio
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il muro liscio
+    sommario: "Il corridoio finisce contro un muro di pietra liscia senza giunture. Le radici ci passano attraverso."
+    luogo: La Fossa del Seme, il muro liscio
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 2]
+    testo: |
+      Il corridoio finisce contro un muro di pietra grigia senza una giuntura,
+      liscio come il vetro, tiepido al tatto. Le radici ci arrivano contro e ci
+      passano attraverso, come se il muro per loro non ci fosse, e dall'altra
+      parte si sente il colpo che continua.
+
+      {tecnologia Media} È la stessa pietra delle rovine dei Precursori,
+      quella che non si graffia. Dove le radici entrano il muro ha dei fori
+      rotondi, fatti apposta, come le asole di un bottone.
+
+      {armi-da-mischia Media fallita} Ti viene da provarci con la lama. Ti
+      fermi in tempo, e la lama ringrazia.
+    opzioni:
+      - testo: "Trovare il foro più grande e passarci"
+        descrizione: "Se il muro ha dei fori per le radici, ne avrà uno per chi le curava."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: L'asola
+          testo: |
+            In basso, coperto dalle radici più grosse, c'è un foro largo quanto
+            un uomo accucciato. Sposti le radici con le mani, e loro si lasciano
+            spostare. Passi dall'altra parte strisciando sulla pancia.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Il muro tiepido
+          testo: |
+            Tasti il muro per un'ora senza trovare niente, e alla fine ti
+            accorgi che il muro è più caldo dove hai appoggiato le mani.
+            Ritiri le mani e torni indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Arrampicarti sulle radici fino al soffitto"
+        descrizione: "Le radici entrano anche dall'alto, e dove entrano c'è spazio."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Il varco in alto
+          testo: |
+            Sali sulle radici fino al soffitto, dove il muro si interrompe di
+            un palmo prima della volta. È abbastanza. Ti infili nel varco e ti
+            lasci cadere dall'altra parte.
+          pe: { atletica: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: La caduta
+          testo: |
+            Le radici battono proprio mentre ci sei appeso, e il colpo ti
+            stacca le mani. Cadi di schiena sul pavimento di pietra.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che le radici si aprano"
+        descrizione: "Fra un colpo e l'altro le radici si sgonfiano. Forse lasciano passare."
+        costo: 2
+        esito:
+          titolo: Fra un colpo e l'altro
+          testo: |
+            Conti i colpi seduto davanti al muro, e dopo molto ti accorgi che
+            ogni tanto le radici più grosse si sgonfiano tanto da lasciare
+            libero un foro. Al colpo giusto ci passi, e le radici si richiudono
+            dietro di te.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 · le ossa dell'inverno e la strettoia
+  - id: ghoran-fossa-le-ossa-dell-inverno
+    immagine: ambientazione/regno-profondo
+    titolo: Le ossa dell'inverno
+    sommario: "Una sala piena di ossa, con le radici che ci crescono dentro. Sono i morti di un inverno di diciannove anni fa."
+    luogo: La Fossa del Seme, la sala delle ossa
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 3]
+    testo: |
+      La sala è piena di ossa, ammucchiate contro le pareti come legna per
+      l'inverno, e le radici ci crescono dentro e intorno fino a tenerle
+      insieme. Fra le ossa ci sono crani con il filo di rame ancora
+      intrecciato in quello che resta dei capelli, insieme a qualche fibbia e
+      a molte lame spezzate. Tutto ha la stessa
+      polvere, vecchia di molti anni.
+
+      {medicina Media} Sono morti nello stesso periodo, giovani quasi tutti,
+      di ferite da lama. Dispute, una dopo l'altra, finché ci sono stati
+      uomini da far scendere.
+
+      {origine fuggiasco-di-ghoran} Nei recinti si raccontava dell'inverno
+      in cui i clan si erano mangiati da soli, e i sorveglianti ne parlavano
+      a voce bassa, senza mai dire quanti.
+    opzioni:
+      - testo: "Attraversare la sala sulle ossa"
+        descrizione: "Non c'è un pavimento libero. Si cammina sulle ossa, e le ossa si spostano."
+        prova: { attributo: fisico, abilita: [acrobazia, resistenza], difficolta: Media }
+        successo:
+          titolo: Sulle ossa
+          testo: |
+            Attraversi la sala con passi lunghi, mettendo i piedi dove le
+            radici tengono le ossa ferme. Dall'altra parte c'è un arco basso,
+            e oltre l'arco l'aria cambia.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: La frana di ossa
+          testo: |
+            Un mucchio ti frana sotto i piedi e ti ritrovi sepolto fino alla
+            vita in ossa e polvere. Ne esci tossendo, con un taglio sulla mano
+            fatto da una lama di diciannove anni fa.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere i segni dei clan sulle fibbie"
+        descrizione: "Ogni clan ha il suo segno. I morti dicono chi ha combattuto contro chi, e dove portava la strada."
+        prova: { attributo: mentale, abilita: [accademiche, conoscenze-della-strada], difficolta: Difficile }
+        successo:
+          titolo: Tutti i clan
+          testo: |
+            Sulle fibbie ci sono i segni di tutti i clan di Ghoran, nessuno
+            escluso. Le ossa più vicine all'arco basso hanno la stessa fibbia,
+            senza segno, quella che a Ghoran porta chi non ha clan. Il peso,
+            pensi. Passi sotto l'arco con le fibbie in tasca.
+          pe: { accademiche: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: I segni confusi
+          testo: |
+            I segni si somigliano tutti alla luce della torcia, e dopo un po'
+            ti sembra che ti guardino dalle fibbie. Rimetti tutto giù.
+          effetti: { tormento: 0.5 }
+      - testo: "Raccogliere le ossa e farti strada"
+        descrizione: "Si spostano una per una, e si fa un sentiero. Ci vuole rispetto, e tempo."
+        costo: 2
+        esito:
+          titolo: Il sentiero
+          testo: |
+            Sposti le ossa una per una e le appoggi contro la parete, i crani
+            con la faccia verso il muro. Quando il sentiero arriva all'arco
+            basso hai le mani bianche di polvere.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, tormento: 0.5 }
+
+  - id: ghoran-fossa-la-strettoia
+    immagine: ambientazione/regno-profondo
+    titolo: La strettoia
+    sommario: "Le radici si stringono in un passaggio dove si entra di fianco. Battono più forte, adesso."
+    luogo: La Fossa del Seme, la strettoia
+    area: ghoran-fossa-del-seme
+    ripetibile: true
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme == 3]
+    testo: |
+      Le radici si stringono tutte in un passaggio largo quanto un uomo di
+      fianco, e qui battono più forte. Ogni colpo le gonfia fino a chiudere
+      quasi la strettoia, e ogni volta che si sgonfiano si apre un varco per
+      tre passi. Dall'altra parte c'è luce, una luce grigia che non viene da
+      nessuna torcia.
+
+      {atletica Media} Tre passi fra un colpo e l'altro. Bisogna partire
+      subito dopo il colpo, e non fermarsi.
+
+      {resilienza Media} Il colpo qui è così forte che lo senti nei denti.
+      Se ti fai contare dal colpo, passi. Se lo conti tu, resti incastrato.
+    opzioni:
+      - testo: "Passare fra un colpo e l'altro"
+        descrizione: "Tre passi di fianco, nel tempo fra due colpi."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Tre passi
+          testo: |
+            Aspetti il colpo, e subito dopo entri di fianco nella strettoia.
+            Al terzo passo sei fuori, e dietro di te le radici si chiudono con
+            un rumore di cuoio bagnato.
+          pe: { atletica: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Il colpo che stringe
+          testo: |
+            Parti tardi, e il colpo ti prende a metà. Le radici ti stringono il
+            petto finché non vedi bianco, e quando si sgonfiano torni indietro.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciare che il colpo ti porti"
+        descrizione: "Non si conta. Si sta fermi e si va quando il corpo lo dice."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: A tempo
+          testo: |
+            Chiudi gli occhi e smetti di contare. Il corpo parte da solo
+            insieme al colpo, e quando li riapri sei dall'altra parte, nella
+            luce grigia, con le mani che ti tremano appena.
+          pe: { resilienza: 2 }
+          effetti: { profondita.ghoran-fossa-del-seme: 1 }
+        fallimento:
+          titolo: Il conto
+          testo: |
+            Ti scopri a contare, e il colpo ti trova fermo sulla soglia. Arretri
+            con il rumore delle radici nelle orecchie.
+          effetti: { tormento: 0.5 }
+      - testo: "Allargare la strettoia con la lama"
+        descrizione: "Si tagliano le radici più piccole, una per colpo. Le grandi se ne accorgono."
+        costo: 2
+        esito:
+          titolo: Il varco tagliato
+          testo: |
+            Tagli le radici piccole una alla volta nel tempo fra due colpi,
+            finché il varco resta aperto. Quando passi, quelle grandi ti
+            strisciano contro le braccia e ti lasciano la pelle grigia.
+          effetti: { profondita.ghoran-fossa-del-seme: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · la porta dell'ascia
+  - id: ghoran-fossa-la-porta-dell-ascia
+    immagine: bestiario/cinghiale-mutato-gigante
+    titolo: La porta dell'ascia
+    sommario: "In fondo alla Fossa c'è una porta di pietra, e piantata in una radice davanti alla porta c'è una bipenne. A guardia c'è un verro più grande di un carro."
+    luogo: La Fossa del Seme, il fondo
+    area: ghoran-fossa-del-seme
+    requisiti: [fazione.ghoran == 10, profondita.ghoran-fossa-del-seme >= 4]
+    testo: |
+      Il fondo della Fossa è una sala rotonda piena di luce grigia, che sale
+      dal pavimento come da sotto il ghiaccio. Dall'altra parte c'è una porta
+      di pietra liscia alta tre uomini, e tutte le radici della Fossa
+      convergono lì e ci passano sotto. Davanti alla porta, piantata di
+      traverso nella radice più grossa, c'è una bipenne con il manico nero.
+
+      Accanto alla bipenne dorme un verro. È grande come un carro, con le
+      zanne lunghe un avambraccio, e dalla schiena gli escono le radici come
+      setole, che entrano nel pavimento. Respira insieme alla Fossa. Quando
+      le radici battono, il verro apre un occhio.
+
+      {addestrare-animali Difficile} È un verro da combattimento, dei recinti
+      di Ghoran. Ha ancora l'orecchio tagliato a tacche, e qualcuno, tanti
+      anni fa, gli ha insegnato a obbedire a un grido.
+
+      {armi-da-mischia Media} La bipenne è piantata con un colpo solo, dato
+      da qualcuno molto forte. Diciannove anni di radice l'hanno mangiata
+      fino a metà lama.
+
+      *La bipenne di Ragh, e il suo verro.* Il verro si alza.
+    opzioni:
+      - testo: "Affrontare il verro radicato"
+        descrizione: "È grande come un carro, e le radici lo tengono in piedi anche quando dovrebbe cadere."
+        combattimento: ghoran-il-verro
+        vittoria:
+          titolo: Il verro a terra
+          testo: |
+            Il verro cade sul fianco, e le radici che gli escono dalla schiena
+            si staccano dal pavimento con un rumore di corde strappate. Gli
+            stacchi una zanna con la lama. Ai piedi della porta, fra le radici,
+            trovi anelli di rame e frammenti incisi di chi era sceso prima.
+
+            La bipenne la lasci dov'è. Quando risali per la catena, sopra la
+            grata i clan sono ancora tutti lì, e Ragh è il primo a tenderti la
+            mano.
+          effetti: { fazione.ghoran: 1, oggetto.ghoran-dente-del-verro: 1, reliquie.frammento-inciso: 2, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Le zanne
+          testo: |
+            Il verro ti prende con una zanna e ti butta contro la parete, e tu
+            scappi su per la Fossa senza voltarti, con le radici che battono
+            dietro di te. In cima i clan ti tirano su per le braccia, e Ostrav
+            ride.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Gridargli l'ordine dei recinti"
+        descrizione: "Qualcuno gli ha insegnato a obbedire a un grido. Bisogna trovare quello giusto, e gridarlo con la voce di un padrone."
+        prova: { attributo: sociale, abilita: [addestrare-animali, intimidire], difficolta: Difficile }
+        successo:
+          titolo: Il grido
+          testo: |
+            Gridi a pieni polmoni l'ordine con cui i cacciatori del Guado
+            fermano le bestie, e il verro si blocca a mezzo passo. Resta immobile,
+            con le zanne basse, mentre le radici sulla sua schiena si
+            ritirano. Gli giri intorno piano e gli stacchi una zanna rotta da
+            terra. Ai piedi della porta trovi anelli di rame e frammenti di chi
+            era sceso prima.
+
+            La bipenne la lasci dov'è. Quando risali, sopra la grata i clan
+            sono ancora tutti lì, e Ragh è il primo a tenderti la mano.
+          pe: { addestrare-animali: 5 }
+          effetti: { fazione.ghoran: 1, oggetto.ghoran-dente-del-verro: 1, reliquie.frammento-inciso: 2, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La voce che si rompe
+          testo: |
+            La voce ti si rompe a metà grido, e il verro ti carica. Ti lanci
+            di lato e corri verso la strettoia con le zanne a un passo dalla
+            schiena, e non ti fermi fino alla catena.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Tagliare le radici che lo tengono in vita"
+        descrizione: "Le radici gli entrano nella schiena e nel pavimento. Senza, un verro di quell'età non regge in piedi."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Difficile }
+        successo:
+          titolo: Le setole tagliate
+          testo: |
+            Gli giri intorno finché le radici della schiena non sono tese
+            tutte dalla stessa parte, e le tagli con tre colpi nel punto dove
+            entrano nel pavimento. Il verro fa due passi e si siede come un
+            vecchio stanco, senza più rialzarsi. Gli prendi una zanna. Ai piedi della
+            porta trovi anelli di rame e frammenti di chi era sceso prima.
+
+            La bipenne la lasci dov'è. Quando risali, sopra la grata i clan
+            sono ancora tutti lì, e Ragh è il primo a tenderti la mano.
+          pe: { natura: 5 }
+          effetti: { fazione.ghoran: 1, oggetto.ghoran-dente-del-verro: 1, reliquie.frammento-inciso: 2, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La radice sbagliata
+          testo: |
+            Tagli la radice sbagliata, e quella che resta frusta l'aria e ti
+            prende in pieno petto. Il verro si gira. Scappi verso la strettoia
+            con le radici che battono più forte di prima.
+          effetti: { ferite: 1.5, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Strappare la bipenne dalla radice e usarla"
+        descrizione: "Diciannove anni di radice intorno alla lama. Se viene via, la radice madre sanguina, e il verro con lei."
+        prova: { attributo: fisico, abilita: [atletica, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: La lama che esce
+          testo: |
+            Afferri il manico nero e tiri con tutto il corpo, e la lama esce
+            dalla radice con un suono basso. Dalla ferita cola una linfa scura,
+            e il verro crolla in ginocchio nello stesso momento, come se l'avessi
+            colpito lui. Rimetti piano la bipenne nella radice, e il verro
+            resta a terra. Gli prendi una zanna, e ai piedi della porta trovi
+            anelli di rame e frammenti di chi era sceso prima.
+
+            Quando risali, sopra la grata i clan sono ancora tutti lì, e Ragh è
+            il primo a tenderti la mano.
+          pe: { atletica: 5 }
+          effetti: { fazione.ghoran: 1, oggetto.ghoran-dente-del-verro: 1, reliquie.frammento-inciso: 2, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il manico che non cede
+          testo: |
+            Tiri, e la bipenne non si muove di un dito. Il verro intanto è
+            dietro di te. Ti prende di fianco e ti butta lontano dalla porta,
+            e ti trascini fino alla strettoia con un braccio che non risponde.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata

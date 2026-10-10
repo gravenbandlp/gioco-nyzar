@@ -1,0 +1,1051 @@
+# I Tamburi di Fondo, spedizione di un luogo nero (docs/piano-superficie.md, «Le nove spedizioni dei luoghi neri»).
+# Sul guado nord della Palude Acquanera, dentro il triangolo dei tre paletti rossi dei cacciatori di anguille, una
+# lastra chiude un pozzetto che scende in una fila di camere allagate (codex sf-tamburi-di-fondo). In fondo c'è il
+# battente, un braccio di metallo appeso alla volta che a mezzanotte bussa tre volte sulla testa di un pilastro, e
+# sul pilastro una piastra che a ogni colpo scala di uno: un contatore. La misura del luogo è il conto
+# (misura.tamburi), cioè quanti colpi restano.
+# - Ingresso: `tamburi-di-fondo-i-tre-paletti` (Superficie, traccia.tamburi >= 3), ripetibile.
+# - Stanze in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0 il pozzetto o gli amuleti degli Spacca-ossa; 1 la scala sommersa o la pellicola grigia;
+#   1-2 le anguille di fondo (combattimento contro gregari); 2 il cacciatore che contava o le piastre nuove;
+#   3 il corridoio dei colpi o il cerchio sulla porta.
+# - Cuore a 4: `tamburi-di-fondo-il-battente` (misura.tamburi == 0), a mezzanotte, boss o prove Difficili; la
+#   vittoria dà il conto, la rotella del conto e reliquie. Il battente non si distrugge: la notte dopo bussa di
+#   nuovo. Poi `tamburi-di-fondo-un-altra-mezzanotte` (misura.tamburi >= 1), ripetibile, rende parti e reperti.
+# Il segno che lega il luogo agli altri: il cerchio di nove incavi con uno più profondo, sulla porta della camera e
+# sulla testa del pilastro. Sotto i tre colpi c'è la stessa nota bassa della Costola di Drago.
+# Gli Spacca-ossa qui compaiono solo come vecchi amuleti, perché la loro storia la decide pista.tribu.
+aree:
+  - id: tamburi-di-fondo
+    immagine: ambientazione/palude-acquanera
+    nome: I Tamburi di Fondo
+    sommario: "Sotto il muschio del guado nord, dentro il triangolo dei paletti rossi, una lastra chiude un pozzetto. Più giù ci sono camere allagate, e in fondo qualcosa che a mezzanotte bussa."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto la lastra un pozzetto di pietra liscia scende nell'acqua nera,
+      e più giù si apre in una fila di camere allagate fino alla vita, con
+      il soffitto basso e le pareti di un metallo scuro che la palude non ha
+      intaccato. L'acqua non si muove. È fredda come quella di un pozzo
+      d'inverno, e in superficie galleggia una pellicola grigia che si rompe
+      quando ci passi e si richiude piano dietro di te.
+
+      Le camere scendono una dopo l'altra verso nord, sotto il guado. Dalle
+      pareti arriva ogni tanto un rumore sordo e lontano, troppo debole per
+      essere un colpo, come il ricordo di uno. Le lampade si specchiano
+      nell'acqua, e sotto lo specchio non si vede niente.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, nella Superficie
+  - id: tamburi-di-fondo-i-tre-paletti
+    immagine: ambientazione/palude-acquanera
+    titolo: I tre paletti rossi
+    sommario: "Sul guado nord della Palude Acquanera tre paletti rossi stanno piantati a triangolo nel muschio. In mezzo il muschio galleggia, e sotto c'è una lastra con un anello."
+    luogo: Superficie Fratturata, il guado nord della Palude Acquanera
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [traccia.tamburi >= 3]
+    testo: |
+      Sull'orlo settentrionale della Palude Acquanera il guado è una lingua
+      di muschio e di sassi stretta fra due canali, e i cacciatori di
+      anguille lo passano soltanto di giorno. I tre paletti rossi stanno
+      piantati a triangolo, alti fino al fianco. Due hanno la vernice
+      scrostata dagli anni. Il terzo ha la vernice ancora lucida ed è piantato
+      storto, da qualcuno che aveva fretta di andarsene.
+
+      {natura Media} Dentro il triangolo il muschio è di un verde più
+      chiaro e galleggia sull'acqua invece di posare sulla terra, perché sotto
+      non c'è fango.
+
+      Ti inginocchi sul bordo e scosti il muschio con il coltello. A un
+      braccio sotto l'acqua nera c'è una lastra di pietra liscia, con un
+      anello di metallo nel mezzo.
+
+      {origine fuggiasco-di-ghoran} Dal carro di Ghoran, sulla strada del
+      fango, la palude si vedeva sulla sinistra, grigia fino ai pini. I
+      sorveglianti dicevano di non guardarla di notte, e tu la guardavi lo
+      stesso, perché era l'unica cosa che non apparteneva a nessuno.
+
+      *Qualcuno ha rimesso a posto il paletto, e non è rimasto a vedere se
+      era dritto.* Le rane intorno al triangolo tacciono.
+    opzioni:
+      - testo: "Immergersi e sollevare la lastra"
+        descrizione: "Un braccio d'acqua nera e una lastra con l'anello. L'acqua è fredda, e la lastra pesa."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: L'anello
+          testo: |
+            Ti cali nell'acqua fino alle spalle, afferri l'anello con tutte e
+            due le mani e tiri puntando i piedi sui sassi. La lastra si
+            solleva con un risucchio. Sotto c'è un pozzetto con i pioli di
+            metallo, e dal buio sale un'aria più tiepida di quella del guado.
+          pe: { atletica: 2 }
+          vai: tamburi-di-fondo
+        fallimento:
+          titolo: Il freddo nelle mani
+          testo: |
+            L'acqua è così fredda che le mani ti si chiudono da sole intorno
+            all'anello e non tirano. Esci dal canale tremando, e ti serve un
+            fuoco di canne prima di sentire di nuovo le dita.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare dove il muschio è tiepido"
+        descrizione: "I cacciatori dicono che dopo i colpi il muschio resta tiepido. Il caldo esce da qualche parte."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Lo sfiatatoio
+          testo: |
+            Passi il palmo sul muschio del triangolo, un palmo alla volta, e
+            vicino al paletto nuovo lo senti tiepido. Sotto c'è una grata di
+            metallo coperta di radici, e sotto la grata una scaletta asciutta
+            che scende di fianco al pozzetto.
+          pe: { percezione: 2 }
+          vai: tamburi-di-fondo
+        fallimento:
+          titolo: Muschio freddo
+          testo: |
+            Il muschio è freddo dappertutto, e dopo un'ora di carponi hai le
+            ginocchia bagnate e una sanguisuga attaccata al polso. Te la togli
+            con il coltello e torni sulla riva.
+          effetti: { ferite: 0.5 }
+      - testo: "Far tirare la lastra al cavallo"
+        descrizione: "Una corda all'anello e l'altro capo alla sella. Il cavallo tira meglio di qualunque cacciatore di anguille."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Il cavallo tira
+          testo: |
+            Passi la corda nell'anello e la leghi alla sella, e il cavallo
+            tira con gli zoccoli piantati sui sassi del guado, sbuffando verso
+            i paletti. La lastra viene su con un risucchio e si rovescia nel
+            muschio. Sotto c'è il pozzetto con i pioli.
+          vai: tamburi-di-fondo
+      - testo: "Aspettare l'acqua bassa dell'alba"
+        descrizione: "All'alba i canali calano di un palmo. Basta passare la notte sul guado, lontano dal triangolo."
+        costo: 2
+        esito:
+          titolo: L'acqua bassa
+          testo: |
+            Passi la notte su un sasso asciutto a venti passi dai paletti,
+            con la lanterna coperta. A mezzanotte la terra bussa tre volte
+            sotto di te. All'alba l'acqua è calata di un palmo, e la lastra
+            si solleva con una leva di legno.
+          vai: tamburi-di-fondo
+
+  # ------------------------------------------------------------ 0 · il pozzetto e gli amuleti
+  - id: tamburi-di-fondo-il-pozzetto
+    immagine: ambientazione/palude-acquanera
+    titolo: Il pozzetto
+    sommario: "I pioli scendono nell'acqua nera. In fondo al pozzetto l'acqua arriva al petto, ed è fredda come la neve."
+    luogo: I Tamburi di Fondo, il pozzetto
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 0]
+    testo: |
+      I pioli del pozzetto sono di un metallo scuro che non si è mai
+      arrugginito, e scendono fino a sparire nell'acqua. In fondo l'acqua ti
+      arriva al petto. Il freddo ti prende alle gambe e poi sale, come un
+      vestito bagnato che qualcuno ti infila dalla testa. Davanti a te si
+      apre una camera bassa, e in fondo alla camera un'apertura scura.
+
+      {resistenza Media} Il freddo morde, e dopo un poco smette di
+      mordere. È quello il momento in cui bisogna preoccuparsi, perché vuol
+      dire che le gambe non lo sentono più.
+
+      Sulla parete opposta ai pioli c'è una seconda fila di pioli che sale
+      fino a una sporgenza appena sopra l'acqua.
+    opzioni:
+      - testo: "Attraversare la camera nell'acqua"
+        descrizione: "Sono venti passi d'acqua gelata. Si fanno in fretta, prima che le gambe smettano di rispondere."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Venti passi
+          testo: |
+            Attraversi la camera a passi lunghi, con la lampada alta e i
+            denti che battono. All'apertura scura il pavimento sale, e
+            l'acqua ti scende alla vita. Ti strofini le cosce con le mani
+            finché non tornano tue.
+          pe: { resistenza: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Le gambe di legno
+          testo: |
+            A metà camera le gambe smettono di risponderti, e torni ai pioli
+            trascinandoti con le braccia. Resti appeso fuori dall'acqua
+            finché non ricominci a sentire i piedi.
+          effetti: { ferite: 0.5 }
+      - testo: "Salire sulla sporgenza e passare all'asciutto"
+        descrizione: "La seconda fila di pioli porta a una sporgenza. Bisogna arrivarci, e la sporgenza è stretta."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La sporgenza
+          testo: |
+            Guardi bene la sporgenza e vedi che continua lungo la parete,
+            stretta quanto una mano ma asciutta, fino all'apertura scura. La
+            percorri con la pancia contro il metallo e i talloni nel vuoto,
+            e arrivi dall'altra parte con i piedi quasi asciutti.
+          pe: { percezione: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: La sporgenza che finisce
+          testo: |
+            La sporgenza finisce a metà parete, e te ne accorgi quando il
+            piede trova l'aria. Cadi nell'acqua di schiena, e la lampada si
+            spegne con un sibilo. La riaccendi ai pioli, dopo molti
+            tentativi.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere piano e lasciare che il freddo passi"
+        descrizione: "Il corpo si abitua a tutto, se gli si lascia il tempo. Il tempo però costa."
+        costo: 2
+        esito:
+          titolo: Abituarsi
+          testo: |
+            Scendi un piolo alla volta e resti fermo a ogni piolo, finché il
+            freddo non è soltanto freddo. Quando attraversi la camera hai la
+            pelle blu fino al petto, e ci vuole il resto della discesa perché
+            torni del suo colore.
+          effetti: { profondita.tamburi-di-fondo: 1, ferite: 0.5 }
+
+  - id: tamburi-di-fondo-gli-amuleti
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: Gli amuleti degli orchi
+    sommario: "Attraverso un corridoio pendono fili di lische e di ossa annodate con le canne. Gli Spacca-ossa li hanno appesi molto tempo fa."
+    luogo: I Tamburi di Fondo, il corridoio degli amuleti
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 0]
+    testo: |
+      Il corridoio che parte dalla prima camera è attraversato da fili di
+      canna intrecciata, tesi da una parete all'altra a un palmo l'uno
+      dall'altro. Da ogni filo pendono lische di pesce e ossicini annodati,
+      anneriti dall'umido. Qualcuno ha dipinto sulle pareti, con il fango
+      rosso dei canali, una mano aperta con il palmo rivolto verso il fondo
+      del corridoio.
+
+      {conoscenze-della-strada Media} Sono amuleti degli Spacca-ossa, e
+      sono vecchi. La mano col palmo verso il fondo dice a quello che sta
+      laggiù di restarci.
+
+      Dall'altra parte dei fili il corridoio continua in discesa. L'acqua
+      che ti arriva alle ginocchia è più calda di quella del pozzetto.
+    opzioni:
+      - testo: "Passare fra i fili senza toccarli"
+        descrizione: "Un palmo fra un filo e l'altro. Basta avere pazienza e un corpo che sa piegarsi."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Fra le lische
+          testo: |
+            Passi di fianco, piegandoti sotto un filo e scavalcandone un
+            altro, con le lische che ti dondolano davanti agli occhi. Nessuna
+            ti tocca. Dall'altra parte ti accorgi di aver tenuto le labbra
+            strette per tutto il tempo, come se gli ossicini potessero
+            sentirti.
+          pe: { furtivita: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il filo spezzato
+          testo: |
+            Un filo ti si impiglia nella fibbia e si spezza, e le lische
+            cadono nell'acqua tutte insieme con un rumore di pioggia. Torni
+            indietro senza un motivo che sapresti spiegare, e resti un pezzo
+            nella prima camera a guardare il corridoio.
+          effetti: { tormento: 0.5 }
+      - testo: "Leggere i nodi"
+        descrizione: "Chi annoda un amuleto annoda anche un'istruzione. Gli orchi della palude non sprecano un nodo."
+        prova: { attributo: mentale, abilita: [natura, accademiche], difficolta: Media }
+        successo:
+          titolo: Il nodo aperto
+          testo: |
+            I nodi sono tutti uguali tranne uno per filo, più largo, sempre
+            vicino alla parete di destra. È la porta, e chi li ha annodati la
+            lasciava per sé. Passi lungo la parete di destra sciogliendo ogni
+            nodo largo, e lo rifai dietro di te.
+          pe: { natura: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Nodi stretti
+          testo: |
+            I nodi sono stretti e anneriti, e più li guardi più ti sembrano
+            tutti diversi. Ne sciogli uno per capire, e il filo ti cade
+            addosso. Esci dal corridoio scrollandoti le lische dai capelli.
+          effetti: { tormento: 0.5 }
+      - testo: "Tagliare i fili e passare"
+        descrizione: "Sono canne e ossa. Si tagliano con un colpo. Gli orchi che li hanno appesi però sapevano perché."
+        costo: 2
+        esito:
+          titolo: Il corridoio aperto
+          testo: |
+            Tagli i fili uno dopo l'altro e le lische cadono nell'acqua,
+            dove galleggiano un momento prima di affondare. Il corridoio è
+            libero. Mentre scendi senti le spalle pesanti, come quando entri
+            in una casa senza bussare e ti accorgi che c'è qualcuno.
+          effetti: { profondita.tamburi-di-fondo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1 · la scala sommersa e la pellicola grigia
+  - id: tamburi-di-fondo-la-scala-sommersa
+    immagine: ambientazione/palude-acquanera
+    titolo: La scala sommersa
+    sommario: "Una scala scende nell'acqua e sparisce. Dall'altra parte, dicono i gradini, c'è aria."
+    luogo: I Tamburi di Fondo, la scala sommersa
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 1]
+    testo: |
+      Il pavimento finisce contro una scala di gradini larghi che scende
+      dritta nell'acqua nera, e il soffitto scende con lei fino a toccare la
+      superficie. Per andare avanti bisogna immergersi. Sotto, alla luce
+      della lampada tenuta contro l'acqua, si vedono i primi gradini e poi
+      niente.
+
+      {atletica Media} Da qui a dove il soffitto risale ci sono forse dieci
+      bracciate. Le braccia lo sanno fare. Il problema sono le altre dieci,
+      quelle per tornare se dall'altra parte non c'è aria.
+
+      Sul primo gradino qualcuno ha legato a un anello una corda annodata. La
+      corda scende nell'acqua e resta tesa.
+    opzioni:
+      - testo: "Nuotare lungo la scala"
+        descrizione: "Dieci bracciate nell'acqua nera, seguendo i gradini con la mano."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Dieci bracciate
+          testo: |
+            Nuoti seguendo i gradini con la mano sinistra, e all'ottava
+            bracciata la mano trova il bordo di un pavimento che risale. Esci
+            in una camera piena d'aria che sa di ferro, con l'acqua alla
+            vita, e tossisci finché i polmoni non smettono di bruciare.
+          pe: { atletica: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il soffitto
+          testo: |
+            A metà strada la testa sbatte contro il soffitto, e perdi la scala.
+            Torni indietro alla cieca, e riemergi dove eri partito con la gola
+            piena d'acqua nera. La sputi per un bel pezzo.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire la corda di chi è passato"
+        descrizione: "Una corda tesa porta da qualche parte. Basta fidarsi di chi l'ha legata."
+        prova: { attributo: mentale, abilita: [resilienza, percezione], difficolta: Media }
+        successo:
+          titolo: La corda
+          testo: |
+            Ti tiri lungo la corda una mano dopo l'altra, con gli occhi chiusi
+            perché tanto non servono. La corda gira due volte e poi sale, e
+            sbuchi in una camera piena d'aria con la mano ancora stretta
+            intorno ai nodi.
+          pe: { resilienza: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il capo della corda
+          testo: |
+            La corda finisce a metà strada, legata a un piolo, e intorno al
+            piolo non c'è niente. Torni indietro tirandoti sui nodi con i
+            polmoni che bruciano, e resti un pezzo seduto sul primo gradino.
+          effetti: { tormento: 0.5 }
+      - testo: "Legare una corda tua e tirarsi a forza di braccia"
+        descrizione: "Una corda nuova, legata bene all'anello, si fa scorrere fino all'altra parte. Ci vuole tempo, e l'acqua è fredda."
+        costo: 2
+        esito:
+          titolo: La corda nuova
+          testo: |
+            Leghi la tua corda all'anello e la porti avanti a tratti, tornando
+            ogni volta a prendere aria, finché non trovi l'altra parte. Quando
+            l'ultimo tratto è fatto hai le mani spaccate dal freddo e le labbra
+            viola.
+          effetti: { profondita.tamburi-di-fondo: 1, ferite: 0.5 }
+
+  - id: tamburi-di-fondo-la-pellicola-grigia
+    immagine: ambientazione/marea-grigia
+    titolo: La pellicola grigia
+    sommario: "In una camera la pellicola grigia sull'acqua è spessa come una pelle, e sopra l'aria sa di ferro."
+    luogo: I Tamburi di Fondo, la camera grigia
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 1]
+    testo: |
+      In questa camera la pellicola sull'acqua è spessa come la pelle del
+      latte bollito e non si rompe quando ci passi. Si
+      piega intorno alle gambe e ti sale sui calzoni. Sopra l'acqua l'aria è
+      ferma e odora di ferro, come prima di un temporale. La camera è lunga, e
+      in fondo si
+      vede una porta bassa di metallo, socchiusa.
+
+      {medicina Media} La pelle dei polpacci formicola dove la pellicola
+      l'ha toccata. Tienila lontana dalla bocca e dagli occhi, e da qualsiasi
+      taglio.
+
+      La pellicola si muove piano, in strisce, come un panno steso che il
+      vento sposta.
+    opzioni:
+      - testo: "Coprirsi naso e bocca e passare in fretta"
+        descrizione: "Un panno bagnato sulla faccia, le maniche chiuse. Quello che non entra non fa danno."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Il panno bagnato
+          testo: |
+            Ti leghi il fazzoletto bagnato sulla faccia e ti chiudi i polsini
+            con lo spago, e attraversi la camera a passi lunghi. Alla porta
+            bassa ti togli la pellicola dai calzoni con il dorso del coltello,
+            come si raschia la cera da un tavolo.
+          pe: { medicina: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il taglio
+          testo: |
+            A metà camera ti accorgi di avere un taglio sul dorso della mano, e
+            la pellicola ci è già sopra. Torni indietro di corsa e lavi la mano
+            nell'acqua del pozzetto, strofinando finché la pelle non è rossa.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Seguire le strisce dove l'acqua è pulita"
+        descrizione: "La pellicola si muove in strisce, e fra una striscia e l'altra l'acqua è scura e pulita."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Fra le strisce
+          testo: |
+            Aspetti che le strisce si aprano e passi nell'acqua scura fra una e
+            l'altra, cambiando strada ogni volta che si chiudono. Arrivi alla
+            porta bassa con i calzoni puliti, e la pellicola si richiude
+            dietro di te come se non fossi mai passato.
+          pe: { natura: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: La striscia che si chiude
+          testo: |
+            La striscia pulita si chiude mentre ci sei in mezzo, e la pellicola
+            ti sale fino alla cintura. Torni indietro trascinandotela dietro, e
+            ti ci vuole un pezzo per togliertela di dosso.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Attraversare e pulirsi dopo"
+        descrizione: "La camera è lunga, e la pellicola resta addosso. Dall'altra parte ci si pulisce come si può."
+        costo: 2
+        esito:
+          titolo: La pelle grigia
+          testo: |
+            Attraversi la camera senza guardare dove metti i piedi, e alla
+            porta bassa ti raschi la pellicola dalle gambe con il coltello. Una
+            parte è già entrata nella stoffa, e per il resto della discesa
+            senti la pelle dei polpacci tirare come dopo una scottatura.
+          effetti: { profondita.tamburi-di-fondo: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 1–2 · le anguille di fondo
+  - id: tamburi-di-fondo-le-anguille
+    immagine: ambientazione/palude-acquanera
+    titolo: Le anguille di fondo
+    sommario: "Nell'acqua fino alla vita qualcosa ti sfiora le gambe. Sono anguille lunghe come un uomo, grigie come la pellicola, e cieche."
+    luogo: I Tamburi di Fondo, la camera delle anguille
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo >= 1, profondita.tamburi-di-fondo <= 2]
+    testo: |
+      Nella camera l'acqua ti arriva alla vita, e a metà strada qualcosa di
+      lungo e liscio ti sfiora il polpaccio. Poi un'altra cosa ti sfiora
+      dall'altra parte. Alla luce della lampada vedi una schiena grigia che si
+      inarca
+      fuori dall'acqua, lunga quanto un uomo, e una testa senza occhi con la
+      bocca piena di denti fini come aghi.
+
+      {natura Media} Le anguille della palude non crescono così. Queste vivono
+      al buio qui sotto da generazioni, e la Marea ha fatto il resto.
+      Sentono il movimento nell'acqua, non la luce.
+
+      Le schiene grigie ti girano intorno, più strette a ogni giro.
+    opzioni:
+      - testo: "Combattere nell'acqua"
+        descrizione: "Sono due, e l'acqua è la loro. Però sono cieche."
+        combattimento: tamburi-di-fondo-anguille
+        vittoria:
+          titolo: Le schiene ferme
+          testo: |
+            L'ultima anguilla si rovescia e resta a galla con la pancia
+            bianca. Nello stomaco di una trovi un anello di metallo inciso,
+            ingoiato chissà quando. Lo pulisci sulla manica e vai avanti
+            nell'acqua che si è calmata.
+          effetti: { profondita.tamburi-di-fondo: 1, reliquie.scheggia: 1 }
+        sconfitta:
+          titolo: I denti fini
+          testo: |
+            Le anguille ti mordono le gambe da tutte le parti, e i denti
+            fini lasciano file di buchi che bruciano. Torni indietro
+            scalciando fino al primo gradino asciutto, e le anguille non ti
+            seguono fuori dall'acqua.
+      - testo: "Restare immobili finché se ne vanno"
+        descrizione: "Sentono il movimento. Una cosa ferma, per un'anguilla cieca, è un sasso."
+        prova: { attributo: fisico, abilita: [furtivita, resistenza], difficolta: Media }
+        successo:
+          titolo: Un sasso nell'acqua
+          testo: |
+            Resti fermo con l'acqua alla vita e la lampada alzata, senza
+            muovere nemmeno le dita dei piedi. Le anguille ti girano intorno
+            sempre più larghe, e alla fine se ne vanno in un canale laterale.
+            Attraversi la camera un passo lento alla volta.
+          pe: { furtivita: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il piede che scivola
+          testo: |
+            Il piede ti scivola su qualcosa di molle, e l'acqua si muove. Le
+            anguille ti sono addosso in un momento, e una ti morde il polpaccio
+            prima che tu riesca a tornare al gradino.
+          effetti: { ferite: 0.5 }
+      - testo: "Tornare indietro e prendere il canale stretto"
+        descrizione: "Un canale laterale così basso che le anguille non ci entrano. È stretto anche per te."
+        costo: 2
+        esito:
+          titolo: Il canale stretto
+          testo: |
+            Il canale laterale è così basso che lo fai sdraiato nell'acqua, con
+            la faccia di lato per tenere la bocca fuori. Ci metti molto. Quando
+            ne esci, in una camera più avanti, hai i gomiti scorticati.
+          effetti: { profondita.tamburi-di-fondo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · il cacciatore e le piastre nuove
+  - id: tamburi-di-fondo-il-cacciatore
+    immagine: ambientazione/palude-acquanera
+    titolo: Il cacciatore che contava
+    sommario: "Su una sporgenza asciutta c'è un uomo morto da molti anni, seduto con la schiena al muro. In grembo ha una tavoletta piena di tacche."
+    luogo: I Tamburi di Fondo, la sporgenza
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 2]
+    testo: |
+      Su una sporgenza asciutta, sopra l'acqua, è seduto un uomo con la
+      schiena al muro. È morto da molti anni, e il freddo l'ha seccato
+      invece di disfarlo. Porta la giubba cerata dei cacciatori di anguille,
+      e accanto ha una nassa vuota e un paletto con la vernice rossa quasi
+      andata. In grembo tiene una tavoletta di legno coperta di tacche,
+      fila sotto fila, tre per fila. In un angolo ci ha inciso un pesce.
+
+      {origine accolito-del-velo} Le parole per chi è morto senza veglia le
+      sai a memoria. Ti escono a mezza voce prima che tu decida di dirle, e
+      le mani si muovono da sole per chiudergli gli occhi, che sono già chiusi.
+
+      {empatia Media} Il pesce nell'angolo è inciso con più cura delle
+      tacche. Le tacche erano il lavoro, e il pesce gli teneva compagnia.
+
+      L'ultima fila della tavoletta ha due tacche sole.
+    opzioni:
+      - testo: "Guardare come è morto"
+        descrizione: "Un cacciatore di anguille non muore sott'acqua per caso. Il corpo racconta il resto."
+        prova: { attributo: mentale, abilita: [medicina, percezione], difficolta: Media }
+        successo:
+          titolo: L'attesa
+          testo: |
+            Il corpo è intero e non è annegato. Ha la cintura stretta di tre
+            buchi oltre il segno vecchio. È morto di fame e di freddo mentre
+            aspettava, con gli occhi sulla parete di fronte. Lì, sotto
+            la muffa, c'è un passaggio che scende, con le stesse tre tacche
+            incise sullo stipite.
+          pe: { medicina: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: La mano che cade
+          testo: |
+            Gli sollevi il polso per guardarlo, e la mano si stacca dal braccio
+            con un rumore di legno secco. La rimetti con cura sulla tavoletta
+            che tiene in grembo e ti allontani dalla sporgenza.
+          effetti: { tormento: 0.5 }
+      - testo: "Contare le tacche della tavoletta"
+        descrizione: "Tre per fila, e le file sono tante. Contava i colpi, una notte dopo l'altra."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Le notti
+          testo: |
+            Conti le file a gruppi di dieci. Sono quasi tre mesi di notti con
+            tre colpi ciascuna, e l'ultima notte ne ha sentiti due. Sul
+            retro della tavoletta ha disegnato con la punta del coltello una
+            porta rotonda con un cerchio sopra, e una freccia verso la parete
+            di fronte, e tu vai dove dice la freccia.
+          pe: { accademiche: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il conto che non torna
+          testo: |
+            Conti le file tre volte e ti escono tre numeri diversi. Alla fine
+            rimetti la tavoletta nelle sue mani e ti accorgi di averlo
+            chiamato per nome, un nome qualsiasi, mentre contavi.
+          effetti: { tormento: 0.5 }
+      - testo: "Coprirlo con la sua giubba e passare oltre"
+        descrizione: "Qui non si può seppellire nessuno. Si può almeno coprirgli la faccia."
+        costo: 2
+        esito:
+          titolo: La giubba
+          testo: |
+            Gli tiri piano la giubba cerata sopra la testa e gli lasci la
+            tavoletta in grembo. Cerchi un'altra strada lungo la parete e la
+            trovi dopo un'ora, con le mani gelate. Per tutto quel tempo lo
+            senti alle spalle, seduto ad aspettare.
+          effetti: { profondita.tamburi-di-fondo: 1, tormento: 0.5 }
+
+  - id: tamburi-di-fondo-le-piastre-nuove
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le piastre nuove
+    sommario: "In una nicchia asciutta ci sono piastre di metallo chiaro impilate fino al soffitto, che nessuno ha mai inciso. Sono di ricambio."
+    luogo: I Tamburi di Fondo, la nicchia delle piastre
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 2]
+    testo: |
+      In una nicchia asciutta, sopra il livello dell'acqua, ci sono piastre
+      di metallo chiaro impilate fino al soffitto, grandi come la pietra di
+      un focolare. Sono lucide e non hanno un segno, e lo spigolo di ognuna
+      taglia come una lama nuova. Accanto alla pila, dentro un telaio, c'è
+      un braccio sottile con una punta di diamante, fermo a mezz'aria sopra
+      una piastra incisa per metà.
+
+      {tecnologia Media} Il braccio incide e la pila aspetta. Chi ha fatto
+      questo posto ha previsto che le piastre si consumassero, e ne ha
+      messe da parte per molto tempo.
+
+      In cima alla pila si vede un passaggio basso che corre sotto il soffitto.
+    opzioni:
+      - testo: "Guardare la piastra incisa a metà"
+        descrizione: "Il braccio si è fermato a metà lavoro. Quello che ha inciso dice che cosa incide."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il lavoro a metà
+          testo: |
+            La piastra incisa a metà ha file di numeri dei Precursori, tutti
+            uguali tranne l'ultima cifra. Il braccio la incide a ogni colpo,
+            e quando la piastra si consuma ne prende una nuova dalla pila.
+            Dietro il telaio, una scheggia di metallo caduta dal braccio
+            brilla nella polvere. La prendi e sali sulla pila.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: La punta
+          testo: |
+            Ti avvicini alla piastra, e il braccio si sposta di un dito verso
+            la tua mano con la punta di diamante. Ti tiri indietro con un
+            graffio sottile sulle nocche, e il braccio torna fermo.
+          effetti: { ferite: 0.5 }
+      - testo: "Arrampicarsi sulla pila"
+        descrizione: "Le piastre sono impilate bene. Gli spigoli tagliano, e bisogna tenersi soltanto alle facce."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Sulle facce
+          testo: |
+            Sali tenendoti con i palmi aperti sulle facce lisce, senza mai
+            stringere gli spigoli. In cima ti infili nel passaggio basso e
+            strisci per un tratto, finché non senti di nuovo l'acqua sotto le
+            mani.
+          pe: { atletica: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Lo spigolo
+          testo: |
+            A metà pila la mano scivola e si stringe da sola sullo spigolo. Il
+            taglio è dritto e pulito, e sanguina più di quanto vorresti. Scendi
+            a fasciarlo prima di pensare a qualunque altra cosa.
+          effetti: { ferite: 0.5 }
+      - testo: "Spostare le piastre e farsi una scala"
+        descrizione: "Una piastra alla volta, con le mani fasciate. Si arriva in cima, e ci vuole il pomeriggio."
+        costo: 2
+        esito:
+          titolo: La scala di piastre
+          testo: |
+            Ti fasci le mani con le maniche e sposti le piastre una alla
+            volta, fino a farti una scala storta. Nonostante le maniche, alla
+            fine hai due tagli sottili su ogni palmo, e il passaggio in cima è
+            lì che ti aspetta.
+          effetti: { profondita.tamburi-di-fondo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · il corridoio dei colpi e il cerchio sulla porta
+  - id: tamburi-di-fondo-il-corridoio-dei-colpi
+    immagine: ambientazione/palude-acquanera
+    titolo: Il corridoio dei colpi
+    sommario: "Le pareti del corridoio portano i segni di tre colpi, ripetuti per tutta la lunghezza. L'acqua si increspa a cerchi anche quando non si muove niente."
+    luogo: I Tamburi di Fondo, il corridoio dei colpi
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 3]
+    testo: |
+      Il corridoio è lungo e dritto, con l'acqua alle ginocchia, e corre
+      verso nord. Sulle pareti il metallo è segnato da ammaccature tonde,
+      tre alla volta, a intervalli regolari, come se un pugno grande quanto
+      una botte avesse bussato su tutta la lunghezza. Sull'acqua si aprono
+      di tanto in tanto tre cerchi, uno dopo l'altro, anche quando non si
+      muove niente.
+
+      {percezione Media} I cerchi partono tutti da un punto lontano, in
+      fondo al corridoio. Il colpo arriva da là, e quello che senti qui è
+      soltanto il resto.
+
+      Lungo la parete di sinistra corre una sporgenza sopra l'acqua, stretta
+      quanto un piede.
+    opzioni:
+      - testo: "Camminare nell'acqua contando i cerchi"
+        descrizione: "I cerchi vengono a tre a tre. Se li conti, sai sempre quando arriva il prossimo."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Tre cerchi
+          testo: |
+            Cammini contando i cerchi a mezza voce, e quando arrivano ti fermi
+            e li lasci passare intorno alle ginocchia. Il corridoio finisce
+            contro una porta rotonda. Hai le dita contratte a pugno da un
+            pezzo, e
+            ci metti un po' ad aprirle.
+          pe: { resilienza: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il conto nelle orecchie
+          testo: |
+            Dopo il ventesimo gruppo di cerchi senti i tre colpi nelle
+            orecchie anche quando non ci sono, e poi te li senti nei denti.
+            Torni indietro fino a
+            dove l'acqua è ferma, e aspetti che ti passino.
+          effetti: { tormento: 0.5 }
+      - testo: "Camminare sulla sporgenza"
+        descrizione: "Stretta quanto un piede, ma sopra l'acqua. I cerchi lì non arrivano."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Sopra l'acqua
+          testo: |
+            Cammini sulla sporgenza di fianco, con la schiena al muro e le
+            ammaccature sotto le dita, e l'acqua sotto di te si increspa per
+            conto suo. In fondo la sporgenza scende verso una porta rotonda.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: La sporgenza bagnata
+          testo: |
+            La sporgenza è viscida, e il piede ti parte a metà. Cadi nell'acqua
+            di fianco e batti il gomito contro il muro. Torni all'inizio del
+            corridoio con il braccio che non vuole piegarsi.
+          effetti: { ferite: 0.5 }
+      - testo: "Tirare dritto nell'acqua senza badare ai cerchi"
+        descrizione: "Sono cerchi d'acqua. Si cammina, e basta."
+        costo: 2
+        esito:
+          titolo: I colpi nelle gambe
+          testo: |
+            Cammini dritto senza contare, e ogni volta che i cerchi ti
+            arrivano alle ginocchia senti il colpo nelle ossa delle gambe, tre
+            volte, fino al bacino. Arrivi alla porta rotonda zoppicando come un
+            vecchio.
+          effetti: { profondita.tamburi-di-fondo: 1, tormento: 1 }
+
+  - id: tamburi-di-fondo-il-cerchio-sulla-porta
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il cerchio sulla porta
+    sommario: "Una porta rotonda chiude la camera del battente. Sopra c'è un cerchio di nove incavi, e uno è più profondo degli altri."
+    luogo: I Tamburi di Fondo, la porta rotonda
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo == 3]
+    testo: |
+      In fondo al corridoio c'è una porta rotonda di metallo scuro, alta il
+      doppio di un uomo e senza maniglie. Al centro sono incisi nove incavi
+      disposti in cerchio, ognuno largo quanto un pollice, e uno è più
+      profondo degli altri. Intorno al cerchio corre una fila di segni dei
+      Precursori, sempre lo stesso segno, ripetuto nove volte. Dalla porta
+      arriva un freddo che non viene dall'acqua.
+
+      {accademiche Media} Nove incavi e nove segni uguali. Chi ha fatto la
+      porta contava fino a nove, e uno dei nove era questo posto.
+
+      Appoggi l'orecchio al metallo. Dall'altra parte non si sente niente,
+      e poi si sente un ticchettio fino, come quello di una pendola.
+    opzioni:
+      - testo: "Premere l'incavo più profondo"
+        descrizione: "Uno dei nove è diverso. Una porta senza maniglie si apre da qualche parte."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: L'incavo
+          testo: |
+            Premi il pollice nell'incavo più profondo, e il cerchio gira di
+            un nono sotto il tuo dito. La porta si apre verso l'interno senza
+            un rumore, e il ticchettio diventa più forte.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1 }
+        fallimento:
+          titolo: Il cerchio che non gira
+          testo: |
+            Premi gli incavi uno dopo l'altro, e il cerchio non si muove. Al
+            nono ti scappa un colpo di stizza con il palmo sulla porta, Dalla
+            camera ti risponde un colpo solo e debole, e tu ti allontani in
+            fretta senza voltarti.
+          effetti: { tormento: 0.5 }
+      - testo: "Leggere i segni intorno al cerchio"
+        descrizione: "Lo stesso segno nove volte. Se uno dei nove è questo posto, gli altri otto sono altrove."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Nove volte
+          testo: |
+            Ricopi il segno sul quaderno e ti accorgi che non è uguale nove
+            volte. Cambia di un tratto a ogni ripetizione, come un numero che
+            sale. Quello accanto all'incavo profondo ha un tratto in più, e
+            quando lo tocchi la porta si apre verso l'interno.
+          pe: { accademiche: 2 }
+          effetti: { profondita.tamburi-di-fondo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il segno che scivola
+          testo: |
+            Il segno ti scivola sotto gli occhi e torna diverso a ogni
+            sguardo. Chiudi il quaderno con un po' di nausea e ti appoggi alla
+            parete, che ticchetta.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che la porta si apra da sola"
+        descrizione: "A mezzanotte la porta si apre, perché il battente deve pur bussare su qualcosa. Bisogna aspettare, al freddo."
+        costo: 2
+        esito:
+          titolo: Il freddo della porta
+          testo: |
+            Ti siedi sulla sporgenza davanti alla porta, con le ginocchia al
+            petto, e aspetti. Il freddo ti entra nelle ossa un poco alla volta.
+            Quando la porta si apre da sola, con un sospiro lungo, non sai da
+            quanto sei lì.
+          effetti: { profondita.tamburi-di-fondo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · il battente
+  - id: tamburi-di-fondo-il-battente
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Il battente
+    sommario: "Al centro della camera allagata un pilastro esce dall'acqua, con una piastra di numeri. Sopra, appeso alla volta, c'è un braccio di metallo grosso come un tronco, e manca poco a mezzanotte."
+    luogo: I Tamburi di Fondo, la camera del battente
+    area: tamburi-di-fondo
+    requisiti: [profondita.tamburi-di-fondo >= 4, misura.tamburi == 0]
+    testo: |
+      La camera è rotonda e alta, e l'acqua nera la riempie fino alla vita.
+      Al centro esce dall'acqua un pilastro di metallo chiaro, largo come un
+      pozzo, con la testa piatta e ammaccata. Sulla faccia rivolta verso di
+      te è fissata una piastra coperta di numeri dei Precursori in file
+      fitte, e accanto alla piastra un braccio sottile con una punta di
+      diamante aspetta, fermo. In cima al pilastro è inciso un cerchio
+      di nove incavi, con uno più profondo degli altri.
+
+      Sopra il pilastro, appeso alla volta con un'articolazione grande come
+      una ruota di mulino, c'è il battente. È un braccio di metallo nero
+      grosso come un tronco e piegato al gomito, che finisce in una massa
+      tonda. Il ticchettio viene dalla volta. Sta accelerando.
+
+      {origine allievo-di-torvessa} I numeri dei Precursori all'Accademia si
+      copiano il primo anno, una colonna al giorno. Ne riconosci la forma,
+      e capisci che l'ultima riga della piastra è un numero solo, molto
+      lungo.
+
+      {resilienza Media fallita} Ti accorgi di contare i ticchettii, e di
+      non riuscire a smettere.
+
+      Il battente si muove. Il gomito si apre piano, e la massa tonda si
+      solleva verso la volta per prendere lo slancio.
+    opzioni:
+      - testo: "Salire sul pilastro e tenere testa al battente"
+        descrizione: "Il battente bussa sul pilastro, e chi ci sta sopra prende il colpo. Bisogna resistere tre colpi e leggere il conto."
+        combattimento: tamburi-di-fondo-battente
+        vittoria:
+          titolo: Il conto
+          testo: |
+            Al terzo colpo il gomito del battente cede di lato, e il braccio
+            si ritira verso la volta trascinandosi dietro un rumore di catene.
+            Sotto la piastra la punta di diamante incide, e l'ultima riga
+            scala di tre. La ricopi sul quaderno cifra per cifra, con le mani
+            che tremano. Dall'articolazione del gomito è caduta nell'acqua una
+            rotella dentata, e la ripeschi insieme a due frammenti della
+            piastra vecchia.
+
+            {espressivita Media} Sotto i tre colpi c'era una nota sola e bassa
+            che è rimasta nell'acqua quando i colpi erano
+            finiti. È quella che i mercenari di Ghoran raccontano sulle
+            alture, la nota che fa cantare i coltelli.
+
+            Il battente è ammaccato e vivo. Domani a mezzanotte busserà di
+            nuovo, e il conto scenderà di tre.
+          pe: { armi-da-mischia: 5 }
+          effetti: { misura.tamburi: 1, oggetto.tamburi-di-fondo-rotella-del-conto: 1, reliquie.frammento-inciso: 2, parte.involucro-3: 1, bottino.parti-di-drone: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il secondo colpo
+          testo: |
+            Il primo colpo lo pari. Il secondo ti prende in pieno e ti butta
+            giù dal pilastro nell'acqua nera, e il terzo lo senti da sotto, nel
+            petto. Riemergi lontano senza la lampada e risali le camere a
+            tentoni fino al pozzetto, senza aver letto niente.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Leggere il conto dall'acqua tra un colpo e l'altro"
+        descrizione: "La punta incide dopo ogni colpo. Fra un colpo e il successivo c'è il tempo di leggere una riga, se si hanno occhi buoni e la lampada ferma."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Tre righe
+          testo: |
+            Resti nell'acqua a cinque passi dal pilastro con la lampada alta.
+            Al primo colpo l'acqua ti sale al petto, e leggi la riga mentre la
+            punta incide. Al secondo la confronti, e al terzo sei sicuro. La
+            ricopi sul quaderno con le dita intorpidite. Quando il battente
+            torna verso la volta, una rotella dentata cade dal gomito e
+            affonda vicino a te, e la ripeschi insieme a un frammento di
+            piastra vecchia.
+          pe: { percezione: 5 }
+          effetti: { misura.tamburi: 1, oggetto.tamburi-di-fondo-rotella-del-conto: 1, reliquie.frammento-inciso: 2, parte.involucro-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: L'onda
+          testo: |
+            Al primo colpo l'onda ti spegne la lampada. Al secondo ti
+            rovescia, e sbatti contro la parete della camera. Del conto hai
+            visto soltanto le prime cifre, e risali le camere allagate con una
+            spalla che non si alza più.
+          effetti: { ferite: 1.5, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinare al battente di fermarsi a metà"
+        descrizione: "La formula del Comando parla alle macchine nella loro lingua. Un braccio che bussa da secoli forse accetta di aspettare un momento."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: A mezz'aria
+          testo: |
+            Dici la formula mentre il gomito si apre, e la massa tonda si
+            ferma a mezz'aria sopra il pilastro. Sali sul pilastro a leggere
+            l'ultima riga, e la ricopi con calma. Quando scendi il battente
+            riprende e bussa
+            tre volte, e la riga scala di tre sotto i tuoi occhi. Dal gomito,
+            per lo sforzo, è saltata una rotella dentata, che raccogli
+            insieme a un frammento della piastra.
+          pe: { magia: 5 }
+          effetti: { misura.tamburi: 1, oggetto.tamburi-di-fondo-rotella-del-conto: 1, reliquie.frammento-inciso: 2, parte.involucro-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La formula nell'acqua
+          testo: |
+            La formula ti esce a metà, e il battente non si ferma. Il colpo
+            sul pilastro manda un'onda che ti prende in faccia e ti riempie la
+            bocca di acqua grigia. Risali le camere tossendo, e la tosse ti
+            dura fino alla Superficie.
+          effetti: { contaminazione: 1, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Aspettare i colpi sott'acqua, accanto al pilastro"
+        descrizione: "Il battente bussa su quello che sta sopra l'acqua. Sotto, accanto al pilastro, si aspetta che finisca e si risale a leggere."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: Sotto l'acqua nera
+          testo: |
+            Ti immergi accanto al pilastro e ti tieni alla sua base, e i tre
+            colpi ti arrivano nel petto come tre pugni attraverso l'acqua.
+            Risali dopo il terzo, con i polmoni in fiamme, e leggi l'ultima
+            riga mentre la punta finisce di inciderla. Alla base del
+            pilastro, sotto le dita, avevi trovato una rotella dentata e un
+            frammento della piastra vecchia.
+          pe: { resistenza: 5 }
+          effetti: { misura.tamburi: 1, oggetto.tamburi-di-fondo-rotella-del-conto: 1, reliquie.frammento-inciso: 2, parte.involucro-2: 1, contaminazione: 0.5 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il terzo colpo
+          testo: |
+            Al secondo colpo non resisti più e risali, e il terzo ti prende
+            sulla schiena mentre esci dall'acqua. Torni giù, e quando riemergi
+            sei lontano dal pilastro con la bocca piena di acqua grigia.
+            Risali le camere senza il conto.
+          effetti: { ferite: 1, contaminazione: 1, tormento: 1 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ dopo la misura · un'altra mezzanotte (ripetibile)
+  - id: tamburi-di-fondo-un-altra-mezzanotte
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Un'altra mezzanotte
+    sommario: "Il battente bussa ancora, con uno scatto storto nel gomito. Il conto sulla piastra è sceso di tre per ogni notte che è passata."
+    luogo: I Tamburi di Fondo, la camera del battente
+    area: tamburi-di-fondo
+    ripetibile: true
+    requisiti: [profondita.tamburi-di-fondo >= 4, misura.tamburi >= 1]
+    testo: |
+      Nella camera rotonda l'acqua nera è ferma e il ticchettio accelera
+      come l'altra volta. Nel gomito del battente manca ancora la rotella, e
+      quando si solleva verso la volta lo fa con un piccolo scatto storto.
+      Sulla piastra l'ultima riga è più corta di tre colpi per ogni notte che
+      è passata. Le tue impronte sulla soglia sono sparite sotto la pellicola
+      grigia.
+
+      {tecnologia Media} Intorno alla base del pilastro, sott'acqua,
+      luccicano i pezzi che il battente perde a ogni colpo storto. Qualcuno
+      se li dovrà pur prendere.
+
+      Il gomito si apre.
+    opzioni:
+      - testo: "Tenere testa al battente un'altra volta"
+        descrizione: "È lo stesso braccio, con la stessa forza. Questa volta il conto lo sai già."
+        combattimento: tamburi-di-fondo-battente
+        vittoria:
+          titolo: I pezzi persi
+          testo: |
+            Il battente si ritira verso la volta dopo il terzo colpo,
+            trascinando le catene. Ti immergi alla base del pilastro e
+            raccogli quello che ha perso nell'acqua. C'è un guscio chiuso, con
+            qualche pezzo di congegno.
+          effetti: { parte.involucro-2: 1, reperto.sigillato: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Tre colpi
+          testo: |
+            Il battente ti butta giù dal pilastro al primo colpo, e gli altri
+            due li senti da sotto l'acqua. Risali le camere a tentoni.
+          vai: superficie-fratturata
+      - testo: "Raccogliere i pezzi sott'acqua mentre bussa"
+        descrizione: "Mentre il battente bussa, alla base del pilastro non guarda nessuno. Bisogna restare sotto a lungo."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Difficile }
+        successo:
+          titolo: Sul fondo
+          testo: |
+            Ti immergi al primo colpo e raccogli a tentoni sul fondo, mentre
+            i colpi ti arrivano nel petto. Risali dopo il terzo con le mani
+            piene, e la punta di diamante sopra di te sta finendo di incidere.
+          pe: { resistenza: 3 }
+          effetti: { reperto.sigillato: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: L'acqua grigia
+          testo: |
+            Risali troppo presto, e il secondo colpo ti rimanda giù con la
+            bocca aperta. Esci dalla camera tossendo acqua grigia, a mani
+            vuote.
+          effetti: { contaminazione: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Ascoltare i colpi e risalire"
+        descrizione: "Il conto lo sai già. Si può anche soltanto ascoltare."
+        costo: 0
+        esito:
+          titolo: Tre colpi e una nota
+          testo: |
+            Resti sulla soglia ad ascoltare i tre colpi e la nota che rimane
+            nell'acqua dopo l'ultimo. Poi risali le camere allagate, e il
+            muschio del guado, quando esci, è tiepido sotto i piedi.
+          vai: superficie-fratturata
+
+nemici:
+  - id: tamburi-di-fondo-anguilla
+    immagine: ambientazione/palude-acquanera
+    nome: Anguilla di fondo
+    descrizione: "Un'anguilla grigia lunga quanto un uomo, senza occhi, con la bocca piena di denti fini come aghi. Vive nelle camere allagate sotto il guado nord da generazioni, e sente nell'acqua ogni movimento."
+    attacco: 4
+    difesa: 4
+    difesaMentale: 3
+    pf: 5
+    danno: 3
+    riduzione: 1
+    iniziativa: 4
+    tratti: [animale]
+
+  - id: tamburi-di-fondo-battente
+    immagine: bestiario/salvaguardia-precursori
+    nome: Il battente
+    descrizione: "Un braccio di metallo nero grosso come un tronco, appeso alla volta di una camera allagata con un'articolazione grande come una ruota di mulino. Bussa tre volte ogni mezzanotte sul pilastro del conto, e chi ci sta sopra prende i colpi."
+    attacco: 5
+    difesa: 3
+    difesaMentale: 6
+    pf: 14
+    danno: 4
+    riduzione: 4
+    iniziativa: 1
+
+scontri:
+  - { id: tamburi-di-fondo-anguille, nome: "Le anguille di fondo", nemici: [tamburi-di-fondo-anguilla, tamburi-di-fondo-anguilla], feriteSconfitta: 2 }
+  - { id: tamburi-di-fondo-battente, nome: "Il battente", nemici: [tamburi-di-fondo-battente], feriteSconfitta: 4 }
+
+oggetti:
+  - id: tamburi-di-fondo-rotella-del-conto
+    nome: Rotella del conto
+    immagine: icone/gears
+    descrizione: "Una rotella dentata di metallo nero, caduta dal gomito del battente dei Tamburi di Fondo. Tenuta al collo con una cordicella, scatta di un dente a ogni colpo che prendi, e all'ultimo dente si blocca e ti tiene in piedi."
+    slot: accessorio
+    grado: 3
+    proprieta: { ultimoRespiro: true, talento: { resistenza: 1 } }
+
+colonna:
+  - { contesto: area, id: tamburi-di-fondo, musica: our-wounds-our-crown, ambiente: dungeon }

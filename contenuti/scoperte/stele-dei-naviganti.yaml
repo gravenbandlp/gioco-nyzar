@@ -1,0 +1,1024 @@
+# Le Stele dei Naviganti, spedizione dei luoghi neri (docs/piano-superficie.md, «Le nove spedizioni dei luoghi neri»).
+# Sette colonne basse di pietra grigia in pianura, due giorni e mezzo a sud-ovest di Qir-Azel oltre la Foresta
+# Strisciante (codex sf-stele-dei-naviganti). Di giorno le ombre cadono tutte verso Korith, come nel canone dei
+# Raschiatori (`raschiatori-le-ombre-che-indicano`, la campagna della Biblioteca del 142): le Stele sono un faro per
+# le navi dei Precursori, e le ombre aspettano ancora una nave che non è mai arrivata. Sotto le colonne ci sono le
+# lanterne nere che fanno le ombre, e la sala dei naviganti con le rotte incise nel pavimento. Nella notte di luna
+# nuova la settima colonna proietta un'ombra in più, che punta altrove. Il vecchio della carta `carta-voci-stele` ne
+# aveva contate otto, e nessuno gli aveva creduto. La base della settima porta i nove segni dell'Anello del
+# Camminatore, con le sette righe delle Stele più consumate delle altre.
+#
+# Ingresso `stele-dei-naviganti-le-sette-colonne` (Superficie, ripetibile, traccia.stele >= 3): due vie con prova
+# (chi fallisce torna indietro), il cavallo a costo 0, il sentiero lungo il margine della Foresta a costo 2.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0 le sette ombre, il campo del 142;
+#   1 la galleria delle lanterne;
+#   1–3 le ombre staccate (combattimento contro due gregari);
+#   2 la sala dei naviganti, la lanterna nera;
+#   3 il pozzo della settima, l'ombra che ti segue.
+# Il cuore a 4 è la notte senza luna (`stele-dei-naviganti-la-notte-senza-luna`, misura.stele == 0): il fanalista
+# della settima colonna (boss), oppure il filo teso sull'ombra prima che lui la spenga (Percezione o Tecnologia), il
+# Comando, tutte Difficili; per l'Apprendista Raschiatore i paletti e il filo come insegna la squadra (Atletica o
+# Tecnologia, Difficile). La vittoria dà misura.stele, l'Asta del fanalista e parti dei Precursori; chi fallisce torna
+# in Superficie senza misura.
+# Dopo, `stele-dei-naviganti-la-settima-colonna` (ripetibile, misura.stele >= 1) rende meno.
+#
+# La direzione (la misura delle Stele, per chi scrive la Campana Sepolta): l'ombra in più punta a nord-est. Tirata
+# sulla carta passa a nord della città, attraversa il Rovolungo e finisce sulla costa, su una scogliera grigia dove
+# la carta della Gilda ha soltanto il segno della costa. La prosa non nomina la Campana.
+aree:
+  - id: stele-dei-naviganti
+    immagine: ambientazione/superficie-fratturata
+    nome: Le Stele dei Naviganti
+    sommario: "Sette colonne basse in fila in una pianura senza alberi, oltre la Foresta Strisciante. Le ombre cadono sempre dalla stessa parte, e sotto le colonne qualcuno le fabbrica."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      La pianura oltre la Foresta Strisciante è piatta fino all'orizzonte e
+      coperta d'erba corta e gialla. Le sette colonne ci stanno in fila come
+      paletti di un recinto che non c'è più. Sono di pietra grigia, alte a
+      stento un uomo, senza un'iscrizione che si sappia leggere. Ogni colonna ha la sua ombra nera e netta, e le sette ombre cadono parallele verso
+      est a qualunque ora, anche quando il sole è dalla parte sbagliata.
+
+      Sotto le colonne la terra è cava. Le ombre si fabbricano là sotto,
+      dove il caldo del giorno non arriva, e salgono su per le colonne come
+      il fumo su per un camino.
+
+colonna:
+  - { contesto: area, id: stele-dei-naviganti, musica: desolate-march, ambiente: forest-night }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, nella Superficie
+  - id: stele-dei-naviganti-le-sette-colonne
+    immagine: ambientazione/foresta-strisciante
+    titolo: Le sette colonne
+    sommario: "Due giorni e mezzo a sud-ovest, girando largo intorno alla Foresta Strisciante, sette colonne grigie stanno in fila in mezzo alla pianura. Manca poco alla luna nuova."
+    luogo: Superficie Fratturata, la pianura oltre la Foresta Strisciante
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [traccia.stele >= 3]
+    testo: |
+      Hai fatto i conti per arrivare con la luna nuova, e la luna, l'ultima
+      notte di cammino, è un'unghia sottile sopra la Foresta Strisciante. Il
+      sentiero gira largo intorno al bosco, e il margine degli alberi ti
+      accompagna sulla destra per un giorno intero, sempre alla stessa
+      distanza, anche quando il sentiero si allontana.
+
+      Poi la pianura si apre, e le Stele sono lì. Sette colonne grigie in
+      fila, così allineate che la prima nasconde le altre sei. È mezzogiorno,
+      e le ombre sono lunghe come a sera, tutte verso est. Intorno alla punta
+      di ogni ombra ci sono paletti piantati nell'erba. I più vecchi sono marci e coperti di
+      licheni, altri sono di legno ancora chiaro.
+
+      {accademiche Media} Le misure del 142 parlavano di sette ombre ostinate
+      come dita puntate. Nessuno del 142 aveva pensato che delle dita
+      puntate aspettano che qualcuno guardi dove.
+
+      {origine apprendista-raschiatore} I paletti di legno chiaro li ha
+      piantati una squadra dei Raschiatori, con il nodo del turno sulla
+      cordicella in cima. Sulle piattaforme si misura con il filo e i paletti, e chi li ha
+      lasciati qui sapeva il mestiere.
+
+      *Sette dita puntate, e stanotte forse otto.* Alla base della prima
+      colonna, fra l'erba, c'è una fessura scura.
+    opzioni:
+      - testo: "Seguire l'ombra della prima colonna fino alla base"
+        descrizione: "Le ombre non le fa il sole. Da qualche parte, alla base, si vede da dove escono."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Da dove escono
+          testo: |
+            Ti inginocchi alla base della prima colonna dalla parte dell'ombra, e
+            guardi da vicino. L'ombra sale dalla terra come
+            l'acqua da una sorgente, da una fessura sottile fra la colonna e
+            il suolo. Allarghi la fessura con il coltello e le dita, e sotto
+            c'è un gradino di pietra liscia, freddo come la pietra di una
+            cantina.
+          pe: { percezione: 2 }
+          vai: stele-dei-naviganti
+        fallimento:
+          titolo: La punta dell'ombra
+          testo: |
+            Segui l'ombra dalla parte sbagliata verso la punta, e cammini fino a sera dietro a una cosa che si allunga quanto cammini tu.
+            Torni alle colonne al buio e dormi nell'erba, con la luna ancora
+            lì a farti compagnia.
+          effetti: { tormento: 0.5 }
+      - testo: "Scavare alla base della settima colonna"
+        descrizione: "La settima è quella della storia del vecchio rilevatore. Se c'è un ingresso, conviene cercarlo lì."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il gradino freddo
+          testo: |
+            Scavi alla base della settima colonna sotto il sole del
+            pomeriggio, e a un braccio di profondità la terra diventa fredda
+            come neve sciolta. Sotto c'è una fila di gradini di pietra liscia che scendono nel buio. L'aria che sale
+            sa di cantina.
+          pe: { atletica: 2 }
+          vai: stele-dei-naviganti
+        fallimento:
+          titolo: La terra fredda
+          testo: |
+            Scavi fino a sera, e la terra diventa così fredda che le mani non
+            reggono più la pala. Ti avvolgi le dita nella giubba e ti siedi
+            ad aspettare che tornino tue, mentre le ombre continuano a puntare
+            verso est.
+          effetti: { ferite: 0.5 }
+      - testo: "Arrivare a cavallo e girare intorno alle colonne"
+        descrizione: "A cavallo la pianura si gira in un'ora. Un cavallo sente il freddo che sale da sotto prima di te."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Il cavallo che sbuffa
+          testo: |
+            Giri intorno alle colonne al trotto, e alla prima il cavallo
+            rallenta e sbuffa, abbassando il muso verso l'erba come davanti a
+            un ruscello d'inverno. Scendi e guardi dove guarda lui. Alla base
+            della colonna c'è una fessura, e sotto la fessura un gradino di
+            pietra liscia e fredda che scende.
+          vai: stele-dei-naviganti
+      - testo: "Prendere il sentiero lungo il margine della Foresta"
+        descrizione: "Il sentiero più sicuro corre lungo gli alberi, dicono i rilevatori. È lungo, e gli alberi ti tengono d'occhio."
+        costo: 2
+        esito:
+          titolo: Il margine degli alberi
+          testo: |
+            Prendi il sentiero dei rilevatori, che corre lungo il margine della
+            Foresta Strisciante, e la notte la passi con la schiena contro un
+            sasso e gli alberi a venti passi, che al mattino sono a quindici.
+            Arrivi alle colonne con gli occhi rossi, e alla base della prima
+            trovi una fessura dove l'aria è fredda. Sotto c'è un gradino di
+            pietra liscia.
+          effetti: { tormento: 0.5 }
+          vai: stele-dei-naviganti
+
+  # ------------------------------------------------------------ 0 · le sette ombre e il campo del 142
+  - id: stele-dei-naviganti-le-sette-ombre
+    immagine: ambientazione/superficie-fratturata
+    titolo: Le sette ombre
+    sommario: "Le ombre delle colonne sono fredde al tatto, e a metterci una mano sopra la mano si fa scura. Ognuna scende nella sua fessura."
+    luogo: Le Stele dei Naviganti, fra le colonne
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 0]
+    testo: |
+      Fra le colonne l'erba è più corta perché la brucano le lepri, e le
+      ombre ci stanno sopra nere come inchiostro versato. Metti una mano in una delle
+      ombre, e la mano diventa scura fino al polso, fredda, come se l'avessi
+      infilata in un secchio d'acqua di pozzo. Ogni colonna ha alla base la
+      sua fessura, e da ognuna sale un filo d'aria fresca.
+
+      {natura Media} Sopra le ombre l'erba è più verde che altrove. Ci
+      piove come dappertutto, ma l'acqua resta, perché il sole qui sopra
+      non asciuga niente.
+
+      La fessura più larga è quella della prima colonna, e sotto si vede un
+      gradino.
+    opzioni:
+      - testo: "Scendere lungo l'ombra della prima colonna"
+        descrizione: "L'ombra entra nella fessura e scende. Dove scende lei, si scende."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Dentro l'ombra
+          testo: |
+            Ti infili nella fessura di traverso, con le spalle strette, e
+            scendi i gradini dentro l'ombra, che ti arriva fino al collo come
+            acqua fredda. In fondo la scala si apre in un passaggio basso, e
+            l'ombra corre sul soffitto davanti a te, verso est.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: I gradini freddi
+          testo: |
+            Il freddo dell'ombra ti intorpidisce le gambe al terzo gradino, e
+            scivoli. Ti tiri su con le braccia e risali al sole, dove ti
+            siedi a massaggiarti i polpacci finché non smettono di formicolare.
+          effetti: { ferite: 0.5 }
+      - testo: "Misurare le ombre e trovare quella che conta"
+        descrizione: "Ci sono sette ombre e sette fessure. Se una è diversa dalle altre, è da lì che conviene scendere."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La terza ombra
+          testo: |
+            Misuri le ombre con il passo, e la terza è più corta delle altre
+            di un piede, come se qualcosa sotto la tenesse. La sua fessura è
+            stretta, ma i gradini sono asciutti e scendono dritti in un
+            passaggio basso, dove l'aria è ferma e fredda.
+          pe: { accademiche: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: Le ombre che si allungano
+          testo: |
+            Misuri le ombre, e mentre misuri si allungano tutte insieme di un
+            passo. Ricominci, e si allungano ancora. Alla fine smetti, con la
+            netta sensazione che le ombre stessero giocando con te.
+          effetti: { tormento: 1 }
+      - testo: "Aspettare che la fessura si allarghi con il freddo della sera"
+        descrizione: "La sera la terra si ritira, e le fessure si aprono. Si aspetta sdraiati nell'erba, con il freddo che sale."
+        costo: 2
+        esito:
+          titolo: La sera
+          testo: |
+            Aspetti la sera sdraiato nell'erba accanto alla prima colonna, e
+            quando il sole cala la fessura si apre di un palmo con un suono di
+            pietra che si stira. Scendi con le ossa intirizzite, perché
+            l'erba accanto all'ombra di giorno era già fredda come a gennaio.
+          effetti: { profondita.stele-dei-naviganti: 1, ferite: 0.5 }
+
+  - id: stele-dei-naviganti-il-campo-del-142
+    immagine: ambientazione/superficie-fratturata
+    titolo: Il campo del 142
+    sommario: "A cento passi dalle colonne restano i segni del campo della Biblioteca. Sotto un mucchio di sassi c'è una cassetta di latta."
+    luogo: Le Stele dei Naviganti, il vecchio campo
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 0]
+    testo: |
+      A cento passi dalle colonne l'erba è segnata dai buchi di vecchi pali da tenda disposti in quadrato.
+      In mezzo c'è un cerchio di sassi
+      anneriti dove la campagna del 142 cucinava. Accanto al cerchio qualcuno
+      ha ammucchiato dei sassi a piramide, con cura, come si fa per segnare
+      una cosa sepolta o una tomba piccola.
+
+      {percezione Media} I sassi in cima sono puliti, quelli in basso coperti
+      di licheni. Qualcuno è tornato ad aggiungerne, molto dopo il 142.
+
+      {resistenza Media fallita} Il cerchio dei sassi anneriti ti ricorda
+      soltanto che non mangi una cosa calda da tre giorni. Le gambe lo sanno, e
+      si siedono prima che tu glielo dica.
+      
+      Sotto i sassi c'è una cassetta di latta, ammaccata, con il sigillo
+      della Biblioteca quasi cancellato dalla ruggine.
+    opzioni:
+      - testo: "Leggere quello che c'è nella cassetta"
+        descrizione: "Una cassetta della Biblioteca lasciata sul posto. Dentro ci sarà quello che non volevano portare indietro."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Otto
+          testo: |
+            Dentro c'è un taccuino incerato con le misure delle ombre, ora per
+            ora, scritte con una grafia minuta. L'ultima pagina è scritta da una mano più giovane e storta, e dice
+            soltanto *luna nuova, otto
+            ombre, la settima ne ha due*. Ricopi la riga sul tuo quaderno e
+            rimetti tutto sotto i sassi. Una fessura nella terra, lì accanto,
+            scende verso le colonne.
+          pe: { accademiche: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Le pagine incollate
+          testo: |
+            Le pagine del taccuino sono incollate dall'umidità, e quando provi
+            a staccarle si sbriciolano. Ti restano fra le dita due numeri e
+            una parola senza senso, e la cassetta ti taglia il pollice con il
+            suo bordo arrugginito.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare dove andavano a dormire quando faceva freddo"
+        descrizione: "Una campagna di due giorni dorme dove trova riparo. In una pianura così, il riparo era sottoterra."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: La buca dei rilevatori
+          testo: |
+            Dietro il cerchio dei sassi trovi una buca coperta di assi marce,
+            dove i rilevatori scendevano a ripararsi dal vento. In fondo alla
+            buca la terra è stata scavata ancora, e si apre su un passaggio
+            di pietra liscia che corre verso le colonne.
+          pe: { percezione: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: Le assi
+          testo: |
+            Trovi le assi marce dietro il cerchio dei sassi e ci sali sopra
+            per guardarle meglio. Cedono tutte insieme, e finisci in una buca
+            piena di acqua piovana fino alla vita, e ci resti un pezzo prima
+            di riuscire a uscire.
+          effetti: { ferite: 0.5 }
+      - testo: "Aggiungere un sasso alla piramide e tornare alle colonne"
+        descrizione: "Qualcuno è tornato qui anni dopo e ha lasciato un sasso. Se ne lascia uno anche tu, e si torna alla prima fessura."
+        costo: 2
+        esito:
+          titolo: Un sasso
+          testo: |
+            Scegli un sasso piatto e lo posi in cima alla piramide, e senza
+            sapere perché ti fermi un momento a capo chino. Poi torni alla
+            prima colonna e ti infili nella fessura, scendendo dentro l'ombra
+            fredda fino a un passaggio basso.
+          effetti: { profondita.stele-dei-naviganti: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 1 · la galleria delle lanterne
+  - id: stele-dei-naviganti-la-galleria-delle-lanterne
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La galleria delle lanterne
+    sommario: "Sotto le colonne corre una galleria con sette lanterne nere appese al soffitto. Ognuna manda in alto un'ombra, e la tua si allunga verso est."
+    luogo: Le Stele dei Naviganti, la galleria sotto le colonne
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 1]
+    testo: |
+      La galleria corre sotto le sette colonne, dritta come la fila di
+      sopra, e sotto ogni colonna dal soffitto pende una lanterna di metallo
+      scuro con un vetro nero. Le lanterne sono accese, e invece della luce
+      mandano in alto un cono di buio più fitto del buio intorno, che entra
+      nella colonna e risale. La tua lampada, qui sotto, fa una luce debole
+      e gialla, come una candela in una stanza grande.
+
+      {tecnologia Media} Sono fari al contrario. Mandano su l'ombra come un
+      faro manda la luce, e chi le ha fatte voleva che si vedessero di
+      giorno.
+
+      Quando passi sotto la prima lanterna, la tua ombra sul pavimento si
+      allunga verso est e ti tira i piedi, come la risacca.
+    opzioni:
+      - testo: "Camminare contro il tiro dell'ombra"
+        descrizione: "L'ombra tira verso est. Si cammina tenendo i piedi piantati, come contro la corrente di un fiume."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Controcorrente
+          testo: |
+            Pianti i piedi e cammini, e la tua ombra ti tira indietro a ogni
+            lanterna come un cane al guinzaglio che ha visto una lepre. Sotto
+            la settima il tiro si allenta di colpo. Lì la galleria piega e
+            scende, e la tua ombra torna dove deve stare.
+          pe: { resilienza: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: Verso est
+          testo: |
+            Smetti di resistere per un momento, e l'ombra ti trascina contro
+            la parete di est. Ci sbatti la spalla, e ci resti appiccicato
+            finché non spegni la lampada. Al buio l'ombra ti lascia, e tu
+            torni indietro a tentoni.
+          effetti: { ferite: 0.5 }
+      - testo: "Spegnere la lampada e camminare al buio"
+        descrizione: "Senza la lampada non c'è ombra da tirare. Il buio lì sotto però è più buio del normale."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Al buio
+          testo: |
+            Spegni la lampada e cammini con la mano sinistra sulla parete,
+            contando le lanterne sopra la testa dal freddo che ne scende. Alla
+            settima la parete piega. Riaccendi la lampada, e davanti a te la
+            galleria scende.
+          pe: { furtivita: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: Il buio fitto
+          testo: |
+            Al buio la parete sotto la tua mano finisce, e il pavimento con
+            lei. Cadi in una canaletta profonda fino al ginocchio e ti storci
+            la caviglia. Riaccendi la lampada con le mani che tremano, e sei
+            ancora sotto la prima lanterna.
+          effetti: { tormento: 1 }
+      - testo: "Strisciare lungo la parete, sotto i coni d'ombra"
+        descrizione: "I coni scendono dal soffitto e non arrivano fino a terra. Rasoterra, a pancia in giù, l'ombra non ti prende."
+        costo: 2
+        esito:
+          titolo: Rasoterra
+          testo: |
+            Strisci lungo la parete con la lampada coperta, sotto i coni
+            d'ombra che ti passano sopra la schiena come vento freddo. Ci
+            vuole molto. Quando ti alzi, sotto la settima lanterna, hai la
+            schiena gelata fino alle ossa e i gomiti spellati.
+          effetti: { profondita.stele-dei-naviganti: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1–3 · le ombre staccate
+  - id: stele-dei-naviganti-le-ombre-staccate
+    immagine: ambientazione/marea-grigia
+    titolo: Le ombre staccate
+    sommario: "Due ombre si staccano dalla parete senza nessuno che le getti, e ti vengono incontro. Hanno il bordo tagliente del vetro."
+    luogo: Le Stele dei Naviganti, un passaggio stretto
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti >= 1, profondita.stele-dei-naviganti <= 3]
+    testo: |
+      In un passaggio stretto ci sono due ombre sulla parete, alte quanto
+      un uomo e sottili, e davanti non c'è niente che le getti. Quando alzi
+      la lampada si staccano dal muro con un rumore di carta strappata e
+      restano in piedi nel corridoio, piatte, larghe quanto un foglio e nere
+      da non vederci attraverso.
+
+      {armi-da-mischia Media} Di profilo non ci sono quasi. Si colpiscono di piatto nel punto dove sono larghe, e una lama le taglia come si taglia un
+      lenzuolo steso.
+
+      Le due ombre girano il bordo verso di te. Il bordo luccica.
+    opzioni:
+      - testo: "Tagliare le ombre staccate"
+        descrizione: "Sono due, sottili come fogli, con il bordo che taglia. Si colpiscono di piatto."
+        combattimento: stele-dei-naviganti-ombre
+        vittoria:
+          titolo: Il lenzuolo strappato
+          testo: |
+            La seconda ombra si strappa in due con il rumore di una vela che
+            cede, e i pezzi scivolano sul pavimento e rientrano nella parete.
+            Dove stavano resta una scheggia di vetro nero, fredda, che non
+            riflette la lampada. La prendi avvolta in un fazzoletto.
+          effetti: { profondita.stele-dei-naviganti: 1, reliquie.scheggia: 1 }
+        sconfitta:
+          titolo: I tagli sottili
+          testo: |
+            Le ombre ti girano intorno di taglio, e ti accorgi dei tagli
+            soltanto quando la camicia comincia ad appiccicarsi. Arretri fino
+            alla svolta del passaggio, e le ombre rientrano nel muro.
+      - testo: "Mettere la lampada dove le ombre non hanno parete"
+        descrizione: "Un'ombra ha bisogno di una parete. Se la luce viene dalla parte giusta, la parete non c'è più."
+        prova: { attributo: mentale, abilita: [percezione, magia], difficolta: Media }
+        successo:
+          titolo: La luce di fronte
+          testo: |
+            Posi la lampada a terra in mezzo al passaggio, in modo che la luce
+            batta dritta sulla parete. Le due ombre si accartocciano come
+            fogli vicino al fuoco e scivolano nelle fessure del muro. Passi
+            in fretta, prima che la lampada si spenga.
+          pe: { percezione: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: La terza ombra
+          testo: |
+            Sposti la lampada, e invece di sparire le due ombre diventano tre.
+            La terza è la tua. Torni indietro di corsa, e per un tratto la
+            senti camminare un passo davanti a te.
+          effetti: { tormento: 1 }
+      - testo: "Tornare indietro e prendere il condotto dell'aria"
+        descrizione: "Accanto al passaggio corre un condotto dove passa l'aria fredda. Non ci sono pareti per le ombre, solo un tubo stretto."
+        costo: 2
+        esito:
+          titolo: Il condotto freddo
+          testo: |
+            Ti infili nel condotto dell'aria e lo percorri a carponi, con il
+            vento freddo in faccia e la lampada fra i denti. Esci più avanti,
+            dall'altra parte del passaggio, con le mani così gelate che ci
+            metti molto a riaprire i pugni.
+          effetti: { profondita.stele-dei-naviganti: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · la sala dei naviganti e la lanterna nera
+  - id: stele-dei-naviganti-la-sala-dei-naviganti
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La sala dei naviganti
+    sommario: "Il pavimento di una sala larga è inciso di linee che arrivano da tutte le parti e finiscono qui. Una nave segnata con un segno piccolo è ferma a due giorni di strada."
+    luogo: Le Stele dei Naviganti, la sala delle rotte
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 2]
+    testo: |
+      La sala è larga e bassa, e tutto il pavimento è una lastra di pietra
+      scura incisa di linee sottili. Arrivano dai bordi della sala, ognuna
+      da una direzione diversa, e convergono tutte al centro, dove c'è un
+      cerchio con sette tacche. Sopra le linee, in qualche punto, sono
+      incisi piccoli segni a forma di fuso, come barche viste dall'alto.
+
+      Uno dei fusi è fermo a metà di una linea che arriva da est, e accanto
+      ha un incavo dove si accende una luce debole, intermittente.
+
+      {accademiche Media} Le carte dei porti di Qir-Azel si disegnano così,
+      con le rotte che entrano nel porto da tutte le parti. Questo è un
+      porto, e il fuso fermo è una nave che non è mai arrivata.
+
+      In fondo alla sala una scala scende ancora.
+    opzioni:
+      - testo: "Leggere la carta delle rotte"
+        descrizione: "Le linee hanno tacche e segni. Una carta si legge, se si ha pazienza, e questa forse dice dove andavano le navi."
+        prova: { attributo: mentale, abilita: [accademiche, tecnologia], difficolta: Media }
+        successo:
+          titolo: La nave ferma
+          testo: |
+            Conti le tacche lungo la linea di est e le confronti con i passi
+            della pianura. Il fuso fermo sta a due giorni di strada a est
+            della città, nell'ultima conca prima del Gradone Rosso, dove le
+            mappe dei Raschiatori segnano le Carcasse di Korith. Il faro lo
+            aspetta ancora, e le ombre di sopra puntano là per indicargli
+            la strada di casa.
+          pe: { accademiche: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le linee che si muovono
+          testo: |
+            Segui una linea con il dito, e la linea si sposta sotto il
+            polpastrello, piano, come una formica. Quando alzi la testa tutte
+            le linee si sono mosse di un dito, e il fuso fermo è più vicino al
+            centro di prima. Esci dalla sala con un'inquietudine che non sai
+            spiegare a parole.
+          effetti: { tormento: 1 }
+      - testo: "Toccare la luce accanto alla nave ferma"
+        descrizione: "La luce batte come un cuore stanco. Una luce che batte, sulle macchine dei Precursori, di solito aspetta una mano."
+        prova: { attributo: sociale, abilita: [empatia, percezione], difficolta: Media }
+        successo:
+          titolo: La luce stanca
+          testo: |
+            Appoggi il dito sulla luce, e per il tempo di un battito senti
+            qualcosa come una domanda, lunga, ripetuta da secoli. Togli il
+            dito, e la luce riprende a battere più piano, come se si fosse
+            riposata un momento. Scendi la scala con la domanda ancora fra le
+            dita.
+          pe: { empatia: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: La scossa
+          testo: |
+            La luce ti morde il dito con una scossa che ti sale fino alla
+            spalla. Ti resta il braccio intorpidito per un'ora, e sul
+            polpastrello un segno bianco a forma di fuso.
+          effetti: { ferite: 0.5 }
+      - testo: "Attraversare la sala lungo una rotta"
+        descrizione: "Una linea attraversa tutta la sala. Si cammina sopra, un piede davanti all'altro, senza guardare le altre."
+        costo: 2
+        esito:
+          titolo: Sulla rotta
+          testo: |
+            Cammini sopra una linea, un piede davanti all'altro come sulla
+            fune di un saltimbanco, e la pietra sotto le suole è fredda come
+            acqua di mare. Arrivi alla scala con le gambe rigide, e ti
+            sembra di aver camminato per giorni.
+          effetti: { profondita.stele-dei-naviganti: 1, tormento: 1 }
+
+  - id: stele-dei-naviganti-la-lanterna-nera
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La lanterna nera
+    sommario: "In una cella sotto la terza colonna c'è una lanterna più grande delle altre, appoggiata a terra. Il vetro nero si muove piano, come un occhio che segue qualcosa."
+    luogo: Le Stele dei Naviganti, la cella della lanterna
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 2]
+    testo: |
+      Nella cella sotto la terza colonna c'è una lanterna appoggiata a terra,
+      grande come una botte, con un vetro nero rotondo davanti. Il vetro
+      ruota piano nel suo anello, un dito ogni tanto, come un occhio che
+      segue qualcosa di lontano. Da lì sale il cono di buio che entra nella
+      colonna. Intorno la pietra è coperta di brina, anche se fuori è estate.
+
+      {magia Media} Il Mana qui è fermo e freddo come l'acqua di uno stagno
+      gelato. La lanterna lo usa per tenere il buio in piedi, e lo consuma
+      piano, da sempre.
+
+      {resistenza Facile fallita} Le dita ti si sono già intorpidite, e le
+      orecchie hanno smesso di fare male, il che di solito è peggio.
+      
+      Dietro la lanterna, nella brina, una botola scende.
+    opzioni:
+      - testo: "Capire che cosa segue il vetro"
+        descrizione: "Il vetro ruota per seguire qualcosa. Se si capisce cosa, si capisce tutto il faro."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il vetro che segue
+          testo: |
+            Segni sulla brina la posizione del vetro, e dopo un'ora la segni
+            di nuovo. Si è spostato di poco, e torna sempre verso est, come
+            l'ago di una bussola che ha scelto il suo nord. Sotto l'anello
+            del vetro c'è un pezzo di macchina che si è staccato, e lo prendi
+            prima di aprire la botola.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1, parte.camera-1: 1 }
+        fallimento:
+          titolo: Lo sguardo del vetro
+          testo: |
+            Ti metti davanti al vetro per guardarlo da vicino, e il vetro si
+            gira verso di te. Per un momento la lampada sparisce insieme a tutto il resto, e senti
+            freddo dentro gli occhi. Quando la vista torna
+            sei seduto nella brina, fuori dalla cella.
+          effetti: { tormento: 1 }
+      - testo: "Spostare la lanterna per arrivare alla botola"
+        descrizione: "La lanterna sta davanti alla botola. È pesante, e la brina scivola."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Di peso
+          testo: |
+            Appoggi la spalla alla lanterna e spingi forte sulle gambe, mentre la
+            brina ti brucia attraverso la giubba. La lanterna slitta di un palmo, e
+            il vetro nero continua a guardare a est. Lo spazio che hai fatto basta
+            per sollevare la botola.
+          pe: { atletica: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: La brina
+          testo: |
+            I piedi ti scivolano sulla brina, e cadi con la guancia contro il
+            metallo della lanterna. Ti rialzi con la pelle del viso che brucia
+            di freddo e un segno bianco sullo zigomo.
+          effetti: { ferite: 0.5 }
+      - testo: "Raschiare la brina e passare di lato"
+        descrizione: "Fra la lanterna e il muro c'è uno spazio stretto, coperto di brina. Si raschia e si passa di fianco."
+        costo: 2
+        esito:
+          titolo: Di fianco
+          testo: |
+            Raschi la brina con il coltello finché non hai le dita bianche, e
+            ti infili di fianco fra la lanterna e il muro. Il cono di buio freddo ti passa sulla faccia, e per un pezzo dopo vedi
+            tutto un po' più scuro. Quando la vista si schiarisce sollevi la botola.
+          effetti: { profondita.stele-dei-naviganti: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 3 · il pozzo della settima e l'ombra che ti segue
+  - id: stele-dei-naviganti-il-pozzo-della-settima
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il pozzo della settima
+    sommario: "Sotto la settima colonna un pozzo sale verso l'alto. Alla base ci sono due lanterne invece di una, e una è spenta."
+    luogo: Le Stele dei Naviganti, il pozzo della settima colonna
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 3]
+    testo: |
+      Sotto la settima colonna la galleria si apre in un pozzo stretto e alto che sale fino alla base della colonna, con una
+      scala di pioli
+      incastrata nella pietra. Qui le lanterne sono due, una accanto
+      all'altra. Una manda in alto il suo cono di buio verso est come le altre. L'altra
+      è spenta, con il vetro rivolto a nord-est.
+
+      Intorno alla lanterna spenta, sulla pietra, sono incisi nove segni in
+      cerchio, e uno, sette righe in fila come i denti di un pettine, è più
+      consumato degli altri.
+
+      {accademiche Difficile} Nove segni in cerchio, come le nove pietre
+      nere che i mandriani del nord evitano. Le sette righe sono le Stele, e
+      gli altri otto sono altrove.
+
+      I pioli salgono verso un quadrato di cielo.
+    opzioni:
+      - testo: "Salire i pioli fino alla base della colonna"
+        descrizione: "I pioli sono distanti, fatti per gambe lunghe. In cima c'è il cielo, e stanotte non c'è la luna."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: I pioli lunghi
+          testo: |
+            Sali da un piolo all'altro allungandoti tutto, e a metà ti accorgi
+            che fuori è già scesa la sera. In cima esci da una botola alla
+            base della settima colonna, nell'erba fredda, sotto un cielo senza
+            luna e pieno di stelle.
+          pe: { atletica: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: Il piolo lontano
+          testo: |
+            Un piolo è più lontano degli altri, e lo manchi con la mano. Scivoli
+            per tre pioli e ti fermi con il ginocchio contro la parete del
+            pozzo, che si gonfia subito. Ridiscendi piano, un piolo alla volta, fino in fondo.
+          effetti: { ferite: 0.5 }
+      - testo: "Ricopiare i nove segni intorno alla lanterna spenta"
+        descrizione: "Nove segni incisi da qualcuno che voleva che restassero. Se li porti fuori, qualcuno saprà leggerli."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Nove segni
+          testo: |
+            Ricopi i nove segni sul quaderno, nel cerchio in cui stanno, con
+            le sette righe in alto dove le hai trovate. Mentre scrivi la
+            lanterna spenta ha un guizzo, un battito di buio e poi più niente.
+            Poi sali i pioli fino alla base della colonna, sotto un cielo
+            senza luna.
+          pe: { accademiche: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il segno che manca
+          testo: |
+            Ricopi i segni, e quando li conti sul quaderno sono otto. Torni a
+            guardare la pietra, e sono nove. Ricopi di nuovo, e sul quaderno
+            sono sempre otto. Smetti con il polso che trema.
+          effetti: { tormento: 1 }
+      - testo: "Arrampicarsi sulla lanterna accesa e uscire di lì"
+        descrizione: "La lanterna accesa è alta, e da lì si arriva ai pioli di sopra senza fare la scala. Il cono di buio però è freddo."
+        costo: 2
+        esito:
+          titolo: Dentro il cono
+          testo: |
+            Ti arrampichi sulla lanterna accesa e ti alzi dentro il cono di
+            buio, freddo come l'acqua di un fiume in disgelo. Di lì afferri i
+            pioli alti e sali. Esci alla base della settima colonna sotto un
+            cielo senza luna, con le mani che hanno perso la sensibilità.
+          effetti: { profondita.stele-dei-naviganti: 1, ferite: 0.5 }
+
+  - id: stele-dei-naviganti-l-ombra-che-ti-segue
+    immagine: ambientazione/marea-grigia
+    titolo: L'ombra che ti segue
+    sommario: "In un corridoio senza lanterne la tua ombra cade verso est, anche quando la lampada è dalla parte sbagliata. Poi comincia a camminare per conto suo."
+    luogo: Le Stele dei Naviganti, il corridoio senza lanterne
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti == 3]
+    testo: |
+      Nel corridoio che porta alla settima colonna non ci sono lanterne, e
+      la tua lampada è l'unica luce. Eppure la tua ombra cade verso est,
+      qualunque cosa tu faccia con la lampada. Puoi spostare la lampada da una parte all'altra o alzarla sopra la
+      testa, ma l'ombra resta lì, verso est, come le ombre
+      delle colonne di sopra.
+
+      {resilienza Media fallita} Ti accorgi di aver girato la testa verso
+      est anche tu. Il collo ti fa male, come se lo tenessi così da ore.
+
+      Quando riprendi a camminare, l'ombra fa un passo prima di te.
+    opzioni:
+      - testo: "Riprendersi l'ombra"
+        descrizione: "È tua. Si riprende come si riprende un cane che scappa, chiamandola, con la voce giusta."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Di nuovo tua
+          testo: |
+            Ti fermi e chiudi gli occhi, e pensi alla tua ombra sul muro di
+            casa, la sera, quando la lampada era a sinistra e l'ombra a
+            destra come deve essere. Quando li riapri l'ombra è ai tuoi piedi dalla parte giusta, e il
+            corridoio finisce sotto la settima.
+          pe: { resilienza: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1 }
+        fallimento:
+          titolo: L'ombra avanti
+          testo: |
+            La chiami, e l'ombra cammina più svelta. La segui per un tratto
+            senza volerlo, e ti fermi soltanto quando sbatti la fronte contro
+            una parete. Torni indietro con un bernoccolo e l'ombra che si
+            trascina riluttante dietro di te.
+          effetti: { tormento: 1 }
+      - testo: "Spegnere la lampada e seguire l'ombra"
+        descrizione: "L'ombra va da qualche parte. Forse conviene lasciarla andare, e seguirla al buio."
+        prova: { attributo: mentale, abilita: [magia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Dove va lei
+          testo: |
+            Spegni la lampada, e al buio l'ombra si vede lo stesso, più nera
+            del nero, che cammina verso est. La segui, e lei ti porta per un
+            passaggio laterale fino ai piedi della settima colonna. Lì si
+            ferma e ti torna ai piedi, come un cane che ha finito il giro.
+            Nella polvere dove si è fermata c'è una scheggia di vetro nero.
+          pe: { magia: 2 }
+          effetti: { profondita.stele-dei-naviganti: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Il buio senza ombra
+          testo: |
+            Spegni la lampada, e l'ombra sparisce nel buio. Resti a tentoni
+            in un corridoio che non conosci, e ci metti molto a ritrovare la
+            lampada per terra. Quando la riaccendi l'ombra è tornata, verso
+            est.
+          effetti: { tormento: 1.5 }
+      - testo: "Camminare all'indietro con la lampada davanti"
+        descrizione: "Se l'ombra cade sempre verso est, si cammina verso est all'indietro e la si tiene sotto gli occhi."
+        costo: 2
+        esito:
+          titolo: All'indietro
+          testo: |
+            Cammini all'indietro tutto il corridoio, con la lampada davanti e
+            gli occhi sull'ombra, che ti sta davanti ai piedi come un tappeto.
+            Ci vuole molto, e inciampi due volte. In fondo al corridoio la
+            tua schiena tocca i pioli della settima colonna.
+          effetti: { profondita.stele-dei-naviganti: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ il cuore · la notte senza luna
+  - id: stele-dei-naviganti-la-notte-senza-luna
+    immagine: ambientazione/superficie-fratturata
+    titolo: La notte senza luna
+    sommario: "A mezzanotte, alla base della settima colonna, la seconda lanterna si accende. Dalla colonna esce il fanalista, e la settima getta due ombre."
+    luogo: Le Stele dei Naviganti, la settima colonna, a mezzanotte
+    area: stele-dei-naviganti
+    requisiti: [profondita.stele-dei-naviganti >= 4, misura.stele == 0]
+    testo: |
+      La notte di luna nuova la pianura è nera, e le stelle sono così fitte
+      che il cielo sembra più chiaro della terra. Le ombre delle colonne si
+      vedono lo stesso, più nere della notte, sette strisce parallele verso
+      est. Verso mezzanotte, sotto i tuoi piedi, senti uno scatto di metallo
+      nel pozzo.
+
+      Dalla settima colonna si stacca una figura alta il doppio di un uomo e
+      sottile come un palo, che stava dentro la pietra come un chiodo nel
+      legno. Ha una lanterna spenta al posto della testa e braccia lunghe
+      fino alle ginocchia. Si mette accanto alla colonna e alza un braccio,
+      e allora la settima getta un'ombra in più, lunga, che si stacca dalle
+      altre e piega verso nord-est. Il fanalista guarda l'ombra nuova, e
+      comincia a girare la mano per riportarla indietro.
+
+      {tecnologia Difficile} L'ombra in più dura finché la lanterna di sotto
+      resta accesa, e il fanalista la sta spegnendo. Chi vuole sapere dove
+      punta deve tendere un filo prima che lui finisca.
+
+      {origine apprendista-raschiatore} Ti torna in mente la regola delle
+      piattaforme sulle macchine che lavorano da sole, e per la prima volta
+      ti sembra sbagliata. Questa ha un lavoro, e lo fa male apposta.
+
+      *Il vecchio del 142 aveva ragione, e non gli ha creduto nessuno.* Il
+      fanalista gira la testa vuota verso di te.
+    opzioni:
+      - testo: "Affrontare il fanalista"
+        descrizione: "Alto il doppio di te, con le braccia lunghe fino alle ginocchia. Se lo fermi, l'ombra resta dove punta."
+        combattimento: stele-dei-naviganti-fanalista
+        vittoria:
+          titolo: La direzione
+          testo: |
+            Il fanalista crolla contro la settima colonna con un suono di
+            vetro, e il braccio che girava l'ombra resta fermo a metà. L'ombra
+            in più si allunga sull'erba verso nord-est, più lunga delle altre
+            sei, e ci pianti un paletto alla base e un altro alla punta. Al
+            mattino tendi il filo e lo riporti sulla carta della Gilda. La
+            linea passa a nord della città e taglia tutto il Rovolungo fino alla costa. Finisce su una scogliera grigia dove la carta ha soltanto il segno del mare.
+
+            Dalle braccia del fanalista ne stacchi una, un'asta di metallo
+            grigio lunga quanto una lancia. Nella lanterna spenta che aveva al
+            posto della testa c'è una camera di cristallo che pulsa ancora.
+          pe: { armi-da-mischia: 5 }
+          effetti: { misura.stele: 1, oggetto.stele-dei-naviganti-asta: 1, parte.camera-3: 1, reliquie.frammento-inciso: 2, bottino.parti-di-drone: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: L'ombra spenta
+          testo: |
+            Il fanalista ti tiene lontano con un braccio lungo, e con l'altro
+            finisce di girare l'ombra fino a farla tornare dentro le altre. Poi
+            ti butta nell'erba gelata e rientra nella colonna. All'alba ci
+            sono sette ombre, e tu hai le costole incrinate e un mese da
+            aspettare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Tendere il filo sull'ombra prima che lui la spenga"
+        descrizione: "Bisogna piantare un paletto alla base e uno alla punta, e tendere il filo prima che il fanalista finisca di girare la mano. Si corre al buio, e sbagliare la punta vuol dire sbagliare tutto."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il filo
+          testo: |
+            Corri al buio lungo l'ombra nuova contando i passi e pianti il
+            paletto alla punta, poi torni alla base e tendi il filo un attimo
+            prima che il fanalista riporti l'ombra fra le altre. Lui si gira
+            verso il filo e lo guarda a lungo, e poi rientra nella colonna.
+            Al mattino riporti il filo sulla carta della Gilda. La linea passa a nord della città e taglia tutto il Rovolungo fino alla costa. Finisce su una scogliera grigia dove la carta ha soltanto il segno del mare.
+
+            Ai piedi della colonna il fanalista ha lasciato cadere un braccio,
+            un'asta di metallo grigio lunga quanto una lancia, e nella botola
+            c'è una camera di cristallo che pulsa ancora.
+          pe: { percezione: 5 }
+          effetti: { misura.stele: 1, oggetto.stele-dei-naviganti-asta: 1, parte.camera-3: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La punta sbagliata
+          testo: |
+            Nel buio pianti il paletto alla punta sbagliata, e quando tendi il filo l'ombra in più è già tornata fra le altre. Il fanalista ti
+            raggiunge in due passi e ti spinge via con una mano fredda come il
+            ferro d'inverno. All'alba ti ritrovi nell'erba con un braccio che resta giù, e davanti
+            un mese da aspettare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinargli di indicare la rotta"
+        descrizione: "Il Comando parla alle macchine dei Precursori nella loro lingua. Un fanalista indica le rotte, ed è il suo mestiere."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La rotta
+          testo: |
+            Dici la formula, e la parola ti esce in una lingua che non è la
+            tua. Il fanalista si ferma con la mano a mezz'aria, poi alza il braccio e lo tende verso nord-est, sopra l'ombra in più, e
+            resta così fino all'alba come una banderuola. Tu tendi il filo
+            sotto il suo braccio. Sulla carta della Gilda la linea passa a nord della città e taglia tutto il Rovolungo fino alla costa. Finisce su una scogliera grigia dove la carta ha soltanto il segno del mare.
+
+            All'alba il fanalista ti porge il braccio teso, che si stacca con
+            uno scatto, e rientra nella colonna. Nella botola c'è una camera
+            di cristallo che pulsa ancora.
+          pe: { magia: 5 }
+          effetti: { misura.stele: 1, oggetto.stele-dei-naviganti-asta: 1, parte.camera-3: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La mano che gira
+          testo: |
+            La formula ti si rompe in bocca, e il fanalista finisce di girare
+            la mano. L'ombra in più rientra fra le altre, e la testa vuota del
+            fanalista si accende per un momento di buio, puntata su di te.
+            Ti risvegli all'alba nell'erba con il freddo nelle ossa e un mese
+            da aspettare.
+          effetti: { tormento: 2, ferite: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Piantare i paletti come insegna la squadra"
+        descrizione: "Sulle piattaforme si misura in due, ma si impara anche da soli. Il primo paletto alla base, il filo già annodato, la corsa contata. Lo hai fatto cento volte, di giorno."
+        quando: [origine.apprendista-raschiatore >= 1]
+        prova: { attributo: fisico, abilita: [atletica, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il nodo del turno
+          testo: |
+            Hai il filo già annodato al primo paletto prima ancora che l'ombra
+            finisca di allungarsi, e corri lungo di lei contando come conta la
+            squadra. Pianti il secondo paletto alla punta con un colpo solo, e
+            il filo si tende un attimo prima che il fanalista riporti l'ombra
+            fra le altre. Lui guarda il filo a lungo, e rientra nella colonna.
+            Al mattino riporti la linea sulla carta della Gilda. Passa a nord della città e taglia tutto il Rovolungo fino alla costa. Finisce su una scogliera grigia dove la carta ha soltanto il segno del mare.
+
+            Ai piedi della colonna il fanalista ha lasciato cadere un braccio,
+            un'asta di metallo grigio lunga quanto una lancia, e nella botola
+            c'è una camera di cristallo che pulsa ancora.
+          pe: { atletica: 5 }
+          effetti: { misura.stele: 1, oggetto.stele-dei-naviganti-asta: 1, parte.camera-3: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il nodo sciolto
+          testo: |
+            Il nodo si scioglie mentre corri, e il filo ti resta in mano
+            molle. Il fanalista ti raggiunge in due passi e ti spinge via con
+            una mano fredda come il ferro d'inverno. All'alba sei nell'erba con un braccio che resta giù, e davanti un mese
+            da aspettare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Guardare e basta, da lontano"
+        descrizione: "Il fanalista non ti ha chiesto niente. La luna tornerà fra un mese."
+        costo: 0
+        esito:
+          titolo: Fra un mese
+          testo: |
+            Resti seduto nell'erba a cento passi a guardare l'ombra in più che
+            torna, piano, fra le altre sei. Il fanalista rientra nella colonna.
+            All'alba le ombre sono sette, e tu riprendi il sentiero lungo il
+            margine della Foresta con il conto dei giorni alla prossima luna.
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ dopo · la settima colonna
+  - id: stele-dei-naviganti-la-settima-colonna
+    immagine: ambientazione/superficie-fratturata
+    titolo: La settima colonna
+    sommario: "Il fanalista è tornato al suo posto, con un braccio solo. La seconda lanterna si accende ancora, e nella botola resta quello che il faro perde."
+    luogo: Le Stele dei Naviganti, la settima colonna, di notte
+    area: stele-dei-naviganti
+    ripetibile: true
+    requisiti: [profondita.stele-dei-naviganti >= 4, misura.stele >= 1]
+    testo: |
+      Il fanalista esce ancora dalla settima colonna, a mezzanotte, con un
+      braccio solo. L'ombra in più si allunga verso nord-est, e lui la gira
+      indietro più piano dell'altra volta, perché con una mano sola ci mette
+      di più. Nell'erba intorno alla colonna ci sono ancora i buchi dei tuoi
+      paletti.
+
+      {tecnologia Media} Nella botola la seconda lanterna ha il vetro
+      incrinato, e da sotto l'anello cadono pezzi di macchina. Il faro si
+      consuma un poco ogni volta che accende l'ombra in più.
+    opzioni:
+      - testo: "Affrontare il fanalista un'altra volta"
+        descrizione: "Ha un braccio solo, ed è sempre alto il doppio di te. Nella botola c'è quello che il faro perde."
+        combattimento: stele-dei-naviganti-fanalista
+        vittoria:
+          titolo: Quello che il faro perde
+          testo: |
+            Il fanalista si appoggia alla colonna e rientra nella pietra. Nella
+            botola raccogli i pezzi caduti dall'anello della lanterna, e un
+            guscio chiuso che non c'era l'altra volta.
+          effetti: { parte.camera-2: 1, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Un braccio basta
+          testo: |
+            Anche con un braccio solo il fanalista ti butta nell'erba gelata.
+            All'alba riprendi il sentiero zoppicando.
+          effetti: { tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Scendere nella botola mentre lui gira l'ombra"
+        descrizione: "Finché il fanalista è occupato con l'ombra, la botola è libera. Ci si infila al buio, e si raccoglie in fretta."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Al buio, in fretta
+          testo: |
+            Ti infili nella botola mentre il fanalista gira l'ombra, e
+            raccogli a tentoni quello che è caduto dall'anello della lanterna.
+            Quando esci lui ha finito, e ti guarda con la testa vuota mentre
+            ti allontani.
+          pe: { furtivita: 2 }
+          effetti: { parte.involucro-2: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La botola chiusa
+          testo: |
+            Il fanalista finisce prima di te e chiude la botola con un piede.
+            Esci dall'altra parte, dal pozzo, con le mani gelate e niente in
+            tasca.
+          effetti: { ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Lasciarlo lavorare e tornare indietro"
+        descrizione: "La direzione ce l'hai già. Lui ha ancora il suo faro."
+        costo: 0
+        esito:
+          titolo: Sette ombre
+          testo: |
+            Guardi il fanalista girare l'ombra con una mano sola, e all'alba
+            riprendi il sentiero. Le ombre delle Stele ti seguono con lo
+            sguardo verso est per un tratto, finché la pianura non le
+            nasconde.
+          vai: superficie-fratturata
+
+nemici:
+  - id: stele-dei-naviganti-ombra-staccata
+    immagine: ambientazione/marea-grigia
+    nome: Ombra staccata
+    descrizione: "Un'ombra alta quanto un uomo che si stacca dalla parete senza nessuno che la getti. È piatta come un foglio, e il bordo taglia come il vetro."
+    attacco: 4
+    difesa: 4
+    difesaMentale: 4
+    pf: 6
+    danno: 3
+    riduzione: 1
+    iniziativa: 3
+    tratti: [eco]
+
+  - id: stele-dei-naviganti-fanalista
+    immagine: bestiario/salvaguardia-precursori
+    nome: Il fanalista della settima colonna
+    descrizione: "Una macchina alta il doppio di un uomo e sottile come un palo, con una lanterna spenta al posto della testa e le braccia lunghe fino alle ginocchia. Esce dalla settima colonna nelle notti di luna nuova, e rimette in fila le ombre."
+    attacco: 5
+    difesa: 4
+    difesaMentale: 5
+    pf: 12
+    danno: 4
+    riduzione: 3
+    iniziativa: 3
+
+scontri:
+  - { id: stele-dei-naviganti-ombre, nome: "Le ombre staccate", nemici: [stele-dei-naviganti-ombra-staccata, stele-dei-naviganti-ombra-staccata], feriteSconfitta: 2 }
+  - { id: stele-dei-naviganti-fanalista, nome: "Il fanalista della settima colonna", nemici: [stele-dei-naviganti-fanalista], feriteSconfitta: 4 }
+
+oggetti:
+  - id: stele-dei-naviganti-asta
+    nome: Asta del fanalista
+    immagine: icone/spear-feather
+    descrizione: "Il braccio del fanalista della settima colonna, un'asta di metallo grigio lunga quanto una lancia e fredda anche al sole. La sua ombra cade sempre verso est, e la punta trova le giunture delle armature come il faro trovava le navi."
+    slot: arma
+    base: lancia
+    grado: 3
+    dadi: 1
+    proprieta: { affilata: 1, penetrante: 1 }

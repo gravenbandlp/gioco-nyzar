@@ -1,0 +1,1008 @@
+# La Superficie dopo l'Arena (docs/piano-superficie.md): le quality condivise, l'aggancio in città, l'azione che
+# scopre i luoghi neri e le nove carte di voci.
+# - `gente-di-fuori` (Arena di Qir-Azel, pista.arena >= 5): dopo il torneo quattro persone dei villaggi aspettano il
+#   protagonista nell'area dei combattenti. Non apre niente da sola: i villaggi compaiono sulla Superficie con
+#   pista.arena >= 5, e la scena li presenta.
+# - `battere-la-superficie` (Superficie, ripetibile, pista.arena >= 5): quattro direzioni, e per ogni direzione si
+#   vede soltanto il primo luogo non ancora scoperto. Nord: anello, spina. Est: sornione, mara. Sud: costola, tamburi.
+#   Ovest: aculeo, forno, stele. Due opzioni per luogo, una con traccia < 2 (le voci) e una con traccia == 2 (il
+#   luogo trovato), più due scorciatoie per chi ci è già stato con il Circolo (la Spina) o con i Raschiatori (le
+#   Stele). A tre tracce l'ingresso della spedizione compare sulla Superficie (contenuti/scoperte/<luogo>.yaml).
+# - `carta-voci-<luogo>`: nove carte del mazzo della Superficie, una per luogo, finché il luogo non è scoperto.
+# Nomi nuovi: Vesna (gladiatrice di Ghoran), Tobiolo Mirri (carrettiere di Laresh), Ansgar (carbonaio di Pannion),
+# Ilenia (erbatrice di Tuarmir) e i personaggi delle carte, ognuno detto una volta sola.
+quality:
+  - { id: villaggi.notizie, nome: "Gente di fuori", categoria: stato, nascosta: true, descrizione: "1 quando hai ascoltato la gente dei villaggi che ti aspettava dopo il torneo." }
+
+  # ------------------------------------------------------------ le tracce dei nove luoghi neri (0-3; a 3 il luogo è scoperto)
+  - { id: traccia.costola, immagine: icone/footprint, nome: "Tracce: la Costola di Drago", categoria: stato, descrizione: "Quello che sai della costola di metallo nero sulle alture a sud di Ghoran. Con tre tracce sai arrivarci." }
+  - { id: traccia.tamburi, immagine: icone/footprint, nome: "Tracce: i Tamburi di Fondo", categoria: stato, descrizione: "Quello che sai del punto della Palude Acquanera dove a mezzanotte qualcuno bussa. Con tre tracce sai arrivarci." }
+  - { id: traccia.aculeo, immagine: icone/footprint, nome: "Tracce: la Volta dell'Aculeo", categoria: stato, descrizione: "Quello che sai del foro che fischia nella Conca dei Rovi, a ovest di Laresh. Con tre tracce sai arrivarci." }
+  - { id: traccia.anello, immagine: icone/footprint, nome: "Tracce: l'Anello del Camminatore", categoria: stato, descrizione: "Quello che sai delle nove pietre nere ai margini del Rovolungo. Con tre tracce sai arrivarci." }
+  - { id: traccia.forno, immagine: icone/footprint, nome: "Tracce: il Forno della Nonna", categoria: stato, descrizione: "Quello che sai della stanza tiepida sulla strada di Tuarmir. Con tre tracce sai arrivarci." }
+  - { id: traccia.stele, immagine: icone/footprint, nome: "Tracce: le Stele dei Naviganti", categoria: stato, descrizione: "Quello che sai delle sette colonne oltre la Foresta Strisciante. Con tre tracce sai arrivarci." }
+  - { id: traccia.sornione, immagine: icone/footprint, nome: "Tracce: la Lente del Sornione", categoria: stato, descrizione: "Quello che sai del disco di vetro che riflette un altro cielo, oltre l'orlo nord del Gradone Rosso. Con tre tracce sai arrivarci." }
+  - { id: traccia.mara, immagine: icone/footprint, nome: "Tracce: la Soglia di Mara", categoria: stato, descrizione: "Quello che sai dell'arco senza muri sul crinale a est della Roccia di Wren. Con tre tracce sai arrivarci." }
+  - { id: traccia.spina, immagine: icone/footprint, nome: "Tracce: la Spina dell'Eco", categoria: stato, descrizione: "Quello che sai del pilastro nero sulla pianura del nord, che restituisce le voci. Con tre tracce sai arrivarci." }
+
+  # ------------------------------------------------------------ le misure (il cuore di ogni spedizione vinto una volta)
+  - { id: misura.costola, immagine: icone/vibrating-ball, nome: "La nota della Costola", categoria: stato, descrizione: "Hai preso la nota che la Costola di Drago ripete da prima della Caduta." }
+  - { id: misura.tamburi, immagine: icone/drum, nome: "Il conto dei Tamburi", categoria: stato, descrizione: "Sai quanti colpi restano al battente sotto la Palude Acquanera." }
+  - { id: misura.aculeo, immagine: icone/hourglass, nome: "La data dell'Aculeo", categoria: stato, descrizione: "Sai in che notte fischia la Volta dell'Aculeo, e per quanto." }
+  - { id: misura.anello, immagine: icone/circle, nome: "L'ordine dell'Anello", categoria: stato, descrizione: "Sai in che ordine stanno le nove pietre dell'Anello del Camminatore." }
+  - { id: misura.forno, immagine: icone/fire-bowl, nome: "Il nome del Forno", categoria: stato, descrizione: "Conosci la parola con cui chi lavorava nel Forno della Nonna si faceva riconoscere." }
+  - { id: misura.stele, immagine: icone/sundial, nome: "La direzione delle Stele", categoria: stato, descrizione: "Sai dove punta l'ombra in più della settima Stele." }
+  - { id: misura.sornione, immagine: icone/night-sky, nome: "Il cielo del Sornione", categoria: stato, descrizione: "Sai dove stavano le due stelle che il Sornione riflette, e quindi l'ora." }
+  - { id: misura.mara, immagine: icone/door, nome: "La porta di Mara", categoria: stato, descrizione: "Sai come si passa dalla Soglia di Mara." }
+  - { id: misura.spina, immagine: icone/echo-ripples, nome: "La voce della Spina", categoria: stato, descrizione: "Conosci il richiamo che la Spina dell'Eco restituisce sempre uguale." }
+
+  # ------------------------------------------------------------ i doni dei villaggi (il passo 15 di ogni quest)
+  - { id: dono.ghoran, nome: "Il dono di Ghoran", categoria: stato, nascosta: true, descrizione: "1 quando hai finito la quest di Ghoran." }
+  - { id: dono.laresh, nome: "Il dono di Laresh", categoria: stato, nascosta: true, descrizione: "1 quando hai finito la quest di Laresh." }
+  - { id: dono.tuarmir, nome: "Il dono di Tuarmir", categoria: stato, nascosta: true, descrizione: "1 quando hai finito la quest di Tuarmir." }
+  - { id: dono.pannion, nome: "Il dono di Pannion", categoria: stato, nascosta: true, descrizione: "1 quando hai finito la quest di Pannion." }
+
+storylet:
+  # ================================================================ l'aggancio, dopo il torneo
+  - id: gente-di-fuori
+    presso: arena-di-qir-azel
+    immagine: ambientazione/arena-di-qir-azel
+    titolo: Gente di fuori
+    sommario: "Dopo il torneo, nell'area dei combattenti, quattro persone ti aspettano sedute sulla stessa panca. Nessuna di loro è di Qir-Azel."
+    luogo: Arena di Qir-Azel, l'area dei combattenti
+    area: quartieri-alti
+    requisiti: [pista.arena >= 5, villaggi.notizie == 0]
+    testo: |
+      Nell'area dei combattenti l'aria sa ancora di sudore vecchio e di olio
+      da lama. Sulla panca lunga sotto la grata ti aspettano quattro persone
+      che non si sono rivolte la parola. Si vede
+      subito che non sono di città. Hanno gli stivali sporchi di quattro
+      terre diverse e guardano il soffitto dell'Arena come si guarda un
+      cielo che può cadere.
+
+      La prima è una donna con le braccia nude e una treccia legata con un
+      filo di rame, che si alza quando entri e ti misura dalla testa ai
+      piedi. Accanto a lei un carrettiere tormenta un cappello di paglia, un
+      ragazzo con le mani nere fino ai polsi si gratta una scottatura, e
+      una donna minuta tiene in grembo una maschera di stoffa che sa
+      d'erbe anche da qui.
+
+      {conoscenze-della-strada Media} La treccia con il rame è di Ghoran, il
+      segno di chi combatte per un clan. Le mani nere sono di un carbonaio, e
+      i carbonai vengono quasi tutti da Pannion.
+
+      {empatia Facile} Nessuno dei quattro è venuto per complimentarsi.
+      Hanno tutti la faccia di chi ha fatto molta strada per chiedere un
+      favore e adesso non sa come cominciare.
+
+      {origine fuggiasco-di-ghoran} Il filo di rame nella treccia lo
+      riconosci prima della faccia, e le spalle ti salgono da sole verso le
+      orecchie. A Ghoran quel filo lo porta chi ha diritto di riprenderti.
+    opzioni:
+      - testo: "Ascoltarli uno alla volta"
+        descrizione: "Hanno fatto strada per arrivare fin qui. Il minimo è sentire che cosa vogliono."
+        costo: 0
+        esito:
+          titolo: Quattro strade
+          testo: |
+            La donna con la treccia si chiama Vesna e combatte per un clan di
+            Ghoran. Ti ha visto nell'Arena e dice che Ragh Kor'Nul vuole pesare
+            chi ha fatto tutto quel rumore, e che a Ghoran l'invito di Ragh si
+            può soltanto rimandare. Tobiolo Mirri porta il grano di
+            Laresh in città, e dice che la Dama Ryn Velar cerca qualcuno che non
+            sia dei Malgrani e non sia dei Raschiatori, perché da qualche mese i
+            Raschiatori le portano via i ragazzi.
+
+            Il carbonaio si chiama Ansgar e parla poco. Dice che a Pannion il
+            Vecchio è cresciuto e che Darrin Huld vuole qualcuno di fuori che
+            guardi le radici senza pregarci sopra. L'ultima a parlare è Ilenia, da Tuarmir,
+            che si rigira la maschera fra le dita. Madre Cerya l'ha mandata a dire
+            che il vento ha cambiato strada, e che chi l'ha sentito soffiare
+            sull'Arena può capire da dove arriva.
+
+            Quando se ne vanno, ciascuno per la sua porta, ti restano in mano
+            quattro strade. Partono tutte dalla Superficie Fratturata.
+
+            {politica-ed-economia Media} La città mangia il grano di Laresh e
+            scalda le forge con il carbone di Pannion. Nessuno dei quattro
+            villaggi ha mai avuto un seggio al Consiglio.
+          imposta: { villaggi.notizie: 1 }
+
+  # ================================================================ battere la Superficie
+  - id: battere-la-superficie
+    immagine: ambientazione/superficie-fratturata
+    titolo: Battere la Superficie
+    sommario: "Le mappe della Gilda sono piene di ghiaia disegnata in fretta. Sotto la ghiaia ci sono i posti neri che i Raschiatori segnano con una croce e poi evitano."
+    luogo: Superficie Fratturata, il sentiero dei carri
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [pista.arena >= 5]
+    testo: |
+      Dalle terrazze di basalto la Superficie si apre in quattro direzioni, e
+      di ognuna conosci soltanto i sentieri dei carri. Sulla carta della
+      Gilda il resto è ghiaia disegnata in fretta. Qua e là c'è una croce a
+      matita, dove un Raschiatore ha visto qualcosa di nero e non ci è più
+      tornato.
+
+      Oda Krell dice che i posti neri si trovano camminando e chiedendo ai
+      pastori. Si riconoscono dagli animali, perché le bestie ci girano al
+      largo. Lo dice mentre si gratta il moncone sopra la gamba di legno,
+      come se le prudesse un ricordo preciso.
+
+      {natura Facile} Le capre la sanno lunga. Se un gregge gira intorno a
+      un pascolo buono senza entrarci, sotto il pascolo c'è qualcosa.
+
+      {accademiche Media} Nei registri della Biblioteca le pietre nere della
+      Superficie hanno nomi da almanacco. Accanto a quasi tutti c'è la stessa
+      annotazione, *non scavato*.
+    opzioni:
+      # ------------------------------------------------ nord: l'Anello, poi la Spina
+      - testo: "Battere il nord, verso il Rovolungo"
+        descrizione: "I mandriani del nord parlano di un cerchio dove i cani si mettono a girare."
+        quando: [traccia.anello < 2]
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il cane che gira
+          testo: |
+            Tre giorni di colline basse, e la sera del secondo un mandriano ti
+            divide il fuoco e il formaggio. Gli chiedi delle pietre, e lui
+            guarda il suo cane prima di risponderti. Nove pietre nere, dice, a
+            mezza giornata dal roveto, dove l'erba non ricresce. Il cane di suo
+            fratello c'è entrato e ha girato fino a morire. Ti indica la
+            direzione con il mento, senza alzare la mano.
+          pe: { natura: 2 }
+          effetti: { traccia.anello: 1 }
+        fallimento:
+          titolo: Colline uguali
+          testo: |
+            Le colline del nord si somigliano tutte, e i mandriani che incontri
+            hanno fretta di portare le bestie altrove. Torni con i piedi pieni
+            di vesciche e un solo nome storpiato, che non sai a che cosa
+            appartenga.
+      - testo: "Cercare il cerchio dei cani"
+        descrizione: "Sai dove guardare. Bisogna trovare il punto dove l'erba si rifiuta di crescere."
+        quando: [traccia.anello == 2]
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Nove pietre
+          testo: |
+            Le trovi al tramonto, ai margini del Rovolungo. Sono nove pietre
+            nere alte fino al ginocchio, in un cerchio quasi perfetto, e dentro
+            c'è un disco di terra nuda, come se qualcuno l'avesse spazzato.
+            Ti fermi sul bordo, con la punta degli stivali fuori dalla prima
+            pietra, e segni il posto sulla carta della Gilda con una croce
+            tutta tua.
+
+            {resilienza Media} Il cerchio ti tira un poco, come una discesa. Le
+            gambe vorrebbero fare il primo passo da sole.
+          pe: { percezione: 2 }
+          effetti: { traccia.anello: 1 }
+        fallimento:
+          titolo: L'erba alta
+          testo: |
+            Giri per il bordo del roveto finché la luce regge, e l'erba è alta
+            dappertutto. Al buio torni indietro seguendo il fumo di un pastore,
+            convinto di esserci passato accanto.
+      - testo: "Cercare il pilastro che risponde"
+        descrizione: "Sulla pianura fra Velthar e il Rovolungo c'è un pilastro nero che restituisce le voci. Lo sanno i cantori di strada."
+        quando: [traccia.anello >= 3, traccia.spina < 2]
+        prova: { attributo: sociale, abilita: [espressivita, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: La canzone cambiata
+          testo: |
+            In una locanda di carrettieri un cantore ambulante accorda un liuto
+            con tre corde. Gli offri da bere e una strofa, e lui in cambio ti
+            racconta della Spina, dove ha gridato un nome e gli è tornata
+            un'altra parola. Da allora quella canzone non la canta più. Ti
+            spiega la strada contando i guadi sulle dita.
+          pe: { espressivita: 2 }
+          effetti: { traccia.spina: 1 }
+        fallimento:
+          titolo: Cantori stonati
+          testo: |
+            I cantori che incontri conoscono tutti una storia sulla Spina, e
+            nessuna delle storie torna con l'altra. Uno la mette a nord del
+            Rovolungo e l'altro sul mare. Torni con la borsa più leggera per
+            tutto il vino che hai offerto.
+      - testo: "Andare a vedere la Spina dell'Eco"
+        descrizione: "Si vede da molto lontano, dicono. Bisogna arrivarci prima che faccia buio."
+        quando: [traccia.anello >= 3, traccia.spina == 2]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il dito puntato
+          testo: |
+            La vedi a metà mattina, un'asta nera ritta sulla pianura gialla, e
+            ci metti fino al pomeriggio per arrivarci. Alla base la terra è
+            smossa da vecchi scavi, e sotto un palmo di terra la pala di
+            qualcuno ha lasciato un segno lucido su qualcosa di duro. Gridi il
+            tuo nome per prova, e al nono battito la pianura ti restituisce una
+            parola che non hai detto.
+          pe: { atletica: 2 }
+          effetti: { traccia.spina: 1 }
+        fallimento:
+          titolo: Sempre più lontana
+          testo: |
+            La vedi a metà mattina e cammini verso di lei fino al tramonto, e
+            al tramonto è grande come a mezzogiorno. Dormi all'aperto e torni
+            indietro all'alba, con il dubbio di aver contato male i guadi.
+      - testo: "Tornare alla Spina dove sei stato con Voren"
+        descrizione: "La strada per la Spina la conosci. Con il Circolo ci hai già gridato una parola."
+        quando: [circolo.parola >= 1, traccia.spina < 3]
+        costo: 0
+        esito:
+          titolo: La strada di Voren
+          testo: |
+            La strada per la Spina la ricordi passo per passo, con il guado
+            basso e il sasso a forma di sella dove Voren si era fermato a bere.
+            Segni il posto sulla carta della Gilda. Quella volta la Spina ti ha
+            restituito una parola. Stavolta vuoi sapere che cosa c'è sotto.
+          imposta: { traccia.spina: 3 }
+
+      # ------------------------------------------------ est: il Sornione, poi la Soglia di Mara
+      - testo: "Battere l'est, oltre l'orlo del Gradone"
+        descrizione: "I carrettieri di Pannion parlano di un cascinale con un vetro nel campo che sembra ridere."
+        quando: [traccia.sornione < 2]
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Il vetro che ride
+          testo: |
+            Sul carro di un carbonaio che torna a Pannion senti la storia del
+            Sornione, un disco di vetro piantato in un campo dove non cresce
+            niente di buono. Il carbonaio dice che riflette un cielo che non è
+            il nostro, e poi si fa il segno dell'Albero sul petto. Ti lascia al
+            bivio giusto, oltre l'orlo nord del Gradone Rosso.
+          pe: { percezione: 2 }
+          effetti: { traccia.sornione: 1 }
+        fallimento:
+          titolo: Il bivio sbagliato
+          testo: |
+            Prendi il bivio che ti sembra giusto, e il sentiero finisce in una
+            cava di argilla abbandonata. Torni con la polvere rossa del Gradone
+            fin dentro le orecchie.
+      - testo: "Cercare il cascinale del Sornione"
+        descrizione: "Il cascinale è isolato, e i contadini non amano chi viene a vedere il loro vetro."
+        quando: [traccia.sornione == 2]
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Il campo vuoto
+          testo: |
+            La contadina del cascinale ti fa aspettare sull'aia con il cane al
+            guinzaglio, e quando si convince che non vuoi comprarle niente ti
+            porta al margine del campo. Il disco è là in mezzo, largo come una
+            stanza, mezzo dentro la terra, e riflette un cielo di notte in
+            pieno giorno. Lei resta indietro di dieci passi e non guarda.
+          pe: { empatia: 2 }
+          effetti: { traccia.sornione: 1 }
+        fallimento:
+          titolo: Il cane
+          testo: |
+            La contadina sguinzaglia il cane prima che tu abbia finito di
+            salutare. Ti allontani camminando all'indietro, e il cane ti
+            accompagna fino alla strada senza mai smettere di ringhiare.
+      - testo: "Battere i crinali a est della Roccia di Wren"
+        descrizione: "Sul crinale c'è un arco senza muri, e al tramonto chi ci passa sotto torna con una storia."
+        quando: [traccia.sornione >= 3, traccia.mara < 2]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: La vecchia Mara
+          testo: |
+            Sali e scendi i crinali sopra il Torvessa per due giorni, e in un
+            casolare un vecchio pescatore ti racconta della Soglia, un arco di
+            pietra nera dove non è mai passata una strada. Il nome l'ha dato una
+            vecchia, Mara, che sua nonna aveva conosciuto. Nessuno sa perché. Ti
+            indica il crinale giusto con il coltello da pesce.
+          pe: { atletica: 2 }
+          effetti: { traccia.mara: 1 }
+        fallimento:
+          titolo: Crinali
+          testo: |
+            Ogni crinale ne nasconde un altro, e la nebbia del Torvessa sale
+            nel pomeriggio fino alle ginocchia. Torni con le gambe dure e niente
+            da segnare sulla carta.
+      - testo: "Salire al crinale della Soglia"
+        descrizione: "L'arco si vede solo da certi punti, e conviene arrivarci prima del tramonto."
+        quando: [traccia.sornione >= 3, traccia.mara == 2]
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: L'arco a piombo
+          testo: |
+            L'arco compare all'improvviso dietro una gobba del crinale. È alto
+            due volte un uomo e sta dritto come un filo a piombo, senza muri ai
+            lati. Il sole sta calando, e stavolta resti a guardarlo da venti
+            passi. Per un momento senti un odore di pioggia salata che il vento
+            del crinale non giustifica.
+          pe: { percezione: 2 }
+          effetti: { traccia.mara: 1 }
+        fallimento:
+          titolo: La gobba sbagliata
+          testo: |
+            Sali sulla gobba sbagliata e da lassù vedi soltanto altri crinali.
+            Quando trovi quella giusta è buio, e il buio sui crinali non è il
+            momento di cercare archi.
+
+      # ------------------------------------------------ sud: la Costola, poi i Tamburi
+      - testo: "Battere il sud, verso Ghoran"
+        descrizione: "I pastori delle alture a sud di Ghoran parlano di un metallo che canta."
+        quando: [traccia.costola < 2]
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Il coltello che canta
+          testo: |
+            Sulle alture aride oltre il Gradone l'acqua si compra a sorsi, e un
+            pastore con le guance cotte dal sole ti vende un otre insieme alla
+            storia della Costola, un arco di metallo nero che esce dal fianco di
+            una collina. Ci ha appoggiato il coltello una volta, e il coltello
+            si è messo a cantare. Te lo mostra tenendolo per la punta, con la
+            lama rimasta storta da allora.
+          pe: { resistenza: 2 }
+          effetti: { traccia.costola: 1 }
+        fallimento:
+          titolo: La sete
+          testo: |
+            Sulle alture l'acqua finisce prima del previsto, e torni indietro
+            seguendo un rigagnolo che ti porta lontano da dove volevi andare.
+      - testo: "Cercare la collina della Costola"
+        descrizione: "Il metallo vibra così basso che non si sente. Lo sentono le bestie, e i denti."
+        quando: [traccia.costola == 2]
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La costola
+          testo: |
+            Le capre del pastore non vogliono salire su una collina sola, e tu
+            sali lì. Dal fianco esce un arco di metallo nero lungo quanto tre
+            carri, curvo come la costola di una bestia sepolta. Quando ci arrivi
+            a dieci passi ti accorgi di stringere i denti senza motivo, e ti
+            prude la radice dei capelli.
+          pe: { natura: 2 }
+          effetti: { traccia.costola: 1 }
+        fallimento:
+          titolo: Colline gialle
+          testo: |
+            Le colline sono tutte gialle e tutte uguali, e le capre stasera
+            vanno dappertutto. Torni con le labbra spaccate dal vento.
+      - testo: "Chiedere ai cacciatori di anguille della palude"
+        descrizione: "Nella Palude Acquanera c'è un punto segnato da tre paletti rossi, e a mezzanotte da lì si sta lontani."
+        quando: [traccia.costola >= 3, traccia.tamburi < 2]
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          titolo: Tre paletti
+          testo: |
+            I cacciatori di anguille ti fanno sedere sulla riva a pulire le
+            nasse prima di parlarti. Poi uno, con le dita senza unghie per
+            l'acqua, ti dice dei paletti rossi sul guado nord. Ci si bussa sotto,
+            a mezzanotte, tre colpi. Lui li ha sentiti da ragazzo e da allora a
+            mezzanotte non è più uscito con la barca.
+          pe: { conoscenze-della-strada: 2 }
+          effetti: { traccia.tamburi: 1 }
+        fallimento:
+          titolo: Nasse da pulire
+          testo: |
+            Pulisci nasse per tutto il pomeriggio, e alla fine i cacciatori ti
+            ringraziano e cambiano discorso ogni volta che nomini il guado.
+      - testo: "Aspettare la mezzanotte sul guado nord"
+        descrizione: "I paletti si trovano di giorno. I colpi si sentono soltanto a mezzanotte."
+        quando: [traccia.costola >= 3, traccia.tamburi == 2]
+        prova: { attributo: mentale, abilita: [resilienza, natura], difficolta: Media }
+        successo:
+          titolo: Tre colpi
+          testo: |
+            I tre paletti rossi stanno piantati a triangolo nel muschio, e tu
+            aspetti con la lanterna coperta su un sasso asciutto. A mezzanotte,
+            sotto i piedi, qualcuno bussa tre volte con colpi sordi e lenti. Il
+            muschio intorno ai paletti si intiepidisce per qualche minuto. Poi
+            niente, e le rane ricominciano.
+          pe: { resilienza: 2 }
+          effetti: { traccia.tamburi: 1 }
+        fallimento:
+          titolo: Il guado sbagliato
+          testo: |
+            Aspetti la mezzanotte su un guado con tre paletti, e a mezzanotte
+            non bussa nessuno. All'alba scopri che i paletti erano verdi, e che
+            il guado nord è un altro.
+
+      # ------------------------------------------------ ovest: l'Aculeo, il Forno, le Stele
+      - testo: "Battere l'ovest, verso Laresh"
+        descrizione: "A ovest dei campi di Laresh c'è un avvallamento di rovi con un foro che fischia."
+        quando: [traccia.aculeo < 2]
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Il fischio dell'aculeo
+          testo: |
+            Al margine dei campi di Laresh un'anziana sgrana fagioli su una
+            sedia sfondata, e ti racconta del foro nella Conca dei Rovi, dove i
+            ragazzi tirano i sassi per sentirli non cadere. Una notte all'anno
+            ne esce un fischio. Suo padre lo chiamava il fischio dell'aculeo, e
+            lei ti dice la strada per arrivarci senza smettere di sgranare.
+          pe: { empatia: 2 }
+          effetti: { traccia.aculeo: 1 }
+        fallimento:
+          titolo: Fagioli
+          testo: |
+            Nei campi di Laresh tutti hanno qualcosa da fare, e chi si ferma a
+            parlare con te vuole sapere se sei dei Raschiatori. Quando dici di
+            no, non ti credono.
+      - testo: "Scendere nella Conca dei Rovi"
+        descrizione: "I rovi della conca sono alti come un uomo, e il foro sta in mezzo."
+        quando: [traccia.aculeo == 2]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il bordo di vetro
+          testo: |
+            Ti apri la strada fra i rovi con il coltello e con le maniche, e in
+            fondo alla conca trovi il foro, largo quanto un braccio teso, con i
+            bordi lisci come vetro di bottiglia. Ci lasci cadere un sasso e
+            aspetti a lungo, con l'orecchio teso, senza sentire niente.
+          pe: { atletica: 2 }
+          effetti: { traccia.aculeo: 1 }
+        fallimento:
+          titolo: I rovi
+          testo: |
+            I rovi vincono loro. Esci dalla conca con le maniche a strisce e un
+            graffio sulla guancia, senza aver visto il fondo.
+      - testo: "Fermarsi coi carbonai sulla strada di Tuarmir"
+        descrizione: "I carbonai di passaggio si riparano in una stanza di pietra tiepida, e ne escono tutti con la stessa storia."
+        quando: [traccia.aculeo >= 3, traccia.forno < 2]
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, empatia], difficolta: Media }
+        successo:
+          titolo: Il bambino al tavolo
+          testo: |
+            Tre carbonai ti fanno posto al fuoco, e quando chiedi del Forno
+            della Nonna si guardano fra loro. Il più giovane racconta di aver
+            sognato un bambino seduto a un tavolo, la prima notte. La seconda
+            il bambino aveva un'altra faccia. La terza notte non ci è tornato.
+            Ti dicono dov'è, a patto che tu non ci dorma.
+          pe: { conoscenze-della-strada: 2 }
+          effetti: { traccia.forno: 1 }
+        fallimento:
+          titolo: Il fuoco degli altri
+          testo: |
+            I carbonai che incontri tengono il fuoco per sé, e quelli che te lo
+            dividono parlano soltanto del prezzo del carbone in città.
+      - testo: "Cercare la stanza tiepida"
+        descrizione: "Dove il sentiero di Tuarmir piega per evitare un dosso, dicono. I dossi però sono tanti."
+        quando: [traccia.aculeo >= 3, traccia.forno == 2]
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Le pareti calde
+          testo: |
+            Il sentiero piega per evitare un dosso, e dietro il dosso c'è quello
+            che resta di una camera di pietra mezzo interrata, senza tetto. Le
+            pareti sono tiepide come un forno spento da poco. Dentro, sul
+            pavimento, ci sono le ceneri di cento fuochi di carbonai, e
+            nessuno ha mai acceso il fuoco contro la parete di fondo.
+          pe: { percezione: 2 }
+          effetti: { traccia.forno: 1 }
+        fallimento:
+          titolo: Dossi
+          testo: |
+            Il sentiero di Tuarmir piega per evitare un dosso ogni mezzo miglio,
+            e dietro ogni dosso c'è soltanto altro sentiero.
+      - testo: "Cercare le sette colonne oltre la Foresta Strisciante"
+        descrizione: "La Biblioteca ci mandò una campagna di rilevamento nel 142. Le ombre puntano tutte dalla stessa parte."
+        quando: [traccia.forno >= 3, traccia.stele < 2]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il rapporto del 142
+          testo: |
+            Il rapporto della campagna del 142 lo ricordi a metà, ma la metà
+            che ricordi è quella con la strada. Due giorni e mezzo a sud-ovest,
+            girando largo intorno alla Foresta Strisciante. Un boscaiolo che
+            torna dal margine del bosco ti conferma la direzione e ti chiede
+            di non tagliare per la foresta nemmeno se ti sembra più corto.
+          pe: { accademiche: 2 }
+          effetti: { traccia.stele: 1 }
+        fallimento:
+          titolo: Il margine del bosco
+          testo: |
+            Giri intorno alla Foresta Strisciante dalla parte sbagliata, e a
+            sera il margine del bosco è più vicino di quanto l'avevi lasciato.
+            Torni indietro senza fermarti.
+      - testo: "Arrivare alle Stele dei Naviganti"
+        descrizione: "In pianura aperta, sette colonne basse. Si riconoscono dalle ombre."
+        quando: [traccia.forno >= 3, traccia.stele == 2]
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Sette ombre
+          testo: |
+            Le sette colonne sono basse, grigie, allineate così bene che la
+            prima nasconde le altre sei. È mezzogiorno, e le ombre sono lunghe
+            come a sera e cadono tutte verso est, sette dita puntate. Pianti
+            un bastone per terra, e l'ombra del bastone va dove vuole il sole.
+          pe: { resistenza: 2 }
+          effetti: { traccia.stele: 1 }
+        fallimento:
+          titolo: La pianura
+          testo: |
+            La pianura oltre la Foresta è piatta e senza segni, e senza segni
+            si cammina in tondo. Torni quando l'acqua è a metà.
+      - testo: "Tornare alle Stele dove i Raschiatori hanno misurato le ombre"
+        descrizione: "Con i Raschiatori le Stele le hai già viste. La strada la sai."
+        quando: [fazione.raschiatori >= 11, traccia.stele < 3]
+        costo: 0
+        esito:
+          titolo: La strada delle ombre
+          testo: |
+            La strada delle Stele ce l'hai segnata sulla carta da quando, con i
+            Raschiatori, avete misurato le ombre che puntavano a Korith. Korith
+            l'hai visto. Adesso vuoi vedere che cosa fanno le colonne di notte.
+          imposta: { traccia.stele: 3 }
+
+      # ------------------------------------------------ quando non c'è altro da cercare
+      - testo: "Girare dove porta il sentiero"
+        descrizione: "Senza una meta, con gli occhi bassi. Sulla Superficie le cose si trovano."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Fra due sassi
+          testo: |
+            Fra due sassi, dove la crosta del terreno si è aperta con l'ultima
+            pioggia, trovi un guscio di metallo scuro grande come una pagnotta,
+            chiuso da tutte le parti. Oda Krell saprà che cosa c'è dentro.
+          pe: { percezione: 2 }
+          effetti: { reperto.sigillato: 1 }
+        fallimento:
+          titolo: Polvere
+          testo: |
+            Cammini fino a sera e trovi soltanto polvere, e una suola che
+            comincia a staccarsi.
+
+  # ================================================================ le carte: voci sui luoghi neri
+  - id: carta-voci-costola
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/ghoran
+    titolo: Il mercenario con la lama storta
+    sommario: "Un mercenario di Ghoran affila al fuoco una lama piegata come se l'avesse appoggiata a qualcosa di caldo."
+    luogo: Superficie Fratturata, un fuoco sul sentiero del sud
+    requisiti: [pista.arena >= 5, traccia.costola < 3]
+    testo: |
+      Al fuoco sul sentiero del sud c'è un mercenario di Ghoran con la
+      treccia legata nel rame e una cicatrice che gli prende mezzo labbro.
+      Affila una lama corta con una pietra, e la lama è storta, piegata a un
+      terzo come se qualcuno l'avesse tenuta sopra una forgia. La affila
+      lo stesso, con pazienza, colpo dopo colpo.
+
+      Ti fa posto senza chiederti niente. Dopo un poco ti porge la lama
+      perché la guardi.
+
+      {armi-da-mischia Media} Il ferro non è stato scaldato. È piegato di
+      fibra, dall'interno, come succede a un ferro che ha vibrato troppo a
+      lungo.
+
+      «Le alture dietro Ghoran» dice. «C'è un osso di ferro nero che esce
+      dalla terra. Ci ho appoggiato questa per scommessa.» Riprende la lama e
+      ricomincia ad affilare.
+    opzioni:
+      - testo: "Farsi dire dove sta l'osso"
+        descrizione: "Un mercenario parla volentieri di una scommessa persa, se capisce che non lo prendi in giro."
+        prova: { attributo: sociale, abilita: [empatia, intimidire], difficolta: Media }
+        successo:
+          titolo: La scommessa
+          testo: |
+            Gli dici che una scommessa persa con stile vale due vinte, e lui
+            ride con la metà buona della bocca. Ti disegna la strada nella
+            cenere con la punta della lama storta, collina per collina, fino a
+            quella da cui esce l'osso.
+          effetti: { traccia.costola: 2 }
+        fallimento:
+          titolo: La risata sbagliata
+          testo: |
+            Ridi al momento sbagliato, e lui smette di affilare. Per tutto il
+            resto della sera tiene la lama sulle ginocchia con la punta verso
+            di te, e la mattina se ne va prima che tu ti svegli.
+          effetti: { sospetto: 0.5 }
+      - testo: "Comprargli la lama storta"
+        descrizione: "La lama la vende, e con la lama viene la storia."
+        requisiti: [monete >= 3]
+        esito:
+          titolo: La lama
+          testo: |
+            Gliela compri per poco, e lui ti racconta il resto per niente. Le
+            alture dietro Ghoran, la collina dove le capre non salgono. La
+            lama nella tua bisaccia, la notte, sembra calda.
+          effetti: { monete: -3, traccia.costola: 1 }
+
+  - id: carta-voci-tamburi
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/palude-acquanera
+    titolo: La barca senza remi
+    sommario: "Una barca da anguille è arenata sul fango, e dentro un ragazzo dorme con un paletto rosso stretto in mano."
+    luogo: Superficie Fratturata, il margine della Palude Acquanera
+    requisiti: [pista.arena >= 5, traccia.tamburi < 3]
+    testo: |
+      Sul margine della Palude Acquanera, dove il fango comincia a sembrare
+      terra, è arenata una barca da anguille senza remi. Dentro c'è un
+      ragazzo che dorme rannicchiato sul fondo, con le ginocchia al petto e
+      in mano un paletto lungo un braccio, verniciato di rosso.
+
+      {natura Media} Le nasse della barca sono vuote e asciutte. Chi l'ha
+      tirata fin qui non è uscito a pescare.
+
+      Quando lo svegli scatta in piedi e alza il paletto come una spada. Ha
+      gli occhi gonfi di chi non dorme da giorni, e ti chiede prima di tutto
+      che ore sono.
+    opzioni:
+      - testo: "Calmarlo e farsi raccontare"
+        descrizione: "Ha paura di qualcosa che bussa, e non è una paura da ridere."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il paletto
+          testo: |
+            Gli dai da mangiare, e mangiando racconta. Ha tolto uno dei tre
+            paletti rossi dal guado nord per scommessa, e da quella notte i
+            colpi li sente anche a casa, sotto il letto, a mezzanotte. Vuole
+            rimetterlo a posto e non ha il coraggio. Ti spiega dov'è il guado
+            con le mani che tremano, e ti lascia il paletto.
+          effetti: { traccia.tamburi: 2 }
+        fallimento:
+          titolo: Il ragazzo scappa
+          testo: |
+            Gli fai una domanda di troppo e lui scappa nel fango con il paletto
+            in mano, affondando fino al ginocchio a ogni passo. La barca resta
+            lì. Hai la sensazione di averlo spaventato più dei colpi.
+          effetti: { tormento: 0.5 }
+      - testo: "Riportargli la barca all'acqua"
+        descrizione: "Spingere una barca nel fango è fatica, ma il ragazzo da solo non ce la fa."
+        esito:
+          titolo: La spinta
+          testo: |
+            Spingete insieme finché la barca non galleggia, e lui, sporco fino
+            alle ascelle, ti indica il nord della palude con il paletto. Il
+            guado dei tre paletti, dice, anche se adesso ne sono rimasti due.
+          effetti: { traccia.tamburi: 1, ferite: 0.5 }
+
+  - id: carta-voci-aculeo
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/laresh
+    titolo: I ragazzi coi sassi
+    sommario: "Tre ragazzi di Laresh tornano dai campi con le tasche piene di sassi e un'aria da cospiratori."
+    luogo: Superficie Fratturata, la strada dei carri verso Laresh
+    requisiti: [pista.arena >= 5, traccia.aculeo < 3]
+    testo: |
+      Sulla strada dei carri verso Laresh ti superano tre ragazzi di dieci o
+      dodici anni con le tasche gonfie di sassi tondi, scelti uno per uno
+      sul letto di un rio. Il più grande porta un gomitolo di spago legato
+      in vita, e gli altri due lo seguono come si segue un capo.
+
+      {percezione Facile} I sassi sono tutti della stessa grandezza, e lo
+      spago ha un nodo ogni braccio, come quello dei pozzari quando devono
+      sapere quanto è fondo un pozzo.
+
+      Quando li saluti il capo si ferma e ti guarda dal basso, con la
+      serietà di un notaio. Ti chiede se sei dei Raschiatori, e prima che tu
+      risponda gli altri due sono già dietro di lui.
+    opzioni:
+      - testo: "Chiedergli che cosa vanno a misurare"
+        descrizione: "Un capobanda di dodici anni si convince con il rispetto, e con qualcosa da mostrare."
+        prova: { attributo: sociale, abilita: [persuasione, espressivita], difficolta: Media }
+        successo:
+          titolo: Il foro senza fondo
+          testo: |
+            Gli dai del voi, e il capo ti spiega con orgoglio che nella Conca
+            dei Rovi c'è un foro senza fondo, e che loro ci calano lo spago e
+            ci tirano i sassi per sentirli arrivare. Lo spago non basta mai.
+            Ti portano a vedere la conca dall'alto, e ti fanno promettere di non
+            dirlo ai grandi.
+          effetti: { traccia.aculeo: 2 }
+        fallimento:
+          titolo: I grandi
+          testo: |
+            Gli parli come si parla a un bambino, e il capo se ne offende con
+            tutta la dignità dei suoi dodici anni. I tre se ne vanno per i campi,
+            e da lontano uno ti tira un sasso, che ti manca di poco.
+          effetti: { scandalo: 0.5 }
+      - testo: "Dargli un pezzo di spago in più"
+        descrizione: "Il gomitolo del capo è quasi finito."
+        esito:
+          titolo: Lo spago
+          testo: |
+            Il capo accetta lo spago con un cenno da adulto, e in cambio ti
+            dice soltanto il nome del posto, la Conca dei Rovi, e la direzione,
+            a ovest dei campi.
+          effetti: { traccia.aculeo: 1 }
+
+  - id: carta-voci-anello
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/rovolungo
+    titolo: Il cane legato corto
+    sommario: "Un mandriano del nord tiene il cane legato corto alla cintura, e il cane non smette di guardare verso ovest."
+    luogo: Superficie Fratturata, la strada del nord
+    requisiti: [pista.arena >= 5, traccia.anello < 3]
+    testo: |
+      Un mandriano scende dalle colline del nord con un branco di pecore
+      magre, e tiene il cane legato corto alla cintura, con un nodo che
+      si scioglie con una mano sola. Il cane è un pastore grigio con un
+      orecchio strappato, e cammina girando la testa verso ovest a ogni
+      passo, come se là ci fosse qualcosa che lo chiama per nome.
+
+      {addestrare-animali Media} Il cane non ha paura. Tira un poco verso
+      ovest, e quando si accorge di tirare si ferma da solo e si guarda le
+      zampe, come se non fossero sue.
+
+      Il mandriano ti vede guardare e accorcia la corda di un altro giro.
+    opzioni:
+      - testo: "Chiedergli del cane"
+        descrizione: "Un mandriano parla volentieri del suo cane, a chi sa ascoltare."
+        prova: { attributo: sociale, abilita: [empatia, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: Il cerchio
+          testo: |
+            Il cane, racconta, è entrato nel cerchio delle nove pietre una
+            volta sola, da cucciolo. Lui l'ha tirato fuori per la corda dopo un
+            giro. Da allora il cane guarda da quella parte. Ti dice dove sono le
+            pietre, ai margini del Rovolungo, e ti chiede di non portarci mai
+            una bestia.
+          effetti: { traccia.anello: 2 }
+        fallimento:
+          titolo: Fatti suoi
+          testo: |
+            Il mandriano ti risponde che il cane è affar suo, e si porta via le
+            pecore in fretta. Il cane continua a guardare verso ovest finché
+            spariscono dietro la collina.
+          effetti: { sospetto: 0.5 }
+      - testo: "Accarezzare il cane"
+        descrizione: "Il cane non sembra cattivo. Solo distratto."
+        esito:
+          titolo: Il muso a ovest
+          testo: |
+            Il cane si lascia accarezzare senza guardarti, con il muso sempre
+            puntato a ovest. Il mandriano grugnisce che quella è la direzione
+            delle pietre nere, e che lui ci gira al largo.
+          effetti: { traccia.anello: 1 }
+
+  - id: carta-voci-forno
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/tuarmir
+    titolo: La carbonaia che non dorme
+    sommario: "Una carbonaia di Pannion fa la guardia alla sua carbonaia a occhi aperti, e ti chiede se hai mai dormito al caldo sulla strada di Tuarmir."
+    luogo: Superficie Fratturata, una carbonaia sulla strada di Tuarmir
+    requisiti: [pista.arena >= 5, traccia.forno < 3]
+    testo: |
+      In una radura fuma lenta una carbonaia coperta di zolle. Accanto,
+      seduta su un ceppo con un bastone sulle ginocchia, la sorveglia una
+      donna con il fazzoletto in testa. Ha le occhiaie scure come il
+      carbone che cuoce, e quando le chiedi la strada per Tuarmir ti
+      risponde con un'altra domanda. Vuole sapere se hai mai dormito al
+      caldo, su quella strada.
+
+      {medicina Media} Sono almeno due notti che non dorme, e la carbonaia
+      c'entra poco. Chi resta sveglio per lavoro sbadiglia, mentre lei tiene
+      gli occhi spalancati apposta.
+
+      Prima che tu risponda ti offre un sorso d'acqua dalla zucca.
+    opzioni:
+      - testo: "Dirle di no, e chiederle perché"
+        descrizione: "Ha voglia di parlarne, ma ha paura di farsi ridere dietro."
+        prova: { attributo: sociale, abilita: [empatia, medicina], difficolta: Media }
+        successo:
+          titolo: La stanza calda
+          testo: |
+            Ha dormito tre notti nel Forno della Nonna, la camera tiepida dove
+            il sentiero piega. Ogni notte un bambino a un tavolo la guardava,
+            e ogni notte aveva una faccia diversa, l'ultima era la sua da
+            piccola. Da allora non si fida a dormire. Ti dice il dosso e la
+            piega del sentiero, e ti raccomanda di portarti una coperta.
+          effetti: { traccia.forno: 2 }
+        fallimento:
+          titolo: Lo sguardo
+          testo: |
+            Le chiedi perché con troppa curiosità, e lei capisce che vuoi una
+            storia. Ti riprende la zucca dell'acqua e torna a guardare la
+            carbonaia come se tu non ci fossi.
+          effetti: { tormento: 0.5 }
+      - testo: "Farle la guardia mentre dorme un'ora"
+        descrizione: "Un'ora di sonno a chi ne ha bisogno. La carbonaia la guardi tu."
+        costo: 2
+        esito:
+          titolo: Un'ora
+          testo: |
+            Dorme un'ora sul ceppo, con il mento sul petto, e si sveglia di
+            soprassalto. Per ringraziarti ti dice dov'è la camera tiepida, e
+            che lei non ci tornerà mai più.
+          effetti: { traccia.forno: 1 }
+
+  - id: carta-voci-stele
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/foresta-strisciante
+    titolo: Il rilevatore della Biblioteca
+    sommario: "Un vecchio con una cassetta di strumenti sulla schiena misura l'ombra di un bastone piantato in mezzo al sentiero."
+    luogo: Superficie Fratturata, il sentiero a sud-ovest
+    requisiti: [pista.arena >= 5, traccia.stele < 3]
+    testo: |
+      In mezzo al sentiero a sud-ovest c'è un vecchio inginocchiato accanto
+      a un bastone piantato dritto, che segna con una pietra la punta
+      dell'ombra. Ha una cassetta di legno sulla schiena, con gli spigoli
+      rinforzati di ottone, e sulla cassetta c'è il sigillo della Biblioteca
+      di Qir-Azel, scolorito dalla pioggia.
+
+      {accademiche Media} Il bastone con le tacche è il metodo vecchio della
+      Biblioteca. Lo insegnavano agli scrivani prima che
+      l'Accademia comprasse le lenti.
+
+      Ti fa cenno di non calpestare l'ombra.
+    opzioni:
+      - testo: "Aiutarlo con le misure"
+        descrizione: "Due mani in più e un po' di testa. Il vecchio non ha tempo per spiegare."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La campagna del 142
+          testo: |
+            Tieni il bastone mentre lui segna, e a mezzogiorno ti racconta che
+            da giovane era nella campagna del 142 alle Stele dei Naviganti e
+            che quel lavoro non l'ha mai finito. Le ombre delle Stele
+            cadevano tutte verso Korith, ma una notte, dice, ne aveva contate
+            otto. Il capo campagna non gli aveva creduto. Ti segna la strada
+            nel suo taccuino, e ti strappa la pagina.
+          effetti: { traccia.stele: 2 }
+        fallimento:
+          titolo: L'ombra calpestata
+          testo: |
+            Ti sposti per guardare meglio e calpesti la punta dell'ombra
+            proprio mentre lui la segna. Il vecchio ricomincia da capo, con le
+            labbra strette, e non ti rivolge più la parola.
+          effetti: { scandalo: 0.5 }
+      - testo: "Chiedergli dove va"
+        descrizione: "Alle Stele, probabilmente. Basta chiedere."
+        esito:
+          titolo: A sud-ovest
+          testo: |
+            Va alle Stele dei Naviganti, oltre la Foresta Strisciante, e ci
+            va da quarant'anni senza arrivarci mai. Ti indica la direzione con
+            il bastone e poi lo ripianta per tornare alla sua ombra.
+          effetti: { traccia.stele: 1 }
+
+  - id: carta-voci-sornione
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/gradone-rosso
+    titolo: Lo stagionale che non guarda in su
+    sommario: "Uno stagionale di Velthar cammina con gli occhi sempre a terra, anche quando gli parli."
+    luogo: Superficie Fratturata, oltre l'orlo nord del Gradone Rosso
+    requisiti: [pista.arena >= 5, traccia.sornione < 3]
+    testo: |
+      Lungo l'orlo nord del Gradone Rosso cammina uno stagionale con la
+      falce in spalla e un fagotto, e cammina guardandosi i piedi. Quando
+      gli rivolgi la parola risponde guardandoti gli stivali, e quando
+      passa uno stormo di storni sopra le vostre teste lui si copre gli
+      occhi con il braccio.
+
+      {resilienza Media} Chi ha paura del cielo di solito ha paura di quello
+      che c'è sopra. Questo ha paura di quello che ci ha visto.
+
+      Ti chiede se la strada per Velthar è quella. Gli dici di sì, e lui si
+      volta per andarsene, sempre con gli occhi bassi.
+    opzioni:
+      - testo: "Fargli guardare il cielo con te"
+        descrizione: "Una paura così si racconta, a volte, se qualcuno ti tiene compagnia."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Due stelle
+          testo: |
+            Vi sedete sull'orlo del Gradone e lui, piano, alza gli occhi. Ti
+            racconta del disco di vetro nel campo del cascinale, dove si è
+            specchiato a mezzogiorno e ha visto un cielo di notte con due stelle
+            che non conosceva. Al Velo ha deposto quello che aveva visto, e un
+            frate gli ha scritto le due stelle su un foglio che tiene ancora nel
+            fagotto. Ti dice il nome del cascinale e quello del campo.
+          effetti: { traccia.sornione: 2 }
+        fallimento:
+          titolo: Gli storni
+          testo: |
+            Uno stormo passa basso proprio mentre lui alza gli occhi, e lo
+            stagionale scappa lungo l'orlo con la falce che sbatte. Lo guardi
+            andare con la sensazione di avergli fatto un torto.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciarlo andare, e chiedergli da dove viene"
+        descrizione: "Da qualche parte è stato, prima di avere paura."
+        esito:
+          titolo: Il cascinale
+          testo: |
+            Viene da un cascinale oltre il Gradone, dove ha mietuto un campo
+            che non rende. Dice poco altro, però nomina il cascinale e il campo.
+          effetti: { traccia.sornione: 1 }
+
+  - id: carta-voci-mara
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/roccia-di-wren
+    titolo: Il mercante bagnato
+    sommario: "Un mercante di stoffe ha i capelli bagnati in una giornata di sole, e si annusa le maniche."
+    luogo: Superficie Fratturata, la riva del Torvessa
+    requisiti: [pista.arena >= 5, traccia.mara < 3]
+    testo: |
+      Sulla riva del Torvessa, in una giornata di sole che ha seccato il
+      fango in croste, un mercante di stoffe sta seduto sul suo carro con i
+      capelli bagnati. Si annusa a turno le maniche della giubba, aggrottato,
+      come se cercasse di ricordare un nome.
+
+      {percezione Media} L'acqua sui capelli è salata. Sulla fronte gli si
+      sta seccando in una crosta bianca, fine come farina.
+
+      Ti guarda e ti chiede, molto educatamente, se per caso senti odore
+      di fumo di legna.
+    opzioni:
+      - testo: "Annusare e ascoltare"
+        descrizione: "Il mercante sembra lucido, e molto confuso. Vuole qualcuno che gli creda."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: Tre battiti
+          testo: |
+            Sulle sue maniche senti anche tu un fumo debole. Quando glielo dici
+            lui racconta che tornando dalla Roccia ha tagliato per il
+            crinale, e al tramonto è passato sotto un arco nero. Per tre battiti
+            di cuore ha sentito la pioggia salata in faccia e un fuoco di legna
+            acceso da qualche parte vicino, e poi era di nuovo sul crinale con
+            il sole negli occhi. Prima di ripartire ti indica il crinale con il
+            manico della frusta.
+          effetti: { traccia.mara: 2 }
+        fallimento:
+          titolo: Il pazzo
+          testo: |
+            Gli dici che non senti niente. Il mercante annuisce e si scusa,
+            poi frusta il mulo senza aggiungere altro. Sulla strada, dietro il
+            carro, restano gocce d'acqua che non dovrebbero esserci.
+          effetti: { tormento: 0.5 }
+      - testo: "Dargli un panno per asciugarsi"
+        descrizione: "Un gesto da niente. Le persone, dopo, parlano."
+        esito:
+          titolo: Il crinale
+          testo: |
+            Si asciuga i capelli e ti ringrazia, e poi si annusa il panno. Ti
+            dice soltanto che sul crinale a est della Roccia c'è un arco, e che
+            non ci si deve passare sotto al tramonto.
+          effetti: { traccia.mara: 1 }
+
+  - id: carta-voci-spina
+    tipo: carta
+    area: superficie-fratturata
+    immagine: ambientazione/superficie-fratturata
+    titolo: Il cantore che conta
+    sommario: "Un cantore ambulante si ferma a metà della strofa e conta fino a nove sottovoce prima di riprendere."
+    luogo: Superficie Fratturata, una locanda di carrettieri sulla strada del nord
+    requisiti: [pista.arena >= 5, traccia.spina < 3]
+    testo: |
+      Nella locanda dei carrettieri sulla strada del nord un cantore
+      ambulante suona un liuto con le corde troppo tese. A ogni fine di
+      strofa si ferma, e conta fino a nove muovendo le labbra, prima di
+      attaccare la successiva. Gli avventori ci hanno fatto l'abitudine e
+      chiacchierano nel buco.
+
+      {espressivita Media} La pausa non è un trucco di mestiere. Sotto le
+      volte della Cattedrale i cantori fanno lo stesso, per lasciar finire
+      l'eco.
+
+      Quando finisce gira con il cappello, e quando arriva a te ti chiede se
+      hai mai gridato il tuo nome a un sasso.
+    opzioni:
+      - testo: "Cantare una strofa con lui"
+        descrizione: "Una strofa in due, e i nove battiti di pausa. Bisogna stare al tempo."
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Media }
+        successo:
+          titolo: Nove battiti
+          testo: |
+            Cantate una strofa insieme, e nei nove battiti di pausa la locanda
+            tace. Dopo, al tavolo, ti racconta della Spina dell'Eco, il pilastro
+            nero sulla pianura fra Velthar e il Rovolungo, che gli ha restituito
+            la voce con una parola cambiata. Da allora conta. Ti spiega la
+            strada a guadi.
+          effetti: { traccia.spina: 2 }
+        fallimento:
+          titolo: Fuori tempo
+          testo: |
+            Attacchi la strofa al settimo battito, e il cantore smette di
+            suonare con la mano a mezz'aria. Qualcuno ride. Il cantore ti
+            guarda come se gli avessi rotto qualcosa.
+          effetti: { scandalo: 0.5 }
+      - testo: "Mettergli una moneta nel cappello"
+        descrizione: "Una moneta a un cantore compra almeno una risposta."
+        requisiti: [monete >= 1]
+        esito:
+          titolo: Il pilastro
+          testo: |
+            Il cantore guarda la moneta e ti dice soltanto che sulla pianura
+            del nord c'è un sasso che sa cantare meglio di lui.
+          effetti: { monete: -1, traccia.spina: 1 }

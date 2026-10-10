@@ -105,6 +105,11 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
   - Grusk compra i segreti; armi, scudi e armature si rivendono a metà prezzo a chi le vende.
   - Tutte le tavole Midjourney sostituite con stampe d'epoca di pubblico dominio virate in seppia; Crediti con le fonti.
   - Doppiaggio tolto dal gioco, dagli script e dai documenti.
+- **10 ottobre.** La Superficie dopo l'Arena (`docs/piano-superficie.md`): i quattro villaggi (Ghoran, Laresh,
+  Tuarmir, Pannion) come luoghi della Superficie con una quest da 15 passi ciascuno e una spedizione propria
+  (`contenuti/villaggi/`), il sistema delle tracce con «Battere la Superficie» e nove carte di voci, le nove
+  spedizioni dei luoghi neri (`contenuti/scoperte/`) e la Campana Sepolta, quattro strati con il Campanaro e gli
+  oggetti di grado 5 (`contenuti/campana/`). Circa 276 storylet nuovi (1472 in tutto), 380 test.
 
 ## Checklist
 

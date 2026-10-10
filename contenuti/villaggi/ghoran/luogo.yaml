@@ -1,0 +1,389 @@
+# Ghoran come luogo della Superficie Fratturata (presso: ghoran), aperto dopo l'Arena (pista.arena >= 5).
+# - `ghoran-le-passerelle`: l'attività ripetibile, a fasce di rep.ghoran (< 2, 2-4, 4-6, >= 6). Le opzioni delle
+#   prime tre fasce alzano la reputazione di mezzo punto fino a 6; oltre la porta la quest (almeno 8 e 10).
+# - `ghoran-la-cerusica-del-campo`: il servizio, Oska che ricuce i gladiatori; a metà prezzo per chi è parente di
+#   clan (ghoran.parente, grado 4).
+# - `ghoran-il-campo-dei-tamburi`: la ricompensa del grado 2, una ripresa nel campo per una borsa, le scommesse e
+#   l'allenamento con Vesna.
+# Nomi nuovi: Oska (la cerusica del campo), il clan della Pece (torce e gladiatori, quello di Vesna) accanto ai clan
+# che il gioco conosce già (il Guado, la mano aperta con tre dita).
+luoghi:
+  - id: ghoran
+    area: superficie-fratturata
+    nome: Ghoran
+    immagine: ambientazione/ghoran
+    requisiti: [pista.arena >= 5]
+    sommario: "Palafitte annerite sulle pozze di fango, oltre il Gradone Rosso. Comandano i clan, e i clan riconoscono Ragh Kor'Nul."
+    testo: |
+      Ghoran sta a sud, oltre il Gradone Rosso, dove la terra comincia a
+      cedere verso la palude. Le case sono palafitte annerite dal fumo,
+      piantate dentro pozze di fango che d'estate bollono piano, e fra una
+      palafitta e l'altra corrono passerelle di assi che si piegano di un dito
+      sotto chi non le conosce. Di notte ci si vede con le torce di pece, e
+      l'odore di resina bruciata non se ne va nemmeno con la pioggia.
+
+      Al mercato dei recinti c'è una bilancia da grano a due piatti appesa a
+      una trave, con i pesi di bronzo in fila sul banco. Ci si pesa la merce,
+      e la merce a Ghoran cammina. Più in là, oltre l'ultima pozza, c'è il
+      campo dei gladiatori, una conca di terra battuta con le gradinate di
+      legno, e ogni notte da lì suonano i tamburi. Sotto il campo, dicono i
+      carovanieri, ce n'è un altro più vecchio del villaggio.
+
+      Le leggi di Qir-Azel qui valgono solo sulla carta. Comandano i clan, e
+      i clan riconoscono Ragh Kor'Nul, che ha un occhio solo e una memoria
+      che non perdona. Fra i mercanti di carovana gira un detto, «A Ghoran
+      non si compra. Si pesa», e chi lo ripete aggiunge che si pesa anche
+      chi sta soltanto a guardare.
+
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: ghoran-le-passerelle
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: Le passerelle
+    sommario: "A Ghoran il lavoro si trova sulle passerelle, e la paga la decide chi ti ha visto lavorare."
+    luogo: Ghoran, le passerelle fra le palafitte
+    area: superficie-fratturata
+    ripetibile: true
+    testo: |
+      Sulle passerelle di Ghoran il lavoro non si chiede. Si sta fermi
+      all'incrocio delle assi davanti alla palafitta del cambiavalute con le
+      mani in vista, finché qualcuno che passa non ti misura da capo a piedi.
+      Allora ti dice che cosa serve e quanto paga, con un prezzo che cambia
+      secondo come l'hai guardato.
+
+      Stamattina il fango delle pozze fuma, e dalle gradinate del campo
+      scendono i ragazzi della Pece con i secchi di resina per le torce di
+      stanotte.
+
+      {conoscenze-della-strada Facile} Chi ti offre lavoro senza
+      contrattare ti sta pesando. La prima paga è bassa apposta, per vedere
+      se la prendi.
+
+      {origine fuggiasco-di-ghoran} Le assi davanti al cambiavalute le hai
+      già calpestate, con una corda ai polsi e lo sguardo basso. Adesso stai
+      dritto sullo stesso incrocio, e la schiena se ne ricorda prima di te.
+    opzioni:
+      # ------------------------------------------------ rep < 2
+      - testo: "Rifare un tratto di passerella"
+        descrizione: "Un'asse marcia davanti ai recinti, e il fango sotto è profondo. Paga chi ci deve passare con la merce."
+        requisiti: [rep.ghoran < 2]
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Facile }
+        successo:
+          titolo: L'asse nuova
+          testo: |
+            Togli l'asse marcia stando a cavalcioni dei pali e inchiodi quella
+            nuova con il fango fino ai polpacci. Il padrone del recinto ci
+            passa sopra due volte, saltando forte la seconda volta per
+            provarla, e poi ti paga.
+          effetti: { monete: 2, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: La pozza
+          testo: |
+            Il palo su cui ti appoggi cede, e finisci nella pozza fino alla
+            cintura. Ti tirano fuori ridendo, e il lavoro lo finisce un altro.
+      - testo: "Portare l'acqua ai recinti delle bestie"
+        descrizione: "I cani da combattimento bevono molto e mordono chi porta il secchio piano."
+        requisiti: [rep.ghoran < 2]
+        prova: { attributo: fisico, abilita: [resistenza, addestrare-animali], difficolta: Facile }
+        successo:
+          titolo: I secchi
+          testo: |
+            Fai venti viaggi dal pozzo ai recinti con due secchi per volta, e
+            i cani ti guardano passare senza alzarsi. Il custode ti paga e ti
+            regala una scheggia di metallo trovata nel fango.
+          effetti: { monete: 1, reliquie.scheggia: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            Al decimo viaggio un cane ti prende il secchio con i denti e non
+            lo molla più. Il custode lo lascia a lui, e lascia a te un
+            insulto in dialetto.
+      # ------------------------------------------------ rep 2-4
+      - testo: "Tenere i cani della Pece prima della ripresa"
+        descrizione: "Prima di una ripresa i cani vanno calmati, sennò entrano nel campo già stanchi di ringhiare."
+        requisiti: [rep.ghoran >= 2, rep.ghoran < 4]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: I cani calmi
+          testo: |
+            Ti siedi nel recinto con la schiena al palo e lasci che i cani ti
+            annusino uno alla volta. Quando li portano al campo ti seguono con
+            gli occhi, e quello grosso, alla porta, ti lecca il polso.
+          effetti: { monete: 3, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Il ringhio
+          testo: |
+            I cani sentono che hai fretta e ringhiano tutta la mattina. Il
+            ragazzo della Pece li porta via lui, e ti dice di tornare quando
+            avrai imparato a sederti.
+      - testo: "Fare il conto delle scommesse al campo dei tamburi"
+        descrizione: "Al banco delle scommesse si scrive con l'inchiostro marrone, e chi sbaglia un conto lo paga di tasca sua."
+        requisiti: [rep.ghoran >= 2, rep.ghoran < 4]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Il banco delle scommesse
+          testo: |
+            Passi la notte al banco con il registro delle poste, mentre dietro
+            di te rullano i tamburi. I conti tornano, e il banchiere ti paga
+            con quello che resta e con un nome che è meglio sapere.
+          effetti: { monete: 4, informazioni.voce: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: La posta sbagliata
+          testo: |
+            Scrivi una posta sulla riga sbagliata, e all'alba un mercenario
+            del Guado reclama una vincita che non ha fatto. Il banchiere paga
+            lui e non paga te.
+      # ------------------------------------------------ rep 4-6
+      - testo: "Fare da peso in una lite di mercato"
+        descrizione: "Due mercanti litigano su una partita di pelli. Chi non ha un clan può dire chi ha ragione, se lo dice bene."
+        requisiti: [rep.ghoran >= 4, rep.ghoran < 6]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Le pelli
+          testo: |
+            Ascolti tutti e due. Poi conti le pelli e trovi le tre bucate che
+            nessuno voleva contare. Dividi la differenza a metà, e i mercanti
+            ti pagano un poco ciascuno, brontolando nello stesso modo.
+          effetti: { monete: 4, informazioni.pettegolezzo: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Due scontenti
+          testo: |
+            Dai ragione al primo, e il secondo ti ricorda davanti a tutto il
+            mercato che non hai un clan. Te ne vai senza paga.
+      - testo: "Scortare una carovana fino al Gradone"
+        descrizione: "Una carovana di pelli parte per Qir-Azel, e sulla strada del Gradone i predoni aspettano chi va piano."
+        requisiti: [rep.ghoran >= 4, rep.ghoran < 6]
+        prova: { attributo: fisico, abilita: [armi-da-mischia, resistenza], difficolta: Difficile }
+        successo:
+          titolo: La strada del Gradone
+          testo: |
+            Due giorni a piedi accanto ai carri, con la mano sul manico. Al
+            passo del Gradone tre predoni guardano la carovana dall'alto, ti
+            vedono in testa e decidono di aspettarne un'altra. Il carovaniere
+            ti paga e ti regala un guscio di metallo trovato sul ciglio.
+          effetti: { monete: 8, reperto.sigillato: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Il carro rovesciato
+          testo: |
+            Un carro si rovescia in una buca del Gradone, e mentre lo
+            rimettete in piedi un predone si porta via due balle di pelli.
+            Il carovaniere ti paga metà.
+          effetti: { monete: 3 }
+      # ------------------------------------------------ rep >= 6
+      - testo: "Andare con i cacciatori di bestie oltre le pozze"
+        descrizione: "I cacciatori del Guado escono a prendere bestie per il campo, e nelle tane si trova anche altro."
+        requisiti: [rep.ghoran >= 6]
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La tana vuota
+          testo: |
+            Trovi la tana prima dei cacciatori, una buca fra le radici di un
+            salice morto, ed è vuota. Sul fondo, fra le ossa rosicchiate, la
+            bestia aveva portato un guscio di metallo e un cristallo opaco.
+          effetti: { reperto.sigillato: 1, cristalli.cristallo-sterile: 1, monete: 5 }
+        fallimento:
+          titolo: Le tracce vecchie
+          testo: |
+            Segui per tutto il giorno tracce che hanno almeno una settimana. I
+            cacciatori tornano con una bestia legata, e tu con le scarpe piene.
+      - testo: "Sedere alla bilancia con i vecchi dei clan"
+        descrizione: "La sera i vecchi dei clan si siedono intorno alla bilancia del mercato a parlare dei prezzi. Ci si siede chi è stato invitato."
+        requisiti: [rep.ghoran >= 6]
+        prova: { attributo: sociale, abilita: [galateo, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: I prezzi della sera
+          testo: |
+            Ascolti molto e parli poco, e quando parli lo fai dopo il più
+            vecchio. A fine sera sai che cosa costerà la carne in città fra un
+            mese, e chi ci guadagna, e un vecchio ti allunga una moneta perché
+            hai saputo stare zitto.
+          effetti: { informazioni.pettegolezzo: 1, monete: 6 }
+        fallimento:
+          titolo: Il posto sbagliato
+          testo: |
+            Ti siedi sulla panca del clan del Guado senza saperlo, e per tutta
+            la sera nessuno ti rivolge la parola.
+      # ------------------------------------------------ sempre
+      - testo: "Ascoltare i tamburi dalla passerella"
+        descrizione: "Di notte dal campo suonano i tamburi. Chi li sa ascoltare capisce chi combatte e chi perde."
+        esito:
+          titolo: I tamburi
+          testo: |
+            Ti siedi sul bordo della passerella con le gambe sopra il fango e
+            ascolti. Un tamburo batte per chi entra nel campo e due per chi ne
+            esce in piedi. Quando ne batte uno solo, lungo, le torce sulle
+            gradinate si abbassano tutte insieme.
+          pe: { espressivita: 2 }
+
+  # ------------------------------------------------------------ il servizio · la cerusica del campo
+  - id: ghoran-la-cerusica-del-campo
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: La cerusica del campo
+    sommario: "Sotto le gradinate del campo dei tamburi Oska ricuce i gladiatori, e per una manciata di monete ricuce anche te."
+    luogo: Ghoran, sotto le gradinate del campo dei tamburi
+    area: superficie-fratturata
+    ripetibile: true
+    testo: |
+      Sotto le gradinate del campo dei tamburi, dove le assi lasciano passare
+      strisce di luce e la polvere di chi applaude, Oska ha un tavolo di legno
+      lungo quanto un uomo e un braciere dove tiene gli aghi. È una vecchia
+      piccola con le braccia nodose e un grembiule di cuoio scuro, e ricuce i
+      gladiatori da quando Ragh aveva tutti e due gli occhi, a sentir lei.
+
+      Sul tavolo ci sono ancora le macchie di quello di stanotte. Oska le
+      lava con l'acqua del secchio mentre ti guarda le ferite da lontano,
+      senza chiederti come te le sei fatte.
+
+      {medicina Media} Gli aghi sono di osso e il filo è budello di capra
+      seccato al sole. Roba grezza, eppure le sue cuciture tengono meglio di
+      tante della Cattedrale.
+
+      Accanto al braciere c'è una cassetta di vasetti chiusi con la pece, e
+      un rotolo di bende tagliate da una vela vecchia.
+    opzioni:
+      - testo: "Farti ricucire una ferita"
+        descrizione: "Oska cuce in fretta e senza parlare. Fa male quanto la ferita, e dura meno."
+        quando: [ghoran.parente == 0]
+        requisiti: [ferite >= 1, monete >= 15]
+        costo: 0
+        esito:
+          titolo: Il budello di capra
+          testo: |
+            Oska ti fa stendere sul tavolo ancora bagnato e cuce senza dirti
+            quando comincia. Quando finisce ti dà un colpetto sulla spalla e
+            tende la mano per le monete.
+          effetti: { ferite: -1, monete: -15 }
+      - testo: "Farti ricucire una ferita da parente"
+        descrizione: "Chi è risalito dalla Fossa paga metà. Oska lo dice di malavoglia."
+        quando: [ghoran.parente >= 1]
+        requisiti: [ferite >= 1, monete >= 8]
+        costo: 0
+        esito:
+          titolo: Da parente
+          testo: |
+            Oska ti cuce con più calma del solito e ti chiede della Fossa, poi
+            si pente di averlo chiesto e cuce più svelta. Ti prende metà delle
+            monete e il resto lo spinge indietro con il dorso della mano.
+          effetti: { ferite: -1, monete: -8 }
+      - testo: "Farti rimettere in piedi"
+        descrizione: "Due ferite e più, e un pomeriggio intero sul tavolo. Oska vuole essere pagata prima."
+        quando: [ghoran.parente == 0]
+        requisiti: [ferite >= 2, monete >= 28]
+        costo: 0
+        esito:
+          titolo: Il pomeriggio sul tavolo
+          testo: |
+            Passi il pomeriggio sul tavolo, con Oska che cuce e beve a turno
+            dalla stessa tazza. Quando ti alzi le gambe ti reggono, e lei ha
+            già contato le monete.
+          effetti: { ferite: -2, monete: -28 }
+      - testo: "Farti rimettere in piedi da parente"
+        descrizione: "Un pomeriggio sul tavolo a metà prezzo, e una tazza della sua acquavite."
+        quando: [ghoran.parente >= 1]
+        requisiti: [ferite >= 2, monete >= 14]
+        costo: 0
+        esito:
+          titolo: La tazza di Oska
+          testo: |
+            Oska ti cuce con l'ago più fine e a metà lavoro ti passa la tazza.
+            L'acquavite brucia più delle cuciture, e lei ride per la prima
+            volta da quando la conosci.
+          effetti: { ferite: -2, monete: -14 }
+      - testo: "Comprare un vasetto del suo grasso"
+        descrizione: "Grasso di capra e resina, chiuso con la pece. I gladiatori se lo spalmano prima della ripresa."
+        requisiti: [monete >= 18]
+        costo: 0
+        esito:
+          titolo: Il vasetto
+          testo: |
+            Oska ti dà il vasetto più piccolo, poi te lo cambia con uno più
+            grande quando vede che non protesti.
+          effetti: { unguento: 1, monete: -18 }
+      - testo: "Comprare un rotolo di bende di vela"
+        descrizione: "Tela di vela tagliata a strisce e bollita. Ruvida, e tiene."
+        requisiti: [monete >= 6]
+        costo: 0
+        esito:
+          titolo: Tela di vela
+          testo: |
+            Oska strappa un rotolo dalla vela con i denti e te lo lancia, e
+            le monete le prende al volo.
+          effetti: { bende: 1, monete: -6 }
+
+  # ------------------------------------------------------------ grado 2 · il campo dei tamburi
+  - id: ghoran-il-campo-dei-tamburi
+    presso: ghoran
+    immagine: ambientazione/arena-di-qir-azel
+    titolo: Il campo dei tamburi
+    sommario: "Da quando fai da peso ai clan, nel campo dei gladiatori puoi entrare quando vuoi. Si combatte per una borsa, fino al primo che resta a terra."
+    luogo: Ghoran, il campo dei gladiatori
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.ghoran >= 6]
+    testo: |
+      Il campo dei gladiatori è una conca di terra battuta con le gradinate di
+      legno tutt'intorno, e le torce di pece piantate sul bordo in un cerchio
+      che si accende al tramonto. In fondo, su una pedana, tre ragazzi della
+      Pece battono i tamburi, uno per chi entra e due per chi esce in piedi.
+      Le riprese finiscono quando uno resta a terra, e chi ci resta di
+      solito si rialza.
+
+      Vesna sta appoggiata alla sbarra d'ingresso con la treccia sulla
+      spalla e il filo di rame che luccica alle torce. Ti fa posto senza
+      chiederti niente.
+
+      {armi-da-mischia Media} Chi combatte stanotte ha le lame smussate sul
+      filo e affilate in punta. Si colpisce di piatto e si minaccia di punta,
+      e il pubblico paga per la minaccia.
+
+      {resistenza Facile fallita} Il fumo delle torce ti brucia gli occhi,
+      e ti accorgi di stare già stringendo i pugni.
+    opzioni:
+      - testo: "Entrare nel campo per una ripresa"
+        descrizione: "Contro un gladiatore di un clan con la lama smussata. La borsa va a chi resta in piedi."
+        combattimento: ghoran-una-ripresa
+        vittoria:
+          titolo: Due colpi di tamburo
+          testo: |
+            Il tuo avversario resta a terra con la mano alzata, e dalla pedana
+            arrivano i due colpi di tamburo. Vesna ti porta la borsa e ti
+            mette in mano un panno per il sangue che non è tuo.
+          effetti: { monete: 12, rep.ghoran: 0.5 }
+        sconfitta:
+          titolo: Un colpo solo
+          testo: |
+            Ti rialzi da terra con la sabbia in bocca, e il tamburo batte
+            una volta sola, corto. Oska, da sotto le gradinate, ti fa segno di
+            andare da lei.
+      - testo: "Scommettere su chi resta in piedi"
+        descrizione: "Al banco si scommette con l'inchiostro marrone. Bisogna guardare i gladiatori prima che entrino."
+        requisiti: [monete >= 5]
+        prova: { attributo: mentale, abilita: [percezione, armi-da-mischia], difficolta: Media }
+        successo:
+          titolo: La caviglia
+          testo: |
+            Il favorito entra zoppicando appena, e appoggia la destra con
+            cura. Punti sull'altro, e il banchiere ti paga storcendo la bocca.
+          effetti: { monete: 8 }
+        fallimento:
+          titolo: La posta persa
+          testo: |
+            Il tuo uomo cade alla prima ripresa, su una caviglia che non
+            avevi visto. Il banchiere ti ringrazia.
+          effetti: { monete: -5 }
+      - testo: "Allenarti con Vesna fino all'alba"
+        descrizione: "Vesna si allena dopo l'ultima ripresa, quando il campo è vuoto. Picchia forte e spiega poco."
+        costo: 2
+        esito:
+          titolo: Fino all'alba
+          testo: |
+            Vesna ti fa girare intorno al campo con la lama in mano finché i
+            tamburi tacciono, poi ti fa ripetere lo stesso colpo cento volte.
+            Quando smetti hai le braccia di legno e lei ti dice che il
+            centesimo era buono.
+          pe: { armi-da-mischia: 6, resistenza: 2 }
+
+colonna:
+  - { contesto: luogo, id: ghoran, musica: goblin-ritual, ambiente: campfire }

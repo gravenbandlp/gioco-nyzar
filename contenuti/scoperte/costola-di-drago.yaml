@@ -1,0 +1,1046 @@
+# La Costola di Drago, spedizione di un luogo nero (docs/piano-superficie.md, «Le nove spedizioni dei luoghi neri»).
+# Sulle alture aride a sud di Ghoran l'arco di metallo nero che esce dal fianco di una collina è la punta di una
+# canna di risonanza lunga quanto la collina, che vibra giorno e notte sulla stessa nota bassa (codex
+# sf-costola-di-drago). In fondo alla canna l'accordatore, una macchina con le braccia a martello, la batte per
+# tenerla sulla nota. La misura del luogo è la nota (misura.costola): il diapason di metallo nero che l'accordatore
+# tiene nella culla e che, battuto, la ripete.
+# - Ingresso: `costola-di-drago-la-collina` (Superficie, traccia.costola >= 3), ripetibile.
+# - Stanze in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0 la crepa sotto l'arco o il cerchio di ossa; 1 la galleria degli scavatori o la volta che piove;
+#   1-2 gli scrostatori (combattimento contro gregari); 2 il portello nella canna o la sala dei contrappesi;
+#   3 dentro la canna o la piastra dei nove incavi.
+# - Cuore a 4: `costola-di-drago-l-accordatore` (misura.costola == 0), boss o prove Difficili; la vittoria dà la
+#   nota, il martello d'accordatura e reliquie. Poi `costola-di-drago-la-culla-vuota` (misura.costola >= 1),
+#   ripetibile, rende parti e reperti.
+# Il segno che lega il luogo agli altri: un cerchio di nove incavi con uno inciso più a fondo, sulla piastra del
+# corridoio e sulla culla del diapason. Il condotto sigillato che esce dalla camera dell'accordatore porta la nota
+# altrove, sotto la Superficie. I Tamburi di Fondo bussano sulla stessa nota.
+aree:
+  - id: costola-di-drago
+    immagine: ambientazione/rovine-dei-precursori
+    nome: La Costola di Drago
+    sommario: "Sotto l'arco di metallo nero la collina è cava. La costola che si vede da fuori è la punta di una canna lunga quanto la collina, e la canna vibra sempre sulla stessa nota."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto l'arco di metallo nero la collina è cava. La costola che si
+      vede da fuori è soltanto la punta di una canna lunga quanto tutta la
+      collina e larga come la navata di una chiesa, che scende nella terra
+      con una pendenza dolce e sparisce nel buio. Il metallo vibra giorno e
+      notte sulla stessa nota bassa, troppo bassa per l'orecchio. La senti
+      nei denti, e nelle ginocchia quando stai fermo.
+
+      Intorno alla canna la terra è secca e friabile, e la polvere sul
+      metallo si dispone in linee sottili che si spostano piano. Le lampade
+      fanno una luce che trema anche lei. Ogni tanto un sasso si stacca dalla
+      volta e scende a saltelli lungo la canna, e il rumore non arriva fino a
+      te.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, nella Superficie
+  - id: costola-di-drago-la-collina
+    immagine: ambientazione/ghoran
+    titolo: La collina dove le capre non salgono
+    sommario: "Sulle alture aride a sud di Ghoran un arco di metallo nero esce dal fianco di una collina. Le capre ci girano intorno, e a dieci passi ti prudono i denti."
+    luogo: Superficie Fratturata, le alture aride a sud di Ghoran
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [traccia.costola >= 3]
+    testo: |
+      Le alture a sud di Ghoran sono colline gialle e basse, con l'erba
+      rasata dal vento e qualche cespuglio di ginepro piegato tutto dalla
+      stessa parte. Le capre dei pastori pascolano dappertutto tranne che su
+      una collina sola. Dal suo fianco esce un arco di metallo nero lungo
+      quanto tre carri, curvo come la costola di una bestia sepolta, e
+      intorno all'arco l'erba è più corta che altrove, quasi rasa.
+
+      {resistenza Media} I denti ti si stringono da soli a venti passi
+      dall'arco. Il corpo sente la nota prima della testa, e vorrebbe
+      tornare indietro per conto suo.
+
+      Dove il metallo entra nella collina la terra si è aperta in una crepa
+      larga quanto un uomo di fianco. Sul bordo qualcuno ha lasciato una
+      lattina con dentro due palline di cera gialla, e il coperchio è
+      legato con uno spago perché non lo porti via il vento.
+
+      {origine fuggiasco-di-ghoran} Dai recinti di Ghoran queste alture si
+      vedevano a sud, gialle fino all'orizzonte. Nessuno scappava da questa
+      parte, perché quassù non c'è acqua, e adesso sai che c'era anche
+      un'altra ragione.
+
+      *Cera per le orecchie, lasciata per chi viene dopo.* Appoggi il palmo
+      sull'arco, e il metallo ti ronza fino al gomito.
+    opzioni:
+      - testo: "Calarsi nella crepa"
+        descrizione: "La crepa scende ripida lungo il metallo. Bisogna tenersi alla terra, perché chi tocca la canna se ne pente."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Lungo il metallo
+          testo: |
+            Scendi con la schiena contro la terra e i piedi puntati sulle
+            radici secche, senza mai toccare il metallo. Dopo una decina di
+            braccia la crepa si allarga, e sotto di te si apre il buio della
+            collina cava, con la canna che ci corre dentro.
+          pe: { atletica: 2 }
+          vai: costola-di-drago
+        fallimento:
+          titolo: La mano sul metallo
+          testo: |
+            A metà discesa la terra ti cede sotto il piede e ti aggrappi
+            all'arco. La vibrazione ti sale nel braccio fino alla spalla, e
+            per non lasciare la presa risali. Resti seduto sull'erba a
+            scuoterti la mano finché non smette di formicolare.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare dove la terra è smossa"
+        descrizione: "La cera l'ha lasciata uno che è sceso, e chi scende lascia una strada."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: I gradini scavati
+          testo: |
+            Giri intorno all'arco a passi corti, e sul lato in ombra trovi
+            una fila di gradini scavati nella terra con la punta di una pala,
+            mezzi coperti dall'erba. Scendono accanto al metallo senza
+            toccarlo, fino al buio della collina cava.
+          pe: { percezione: 2 }
+          vai: costola-di-drago
+        fallimento:
+          titolo: Terra uguale
+          testo: |
+            La terra intorno all'arco è rasa e asciutta dappertutto. Dopo
+            un'ora di giri ti accorgi di aver stretto i denti per tutto
+            il tempo. Ti fa male la mascella, e scendi dalla collina a
+            riposarla.
+          effetti: { tormento: 0.5 }
+      - testo: "Legare il cavallo all'arco e scendere con la corda"
+        descrizione: "Il cavallo non vuole avvicinarsi al metallo. Legato al ginepro più vicino, però, tiene una corda meglio di un uomo."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: La corda tesa
+          testo: |
+            Il cavallo si ferma a trenta passi dall'arco e non c'è verso di
+            portarlo più avanti. Leghi la corda alla sella e lo lasci lì, con
+            le orecchie basse, e ti cali nella crepa con la corda tesa fino
+            al buio della collina cava.
+          vai: costola-di-drago
+      - testo: "Allargare la crepa con la pala"
+        descrizione: "Ci vuole il pomeriggio, e la terra secca viene via facile. La nota però non si ferma mentre scavi."
+        costo: 2
+        esito:
+          titolo: Il pomeriggio di pala
+          testo: |
+            Scavi fino a quando il sole tocca le colline, con la cera nelle
+            orecchie e un fazzoletto sulla bocca contro la polvere. Alla fine
+            la crepa è larga abbastanza per scendere in piedi, e scendi.
+          vai: costola-di-drago
+
+  # ------------------------------------------------------------ 0 · la crepa e il cerchio di ossa
+  - id: costola-di-drago-la-crepa
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La crepa sotto l'arco
+    sommario: "In fondo alla crepa la terra fa un gomito stretto contro il metallo. Per passare bisogna strisciare, e la canna vibra a un palmo dalla faccia."
+    luogo: La Costola di Drago, il fondo della crepa
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 0]
+    testo: |
+      In fondo alla crepa la terra fa un gomito contro il metallo, e per
+      andare avanti bisogna stendersi e strisciare. Il cunicolo è basso
+      quanto un forno, e da una parte c'è la terra secca, dall'altra la
+      curva nera della canna, a un palmo dalla faccia. La polvere sul
+      metallo forma righe sottili che si spostano mentre le guardi.
+
+      {acrobazia Media} Sui gomiti e sulle punte dei piedi il corpo passa
+      senza toccare niente. Basta tenere il sedere basso, che è la parte
+      più difficile.
+
+      Dall'altra parte del gomito si vede una luce grigia. Sulla terra
+      battuta del cunicolo c'è il segno di chi è passato prima di te, una
+      striscia liscia larga quanto una schiena.
+    opzioni:
+      - testo: "Strisciare senza toccare la canna"
+        descrizione: "Un palmo di spazio fra la terra e il metallo. Basta restare dentro quel palmo."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Sui gomiti
+          testo: |
+            Strisci sui gomiti con la guancia contro la terra, e il metallo
+            ti passa accanto all'orecchio senza sfiorarti. Dall'altra parte
+            del gomito ti alzi in una cavità più larga, con la canna che
+            continua a scendere nel buio.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La spalla sul metallo
+          testo: |
+            A metà del gomito la spalla tocca la canna, e la nota ti entra
+            nelle ossa fino alla mascella. Torni indietro di schiena, con la
+            spalla che ronza, e ti serve un po' prima di riprovare.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire la striscia di chi è passato"
+        descrizione: "Una schiena ha già fatto questa strada. Dove lei è passata, ci si passa."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: La strada di un altro
+          testo: |
+            La striscia liscia gira larga dove il cunicolo si stringe, e
+            passa sotto una radice che da sopra non vedevi. La segui, e arrivi
+            dall'altra parte del gomito senza mai avvicinarti al metallo.
+          pe: { percezione: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La striscia che torna
+          testo: |
+            La striscia gira su se stessa e torna verso l'uscita. Chi l'ha
+            lasciata ci ha rinunciato, e tu te ne accorgi quando hai già la
+            luce del giorno sulla faccia.
+          effetti: { tormento: 0.5 }
+      - testo: "Scavare il gomito e allargarlo"
+        descrizione: "Con la pala e le mani il gomito si allarga. Ci vuole tempo, e la terra è piena della nota."
+        costo: 2
+        esito:
+          titolo: La terra che trema
+          testo: |
+            Scavi steso su un fianco, una manciata di terra alla volta, e
+            ogni manciata ti trema in mano come un pugno di api. Quando il
+            gomito è largo abbastanza hai le dita intorpidite fino alle
+            nocche.
+          effetti: { profondita.costola-di-drago: 1, ferite: 0.5 }
+
+  - id: costola-di-drago-il-cerchio-di-ossa
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il cerchio di ossa
+    sommario: "In una cavità accanto alla canna le ossa di capra sono disposte in cerchi perfetti. Nessuno le ha messe così."
+    luogo: La Costola di Drago, la prima cavità
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 0]
+    testo: |
+      La prima cavità è larga come un'aia, e la canna ne attraversa il
+      soffitto in diagonale. Per terra ci sono molte ossa di capra lisce come
+      sapone, disposte in cerchi concentrici intorno al punto
+      dove la canna è più vicina al suolo. Fra i cerchi la terra è pulita.
+      In mezzo alle ossa c'è un collare di cuoio con un campanaccio di latta
+      che non suona più.
+
+      {natura Media} Le capre entrano dove trovano ombra. Quelle che sono
+      entrate qui sono rimaste, e la vibrazione ha fatto il resto con
+      pazienza, come il setaccio di un mugnaio.
+
+      Dall'altra parte delle ossa, lungo la canna, la cavità continua in
+      discesa.
+    opzioni:
+      - testo: "Camminare sulle linee pulite"
+        descrizione: "Fra un cerchio e l'altro la terra è ferma, perché la nota lì non arriva."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: Dove la terra è ferma
+          testo: |
+            Cammini sulle linee di terra pulita fra un cerchio e l'altro,
+            dove la nota non arriva e le suole restano ferme. Arrivi
+            dall'altra parte senza aver toccato un osso, e i denti ti si
+            sciolgono per la prima volta da quando sei sceso.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il cerchio che si sposta
+          testo: |
+            La linea pulita si sposta sotto i tuoi piedi mentre ci cammini,
+            e ti ritrovi in mezzo alle ossa che tremano. Torni al bordo della
+            cavità con le caviglie che ronzano.
+          effetti: { ferite: 0.5 }
+      - testo: "Attraversare le ossa a occhi bassi"
+        descrizione: "Sono ossa di capra. Basta non pensare a quanto ci hanno messo a disporsi così."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Le ossa che tintinnano
+          testo: |
+            Attraversi le ossa guardandoti gli stivali, e le senti
+            tintinnare piano a ogni passo, come stoviglie in una cassa.
+            Dall'altra
+            parte non ti volti. Il campanaccio di latta resta dov'era.
+          pe: { resilienza: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il campanaccio
+          testo: |
+            A metà strada calpesti il campanaccio, e il campanaccio suona per
+            la prima volta da chissà quanti anni. È un suono sottile e storto,
+            sopra la nota. Torni indietro di corsa senza sapere bene perché.
+          effetti: { tormento: 0.5 }
+      - testo: "Girare largo lungo la parete"
+        descrizione: "La parete è lontana dalla canna, e il giro è lungo. Si arriva dall'altra parte con le mani sporche."
+        costo: 2
+        esito:
+          titolo: Lungo la parete
+          testo: |
+            Giri intorno alla cavità con la spalla contro la parete. La terra
+            si sbriciola e ti riempie il colletto. Arrivi dall'altra parte
+            con la polvere fin dentro le orecchie, e una crosta di terra
+            secca che ti gratta il collo per tutto il resto della discesa.
+          effetti: { profondita.costola-di-drago: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · la galleria e la volta che piove
+  - id: costola-di-drago-la-galleria
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La galleria degli scavatori
+    sommario: "Lungo la canna corre una galleria puntellata con travi di ginepro. Qualcuno ha scavato fin qui, e poi si è fermato."
+    luogo: La Costola di Drago, la galleria lungo la canna
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 1]
+    testo: |
+      Lungo la canna corre una galleria scavata a mano, alta quanto un uomo
+      con il cappello, puntellata con travi di ginepro storte. Le travi
+      tremano piano e lasciano cadere un filo di polvere a ogni sussulto.
+      Sul pavimento ci sono le impronte di stivali chiodati e i solchi di
+      una carriola, che a un certo punto si fermano davanti a un mucchio di
+      terra franata.
+
+      {tecnologia Media} Le travi le ha messe uno che sapeva il mestiere,
+      ma per un terreno fermo. Qui il terreno balla, e i cunei si sono
+      allentati tutti nello stesso verso.
+
+      Dietro la frana la galleria continua. Si vede il buio fra la terra e
+      il soffitto, largo quanto un braccio.
+    opzioni:
+      - testo: "Rimettere in sesto i puntelli e passare"
+        descrizione: "I cunei si sono allentati tutti nello stesso verso. Basta ribatterli all'incontrario."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: I cunei ribattuti
+          testo: |
+            Ribatti i cunei con il manico del coltello, uno per trave,
+            all'incontrario di come li ha spinti la nota. Le travi smettono
+            di perdere polvere. Sposti la terra della frana quanto basta per
+            passare, e la galleria continua lungo la canna.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La trave che scende
+          testo: |
+            Ribatti il primo cuneo, e la trave scende di un dito con un
+            gemito di legno. Ti tiri indietro mentre una lingua di terra ti
+            copre gli stivali, e aspetti che la galleria smetta di tremare
+            più del solito.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare sopra la frana"
+        descrizione: "Fra la terra e il soffitto c'è un braccio di buio. Un braccio basta, se non ci si ferma."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Sopra la frana
+          testo: |
+            Ti infili fra la frana e il soffitto e strisci sulla terra
+            smossa, con la lampada spinta avanti a mano. Dall'altra parte
+            scivoli giù sul sedere fino ai solchi della carriola. Da lì i
+            solchi ricominciano a scendere.
+          pe: { atletica: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La terra in bocca
+          testo: |
+            A metà frana la terra sotto la pancia scivola indietro e ti porta
+            con sé. Ti ritrovi ai piedi del mucchio con la bocca piena di
+            terra, e sputi per un bel pezzo.
+          effetti: { ferite: 0.5 }
+      - testo: "Scavare la frana come avrebbero fatto loro"
+        descrizione: "La carriola è ancora lì. Gli scavatori hanno lasciato il lavoro a metà, e lo finisci tu."
+        costo: 2
+        esito:
+          titolo: Il lavoro a metà
+          testo: |
+            Riempi la carriola e la vai a svuotare in fondo alla galleria
+            tante volte da perdere il conto, finché la frana non è un mucchio
+            basso. Sul fondo trovi
+            una pala con il manico spezzato e un sacchetto di cuoio con dentro
+            un pezzo di pane diventato pietra. La nota ti ha tenuto compagnia
+            per tutto il tempo.
+          effetti: { profondita.costola-di-drago: 1, tormento: 0.5 }
+
+  - id: costola-di-drago-la-volta-che-piove
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La volta che piove
+    sommario: "In una sala bassa la vibrazione stacca i sassi dal soffitto. Cadono di continuo, e cadono a tempo."
+    luogo: La Costola di Drago, la sala della ghiaia
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 1]
+    testo: |
+      La sala è bassa e lunga, con la canna che la attraversa sopra la tua
+      testa come una trave di casa. Dal soffitto piove ghiaia. Sono sassolini
+      grandi come noci, che la vibrazione stacca uno alla volta e che
+      rimbalzano sulla canna prima di arrivare a terra. Il pavimento ne è
+      coperto fino alla caviglia, e dall'altra parte della sala si vede
+      un'apertura nera.
+
+      {percezione Media} I sassi non cadono a caso. Ne vengono giù tre, poi
+      c'è una pausa lunga quanto un passo, e poi altri tre.
+
+      Ti tiri il cappuccio sulla testa. Un sasso ti colpisce la spalla prima
+      che tu abbia finito.
+    opzioni:
+      - testo: "Passare nelle pause"
+        descrizione: "Tre sassi e una pausa. Un passo per ogni pausa, e si arriva dall'altra parte."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Un passo per pausa
+          testo: |
+            Conti i sassi a mezza voce e fai un passo in ogni pausa, come
+            in un ballo di paese dove il musicista è sordo. Arrivi
+            all'apertura nera con un solo livido sul polso, e la sala
+            continua a piovere alle tue spalle.
+          pe: { percezione: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il conto sbagliato
+          testo: |
+            Al quarto passo sbagli il conto, e tre sassi ti arrivano in testa
+            uno dopo l'altro. Torni indietro con le mani sul cappuccio e un
+            bernoccolo che cresce sotto la stoffa.
+          effetti: { ferite: 0.5 }
+      - testo: "Correre a testa bassa"
+        descrizione: "Sono sassolini. Fanno male, ma la sala è lunga soltanto trenta passi."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Trenta passi
+          testo: |
+            Corri con le braccia sopra la testa e la ghiaia che ti scricchiola
+            sotto gli stivali. Ti prendi quattro sassi sui gomiti e uno sulla
+            nuca, e all'apertura nera ti fermi a contarli.
+          pe: { atletica: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La ghiaia sotto i piedi
+          testo: |
+            La ghiaia ti scivola sotto gli stivali al terzo passo, e cadi in
+            ginocchio sotto la pioggia di sassi. Torni indietro a carponi con
+            le braccia sulla testa.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare sotto la canna, dove i sassi rimbalzano lontano"
+        descrizione: "Proprio sotto la canna i sassi rimbalzano via. Il metallo però è a un palmo dalla testa."
+        costo: 2
+        esito:
+          titolo: Sotto la trave
+          testo: |
+            Cammini curvo proprio sotto la canna, dove i sassi rimbalzano sul
+            metallo e cadono più in là. Ci vuole poco, e per tutto il tempo la
+            nota ti preme sulla nuca come una mano. Arrivi all'apertura nera con
+            un ronzio dietro gli occhi che ti dura fino alla sala dopo.
+          effetti: { profondita.costola-di-drago: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1–2 · gli scrostatori
+  - id: costola-di-drago-gli-scrostatori
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Gli scrostatori
+    sommario: "Sulla canna camminano due macchine piatte come scarafaggi, che grattano via la polvere dal metallo. Ti scambiano per una crosta."
+    luogo: La Costola di Drago, il dorso della canna
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago >= 1, profondita.costola-di-drago <= 2]
+    testo: |
+      Qui la canna corre a mezza altezza, e sul suo dorso camminano due
+      macchine piatte e larghe come scudi, con sei zampe sottili e sotto la
+      pancia una fila di lame corte. Grattano il metallo un palmo alla volta
+      e lasciano dietro di sé una striscia lucida. Dove passano la polvere
+      sparisce.
+
+      {armi-da-mischia Media} Le lame stanno sotto la pancia, e la pancia
+      la mostrano soltanto quando si alzano sulle zampe. È il momento in cui
+      si colpiscono.
+
+      Quando passi sotto la canna la prima macchina si ferma, gira su se
+      stessa e scende verso di te, con le lame che grattano l'aria.
+    opzioni:
+      - testo: "Affrontare gli scrostatori"
+        descrizione: "Sono due, e mostrano la pancia quando si alzano per colpire."
+        combattimento: costola-di-drago-scrostatori
+        vittoria:
+          titolo: Le zampe ferme
+          testo: |
+            Il secondo scrostatore cade sulla schiena con le zampe che
+            grattano l'aria, e piano piano smette. Gli stacchi una lama dalla
+            pancia, e sotto la lama c'è un pezzo di macchina che si stacca
+            con un clic.
+          effetti: { profondita.costola-di-drago: 1, bottino.parti-di-drone: 1 }
+        sconfitta:
+          titolo: Grattato via
+          testo: |
+            Gli scrostatori ti salgono addosso uno dopo l'altro e ti grattano
+            come grattano la canna, con la stessa pazienza. Riesci a rotolare
+            via sotto il metallo e ti allontani strisciando, con la giubba a
+            brandelli.
+      - testo: "Restare fermi contro la terra"
+        descrizione: "Puliscono il metallo e lasciano stare la terra. Chi resta contro la terra forse non è una crosta."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Non una crosta
+          testo: |
+            Ti appiattisci contro la parete di terra e resti fermo, con la
+            lampada coperta. Lo scrostatore ti arriva a un palmo, ti tasta la
+            manica con una zampa e torna sulla canna. Li lasci lavorare e
+            passi oltre quando ti voltano la schiena.
+          pe: { furtivita: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La manica
+          testo: |
+            Lo scrostatore ti tasta la manica, e la manica si muove. Le lame
+            ti aprono la stoffa e un po' di pelle sotto, e torni indietro di
+            corsa con il braccio stretto al petto.
+          effetti: { ferite: 0.5 }
+      - testo: "Tirare un sasso sulla canna più avanti"
+        descrizione: "Un sasso che batte sul metallo è una crosta nuova. Se vanno a pulirla, il passaggio resta libero."
+        costo: 2
+        esito:
+          titolo: La crosta nuova
+          testo: |
+            Tiri sassi sulla canna più avanti finché uno non ci resta
+            incastrato, e gli scrostatori ci corrono sopra tutti e due. Passi
+            sotto il metallo mentre grattano. Uno dei sassi però ti è rimbalzato
+            sulla fronte, e te ne accorgi quando ti cola il sangue in un occhio.
+          effetti: { profondita.costola-di-drago: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · il portello e i contrappesi
+  - id: costola-di-drago-il-portello
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il portello nella canna
+    sommario: "Sul fianco della canna c'è un portello rotondo, chiuso. Batte insieme alla nota, e la nota non si ferma mai."
+    luogo: La Costola di Drago, il portello
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 2]
+    testo: |
+      Più in basso la galleria finisce contro il fianco della canna, e lì il
+      metallo ha un portello rotondo largo quanto una botte, con il bordo
+      lucido e una maniglia ad anello. Il portello trema nel suo telaio e fa
+      un rumore sordo, lo stesso colpo a intervalli lunghi. Dall'interno
+      arriva la nota, più forte di quanto l'hai sentita finora.
+
+      {espressivita Media} Il portello batte fuori tempo. La canna canta una
+      nota sola, e il portello le va dietro con mezzo battito di ritardo,
+      come un coro di paese con un cantore stonato.
+
+      Sulla maniglia c'è un nodo di corda vecchia, tagliato di netto.
+    opzioni:
+      - testo: "Aprirlo quando il colpo si ferma"
+        descrizione: "Fra un colpo e l'altro il portello è fermo. Basta tirare in quel momento."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Media }
+        successo:
+          titolo: Fuori tempo
+          testo: |
+            Tieni il tempo battendo il piede, come quando aspetti la tua
+            entrata in una canzone, e tiri la maniglia nella pausa. Il
+            portello si apre senza resistenza. Dentro c'è il buio della canna,
+            e la nota ti viene incontro come un vento caldo.
+          pe: { espressivita: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il colpo nel polso
+          testo: |
+            Tiri nel momento sbagliato, e il portello ti restituisce il colpo
+            nella maniglia. Il polso ti si piega all'indietro, e per un pezzo
+            non riesci a chiudere la mano.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare il fermo del telaio"
+        descrizione: "Un portello che trema ha un fermo allentato. Stringerlo vuol dire farlo stare zitto."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: Il fermo
+          testo: |
+            Sotto il bordo del telaio trovi un perno che sporge di un dito, e
+            lo spingi dentro con il palmo. Il portello smette di battere e si
+            apre da solo, piano, come una porta che aspettava soltanto il
+            permesso.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il perno caldo
+          testo: |
+            Il perno che trovi sotto il bordo è caldo come una pentola sul
+            fuoco, e lo lasci andare con un urlo. Ti succhi il pollice per un
+            pezzo, seduto davanti al portello che continua a battere.
+          effetti: { ferite: 0.5 }
+      - testo: "Legare la maniglia e tirare da lontano"
+        descrizione: "Chi è venuto prima ha fatto così, e la corda l'ha dovuta tagliare. Qualcosa vorrà dire."
+        costo: 2
+        esito:
+          titolo: La corda tagliata
+          testo: |
+            Leghi una corda alla maniglia accanto al nodo vecchio e tiri da
+            dieci passi. Il portello si apre di colpo e la nota ti arriva
+            addosso tutta insieme, e ti siedi per terra senza volerlo. Capisci
+            perché l'altro ha tagliato la corda, e quando ti rialzi fai lo
+            stesso.
+          effetti: { profondita.costola-di-drago: 1, tormento: 1 }
+
+  - id: costola-di-drago-i-contrappesi
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La sala dei contrappesi
+    sommario: "Dal soffitto pendono pesi di metallo grandi come campane, appesi a catene, che oscillano piano. Tengono ferma la canna."
+    luogo: La Costola di Drago, la sala dei contrappesi
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 2]
+    testo: |
+      In una sala alta la canna passa sotto una fila di pesi di metallo
+      grandi come campane, appesi a catene che scendono dal buio. Ogni peso
+      poggia sulla canna con un cuscinetto di feltro, e oscilla appena,
+      sempre nello stesso verso. Il pavimento è lontano e coperto di schegge
+      di pietra. L'unico passaggio per l'altra parte è il dorso della canna,
+      sotto i pesi.
+
+      {accademiche Difficile} Nei mulini di Laresh le macine hanno pesi
+      simili, per non ballare quando gira il vento. Questi servono a tenere
+      la canna sulla sua nota, e uno solo che manchi la farebbe stonare.
+
+      Uno dei pesi è più basso degli altri, e il suo feltro è consumato fino
+      al metallo.
+    opzioni:
+      - testo: "Camminare sul dorso della canna fra i pesi"
+        descrizione: "Il dorso è largo quanto una trave. Ci si cammina chinati, con i pesi che oscillano a un palmo."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: La trave che canta
+          testo: |
+            Cammini sul dorso della canna con le braccia larghe e le ginocchia
+            molli, e la nota ti sale su per le gambe. Ti chini sotto ogni peso
+            nel momento in cui si sposta. Dall'altra parte scendi su una
+            sporgenza di roccia, e ti tremano le cosce.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il peso basso
+          testo: |
+            Il peso basso ti prende alla spalla mentre ti chini, e ti spinge
+            giù dal dorso. Ti aggrappi al bordo della canna con le dita e torni
+            su a fatica, dalla parte da cui eri partito.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire il giro dei pesi"
+        descrizione: "Oscillano tutti nello stesso verso e con lo stesso ritmo. Chi lo conosce passa senza chinarsi."
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il giro
+          testo: |
+            Guardi i pesi oscillare per un po', e capisci che si spostano uno
+            dopo l'altro come una fila di danzatori. Cammini dietro l'onda,
+            sempre nel varco che hanno appena lasciato, e arrivi dall'altra
+            parte senza chinare la testa una volta.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Fuori dal giro
+          testo: |
+            Parti con l'onda e la perdi al terzo peso, che ti passa davanti al
+            naso con un soffio d'aria fredda. Torni indietro con il cuore che
+            batte forte, e ti siedi a guardare i pesi da lontano.
+          effetti: { tormento: 0.5 }
+      - testo: "Calarsi sul pavimento e risalire dall'altra parte"
+        descrizione: "Sotto ci sono le schegge, e una corda lunga. Si arriva, con qualche taglio."
+        costo: 2
+        esito:
+          titolo: Le schegge
+          testo: |
+            Ti cali con la corda fra le schegge di pietra, che hanno gli
+            spigoli vivi come vetro rotto, e attraversi la sala dal basso. Per
+            risalire dall'altra parte ti tagli i palmi due volte. Sopra di te i
+            pesi oscillano, indifferenti.
+          effetti: { profondita.costola-di-drago: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · dentro la canna e la piastra dei nove incavi
+  - id: costola-di-drago-dentro-la-canna
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Dentro la canna
+    sommario: "Dentro la canna la nota riempie tutto. Le parole scivolano via dalla testa, una alla volta."
+    luogo: La Costola di Drago, dentro la canna
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 3]
+    testo: |
+      Dentro, la canna è un tunnel rotondo di metallo nero, liscio come
+      l'interno di un corno, e scende con la stessa pendenza di fuori. La
+      nota qui non si sente con le orecchie. Ti riempie la testa da dentro,
+      e dopo pochi passi ti accorgi che le parole ti scivolano via. Cerchi il
+      nome della lampada che hai in mano e non lo trovi.
+
+      {resilienza Media} Le parole tornano se le dici forte. La testa ha
+      bisogno di sentirsele, come un bambino al buio ha bisogno della voce
+      della madre.
+
+      In fondo al tunnel si vede una luce rossiccia che pulsa piano.
+    opzioni:
+      - testo: "Dire forte i nomi delle cose"
+        descrizione: "Lampada, corda, coltello. Se la testa li perde, la voce li tiene."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: I nomi
+          testo: |
+            Cammini dicendo a voce alta il nome di tutto quello che porti, e
+            alla fine anche il tuo. La voce ti torna dal metallo
+            storta e lunga, e ogni volta che la senti la testa si rimette in
+            fila. Arrivi alla luce rossiccia senza aver perso niente.
+          pe: { resilienza: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La parola persa
+          testo: |
+            A metà tunnel non trovi più la parola per la cosa che ti pende
+            dalla cintura. Torni indietro fino al portello, e lì la parola ti
+            torna in bocca, e ti viene quasi da piangere per il sollievo.
+          effetti: { tormento: 1 }
+      - testo: "Correre fino in fondo prima di perdersi"
+        descrizione: "Più si resta dentro, più si perde. Allora si resta dentro poco."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Difficile }
+        successo:
+          titolo: Fino alla luce
+          testo: |
+            Corri giù per la pendenza con le braccia larghe per non
+            scivolare, e la nota ti insegue senza raggiungerti. Arrivi alla
+            luce rossiccia senza fiato e con tutte le parole al loro posto, o
+            quasi.
+          pe: { resistenza: 3 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: La pendenza
+          testo: |
+            Il metallo è più liscio di quanto credevi, e a metà corsa i piedi
+            ti partono. Scivoli sul fianco per un tratto lungo, e quando ti
+            fermi non sai più da che parte sei venuto, e ti trascini fuori a
+            tentoni.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Tapparsi le orecchie con la cera e camminare piano"
+        descrizione: "La cera della lattina non ferma la nota. Ferma tutto il resto, e così la testa ha meno da perdere."
+        costo: 2
+        esito:
+          titolo: La cera
+          testo: |
+            Ti infili la cera nelle orecchie e cammini piano, con una mano sul
+            metallo. Senti soltanto il sangue che ti batte nelle tempie e la
+            nota sotto, e quando arrivi alla luce rossiccia non ricordi più
+            come hai fatto ad arrivarci.
+          effetti: { profondita.costola-di-drago: 1, tormento: 1 }
+
+  - id: costola-di-drago-i-nove-incavi
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La piastra dei nove incavi
+    sommario: "Sul fianco della canna c'è una piastra con nove incavi in cerchio. Uno è più profondo degli altri."
+    luogo: La Costola di Drago, la piastra
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago == 3]
+    testo: |
+      Dove la canna si allarga, sul suo fianco è fissata una piastra di
+      metallo più chiaro, grande come una porta. Al centro ci sono nove
+      incavi disposti in cerchio, ciascuno largo quanto un pollice, e uno è
+      inciso più a fondo degli altri. Intorno al cerchio corre una fila di
+      segni minuti dei Precursori. Dal centro parte una linea
+      incisa che esce dal bordo della piastra e prosegue sul metallo della
+      canna, verso il basso.
+
+      {percezione Media} Il cerchio di nove incavi c'è anche sulla testa di
+      ogni bullone della piastra, piccolo come un'unghia. Su ogni bullone è
+      più profondo lo stesso incavo.
+
+      Accanto alla piastra il metallo è segnato da graffi paralleli, come
+      se qualcuno ci avesse provato con un coltello.
+    opzioni:
+      - testo: "Leggere i segni intorno al cerchio"
+        descrizione: "I segni dei Precursori si ripetono. Chi ne ha visti abbastanza riconosce almeno le parole che tornano."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: La parola che torna
+          testo: |
+            Copi i segni sul quaderno e li conti. Uno torna nove volte, una
+            per incavo. Un altro compare una volta sola, accanto all'incavo
+            più profondo. Seguendo la linea incisa verso il basso trovi un
+            frammento di metallo staccato dalla piastra, con gli stessi segni.
+          pe: { accademiche: 2 }
+          effetti: { profondita.costola-di-drago: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Segni fitti
+          testo: |
+            I segni sono così fitti che dopo un poco ti si confondono davanti
+            agli occhi, e la nota ti entra nelle tempie. Lasci il quaderno
+            mezzo vuoto e ti siedi con la testa fra le mani.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire la linea incisa"
+        descrizione: "La linea parte dal centro del cerchio e scende lungo la canna. Porta da qualche parte."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: La linea
+          testo: |
+            Segui la linea con il dito lungo il metallo per un tratto lungo,
+            finché non sparisce sotto una lastra che si solleva con una spinta.
+            Sotto c'è una scala a pioli che scende verso la luce rossiccia.
+          pe: { percezione: 2 }
+          effetti: { profondita.costola-di-drago: 1 }
+        fallimento:
+          titolo: Il dito che trema
+          testo: |
+            La linea ti trema sotto il dito come una corda pizzicata, e a un
+            certo punto non sai più se la segui o se è lei che si sposta. Ti
+            ritrovi davanti alla piastra, dove eri partito.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciar perdere la piastra e scendere lungo la canna"
+        descrizione: "I segni restano dove sono. La strada verso il fondo è lunga, e la nota cresce."
+        costo: 2
+        esito:
+          titolo: Verso il fondo
+          testo: |
+            Lasci la piastra e scendi lungo la canna, appoggiando le mani sul
+            metallo dove la terra è troppo ripida. La nota cresce a ogni passo
+            finché la senti anche nelle unghie. In fondo c'è una luce
+            rossiccia che pulsa.
+          effetti: { profondita.costola-di-drago: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ il cuore · l'accordatore
+  - id: costola-di-drago-l-accordatore
+    immagine: bestiario/salvaguardia-precursori
+    titolo: L'accordatore
+    sommario: "In fondo alla canna una macchina dalle braccia lunghe batte il metallo con martelli fasciati di feltro. Al centro della camera, in una culla, c'è un diapason nero."
+    luogo: La Costola di Drago, la camera in fondo alla canna
+    area: costola-di-drago
+    requisiti: [profondita.costola-di-drago >= 4, misura.costola == 0]
+    testo: |
+      La canna finisce in una camera rotonda, alta come una torre, dove il
+      metallo si allarga a imbuto e si chiude contro la roccia. La luce
+      rossiccia viene da una fila di placche lungo le pareti, che si
+      accendono a ogni colpo. In mezzo alla camera c'è una macchina alta tre
+      volte un uomo, con un corpo stretto e sei braccia lunghe e sottili che
+      finiscono in martelli fasciati di feltro grigio. Batte la canna, un
+      braccio alla volta, con una pazienza da campanaro.
+
+      Al centro, su un piedistallo, c'è una culla di metallo chiaro con un
+      cerchio di nove incavi inciso sul bordo, e uno è più profondo degli
+      altri. Nella culla c'è un diapason di metallo nero, lungo quanto un
+      avambraccio. Ogni volta che un martello batte la canna, il diapason
+      risponde con la stessa nota, più chiara.
+
+      {tecnologia Difficile} La macchina ascolta il diapason e corregge la
+      canna. Se il diapason esce dalla culla, la macchina perde la nota e
+      cercherà il motivo.
+
+      {origine apprendista-raschiatore} Alle piattaforme i vecchi dicono che
+      ogni rovina ha la sua cosa da non toccare. Questa è la prima volta che
+      la cosa da non toccare è anche quella che sei venuto a prendere.
+
+      Dietro la macchina, nella roccia, un condotto di metallo largo quanto
+      un pozzo esce dalla camera, ed è sigillato.
+    opzioni:
+      - testo: "Prendere il diapason e affrontare l'accordatore"
+        descrizione: "Quando il diapason esce dalla culla, i martelli smettono di battere la canna e cercano te. Sono sei, e lunghi."
+        combattimento: costola-di-drago-accordatore
+        vittoria:
+          titolo: La nota in mano
+          testo: |
+            L'ultimo braccio cade sul pavimento con il martello ancora
+            fasciato, e la macchina si piega su se stessa come un ombrello
+            chiuso. La canna intorno a te continua a vibrare, ma sbanda,
+            perché nessuno la batte più. Batti il diapason contro il palmo e
+            lui ripete la nota pulita, tenendola a lungo. Stacchi uno dei
+            martelli dal braccio caduto, e dalla culla raccogli i frammenti
+            della piastra di fondo.
+
+            {accademiche Media} Il condotto sigillato porta la nota da qualche
+            parte. Una macchina che accorda non ha bisogno di un condotto,
+            a meno che la nota non serva a qualcosa più in là.
+          pe: { armi-da-mischia: 5 }
+          effetti: { misura.costola: 1, oggetto.costola-di-drago-martello-d-accordatura: 1, reliquie.frammento-inciso: 2, parte.impugnatura-3: 1, bottino.parti-di-drone: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il colpo di feltro
+          testo: |
+            Un martello ti prende al fianco, e il feltro non attutisce niente.
+            Il secondo ti piega in due. Lasci cadere il diapason, e la
+            macchina lo rimette nella culla con una delicatezza che ti fa più
+            male del colpo. Risali la canna strisciando, e quando esci dalla
+            collina è notte.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Sfilare il diapason fra un colpo e l'altro"
+        descrizione: "La macchina ascolta il diapason solo quando batte. Fra due colpi c'è un momento in cui non ascolta niente."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Fra due colpi
+          testo: |
+            Conti i colpi fino a trovare il ritmo, e al momento giusto sfili il
+            diapason e ci metti al posto suo il manico del coltello. La
+            macchina batte la canna e ascolta il manico. Poi continua a
+            battere un po' più piano, ingannata. Esci dalla camera con il
+            diapason
+            stretto al petto e un frammento della culla che si è staccato
+            nella fretta. Il martello che hai visto rotolare sotto il
+            piedistallo, rotto da chissà quanto, te lo porti via.
+          pe: { tecnologia: 5 }
+          effetti: { misura.costola: 1, oggetto.costola-di-drago-martello-d-accordatura: 1, reliquie.frammento-inciso: 2, parte.impugnatura-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il colpo sbagliato
+          testo: |
+            Sfili il diapason un colpo troppo tardi. La macchina perde la
+            nota e si gira, e un martello ti prende sulla spalla. Il diapason
+            ti cade di mano e torna da solo nella culla, come un cane che
+            torna al padrone. Risali la canna tenendoti il braccio.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Cantare la nota al posto del diapason"
+        descrizione: "La macchina ascolta una nota sola. Se la trova nella tua gola, forse non si accorge che il diapason è uscito dalla culla."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: La gola che vibra
+          testo: |
+            Cerchi la nota con la voce, giù in fondo al petto, finché il
+            diapason non ti risponde. Lo prendi senza smettere di cantare. La
+            macchina gira la testa verso di te e continua a battere la canna,
+            un poco più piano, e tu esci dalla camera camminando all'indietro
+            con la gola in fiamme. Sulla soglia raccogli un martello caduto e
+            un frammento della culla.
+          pe: { espressivita: 5 }
+          effetti: { misura.costola: 1, oggetto.costola-di-drago-martello-d-accordatura: 1, reliquie.frammento-inciso: 2, parte.impugnatura-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La voce che si rompe
+          testo: |
+            La voce ti si rompe a metà della nota. Le braccia della macchina
+            si girano tutte verso di te, e il primo martello ti prende sotto
+            le costole. Lasci il diapason e scappi su per la canna, e per due
+            giorni parli soltanto a gesti.
+          effetti: { ferite: 1.5, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinargli di continuare senza il diapason"
+        descrizione: "La formula del Comando parla alle macchine nella loro lingua. Questa ha un lavoro solo, e forse accetta di farlo a memoria."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: A memoria
+          testo: |
+            Dici la formula, e la parola esce in una lingua che ti graffia il
+            palato. La macchina si ferma con sei martelli alzati, poi riprende
+            a battere la canna senza guardare la culla. Prendi il diapason, e
+            lei non si volta. Ti porti via anche un martello di ricambio
+            appeso al piedistallo, insieme a un frammento della culla.
+          pe: { magia: 5 }
+          effetti: { misura.costola: 1, oggetto.costola-di-drago-martello-d-accordatura: 1, reliquie.frammento-inciso: 2, parte.impugnatura-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La formula stonata
+          testo: |
+            La formula ti si spezza a metà, e la macchina sente soltanto il
+            rumore. Le braccia si alzano tutte insieme verso di te. Scappi
+            prima di vedere dove cadono, e senti i martelli battere il
+            pavimento alle tue spalle per tutta la canna.
+          effetti: { ferite: 1, tormento: 1.5 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ dopo la misura · la culla vuota (ripetibile)
+  - id: costola-di-drago-la-culla-vuota
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La culla vuota
+    sommario: "L'accordatore batte ancora la canna, a orecchio, con un braccio rifatto alla meglio. La culla del diapason è vuota."
+    luogo: La Costola di Drago, la camera in fondo alla canna
+    area: costola-di-drago
+    ripetibile: true
+    requisiti: [profondita.costola-di-drago >= 4, misura.costola >= 1]
+    testo: |
+      Nella camera in fondo alla canna l'accordatore batte ancora, senza il
+      diapason. Gli scrostatori gli hanno rifatto un braccio con i pezzi che
+      c'erano, più corto degli altri. Adesso batte la canna a orecchio, e la
+      nota sbanda un poco prima di tornare al suo posto. La culla al
+      centro è vuota.
+
+      {tecnologia Media} Intorno al piedistallo ci sono pezzi di ricambio
+      in file ordinate, come gli attrezzi sul banco di un fabbro. La macchina
+      li tiene per sé.
+
+      Il diapason, nella tua bisaccia, risponde piano a ogni colpo.
+    opzioni:
+      - testo: "Affrontare di nuovo l'accordatore"
+        descrizione: "Ha un braccio rifatto alla meglio. Gli altri martelli sono quelli di sempre."
+        combattimento: costola-di-drago-accordatore
+        vittoria:
+          titolo: I pezzi di ricambio
+          testo: |
+            La macchina cade sul fianco con il braccio corto che batte ancora
+            il pavimento. Riempi la bisaccia con i pezzi di ricambio che
+            teneva intorno alla culla, ed esci prima che gli scrostatori
+            vengano a rimetterla in piedi.
+          effetti: { parte.impugnatura-2: 1, reperto.sigillato: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: A orecchio
+          testo: |
+            Anche a orecchio i martelli sanno dove sei. Risali la canna a
+            carponi, e la nota ti accompagna fino all'erba gialla della
+            collina.
+          vai: superficie-fratturata
+      - testo: "Prendere i ricambi mentre batte"
+        descrizione: "La macchina guarda la canna. I pezzi stanno ai suoi piedi, e ai piedi non guarda."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Ai suoi piedi
+          testo: |
+            Strisci fra le braccia della macchina mentre batte, e raccogli
+            quello che sta nelle file più vicine. Esci con un reperto chiuso
+            e qualche scheggia, e la macchina non ha perso un colpo.
+          pe: { furtivita: 3 }
+          effetti: { reperto.sigillato: 1, reliquie.scheggia: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il braccio corto
+          testo: |
+            Il braccio corto è più svelto degli altri, e ti prende sul dorso
+            della mano. Lasci cadere tutto e risali la canna con la mano
+            stretta sotto l'ascella.
+          effetti: { ferite: 1 }
+          vai: superficie-fratturata
+      - testo: "Lasciarla lavorare e risalire"
+        descrizione: "La nota è già tua. La camera può restare com'è."
+        costo: 0
+        esito:
+          titolo: Il lavoro degli altri
+          testo: |
+            Guardi la macchina battere la canna per un po', con il braccio
+            corto che arriva sempre un momento dopo, e risali. Alle tue spalle
+            la nota sbanda e torna al suo posto, ogni volta.
+          vai: superficie-fratturata
+
+nemici:
+  - id: costola-di-drago-scrostatore
+    immagine: bestiario/salvaguardia-precursori
+    nome: Scrostatore
+    descrizione: "Una macchina piatta e larga come uno scudo, con sei zampe sottili e una fila di lame corte sotto la pancia. Gratta la canna della Costola un palmo alla volta, e tratta da crosta tutto quello che ci trova sopra."
+    attacco: 4
+    difesa: 4
+    difesaMentale: 5
+    pf: 6
+    danno: 3
+    riduzione: 2
+    iniziativa: 3
+
+  - id: costola-di-drago-accordatore
+    immagine: bestiario/salvaguardia-precursori
+    nome: L'accordatore
+    descrizione: "Una macchina alta tre volte un uomo, con il corpo stretto e sei braccia sottili che finiscono in martelli fasciati di feltro grigio. Batte la canna della Costola da prima della Caduta, e quando perde la nota cerca chi l'ha presa."
+    attacco: 5
+    difesa: 4
+    difesaMentale: 5
+    pf: 11
+    danno: 4
+    riduzione: 4
+    iniziativa: 2
+
+scontri:
+  - { id: costola-di-drago-scrostatori, nome: "Gli scrostatori", nemici: [costola-di-drago-scrostatore, costola-di-drago-scrostatore], feriteSconfitta: 2 }
+  - { id: costola-di-drago-accordatore, nome: "L'accordatore", nemici: [costola-di-drago-accordatore], feriteSconfitta: 4 }
+
+oggetti:
+  - id: costola-di-drago-martello-d-accordatura
+    nome: Martello d'accordatura
+    immagine: icone/warhammer
+    descrizione: "Uno dei martelli dell'accordatore della Costola di Drago, con la testa fasciata di un feltro grigio che non si consuma e il manico rifatto per una mano umana. Quando batte, il colpo passa nelle armature come la nota passa nella roccia."
+    slot: arma
+    base: martello-da-guerra
+    grado: 3
+    dadi: 1
+    proprieta: { affilata: 1, penetrante: 1 }
+
+colonna:
+  - { contesto: area, id: costola-di-drago, musica: the-light-that-failed, ambiente: cave }

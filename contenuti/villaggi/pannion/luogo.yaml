@@ -1,0 +1,335 @@
+# Pannion, il villaggio dei carbonai (docs/piano-superficie.md, blocco 5): il luogo nella Superficie Fratturata,
+# aperto con pista.arena >= 5, con l'attività ripetibile, il servizio e i servizi dei gradi.
+# - `pannion-il-lavoro-dell-altura` (attività): opzioni a fasce di rep.pannion (< 2, 2-4, 4-6, >= 6). Fino a 6 ogni
+#   lavoro riuscito alza la reputazione di ½; da 6 in su si lavora per le monete e per i reperti.
+# - `pannion-la-cappella-di-koln` (servizio): Frate Koln medica le Ferite e vende l'unguento rosso, al prezzo della
+#   squadra dal grado 2 (passo 6).
+# - `pannion-una-notte-ai-pontili` (grado 2, passo 6): una notte con Liduina Brace e le lanterne, contro il Tormento.
+# Nomi nuovi: nessuno oltre a quelli della quest (Liduina Brace, Gaspare Tenca), con voce in glossario.yaml.
+luoghi:
+  - id: pannion
+    area: superficie-fratturata
+    nome: Pannion
+    immagine: ambientazione/foresta-strisciante
+    requisiti: [pista.arena >= 5]
+    sommario: "Il villaggio dei carbonai, su un'altura di terra rossa a nord-est. Il Vecchio Albero sta in mezzo alla piazza, e la sera si accendono le lanterne sui pontili."
+    testo: |
+      Pannion sta su un'altura di terra rossa a nord-est della città, fra sequoie minori dritte e sottili e fiumi di
+      linfa indurita che al sole luccicano come vetro colato. Le case sono di legno scuro e resina, con i tetti
+      spioventi per le piogge di scintille che certe notti d'estate attraversano il cielo, e in ogni strada c'è odore
+      di fumo. In mezzo alla piazza sta il Vecchio Albero, un tronco nero più alto delle case intorno. Dal villaggio
+      escono verso il bosco i pontili su palafitte, e la sera i boscaioli ci appendono le lanterne, perché a Pannion si
+      dice che un bosco senza luci finisca per perdersi. I forestieri sorridono, e chi resta una stagione smette.
+
+colonna:
+  - { contesto: luogo, id: pannion, musica: our-wounds-our-crown, ambiente: campfire }
+
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: pannion-il-lavoro-dell-altura
+    presso: pannion
+    immagine: ambientazione/segheria-di-qir-azel
+    titolo: Il lavoro dell'altura
+    sommario: "A Pannion chi ha due mani libere trova sempre una carbonaia da guardare o un tronco da tirare. Darrin Huld paga poco, e paga la sera stessa."
+    luogo: Pannion, la piazza del Vecchio
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [pista.arena >= 5]
+    testo: |
+      La mattina il lavoro di Pannion si decide sotto il Vecchio. Darrin Huld
+      sta in piedi accanto al tronco con un pezzo di carbone in mano e segna
+      i turni su un'asse appesa al muro della segheria, un segno per ogni
+      squadra e una croce per chi manca. Le carbonaie fumano sul fianco
+      dell'altura, e dalla segheria arriva il lamento lungo della sega a due
+      mani.
+
+      {conoscenze-della-strada Facile} Qui un forestiero prende la metà di
+      quello che prende uno della squadra. In compenso la paga arriva in mano la sera stessa, e Darrin la conta due volte.
+
+      Quando ti vede, Darrin non ti chiede che cosa sai fare. Ti indica un
+      posto con il pezzo di carbone e aspetta che tu ci vada.
+    opzioni:
+      - testo: "Portare i sacchi di carbone ai carri"
+        descrizione: "Dalla carbonaia al carro ci sono cento passi in salita, e i sacchi si portano sulla schiena."
+        requisiti: [rep.pannion < 2]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Facile }
+        successo:
+          titolo: Cento passi
+          testo: |
+            Porti sacchi dalla carbonaia al carro fino a mezzogiorno, con la
+            polvere nera che ti entra nel colletto e ti si attacca al sudore.
+            Il carrettiere ti conta i viaggi con una tacca sul timone. La sera
+            Darrin ti mette in mano la paga e ti guarda la schiena, che è nera
+            come quella dei suoi.
+          effetti: { monete: 1, rep.pannion: 0.5 }
+        fallimento:
+          titolo: Il sacco aperto
+          testo: |
+            Al quinto viaggio il sacco ti scivola dalla spalla e si apre sul
+            sentiero. Raccogli il carbone a manciate, mentre i carbonai che
+            passano ti girano intorno senza dire niente, e la paga della sera è
+            quella di mezza giornata.
+      - testo: "Scegliere il vetro di linfa per i molatori"
+        descrizione: "Le schegge di linfa indurita si vendono ai molatori di lenti, purché siano limpide. Con le bolle non le vuole nessuno."
+        requisiti: [rep.pannion < 2]
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Le schegge limpide
+          testo: |
+            Ti siedi su un ceppo accanto a una cesta di schegge rosse e le
+            guardi una per una contro il sole. Quelle con le bolle le butti in
+            un mucchio, quelle limpide in un altro. Una vecchia passa a
+            controllare il tuo mucchio buono e non ne toglie nessuna, che a
+            Pannion vale come una lode.
+          effetti: { monete: 2, rep.pannion: 0.5 }
+        fallimento:
+          titolo: Le bolle
+          testo: |
+            Dopo un'ora le schegge ti sembrano tutte uguali, e le bolle
+            cominci a vederle anche dove non ci sono. La vecchia che passa a
+            controllare rovescia il tuo mucchio buono nella cesta e ricomincia
+            da capo, senza rimproverarti.
+      - testo: "Tirare la sega a due mani"
+        descrizione: "Alla segheria si tira in due, uno sopra il tronco e uno sotto. Quello sotto si prende la segatura negli occhi."
+        requisiti: [rep.pannion >= 2, rep.pannion < 4]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il tronco aperto
+          testo: |
+            Ti mettono sotto, nella fossa, con la segatura che ti piove in
+            faccia. Tiri al tempo di quello sopra, uno che canta a mezza voce
+            per tenere il ritmo, e verso sera il tronco si apre in due assi
+            lunghe e dritte. Darrin passa la mano sul taglio e annuisce una
+            volta.
+          effetti: { monete: 2, rep.pannion: 0.5 }
+        fallimento:
+          titolo: La lama storta
+          testo: |
+            Perdi il tempo a metà tronco, e la lama si piega e si incastra nel
+            legno. Ci vuole un'ora di cunei per tirarla fuori, e quello sopra
+            smette di cantare.
+      - testo: "Raccogliere la resina sulle sequoie"
+        descrizione: "La resina buona sta in alto, nelle ferite della corteccia. Bisogna sapere quali alberi danno e quali no."
+        requisiti: [rep.pannion >= 2, rep.pannion < 4]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Le coppe di corteccia
+          testo: |
+            Giri fra le sequoie con un coltello e le coppe di corteccia, e
+            incidi soltanto quelle che hanno già la pelle lucida alla base.
+            Verso sera hai una fila di coppe piene, e i resinieri te ne
+            comprano la metà a un prezzo che non discuti.
+          effetti: { monete: 2, rep.pannion: 0.5 }
+        fallimento:
+          titolo: Gli alberi asciutti
+          testo: |
+            Incidi gli alberi sbagliati, e la resina non viene. Un resiniere ti
+            vede e ti spiega con pazienza quali sono quelli giusti, mostrandoti
+            la base dei tronchi, mentre tu hai le mani appiccicose fino ai
+            gomiti.
+      - testo: "Accompagnare un carro di carbone in città"
+        descrizione: "Due giorni di strada con un carro carico e i sentieri della Superficie. Darrin manda chi sa tenere a bada i muli e i predoni."
+        requisiti: [rep.pannion >= 4, rep.pannion < 6]
+        prova: { attributo: fisico, abilita: [cavalcare, armi-da-mischia], difficolta: Media }
+        successo:
+          titolo: Il carro alle fucine
+          testo: |
+            Il carro arriva alle fucine della Città Bassa all'alba del terzo
+            giorno, con tutti i sacchi e con i muli interi. I fabbri pagano al
+            carrettiere, e il carrettiere paga te, con una moneta in più per i
+            muli.
+          effetti: { monete: 4, rep.pannion: 0.5 }
+        fallimento:
+          titolo: La ruota
+          testo: |
+            A metà strada una ruota finisce in una crepa e il carro si piega su
+            un fianco. Lo tirate su a forza di braccia e di imprecazioni, e
+            arrivate in città con un giorno di ritardo e due sacchi di meno.
+      - testo: "Vegliare una carbonaia di notte"
+        descrizione: "Una carbonaia che cuoce va guardata fino all'alba. Se il fumo cambia colore, bisogna capire perché."
+        requisiti: [rep.pannion >= 4, rep.pannion < 6]
+        prova: { attributo: mentale, abilita: [natura, resilienza], difficolta: Media }
+        successo:
+          titolo: Il fumo bianco
+          testo: |
+            Stai seduto accanto alla carbonaia con il bastone sulle ginocchia,
+            e verso la terza ora il fumo passa dal grigio al bianco. Chiudi lo
+            sfiatatoio con una zolla prima che l'aria entri, e la mattina il
+            carbonaio ti trova sveglio e la carbonaia intera. Ti paga, e
+            mentre ti paga ti racconta chi ha litigato con chi.
+          effetti: { monete: 3, rep.pannion: 0.5, informazioni.voce: 1 }
+        fallimento:
+          titolo: Il sonno
+          testo: |
+            Il caldo della carbonaia ti addormenta seduto. Ti sveglia il
+            carbonaio a calci leggeri, con il fumo già bianco, e insieme
+            chiudete gli sfiatatoi prima che la carbonaia prenda aria.
+      - testo: "Trattare il vetro di linfa con i molatori"
+        descrizione: "I molatori di lenti mandano un uomo a Pannion ogni mese. Con chi conosce il villaggio trattano meglio."
+        requisiti: [rep.pannion >= 6]
+        prova: { attributo: sociale, abilita: [persuasione, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: La ceralacca blu
+          testo: |
+            L'uomo dei molatori arriva con le sue casse chiuse a ceralacca blu
+            e un sorriso che a Pannion conoscono bene. Tratti per tutto il
+            villaggio, e alla fine lui paga il vetro limpido per quello che
+            vale. Darrin ti lascia la tua parte sul tavolo senza contarla.
+          effetti: { monete: 6 }
+        fallimento:
+          titolo: Il sorriso
+          testo: |
+            L'uomo dei molatori sorride per tutta la trattativa, e alla fine
+            paga il vetro limpido come quello con le bolle. Te ne accorgi
+            quando se n'è già andato.
+          effetti: { monete: 2 }
+      - testo: "Scendere con i boscaioli ai tagli lontani"
+        descrizione: "I tagli lontani stanno dove le sequoie sono più grandi, e sotto le radici ogni tanto esce un pezzo di metallo lucido."
+        requisiti: [rep.pannion >= 6]
+        prova: { attributo: fisico, abilita: [atletica, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: Il guscio fra le radici
+          testo: |
+            Abbattete una sequoia grande, e quando la ceppaia si solleva fra le
+            radici c'è un guscio di metallo che il bosco teneva stretto. Lo
+            stacchi a colpi di scure. I boscaioli te lo lasciano, perché a
+            Pannion la roba dei Precursori porta male a chi la vende.
+          effetti: { monete: 3, reperto.sigillato: 1 }
+        fallimento:
+          titolo: La ceppaia
+          testo: |
+            La sequoia cade storta e trascina giù un ramo che ti sfiora la
+            spalla. Passate il resto della giornata a liberare il sentiero, e la
+            paga della sera è quella del sentiero.
+          effetti: { monete: 1 }
+      - testo: "Mangiare alla mensa dei carbonai"
+        descrizione: "La sera i carbonai mangiano tutti insieme sotto una tettoia, e un piatto in più c'è sempre."
+        esito:
+          titolo: La zuppa nera
+          testo: |
+            La zuppa ha il colore del carbone e il sapore delle castagne, e la
+            si mangia con il pane tenuto sulle ginocchia. Il carbonaio accanto
+            a te ti spiega come si capisce dal fumo quando una carbonaia è
+            pronta, contando i colori sulle dita.
+          pe: { natura: 2 }
+
+  # ------------------------------------------------------------ il servizio · la cappella di Frate Koln
+  - id: pannion-la-cappella-di-koln
+    presso: pannion
+    immagine: fazioni/confraternita-del-velo
+    titolo: La cappella di Frate Koln
+    sommario: "Dietro la piazza il Velo ha una cappella di legno e resina, e Frate Koln ci tiene la pentola dell'unguento rosso. I carbonai giurano che chiude le bruciature in una notte."
+    luogo: Pannion, la cappella del Velo
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [pista.arena >= 5]
+    testo: |
+      La cappella del Velo è una baracca di legno scuro dietro la piazza,
+      con il simbolo dell'Albero inciso sopra la porta e annerito dal fumo
+      come tutto il resto. Dentro c'è più odore di cucina che d'incenso.
+      Frate Koln sta davanti a un fornello con una pentola di linfa rossa e
+      grasso di montone, che rimesta con un cucchiaio di legno lungo quanto
+      il suo braccio. È grasso e rosso in faccia e suda anche se la porta è
+      aperta.
+
+      {medicina Media} L'unguento fa quello che dicono i carbonai. Sulle
+      mani di Koln le bruciature vecchie sono guarite lisce, senza le
+      cicatrici a corda che lasciano gli unguenti di città.
+
+      Sugli scaffali i vasetti aspettano in fila, con il tappo di cera e il
+      nome del Vecchio scritto sopra a carbone.
+    opzioni:
+      - testo: "Farti medicare da Frate Koln"
+        descrizione: "Koln medica chiunque entri, ma la linfa costa fatica e il Velo vuole la sua parte."
+        requisiti: [ferite >= 1, monete >= 12]
+        esito:
+          titolo: Le mani unte
+          testo: |
+            Koln ti fa sedere su una panca e ti spalma l'unguento sulle ferite
+            con due dita, ridendo forte a ogni smorfia che fai. Brucia come
+            l'aceto, poi smette. La mattina dopo la pelle ha chiuso, e ti
+            resta addosso un odore di montone che non va più via.
+          effetti: { monete: -12, ferite: -1 }
+      - testo: "Comprare un vasetto di unguento rosso"
+        descrizione: "Un vasetto di linfa e grasso, con il tappo di cera. Si porta dietro, e si usa quando serve."
+        requisiti: [fazione.pannion < 6, monete >= 18]
+        costo: 0
+        esito:
+          titolo: Il vasetto rosso
+          testo: |
+            Koln prende un vasetto dallo scaffale, ci soffia sopra per
+            togliere la polvere e te lo dà. Le monete le mette in una cassetta
+            con il segno del Velo, che chiude a chiave.
+          effetti: { monete: -18, unguento: 1 }
+      - testo: "Comprare l'unguento al prezzo della squadra"
+        descrizione: "Chi è della squadra di Darrin paga l'unguento quanto lo paga il villaggio."
+        requisiti: [fazione.pannion >= 6, monete >= 12]
+        costo: 0
+        esito:
+          titolo: Il prezzo della squadra
+          testo: |
+            Koln ti dà il vasetto senza toglierlo dallo scaffale, e le monete
+            le mette nella tasca del saio invece che nella cassetta del Velo.
+          effetti: { monete: -12, unguento: 1 }
+      - testo: "Rimestare la pentola al posto suo"
+        descrizione: "Koln ha sempre bisogno di un braccio fresco. Rimestando si impara qualcosa sugli unguenti."
+        esito:
+          titolo: Il cucchiaio lungo
+          testo: |
+            Rimesti per un'ora mentre Koln ti spiega a voce alta quanto grasso
+            ci va e quanta linfa, e perché la linfa va aggiunta per ultima,
+            quando il fornello si spegne. Alla fine ti fa annusare la pentola e
+            ride della tua faccia.
+          pe: { medicina: 2 }
+
+  # ------------------------------------------------------------ grado 2 · una notte ai pontili
+  - id: pannion-una-notte-ai-pontili
+    presso: pannion
+    immagine: icone/old-lantern
+    titolo: Una notte ai pontili
+    sommario: "Liduina Brace ti lascia tenere le lanterne del pontile più lungo. Il bosco al buio, visto da lì, fa meno paura di quello che ti porti dietro."
+    luogo: Pannion, il pontile più lungo
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.pannion >= 6]
+    testo: |
+      Il pontile più lungo di Pannion esce dall'altura per un tiro di sasso
+      sopra il bosco, su palafitte di sequoia nere di resina. Sulle travi
+      del parapetto sono appese le lanterne, una ogni tre passi, e Liduina
+      Brace le accende una alla volta con un tizzone sulla punta di un
+      bastone, contandole a mezza voce. Sotto, nel buio, il bosco fa i suoi
+      rumori.
+
+      {empatia Facile} Liduina non ti chiede perché sei venuto. A chi viene
+      a sedersi sul pontile di notte, a Pannion, non lo chiede nessuno.
+
+      Ti indica lo sgabello in fondo, accanto all'ultima lanterna.
+    opzioni:
+      - testo: "Tenere le lanterne fino all'alba"
+        descrizione: "Una notte sul pontile, a guardare le luci e il bosco. Quello che ti porti dietro, la mattina, pesa meno."
+        requisiti: [tormento >= 0.5]
+        prova: { attributo: mentale, abilita: [resilienza, natura], difficolta: Facile }
+        successo:
+          titolo: L'ultima lanterna
+          testo: |
+            Passi la notte accanto all'ultima lanterna, e quando una si spegne
+            la riaccendi con il tizzone di Liduina. Verso l'alba ti accorgi di
+            aver smesso di pensare da un pezzo, e che le mani ti si sono
+            fermate sulle ginocchia.
+          effetti: { tormento: -1 }
+        fallimento:
+          titolo: I rumori del bosco
+          testo: |
+            I rumori del bosco ti tengono sveglio a contarli, e ogni rumore ha
+            una forma diversa. Alla fine ti addormenti seduto, e Liduina ti
+            sveglia all'alba con una coperta già sulle spalle.
+          effetti: { tormento: -0.5 }
+      - testo: "Contare le lanterne con Liduina"
+        descrizione: "Liduina le conta tutte le sere. Contarle con lei è un modo di farle compagnia."
+        esito:
+          titolo: I nomi
+          testo: |
+            Le contate insieme avanti e indietro lungo il pontile, e Liduina a ogni lanterna
+            dice un nome invece di un numero. Sono i nomi delle famiglie del
+            villaggio, e alla fine dice anche il tuo.
+          pe: { espressivita: 2 }

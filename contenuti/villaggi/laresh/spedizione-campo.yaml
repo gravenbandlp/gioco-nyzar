@@ -1,0 +1,930 @@
+# La quest di Laresh, passo 11 (fazione.laresh 10 → 11): il campo che beve, sotto il mulino centrale. Sotto la botola
+# dei mugnai la scala scende in una camera di quelli di prima che sta sotto i campi di Laresh, con i tubi che tirano
+# giù l'acqua e il sangue della terra e li mandano via da una chiusa, verso un posto che la spedizione non nomina.
+# L'ingresso (`laresh-sotto-la-macina`, al mulino) ha una via a cavallo dallo sbocco del canale nei campi a nord.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0 l'albero della macina, la scala dei mugnai (le offerte di generazioni di mugnai);
+#   1 il soffitto di radici, i canali di vetro; 1-2 il nido dei fuochi azzurri (con lo scontro dei fuochi);
+#   2 il campo pallido, le bocche nei muri;
+#   3 la sala delle misure (lo schema con la linea verso nord-est), la pozza scura (la terra che beve sangue).
+# Ogni stanza ha due prove Medie e una via da due rintocchi con un po' di Ferite, Tormento o Contaminazione.
+# Il cuore a 4 è la chiusa con il suo custode (boss): combattimento, Tecnologia o Atletica Difficili, o il Comando.
+# Chi vince chiude la chiusa e torna a Laresh con il passo; chi perde o fallisce torna in Superficie e può rientrare.
+aree:
+  - id: laresh-campo-che-beve
+    immagine: ambientazione/regno-profondo
+    nome: Il campo che beve
+    sommario: "Sotto il mulino centrale di Laresh una scala di pietra scende in una camera grande quanto i campi che ci stanno sopra. I tubi di quelli di prima tirano giù quello che la terra beve."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sotto il mulino centrale la terra è vuota. La scala dei mugnai scende per un tratto lungo quanto un
+      campanile e sbuca in una camera che non finisce, con il soffitto basso fatto di roccia e di radici, e
+      sopra il soffitto ci sono i campi di Laresh. Dal soffitto pendono le radici del grano come capelli, e
+      sgocciolano. Per terra corrono canali di un metallo che sembra vetro, pieni di un liquido scuro che va
+      in salita, tutti nella stessa direzione.
+
+      Ogni tanto, da lontano, arriva il battito che Marrek sente sotto la macina, e il pavimento lo ripete
+      sotto i piedi. L'aria è fresca e sa di terra bagnata e di ferro.
+
+colonna:
+  - { contesto: area, id: laresh-campo-che-beve, musica: the-light-that-failed, ambiente: cave }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, al mulino centrale
+  - id: laresh-sotto-la-macina
+    presso: laresh
+    immagine: ambientazione/mulino-malgrani
+    titolo: Sotto la macina
+    sommario: "Sotto la botola dei mugnai c'è una scala di pietra, e in fondo alla scala il battito che Marrek sente da tre inverni."
+    luogo: Laresh, il mulino centrale, la botola sotto la macina
+    area: superficie-fratturata
+    requisiti: [fazione.laresh == 10]
+    testo: |
+      La botola sotto la macina è aperta, e i sacchi che la coprivano stanno
+      ammucchiati contro il muro. La scala di pietra scende stretta e ripida,
+      con i gradini consumati al centro da piedi che ci sono passati per
+      generazioni. Dal fondo sale un'aria fresca che sa di terra bagnata.
+      Tano tiene la lanterna sopra il buco e non vuole scendere, e Marrek, sul
+      suo sgabello, ha la mano sulla macina ferma.
+
+      {tecnologia Media} I primi gradini li hanno tagliati i mugnai. Più in
+      basso la pietra cambia colore, e i gradini diventano lisci come se li
+      avesse colati qualcuno.
+
+      «I mugnai ci scendevano a portare il pane» dice Marrek. «Mio padre ci
+      scendeva. Io sono cieco e non ci sono mai sceso, e lui diceva che era
+      una fortuna.»
+
+      {resilienza Facile fallita} Il buco ti guarda come guarda un pozzo, e
+      i piedi decidono da soli di fare un passo indietro.
+
+      Cahir, sulla porta, ti dice che fuori c'è anche lo sbocco del tubo,
+      nei campi a nord, dove finisce la striscia bruciata.
+    opzioni:
+      - testo: "Scendere la scala dei mugnai"
+        descrizione: "Ripida, stretta, consumata al centro. Con la lanterna in una mano e l'altra sul muro."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La scala
+          testo: |
+            Scendi un gradino alla volta con la spalla contro il muro, e la
+            luce della botola si fa piccola sopra di te finché è soltanto un
+            quadrato giallo. Poi la scala finisce, e la lanterna non arriva a
+            illuminare le pareti.
+          pe: { atletica: 2 }
+          vai: laresh-campo-che-beve
+        fallimento:
+          titolo: I gradini lisci
+          testo: |
+            Dove i gradini diventano lisci il piede ti scivola, e fai l'ultimo
+            tratto seduto, battendo la schiena su ogni scalino. In fondo resti
+            disteso al buio a sentire la lanterna rotolare via, finché il
+            battito sotto il pavimento non ti rimette in piedi.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+          vai: laresh-campo-che-beve
+      - testo: "Farti fare luce da Tano e cercare la via dei mugnai"
+        descrizione: "I mugnai ci scendevano con il pane. Avranno lasciato segni, se si sa dove guardare."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Le tacche di farina
+          testo: |
+            Tano ti tiene la lanterna dalla botola e tu trovi sul muro della
+            scala una fila di tacche bianche, fatte con la farina impastata,
+            all'altezza della mano. Seguendole metti i piedi dove li mettevano
+            i mugnai, e arrivi in fondo senza un graffio.
+          pe: { percezione: 2 }
+          vai: laresh-campo-che-beve
+        fallimento:
+          titolo: La lanterna che si spegne
+          testo: |
+            Cerchi i segni dei mugnai e non li trovi, e a metà scala la
+            lanterna ti si spegne in mano. Fai il resto al buio, contando i
+            gradini a voce alta per non sentire altro.
+          effetti: { tormento: 0.5 }
+          vai: laresh-campo-che-beve
+      - testo: "Entrare a cavallo dallo sbocco del tubo nei campi a nord"
+        descrizione: "Dove finisce la striscia bruciata il tubo sbuca in un fosso. A cavallo ci si arriva prima di sera, e si entra in piano."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Lo sbocco
+          testo: |
+            Esci al trotto per la striscia bruciata fino in fondo, dove il tubo
+            sbuca in un fosso come la bocca di una fogna, largo quanto una
+            porta. Leghi la bestia a un palo e accendi la lanterna. Poi ti
+            infili nel tubo in piedi, e il pavimento scende piano finché in
+            fondo si apre il buio.
+          vai: laresh-campo-che-beve
+      - testo: "Scendere piano con Tano e le corde dei mugnai"
+        descrizione: "Le corde dei mugnai sono vecchie ma tengono. Con Tano che le fila dall'alto ci vuole il doppio del tempo."
+        costo: 2
+        esito:
+          titolo: Le corde
+          testo: |
+            Ti leghi in vita la corda più grossa e Tano la fila dalla botola
+            un palmo alla volta, contando ad alta voce per farsi coraggio. Ci
+            vuole un'ora. Quando tocchi il fondo la corda ti ha segnato i
+            fianchi, e il conto di Tano ti resta nella testa.
+          effetti: { tormento: 0.5 }
+          vai: laresh-campo-che-beve
+
+  # ------------------------------------------------------------ 0 · l'albero della macina
+  - id: laresh-campo-l-albero-della-macina
+    immagine: ambientazione/mulino-malgrani
+    titolo: L'albero della macina
+    sommario: "L'albero di ferro della macina passa attraverso il pavimento del mulino e continua giù, molto più in basso di quanto serva a un mulino."
+    luogo: Il campo che beve, sotto la macina
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 0]
+    testo: |
+      In fondo alla scala c'è un pozzo, e nel mezzo del pozzo scende l'albero
+      della macina. Fino a un certo punto è di ferro, battuto dai fabbri di
+      Laresh e legato con le fasce. Poi il ferro finisce dentro un manicotto
+      di metallo grigio che non ha giunture, e da lì l'albero continua giù nel
+      buio, liscio, più grosso di un tronco. È fermo, eppure trema.
+
+      {tecnologia Media} Il mulino non gira l'albero. È l'albero che gira il
+      mulino, o almeno lo girava una volta. I mugnai ci hanno appoggiato
+      sopra la macina come una pentola sul fuoco di un altro.
+
+      Il battito sale dal fondo del pozzo, regolare.
+    opzioni:
+      - testo: "Calarti lungo l'albero"
+        descrizione: "Il metallo è liscio, e il manicotto ha le fasce dei fabbri per appoggiare i piedi. Più giù non ci sono più."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Le fasce dei fabbri
+          testo: |
+            Scendi abbracciato all'albero, con i piedi sulle fasce dei fabbri
+            finché ci sono e poi con le ginocchia strette sul metallo liscio. In
+            fondo al pozzo un passaggio basso si apre verso una luce azzurrina.
+          pe: { atletica: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Il metallo liscio
+          testo: |
+            Dove finiscono le fasce le ginocchia non tengono, e scivoli lungo
+            l'albero per un tratto che ti brucia le mani. Risali con le braccia
+            che tremano, e ti siedi in cima al pozzo a soffiarti sui palmi.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire dove porta il manicotto"
+        descrizione: "Il ferro dei fabbri finisce dentro il metallo di quelli di prima. Da qualche parte l'unione dovrà pur avere una porta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Lo sportello nel manicotto
+          testo: |
+            Passi le dita sul manicotto finché trovi una linea sottile, e la
+            premi. Uno sportello si apre su una scaletta interna che scende
+            girando intorno all'albero. In fondo una luce azzurrina ti aspetta.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Il tremito
+          testo: |
+            Appoggi l'orecchio al manicotto per sentire dove è vuoto, e il
+            battito ti entra nella testa come un chiodo. Ti stacchi barcollando,
+            con un ronzio nelle orecchie che ci mette un pezzo ad andarsene.
+          effetti: { tormento: 1 }
+      - testo: "Calarti con la corda legata alle fasce"
+        descrizione: "Una corda doppia legata in cima, e giù piano. Ci vuole tempo, e la corda brucia."
+        costo: 2
+        esito:
+          titolo: La corda doppia
+          testo: |
+            Leghi la corda alle fasce dei fabbri e ti cali a strattoni nel
+            pozzo. A metà discesa la corda ti scortica il palmo fino al sangue,
+            e in fondo, dove si apre un passaggio basso, ti fasci la mano con il
+            fazzoletto prima di andare avanti.
+          effetti: { profondita.laresh-campo-che-beve: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0 · la scala dei mugnai
+  - id: laresh-campo-la-scala-dei-mugnai
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Le offerte dei mugnai
+    sommario: "Lungo l'ultimo tratto della scala ci sono nicchie scavate nella roccia, e in ogni nicchia un pane secco e un nome."
+    luogo: Il campo che beve, la scala dei mugnai
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 0]
+    testo: |
+      L'ultimo tratto della scala ha le pareti piene di nicchie scavate con
+      lo scalpello, una sopra l'altra fino al soffitto. In ogni nicchia c'è
+      un pane secco diventato pietra, o una brocca col tappo di cera, o una
+      figurina di pasta di pane cotta al forno. Sotto ogni nicchia c'è un
+      nome inciso.
+
+      {accademiche Media} Le lettere dei nomi più in basso sono di un
+      alfabeto che in città si usava prima della fondazione. I mugnai
+      scendevano qui da prima che ci fosse Qir-Azel.
+
+      {empatia Facile} Le figurine sono fatte da mani di bambini. Qualcuno ci
+      portava i figli, per insegnargli la strada.
+
+      Fra gli ultimi nomi c'è un Marrek, scritto due volte.
+    opzioni:
+      - testo: "Leggere i nomi fino in fondo"
+        descrizione: "Sotto l'ultima nicchia forse c'è scritto perché ci scendevano. I mugnai scrivevano poco, ma scrivevano."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Per la sete
+          testo: |
+            Sotto la nicchia più bassa, accanto a un pane grande come una
+            ruota, qualcuno ha inciso tre parole nell'alfabeto vecchio, che a
+            fatica leggi come *per la sete*. Dietro la nicchia la roccia è
+            cava, e un passaggio stretto porta avanti verso una luce azzurrina.
+          pe: { accademiche: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: I nomi che si ripetono
+          testo: |
+            Leggi i nomi uno dopo l'altro finché cominciano a ripetersi, e ti
+            accorgi di averli letti ad alta voce, tutti, con il battito che
+            teneva il tempo. Torni in cima alla scala a schiarirti la testa.
+          effetti: { tormento: 1 }
+      - testo: "Scendere senza toccare le offerte"
+        descrizione: "Le nicchie arrivano fino al pavimento, e la scala è stretta. Qualunque cosa siano, le offerte stanno meglio dove sono."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Di lato
+          testo: |
+            Scendi di lato, con la schiena contro il muro libero e la lanterna
+            alta, e nessuna brocca si muove. In fondo, dietro l'ultima nicchia,
+            un passaggio stretto porta avanti verso una luce azzurrina.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: La brocca rotta
+          testo: |
+            Il gomito urta una brocca, che si rompe sui gradini. Dentro
+            c'era idromele, e il pavimento lo beve in un attimo, senza lasciare
+            una macchia. Torni su di qualche gradino senza sapere bene perché.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare un pane anche tu"
+        descrizione: "Nella bisaccia c'è il pane di Casa Velar. I mugnai lo lasciavano, e la scala si scendeva."
+        costo: 2
+        esito:
+          titolo: Il pane nella nicchia
+          testo: |
+            Metti il tuo pane in una nicchia vuota e aspetti, senza sapere che
+            cosa. Dopo un tempo lungo il pane è sparito, e la nicchia è asciutta
+            come prima. Il passaggio in fondo alla scala adesso lo vedi, e ti fa
+            venire voglia di tornare indietro.
+          effetti: { profondita.laresh-campo-che-beve: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1 · il soffitto di radici
+  - id: laresh-campo-il-soffitto-di-radici
+    immagine: ambientazione/regno-profondo
+    titolo: Il soffitto di radici
+    sommario: "Una sala bassa e larga quanto un campo, con le radici del grano che pendono dal soffitto e sgocciolano."
+    luogo: Il campo che beve, sotto i campi
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 1]
+    testo: |
+      La sala è bassa e larga quanto un campo, e il soffitto è fatto delle
+      radici bianche del grano che sta sopra, così fitte che pendono fino
+      all'altezza della testa. Sgocciolano piano. Il pavimento è un fango
+      scuro e lucido in cui la lanterna si specchia. Qua e là un ciuffo di
+      radici è nero dalla punta fino al soffitto.
+
+      {natura Media} Le radici nere sono quelle che pendono sopra i canali.
+      Il grano nero comincia da qui sotto e sale verso la spiga.
+
+      Il battito arriva da lontano, e le radici tremano insieme a ogni colpo.
+    opzioni:
+      - testo: "Seguire le radici nere"
+        descrizione: "Le radici nere stanno sopra i canali, e i canali vanno da qualche parte. Basta camminare sotto il nero."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Sotto il nero
+          testo: |
+            Cammini sotto i ciuffi neri tenendo la lanterna bassa, e sotto
+            ognuno trovi un canale che scorre. I canali convergono tutti verso
+            un'apertura in fondo alla sala, e tu ci vai dietro.
+          pe: { natura: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Le radici in faccia
+          testo: |
+            Le radici nere sono più basse delle altre, e una ti si avvolge
+            intorno al collo come una sciarpa bagnata. Te la strappi di dosso
+            con un urlo che la sala ti rimanda indietro tre volte.
+          effetti: { tormento: 1 }
+      - testo: "Attraversare il fango in fretta"
+        descrizione: "Il fango è lucido e scivoloso, e sotto non si sa che cosa ci sia. Meglio non fermarsi."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: L'altra riva
+          testo: |
+            Attraversi la sala a passi lunghi, senza fermarti mai abbastanza da
+            affondare, con le radici che ti accarezzano la testa. Dall'altra
+            parte il pavimento torna di pietra.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Fino al ginocchio
+          testo: |
+            A metà sala affondi fino al ginocchio, e il fango ti tira giù lo
+            stivale come una bocca. Lo recuperi a mani nude e torni indietro
+            zoppicando, con il piede nudo che si gela.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare lungo il muro, piegato"
+        descrizione: "Lungo il muro il fango è più sottile e le radici più basse. Si passa piegati in due, e ci vuole il triplo."
+        costo: 2
+        esito:
+          titolo: Piegato in due
+          testo: |
+            Fai tutto il giro della sala piegato in due lungo il muro, con le
+            radici che sgocciolano sulla nuca. Quando arrivi dall'altra parte
+            hai la schiena a pezzi e la giubba fradicia di un'acqua che sa di
+            ferro.
+          effetti: { profondita.laresh-campo-che-beve: 1, ferite: 0.5, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 1 · i canali di vetro
+  - id: laresh-campo-i-canali-di-vetro
+    immagine: ambientazione/cristalli-conduttori
+    titolo: I canali di vetro
+    sommario: "Un fascio di canali di metallo chiaro attraversa la galleria. Dentro scorre un liquido scuro che va in salita."
+    luogo: Il campo che beve, i canali
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 1]
+    testo: |
+      La galleria è tagliata di traverso da un fascio di canali di metallo
+      chiaro, aperti in cima, larghi ciascuno quanto una mangiatoia. Dentro
+      scorre un liquido scuro e denso che va in salita, contro la pendenza,
+      senza un rumore. Dall'altra parte dei canali la galleria continua.
+
+      {tecnologia Media} Il liquido sale perché lo spingono le spirali sul
+      fondo. Da qualche parte deve esserci il modo di fermarle, o almeno di
+      rallentarle.
+
+      {medicina Facile} L'odore è quello del sangue vecchio mescolato con
+      l'acqua piovana.
+
+      Sul bordo del primo canale qualcuno ha lasciato una lanterna da
+      mugnaio, spenta, con il vetro annerito dal fumo di chissà quanti anni.
+    opzioni:
+      - testo: "Trovare il modo di fermare le spirali"
+        descrizione: "Ogni canale ha una piastra sul bordo. Una piastra è un interruttore, finché non si dimostra il contrario."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La piastra
+          testo: |
+            Premi una piastra dopo l'altra, e alla quarta il liquido di tutti
+            i canali rallenta e si ferma, per il tempo di passare. Quando sei
+            dall'altra parte riprende a salire, come se niente fosse.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Lo spruzzo
+          testo: |
+            Premi la piastra sbagliata, e il canale più vicino ti sputa addosso
+            uno spruzzo scuro e tiepido. Ti pulisci la faccia con la manica e
+            torni indietro a sciacquarti nel fango.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Saltare i canali uno alla volta"
+        descrizione: "Sono cinque, con un bordo largo un piede fra un canale e l'altro. Con la rincorsa giusta si passa asciutti."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Cinque salti
+          testo: |
+            Prendi la rincorsa e salti da un bordo all'altro, cinque volte,
+            atterrando ogni volta con le braccia larghe. All'ultimo salto sei
+            dall'altra parte, con il cuore che batte più forte del battito.
+          pe: { atletica: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Il terzo canale
+          testo: |
+            Al terzo salto il piede scivola sul bordo, e finisci dentro il
+            canale fino alla cintura. Il liquido ti tira in salita per un tratto
+            prima che tu riesca ad aggrapparti al bordo e a uscire.
+          effetti: { contaminazione: 0.5, ferite: 0.5 }
+      - testo: "Guadare i canali"
+        descrizione: "Il liquido arriva alla coscia ed è tiepido. Si passa, e poi ci si lava come si può."
+        costo: 2
+        esito:
+          titolo: Il guado
+          testo: |
+            Entri nel primo canale e lo attraversi con le mani alzate, e poi il
+            secondo, e così fino all'ultimo. Il liquido ti tira i calzoni in
+            salita a ogni passo, e quando esci hai le gambe scure fino alle
+            cosce.
+          effetti: { profondita.laresh-campo-che-beve: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ 1-2 · il nido dei fuochi
+  - id: laresh-campo-il-nido-dei-fuochi
+    immagine: ambientazione/cristalli-conduttori
+    titolo: Il nido dei fuochi
+    sommario: "In una camera tonda, dalle crepe del pavimento salgono scintille azzurre che si radunano a mezz'aria. I fuochi dei campi nascono qui."
+    luogo: Il campo che beve, la camera dei fuochi
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve >= 1, profondita.laresh-campo-che-beve <= 2]
+    testo: |
+      La camera è tonda, con il soffitto a cupola e il pavimento rotto da
+      crepe sottili come capelli. Dalle crepe salgono scintille azzurre che
+      a mezz'aria si radunano a decine e diventano fuochi grandi come un
+      pugno, gli stessi che di notte galleggiano sui campi. Uno sciame ne
+      gira lento sotto la cupola, e ogni tanto uno se ne stacca e sale per
+      un foro del soffitto verso i campi.
+
+      {magia Media} I fuochi non prendono il Mana, come diceva la voce sulla
+      pista. Prendono qualcosa dalle crepe, e lo portano su.
+
+      La porta dall'altra parte della camera è sotto lo sciame.
+    opzioni:
+      - testo: "Passare sotto lo sciame senza farti vedere"
+        descrizione: "Lo sciame gira lento, e ha un verso. Basta muoversi nel buio che lascia dietro di sé."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Nel buio dello sciame
+          testo: |
+            Aspetti che lo sciame passi sopra la porta e ti muovi nel buio che
+            si lascia dietro, piegato, un passo ogni giro. Quando lo sciame torna
+            sei già nella galleria dall'altra parte.
+          pe: { furtivita: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Il freddo addosso
+          testo: |
+            Lo sciame si gira prima del previsto e ti passa sopra. Il freddo ti
+            entra nella giubba come brina, e ti ritrovi fuori dalla camera a
+            sfregarti le braccia, senza ricordare di essere uscito.
+          effetti: { tormento: 1 }
+      - testo: "Tendere la mano ai fuochi"
+        descrizione: "Rispondono a qualcosa che sale dalle crepe. Forse rispondono anche a chi sa ascoltare il Mana."
+        prova: { attributo: mentale, abilita: [magia, resilienza], difficolta: Media }
+        successo:
+          titolo: La mano fredda
+          testo: |
+            Tendi la mano aperta verso lo sciame, e i fuochi più vicini ti
+            girano intorno al polso senza toccarlo, freddi come acqua di fonte.
+            Poi si allontanano tutti verso la cupola, e la porta resta libera.
+          pe: { magia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Le dita azzurre
+          testo: |
+            I fuochi ti si posano sulle dita, e il freddo ti sale fino alla
+            spalla. Per un'ora la mano non ti risponde, e le unghie restano
+            azzurre anche quando i fuochi se ne sono andati.
+          effetti: { tormento: 1, ferite: 0.5 }
+      - testo: "Aprirti la strada fra i fuochi"
+        descrizione: "Sono fiamme fredde e piccole, ma tante. Prese a colpi, si spengono come le altre."
+        combattimento: laresh-fuochi-azzurri
+        vittoria:
+          titolo: I fuochi spenti
+          testo: |
+            Colpisci i fuochi che ti vengono addosso e quelli si spengono uno
+            dopo l'altro con un sibilo, come braci in un secchio. Il resto dello
+            sciame sale verso la cupola, e la porta è libera.
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        sconfitta:
+          titolo: La brina
+          testo: |
+            Lo sciame ti avvolge, e la brina ti copre le braccia fino ai gomiti.
+            Ti ritrovi fuori dalla camera, in ginocchio, con le mani che non
+            riescono a stringere la lanterna.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che lo sciame salga ai campi"
+        descrizione: "Ogni tanto i fuochi salgono tutti insieme. Basta aspettare al freddo, quanto serve."
+        costo: 2
+        esito:
+          titolo: L'attesa al freddo
+          testo: |
+            Ti siedi contro il muro della galleria e aspetti, con le ginocchia
+            al petto. Ci vuole tanto che perdi il conto dei battiti, e quando
+            lo sciame sale tutto insieme per il foro hai le dita gelate.
+          effetti: { profondita.laresh-campo-che-beve: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2 · il campo pallido
+  - id: laresh-campo-il-campo-pallido
+    immagine: ambientazione/regno-profondo
+    titolo: Il campo pallido
+    sommario: "Sotto la terra c'è un campo di grano in file dritte, bianco come la cera, che cresce sotto una luce azzurra."
+    luogo: Il campo che beve, il campo pallido
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 2]
+    testo: |
+      La galleria si apre su un campo di grano. È seminato in file dritte
+      come quelle della Dama, su una terra scura e fine, e cresce sotto una
+      luce azzurra che viene dal soffitto senza una lampada. Le spighe sono
+      bianche come la cera, alte fino al petto, e non si muovono. Fra le
+      file corrono rotaie sottili, lucide, che spariscono in fondo al campo.
+
+      {natura Media} Il chicco ha la forma di quello di Laresh. È più grande,
+      e non ha colore. Qualcuno ha seminato questo campo molto prima dei
+      campi di sopra.
+
+      {percezione Facile fallita} Le spighe sono tutte uguali, e dopo un poco
+      anche le file. Non sapresti più dire da quale sei entrato.
+    opzioni:
+      - testo: "Seguire le rotaie fino in fondo al campo"
+        descrizione: "Le rotaie servivano a qualcosa che mieteva o seminava. Vanno da dove partiva a dove tornava."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Le rotaie
+          testo: |
+            Segui le rotaie fra le spighe bianche, e in fondo al campo
+            convergono in una sola, che entra in una galleria più larga delle
+            altre. Sul binario ci sono impronte di qualcosa che camminava su
+            punte sottili, distanti fra loro tre passi.
+          pe: { percezione: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Le file tutte uguali
+          testo: |
+            Le rotaie si dividono e si riuniscono, e dopo un'ora ti accorgi di
+            essere tornato al punto da cui sei entrato, con le spighe bianche
+            che ti hanno lasciato sulla giubba una polvere fine come il talco.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare il campo spiga per spiga"
+        descrizione: "Le spighe sono fitte e dure come canne. Bisogna aprirsi la strada senza spezzarle tutte."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: Le canne bianche
+          testo: |
+            Ti apri la strada spiga per spiga con gli avambracci, e le spighe
+            bianche si piegano e tornano su dietro di te. Dall'altra parte del
+            campo una galleria larga porta avanti.
+          pe: { resistenza: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: I tagli
+          testo: |
+            Le foglie delle spighe bianche tagliano come carta, e a metà campo
+            hai le mani e le guance piene di righe rosse. Torni indietro per la
+            stessa strada, che intanto si è richiusa.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare sulle rotaie a occhi bassi"
+        descrizione: "Le rotaie sono strette, ma attraversano tutto il campo. Basta non guardare le spighe."
+        costo: 2
+        esito:
+          titolo: A occhi bassi
+          testo: |
+            Cammini sulla rotaia un piede davanti all'altro, con gli occhi sui
+            piedi, per un tempo che non sapresti dire. Le spighe ti sfiorano le
+            braccia a ogni passo. Quando arrivi in fondo hai la nausea, e alzare
+            gli occhi ti costa.
+          effetti: { profondita.laresh-campo-che-beve: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 2 · le bocche
+  - id: laresh-campo-le-bocche
+    immagine: ambientazione/marea-grigia
+    titolo: Le bocche nei muri
+    sommario: "Una galleria con i muri pieni di fori tondi. Tirano l'aria, e tirano anche chi ci passa davanti."
+    luogo: Il campo che beve, la galleria delle bocche
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 2]
+    testo: |
+      I muri della galleria sono pieni di fori tondi, larghi quanto una
+      testa, disposti a scacchiera dal pavimento al soffitto. Ogni foro tira
+      l'aria verso di sé con un sibilo basso. La fiamma della lanterna si
+      piega da una parte e dall'altra, e i capelli ti si muovono sulla nuca.
+
+      {resistenza Media} Il tiro è debole, uno per uno. Tutti insieme, a metà
+      galleria, tirano come una corrente di fiume.
+
+      In fondo alla galleria c'è una porta, e sulla soglia della porta c'è
+      un mucchietto di ossa piccole di gatto o di lepre.
+    opzioni:
+      - testo: "Passare in mezzo con le gambe piantate"
+        descrizione: "Il tiro è forte ma non abbastanza da sollevare un uomo. Basta non perdere l'equilibrio a metà."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: In mezzo
+          testo: |
+            Cammini piegato in avanti come contro il vento, e a metà galleria
+            le bocche tirano da tutte le parti insieme, tanto che ti sembra di
+            stare fermo. Poi il tiro si allenta, e arrivi alla porta.
+          pe: { resistenza: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Contro il muro
+          testo: |
+            A metà galleria il tiro ti strappa la lanterna di mano e ti tira
+            contro il muro, con la guancia sopra una bocca che succhia. Ti
+            stacchi a fatica e torni indietro a quattro zampe.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Tappare le bocche con le pietre del pavimento"
+        descrizione: "Le bocche sono collegate. Tappandone abbastanza da un lato, il tiro dall'altro si calma."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Le pietre
+          testo: |
+            Tappi con le pietre del pavimento una fila di bocche alla volta,
+            dal basso verso l'alto, e il sibilo cambia nota a ogni pietra. Alla
+            decima il tiro cala abbastanza, e attraversi la galleria camminando.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: La pietra risucchiata
+          testo: |
+            Appoggi una pietra su una bocca, e la bocca se la prende, con un
+            rumore di ossa rotte che dura a lungo dentro il muro. Le altre
+            bocche si mettono a tirare più forte.
+          effetti: { tormento: 1 }
+      - testo: "Strisciare sul pavimento"
+        descrizione: "Le bocche più basse stanno sopra il pavimento di un palmo. Strisciando ventre a terra, il tiro passa sopra."
+        costo: 2
+        esito:
+          titolo: Ventre a terra
+          testo: |
+            Attraversi la galleria strisciando sui gomiti, con le bocche che ti
+            sibilano sopra la testa. Il pavimento è coperto di una polvere grassa
+            che ti si attacca dappertutto, e alla porta hai la bocca piena di
+            terra.
+          effetti: { profondita.laresh-campo-che-beve: 1, contaminazione: 0.5, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la sala delle misure
+  - id: laresh-campo-la-sala-delle-misure
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La sala delle misure
+    sommario: "Una sala con le pareti coperte di colonne di vetro piene a metà, e in mezzo una lastra incisa con un disegno di linee e di cerchi."
+    luogo: Il campo che beve, la sala delle misure
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 3]
+    testo: |
+      Le pareti della sala sono coperte di colonne di vetro alte quanto un
+      uomo, e in ogni colonna c'è un liquido scuro fermo a un livello
+      diverso. Sono quasi tutte vuote. In mezzo alla sala c'è una lastra di
+      metallo incisa, grande come un tavolo, con un disegno di linee e di
+      cerchi.
+
+      {accademiche Media} Il disegno è una mappa. Un cerchio piccolo ha
+      accanto una spiga, e da lì parte una linea lunga che passa vicino ad
+      altri cerchi piccoli e finisce in una forma grande nell'angolo della
+      lastra che sta a nord, un poco verso levante.
+
+      {tecnologia Facile fallita} Le colonne di vetro sono belle, e di più non
+      sapresti dire. Ti viene voglia di bussarci sopra.
+    opzioni:
+      - testo: "Leggere la lastra incisa"
+        descrizione: "Linee e cerchi intorno a una spiga. Chi l'ha incisa voleva che chi scendeva capisse dove si trovava."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: La linea lunga
+          testo: |
+            Segui con il dito la linea che parte dal cerchio con la spiga. Passa
+            vicino a otto o nove cerchi piccoli e finisce contro la forma grande
+            nell'angolo della lastra, che non sai che cosa sia. Accanto al cerchio
+            della spiga una freccia indica una porta della sala, e tu la prendi.
+          pe: { accademiche: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: I cerchi
+          testo: |
+            Conti i cerchi della lastra e ogni volta te ne viene un numero
+            diverso, come se qualcuno ne aggiungesse uno mentre conti. Ti
+            allontani dalla lastra con un mal di testa che pulsa a tempo con il
+            battito.
+          effetti: { tormento: 1 }
+      - testo: "Capire le colonne di vetro"
+        descrizione: "Sono misure. Una colonna piena e cento vuote dicono che cosa va dove."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La colonna piena
+          testo: |
+            Le colonne vuote sono i campi di sopra, e l'unica colonna piena ha
+            sotto un simbolo che hai già visto sulla lastra, una freccia che esce
+            dalla sala. Tutto quello che i campi bevono va da quella parte, e la
+            porta sotto la colonna piena porta dove va.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Il vetro incrinato
+          testo: |
+            Tocchi una colonna per sentirne il freddo, e il vetro si incrina
+            sotto le dita con un rumore secco. Il liquido scuro comincia a
+            colare piano sul pavimento, e tu esci dalla sala camminando
+            all'indietro.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Ricopiare tutto e pensarci dopo"
+        descrizione: "Un pezzo di carbone e il retro di un sacco. La Dama i disegni li legge meglio dei libri."
+        costo: 2
+        esito:
+          titolo: Il sacco disegnato
+          testo: |
+            Ricopi la lastra sul retro di un sacco con un pezzo di carbone, linea
+            per linea, finché il braccio ti fa male e la lanterna comincia a
+            fumare. Non capisci quasi niente di quello che hai copiato. Uscendo
+            prendi la porta sotto la colonna piena.
+          effetti: { profondita.laresh-campo-che-beve: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 · la pozza scura
+  - id: laresh-campo-la-pozza-scura
+    immagine: ambientazione/marea-grigia
+    titolo: La pozza scura
+    sommario: "Una vasca di pietra piena di un liquido scuro e fermo, con il bordo coperto di ossa di bestie. La terra che beve, beve qui."
+    luogo: Il campo che beve, la vasca
+    area: laresh-campo-che-beve
+    ripetibile: true
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve == 3]
+    testo: |
+      I canali finiscono tutti in una vasca di pietra rotonda, grande come
+      l'aia di Casa Velar, piena di un liquido scuro e fermo. Sul bordo ci
+      sono ossa bianche di vacche e di cani, disposte in cerchio.
+      Dalla parte opposta della vasca un
+      canale più largo degli altri porta via il liquido, lentamente, verso una
+      galleria che scende.
+
+      {medicina Media} È sangue mescolato con l'acqua, molto più sangue che
+      acqua. La vasca lo tiene liquido come appena versato.
+
+      Ti torna in mente Marrek con la mano sulla macina. *La terra ogni tanto
+      beve sangue, e quando beve ha sete come noi.* Sulla superficie della
+      vasca la lanterna non si riflette.
+    opzioni:
+      - testo: "Girare intorno alla vasca senza guardarla"
+        descrizione: "Il bordo è largo un passo, e le ossa sono da scavalcare. Basta tenere gli occhi sul canale."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Gli occhi sul canale
+          testo: |
+            Giri intorno alla vasca con gli occhi fissi sul canale grande,
+            scavalcando le ossa una alla volta. Quando arrivi dall'altra parte ti
+            accorgi di aver tenuto i pugni chiusi per tutto il tempo. La galleria
+            scende verso il battito.
+          pe: { resilienza: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: Il riflesso
+          testo: |
+            A metà giro guardi la vasca, e nel liquido scuro non si riflettono
+            né la lanterna né la tua faccia. Ti ritrovi all'ingresso della sala
+            senza ricordare di essere tornato indietro.
+          effetti: { tormento: 1 }
+      - testo: "Esaminare le ossa sul bordo"
+        descrizione: "Chi le ha messe in cerchio? Le ossa dicono come è morta una bestia, e quando."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: Le ossa pulite
+          testo: |
+            Le ossa sono di bestie morte nei campi di vecchiaia o di parto, e
+            nessuna ha il segno di un coltello o di un dente. Le ha portate giù
+            la terra, e la vasca le ha pulite. Fra le ossa trovi un sentiero
+            sgombro fino al canale grande, e lo segui.
+          pe: { medicina: 2 }
+          effetti: { profondita.laresh-campo-che-beve: 1 }
+        fallimento:
+          titolo: L'osso caldo
+          testo: |
+            Prendi in mano un osso per guardarlo meglio, ed è caldo come se la
+            bestia fosse morta un momento fa. Lo lasci cadere nella vasca, e la
+            vasca lo prende senza fare un'onda.
+          effetti: { tormento: 1 }
+      - testo: "Camminare nel canale grande"
+        descrizione: "Il canale grande porta via il liquido, e porta anche chi ci cammina dentro. È la strada più corta."
+        costo: 2
+        esito:
+          titolo: Nel canale
+          testo: |
+            Scendi nel canale grande, e il liquido tiepido ti arriva alle
+            ginocchia e ti spinge avanti con calma. Ti lasci portare fino alla
+            galleria che scende, e quando esci hai le gambe scure e il cuore che
+            batte con il battito.
+          effetti: { profondita.laresh-campo-che-beve: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ il cuore · la chiusa
+  - id: laresh-campo-la-chiusa
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La chiusa
+    sommario: "In fondo alla galleria il canale grande passa sotto una chiusa di metallo, aperta. Davanti alla chiusa lavora una macchina con sei braccia a rastrello."
+    luogo: Il campo che beve, la chiusa
+    area: laresh-campo-che-beve
+    requisiti: [fazione.laresh == 10, profondita.laresh-campo-che-beve >= 4]
+    testo: |
+      La galleria finisce in una sala alta, dove il canale grande corre
+      sotto una chiusa di metallo larga quanto la ruota del mulino centrale.
+      La chiusa è sollevata, e il liquido scuro le passa sotto e se ne va in
+      un tunnel dritto che punta a nord e un poco a levante. Accanto alla
+      chiusa c'è una ruota da girare, con le razze lucide.
+
+      Davanti alla chiusa lavora una macchina bassa e larga come un carro,
+      con sei braccia snodate che finiscono in rastrelli di metallo. Pulisce
+      il canale togliendo le ossa una alla volta, e le getta in un mucchio.
+      Il battito che Marrek sente sotto la macina viene da lei o dalla
+      chiusa, e forse da tutte e due.
+
+      {tecnologia Difficile} La ruota abbassa la chiusa, ed è fatta per
+      essere girata da quella macchina. Se la giri tu mentre lei lavora
+      dall'altra parte del canale, forse fai in tempo prima che se ne accorga.
+
+      {armi-da-mischia Media} Sei braccia, e ognuna ha un rastrello. Le
+      giunture sono il punto debole, e ce ne sono tante.
+
+      *Chiudere, e i campi di sopra smettono di bere.* Il custode della chiusa
+      si gira verso la luce della tua lanterna, e i rastrelli si alzano.
+    opzioni:
+      - testo: "Affrontare il custode della chiusa"
+        descrizione: "Sei braccia a rastrello e un corpo di metallo grande come un carro. Tiene pulito il canale da prima che ci fosse Laresh."
+        combattimento: laresh-la-chiusa
+        vittoria:
+          titolo: La chiusa abbassata
+          testo: |
+            Il custode si accascia sul bordo del canale con le braccia aperte,
+            e i rastrelli tintinnano sulla pietra. Giri la ruota con tutte e due
+            le mani, e la chiusa scende con un gemito lungo finché tocca il
+            fondo. Il liquido scuro si ferma. Dopo un momento il battito sotto i
+            piedi rallenta, e poi tace del tutto.
+
+            Stacchi dal custode un pezzo del suo metallo, lucido come il giorno
+            in cui l'hanno fatto, e risali per la scala dei mugnai fino alla
+            botola, dove Tano ti aspetta con la lanterna.
+          pe: { armi-da-mischia: 5 }
+          effetti: { fazione.laresh: 1, reliquie.frammento-inciso: 2, parte.nucleo-2: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: I rastrelli
+          testo: |
+            Un rastrello ti prende di traverso e ti getta contro il muro, e un
+            altro ti trascina sul pavimento fino all'imbocco della galleria,
+            come un ramo da togliere dal canale. Risali la scala dei mugnai con
+            le costole che bruciano e la chiusa ancora aperta.
+          effetti: { tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Girare la ruota mentre il custode lavora"
+        descrizione: "Quando il custode è dall'altra parte del canale, la ruota resta libera. Bisogna girarla tutta prima che lui torni."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La ruota
+          testo: |
+            Aspetti che il custode passi dall'altra parte del canale e ti butti
+            sulla ruota. All'inizio gira dura, poi sempre più svelta, finché la chiusa scende con un
+            gemito. Il custode si volta quando è già giù, si ferma con i
+            rastrelli alzati e torna a pulire, perché il canale adesso è fermo.
+            Il battito sotto i piedi rallenta, e poi tace del tutto.
+
+            Stacchi dal bordo della chiusa una scheggia del suo metallo e risali
+            la scala dei mugnai fino alla botola, dove Tano ti aspetta.
+          pe: { tecnologia: 5 }
+          effetti: { fazione.laresh: 1, reliquie.frammento-inciso: 2, parte.nucleo-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La ruota a metà
+          testo: |
+            La ruota si blocca a metà giro, e il custode attraversa il canale
+            con un passo solo. Un rastrello ti afferra la caviglia e ti trascina
+            via dalla ruota, che torna su da sola. Risali la scala dei mugnai
+            zoppicando, con la chiusa aperta alle spalle.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Bloccare i rastrelli con le leve dei mugnai"
+        descrizione: "Le leve di ferro dei mugnai, infilate nelle giunture delle braccia. Una per braccio, e la ruota la giri dopo."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Difficile }
+        successo:
+          titolo: Sei leve
+          testo: |
+            Ti infili sotto le braccia del custode e pianti una leva in ogni
+            giuntura mentre i rastrelli ti fischiano sopra la testa. Alla sesta
+            il custode resta fermo, piegato come un ragno morto. Giri la ruota,
+            e la chiusa scende con un gemito. Il battito sotto i piedi rallenta,
+            e poi tace del tutto.
+
+            Stacchi dal custode un pezzo del suo metallo e risali la scala dei
+            mugnai fino alla botola, dove Tano ti aspetta.
+          pe: { atletica: 5 }
+          effetti: { fazione.laresh: 1, reliquie.frammento-inciso: 2, parte.nucleo-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La leva che salta
+          testo: |
+            La terza leva salta dalla giuntura e ti torna in faccia. Mentre sei
+            per terra due rastrelli ti prendono per la giubba e ti gettano oltre
+            l'imbocco della galleria. Risali la scala dei mugnai con il sangue in
+            bocca.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinargli di fermarsi"
+        descrizione: "La formula del Comando parla alle macchine di quelli di prima nella loro lingua. Questa ha sempre ubbidito a qualcuno."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Fermo
+          testo: |
+            Dici la formula, e la parola ti esce dalla bocca in una lingua che
+            non è la tua. Il custode abbassa i rastrelli uno alla volta e resta
+            immobile, in attesa. Giri la ruota con calma, e la chiusa scende
+            fino al fondo. Il battito sotto i piedi rallenta, e poi tace del
+            tutto.
+
+            Stacchi dal bordo della chiusa una scheggia del suo metallo e risali
+            la scala dei mugnai fino alla botola, dove Tano ti aspetta.
+          pe: { magia: 5 }
+          effetti: { fazione.laresh: 1, reliquie.frammento-inciso: 2, parte.nucleo-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La parola a metà
+          testo: |
+            La formula ti si spezza in bocca, e il custode sente soltanto la
+            prima parte. Alza tutti i rastrelli insieme e viene verso di te, e
+            tu scappi su per la galleria con la testa che pulsa. Risali la scala
+            dei mugnai senza aver toccato la ruota.
+          effetti: { ferite: 1, tormento: 1.5 }
+          vai: superficie-fratturata

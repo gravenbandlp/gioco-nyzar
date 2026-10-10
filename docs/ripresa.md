@@ -104,6 +104,23 @@ tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le
   Superficie, e la strada per la Roccia e quella per la Palude partono da lì.
 - Test: `test/superficie.test.ts`.
 
+## La Superficie dopo l'Arena (10 ottobre 2026)
+Piano, canone fissato e id in `docs/piano-superficie.md`. Tutto si apre con `pista.arena >= 5`.
+- `contenuti/scoperte/tracce.yaml`: le quality condivise (`traccia.<luogo>` 0–3, `misura.<luogo>`, `dono.<villaggio>`),
+  l'aggancio in città (`gente-di-fuori`), «Battere la Superficie» (una direzione per volta, un luogo per direzione) e
+  le nove carte di voci. Test: `test/scoperte.test.ts`.
+- `contenuti/villaggi/<villaggio>/`: Ghoran, Laresh, Tuarmir e Pannion, luoghi della Superficie con una quest da 15
+  passi (sono fazioni: compaiono nella scheda e in `FAZIONI` di `test/fazioni-percorsi.ts`). Il passo 3 dà le tracce
+  dei due luoghi neri vicini, il passo 15 il dono.
+- `contenuti/scoperte/<luogo>.yaml`: le nove spedizioni dei luoghi neri; l'ingresso chiede tre tracce, il cuore dà la
+  misura una volta sola, poi c'è un secondo cuore ripetibile.
+- `contenuti/campana/`: la Campana Sepolta, quattro strati in catena (`campana.strato`) aperti dalle nove misure, con
+  il Campanaro in tre fasi e gli unici oggetti di grado 5. Test: `test/campana.test.ts`.
+- `scripts/simula-fine.ts`: probabilità di vittoria per un combattente di fine capitolo e uno di fine contenuti
+  (`npx tsx scripts/simula-fine.ts <prefisso dello scontro>`).
+- I test di percorso sono sincroni e lunghi: `test/cedi.ts` (in `setupFiles`) lascia una pausa dopo ogni test, le
+  piste lunghe stanno in `test/piste-lunghe.test.ts` e le quest di fazione hanno un test per origine.
+
 ## Combattimento (8 ottobre 2026)
 - Uno scontro dà il triplo dei PE di una prova (`PE_COMBATTIMENTO` in `src/motore/regole.ts`), all'arma e alla Magia.
 - I nemici di Acciaio, Rovine, Arena, Capomozzo e delle quest di fazione sono stati ritarati per un combattente di fine

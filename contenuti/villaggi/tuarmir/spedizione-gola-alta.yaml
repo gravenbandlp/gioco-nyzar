@@ -1,0 +1,917 @@
+# La gola alta di Tuarmir, spedizione del passo 11 della quest del villaggio (fazione.tuarmir == 10): sopra le case la
+# gola sale fino alla Sella, dove il vento nuovo entra nella montagna da una grata dei Precursori. Non è la gola di
+# sotto della quest del Velo (fazioni/velo/spedizione-gola.yaml), dove lo stesso vento esce dalle fenditure e dalla
+# porta di Serad: qui si va in alto, dove entra. Maela è salita da sola a piantare i nastri di Sorella Alenna.
+# L'ingresso (`tuarmir-sopra-la-croce`, presso Tuarmir) costa un rintocco in meno a cavallo. La ritirata riporta in
+# Superficie. Le stanze chiedono tutte fazione.tuarmir == 10 e vanno in fasce di profondità; una stanza superata non
+# ricompare nella stessa visita:
+# 0 sopra la croce (le case vuote con le maschere vecchie; la scala delle capre), 1 i terrazzi abbandonati (le erbe
+# grigie; le raffiche sulla cengia, che valgono anche a 2), 2 la conca dei pascoli (il pastore con le capre che non
+# salgono; i due braccianti seduti con la faccia a nord-est; i nastri di Maela, che valgono anche a 3), 3 sotto la
+# Sella (la crosta di sale con i funghi grigi; le cesoie che tagliano il muschio).
+# Il cuore a 4 è la grata della Sella: il Pettine la pettina, e Maela ci si tiene incastrata con un dente spezzato.
+# Batterlo, passargli sotto, fermarlo sulla rotaia o comandargli di fermarsi (vie Difficili) dà il passo,
+# tuarmir.dente e qualche parte dei Precursori; chi fallisce torna in Superficie senza passo e con le Ferite.
+aree:
+  - id: tuarmir-gola-alta
+    immagine: ambientazione/tuarmir
+    nome: La gola alta
+    sommario: "Sopra le ultime case di Tuarmir la gola sale stretta fino alla Sella, una conca fra due cime dove il vento nuovo entra nella montagna."
+    spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }
+    testo: |
+      Sopra il sasso con la croce di calce la gola di Tuarmir continua a
+      salire, sempre più stretta, fra pareti che il muschio copre fino a
+      metà e poi lascia nude. Qui il sole non entra mai. Il sentiero lo
+      hanno fatto le capre, e i raccoglitori di un tempo ci hanno scavato
+      qualche gradino prima che la Sella fosse lasciata in pace.
+
+      Il vento freddo sale con te dal fondo della gola senza fermarsi mai, e a
+      ogni svolta cambia odore. In basso sa di muschio bagnato. Più su
+      comincia a sapere di sale, e sulle pietre compare una crosta bianca che
+      scricchiola sotto gli stivali. In cima, dove la gola si apre in una
+      conca fra due cime, c'è la Sella.
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, sopra il villaggio
+  - id: tuarmir-sopra-la-croce
+    presso: tuarmir
+    immagine: ambientazione/tuarmir
+    titolo: Sopra la croce
+    sommario: "Le impronte di Maela passano il sasso con la croce di calce e salgono verso la Sella. Ilenia si ferma lì, e tu vai avanti."
+    luogo: Tuarmir, il sasso con la croce sopra le case
+    area: superficie-fratturata
+    requisiti: [fazione.tuarmir == 10]
+    testo: |
+      Al sasso con la croce di calce Ilenia ti lega alla cintura la corda
+      del seccatoio e ti stringe la maschera dietro la nuca con due giri di
+      nodo. Lei non va oltre. Nel muschio, al di là del sasso, ci sono le
+      impronte piccole di Maela, e accanto alle impronte il segno di un
+      paletto piantato e poi tolto, perché la terra non lo teneva.
+
+      {natura Media} Le impronte vanno dritte dove il sentiero gira largo. La
+      ragazza ha camminato con il vento alle spalle, lasciandosi spingere
+      verso la cima.
+
+      {resistenza Facile fallita} Le gambe hanno già fatto centoventi gradini
+      stamattina, e adesso ti chiedono con molto garbo se proprio serve
+      salire ancora.
+
+      Ilenia ti mette in mano un fagotto con il pane e il muschio da
+      masticare. «Riportala giù» dice. *Una ragazza di quindici anni, con un
+      cesto di nastri e nessun permesso.* Il vento ti arriva alle spalle dal
+      fondo della gola e ti spinge verso la cima.
+
+      {origine figlio-del-circolo} Al Circolo si dice che chi segue il vento
+      arriva sempre da qualche parte, e non sempre dove voleva.
+    opzioni:
+      - testo: "Seguire le impronte di Maela"
+        descrizione: "Vanno dritte verso la cima, dove il vento spinge. Dove il muschio è schiacciato, è passata lei."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Le impronte piccole
+          testo: |
+            Segui le impronte nel muschio, e dove il muschio finisce trovi i
+            buchi dei paletti che la ragazza ha provato a piantare. Dopo
+            un'ora le case di Tuarmir, sotto di te, sono una fila di porte
+            grigie, e la gola davanti si stringe.
+          pe: { percezione: 2 }
+          vai: tuarmir-gola-alta
+        fallimento:
+          titolo: Il muschio
+          testo: |
+            Perdi le impronte dove il muschio è più fitto, e ci metti mezza
+            mattina a ritrovarle, con il vento che ti spinge alle spalle e gli
+            occhi che lacrimano dentro la maschera. Quando le ritrovi, le case
+            sotto di te sono già piccole.
+          effetti: { tormento: 0.5 }
+          vai: tuarmir-gola-alta
+      - testo: "Salire di corsa finché c'è luce"
+        descrizione: "La luce in questa gola dura poco. Se la ragazza ha passato la notte lassù, ogni ora conta."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Di corsa
+          testo: |
+            Sali a passo lungo, due gradini alla volta dove ci sono i gradini,
+            e quando ti fermi a guardare indietro il villaggio è già lontano.
+            La gola si stringe, e il vento che hai alle spalle si fa più
+            freddo.
+          pe: { atletica: 2 }
+          vai: tuarmir-gola-alta
+        fallimento:
+          titolo: La caviglia
+          testo: |
+            A metà della prima salita una pietra coperta di muschio ti gira
+            sotto il piede, e la caviglia manda un avviso secco. Continui
+            zoppicando, con meno fretta.
+          effetti: { ferite: 0.5 }
+          vai: tuarmir-gola-alta
+      - testo: "Salire a cavallo per il sentiero delle capre"
+        descrizione: "Il sentiero delle capre è largo quanto basta per una bestia da sella che non ha paura dei sassi. Si risparmiano le gambe."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 0
+        esito:
+          titolo: Il sentiero delle capre
+          testo: |
+            La tua bestia sale il sentiero delle capre con le orecchie basse,
+            sbuffando a ogni raffica, e tu la lasci fare. Dove il sentiero si
+            stringe troppo scendi di sella e la leghi a un pino storto, con il
+            muso al riparo dal vento, e prosegui a piedi.
+          vai: tuarmir-gola-alta
+      - testo: "Salire piano, legato alla corda di Ilenia"
+        descrizione: "Ilenia fa scorrere la corda dal sasso, un tratto alla volta. Ci vuole tempo, e il vento ti entra nelle ossa."
+        costo: 2
+        esito:
+          titolo: Un tratto alla volta
+          testo: |
+            Sali un tratto alla volta, con la corda che Ilenia ti fa scorrere
+            dal sasso, finché la corda finisce e la sciogli. Ci hai messo il
+            doppio, e il freddo della gola ti è entrato nelle ossa e non se ne
+            vuole andare.
+          effetti: { ferite: 0.5 }
+          vai: tuarmir-gola-alta
+
+  # ------------------------------------------------------------ 0 · sopra la croce
+  - id: tuarmir-gola-alta-le-maschere-vecchie
+    immagine: ambientazione/tuarmir
+    titolo: Le maschere vecchie
+    sommario: "Sopra la croce ci sono le case-grotta di quando la Sella si raccoglieva. Alle porte sono rimaste appese le maschere di allora."
+    luogo: La gola alta, le case vuote
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 0]
+    testo: |
+      Sopra la croce ci sono le case-grotta di quando la Sella si raccoglieva
+      ancora, sei porte vuote nella parete con il muschio che cola sugli
+      architravi. A ogni porta è rimasta appesa una maschera grigia di muffa,
+      e il vento le fa battere contro il legno con un rumore di nocche. Una
+      sola ha il nodo rifatto con uno spago nuovo.
+
+      {percezione Media} Lo spago nuovo è rosso, tirato a due giri. È lo
+      stesso dei nastri che Maela tiene nel cesto.
+
+      {resilienza Media fallita} Le maschere battono tutte insieme, e a
+      ogni colpo ti sembra che qualcuno chieda di entrare.
+    opzioni:
+      - testo: "Guardare la maschera rifatta"
+        descrizione: "Lo spago è nuovo. Maela si è fermata qui, e forse ha lasciato qualcosa."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il nastro rosso
+          testo: |
+            Dentro la maschera rifatta c'è un nastro rosso arrotolato, il primo
+            dei nastri di Maela, legato in modo che il vento lo tenga teso. Punta
+            verso la cima. Lo lasci dov'è e prendi il sentiero che indica.
+          pe: { percezione: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: La muffa
+          testo: |
+            Tiri giù la maschera sbagliata, e la muffa ti esplode in faccia in
+            una nuvola grigia. Tossisci a lungo con le mani sulle ginocchia,
+            mentre le altre maschere battono sulle porte.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Passare in fretta davanti alle porte"
+        descrizione: "Le case sono vuote da anni. Basta non fermarsi ad ascoltare le maschere."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Sei porte
+          testo: |
+            Passi davanti alle sei porte senza voltarti, contando i passi
+            invece dei colpi. Alla sesta porta il sentiero gira dietro uno
+            spuntone, e il rumore delle maschere resta indietro.
+          pe: { resilienza: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: I colpi
+          testo: |
+            Alla terza porta ti fermi, perché ti sembra che dentro qualcuno
+            abbia bussato davvero. Resti lì ad aspettare finché il vento
+            cala, e dentro non c'è niente.
+          effetti: { tormento: 0.5 }
+      - testo: "Staccare le maschere e lasciarle a terra"
+        descrizione: "Senza le maschere le porte smettono di battere. Ci vuole tempo, e la muffa vola."
+        costo: 2
+        esito:
+          titolo: Le maschere a terra
+          testo: |
+            Stacchi le maschere una per una e le posi a terra con la faccia
+            in giù, sotto un sasso. Le porte smettono di battere. Hai la gola
+            che raschia per tutta la salita.
+          effetti: { profondita.tuarmir-gola-alta: 1, contaminazione: 0.5 }
+
+  - id: tuarmir-gola-alta-la-scala-delle-capre
+    immagine: ambientazione/tuarmir
+    titolo: La scala delle capre
+    sommario: "Il sentiero sale per una spaccatura nella parete, a gradini alti come un ginocchio. Sono bagnati, e il vento soffia dall'alto."
+    luogo: La gola alta, la spaccatura
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 0]
+    testo: |
+      Il sentiero entra in una spaccatura della parete e sale a gradini alti
+      come un ginocchio, che i raccoglitori di un tempo hanno scavato e le
+      capre hanno consumato. L'acqua scende lungo la roccia e il vento ci
+      passa contro salendo, con le gocce che si porta dietro.
+
+      {atletica Media} Si sale con le mani e con i piedi, e ci si ferma
+      dove la spaccatura si allarga. Chi sale dritto arriva su senza forze.
+
+      In cima alla spaccatura si vede un ritaglio di cielo grigio.
+    opzioni:
+      - testo: "Salire con le mani e con i piedi"
+        descrizione: "Gradino per gradino, con le dita nelle fessure."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il ritaglio di cielo
+          testo: |
+            Sali gradino per gradino con le dita nelle fessure, fermandoti
+            dove la roccia si allarga. In cima il ritaglio di cielo diventa
+            una valletta di sassi, e il vento ti viene addosso intero.
+          pe: { atletica: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il gradino bagnato
+          testo: |
+            Un gradino bagnato ti manda giù di tre, e ti fermi contro la
+            parete con il gomito sbucciato. Riparti dal fondo della
+            spaccatura.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare il passaggio delle capre"
+        descrizione: "Le capre non salgono dritte. Dove sono passate loro, la roccia è lucida."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La roccia lucida
+          testo: |
+            Trovi il passaggio delle capre, una cengia stretta che gira dentro
+            la spaccatura con la roccia lucida di zoccoli. È più lunga e più
+            asciutta, e arrivi in cima senza aver messo le mani nell'acqua.
+          pe: { natura: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il vicolo delle capre
+          testo: |
+            La cengia che segui finisce in un buco dove le capre evidentemente
+            dormono, a giudicare dall'odore. Torni indietro con gli stivali
+            sporchi e la pazienza a metà.
+          effetti: { tormento: 0.5 }
+      - testo: "Fissare la corda e tirarti su"
+        descrizione: "Un nodo su uno spuntone in alto, e su a forza di braccia. Lento, e le mani lo pagano."
+        costo: 2
+        esito:
+          titolo: A forza di braccia
+          testo: |
+            Lanci la corda su uno spuntone al terzo tentativo e ti tiri su a
+            forza di braccia, un gradino alla volta. In cima hai le mani
+            spellate e le spalle che tremano.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 · i terrazzi abbandonati
+  - id: tuarmir-gola-alta-i-terrazzi-grigi
+    immagine: ambientazione/tuarmir
+    titolo: I terrazzi grigi
+    sommario: "I terrazzi della vecchia raccolta sono ancora lì, con i muretti crollati. Le erbe sono diventate grigie e si piegano tutte verso la cima."
+    luogo: La gola alta, i terrazzi abbandonati
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 1]
+    testo: |
+      Dove la gola si allarga ci sono i terrazzi della vecchia raccolta,
+      con i muretti a secco mezzo crollati e le erbe cresciute selvatiche.
+      Sono la salvia e il cardo di sotto, ma qui le foglie sono grigie
+      fino alla nervatura, e si piegano tutte verso la cima della gola come
+      grano sotto una mano. Il passaggio fra i muretti è stretto.
+
+      {natura Media} Le piante crescono storte dalla parte dove le spinge il
+      vento. Queste lo hanno fatto tutte insieme in poche lune, e il vento che
+      le piega sa di sale.
+
+      {medicina Media} Sotto le foglie c'è la stessa polvere chiara che
+      ha mandato in visione il vecchio Tamme. Qui ce n'è dieci volte tanto.
+    opzioni:
+      - testo: "Passare sul bordo dei muretti"
+        descrizione: "Con un po' di equilibrio le erbe restano sotto i piedi e non arrivano al naso."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Sul bordo
+          testo: |
+            Cammini sul bordo dei muretti con le braccia larghe, e le erbe
+            grigie ti sfiorano appena gli stivali. Dall'ultimo muretto salti
+            sul sentiero e ti volti. Da qui sembrano un campo pettinato.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: In mezzo alla salvia
+          testo: |
+            Un sasso del muretto si muove e finisci in mezzo alla salvia
+            grigia. La polvere ti sale fino agli occhi, e per un poco vedi il
+            terrazzo pieno di un'acqua piatta e grigia.
+          effetti: { tormento: 0.5 }
+      - testo: "Bagnare la maschera e attraversare dritto"
+        descrizione: "La maschera bagnata trattiene la polvere. Si passa in fretta, senza fermarsi a guardare le foglie."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: La maschera bagnata
+          testo: |
+            Bagni la maschera nel rivolo che scende dalla parete e attraversi
+            i terrazzi dritto, a testa bassa. L'erba amara della maschera
+            copre tutto il resto, e dall'altra parte la sputi insieme alla
+            polvere.
+          pe: { resistenza: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: La maschera asciutta
+          testo: |
+            La maschera si asciuga nel vento a metà dei terrazzi, e la polvere
+            ti passa attraverso la stoffa. Torni indietro di corsa, con un
+            sapore di sale in fondo alla gola.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Fare il giro lungo, per il ghiaione"
+        descrizione: "Accanto ai terrazzi scende un ghiaione. Ci si scivola, e ci vuole tempo, ma le erbe restano lontane."
+        costo: 2
+        esito:
+          titolo: Il ghiaione
+          testo: |
+            Risali il ghiaione di traverso, con i sassi che partono sotto gli
+            stivali e rotolano fino ai terrazzi. Ci metti più di un'ora, e in
+            cima hai le ginocchia sbucciate.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  - id: tuarmir-gola-alta-le-raffiche
+    immagine: ambientazione/tuarmir
+    titolo: Le raffiche
+    sommario: "Una cengia corre a mezza parete. Il vento qui arriva a raffiche, e ogni raffica tira verso la montagna."
+    luogo: La gola alta, la cengia
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta >= 1, profondita.tuarmir-gola-alta <= 2]
+    testo: |
+      Il sentiero diventa una cengia a mezza parete, larga quanto due piedi
+      messi di traverso. Il vento qui non è continuo. Arriva a raffiche,
+      ognuna più forte della precedente, e invece di spingerti contro la
+      roccia ti tira verso il vuoto e poi su per la gola, come una mano che ti
+      prende per la manica.
+
+      {percezione Media} Fra una raffica e l'altra passano dodici battiti,
+      sempre dodici. Si cammina negli intervalli.
+
+      {acrobazia Media fallita} Le gambe hanno già deciso che questa cengia è
+      una pessima idea, e tremano per conto loro.
+    opzioni:
+      - testo: "Camminare negli intervalli"
+        descrizione: "Dodici battiti di calma e poi la raffica. Basta contare e fermarsi in tempo."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Dodici battiti
+          testo: |
+            Conti i battiti e cammini, e alla raffica ti schiacci contro la
+            roccia con le dita nel muschio. Dopo dodici battiti riparti, e
+            alla decima raffica la cengia si allarga in una conca d'erba.
+          pe: { percezione: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il tredicesimo battito
+          testo: |
+            Una raffica arriva all'undicesimo battito invece che al dodicesimo,
+            e ti prende a metà del passo. Resti appeso al muschio con una mano
+            e poi torni indietro, un piede dopo l'altro.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare con la schiena alla parete"
+        descrizione: "Con i talloni sul vuoto e le spalle alla roccia, mentre il vento tira."
+        prova: { attributo: fisico, abilita: [acrobazia, resistenza], difficolta: Media }
+        successo:
+          titolo: La schiena alla roccia
+          testo: |
+            Passi la cengia con la schiena incollata alla roccia e i talloni
+            sul vuoto, e le raffiche ti tirano la maschera senza riuscire a
+            prenderti. Dall'altra parte la cengia si allarga in una conca.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: La manica
+          testo: |
+            Una raffica ti prende per la manica e ti gira verso il vuoto. Ti
+            salvi abbracciando uno spuntone, e torni indietro con le ginocchia
+            molli.
+          effetti: { tormento: 0.5 }
+      - testo: "Legarti alla parete con la corda, a tratti"
+        descrizione: "Un chiodo, un nodo, un tratto di cengia. Poi si stacca e si ricomincia."
+        costo: 2
+        esito:
+          titolo: A tratti
+          testo: |
+            Pianti i chiodi nelle fessure e ti leghi alla parete tratto per
+            tratto, e le raffiche ti sbattono contro la roccia senza riuscire
+            a portarti via. Ci metti un pomeriggio intero, e ti resta un livido
+            su ogni spalla.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 · la conca dei pascoli
+  - id: tuarmir-gola-alta-il-pastore
+    immagine: ambientazione/tuarmir
+    titolo: Le capre che non salgono
+    sommario: "In una conca d'erba un pastore tiene il gregge con il bastone. Le capre vogliono scendere, e lui ha visto passare una ragazza con un cesto."
+    luogo: La gola alta, la conca dei pascoli
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 2]
+    testo: |
+      In una conca d'erba un pastore vecchio tiene il gregge con il bastone e
+      con i fischi. Le capre stanno tutte con il muso verso valle, e ogni
+      tanto una scarta e prova a scendere. Il pastore ti vede, guarda la tua
+      maschera e sputa da una parte. Secondo lui una ragazza con un cesto è
+      passata di qui ieri sera, e di lassù non è ancora scesa.
+
+      {addestrare-animali Media} Le capre sono nervose per il vento. Una
+      capra calma che va avanti se ne tira dietro altre dieci, e anche chi
+      la segue.
+
+      {empatia Facile} Il pastore sputa per paura. Ha nipoti dell'età di
+      quella ragazza.
+    opzioni:
+      - testo: "Farti prestare la capra più calma"
+        descrizione: "Una capra che non ha paura sa dove si mettono i piedi lassù."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La capra con il campanaccio
+          testo: |
+            Il pastore ti dà la capra con il campanaccio, che ti annusa le mani
+            e decide che vai bene. Sale davanti a te per un sentiero che da
+            solo non avresti visto, fermandosi dove il vento è più forte.
+            Quando torna giù da sola il pastore la sente arrivare.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: La capra testarda
+          testo: |
+            La capra ti trascina per tre passi e poi si pianta, e quando tiri
+            la corda ti dà una testata nel ginocchio. Il pastore se la riprende
+            ridendo dal naso.
+          effetti: { ferite: 0.5 }
+      - testo: "Farti dire da dove è salita"
+        descrizione: "Il pastore conosce ogni sasso della conca. Bisogna convincerlo che non sei di Lonn Var."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La pietra con il buco
+          testo: |
+            Gli dici di Maela e di Cerya, e lui ti indica con il bastone una
+            pietra con un buco in mezzo, in cima alla conca. La ragazza è
+            passata di lì, e da quella parte si può soltanto salire. Ti dà un
+            pezzo di formaggio duro per lei.
+          pe: { empatia: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Quelli di Lonn Var
+          testo: |
+            Il pastore ti prende per uno di quelli di Lonn Var e ti risponde
+            girando le spalle, con il bastone stretto. Ci vuole un'ora per
+            fargli cambiare idea, e alla fine ti dice soltanto di guardare in
+            alto.
+          effetti: { tormento: 0.5 }
+      - testo: "Salire da solo per il pendio"
+        descrizione: "La conca ha un'uscita sola, lassù in cima al pendio d'erba. Si sale con le mani sulle ginocchia."
+        costo: 2
+        esito:
+          titolo: Il pendio
+          testo: |
+            Sali il pendio d'erba con le mani sulle ginocchia, mentre il vento
+            ti spinge da dietro e poi da davanti. In cima trovi la pietra con
+            il buco, e ti volti a guardare il gregge, che da lassù è una
+            manciata di sassi bianchi.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  - id: tuarmir-gola-alta-i-seduti
+    immagine: ambientazione/tuarmir
+    titolo: I seduti
+    sommario: "Due uomini con i sacchi di Lonn Var sono seduti nell'erba, con la maschera in grembo e la faccia verso nord-est."
+    luogo: La gola alta, la conca dei pascoli
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 2]
+    testo: |
+      Sul bordo della conca ci sono due uomini seduti nell'erba, con la
+      maschera in grembo e la faccia rivolta a nord-est. Hanno i sacchi vuoti
+      con il nastro viola di Lonn Var, e le labbra bianche di sale. Vengono
+      dalla piana, dove i braccianti si pagano a giornata, e la loro giornata
+      è finita da un pezzo.
+
+      {medicina Media} Sono qui da più di un giorno. Uno ha le dita
+      gonfie, e l'altro non sbatte le palpebre da quando lo guardi.
+
+      {origine fuggiasco-di-ghoran} Gente comprata a giornata e lasciata
+      dove si siede. A Ghoran li chiamavano i sacchi vuoti.
+    opzioni:
+      - testo: "Svegliarli e mandarli giù"
+        descrizione: "Acqua, maschera, una mano sulla spalla. Se tornano in sé, sanno la strada."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: I sacchi vuoti
+          testo: |
+            Gli bagni la faccia e gli rimetti le maschere, e il primo si
+            sveglia e sveglia l'altro. Ti guardano senza capire dove sono.
+            Gli indichi la valle, e scendono tenendosi per mano, con i sacchi
+            vuoti di Lonn Var abbandonati nell'erba.
+          pe: { medicina: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il mare
+          testo: |
+            Il secondo ti prende per il polso e ti tira giù accanto a lui, e
+            per un poco guardi anche tu verso la cima, dove non c'è niente.
+            Ti liberi con uno strattone e torni indietro, con l'odore di sale
+            nel naso.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare oltre senza guardare dove guardano"
+        descrizione: "Hanno visto qualcosa, e non è il momento di vederla anche tu."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Gli occhi sui piedi
+          testo: |
+            Passi accanto ai due uomini con gli occhi sui tuoi piedi, contando
+            i passi. Ti prometti di mandarli a prendere, e la promessa ti
+            accompagna fino in cima alla conca.
+          pe: { resilienza: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Un'occhiata
+          testo: |
+            All'ultimo passo ti volti a guardare dove guardano loro, e il cielo
+            sopra la cima ti sembra più grande del dovuto. Quando ti riscuoti
+            sei seduto nell'erba anche tu.
+          effetti: { tormento: 0.5 }
+      - testo: "Legarli insieme e trascinarli al riparo"
+        descrizione: "Al riparo di una roccia il vento non arriva, e forse si svegliano da soli. Ci vuole fatica."
+        costo: 2
+        esito:
+          titolo: Dietro la roccia
+          testo: |
+            Li trascini uno per volta dietro una roccia, dove il vento non
+            arriva, e li leghi insieme perché non tornino a sedersi nell'erba.
+            Quando riparti hai la schiena a pezzi, e il più giovane piange
+            piano con gli occhi chiusi.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  - id: tuarmir-gola-alta-i-nastri
+    immagine: icone/windsock
+    titolo: I nastri di Maela
+    sommario: "Sul pendio sopra la conca ci sono paletti piantati in fila, con un nastro colorato in cima. Puntano tutti dalla stessa parte."
+    luogo: La gola alta, il pendio sotto la Sella
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta >= 2, profondita.tuarmir-gola-alta <= 3]
+    testo: |
+      Sul pendio sopra la conca ci sono paletti piantati in fila, uno ogni
+      cinquanta passi, e in cima a ognuno è legato un nastro di stoffa
+      colorata. Rosso, giallo, ancora rosso. Il metodo è quello del quaderno
+      di Sorella Alenna, e la mano che ha piantato i paletti era piccola e
+      decisa. I nastri sono tutti tesi nella stessa direzione, verso la
+      cima, a nord-est.
+
+      {accademiche Media} Uno ogni cinquanta passi, e ognuno tiene la
+      misura di quello di prima. Maela non ha soltanto segnato il vento.
+      Ha segnato la strada per tornare.
+
+      {percezione Facile} Gli ultimi nastri sono legati in fretta, con un
+      nodo solo, e l'ultimo paletto è piantato storto.
+    opzioni:
+      - testo: "Seguire i nastri fino all'ultimo"
+        descrizione: "Dove finiscono i nastri, c'è la ragazza."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: L'ultimo paletto
+          testo: |
+            Segui i nastri da un paletto all'altro, e all'ultimo, quello
+            piantato storto, il cesto di Maela è rovesciato nell'erba, vuoto.
+            Più su il terreno diventa crosta bianca, e il rumore del vento si
+            fa basso e continuo.
+          pe: { accademiche: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il nastro strappato
+          testo: |
+            Un nastro si è strappato, e tu segui quello del paletto sbagliato
+            fino al bordo di un salto di roccia. Ti fermi a un passo dal
+            vuoto, con il cuore in gola, e torni indietro a contare.
+          effetti: { tormento: 0.5 }
+      - testo: "Tagliare dritto per il pendio"
+        descrizione: "Tanto puntano tutti nello stesso posto. Si sale dritti, con il vento che spinge alle spalle."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Dritto per il pendio
+          testo: |
+            Sali dritto per il pendio con il vento alle spalle, piegato in
+            avanti come per spingere un carro, e i nastri ti passano accanto
+            uno dopo l'altro. In cima al pendio trovi il cesto di Maela
+            rovesciato nell'erba, vuoto.
+          pe: { atletica: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: La pendenza
+          testo: |
+            A metà pendio la salita ti toglie le forze un passo alla volta, e
+            ti ritrovi seduto contro un paletto con le gambe di pietra.
+            Riparti dal basso, più piano.
+          effetti: { ferite: 0.5 }
+      - testo: "Ripiantare i paletti caduti e salire con loro"
+        descrizione: "Se Maela torna, deve trovare la strada. Ci vuole tempo, e il vento non aiuta."
+        costo: 2
+        esito:
+          titolo: I paletti dritti
+          testo: |
+            Ripianti i paletti caduti e rifai i nodi dei nastri, uno per uno,
+            mentre il vento ti strappa la stoffa dalle dita. All'ultimo paletto
+            trovi il cesto di Maela rovesciato nell'erba, e le mani ti fanno
+            male dal freddo.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3 · sotto la Sella
+  - id: tuarmir-gola-alta-la-crosta-di-sale
+    immagine: ambientazione/marea-grigia
+    titolo: La crosta di sale
+    sommario: "Sotto la Sella le pietre sono coperte da una crosta bianca, e sulla crosta crescono i funghi grigi di Lonn Var. L'aria sa di mare."
+    luogo: La gola alta, sotto la Sella
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 3]
+    testo: |
+      Sotto la Sella il terreno è una crosta bianca che scricchiola come
+      neve vecchia, e sulla crosta crescono a cerchi i funghi grigi, quelli
+      che Lonn Var paga come argento. Sono tanti, e quando il vento passa i
+      cappelli si piegano tutti insieme e liberano una polvere chiara che
+      sale verso la cima. L'aria qui sa di mare, su una montagna dove il
+      mare nessuno l'ha mai visto.
+
+      {natura Difficile} Il sale non viene dalla roccia. Lo porta il vento, e
+      lo lascia sulle pietre come la marea lascia la riga sugli scogli.
+
+      {resilienza Media fallita} Ti viene voglia di toglierti la maschera,
+      soltanto per sentire meglio quell'odore.
+    opzioni:
+      - testo: "Passare fra i cerchi senza calpestarli"
+        descrizione: "I funghi liberano la polvere quando qualcosa li tocca. Fra un cerchio e l'altro c'è crosta nuda."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Fra i cerchi
+          testo: |
+            Passi fra i cerchi mettendo piano i piedi sulla crosta nuda, e i
+            funghi restano chiusi. In cima al campo la crosta finisce contro
+            una lastra di roccia liscia, e dietro la lastra il rumore del
+            vento è un ronzio basso.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: La polvere
+          testo: |
+            Calpesti un cerchio, e la polvere ti sale addosso in una nuvola
+            chiara. Ti allontani tossendo, con il sale sulle labbra e un
+            odore di mare che non se ne va.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Masticare il muschio di Ilenia e attraversare"
+        descrizione: "Il muschio amaro tiene la testa pulita. Si attraversa in fretta, a denti stretti."
+        prova: { attributo: mentale, abilita: [resilienza, medicina], difficolta: Media }
+        successo:
+          titolo: Il muschio amaro
+          testo: |
+            Mastichi il muschio di Ilenia finché la bocca non ti diventa amara
+            fino alle orecchie, e attraversi il campo in fretta. L'odore di
+            mare non ti entra in testa, e dall'altra parte sputi il muschio
+            sulla crosta.
+          pe: { resilienza: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il mare in testa
+          testo: |
+            Il muschio non basta. A metà del campo ti fermi a guardare la
+            cima, e per un momento vedi l'acqua grigia salire fra le pietre.
+            Torni indietro piegato in due, con le mani sulla maschera.
+          effetti: { tormento: 0.5 }
+      - testo: "Girare largo, sulla roccia nuda"
+        descrizione: "Sul bordo del campo c'è roccia senza crosta. È ripida, e scivola."
+        costo: 2
+        esito:
+          titolo: La roccia nuda
+          testo: |
+            Giri largo sulla roccia nuda del bordo aiutandoti con le mani, e
+            due volte scivoli per un tratto prima di fermarti. Arrivi sotto la
+            lastra liscia con i palmi graffiati.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  - id: tuarmir-gola-alta-le-cesoie
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Le cesoie
+    sommario: "Fra le rocce sotto la Sella corrono due macchinette basse come granchi. Tagliano il muschio a filo della pietra."
+    luogo: La gola alta, le rocce sotto la Sella
+    area: tuarmir-gola-alta
+    ripetibile: true
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta == 3]
+    testo: |
+      Fra le rocce sotto la Sella corrono due macchinette di metallo scuro,
+      basse come granchi, con due lame a forbice al posto delle chele.
+      Tagliano il muschio a filo della pietra con un rumore secco, e
+      lasciano dietro di sé strisce di roccia nuda e lucida. Ogni tanto si
+      fermano tutte e due insieme, e restano immobili.
+
+      {tecnologia Media} Lavorano a strisce, e si fermano quando sentono
+      qualcosa muoversi. Una cosa che sta ferma, per loro, è roccia.
+
+      {armi-da-mischia Media} Le lame sono fatte per il muschio. Il guscio
+      sopra è sottile, e un colpo dall'alto lo spacca.
+    opzioni:
+      - testo: "Spaccare le cesoie"
+        descrizione: "Sono due, e il guscio è sottile."
+        combattimento: tuarmir-cesoie
+        vittoria:
+          titolo: I gusci spaccati
+          testo: |
+            La seconda cesoia si gira sulla schiena con le lame che tagliano
+            l'aria, e poi si ferma. Dentro il guscio c'è una camera di cristallo
+            ancora tiepida, che ti metti in tasca.
+          effetti: { profondita.tuarmir-gola-alta: 1, parte.camera-1: 1 }
+        sconfitta:
+          titolo: Le caviglie
+          testo: |
+            Le cesoie ti tagliano gli stivali e le caviglie, e ti ritiri sulle
+            rocce alte dove non arrivano. Si fermano, e riprendono a tagliare il
+            muschio come se niente fosse.
+          effetti: { tormento: 0.5 }
+      - testo: "Restare immobile e passare a strisce"
+        descrizione: "Ti fermi insieme a loro e cammini mentre tagliano, finché non sei passato."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Roccia
+          testo: |
+            Cammini quando tagliano e ti fermi quando si fermano, e le cesoie
+            ti passano accanto due volte senza accorgersi di te. Dall'altra
+            parte delle rocce comincia la Sella.
+          pe: { furtivita: 2 }
+          effetti: { profondita.tuarmir-gola-alta: 1 }
+        fallimento:
+          titolo: Il passo di troppo
+          testo: |
+            Fai un passo proprio mentre si fermano, e le cesoie si girano
+            tutte e due verso di te. Scappi sulle rocce alte con una lama che
+            ti ha aperto il calzone fino al ginocchio.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che finiscano la striscia"
+        descrizione: "Lavorano a strisce, e finita una si spostano più in là. Bisogna avere pazienza e resistere al freddo."
+        costo: 2
+        esito:
+          titolo: La striscia finita
+          testo: |
+            Ti siedi su una roccia alta e aspetti al freddo, con il vento che
+            ti entra nel collo, finché le cesoie finiscono la striscia e si
+            spostano più in là. Passi dietro di loro sulla roccia nuda,
+            intirizzito.
+          effetti: { profondita.tuarmir-gola-alta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · la grata della Sella
+  - id: tuarmir-la-grata
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La grata
+    sommario: "In mezzo alla Sella il vento entra nella montagna da una grata di metallo grande come un'aia. Maela è in mezzo alla grata, e il Pettine si avvicina."
+    luogo: La gola alta, la Sella
+    area: tuarmir-gola-alta
+    requisiti: [fazione.tuarmir == 10, profondita.tuarmir-gola-alta >= 4]
+    testo: |
+      La Sella è una conca fra due cime, con il cielo grigio aperto sopra e il
+      vento freddo e salato che arriva da nord-est, da oltre il crinale. In
+      mezzo alla conca, dove dovrebbe esserci terra, c'è una grata di metallo
+      grande come un'aia, con le sbarre larghe una mano e coperte di sale. Il
+      vento ci entra dentro con un ronzio basso che ti arriva nelle ossa prima
+      che nelle orecchie.
+
+      Lungo il bordo della grata corre una macchina lunga quanto la grata è
+      larga, su una rotaia nascosta nella roccia. Ha una fila di denti di
+      metallo lunghi come un avambraccio, e con quelli pettina via dalle
+      sbarre il muschio e i sassi. In mezzo alla grata c'è Maela, rannicchiata,
+      con le dita bianche di freddo strette intorno a un dente spezzato che
+      ha incastrato fra due sbarre. Il Pettine ha finito una passata e torna
+      indietro verso di lei.
+
+      {tecnologia Difficile} La macchina tratta la grata come un campo da
+      tenere pulito, e tutto quello che ci sta sopra è sporco. La rotaia,
+      sotto il bordo, ha giunture scoperte.
+
+      {resilienza Media fallita} Il ronzio ti entra nei denti, e per un
+      attimo ti sembra di sentirci dentro una nota più bassa delle altre.
+
+      «Sono qui» dice Maela, senza alzare la testa. «Non ho lasciato andare il
+      dente.» *Quindici anni, e una notte intera aggrappata a una grata.* Il
+      Pettine è a metà della grata, e viene avanti.
+    opzioni:
+      - testo: "Affrontare il Pettine"
+        descrizione: "È una macchina lunga e lenta a girarsi, e i denti fanno male. Bisogna fermarla prima che arrivi alla ragazza."
+        combattimento: tuarmir-il-pettine
+        vittoria:
+          titolo: Il Pettine fermo
+          testo: |
+            Il Pettine si blocca sulla rotaia con un rumore di campana
+            incrinata, e i denti restano sospesi sopra le sbarre. Raggiungi
+            Maela strisciando sulla grata e le stacchi le dita dal dente una
+            alla volta. Il dente lo porta giù lei stretta al petto, senza
+            lasciartelo toccare. Sulla rotaia raccogli due pezzi della
+            macchina, e scendete a Tuarmir con il vento in faccia.
+          pe: { armi-da-mischia: 5 }
+          effetti: { fazione.tuarmir: 1, tuarmir.dente: 1, parte.impugnatura-2: 1, reliquie.frammento-inciso: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: I denti
+          testo: |
+            I denti del Pettine ti prendono di traverso e ti buttano fuori dalla
+            grata, contro la roccia. Maela grida qualcosa che il vento si porta
+            via. Ti trascini giù dalla Sella con le costole che bruciano, e
+            sai che lei è ancora lassù.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Passare sotto i denti mentre pettina"
+        descrizione: "Fra un dente e l'altro c'è lo spazio di un corpo steso. Bisogna buttarsi al momento giusto, e rialzarsi dall'altra parte."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Fra i denti
+          testo: |
+            Ti butti piatto sulla grata quando il Pettine arriva, e i denti ti
+            passano sopra a un palmo dalla schiena. Sei accanto a Maela prima
+            che la macchina torni. La tiri su per le ascelle e la porti fuori
+            dalla grata, con il dente spezzato stretto al petto, e scendete a
+            Tuarmir con il vento in faccia.
+          pe: { acrobazia: 5 }
+          effetti: { fazione.tuarmir: 1, tuarmir.dente: 1, reliquie.frammento-inciso: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il dente sulla schiena
+          testo: |
+            Ti butti un attimo troppo tardi, e un dente ti apre la schiena dalla
+            spalla al fianco. Rotoli fuori dalla grata e non riesci più a
+            rialzarti in tempo. Torni giù da solo, tenendoti alle rocce.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Fermare il Pettine sulla rotaia"
+        descrizione: "Sotto il bordo della grata la rotaia ha le giunture scoperte. Una leva nel punto giusto, e la macchina si pianta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La giuntura
+          testo: |
+            Ti cali sotto il bordo della grata e infili la lama nella giuntura
+            della rotaia, dove il metallo è più chiaro. Il Pettine arriva, si
+            pianta con un sussulto e resta lì, tremando. Raggiungi Maela e la
+            porti fuori dalla grata con il dente spezzato stretto al petto. Dalla
+            giuntura stacchi un pezzo di metallo che ti porti via.
+          pe: { tecnologia: 5 }
+          effetti: { fazione.tuarmir: 1, tuarmir.dente: 1, parte.impugnatura-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La leva
+          testo: |
+            Infili la lama nella giuntura sbagliata, e il Pettine passa lo stesso,
+            strappandoti l'arma di mano e la pelle del dorso con lei. Ti ritiri
+            fuori dalla Sella con la mano fasciata nella maschera.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Ordinargli di fermarsi"
+        descrizione: "La formula del Comando parla alle macchine dei Precursori nella loro lingua. Il Pettine pulisce da secoli, e ha sempre obbedito a qualcuno."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Fermo
+          testo: |
+            Dici la formula, e la parola ti esce dalla bocca in una lingua che
+            non è la tua. Il Pettine rallenta, e si ferma con i denti sospesi a
+            un braccio da Maela. Vai a prenderla senza correre. Lei non lascia
+            il dente spezzato nemmeno quando la tiri su.
+          pe: { magia: 5 }
+          effetti: { fazione.tuarmir: 1, tuarmir.dente: 1, reliquie.frammento-inciso: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La parola spezzata
+          testo: |
+            La formula ti si spezza in bocca a metà, e il Pettine accelera
+            invece di fermarsi. Ti butti indietro, e un dente ti prende il
+            braccio. Scendi dalla Sella con la testa che pulsa e Maela ancora
+            lassù.
+          effetti: { ferite: 1, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Calarti sulla grata con la corda, come dalle piattaforme"
+        descrizione: "Sulle piattaforme della Cicatrice si lavora appesi sopra le macchine. Un nodo su una roccia, e si scende dall'alto quando il Pettine è lontano."
+        quando: [origine.apprendista-raschiatore >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Appeso
+          testo: |
+            Fai il nodo con il giro in più su uno spuntone sopra la grata e ti
+            cali appeso come sulle piattaforme, aspettando che il Pettine
+            passi. La macchina ti scorre sotto i piedi. Prendi Maela per la
+            cintura e la tiri su insieme al dente spezzato che stringe al
+            petto.
+          pe: { atletica: 5 }
+          effetti: { fazione.tuarmir: 1, tuarmir.dente: 1, reliquie.frammento-inciso: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il nodo
+          testo: |
+            Il nodo scorre sullo spuntone coperto di sale, e ti ritrovi sulla
+            grata davanti ai denti. Ti salvi rotolando, con una gamba aperta, e
+            scendi dalla Sella da solo.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+
+colonna:
+  - { contesto: area, id: tuarmir-gola-alta, musica: our-wounds-our-crown, ambiente: forest-creepy }

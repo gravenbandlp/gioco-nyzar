@@ -1,0 +1,422 @@
+# Laresh, il villaggio dei campi e dei mulini a ovest della città: un luogo della Superficie Fratturata, aperto dopo
+# l'Arena (pista.arena >= 5), con la reputazione del villaggio, l'attività e i servizi.
+# - `laresh-la-giornata-nei-campi`: l'attività ripetibile all'aia di Casa Velar, a fasce di rep.laresh (< 2, 2-4,
+#   4-6, >= 6). Le prime tre fasce alzano la reputazione di ½ fino a 6; poi la portano i gradi della quest.
+# - `laresh-il-grano-bruciato` (dal passo 2): il servizio del villaggio, le letture di Old Marrek pagate in idromele.
+#   Una voce sul raccolto, una profezia d'amore che non ci prende, e con la reputazione la prossima carestia.
+# - `laresh-la-stanza-del-grano` (grado 3, passo 9): si dorme a Casa Velar senza pagare.
+quality:
+  - { id: rep.laresh, immagine: icone/wheat, nome: Laresh, categoria: reputazione, famiglia: Luoghi, descrizione: "Quanto si fidano di te Dama Ryn Velar e la gente dei campi e dei mulini di Laresh." }
+
+luoghi:
+  - id: laresh
+    area: superficie-fratturata
+    nome: Laresh
+    immagine: ambientazione/laresh
+    sommario: "Campi a perdita d'occhio a ovest della città, mulini lungo i rii e case basse di fango e paglia. Il pane di Qir-Azel viene quasi tutto da qui."
+    requisiti: [pista.arena >= 5]
+    testo: |
+      Laresh comincia dove la pista dei carri lascia la ghiaia e la terra si fa scura e grassa. I campi vanno
+      fino all'orizzonte divisi dai rii, e lungo ogni rio gira la ruota di un mulino. Le case sono basse, con i
+      muri di fango e paglia intrecciata sotto tetti spioventi che reggono il vento del sud. Nelle stalle a est
+      si allevano cavalli e cani da soma grossi come vitelli. Sul rio di mezzo c'è il mulino centrale, il più
+      vecchio, dove macina un mugnaio cieco, e poco più in là Casa Velar, la più lunga delle case, con il portico
+      sull'aia. Di notte sopra i campi galleggiano fiammelle azzurre all'altezza di un uomo, che i contadini
+      chiamano gli spiriti dei morti venuti a custodire il raccolto.
+
+colonna:
+  - { contesto: luogo, id: laresh, musica: distant-journey, ambiente: village }
+
+storylet:
+  # ------------------------------------------------------------ l'attività ripetibile
+  - id: laresh-la-giornata-nei-campi
+    presso: laresh
+    immagine: ambientazione/laresh
+    titolo: La giornata nei campi
+    sommario: "All'alba, sull'aia di Casa Velar, il fattore assegna i lavori del giorno. La paga è poca e arriva la sera stessa."
+    luogo: Laresh, l'aia di Casa Velar
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [pista.arena >= 5]
+    testo: |
+      All'alba l'aia di Casa Velar si riempie di gente che aspetta di sapere
+      dove si lavora oggi. Il fattore della Dama, un uomo largo con un
+      cappello di paglia sfondato in cima, legge i lavori da una tavoletta di
+      cera e li assegna puntando il dito, senza chiedere a nessuno se ne ha
+      voglia. Le donne si caricano i sacchi vuoti sulle spalle, i ragazzi
+      prendono le falci dalla rastrelliera. Chi viene da fuori aspetta per
+      ultimo, in piedi accanto al pozzo.
+
+      {conoscenze-della-strada Facile} A Laresh la paga arriva la sera
+      stessa, e chi la chiede in farina invece che in monete qui lo guardano
+      con più rispetto.
+
+      {resistenza Media fallita} Le spalle si ricordano della fatica di ieri
+      prima ancora che tu ti ricordi di averla fatta.
+
+      Dalle stalle a est arrivano i latrati dei cani da soma, e dal mulino
+      centrale il battito lento della macina, che a Laresh tiene il tempo
+      meglio delle campane.
+    opzioni:
+      - testo: "Spigolare dietro i mietitori"
+        descrizione: "Si raccoglie a mano quello che la falce lascia cadere. È il lavoro dei bambini e delle vecchie, e la Dama lo paga lo stesso."
+        requisiti: [rep.laresh < 2]
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Facile }
+        successo:
+          titolo: Le spighe cadute
+          testo: |
+            Cammini piegato dietro la fila dei mietitori dalla mattina al
+            tramonto, con un sacco di tela legato in vita, e raccogli le
+            spighe cadute una per una. Una vecchia accanto a te ne raccoglie il
+            doppio e intanto ti racconta chi si sposa a Laresh quest'anno, e
+            chi dovrebbe sposarsi. La sera il fattore soppesa il tuo sacco con
+            una mano sola e ti mette in palmo una moneta.
+          effetti: { monete: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: La schiena
+          testo: |
+            A metà mattina la schiena decide al posto tuo. Ti siedi su un
+            covone a guardare la vecchia che spigola anche la tua fila senza
+            commentare. La sera il fattore il tuo sacco non lo pesa nemmeno.
+
+      - testo: "Portare i sacchi al mulino"
+        descrizione: "Dall'aia al mulino centrale c'è un sentiero lungo il rio, e i sacchi pieni pesano quanto un ragazzo."
+        requisiti: [rep.laresh < 2]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Il sentiero del rio
+          testo: |
+            Fai il sentiero del rio avanti e indietro tutto il giorno, con un
+            sacco in spalla all'andata e la tela vuota piegata sotto il braccio
+            al ritorno. Al mulino un ragazzino magro ti conta i sacchi
+            facendo una tacca su un bastone, e a sera le tacche sono più di
+            quelle degli altri. Il fattore te le paga senza discutere.
+          pe: { atletica: 2 }
+          effetti: { monete: 2, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Il sacco nel rio
+          testo: |
+            Al terzo viaggio il sentiero si fa fango, e il sacco ti scivola
+            dalla spalla dritto nel rio. Lo ripeschi in due con un mugnaio
+            che bestemmia piano, ma il grano bagnato non lo vuole nessuno, e
+            la sera il fattore ti paga soltanto i sacchi asciutti.
+          effetti: { monete: 1 }
+
+      - testo: "Tenere il conto dei sacchi per il fattore"
+        descrizione: "Il fattore sa contare fino a cento e poi si stanca. Gli serve qualcuno che segni i sacchi sulla tavoletta mentre lui litiga con i carrettieri."
+        requisiti: [rep.laresh < 2]
+        prova: { attributo: mentale, abilita: [percezione, politica-ed-economia], difficolta: Facile }
+        successo:
+          titolo: La tavoletta di cera
+          testo: |
+            Ti siedi su una botte rovesciata con la tavoletta sulle ginocchia
+            e segni ogni sacco che passa, con il nome del campo da cui arriva.
+            Verso sera ti accorgi che un carrettiere ha contato due volte lo
+            stesso carro, e lo dici al fattore a voce bassa. Lui va a parlare
+            con il carrettiere a voce molto più alta, e poi ti dà una moneta.
+          effetti: { monete: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: I segni sulla cera
+          testo: |
+            I sacchi passano più in fretta dei tuoi segni, e a metà
+            pomeriggio la tavoletta è un groviglio di tacche che non sai più
+            leggere neanche tu. Il fattore la guarda, la liscia con il pollice
+            e ricomincia da capo a memoria.
+
+      - testo: "Aiutare Cahir a ferrare i cavalli"
+        descrizione: "Alle stalle a est i cavalli da tiro vanno ferrati prima del raccolto. Serve qualcuno che tenga ferma la zampa e parli alla bestia."
+        requisiti: [rep.laresh >= 2, rep.laresh < 4]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La zampa ferma
+          testo: |
+            Tieni la zampa del cavallo fra le ginocchia mentre Cahir batte i
+            chiodi, e intanto parli alla bestia a voce bassa, delle cose che
+            ti vengono in mente. Il cavallo ascolta con un orecchio solo e non
+            si muove. Alla fine Cahir ti passa la sua pipa, che da lui è un
+            ringraziamento, e la paga gliela lascia la Dama per te.
+          pe: { addestrare-animali: 2 }
+          effetti: { monete: 2, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Lo zoccolo
+          testo: |
+            Il cavallo sente la tua mano incerta prima ancora che tu prenda la
+            zampa, e la ritira con uno strattone che ti manda seduto nella
+            paglia. Cahir ferra gli altri da solo fischiettando, e a te lascia
+            da strigliare i cani.
+
+      - testo: "Rimettere in sesto la ruota di un mulino"
+        descrizione: "Sul rio basso un mulino ha due pale spezzate e la ruota gira storta. Il mugnaio non si fida dei falegnami della città."
+        requisiti: [rep.laresh >= 2, rep.laresh < 4]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Le pale nuove
+          testo: |
+            Smonti le pale spezzate con l'acqua che ti arriva alle ginocchia,
+            misuri le sane con uno spago e ne tagli due nuove dal legno di
+            castagno che il mugnaio tiene sotto il portico. Quando la ruota
+            riparte gira dritta, e il mugnaio ci appoggia l'orecchio sopra per
+            un po' prima di pagarti, contento.
+          pe: { tecnologia: 2 }
+          effetti: { monete: 3, rep.laresh: 0.5 }
+        fallimento:
+          titolo: La ruota storta
+          testo: |
+            Le pale nuove ti vengono di due misure diverse, e la ruota riparte
+            più storta di prima, con un tonfo a ogni giro. Il mugnaio la ferma
+            con la stanga senza dire niente e ti paga mezza giornata.
+          effetti: { monete: 1 }
+
+      - testo: "Arare il campo vecchio dietro le stalle"
+        descrizione: "Un campo lasciato a riposo da anni, pieno di sassi. Il vomere ogni tanto ci trova qualcosa che sasso non è."
+        requisiti: [rep.laresh >= 2, rep.laresh < 4]
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il guscio nel solco
+          testo: |
+            Tieni l'aratro dietro una coppia di buoi pazienti fino a sera, e a
+            metà del quarto solco il vomere si ferma con un rumore di campana.
+            Sotto la terra c'è un guscio di metallo grande come un pane, chiuso
+            su tutti i lati, liscio. Il fattore ti dice di tenerlo, che a
+            Laresh di queste cose non sanno che farsene, e che sulla Superficie
+            c'è una vecchia che le apre.
+          pe: { atletica: 2 }
+          effetti: { reperto.sigillato: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: I sassi
+          testo: |
+            Il vomere trova un sasso a ogni passo, e a ogni sasso i buoi si
+            fermano a guardarti. A sera hai arato metà del campo e hai le mani
+            piene di vesciche, e sotto la terra non c'era niente.
+
+      - testo: "Scortare il carro del grano fino al bivio"
+        descrizione: "Il carro della settimana parte all'alba per il bivio. Sulla strada ci sono i mugnai senza mulino, e qualche volta qualcosa di peggio."
+        requisiti: [rep.laresh >= 4, rep.laresh < 6]
+        prova: { attributo: fisico, abilita: [armi-da-mischia, armi-da-distanza], difficolta: Media }
+        successo:
+          titolo: Il bivio
+          testo: |
+            Cammini accanto al carro con l'arma in vista per mezza giornata.
+            Sotto le terrazze tre uomini con le mani bianche di farina vecchia
+            vi guardano passare da dietro un muretto, e quando incrociano i
+            tuoi occhi tornano a sedersi. Al bivio il carrettiere scarica, e la
+            Dama ti paga la scorta da una borsa a parte.
+          pe: { armi-da-mischia: 2 }
+          effetti: { monete: 4, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Un sacco per il passaggio
+          testo: |
+            Sotto le terrazze tre uomini sbarrano la strada con un tronco, e
+            tu arrivi in ritardo a capire dove guardare. Il carrettiere getta
+            loro un sacco prima che qualcuno si faccia male, e al ritorno la
+            Dama ti paga la scorta togliendoci il prezzo del sacco.
+          effetti: { monete: 1 }
+
+      - testo: "Mettere pace in una lite di confini"
+        descrizione: "Due fittavoli si contendono un solco fra i loro campi. Lo fanno da tre generazioni, e quest'anno sono arrivati alle falci."
+        requisiti: [rep.laresh >= 4, rep.laresh < 6]
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Il solco di mezzo
+          testo: |
+            Cammini il solco con i due fittavoli ai lati e li lasci parlare
+            finché si accorgono di raccontare la stessa storia del nonno con i
+            nomi invertiti. Alla fine il solco resta di nessuno, e ci
+            pianteranno le fave per tutti. Uno dei due ti offre da bere e ti
+            dice chi in paese ruba il grano alla Dama.
+          pe: { persuasione: 2 }
+          effetti: { informazioni.voce: 1, monete: 2, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Le falci
+          testo: |
+            Dai ragione al primo che parla, e il secondo ti punta contro la
+            falce per spiegarti dove hai sbagliato. Si calmano soltanto quando
+            arriva il fattore con un secchio d'acqua del pozzo, che rovescia
+            addosso a tutti e tre senza distinzioni.
+
+      - testo: "Insegnare i conti ai figli dei fittavoli"
+        descrizione: "La Dama vuole che i ragazzi sappiano leggere una bolla prima di firmarla. Il maestro del villaggio è morto in primavera."
+        requisiti: [rep.laresh >= 4, rep.laresh < 6]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: La bolla del carrettiere
+          testo: |
+            Fai lezione nel fienile, con una bolla vera del carrettiere al
+            posto del libro, e i ragazzi trovano da soli il sacco che il
+            carrettiere ha contato due volte. Il più piccolo vuole sapere se
+            in città tutti imbrogliano così, e tu gli rispondi che in città
+            imbrogliano meglio. La Dama ti paga la lezione e ti chiede di
+            tornare.
+          pe: { accademiche: 2 }
+          effetti: { monete: 2, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Il fienile
+          testo: |
+            A metà lezione un ragazzo trova un nido di topi nel fieno, e da
+            quel momento nessuno ti guarda più. Finisci di spiegare le
+            moltiplicazioni a un vitello che si è affacciato alla porta, e che
+            almeno ti ascolta con attenzione.
+
+      - testo: "Guidare una squadra di mietitori"
+        descrizione: "Il fattore ha più campi che squadre. Ti dà dieci braccianti e un campo, e la sera vuole il campo mietuto."
+        requisiti: [rep.laresh >= 6]
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Il campo mietuto
+          testo: |
+            Metti in testa alla fila i due braccianti più svelti e in coda i
+            più lenti, che così sentono il fiato degli altri sul collo, e a
+            mezzogiorno porti il pane sul campo invece di mandarli all'aia. Al
+            tramonto il campo è giù tutto, in covoni dritti. Il fattore conta
+            i covoni due volte e ti paga come un caposquadra.
+          pe: { persuasione: 2 }
+          effetti: { monete: 5 }
+        fallimento:
+          titolo: La pausa lunga
+          testo: |
+            A mezzogiorno lasci andare la squadra all'aia per mangiare, e dopo
+            mangiato nessuno ha più voglia di tornare al sole. Al tramonto
+            manca da mietere mezzo campo, e il fattore ti paga metà.
+          effetti: { monete: 2 }
+
+      - testo: "Andare con i pastori ai margini dei campi neri"
+        descrizione: "I pastori portano le capre dove il grano nero finisce, e le capre trovano cose che i pastori poi vendono."
+        requisiti: [rep.laresh >= 6]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: La capra che raspa
+          testo: |
+            Passi la giornata con due pastori e un gregge che gira al largo
+            del grano nero senza entrarci. Verso sera una capra si mette a
+            raspare in un fosso, e sotto la terra fredda trovi un guscio di
+            metallo chiuso. I pastori te lo lasciano per un pezzo di formaggio
+            e per la promessa di non dire alla Dama dove l'hai trovato.
+          pe: { natura: 2 }
+          effetti: { reperto.sigillato: 1 }
+        fallimento:
+          titolo: Le capre girano al largo
+          testo: |
+            Le capre girano al largo del grano nero tutto il giorno, e tu con
+            loro. A sera i pastori ti offrono il formaggio insieme alla loro opinione
+            sui forestieri, che è stagionata quanto il formaggio.
+
+      - testo: "Restare all'osteria sul rio dopo il lavoro"
+        descrizione: "A Laresh la sera si beve sidro torbido e si cantano le canzoni della mietitura, anche quando non si miete."
+        esito:
+          titolo: La canzone della spiga
+          testo: |
+            All'osteria sul rio il sidro è torbido e caldo, e dopo il secondo
+            boccale il fattore si alza a cantare la canzone della spiga, quella
+            che si canta legando i covoni. Ha una voce intonata, che da un
+            uomo così largo non ti aspettavi, e alla terza strofa la canta mezza
+            osteria, battendo il tempo sul legno con le tazze.
+          pe: { espressivita: 2 }
+
+  # ------------------------------------------------------------ il servizio del villaggio · le letture di Marrek
+  - id: laresh-il-grano-bruciato
+    presso: laresh
+    immagine: ambientazione/mulino-malgrani
+    titolo: Il grano bruciato
+    sommario: "Old Marrek legge il futuro nelle crepe del grano bruciato. Sulle carestie non sbaglia mai e sull'amore quasi sempre, e la lettura la paghi in idromele."
+    luogo: Laresh, il mulino centrale
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.laresh >= 2]
+    testo: |
+      Old Marrek tiene il grano bruciato in una scodella di coccio accanto
+      alla macina. Sono chicchi neri e spaccati che ha scelto uno per uno con
+      le dita. Quando qualcuno si siede sul suo sgabello ne versa una manciata
+      sul palmo dell'altro, li fa rotolare con il pollice e ascolta le crepe
+      come se facessero rumore. Tano, il nipote, tiene il conto delle brocche
+      d'idromele su una trave del mulino, con un chiodo.
+
+      {empatia Facile} Marrek si diverte più di chi lo paga. Le carestie le
+      dice piano, l'amore lo dice forte, perché sull'amore sbagliare non fa
+      danni.
+
+      La macina gira, e il pavimento trema appena sotto lo sgabello.
+    opzioni:
+      - testo: "Portargli una brocca e farti dire del raccolto"
+        descrizione: "Una brocca d'idromele, e Marrek ti dice che cosa succederà ai campi di Laresh e ai prezzi della farina in città."
+        requisiti: [monete >= 6]
+        esito:
+          titolo: Le crepe
+          testo: |
+            Marrek beve un sorso, ti versa i chicchi sul palmo e li rigira a
+            lungo con il pollice. Poi ti dice che sul rio basso un mugnaio
+            venderà il mulino prima dell'inverno, e ti dice a chi lo venderà e
+            quanto pagherà la farina in città il mese dopo. Lo dice come si dice che domani
+            piove, e tu ti ritrovi a crederci.
+          effetti: { monete: -6, informazioni.pettegolezzo: 1, tormento: -0.5 }
+      - testo: "Portargli una brocca e farti dire dell'amore"
+        descrizione: "Sull'amore Marrek sbaglia sempre, e lo sa. Per questo lo fa volentieri."
+        requisiti: [monete >= 6]
+        esito:
+          titolo: Una persona con i capelli
+          testo: |
+            Marrek ti stringe il polso per ascoltare i chicchi, e annuncia con
+            grande serietà che incontrerai una persona con i capelli. Ci pensa
+            un poco e aggiunge che forse sarà senza. Tano scuote la testa
+            dalla trave mentre incide un'altra tacca, e tu ridi più di quanto valesse
+            la brocca.
+          effetti: { monete: -6, tormento: -1 }
+      - testo: "Chiedergli della prossima carestia"
+        descrizione: "Sulle carestie Marrek non sbaglia. Lo dice soltanto a chi conosce bene, e per tre brocche del migliore."
+        requisiti: [rep.laresh >= 4, monete >= 30]
+        esito:
+          titolo: Tre sacchi su dieci
+          testo: |
+            Marrek ti fa chiudere la porta del mulino prima di cominciare. Ti
+            dice in quale valle mancherà il grano e in quale stagione, e quale
+            casato in città lo sa già e sta comprando. Poi
+            beve tutta la seconda brocca senza fermarsi e non ne parla più.
+
+            {politica-ed-economia Media} Chi sa dove mancherà il pane sa anche
+            dove salirà, e in città c'è chi pagherebbe bene per saperlo prima
+            degli altri.
+          effetti: { monete: -30, informazioni.segreto: 1 }
+
+  # ------------------------------------------------------------ grado 3 · la stanza del grano
+  - id: laresh-la-stanza-del-grano
+    presso: laresh
+    immagine: ambientazione/laresh
+    titolo: La stanza del grano
+    sommario: "Sopra il granaio di Casa Velar c'è una stanza calda di farina, con un letto vero. La Dama la tiene per chi parla all'aia."
+    luogo: Laresh, Casa Velar, la stanza sopra il granaio
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [fazione.laresh >= 9]
+    testo: |
+      Sopra il granaio di Casa Velar c'è una stanza bassa, con le travi a
+      vista e un letto di legno con il materasso di foglie di granturco.
+      D'estate ci fa caldo come in un forno spento, d'inverno il calore del
+      grano sale dalle assi e basta a dormire senza coperta. Dalla finestra
+      si vedono i campi fino al rio di mezzo, e la ruota del mulino centrale
+      che gira.
+
+      {resistenza Facile} Il letto scricchiola a ogni movimento, e il corpo
+      lo ringrazia lo stesso, una vertebra alla volta.
+
+      La Dama ci fa lasciare sul davanzale una brocca d'acqua e un pane,
+      ogni sera, che la stanza sia occupata o no.
+    opzioni:
+      - testo: "Dormire nella stanza del grano"
+        descrizione: "Una notte intera senza turni né carri. La mattina il pane è ancora sul davanzale."
+        esito:
+          titolo: Il pane sul davanzale
+          testo: |
+            Dormi fino a giorno fatto con l'odore della farina nel naso e il
+            battito della macina che arriva dal rio. La mattina mangi il pane
+            del davanzale seduto sul letto, e le ferite tirano meno.
+          effetti: { ferite: -1, tormento: -0.5 }
+      - testo: "Restare a tavola con la Dama a fare i conti"
+        descrizione: "La Dama chiude i conti del giorno dopo cena, una cifra alla volta. A chi le tiene compagnia ogni tanto racconta del marito."
+        esito:
+          titolo: I conti della sera
+          testo: |
+            La Dama somma le colonne del giorno con la penna che gratta e tu
+            le leggi le cifre ad alta voce. Fra una colonna e l'altra ti
+            racconta di quando suo marito comprò il campo del rio basso con un
+            cavallo zoppo e una promessa, e di quanto ci misero a pagarla.
+          pe: { politica-ed-economia: 3 }
+          effetti: { tormento: -0.5 }
