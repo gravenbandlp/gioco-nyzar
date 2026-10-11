@@ -4,7 +4,7 @@ import { h } from './formato';
 import type { StatoArchivio } from './salvataggi';
 import {
   RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, MANO_MAX, CODA_MAX, MINUTI_PER_CARTA, MAX_NEGATIVA, SOGLIA_PERICOLO, DIFFICOLTA,
-  ETICHETTE_DIFFICOLTA, SOGLIE_PE, MAX_CONSUMABILI_IN_COMBATTIMENTO,
+  ETICHETTE_DIFFICOLTA, SOGLIE_PE, MAX_CONSUMABILI_IN_COMBATTIMENTO, SCORTA_MAX,
 } from '../motore/regole';
 import { probabilita } from '../motore/dadi';
 import FONTI from '../dati/fonti-tavole.json';
@@ -161,7 +161,7 @@ function regolamento(): string {
     dell'incantesimo. Con zero successi c'è la Dissonanza.</li>
     <li><b>Usare un reperto</b> dei Precursori, che ha un certo numero di cariche.</li>
     <li><b>Usare un consumabile</b>: le bende ridanno 2 PF, il tonico 4, l'estratto di energia 3 Energia. Al massimo
-    ${MAX_CONSUMABILI_IN_COMBATTIMENTO} per scontro.</li>
+    ${MAX_CONSUMABILI_IN_COMBATTIMENTO} per scontro, e di ogni consumabile ne porti al massimo ${SCORTA_MAX}.</li>
   </ul>
   <p><b>Come finisce.</b> Lo scontro finisce quando cadi tu o cadono (o scappano) tutti i nemici. Se vinci, le Ferite
   dipendono dai PF che ti restano: nessuna se ne hai almeno quattro quinti, mezza se ne hai almeno due quinti, una se

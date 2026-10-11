@@ -1,7 +1,7 @@
 // Stato del personaggio, requisiti, effetti, crescita, rintocchi e mazzo.
 import {
   ATTRIBUTI, TUTTE_LE_ABILITA, attributoDi, SOGLIE_PE, QUOTA_ATTRIBUTO, MAX_GIOCATORE, NEGATIVE, MAX_NEGATIVA,
-  REPUTAZIONE_MIN, REPUTAZIONE_MAX, RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI,
+  REPUTAZIONE_MIN, REPUTAZIONE_MAX, RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI, SCORTA_MAX,
   type Attributo,
 } from './regole';
 import type { TContenuti, TEffetti, TOrigine, TStorylet } from './contenuto';
@@ -133,7 +133,18 @@ function limita(chiave: string, v: number, contenuti: TContenuti): number {
   if ((NEGATIVE as readonly string[]).includes(chiave)) return Math.min(MAX_NEGATIVA, Math.max(0, v));
   const q = contenuti.quality.find((x) => x.id === chiave);
   if (q?.categoria === 'reputazione') return Math.min(REPUTAZIONE_MAX, Math.max(REPUTAZIONE_MIN, v));
+  if (q?.categoria === 'consumabile') return Math.min(SCORTA_MAX, Math.max(0, v));
   return Math.max(0, v);
+}
+
+/** La scorta di un consumabile è piena: comprarne altro non serve. */
+export function scortaPiena(s: Stato, chiave: string, c: TContenuti): boolean {
+  return c.quality.find((x) => x.id === chiave)?.categoria === 'consumabile' && (s.quality[chiave] ?? 0) >= SCORTA_MAX;
+}
+
+/** I salvataggi di prima del tetto possono avere più consumabili del massimo: scendono al massimo. */
+export function limitaScorte(s: Stato, c: TContenuti): void {
+  for (const q of c.quality) if (q.categoria === 'consumabile' && (s.quality[q.id] ?? 0) > SCORTA_MAX) s.quality[q.id] = SCORTA_MAX;
 }
 
 /** Lucida dimezza il Tormento in arrivo, Schermata la Contaminazione; due fonti di Schermata la azzerano. */

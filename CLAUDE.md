@@ -13,7 +13,7 @@ modello di Fallen London. TypeScript + Vite, contenuti in YAML validati con zod,
 - `npm run dev`: gioco su http://localhost:5173 (rigenera prima i contenuti).
 - `npm run contenuti`: valida gli YAML di `contenuti/` (deve dire "Contenuti validi").
 - `npm run stile`: controllo dei tic di scrittura (deve dare 0 segnalazioni).
-- `npx vitest run`: tutti i test (380 al 10 ottobre 2026). I test di percorso durano in tutto più di un minuto.
+- `npx vitest run`: tutti i test (382 all'11 ottobre 2026). I test di percorso durano in tutto più di un minuto.
 - `npm run build`: build in `dist/` (un solo `index.html` più tavole e audio).
 - `npm run audio`: importa musica e ambienti dalla cartella accanto al repository.
 

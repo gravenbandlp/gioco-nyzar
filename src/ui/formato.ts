@@ -1,6 +1,6 @@
 // Piccoli aiuti di presentazione: testo sicuro, numeri a mezzi punti, requisiti leggibili.
 import type { TContenuti } from '../motore/contenuto';
-import { NOMI } from '../motore/regole';
+import { NOMI, SCORTA_MAX } from '../motore/regole';
 import { nomeDi, parseRequisito, valore, type Stato } from '../motore/personaggio';
 
 export function h(s: unknown): string {
@@ -60,6 +60,7 @@ export function requisitoLeggibile(r: string, s: Stato, c: TContenuti): string {
   if (q?.categoria === 'pista') return 'La storia non è ancora a questo punto.';
   if (op === '==' && n === 0) return `Non devi avere: ${nm}.`;
   if (q?.categoria === 'accesso' && op === '>=' && n === 1) return `Serve: ${nm}.`;
+  if (q?.categoria === 'consumabile' && op === '<' && n === SCORTA_MAX) return `${nm}: ne porti già il massimo (${SCORTA_MAX}).`;
   if (q?.nascosta && op === '>=' && n === 1) return `${nm}.`; // le condizioni nascoste hanno un nome che si legge da solo
   const verbo: Record<string, string> = {
     '>=': `almeno ${mezzi(n)}`, '>': `più di ${mezzi(n)}`, '<=': `al massimo ${mezzi(n)}`,

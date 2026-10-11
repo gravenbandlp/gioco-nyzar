@@ -78,6 +78,8 @@ export const ETICHETTE_COMBATTIMENTO: { min: number; etichetta: string }[] = [
   { min: 0, etichetta: 'Impossibile' },
 ];
 export const MAX_CONSUMABILI_IN_COMBATTIMENTO = 3;
+// Di ogni consumabile se ne portano al massimo 5, perché una spedizione non si vinca curandosi di continuo (Luca, 11 ottobre 2026)
+export const SCORTA_MAX = 5;
 // Uno scontro vale più di una prova: dura più round e rischia Ferite (Luca, 8 ottobre 2026)
 export const PE_COMBATTIMENTO = 3;
 export const ROUND_MAX = 60; // sicurezza per le simulazioni

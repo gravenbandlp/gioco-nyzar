@@ -6,7 +6,7 @@ import {
   SOGLIE_PE,
 } from '../motore/regole';
 import {
-  msAlProssimoRintocco, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato,
+  msAlProssimoRintocco, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, scortaPiena, type Stato,
 } from '../motore/personaggio';
 import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino, negozioAperto, vociCompra, vendibili, type Risultato } from '../motore/azioni';
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
@@ -895,7 +895,9 @@ function bottega(x: Contesto, n: TNegozio): string {
       if (indossato(s, id)) nota = 'In uso';
       else if (n > 0) nota = `Ne hai ${n}`;
     } else { const q = c.quality.find((z) => z.id === v.quality); d = { nome: q?.nome ?? v.quality, dettagli: `${q?.descrizione ?? ''} Ne hai ${mezzi(s.quality[v.quality] ?? 0)}.`, immagine: q?.immagine }; }
-    const ok = monete >= v.prezzo;
+    const piena = scortaPiena(s, v.quality, c);
+    if (piena) nota = 'Scorta piena';
+    const ok = monete >= v.prezzo && !piena;
     return `<li>${tavola(d.immagine, { classe: 'icona' })}<span class="merce"><b>${h(d.nome)}</b><small>${h(d.dettagli)}${nota ? ` · ${h(nota)}` : ''}</small>${suggerimentoPrezzo(x, meglio)}</span>
       <span class="prezzo">${v.prezzo}</span>
       <button type="button" class="bottone" data-az="compra" data-neg="${n.id}" data-id="${v.quality}" ${ok ? '' : 'disabled'}>Compra</button></li>`;

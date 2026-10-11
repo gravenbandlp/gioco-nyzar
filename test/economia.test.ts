@@ -5,8 +5,9 @@ import { join } from 'node:path';
 import { parse } from 'yaml';
 import { describe, it, expect } from 'vitest';
 import { CONTENUTI as c } from '../src/dati/contenuti';
-import { nuovoPersonaggio, storyletDisponibili, requisitiSoddisfatti, parseRequisito } from '../src/motore/personaggio';
-import { listino, negozioAperto, vendi, scegli } from '../src/motore/azioni';
+import { nuovoPersonaggio, storyletDisponibili, requisitiSoddisfatti, parseRequisito, applicaEffetti, limitaScorte } from '../src/motore/personaggio';
+import { listino, negozioAperto, vendi, scegli, compra } from '../src/motore/azioni';
+import { SCORTA_MAX } from '../src/motore/regole';
 import { opzioniVisibili } from '../src/motore/crisi';
 
 const pg = () => {
@@ -138,3 +139,32 @@ function st0(s: ReturnType<typeof pg>): string {
   const st = storia('una-sera-a-casa');
   return st.opzioni[opzioniVisibili(s, st, c)[0]!]!.testo;
 }
+
+describe('la scorta dei consumabili', () => {
+  const consumabili = c.quality.filter((q) => q.categoria === 'consumabile').map((q) => q.id);
+
+  it('non supera il massimo, da un esito, da una bottega o da un salvataggio vecchio', () => {
+    const s = pg();
+    applicaEffetti(s, { bende: 9 }, c);
+    expect(s.quality['bende']).toBe(SCORTA_MAX);
+    s.quality['monete'] = 500;
+    expect(compra(s, 'dispensa-di-gramm', 'bende', c)).toBe(false);
+    expect(s.quality['monete']).toBe(500);
+    applicaEffetti(s, { bende: -1 }, c);
+    expect(compra(s, 'dispensa-di-gramm', 'bende', c)).toBe(true);
+    s.quality['tonico'] = 12;
+    limitaScorte(s, c);
+    expect(s.quality['tonico']).toBe(SCORTA_MAX);
+  });
+
+  it('le opzioni che vendono solo un consumabile si chiudono a scorta piena', () => {
+    for (const st of c.storylet) for (const o of st.opzioni) {
+      const e = o.esito?.effetti;
+      if (o.prova || o.combattimento || !e) continue;
+      const chiavi = Object.keys(e);
+      const dato = chiavi.find((k) => consumabili.includes(k) && e[k]! > 0);
+      if (!dato || chiavi.length !== 2 || !((e['monete'] ?? 0) < 0)) continue;
+      expect(o.requisiti, `${st.id}: «${o.testo}»`).toContain(`${dato} < ${SCORTA_MAX}`);
+    }
+  });
+});

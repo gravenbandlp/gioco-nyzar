@@ -9,6 +9,9 @@ magici da +1 a +5, reperti con cariche e celle, consumabili.
 - Ogni oggetto posseduto è la quality `oggetto.<id>`. Gli oggetti comprati o trovati finiscono negli
   Averi; se lo slot è vuoto vengono indossati subito. Cambiare equipaggiamento non costa rintocchi.
 - Un'arma a due mani toglie lo scudo e impedisce di indossarlo.
+- Di ogni consumabile (bende, tonico, estratto di energia, unguento, cella) se ne portano al massimo 5
+  (`SCORTA_MAX` in `src/motore/regole.ts`, deciso l'11 ottobre 2026): quello che arriva oltre si perde, le botteghe
+  non lo vendono e le opzioni che servono solo a comprarlo hanno il requisito `<consumabile> < 5`.
 - Armi, scudi e armature si rivendono alle botteghe che le vendono, a metà del loro prezzo arrotondato per
   difetto e con gli stessi requisiti (`vociCompra` in `src/motore/azioni.ts`). Quello indossato va tolto prima;
   i Legati non si vendono. Gli oggetti magici si vendono a metà del loro valore alle botteghe che hanno il genere in

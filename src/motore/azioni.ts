@@ -9,7 +9,7 @@ import { inPenalita, sommaMutazioni, tormentoDissonanza } from './crisi';
 import { nuovaPartita, probabilitaZekar, lateraliValide, LATERALI_PREDEFINITE, type StatoZekar } from './zekar';
 import { areaAttuale, cambiaArea, inSpedizione, profondita, segnaStanza } from './spedizioni';
 import {
-  abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiRintocchi, scarta, aggiornaTempo,
+  abilitaEffettiva, applicaEffetti, assegnaPE, requisitiMancanti, requisitiSoddisfatti, spendiRintocchi, scarta, aggiornaTempo, scortaPiena,
   type Crescita, type Stato, type Variazione,
 } from './personaggio';
 import {
@@ -380,7 +380,7 @@ export function vendi(s: Stato, negozioId: string, quality: string, c: TContenut
 export function compra(s: Stato, negozioId: string, quality: string, c: TContenuti): boolean {
   const n = c.negozi.find((x) => x.id === negozioId);
   const voce = n && listino(s, n.vende, c, 'vende').find((x) => x.voce.quality === quality)?.voce;
-  if (!voce || (s.quality['monete'] ?? 0) < voce.prezzo) return false;
+  if (!voce || (s.quality['monete'] ?? 0) < voce.prezzo || scortaPiena(s, quality, c)) return false;
   applicaEffetti(s, { monete: -voce.prezzo }, c);
   if (quality.startsWith('oggetto.')) ricevi(s, c, quality.slice(8));
   else applicaEffetti(s, { [quality]: 1 }, c);

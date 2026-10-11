@@ -4,7 +4,7 @@ import { CONTENUTI as c } from '../dati/contenuti';
 import { CODA_MAX } from '../motore/regole';
 import type { TFrammento } from '../motore/contenuto';
 import {
-  nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, type Stato,
+  nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, scortaPiena, limitaScorte, type Stato,
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, concludiZekar, lateraliDi, puoEntrare, muovi, compra, vendi, vendibili, correggi, secondaScelta } from '../motore/azioni';
 import { ritirati } from '../motore/spedizioni';
@@ -127,6 +127,7 @@ function carica(s: Partial<Salvataggio>): void {
     stato = s.stato;
     stato.repertorio ??= [];
     migraOggetti(stato);
+    limitaScorte(stato, c);
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';
     luogo = s.luogo ?? undefined;
@@ -449,7 +450,7 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'compra': {
-      if (!compra(s, el.dataset['neg']!, id, c)) avviso = 'Non basta il denaro.';
+      if (!compra(s, el.dataset['neg']!, id, c)) avviso = scortaPiena(s, id, c) ? 'Ne porti già il massimo.' : 'Non basta il denaro.';
       salva(); render();
       break;
     }
