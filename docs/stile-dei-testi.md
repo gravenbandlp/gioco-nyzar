@@ -168,7 +168,7 @@ Le regole:
   che non ricorda niente e ti fa venire fame, Resistenza che si arrende al freddo).
 - **Come parlano.** Ogni abilità ha un carattere e ti parla in seconda persona: Percezione è precisa,
   Empatia gentile, Conoscenze della strada cinica, Accademiche un po' pedante, Medicina clinica, Intimidire
-  sbrigativa, Galateo snob, Resistenza parla del corpo, Magia sente il Mana. Una o due frasi per voce,
+  sbrigativa, Galateo snob, Resistenza parla del corpo, Magia sente il Mana. Da una a tre frasi per voce,
   niente discorso diretto fra caporali dentro una voce.
 - Le regole di "Da evitare" valgono anche per le voci, compresa la chiusa a battuta.
 
@@ -200,7 +200,7 @@ quell'origine (anche più d'una, separate da uno spazio):
 Sullo schermo hanno il nome dell'origine come etichetta e la banda dorata. Servono per farti sentire chi sei: un PNG
 che ti riconosce o ti tratta in un altro modo, un ricordo, una cosa che sai perché vieni da lì, un dettaglio che
 solo tu noti. Le regole:
-- Una o due frasi, seconda persona e presente come il resto; valgono tutte le regole di "Da evitare".
+- Da una a tre frasi, seconda persona e presente come il resto; valgono tutte le regole di "Da evitare".
 - Al massimo due paragrafi d'origine per testo, e solo dove l'origine c'entra davvero: i primi incontri con i
   personaggi importanti, i luoghi e le fazioni legati a un'origine (il Velo per l'Accolito, i Raschiatori e i
   Ponti per l'Apprendista, i Casati per il Rampollo, la Gilda per il Mercante, il Bosco e il Circolo per il
@@ -223,19 +223,21 @@ proprio. Frasi brevi e domande quando dicono qualcosa.
 
 ## La lunghezza (11 ottobre 2026)
 
-Luca, dopo molte ore di gioco: si ha l'impressione di leggere troppo. Tutti i testi sono stati sfoltiti, e da qui in
-avanti valgono queste misure, contate con le voci e i paragrafi d'origine.
+Luca, dopo molte ore di gioco: si ha l'impressione di leggere troppo. Un primo giro di sfoltita ha compresso le
+frasi, togliendo i passaggi che le legavano e incollando i pezzi con le virgole: i testi sono diventati faticosi e
+oscuri, e il giro è stato annullato. Il secondo giro ha tolto frasi intere e ha lasciato com'erano quelle rimaste.
+Vale anche per i testi nuovi.
 
-- **Le scene importanti** (prologhi, primo incontro con un personaggio principale, svolte e rivelazioni, boss,
-  finali di una storia, gradi delle quest di fazione): fino a 220 parole. Possono essere ricche.
-- **Le scene di storia normali**: 90–150 parole.
-- **Le scene di raccordo** (spostamenti, arrivi, stanze di spedizione, passi intermedi, seguiti che fanno da ponte,
-  carte del mazzo, azioni ripetibili, servizi, allenamenti): 50–100 parole. Il luogo in una o due frasi, la
-  situazione, cosa puoi fare.
-- **Gli esiti**: 25–70 parole; quelli delle prove semplici anche una o due frasi. Dicono cosa succede e cosa
-  ottieni, senza rifare la scena.
-- **Descrizioni delle opzioni e sommari**: una frase, sotto le 20 parole.
-- **Aree e luoghi**, che si rileggono a ogni visita: 40–90 parole.
-
-Per stare nella misura: un dettaglio per cosa (il migliore), il PNG con un tratto solo, niente che ripeta quello
-che il titolo, le opzioni o l'esito dicono già, niente secondo paragrafo che spieghi il primo.
+- **Si taglia per frasi intere, non dentro le frasi.** Quello che resta deve leggersi come se fosse stato scritto
+  così: ogni frase ha il suo soggetto e i suoi riferimenti nel testo rimasto. Un «lo», un «lui», un «poi», un
+  «anche» o un «invece» non possono rimandare a una frase tolta.
+- **Si toglie il contorno:** i dettagli d'ambiente che non servono a nessuna scelta, i gesti e le reazioni in più,
+  il secondo dettaglio sulla stessa cosa, le voci delle abilità che non suggeriscono un'opzione o un pezzo di
+  trama, i pensieri in corsivo che commentano.
+- **Resta quello che serve a giocare e a capire:** chi c'è, dove sei, cosa succede, cosa puoi fare, e tutto quello
+  che le opzioni e gli esiti riprendono.
+- **Misure indicative**, per un giocatore senza paragrafo d'origine: le scene di raccordo (carte, stanze di
+  spedizione, azioni ripetibili, servizi, botteghe, allenamenti) intorno alle 100 parole; le scene di storia fra
+  120 e 160; le scene importanti (prologhi, primi incontri, boss, rivelazioni, gradi delle quest) anche oltre le
+  200; gli esiti fra 30 e 80; aree e luoghi intorno alle 100.
+- Una frase lunga ma chiara va bene. Una frase corta che si capisce solo conoscendo il testo di prima no.
