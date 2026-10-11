@@ -2,8 +2,8 @@
 // Uso: npx tsx scripts/controlla-file.ts contenuti/citta/grifone.yaml [altri file]
 // Per ogni file controlla che:
 // - il YAML si legga;
-// - rispetto alla versione nel repository (git HEAD) sia cambiato solo il campo `testo` (struttura, id, requisiti,
-//   effetti, titoli, descrizioni e opzioni restano identici);
+// - rispetto alla versione nel repository (git HEAD) sia cambiata solo la prosa (`testo`, `descrizione`, `sommario`):
+//   struttura, id, requisiti, effetti, titoli e opzioni restano identici;
 // - i segni delle voci {abilità Difficoltà} siano validi;
 // - lo stile non abbia segnalazioni (le regole di scripts/controlla-stile.ts, senza i segni delle voci).
 // Stampa anche quante voci ci sono per attributo.
@@ -15,11 +15,14 @@ import { erroriVoci, leggiVoce, leggiOrigine, senzaSegni } from '../src/motore/v
 
 const ORIGINI: string[] = (parse(readFileSync('contenuti/origini.yaml', 'utf8')).origini as { id: string }[]).map((o) => o.id);
 
+/** I campi di prosa che una riscrittura può cambiare. */
+const PROSA = ['testo', 'descrizione', 'sommario'];
+
 function senzaTesti(x: unknown): unknown {
   if (Array.isArray(x)) return x.map(senzaTesti);
   if (x && typeof x === 'object') {
     const o: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(x)) o[k] = k === 'testo' ? '…' : senzaTesti(v);
+    for (const [k, v] of Object.entries(x)) o[k] = PROSA.includes(k) && typeof v === 'string' ? '…' : senzaTesti(v);
     return o;
   }
   return x;
@@ -79,7 +82,7 @@ for (const file of process.argv.slice(2)) {
     const a = JSON.stringify(senzaTesti(vecchio)), b = JSON.stringify(senzaTesti(confronto));
     if (a !== b) {
       let i = 0; while (i < a.length && a[i] === b[i]) i++;
-      console.log(`  STRUTTURA CAMBIATA (deve cambiare solo "testo"). Prima differenza: …${a.slice(Math.max(0, i - 80), i + 80)}… / …${b.slice(Math.max(0, i - 80), i + 80)}…`);
+      console.log(`  STRUTTURA CAMBIATA (deve cambiare solo la prosa). Prima differenza: …${a.slice(Math.max(0, i - 80), i + 80)}… / …${b.slice(Math.max(0, i - 80), i + 80)}…`);
       errori++;
     }
   } catch { console.log('  (file nuovo, nessun confronto con il repository)'); }

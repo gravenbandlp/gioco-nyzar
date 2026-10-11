@@ -73,8 +73,8 @@ Cosa funziona:
 ## La voce (dal 1° ottobre 2026: un po' di Disco Elysium)
 
 Tolti i tic, la prosa era diventata troppo asciutta: corretta, ma senza qualcuno dentro. Il riferimento per
-la voce è Disco Elysium, preso con misura. Le regole di "Da evitare" valgono tutte, e la lunghezza resta
-quella di prima con un margine del 10–25%.
+la voce è Disco Elysium, preso con misura. Le regole di "Da evitare" valgono tutte. La lunghezza è quella
+fissata in fondo, in "La lunghezza" (11 ottobre 2026): la voce sta nella scelta del dettaglio, non nella quantità.
 
 - **Il narratore sta dentro la testa del protagonista.** Il corpo reagisce prima del pensiero (le mani che
   cercano la cintura, il passo che rallenta da solo davanti a una porta, il pollice che torna sulla cicatrice). La mente associa:
@@ -148,7 +148,7 @@ Le regole:
 - **Quello che serve a giocare resta nella narrazione.** Una voce può non comparire, quindi aggiunge e non
   sostituisce: una persona, un oggetto o un indizio che le opzioni o gli esiti nominano va detto nella
   narrazione. La voce interpreta, ricorda, sospetta, commenta.
-- **Quante.** Nel testo di una scena da una a tre voci, di solito due. Negli esiti al massimo una, e solo quando
+- **Quante.** Nel testo di una scena una o due voci; nelle scene di raccordo al massimo una. Negli esiti al massimo una, e solo quando
   aggiunge qualcosa; gli esiti brevi restano senza.
 - **Quale abilità.** Quella che naturalmente noterebbe la cosa. Nel corso di un file si alternano i tre attributi:
   - Fisico: Rissa (chi si può stendere, dove colpire), Armi da mischia e Armi da distanza (le armi degli altri,
@@ -168,7 +168,7 @@ Le regole:
   che non ricorda niente e ti fa venire fame, Resistenza che si arrende al freddo).
 - **Come parlano.** Ogni abilità ha un carattere e ti parla in seconda persona: Percezione è precisa,
   Empatia gentile, Conoscenze della strada cinica, Accademiche un po' pedante, Medicina clinica, Intimidire
-  sbrigativa, Galateo snob, Resistenza parla del corpo, Magia sente il Mana. Da una a tre frasi per voce,
+  sbrigativa, Galateo snob, Resistenza parla del corpo, Magia sente il Mana. Una o due frasi per voce,
   niente discorso diretto fra caporali dentro una voce.
 - Le regole di "Da evitare" valgono anche per le voci, compresa la chiusa a battuta.
 
@@ -200,7 +200,7 @@ quell'origine (anche più d'una, separate da uno spazio):
 Sullo schermo hanno il nome dell'origine come etichetta e la banda dorata. Servono per farti sentire chi sei: un PNG
 che ti riconosce o ti tratta in un altro modo, un ricordo, una cosa che sai perché vieni da lì, un dettaglio che
 solo tu noti. Le regole:
-- Da una a tre frasi, seconda persona e presente come il resto; valgono tutte le regole di "Da evitare".
+- Una o due frasi, seconda persona e presente come il resto; valgono tutte le regole di "Da evitare".
 - Al massimo due paragrafi d'origine per testo, e solo dove l'origine c'entra davvero: i primi incontri con i
   personaggi importanti, i luoghi e le fazioni legati a un'origine (il Velo per l'Accolito, i Raschiatori e i
   Ponti per l'Apprendista, i Casati per il Rampollo, la Gilda per il Mercante, il Bosco e il Circolo per il
@@ -219,5 +219,23 @@ stato che una delle opzioni normali della scena dà già.
 ## Cosa resta
 
 Seconda persona, presente. Dettagli concreti del mondo del Codex. I PNG parlano ciascuno a modo
-proprio. Frasi brevi e domande quando dicono qualcosa. Le scene di storia restano tra 150 e 250
-parole, le azioni ripetibili tra 80 e 150; negli esiti anche due righe secche vanno bene.
+proprio. Frasi brevi e domande quando dicono qualcosa.
+
+## La lunghezza (11 ottobre 2026)
+
+Luca, dopo molte ore di gioco: si ha l'impressione di leggere troppo. Tutti i testi sono stati sfoltiti, e da qui in
+avanti valgono queste misure, contate con le voci e i paragrafi d'origine.
+
+- **Le scene importanti** (prologhi, primo incontro con un personaggio principale, svolte e rivelazioni, boss,
+  finali di una storia, gradi delle quest di fazione): fino a 220 parole. Possono essere ricche.
+- **Le scene di storia normali**: 90–150 parole.
+- **Le scene di raccordo** (spostamenti, arrivi, stanze di spedizione, passi intermedi, seguiti che fanno da ponte,
+  carte del mazzo, azioni ripetibili, servizi, allenamenti): 50–100 parole. Il luogo in una o due frasi, la
+  situazione, cosa puoi fare.
+- **Gli esiti**: 25–70 parole; quelli delle prove semplici anche una o due frasi. Dicono cosa succede e cosa
+  ottieni, senza rifare la scena.
+- **Descrizioni delle opzioni e sommari**: una frase, sotto le 20 parole.
+- **Aree e luoghi**, che si rileggono a ogni visita: 40–90 parole.
+
+Per stare nella misura: un dettaglio per cosa (il migliore), il PNG con un tratto solo, niente che ripeta quello
+che il titolo, le opzioni o l'esito dicono già, niente secondo paragrafo che spieghi il primo.
