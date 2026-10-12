@@ -3,6 +3,7 @@ import { nuovoPersonaggio, type Stato } from '../src/motore/personaggio';
 import { scegli, concludiZekar, anteprima } from '../src/motore/azioni';
 import { nuovaPartita, siediti, muovi, lateraliValide, OBIETTIVO, type StatoZekar, type Avversario } from '../src/motore/zekar';
 import { CONTENUTI as c } from '../src/dati/contenuti';
+import { RINTOCCHI_MAX } from '../src/motore/regole';
 
 const avv = (id: string) => c.zekar.find((z) => z.id === id)! as Avversario;
 const st = (id: string) => c.storylet.find((x) => x.id === id)!;
@@ -76,7 +77,7 @@ describe('zekar: al Grifone', () => {
     const i = st('zekar-al-grifone').opzioni.findIndex((o) => o.requisiti?.includes('monete >= 15'));
     const r = scegli(s, st('zekar-al-grifone'), i, c, 0, rngConSeme(1));
     expect(r.tipo).toBe('zekar');
-    expect(s.rintocchi).toBe(39);
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX - 1);
     const zs = (r as { zekar: StatoZekar }).zekar;
     const rng = rngConSeme(2);
     siediti(zs, [-3, -2, 2, 3], rng);
@@ -111,7 +112,7 @@ describe('zekar: al Grifone', () => {
     expect(s.quality['monete']).toBe(100 - 20 + 60);
     expect(s.quality['rep.grifone']).toBe(2.5);
     expect(s.quality['zekar.torneo'] ?? 0).toBe(0);
-    expect(s.rintocchi).toBe(36);
+    expect(s.rintocchi).toBe(RINTOCCHI_MAX - 4);
   });
   it('il torneo vinto paga sei volte la quota', () => {
     const torneo = st('torneo-del-grifone');

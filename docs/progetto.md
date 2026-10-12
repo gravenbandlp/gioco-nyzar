@@ -91,7 +91,7 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - **1° ottobre.** Voce della prosa con un po' di Disco Elysium, glossario dei tooltip, luoghi come mini-hub, città
   viva su tutti i luoghi, audio completo, blocchi 1–8 chiusi (tutte le storie principali).
 - **2 ottobre.**
-  - Economia strati 1 e 2; rintocchi a 40, solo col tempo.
+  - Economia strati 1 e 2; rintocchi a 40, solo col tempo (a 30 dal 12 ottobre).
   - Le candele diventano rintocchi, con la campana (per staccarsi da Fallen London).
   - Prima batch di voci importata (110 pezzi).
   - Spedizioni in ordine: stanze che non tornano, fasce di profondità, revisione di tutte le spedizioni.

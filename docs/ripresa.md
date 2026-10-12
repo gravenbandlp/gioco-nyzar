@@ -169,7 +169,7 @@ del racconto con `@container`. I contenitori a griglia che ospitano pulsanti lun
 
 ## Stato del lavoro
 Il Capitolo I è chiuso e rivisto (vedi `docs/piano-capitolo-1.md`). Fatti di recente: economia (strati 1 e 2,
-`contenuti/economia/`), rintocchi a 40 che tornano solo col tempo, revisione finale delle
+`contenuti/economia/`), rintocchi a 40 (oggi 30) che tornano solo col tempo, revisione finale delle
 incongruenze. A progetto: lo strato 3 dell'economia (`docs/progetto-reperti.md`).
 
 Da fare:
