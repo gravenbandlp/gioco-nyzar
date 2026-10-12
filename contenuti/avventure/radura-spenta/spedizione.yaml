@@ -1,0 +1,1302 @@
+# La spedizione dell'Avventura «La radura spenta» (avventura.radura-spenta == 5): il sentiero dei cervi dal cippo di
+# Ponente alla Culla delle Foglie. Si entra con `avv-radura-spenta-il-sentiero-dei-cervi` (fuori dall'area, sulla
+# Superficie): una prova Media, le impronte dello stallone (avv-radura-spenta.tracce), la via a due rintocchi, e il
+# saluto del margine per il Figlio del Circolo. La ritirata riporta alla Superficie e azzera la profondità.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# - 0-2, il bosco corrotto (stanze 1-3): i faggi molli, i rovi marci, le ali cadute, il ruscello fermo. Prove Medie
+#   e Difficili; via senza prova da 2 rintocchi con mezza negativa.
+# - 3-6, la fossa delle serpi sotto le foglie bruciate (stanze 4-6): le foglie bruciate, la fossa, il tronco cavo, il
+#   canale sotto le foglie. Prove Difficili; via da 2 rintocchi. A profondità 5 la svolta, non ripetibile:
+#   i bozzoli delle foglia-rossa sotto la quercia caduta (avv-radura-spenta.bozzoli, che decide l'ultimo epilogo).
+#   La fascia arriva fino a 6 perché con quattro stanze e la svolta resti sempre qualcosa da giocare.
+# - 6-9, l'anello di betulle in fiamme (stanze 7-9): le betulle accese, le giumente al pascolo, la corteccia bianca,
+#   il varco dello stallone. Prove Difficili, una Molto difficile o uno scontro per stanza; via da 3 rintocchi con
+#   una negativa intera.
+# - 10, il cuore: la Culla delle Foglie, in due fasi. Prima le quattro giumente (lo scontro, il vetro, il cerchio
+#   spezzato, il passo dello zoccolo spaccato, l'Esorcismo), poi lo stallone con Arvel che torna (lo scontro, la
+#   carica di Arvel con avv-radura-spenta.cervo, il grumo nel petto con avv-radura-spenta.grumo, lo sguardo).
+#   Tutte le vie sono Difficili; chi fallisce o perde torna alla Superficie con Ferite o una negativa, e la
+#   spedizione è da rifare. La seconda fase è una storia fissa dell'area, non un seguito, aperta dal flag
+#   avv-radura-spenta.fase (1 dopo la prima fase, torna a 0 quando la seconda finisce): chi si ritira in mezzo la
+#   ritrova al cuore la volta dopo. Chiede anche la profondità, così le Cronache riconoscono il cuore vinto.
+#   (Un seguito qui faceva fallire test/revisione.test.ts, che prende i primi due seguiti dei contenuti nell'ordine
+#   dei file, e contenuti/avventure/ viene prima di contenuti/citta/.)
+# I vantaggi della storia aprono vie più facili: il vetro (le ali cadute, il canale, le betulle accese, il cuore),
+# le tracce (il ruscello, le giumente al pascolo, il cuore), il grumo (il tronco cavo, il varco, la seconda fase).
+aree:
+  - id: avv-radura-spenta
+    immagine: ambientazione/foresta-strisciante
+    nome: Il sentiero della Culla
+    sommario: "Dal cippo di Ponente al cuore del Bosco di Velthar, per un sentiero di cervi dove i faggi marciscono in piedi e il fuoco nero passa ogni notte."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      Il sentiero dei cervi entra nel Bosco di Velthar dal cippo di Ponente e va verso est, dritto come la luce
+      della lanterna che un tempo lo seguiva per un tratto. I primi faggi hanno la corteccia a scaglie, quelli dopo
+      sono molli fino al midollo, e più avanti il muschio è grigio da un tronco all'altro.
+
+      In fondo, a mezza giornata di cammino, c'è la Culla delle Foglie. Intorno alla Culla le betulle dell'anello
+      bruciano senza fare luce, e di notte il fuoco nero passa sul sentiero due volte.
+
+colonna:
+  - { contesto: area, id: avv-radura-spenta, musica: uncharted-dreams, ambiente: forest-night }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dal cippo di Ponente
+  - id: avv-radura-spenta-il-sentiero-dei-cervi
+    immagine: fazioni/circolo-di-velthar
+    titolo: Il sentiero dei cervi
+    sommario: "Dal cippo di Ponente il sentiero dei cervi porta alla Culla delle Foglie, dove i cavalli di fuoco nero tornano ogni alba."
+    luogo: Il Bosco di Velthar, il cippo di Ponente
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 5]
+    testo: |
+      Del Bosco sai ormai quello che si può sapere da fuori. Edo ti accompagna fino al primo faggio del
+      sentiero dei cervi e lì si ferma, perché ai novizi la Culla è proibita, e almeno questa regola la vuole
+      rispettare. Ti mette in tasca il vetro della lanterna avvolto in una pezza e un ciocco di legno di lanterna,
+      nel caso ti serva una luce.
+
+      «Mezza giornata, se il sentiero non cambia» dice. «Se torni indietro, cioè, quando rientri è come la prima
+      volta. Il Bosco non tiene il segno per nessuno.»
+
+      Oltre il faggio il sentiero scende fra tronchi chiari a chiazze, e il muschio è pieno di impronte grigie.
+
+      {resistenza Media} Dal sentiero sale un freddo da cantina, anche con il sole alto. Le mani lo sentono prima
+      di te, e cercano le maniche.
+    opzioni:
+      - testo: "Entrare fra i faggi molli"
+        descrizione: "Il sentiero passa fra tronchi che cedono sotto la mano. Bisogna capire dove appoggiarsi."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Fra i faggi
+          testo: |
+            Cammini tenendo la mano sui tronchi che hanno ancora la corteccia intera, e lasci stare quelli chiari.
+            Dopo cento passi il cippo non si vede più, e il sentiero va dritto verso est.
+          pe: { natura: 2 }
+          vai: avv-radura-spenta
+        fallimento:
+          titolo: Il faggio che cede
+          testo: |
+            Ti appoggi a un faggio chiaro, e il tronco ti si piega sotto la mano come pane bagnato. Cade di traverso
+            sul sentiero, e ci metti il resto del giorno a tornare indietro fino al cippo, con una spalla pesta.
+          effetti: { ferite: 0.5 }
+      - testo: "Mettere i piedi nelle impronte dello stallone"
+        descrizione: "Lo zoccolo spaccato va sempre davanti, e dove lui posa il piede il terreno regge."
+        requisiti: [avv-radura-spenta.tracce >= 1]
+        esito:
+          titolo: Lo zoccolo spaccato
+          testo: |
+            Trovi l'impronta con lo zoccolo spaccato e ci metti dentro lo stivale, e poi la successiva. Lo stallone
+            sceglie il terreno buono senza sbagliare, e tu entri nel Bosco dietro di lui con il passo di un cavallo.
+          vai: avv-radura-spenta
+      - testo: "Aprirti un sentiero accanto a quello dei cervi"
+        descrizione: "Lontano dalle impronte e dai faggi chiari, fra i rovi del sottobosco. È lungo e fa male alle mani."
+        costo: 2
+        esito:
+          titolo: Il sentiero nuovo
+          testo: |
+            Entri fra i rovi a una ventina di passi dal sentiero, con il coltello in mano e la giubba chiusa fino al
+            collo. Ci metti tutta la mattina a ritrovare il sentiero più avanti, e hai i dorsi delle mani a strisce.
+          effetti: { ferite: 0.5 }
+          vai: avv-radura-spenta
+      - testo: "Battere tre colpi sul primo faggio"
+        descrizione: "Al margine i bambini del Circolo salutano così il Bosco quando entrano, uno per ogni via."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: Tre colpi
+          testo: |
+            Batti tre volte il palmo sul primo faggio, che ti restituisce un suono vuoto, malato. Lo saluti lo stesso
+            come si saluta una casa, e il sentiero davanti a te si apre fino alla curva.
+          pe: { natura: 2 }
+          vai: avv-radura-spenta
+
+  # ------------------------------------------------------------ 0-2 · i faggi molli
+  - id: avv-radura-spenta-i-faggi-molli
+    immagine: icone/burning-tree
+    titolo: I faggi molli
+    sommario: "Qui i faggi sono marci in piedi, e i rami si staccano senza rumore."
+    luogo: Il sentiero della Culla, i faggi molli
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta <= 2]
+    testo: |
+      Il sentiero passa fra due file di faggi così vecchi che le radici si toccano sotto il muschio. La corteccia è
+      caduta e ha lasciato il legno nudo e spugnoso, e quando tira vento i rami alti si piegano più di quanto un
+      ramo dovrebbe. Uno si stacca mentre guardi e scende fra gli altri senza uno schianto, come un panno bagnato.
+      Il sentiero continua sotto quei rami per un lungo tratto.
+
+      {natura Media} I faggi marci cadono dalla parte verso cui tira il vento. Il lato sottovento del sentiero è
+      quello dove non arriva niente.
+    opzioni:
+      - testo: "Passare sul lato sottovento"
+        descrizione: "I rami cadono tutti dalla stessa parte. Basta stare dall'altra."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Sottovento
+          testo: |
+            Bagni un dito e lo alzi, poi passi sul lato giusto con la spalla contro i tronchi. Alle tue spalle due
+            rami scendono sul sentiero, e tu sei già oltre.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il ramo
+          testo: |
+            Sbagli lato. Un ramo ti scende addosso molle e pesante e ti schiaccia a terra, e ci metti un pezzo a
+            sgusciare fuori. Torni indietro fino a dove i faggi sono ancora sani.
+          effetti: { ferite: 0.5 }
+      - testo: "Correre sotto i rami prima che si stacchino"
+        descrizione: "Un tratto lungo, di corsa, con gli occhi in alto e i piedi su radici che non vedi."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Di corsa
+          testo: |
+            Corri con le braccia sopra la testa, saltando le radici che il muschio nasconde. Un ramo ti sfiora la
+            schiena e si affloscia sul sentiero dietro di te come una vela.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La radice nascosta
+          testo: |
+            A metà corsa una radice sotto il muschio ti prende il piede, e cadi lungo disteso. Quando ti rialzi hai
+            una caviglia gonfia e un ramo marcio di traverso davanti.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che cadano quelli che devono cadere"
+        descrizione: "Prima o poi i rami marci vengono giù tutti. Si aspetta seduti, al riparo di un tronco sano."
+        costo: 2
+        esito:
+          titolo: L'attesa
+          testo: |
+            Ti siedi contro l'unico faggio sano e guardi i rami venire giù uno alla volta, fino a sera. Quando passi,
+            il sentiero è coperto di legno molle, e ogni ramo che scavalchi ti sembra che si muova.
+          effetti: { profondita.avv-radura-spenta: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · i rovi marci
+  - id: avv-radura-spenta-i-rovi-marci
+    immagine: icone/thorny-vine
+    titolo: I rovi marci
+    sommario: "Il sentiero si stringe fra due muri di rovi che il fuoco nero ha fatto marcire senza ucciderli."
+    luogo: Il sentiero della Culla, i rovi
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta <= 2]
+    testo: |
+      Il sentiero si stringe fra due muri di rovi alti fino al petto. Il fuoco nero li ha toccati senza bruciarli, e
+      le spine si sono fatte lunghe e molli come aghi da materasso. Quando ti avvicini si piegano verso di te, piano,
+      tutte dalla stessa parte, e su un ramo più basso degli altri è rimasto impigliato un ciuffo di pelo bianco.
+
+      {medicina Media} Un graffio di quelle spine si chiude in un giorno, e il bordo resta grigio per un mese. Meglio
+      che non ti tocchino la pelle.
+    opzioni:
+      - testo: "Tagliarli"
+        descrizione: "I rovi seguono il caldo e si chiudono su chi li taglia. Si risponde con la lama."
+        combattimento: avv-radura-spenta-i-rovi
+        vittoria:
+          titolo: Il varco nei rovi
+          testo: |
+            Tagli i rami che ti vengono addosso finché smettono di muoversi, e i pezzi a terra si afflosciano come
+            stoppa bagnata. Il varco che hai aperto resta aperto.
+          effetti: { profondita.avv-radura-spenta: 1 }
+        sconfitta:
+          titolo: Le spine
+          testo: |
+            I rovi ti si chiudono intorno alle braccia, e le spine molli entrano nella pelle senza fare male. Te ne
+            liberi tornando indietro, con le maniche a brandelli e i graffi che diventano grigi.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Passare di fianco, con la giubba chiusa"
+        descrizione: "Il varco è stretto, e si passa di fianco senza toccare niente."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Di fianco
+          testo: |
+            Passi di fianco, con i gomiti stretti e la giubba chiusa fino al collo. Le spine si piegano verso di te e
+            arrivano a un dito dalla stoffa, e tu sei già oltre.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il graffio
+          testo: |
+            Una spina ti prende il collo sopra il bavero e si spezza nella pelle. Torni indietro a toglierla con le
+            unghie, e il segno è già grigio.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Girare largo per il sottobosco"
+        descrizione: "Lontano dal sentiero i rovi sono sani e più cattivi. Però sono rovi normali."
+        costo: 2
+        esito:
+          titolo: I rovi sani
+          testo: |
+            Giri largo nel sottobosco, fra rovi verdi che graffiano come si deve. Quando ritrovi il sentiero hai le
+            braccia rigate di sangue rosso.
+          effetti: { profondita.avv-radura-spenta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · le ali cadute
+  - id: avv-radura-spenta-le-ali-cadute
+    immagine: icone/butterfly
+    titolo: Le ali cadute
+    sommario: "In una conca fra le radici il sentiero è coperto di farfalle foglia-rossa morte, cadute tutte nella stessa notte."
+    luogo: Il sentiero della Culla, la conca delle ali
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta <= 2]
+    testo: |
+      In una conca fra le radici il sentiero è coperto di ali rosse. Sono centinaia di foglia-rossa morte,
+      rimaste dove sono cadute, con il rosso che sbiadisce verso il grigio a partire dalla punta delle ali. A
+      ogni
+      passo se ne alza una nuvola leggera che arriva alle ginocchia e ricade. In fondo alla conca il sentiero
+      risale fra due radici grosse come botti.
+
+      {natura Media} Sono morte in volo, nella stessa notte. Il fuoco nero è passato di qui all'altezza delle chiome.
+
+      {origine accolito-del-velo} Al Festival delle Foglie Alate le hai liberate tu dal carro una mattina, e
+      ti erano rimaste sulle maniche fino a sera.
+    opzioni:
+      - testo: "Attraversare la conca senza sollevare le ali"
+        descrizione: "Piano, strisciando i piedi. La polvere delle ali è grigia, e meglio che resti a terra."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Piano
+          testo: |
+            Attraversi la conca strisciando i piedi sotto le ali, senza alzarle. Arrivi alle radici in fondo con gli
+            stivali rossi fino alla caviglia.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La nuvola
+          testo: |
+            Un passo troppo lungo, e la nuvola di ali ti sale fino alla faccia. Dove la polvere grigia ti tocca la
+            pelle prude per ore, e torni indietro a lavarti con la borraccia.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Passare sulle radici sopra la conca"
+        descrizione: "Le radici girano intorno alla conca a un braccio da terra. Sono umide e tonde."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Sulle radici
+          testo: |
+            Giri intorno alla conca in equilibrio sulle radici, con le braccia larghe. Sotto di te le ali restano
+            ferme, e arrivi in fondo senza averne toccata una.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: In mezzo alle ali
+          testo: |
+            La radice è più viscida di quanto sembrava, e cadi di schiena in mezzo alla conca. Le ali ti si alzano
+            intorno in una nuvola rossa e grigia, e ne esci con un livido sul fianco.
+          effetti: { ferite: 0.5 }
+      - testo: "Guardare la conca attraverso il vetro"
+        descrizione: "Dietro il vetro della lanterna la Marea si vede a fili. La polvere delle ali, forse, anche."
+        requisiti: [avv-radura-spenta.vetro >= 1]
+        esito:
+          titolo: I fili fermi
+          testo: |
+            Nel vetro verde la conca è piena di fili grigi fermi a mezz'aria, dove le ali hanno lasciato la polvere.
+            Fra un filo e l'altro c'è un passaggio pulito, e lo segui con il vetro davanti all'occhio
+            fino alle radici.
+          effetti: { profondita.avv-radura-spenta: 1 }
+      - testo: "Spazzare le ali con un ramo, passo per passo"
+        descrizione: "Un sentiero pulito largo un piede, spazzato a mano. La polvere però si alza."
+        costo: 2
+        esito:
+          titolo: Il sentiero spazzato
+          testo: |
+            Spazzi le ali dal sentiero con un ramo di faggio, un passo alla volta, e la conca ti si riempie di
+            polvere intorno. Dall'altra parte ti accorgi di avere la gola che raschia.
+          effetti: { profondita.avv-radura-spenta: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · il ruscello fermo
+  - id: avv-radura-spenta-il-ruscello-fermo
+    immagine: icone/water-drop
+    titolo: Il ruscello fermo
+    sommario: "Un ruscello che scende dalla Culla attraversa il sentiero, e l'acqua non si muove più."
+    luogo: Il sentiero della Culla, il guado
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta <= 2]
+    testo: |
+      Un ruscello largo tre passi attraversa il sentiero, e l'acqua sta ferma. È grigia e liscia come una lastra di
+      latta, e le foglie sopra galleggiano dove sono cadute. Le pietre del guado hanno addosso una patina chiara,
+      lucida. A monte il ruscello viene dalla direzione della Culla, e il suo letto è asciutto per un tratto.
+
+      {natura Difficile} L'acqua ferma ha bevuto la Marea che il fuoco nero ha lasciato a monte. Sono rimaste
+      pulite le pietre più alte, dove l'acqua non arriva.
+    opzioni:
+      - testo: "Saltare da una pietra all'altra"
+        descrizione: "Tre pietre, una patina che scivola, e sotto l'acqua grigia."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Tre pietre
+          testo: |
+            Salti sulle pietre tenendo il peso sulle punte, e alla terza sei sull'altra riva con gli stivali asciutti.
+            Dietro di te l'acqua non si è nemmeno increspata.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Fino al ginocchio
+          testo: |
+            La seconda pietra ti scivola sotto il tallone, e finisci nell'acqua fino al ginocchio. È tiepida, e ti
+            lascia sugli stivali un velo grigio che non viene via nemmeno sfregando.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Risalire il letto asciutto fino a un guado pulito"
+        descrizione: "Più a monte l'acqua è passata, e ha lasciato pietre scoperte. Bisogna trovare quelle giuste."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: Le pietre alte
+          testo: |
+            Risali il letto finché trovi una fila di pietre bianche e asciutte, fuori dalla portata dell'acqua grigia.
+            Passi sopra quelle, e ritrovi il sentiero sull'altra riva.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: A monte
+          testo: |
+            Risali troppo, e il letto del ruscello si perde fra i faggi chiari. Ci metti un'ora a ritrovare il guado,
+            con il Bosco che a ogni passo ti sembra più uguale.
+          effetti: { tormento: 0.5 }
+      - testo: "Guadare dove sono passati i cavalli"
+        descrizione: "Le impronte dello stallone attraversano il ruscello in un punto solo. Il fuoco nero beve anche l'acqua."
+        requisiti: [avv-radura-spenta.tracce >= 1]
+        esito:
+          titolo: Il guado asciutto
+          testo: |
+            Le impronte con lo zoccolo spaccato entrano nel ruscello in un punto solo, e lì l'acqua si è ritirata dove
+            il fuoco nero l'ha bevuta. Passi sulle pietre asciutte nelle sue impronte.
+          effetti: { profondita.avv-radura-spenta: 1 }
+      - testo: "Guadare in fretta, con l'acqua alle ginocchia"
+        descrizione: "Tre passi nell'acqua grigia. Poi bisogna lavarsi bene."
+        costo: 2
+        esito:
+          titolo: L'acqua grigia
+          testo: |
+            Entri nell'acqua grigia fino alle ginocchia e la attraversi in tre passi lunghi. Dall'altra parte ti togli
+            gli stivali e ti strofini le gambe con il muschio sano, a lungo.
+          effetti: { profondita.avv-radura-spenta: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · le foglie bruciate
+  - id: avv-radura-spenta-le-foglie-bruciate
+    immagine: icone/falling-leaf
+    titolo: Le foglie bruciate
+    sommario: "Una conca piena di foglie nere fino al ginocchio. Sotto, qualcosa si muove con lo stesso rumore delle foglie."
+    luogo: Il sentiero della Culla, la conca delle foglie bruciate
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 3, profondita.avv-radura-spenta <= 6]
+    testo: |
+      Il terreno scende in una conca larga, piena fino al ginocchio di foglie nere e accartocciate. Il fuoco nero le
+      ha cotte senza lasciare cenere, e scricchiolano come carta al primo passo. Sotto, da qualche parte, qualcosa
+      si muove con lo stesso rumore. Il sentiero attraversa la conca nel mezzo, e dall'altra parte risale.
+
+      {natura Difficile} Le serpi della radura svernano sotto le foglie, e il fuoco nero le ha svegliate in autunno
+      con il suo caldo finto. Dove le foglie sono più tiepide ci sono i nidi.
+    opzioni:
+      - testo: "Camminare dove le foglie sono fredde"
+        descrizione: "Le serpi stanno al caldo. Bisogna sentire con le mani dove la conca è fredda, e passare di lì."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il freddo
+          testo: |
+            Affondi le mani nelle foglie ogni pochi passi, e segui la striscia fredda che attraversa la conca a
+            zigzag. Le serpi restano dove sono, e tu esci dall'altra parte senza un morso.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il tiepido
+          testo: |
+            Metti la mano dove le foglie sono tiepide, e qualcosa sotto si muove. Il morso arriva rapido
+            sul polso, e torni indietro con il braccio che ti formicola fino al gomito.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare senza far scricchiolare niente"
+        descrizione: "Le serpi sentono il rumore prima del passo. Si cammina sui bordi delle foglie, dove sono umide."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Senza rumore
+          testo: |
+            Cammini mettendo il piede dove le foglie sono umide e non scricchiolano, e ci metti il triplo del tempo.
+            Sotto di te il fruscio resta uguale fino in fondo, e risali dall'altra parte.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Lo scricchiolio
+          testo: |
+            Una foglia secca ti si spezza sotto il tacco con un rumore di ramo, e dalla conca si alzano tre teste
+            grige insieme. Arretri fino al bordo con una che ti ha preso lo stivale.
+          effetti: { ferite: 0.5 }
+      - testo: "Affrontare le serpi che escono"
+        descrizione: "Due serpi grige come la cenere, che mordono senza sibilare. Il caldo finto le ha rese svelte."
+        combattimento: avv-radura-spenta-le-serpi
+        vittoria:
+          titolo: Le serpi ferme
+          testo: |
+            Le due serpi restano stese fra le foglie, con le squame porose come cenere. Sotto, le altre
+            smettono di frusciare, e tu attraversi la conca con la lama abbassata.
+          effetti: { profondita.avv-radura-spenta: 1 }
+        sconfitta:
+          titolo: I morsi
+          testo: |
+            Le serpi ti mordono le gambe una dopo l'altra, e il veleno ti fa le ginocchia di stoppa. Torni sul bordo
+            della conca trascinandoti, e lì aspetti che le gambe ti tornino.
+      - testo: "Battere le foglie con un bastone davanti a te"
+        descrizione: "Le serpi scappano dal rumore, se fai abbastanza rumore. Qualcuna invece morde."
+        costo: 2
+        esito:
+          titolo: Il bastone
+          testo: |
+            Attraversi la conca battendo le foglie con un ramo, un colpo per ogni passo, e le serpi si spostano
+            davanti a te come l'acqua davanti a una barca. Una sola resta dov'è e ti morde la caviglia.
+          effetti: { profondita.avv-radura-spenta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · la fossa
+  - id: avv-radura-spenta-la-fossa
+    immagine: icone/snake
+    titolo: La fossa
+    sommario: "Le foglie bruciate coprivano una buca, e sul fondo le serpi stanno annodate a decine."
+    luogo: Il sentiero della Culla, la fossa delle serpi
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 3, profondita.avv-radura-spenta <= 6]
+    testo: |
+      Le foglie nascondevano una buca, e ci sei dentro fino alla vita prima di accorgertene. È una fossa larga
+      quanto una stanza, scavata dall'acqua sotto le radici di un faggio caduto. Sul fondo le serpi stanno annodate a
+      decine, grige come la cenere, nel tepore che il fuoco nero ha lasciato passando, e si muovono piano una
+      sopra l'altra. Le pareti sono di terra molle, tenute insieme dalle radici del faggio.
+
+      {atletica Media} Le radici grosse del faggio reggono un uomo, quelle sottili no. Le grosse stanno sulla
+      parete di destra, proprio sopra le serpi.
+    opzioni:
+      - testo: "Arrampicarti sulle radici grosse"
+        descrizione: "Sopra le serpi, con la terra che si sbriciola. Le radici grosse tengono, se le trovi."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Fuori dalla fossa
+          testo: |
+            Ti tiri su per le radici grosse con le serpi che si muovono sotto i tuoi stivali, e ti rotoli fuori dalla
+            fossa sul bordo opposto. Il sentiero riprende a dieci passi.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La radice sottile
+          testo: |
+            Una radice ti resta in mano e torni giù fino alle ginocchia nel groviglio. Ne esci dalla parte da cui eri
+            entrato con due morsi sul polpaccio, e il polpaccio ti diventa di legno per tutta la sera.
+          effetti: { ferite: 0.5 }
+      - testo: "Restare immobile finché si calmano"
+        descrizione: "Le serpi hanno sonno, e chi sta fermo abbastanza a lungo per loro è un sasso come gli altri."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il sasso
+          testo: |
+            Resti fermo nella fossa fino alla vita mentre le serpi ti strisciano sugli stivali e sulle ginocchia. Dopo
+            molto si riannodano sul fondo, e tu esci piano dalla parte del sentiero.
+          pe: { resilienza: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il sussulto
+          testo: |
+            Una serpe ti sale sul petto, e il corpo sussulta senza chiederti il permesso. Esci dalla fossa a bracciate
+            dalla parte sbagliata, con le mani che ti tremano.
+          effetti: { tormento: 0.5 }
+      - testo: "Parlare alle serpi con Richiamo"
+        descrizione: "Le serpi della radura sono state svegliate a stagione sbagliata. La lingua delle bestie le rimette a dormire."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: A dormire
+          testo: |
+            Parli alle serpi nella lingua delle bestie, e le teste si abbassano una dopo l'altra fra le spire. Esci
+            dalla fossa senza fretta, e nessuna si gira a guardarti.
+          pe: { magia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Svegliate peggio
+          testo: |
+            La tua voce le sveglia del tutto, e la fossa si mette a frusciare. Ti tiri fuori dalla parte da cui eri
+            entrato con un morso sulla mano.
+          effetti: { ferite: 0.5 }
+      - testo: "Scavare un gradino nella parete lontana dalle serpi"
+        descrizione: "Terra molle e un coltello, per un tempo lungo. Qualcuna delle serpi se ne accorgerà."
+        costo: 2
+        esito:
+          titolo: Il gradino
+          testo: |
+            Scavi due gradini nella parete opposta con il coltello e le dita, mentre le serpi si muovono sul fondo.
+            Una ti arriva alla caviglia proprio quando hai già un piede fuori.
+          effetti: { profondita.avv-radura-spenta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · il tronco cavo
+  - id: avv-radura-spenta-il-tronco-cavo
+    immagine: icone/horseshoe
+    titolo: Il tronco cavo
+    sommario: "Il sentiero passa dentro un castagno caduto. A metà, uno zoccolo di fuoco nero brucia ancora, e le serpi ci dormono intorno."
+    luogo: Il sentiero della Culla, il castagno caduto
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 3, profondita.avv-radura-spenta <= 6]
+    testo: |
+      Il sentiero passa dentro un castagno cavo caduto di traverso, lungo una ventina di passi, perché ai lati le
+      foglie bruciate arrivano al petto. A metà del tronco c'è un chiarore grigio. È uno zoccolo di fuoco nero,
+      staccato da una giumenta, che brucia ancora piano sul legno, e intorno le serpi si sono raccolte al caldo in
+      un groviglio largo come una ruota di carro.
+
+      {magia Media} Lo zoccolo non si spegne perché dentro ha una scheggia di cristallo. Finché la scheggia è intera,
+      il fuoco continua a prendere da lì.
+    opzioni:
+      - testo: "Spaccare la scheggia di cristallo dentro lo zoccolo"
+        descrizione: "Hai già visto il grumo nel petto di una giumenta. Lo zoccolo ha la stessa cosa, più piccola."
+        requisiti: [avv-radura-spenta.grumo >= 1]
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Media }
+        successo:
+          titolo: La scheggia
+          testo: |
+            Sai dove guardare. Infili la punta della lama nello zoccolo fino alla scheggia e la spacchi con un colpo
+            secco. Il fuoco si affloscia, e le serpi, senza più caldo, si sciolgono una dall'altra e spariscono fra le
+            foglie.
+          pe: { magia: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il fuoco sul braccio
+          testo: |
+            La lama scivola sulla scheggia, e il fuoco nero ti risale lungo il braccio fino al gomito, freddo come
+            l'acqua di un pozzo. Arretri fuori dal tronco con il braccio grigio.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Strisciare sopra il groviglio"
+        descrizione: "Fra le serpi e la volta del tronco c'è un palmo di spazio. Bisogna passarci senza toccare nessuna delle due."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Il palmo
+          testo: |
+            Passi sopra il groviglio sui gomiti, con la schiena contro la volta del tronco e la faccia a
+            un palmo dalle
+            serpi. Nessuna apre gli occhi. Dall'altra parte il tronco si apre sul sentiero.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La volta
+          testo: |
+            La volta del tronco cede sotto la tua schiena e ti piove addosso legno marcio, e le serpi si svegliano
+            tutte insieme. Esci dalla parte da cui eri entrato con un morso sul dorso della mano.
+          effetti: { ferite: 0.5 }
+      - testo: "Buttare fuori lo zoccolo con un ramo"
+        descrizione: "Fuori dal tronco lo zoccolo smette di scaldare il groviglio. Va preso e lanciato, e scotta di freddo."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il lancio
+          testo: |
+            Infili un ramo sotto lo zoccolo e lo sollevi, con il freddo che ti risale per il ramo fino alle mani, e lo
+            lanci fuori da un buco del tronco. Le serpi lo seguono una alla volta, e il passaggio si libera.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Le mani grige
+          testo: |
+            A metà del lancio il ramo si spezza, e lo zoccolo ti cade sulle mani. Lo scuoti via, ma le dita ti restano
+            grige e intorpidite fino a sera.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Scavalcare il tronco dall'esterno"
+        descrizione: "Fuori dal tronco le foglie bruciate arrivano al petto, e sotto le foglie ci sono altre serpi."
+        costo: 2
+        esito:
+          titolo: Dall'esterno
+          testo: |
+            Esci dal tronco e lo giri dall'esterno, con le foglie bruciate fino al petto e le braccia alzate. A metà
+            strada una serpe ti prende il fianco attraverso la giubba, e non lascia la presa finché non la stacchi.
+          effetti: { profondita.avv-radura-spenta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · il canale sotto le foglie
+  - id: avv-radura-spenta-il-canale-sotto-le-foglie
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il canale sotto le foglie
+    sommario: "Le foglie bruciate coprono un canale di pietre squadrate, e dentro il canale qualcosa fruscia per tutta la lunghezza."
+    luogo: Il sentiero della Culla, il canale
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 3, profondita.avv-radura-spenta <= 6]
+    testo: |
+      Qui le foglie bruciate coprono un canale scavato per portare acqua verso la Culla. Il bordo affiora appena,
+      una riga di pietre squadrate larghe una mano che va avanti dritta fra i faggi, e il fondo è vuoto. Dentro il
+      canale si sente frusciare per tutta la lunghezza. È l'unica strada che non costringe a girare intorno alla
+      fossa.
+
+      {accademiche Difficile} Il Circolo non squadra le pietre. Il canale è più vecchio dei druidi, e ha la pendenza
+      giusta per portare l'acqua senza farla correre.
+    opzioni:
+      - testo: "Camminare sul bordo di pietra"
+        descrizione: "Una mano di pietra squadrata, umida, per cento passi, con le serpi sotto."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Il bordo
+          testo: |
+            Cammini sul bordo con un piede davanti all'altro e le braccia aperte, per cento passi. Sotto di te il
+            fruscio ti segue fino in fondo, e lì si ferma.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Nel canale
+          testo: |
+            A metà strada una pietra del bordo si gira sotto il piede, e scivoli nel canale fino alla
+            cintura, in mezzo al fruscio. Ne esci con le mani prima di capire quante sono, e con un
+            morso.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire il canale dove è freddo"
+        descrizione: "Dove il fuoco nero non è passato il canale è freddo, e le serpi non ci stanno. Bisogna capire dove."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: I tratti freddi
+          testo: |
+            Scendi nel canale solo dove la pietra è fredda sotto la mano, e risali sul bordo dove è tiepida. Arrivi in
+            fondo a tratti, e le serpi non ti sentono mai.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La pietra tiepida
+          testo: |
+            Scendi nel canale in un tratto che ti sembrava freddo, e le foglie sotto di te si mettono a
+            frusciare. Torni
+            sul bordo con un piede solo e lo stivale morso.
+          effetti: { ferite: 0.5 }
+      - testo: "Guardare il canale attraverso il vetro"
+        descrizione: "Nel vetro della lanterna il fuoco nero ha un colore, e le serpi stanno soltanto dove c'è."
+        requisiti: [avv-radura-spenta.vetro >= 1]
+        esito:
+          titolo: Le macchie limpide
+          testo: |
+            Nel vetro il fuoco nero lasciato sotto le foglie ha il colore del ferro rovente, e dove il canale è freddo
+            il verde resta limpido. Lo percorri a balzi da una macchia limpida all'altra.
+          effetti: { profondita.avv-radura-spenta: 1 }
+      - testo: "Avanzare piano battendo i piedi"
+        descrizione: "Le serpi si spostano davanti a chi fa rumore. Ci vuole tempo, e i nervi a posto."
+        costo: 2
+        esito:
+          titolo: Il rumore
+          testo: |
+            Cammini sul bordo battendo i talloni sulla pietra, e il fruscio si allontana davanti a te, sempre a dieci
+            passi, fino in fondo. Quando smetti di battere ti accorgi che il fruscio lo senti ancora nelle orecchie.
+          effetti: { profondita.avv-radura-spenta: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta, i bozzoli (una volta sola)
+  - id: avv-radura-spenta-i-bozzoli
+    immagine: icone/butterfly
+    titolo: I bozzoli
+    sommario: "Sotto le radici di una quercia caduta pendono i bozzoli delle foglia-rossa. Il fuoco nero li ha già toccati ai bordi."
+    luogo: Il sentiero della Culla, la quercia caduta
+    area: avv-radura-spenta
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta == 5, avv-radura-spenta.svolta == 0]
+    testo: |
+      Dove la conca delle serpi è più bassa c'è una quercia caduta da molti anni, con le radici rivolte al
+      cielo come una
+      mano aperta. Sotto le radici, al riparo, pendono i bozzoli. Sono centinaia, lunghi come un dito e del colore
+      del sangue secco, appesi alle radici sottili a grappoli. Quelli più in basso, vicino alle foglie bruciate,
+      sono già diventati grigi. Ai piedi della quercia le serpi dormono annodate, dove il tepore del fuoco nero è
+      rimasto.
+
+      In alto, dove la quercia si apre in una forcella, il legno è sano e asciutto, lontano dal caldo delle foglie.
+
+      *Sono le foglia-rossa dell'anno prossimo, tutte quante.* Se i cavalli tornano a passare di qui, il grigio sale.
+
+      {origine accolito-del-velo} Al Festival delle Foglie Alate le hai liberate tu dal carro coperto di cremisi.
+      Al Velo nessuno ti ha mai detto da dove venissero, e tu non l'avevi chiesto.
+
+      {natura Media} Un bozzolo staccato con la radice sottile a cui è appeso sopravvive, se lo riappendi al
+      fresco prima di sera.
+    opzioni:
+      - testo: "Portare i bozzoli nella forcella, grappolo per grappolo"
+        descrizione: "Su e giù per la quercia caduta, con i grappoli in mano e le serpi sotto. Un passo falso le sveglia."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: La forcella
+          testo: |
+            Sali e scendi per la quercia fino a sera, con un grappolo di bozzoli alla volta tenuto per la radice, e li
+            riappendi nella forcella dove il legno è fresco. Le serpi non si svegliano. Quando hai finito sotto le
+            radici restano solo i grigi.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1, avv-radura-spenta.svolta: 1, avv-radura-spenta.bozzoli: 1 }
+        fallimento:
+          titolo: Le serpi sveglie
+          testo: |
+            Al terzo grappolo metti un piede sul groviglio, e le serpi si svegliano tutte. Ti ritrovi sulla quercia
+            con un morso sulla caviglia e i bozzoli ancora sotto le radici, e le serpi non tornano a dormire prima di
+            notte.
+          effetti: { ferite: 0.5 }
+      - testo: "Chiedere alle serpi di spostarsi"
+        descrizione: "Sono serpi della radura, e anche loro vivono della Culla. Una bestia capisce chi le chiede un favore, se glielo chiedi bene."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: Il favore
+          testo: |
+            Ti accucci davanti al groviglio e parli piano, con le mani basse, finché le serpi si
+            sciolgono e se ne vanno
+            fra le foglie, una alla volta. Porti i bozzoli nella forcella con calma, grappolo per grappolo.
+          pe: { addestrare-animali: 3 }
+          effetti: { profondita.avv-radura-spenta: 1, avv-radura-spenta.svolta: 1, avv-radura-spenta.bozzoli: 1 }
+        fallimento:
+          titolo: Il rifiuto
+          testo: |
+            Le serpi ti ascoltano e non si muovono, e la più grossa alza la testa verso la tua mano. Arretri prima che
+            decida, e i bozzoli restano dove sono.
+          effetti: { tormento: 0.5 }
+      - testo: "Spostarli uno per uno, con le mani fra le serpi"
+        descrizione: "Senza arrampicarti, dal basso, infilando le mani fra le spire. È lento, e qualcuna morde."
+        costo: 2
+        esito:
+          titolo: Uno per uno
+          testo: |
+            Stacchi i bozzoli dal basso uno alla volta, con le dita fra le spire, e li porti nella forcella in tasca e
+            nel cappello. Ti mordono due volte prima di sera. I bozzoli, però, ci sono tutti.
+          effetti: { profondita.avv-radura-spenta: 1, avv-radura-spenta.svolta: 1, avv-radura-spenta.bozzoli: 1, ferite: 0.5 }
+      - testo: "Lasciarli dove sono e andare avanti"
+        descrizione: "La Culla è davanti, e i cavalli ci sono ancora. I bozzoli possono aspettare, o no."
+        esito:
+          titolo: Avanti
+          testo: |
+            Guardi i bozzoli ancora un momento, poi riprendi il sentiero. Dietro di te le serpi si girano nel sonno, e
+            il grigio dei bozzoli più bassi resta dov'è.
+          effetti: { profondita.avv-radura-spenta: 1, avv-radura-spenta.svolta: 1 }
+
+  # ------------------------------------------------------------ 6-9 · le betulle accese
+  - id: avv-radura-spenta-le-betulle-accese
+    immagine: icone/birch-trees
+    titolo: Le betulle accese
+    sommario: "Comincia l'anello. Le betulle intorno alla Culla bruciano di fuoco nero, e l'aria intorno è fredda come una cantina."
+    luogo: Il sentiero della Culla, l'anello di betulle
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 6, profondita.avv-radura-spenta <= 9]
+    testo: |
+      Davanti a te comincia l'anello. Le betulle stanno in cerchio intorno alla Culla, una ogni dieci passi, e
+      bruciano. Il fuoco è nero e non fa luce, sale lungo la corteccia bianca fino ai rami e li avvolge senza
+      consumarli, e l'aria intorno è fredda come in una cantina. Fra una betulla e l'altra il fuoco si allunga a
+      ondate e si tocca, e quando si ritira lascia per qualche momento un varco.
+
+      {resilienza Difficile} Il fuoco nero brucia la testa prima della pelle. Chi ci cammina dentro senza paura sente
+      soltanto il freddo.
+    opzioni:
+      - testo: "Passare nel varco fra due ondate"
+        descrizione: "Il varco dura il tempo di dieci passi di corsa. Bisogna partire nel momento giusto e non fermarsi."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Molto difficile }
+        successo:
+          titolo: Dieci passi
+          testo: |
+            Aspetti che l'ondata si ritiri e parti di corsa. Il fuoco si richiude alle tue spalle quando
+            sei già oltre,
+            e il freddo ti arriva sulla nuca come una mano.
+          pe: { atletica: 4 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: L'ondata
+          testo: |
+            Parti tardi, e l'ondata ti prende a metà. Il fuoco nero ti passa addosso senza bruciare
+            niente, e torni indietro barcollando con la pelle delle braccia grigia e insensibile.
+          effetti: { ferite: 1 }
+      - testo: "Camminare nel fuoco senza fermarti"
+        descrizione: "Il fuoco nero non brucia il corpo. Brucia la paura, e chi ne ha troppa ci resta dentro."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il freddo e basta
+          testo: |
+            Entri nel fuoco come in una stanza buia di casa tua, senza allungare le mani. Il nero ti
+            sale fino agli occhi e senti soltanto il freddo. Esci dall'altra parte con le ciglia bianche
+            di brina.
+          pe: { resilienza: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La paura
+          testo: |
+            Al terzo passo nel fuoco ti viene in mente che non sai quanto è largo, e il pensiero non se
+            ne va più. Esci
+            all'indietro, e le mani ti tremano fino a sera.
+          effetti: { tormento: 1 }
+      - testo: "Cercare con il vetro dove il fuoco è spento"
+        descrizione: "Nel vetro della lanterna il fuoco nero si vede per quello che è. Anche i suoi buchi."
+        requisiti: [avv-radura-spenta.vetro >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il buco nel fuoco
+          testo: |
+            Guardi l'anello attraverso il vetro, e fra due betulle il fuoco ha un buco largo una spalla,
+            invisibile a occhio nudo. Ci passi di fianco, e il freddo ti sfiora appena.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il vetro appannato
+          testo: |
+            Il vetro ti si appanna con il freddo proprio mentre passi, e ti ritrovi con il fuoco sul braccio. Torni
+            indietro strofinandolo contro la giubba.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare che l'anello si apra da solo"
+        descrizione: "Di notte il fuoco esce con i cavalli, e l'anello per un'ora è spento. Bisogna aspettare la notte, lì davanti."
+        costo: 3
+        esito:
+          titolo: L'ora spenta
+          testo: |
+            Aspetti la notte accucciato fra le radici, mentre il freddo ti entra nelle ossa. Quando i cavalli escono
+            dall'anello verso la pianura, il fuoco delle betulle si abbassa, e tu passi nel buio.
+          effetti: { profondita.avv-radura-spenta: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 6-9 · le giumente al pascolo
+  - id: avv-radura-spenta-le-giumente-al-pascolo
+    immagine: icone/horse-head
+    titolo: Le giumente al pascolo
+    sommario: "Fra due betulle accese due giumente di fuoco nero bevono la Marea che sale dal terreno a fili."
+    luogo: Il sentiero della Culla, l'anello di betulle
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 6, profondita.avv-radura-spenta <= 9]
+    testo: |
+      Fra due betulle accese pascolano due giumente di fuoco nero, con il muso affondato in una nebbia grigia che
+      sale dal terreno a fili. È la Marea, e loro la bevono. A ogni sorso il fuoco sulle loro schiene si gonfia, e
+      nel mezzo del petto si accende un punto grigio. Il varco per entrare nell'anello è alle loro spalle, e la coda
+      di una delle due lo spazza a tempo.
+
+      {addestrare-animali Media} Pascolano come un cavallo vero, con la coda che tiene il tempo. Senza lo stallone
+      vicino, una giumenta che si spaventa scappa invece di caricare.
+    opzioni:
+      - testo: "Affrontarle"
+        descrizione: "Due giumente di fuoco nero con la pancia piena di Marea. Il varco è dietro di loro."
+        combattimento: avv-radura-spenta-le-giumente
+        vittoria:
+          titolo: Il varco libero
+          testo: |
+            Le giumente si disfano una dopo l'altra in un fumo nero che scende sull'erba, e dove avevano il petto
+            restano due grumi di cristallo crepati. Passi il varco calpestandoli.
+          effetti: { profondita.avv-radura-spenta: 1 }
+        sconfitta:
+          titolo: Gli zoccoli
+          testo: |
+            Le giumente ti calpestano senza peso e tornano a bere. Ti trascini via dal varco con la pelle grigia dove
+            ti hanno toccato, e ti fermi solo quando sei fuori dall'anello.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Battere sul terreno il passo dello zoccolo spaccato"
+        descrizione: "Le giumente vanno dove va lo stallone, e lo stallone ha un passo zoppo, con un colpo forte seguito da uno leggero."
+        requisiti: [avv-radura-spenta.tracce >= 1]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Il richiamo zoppo
+          testo: |
+            Da dietro una betulla batti il tallone sul terreno con il passo zoppo dello stallone. Le
+            giumente alzano il muso insieme e trottano via verso il suono sbagliato, e lasciano il varco
+            vuoto.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il passo sbagliato
+          testo: |
+            Sbagli il tempo, e le giumente lo sentono. Alzano il muso verso di te, e tu scappi fuori dall'anello prima
+            che decidano di caricare, con la caviglia storta su una radice.
+          effetti: { ferite: 1 }
+      - testo: "Spaventarle con un urlo e un ramo alzato"
+        descrizione: "Senza lo stallone vicino scappano, se le spaventi abbastanza. Se le spaventi male, caricano."
+        prova: { attributo: sociale, abilita: [intimidire, addestrare-animali], difficolta: Difficile }
+        successo:
+          titolo: Lo spavento
+          testo: |
+            Esci da dietro la betulla urlando con un ramo sopra la testa, e le giumente scartano insieme
+            e si buttano al
+            galoppo fra le betulle. Il varco resta libero.
+          pe: { intimidire: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La carica
+          testo: |
+            Le giumente si girano verso l'urlo, e invece di scappare caricano. Ti butti di lato fra le radici, e il
+            fuoco ti passa sopra la schiena lasciandoti un freddo che non va via.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare che finiscano di bere"
+        descrizione: "Prima o poi la nebbia finisce, e loro tornano alla Culla. Intanto la Marea sale anche per te."
+        costo: 3
+        esito:
+          titolo: La nebbia
+          testo: |
+            Aspetti dietro una betulla spenta mentre le giumente bevono, e la nebbia grigia sale fino alle tue
+            ginocchia. Quando se ne vanno hai le labbra che sanno di ferro, e passi il varco con le gambe molli.
+          effetti: { profondita.avv-radura-spenta: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ 6-9 · la corteccia bianca
+  - id: avv-radura-spenta-la-corteccia-bianca
+    immagine: icone/birch-trees
+    titolo: La corteccia bianca
+    sommario: "Sotto la corteccia delle betulle dell'anello ci sono incisi i segni più antichi del Circolo, e il fuoco nero corre lungo quei segni."
+    luogo: Il sentiero della Culla, l'anello di betulle
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 6, profondita.avv-radura-spenta <= 9]
+    testo: |
+      Su una betulla che il fuoco ha appena lasciato la corteccia si è staccata a strisce, e sotto il legno è inciso.
+      Ci sono tacche e spirali, segni del Circolo, che girano intorno al tronco come una fascia all'altezza del petto.
+      Le betulle accanto hanno la stessa fascia alla stessa altezza, e il fuoco nero passa da un tronco all'altro
+      proprio lungo le incisioni, come l'acqua in una gora.
+
+      {accademiche Difficile} Sono i segni con cui i primi druidi segnavano i confini. Questi dicono che
+      dentro l'anello comanda un altro, e che il Circolo ci entra da ospite.
+    opzioni:
+      - testo: "Leggere i segni fino a trovare la porta"
+        descrizione: "Ogni confine ha un punto dove si entra. I primi druidi lo segnavano, per chi sapeva leggere."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Molto difficile }
+        successo:
+          titolo: La porta
+          testo: |
+            Segui la fascia di tronco in tronco finché trovi una spirale girata al contrario, su una betulla più bassa
+            delle altre. Lì il fuoco salta il passaggio, e tu entri nell'anello dove lo saltava lui.
+          pe: { accademiche: 4 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Le spirali
+          testo: |
+            Le spirali girano tutte nello stesso modo, e dopo un po' ti girano anche davanti agli occhi. Ti siedi fra
+            le radici con la testa fra le mani, e il fuoco ti passa accanto due volte.
+          effetti: { tormento: 1 }
+      - testo: "Passare dove il fuoco ha appena girato"
+        descrizione: "Il fuoco corre lungo la fascia da un tronco all'altro. Dietro di lui c'è un momento di buio."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Dietro il fuoco
+          testo: |
+            Aspetti che il fuoco passi da una betulla all'altra e ti butti dietro di lui, sotto la fascia, prima che
+            torni indietro. Sei dentro l'anello con le ginocchia nell'erba grigia.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il ritorno del fuoco
+          testo: |
+            Il fuoco torna indietro prima del previsto e ti prende di striscio sulla spalla. Ti rotoli fuori
+            dall'anello con un braccio che non senti più fino al gomito.
+          effetti: { ferite: 1 }
+      - testo: "Sentire dove il fuoco prende il Mana"
+        descrizione: "Il fuoco nero corre nelle incisioni perché lì c'è Mana. Dove ce n'è meno, il fuoco passa più piano."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il punto magro
+          testo: |
+            Appoggi le dita sulla fascia incisa e la segui con il Mana, tronco per tronco, finché trovi il punto dove
+            l'incisione è più bassa e il fuoco più debole. Passi lì, e il fuoco ti lambisce appena.
+          pe: { magia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il Mana nelle dita
+          testo: |
+            Il Mana della fascia ti entra nelle dita insieme al fuoco, e per un pezzo il mondo intorno è grigio. Ti
+            ritrovi seduto fuori dall'anello, con la bocca che sa di ferro.
+          effetti: { contaminazione: 1 }
+      - testo: "Seguire la fascia intorno all'anello finché il fuoco si allontana"
+        descrizione: "Il fuoco gira. Prima o poi, in un punto, va via abbastanza a lungo."
+        costo: 3
+        esito:
+          titolo: Il giro lungo
+          testo: |
+            Fai il giro dell'anello all'esterno, betulla dopo betulla, fino a sera, aspettando che il fuoco si
+            allontani da un tratto abbastanza a lungo. Quando succede passi di corsa, e il freddo ti resta addosso.
+          effetti: { profondita.avv-radura-spenta: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 6-9 · il varco dello stallone
+  - id: avv-radura-spenta-il-varco-dello-stallone
+    immagine: icone/hoof
+    titolo: Il varco dello stallone
+    sommario: "L'ultimo varco dell'anello è pieno di cenere fredda, battuta dagli zoccoli. Ai lati, ferme come tronchi, due giumente di guardia."
+    luogo: Il sentiero della Culla, il varco dello stallone
+    area: avv-radura-spenta
+    ripetibile: true
+    requisiti: [avventura.radura-spenta == 5, profondita.avv-radura-spenta >= 6, profondita.avv-radura-spenta <= 9]
+    testo: |
+      L'ultimo varco dell'anello è un passaggio fra due betulle spezzate, e per terra c'è cenere fredda alta fino
+      alla caviglia, battuta da centinaia di zoccoli. Nel mezzo c'è un'impronta più fonda delle altre, con lo zoccolo
+      spaccato. Ai lati del varco stanno due giumente, così immobili che le prendi per tronchi bruciati finché una
+      non muove la coda. Al di là, fra i tronchi, si vede un prato grigio.
+
+      {armi-da-distanza Media} Stanno ferme, e il punto grigio nel petto si accende a ogni sorso d'aria. Da qui è un
+      bersaglio grande come una mela.
+    opzioni:
+      - testo: "Affrontare le due giumente di guardia"
+        descrizione: "Sono di guardia, e sono due. Dietro di loro c'è la Culla."
+        combattimento: avv-radura-spenta-le-giumente
+        vittoria:
+          titolo: Le guardie disfatte
+          testo: |
+            Le due giumente si disfano nella cenere del varco, e i grumi che avevano nel petto si crepano sotto i tuoi
+            stivali. Davanti a te il prato grigio della Culla è aperto.
+          effetti: { profondita.avv-radura-spenta: 1 }
+        sconfitta:
+          titolo: La cenere
+          testo: |
+            Le giumente ti buttano nella cenere a colpi di zoccolo e ti tengono lì finché smetti di
+            muoverti. Quando ti
+            rialzi sei fuori dall'anello, e loro sono di nuovo ferme come tronchi.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Colpire il grumo nel petto prima che si muovano"
+        descrizione: "Sai dov'è il cuore di una giumenta. Due colpi rapidi, prima che si sveglino."
+        requisiti: [avv-radura-spenta.grumo >= 1]
+        prova: { attributo: fisico, abilita: [armi-da-mischia, armi-da-distanza], difficolta: Difficile }
+        successo:
+          titolo: Due colpi
+          testo: |
+            Colpisci la prima giumenta nel punto grigio del petto, e la seconda prima che abbia girato la testa. Si
+            afflosciano nella cenere senza un nitrito, e tu passi il varco.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: Il colpo lungo
+          testo: |
+            Il primo colpo va a segno e il secondo no. La giumenta rimasta ti carica di fianco e ti butta fuori dal
+            varco, nella cenere, con una spalla che non risponde.
+          effetti: { ferite: 1 }
+      - testo: "Passare nella cenere senza alzarla"
+        descrizione: "Fra le due guardie, nella cenere alta, senza farne alzare un fiocco. Le giumente sentono tutto."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Il fiocco
+          testo: |
+            Passi fra le due giumente spingendo i piedi sotto la cenere come in acqua, senza alzarne un
+            fiocco. Una gira l'orecchio verso di te e lo rimette a posto quando sei già dentro l'anello.
+          pe: { furtivita: 4 }
+          effetti: { profondita.avv-radura-spenta: 1 }
+        fallimento:
+          titolo: La nuvola grigia
+          testo: |
+            A metà varco la cenere ti si alza intorno in una nuvola, e le giumente si girano insieme. Scappi fuori
+            dall'anello con gli zoccoli dietro, e uno ti prende la gamba.
+          effetti: { ferite: 1 }
+      - testo: "Strisciare sotto le betulle spezzate"
+        descrizione: "Accanto al varco le betulle cadute fanno un tunnel basso e pieno di cenere, lontano dalle guardie."
+        costo: 3
+        esito:
+          titolo: Il tunnel di cenere
+          testo: |
+            Strisci sotto i tronchi spezzati per un tempo lunghissimo, con la cenere fredda in bocca e negli occhi.
+            Sbuchi dall'altra parte dell'anello grigio dalla testa ai piedi, con la pelle che non si scalda più.
+          effetti: { profondita.avv-radura-spenta: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ il cuore · la Culla delle Foglie, prima fase
+  - id: avv-radura-spenta-la-culla-delle-foglie
+    immagine: icone/horse-head
+    titolo: La Culla delle Foglie
+    sommario: "Oltre l'anello c'è la Culla, un prato tondo intorno a una quercia. Sul prato corrono cinque cavalli di fuoco nero."
+    luogo: La Culla delle Foglie
+    area: avv-radura-spenta
+    requisiti: [avventura.radura-spenta == 5, avv-radura-spenta.fase < 1, profondita.avv-radura-spenta >= 10]
+    testo: |
+      Oltre l'anello la Culla delle Foglie è un prato tondo largo un tiro d'arco. Al centro c'è una quercia bassa e
+      larga, con i rami che toccano terra, e sotto la quercia l'erba è schiacciata in un ovale grande come un letto,
+      dove Arvel dorme da più anni di quanti ne ricordi il Circolo. Adesso l'erba è grigia fino alle radici, e
+      la quercia ha perso le foglie.
+
+      Sul prato corrono cinque cavalli di fuoco nero. Quattro giumente girano intorno alla quercia così strette che
+      i fianchi si toccano, e il fuoco passa dall'una all'altra senza interruzione. Dove passano l'erba diventa cenere
+      fredda. Il quinto sta fermo sotto i rami. È uno stallone più alto delle giumente di una testa, con la criniera
+      che sale dritta come il fumo di un camino e lo zoccolo anteriore destro spaccato in due.
+
+      Lo stallone gira la testa verso di te. Senza un nitrito le giumente cambiano direzione tutte insieme, e
+      ti vengono addosso.
+
+      {armi-da-mischia Difficile} Corrono legate. Se ne colpisci una, le altre tre sentono il colpo, e se il cerchio
+      si rompe si rompono tutte.
+
+      {origine figlio-del-circolo} Da bambino ti hanno raccontato della Culla senza portartici mai. Nei racconti era
+      verde, e piena di ali.
+    opzioni:
+      - testo: "Affrontare le quattro giumente"
+        descrizione: "Quattro bestie che corrono come una sola, con il fuoco in comune. Lo stallone guarda, per adesso."
+        combattimento: avv-radura-spenta-il-branco-nero
+        vittoria:
+          titolo: Il cerchio rotto
+          testo: |
+            Colpisci la stessa giumenta tre volte, e alla terza il cerchio si strappa. Il fuoco smette di passare
+            dall'una all'altra, e le quattro si disfano sul prato in un fumo nero, una dopo l'altra, finché sull'erba
+            restano soltanto quattro grumi di cristallo crepati.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avv-radura-spenta.fase: 1 }
+          segue: avv-radura-spenta-lo-stallone
+        sconfitta:
+          titolo: Il cerchio
+          testo: |
+            Le giumente ti chiudono nel cerchio e ti passano sopra a turno, finché non distingui più la
+            terra dal cielo.
+            Ti ritrovi fuori dall'anello, nella cenere del varco, e strisci fino al sentiero. Al cippo è
+            giorno, ed Edo
+            ti fascia le braccia grigie senza fare domande.
+          effetti: { contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Accendere il ciocco dietro il vetro e puntarlo sul cerchio"
+        descrizione: "La luce della lanterna di Ponente tiene lontano il fuoco nero. Qui hai soltanto il vetro e il legno, e possono bastare."
+        requisiti: [avv-radura-spenta.vetro >= 1]
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Difficile }
+        successo:
+          titolo: La luce verde
+          testo: |
+            Accendi il ciocco di legno di lanterna e ci tieni davanti il vetro, e la luce verde taglia il prato.
+            Le giumente ci entrano di corsa, una dietro l'altra, perché non sanno fare altro che seguirsi, e dentro la
+            luce si sfanno in fumo. Restano quattro grumi di cristallo crepati, e il ciocco si spegne.
+          pe: { tecnologia: 5 }
+          effetti: { avv-radura-spenta.fase: 1 }
+          segue: avv-radura-spenta-lo-stallone
+        fallimento:
+          titolo: Il ciocco che non prende
+          testo: |
+            Il ciocco non prende, e quando prende il cerchio è già addosso a te. Il vetro ti vola via di mano e lo
+            ritrovi nella cenere, intero per miracolo. Esci dall'anello trascinandoti, e al cippo ci arrivi all'alba.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Buttarti in mezzo al cerchio e spezzarlo"
+        descrizione: "Le giumente corrono legate. Se una deve scartarti, le altre scartano con lei, e il cerchio si rompe."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il salto
+          testo: |
+            Aspetti il cerchio e ci salti dentro nel punto dove passa, fra due fianchi. Le giumente
+            scartano tutte insieme per non toccarti e si urtano fra loro, e il fuoco che le lega si
+            strappa come una corda. Si disfano sul prato
+            una dopo l'altra, e restano quattro grumi di cristallo crepati.
+          pe: { atletica: 5 }
+          effetti: { avv-radura-spenta.fase: 1 }
+          segue: avv-radura-spenta-lo-stallone
+        fallimento:
+          titolo: Fuori tempo
+          testo: |
+            Salti un momento troppo tardi, e il cerchio ti prende in pieno. Ti ritrovi a rotolare nella cenere del
+            varco, fuori dall'anello, con le costole che scricchiolano. Al cippo ci arrivi all'alba, aiutandoti con un
+            ramo.
+          effetti: { ferite: 2, contaminazione: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Chiamarle via dallo stallone con il passo zoppo"
+        descrizione: "Le giumente seguono il passo dello zoccolo spaccato. Se lo senti battere altrove, il cerchio si allunga e si apre."
+        requisiti: [avv-radura-spenta.tracce >= 1]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: Il passo zoppo
+          testo: |
+            Batti il passo zoppo dello stallone sul tronco cavo della quercia, e il cerchio si
+            allunga verso di te come una corda che si sfila. Le giumente si urtano, e il fuoco fra loro si strappa.
+            Si disfano una dopo l'altra, e sull'erba restano quattro grumi crepati.
+          pe: { addestrare-animali: 5 }
+          effetti: { avv-radura-spenta.fase: 1 }
+          segue: avv-radura-spenta-lo-stallone
+        fallimento:
+          titolo: Lo stallone risponde
+          testo: |
+            Lo stallone risponde al tuo passo battendo il suo più forte, e le giumente non hanno dubbi su chi seguire.
+            Ti caricano tutte e quattro. Ti ritrovi fuori dall'anello, e al cippo ci arrivi all'alba.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Sciogliere il cerchio con l'Esorcismo"
+        descrizione: "Il fuoco nero non dovrebbe restare. La formula lo scioglie, ma il cerchio è uno solo e grande."
+        incantesimo: esorcismo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: La formula nel cerchio
+          testo: |
+            Dici la formula verso il cerchio, e la formula ci entra e lo percorre tutto, da una giumenta all'altra. Le
+            quattro si aprono sul petto come mantelli slacciati e si disfano sul prato, e restano
+            quattro grumi crepati.
+          pe: { magia: 5 }
+          effetti: { avv-radura-spenta.fase: 1 }
+          segue: avv-radura-spenta-lo-stallone
+        fallimento:
+          titolo: Il cerchio che restituisce
+          testo: |
+            La formula fa un giro del cerchio e ti torna indietro dalla parte opposta, fredda. Ti ritrovi a terra, e
+            il cerchio sopra di te. Esci dall'anello trascinandoti, e al cippo ci arrivi all'alba.
+          effetti: { ferite: 1, tormento: 1.5 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ il cuore · lo stallone, seconda fase
+  - id: avv-radura-spenta-lo-stallone
+    immagine: icone/stag-head
+    titolo: Lo stallone
+    sommario: "Resta lo stallone dallo zoccolo spaccato. Dall'anello di betulle, di corsa, entra nella Culla il cervo bianco."
+    luogo: La Culla delle Foglie, sotto la quercia
+    area: avv-radura-spenta
+    requisiti: [avventura.radura-spenta == 5, avv-radura-spenta.fase == 1, profondita.avv-radura-spenta >= 10]
+    testo: |
+      Lo stallone esce da sotto la quercia. Abbassa la testa, e il fuoco della criniera gli scende lungo il collo
+      fino alle spalle, finché tutto il corpo è un'unica fiamma nera più alta di te. Raspa due volte la cenere
+      con lo zoccolo spaccato, e nel petto gli si accende un grumo grigio grande come un pugno.
+
+      Dall'anello arriva un rumore di rami spezzati. Arvel entra nella Culla di corsa, con la testa bassa e le
+      corna in avanti, e si ferma fra te e la quercia. La bruciatura sul fianco gli si apre a ogni passo. Lo
+      stallone si gira verso di lui.
+
+      {empatia Media} Arvel ha paura quanto te. È tornato lo stesso, e aspetta che sia tu a muovere per primo.
+    opzioni:
+      - testo: "Affrontare lo stallone, con Arvel al fianco"
+        descrizione: "Arvel lo tiene impegnato con le corna. Il resto tocca a te, e lo stallone colpisce più forte delle giumente."
+        combattimento: avv-radura-spenta-lo-stallone-nero
+        vittoria:
+          titolo: La Culla libera
+          testo: |
+            Arvel prende lo stallone di fianco con le corna mentre tu gli arrivi al petto, e il grumo di cristallo si
+            spacca sotto il colpo. Lo stallone si affloscia in un fumo nero che il vento porta via fra le betulle, e
+            le betulle smettono di bruciare una alla volta. Arvel si sdraia nell'ovale d'erba sotto la quercia.
+
+            Esci dall'anello con la luce del mattino. Il muschio del sentiero è ancora grigio, e sotto i tuoi
+            stivali non si sbriciola più.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Lo zoccolo spaccato
+          testo: |
+            Lo stallone ti colpisce con lo zoccolo spaccato in mezzo al petto, e il freddo ti arriva fino alla
+            schiena. Arvel lo carica per coprirti mentre strisci fuori dall'anello. Al cippo ci arrivi all'alba, e il
+            Bosco intorno è ancora grigio.
+          effetti: { contaminazione: 1, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+      - testo: "Chiamare Arvel alla carica"
+        descrizione: "Arvel aspetta te. Con il grido giusto, al momento giusto, carica nel punto dove colpisci tu."
+        requisiti: [avv-radura-spenta.cervo >= 1]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: La carica
+          testo: |
+            Gridi quando lo stallone abbassa la testa, e Arvel parte dall'altro lato del prato. Lo prende in pieno
+            sotto il collo con tutte e due le corna, e il grumo nel petto si spacca contro i palchi. Lo stallone si
+            affloscia in un fumo nero, e le betulle dell'anello smettono di bruciare una alla volta.
+
+            Arvel si sdraia nell'ovale d'erba sotto la quercia. Esci dall'anello con la luce del mattino, e il
+            muschio del sentiero sotto i tuoi stivali non si sbriciola più.
+          pe: { addestrare-animali: 5 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il grido sbagliato
+          testo: |
+            Gridi troppo presto, e Arvel carica nel vuoto. Lo stallone ti viene addosso mentre il cervo si gira, e ti
+            ritrovi fuori dall'anello senza ricordare come, e al cippo ci arrivi all'alba.
+          effetti: { ferite: 2, tormento: 0.5, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+      - testo: "Colpire il grumo nel petto"
+        descrizione: "Il grumo grande come un pugno è quello che beve, e tutto il resto gli va dietro. Bisogna arrivarci mentre Arvel lo distrae."
+        requisiti: [avv-radura-spenta.grumo >= 1]
+        prova: { attributo: fisico, abilita: [armi-da-mischia, armi-da-distanza], difficolta: Difficile }
+        successo:
+          titolo: Il grumo
+          testo: |
+            Aspetti che lo stallone si alzi sulle zampe posteriori contro Arvel e colpisci il grumo grigio in mezzo al
+            petto. Si spacca con il rumore di un vetro sotto il tacco, e lo stallone si affloscia in un fumo nero. Le
+            betulle dell'anello smettono di bruciare una alla volta.
+
+            Arvel si sdraia nell'ovale d'erba sotto la quercia. Esci dall'anello con la luce del mattino, e il
+            muschio del sentiero sotto i tuoi stivali non si sbriciola più.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il colpo che scivola
+          testo: |
+            Il colpo ti scivola sul fuoco del petto senza arrivare al grumo, e lo stallone ricade su di te. Arvel lo
+            carica per coprirti, e tu strisci fuori dall'anello. Al cippo ci arrivi all'alba, con il braccio grigio.
+          effetti: { ferite: 2, contaminazione: 0.5, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+      - testo: "Tenere lo sguardo dello stallone mentre Arvel gli gira intorno"
+        descrizione: "Lo stallone guarda te. Finché lo tieni con gli occhi, Arvel può prenderlo da dietro."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Gli occhi
+          testo: |
+            Guardi lo stallone negli occhi, dove il fuoco nero è più fondo, e non abbassi lo sguardo nemmeno quando
+            raspa. Arvel gli gira alle spalle e lo carica da dietro, e le corna gli arrivano al grumo nel petto. Lo
+            stallone si affloscia in un fumo nero, e le betulle smettono di bruciare.
+
+            Arvel si sdraia nell'ovale d'erba sotto la quercia. Esci dall'anello con la luce del mattino, e il
+            muschio del sentiero sotto i tuoi stivali non si sbriciola più.
+          pe: { resilienza: 5 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Lo sguardo che cede
+          testo: |
+            Dentro gli occhi dello stallone c'è un buio che ti tira, e abbassi lo sguardo. Lui è già su di te. Esci
+            dall'anello senza sapere come, e al cippo ci arrivi all'alba con le mani che ancora tremano.
+          effetti: { ferite: 1, tormento: 1.5, avv-radura-spenta.fase: -1 }
+          vai: superficie-fratturata

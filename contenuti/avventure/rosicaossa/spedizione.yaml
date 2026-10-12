@@ -1,0 +1,1309 @@
+# La spedizione dell'Avventura «Il Rosicaossa» (avventura.rosicaossa == 5): dai condotti della Città Bassa, sotto la
+# testata del Ponte dei Morti, giù per la parete della Cicatrice fino al nido. Ci si entra da
+# `avv-rosicaossa-l-acqua-che-sale` (storia.yaml). Ritorno ai Ponti Sospesi, soglia 10, tre stanze alla volta.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0-3 i condotti: la bocca del condotto, lo scivolo (via senza prova con avv-rosicaossa.gesso), i granchi del ranno
+#       (scontro), il sifone. Prove Medie e Difficili, via senza prova da 2 rintocchi e mezza negativa.
+#   4-6 la parete: il Raschiatore seduto (Ennio), la donna con la lanterna (Vanna), la cisterna, la dispensa delle
+#       ossa. Prove Difficili. L'acqua sale: dalla profondità 6 la via senza prova costa 3 rintocchi invece di 2
+#       (due opzioni con `quando` sulla profondità).
+#   5   la svolta, «Senza peso», non ripetibile (avv-rosicaossa.svolta == 0): Ennio e Vanna sulla trave, e si capisce
+#       che sono svuotati. Si apre dalla profondità 5 e resta finché non la giochi, perché le stanze 7-9 la chiedono.
+#       Vie: una Difficile, una Media con l'osso, una Media con le lanterne, lo scontro con i due, una da 2 rintocchi.
+#   7-9 la galleria dei glifi: i glifi che si accendono (Molto difficile), il corridoio allagato (scontro, via Media
+#       con la paratia), le zecche d'osso (scontro), la porta incrinata (Molto difficile, via Media con la paratia).
+#       Via senza prova da 3 rintocchi e una negativa intera: il rintocco in più dell'acqua alta, che oltre i tre
+#       rintocchi non si può chiedere, diventa mezza negativa in più.
+#   10  il cuore, il nido: lo scontro con il Rosicaossa e i due svuotati, o le colonne del nido (Difficile), o le
+#       lanterne di Ennio e Vanna (Difficile, con avv-rosicaossa.lanterne). Chi vince porta la pista a 6 e passa alla
+#       risalita (seguito), che riporta ai Ponti Sospesi; chi perde torna sul ponte con una negativa e può riscendere.
+aree:
+  - id: avv-rosicaossa
+    immagine: ambientazione/cicatrice-del-mondo
+    nome: Le pareti della Cicatrice
+    sommario: "Sotto il Ponte dei Morti i condotti della Città Bassa entrano nella parete della Cicatrice, e la parete scende fino al nido del Rosicaossa."
+    spedizione: { ritorno: ponti-sospesi, soglia: 10, stanze: 3 }
+    testo: |
+      I condotti della Città Bassa sono tubi di pietra murata che scendono
+      dentro la parete della Cicatrice con la pendenza di una scala, e sul
+      fondo corre l'acqua calda delle fucine, grigia di ranno. Più in basso
+      i condotti sbucano sulla parete in mezzo a cenge e ballatoi di ferro
+      che nessuno ricorda di aver costruito, e la nebbia sale dal vuoto fino
+      alle
+      ginocchia.
+
+      Ogni tanto, dal basso, arriva un colpo sulla roccia, come di nocche su
+      una porta. Le lanterne del Ponte dei Morti, da qui, sono puntini gialli
+      sopra la tua testa.
+
+colonna:
+  - { contesto: area, id: avv-rosicaossa, musica: unsettling-paths, ambiente: cave }
+
+storylet:
+  # ------------------------------------------------------------ 0-3 · la bocca del condotto
+  - id: avv-rosicaossa-la-bocca-del-condotto
+    immagine: icone/pipes
+    titolo: La bocca del condotto
+    sommario: "Il condotto scende nella parete come una scala senza gradini, con il fondo pieno d'acqua calda e le pareti di ranno."
+    luogo: Le pareti della Cicatrice, la bocca del condotto
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa <= 3]
+    testo: |
+      Il condotto è un tubo di pietra murata alto quanto un uomo chino, e
+      scende nella parete con la pendenza di una scala. Sul fondo corre
+      l'acqua delle fucine, e sulle pareti il ranno ha lasciato una patina
+      viscida che luccica alla luce del lumino. Nella volta sono murati dei
+      pioli di ferro, uno ogni passo, messi da chi puliva i condotti prima
+      di Nazzaro. Sulla volta, appena dentro la bocca, ci sono le iniziali
+      di tre generazioni di ragazzi dell'Orlo incise con la punta di un
+      chiodo, e più in basso di così non ne trovi nessuna.
+
+      {tecnologia Media} I pioli sono vecchi e la malta intorno no. Quelli
+      con la malta chiara li ha rifatti qualcuno, e reggono.
+    opzioni:
+      - testo: "Scendere puntando i piedi contro le pareti"
+        descrizione: "Un piede per parete e la schiena curva, con l'acqua che corre sotto. Il ranno scivola."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: A gambe larghe
+          testo: |
+            Scendi a gambe larghe, un piede per parete, con le mani sulla
+            volta. Le cosce bruciano a metà strada, ma il condotto si spiana
+            prima che cedano.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Nell'acqua
+          testo: |
+            Un piede ti parte sul ranno e finisci seduto nell'acqua calda,
+            trascinato per una decina di passi prima di fermarti contro un
+            gomito del tubo. Risali carponi fino alla bocca.
+          effetti: { ferite: 0.5 }
+      - testo: "Calarti appeso ai pioli della volta"
+        descrizione: "I pioli sono messi apposta. Bisogna capire quali reggono ancora."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La malta chiara
+          testo: |
+            Vai di piolo in piolo scegliendo quelli con la malta chiara, e
+            lasci stare gli altri. Uno di quelli che salti lo sfiori con il
+            gomito, e cade nell'acqua per sparire verso il basso.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il piolo
+          testo: |
+            Il terzo piolo ti resta in mano con un pezzo di malta attaccato.
+            Cadi sulla schiena nel fondo del condotto e risali fino alla
+            bocca con il piolo ancora stretto nel pugno.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere seduto, a piccoli scivoloni"
+        descrizione: "Lento e sicuro, con le mani nel ranno per frenare. Le mani poi bruciano."
+        costo: 2
+        esito:
+          titolo: Le mani nel ranno
+          testo: |
+            Scendi seduto, frenando con i palmi sulle pareti. Ci metti molto,
+            e quando il condotto si spiana hai le mani rosse e lucide fino al
+            polso, come quelle di Nazzaro.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · lo scivolo
+  - id: avv-rosicaossa-lo-scivolo
+    immagine: icone/droplet-splash
+    titolo: Lo scivolo
+    sommario: "Il condotto si piega di colpo e diventa uno scivolo quasi verticale. Ai lati, gradini rotti coperti di ranno."
+    luogo: Le pareti della Cicatrice, lo scivolo
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa <= 3]
+    testo: |
+      Più giù il condotto si piega di colpo e diventa uno scivolo di pietra
+      liscia, quasi verticale, dove l'acqua corre veloce e sparisce nel buio.
+      Ai lati la pietra è rotta in gradini storti coperti di ranno. In fondo
+      si sente l'acqua cadere in una vasca. Su un gradino a mezza
+      altezza c'è una croce di gesso tonda, mezza lavata via. In cima allo
+      scivolo un ultimo piolo è murato nella volta, storto, con un giro di
+      corda vecchia ancora annodato sopra.
+
+      {acrobazia Media} Gradini messi così si scendono di traverso, un piede
+      sempre più basso dell'altro, senza fermarsi mai.
+    opzioni:
+      - testo: "Scendere i gradini di traverso"
+        descrizione: "Senza fermarsi, perché fermarsi sul ranno vuol dire scivolare."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Di traverso
+          testo: |
+            Scendi di traverso senza mai mettere i due piedi sullo stesso
+            gradino, con le braccia larghe. Arrivi in fondo prima di aver
+            capito di essere partito, con l'acqua della vasca alle caviglie.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Lo scivolo
+          testo: |
+            Ti fermi su un gradino per cercare il successivo, e il ranno fa
+            il resto. Scivoli per un tratto di schiena con l'acqua, ti
+            aggrappi a uno spigolo e risali piano, con un taglio sul fianco.
+          effetti: { ferite: 0.5 }
+      - testo: "Legare la corda a un piolo e calarti"
+        descrizione: "Un piolo in cima allo scivolo regge ancora. La corda basta fino a metà, il resto si vede."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Fino a metà
+          testo: |
+            Leghi la corda al piolo e ti cali a braccia, con i piedi contro lo
+            scivolo. Dove la corda finisce c'è il gradino della croce di
+            gesso, e da lì in giù i gradini sono asciutti.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il piolo storto
+          testo: |
+            Il piolo si piega sotto il tuo peso, piano, finché la corda non
+            scivola via dalla punta. Ti ritrovi su un fianco in fondo allo
+            scivolo molto prima del previsto, e risali piano a cercare
+            un'altra strada.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire le croci di Ninetta"
+        descrizione: "Le croci tonde segnano i gradini buoni. Ninetta li ha provati prima di te."
+        requisiti: [avv-rosicaossa.gesso >= 1]
+        esito:
+          titolo: I gradini buoni
+          testo: |
+            Le croci tonde ci sono anche qui, mezze lavate, una ogni tre
+            gradini. Metti i piedi soltanto lì, e ogni gradino tiene.
+            Sull'ultimo la croce è doppia, come per dire che da lì in poi non
+            c'era più bisogno.
+          effetti: { profondita.avv-rosicaossa: 1 }
+      - testo: "Lasciarti andare con l'acqua"
+        descrizione: "Lo scivolo finisce in una vasca. Ci si arriva in fretta, e non sempre in piedi."
+        costo: 2
+        esito:
+          titolo: La vasca
+          testo: |
+            Ti siedi nell'acqua e ti lasci andare. Lo scivolo ti porta giù in
+            un soffio, ti sbatte due volte contro le pareti e ti butta nella
+            vasca, dove riemergi tossendo, con il lumino ancora acceso.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · i granchi del ranno
+  - id: avv-rosicaossa-i-granchi-del-ranno
+    immagine: icone/crab-claw
+    titolo: I granchi del ranno
+    sommario: "In una vasca d'acqua tiepida e schiumosa si muovono dorsi pallidi larghi come scudi."
+    luogo: Le pareti della Cicatrice, la vasca dei granchi
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa <= 3]
+    testo: |
+      Dove il condotto si allarga c'è una vasca d'acqua tiepida coperta di
+      schiuma grigia, e sotto la schiuma si muovono dorsi pallidi larghi come
+      scudi. Sono granchi cresciuti nell'acqua delle fucine, con il guscio
+      molle ai bordi e una chela sola, enorme. Il condotto riprende
+      dall'altra parte della vasca, e per arrivarci c'è un gradino stretto
+      lungo il muro, a un palmo dall'acqua. Sul bordo della vasca
+      galleggiano gusci vuoti e una forchetta di stagno, che in qualche
+      cucina della Città Bassa stanno ancora cercando.
+
+      {natura Media} Mangiano quello che cade nella vasca. Un tonfo
+      dall'altra parte li chiama tutti là.
+    opzioni:
+      - testo: "Affrontare i granchi"
+        descrizione: "Sono due i più grossi, e le chele chiudono come cesoie. Il guscio però è molle ai bordi."
+        combattimento: avv-rosicaossa-i-granchi
+        vittoria:
+          titolo: I gusci molli
+          testo: |
+            Colpisci dove il guscio si fa molle, e i due granchi più grossi
+            finiscono a pancia in su nella schiuma. Gli altri si ritirano sul
+            fondo della vasca, e passi sul gradino senza che nessuno ti segua.
+          effetti: { profondita.avv-rosicaossa: 1 }
+        sconfitta:
+          titolo: La chela
+          testo: |
+            Una chela ti prende il polpaccio e ti tira verso l'acqua. Ti
+            liberi lasciandoci lo stivale e torni indietro su per il
+            condotto, con la gamba che sanguina e le chele che sbattono.
+          effetti: { tormento: 0.5 }
+      - testo: "Gettare un sasso nella vasca e passare"
+        descrizione: "Un tonfo dall'altra parte, e i granchi vanno là. Il gradino va fatto in silenzio."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il tonfo
+          testo: |
+            Lanci un pezzo di malta nell'angolo più lontano, e i dorsi pallidi
+            girano tutti da quella parte. Passi sul gradino in punta di piedi,
+            con la schiena al muro, mentre la schiuma si chiude dietro di te.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il gradino che suona
+          testo: |
+            Il sasso cade bene, ma a metà del gradino ne fai cadere un altro
+            con il tallone. Una chela esce dalla schiuma e ti apre la
+            caviglia, e tu torni indietro di corsa.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare sul gradino, piano, un passo ogni tanto"
+        descrizione: "Se ti muovi solo quando la schiuma è ferma, forse non ti sentono. Ci vuole molto."
+        costo: 2
+        esito:
+          titolo: Un passo ogni tanto
+          testo: |
+            Fai un passo ogni volta che la schiuma si ferma, e aspetti con il
+            fianco contro il muro quando si muove. A metà gradino una chela ti
+            pizzica la mano, e la lasci fare finché non ti molla.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · il sifone
+  - id: avv-rosicaossa-il-sifone
+    immagine: icone/drowning
+    titolo: Il sifone
+    sommario: "Il condotto finisce in un pozzetto pieno d'acqua. Sul bordo c'è il lumino di Ninetta, spento."
+    luogo: Le pareti della Cicatrice, il sifone
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa <= 3]
+    testo: |
+      Il condotto finisce in un pozzetto pieno d'acqua fino all'orlo. Il
+      tubo scende sotto il livello piegato a gomito e risale più avanti.
+      Dall'altra parte si sente l'acqua che riprende a correre. Sul bordo
+      del pozzetto c'è un lumino da scarto, freddo, accanto a una croce di
+      gesso tonda. Accanto al lumino ci sono le impronte di due piedi nudi e
+      piccoli, con il bordo bianco di ranno seccato, rivolte verso l'acqua.
+      Ninetta qui si è fermata a pensarci, e poi è andata.
+
+      {resistenza Media} Il gomito sarà lungo quattro o cinque bracciate.
+      L'acqua è calda, e il ranno brucia gli occhi.
+
+      {percezione Difficile} Sopra il pozzetto, nella volta, c'è un tombino
+      di ferro murato. Chi ha fatto il sifone aveva bisogno di un'altra
+      strada per pulirlo.
+    opzioni:
+      - testo: "Passare il gomito sott'acqua"
+        descrizione: "Quattro o cinque bracciate al buio, nell'acqua calda. Il ritorno, se serve, è più lungo."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il gomito
+          testo: |
+            Ti tuffi a occhi chiusi e ti tiri avanti con le mani sul fondo
+            del tubo. Riemergi dall'altra parte del gomito sputando acqua
+            grigia, e per un po' resti in ginocchio a sentire il cuore nelle
+            orecchie.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: L'acqua in gola
+          testo: |
+            A metà gomito il tubo si stringe, e la spalla si incastra. Torni
+            indietro a forza di gambe e riemergi nel pozzetto con l'acqua in
+            gola e gli occhi in fiamme.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare la strada di chi puliva il sifone"
+        descrizione: "Un sifone si intasa. Chi l'ha murato ci ha lasciato un passaggio sopra, da qualche parte."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: Il tombino
+          testo: |
+            Il tombino nella volta si apre spingendo con le due mani, e sopra
+            c'è un cunicolo asciutto che scavalca il gomito e ridiscende
+            dall'altra parte. Ci passi strisciando, con il lumino di Ninetta
+            in tasca.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La volta cieca
+          testo: |
+            Tasti la volta palmo a palmo, e trovi soltanto pietra e ranno.
+            Quando smetti, il lumino di Ninetta è ancora lì sul bordo, e non
+            hai il coraggio di guardarlo.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che il getto delle fucine cali"
+        descrizione: "Fra un getto e l'altro l'acqua nel pozzetto si abbassa di un palmo. Basta aspettare il momento."
+        costo: 2
+        esito:
+          titolo: Il palmo d'aria
+          testo: |
+            Aspetti seduto sul bordo finché il getto non cala, e l'acqua nel
+            gomito lascia un palmo d'aria sotto la volta. Passi con la
+            faccia schiacciata contro la pietra e la bocca in quel palmo
+            d'aria, come se baciassi la volta di un tubo.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · il Raschiatore seduto
+  - id: avv-rosicaossa-il-raschiatore-seduto
+    immagine: bestiario/wight
+    titolo: Il Raschiatore seduto
+    sommario: "Su una cengia della parete un uomo con un'imbracatura marcia ti indica la strada. Sorride senza denti davanti."
+    luogo: Le pareti della Cicatrice, una cengia
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa >= 4, profondita.avv-rosicaossa <= 6]
+    testo: |
+      Il condotto sbuca sulla parete della Cicatrice, su una cengia larga
+      due passi, e la nebbia sale dal vuoto fino alle ginocchia. Sulla cengia
+      c'è un uomo seduto con le gambe nel vuoto. Porta un'imbracatura da
+      Raschiatore con le cinghie marce, ha la faccia magra e bianca e sorride
+      senza i denti davanti.
+
+      «Ennio» dice, e si batte il petto con due dita. «Sono quaggiù da un
+      pezzo. La bambina con il lumino? È andata di là, per il condotto di
+      destra, quello asciutto.»
+
+      Dalla cengia partono due condotti verso il basso, quello di destra
+      asciutto e quello di sinistra pieno d'acqua.
+
+      {percezione Media} Sulla cengia la polvere è alta un dito, e intorno a
+      lui non c'è un'impronta.
+
+      {empatia Difficile} Mentre ti indica la destra guarda la sinistra, e
+      sorride di più.
+    opzioni:
+      - testo: "Fingere di credergli e guardare dove guarda lui"
+        descrizione: "Chi mente bene guarda dove non vuole che tu vada. Bisogna farglielo fare senza che se ne accorga."
+        prova: { attributo: sociale, abilita: [ingannare, empatia], difficolta: Difficile }
+        successo:
+          titolo: Il condotto di sinistra
+          testo: |
+            Lo ringrazi e ti avvii verso destra, piano. Al terzo passo ti volti
+            di colpo, e lo trovi con gli occhi fissi sul condotto di sinistra.
+            Prendi quello. Quando ti giri per salutarlo la cengia è vuota, e
+            la polvere è liscia.
+          pe: { ingannare: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il condotto di destra
+          testo: |
+            Prendi il condotto di destra. Dopo cento passi finisce contro una
+            grata murata, e dall'altra parte della grata c'è il vuoto. Torni
+            alla cengia, e Ennio non c'è più.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere per la parete fra i due condotti"
+        descrizione: "Né destra né sinistra. Fra i due condotti la roccia è rotta, e si scende con le mani."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Fra i due
+          testo: |
+            Ti cali dalla cengia sulla roccia rotta, con la nebbia che ti sale
+            addosso, e scendi a vista finché non trovi un ballatoio di ferro.
+            Da sopra Ennio ti guarda andare e smette di sorridere.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La roccia rotta
+          testo: |
+            Un appiglio ti resta in mano, e scivoli per due braccia prima di
+            fermarti con le dita in una crepa. Risali sulla cengia con le
+            unghie spaccate. Ennio, dalla cengia, ride piano senza muoversi
+            di un dito.
+          effetti: { ferite: 0.5 }
+      - testo: "Provare tutti e due i condotti"
+        descrizione: "Prima uno e poi l'altro. Ci vuole tempo, e l'acqua intanto sale."
+        quando: [profondita.avv-rosicaossa <= 5]
+        costo: 2
+        esito:
+          titolo: Prima l'uno
+          testo: |
+            Il condotto di destra finisce contro una grata murata sul vuoto.
+            Torni indietro e prendi l'altro, e quando ripassi dalla cengia
+            Ennio non c'è più.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+      - testo: "Provare tutti e due i condotti, con l'acqua alta"
+        descrizione: "Prima uno e poi l'altro. Adesso l'acqua arriva al ginocchio, e ogni passo costa il doppio."
+        quando: [profondita.avv-rosicaossa >= 6]
+        costo: 3
+        esito:
+          titolo: Prima l'uno, con l'acqua alta
+          testo: |
+            Il condotto di destra finisce contro una grata murata sul vuoto, e
+            per tornare indietro devi andare contro l'acqua. Quando ripassi
+            dalla cengia Ennio non c'è più, e le gambe ormai le senti di
+            legno fino all'anca.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la donna con la lanterna
+  - id: avv-rosicaossa-la-donna-con-la-lanterna
+    immagine: icone/old-lantern
+    titolo: La donna con la lanterna
+    sommario: "Su un ballatoio appeso alla parete una donna ti chiede di accenderle la lanterna. Dice che la bambina è già su."
+    luogo: Le pareti della Cicatrice, un ballatoio
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa >= 4, profondita.avv-rosicaossa <= 6]
+    testo: |
+      Su un ballatoio di ferro appeso alla parete con due catene c'è una
+      donna seduta, con una lanterna da Raschiatore spenta in grembo. Ha i
+      capelli bianchi tagliati a ciocche e la pelle sottile come carta da
+      registro. Il ballatoio è di ferro dei Precursori, e le catene che lo
+      reggono sono state rifatte con anelli di tutte le misure, legati con
+      il fil di ferro da qualcuno che non aveva fretta. Oltre il ballatoio
+      una scala di ferro scende nella nebbia.
+
+      «Me la accendi?» dice, e ti tende la lanterna. «Così dal ponte la
+      vedono, e sanno che ci sono. La bambina l'hanno tirata su con la
+      corda poco fa. Puoi tornare su anche tu.»
+
+      {intimidire Media} Non ti guarda mai in faccia. Parla alle tue mani,
+      e aspetta che le apri.
+    opzioni:
+      - testo: "Accenderle la lanterna"
+        descrizione: "Il cristallo è morto da anni. Un cristallo morto, scaldato bene, a volte fa ancora un po' di luce."
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: La luce
+          testo: |
+            Scaldi il cristallo fra le mani finché si accende di una luce
+            gialla e debole. La donna lo guarda e si ritrae contro le
+            catene, e alla
+            luce la sua ombra sulla roccia è sottile come un foglio. Poi sale
+            per la catena senza un rumore, e la scala resta libera.
+          pe: { magia: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il cristallo morto
+          testo: |
+            Il cristallo resta freddo. La donna te lo riprende con dita che
+            non pesano niente e comincia a cantare la filastrocca a mezza
+            voce, sempre la prima strofa, mentre tu torni indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Dirle in faccia che mente"
+        descrizione: "La corda di Ninetta è tornata su vuota. Lo sai tu, e forse lo sa anche lei."
+        prova: { attributo: sociale, abilita: [intimidire, empatia], difficolta: Difficile }
+        successo:
+          titolo: Dove l'acqua è calda
+          testo: |
+            Le dici che la corda è tornata su vuota, e che l'hai vista tu. Lei
+            alza la faccia per la prima volta. «Giù» dice. «Dove l'acqua è
+            calda.» Poi si arrampica sulla catena come una bambina, e sparisce
+            nella nebbia sopra il ballatoio.
+          pe: { intimidire: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La corda
+          testo: |
+            Lei ti ascolta fino in fondo. Poi ride, e ti dice che sei stanco
+            e che la bambina sta già mangiando pane in fondo al ponte. Per
+            un momento ci credi,
+            e quando ti accorgi di essere tornato al condotto lei non c'è più.
+          effetti: { tormento: 0.5 }
+      - testo: "Passarle accanto senza rispondere"
+        descrizione: "La scala è oltre il ballatoio. Lei ti seguirà con gli occhi, e con la voce."
+        quando: [profondita.avv-rosicaossa <= 5]
+        costo: 2
+        esito:
+          titolo: La voce sulla scala
+          testo: |
+            Le passi accanto senza guardarla e scendi per la scala. Lei ti
+            parla per tutto il tempo, sempre più piano, del pane in fondo al
+            ponte e della bambina già su, finché non la senti più.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+      - testo: "Passarle accanto senza rispondere, con l'acqua alta"
+        descrizione: "La scala è oltre il ballatoio, e adesso l'acqua dei condotti ci scende sopra. Ogni piolo scivola."
+        quando: [profondita.avv-rosicaossa >= 6]
+        costo: 3
+        esito:
+          titolo: La scala bagnata
+          testo: |
+            Scendi per la scala con l'acqua dei condotti che ti cade sulle
+            spalle, un piolo alla volta, e lei ti parla per tutto il tempo del
+            pane in fondo al ponte. Quando smette, sei in fondo, fradicio.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la cisterna
+  - id: avv-rosicaossa-la-cisterna
+    immagine: ambientazione/regno-profondo
+    titolo: La cisterna
+    sommario: "In una sala scavata nella parete l'acqua dei condotti si raccoglie sotto una crosta bianca. Sulla crosta c'è una scarpa piccola."
+    luogo: Le pareti della Cicatrice, la cisterna
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa >= 4, profondita.avv-rosicaossa <= 6]
+    testo: |
+      La scala finisce dentro una cisterna scavata nella parete. È una sala
+      tonda dove l'acqua dei condotti si raccoglie prima di cadere nel vuoto
+      da una bocca sul fondo. L'acqua è coperta da una crosta bianca di
+      ranno seccato, spessa come una tavola nei punti vecchi e sottile come
+      un'ostia in quelli nuovi. Sulle pareti, all'altezza del petto, una
+      riga di sale segna dove arrivava l'acqua l'ultima volta che le fucine
+      hanno vuotato le vasche. Sulla crosta, a metà strada, c'è una scarpa
+      di tela piccola. L'uscita è dall'altra parte, una porta bassa sopra il
+      livello dell'acqua.
+
+      {tecnologia Difficile} Sul fondo c'è una saracinesca arrugginita, con
+      la leva ancora al suo posto. Aperta, l'acqua cade nel vuoto e il
+      livello scende.
+    opzioni:
+      - testo: "Camminare sulla crosta dove è gialla"
+        descrizione: "La crosta vecchia è più gialla e regge. Fa un sentiero storto, e la scarpa è sul sentiero."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Il sentiero giallo
+          testo: |
+            Cammini sul giallo con i piedi larghi, e la crosta scricchiola
+            senza cedere. Raccogli la scarpa passando. È di Ninetta, con il
+            laccio rotto, e la metti nella giubba accanto al lumino.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La crosta bianca
+          testo: |
+            Metti un piede sul bianco, e la crosta si apre come un uovo. Finisci
+            nell'acqua calda fino alla vita, e torni alla scala con le gambe
+            che bruciano.
+          effetti: { ferite: 0.5 }
+      - testo: "Aprire la saracinesca del fondo"
+        descrizione: "La leva è arrugginita, e la saracinesca non si apre da cent'anni. Se si apre, l'acqua scende."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: La saracinesca
+          testo: |
+            Trovi il fermo della leva sotto la ruggine e lo sblocchi con il
+            coltello. La saracinesca sale con un gemito, e l'acqua si getta
+            nel vuoto. La crosta si posa sul fondo, e ci cammini sopra fino
+            alla porta bassa.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La leva
+          testo: |
+            La leva si spezza alla base e ti resta in mano. Da qualche parte
+            sotto il pavimento qualcosa si sblocca, e l'acqua sale di un palmo
+            invece di scendere. Torni alla scala prima che arrivi alla crosta.
+          effetti: { tormento: 0.5 }
+      - testo: "Rompere la crosta a colpi e guadare"
+        descrizione: "Si apre un canale nella crosta e si passa nell'acqua. Calda, e piena di ranno."
+        quando: [profondita.avv-rosicaossa <= 5]
+        costo: 2
+        esito:
+          titolo: Il guado
+          testo: |
+            Rompi la crosta con il tacco, un passo alla volta, e guadi
+            nell'acqua calda fino al petto. Arrivi alla porta bassa con la
+            pelle rossa e la scarpa di Ninetta stretta in mano.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5 }
+      - testo: "Rompere la crosta e guadare, con l'acqua alta"
+        descrizione: "L'acqua è salita fino alla porta bassa. Si passa nuotando sotto la crosta rotta."
+        quando: [profondita.avv-rosicaossa >= 6]
+        costo: 3
+        esito:
+          titolo: Il guado alto
+          testo: |
+            Rompi la crosta e nuoti nell'acqua calda, con i pezzi di ranno che
+            ti girano intorno alla faccia. Ti tiri su sulla soglia della porta
+            bassa con le braccia che tremano.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la dispensa delle ossa
+  - id: avv-rosicaossa-la-dispensa-delle-ossa
+    immagine: icone/stoned-skull
+    titolo: La dispensa delle ossa
+    sommario: "In un camino di roccia centinaia di ossa vuote pendono dalla parete, e battono fra loro quando sale l'aria."
+    luogo: Le pareti della Cicatrice, il camino delle ossa
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa >= 4, profondita.avv-rosicaossa <= 6]
+    testo: |
+      Il passaggio attraversa un camino di roccia che sale verso il ponte, e
+      sulle pareti del camino sono incollate con una resina scura centinaia
+      di ossa piccole di piccioni e di gatti, e qualcuna più grande. Sono
+      tutte vuote e hanno tutte il loro forellino. Quando l'aria sale dal
+      vuoto battono fra
+      loro con un suono di campanelli di legno, e il suono va giù. In mezzo
+      alle ossa piccole ce n'è una lunga quanto un braccio, con il forellino
+      in cima e una piastrina di Raschiatore ancora legata intorno con il
+      fil di ferro.
+
+      {natura Media} È una dispensa. Quello che è già stato bevuto si tiene
+      qui, e chi rosicchia il resto viene quando sente suonare.
+    opzioni:
+      - testo: "Attraversare il camino senza toccare un osso"
+        descrizione: "Fra le ossa ci sono vuoti larghi una spalla. Bisogna passarci di fianco, e fermarsi quando sale l'aria."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Fra i campanelli
+          testo: |
+            Passi di fianco nei vuoti e ti fermi ogni volta che l'aria sale e
+            le ossa cominciano a muoversi. Dall'altra parte del camino ti
+            accorgi di aver tenuto le braccia strette al petto per tutto il
+            tempo.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il suono
+          testo: |
+            Il gomito urta un grappolo d'ossa, e il camino suona da cima a
+            fondo. Dal basso rispondono zampe sulla roccia, tante. Torni
+            indietro di corsa, e qualcosa ti morde il tallone sulla soglia.
+          effetti: { ferite: 0.5 }
+      - testo: "Ammorbidire la resina e aprirti un passaggio"
+        descrizione: "La resina è scura e dura, e l'acqua calda dei condotti la scioglie. Le ossa si staccano senza suonare."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Difficile }
+        successo:
+          titolo: La resina sciolta
+          testo: |
+            Bagni la resina con l'acqua dei condotti finché non diventa molle
+            come cera, e stacchi le ossa a grappoli, posandole a terra senza
+            un rumore. Ti apri una strada larga quanto te, e il camino resta
+            zitto.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La resina che tiene
+          testo: |
+            La resina non si scioglie, e ti resta appiccicata alle dita in
+            fili scuri. Quando provi a staccare un osso viene via con un pezzo
+            di pelle, e lo senti suonare per un pezzo dentro la testa.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare in fretta e lasciarle suonare"
+        descrizione: "Il camino è corto. Se suona, suona. Basta essere dall'altra parte quando arriva chi deve arrivare."
+        quando: [profondita.avv-rosicaossa <= 5]
+        costo: 2
+        esito:
+          titolo: I campanelli
+          testo: |
+            Attraversi il camino di corsa con le ossa che suonano tutte
+            insieme, e dall'altra parte ti appiattisci in una nicchia. Senti
+            le zampe che salgono ad annusare il camino, e dopo un pezzo
+            tornano giù. Ci metti molto a
+            muoverti di nuovo.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+      - testo: "Passare in fretta, con l'acqua alta"
+        descrizione: "Il camino è corto, ma adesso l'acqua cade dall'alto e il fondo scivola. Se suona, suona."
+        quando: [profondita.avv-rosicaossa >= 6]
+        costo: 3
+        esito:
+          titolo: I campanelli bagnati
+          testo: |
+            Attraversi il camino scivolando, con le ossa che suonano tutte
+            insieme e l'acqua che ti cade addosso. Dall'altra parte ti
+            appiattisci in una nicchia finché le zampe non tornano giù.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta: senza peso
+  - id: avv-rosicaossa-senza-peso
+    immagine: bestiario/wight
+    titolo: Senza peso
+    sommario: "Due Raschiatori ti tendono la mano da una trave sospesa sul vuoto. La trave sotto di loro non vibra."
+    luogo: Le pareti della Cicatrice, la trave sul vuoto
+    area: avv-rosicaossa
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa >= 5, avv-rosicaossa.svolta == 0]
+    testo: |
+      Una trave di ferro nero sporge dalla parete sopra il vuoto e porta a
+      una cengia più bassa, dove si apre una galleria di pietra liscia, con
+      i segni dei Precursori sull'architrave. Sulla trave ci sono due
+      persone, una a ogni capo. Uno è un uomo magro con un'imbracatura da
+      Raschiatore marcia, e dice di chiamarsi Ennio. L'altra è una donna con
+      i capelli bianchi a ciocche e una lanterna spenta appesa al braccio, e
+      dice di chiamarsi Vanna.
+
+      «Dacci la mano» dice Ennio. «Sulla trave si scivola, ti portiamo noi.»
+      Ci camminano sopra avanti e indietro per farti vedere com'è facile, e
+      la trave sotto di loro non vibra di un dito. Quando si avvicinano vedi
+      che hanno un forellino rotondo in ogni giuntura, ai polsi, ai gomiti,
+      sotto le orecchie.
+
+      Dal fondo della galleria arrivano tre colpi lenti e due veloci, come
+      di nocche sulla roccia. Ennio e Vanna voltano la testa nello stesso
+      momento.
+
+      {medicina Difficile} I forellini si sono richiusi in un orlo sottile,
+      come quello dell'osso del gatto. Anche loro sono stati bevuti un poco
+      alla volta, per anni, mentre continuavano a camminare.
+
+      *Ennio Sterza e Vanna Ghedi, le lanterne in fondo al ponte.* Vanna ti
+      tende la mano, e aspetta.
+    opzioni:
+      - testo: "Prenderle il polso, come per farti aiutare"
+        descrizione: "Una mano tesa si può stringere al polso. Al polso si sente quanto pesa una persona."
+        prova: { attributo: mentale, abilita: [medicina, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il polso vuoto
+          testo: |
+            Le stringi il polso, e sotto le dita senti l'osso cedere come una
+            canna secca, leggero, senza niente dentro. Vanna sibila. Lei ed
+            Ennio salgono per la parete a quattro zampe senza peso e
+            spariscono nella galleria. La trave la passi da solo, piano, con
+            il vuoto sotto.
+          pe: { medicina: 3 }
+          effetti: { profondita.avv-rosicaossa: 1, avv-rosicaossa.svolta: 1 }
+        fallimento:
+          titolo: La mano che tira
+          testo: |
+            Le prendi la mano, e lei tira con una forza che non le
+            appartiene. Ti ritrovi in ginocchio sulla trave, con il vuoto
+            sotto la faccia, e ti liberi soltanto sbattendole il gomito contro
+            il ferro. Torni indietro gattonando fino alla cengia, senza
+            voltarti.
+          effetti: { ferite: 0.5 }
+      - testo: "Pesare la sua mano come l'osso del gatto"
+        descrizione: "Hai già tenuto in mano un osso bevuto. Sai che cosa cercare, e dove."
+        requisiti: [avv-rosicaossa.osso >= 1]
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: Come una piuma
+          testo: |
+            Le prendi la mano e la soppesi, come l'osso che ti ha dato Rosetta.
+            Pesa uguale. Vanna ritira la mano di scatto, ed Ennio smette di
+            sorridere. Salgono per la parete senza peso e spariscono nella
+            galleria, e tu passi la trave da solo, senza guardare giù.
+          pe: { medicina: 2 }
+          effetti: { profondita.avv-rosicaossa: 1, avv-rosicaossa.svolta: 1 }
+        fallimento:
+          titolo: Il dubbio
+          testo: |
+            Le prendi la mano e per un momento ti sembra pesante come quella
+            di chiunque. Esiti, e lei tira. Ti liberi all'ultimo e resti seduto
+            sulla cengia, con il cuore in gola.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiamarli per nome, con le loro lanterne accese"
+        descrizione: "Le lanterne di Ennio e Vanna, staccate dal Ponte dei Morti con il permesso di Dragna. Forse si ricordano."
+        requisiti: [avv-rosicaossa.lanterne >= 1]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: I nomi
+          testo: |
+            Accendi le due lanterne e dici i loro nomi interi. Si fermano.
+            Vanna guarda la sua lanterna a lungo, poi dice piano che la
+            bambina è nel nido e il vecchio la tiene per dopo. Dal fondo
+            arrivano i colpi, ed Ennio si volta per primo. Vanna lo segue su
+            per la parete, senza peso.
+          pe: { empatia: 2 }
+          effetti: { profondita.avv-rosicaossa: 1, avv-rosicaossa.svolta: 1 }
+        fallimento:
+          titolo: I nomi sbagliati
+          testo: |
+            Accendi le lanterne e dici i nomi, ma la voce ti esce storta, e
+            loro ridono insieme, con la stessa risata. Spegni le lanterne e
+            arretri finché la trave non è lontana.
+          effetti: { tormento: 0.5 }
+      - testo: "Affrontarli sulla trave"
+        descrizione: "Sono leggeri e veloci, e sanno stare dove tu scivoli. Però ti stanno davanti tutti e due."
+        combattimento: avv-rosicaossa-gli-svuotati
+        vittoria:
+          titolo: Senza peso
+          testo: |
+            Quando li colpisci volano via come stracci, e si aggrappano alla
+            parete con le dita. Dal fondo arrivano i colpi, e loro salgono per
+            la roccia verso la galleria senza voltarsi. Passi la trave da
+            solo, con gli occhi sul ferro.
+          effetti: { profondita.avv-rosicaossa: 1, avv-rosicaossa.svolta: 1 }
+        sconfitta:
+          titolo: La trave
+          testo: |
+            Ti girano intorno sulla trave come se fosse una strada, e alla fine
+            ti spingono indietro fino alla cengia, ridendo. Restano ad
+            aspettarti, uno a ogni capo.
+          effetti: { tormento: 0.5 }
+      - testo: "Rifiutare la mano e passare la trave a cavalcioni"
+        descrizione: "Lenti, con le gambe strette al ferro, senza toccare nessuno. Loro ti guarderanno per tutto il tempo."
+        costo: 2
+        esito:
+          titolo: A cavalcioni
+          testo: |
+            Passi la trave a cavalcioni, spingendoti avanti con le mani. A
+            metà li vedi andare via, su per la parete verticale, camminando
+            come si cammina su un pavimento. Arrivi dall'altra parte con le
+            cosce scorticate.
+          effetti: { profondita.avv-rosicaossa: 1, avv-rosicaossa.svolta: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · i glifi che si accendono
+  - id: avv-rosicaossa-i-glifi-che-si-accendono
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: I glifi che si accendono
+    sommario: "Nella galleria dei Precursori i glifi delle pareti si accendono a scatti, e la pietra sotto diventa calda."
+    luogo: Le pareti della Cicatrice, la galleria dei glifi
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, avv-rosicaossa.svolta >= 1, profondita.avv-rosicaossa >= 7, profondita.avv-rosicaossa <= 9]
+    testo: |
+      La galleria dei Precursori scende dentro la parete a gradoni bassi, e
+      sulle pareti corrono file di glifi incisi nella pietra liscia. Dove
+      l'acqua dei condotti è filtrata dentro, i glifi si accendono e si
+      spengono da soli, a scatti, con una luce azzurra che fa male ai denti.
+      A ogni scatto il gradone sotto i glifi accesi diventa caldo come una
+      piastra. Sui gradoni più bassi l'acqua dei condotti scende a
+      ventaglio, e dove tocca un glifo acceso sfrigola e diventa vapore.
+
+      {magia Difficile} Il Mana dentro i glifi è guasto e va a ondate,
+      sempre con lo stesso giro. Chi conta il giro sa dove mettere i piedi.
+    opzioni:
+      - testo: "Contare il giro dei glifi e passare a tempo"
+        descrizione: "Le ondate tornano sempre uguali. Bisogna contarle due volte e poi fidarsi."
+        prova: { attributo: mentale, abilita: [magia, accademiche], difficolta: Difficile }
+        successo:
+          titolo: A tempo
+          testo: |
+            Conti a mezza voce due giri interi, e al terzo scendi i gradoni
+            sempre un passo dietro alla luce. Sull'ultimo gradone raccogli una
+            scheggia di glifo staccata dall'acqua, ancora tiepida.
+          pe: { magia: 3 }
+          effetti: { profondita.avv-rosicaossa: 1, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: Il gradone caldo
+          testo: |
+            Sbagli il conto di uno, e il gradone si accende sotto lo stivale.
+            Torni su saltando, con la suola che fuma e la pianta del piede
+            che pulsa.
+          effetti: { ferite: 0.5 }
+      - testo: "Correre giù per tutti i gradoni"
+        descrizione: "Se corri abbastanza, la pietra non fa in tempo a scaldarsi sotto di te. Basta non cadere."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Molto difficile }
+        successo:
+          titolo: La corsa
+          testo: |
+            Parti a testa bassa e scendi i gradoni due alla volta, con la luce
+            azzurra che ti scoppia ai lati. In fondo ti fermi contro la parete,
+            e soltanto allora senti il caldo nelle suole.
+          pe: { atletica: 5 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La caduta sui gradoni
+          testo: |
+            A metà corsa inciampi e cadi sui gradoni accesi, e la pietra ti
+            morde le mani e le ginocchia. Ti trascini su fino al primo gradone
+            spento.
+          effetti: { ferite: 1 }
+      - testo: "Scendere un gradone alla volta, aspettando il buio"
+        descrizione: "Prima o poi ogni gradone si spegne. Si aspetta e si scende, con l'acqua alle caviglie."
+        costo: 3
+        esito:
+          titolo: Un gradone alla volta
+          testo: |
+            Scendi un gradone ogni volta che si spegne, e aspetti con la
+            schiena al muro quando si accende. Il caldo ti arriva lo stesso
+            dalle suole, e l'acqua sale dietro di te finché non sei in fondo.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · il corridoio allagato
+  - id: avv-rosicaossa-il-corridoio-allagato
+    immagine: icone/drowning
+    titolo: Il corridoio allagato
+    sommario: "L'acqua delle fucine è arrivata nella galleria e sale a ogni getto. Sotto la superficie passano i dorsi dei granchi."
+    luogo: Le pareti della Cicatrice, il corridoio allagato
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, avv-rosicaossa.svolta >= 1, profondita.avv-rosicaossa >= 7, profondita.avv-rosicaossa <= 9]
+    testo: |
+      Più in basso la galleria è allagata fino al petto. L'acqua delle
+      fucine è arrivata fin qui e sale ancora a ogni getto, con un rumore
+      lontano di cascata. Sotto la superficie i glifi del pavimento
+      lampeggiano, e fra un lampo e l'altro passano i dorsi pallidi dei
+      granchi del ranno, scesi con l'acqua. In fondo, dove il pavimento
+      risale, i gradini sono asciutti. Dal soffitto sporgono i glifi spenti
+      come borchie, e fra una borchia e l'altra c'è quanto basta per una
+      mano.
+
+      {atletica Difficile} Sono trenta bracciate da fare vestito di tutto
+      punto. A nuoto si fanno, se non ti fermi mai.
+    opzioni:
+      - testo: "Attraversare a nuoto fra un lampo e l'altro"
+        descrizione: "Al buio i granchi non ti vedono. Si nuota quando i glifi sono spenti, e ci si ferma quando si accendono."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Al buio
+          testo: |
+            Nuoti soltanto quando i glifi si spengono, e quando si accendono
+            resti immobile a galla. I granchi ti passano sotto due volte. Ti
+            tiri su sui gradini asciutti con le braccia di piombo.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Il lampo
+          testo: |
+            I glifi si accendono mentre sei a metà, e un granchio ti vede. La
+            chela ti prende la giubba e ti tira giù. Ti liberi lasciandogliela
+            e torni indietro sputando acqua.
+          effetti: { ferite: 0.5 }
+      - testo: "Farti largo fra i granchi"
+        descrizione: "Nell'acqua alta i granchi si muovono meglio di te. Però sono due, e i gradini asciutti sono vicini."
+        combattimento: avv-rosicaossa-i-granchi
+        vittoria:
+          titolo: La strada aperta
+          testo: |
+            Li colpisci sotto il guscio quando si alzano per afferrarti, e i
+            due più grossi vanno a fondo. Gli altri spariscono fra i lampi, e
+            arrivi ai gradini asciutti camminando.
+          effetti: { profondita.avv-rosicaossa: 1 }
+        sconfitta:
+          titolo: Sott'acqua
+          testo: |
+            Una chela ti trascina sotto, e per un momento vedi i glifi accesi
+            dal basso, azzurri. Ti liberi a calci e torni indietro con l'acqua
+            nei polmoni.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare la paratia di Nazzaro"
+        descrizione: "Alla terza campana Nazzaro chiude la paratia per il tempo di una pipa. Qui sotto l'acqua deve calare."
+        requisiti: [avv-rosicaossa.paratia >= 1]
+        prova: { attributo: mentale, abilita: [resilienza, percezione], difficolta: Media }
+        successo:
+          titolo: Il tempo di una pipa
+          testo: |
+            Ti siedi sui gradini e aspetti, contando i getti. A un certo punto
+            il rumore della cascata si ferma, e l'acqua comincia a scendere.
+            Attraversi la galleria con l'acqua alle ginocchia, e i granchi si
+            ritirano negli angoli.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La campana sbagliata
+          testo: |
+            Conti i getti e ti convinci che la campana sia passata. Entri
+            nell'acqua troppo presto, e l'acqua sale invece di scendere.
+            Torni ai gradini a nuoto, con la giubba che ti tira giù.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare aggrappato alle sporgenze del soffitto"
+        descrizione: "Nella volta ci sono le sporgenze dei glifi. Si passa appesi da una sporgenza all'altra sopra i granchi."
+        costo: 3
+        esito:
+          titolo: Appeso
+          testo: |
+            Attraversi la galleria appeso alla volta, una sporgenza dopo
+            l'altra, con l'acqua che ti tocca la schiena a ogni getto. Le
+            dita ti si aprono sui gradini asciutti, e ci resti seduto a lungo.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · le zecche d'osso
+  - id: avv-rosicaossa-le-zecche-d-osso
+    immagine: bestiario/verme-carogna
+    titolo: Le zecche d'osso
+    sommario: "Oltre un arco basso il pavimento è coperto di schegge d'osso, e sulle pareti stanno attaccate le zecche, a coppie."
+    luogo: Le pareti della Cicatrice, l'arco delle zecche
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, avv-rosicaossa.svolta >= 1, profondita.avv-rosicaossa >= 7, profondita.avv-rosicaossa <= 9]
+    testo: |
+      La galleria passa sotto un arco basso, e oltre l'arco il pavimento è
+      coperto di schegge d'osso rosicchiate. Sulle pareti, fra i glifi
+      spenti, stanno attaccate delle zecche bianche lunghe un braccio, a
+      coppie, con tutte le zampe. Sono i piccoli del Rosicaossa. Non hanno
+      ancora l'ago, e quando senti il primo ticchettio delle loro zampe hai
+      già capito che hanno sentito te. Fra le schegge, contro il muro, c'è
+      una borraccia di cuoio da Raschiatore rosicchiata fino alla cucitura.
+
+      {furtivita Difficile} Vanno verso il rumore e verso il caldo. Un lumino
+      acceso lasciato nell'angolo le terrebbe occupate per un po'.
+    opzioni:
+      - testo: "Affrontare le zecche"
+        descrizione: "Due si staccano dalla parete per prime. Sono svelte, e mordono dove la giubba non copre."
+        combattimento: avv-rosicaossa-le-zecche
+        vittoria:
+          titolo: Le zecche a terra
+          testo: |
+            Le due zecche si rovesciano sulla schiena e muovono le zampe
+            ancora per un po'. Le altre restano ferme sulla parete e ti
+            lasciano passare sotto l'arco.
+          effetti: { profondita.avv-rosicaossa: 1 }
+        sconfitta:
+          titolo: I morsi
+          testo: |
+            Le zecche ti saltano addosso da due parti e mordono alle caviglie
+            e al collo. Te le strappi via e scappi sotto l'arco, all'indietro,
+            finché non smettono di seguirti.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare un lumino acceso e passare nell'ombra"
+        descrizione: "Il lumino nell'angolo, tu lungo l'altra parete. Le zecche vanno al caldo, se non fai rumore."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il lumino nell'angolo
+          testo: |
+            Posi il lumino acceso di Ninetta nell'angolo più lontano, e le
+            zecche si staccano dalla parete una dopo l'altra per andarci
+            intorno. Passi lungo il muro opposto con le schegge che non
+            fanno
+            rumore sotto i piedi.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: La scheggia
+          testo: |
+            A metà strada una scheggia d'osso ti scricchiola sotto il tacco, e
+            le zecche lasciano il lumino. Torni sotto l'arco con un morso
+            sulla mano.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare nel canale di scolo sotto il pavimento"
+        descrizione: "Lungo un lato corre un canale d'acqua coperto da lastre. Ci si passa sulla pancia, e le zecche non ci entrano."
+        costo: 3
+        esito:
+          titolo: Il canale
+          testo: |
+            Sollevi la prima lastra e ti infili nel canale, sulla pancia, con
+            l'acqua calda in faccia. Sopra di te, per tutto il tempo, senti
+            le zampe che camminano sulle lastre.
+          effetti: { profondita.avv-rosicaossa: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · la porta incrinata
+  - id: avv-rosicaossa-la-porta-incrinata
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: La porta incrinata
+    sommario: "Una porta tonda dei Precursori chiude la galleria. Metà dei suoi glifi sono incrinati, e dall'altra parte arrivano dei colpi."
+    luogo: Le pareti della Cicatrice, la porta tonda
+    area: avv-rosicaossa
+    ripetibile: true
+    requisiti: [avventura.rosicaossa == 5, avv-rosicaossa.svolta >= 1, profondita.avv-rosicaossa >= 7, profondita.avv-rosicaossa <= 9]
+    testo: |
+      La galleria si chiude contro una porta tonda di pietra liscia, alta due
+      uomini, con un cerchio di glifi intorno. Metà dei glifi sono incrinati
+      e lampeggiano, l'altra metà è spenta. In basso la porta non chiude più,
+      e dalla fessura esce l'acqua delle fucine insieme a un'aria fredda che
+      odora di nebbia. Davanti alla porta l'acqua forma una pozza che sale e
+      scende con i getti delle fucine, e a ogni getto la fessura resta
+      scoperta un palmo di meno. Dall'altra parte arrivano dei colpi sulla
+      pietra, tre lenti seguiti da due veloci.
+
+      {tecnologia Difficile} La porta scorre verso l'alto. I glifi sani sono
+      la serratura, e quelli incrinati una serratura rotta, che ogni tanto si
+      apre da sola.
+    opzioni:
+      - testo: "Toccare i glifi sani nell'ordine giusto"
+        descrizione: "Una serratura dei Precursori si apre con le dita. Basta sapere quali, e in che ordine."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Difficile }
+        successo:
+          titolo: La serratura
+          testo: |
+            Tocchi i glifi sani uno dopo l'altro, seguendo le incisioni che li
+            legano. Al settimo la porta sale di un braccio con un soffio
+            d'aria fredda. Passi sotto, e sulla soglia raccogli un frammento
+            inciso caduto dal cerchio.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-rosicaossa: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il glifo incrinato
+          testo: |
+            Tocchi un glifo che sembrava sano, e la crepa ti scarica nel
+            braccio una luce che ti fa battere i denti. Ti ritrovi seduto
+            nell'acqua, con la mano che non si apre.
+          effetti: { ferite: 0.5 }
+      - testo: "Sollevare la porta con le spalle"
+        descrizione: "La porta scorre in alto, e la fessura in basso è già aperta di un palmo. Ci vuole schiena, e fortuna."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Molto difficile }
+        successo:
+          titolo: La schiena
+          testo: |
+            Infili le dita nella fessura e spingi con le gambe, finché la
+            porta non sale di un braccio e resta lì, tremando. Ci passi sotto
+            strisciando e la lasci ricadere dietro di te.
+          pe: { atletica: 5 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Le dita
+          testo: |
+            La porta sale di un dito e ricade, e le dita restano sotto per un
+            momento. Le tiri fuori nere, e per un pezzo non riesci a chiudere
+            il pugno.
+          effetti: { ferite: 1 }
+      - testo: "Passare dalla fessura quando l'acqua cala"
+        descrizione: "Con la paratia di Nazzaro chiusa, l'acqua sotto la porta si abbassa, e la fessura diventa un passaggio."
+        requisiti: [avv-rosicaossa.paratia >= 1]
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: La fessura
+          testo: |
+            Aspetti che l'acqua cali, e quando cala ti infili nella fessura di
+            fianco, con la faccia di lato e la porta che ti sfiora la schiena.
+            Dall'altra parte l'aria è fredda, e i colpi sono vicini.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-rosicaossa: 1 }
+        fallimento:
+          titolo: Incastrato
+          testo: |
+            A metà della fessura l'acqua torna su, e resti incastrato con la
+            bocca a un dito dal pelo. Esci all'indietro a strappi, lasciando la
+            pelle di un fianco sotto la porta.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che la serratura rotta si apra da sola"
+        descrizione: "Ogni tanto la porta sale da sé, per un momento. Bisogna starle davanti con l'acqua alle ginocchia, e aspettare."
+        costo: 3
+        esito:
+          titolo: La porta che si apre
+          testo: |
+            Aspetti davanti alla porta con l'acqua che sale e i colpi che
+            arrivano dall'altra parte, sempre uguali. Quando la porta sale da
+            sola ci passi sotto di corsa, e per un pezzo continui a contare i
+            colpi anche dopo che sono finiti.
+          effetti: { profondita.avv-rosicaossa: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ 10 · il cuore: il nido
+  - id: avv-rosicaossa-il-nido
+    immagine: bestiario/verme-carogna
+    titolo: Il nido
+    sommario: "In fondo alla galleria, sopra il vuoto, c'è il nido del Rosicaossa. Ninetta dorme in mezzo alle ossa."
+    luogo: Le pareti della Cicatrice, il nido
+    area: avv-rosicaossa
+    requisiti: [avventura.rosicaossa == 5, profondita.avv-rosicaossa >= 10]
+    testo: |
+      La galleria finisce in una sala rotonda aperta sul vuoto della
+      Cicatrice, dove una parete intera è crollata secoli fa e la nebbia
+      entra a ondate. Su quello che resta delle pareti è incollato il nido,
+      un intreccio di ossa vuote tenute insieme dalla resina scura, grande
+      come una casa, che regge su tre colonne di resina piantate nella roccia.
+      In mezzo al nido, in una culla di resina, dorme Ninetta, con i capelli
+      sciolti e un forellino rosso nella piega del gomito. Sul pavimento,
+      accanto al crollo, c'è una muta bianca e vuota, lunga come un carro.
+      Nell'aria c'è l'odore dolciastro del brodo d'ossa, e sotto quello
+      l'umido della nebbia.
+
+      Il Rosicaossa è sulla volta, a testa in giù. È lungo come la sua muta,
+      fatto di anelli pallidi duri come l'osso e di zampe con gli uncini, e
+      ha la testa di un cavallo scarnito, senza occhi. Sotto la testa tiene
+      ripiegato un ago cavo lungo un braccio. Batte la volta con la punta di
+      una zampa, tre colpi lenti seguiti da due veloci. Dal crollo salgono
+      Ennio e Vanna senza peso, e gli si mettono ai fianchi.
+
+      {medicina Media} Il buco nel gomito di Ninetta è fresco. Ha bevuto una
+      volta sola, e lei pesa ancora quanto deve.
+
+      {natura Difficile} Il nido sta su per le tre colonne. Senza, viene giù
+      tutto nel vuoto, e chi ci sta sopra va con lui.
+
+      *Torna su con tutto il peso.* Il Rosicaossa stacca le zampe dalla
+      volta.
+    opzioni:
+      - testo: "Affrontare il Rosicaossa e i suoi due"
+        descrizione: "Gli anelli sono duri come l'osso, e l'ago cerca le giunture. Ennio e Vanna combattono per lui senza volerlo."
+        combattimento: avv-rosicaossa-il-nido
+        vittoria:
+          titolo: Il Rosicaossa a terra
+          testo: |
+            Il Rosicaossa crolla rovescio sul pavimento. Le zampe battono
+            ancora tre colpi lenti sulla pietra, poi più niente. Nello
+            stesso
+            momento Ennio e Vanna si siedono dove sono, con le mani in grembo,
+            e non si muovono più. Tiri giù dalla culla Ninetta ancora
+            addormentata, e prima di andare stacchi una piastra dalla muta.
+            Fra le ossa del nido c'è la cassa che Vanna era scesa a
+            riprendere, sigillata, con un frammento inciso incastrato nel
+            coperchio.
+          effetti: { avventura.rosicaossa: 1, reperto.sigillato: 1, reliquie.frammento-inciso: 1 }
+          segue: avv-rosicaossa-la-risalita
+        sconfitta:
+          titolo: L'ago
+          testo: |
+            L'ago ti entra freddo nella spalla, e per un momento ti senti
+            leggero come Vanna. Ti strappi via e corri su per la galleria con
+            il braccio che non risponde, e i colpi ti inseguono fino ai
+            condotti. Esci sul Ponte dei Morti all'alba, e Rosetta ti guarda
+            senza chiederti niente.
+          effetti: { tormento: 1 }
+          vai: ponti-sospesi
+      - testo: "Arrampicarti fino a Ninetta e tagliare le colonne del nido"
+        descrizione: "Prima la bambina, poi le tre colonne, una dopo l'altra, mentre il Rosicaossa scende dalla volta. Il nido cade nel vuoto, con chi c'è sopra."
+        prova: { attributo: fisico, abilita: [atletica, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: Il nido nel vuoto
+          testo: |
+            Sali per le ossa fino alla culla e ti carichi Ninetta sulla
+            schiena, poi scendi tagliando. La prima colonna cede, poi cede
+            la seconda mentre il Rosicaossa si getta sul nido per tenerlo.
+            Alla terza il nido si stacca e precipita nella nebbia con lui
+            sopra. Ennio e Vanna gli saltano dietro, leggeri. Non senti
+            arrivare niente sul
+            fondo. Della muta, rimasta sul pavimento, stacchi una piastra. Fra
+            le ossa cadute ai tuoi piedi c'è la cassa che Vanna era scesa a
+            riprendere, sigillata.
+          pe: { atletica: 5 }
+          effetti: { avventura.rosicaossa: 1, reperto.sigillato: 1, reliquie.frammento-inciso: 1 }
+          segue: avv-rosicaossa-la-risalita
+        fallimento:
+          titolo: La colonna che tiene
+          testo: |
+            La prima colonna non cede, e mentre la colpisci il Rosicaossa ti
+            arriva addosso dalla volta. Gli uncini ti prendono la schiena, e
+            fai appena in tempo a lasciarti cadere dal nido e a correre su per
+            la galleria. Ninetta, dietro di te, resta addormentata nella culla.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: ponti-sospesi
+      - testo: "Accendere le lanterne di Ennio e Vanna e chiamarli"
+        descrizione: "Ferro nero e lume acceso. I due ricordano i loro nomi, se li chiami nella luce giusta e con la voce che non trema."
+        requisiti: [avv-rosicaossa.lanterne >= 1]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Il lume acceso
+          testo: |
+            Accendi le due lanterne, le alzi sopra la testa e chiami per
+            nome i due Raschiatori, con i nomi interi del registro di
+            Dragna. La luce gialla li prende in faccia.
+            Vanna si volta per prima, poi si volta anche Ennio. Insieme si
+            gettano sul Rosicaossa e lo tirano verso il crollo, leggeri come
+            sono, finché non vanno giù tutti e tre nella nebbia. Prendi
+            Ninetta dalla culla
+            e stacchi una piastra dalla muta. Fra le ossa del nido c'è la cassa
+            sigillata che Vanna era scesa a riprendere.
+          pe: { empatia: 5 }
+          effetti: { avventura.rosicaossa: 1, reperto.sigillato: 1, reliquie.frammento-inciso: 1 }
+          segue: avv-rosicaossa-la-risalita
+        fallimento:
+          titolo: La voce che trema
+          testo: |
+            Li chiami, e la voce ti trema sul nome di Vanna. I due esitano, e
+            il Rosicaossa no. L'ago ti apre il braccio e le lanterne si
+            spengono, e tu scappi su per la galleria al buio stringendole al
+            petto.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: ponti-sospesi
+
+  # ------------------------------------------------------------ dopo il cuore · la risalita
+  - id: avv-rosicaossa-la-risalita
+    tipo: seguito
+    immagine: ambientazione/cicatrice-del-mondo
+    titolo: La risalita
+    sommario: "Ninetta dorme legata alla tua schiena, e sopra di te ci sono i condotti pieni d'acqua. Più su c'è il Ponte dei Morti."
+    luogo: Le pareti della Cicatrice, la strada del ritorno
+    area: avv-rosicaossa
+    requisiti: [avventura.rosicaossa == 6]
+    testo: |
+      Ninetta dorme legata alla tua schiena con la corda dei ragazzi, e pesa
+      quanto deve pesare una bambina di undici anni, cioè parecchio. Sotto
+      il braccio hai la piastra della muta, curva come una scapola e più
+      leggera di quanto sembri. Sopra di te c'è tutta la strada dell'andata,
+      e nei condotti l'acqua delle fucine scende ancora. Dalla galleria non
+      arriva più nessun colpo sulla roccia, e la parete, per la prima volta
+      da quando sei sceso, è zitta.
+
+      {resistenza Media} Le gambe ce la fanno. Le spalle se ne ricorderanno
+      domani.
+    opzioni:
+      - testo: "Risalire per la strada dell'andata"
+        descrizione: "La conosci, adesso. In salita, con la bambina sulla schiena e l'acqua contro."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il ponte
+          testo: |
+            Risali senza fermarti, un condotto dopo l'altro, con Ninetta che
+            ti respira sul collo. Quando sbuchi dalla bocca sotto la testata è
+            l'alba, e la corda di Rosetta pende lì davanti, con un nodo nuovo.
+          pe: { atletica: 2 }
+          vai: ponti-sospesi
+        fallimento:
+          titolo: Il ginocchio
+          testo: |
+            Nello scivolo il ginocchio ti cede, e fai l'ultimo tratto a
+            quattro zampe con Ninetta che scivola di lato. Arrivi alla bocca
+            del condotto all'alba, con il ginocchio gonfio, e la corda di Rosetta
+            è lì ad aspettarti.
+          effetti: { ferite: 1 }
+          vai: ponti-sospesi
+      - testo: "Risalire sulle croci di gesso"
+        descrizione: "Le croci tonde di Ninetta, al contrario. Lei le ha fatte, e adesso servono a riportarla su."
+        requisiti: [avv-rosicaossa.gesso >= 1]
+        esito:
+          titolo: Le croci al contrario
+          testo: |
+            Risali dove ci sono le croci tonde, una dopo l'altra, finché non
+            arrivi alla bocca del condotto. È l'alba, e sopra la testata Rosetta
+            è sdraiata sul parapetto con la corda in mano, e grida il nome di
+            Ninetta così forte che la sveglia.
+          vai: ponti-sospesi
+      - testo: "Salire piano, fermandoti a ogni cengia"
+        descrizione: "Lento, con Ninetta legata stretta e le soste dove il ferro tiene. Ci vuole la notte intera."
+        costo: 2
+        esito:
+          titolo: La notte intera
+          testo: |
+            Sali piano, e a ogni cengia ti fermi a slegare e rilegare la
+            corda. A metà parete Ninetta si sveglia, chiede dove sono le sue
+            scarpe e si riaddormenta. Sbuchi sotto il ponte all'alba, con le
+            mani che non si aprono più.
+          effetti: { tormento: 0.5 }
+          vai: ponti-sospesi

@@ -263,7 +263,7 @@ export const Oggetto = z
   })
   .superRefine((o, ctx) => {
     if (['arma', 'armatura', 'scudo'].includes(o.slot) && !o.base) ctx.addIssue({ code: 'custom', message: `un oggetto nello slot ${o.slot} richiede una base` });
-    if (o.slot === 'accessorio' && (o.dadi > 0 || o.grado > 3)) ctx.addIssue({ code: 'custom', message: 'gli accessori arrivano a +3 e non danno dadi' });
+    if (o.slot === 'accessorio' && (o.dadi > 0 || o.grado > 4)) ctx.addIssue({ code: 'custom', message: 'gli accessori arrivano a +4 e non danno dadi' });
     const p = o.proprieta;
     let punti = o.dadi + Object.values(p.talento).reduce((a, b) => a + b, 0);
     for (const [k, costo] of Object.entries(COSTI_PROPRIETA)) {
@@ -430,7 +430,7 @@ export const Raccolta = z.object({
   nome: z.string(),
   immagine: Immagine.optional(),
   descrizione: z.string().optional(), // una riga nelle Cronache
-  genere: z.enum(['principale', 'fazione', 'luogo']).default('principale'),
+  genere: z.enum(['principale', 'fazione', 'luogo', 'avventura']).default('principale'),
   chiavi: z.array(z.string()).min(1), // prefissi delle quality, es. "misura." o "casa"
   passi: z.array(z.string()).min(1), // requisiti, uno per passo
   conclusa: z.string().optional(),

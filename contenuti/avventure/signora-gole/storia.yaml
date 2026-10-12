@@ -1,0 +1,558 @@
+# Avventura 7 · La signora delle gole (docs/piano-avventure.md). Avventura di villaggio: si apre a Pannion dopo la
+# quest del villaggio (fazione.pannion >= 15), quando Darrin Huld ti chiama già «Radice».
+# Sulla strada dei carri fra il bivio del gelso storto e l'altura di Pannion ci sono i Calanchi Rossi, colline
+# d'argilla scavate dalla pioggia. Da primavera ci scendono briganti con gli occhi bianchi: carrettieri e viandanti
+# presi sulla strada, legati con una scheggia di cristallo conduttore piantata nella nuca. Li tiene la Signora delle
+# gole, una creatura con il busto di donna e il corpo di serpe, che si nasconde dietro facce prese in prestito ma non
+# sa cambiare la propria ombra. Corrado Zenni, capitano della scorta della Gilda sulla strada del nord, le porta i
+# carri con i cristalli in cambio di una parte delle casse.
+# La pista è avventura.signora-gole (0 → 8):
+# - 0 → 1 `avv-signora-gole-il-carro-del-bivio` (Pannion) e il seguito `avv-signora-gole-l-agguato`: Darrin manda il
+#   carro di Ansgar al bivio, i briganti scendono dai calanchi, la capa ti passa la mappa e dice «aiuto».
+# - 1 → 2 `avv-signora-gole-il-capitano-della-scorta`: Zenni arriva e paga in anticipo (avv-signora-gole.zenni se
+#   capisci che mente su Nerina Sabbi). Opzione d'origine del Mercante dei Ponti.
+# - 2 → 3 `avv-signora-gole-gli-occhi-bianchi`: i prigionieri nella cappella di Koln, il cristallo nella nuca
+#   (avv-signora-gole.nuca). Opzione d'origine dell'Allievo di Torvessa.
+# - 3 → 4 `avv-signora-gole-la-capa`: Nerina si sveglia a metà e parla dell'ombra (avv-signora-gole.ombra).
+# - 4 → 5 `avv-signora-gole-la-mappa`: Liduina Brace legge lo straccio, il letto del torrente secco
+#   (avv-signora-gole.sentiero).
+# - 5: la spedizione nei Calanchi Rossi (spedizione.yaml), con il cuore e il seguito dello scontro.
+# - 6 → 7 `avv-signora-gole-il-capitano-legato`: che cosa fare di Zenni (avv-signora-gole.esito 1 Gilda, 2 Caserma,
+#   3 i carrettieri e Darrin), con le reputazioni.
+# - 7 → 8 `avv-signora-gole-la-lama-della-signora`: Nerina ripesca la lama dalla pozza, l'oggetto di grado 4.
+# Nomi nuovi (glossario.yaml): i Calanchi Rossi, Corrado Zenni, Nerina Sabbi, la Signora delle gole.
+quality:
+  - { id: avventura.signora-gole, immagine: icone/snake, nome: "La signora delle gole", categoria: pista, descrizione: "Sulla strada dei carri per Pannion, nei Calanchi Rossi, scendono briganti con gli occhi bianchi. Una di loro ti ha messo in mano una mappa e ha detto «aiuto»." }
+  - { id: avv-signora-gole.zenni, nome: "Il dubbio sul capitano", categoria: stato, nascosta: true, descrizione: "1 se hai capito che Corrado Zenni mente sui carri della strada del nord." }
+  - { id: avv-signora-gole.nuca, nome: "Il cristallo nella nuca", categoria: stato, nascosta: true, descrizione: "1 se sai come si toglie la scheggia di cristallo dalla nuca dei briganti senza ucciderli." }
+  - { id: avv-signora-gole.ombra, nome: "L'ombra della Signora", categoria: stato, nascosta: true, descrizione: "1 se Nerina Sabbi ti ha detto di guardare l'ombra e non la faccia." }
+  - { id: avv-signora-gole.sentiero, nome: "Il torrente secco", categoria: stato, nascosta: true, descrizione: "1 se sai che i puntini della mappa sono il letto del torrente secco." }
+  - { id: avv-signora-gole.scorpione, nome: "Lo scorpione dei calanchi", categoria: stato, nascosta: true, descrizione: "1 se lo scorpione dei calanchi non sbarra più la tana." }
+  - { id: avv-signora-gole.esito, nome: "Il capitano legato", categoria: stato, nascosta: true, descrizione: "Vale 1 se Corrado Zenni è stato consegnato alla Gilda, 2 se alla Caserma, 3 se l'hai lasciato ai carrettieri e a Darrin Huld." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · il carro del bivio e l'agguato
+  - id: avv-signora-gole-il-carro-del-bivio
+    presso: pannion
+    immagine: icone/caravan
+    titolo: Il carro del bivio
+    sommario: "Darrin Huld non manda più i carri al bivio da soli. Sulla strada dei calanchi qualcuno li aspetta."
+    luogo: Pannion, la piazza del Vecchio
+    area: superficie-fratturata
+    requisiti: [fazione.pannion >= 15, avventura.signora-gole == 0]
+    testo: |
+      Quando arrivi in piazza Darrin Huld sta caricando sacchi di carbone sul carro di Ansgar con le sue mani, cosa che
+      a Pannion non si vedeva da anni. Racconta senza smettere di caricare. Da quando sono finite le piogge due carri
+      non sono arrivati al bivio del gelso storto, e uno l'hanno ritrovato in fondo ai Calanchi Rossi, vuoto, con i
+      muli sgozzati e il carrettiere sparito.
+
+      «Dicono che sono uomini» dice Darrin. «Gente con gli occhi bianchi, che scende dai calanchi senza gridare.»
+      Sistema l'ultimo sacco, si pulisce le mani sui calzoni e ti guarda per la prima volta. «Ansgar porta giù il
+      carro stamattina. Vai con lui, Radice.»
+
+      Ansgar è già a cassetta, con le redini strette in pugno e la scottatura del polso grattata fino al sangue.
+
+      {conoscenze-della-strada Media} Briganti che sgozzano i muli invece di venderli. Chi ruba per mangiare un mulo
+      non lo butta via, e chi lo butta via sta rubando per conto di un altro.
+
+      {origine mercante-dei-ponti} Alla Casa dei Nodi le perdite delle carovane si leggono nei registri delle scorte.
+      Ricordi una riga che negli ultimi mesi tornava spesso, sempre sullo stesso tratto della strada del nord.
+    opzioni:
+      - testo: "Salire a cassetta accanto ad Ansgar"
+        descrizione: "Due giorni di strada fino al bivio, con il carbone dietro la schiena e il ragazzo che non smette di grattarsi."
+        esito:
+          titolo: A cassetta
+          testo: |
+            Ti siedi accanto ad Ansgar, e il carro scende dall'altura fra le sequoie con i freni che fischiano. Il ragazzo parla dei muli e delle carbonaie per tutta la prima giornata, e quando la strada entra nei calanchi smette di colpo.
+          segue: avv-signora-gole-l-agguato
+      - testo: "Camminare davanti al carro, sul ciglio dei calanchi"
+        descrizione: "Dall'alto si vede chi aspetta in fondo alle gole. Chi aspetta in fondo, però, vede te."
+        esito:
+          titolo: Sul ciglio
+          testo: |
+            Cammini sulla cresta mentre il carro va avanti piano sul fondo della gola, e da lassù vedi i calanchi rossi stendersi fino all'orizzonte in mille pieghe. Per mezza giornata non vedi nessuno. Poi la cresta
+            si sbriciola e devi scendere a raggiungere Ansgar.
+          segue: avv-signora-gole-l-agguato
+
+  - id: avv-signora-gole-l-agguato
+    tipo: seguito
+    immagine: icone/bandit
+    titolo: Gli occhi bianchi
+    sommario: "I briganti dei calanchi scendono senza un grido, e quella che li guida è l'unica che sbatte le palpebre."
+    luogo: Superficie Fratturata, i Calanchi Rossi
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 0]
+    testo: |
+      A metà della seconda mattina la strada scende nel cuore dei Calanchi Rossi, una distesa di creste d'argilla che
+      la pioggia ha scavato in gole profonde come case, con i fianchi nudi e le cime pettinate dal vento. Il carro
+      passa sul fondo della gola più larga, e le ruote affondano fino al mozzo nella polvere rossa.
+
+      Gli uomini scendono dai due fianchi nello stesso momento, scivolando sull'argilla con i talloni piantati, e non
+      gridano. Sono una decina, con gli stracci dei carrettieri e i coltelli da carro, e hanno gli occhi bianchi come
+      uova sode, senza il nero in mezzo. Girano la testa tutti insieme verso i muli, e poi verso di te.
+
+      Davanti a loro cammina una donna con la giubba strappata di una scorta della Gilda e una fila di anelli d'ottone
+      all'orecchio. È l'unica che sbatte le palpebre.
+
+      {empatia Media} Ogni volta che sbatte le palpebre gli occhi le tornano scuri per un momento, e in quel momento
+      ha la faccia di una che sta trattenendo un urlo da mesi.
+
+      Ansgar si è buttato sotto il carro.
+    opzioni:
+      - testo: "Difendere il carro"
+        descrizione: "Si muovono come un corpo solo, e cadono uno alla volta."
+        combattimento: avv-signora-gole-l-agguato
+        vittoria:
+          titolo: Lo straccio
+          testo: |
+            Quando due di loro restano a terra gli altri si fermano a metà di un passo e risalgono i fianchi della gola
+            senza voltarsi. La donna con gli anelli invece barcolla verso di te, ti prende il polso con una mano fredda
+            e ti chiude nel pugno uno straccio piegato. «Aiuto» dice piano, con gli occhi scuri, e cade nella polvere.
+            La riporti a Pannion sul carro, legata accanto ai due storditi.
+          effetti: { avventura.signora-gole: 1 }
+        sconfitta:
+          titolo: Il forcone
+          testo: |
+            Ti buttano giù dal carro in tre, e mentre sei nella polvere si caricano i sacchi in spalla. La donna con gli
+            anelli si inginocchia accanto a te come per frugarti, e invece ti chiude nel pugno uno straccio piegato.
+            «Aiuto» dice, e sviene. Gli altri se ne vanno senza di lei, e senza due dei loro, rimasti a terra storditi.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+      - testo: "Gridare l'alt come un capitano"
+        descrizione: "Si girano tutti insieme, come cani a un fischio. Forse obbediscono a chi parla forte."
+        prova: { attributo: sociale, abilita: [intimidire, espressivita], difficolta: Media }
+        successo:
+          titolo: L'alt
+          testo: |
+            Gridi «indietro» con tutta la voce che hai, e i briganti si fermano a metà di un passo. Poi tornano su per
+            i fianchi della gola, tranne due che restano fermi come pali finché Ansgar non li lega. La donna con gli
+            anelli ti si aggrappa al braccio, ti chiude nel pugno uno straccio piegato, dice «aiuto» e sviene.
+          pe: { intimidire: 3 }
+          effetti: { avventura.signora-gole: 1 }
+        fallimento:
+          titolo: La voce che si incrina
+          testo: |
+            La voce ti si incrina a metà, e i briganti continuano a venire. Ansgar esce da sotto il carro con la frusta
+            e ne stende due, e gli altri si portano via tre sacchi. La donna con gli anelli resta indietro, ti mette in
+            mano uno straccio piegato e dice «aiuto» prima di cadere.
+          effetti: { avventura.signora-gole: 1, scandalo: 0.5 }
+      - testo: "Lanciare i muli al trotto nel fondo della gola"
+        descrizione: "Un carro carico di carbone pesa come una casa. Chi si mette davanti si sposta, o resta sotto."
+        prova: { attributo: fisico, abilita: [cavalcare, atletica], difficolta: Media }
+        successo:
+          titolo: Le ruote
+          testo: |
+            Strappi le redini ad Ansgar e frusti i muli, e il carro sfonda la fila. Due briganti finiscono a terra
+            sotto le zampe, gli altri si fermano in fondo alla gola tutti insieme. La donna con gli anelli si è buttata
+            sui sacchi, e mentre il carro corre ti mette nel pugno uno straccio piegato. «Aiuto» dice, prima di perdere i sensi sui sacchi.
+          pe: { cavalcare: 3 }
+          effetti: { avventura.signora-gole: 1 }
+        fallimento:
+          titolo: La ruota nella polvere
+          testo: |
+            Una ruota si pianta nella polvere e il carro si piega su un fianco. I briganti si caricano i sacchi
+            rovesciati e se ne vanno, lasciando a terra due dei loro e la donna con gli anelli, che ti striscia accanto
+            e ti mette in mano uno straccio piegato. «Aiuto» dice, prima di chiudere gli occhi.
+          effetti: { avventura.signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 1 → 2 · il capitano della scorta
+  - id: avv-signora-gole-il-capitano-della-scorta
+    presso: pannion
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: Il capitano della scorta
+    sommario: "La scorta della Gilda arriva a Pannion. Il suo capitano vuole la mappa, e chiede soltanto della donna con gli anelli."
+    luogo: Pannion, la piazza del Vecchio
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 1]
+    testo: |
+      Il giorno dopo il vostro ritorno arriva a Pannion la scorta della Gilda, cinque uomini a cavallo con lo stemma cucito sulla
+      spalla, e il villaggio smette di lavorare per guardarli. Il capitano smonta davanti al Vecchio senza degnarlo
+      di un'occhiata. È un uomo rasato con cura, sui quarant'anni. Sotto la giubba porta una cotta di maglia, e mentre parla batte il pollice sul pomo della spada.
+
+      «Corrado Zenni» dice. «Tengo la strada del nord per la Gilda, e da primavera la strada tiene me.» Gli hanno
+      raccontato del carro di Ansgar. Vuole la mappa, e vuole qualcuno che lo porti dove porta. «A conti fatti la
+      Gilda paga chi le riporta le casse. Paga bene, e paga in anticipo.»
+
+      Quando Darrin gli dice dei prigionieri chiusi nella cappella di Frate Koln, Zenni chiede soltanto della donna.
+      «La Sabbi» dice. «Nerina Sabbi, della mia scorta. È sparita a primavera insieme a una cassa.»
+
+      {empatia Difficile} Ha detto il nome guardando la porta della cappella, e il pollice sul pomo si è fermato
+      finché non ha finito di parlare.
+
+      {politica-ed-economia Media} Le scorte della Gilda prendono una parte di quello che portano a destinazione. Un
+      capitano che perde carri da primavera perde anche la paga, e questo non ha l'aria di uno che ha fame.
+    opzioni:
+      - testo: "Accettare l'anticipo della Gilda"
+        descrizione: "Zenni conta le monete con il pollice. In cambio vuole vedere lo straccio."
+        esito:
+          titolo: Il pollice
+          testo: |
+            Zenni ti conta l'anticipo nel palmo una moneta alla volta, battendo il pollice su ognuna. Poi chiede lo straccio, lo guarda a lungo alla luce del Vecchio e te lo rende piegato meglio di come l'aveva preso, dicendoti che la Gilda aspetta e che si parte quando sei pronto.
+          effetti: { avventura.signora-gole: 1, monete: 40 }
+      - testo: "Trattare il prezzo con il capitano"
+        descrizione: "La Gilda paga a percentuale sulle casse che tornano. Chi porta la scorta al covo vale più di un anticipo."
+        prova: { attributo: sociale, abilita: [politica-ed-economia, persuasione], difficolta: Media }
+        successo:
+          titolo: La percentuale
+          testo: |
+            Gli ricordi quante casse mancano da primavera e quanto vale una parte di quelle, e Zenni ride piano, con
+            il pollice fermo sul pomo. Alla fine raddoppia l'anticipo davanti a Darrin, che ha sentito tutto e non dice
+            niente. «A conti fatti» dice Zenni, «sei della Gilda più di me.»
+          pe: { politica-ed-economia: 3 }
+          effetti: { avventura.signora-gole: 1, monete: 80 }
+        fallimento:
+          titolo: Il prezzo di prima
+          testo: |
+            Zenni ti lascia parlare fino in fondo e poi ti conta in mano l'anticipo di prima, senza una moneta in più.
+            I carbonai che stavano a guardare tornano al lavoro, e qualcuno ride dietro la segheria.
+          effetti: { avventura.signora-gole: 1, monete: 40, scandalo: 0.5 }
+      - testo: "Chiedergli perché Nerina Sabbi è sparita con una cassa"
+        descrizione: "Una carovaniera che scappa con una cassa non torna sulla stessa strada a fare la brigante."
+        prova: { attributo: sociale, abilita: [empatia, ingannare], difficolta: Difficile }
+        successo:
+          titolo: La storia pronta
+          testo: |
+            Zenni risponde subito e racconta la notte della fuga fin nei particolari, senza sbagliarne uno.
+            È una storia che ha già raccontato molte volte, e la racconta guardandoti negli occhi. Ti conta in mano
+            l'anticipo, e tu lo ringrazi senza dirgli che cosa hai capito.
+          pe: { empatia: 3 }
+          effetti: { avventura.signora-gole: 1, monete: 40, avv-signora-gole.zenni: 1 }
+        fallimento:
+          titolo: La cortesia
+          testo: |
+            Zenni ti guarda per un momento lungo, poi diventa gentile, di una gentilezza da ufficio. Ti conta in mano
+            l'anticipo e da quel momento ti chiama soltanto per nome, senza più guardarti in faccia.
+          effetti: { avventura.signora-gole: 1, monete: 40, sospetto: 0.5 }
+      - testo: "Chiedergli il registro delle perdite della scorta"
+        descrizione: "Ogni capitano di scorta tiene il suo registro per la Casa dei Nodi. Tu sai come è fatto, e che cosa ci manca di solito."
+        quando: [origine.mercante-dei-ponti >= 1]
+        prova: { attributo: sociale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Il registro
+          testo: |
+            Zenni te lo porge senza esitare, ed è in ordine. Troppo in ordine. Ogni carro perso ha il suo posto e la sua ora, scritti con lo stesso inchiostro nello stesso giorno, come si fa quando si ricopia. Glielo rendi
+            con un cenno, e ti conta in mano l'anticipo.
+          pe: { politica-ed-economia: 3 }
+          effetti: { avventura.signora-gole: 1, monete: 40, avv-signora-gole.zenni: 1 }
+        fallimento:
+          titolo: Il registro chiuso
+          testo: |
+            Zenni sorride e ti dice che il registro è in città, alla Casa dei Nodi, dove deve stare. Ti conta in mano
+            l'anticipo e da quel momento ti tiene d'occhio come si tiene d'occhio un ispettore.
+          effetti: { avventura.signora-gole: 1, monete: 40, sospetto: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · gli occhi bianchi
+  - id: avv-signora-gole-gli-occhi-bianchi
+    presso: pannion
+    immagine: icone/crystal-eye
+    titolo: Gli occhi bianchi
+    sommario: "Nella cappella di Frate Koln i briganti presi nei calanchi si dondolano sulla panca, tutti allo stesso tempo."
+    luogo: Pannion, la cappella del Velo
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 2]
+    testo: |
+      Nella cappella di Frate Koln i due uomini presi nei calanchi stanno seduti sulla panca dei malati, legati per i
+      polsi, e si dondolano avanti e indietro allo stesso tempo. Uno è un carrettiere con la barba rossa che Ansgar ha
+      visto portare il sale a Pannion l'estate scorsa, l'altro è poco più di un ragazzo. Hanno ancora gli occhi
+      bianchi. Nerina Sabbi dorme sulla branda in fondo, sotto una coperta del Velo.
+
+      Koln ha provato con l'unguento rosso sulle tempie e con l'acqua fredda. Adesso suda, e non ride più. «Mangiano se
+      gli metti il cucchiaio in bocca» dice. «Si alzano se glielo dici forte. Per il resto, niente.»
+
+      Zenni è sulla porta con le braccia incrociate. Vuole portarli in città davanti ai giudici della Gilda, e Darrin
+      gli ha già detto di no.
+
+      {medicina Media} Sotto il bianco la pupilla c'è, come sotto un velo di latte. Non sono ciechi, e quando il
+      ragazzo china la testa si porta una mano alla nuca.
+
+      {origine accolito-del-velo} Koln ti fa posto accanto alla panca come si fa posto a un confratello. In Cattedrale
+      ti hanno insegnato a cercare la Marea negli occhi di chi torna dalle profondità, e in questi occhi la Marea non
+      c'è.
+    opzioni:
+      - testo: "Visitarli come si visita un ferito"
+        descrizione: "Dalla testa ai piedi, senza saltare niente. Un corpo dice dove gli hanno fatto male."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: La scheggia
+          testo: |
+            Sotto i capelli, alla base della nuca, il carrettiere ha una scheggia di cristallo piantata nella pelle,
+            tiepida al tatto. La sfili piano, seguendo la vena del cristallo, e gli occhi gli tornano scuri. Piange, e
+            poi si addormenta. Zenni ti chiede la scheggia per la Gilda, e tu te la metti in tasca.
+          pe: { medicina: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.nuca: 1 }
+        fallimento:
+          titolo: Troppo in fretta
+          testo: |
+            Trovi la scheggia nella nuca del carrettiere e tiri troppo in fretta. L'uomo urla e si inarca sulla panca,
+            Koln lo tiene giù con tutto il suo peso, e tu lasci la presa. La scheggia resta dov'è, e l'uomo trema fino
+            a sera.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+      - testo: "Cercare il Mana che li tiene"
+        descrizione: "Due uomini che si dondolano allo stesso tempo seguono qualcosa. Il Mana lascia una traccia, a chi la sa sentire."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il filo
+          testo: |
+            Chiudi gli occhi, e il Mana nella stanza è un filo sottile che parte dalla nuca dei due uomini e va verso
+            i calanchi. Dove parte c'è una scheggia di cristallo piantata nella pelle. La sfili dal carrettiere
+            seguendo il filo all'indietro, e gli occhi gli tornano scuri.
+          pe: { magia: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.nuca: 1 }
+        fallimento:
+          titolo: Il filo che tira
+          testo: |
+            Trovi il filo, e il filo trova te. Per un momento senti una voce dolce di donna che ti chiama da molto lontano, e quando apri gli occhi Koln ti sta scuotendo per le spalle.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+      - testo: "Aiutare Koln con i suoi rimedi"
+        descrizione: "Impacchi freddi e unguento rosso. Sulle bruciature funzionano, e Koln non sa che altro fare."
+        costo: 2
+        esito:
+          titolo: Gli impacchi
+          testo: |
+            Passi il giorno a cambiare impacchi con Koln, che ti spiega a voce alta come si fa l'unguento senza che tu
+            glielo chieda. La sera i due uomini dormono, con gli occhi bianchi aperti. Che cosa li tenga non l'hai capito, però il ragazzo ha mangiato da solo.
+          pe: { medicina: 2 }
+          effetti: { avventura.signora-gole: 1 }
+      - testo: "Toccare la nuca, dove la pelle è più calda"
+        descrizione: "All'Accademia s'impara presto che il Mana lascia un caldo dove si ferma. I due uomini si toccano la nuca."
+        quando: [origine.allievo-di-torvessa >= 1]
+        prova: { attributo: mentale, abilita: [tecnologia, accademiche], difficolta: Media }
+        successo:
+          titolo: Il taglio di Torvessa
+          testo: |
+            Sotto i capelli c'è una scheggia di cristallo conduttore, e la riconosci dal taglio, uno di quelli che
+            all'Accademia si usano per accordare le lenti. La sfili lungo la vena, come ti hanno insegnato a sfilarla
+            da un supporto, e al carrettiere tornano gli occhi scuri.
+          pe: { tecnologia: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.nuca: 1 }
+        fallimento:
+          titolo: Il supporto sbagliato
+          testo: |
+            La nuca di un uomo non è un supporto d'ottone. Tiri contro la vena e il carrettiere urla, finché Koln ti ferma la mano con la scheggia ancora al suo posto.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · la capa
+  - id: avv-signora-gole-la-capa
+    presso: pannion
+    immagine: icone/semi-closed-eye
+    titolo: La capa
+    sommario: "Nerina Sabbi si sveglia a notte fonda, e parla con due voci."
+    luogo: Pannion, la cappella del Velo, di notte
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 3]
+    testo: |
+      Koln ti sveglia a notte fonda bussando alla porta con il cucchiaio di legno. Nerina Sabbi si è svegliata.
+
+      Nella cappella c'è soltanto il fornello acceso. Nerina sta seduta sulla branda con le ginocchia al petto, e
+      mentre la guardi i suoi occhi passano dal bianco allo scuro e tornano indietro, come una lanterna che qualcuno
+      copre e scopre con la mano. Quando sono scuri ti vede. Ha le labbra spaccate, e degli anelli d'ottone
+      all'orecchio gliene restano tre.
+
+      «Canta» dice, quando sono scuri. «Non guardarle la faccia.» Poi torna bianca, e ripete la stessa frase con
+      un'altra voce, più dolce, muovendo appena la bocca.
+
+      {resilienza Media fallita} La seconda voce ti piace. Te ne accorgi tardi, e ti dà fastidio.
+
+      {percezione Media} Quando parla con la voce dolce Nerina gira la testa verso i calanchi, a nord-ovest, come
+      i girasoli fanno con il sole.
+    opzioni:
+      - testo: "Parlarle piano finché resta scura"
+        descrizione: "Di Pannion, del carro, di qualunque cosa la tenga di qua. Ogni volta che torna scura è una frase."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: L'ombra
+          testo: |
+            Le parli delle lanterne del pontile e del carro di Ansgar, e lei resta scura sempre più a lungo. «Non è mai
+            quella che sembra» dice alla fine. «Guarda l'ombra. L'ombra non la sa cambiare.» Poi torna bianca, e dorme
+            fino a mezzogiorno.
+          pe: { empatia: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.ombra: 1 }
+        fallimento:
+          titolo: La voce dolce
+          testo: |
+            Nerina torna bianca e resta bianca, e da quel momento ti risponde soltanto con la voce dolce, che ti chiama
+            per nome anche se nessuno gliel'ha detto. Esci dalla cappella prima dell'alba.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+      - testo: "Toglierle la scheggia dalla nuca"
+        descrizione: "Sai dov'è e come si sfila. Lei è più legata degli altri, e più a lungo."
+        requisiti: [avv-signora-gole.nuca >= 1]
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Scura
+          testo: |
+            La scheggia di Nerina è più lunga delle altre. La sfili piano, mentre Koln le tiene le mani, e lei resta
+            scura. «L'ombra» dice subito, «guarda l'ombra, non la sa cambiare.» Poi, più piano, guardando la porta.
+            «Il capitano porta i carri dove vuole lei.» Si addormenta prima che tu possa chiedere altro.
+          pe: { medicina: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.ombra: 1, avv-signora-gole.zenni: 1 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            Appena le tocchi la nuca Nerina diventa bianca e ti morde la mano fino all'osso, con una forza che non le
+            appartiene. Koln la tiene ferma mentre tu ti fasci, e la scheggia resta dov'è.
+          effetti: { avventura.signora-gole: 1, ferite: 0.5 }
+      - testo: "Vegliarla fino all'alba"
+        descrizione: "Seduto accanto al fornello, senza farle domande. Quello che dice, lo dice da sola."
+        costo: 2
+        esito:
+          titolo: La veglia
+          testo: |
+            Resti seduto accanto al fornello fino all'alba, e Nerina passa la notte a cambiare voce. Con quella sua
+            chiede acqua, e con l'altra canta. Quando arriva la luce dorme, e tu hai in testa una canzone senza parole
+            che non riesci a toglierti.
+          effetti: { avventura.signora-gole: 1 }
+
+  # ------------------------------------------------------------ 4 → 5 · la mappa
+  - id: avv-signora-gole-la-mappa
+    presso: pannion
+    immagine: icone/treasure-map
+    titolo: La mappa
+    sommario: "Lo straccio di Nerina è una mappa disegnata con il carbone. Liduina Brace la sa leggere meglio di te."
+    luogo: Pannion, il pontile più lungo
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 4]
+    testo: |
+      Lo straccio di Nerina è un pezzo di fodera di giubba, grande quanto un fazzoletto, e qualcuno ci ha disegnato
+      sopra con il carbone premendo tanto da bucare la stoffa in due punti. Ci sono linee storte che si dividono e si
+      riuniscono, una fila di puntini lungo una di esse e in fondo, dove le linee finiscono, una spirale.
+
+      Liduina Brace lo guarda alla luce della prima lanterna del pontile, tenendolo lontano dagli occhi. Da ragazza,
+      prima che il villaggio salisse sull'altura, scendeva ai calanchi per la strada vecchia, quella che portava al
+      bivio. «Queste sono le gole» dice. «Le ha disegnate una che ci camminava dentro, perché le vede dal fondo.»
+
+      Zenni aspetta in fondo al pontile con due dei suoi, pronto a partire all'alba. Ha chiesto due volte di rivedere
+      lo straccio.
+
+      {natura Media} I puntini seguono sempre la linea che scende. Chi disegna una strada a puntini di solito segna
+      dove passa l'acqua.
+    opzioni:
+      - testo: "Studiare i segni dello straccio"
+        descrizione: "Le linee, i puntini, i due buchi nella stoffa. Chi l'ha disegnata ha messo tutto quello che sapeva."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Il torrente secco
+          testo: |
+            I puntini sono il letto di un torrente secco, che corre sul fondo delle gole senza mai salire sulle creste.
+            Seguendolo si arriva alla spirale senza farsi vedere da sopra. I due buchi nella stoffa sono i posti dove
+            Nerina ha premuto di più, e su uno dei due la linea del torrente si interrompe.
+          pe: { percezione: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.sentiero: 1 }
+        fallimento:
+          titolo: Le linee storte
+          testo: |
+            Più guardi le linee, più si somigliano. Alla fine Liduina ti toglie lo straccio di mano e te lo rimette in tasca piegato. Ti manda a dormire, e tu passi la notte a guardare il soffitto.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+      - testo: "Farti raccontare la strada vecchia"
+        descrizione: "Liduina conta le lanterne come si dicono i nomi. Le gole le ricorda allo stesso modo."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: La strada vecchia
+          testo: |
+            Liduina ti racconta la strada vecchia una gola alla volta, con il nome che le davano i nonni, e dice che
+            d'estate i carri passavano nel letto del torrente secco, perché lì il fondo era duro. Mette il dito sui puntini dello straccio e ti dice che da lì non ti vede nessuno.
+          pe: { empatia: 3 }
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.sentiero: 1 }
+        fallimento:
+          titolo: I nomi delle gole
+          testo: |
+            Liduina ti dice i nomi di tutte le gole come si dicono quelli delle lanterne, e a metà si perde fra i ricordi dei nonni. Quando
+            finisce è quasi l'alba, Zenni bussa sulle tavole del pontile e tu non ricordi un nome.
+          effetti: { avventura.signora-gole: 1, tormento: 0.5 }
+      - testo: "Partire all'alba con quello che sai"
+        descrizione: "Lo straccio in tasca e Zenni alle spalle. Le gole si leggono anche camminando."
+        costo: 2
+        esito:
+          titolo: All'alba
+          testo: |
+            Ripieghi lo straccio e ringrazi Liduina, che ti mette in mano una lanterna spenta per il ritorno. All'alba
+            Zenni ti aspetta sul ciglio dell'altura con due dei suoi e i muli carichi d'acqua.
+          effetti: { avventura.signora-gole: 1 }
+
+  # ------------------------------------------------------------ 6 → 7 · il capitano legato
+  - id: avv-signora-gole-il-capitano-legato
+    presso: pannion
+    immagine: icone/manacles
+    titolo: Il capitano legato
+    sommario: "I liberati dei calanchi salgono a Pannion. Corrado Zenni è legato a un palo, e Darrin aspetta che sia tu a decidere."
+    luogo: Pannion, la piazza del Vecchio
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 6]
+    testo: |
+      Due giorni dopo la notte della pozza, i liberati dei calanchi salgono a Pannion a piedi, in fila sulla strada dei
+      carri, e il villaggio li aspetta sotto il Vecchio con le scodelle di zuppa nera. Sono una trentina fra carrettieri di Laresh e della costa, con qualche viandante che non ricorda più da dove veniva. Quasi tutti hanno un impiastro di
+      unguento rosso sulla nuca, dove Koln ha medicato il buco della scheggia, e tutti hanno gli occhi scuri.
+
+      Corrado Zenni sta seduto per terra accanto alla segheria, con le mani legate dietro un palo. I suoi due uomini
+      sono spariti nella notte con i muli. Nerina Sabbi gli porta una scodella e gliela posa davanti, appena fuori
+      dalla portata delle mani.
+
+      Darrin aspetta che sia tu a decidere. «È uomo della Gilda» dice. «La Gilda lo vorrà indietro. I carrettieri
+      vogliono un'altra cosa.»
+
+      {intimidire Media} Zenni non guarda la scodella. Guarda le mani di Darrin, e ogni tanto i carrettieri, come se volesse impararne le facce.
+
+      {origine mercante-dei-ponti} Alla Casa dei Nodi un capitano che vende le carovane non arriva mai davanti a un
+      giudice. Lo sai tu, e lo sa anche lui.
+    opzioni:
+      - testo: "Consegnarlo alla Casa dei Nodi della Gilda"
+        descrizione: "La Gilda riprende il suo uomo e le sue casse, e paga chi glieli riporta. Che cosa ne faccia, è affar suo."
+        esito:
+          titolo: La Casa dei Nodi
+          testo: |
+            Lo porti in città legato sul carro di Ansgar, con le casse della Gilda dietro. Alla Casa dei Nodi un
+            cancelliere conta le casse prima di guardare l'uomo, poi ti paga la parte che spettava alla scorta. Di
+            Zenni nessuno ti dice più niente, e a Pannion Darrin smette di nominarlo.
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.esito: 1, rep.gilda: 1, monete: 150 }
+      - testo: "Portarlo alla Caserma, davanti a un giudice della città"
+        descrizione: "La Caserma processa chi ruba sulle strade della città. Ci vuole tempo, e la Gilda non sarà contenta."
+        esito:
+          titolo: Il giudice
+          testo: |
+            Lo consegni alla Caserma con il registro della scorta e il racconto di Nerina, che Koln ha messo per iscritto e dieci carrettieri hanno firmato con una croce. Il sergente di turno ti stringe la mano. Una settimana dopo un uomo della
+            Gilda ti ferma sul Ponte delle Mille Corde per dirti che la Gilda i suoi conti li fa da sé.
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.esito: 2, rep.caserma: 1, rep.gilda: -0.5, monete: 50 }
+      - testo: "Lasciarlo ai carrettieri e a Darrin"
+        descrizione: "Ha venduto la loro strada. Che la strada decida che cosa farne."
+        esito:
+          titolo: La strada a piedi
+          testo: |
+            I carrettieri gli tolgono gli stivali e la giubba della Gilda e lo accompagnano fino al bivio del gelso
+            storto, a piedi, per la strada dei calanchi. Lì lo lasciano andare con una borraccia e la promessa di non
+            rivederlo sulla strada del nord. Darrin appende la giubba al Vecchio, e ci resta tutto l'inverno.
+          effetti: { avventura.signora-gole: 1, avv-signora-gole.esito: 3, rep.pannion: 1, rep.gilda: -1 }
+
+  # ------------------------------------------------------------ 7 → 8 · la lama della Signora
+  - id: avv-signora-gole-la-lama-della-signora
+    presso: pannion
+    immagine: icone/curvy-knife
+    titolo: La lama della Signora
+    sommario: "Nerina Sabbi è tornata alla pozza con gli uomini di Darrin, e ti porta qualcosa avvolto in una giubba della Gilda."
+    luogo: Pannion, il pontile più lungo
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 7]
+    testo: |
+      Nerina Sabbi ti trova sul pontile più lungo mentre Liduina accende le lanterne. È scesa alla pozza con gli
+      uomini di Darrin a riprendere le casse, e ha la faccia scottata dal sole dei calanchi. Gli anelli d'ottone
+      all'orecchio sono tornati a essere sette, presi dal mucchio del magazzino.
+
+      Ti mette sulle ginocchia un fagotto avvolto nella sua vecchia giubba. Dentro c'è la lama della Signora. È lunga e curva, con il dorso tempestato di cristalli conduttori piccoli come unghie e l'elsa fasciata di una pelle verde che non è pelle di nessun animale che conosci. I cristalli sul dorso sono spenti, opachi come vetro sporco.
+
+      «Era in fondo alla pozza» dice. «Gli altri non la volevano toccare. Io non la voglio vicina.»
+
+      {magia Media} Spenti per modo di dire. Quando Nerina alza la voce, i cristalli più vicini all'elsa si accendono
+      appena, e si spengono quando lei tace.
+    opzioni:
+      - testo: "Prendere la lama"
+        descrizione: "Una lama così non si lascia in fondo a una pozza. Né in mano a chi non la vuole."
+        esito:
+          titolo: La lama sulle ginocchia
+          testo: |
+            La prendi per l'elsa, e la pelle verde è tiepida. Nerina si alza, si sistema gli anelli all'orecchio uno
+            per uno e torna verso la piazza senza voltarsi. Liduina accende l'ultima lanterna dall'altra parte del pontile e dice il tuo nome insieme a quelli delle famiglie.
+          effetti: { avventura.signora-gole: 1, oggetto.avv-signora-gole-lama-della-signora: 1 }
+      - testo: "Chiederle di tenerla per una notte sotto il Vecchio, prima"
+        descrizione: "A Pannion le cose storte si mettono fra le radici del Vecchio. Darrin dice che il Vecchio le guarda."
+        esito:
+          titolo: Fra le radici
+          testo: |
+            Nerina porta la lama fra le radici del Vecchio, e la mattina dopo Darrin te la restituisce con la pelle dell'elsa annerita dal fumo, come tutto a Pannion, e senza dire niente ti batte la mano sulla spalla prima di tornare ai suoi turni.
+          effetti: { avventura.signora-gole: 1, oggetto.avv-signora-gole-lama-della-signora: 1 }

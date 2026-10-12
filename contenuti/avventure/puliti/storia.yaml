@@ -1,0 +1,740 @@
+# Avventura n. 2, «I Puliti di Pannion» (docs/piano-avventure.md, da In Too Deep). Si apre a quest di Pannion finita
+# (fazione.pannion >= 15). La pista avventura.puliti va da 0 a 9; la spedizione sta in spedizione.yaml, nemici e
+# scontri in nemici.yaml, la piastrina in oggetti.yaml, i nomi nuovi in glossario.yaml.
+# Il canone dell'Avventura: un mese dopo la notte del bosco perso, Nazario Lumelli, collezionista di curiosità dei
+# Quartieri Alti, è sceso nella vecchia Pannion con Delek per guida e due facchini, e sul bordo della cisterna sotto
+# il vecchio forno ha letto ad alta voce il Libro dell'Acqua Ferma. Ha svegliato Ossaleth, una creatura del Regno
+# Profondo che un tempo regnava su un mare interno e dorme da allora nelle acque sotto la valle. La sua voce arriva
+# nel sonno: chi la ascolta si dice pulito, mangia crudo il pesce cieco della cisterna, incide gocce sugli stipiti,
+# si bagna le braccia e sta fermo per ore. Nerio Arpesi, castagnaro, non la sente perché porta al collo la piastrina
+# dei Precursori della nonna. Darrin Huld e Ansgar sono fra i Puliti; Frate Koln, Liduina Brace e Delek no.
+# - 0 → 1 `avv-puliti-il-castagnaro` (aggancio): la piazza ferma, Darrin che non risponde, Nerio e la paga.
+#   Opzione d'origine del Mercante dei Ponti.
+# - 1 → 2 `avv-puliti-le-gocce-sugli-stipiti`: le stranezze; avv-puliti.goccia (le gocce indicano l'acqua).
+# - 2 → 3 `avv-puliti-la-mensa-che-si-volta`: il saluto in coro; avv-puliti.coro (la risposta dei Puliti).
+# - 3 → 4 `avv-puliti-la-pelle-bagnata`: Koln e Ansgar, la pelle che si fa sottile; avv-puliti.pelle (l'unguento).
+#   Opzione d'origine dell'Accolito del Velo.
+# - 4 → 5 `avv-puliti-quelli-che-portano-all-acqua`: i Puliti portano Delek verso la valle; avv-puliti.delek se
+#   Delek si riprende abbastanza da fare da guida. Variante con pannion.tenca 1 (la banda) e con avv-puliti.coro.
+# - 5 → 6 `avv-puliti-il-rito-sul-bordo` e il seguito `avv-puliti-le-bocche-informi`: il rito di Lumelli alla
+#   cisterna, le ultime pagine del libro (avv-puliti.pagine) e i due facchini che escono dall'acqua. Opzione
+#   d'origine del Rampollo dei Quartieri Alti.
+# - 6 → 7: la spedizione (spedizione.yaml); il cuore la porta a 7.
+# - 7 → 8 `avv-puliti-il-risveglio`: Pannion si sveglia, e si decide di Lumelli (avv-puliti.lumelli 1 Cattedrale,
+#   2 Caserma, 3 carbonaie di Pannion), con la reputazione del Velo, della Caserma o di Pannion.
+# - 8 → 9 `avv-puliti-la-piastrina-fredda`: il raccolto, la paga e la piastrina fredda (accessorio di grado 4).
+#   Con avv-puliti.carbone si rende a Darrin il carbone trovato nella cisterna.
+quality:
+  - { id: avventura.puliti, immagine: icone/water-drop, nome: "I Puliti di Pannion", categoria: pista, descrizione: "A Pannion metà del villaggio si dice pulita e sta ferma a guardare la valle. Nerio Arpesi paga bene chi gli tira giù le castagne." }
+  - { id: avv-puliti.goccia, nome: Le gocce sugli stipiti, categoria: stato, nascosta: true, descrizione: "1 se hai capito che le gocce incise dai Puliti puntano verso l'acqua. Nella cisterna del forno aprono una via." }
+  - { id: avv-puliti.coro, nome: La risposta del coro, categoria: stato, nascosta: true, descrizione: "1 se alla mensa hai imparato la risposta al saluto dei Puliti." }
+  - { id: avv-puliti.pelle, nome: L'unguento di Koln, categoria: stato, nascosta: true, descrizione: "1 se Frate Koln ti ha dato la linfa che tiene chiusa la pelle contro l'acqua della cisterna." }
+  - { id: avv-puliti.delek, nome: Delek per guida, categoria: stato, nascosta: true, descrizione: "1 se Delek, tolto ai Puliti, ti fa da guida fino alla cisterna del forno." }
+  - { id: avv-puliti.pagine, nome: Le ultime pagine, categoria: stato, nascosta: true, descrizione: "1 se al rito hai strappato a Nazario Lumelli le ultime pagine del Libro dell'Acqua Ferma." }
+  - { id: avv-puliti.murali, nome: I murali del sovrano, categoria: stato, nascosta: true, descrizione: "1 se sotto la cisterna hai letto i murali del trono vuoto." }
+  - { id: avv-puliti.carbone, nome: Il carbone di Darrin, categoria: stato, nascosta: true, descrizione: "1 se hai ripreso dalla cengia della cisterna il carbone con cui Darrin segna i turni." }
+  - { id: avv-puliti.lumelli, nome: Nazario Lumelli, categoria: stato, nascosta: true, descrizione: "Dove è finito Lumelli dopo il risveglio. Vale 1 se è in Cattedrale per la purificazione, 2 se è alla Caserma, 3 se lavora alle carbonaie di Pannion." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · il castagnaro (aggancio)
+  - id: avv-puliti-il-castagnaro
+    presso: pannion
+    immagine: icone/chestnut-leaf
+    titolo: Il castagnaro
+    sommario: "In piazza a Pannion nessuno ti saluta, e un uomo con le tasche piene di castagne ti offre una paga da città."
+    luogo: Pannion, la piazza del Vecchio
+    area: superficie-fratturata
+    requisiti: [fazione.pannion >= 15, avventura.puliti == 0]
+    testo: |
+      Arrivi a Pannion a metà mattina, e la piazza è piena di gente ferma. Uomini e donne della squadra stanno in
+      piedi fra il Vecchio e il bordo dell'altura con le braccia lungo i fianchi, girati tutti verso la valle. Sul
+      fianco dell'altura due carbonaie fumano bianco, e nessuno sale a chiudere gli sfiatatoi.
+
+      In prima fila c'è Darrin Huld. Lo chiami per nome, e lui non gira la testa. Ha le maniche della camicia bagnate
+      fino ai gomiti, e sull'asse dei turni appesa alla segheria non c'è un segno di carbone.
+
+      {empatia Media} Darrin ti ha sentito. Ti lascia scorrere addosso come la pioggia su un tetto, e non gli passa
+      per la testa di dover rispondere.
+
+      Un uomo ti tira per la manica. È basso e largo, con la barba grigia tagliata a colpi di forbice e le tasche
+      della giacca gonfie di castagne, e ne rigira una fra le dita mentre parla. Si chiama Nerio Arpesi e ha il
+      castagneto sulla costa nord. Da due settimane i raccoglitori non salgono più, e le castagne gli marciscono nei
+      ricci.
+
+      «Io li pago, eh, li pago come in città» dice Nerio, e indica la piazza con il mento. «E loro stanno lì a
+      guardare la valle. Allora pago te, il doppio, se mi tiri giù il raccolto prima delle piogge.»
+
+      {origine figlio-del-circolo} Al Circolo un bosco che smette di muoversi si chiama malato. Qui ha smesso di
+      muoversi la gente, e nessuno è venuto a guardarla.
+    opzioni:
+      - testo: "Accettare il raccolto di Nerio"
+        descrizione: "Una paga da città per tirare giù castagne. Per ora Nerio non chiede altro."
+        esito:
+          titolo: La stretta di mano
+          testo: |
+            Nerio ti stringe la mano e ti spiega dove stanno le pertiche e le ceste, contando sulle dita le file di
+            castagni. Si comincia domattina all'alba. Quando riattraversi la piazza per andartene non si è mosso
+            nessuno, e le maniche di Darrin sono ancora bagnate.
+          effetti: { avventura.puliti: 1 }
+      - testo: "Chiedere a Nerio perché lui non sta con gli altri"
+        descrizione: "In tutta la piazza Nerio è l'unico che si muove e si gratta la barba."
+        esito:
+          titolo: La roba della nonna
+          testo: |
+            Nerio si tocca il petto e tira fuori dalla camicia una piastrina di metallo nero appesa a uno spago,
+            liscia, con un foro nel mezzo. Era di sua nonna, che l'aveva trovata da bambina nel torrente della vecchia
+            Pannion, e a Pannion la roba dei Precursori non si vende. «È sempre fredda, anche d'estate» dice, e se la
+            rimette sotto la camicia. Poi ti chiede se il raccolto lo fai, e gli dici di sì.
+          effetti: { avventura.puliti: 1 }
+      - testo: "Provare a svegliare Darrin"
+        descrizione: "Darrin ti ha dato un nome davanti a tutta Pannion. Forse quel nome lo sente ancora."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Radice
+          testo: |
+            Ti metti fra Darrin e la valle e gli ripeti il nome che ti ha dato. Darrin sbatte le palpebre e per un
+            momento ti guarda davvero. «Radice» dice a bassa voce, e torna a guardare la valle oltre la tua spalla. Al
+            bordo della piazza Nerio ti aspetta, e ti chiede se adesso il raccolto lo fai.
+          pe: { empatia: 3 }
+          effetti: { avventura.puliti: 1 }
+        fallimento:
+          titolo: Il palo piantato male
+          testo: |
+            Lo prendi per le spalle e lo scuoti, e Darrin si lascia scuotere come un palo piantato male, senza
+            smettere di guardare la valle. Un paio di carbonai che non stanno in fila ti guardano storto. Nerio ti
+            tira via per la manica e ti chiede se il raccolto lo fai almeno tu.
+          effetti: { avventura.puliti: 1, scandalo: 0.5 }
+      - testo: "Trattare la paga come si tratta sui Ponti"
+        descrizione: "Una paga offerta per strada si discute sempre, anche quando è buona."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: L'affare
+          testo: |
+            Gli chiedi la metà subito e il resto a raccolto finito, come si fa con i carichi sui Ponti, e Nerio ride
+            per la prima volta. Ti dice che in città devono averti insegnato bene, e ti stringe la mano due volte. Si
+            comincia domattina all'alba, sulla costa nord.
+          effetti: { avventura.puliti: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · le gocce sugli stipiti
+  - id: avv-puliti-le-gocce-sugli-stipiti
+    presso: pannion
+    immagine: icone/water-drop
+    titolo: Le gocce sugli stipiti
+    sommario: "Raccogli castagne da solo per tre giorni, e la sera, tornando in paese, cominci a guardare le porte."
+    luogo: Pannion, il castagneto della costa e le case
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 1]
+    testo: |
+      Per tre giorni batti da solo i castagni della costa nord con la pertica di Nerio, e la sera torni in paese con
+      la schiena rotta e le mani punte dai ricci. Al terzo giorno cominci a vedere quello che a Pannion prima non
+      c'era.
+
+      Sullo stipite di quasi ogni porta c'è una goccia incisa con il coltello, rovesciata, con la punta verso l'alto.
+      Davanti alle case ci sono secchi d'acqua, e chi esce ci immerge le braccia fino ai gomiti prima di fare un
+      passo. Sui gradini della segheria una donna della squadra mangia crudo un pesce bianco senza occhi, tenendolo
+      con due mani come una fetta di pane.
+
+      {medicina Media} Quel pesce viene da un'acqua senza sole, ed è pallido fino alle lische. Anche la pelle delle
+      braccia della donna è lucida e sottile, e lascia vedere le vene.
+
+      Nerio ti cammina accanto con la pertica in spalla. «È cominciato con la luna nuova» dice, e si ferma a guardare
+      una porta. «I primi sono stati i due facchini di quel signore di città che è sceso nella valle. Poi la squadra,
+      una casa per notte.»
+    opzioni:
+      - testo: "Guardare bene le gocce incise"
+        descrizione: "Sono tutte uguali, come se le avesse incise la stessa mano. Una goccia rovesciata, però, indica qualcosa."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: La punta storta
+          testo: |
+            Le guardi porta per porta finché te ne accorgi. La punta delle gocce pende di poco, sempre dalla stessa
+            parte, verso nord-est e la valle. Nerio segue il tuo dito e dice che laggiù, secondo la nonna, c'era il
+            forno della vecchia Pannion, con la cisterna sotto.
+          pe: { percezione: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.goccia: 1 }
+        fallimento:
+          titolo: Quello sulla porta
+          testo: |
+            Guardi le gocce così a lungo che cominciano a sembrarti occhi. Da una porta esce un uomo della squadra con
+            le braccia bagnate e si ferma sulla soglia a guardarti, senza sbattere le palpebre, finché te ne vai.
+          effetti: { avventura.puliti: 1, sospetto: 0.5 }
+      - testo: "Seguire all'alba chi porta su il pesce"
+        descrizione: "Il pesce bianco arriva in paese ogni mattina, a ceste. Qualcuno lo va a prendere, e da qualche parte lo prende."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: Le ceste
+          testo: |
+            Prima dell'alba quattro Puliti scendono per il pendio con le ceste vuote, e tu dietro, da un tronco
+            all'altro. Sui tronchi ci sono le stesse gocce delle porte, e le seguono. Al margine della valle si
+            fermano davanti a una corda che sparisce fra le radici, e tirandola su riempiono le ceste di pesce che
+            gocciola.
+          pe: { furtivita: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.goccia: 1 }
+        fallimento:
+          titolo: Le foglie bagnate
+          testo: |
+            Scivoli sulle foglie bagnate e mezzo pendio ti sente. I quattro si voltano insieme e restano a guardarti
+            in silenzio, con le ceste vuote in mano, finché non torni su da dove sei venuto.
+          effetti: { avventura.puliti: 1, tormento: 0.5 }
+      - testo: "Chiedere alla donna del pesce che cosa mangia"
+        descrizione: "Era della squadra di Darrin. Forse a una domanda gentile risponde ancora."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il pesce che pulisce
+          testo: |
+            Ti siedi sul gradino accanto a lei, e lei risponde piano, senza smettere di masticare. Ti dice che il
+            pesce pulisce, e che prima aveva fame di tutto e adesso no. Quando le chiedi della goccia sulla sua porta
+            ti spiega che la punta indica dove sta l'acqua, perché chi è pulito non si perda.
+          pe: { empatia: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.goccia: 1 }
+        fallimento:
+          titolo: Le porte
+          testo: |
+            La donna smette di masticare e ti guarda. Sulle porte intorno compaiono altri Puliti, tutti nello stesso
+            momento, e nessuno dice niente. Torni da Nerio con le orecchie che ti bruciano.
+          effetti: { avventura.puliti: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · la mensa che si volta
+  - id: avv-puliti-la-mensa-che-si-volta
+    presso: pannion
+    immagine: icone/fish-corpse
+    titolo: La mensa che si volta
+    sommario: "Alla mensa dei carbonai, quando entri, metà dei tavoli si volta insieme e ti saluta in coro."
+    luogo: Pannion, la mensa dei carbonai
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 2]
+    testo: |
+      La sera vai a mangiare sotto la tettoia della mensa dei carbonai, dove un piatto in più c'è sempre. Stasera la
+      tettoia è divisa in due. Vicino al fuoco una decina di carbonai mangia la zuppa nera in silenzio, con le
+      scodelle sulle ginocchia. Dall'altra parte, lontano dal fuoco, i Puliti siedono in file ordinate davanti alle
+      ceste del pesce bianco, e lo mangiano crudo, piano, tutti con lo stesso movimento della mascella.
+
+      Quando metti piede sotto la tettoia i Puliti girano la testa insieme, come uno stormo che cambia direzione.
+
+      «Buona acqua a chi entra» dicono in coro.
+
+      Poi restano a guardarti con il pesce a mezz'aria, e aspettano. Al tavolo del fuoco il vecchio cuoco smette di
+      versare la zuppa e ti fa segno con gli occhi di stare attento.
+
+      {conoscenze-della-strada Media} È un saluto con la sua risposta, come le parole d'ordine delle bande. Chi non la
+      sa si fa notare, e chi la sa la dice senza pensarci.
+    opzioni:
+      - testo: "Rispondere al saluto come rispondono loro"
+        descrizione: "Per strada li hai sentiti salutarsi fra loro, con la voce piatta. La risposta va detta senza esitare."
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Media }
+        successo:
+          titolo: E ferma a chi resta
+          testo: |
+            «E ferma a chi resta» dici, con la voce piatta che hai sentito per le strade. I Puliti tornano al pesce
+            tutti insieme. Ti siedi in fondo alla loro fila, e mangiando li senti parlare a mezza voce della prossima
+            luna nuova, quando scenderanno tutti all'acqua.
+          pe: { ingannare: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.coro: 1 }
+        fallimento:
+          titolo: La risposta storta
+          testo: |
+            Dici quello che ti sembra di ricordare, e i Puliti continuano a guardarti tutti insieme finché esci da
+            sotto la tettoia. Il cuoco ti porta la zuppa fuori al buio e non ti chiede niente.
+          effetti: { avventura.puliti: 1, tormento: 0.5 }
+      - testo: "Sederti vicino a loro in silenzio e ascoltare"
+        descrizione: "Prima o poi arriva un altro dei loro, e risponde al posto tuo."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: Quello che arriva tardi
+          testo: |
+            Ti siedi su una panca vuota e lasci che ti guardino. Dopo un pezzo arriva un ragazzo della squadra con le
+            braccia gocciolanti, e quando lo salutano risponde «E ferma a chi resta». Tutti tornano al pesce. Da come
+            parlano dopo, capisci che alla prossima luna nuova scenderanno tutti all'acqua.
+          pe: { percezione: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.coro: 1 }
+        fallimento:
+          titolo: Gli occhi
+          testo: |
+            Resti seduto sotto i loro occhi per un'ora, con l'odore del pesce crudo che ti riempie la bocca. Quando ti
+            alzi hai le mani fredde come se le avessi tenute nell'acqua, e non le hai mai tolte dalle ginocchia.
+          effetti: { avventura.puliti: 1, tormento: 0.5 }
+      - testo: "Mangiare la zuppa con i carbonai del fuoco"
+        descrizione: "Quelli del fuoco non si sono voltati. Hanno da dire qualcosa, a chi si siede con loro."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Il tavolo del fuoco
+          testo: |
+            Ti fanno posto sulla panca, e a voce bassa ti raccontano chi è stato preso e quando. Darrin sei notti fa,
+            il giovane Ansgar tre. Da ieri il ragazzo lo tiene legato Frate Koln nella cappella, e da dentro non esce
+            un lamento.
+          pe: { empatia: 3 }
+          effetti: { avventura.puliti: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Davanti a loro
+          testo: |
+            I carbonai del fuoco non vogliono parlare con i Puliti a dieci passi, e a ogni tua domanda guardano la
+            zuppa. Uno si alza e se ne va, e il cuoco ti chiede di lasciarli mangiare in pace.
+          effetti: { avventura.puliti: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · la pelle bagnata
+  - id: avv-puliti-la-pelle-bagnata
+    presso: pannion
+    immagine: fazioni/confraternita-del-velo
+    titolo: La pelle bagnata
+    sommario: "Frate Koln ha legato Ansgar a una panca della cappella, e gli spalma la linfa rossa sulle braccia."
+    luogo: Pannion, la cappella del Velo
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 3]
+    testo: |
+      Nella cappella del Velo la pentola dell'unguento bolle da sola sul fornello. Frate Koln ha disteso Ansgar sulla
+      panca e gli ha legato i polsi con due cinture, e il ragazzo tira verso il secchio d'acqua che sta vicino alla
+      porta, piano, senza un lamento. Koln stasera non ride. Ha il saio sudato fino alla cintura e le mani unte di
+      rosso.
+
+      Sulle braccia di Ansgar la pelle è diventata sottile come carta bagnata, così chiara che sotto si vedono le
+      vene. Dove si è asciugata si è aperta in piccole crepe che sanguinano. La scottatura sul polso, quella che il
+      ragazzo si grattava sempre, è sparita sotto la pelle nuova.
+
+      «Se lo slego va all'acqua, e se lo tengo asciutto si spacca» dice Koln, e gli passa sulle braccia un'altra mano
+      di unguento. «La linfa la tiene chiusa per un'ora, poi si apre di nuovo.»
+
+      {medicina Difficile} La pelle di Ansgar fa passare l'acqua come le branchie di un pesce, e quello che c'è
+      nell'acqua dei secchi gli entra dentro dalle braccia. La linfa, se arriva prima dell'acqua, la tiene fuori.
+    opzioni:
+      - testo: "Aiutare Koln a medicare Ansgar"
+        descrizione: "Koln ha due mani e il ragazzo due braccia. Con una mano in più la linfa arriva prima che la pelle si apra."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Prima dell'acqua
+          testo: |
+            Asciughi un braccio con un panno mentre Koln stende la linfa sull'altro, in uno strato sottile, e la pelle
+            si chiude e resta chiusa. Verso l'alba Ansgar smette di tirare e si gratta il polso, dove c'era la
+            scottatura. Koln ride piano. Riempie un vasetto di linfa e te lo dà per quando scenderai dove sta l'acqua.
+          pe: { medicina: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.pelle: 1 }
+        fallimento:
+          titolo: Le crepe
+          testo: |
+            La linfa non fa presa, e sotto le tue dita la pelle del ragazzo si apre in una crepa lunga. Ti ritrovi le
+            mani bagnate del suo sangue e dell'acqua che gli esce dalle braccia, e le lavi tre volte nel catino di
+            Koln.
+          effetti: { avventura.puliti: 1, contaminazione: 0.5 }
+      - testo: "Tenere fermo Ansgar mentre Koln lavora"
+        descrizione: "Il ragazzo tira verso il secchio con una forza che non è la sua."
+        prova: { attributo: fisico, abilita: [resistenza, rissa], difficolta: Media }
+        successo:
+          titolo: Fino all'alba
+          testo: |
+            Lo tieni per le spalle tutta la notte, con le braccia che ti tremano e il secchio a tre passi. All'alba la
+            linfa ha tenuto, e Ansgar dorme. Koln ti dà un vasetto di unguento e ti dice di metterlo prima di entrare
+            in qualunque acqua di quaggiù.
+          pe: { resistenza: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.pelle: 1 }
+        fallimento:
+          titolo: Il secchio
+          testo: |
+            A metà notte il ragazzo ti scivola fra le mani, striscia fino al secchio e ci affonda le braccia fino alle
+            spalle. Lo tirate indietro in due. Koln non ti dice niente, e tu resti a guardare il secchio fino
+            all'alba.
+          effetti: { avventura.puliti: 1, tormento: 0.5 }
+      - testo: "Parlare ad Ansgar finché risponde"
+        descrizione: "Ansgar portava i messaggi di Darrin fino in città. Forse c'è ancora un messaggio che vuole portare."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il messaggio
+          testo: |
+            Gli chiedi quale messaggio porterebbe a Darrin, se potesse. Ansgar ci pensa a lungo, e alla fine risponde
+            con la sua voce. «Il signore di città legge, giù al forno vecchio. L'acqua lo ascolta.» Poi torna zitto.
+            Koln ti mette in mano un vasetto di unguento, per quando andrai a vedere.
+          pe: { empatia: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.pelle: 1 }
+        fallimento:
+          titolo: La voce piatta
+          testo: |
+            Ansgar ti risponde soltanto «Buona acqua», con la voce piatta di tutti gli altri, ogni volta che gli
+            parli. Dopo un'ora Koln ti chiede di smettere.
+          effetti: { avventura.puliti: 1, tormento: 0.5 }
+      - testo: "Dire con Koln la Preghiera del Battito"
+        descrizione: "È la formula dei riti di purificazione. Un novizio la sa tutta, anche quando un frate di villaggio ne ricorda metà."
+        quando: [origine.accolito-del-velo >= 1]
+        esito:
+          titolo: Anche noi ricorderemo
+          testo: |
+            La dite insieme sopra la panca mentre Koln stende la linfa. Tu la sai tutta, lui ne ricorda metà e ti va
+            dietro. Al terzo giro Ansgar muove le labbra con voi, e la pelle del braccio si chiude. Koln riempie un
+            vasetto e te lo dà con tutte e due le mani, come in Cattedrale si passa una cosa benedetta.
+          pe: { resilienza: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.pelle: 1 }
+
+  # ------------------------------------------------------------ 4 → 5 · quelli che portano all'acqua
+  - id: avv-puliti-quelli-che-portano-all-acqua
+    presso: pannion
+    immagine: icone/old-lantern
+    titolo: Quelli che portano all'acqua
+    sommario: "Di notte Liduina Brace vede dal pontile una fila di Puliti scendere senza lanterne verso le carbonaie basse."
+    luogo: Pannion, le carbonaie basse di Delek
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 4]
+    testo: |
+      È notte fonda quando Liduina Brace ti manda a chiamare. Dal pontile più lungo ha visto una fila di Puliti
+      scendere senza lanterne verso le carbonaie basse dove lavora Delek, che non è dei loro. Ti mette in mano un
+      tizzone e ti spinge verso il sentiero.
+
+      Arrivi alla carbonaia di Delek di corsa. Sei Puliti lo hanno preso per le braccia e per le caviglie e lo portano
+      giù per il pendio verso la valle senza dire una parola, tutti allo stesso passo. Delek si torce e bestemmia, ha
+      la barba piena di terra e un occhio gonfio. Quelli che lo portano sono carbonai della squadra di Darrin, gente
+      con cui hai diviso la panca della mensa.
+
+      {intimidire Media} Se li colpisci si lasceranno colpire, e continueranno a scendere con Delek sulle spalle. Sono
+      carbonai di Pannion, e domani ti guarderanno in faccia.
+    opzioni:
+      - testo: "Strappare Delek dalle loro mani"
+        descrizione: "Sono sei, e non si difendono. Ma non lasciano la presa."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Media }
+        successo:
+          titolo: Uno alla volta
+          testo: |
+            Afferri Delek sotto le ascelle e tiri, e i Puliti mollano la presa uno alla volta senza lottare, poi
+            restano fermi a guardare la valle. Delek tossisce a lungo prima di riuscire a parlare. Un mese fa ha
+            portato giù un signore di città, Nazario Lumelli, per una borsa di monete. Al forno vecchio lo ha visto
+            leggere da un libro di pelle di pesce sul bordo della cisterna. «Alla luna nuova ci porta giù tutti, e io
+            ti ci porto prima» dice, e si pulisce la terra dalla barba.
+          pe: { atletica: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.delek: 1 }
+        fallimento:
+          titolo: Fino al margine
+          testo: |
+            Ti trascinano con lui giù per il pendio, e lo liberi soltanto al margine della valle, fra le radici, con
+            un ginocchio aperto. Delek trema e balbetta il nome di un signore di città, Nazario Lumelli, che ha letto
+            un libro sulla cisterna del forno vecchio. Laggiù, dice, non ci torna nemmeno per tutte le monete della
+            Gilda.
+          effetti: { avventura.puliti: 1, ferite: 0.5 }
+      - testo: "Fermarli con la voce del caposquadra"
+        descrizione: "Per vent'anni questi uomini hanno obbedito a un ordine secco, detto una volta sola."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: L'ordine
+          testo: |
+            Gridi «Giù!» una volta sola, come lo grida Darrin, e i sei posano Delek a terra e restano in piedi. Delek
+            si alza da solo. Un mese fa ha guidato nella valle Nazario Lumelli, un signore di città, e al forno
+            vecchio lo ha visto leggere da un libro di pelle di pesce sul bordo della cisterna. «Ti ci porto io» dice,
+            e si toglie la terra dalla barba con il dorso della mano.
+          pe: { intimidire: 3 }
+          effetti: { avventura.puliti: 1, avv-puliti.delek: 1 }
+        fallimento:
+          titolo: Le finestre
+          testo: |
+            Il tuo grido sveglia le case dell'altura, e i Puliti continuano a scendere. Lo liberi al margine della
+            valle, con mezzo villaggio alle finestre. Delek ti racconta a pezzi di Nazario Lumelli e del libro letto
+            sulla cisterna del forno vecchio, e giura che laggiù non ci torna più.
+          effetti: { avventura.puliti: 1, scandalo: 0.5 }
+      - testo: "Salutarli come si salutano fra loro"
+        descrizione: "Sai la risposta del coro. Un pulito in più che si offre di portare il peso non sorprende nessuno."
+        requisiti: [avv-puliti.coro >= 1]
+        esito:
+          titolo: Il cambio
+          testo: |
+            Ti metti in fila con loro e rispondi al saluto come alla mensa. Poi ti offri di portare Delek per l'ultimo
+            tratto, e i sei te lo consegnano e tornano su senza voltarsi. Quando sono lontani Delek ti racconta di
+            Nazario Lumelli, il signore di città che ha guidato fino alla cisterna del forno vecchio. «Ti ci porto io»
+            dice, e ti stringe il braccio con una mano nera di carbone.
+          effetti: { avventura.puliti: 1, avv-puliti.delek: 1 }
+      - testo: "Chiamare Gaspare Tenca e la sua banda"
+        descrizione: "La banda di Tenca di notte è sveglia per mestiere, e risponde a Darrin. Darrin adesso non c'è."
+        quando: [pannion.tenca == 1]
+        esito:
+          titolo: La banda
+          testo: |
+            Tenca arriva con quattro dei suoi e le corde da carico, e senza colpire nessuno legano i Puliti a due a
+            due ai tronchi, finché Delek è libero. «Di giorno li slego» dice Tenca, grattandosi la barba rossa. Delek
+            ti racconta di Nazario Lumelli e del libro letto sulla cisterna del forno vecchio. «Ti ci porto io» dice
+            Delek, mentre Tenca conta i suoi.
+          effetti: { avventura.puliti: 1, avv-puliti.delek: 1 }
+
+  # ------------------------------------------------------------ 5 → 6 · il rito sul bordo
+  - id: avv-puliti-il-rito-sul-bordo
+    presso: pannion
+    immagine: icone/evil-book
+    titolo: Il rito sul bordo
+    sommario: "La notte della luna nuova i Puliti scendono nella vecchia Pannion, e Nazario Lumelli legge sul bordo della cisterna."
+    luogo: La vecchia Pannion, il forno vecchio
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 5]
+    testo: |
+      La notte della luna nuova scendi nella valle dietro i Puliti, con Nerio che ti segue con la lanterna coperta. Il
+      forno della vecchia Pannion sta in fondo alla strada grande, una casa di pietra con il tetto sfondato da una
+      sequoia. Il pavimento è crollato dentro la cisterna che c'era sotto, e al posto del forno adesso c'è un pozzo
+      rotondo d'acqua nera, largo quanto una stanza, con il bordo di pietra inciso di gocce.
+
+      Intorno al bordo i Puliti stanno in file, immobili, con le braccia bagnate che luccicano al buio. In prima fila
+      c'è Darrin. Sul bordo, davanti a un leggio fatto con la pala del forno, un uomo magro in panciotto di seta legge
+      ad alta voce da un libro aperto. Porta i guanti, e la seta del panciotto è macchiata d'acqua fino al petto. È
+      Nazario Lumelli, e il libro è quello che Delek gli ha sentito chiamare Libro dell'Acqua Ferma. Nell'acqua,
+      immersi fino al collo, aspettano i suoi due facchini con gli occhi aperti.
+
+      La lingua che Lumelli legge è fatta di schiocchi e di vocali lunghe, e a ogni frase l'acqua sale di un dito sul
+      bordo.
+
+      {accademiche Difficile} Le pagine sono di pelle di pesce cucita con le lische, e la scrittura scende in file di
+      gocce dall'alto in basso. Nessun alfabeto della Biblioteca si scrive così.
+
+      {origine rampollo-dei-quartieri-alti} Il nome di Lumelli lo hai sentito nei salotti dei Quartieri Alti, detto
+      con mezzo sorriso. È quello che compra le cose che gli altri collezionisti hanno paura di tenere in casa.
+    opzioni:
+      - testo: "Strappare il libro dalle mani di Lumelli"
+        descrizione: "Lumelli è magro, e i Puliti non si muovono. Il bordo però è bagnato, e l'acqua sale."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Difficile }
+        successo:
+          titolo: Le ultime pagine
+          testo: |
+            Corri lungo il bordo e afferri il libro. Lumelli lo tiene con le mani guantate finché le cuciture di lisca
+            cedono, e a te restano in pugno le ultime pagine, mentre lui grida. Nell'acqua i due facchini aprono la
+            bocca, e continuano ad aprirla.
+          pe: { atletica: 3 }
+          effetti: { avv-puliti.pagine: 1 }
+          segue: avv-puliti-le-bocche-informi
+        fallimento:
+          titolo: Il bordo bagnato
+          testo: |
+            Scivoli sulla pietra bagnata e finisci con una gamba nell'acqua nera fino alla coscia. È tiepida, e
+            appiccica. Lumelli continua a leggere più forte, e nell'acqua i due facchini aprono la bocca.
+          effetti: { contaminazione: 0.5 }
+          segue: avv-puliti-le-bocche-informi
+      - testo: "Svegliare Darrin davanti a tutti"
+        descrizione: "Darrin è in prima fila. Se si muove lui, la squadra lo segue da vent'anni."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: Il caposquadra
+          testo: |
+            Prendi la faccia di Darrin fra le mani e lo chiami, e lui sbatte le palpebre. «Radice» dice, e fa un passo
+            indietro dal bordo, e dietro di lui la squadra intera fa un passo indietro. Lumelli perde la riga e
+            l'acqua smette di salire. Nell'acqua i due facchini aprono la bocca.
+          pe: { empatia: 3 }
+          segue: avv-puliti-le-bocche-informi
+        fallimento:
+          titolo: Il dorso della mano
+          testo: |
+            Darrin ti scosta con il dorso della mano senza guardarti, e i Puliti intorno chiudono la fila dove eri tu.
+            Lumelli non ha nemmeno alzato gli occhi dal libro, e nell'acqua i due facchini aprono la bocca.
+          effetti: { scandalo: 0.5 }
+          segue: avv-puliti-le-bocche-informi
+      - testo: "Rispondere al rito con le parole del coro"
+        descrizione: "A ogni pagina i Puliti rispondono a Lumelli. Una risposta detta al momento sbagliato rompe il conto."
+        requisiti: [avv-puliti.coro >= 1]
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Media }
+        successo:
+          titolo: Il conto rotto
+          testo: |
+            Fra due frasi di Lumelli gridi «E ferma a chi resta», e tutta la folla risponde con te, troppo presto.
+            Lumelli si ferma a cercare la riga con il dito, e tu gli strappi dal libro le ultime pagine. Nell'acqua i
+            due facchini aprono la bocca, e continuano ad aprirla.
+          pe: { espressivita: 3 }
+          effetti: { avv-puliti.pagine: 1 }
+          segue: avv-puliti-le-bocche-informi
+        fallimento:
+          titolo: Il coro giusto
+          testo: |
+            Rispondi al momento sbagliato, e i Puliti lo rispondono al momento giusto, tutti insieme, coprendo la tua
+            voce. Lumelli gira pagina. Nell'acqua i due facchini aprono la bocca.
+          effetti: { tormento: 0.5 }
+          segue: avv-puliti-le-bocche-informi
+      - testo: "Chiamare Lumelli come lo si chiama in un salotto"
+        descrizione: "Un uomo dei Quartieri Alti risponde al suo nome detto nel modo giusto, anche nel mezzo di un rito."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Il signor Lumelli
+          testo: |
+            Lo chiami con il titolo e il cognome, come si annuncia un ospite, e Lumelli alza la testa e accenna un
+            inchino prima di accorgersene. Ti basta quel momento per strappare dal libro le ultime pagine. Nell'acqua
+            i due facchini aprono la bocca, e continuano ad aprirla.
+          pe: { galateo: 3 }
+          effetti: { avv-puliti.pagine: 1 }
+          segue: avv-puliti-le-bocche-informi
+        fallimento:
+          titolo: L'ospite sbagliato
+          testo: |
+            Lumelli ti guarda come si guarda un ospite arrivato senza invito, e torna a leggere. Nell'acqua i due
+            facchini aprono la bocca.
+          effetti: { tormento: 0.5 }
+          segue: avv-puliti-le-bocche-informi
+
+  - id: avv-puliti-le-bocche-informi
+    tipo: seguito
+    immagine: icone/lamprey-mouth
+    titolo: Le bocche informi
+    sommario: "I due facchini di Lumelli escono dall'acqua della cisterna, e non hanno più una forma."
+    luogo: La vecchia Pannion, il forno vecchio
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 5]
+    testo: |
+      I due facchini escono dall'acqua a quattro zampe, e sul bordo non si alzano più. Le loro facce si aprono. Si
+      aprono le guance e il collo, poi il petto sotto le camicie fradice, e ogni apertura è una bocca con le labbra
+      bianche e una fila di denti piccoli. Quando i corpi perdono la forma restano soltanto le bocche ammucchiate, che
+      masticano l'aria mentre strisciano verso di te.
+
+      I Puliti guardano senza muoversi. Lumelli si è tolto i guanti e grida i nomi dei facchini, e le bocche non si
+      voltano.
+
+      {origine figlio-della-citta-bassa} I facchini che salgono con i signori dei Quartieri Alti si prendono a
+      giornata sotto i ponti della Città Bassa. Quando non tornano, in Città Bassa li cerca soltanto chi aspettava la
+      paga.
+
+      {resilienza Media fallita} Le mani ti tremano tanto che la lama ti batte contro la coscia, e le gambe non
+      vogliono saperne di avvicinarsi.
+    opzioni:
+      - testo: "Affrontare le bocche"
+        descrizione: "Due mucchi di bocche che strisciano e mordono tutto quello che toccano."
+        combattimento: avv-puliti-le-bocche
+        vittoria:
+          titolo: Il bordo libero
+          testo: |
+            L'ultima bocca scivola nell'acqua e non torna su. Nerio salta addosso a Lumelli e lo lega con la cinghia
+            della lanterna, mentre il libro gli cade di mano e affonda nella cisterna. All'alba i Puliti risalgono il
+            pendio in fila, con Darrin in testa. Sotto il forno, intanto, l'acqua si increspa in cerchi che salgono
+            dal fondo, e non si ferma più.
+          effetti: { avventura.puliti: 1 }
+        sconfitta:
+          titolo: I denti
+          testo: |
+            Le bocche ti mordono le gambe e le braccia finché rotoli via sulla pietra, e poi tornano da sole
+            nell'acqua. Nerio intanto ha legato Lumelli con la cinghia della lanterna, e il libro è affondato nella
+            cisterna. All'alba i Puliti risalgono in fila, e sotto il forno l'acqua si increspa dal fondo.
+          effetti: { avventura.puliti: 1, tormento: 0.5 }
+      - testo: "Ricacciarle in acqua con la pala del forno"
+        descrizione: "La pala del forno è lunga quanto due uomini. Si tratta di spingere senza farsi mordere."
+        prova: { attributo: fisico, abilita: [atletica, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: La pala
+          testo: |
+            Strappi la pala dal leggio e spingi le bocche verso il bordo, una alla volta, finché scivolano nell'acqua
+            nera e affondano. Nerio lega Lumelli con la cinghia della lanterna, e il libro gli cade nella cisterna.
+            All'alba i Puliti risalgono in fila, e sotto il forno l'acqua si increspa dal fondo.
+          pe: { atletica: 3 }
+          effetti: { avventura.puliti: 1 }
+        fallimento:
+          titolo: Il manico morso
+          testo: |
+            Una bocca si chiude sul manico e risale lungo il legno fino alle tue mani. Lasci la pala, e le bocche
+            tornano nell'acqua soltanto quando hanno finito con le tue braccia. Nerio intanto ha legato Lumelli, e il
+            libro è affondato nella cisterna.
+          effetti: { avventura.puliti: 1, ferite: 1, contaminazione: 0.5 }
+      - testo: "Bruciarle con l'olio della lanterna di Nerio"
+        descrizione: "Le bocche sono bagnate, ma la carne fradicia brucia lo stesso, se l'olio è abbastanza."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Difficile }
+        successo:
+          titolo: L'olio
+          testo: |
+            Svuoti la lanterna di Nerio sulle bocche e ci butti il tizzone, e le bocche bruciano fischiando finché si
+            buttano nell'acqua da sole. Nerio lega Lumelli con la cinghia della lanterna vuota, e il libro affonda
+            nella cisterna. All'alba i Puliti risalgono in fila, e sotto il forno l'acqua si increspa dal fondo.
+          pe: { tecnologia: 3 }
+          effetti: { avventura.puliti: 1 }
+        fallimento:
+          titolo: La manica
+          testo: |
+            L'olio ti cola sulla manica e la fiamma lo segue. Ti butti a terra per spegnerla, e le bocche ti passano
+            sopra prima di scivolare nell'acqua. Nerio ha legato Lumelli, e il libro è affondato nella cisterna.
+          effetti: { avventura.puliti: 1, ferite: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 7 → 8 · il risveglio (epilogo)
+  - id: avv-puliti-il-risveglio
+    presso: pannion
+    immagine: icone/sunrise
+    titolo: Il risveglio
+    sommario: "All'alba la piazza di Pannion è piena di gente seduta per terra, che si gratta le braccia."
+    luogo: Pannion, la piazza del Vecchio
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 7]
+    testo: |
+      Risali dalla cisterna all'alba, con Nerio che ti tira su per la corda e non smette di parlare. Quando arrivi in
+      cima all'altura la piazza di Pannion è piena di gente seduta per terra. Si guardano le braccia che si asciugano
+      e prudono, e se le grattano come dopo una febbre. Una donna sputa una lisca e la guarda a lungo. Da qualche
+      parte un bambino piange perché ha freddo, per la prima volta da un mese.
+
+      Darrin Huld sta davanti all'asse dei turni con le mani vuote, e guarda l'asse bianca come se non sapesse più che
+      cosa ci va scritto. Quando ti vede viene verso di te e si ferma a due passi.
+
+      {empatia Media} Si vergogna, e in vita sua non gli era mai capitato di doverlo fare davanti a qualcuno.
+
+      Nella cappella Nazario Lumelli si è svegliato piangendo, e secondo Koln ricorda tutto, anche ogni parola che ha
+      letto. Darrin dice che Pannion non lo vuole più vedere, e che di lui decidi tu, perché sei Radice.
+    opzioni:
+      - testo: "Mandarlo in Cattedrale, alla purificazione"
+        descrizione: "Il Velo purifica chi torna dalle profondità. Koln può accompagnarlo, e scrivere quello che deve."
+        esito:
+          titolo: La Cripta
+          testo: |
+            Koln lo porta in città con il primo carro di carbone, seduto fra i sacchi con le mani legate davanti. Dopo
+            una settimana arriva una lettera con il sigillo del Velo. Lumelli è nella Cripta della Cattedrale, e i
+            confratelli dicono che ne avrà per molto.
+          imposta: { avv-puliti.lumelli: 1 }
+          effetti: { avventura.puliti: 1, rep.velo: 1 }
+      - testo: "Consegnarlo alla Caserma"
+        descrizione: "Ha svegliato una cosa che si è presa mezzo villaggio. In città qualcuno giudica anche i signori dei Quartieri Alti, ogni tanto."
+        esito:
+          titolo: Il verbale
+          testo: |
+            Lo porti tu alla Caserma, e un sergente scrive il verbale con molta pazienza e due errori nel nome.
+            Lumelli resta in cella una stagione. Il suo gabinetto delle curiosità viene messo all'asta, e la Caserma
+            ti manda a dire che se ne ricorderà.
+          imposta: { avv-puliti.lumelli: 2 }
+          effetti: { avventura.puliti: 1, rep.caserma: 1 }
+      - testo: "Lasciarlo al giudizio di Darrin"
+        descrizione: "È a Pannion che ha fatto il danno. Darrin sa come si ripaga un debito con il lavoro."
+        esito:
+          titolo: Le carbonaie basse
+          testo: |
+            Darrin lo manda alle carbonaie basse di Delek per un anno, senza guanti. Il primo giorno Lumelli si brucia
+            le mani, il terzo impara a chiudere uno sfiatatoio, e la sera mangia la zuppa nera da solo in fondo alla
+            tettoia. Pannion ti guarda passare con un'altra faccia.
+          imposta: { avv-puliti.lumelli: 3 }
+          effetti: { avventura.puliti: 1, rep.pannion: 1 }
+
+  # ------------------------------------------------------------ 8 → 9 · la piastrina fredda (epilogo, grado 4)
+  - id: avv-puliti-la-piastrina-fredda
+    presso: pannion
+    immagine: icone/tribal-pendant
+    titolo: La piastrina fredda
+    sommario: "Il raccolto di Nerio si fa con tutto il villaggio, e la sera Nerio ti paga quello che ti aveva promesso."
+    luogo: Pannion, il castagneto della costa e la piazza
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 8]
+    testo: |
+      Il raccolto lo fate in due giorni, con mezzo villaggio sulla costa nord a battere i castagni con le pertiche e i
+      ricci che cadono come grandine. Darrin manda la squadra a turni, segnati sull'asse della segheria. Ansgar
+      raccoglie più degli altri e si gratta il polso ogni volta che si ferma.
+
+      La sera le castagne si arrostiscono in piazza, sotto il Vecchio, nelle padelle bucate dei carbonai. Nerio ti
+      conta in mano la paga due volte, e poi si sfila dal collo lo spago con la piastrina nera.
+
+      «La nonna diceva di darla a chi ne ha più bisogno di me» dice. «Io sto sulla costa con le castagne, eh. Tu vai
+      in giro sotto terra.»
+
+      La piastrina è fredda nella mano anche così vicino al fuoco, e sul metallo non resta l'impronta delle dita.
+
+      {tecnologia Difficile} È un pezzo dei Precursori senza una giuntura né un graffio. Chi l'ha fatta voleva che
+      tenesse qualcosa fuori da chi la porta.
+    opzioni:
+      - testo: "Mettere al collo la piastrina"
+        descrizione: "Nerio ha deciso, e quando Nerio decide si gira dall'altra parte e parla d'altro."
+        esito:
+          titolo: Lo spago
+          testo: |
+            Ti infili lo spago al collo, e la piastrina si appoggia sullo sterno, fredda. Nerio si volta subito verso
+            le padelle e si mette a spiegare a un ragazzo come si incide una castagna perché non scoppi.
+          effetti: { avventura.puliti: 1, monete: 250, oggetto.avv-puliti-piastrina-fredda: 1 }
+      - testo: "Chiedere a Nerio se ne è sicuro"
+        descrizione: "È l'unica cosa della nonna che gli resta."
+        esito:
+          titolo: Sicuro, eh
+          testo: |
+            «Sicuro, eh» dice Nerio, e ti chiude le dita sulla piastrina con la sua mano callosa. «La nonna l'ha
+            trovata nell'acqua della valle, e nell'acqua della valle ci sei andato tu.» Poi ti mette in mano una
+            castagna bollente e non ne vuole più parlare.
+          effetti: { avventura.puliti: 1, monete: 250, oggetto.avv-puliti-piastrina-fredda: 1 }
+      - testo: "Rendere a Darrin il carbone della cisterna"
+        descrizione: "Il pezzo di carbone che hai preso dalla cengia è ancora nella tua tasca."
+        quando: [avv-puliti.carbone >= 1]
+        esito:
+          titolo: Il carbone
+          testo: |
+            Metti in mano a Darrin il pezzo di carbone con la punta consumata. Lui lo rigira fra le dita, va all'asse
+            della segheria e ci segna i turni di domani, uno per squadra. Poi torna e ti lascia prendere la piastrina
+            da Nerio senza dire niente, e Nerio ti paga contando due volte.
+          effetti: { avventura.puliti: 1, monete: 250, oggetto.avv-puliti-piastrina-fredda: 1, rep.pannion: 0.5 }

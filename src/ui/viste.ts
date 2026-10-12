@@ -71,7 +71,7 @@ export function luogoAperto(x: Pick<Contesto, 's' | 'c' | 'luogo'>): TLuogo | un
   return x.luogo ? luoghiQui(x.s, x.c).find((l) => l.id === x.luogo) : undefined;
 }
 const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia singola');
-const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', fazione: 'Fazione', luogo: 'Storia del luogo' };
+const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', fazione: 'Fazione', luogo: 'Storia del luogo', avventura: 'Avventura' };
 
 // ================================================================ impianto
 
@@ -552,7 +552,11 @@ function genereDi(c: TContenuti, st: TStorylet): { genere?: Genere; serie?: Seri
   const serie = st.ripetibile ? undefined : serieDi(c).diStorylet.get(st.id);
   if (serie) return { genere: serie.genere, serie, nome: serie.fazione ?? NOMI_GENERE[serie.genere] };
   const f = fazioneDi(c, st);
-  return f ? { genere: 'fazione', nome: f } : {};
+  if (f) return { genere: 'fazione', nome: f };
+  // le stanze di una spedizione d'Avventura portano il marchio anche se si ripetono
+  const { serie: tutte, spedizioni } = serieDi(c);
+  const avv = tutte.find((z) => z.genere === 'avventura' && spedizioni.get(z.id)?.some((a) => a.id === st.area));
+  return avv ? { genere: 'avventura', nome: NOMI_GENERE.avventura } : {};
 }
 
 /** Il marchio del genere: storia principale, la fazione o storia del luogo. */

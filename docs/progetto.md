@@ -114,6 +114,11 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
   sezioni, il prossimo passo e le spedizioni di ogni storia; i luoghi neri e la Campana come una storia sola; le
   pagine dei quartieri e dei luoghi raccolte per storia; tre luoghi nuovi (Locanda di Ilka, Maniero Castaldi, I luoghi
   neri); `docs/storie.md` generato da `npm run mappa-storie`.
+- **12 ottobre.** Le Avventure (`docs/piano-avventure.md`): quattordici avventure di One Shot Wonders rifatte per
+  Ny'Zar in `contenuti/avventure/`, ognuna una catena di circa 25 storylet con il marchio «Avventura» (genere nuovo,
+  dalle piste `avventura.x`), una spedizione da 10 passi e un oggetto di grado 4 (5 armi, 3 armature, 3 scudi, 3
+  accessori; gli accessori arrivano ora a grado 4). Si aprono con `pista.capomozzo >= 10` o dopo il passo 15 della
+  quest del villaggio. Circa 341 storylet nuovi (1813 in tutto), 406 test.
 
 ## Checklist
 

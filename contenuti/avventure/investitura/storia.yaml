@@ -1,0 +1,634 @@
+# Avventura n. 12, L'investitura (docs/piano-avventure.md). Pista avventura.investitura, da 0 a 8.
+# Al Maniero Castaldi Mira, la figlia minore di Aldous e Marella, pronuncia a mezzanotte i voti dell'erede davanti al
+# Libro delle Promesse e lo firma all'alba, dopo una notte di veglia, davanti a un testimone di fuori. Severina
+# Castaldi, cugina lontana del ramo di Laresh, a cui da ragazza il padre di Aldous aveva promesso il libro, colpisce
+# adesso: dopo la firma, chi alza la mano contro l'erede viene cancellato dal libro e lascia la città.
+#
+# Dove sta cosa:
+# - 0 → 1 `avv-investitura-l-invito`, presso il Municipio (pista.capomozzo >= 10): Eolio Drest porta l'invito.
+# - 1 → 2 `avv-investitura-il-dono`: il dono personale per l'erede. avv-investitura.dono: 1 la lanterna di vetro
+#   soffiato, 2 una cosa tua (e la fiducia di Mira), 3 la copia della carta dei fondatori.
+# - 2 → 3 `avv-investitura-lo-scambio-dei-doni`: nella Sala delle Promesse. Lascia avv-investitura.sospetto (hai
+#   notato il precettore) o avv-investitura.storia (Severina ti ha raccontato della promessa del vecchio).
+# - 3 → 4 `avv-investitura-l-ora-prima`: lascia avv-investitura.cera (il papavero nelle candele, Brem sveglio),
+#   avv-investitura.casa (il giro delle porte con Quintus) o avv-investitura.fiducia (Mira sulla scala).
+# - 4 → 5 `avv-investitura-i-voti`: le candele si spengono, la famiglia e gli ospiti scendono nel magazzino del grano.
+#   Imposta avv-investitura.ospiti (2, 3 o 4 con la fiducia di Mira) e apre l'ingresso della spedizione.
+# - 5: la spedizione `avv-investitura` (spedizione.yaml), l'assedio della sala fino all'alba. Il cuore la porta a 6.
+# - 6 → 7 `avv-investitura-la-firma-all-alba`: che cosa fare di Severina (avv-investitura.cugina 1 il libro la
+#   cancella, 2 il libro scrive la promessa mancata, 3 la Caserma).
+# - 7 → 8 `avv-investitura-la-lama-dell-investitura`: Mira ti dà la lama dell'investitura (oggetti.yaml).
+# Le scene si giocano ai Quartieri Alti senza luogo, perché il Maniero Castaldi come luogo si apre solo con la quest del
+# Consiglio (fazione.consiglio >= 3).
+quality:
+  - { id: avventura.investitura, immagine: fazioni/famiglia-castaldi, nome: L'investitura, categoria: pista, descrizione: "A mezzanotte, al Maniero Castaldi, Mira pronuncia i voti dell'erede davanti al Libro delle Promesse, e all'alba lo firma. La regola della casa vuole un testimone di fuori, e la casata ha scelto te." }
+  - { id: avv-investitura.dono, nome: Il dono per l'erede, categoria: stato, nascosta: true, descrizione: "1 la lanterna di vetro soffiato, 2 una cosa tua, 3 la copia della carta dei fondatori." }
+  - { id: avv-investitura.fiducia, nome: La fiducia di Mira, categoria: stato, nascosta: true }
+  - { id: avv-investitura.sospetto, nome: Eolio tiene d'occhio il precettore, categoria: stato, nascosta: true }
+  - { id: avv-investitura.storia, nome: La promessa del vecchio, categoria: stato, nascosta: true }
+  - { id: avv-investitura.cera, nome: Il papavero nelle candele, categoria: stato, nascosta: true }
+  - { id: avv-investitura.casa, nome: Le porte del Maniero, categoria: stato, nascosta: true }
+  - { id: avv-investitura.ospiti, immagine: icone/key-lock, nome: Gli ospiti al sicuro, categoria: stato, descrizione: "Gli ospiti chiusi nel magazzino del grano, dietro la porta di ferro, e ancora in forze. Se sono abbastanza, all'alba Quintus Vael può lasciare la porta a loro." }
+  - { id: avv-investitura.precettore, nome: Il precettore, categoria: stato, nascosta: true, descrizione: "1 fermato alla porta, 2 ha confessato, 3 l'ha preso Quintus dopo che il buio è entrato." }
+  - { id: avv-investitura.cugina, nome: Severina Castaldi, categoria: stato, nascosta: true, descrizione: "1 cancellata dal libro, 2 il libro scrive la promessa mancata, 3 consegnata alla Caserma." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'invito
+  - id: avv-investitura-l-invito
+    presso: municipio
+    immagine: icone/envelope
+    titolo: L'invito dei Castaldi
+    sommario: "Sulla panca del Municipio il maggiordomo dei Castaldi aspetta te, con una busta chiusa dal sigillo delle bilance."
+    luogo: Municipio, l'anticamera
+    area: quartieri-alti
+    requisiti: [pista.capomozzo >= 10, avventura.investitura == 0]
+    testo: |
+      Sulla panca dell'anticamera, fra un mugnaio con il cappello in mano e una
+      vedova con un fascio di carte, siede un uomo anziano vestito di nero, con
+      la schiena dritta e un campanello di bronzo alla cintura. Il batacchio è
+      legato con un nastro perché non suoni. Quando entri si alza, e i due
+      accanto a lui si stringono subito per riprendersi il posto.
+
+      È Eolio Drest, il maggiordomo del Maniero Castaldi. Ti porge una busta di
+      carta grossa chiusa con la ceralacca, e sulla ceralacca ci sono due
+      bilance incrociate sopra un cerchio aperto.
+
+      «Il signor Aldous la prega di fare da testimone all'investitura di sua
+      figlia Mira» dice. «A mezzanotte, al Maniero. La regola della casa vuole
+      un testimone di fuori, che non porti il nome dei Castaldi e che la città
+      conosca, e dopo Capomozzo la città conosce il suo.» Abbassa la voce di un
+      tono. «Il testimone porta un dono all'erede. Un dono suo, scelto da lui.»
+
+      {galateo Media} Un maggiordomo di quel rango non consegna gli inviti di
+      persona. Se è venuto Eolio, in casa Castaldi questa notte conta più di una
+      cena di consiglio.
+
+      {origine rampollo-dei-quartieri-alti} Delle investiture dei Castaldi nei
+      salotti si parla poco. Si fanno di notte a porte chiuse, e nessun'altra
+      casata ci è mai stata invitata.
+    opzioni:
+      - testo: "Accettare l'invito"
+        descrizione: "Una notte al Maniero Castaldi, accanto all'altare della casata. Il dono va scelto prima."
+        esito:
+          titolo: La ceralacca
+          testo: |
+            Prendi la busta, ed Eolio aspetta che tu l'abbia infilata nella
+            giubba prima di lasciarla andare. «La casa apre il portone alle
+            undici» dice. «Il dono, la prego, non lo compri all'ultimo momento.
+            Il signor Aldous se ne accorge sempre.» Poi torna a sedersi sulla
+            panca, perché ha anche una pratica da consegnare.
+          effetti: { avventura.investitura: 1 }
+      - testo: "Chiedere a Eolio perché proprio tu"
+        descrizione: "In città ci sono nomi più vecchi del tuo. La regola deve avere una ragione."
+        esito:
+          titolo: Uno che non deve niente
+          testo: |
+            «Il testimone guarda e ricorda» dice Eolio. «Se un giorno qualcuno
+            dirà che l'erede non ha giurato, o che ha giurato male, sarà la sua
+            parola contro quella di chi lo dice. La sua parola non avrà
+            interessi da difendere.» Ti mette la busta in mano. «Il signor
+            Aldous ha chiesto un nome che in città valesse qualcosa. Io gli ho
+            portato il suo.»
+          effetti: { avventura.investitura: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · il dono
+  - id: avv-investitura-il-dono
+    immagine: icone/gem-necklace
+    titolo: Un dono per l'erede
+    sommario: "Il testimone porta all'erede un dono suo, scelto da lui. Per una ragazzina dei Castaldi, che ha già tutto."
+    luogo: Quartieri Alti, Via del Velo
+    area: quartieri-alti
+    requisiti: [avventura.investitura == 1]
+    testo: |
+      Via del Velo è la strada delle botteghe che vendono ai Quartieri Alti, con
+      le vetrine strette e le insegne dipinte a mano. Ti fermi davanti alla
+      terza vetrina e ti accorgi di non ricordare che cosa c'era nelle prime
+      due.
+
+      Di Mira Castaldi sai poco. È la figlia minore di Aldous e Marella e studia
+      con i precettori al Maniero. Dicono che con gli estranei parli poco e li
+      guardi molto. Una ragazzina che ha già tutto apre i regali come si aprono
+      le lettere dei notai.
+
+      Nella vetrina c'è una lanterna di vetro soffiato con un cristallo carico
+      sul fondo, che fa una luce chiara e ferma e costa più di quanto sia
+      giusto. In fondo alla strada la Biblioteca tiene aperto lo scrittoio delle
+      copie fino a sera.
+
+      {empatia Media} A quell'età un dono vale per chi lo porta. Una cosa che ti
+      è servita davvero le dirà di te più di una cosa costosa.
+
+      {origine mercante-dei-ponti} Il bottegaio della lanterna compra i
+      cristalli dalla Gilda e li rivende quassù a un prezzo che sui Ponti
+      farebbe ridere anche i Custodi.
+    opzioni:
+      - testo: "Comprare la lanterna di vetro soffiato"
+        descrizione: "Una luce che non trema e non ha bisogno di fuoco. Costa cara, e il bottegaio lo sa."
+        requisiti: [monete >= 20]
+        esito:
+          titolo: Il vetro soffiato
+          testo: |
+            Il bottegaio avvolge la lanterna in tre fogli di carta velina e la
+            chiude in una scatola con il nome della bottega stampato sul
+            coperchio. Ti chiede se è per una signora. Gli rispondi che è per
+            un'erede, e lui aggiunge un nastro blu senza fartelo pagare.
+          imposta: { avv-investitura.dono: 1 }
+          effetti: { monete: -20, avventura.investitura: 1 }
+      - testo: "Darle una cosa che ti è servita davvero"
+        descrizione: "Una cosa piccola che ti porti dietro da prima di Capomozzo. Bisogna trovare anche le parole per il biglietto."
+        prova: { attributo: sociale, abilita: [empatia, espressivita], difficolta: Media }
+        successo:
+          titolo: Il biglietto
+          testo: |
+            Scegli una cosa piccola che hai in tasca da anni e la avvolgi in un
+            fazzoletto pulito. Sul biglietto scrivi a che cosa ti è servita e
+            quando, in quattro righe. Lo riscrivi due volte, e la terza lo lasci
+            com'è.
+
+            {origine apprendista-raschiatore} È il cristallo spento di una
+            lanterna del Ponte dei Morti, di quelli che i Raschiatori tolgono
+            quando la lanterna non serve più.
+
+            {origine fuggiasco-di-ghoran} È il pezzo di corda che avevi ai polsi
+            quando sei scappato da Ghoran. L'hai tenuto per ricordarti di non
+            salire più su quella bilancia.
+          pe: { empatia: 3 }
+          imposta: { avv-investitura.dono: 2, avv-investitura.fiducia: 1 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: Le parole sbagliate
+          testo: |
+            Scrivi il biglietto sei volte, e ogni volta sembra la lettera di un
+            debitore. Alla fine strappi tutto e rimetti la cosa in tasca, e
+            torni a casa con le dita sporche d'inchiostro e niente da regalare.
+          effetti: { tormento: 0.5 }
+      - testo: "Copiare per lei la pagina dei Castaldi nella carta dei fondatori"
+        descrizione: "La Biblioteca conserva la carta con cui le prime casate fondarono la città, firma per firma. Una copia a mano, fatta bene, è un dono da erede."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La carta dei fondatori
+          testo: |
+            Ulric Stanne ti concede lo scrittoio e ti guarda copiare da sopra il
+            monocolo per un'ora senza dire una parola. I Castaldi della
+            fondazione sono dodici, ognuno con la sua firma, e li copi tutti con
+            la mano più ferma che hai. Quando finisci, Ulric sparge lui stesso
+            la sabbia sulla pagina, che è il complimento più grande che sappia
+            fare.
+          pe: { accademiche: 3 }
+          imposta: { avv-investitura.dono: 3 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: La macchia
+          testo: |
+            A metà della terza firma ti cade una goccia d'inchiostro sulla
+            pagina. Ulric Stanne la vede prima di te, e ti accompagna alla porta
+            con la cortesia gelida che riserva a chi ha rovinato qualcosa.
+          effetti: { scandalo: 0.5 }
+      - testo: "Comprare un mazzo di fiori ai Giardini della Linfa"
+        descrizione: "Un dono che non dice niente di te, e che nessuno potrà criticare. Ai Giardini però bisogna arrivarci, e poi scegliere."
+        costo: 2
+        esito:
+          titolo: I fiori bianchi
+          testo: |
+            Ai Giardini della Linfa la giardiniera ti fa scegliere fra due vasi
+            uguali e poi ti spiega a lungo perché il secondo è migliore. Torni
+            con un mazzo di fiori bianchi legati con lo spago, e la sensazione
+            di aver comprato quello che avrebbe comprato chiunque.
+          effetti: { avventura.investitura: 1 }
+
+  # ------------------------------------------------------------ 2 → 3 · lo scambio dei doni
+  - id: avv-investitura-lo-scambio-dei-doni
+    immagine: personaggi/marella-castaldi
+    titolo: Lo scambio dei doni
+    sommario: "Nella Sala delle Promesse gli ospiti portano i doni all'erede, e Marella Castaldi li chiama uno per volta."
+    luogo: Il Maniero Castaldi, la Sala delle Promesse
+    area: quartieri-alti
+    requisiti: [avventura.investitura == 2]
+    testo: |
+      La Sala delle Promesse è una sala lunga e stretta che occupa mezzo secondo
+      piano del Maniero, sotto un soffitto di travi scure. In fondo c'è
+      l'altare, una lastra di pietra chiara su cui sta aperto il Libro delle
+      Promesse, un volume enorme rilegato in cuoio e legato alla lastra con una
+      catena. Accanto al libro c'è una spada lunga su un cuscino, e una candela
+      bianca segnata da dieci tacche arde sotto una campana di vetro.
+
+      Gli ospiti sono una ventina. Marella Castaldi li chiama per nome uno alla
+      volta, e ognuno porta il suo dono a Mira, che aspetta in piedi accanto
+      all'altare con le mani dietro la schiena. È magra, con due trecce strette,
+      e guarda ogni dono prima di guardare chi lo porta.
+
+      Una donna sui cinquant'anni, con un vestito di lana grezza e le dita
+      gialle di cera, posa ai piedi dell'altare una cassetta di candele.
+      «Severina Castaldi, del ramo di Laresh» annuncia Marella, e nella sala
+      qualcuno smette di parlare. Dopo di lei un uomo magro con il colletto liso
+      consegna un libro di poesie. È Lamberto Pellegra, uno dei precettori.
+      Tornando al suo posto si asciuga le mani sui calzoni.
+
+      {origine rampollo-dei-quartieri-alti} Del ramo di Laresh hai sentito
+      parlare da bambino, come si parla delle zie che non vengono più alle
+      feste.
+
+      Poi Marella chiama il tuo nome.
+    opzioni:
+      - testo: "Guardare la sala mentre Mira apre il tuo dono"
+        descrizione: "Mentre l'erede apre i doni, gli ospiti guardano lei. È il momento giusto per guardare loro."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il precettore
+          testo: |
+            Porgi il tuo dono, e mentre Mira lo apre guardi la sala. Tutti
+            guardano lei, tranne Lamberto Pellegra, che fissa il pavimento e si
+            tocca la tasca del panciotto per controllare che ci sia ancora
+            qualcosa. Più tardi, sulla scala, lo dici a Eolio. Lui fa un cenno
+            minimo con il mento, e da quel momento ha sempre il precettore a due
+            passi.
+          pe: { percezione: 3 }
+          imposta: { avv-investitura.sospetto: 1 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: Lo sguardo di troppo
+          testo: |
+            Guardi gli ospiti uno per uno, e ti accorgi tardi che Mira ha finito
+            di aprire il tuo dono e aspetta che tu dica qualcosa. Marella ti
+            sorride con molta eleganza e chiama il nome seguente, e ti fa sedere
+            lontano dall'altare per il resto della sera.
+          effetti: { scandalo: 0.5 }
+      - testo: "Scambiare due parole con Severina dopo il dono"
+        descrizione: "Una cugina che fa tacere la sala appena entra ha di sicuro una storia, e a lei, a differenza dei Castaldi, si può chiedere."
+        prova: { attributo: sociale, abilita: [galateo, persuasione], difficolta: Media }
+        successo:
+          titolo: La promessa del vecchio
+          testo: |
+            Dopo i doni trovi Severina vicino alla loggia, sola, con un
+            bicchiere che non beve. Le chiedi delle candele, e lei ti racconta
+            degli alveari dietro casa sua, a Laresh. Poi ride piano e ti dice
+            che da ragazza quel libro l'aveva promesso a lei il padre di Aldous,
+            davanti a tutta la casa. «È morto prima della firma» dice. «Le
+            promesse dei Castaldi, si sa.» Stanotte non resta, aggiunge, perché
+            vuole essere a Laresh per l'alba e la strada è lunga.
+          pe: { galateo: 3 }
+          imposta: { avv-investitura.storia: 1 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: I complimenti
+          testo: |
+            Le fai i complimenti per le candele, e Severina ti ringrazia come si
+            ringrazia un valletto, poi va a parlare con Marella. Marella ti
+            guarda da sopra la spalla di lei, e la sua occhiata dice che a
+            quella tavola di certe cose si tace.
+          effetti: { scandalo: 0.5 }
+      - testo: "Restare alla destra dell'altare fino all'ultimo dono"
+        descrizione: "Il posto del testimone è alla destra dell'altare. Ci si sta in piedi, e ci si annoia."
+        costo: 2
+        esito:
+          titolo: L'ultimo dono
+          testo: |
+            Resti in piedi alla destra dell'altare mentre sfilano tutti i doni,
+            fino all'ultimo, una brocca d'argento che Julia porge alla nipote
+            senza cerimonie. Quando la sala si svuota hai le gambe dure e in
+            testa una lista di nomi che non ti servirà a niente.
+          effetti: { avventura.investitura: 1 }
+      - testo: "Salutare Severina con il nome del capostipite"
+        descrizione: "Nei Quartieri Alti i rami lontani di una casata si salutano con il nome del capostipite comune. Tu lo sai, e lei se ne accorgerà."
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Il nome del capostipite
+          testo: |
+            Saluti Severina con il nome del capostipite dei Castaldi, come si fa
+            fra rami lontani, e lei ti guarda per la prima volta con interesse.
+            Ti racconta che da ragazza quel libro l'aveva promesso a lei il
+            padre di Aldous, davanti a tutta la casa, e che è morto prima della
+            firma. «Le promesse dei Castaldi» dice, e alza il bicchiere senza
+            berlo. Stanotte torna a Laresh, prima di mezzanotte.
+          pe: { galateo: 3 }
+          imposta: { avv-investitura.storia: 1 }
+          effetti: { avventura.investitura: 1 }
+
+  # ------------------------------------------------------------ 3 → 4 · l'ora prima di mezzanotte
+  - id: avv-investitura-l-ora-prima
+    immagine: icone/candle-holder
+    titolo: L'ora prima di mezzanotte
+    sommario: "Le candele di Severina ardono in tutta la sala, e Quintus Vael fa il giro delle porte. Manca un'ora ai voti."
+    luogo: Il Maniero Castaldi, la Sala delle Promesse
+    area: quartieri-alti
+    requisiti: [avventura.investitura == 3]
+    testo: |
+      Dopo i doni gli ospiti scendono a cena e la sala resta vuota. I valletti
+      accendono le candele di Severina nei candelabri lungo le pareti, e la Sala
+      delle Promesse si riempie di una luce gialla e di un odore dolce di miele.
+      Severina saluta Marella sulla porta e se ne va, con la cassetta vuota
+      sotto il braccio.
+
+      Al cambio della guardia Brem Anthos sbadiglia contro lo stipite, e Quintus
+      Vael gli dà una gomitata senza nemmeno guardarlo. Poi ti passa accanto
+      contando le porte a mezza voce.
+
+      Mira è seduta sulla scala che scende al primo piano, sola, con il mento
+      sulle ginocchia.
+
+      {medicina Difficile} Sotto il miele c'è un amaro che conosci dalle
+      infermerie, quello dei decotti che si danno ai feriti per farli dormire.
+
+      {resistenza Media fallita} Hai sonno. Ti dici che la giornata è stata
+      lunga, e cominci a contare le tacche della candela per restare sveglio.
+    opzioni:
+      - testo: "Annusare da vicino le candele di Severina"
+        descrizione: "La sala sa di miele, e Brem sbadiglia da un'ora. Forse le due cose c'entrano."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: Papavero
+          testo: |
+            Sotto il miele senti l'amaro del papavero, sciolto nella cera.
+            Quando lo dici a Quintus lui annusa a sua volta e scuote la testa.
+            «Le ha portate una Castaldi» dice. «Spegnerle prima dei voti è
+            un'offesa alla casa.» Allora porti Brem alla finestra della loggia,
+            dove l'aria entra fresca, e gli dici di restarci fino a mezzanotte.
+            Brem si appoggia al davanzale senza fare domande.
+          pe: { medicina: 3 }
+          imposta: { avv-investitura.cera: 1 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: Il miele
+          testo: |
+            Ti chini sul candelabro e annusi a lungo per sentire meglio. Ti gira
+            la testa, e devi sederti sulla scala con la fronte fra le mani
+            mentre il miele ti resta in gola.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare il giro delle porte con Quintus"
+        descrizione: "Quintus conta le porte prima delle persone. Se lo segui, alla fine sai anche tu dove sono."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Media }
+        successo:
+          titolo: Le porte del Maniero
+          testo: |
+            Segui Quintus per tutta la casa, dalle terrazze al seminterrato. Ti
+            mostra la porta di ferro del magazzino del grano, che si chiude da
+            dentro, e la dispensa accanto piena di sacchi, poi il pozzo del
+            montavivande che sale dalla cucina alla sala. «Se succede qualcosa,
+            la famiglia va là sotto» dice, e batte sulla porta di ferro con le
+            nocche.
+          pe: { percezione: 3 }
+          imposta: { avv-investitura.casa: 1 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: Il conto delle porte
+          testo: |
+            Segui Quintus per mezza casa, e alla sesta porta ti accorgi di aver
+            perso il conto. Lui se ne accorge prima di te. Ti rimanda nella sala
+            con un cenno del mento, e lo senti ricominciare il giro da capo, a
+            mezza voce, come se l'avessi distratto apposta.
+          effetti: { scandalo: 0.5 }
+      - testo: "Sederti sulla scala accanto a Mira"
+        descrizione: "L'erede è sola a un'ora dai voti. Il testimone, dice la regola, deve conoscere chi giura."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Quanto vale una promessa
+          testo: |
+            Ti siedi due gradini sotto di lei, e per un po' state zitti. Poi
+            Mira ti chiede se una promessa vale ancora quando chi l'ha fatta è
+            morto. Le rispondi come sai, e lei ci pensa con la fronte corrugata.
+            «Allora se stanotte succede qualcosa faccio come dici tu» dice alla
+            fine, con la serietà di una clausola aggiunta ai voti.
+          pe: { empatia: 3 }
+          imposta: { avv-investitura.fiducia: 1 }
+          effetti: { avventura.investitura: 1 }
+        fallimento:
+          titolo: I precettori
+          testo: |
+            Ti siedi accanto a lei, e Mira si alza. Ti dice con molta cortesia
+            che i precettori le hanno insegnato a non parlare con gli ospiti
+            prima di una cerimonia, e se ne va su per la scala con le trecce che
+            le battono sulla schiena.
+          effetti: { scandalo: 0.5 }
+      - testo: "Aspettare la mezzanotte alla finestra della loggia"
+        descrizione: "Dalla loggia si vedono i tetti di rame e la strada. Si aspetta, e si guarda fuori."
+        costo: 2
+        esito:
+          titolo: La carrozza di Laresh
+          testo: |
+            Aspetti alla finestra con la fronte contro il vetro. Sotto, nella
+            strada, la carrozza di Severina parte verso la porta della città con
+            una lanterna sola, e la segui con gli occhi finché non gira
+            l'angolo. Poi la campana della Cattedrale batte la mezzanotte, e
+            dietro di te la sala si riempie di passi.
+          effetti: { avventura.investitura: 1 }
+
+  # ------------------------------------------------------------ 4 → 5 · i voti
+  - id: avv-investitura-i-voti
+    immagine: fazioni/famiglia-castaldi
+    titolo: I voti di mezzanotte
+    sommario: "A mezzanotte Mira posa la mano sul Libro delle Promesse. Alla prima promessa le candele si spengono tutte insieme."
+    luogo: Il Maniero Castaldi, la Sala delle Promesse
+    area: quartieri-alti
+    requisiti: [avventura.investitura == 4]
+    testo: |
+      A mezzanotte la famiglia è davanti all'altare. Aldous Castaldi apre il
+      Libro delle Promesse alla prima pagina bianca, e Julia, accanto a lui, ha
+      ancora le scarpe da strada sotto l'abito da cerimonia. Marella tiene
+      Vesper per una spalla. Gli ospiti stanno in piedi fra i candelabri lungo
+      le pareti, e tu stai alla destra dell'altare, dove la regola mette il
+      testimone.
+
+      Mira posa la mano aperta sulla pagina. «Prometto di tenere le promesse
+      della casa» dice, con una voce più ferma di quanto ti aspettavi, «quelle
+      scritte prima di me e quelle che...»
+
+      Le candele si spengono tutte insieme, senza un soffio. Resta accesa
+      soltanto la candela della veglia, sotto la sua campana di vetro. Lungo le
+      pareti le guardie di Quintus scivolano a terra una dopo l'altra, e
+      qualcuno fra gli ospiti si siede sul pavimento come se si fosse ricordato
+      all'improvviso di essere stanco. In un angolo Ettore Castaldi russa. Dalle
+      travi del soffitto viene un fruscio, e in fondo alla galleria qualcosa si
+      muove.
+
+      «Tutti di sotto, nel magazzino del grano» dice Quintus, con la spada già
+      fuori. «C'è una porta di ferro, e la chiudo io da dentro.» Poi si volta
+      verso di te. «Il libro resta sull'altare, lo vuole la regola. E il
+      testimone resta con il libro.»
+
+      {magia Media} Le candele non si sono spente da sole. Qualcosa ha bevuto la
+      luce in un colpo solo, e adesso il buio è più fitto verso la galleria.
+    opzioni:
+      - testo: "Spingere gli ospiti verso la scala"
+        descrizione: "Nel buio la gente si ferma. Bisogna dirle dove andare, con una voce che non si discute."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: La fila
+          testo: |
+            Alzi la voce sopra il fruscio delle travi e dici a tutti di prendere
+            per mano chi hanno accanto e di seguire Quintus. La fila scende la
+            scala a tentoni, e tu tieni il conto finché l'ultimo non ha passato
+            la soglia del magazzino. Poi la porta di ferro si chiude, e senti la
+            spranga che cade nei ganci.
+          pe: { intimidire: 3 }
+          imposta: { avv-investitura.ospiti: 3 }
+          effetti: { avventura.investitura: 1 }
+          segue: avv-investitura-la-sala-al-buio
+        fallimento:
+          titolo: La calca
+          testo: |
+            Gridi, e il buio si mangia la tua voce a metà. Gli ospiti si
+            spingono verso la scala tutti insieme e qualcuno cade. Due servitori
+            corrono dalla parte sbagliata, verso la galleria, prima che tu
+            riesca a riprenderli. Quando la porta di ferro si chiude, sai che di
+            sopra è rimasto qualcuno.
+          imposta: { avv-investitura.ospiti: 2 }
+          effetti: { avventura.investitura: 1, tormento: 0.5 }
+          segue: avv-investitura-la-sala-al-buio
+      - testo: "Caricarti in spalla chi si è addormentato"
+        descrizione: "Gli ospiti che dormono non scendono da soli. Qualcuno deve portarli."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Di peso
+          testo: |
+            Ti carichi sulle spalle l'ospite addormentato più vicino e scendi i
+            tre piani dietro alla fila, poi risali di corsa per il secondo. Al
+            terzo viaggio Quintus ti ferma sulla porta di ferro con una mano sul
+            petto. «Basta così» dice. «Le guardie restano dove sono, e che
+            dormano.» La porta si chiude con te fuori.
+          pe: { atletica: 3 }
+          imposta: { avv-investitura.ospiti: 3 }
+          effetti: { avventura.investitura: 1 }
+          segue: avv-investitura-la-sala-al-buio
+        fallimento:
+          titolo: Il gradino
+          testo: |
+            Scendi con un ospite addormentato sulle spalle, e a metà della
+            seconda rampa sbagli un gradino al buio. Cadete tutti e due. Lui non
+            si sveglia nemmeno, e tu arrivi alla porta di ferro trascinandolo
+            per le ascelle, con un ginocchio che pulsa, quando gli altri sono
+            già dentro e di sopra qualcuno chiama ancora.
+          imposta: { avv-investitura.ospiti: 2 }
+          effetti: { avventura.investitura: 1, ferite: 0.5 }
+          segue: avv-investitura-la-sala-al-buio
+      - testo: "Lasciare che Mira guidi gli ospiti"
+        descrizione: "Mira ha detto che farà come dici tu. Basta dirle che cosa."
+        requisiti: [avv-investitura.fiducia >= 1]
+        esito:
+          titolo: L'erede
+          testo: |
+            Ti volti verso Mira e le dici una parola sola, la scala. Lei prende
+            per mano suo fratello e comincia a chiamare gli ospiti per nome, con
+            la stessa voce che ha usato per i voti, e gli ospiti la seguono.
+            Scende per ultima, dopo l'ultimo servitore. Sulla soglia della porta
+            di ferro si volta a guardarti, poi la porta si chiude.
+          imposta: { avv-investitura.ospiti: 4 }
+          effetti: { avventura.investitura: 1 }
+          segue: avv-investitura-la-sala-al-buio
+
+  # ------------------------------------------------------------ 6 → 7 · la firma all'alba
+  - id: avv-investitura-la-firma-all-alba
+    immagine: fazioni/famiglia-castaldi
+    titolo: La firma all'alba
+    sommario: "Mira ha firmato. Severina Castaldi aspetta sotto il fico del cortile, con le mani legate, che la casa decida di lei."
+    luogo: Il Maniero Castaldi, il cortile
+    area: quartieri-alti
+    requisiti: [avventura.investitura == 6]
+    testo: |
+      La mattina dopo il cortile del Maniero è pieno di gente che non ha
+      dormito. Le guardie di Quintus si sono svegliate all'alba con la bocca
+      impastata, e adesso stanno in fila sotto il portico senza guardare
+      nessuno. Sotto il fico, sulla panca che l'albero si sta mangiando, siede
+      Severina con le mani legate in grembo e lo Spegnitoio spaccato ai piedi.
+      Lamberto Pellegra aspetta in un angolo fra due guardie.
+
+      Aldous ti si avvicina con le mani giunte dietro la schiena. La regola
+      della casa lascia la decisione alla famiglia, dice a bassa voce, ma
+      stanotte la famiglia ha visto meno di te, e vuole sapere che cosa ne pensa
+      il testimone.
+
+      Julia, sulla soglia, ha già la toga addosso. «Il Municipio apre fra
+      un'ora» dice. «Se la mandi da Galdrick, a mezzogiorno lo sa tutta la
+      città.»
+
+      Mira sta accanto al padre, con le dita macchiate d'inchiostro. Il suo nome
+      è nel libro.
+
+      {empatia Media} Severina non guarda Aldous. Guarda Mira, e sembra più
+      stanca che arrabbiata.
+    opzioni:
+      - testo: "Lasciare che la giudichi il libro"
+        descrizione: "Chi alza la mano contro l'erede viene cancellato dal libro, e chi è cancellato lascia la città."
+        esito:
+          titolo: La riga sul nome
+          testo: |
+            Aldous sale nella Sala delle Promesse con Severina e con te, apre il
+            libro a una pagina di trent'anni fa e tira sul suo nome una riga
+            d'inchiostro lenta e dritta. Severina guarda la riga asciugarsi
+            senza dire niente. Prima di mezzogiorno Quintus la accompagna alla
+            porta della città, e quando passi nel cortile Marella ti fa un cenno
+            così piccolo che potresti esserti sbagliato.
+          imposta: { avv-investitura.cugina: 1 }
+          effetti: { rep.castaldi: 1, avventura.investitura: 1 }
+      - testo: "Chiedere che il libro scriva anche la promessa mancata"
+        descrizione: "Il padre di Aldous le aveva promesso il libro, e la promessa non è mai stata scritta. Una casata che mantiene le promesse può almeno ricordarsi di quella."
+        esito:
+          titolo: La promessa mancata
+          testo: |
+            Lo dici davanti a tutti, e nel cortile cala un silenzio da
+            Consiglio. Poi Mira prende la penna dalla mano del padre e sale
+            nella sala. Sotto la sua firma scrive una riga sola, con la grafia
+            ancora tonda, *promessa a Severina Castaldi e non mantenuta*.
+            Severina torna a Laresh con il suo nome, e con il divieto di
+            rimettere piede al Maniero. Prima di salire sul carro si ferma a
+            guardarti.
+          imposta: { avv-investitura.cugina: 2 }
+          effetti: { rep.castaldi: 0.5, rep.laresh: 1, avventura.investitura: 1 }
+      - testo: "Consegnarla a Galdrick"
+        descrizione: "Per la legge della città addormentare le guardie di una casata è un reato, e comprare un reperto al Mercato delle Ombre un altro."
+        esito:
+          titolo: La Caserma
+          testo: |
+            Galdrick arriva in persona prima delle nove con due guardie. Ha
+            ancora gli occhi gonfi di sonno, e porta via Severina e lo
+            Spegnitoio in un sacco. A mezzogiorno in Città Bassa si canta già
+            una strofa sulla cugina dei Castaldi. Marella per tutta la mattina
+            non ti rivolge la parola. Julia invece ti stringe la mano sulla
+            soglia, come si fa in Municipio.
+          imposta: { avv-investitura.cugina: 3 }
+          effetti: { rep.caserma: 1, rep.castaldi: -0.5, avventura.investitura: 1 }
+
+  # ------------------------------------------------------------ 7 → 8 · la lama dell'investitura
+  - id: avv-investitura-la-lama-dell-investitura
+    immagine: icone/rune-sword
+    titolo: La lama dell'investitura
+    sommario: "Prima che tu lasci il Maniero, Mira ti aspetta al portone con una spada avvolta in un panno."
+    luogo: Il Maniero Castaldi, il portone delle bilance
+    area: quartieri-alti
+    requisiti: [avventura.investitura == 7]
+    testo: |
+      Al portone delle bilance Mira ti aspetta da sola, con in braccio una spada
+      avvolta in un panno blu, stretta come una bambola troppo lunga. È la lama
+      dell'investitura, quella che stanotte stava sul cuscino accanto al libro e
+      che all'alba ha tagliato il nastro della sua pagina.
+
+      «Papà dice che le promesse della casa le tiene chi le difende» dice Mira.
+      «Allora questa la tieni tu.» Te la porge con tutte e due le mani, come le
+      hanno insegnato. Dietro di lei Eolio Drest finge di sistemare il nastro
+      del campanello.
+
+      {armi-da-mischia Media} È una spada lunga bilanciata per una mano, con
+      l'elsa di ferro brunito e il sigillo delle bilance inciso sul piatto. Nel
+      sole del mattino la lama non manda riflessi.
+    opzioni:
+      - testo: "Prendere la lama"
+        descrizione: "La spada che stava sull'altare tutta la notte, accanto a te."
+        esito:
+          titolo: Le bilance al sole
+          testo: |
+            Prendi la spada, e Mira ti fa l'inchino piccolo che ha imparato per
+            i voti, poi corre dentro senza voltarsi. Eolio chiude il portone
+            dietro di lei con la cura che userebbe per un ospite di riguardo, e
+            sul legno, sopra la tua testa, le bilance incrociate prendono il
+            primo sole.
+          effetti: { oggetto.avv-investitura-lama-dell-investitura: 1, avventura.investitura: 1 }
+      - testo: "Chiederle che cosa ne ha fatto del tuo dono"
+        descrizione: "Un dono per un dono. Sarebbe scortese non chiederlo."
+        esito:
+          titolo: Il dono sull'altare
+          testo: |
+            Mira ci pensa sul serio. «L'ho messo sull'altare, accanto al libro»
+            dice. «Così la prossima volta che qualcuno spegne le candele, lì
+            sopra c'è qualcosa di tuo.» Ti mette la spada fra le mani e corre
+            dentro, ed Eolio chiude il portone con la cura che userebbe per un
+            ospite di riguardo.
+          effetti: { oggetto.avv-investitura-lama-dell-investitura: 1, avventura.investitura: 1 }

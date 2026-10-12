@@ -1,0 +1,812 @@
+# Avventura n. 13, «Il torchio che non si ferma» (docs/piano-avventure.md), da Trouble Brewing. Si apre a Laresh
+# dopo la quest del villaggio (fazione.laresh >= 15). La pista è avventura.torchio, da 0 a 7.
+# Un investitore di Qir-Azel, Amerigo Dossena, ha comprato il mulino del rio basso e il meleto vecchio e ne ha fatto
+# un torchio e una distilleria d'acquavite di mele mossi dal Mana, con automi rimessi in piedi da carcasse dei
+# Precursori comprate all'Orlo dei Rottami. Ha risparmiato il parafulmine e le leve d'arresto che il meccanico gli
+# chiedeva; il giorno della visita un fulmine carica il pannello dei cristalli e gli automi non si fermano più.
+# - 0 → 1 `avv-torchio-l-invito` (Casa Velar): il biglietto di Dossena, che ha sentito della tua borsa.
+# - 1 → 2 `avv-torchio-la-visita` (il torchio sul rio basso) e il seguito `avv-torchio-il-fulmine`. La visita può
+#   lasciare un vantaggio: avv-torchio.pannello (Tecnologia), avv-torchio.sportelli (Lapo e i suoi automi) o
+#   avv-torchio.contratto (Dossena racconta che cosa ha risparmiato).
+# - 2 → 3 `avv-torchio-oltre-il-cancello` (l'osteria sul rio): Dossena in fuga; le sue chiavi (avv-torchio.chiavi).
+# - 3 → 4 `avv-torchio-il-meccanico` e il seguito `avv-torchio-quello-che-sa-lapo`: Lapo esce dalla gora e spiega che il
+#   pannello va rotto; ti dà una cosa sola fra la chiave a T (sportelli), il disegno del reparto (pannello) e la
+#   valvola delle caldaie (avv-torchio.valvola).
+# - 4: `avv-torchio-il-cancello` porta nella spedizione `avv-torchio` (spedizione.yaml); il cuore porta la pista a 5.
+# - 5 → 6 `avv-torchio-il-torchio-fermo`: Ottavia Rendina compra il torchio per la Gilda e fa capo officina Lapo; la
+#   scelta (avv-torchio.scelta 1 il rio basso pagato a Laresh, 2 Dossena alla Caserma, 3 una quota per te).
+# - 6 → 7 `avv-torchio-la-corazza-del-portabotti`: Lapo ti dà la corazza fatta con le piastre del Mulo.
+# Origini: mercante-dei-ponti (l'invito, Dossena, Ottavia), allievo-di-torvessa (il pannello), figlio-della-citta-bassa
+# (Lapo e l'Orlo dei Rottami), apprendista-raschiatore (Lapo fuori dalla gora), rampollo-dei-quartieri-alti (Dossena).
+# Nomi nuovi in glossario.yaml. Il mugnaio del rio basso che vende il mulino è quello delle letture di Old Marrek
+# (`laresh-il-grano-bruciato`), senza nome.
+quality:
+  - { id: avventura.torchio, immagine: ambientazione/mulino-malgrani, nome: "Il torchio che non si ferma", categoria: pista, descrizione: "Amerigo Dossena ti ha invitato a vedere il suo torchio a Mana sul rio basso di Laresh, prima dell'inaugurazione." }
+  - { id: avv-torchio.pannello, immagine: icone/circuitry, nome: Il pannello dei cristalli, categoria: stato, descrizione: "Sai dove sta il pannello centrale del Torchio Dossena e dove i cavi entrano nella tavola d'ottone." }
+  - { id: avv-torchio.sportelli, immagine: icone/spanner, nome: Gli sportelli degli automi, categoria: stato, descrizione: "Sai aprire lo sportello che ogni automa del Torchio Dossena ha sul dorso, dietro una vite a farfalla, e togliergli il cristallo." }
+  - { id: avv-torchio.contratto, immagine: icone/quill-ink, nome: I risparmi di Dossena, categoria: stato, descrizione: "Davanti agli ospiti, e al notaio di Gemma Siroli, Dossena si è vantato di aver risparmiato il parafulmine e le leve d'arresto." }
+  - { id: avv-torchio.chiavi, immagine: icone/house-keys, nome: Le chiavi di Dossena, categoria: stato, descrizione: "Il mazzo di chiavi del Torchio Dossena, con quella del cancello grande." }
+  - { id: avv-torchio.valvola, immagine: icone/steam, nome: La valvola delle caldaie, categoria: stato, descrizione: "Lapo ti ha detto dove sta la valvola grande delle caldaie del reparto, e di quanto girarla." }
+  - { id: avv-torchio.ospiti, nome: Gli ospiti del melo, categoria: stato, nascosta: true, descrizione: "1 se hai tirato giù dal melo grande gli ospiti di Dossena." }
+  - { id: avv-torchio.scelta, nome: Il prezzo del torchio, categoria: stato, nascosta: true, descrizione: "1 se il torchio paga il rio basso a Laresh; 2 se Dossena è andato alla Caserma; 3 se hai preso una quota della Gilda." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'invito
+  - id: avv-torchio-l-invito
+    presso: laresh
+    immagine: icone/wax-seal
+    titolo: Un biglietto con il sigillo
+    sommario: "Tano ti porta una busta color crema, chiusa da un sigillo di ceralacca rossa. Viene dal mulino del rio basso, che ha un padrone nuovo."
+    luogo: Laresh, l'aia di Casa Velar
+    area: superficie-fratturata
+    requisiti: [fazione.laresh >= 15, avventura.torchio == 0]
+    testo: |
+      Tano ti trova sull'aia di Casa Velar con una busta tenuta per un angolo,
+      lontano dalla camicia, come una cosa che si sporca a guardarla. La carta è
+      spessa e color crema, chiusa da un sigillo di ceralacca rossa con due
+      lettere intrecciate.
+
+      Dentro, una grafia piena di svolazzi ti invita a una visita privata al
+      Torchio Dossena, sul rio basso, il giorno prima dell'inaugurazione. *In
+      città si dice che la vostra borsa sia cresciuta insieme alla vostra fama*
+      scrive Amerigo Dossena, *e io ho un'impresa che cresce più in fretta di
+      entrambe*. In fondo alla pagina ha disegnato a penna un torchio con il
+      camino che fuma.
+
+      «Il nonno l'aveva detto che il mugnaio del rio basso vendeva» dice Tano.
+      «L'ha comprato uno di città, e ci fanno l'acquavite con le mele del meleto
+      vecchio. Le mele le colgono le macchine, anche di notte.»
+
+      Dal portico la Dama guarda la busta senza allungare la mano.
+
+      {politica-ed-economia Media} Un invito prima dell'inaugurazione si manda a
+      chi ha denaro da mettere. Prima dell'inaugurazione una quota costa quello
+      che dice lui.
+
+      {origine mercante-dei-ponti} Il nome Dossena, alla Casa dei Nodi, l'hai
+      letto spesso in fondo ai registri dei prestiti, accanto alla parola
+      *proroga*.
+    opzioni:
+      - testo: "Rispondere che ci sarai"
+        descrizione: "Il biglietto dice che una visita è gratuita. Il biglietto l'ha scritto lui."
+        esito:
+          titolo: La risposta
+          testo: |
+            Scrivi due righe sul retro di un conto della Dama e le dai a Tano,
+            che parte di corsa verso il rio basso tenendole per un angolo. La
+            Dama torna ai suoi conti. Prima di chinarsi sul libro ti fa sapere
+            che il mugnaio del rio basso ha venduto senza passare dal suo
+            portico, e che a Laresh prima di lui non l'aveva fatto nessuno.
+          effetti: { avventura.torchio: 1 }
+      - testo: "Chiedere alla Dama che cosa ne pensa"
+        descrizione: "Del rio basso la Dama sa tutto, anche quello che nel libro non scrive."
+        esito:
+          titolo: Chi ha fretta
+          testo: |
+            «A conti fatti, uno che compra un mulino a Laresh senza sedersi alla
+            mia tavola ha fretta» dice la Dama. «E chi ha fretta ha debiti.» Ti
+            chiede di andarci e di guardare bene le sue macchine, perché a
+            Laresh le macchine di quelli di prima si sono già bevute tre
+            raccolti. Tano parte di corsa con la tua risposta.
+          effetti: { avventura.torchio: 1 }
+      - testo: "Rispondere con la formula della Casa dei Nodi"
+        descrizione: "Alla Gilda un invito a investire si accetta in un modo solo, e chi lo riceve capisce."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Salvo verifica dei libri
+          testo: |
+            Scrivi sul retro del biglietto che accetti la visita salvo verifica
+            dei libri, come si fa alla Casa dei Nodi, e lo richiudi con la tua
+            cera. Dossena capirà che arriva un mercante. Tano corre via con il
+            biglietto, e la Dama, dal portico, ti guarda con un poco più di
+            rispetto.
+          effetti: { avventura.torchio: 1 }
+
+  # ------------------------------------------------------------ 1 · la visita
+  - id: avv-torchio-la-visita
+    presso: laresh
+    immagine: ambientazione/mulino-malgrani
+    titolo: La visita al Torchio Dossena
+    sommario: "Il mulino del rio basso ha un camino di rame nuovo, un muro di cinta e automi che lavorano da soli. Amerigo Dossena ti aspetta al cancello."
+    luogo: Laresh, il Torchio Dossena sul rio basso
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 1]
+    testo: |
+      Il mulino del rio basso non lo riconosci più. Accanto alla ruota hanno
+      costruito un reparto di mattoni nuovi con un camino di rame alto quanto un
+      campanile, e intorno corre un muro di cinta con un cancello di ferro
+      battuto. Sopra i cortili sono tesi dei fili d'ottone da un tetto
+      all'altro, e lungo i fili scorrono le cesoie volanti, piccoli corpi di
+      ottone con un braccio da potatore. Più indietro, nel meleto, si muovono i
+      raccoglitori di rame su tre gambe sottili.
+
+      Amerigo Dossena ti viene incontro al cancello con le braccia aperte. È un
+      uomo morbido, con un panciotto di seta color prugna e tre anelli sulla
+      mano destra, che gira uno dopo l'altro mentre parla. «Socio mio» dice,
+      anche se non lo sei. «Il primo torchio a Mana della Superficie. Lavora
+      giorno e notte senza chiedere la paga, e quando sarà a regime Laresh se ne
+      accorgerà.»
+
+      Nel cortile aspettano gli altri ospiti. Rufo Pandolfi è un oste dei Ponti
+      Sospesi con un cappello piumato, e Gemma Siroli è la vedova di un
+      cambiavalute, appoggiata a un bastone d'ebano e seguita da un notaio
+      giovane. Il meccanico, Lapo Calandri, cammina dietro a tutti con una
+      chiave a T alla cintura e le dita piene di bruciature.
+
+      {tecnologia Media} Gli automi sono carcasse dei Precursori, rattoppate con
+      ottone nuovo e pezzi di carro. Le giunture vecchie e quelle nuove girano a
+      velocità diverse, e si sente.
+
+      A ovest, oltre i campi, il cielo si sta facendo scuro.
+    opzioni:
+      - testo: "Farti mostrare il pannello centrale"
+        descrizione: "Il reparto è il cuore del torchio, dice Dossena. A guardare dove vanno i cavi, il cuore del reparto è il muro in fondo."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Media }
+        successo:
+          titolo: Il muro dei cristalli
+          testo: |
+            Lapo ti porta in fondo al reparto, oltre la rotaia del portabotti.
+            Sul muro c'è una tavola d'ottone con dodici cristalli conduttori in
+            file, accesi di un azzurro tranquillo, e da ogni cristallo parte un
+            cavo di rame che sale al camino. Ti indica il punto, sotto la
+            tavola, dove i cavi entrano tutti insieme. «Li carica un mago di
+            Torvessa, una volta al mese» dice, «e questo mese il signor Dossena
+            non l'ha fatto venire.»
+          pe: { tecnologia: 3 }
+          effetti: { avv-torchio.pannello: 1 }
+          segue: avv-torchio-il-fulmine
+        fallimento:
+          titolo: Il cristallo che punge
+          testo: |
+            Allunghi un dito verso un cristallo per guardare da vicino la
+            montatura, e la scossa ti sale fino al gomito. Dossena ride forte e
+            ti trascina via verso l'acquavite con un braccio intorno alle
+            spalle, che non riesci a scrollarti di dosso.
+          effetti: { ferite: 0.5 }
+          segue: avv-torchio-il-fulmine
+      - testo: "Parlare d'affari con Dossena"
+        descrizione: "Vuole un socio, e un socio ha il diritto di sapere dove sono finiti i soldi."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: I risparmi del signor Dossena
+          testo: |
+            Gli chiedi delle spese, e lui te le elenca con orgoglio girando gli
+            anelli. Lapo voleva un'asta di ferro sul camino, con una corda fino
+            a terra per i fulmini, e una leva d'arresto su ogni automa. «Roba da
+            vecchie zitelle» dice Dossena, «e il risparmio è il primo guadagno.»
+            Accanto a te il notaio di Gemma Siroli scrive qualcosa sul suo
+            taccuino.
+          pe: { politica-ed-economia: 3 }
+          effetti: { avv-torchio.contratto: 1 }
+          segue: avv-torchio-il-fulmine
+        fallimento:
+          titolo: Il socio
+          testo: |
+            Dossena ti prende sottobraccio e ti parla di quote finché, senza
+            accorgertene, gli hai detto di sì davanti a tutti gli ospiti. Rufo
+            Pandolfi ti batte sulla spalla e si congratula con il nuovo socio, e
+            ci vorrà del bello e del buono per spiegargli come stanno le cose.
+          effetti: { scandalo: 0.5 }
+          segue: avv-torchio-il-fulmine
+      - testo: "Stare dietro a Lapo e ai suoi automi"
+        descrizione: "Il meccanico parla poco con gli ospiti. Alle sue macchine, invece, parla a voce bassa."
+        prova: { attributo: sociale, abilita: [empatia, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Le Rondini e gli Aironi
+          testo: |
+            Resti indietro con Lapo, e dopo un po' lui comincia a presentarti
+            gli automi per nome. Le cesoie sui fili sono le Rondini, i
+            raccoglitori sono gli Aironi, e il portabotti del reparto è il Mulo.
+            Ti fa vedere lo sportello che ognuno ha sul dorso, dietro una vite a
+            farfalla, con il cristallo che lo muove. «Tolto quello, dormono»
+            dice, e batte il palmo sul fianco di un Airone come si fa con un
+            cavallo. «Il signor Dossena dice che le leve d'arresto rallentano il
+            lavoro.»
+          pe: { empatia: 3 }
+          effetti: { avv-torchio.sportelli: 1 }
+          segue: avv-torchio-il-fulmine
+        fallimento:
+          titolo: Il meccanico che non si siede
+          testo: |
+            Gli fai domande su domande, e Lapo ti chiede se ti manda il signor
+            Dossena a controllare quanto lavora. Da quel momento ti risponde a
+            monosillabi, senza smettere di camminare, e ti lascia indietro
+            davanti a un raccoglitore fermo.
+          effetti: { sospetto: 0.5 }
+          segue: avv-torchio-il-fulmine
+      - testo: "Leggere la montatura dei cristalli da allievo dell'Accademia"
+        descrizione: "Una tavola di cristalli conduttori la sai leggere. Ti basta vederla."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: Senza un filo di terra
+          testo: |
+            In fondo al reparto c'è una tavola d'ottone con dodici cristalli
+            conduttori in file, e tu la leggi come un esercizio di Temmerin. I
+            cristalli sono quasi scarichi, e i cavi che salgono al camino sono
+            di rame da carro, senza un filo che scenda a terra. «Glielo dicevo
+            io» mormora Lapo, che ti ha guardato leggere, e ti indica il punto
+            dove i cavi entrano nella tavola.
+          pe: { magia: 3 }
+          effetti: { avv-torchio.pannello: 1 }
+          segue: avv-torchio-il-fulmine
+      - testo: "Chiedere a Lapo da quale mucchio dell'Orlo vengono"
+        descrizione: "Pezzi come quelli li hai visti tirar fuori dal fango sotto il margine della Città Bassa."
+        quando: [origine.figlio-della-citta-bassa >= 1]
+        esito:
+          titolo: Dal fango dell'Orlo
+          testo: |
+            Glielo chiedi, e Lapo si ferma per la prima volta da quando sei
+            arrivato. Ti racconta del mucchio dietro la baracca di Grusk, dove
+            ha comprato le carcasse a peso di ferro vecchio, e poi ti fa vedere
+            lo sportello che ogni automa ha sul dorso, dietro una vite a
+            farfalla, con il cristallo che lo muove. «Tolto quello, dormono»
+            dice, e batte il palmo sul fianco di un Airone come si fa con un
+            cavallo.
+          pe: { tecnologia: 3 }
+          effetti: { avv-torchio.sportelli: 1 }
+          segue: avv-torchio-il-fulmine
+
+  - id: avv-torchio-il-fulmine
+    presso: laresh
+    immagine: icone/lightning-tree
+    titolo: Il fulmine sul camino
+    tipo: seguito
+    luogo: Laresh, il Torchio Dossena, il cortile del brindisi
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 1]
+    testo: |
+      Il brindisi si fa nel cortile, sotto i fili, con la prima acquavite del
+      torchio versata in bicchierini di vetro verde. Dossena alza il suo verso
+      il camino di rame proprio mentre arriva il vento, e con il vento le prime
+      gocce, grosse come nocciole.
+
+      Il fulmine cade sul camino. Per un momento il torchio si accende tutto di
+      azzurro, dai fili sopra il cortile alle giunture degli automi, poi si
+      spegne. Le Rondini restano ferme sui fili. Quando ripartono vanno al
+      doppio della velocità, e tagliano tutto quello che incontrano, i rami dei
+      meli insieme al cappello piumato di Rufo Pandolfi. Nel meleto un Airone
+      strappa un ramo intero, e dal reparto esce il Mulo con una botte fra le
+      tenaglie e la scaglia contro il muro.
+
+      Dossena è il primo al cancello. Lo passa, lo chiude dietro di sé e tira il
+      chiavistello. Gli ospiti scappano verso il meleto, mentre Lapo corre dalla
+      parte opposta, verso il reparto, gridando i nomi dei suoi automi.
+
+      {acrobazia Media} Le Rondini tagliano sempre alla stessa altezza, quella
+      dei rami. Piegati in due, sotto, si passa.
+    opzioni:
+      - testo: "Scavalcare il muro dietro a Dossena"
+        descrizione: "Il muro di cinta è alto due uomini, e dall'altra parte c'è la strada dell'osteria."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il panciotto color prugna
+          testo: |
+            Corri piegato sotto i fili fino al muro, ti arrampichi sulle botti
+            accatastate e ti butti dall'altra parte, nel fango della strada.
+            Laggiù, verso l'osteria sul rio, vedi il panciotto color prugna di
+            Dossena che corre con le mani sopra la testa. Dietro il muro il
+            torchio continua a battere.
+          pe: { atletica: 3 }
+          effetti: { avventura.torchio: 1 }
+        fallimento:
+          titolo: La giubba aperta
+          testo: |
+            Una Rondine ti passa sopra mentre sei in cima al muro e ti apre la
+            giubba sulla spalla, e cadi di schiena dall'altra parte, nel fango
+            della strada. Quando ti rialzi Dossena è già lontano, verso
+            l'osteria sul rio, e dietro il muro il torchio continua a battere.
+          effetti: { avventura.torchio: 1, ferite: 0.5 }
+      - testo: "Portare gli ospiti fino al meleto"
+        descrizione: "Gemma Siroli ha più di settant'anni e un bastone, e Rufo Pandolfi corre come una botte che rotola."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, rissa], difficolta: Media }
+        successo:
+          titolo: Il palo del gazebo
+          testo: |
+            Stacchi un palo del gazebo e lo tieni alto sopra le teste degli
+            ospiti, e le Rondini ci sbattono contro mentre li spingi verso il
+            meleto. Rufo issa Gemma su un melo vecchio e grande e ci sale dietro
+            di lei con il notaio. Tu esci dal cancelletto della gora, sotto la
+            ruota del mulino, con l'acqua fino al petto.
+          pe: { armi-da-mischia: 3 }
+          effetti: { avventura.torchio: 1 }
+        fallimento:
+          titolo: Il palo tagliato
+          testo: |
+            A metà cortile una Rondine ti taglia il palo fra le mani e il colpo
+            ti arriva sul braccio. Gli ospiti raggiungono il meleto da soli e
+            salgono su un melo vecchio e grande. Tu esci dal cancelletto della
+            gora con l'acqua fino al petto e il braccio che sanguina.
+          effetti: { avventura.torchio: 1, ferite: 0.5 }
+      - testo: "Correre dietro a Lapo verso il reparto"
+        descrizione: "Il meccanico va dalla parte da cui scappano tutti gli altri. Forse sa una cosa che gli altri non sanno."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La porticina della gora
+          testo: |
+            Raggiungi Lapo sulla porta del reparto. Dentro, i cristalli del
+            pannello sono bianchi come la brace, e il Mulo corre lungo la sua
+            rotaia più veloce di un cavallo. Lapo ti spinge fuori per la
+            porticina che dà sulla gora. «Qui ci penso io» grida. «Tu vai
+            fuori!» La porticina ti si chiude alle spalle, e senti girare la
+            chiave dall'interno.
+          pe: { tecnologia: 3 }
+          effetti: { avventura.torchio: 1 }
+        fallimento:
+          titolo: Fra i trucioli
+          testo: |
+            Raggiungi Lapo sulla porta del reparto proprio mentre il Mulo passa
+            sulla rotaia, e lo spostamento d'aria ti butta a terra fra i
+            trucioli. Lapo ti trascina fino alla porticina della gora e ti
+            spinge fuori. Mentre cadi nell'acqua lo senti girare la chiave
+            dall'interno.
+          effetti: { avventura.torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · oltre il cancello
+  - id: avv-torchio-oltre-il-cancello
+    presso: laresh
+    immagine: icone/coins
+    titolo: Oltre il cancello
+    sommario: "All'osteria sul rio Amerigo Dossena grida al cocchiere di attaccare i cavalli. Ha in mano le chiavi del torchio, e non se n'è accorto."
+    luogo: Laresh, l'osteria sul rio
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 2]
+    testo: |
+      All'osteria sul rio Amerigo Dossena è seduto sul predellino della sua
+      carrozza, bagnato fino agli anelli, e grida al cocchiere di attaccare i
+      cavalli. Stringe in mano un mazzo di chiavi grande come un pugno, e non se
+      n'è ancora accorto. Sotto la tettoia mezza osteria lo guarda senza
+      aiutarlo.
+
+      Dal rio basso arriva il battito del torchio, più svelto di prima. L'acqua
+      che passa sotto il ponticello ha preso il colore del sidro, e odora di
+      mele cotte.
+
+      «Un guasto» dice Dossena quando ti vede. «Un incidente della natura. Torno
+      a Qir-Azel a parlare con chi di dovere, e quando il torchio sarà a
+      regime...» Si interrompe, perché da lontano, oltre i campi, qualcuno grida
+      aiuto dal meleto.
+
+      {intimidire Media} Ha più paura del torchio che di te. Con un poco di
+      impegno, a questo si rimedia.
+
+      {origine rampollo-dei-quartieri-alti} Uomini come Dossena ne hai visti ai
+      ricevimenti dei Quartieri Alti, sempre vicino al tavolo dei dolci e
+      lontano dalla porta quando entra un creditore.
+    opzioni:
+      - testo: "Fargli capire che le chiavi ti servono"
+        descrizione: "Il cancello l'ha chiuso lui, e il chiavistello si apre con una di quelle chiavi."
+        prova: { attributo: sociale, abilita: [intimidire, persuasione], difficolta: Media }
+        successo:
+          titolo: Il mazzo di chiavi
+          testo: |
+            Gli prendi il polso, quello con le chiavi, e lo tieni fermo finché
+            lui capisce. Dossena apre la mano. Ti indica la chiave del cancello
+            grande, con la voce che gli trema, poi sale in carrozza, e il
+            cocchiere frusta i cavalli verso il bivio.
+          pe: { intimidire: 3 }
+          effetti: { avventura.torchio: 1, avv-torchio.chiavi: 1 }
+        fallimento:
+          titolo: La ruota nel fango
+          testo: |
+            Gli parli, e lui ti guarda come si guarda un creditore, poi si
+            infila le chiavi nel panciotto e sale in carrozza. Il cocchiere
+            frusta i cavalli verso il bivio, e la ruota ti schizza di fango
+            davanti a tutta l'osteria.
+          effetti: { avventura.torchio: 1, scandalo: 0.5 }
+      - testo: "Ripetergli davanti a tutti che cosa ha risparmiato"
+        descrizione: "Il parafulmine e le leve d'arresto. Il notaio di Gemma Siroli quelle parole le ha scritte."
+        quando: [avv-torchio.contratto >= 1]
+        esito:
+          titolo: Il parafulmine risparmiato
+          testo: |
+            Davanti all'osteria gli ripeti parola per parola quello che ti ha
+            detto lui del parafulmine e delle leve d'arresto, e aggiungi che il
+            notaio di Gemma Siroli l'ha scritto. Dossena diventa grigio. Ti
+            mette in mano il mazzo di chiavi senza che tu lo chieda e si chiude
+            in carrozza con le tendine tirate.
+          effetti: { avventura.torchio: 1, avv-torchio.chiavi: 1 }
+      - testo: "Lasciarlo andare e tornare al torchio"
+        descrizione: "Un uomo che scappa non serve a niente. Le grida, invece, vengono dal meleto."
+        esito:
+          titolo: Le chiavi in carrozza
+          testo: |
+            La carrozza parte verso il bivio, e le chiavi partono con lei. Torni
+            verso il rio basso a piedi, con l'osteria che ti segue a distanza e
+            il battito del torchio che si fa più forte a ogni passo.
+          effetti: { avventura.torchio: 1 }
+      - testo: "Ricordargli le proroghe della Casa dei Nodi"
+        descrizione: "Il suo nome sta in fondo ai registri dei prestiti. Chi gli ha prestato il denaro, lo sai."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Le proroghe
+          testo: |
+            Gli dici a voce bassa il nome di chi gli ha prestato il denaro per
+            il torchio, e quante volte gli ha già concesso una proroga. Dossena
+            si guarda intorno per vedere chi ha sentito. Ti dà le chiavi perché
+            tu stia zitto, e sale in carrozza senza salutare.
+          pe: { politica-ed-economia: 3 }
+          effetti: { avventura.torchio: 1, avv-torchio.chiavi: 1 }
+
+  # ------------------------------------------------------------ 3 → 4 · il meccanico
+  - id: avv-torchio-il-meccanico
+    presso: laresh
+    immagine: icone/spanner
+    titolo: Il meccanico nella gora
+    sommario: "Al tramonto mezzo villaggio aspetta davanti al cancello del torchio. Dalla grata della gora esce Lapo Calandri, con una mano nera di bruciature."
+    luogo: Laresh, il muro del Torchio Dossena, al tramonto
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 3]
+    testo: |
+      Al tramonto davanti al cancello del torchio c'è mezzo villaggio con le
+      forche e le lanterne, fermo a dieci passi dal muro. Sopra il muro le
+      Rondini corrono sui fili avanti e indietro, e dal meleto ogni tanto arriva
+      la voce di Rufo Pandolfi che chiede aiuto, seguita da un lamento per il
+      cappello. Sotto la ruota il rio basso corre torbido e caldo.
+
+      Tano ti tira per la manica fino alla grata della gora. Sull'argine, appena
+      strisciato fuori da sotto le sbarre, c'è Lapo Calandri, fradicio, con una
+      mano nera di bruciature fino al polso. Cerca di rimettersi in piedi per
+      tornare dentro.
+
+      La Dama arriva con il libro sotto il braccio e guarda il colore
+      dell'acqua. «A conti fatti, se il torchio va avanti fino a domani, il rio
+      basso non lo beve più nemmeno una capra» dice.
+
+      {medicina Media} Quelle bruciature vengono da un cristallo tenuto in mano
+      troppo a lungo. Ha provato a strapparne uno dalla tavola.
+
+      {origine figlio-della-citta-bassa} Lapo ha la cadenza dei vicoli sotto
+      l'Orlo, quella che si perde soltanto andando a vivere altrove per molti
+      anni.
+    opzioni:
+      - testo: "Fermarlo prima che torni nella gora"
+        descrizione: "Non si regge in piedi, e vuole tornare dai suoi automi."
+        prova: { attributo: fisico, abilita: [rissa, atletica], difficolta: Media }
+        successo:
+          titolo: Sull'argine
+          testo: |
+            Lo prendi per la cintura quando ha già un piede nell'acqua e lo
+            rimetti a sedere sull'argine. Lapo prova a divincolarsi due volte
+            prima di arrendersi, e resta lì a tossire acqua del rio che sa di
+            mele.
+          pe: { rissa: 3 }
+          segue: avv-torchio-quello-che-sa-lapo
+        fallimento:
+          titolo: Tutti e due nella gora
+          testo: |
+            Lo afferri per la cintura mentre si divincola, e finite insieme
+            nella gora calda e dolciastra. Ne uscite aggrappati alla stessa
+            sbarra, con la mezza Laresh dell'argine che vi tira fuori per le
+            braccia.
+          effetti: { scandalo: 0.5 }
+          segue: avv-torchio-quello-che-sa-lapo
+      - testo: "Medicargli la mano"
+        descrizione: "Una mano bruciata così, se nessuno la fascia, domani non si chiude più."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: La tela bagnata
+          testo: |
+            Gli fai stendere la mano sull'erba e la avvolgi in strisce di tela
+            bagnate nell'acqua del pozzo, e lui smette di tremare. Ti dice
+            grazie due volte, la seconda guardando il muro del torchio.
+          pe: { medicina: 3 }
+          segue: avv-torchio-quello-che-sa-lapo
+        fallimento:
+          titolo: Il grido
+          testo: |
+            Gli prendi la mano bruciata per vedere fin dove arriva la ferita, e
+            Lapo urla tanto forte che sul muro una Rondine si ferma di colpo sul
+            filo. Gliela fasci lo stesso, male, mentre lui stringe i denti.
+          effetti: { tormento: 0.5 }
+          segue: avv-torchio-quello-che-sa-lapo
+      - testo: "Parlargli come a uno che esce da un turno andato male"
+        descrizione: "Sulle piattaforme si sa che cosa dire a chi torna su senza la sua squadra."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: Dopo il turno
+          testo: |
+            Ti siedi accanto a lui sull'argine e gli dici quello che si dice
+            sulle piattaforme a chi risale da solo, che la corda l'ha tirata
+            bene e che adesso tocca a un altro. Lapo ti guarda come se ti
+            conoscesse da anni, e smette di cercare di alzarsi.
+          pe: { empatia: 3 }
+          segue: avv-torchio-quello-che-sa-lapo
+
+  - id: avv-torchio-quello-che-sa-lapo
+    presso: laresh
+    immagine: icone/circuitry
+    titolo: Quello che sa Lapo
+    tipo: seguito
+    luogo: Laresh, l'argine della gora, al tramonto
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 3]
+    testo: |
+      Lapo si siede con la schiena contro il muro del torchio, e il villaggio
+      gli si stringe intorno con le lanterne. Parla piano, rivolto alla mano
+      fasciata.
+
+      «Il fulmine è entrato dal camino e ha caricato i cristalli del pannello
+      fino all'orlo. Adesso il pannello manda Mana ai ragazzi senza fermarsi, e
+      loro lavorano più forte che possono. Leve d'arresto non ce ne sono, e il
+      mago che li scaricava non è venuto.» Alza gli occhi verso il camino. «Il
+      pannello va rotto. Sta sul muro in fondo al reparto, e davanti al muro
+      passa la rotaia del Mulo. Il Mulo adesso corre.»
+
+      Ti dice dei cortili con le Rondini sui fili e del meleto con gli Aironi,
+      dove gli ospiti sono ancora sul melo grande. Nel reparto le caldaie
+      sfiatano, e il mosto è uscito dalle vasche.
+
+      «Ti do quello che ho» dice, e si fruga nelle tasche con la mano sana.
+
+      {tecnologia Difficile} Dodici cristalli carichi fino all'orlo su una
+      tavola d'ottone senza terra. Se il torchio va avanti ancora un giorno, la
+      tavola si fonde, e il reparto con lei.
+    opzioni:
+      - testo: "Prendere la chiave a T"
+        descrizione: "Con la chiave si apre lo sportello sul dorso di un automa, e dietro lo sportello c'è il cristallo che lo muove."
+        quando: [avv-torchio.sportelli == 0]
+        esito:
+          titolo: La chiave a T
+          testo: |
+            Lapo si sfila dalla cintura la chiave a T e te la mette in mano. È
+            consumata nel punto dove la tiene lui. «La vite a farfalla gira a
+            sinistra, sempre» dice, «e quando li prendi da dietro loro dormono.»
+          effetti: { avventura.torchio: 1, avv-torchio.sportelli: 1 }
+      - testo: "Farti disegnare il reparto"
+        descrizione: "Chi l'ha montato sa dove passano i cavi, e dove sono più deboli."
+        quando: [avv-torchio.pannello == 0]
+        esito:
+          titolo: La croce nel fango
+          testo: |
+            Lapo traccia il reparto nel fango dell'argine con un dito, la rotaia
+            del Mulo che fa il giro della sala e il muro del pannello in fondo.
+            Segna con una croce il punto dove i cavi entrano nella tavola
+            d'ottone. «Lì sotto c'è la giunzione» dice, «e con un colpo ben dato
+            la tavola si spegne.»
+          effetti: { avventura.torchio: 1, avv-torchio.pannello: 1 }
+      - testo: "Farti dire delle caldaie"
+        descrizione: "Nel reparto il vapore esce da ogni giuntura. Chi le ha montate sa dove si chiudono."
+        esito:
+          titolo: Un quarto di giro
+          testo: |
+            Lapo ti racconta il reparto caldaia per caldaia. Dietro un pannello
+            di legno della terza c'è la valvola grande, quella che il signor
+            Dossena voleva togliere perché rallentava gli alambicchi. «Un quarto
+            di giro e smettono di fischiare» dice, «mezzo giro e ti cuoci.»
+          effetti: { avventura.torchio: 1, avv-torchio.valvola: 1 }
+
+  # ------------------------------------------------------------ 4 · l'ingresso della spedizione
+  - id: avv-torchio-il-cancello
+    presso: laresh
+    immagine: ambientazione/mulino-malgrani
+    titolo: Il cancello del torchio
+    sommario: "Il cancello del Torchio Dossena è chiuso con il chiavistello. Dentro, il torchio batte a colpi doppi."
+    luogo: Laresh, il cancello del Torchio Dossena
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 4]
+    testo: |
+      Il cancello del Torchio Dossena è chiuso con il chiavistello, e fra le
+      sbarre si vede il primo cortile, con i bicchierini verdi del brindisi
+      ancora sui tavoli rovesciati. Sopra il cortile le Rondini corrono sui fili
+      con un fruscio di forbici. Il torchio batte, e dal camino di rame esce un
+      fumo azzurro che il vento non riesce a piegare.
+
+      Dietro di te il villaggio aspetta con le lanterne, a distanza. Lapo è
+      seduto sull'argine con la mano fasciata in grembo.
+
+      {atletica Media} I ghirigori di ferro battuto salgono fino in cima, uno
+      ogni mezzo braccio, e reggono un piede.
+    opzioni:
+      - testo: "Scavalcare il cancello"
+        descrizione: "Fra un passaggio delle Rondini e l'altro c'è il tempo di arrivare in cima. Per scendere, meno."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Fra un passaggio e l'altro
+          testo: |
+            Aspetti che le Rondini passino e sali sui ghirigori, un piede dopo
+            l'altro. Scavalchi le punte quando i fili sono vuoti e ti lasci
+            cadere nel cortile, fra i bicchierini verdi.
+          pe: { atletica: 2 }
+          vai: avv-torchio
+        fallimento:
+          titolo: Le punte
+          testo: |
+            In cima la giubba ti si impiglia nelle punte, e una Rondine ti passa
+            così vicino che senti il vento delle lame sull'orecchio. Torni giù
+            dalla parte della strada con un taglio sul collo.
+          effetti: { ferite: 0.5 }
+      - testo: "Aprire con le chiavi di Dossena"
+        descrizione: "La chiave grande del mazzo è quella del chiavistello."
+        requisiti: [avv-torchio.chiavi >= 1]
+        costo: 1
+        esito:
+          titolo: La chiave grande
+          testo: |
+            Giri la chiave grande nel chiavistello, che si apre con uno scatto
+            ben oliato. Entri e ti richiudi il cancello alle spalle, perché
+            nessuno del villaggio ti venga dietro.
+          vai: avv-torchio
+      - testo: "Passare dalla gora, come è uscito Lapo"
+        descrizione: "Sotto la grata della gora si passa, con l'acqua del mulino fino al mento."
+        costo: 2
+        esito:
+          titolo: Sotto la ruota
+          testo: |
+            Ti cali nel rio basso e passi sotto la grata della gora con l'acqua
+            tiepida fino al mento, mentre la ruota del mulino ti gira accanto
+            più svelta di quanto una ruota dovrebbe. Esci nel primo cortile da
+            un tombino, bagnato di mosto fino ai capelli.
+          effetti: { tormento: 0.5 }
+          vai: avv-torchio
+
+  # ------------------------------------------------------------ 5 → 6 · il torchio fermo
+  - id: avv-torchio-il-torchio-fermo
+    presso: laresh
+    immagine: fazioni/gilda-dei-mercanti
+    titolo: Il torchio fermo
+    sommario: "Il mattino dopo il Torchio Dossena è fermo. Davanti al cancello c'è una carrozza verde con il sigillo della Gilda."
+    luogo: Laresh, il Torchio Dossena, il mattino dopo
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 5]
+    testo: |
+      Il mattino dopo il Torchio Dossena è fermo. Gli automi sono rimasti dove
+      li ha sorpresi il silenzio, con le Rondini appese ai fili e gli Aironi in
+      piedi fra i meli spogli, e dal camino di rame non esce più niente. Il rio
+      basso corre ancora torbido, più chiaro di ieri.
+
+      Davanti al cancello c'è una carrozza verde con il sigillo della Gilda dei
+      Mercanti sullo sportello. Ottavia Rendina, una donna alta in un mantello
+      verde scuro, scrive in piedi su una tavoletta appoggiata all'avambraccio,
+      mentre Amerigo Dossena firma una carta dopo l'altra sul coperchio di una
+      botte. Gli anelli non li ha più. Lapo è seduto sul predellino con la mano
+      fasciata.
+
+      «Conveniamo che il torchio è un buon torchio con un cattivo padrone» dice
+      Ottavia quando arrivi. «La Gilda lo compra oggi e lo rimette in moto in
+      primavera, con un parafulmine sul camino e un capo officina che sa quello
+      che fa.» Guarda Lapo, che non alza la testa. «E conveniamo che chi l'ha
+      fermato ha diritto a dire la sua.»
+
+      La Dama, al bordo della strada, aspetta con il libro sotto il braccio.
+
+      {politica-ed-economia Media} La Gilda compra al prezzo di un'impresa
+      fallita una cosa che fra un anno renderà quanto tre mulini. Lo sanno tutti
+      e due, e Dossena firma lo stesso.
+
+      {origine mercante-dei-ponti} Alla Casa dei Nodi Ottavia Rendina la
+      chiamano la vedova delle imprese, perché arriva sempre il giorno dopo. Lo
+      dicono a voce bassa, e i suoi conti tornano sempre.
+    opzioni:
+      - testo: "Chiedere che il torchio paghi il rio basso"
+        descrizione: "Il mosto è finito nel rio basso, e il rio basso passa per i campi della Dama."
+        esito:
+          titolo: Il conto del rio basso
+          testo: |
+            Dici a Ottavia che il rio basso l'ha sporcato il torchio, e che a
+            pulirlo devono pensarci i padroni del torchio. Ottavia scrive una
+            riga in più sulla tavoletta. «Conveniamo» dice. La Gilda pagherà la
+            pulizia del rio e comprerà le mele di Laresh al prezzo del mercato
+            di Qir-Azel. La Dama apre il libro sul coperchio della botte,
+            accanto alle carte di Dossena, e ci scrive il patto con la sua
+            grafia lenta.
+          imposta: { avv-torchio.scelta: 1 }
+          effetti: { avventura.torchio: 1, rep.laresh: 1 }
+      - testo: "Mandare Dossena alla Caserma"
+        descrizione: "Ha tirato il chiavistello da fuori con i suoi ospiti dentro. In città, per meno, si finisce in cella."
+        esito:
+          titolo: Il chiavistello
+          testo: |
+            Racconti a Ottavia, davanti a tutti, del chiavistello tirato da
+            fuori con gli ospiti dentro. Ottavia smette di scrivere, e Dossena
+            comincia a parlare di incidenti della natura finché lei gli toglie
+            la penna di mano. «Conveniamo che la Gilda non compra da un uomo che
+            va in Caserma» dice. «Comprerà all'asta, dopo.» La sera stessa
+            salgono da Qir-Azel due guardie, e Dossena riparte con loro nella
+            carrozza di un altro.
+          imposta: { avv-torchio.scelta: 2 }
+          effetti: { avventura.torchio: 1, rep.caserma: 0.5 }
+      - testo: "Chiedere una quota del torchio"
+        descrizione: "Il torchio l'hai fermato tu. Una parte di quello che renderà in primavera, a rigore, ti spetta."
+        esito:
+          titolo: La quota
+          testo: |
+            Chiedi una quota, e Ottavia non fa una piega. Scrive il tuo nome
+            sulla tavoletta con una cifra accanto che non ti mostra, e ti fa
+            avere subito una borsa di monete come anticipo. Al bordo della
+            strada la Dama chiude il libro e torna verso Casa Velar senza
+            salutare.
+          imposta: { avv-torchio.scelta: 3 }
+          effetti: { avventura.torchio: 1, monete: 80, rep.gilda: 0.5, rep.laresh: -0.5 }
+      - testo: "Far leggere al notaio le parole di Dossena"
+        descrizione: "Il giorno della visita il notaio di Gemma Siroli ha scritto tutto quello che Dossena si vantava di aver risparmiato."
+        quando: [avv-torchio.contratto >= 1]
+        esito:
+          titolo: Il taccuino del notaio
+          testo: |
+            Fai chiamare il notaio di Gemma Siroli, che legge ad alta voce dal
+            suo taccuino le parole di Dossena sul parafulmine e sulle leve
+            d'arresto. Ottavia ascolta fino in fondo. «Conveniamo che questa è
+            una cosa da Caserma» dice, e Dossena posa la penna da solo. La sera
+            stessa salgono da Qir-Azel due guardie e lo portano via, e la Gilda
+            comprerà il torchio all'asta.
+          imposta: { avv-torchio.scelta: 2 }
+          effetti: { avventura.torchio: 1, rep.caserma: 0.5 }
+      - testo: "Trattare la quota alla maniera della Casa dei Nodi"
+        descrizione: "Una quota si chiede con la formula giusta, e con il diritto di guardare i libri."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Il diritto ai libri
+          testo: |
+            Chiedi a Ottavia la quota con la formula della Casa dei Nodi, e il
+            diritto di guardare i libri del torchio una volta all'anno. Lei alza
+            gli occhi dalla tavoletta per la prima volta e ti fa avere una borsa
+            di monete come anticipo. Al bordo della strada la Dama chiude il
+            libro e torna verso Casa Velar senza salutare.
+          pe: { politica-ed-economia: 3 }
+          imposta: { avv-torchio.scelta: 3 }
+          effetti: { avventura.torchio: 1, monete: 80, rep.gilda: 0.5, rep.laresh: -0.5 }
+
+  # ------------------------------------------------------------ 6 → 7 · la corazza del portabotti
+  - id: avv-torchio-la-corazza-del-portabotti
+    presso: laresh
+    immagine: icone/chest-armor
+    titolo: La corazza del portabotti
+    sommario: "Sul camino del torchio c'è un parafulmine nuovo. Lapo Calandri, capo officina della Gilda, ti aspetta al banco con le piastre del Mulo."
+    luogo: Laresh, il Torchio Dossena, l'officina
+    area: superficie-fratturata
+    requisiti: [avventura.torchio == 6]
+    testo: |
+      Dieci giorni dopo, sul camino di rame del torchio c'è un'asta di ferro
+      nuova, con una corda che scende fino a terra, e sopra la porta del reparto
+      hanno appeso un'insegna con il sigillo della Gilda. Dentro, Lapo Calandri
+      ha messo un banco da officina accanto alla rotaia del Mulo. Porta una
+      giubba verde scuro che non gli sta bene, e la mano sinistra è ancora
+      fasciata.
+
+      Il Mulo è nell'angolo, senza piastre, con le tenaglie aperte. Le piastre
+      sono sul banco, ribattute su un giaco di cuoio e lucidate con la cenere
+      del forno.
+
+      «Il Mulo le botti le portava e basta, senza cattiveria» dice Lapo, con gli
+      occhi sulle piastre. «Così almeno porta te.» Passa il pollice su una
+      piastra, dove si vede ancora il segno di una tenaglia. «Ogni leva
+      d'arresto che chiedevo, la signora Rendina l'ha pagata il giorno dopo.
+      Senza discutere.»
+
+      {tecnologia Media} I ribattini sono del rame nuovo degli Aironi, e il
+      cuoio viene dalla cinghia della ruota del mulino.
+    opzioni:
+      - testo: "Indossare la corazza"
+        descrizione: "Le piastre di una macchina che alzava botti piene. Lapo te la allaccia."
+        esito:
+          titolo: Le piastre del Mulo
+          testo: |
+            Lapo te la allaccia sui fianchi con le dita della mano buona,
+            stringendo le cinghie una dopo l'altra, e poi fa un passo indietro a
+            guardare. Le piastre sono tiepide, come se il Mulo non si fosse
+            ancora raffreddato del tutto. «Pesa» dice Lapo, «ma le botti
+            pesavano di più.»
+          effetti: { avventura.torchio: 1, oggetto.avv-torchio-corazza-del-portabotti: 1 }
+      - testo: "Chiedergli che cosa farà dei suoi ragazzi"
+        descrizione: "Le Rondini sono ancora sui fili, e gli Aironi in mezzo al meleto."
+        esito:
+          titolo: In primavera
+          testo: |
+            Lapo ti porta nel cortile, dove le Rondini sono tornate sui fili,
+            ferme, ognuna con lo sportello aperto. «In primavera si riparte, con
+            calma» dice. «Il mago viene ogni settimana, e le leve le tiro io.»
+            Poi ti mette in mano la corazza avvolta in una coperta da cavallo, e
+            torna al banco.
+          effetti: { avventura.torchio: 1, oggetto.avv-torchio-corazza-del-portabotti: 1 }
+      - testo: "Leggere il biglietto di Gemma Siroli"
+        descrizione: "Sul banco, accanto alle piastre, c'è un biglietto con il tuo nome, chiuso con la ceralacca nera."
+        quando: [avv-torchio.ospiti >= 1]
+        esito:
+          titolo: La ceralacca nera
+          testo: |
+            Gemma Siroli ti ringrazia in poche righe senza svolazzi per averla
+            tirata giù da un melo alla sua età, e ti avverte che il suo denaro
+            l'ha messo nell'officina di Lapo. Nella busta c'è una borsa di
+            monete per il disturbo. Intanto Lapo ti allaccia la corazza, una
+            cinghia dopo l'altra.
+          effetti: { avventura.torchio: 1, oggetto.avv-torchio-corazza-del-portabotti: 1, monete: 40 }

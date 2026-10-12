@@ -1,0 +1,622 @@
+# Avventura 10, «Le buche di Laresh» (docs/piano-avventure.md). Si apre a Laresh dopo la quest del villaggio
+# (fazione.laresh >= 15) e segue la pista avventura.buche-laresh da 0 a 7.
+# - 0 → 1 `avv-buche-laresh-l-avviso-al-mulino` (il mulino centrale) e il seguito `avv-buche-laresh-l-anno-delle-zuccaiole`:
+#   l'avviso di Gisella Pavoli per liberare un campo dalle bestie che scavano. Marrek dice che non è il Seminatore.
+# - 1 → 2 `avv-buche-laresh-la-padrona`: Gisella e le buche, che accusa il vicino. Vantaggio: avv-buche-laresh.galleria.
+# - 2 → 3 `avv-buche-laresh-grande-come-un-vitello`: Ercole Ferlini ha visto la bestia e accusa Gisella di rubargli il
+#   ferro. Vantaggio: avv-buche-laresh.ferraglia.
+# - 3 → 4 `avv-buche-laresh-lo-stivale`: Bice Gaddi, la caposquadra, è sparita in una buca. Vantaggio: avv-buche-laresh.cenere.
+# - 4 → 5 `avv-buche-laresh-la-notte-sul-confine`: la prima zuccaiola, all'aperto. Vantaggi: avv-buche-laresh.mazzuolo,
+#   avv-buche-laresh.galleria.
+# - 5 → 6 la spedizione (spedizione.yaml), con il nido in due fasi.
+# - 6 → 7 `avv-buche-laresh-il-solco-del-pero`: il nido bruciato, venduto ai Raschiatori o lasciato ai due vicini
+#   (avv-buche-laresh.nido 1, 2, 3), e la Roncola della regina. Se Bice non è stata liberata nelle dispense, prima la
+#   tirano fuori gli altri (`avv-buche-laresh-l-ultima-dispensa`, avv-buche-laresh.bice 2).
+# Canone. Le buche non sono quelle del Seminatore (che resta caduto nei campi a nord) e non vengono dal campo che beve:
+# sono le tane di una colonia di zuccaiole giganti, le grillotalpe dei campi, che il nonno di Marrek ricordava da un
+# «anno delle zuccaiole». Salgono adesso perché la terra del rio basso è tornata umida e morbida da quando il rio di
+# mezzo corre di nuovo, e perché il grano dei campi salvati è tanto. I due campi in fondo al rio basso non stanno nel
+# libro della Dama: sono dei Pavoli e dei Ferlini da generazioni.
+# Nomi nuovi (glossario.yaml): Gisella Pavoli, Ercole Ferlini, Bice Gaddi, le zuccaiole, il pero del confine.
+quality:
+  - { id: avventura.buche-laresh, immagine: icone/dig-hole, nome: "Le buche di Laresh", categoria: pista, descrizione: "Nei due campi in fondo al rio basso ogni notte si apre una buca nuova, e il grano di una fila sparisce sotto terra. Gisella Pavoli ha appeso un avviso al mulino centrale." }
+  - { id: avv-buche-laresh.galleria, immagine: icone/treasure-map, nome: "La galleria maestra", categoria: stato, descrizione: "Sai quale delle buche del rio basso porta dritta alle gallerie grandi. È quella sotto il pero del confine, e il suo ramo buono scende verso il rio." }
+  - { id: avv-buche-laresh.ferraglia, immagine: icone/hammer-nails, nome: "La ferraglia di Ercole", categoria: stato, descrizione: "Un sacco di chiodi storti e ferri di cavallo vecchi che Ercole Ferlini teneva da parte per il fabbro. Sotto i campi c'è chi ne va matto." }
+  - { id: avv-buche-laresh.cenere, immagine: icone/powder-bag, nome: "La cenere della striscia", categoria: stato, descrizione: "Sacchi di cenere della striscia bruciata lungo il rio di mezzo, insaccati per ordine della Dama. Sulla saliva delle zuccaiole sfrigola e la spegne." }
+  - { id: avv-buche-laresh.mazzuolo, immagine: icone/stake-hammer, nome: "Il mazzuolo dei pali", categoria: stato, descrizione: "Il mazzuolo con cui Ercole pianta i pali del confine. Le zuccaiole cacciano sentendo la terra che trema, e vanno dove batte." }
+  - { id: avv-buche-laresh.bice, nome: Bice Gaddi, categoria: stato, nascosta: true, descrizione: "1 se hai liberato Bice nelle dispense delle zuccaiole; 2 se l'hanno tirata fuori gli altri, dopo il nido." }
+  - { id: avv-buche-laresh.svolta, nome: Il canto delle zuccaiole, categoria: stato, nascosta: true, descrizione: "1 dopo il canto della colonia, la svolta della spedizione." }
+  - { id: avv-buche-laresh.nido, nome: Il nido delle zuccaiole, categoria: stato, nascosta: true, descrizione: "1 bruciato con la paglia del villaggio; 2 venduto ai Raschiatori di Oreste Ruffo; 3 lasciato a Gisella e a Ercole, che ci seminano le fave." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'avviso al mulino
+  - id: avv-buche-laresh-l-avviso-al-mulino
+    presso: laresh
+    immagine: ambientazione/mulino-malgrani
+    titolo: L'avviso al mulino
+    sommario: "Sulla porta del mulino centrale qualcuno ha inchiodato un avviso. Cercano chi sappia liberare un campo dalle bestie che scavano."
+    luogo: Laresh, la porta del mulino centrale
+    area: superficie-fratturata
+    requisiti: [fazione.laresh >= 15, avventura.buche-laresh == 0]
+    testo: |
+      Sulla porta del mulino centrale, sotto il ferro di cavallo che Marrek ci
+      fa inchiodare per la fortuna, c'è un foglio nuovo fissato con quattro
+      chiodi da scarpa. La grafia è grossa e pende tutta a destra, come se chi
+      scriveva avesse fretta di arrivare in fondo alla riga.
+
+      *Cercasi persona pratica per liberare un campo dalle bestie che scavano.
+      Paga buona, vitto compreso* dice il foglio, e sotto c'è la firma,
+      *Gisella Pavoli, in fondo al rio basso*.
+
+      Tano è seduto sulla soglia a sgranare fave in un cesto, e ti guarda
+      leggere. «Talpe» dice, e sputa una buccia. «Ogni mattina la Pavoli ha
+      una buca nuova, e una fila di grano in meno. Lei dice che glielo ruba il
+      Ferlini, quello del campo accanto, e il Ferlini dice che è stata una
+      zuccaiola grande come un vitello.» Ci pensa sopra mentre apre un altro
+      baccello. «Il Ferlini la sera beve.»
+
+      {conoscenze-della-strada Media} Un avviso che dice «si paga bene» senza
+      dire quanto lo scrive chi non ha ancora deciso quanto vale il problema.
+      Di solito lo decide quando il problema è risolto, e al ribasso.
+
+      Dentro il mulino Marrek ha smesso di canticchiare insieme alla macina.
+    opzioni:
+      - testo: "Staccare l'avviso e andare dalla Pavoli"
+        descrizione: "In fondo al rio basso, dove finiscono i campi della Dama e comincia un filare di gelsi."
+        esito:
+          titolo: Il rio basso
+          testo: |
+            Pieghi l'avviso in quattro e scendi lungo il rio basso, fra i campi
+            mietuti a metà. Tano ti grida dietro di non dire alla Pavoli che
+            sei stato mandato da lui, perché lei ai Ferlini e ai mugnai non
+            crede per principio.
+          effetti: { avventura.buche-laresh: 1 }
+      - testo: "Chiedere a Marrek che cosa ne pensa"
+        descrizione: "Il mugnaio sente il grano passare sotto la macina. Forse sente anche quello che passa sotto i campi."
+        esito:
+          titolo: La mano sulla macina
+          testo: |
+            Marrek ti chiama dentro senza voltarsi, con il palmo
+            sull'incastellatura. Tano porta lo sgabello per te e si siede sulla
+            trave, con le gambe a penzoloni, perché quando il nonno racconta
+            vuole sentire anche lui.
+          segue: avv-buche-laresh-l-anno-delle-zuccaiole
+
+  - id: avv-buche-laresh-l-anno-delle-zuccaiole
+    presso: laresh
+    tipo: seguito
+    immagine: ambientazione/mulino-malgrani
+    titolo: L'anno delle zuccaiole
+    luogo: Laresh, il mulino centrale
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 0]
+    testo: |
+      «Lo so che cosa si dice all'osteria» comincia Marrek. «Che è tornata la
+      macchina dei trampoli. Quella sta ancora dove è caduta, nei campi a
+      nord, e i ragazzi ci salgono sopra a turno.» Batte due dita sul legno.
+      «La macchina beveva, e dove beveva la terra restava cotta. Giù al rio
+      basso la terra è smossa e morbida, come dopo l'aratro. Ieri ci sono
+      passato con Tano, e sotto i piedi suonava vuota.»
+
+      Beve un sorso dalla brocca che Tano gli ha messo accanto. Poi racconta
+      che suo nonno parlava di un anno in cui il grano spariva sotto terra una
+      fila per notte, e quell'anno lui lo chiamava l'anno delle zuccaiole. In
+      casa ridevano tutti, tranne il nonno.
+
+      {natura Media} Le zuccaiole che conosci sono lunghe un dito. Di sera
+      cantano sotto gli orti con un trillo basso, e di notte rosicchiano le
+      radici. Una grande come un vitello si mangerebbe un campo intero in una
+      stagione.
+
+      «Il grano di quest'anno è tanto» dice Marrek, «e la terra è bagnata da
+      quando il rio di mezzo corre di nuovo. Prima o poi, a tavola
+      apparecchiata, viene qualcuno a sedersi.»
+    opzioni:
+      - testo: "Andare dalla Pavoli con il racconto del nonno"
+        descrizione: "In fondo al rio basso, due campi oltre il filare di gelsi."
+        esito:
+          titolo: Il nonno di Marrek
+          testo: |
+            Marrek ti stringe il polso prima di lasciarti andare, e ti dice di
+            portare alla Pavoli i suoi saluti, che tanto lei non li vuole. Tano
+            ti accompagna fino al ponticello, ripetendo sottovoce la parola
+            *zuccaiola* come per impararla.
+          pe: { natura: 2 }
+          effetti: { avventura.buche-laresh: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · la padrona del rio basso
+  - id: avv-buche-laresh-la-padrona
+    presso: laresh
+    immagine: icone/dig-hole
+    titolo: La padrona del rio basso
+    sommario: "In fondo al rio basso Gisella Pavoli ti aspetta accanto alla buca di stanotte. Ha un forcone in mano e un colpevole in mente."
+    luogo: Laresh, i campi in fondo al rio basso
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 1]
+    testo: |
+      In fondo al rio basso i campi della Dama finiscono contro un filare di
+      gelsi, e oltre i gelsi ci sono due campi che nel libro di Casa Velar
+      non compaiono. Li divide un solco dritto, con un pero vecchio piantato a
+      metà. Quello a sinistra è di Gisella Pavoli, che ti aspetta sul bordo con
+      le braccia incrociate e un forcone piantato accanto come un'insegna.
+
+      È una donna larga di fianchi, sulla sessantina, con il fazzoletto
+      annodato sotto il mento e le maniche arrotolate fino al gomito. Ti porta
+      alla buca di stanotte senza salutare. È larga quanto la bocca di un
+      pozzo, con un anello di terra sbriciolata intorno, e scende di sbieco nel
+      buio. Dentro, a un braccio di profondità, spuntano le spighe di una fila
+      intera, tirate giù per il gambo con tutte le radici.
+
+      «Sette notti e sette buche» dice. «Lo vedete quello?» Indica con il mento
+      un uomo grosso che zappa di schiena dall'altra parte del solco. «Ercole
+      Ferlini. Di notte mi ruba il grano e scava le buche per farmi credere
+      alle bestie. E va dicendo in giro che sono io a rubare il ferro a lui.»
+
+      {empatia Media} Mentre lo indica guarda se lui si gira. Quando non si
+      gira, le spalle le scendono di un dito.
+
+      «E la macchina dei trampoli non c'entra» aggiunge. «L'ho vista cadere, e
+      i suoi buchi erano tondi come piatti. Questi li fa uno con le mani.»
+    opzioni:
+      - testo: "Guardare la buca con calma"
+        descrizione: "Chi scava da sopra butta la terra da una parte. Da sotto, invece, la si spinge fuori tutto intorno."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Da sotto
+          testo: |
+            La terra intorno alla bocca è stata spinta fuori dal basso, in un
+            anello uguale da tutte le parti, e sulle pareti ci sono graffi larghi
+            un palmo, a coppie, come di un rastrello corto. Le spighe sono state
+            tirate giù dalle radici. Lo dici a Gisella, e lei ti guarda come si
+            guarda un mugnaio che giura sul peso.
+          pe: { natura: 2 }
+          effetti: { avventura.buche-laresh: 1 }
+        fallimento:
+          titolo: Il bordo che cede
+          testo: |
+            Ti chini troppo sul bordo, e la terra sbriciolata cede. Finisci
+            dentro fino alla coscia, con il grano che ti graffia la faccia, e
+            Gisella ti tira fuori per il colletto senza nessuna delicatezza.
+            Hai una caviglia che ti fa male per tutto il giorno.
+          effetti: { avventura.buche-laresh: 1, ferite: 0.5 }
+      - testo: "Segnare le buche su una tavola, notte per notte"
+        descrizione: "Gisella ricorda in che ordine sono arrivate. Messe in fila, le buche dicono da dove vengono."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Verso il pero
+          testo: |
+            Disegni i due campi sul retro dell'avviso con un carbone e ci metti le
+            buche nell'ordine in cui Gisella se le ricorda. Vanno a zig zag lungo il
+            solco, alternando un campo all'altro, e la prima di tutte è sotto il
+            pero del confine. È anche la più larga, e il suo ramo buono scende verso
+            il rio.
+          pe: { percezione: 2 }
+          effetti: { avventura.buche-laresh: 1, avv-buche-laresh.galleria: 1 }
+        fallimento:
+          titolo: I conti della Pavoli
+          testo: |
+            Gisella si ricorda le buche in un ordine diverso ogni volta che glielo
+            chiedi, e alla terza volta la tavola è un groviglio di segni. Lei ci
+            sputa sopra per cancellarli, e la sera all'osteria racconta che il
+            forestiero non sa contare fino a sette.
+          effetti: { avventura.buche-laresh: 1, scandalo: 0.5 }
+      - testo: "Chiederle di Ercole"
+        descrizione: "Due campi con un solco in mezzo, da tre generazioni. Gente così si conosce meglio di quanto dice."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La panca sotto il pero
+          testo: |
+            Lei comincia a dirne male e finisce per raccontare che sono nati nella
+            stessa settimana, che a sei anni l'ha tirato fuori dal rio per i
+            capelli, e che al funerale del marito di lei la cassa l'ha portata
+            lui da solo. Ogni sera si siedono sulla stessa panca sotto il pero a
+            litigare. Lui da una settimana non ci viene più.
+          pe: { empatia: 2 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Fuori dal mio campo
+          testo: |
+            Le chiedi se il Ferlini è un amico, e Gisella ti risponde con il forcone
+            puntato verso il sentiero. Te ne vai fra le risate dei mietitori, e
+            torni la sera dopo con il cappello in mano.
+          effetti: { avventura.buche-laresh: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · grande come un vitello
+  - id: avv-buche-laresh-grande-come-un-vitello
+    presso: laresh
+    immagine: icone/cricket
+    titolo: Grande come un vitello
+    sommario: "Dall'altra parte del solco Ercole Ferlini giura di aver visto la bestia. Gli mancano il vomere e la catena del pozzo."
+    luogo: Laresh, il campo di Ercole Ferlini, oltre il solco
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 2]
+    testo: |
+      Dall'altra parte del solco il campo di Ercole Ferlini è tenuto peggio,
+      con le erbacce fra le file e una scala appoggiata a un fienile che pende
+      verso il rio. Ercole è alto quanto la scala. Ha le spalle di un bue e una
+      voce piccola, che non gli somiglia, e quando ti vede arrivare dal campo
+      della Pavoli pianta la zappa e ci appoggia sopra tutte e due le mani.
+
+      «Ve l'ha detto che bevo» dice. «La sera bevo. Di notte ci vedo
+      benissimo.» Quattro notti fa l'ha vista uscire all'indietro da una buca
+      del suo campo, al chiaro di luna, lunga come un vitello di sei mesi e
+      lucida come una castagna, con le zampe davanti larghe come pale da
+      forno. Prima di uscire cantava sotto terra, un trillo basso che gli è
+      rimasto nei denti.
+
+      «E il ferro me lo ruba lei» aggiunge, più piano. «Prima il vomere, poi la
+      catena del pozzo. Stanotte i chiodi della porta del fienile.» Ti mostra
+      quello che resta del vomere. Il taglio è mangiato a mezzelune piccole e
+      regolari, lucide come l'interno di un cucchiaio.
+
+      {tecnologia Media} Nessuna lima lascia un segno così. Sono morsi, tanti,
+      di una bocca piccola quanto un'unghia e molto paziente.
+
+      {origine fuggiasco-di-ghoran} Le spalle di Ercole le hai viste sui
+      portatori dei recinti, che a Ghoran si vendevano a peso. Quella voce
+      piccola, invece, lì sotto non l'aveva nessuno.
+    opzioni:
+      - testo: "Credergli e farti raccontare tutto"
+        descrizione: "È l'unico che l'ha vista. Nessuno a Laresh gli ha ancora chiesto come."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il trillo
+          testo: |
+            Ercole si siede sul manico della zappa e ti racconta tutto, adagio,
+            con le mani grandi che disegnano la bestia nell'aria. Esce dopo la
+            luna, taglia il grano con due colpi delle zampe e lo trascina giù.
+            Quando ha finito ti ringrazia, perché è la prima volta che qualcuno
+            lo lascia arrivare in fondo.
+          pe: { empatia: 2 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: L'osteria
+          testo: |
+            A metà del racconto ti scappa un sorriso, e Ercole se ne accorge. Smette
+            di parlare a metà frase e riprende la zappa, voltandoti le spalle. La
+            sera all'osteria sul rio dice a tutti che anche il forestiero lo prende
+            per un ubriacone, e mezza Laresh trova che il forestiero ha ragione.
+          effetti: { avventura.buche-laresh: 1, scandalo: 0.5 }
+      - testo: "Studiare il vomere mangiato"
+        descrizione: "Un ladro di ferro si porta via il vomere intero. Questo qualcuno l'ha mangiato sul posto."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: Il sacco per il fabbro
+          testo: |
+            Gli fai vedere i morsi uno per uno con la punta del coltello, ed Ercole
+            li conta con il dito. Poi va nel fienile e torna con un sacco di chiodi
+            storti e ferri di cavallo vecchi che teneva da parte per il fabbro. «Se
+            la bestia mangia ferro» dice, «che si mangi questo, e lasci stare i miei
+            attrezzi.»
+          pe: { tecnologia: 2 }
+          effetti: { avventura.buche-laresh: 1, avv-buche-laresh.ferraglia: 1 }
+        fallimento:
+          titolo: Il taglio
+          testo: |
+            Passi il pollice sul taglio del vomere per sentire i morsi, e il
+            ferro mangiato è affilato come una lama nuova. Ercole ti fascia il
+            dito con un pezzo della sua camicia, borbottando che a toccare
+            le cose degli altri ci si fa male.
+          effetti: { avventura.buche-laresh: 1, ferite: 0.5 }
+      - testo: "Portarlo a sedersi sulla panca sotto il pero"
+        descrizione: "Gisella è dall'altra parte del solco, e finge di non guardare. Basta farli sedere sulla stessa panca."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Difficile }
+        successo:
+          titolo: La panca
+          testo: |
+            Lo convinci a portare il vomere fino al pero, e Gisella arriva dalla sua
+            parte del solco senza che nessuno la chiami. Guarda i morsi a lungo, con
+            le labbra strette. Poi si siede a un capo della panca, ed Ercole si
+            siede all'altro. Restano seduti senza dirsi niente fino al tramonto.
+          pe: { persuasione: 3 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 1 }
+        fallimento:
+          titolo: Il solco
+          testo: |
+            Arrivate al pero, e Gisella vi aspetta dall'altra parte del solco con
+            il forcone. Si gridano addosso cose di quarant'anni fa, e tu resti in
+            mezzo, sul solco, con il vomere in mano e i mietitori di tutti e due
+            i campi che guardano.
+          effetti: { avventura.buche-laresh: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · lo stivale della caposquadra
+  - id: avv-buche-laresh-lo-stivale
+    presso: laresh
+    immagine: icone/leather-boot
+    titolo: Lo stivale della caposquadra
+    sommario: "All'alba la squadra di Gisella sta in cerchio intorno a una buca nuova. Accanto c'è uno stivale di Bice Gaddi, la caposquadra."
+    luogo: Laresh, il pero del confine, all'alba
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 3]
+    testo: |
+      All'alba la squadra di Gisella non si mette al lavoro. Sono otto
+      braccianti con le falci in mano, in cerchio intorno a una buca nuova
+      sotto il pero del confine, più larga di tutte le altre. Ieri sera Bice
+      Gaddi, la caposquadra, ha detto che avrebbe passato la notte nel fosso
+      per prendere il Ferlini con le mani nel grano. Nel fosso stamattina c'è
+      la sua coperta piegata.
+
+      Sul bordo della buca c'è uno dei suoi stivali, dritto, come se lei se lo
+      fosse appena tolto. Il cuoio della punta si è sciolto in una crosta
+      grigia e appiccicosa.
+
+      Gisella sta in ginocchio sul bordo e chiama Bice dentro il buco con una
+      voce che non le avevi ancora sentito. Ercole si sta legando una corda in
+      vita, e quando lei gli mette una mano sul braccio si lascia fermare.
+      Dalla strada arrivano la Dama, con il libro sotto il braccio, e Cahir con
+      Cenere al guinzaglio.
+
+      {medicina Difficile} Il cuoio è stato digerito, come la carne lasciata
+      troppo a lungo nell'aceto forte, e la crosta brucia ancora se ci passi
+      sopra il dito. Contro l'aceto, nelle cucine, si usa la cenere.
+
+      «Mia nonna diceva che le zuccaiole si tengono in casa quello che
+      prendono» dice piano una bracciante. «Vivo, finché serve.»
+    opzioni:
+      - testo: "Esaminare lo stivale"
+        descrizione: "La crosta sul cuoio è quello che la bestia lascia dove passa. Meglio sapere che cos'è prima di scendere."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: La cenere della striscia
+          testo: |
+            Versi un pugno di cenere del focolare sulla crosta, e la crosta sfrigola
+            e smette di bruciare. La Dama guarda la crosta spenta, poi apre il libro
+            e manda quattro braccianti a insaccare la cenere della striscia bruciata
+            lungo il rio di mezzo. «A conti fatti» dice, «di quella ne abbiamo più
+            che di grano.»
+          pe: { medicina: 2 }
+          effetti: { avventura.buche-laresh: 1, avv-buche-laresh.cenere: 1 }
+        fallimento:
+          titolo: Le dita
+          testo: |
+            Tocchi la crosta per sentirne la consistenza, e ti brucia i
+            polpastrelli come una pentola presa senza straccio. Cahir ti fa
+            immergere la mano nel secchio dei cani, e per tutto il giorno le dita
+            ti restano bianche e raggrinzite.
+          effetti: { avventura.buche-laresh: 1, ferite: 0.5 }
+      - testo: "Mettere Cenere sulla pista di Bice"
+        descrizione: "Il cane di Cahir trova le bestie al buio. Forse trova anche una caposquadra sotto terra."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La canzone sotto terra
+          testo: |
+            Cenere annusa lo stivale e parte verso il rio, a muso basso, finché a
+            trenta passi dal pero si mette a raspare. Appoggi l'orecchio alla terra.
+            Da molto in basso arriva la canzone della spiga, cantata da una voce
+            rauca che stona sempre sulla stessa nota. Gisella si siede per terra e
+            ride, con le mani sulla faccia.
+          pe: { addestrare-animali: 2 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Il pelo ritto
+          testo: |
+            Cenere annusa lo stivale e poi la buca, e arretra con il pelo ritto
+            sulla schiena e la coda fra le gambe. Non c'è verso di farlo
+            avvicinare. Cahir lo riporta alle stalle tenendolo in braccio, e a te
+            resta in testa il guaito che ha fatto.
+          effetti: { avventura.buche-laresh: 1, tormento: 0.5 }
+      - testo: "Fermare Ercole e organizzare la squadra"
+        descrizione: "Un uomo grosso con una corda in vita, in una buca che frana. La squadra aspetta che qualcuno dica cosa fare."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: I turni di guardia
+          testo: |
+            Togli la corda dalle mani di Ercole e dai a ognuno un posto. Due
+            braccianti al pero con le lanterne, due al rio, il resto a puntellare
+            il bordo della buca con le tavole del fienile. Ercole per tutto il
+            giorno pianta pali senza dire una parola, e Gisella gli porta da
+            bere.
+          pe: { persuasione: 2 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 0.5 }
+        fallimento:
+          titolo: Tre braccia sotto
+          testo: |
+            Mentre parli Ercole si cala nella buca, e a tre braccia di
+            profondità la terra gli frana addosso. Lo tirate fuori in quattro
+            per la corda, nero di terra dalla testa ai piedi, e tu ti sei
+            slogato una spalla a tirare.
+          effetti: { avventura.buche-laresh: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4 → 5 · la notte sul confine
+  - id: avv-buche-laresh-la-notte-sul-confine
+    presso: laresh
+    immagine: icone/insect-jaws
+    titolo: La notte sul confine
+    sommario: "Tu con Gisella ed Ercole nel fosso sotto il pero, con le lanterne coperte. Dopo la luna la terra comincia a cantare."
+    luogo: Laresh, il solco fra i due campi, di notte
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 4]
+    testo: |
+      La notte dopo fate la posta nel fosso sotto il pero, voi tre soli, con
+      le lanterne coperte da un sacco. Gisella si è portata il forcone, ed
+      Ercole il mazzuolo con cui pianta i pali del confine, perché in casa non
+      ha trovato altro. Si passano una borraccia senza parlarsi, e lui ogni
+      volta pulisce il collo con la manica prima di dargliela.
+
+      Dopo che la luna è salita, dal campo arriva il canto. È un trillo basso
+      e continuo, che senti più nelle ginocchia che nelle orecchie. A venti
+      passi la terra si gonfia come la crosta di un pane nel forno, e ne esce
+      all'indietro la bestia di Ercole.
+
+      È lunga come un vitello, con il guscio marrone che luccica alla luna e
+      le zampe davanti larghe e dentate come pale. Taglia una fila di grano
+      alla base con due colpi e la trascina giù per i gambi, senza fretta,
+      mentre il trillo continua sotto i vostri piedi.
+
+      {natura Difficile} Una zuccaiola sola non si porta via il grano, le basta
+      mangiarne le radici. Questa lo trascina, quindi lo porta a qualcuno.
+
+      Ercole stringe il mazzuolo, e Gisella ha già il forcone puntato.
+
+      {origine figlio-del-circolo} Nel Bosco le zuccaiole si cercavano di
+      sera, a orecchio, per salvare i semenzai, e le prendevi con due dita.
+    opzioni:
+      - testo: "Affrontare la zuccaiola"
+        descrizione: "Ha zampe dentate come pale e un guscio lucido. All'aperto, però, è lontana dalla sua tana."
+        combattimento: avv-buche-laresh-la-zuccaiola
+        vittoria:
+          titolo: La bestia sul solco
+          testo: |
+            La zuccaiola si rovescia sul solco con le zampe all'aria, e il
+            trillo sotto terra si ferma tutto insieme. Ercole si siede per terra
+            accanto alla carcassa. «Bestia» gli dice Gisella, e non si capisce se
+            lo dice a lui o alla zuccaiola. All'alba decidete di scendere dalla
+            buca del pero.
+          pe: { armi-da-mischia: 3 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 0.5 }
+        sconfitta:
+          titolo: Le pale
+          testo: |
+            Le zampe dentate ti prendono al fianco e ti rovesciano nel fosso, e
+            la zuccaiola torna nella sua buca all'indietro, con il grano.
+            Ercole ti tiene la lanterna mentre Gisella ti fascia. All'alba
+            decidete di scendere dalla buca del pero.
+          effetti: { avventura.buche-laresh: 1, tormento: 0.5 }
+      - testo: "Attirarla lontano battendo un palo"
+        descrizione: "Si è fermata quando Ercole ha appoggiato il mazzuolo per terra. Forse sente la terra che trema."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il mazzuolo
+          testo: |
+            Prendi il mazzuolo e batti un palo del confine, piano, tre colpi. La
+            zuccaiola lascia il grano e si gira verso il palo. Batti più in là, e
+            lei ti segue lungo il solco fino al rio. Lì si ferma, e dopo un poco
+            torna sotto terra. Ercole ti dice di tenere il mazzuolo. Lui i pali per
+            quest'anno li ha piantati.
+          pe: { natura: 2 }
+          effetti: { avventura.buche-laresh: 1, avv-buche-laresh.mazzuolo: 1 }
+        fallimento:
+          titolo: Troppo vicino
+          testo: |
+            Batti il palo, e la zuccaiola ci arriva sopra in tre salti, prima
+            che tu abbia tolto le mani. Una zampa dentata ti apre la manica e la
+            pelle sotto. Torna giù con il grano, e all'alba decidete di scendere
+            dalla buca del pero.
+          effetti: { avventura.buche-laresh: 1, ferite: 0.5 }
+      - testo: "Seguirla con gli occhi fino alla sua buca"
+        descrizione: "Trascina il grano sotto terra. Bisogna vedere dove, senza farsi vedere."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La galleria buona
+          testo: |
+            Strisci lungo il solco con la lanterna coperta, a dieci passi dalla
+            bestia, e la vedi scendere nella buca del pero, nel ramo che punta
+            verso il rio. Dal fondo sale il canto di molte altre. Ercole, quando
+            glielo racconti, dice che domani scende con te, e Gisella dice di no
+            per tutti e due.
+          pe: { furtivita: 2 }
+          effetti: { avventura.buche-laresh: 1, avv-buche-laresh.galleria: 1 }
+        fallimento:
+          titolo: La lanterna scoperta
+          testo: |
+            Il sacco ti scivola via dalla lanterna, e la zuccaiola si ferma con
+            le zampe alzate. Poi torna sotto terra in un attimo, e per il resto
+            della notte il campo resta muto. All'alba decidete di scendere dalla
+            buca del pero.
+          effetti: { avventura.buche-laresh: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6 · l'ultima dispensa (se Bice è rimasta di sotto)
+  - id: avv-buche-laresh-l-ultima-dispensa
+    presso: laresh
+    immagine: icone/hole-ladder
+    titolo: L'ultima dispensa
+    sommario: "Il giorno dopo il nido mezzo villaggio scava sotto il pero. Bice Gaddi è ancora di sotto."
+    luogo: Laresh, il pero del confine
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 6, avv-buche-laresh.bice == 0]
+    testo: |
+      Il giorno dopo mezzo villaggio scava sotto il pero con le vanghe e le
+      mani, seguendo la galleria da cui sei risalito. Ercole scende per primo,
+      legato alla corda da pozzo, e Gisella tiene la corda insieme a quattro
+      braccianti. A metà pomeriggio dal buco sale la voce di Ercole, e dietro
+      la sua una seconda voce, rauca, che canta la canzone della spiga
+      sbagliando le parole.
+
+      Bice era nell'ultima dispensa, quella vicina al nido, murata fino al
+      petto in una crosta di saliva seccata. È viva, e ha un solo stivale.
+
+      {medicina Media} Ha le labbra spaccate e le mani bianche. Tre giorni
+      senza bere, e la voce l'ha tenuta sveglia.
+    opzioni:
+      - testo: "Aiutare a tirarla fuori"
+        descrizione: "Con la cenere e con le mani, piano, prima che la crosta si rompa addosso a lei."
+        esito:
+          titolo: Fuori
+          testo: |
+            Spargi la cenere sulla crosta e la rompi a pezzi con Ercole, un
+            palmo alla volta, mentre Bice vi dice dove fa male. Quando la tirano
+            su per la corda, Gisella le mette in testa il suo fazzoletto e non
+            le lascia più la mano.
+          imposta: { avv-buche-laresh.bice: 2 }
+          effetti: { rep.laresh: 0.5 }
+
+  # ------------------------------------------------------------ 6 → 7 · il solco del pero (epilogo)
+  - id: avv-buche-laresh-il-solco-del-pero
+    presso: laresh
+    immagine: icone/pear
+    titolo: Il solco del pero
+    sommario: "Una settimana dopo il nido le gallerie crollate hanno lasciato un fosso lungo il confine, dal pero fino al rio."
+    luogo: Laresh, il pero del confine
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 6, avv-buche-laresh.bice >= 1]
+    testo: |
+      Una settimana dopo il nido le gallerie crollate hanno lasciato lungo il
+      confine un fosso dritto, profondo quanto un uomo, che parte dal pero e
+      arriva al rio basso. Sta esattamente dove stava il solco. Mezza Laresh
+      è venuta a vederlo, e i bambini tirano sassi alla carcassa della regina,
+      che sporge dalla terra sotto il pero.
+
+      Bice siede sulla panca con un piede fasciato e uno stivale solo, e passa
+      la cote sulla mandibola della regina con lo stesso gesto con cui affila
+      le falci. La lama è nera e curva come un'unghia, e lei l'ha già montata
+      su un manico di frassino. Gisella ed Ercole siedono uno a ogni capo
+      della panca, e litigano su chi debba tenersi il fosso.
+
+      Sulla strada aspetta il carro di Oreste Ruffo, con la lanterna dipinta
+      sulla tela. I Raschiatori comprano i gusci delle zuccaiole per farne
+      piastre, e le uova ancora intere, che in città qualcuno compra. La Dama,
+      venuta con il libro, vorrebbe vedere bruciare tutto prima di sera.
+
+      {politica-ed-economia Media} Ruffo paga bene, e sa che la Dama lo sta
+      guardando. Davanti a lei offre un po' meno di quello che offrirebbe a te
+      da solo.
+
+      {origine apprendista-raschiatore} Le piastre di guscio le hai viste in
+      Cicatrice, sulle spalle dei capisquadra. Costavano più dell'acciaio, e
+      nessuno diceva da dove venissero.
+    opzioni:
+      - testo: "Bruciare il nido con la paglia del villaggio"
+        descrizione: "La carcassa della regina e le uova, dentro le gallerie del pero. La Dama mette la paglia, e Laresh il fuoco."
+        esito:
+          titolo: Il fuoco sul confine
+          testo: |
+            Riempite il fosso di paglia da un capo all'altro e la Dama ci getta
+            sopra la prima torcia. Brucia fino a notte, con le uova che
+            scoppiano sotto la paglia come castagne, e Laresh resta a guardare.
+            Bice ti dà la roncola, e Gisella la paga dell'avviso, contata due
+            volte.
+          imposta: { avv-buche-laresh.nido: 1 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 1, monete: 80, oggetto.avv-buche-laresh-roncola-della-regina: 1 }
+      - testo: "Vendere i gusci e le uova a Oreste Ruffo"
+        descrizione: "I Raschiatori pagano, e la Dama guarda. Il fosso resta di Gisella e di Ercole comunque."
+        esito:
+          titolo: Il carro dei Raschiatori
+          testo: |
+            Carichi con Ruffo i gusci delle zuccaiole morte e le uova intere avvolte
+            nella paglia, finché il carro riparte pieno. La Dama segue il carro con
+            lo sguardo fino al bivio, poi chiude il libro senza scrivere niente.
+            Bice ti dà la roncola, e Gisella la paga dell'avviso.
+          imposta: { avv-buche-laresh.nido: 2 }
+          effetti: { avventura.buche-laresh: 1, rep.raschiatori: 0.5, monete: 140, oggetto.avv-buche-laresh-roncola-della-regina: 1 }
+      - testo: "Lasciare che decidano Gisella ed Ercole"
+        descrizione: "Il fosso sta sul loro confine, e il nido sotto il loro pero. Litigano da sessant'anni, e qualcosa hanno imparato."
+        esito:
+          titolo: Le fave
+          testo: |
+            Litigano fino a sera. Poi Ercole chiude il nido con la terra del
+            fosso, e Gisella dice che nel fosso ci pianteranno le fave, una fila
+            per uno, a turno. Il giorno dopo cominciano a litigare su chi
+            pianta la prima. Bice ti dà la roncola, e Gisella la paga
+            dell'avviso.
+          imposta: { avv-buche-laresh.nido: 3 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 0.5, monete: 80, oggetto.avv-buche-laresh-roncola-della-regina: 1 }

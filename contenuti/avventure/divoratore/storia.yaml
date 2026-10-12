@@ -1,0 +1,793 @@
+# Avventura 8, «Il Divoratore» (docs/piano-avventure.md). Si apre a Tuarmir dopo la quest del villaggio
+# (fazione.tuarmir >= 15). Le scosse nella gola sono un verme gigantesco che risale sotto le case, il Divoratore delle
+# storie dei vecchi: non si combatte a viso aperto, si svuota il villaggio e lo si seppellisce sotto la Strozza, il
+# punto dove la gola si stringe sotto le ultime case. La pista è avventura.divoratore (0 → 8); tutte le scene stanno
+# presso il luogo di Tuarmir. La spedizione e il cuore sono in spedizione.yaml.
+# - 0 → 1 `avv-divoratore-il-muro-che-crolla` (aggancio): all'alba la gola trema e ti crolla accanto il muro della
+#   casa del fabbro. Dilla dice la parola che nessuno dice a voce alta, e racconta della Strozza chiusa dai vecchi.
+# - 1 → 2 `avv-divoratore-il-carro-del-fabbro`: il villaggio sale alla piana di basalto, il carro della forgia si
+#   pianta in una crepa al tornante e le capre corrono su in mezzo alla fila. Chi lo salva ha i cunei del fabbro
+#   (avv-divoratore.ferri), che nella Strozza fissano le cariche ai piloni.
+# - 2 → 3 `avv-divoratore-la-grotta-dei-letti`: la grotta dei malati sotto il seccatoio è chiusa dalle macerie, e dalle
+#   crepe escono le scolopendre. Chi porta fuori il vecchio Tamme sa da lui com'è fatta la tana (avv-divoratore.tane):
+#   l'ingresso senza prova e una via più breve nelle gallerie vecchie.
+# - 3 → 4 `avv-divoratore-la-campana-delle-ore`: per richiamare chi lavora nella gola di sotto bisogna suonare la
+#   campana sullo sperone sopra lo slargo, dove Maela è rimasta bloccata. Chi la fa suonare si accorge che il verme va
+#   verso il suono (avv-divoratore.campana): Maela suonerà mentre sei di sotto, e alla svolta il verme si volta.
+# - 4 → 5 `avv-divoratore-le-cariche`: le cariche per la Strozza. Dai Raschiatori (rep.raschiatori >= 4: Dragna manda
+#   Velia Stracca), dall'Acciaieria (rep.tarvelin >= 2: Abele Torsi con le cariche da scoria), da Lonn Var a caro
+#   prezzo, o fatte con il fabbro e i cristalli delle lanterne (prova Difficile). avv-divoratore.cariche 1, 2 o 3
+#   cambia una via del cuore e la scelta dell'epilogo.
+# - 6 → 7 `avv-divoratore-la-strozza-chiusa` (epilogo): lasciare il verme sotto la frana (avv-divoratore.scelta 1,
+#   rep.tuarmir) o dire a chi ha dato le cariche dove scavare le placche (scelta 2: monete e la reputazione di chi
+#   scava, meno quella di Tuarmir).
+# - 7 → 8 `avv-divoratore-la-placca`: la placca del dente che il colpo ha sputato sui terrazzi, montata dal fabbro.
+#   Lo scudo di grado 4 (oggetti.yaml).
+# Varianti: le origini con `quando` (fuggiasco-di-ghoran al carro, figlio-del-circolo alla grotta dei letti,
+# accolito-del-velo alla campana, apprendista-raschiatore e allievo-di-torvessa alle cariche).
+# Nomi nuovi (glossario.yaml): il Divoratore, la Strozza, i rodipietra, Velia Stracca. Luoghi minori senza voce: la
+# grotta dei letti sotto il seccatoio, la campana delle ore sullo sperone, la tana in fondo alla grotta grande.
+quality:
+  - { id: avventura.divoratore, immagine: icone/worm-mouth, nome: "Il Divoratore", categoria: pista, descrizione: "Sotto la gola di Tuarmir qualcosa di enorme mangia la roccia e risale verso le case. I vecchi lo chiamano il Divoratore, e i vecchi dei vecchi lo hanno chiuso una volta sotto la Strozza." }
+  - { id: avv-divoratore.ferri, immagine: icone/anvil-impact, nome: I cunei del fabbro, categoria: stato, descrizione: "Il fabbro di Tuarmir ti deve la forgia. Ti ha battuto una fila di cunei di ferro, uno a carica, da piantare nella roccia dove non c'è appiglio." }
+  - { id: avv-divoratore.tane, immagine: icone/cave-entrance, nome: La tana di Tamme, categoria: stato, descrizione: "Il vecchio Tamme ti ha raccontato com'è fatta la tana dietro la grotta grande, come gliel'ha raccontata sua nonna, con la pietra da togliere per prima e il punto dove la galleria vecchia gira." }
+  - { id: avv-divoratore.campana, immagine: icone/ringing-bell, nome: La campana di Maela, categoria: stato, descrizione: "Il Divoratore va verso il suono della campana delle ore. Mentre sei di sotto, Maela la suona dallo sperone a ogni ora." }
+  - { id: avv-divoratore.cariche, nome: Le cariche della Strozza, categoria: stato, nascosta: true, descrizione: "1 se le cariche vengono dai Raschiatori di Dragna Gro-Malog, 2 se vengono dall'Acciaieria dei Tarvelin, 3 se le hanno date Lonn Var o la forgia di Tuarmir." }
+  - { id: avv-divoratore.scelta, nome: Quello che resta sotto la Strozza, categoria: stato, nascosta: true, descrizione: "1 il Divoratore resta sotto la frana, come vuole Madre Cerya; 2 hai detto a chi ti ha dato le cariche dove scavare le sue placche." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · il muro che crolla (aggancio)
+  - id: avv-divoratore-il-muro-che-crolla
+    presso: tuarmir
+    immagine: ambientazione/tuarmir
+    titolo: Il muro che crolla
+    sommario: "All'alba la gola trema, e sulla scala grande ti crolla accanto il muro di una casa-grotta."
+    luogo: Tuarmir, la scala grande, all'alba
+    area: superficie-fratturata
+    requisiti: [fazione.tuarmir >= 15, avventura.divoratore == 0]
+    testo: |
+      All'alba scendi la scala grande con una tazza di brodo in mano, e a metà
+      dei gradini la gola trema. Il colpo arriva da sotto la pietra e ti sale
+      dalle piante dei piedi fino alle ginocchia. Accanto a te il muro di una
+      casa-grotta si stacca dalla parete tutto intero, con la porta grigia e il
+      muschio sopra l'architrave, e si sfascia sui gradini in una nuvola di
+      polvere. La tazza ce l'hai ancora in mano, mezza vuota.
+
+      Nel buco dove c'era il muro si vede la stanza di dentro, con il letto
+      sfatto e un mantice appeso al chiodo. È la casa del fabbro che ferra i
+      muli di Lonn Var, e il fabbro è lì sotto, con una gamba presa sotto
+      l'architrave, e chiama aiuto a voce bassa, come si fa a Tuarmir anche
+      quando ti crolla la casa addosso. Nella parete nuda, dove c'era il muro,
+      si è aperta una crepa che scende verso il fondo della gola.
+
+      {percezione Media} Dalla crepa esce un filo d'aria tiepida, e a quest'ora
+      l'aria della gola è fredda.
+
+      Dalle porte arriva gente. La vecchia Dilla, la moglie di Tamme, si ferma
+      sul gradino sopra di te con le mani sulla bocca e dice a voce alta una
+      parola sola. «Il Divoratore.» Sulla soglia del seccatoio Madre Cerya ha la
+      faccia rivolta in basso, verso il fondo della gola, e per la prima volta
+      da quando la conosci non guarda il crinale.
+
+      {origine apprendista-raschiatore} Sulle piattaforme della Cicatrice ti
+      hanno insegnato a riconoscere il primo colpo di un crollo. Questo è
+      arrivato da molto più in basso di qualunque piattaforma.
+    opzioni:
+      - testo: "Tirare fuori il fabbro da sotto l'architrave"
+        descrizione: "L'architrave è una lastra di pietra lunga quanto un uomo. Se la alzi di un palmo, la gamba esce."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Un palmo
+          testo: |
+            Infili la spalla sotto la lastra e spingi con le gambe finché la
+            pietra si alza di un palmo, e due ragazzi tirano fuori il fabbro per
+            le ascelle. Ha la caviglia gonfia e nessun osso rotto. La sera, in
+            grotta grande, Madre Cerya dice che è la terza scossa in sette
+            giorni e che ognuna è più forte della prima. Ti chiede di restare a
+            Tuarmir finché non è finita.
+          pe: { atletica: 3 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: La lastra che torna giù
+          testo: |
+            Alzi la lastra, e a metà la schiena ti molla. La pietra torna giù
+            sulla tua mano prima che il fabbro sia fuori, e ci vogliono quattro
+            uomini e una trave. La sera, in grotta grande, Cerya dice che è la
+            terza scossa in sette giorni e ti chiede di restare finché non è
+            finita. Tu la ascolti con la mano fasciata in grembo.
+          effetti: { avventura.divoratore: 1, ferite: 0.5 }
+      - testo: "Seguire la crepa dove scende"
+        descrizione: "L'aria che esce è tiepida. Qualcosa, là sotto, scalda la roccia."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La crepa tiepida
+          testo: |
+            Mentre gli altri liberano il fabbro segui la crepa con la mano lungo
+            la parete, giù per la scala, fino ai terrazzi di sotto. Dove finisce
+            c'è un buco rotondo largo un braccio, con l'orlo liscio come vetro,
+            e la pietra intorno è calda. La sera, in grotta grande, Cerya
+            ascolta quello che hai trovato e ti chiede di restare.
+          pe: { natura: 3 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: La mano nella crepa
+          testo: |
+            Segui la crepa giù per la scala e, dove si allarga, ci infili la
+            mano per sentire quanto è profonda. Una seconda scossa la stringe di
+            un dito. Ne tiri fuori la mano con le nocche scorticate. La sera, in
+            grotta grande, Cerya dice che è la terza scossa in sette giorni e ti
+            chiede di restare.
+          effetti: { avventura.divoratore: 1, ferite: 0.5 }
+      - testo: "Chiedere a Dilla che cosa ha detto"
+        descrizione: "A Tuarmir certe parole non si dicono. Dilla l'ha detta davanti a tutti, e adesso trema."
+        prova: { attributo: sociale, abilita: [empatia, accademiche], difficolta: Media }
+        successo:
+          titolo: La storia della nonna
+          testo: |
+            Dilla te lo racconta seduta su un gradino, con la voce che le torna
+            a poco a poco. Il Divoratore è un verme largo quanto la scala
+            grande, che mangia la montagna da sotto. Quando sua nonna era
+            bambina ha mangiato le case più basse, e i vecchi lo hanno chiuso
+            alla Strozza, dove la gola si stringe, con sette giorni di fuoco. La
+            sera Cerya ti chiede di restare.
+          pe: { empatia: 3 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: La parola
+          testo: |
+            Glielo chiedi troppo forte, e Dilla si chiude la bocca con tutte e
+            due le mani, come se la parola le fosse scappata un'altra volta.
+            Tamme la porta via per un braccio. La sera, in grotta grande, Cerya
+            dice che è la terza scossa in sette giorni e ti chiede di restare.
+          effetti: { avventura.divoratore: 1, scandalo: 0.5 }
+      - testo: "Spalare macerie con il villaggio fino a sera"
+        descrizione: "C'è il fabbro da tirare fuori, e la scala da liberare. Si fa a mani nude, una pietra alla volta."
+        costo: 2
+        esito:
+          titolo: Fino a sera
+          testo: |
+            Passi la giornata in una fila che si passa le pietre di mano in mano, dal
+            crollo alla parete. Il fabbro esce a metà mattina, e a sera
+            la scala è di nuovo una scala. In grotta grande Cerya dice che è la
+            terza scossa in sette giorni e che ognuna è più forte della prima.
+            Ti chiede di restare a Tuarmir finché non è finita.
+          pe: { resistenza: 3 }
+          effetti: { avventura.divoratore: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · il carro del fabbro
+  - id: avv-divoratore-il-carro-del-fabbro
+    presso: tuarmir
+    immagine: icone/goat
+    titolo: Il carro del fabbro
+    sommario: "Tuarmir sale alla piana di basalto. Al tornante il carro della forgia si pianta in una crepa, e le capre arrivano di corsa da sotto."
+    luogo: Tuarmir, la strada della piana, al terzo tornante
+    area: superficie-fratturata
+    requisiti: [avventura.divoratore == 1]
+    testo: |
+      Madre Cerya ha deciso in una notte, e Tuarmir si svuota. La gente sale
+      alla piana di basalto con la roba in spalla e i vecchi sottobraccio, e la
+      roba pesante va sulla strada, che dallo slargo sale a tornanti fino
+      all'imbocco della gola. Sul carro che Lonn Var gli ha prestato il fabbro
+      ha caricato l'incudine e gli attrezzi dell'unica forgia del villaggio.
+      Tira il mulo per la cavezza zoppicando sulla caviglia fasciata.
+
+      Al terzo tornante la terra trema di nuovo. Una ruota del carro sprofonda
+      in una crepa che prima non c'era, e il carro si mette di traverso sulla
+      strada. Dietro si ferma tutta la fila. Dal basso, alle spalle della gente,
+      arrivano di corsa le capre scappate dal recinto dello slargo, e si
+      infilano fra le gambe dei bambini e sotto le stanghe. Il mulo scalcia.
+
+      {addestrare-animali Media} Le capre corrono in salita con le orecchie
+      girate all'indietro, verso il fondo della gola. Il mulo ha più paura delle
+      capre che della terra.
+
+      Il fabbro ti guarda e non dice niente. Sotto il telo, insieme
+      all'incudine, ci sono le tenaglie di suo padre.
+    opzioni:
+      - testo: "Alzare la ruota fuori dalla crepa"
+        descrizione: "Con la spalla sotto il mozzo e due uomini alle stanghe. L'incudine pesa quanto tre persone."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Il mozzo
+          testo: |
+            Metti la spalla sotto il mozzo e conti fino a tre, e al tre la ruota
+            esce dalla crepa con un rumore di ossa. Il carro riparte, e la fila
+            dietro riparte con lui. In cima, all'imbocco, il fabbro ti stringe
+            il braccio. Se ti serve del ferro, dice, quello che chiedi lo batte,
+            e non te lo fa pagare.
+          pe: { atletica: 3 }
+          imposta: { avv-divoratore.ferri: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: La ruota rotta
+          testo: |
+            Alzi la ruota quasi fuori, e il carro scivola di lato. La ruota si
+            spacca contro l'orlo della crepa e la cassa degli attrezzi finisce
+            dentro, fra i sassi. Il carro arriva in cima su tre ruote e una
+            trave. Il fabbro non ti rimprovera. Fino alla piana, però, cammina
+            dall'altra parte del mulo.
+          effetti: { avventura.divoratore: 1, ferite: 0.5 }
+      - testo: "Fermare le capre e calmare il mulo"
+        descrizione: "Se le capre passano oltre il carro, il mulo smette di scalciare e tira."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Le capre oltre
+          testo: |
+            Apri le braccia in mezzo alla strada e lasci passare le capre lungo
+            la parete, una fila sola, finché l'ultima non è oltre il carro. Il
+            mulo abbassa le orecchie e tira, e la ruota esce dalla crepa da
+            sola. All'imbocco il fabbro ti dice che, se ti serve del ferro,
+            quello che chiedi lo batte senza farsi pagare.
+          pe: { addestrare-animali: 3 }
+          imposta: { avv-divoratore.ferri: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Il calcio
+          testo: |
+            Una capra ti passa fra le gambe e un'altra ti salta sulla schiena, e
+            quando arrivi alla testa del mulo il mulo ti prende sulla coscia. Il
+            carro esce dalla crepa dopo un'ora, con la cassa degli attrezzi
+            sfondata, e le tenaglie del padre restano in fondo alla crepa.
+          effetti: { avventura.divoratore: 1, ferite: 0.5 }
+      - testo: "Far scaricare il carro e portare la forgia a spalla"
+        descrizione: "Un carro vuoto esce dalla crepa da solo. La fila è piena di gente con le spalle buone, che però guarda soltanto le sue ceste."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: A spalla
+          testo: |
+            Chiami per nome quelli che conosci dalla raccolta, e uno dopo
+            l'altro posano le ceste e prendono un pezzo della forgia. L'incudine
+            la portano in quattro, su due pali. Il carro vuoto esce dalla crepa
+            al primo strattone. All'imbocco il fabbro conta i suoi ferri uno per
+            uno, e poi ti dice che quello che ti serve lo batte lui, gratis.
+          pe: { persuasione: 3 }
+          imposta: { avv-divoratore.ferri: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Le ceste
+          testo: |
+            Nessuno vuole posare le sue ceste, e quando alzi la voce una donna
+            ti ricorda che a Tuarmir non si grida. Alla fine il carro esce con
+            la cassa degli attrezzi rovesciata nella crepa, e nella fila
+            qualcuno ripete la storia del forestiero che gridava.
+          effetti: { avventura.divoratore: 1, scandalo: 0.5 }
+      - testo: "Aspettare che la fila si sblocchi da sola"
+        descrizione: "Prima o poi la ruota esce. Intanto la fila aspetta, e la terra trema."
+        costo: 2
+        esito:
+          titolo: L'attesa sul tornante
+          testo: |
+            Aspetti sul tornante con la fila e aiuti chi passa a scavalcare le
+            stanghe. Il fabbro intanto scava intorno alla ruota insieme a due
+            ragazzi, e ci vuole tutta la mattina. All'imbocco della gola il
+            villaggio monta le tende sul basalto, e il fabbro conta i ferri che
+            gli sono rimasti.
+          effetti: { avventura.divoratore: 1 }
+      - testo: "Tirare fuori il carro come a Ghoran si tira fuori dal fango"
+        descrizione: "Sulle passerelle di Ghoran i carri si piantavano ogni giorno, e gli schiavi li tiravano fuori con una tavola sotto la ruota e una corda al mozzo."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: La tavola e la corda
+          testo: |
+            Sfili una tavola dalla sponda del carro, la infili sotto la ruota e
+            leghi una corda al mozzo, poi tiri insieme al mulo con la corda
+            sulla spalla, come tiravi a Ghoran. La ruota sale sulla tavola ed
+            esce. All'imbocco il fabbro ti dice che, se ti serve del ferro,
+            quello che chiedi lo batte senza farsi pagare.
+          pe: { atletica: 3 }
+          imposta: { avv-divoratore.ferri: 1 }
+          effetti: { avventura.divoratore: 1 }
+
+  # ------------------------------------------------------------ 2 → 3 · la grotta dei letti
+  - id: avv-divoratore-la-grotta-dei-letti
+    presso: tuarmir
+    immagine: icone/centipede
+    titolo: La grotta dei letti
+    sommario: "La scossa della notte ha chiuso la grotta dove Madre Cerya tiene i malati. Dentro c'è il vecchio Tamme, e dalle crepe escono le scolopendre."
+    luogo: Tuarmir, la grotta dei letti sotto il seccatoio
+    area: superficie-fratturata
+    requisiti: [avventura.divoratore == 2]
+    testo: |
+      Sotto il seccatoio c'è la grotta dei letti, dove Madre Cerya tiene chi ha
+      la febbre e i vecchi che non si alzano più. Dovevano portarli alla piana
+      stamattina, con le barelle. La scossa della notte ha fatto cadere mezzo
+      soffitto sull'ingresso, e fra i sassi è rimasto un varco basso, dove una
+      persona passa soltanto carponi.
+
+      Dal varco escono scolopendre bianche lunghe come un braccio, a decine, con
+      le zampe che tintinnano sulla pietra. Escono dalle crepe del pavimento
+      della grotta e si spargono sul sentiero, e Ilenia le schiaccia con il
+      tacco una alla volta, senza fare rumore. Dentro, nel buio, Tamme parla con
+      qualcuno a voce tranquilla. Dilla è in ginocchio davanti al varco e gli
+      risponde.
+
+      {medicina Media} Il morso di quelle scolopendre gonfia la mano fino al
+      gomito in un'ora, e il gonfiore dura giorni. Chi è già malato lo regge
+      peggio.
+
+      {origine figlio-del-circolo} Nel Bosco le bestie che vivono sotto terra
+      escono tutte insieme soltanto quando una bestia più grossa le caccia dalle
+      tane.
+    opzioni:
+      - testo: "Entrare carponi e portarli fuori uno alla volta"
+        descrizione: "Tre letti, e le scolopendre in mezzo. Si passa piano, e i morsi si lasciano fare."
+        prova: { attributo: fisico, abilita: [resistenza, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Tre viaggi
+          testo: |
+            Fai tre viaggi carponi, con un malato sulla schiena a ogni viaggio,
+            e le scolopendre ti camminano sulle mani senza mordere quasi mai.
+            L'ultimo è Tamme. Fuori, mentre Dilla gli pulisce la faccia, ti
+            tiene per la manica e ti racconta della tana in fondo alla grotta
+            grande, come la raccontava sua nonna, pietra per pietra.
+          pe: { resistenza: 3 }
+          imposta: { avv-divoratore.tane: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: I morsi
+          testo: |
+            Al secondo viaggio una scolopendra ti morde la mano, e poi un'altra
+            il polso. Esci con la donna della febbre sulla schiena e il braccio
+            che si gonfia, e gli ultimi due li portano fuori Ilenia e il fabbro
+            allargando il varco. Tamme è troppo stanco per parlare.
+          effetti: { avventura.divoratore: 1, ferite: 0.5 }
+      - testo: "Fare pulizia delle scolopendre con la lama"
+        descrizione: "Le più grosse stanno fra i letti. Se cadono quelle, le piccole scappano nelle crepe."
+        combattimento: avv-divoratore-lo-sciame
+        vittoria:
+          titolo: Fra i letti
+          testo: |
+            Le due più grosse cadono fra i letti, e le altre tornano nelle crepe
+            da dove sono uscite. Ilenia entra dietro di te con le barelle.
+            Fuori, mentre Dilla gli pulisce la faccia, Tamme ti tiene per la
+            manica e ti racconta della tana in fondo alla grotta grande, come la
+            raccontava sua nonna, pietra per pietra.
+          pe: { armi-da-mischia: 3 }
+          imposta: { avv-divoratore.tane: 1 }
+          effetti: { avventura.divoratore: 1 }
+        sconfitta:
+          titolo: Le zampe
+          testo: |
+            Le scolopendre ti salgono sulle gambe più in fretta di quanto riesci
+            a toglierle, e torni fuori dal varco strisciando all'indietro. I
+            malati li portano fuori il fabbro e Ilenia, allargando il varco con
+            una trave. Tamme è troppo stanco per parlare.
+          effetti: { avventura.divoratore: 1, tormento: 0.5 }
+      - testo: "Cacciarle con il fumo del seccatoio"
+        descrizione: "Nel seccatoio c'è il muschio amaro che Cerya brucia per la Marea. Le bestie di sotto il fumo non lo sopportano."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: Il fumo amaro
+          testo: |
+            Accendi due mazzi di muschio amaro e li spingi nel varco con un
+            bastone, e la grotta si riempie di fumo grigio. Le scolopendre
+            tornano nelle crepe tutte insieme. Entri con la maschera stretta e
+            porti fuori i malati che tossiscono. Tamme ti tiene per la manica e
+            ti racconta della tana in fondo alla grotta grande, pietra per
+            pietra.
+          pe: { natura: 3 }
+          imposta: { avv-divoratore.tane: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Il fumo dentro
+          testo: |
+            Il muschio fa più fumo di quanto pensavi, e il fumo resta nella
+            grotta. Le scolopendre scappano, e i malati quasi soffocano. Li
+            porti fuori tossendo insieme a loro, con gli occhi che ti bruciano
+            fino a sera.
+          effetti: { avventura.divoratore: 1, tormento: 0.5 }
+      - testo: "Allargare il varco con il villaggio, sasso per sasso"
+        descrizione: "Ci vuole tutta la giornata. Dentro, intanto, i malati aspettano."
+        costo: 2
+        esito:
+          titolo: Il varco largo
+          testo: |
+            Allargate il varco a mani nude con Ilenia e il fabbro, buttando giù
+            per il sentiero le scolopendre insieme ai sassi. Al tramonto entrano
+            le barelle, e i malati escono uno dopo l'altro, Tamme per ultimo,
+            addormentato.
+          effetti: { avventura.divoratore: 1 }
+      - testo: "Bruciare corteccia amara sulla soglia, come al Circolo"
+        descrizione: "Al Circolo, quando le bestie di sotto escono, si brucia corteccia amara davanti alla tana e si aspetta che tornino giù."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: La corteccia sulla soglia
+          testo: |
+            Accendi la corteccia sulla soglia e aspetti in silenzio, e le
+            scolopendre tornano nelle crepe una dopo l'altra. Entri e porti
+            fuori i malati senza un morso. Tamme ti tiene per la manica e ti
+            racconta della tana in fondo alla grotta grande, come la raccontava
+            sua nonna, pietra per pietra.
+          pe: { natura: 3 }
+          imposta: { avv-divoratore.tane: 1 }
+          effetti: { avventura.divoratore: 1 }
+
+  # ------------------------------------------------------------ 3 → 4 · la campana delle ore
+  - id: avv-divoratore-la-campana-delle-ore
+    presso: tuarmir
+    immagine: icone/ringing-bell
+    titolo: La campana delle ore
+    sommario: "Le raccoglitrici della gola di sotto non sanno niente. Maela è salita a suonare la campana delle ore, e la scala si è spezzata sotto di lei."
+    luogo: Tuarmir, lo sperone della campana sopra lo slargo
+    area: superficie-fratturata
+    requisiti: [avventura.divoratore == 3]
+    testo: |
+      Nella gola di sotto, sui terrazzi più bassi, lavorano ancora una ventina
+      di raccoglitrici che della piana non sanno niente. La gola è lunga, e a
+      Tuarmir nessuno ha mai imparato a gridare. Per chiamarle c'è la campana
+      delle ore, appesa in una nicchia scavata in cima allo sperone di roccia
+      che sporge sopra lo slargo. Ci si sale con una scala di legno piantata
+      nella parete, e la corda della campana è marcita l'inverno scorso.
+
+      Maela ci è salita da sola. A metà della salita la terra ha tremato, e
+      adesso la scala finisce a mezz'aria con i pioli spezzati, e Maela è in
+      cima, sulla cengia accanto alla campana, aggrappata al ceppo con tutte e
+      due le mani. Lo sperone trema ancora, e ogni tanto ne cade un sasso.
+
+      {tecnologia Difficile} Il ceppo che regge la campana è crepato da una
+      parte. Un colpo dato con troppa forza la manda giù nello slargo.
+
+      «Le chiamo io» dice Maela dall'alto, e non si muove.
+
+      {origine accolito-del-velo} Le campane della Cattedrale le suonano i
+      novizi, e il primo giorno ti hanno insegnato che il tocco lungo si dà con
+      il corpo intero, lasciando lavorare la campana.
+    opzioni:
+      - testo: "Salire per quello che resta della scala"
+        descrizione: "I pioli finiscono a metà. Il resto si fa con le mani nella roccia, sullo sperone che trema."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: In cima allo sperone
+          testo: |
+            Sali con le dita nelle fessure fin sulla cengia, e suonate insieme
+            il tocco lungo. Tu reggi il ceppo, Maela spinge il batacchio. Al
+            terzo tocco la scossa arriva da sotto lo slargo più vicina di prima,
+            e la seguente ancora di più. Maela conta i battiti con le labbra.
+            «Viene alla campana» dice. Ti propone di suonarla a ogni ora mentre
+            sarai di sotto, per tirarlo dalla sua parte.
+          pe: { atletica: 3 }
+          imposta: { avv-divoratore.campana: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Il piolo
+          testo: |
+            Un piolo ti resta in mano a metà salita e scivoli giù lungo la
+            parete fino allo slargo. Maela suona da sola a strappi, e le
+            raccoglitrici risalgono la gola a sera, tutte. Tu passi il
+            pomeriggio seduto con la schiena graffiata, mentre il fabbro rifà la
+            scala per farla scendere.
+          effetti: { avventura.divoratore: 1, ferite: 0.5 }
+      - testo: "Farla suonare da qui, a sassate"
+        descrizione: "Dallo slargo la bocca della campana si vede bene. Un sasso tirato giusto la fa cantare."
+        prova: { attributo: fisico, abilita: armi-da-distanza, difficolta: Difficile }
+        successo:
+          titolo: I sassi
+          testo: |
+            Tiri il primo sasso e la campana risponde con un tocco basso. Ne
+            tiri altri, finché il suono scende per tutta la gola. Al sesto tocco
+            la terra trema sotto lo slargo, e poi più vicino. Maela, dalla
+            cengia, ti grida che la scossa viene verso la campana. Ti propone di
+            suonarla a ogni ora mentre sarai di sotto.
+          pe: { armi-da-distanza: 3 }
+          imposta: { avv-divoratore.campana: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Il sasso sul ceppo
+          testo: |
+            Il terzo sasso colpisce il ceppo invece della campana, e il ceppo
+            scricchiola. Maela si stringe alla roccia con un grido. Smetti di
+            tirare, e la campana la suona lei a mano, piano, finché le
+            raccoglitrici risalgono la gola a sera.
+          effetti: { avventura.divoratore: 1, tormento: 0.5 }
+      - testo: "Dirle da sotto come si suona a mano"
+        descrizione: "La corda è marcita, ma il batacchio si può muovere con le mani. Maela ha paura di lasciare la presa."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il batacchio
+          testo: |
+            Le parli piano, finché stacca una mano dal ceppo e poi l'altra, e
+            prende il batacchio come le dici. La campana suona per tutta la
+            gola. Al terzo tocco la scossa arriva da sotto lo slargo più vicina
+            di prima, e Maela conta i battiti. Dall'alto ti dice che viene alla
+            campana, e ti propone di suonarla a ogni ora mentre sarai di sotto.
+          pe: { empatia: 3 }
+          imposta: { avv-divoratore.campana: 1 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Le mani sul ceppo
+          testo: |
+            Maela non stacca le mani dal ceppo, e più parli più si stringe. Alla
+            fine mandi Fenno di corsa giù per la gola, e le raccoglitrici
+            risalgono a notte, quando il fabbro ha già rifatto la scala. Maela
+            scende per ultima, e non ti guarda.
+          effetti: { avventura.divoratore: 1, scandalo: 0.5 }
+      - testo: "Mandare Fenno a chiamarle a voce"
+        descrizione: "Fenno ha le gambe buone, e la gola di sotto la conosce. Ci vuole il giorno intero."
+        costo: 2
+        esito:
+          titolo: Fenno di corsa
+          testo: |
+            Fenno scende di corsa per la gola, e tu aspetti sotto lo sperone con
+            Maela in alto, finché il fabbro rifà la scala con le assi di una
+            porta. Le raccoglitrici risalgono a sera, tutte, con le ceste piene,
+            e chiedono perché nessuno ha suonato.
+          effetti: { avventura.divoratore: 1 }
+      - testo: "Insegnarle da sotto il tocco lungo della Cattedrale"
+        descrizione: "Il tocco lungo si dà con il corpo intero, e la campana fa il resto. Si può insegnare a voce, con calma."
+        quando: [origine.accolito-del-velo >= 1]
+        esito:
+          titolo: Il tocco lungo
+          testo: |
+            Le dici di appoggiare la schiena alla roccia e di spingere il
+            batacchio con tutto il corpo, come fanno i novizi, e Maela suona il
+            tocco lungo meglio di te. Alla terza volta la scossa arriva da sotto
+            lo slargo, più vicina. «Viene alla campana» dice. Suonerà a ogni
+            ora, mentre sarai di sotto.
+          pe: { espressivita: 3 }
+          imposta: { avv-divoratore.campana: 1 }
+          effetti: { avventura.divoratore: 1 }
+
+  # ------------------------------------------------------------ 4 → 5 · le cariche
+  - id: avv-divoratore-le-cariche
+    presso: tuarmir
+    immagine: icone/unlit-bomb
+    titolo: Le cariche
+    sommario: "All'imbocco della gola il villaggio aspetta sul basalto. Per chiudere la Strozza ci vogliono sette giorni di fuoco, o le cariche giuste."
+    luogo: Tuarmir, il campo sulla piana all'imbocco della gola
+    area: superficie-fratturata
+    requisiti: [avventura.divoratore == 4]
+    testo: |
+      Sul basalto all'imbocco della gola il villaggio ha piantato le tende
+      intorno ai fuochi, e ogni tanto la piana trema sotto le pentole. Al fuoco
+      di Madre Cerya siedono il fabbro e Dilla, e in piedi c'è Lonn Var, che ha
+      portato su il suo mulo e non se n'è più andato.
+
+      Dilla ripete quello che diceva sua nonna. Alla Strozza, dove la gola si
+      stringe sotto le ultime case, i vecchi accesero fuochi contro la roccia
+      per sette giorni e poi ci buttarono l'acqua fredda del pozzo, e la roccia
+      si spaccò e chiuse le tane. Il fabbro dice che sette giorni non ci sono.
+      Lui con la mazza quella pietra non la scheggia nemmeno. Cerya ascolta con
+      la faccia verso la gola. Poi si gira verso di te.
+
+      {conoscenze-della-strada Media} In città la roccia la fanno saltare in
+      due. I Raschiatori, per chiudersi alle spalle un cunicolo che cede, e la
+      fornace dei Tarvelin, per spaccare la crosta della scoria.
+
+      {origine figlio-della-citta-bassa} Le cariche della fornace le hai sentite
+      da bambino, la notte. Un colpo sordo sotto la Città Bassa, e la mattina
+      dopo la colata ripartiva.
+    opzioni:
+      - testo: "Scrivere a Dragna Gro-Malog, al Grifone di Ferro"
+        descrizione: "I Raschiatori tengono le cariche da frana per i cunicoli che cedono. Le danno a chi è dei loro."
+        requisiti: [rep.raschiatori >= 4]
+        esito:
+          titolo: Velia Stracca
+          testo: |
+            Il mulo di Lonn Var porta la lettera in città, e due giorni dopo
+            sale dalla piana una Raschiatrice magra con una gerla sulle spalle.
+            Si chiama Velia Stracca, e conta le cariche con le tre dita che le
+            restano alla mano sinistra. Te ne lascia dieci e ti insegna a
+            legarle alla miccia. «Dragna dice che le devi un turno» dice.
+          pe: { tecnologia: 3 }
+          imposta: { avv-divoratore.cariche: 1 }
+          effetti: { avventura.divoratore: 1 }
+      - testo: "Scrivere a Liaren Tarvelin per le cariche della fornace"
+        descrizione: "Le cariche da scoria spaccano la crosta del crogiolo. I Tarvelin le danno a chi ha fatto qualcosa per la loro casa."
+        requisiti: [rep.tarvelin >= 2]
+        esito:
+          titolo: Abele Torsi
+          testo: |
+            Due giorni dopo sale dalla piana un carretto dell'Acciaieria, e lo
+            guida Abele Torsi, il capoturno, con la maschera di cuoio al collo e
+            gli avambracci pieni di vecchie scottature. Scarica dieci cariche
+            avvolte nella paglia e ti fa vedere la miccia lenta della fornace.
+            «La padrona dice che sei di casa» dice, e riparte prima di sera.
+          pe: { tecnologia: 3 }
+          imposta: { avv-divoratore.cariche: 2 }
+          effetti: { avventura.divoratore: 1 }
+      - testo: "Comprarle da Lonn Var"
+        descrizione: "Lonn Var conosce qualcuno all'Orlo dei Rottami che vende di tutto. Il prezzo lo fa lui, e lo fa alto."
+        requisiti: [monete >= 120]
+        esito:
+          titolo: Il prezzo di Lonn Var
+          testo: |
+            Lonn Var ti chiede quanto vale un villaggio e ride. Poi ti dice la
+            cifra. Gli conti le monete accanto al fuoco. Due giorni dopo il mulo
+            torna dall'Orlo dei Rottami con dieci cariche in un sacco di juta,
+            cristalli crepati chiusi nel coccio, con la miccia già legata e
+            un'etichetta che non vuole dire niente.
+          imposta: { avv-divoratore.cariche: 3 }
+          effetti: { avventura.divoratore: 1, monete: -120 }
+      - testo: "Farle con il fabbro e i cristalli delle lanterne"
+        descrizione: "Ogni casa di Tuarmir ha una lanterna con dentro un cristallo. Un cristallo sbilanciato scoppia, se si sa come."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Difficile }
+        successo:
+          titolo: Dieci vasi di coccio
+          testo: |
+            Il villaggio ti porta i cristalli delle lanterne, e tu li sbilanci
+            uno alla volta, con le mani vicine al vetro, finché pulsano a
+            scatti. Il fabbro li chiude nel coccio con la sabbia e ci lega una
+            miccia di corda incatramata. A notte ne hai dieci, e sulla piana non
+            c'è più una luce che non sia un fuoco.
+          pe: { tecnologia: 5 }
+          imposta: { avv-divoratore.cariche: 3 }
+          effetti: { avventura.divoratore: 1 }
+        fallimento:
+          titolo: Il cristallo che scoppia
+          testo: |
+            Al quarto cristallo il Mana ti scappa fra le dita, e il cristallo
+            scoppia a un palmo dalla faccia con un colpo secco. Il fabbro ti
+            tira via le schegge dalla guancia con le pinze. Le altre cariche le
+            finisci più piano con le mani fasciate, e a notte sono dieci.
+          effetti: { avventura.divoratore: 1, ferite: 1 }
+          imposta: { avv-divoratore.cariche: 3 }
+      - testo: "Fare le cariche da frana come sulle piattaforme"
+        descrizione: "Sulle piattaforme della Cicatrice le cariche da frana le preparavano gli anziani, e tu le guardavi fare."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: Come le faceva il caposquadra
+          testo: |
+            Chiedi al fabbro la sabbia e il coccio, e al villaggio i cristalli
+            delle lanterne. Poi le prepari come le preparavano gli anziani sulle
+            piattaforme, con il cristallo in mezzo e la miccia annodata due
+            volte. Le dieci cariche sono pronte a notte, e sulla piana non resta
+            accesa una lanterna.
+          pe: { tecnologia: 3 }
+          imposta: { avv-divoratore.cariche: 1 }
+          effetti: { avventura.divoratore: 1 }
+      - testo: "Sbilanciare i cristalli con le formule dell'Accademia"
+        descrizione: "All'Accademia ti hanno insegnato a riportare in pari un cristallo. La formula si dice anche al contrario."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: La formula al contrario
+          testo: |
+            Dici la formula per i cristalli stanchi al contrario, una parola
+            alla volta, e i cristalli delle lanterne cominciano a pulsare a
+            scatti sotto le tue mani. Il fabbro li chiude nel coccio con la
+            sabbia e la miccia. A notte ne hai dieci, e sulla piana non resta
+            accesa una lanterna.
+          pe: { magia: 3 }
+          imposta: { avv-divoratore.cariche: 3 }
+          effetti: { avventura.divoratore: 1 }
+
+  # ------------------------------------------------------------ 6 → 7 · la Strozza chiusa (epilogo, la scelta)
+  - id: avv-divoratore-la-strozza-chiusa
+    presso: tuarmir
+    immagine: ambientazione/tuarmir
+    titolo: La Strozza chiusa
+    sommario: "Dopo tre giorni senza scosse il villaggio scende dalla piana. Alla Strozza il sentiero ha un gradino nuovo, e sotto il gradino c'è il Divoratore."
+    luogo: Tuarmir, la Strozza sotto le ultime case
+    area: superficie-fratturata
+    requisiti: [avventura.divoratore == 6]
+    testo: |
+      Dopo tre giorni senza scosse Madre Cerya dice che si può tornare, e
+      Tuarmir scende dalla piana in una fila lunga, con i vecchi in barella.
+      Alla Strozza, sotto le ultime case, il sentiero della gola di sotto ha un
+      gradino nuovo di roccia rotta, alto quanto un uomo. Le raccoglitrici ci
+      hanno già appoggiato contro una scala. Da una crepa del gradino esce
+      ancora un filo d'aria tiepida.
+
+      Cerya ci si ferma davanti con la mano sulla spalla di Ilenia. Dice che
+      quello che dorme sotto la Strozza va lasciato in pace, come la Sella. Poi
+      però alza la faccia verso di te, perché le cariche le hai trovate tu. In
+      città, intanto, la voce è corsa, e chi compra queste cose ha già mandato a
+      dire che le placche di quel dente valgono quanto un reperto.
+
+      {natura Difficile} Il filo d'aria tiepida dalla crepa va e viene, piano,
+      con un ritmo suo. Sotto la frana qualcosa scalda ancora la roccia.
+
+      {origine accolito-del-velo} In Cattedrale si dice che i morti si lasciano
+      dove sono caduti, e che chi scava li sveglia. Lo dicono per i cimiteri, e
+      qui sembra detto per altro.
+    opzioni:
+      - testo: "Lasciarlo dormire sotto la Strozza"
+        descrizione: "Le placche restano dove sono, e con loro il verme. Cerya lo vuole, e il villaggio con lei."
+        esito:
+          titolo: In pace
+          testo: |
+            Dici di lasciarlo dov'è. Cerya annuisce, e la sera in grotta grande
+            il villaggio decide di mettere sulla Strozza un sasso con la croce
+            di calce, come sopra le case. Nessuno salirà, e nessuno scaverà.
+            Ilenia ti versa il brodo per prima, prima ancora dei vecchi.
+          pe: { natura: 3 }
+          imposta: { avv-divoratore.scelta: 1 }
+          effetti: { avventura.divoratore: 1, rep.tuarmir: 1 }
+      - testo: "Dire a Dragna dove scavare le placche"
+        descrizione: "I Raschiatori sanno scavare dove la roccia cede. Le placche le pagano bene, e il verme forse è morto."
+        quando: [avv-divoratore.cariche == 1]
+        esito:
+          titolo: La lettera al Grifone
+          testo: |
+            Scrivi a Dragna dove la Strozza ha ceduto e quanto è profonda la
+            galleria. La risposta arriva con una borsa e la promessa di una
+            squadra a primavera. Cerya non dice niente. La sera in grotta grande
+            nessuno ti versa il brodo, e te lo versi da solo.
+          imposta: { avv-divoratore.scelta: 2 }
+          effetti: { avventura.divoratore: 1, rep.raschiatori: 1, rep.tuarmir: -1, monete: 100 }
+      - testo: "Dire ad Abele Torsi dove scavare le placche"
+        descrizione: "Alla fornace vogliono vedere come si comporta un dente che macina la roccia. Le placche le pagano bene, e il verme forse è morto."
+        quando: [avv-divoratore.cariche == 2]
+        esito:
+          titolo: La lettera alla fornace
+          testo: |
+            Scrivi ad Abele dove la Strozza ha ceduto e quanto è profonda la
+            galleria. La risposta arriva con una borsa e la promessa di un
+            carretto e tre fonditori a primavera. Cerya non dice niente. La sera
+            in grotta grande nessuno ti versa il brodo, e te lo versi da solo.
+          imposta: { avv-divoratore.scelta: 2 }
+          effetti: { avventura.divoratore: 1, rep.tarvelin: 1, rep.tuarmir: -1, monete: 100 }
+      - testo: "Dire a Lonn Var dove scavare le placche"
+        descrizione: "Lonn Var compra tutto quello che in città si rivende. Paga meglio di chiunque, e il verme forse è morto."
+        quando: [avv-divoratore.cariche == 3]
+        esito:
+          titolo: L'affare di Lonn Var
+          testo: |
+            Lonn Var ascolta con tutti i denti in mostra e ti paga sull'unghia,
+            con la promessa di braccianti a primavera. Cerya gira la faccia
+            verso il crinale. La sera in grotta grande nessuno ti versa il
+            brodo, e te lo versi da solo, mentre Lonn Var parla forte dall'altra
+            parte del fuoco.
+          imposta: { avv-divoratore.scelta: 2 }
+          effetti: { avventura.divoratore: 1, rep.tuarmir: -1, monete: 150 }
+
+  # ------------------------------------------------------------ 7 → 8 · la placca (epilogo, lo scudo)
+  - id: avv-divoratore-la-placca
+    presso: tuarmir
+    immagine: icone/tooth
+    titolo: La placca
+    sommario: "Fenno ha trovato sui terrazzi di sotto una placca di dente grande come uno scudo. Il fabbro ci ha lavorato due notti."
+    luogo: Tuarmir, la forgia rimontata nello slargo
+    area: superficie-fratturata
+    requisiti: [avventura.divoratore == 7]
+    testo: |
+      Il fabbro ha rimontato la forgia nello slargo, sotto lo sperone della
+      campana, e per due notti il villaggio si è addormentato con il rumore del
+      suo martello. Sulla pietra davanti all'incudine c'è la placca che Fenno ha
+      trovato sui terrazzi di sotto, sputata fuori dalla Strozza insieme ai
+      sassi. È un pezzo del dente del Divoratore. Ha il colore di un'unghia
+      vecchia ed è grande quanto uno scudo, liscio da una parte e rigato
+      dall'altra dalla roccia che ha macinato.
+
+      Il fabbro ci ha ribattuto intorno un bordo di ferro e dietro una croce di
+      frassino con due cinghie di cuoio di capra. Lo regge con le due mani, e le
+      braccia gli tremano un poco.
+
+      {resistenza Media fallita} Le spalle ti fanno male soltanto a guardarlo, e
+      la sera, dopo averlo portato tutto il giorno, faranno peggio.
+
+      Maela, seduta sulla cengia della campana con le gambe a penzoloni, dice
+      che sul bordo ha contato le righe, e sono più degli anni di sua nonna.
+    opzioni:
+      - testo: "Prendere lo scudo dalle mani del fabbro"
+        descrizione: "Il fabbro lo ha fatto per te, e il villaggio è venuto a guardare."
+        esito:
+          titolo: Lo scudo del dente
+          testo: |
+            Ti infili le cinghie sul braccio e la placca ti copre dalla spalla
+            al ginocchio. Nello slargo il villaggio batte piano il palmo sul
+            ginocchio, tutte le soglie insieme. Ilenia ti mette in mano la borsa
+            della raccolta, e Cerya, passando, bussa due volte sulla placca con
+            le nocche, come si bussa a una porta.
+          pe: { resistenza: 3 }
+          effetti: { avventura.divoratore: 1, oggetto.avv-divoratore-placca-del-divoratore: 1, monete: 150 }
+      - testo: "Provarlo contro la mazza del fabbro"
+        descrizione: "Uno scudo si prova prima di portarlo. Il fabbro ha la mazza in mano e non aspetta altro."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Media }
+        successo:
+          titolo: La mazza
+          testo: |
+            Il fabbro cala la mazza con tutte e due le mani, e la placca la
+            prende senza un segno, con un suono basso che rimbalza fra le pareti
+            della gola. Tu resti in piedi. Ilenia ti mette in mano la borsa
+            della raccolta, e Cerya bussa due volte sulla placca con le nocche.
+          pe: { resistenza: 5 }
+          effetti: { avventura.divoratore: 1, oggetto.avv-divoratore-placca-del-divoratore: 1, monete: 150 }
+        fallimento:
+          titolo: In ginocchio
+          testo: |
+            La mazza arriva sulla placca, e la placca tiene, ma il colpo ti
+            arriva fino alla spalla e ti mette in ginocchio davanti a tutto il
+            villaggio. Il fabbro ti aiuta ad alzarti, contento della placca.
+            Ilenia ti mette in mano la borsa della raccolta.
+          pe: { resistenza: 3 }
+          effetti: { avventura.divoratore: 1, oggetto.avv-divoratore-placca-del-divoratore: 1, monete: 150, ferite: 0.5 }

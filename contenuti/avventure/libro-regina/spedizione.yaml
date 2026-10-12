@@ -1,0 +1,1358 @@
+# La spedizione dell'Avventura «Il libro della regina» (avventura.libro-regina == 5): il mausoleo di Tamsira, dietro
+# la Porta delle Sei, alla base del Gradone Rosso sul fianco che guarda Ghoran. Si entra da
+# `avv-libro-regina-la-porta-delle-sei` (Superficie): la frana (Media), la fessura di Nevio (avv-libro-regina.porta,
+# senza prova) o la sabbia spalata (2 rintocchi). La ritirata riporta alla Superficie e azzera la profondità.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# - stanze 1-3 (profondità 0-2), prove Medie e Difficili: la stanza della scriba (la pergamena), la stanza
+#   dell'orante (il rosario), la guardia seduta (la spada), la galleria delle nicchie (le ombre; le torce della Pece);
+# - stanze 4-6 (profondità 3-4), prove Difficili: la sala del canto (la lira), l'incensiere che fuma, l'altare dei
+#   teschi (il teschio), la processione (le ombre; le torce della Pece). Ogni oggetto ritrovato va fra le mani di una
+#   delle sei statue della galleria. A profondità 5 la stanza di svolta, non ripetibile: la stanza delle sei, dove le
+#   ancelle si sono chiuse nel novantaseiesimo anno (avv-libro-regina.svolta; i nomi delle sei aprono una via Media).
+#   Dopo la prima volta, a profondità 5 c'è soltanto la stanza ripetibile del ritorno al tavolo;
+# - stanze 7-10 (profondità 6-9), le stanze della regina, che si chiudono alle spalle; prove Difficili e in ogni
+#   stanza una Molto difficile o uno scontro, via senza prova da 3 rintocchi: la lastra che scende (Molto difficile),
+#   le ancelle dell'anticamera (scontro; i nomi delle sei), il pavimento dei nomi (Molto difficile), la sala dei doni
+#   (scontro, o una manciata di monete);
+# - il cuore a profondità 10: la camera della regina, dove il libro torna sul petto di Tamsira e lei si alza con
+#   l'offerta (accettare è una sconfitta), lo scontro con Tamsira e quattro vie Difficili (Galateo, i nomi delle sei,
+#   l'Esorcismo, la forza). Chi vince la rimette a dormire: avventura.libro-regina 6 e fine della maledizione. Chi
+#   perde torna alla Superficie con il libro e una negativa.
+# Ogni stanza ha una via senza prova da 2 rintocchi (3 nelle stanze della regina) con mezza negativa; chi fallisce
+# prende mezza negativa e non scende.
+aree:
+  - id: avv-libro-regina
+    immagine: ambientazione/cripta-di-idrian-sollen
+    nome: Il mausoleo della regina
+    sommario: "Dietro la Porta delle Sei una galleria di sepolture scende dentro il Gradone, fino alla camera di una regina che nessuno ricorda."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      Oltre la porta il mausoleo è una galleria scavata nell'arenaria, che
+      scende dentro la scarpata con un gradino ogni dieci passi. Lungo le
+      pareti si aprono le nicchie dei morti, fitte fino alla volta, e
+      ogni tanto una porta laterale dà su una stanza. Sei statue di donna
+      stanno sui loro piedistalli lungo la galleria, una ogni tratto, con le
+      mani aperte e vuote davanti al petto.
+
+      In fondo, dove la torcia non arriva, c'è la camera della regina.
+
+colonna:
+  - { contesto: area, id: avv-libro-regina, musica: chapel-of-nyx, ambiente: temple-quiet }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, sulla Superficie
+  - id: avv-libro-regina-la-porta-delle-sei
+    immagine: ambientazione/gradone-rosso
+    titolo: La Porta delle Sei
+    sommario: "Alla base del Gradone Rosso c'è una porta scolpita nell'arenaria, con sei donne sopra l'architrave."
+    luogo: Il Gradone Rosso, il fianco che guarda Ghoran
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 5]
+    testo: |
+      Dopo due giorni di strada la scarpata del Gradone ti si alza davanti,
+      alta quanto dieci case e sfogliata dal vento a strati rossi. Alla base,
+      dove la parete fa una piega, c'è una porta scolpita nell'arenaria, e
+      sopra l'architrave sei donne in rilievo stanno in fila con le mani
+      aperte davanti al petto. Una frana ha sepolto la porta per due terzi, e
+      in cima al cumulo resta aperto uno spiraglio nero.
+
+      Il libro, nella bisaccia, si è fatto tiepido. Più ti avvicini e più lo
+      senti contro la schiena.
+
+      {atletica Media} La sabbia della frana è sciolta e scorre. Ci sale chi
+      tiene i piedi larghi e non si ferma mai a metà.
+    opzioni:
+      - testo: "Arrampicarti sulla frana fino allo spiraglio"
+        descrizione: "La sabbia scivola sotto i piedi, e lo spiraglio è largo quanto una spalla."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Lo spiraglio
+          testo: |
+            Sali sulla frana a quattro zampe, con la sabbia che ti scorre sotto
+            le mani, e ti infili nello spiraglio di fianco. Dall'altra parte
+            scivoli giù per il cumulo fino al pavimento della galleria, al buio,
+            con la bisaccia stretta al petto.
+          pe: { atletica: 2 }
+          vai: avv-libro-regina
+        fallimento:
+          titolo: La frana che scende
+          testo: |
+            A metà salita il cumulo ti scivola via sotto i piedi e scendi con
+            lui fino alla base della scarpata, con la bisaccia stretta al petto.
+            Ti rialzi con le ginocchia aperte e lo spiraglio lassù, sempre alla
+            stessa altezza.
+          effetti: { ferite: 0.5 }
+      - testo: "Entrare dalla fessura di Nevio"
+        descrizione: "Sotto la sesta donna scolpita, dietro un ginepro secco. Ci passa uno magro."
+        requisiti: [avv-libro-regina.porta >= 1]
+        esito:
+          titolo: Il ginepro
+          testo: |
+            Trovi il ginepro secco dove l'aveva disegnato Nevio, e dietro il
+            ginepro la fessura. Ci entri di fianco, con la bisaccia davanti, e
+            sbuchi nella galleria poco oltre la porta, senza aver toccato la
+            frana.
+          vai: avv-libro-regina
+      - testo: "Spalare la frana fino alla soglia"
+        descrizione: "Con le mani e con quello che hai. È molta sabbia, e il sole batte sulla scarpata tutto il giorno."
+        costo: 2
+        esito:
+          titolo: La sabbia
+          testo: |
+            Spali la sabbia della frana dal basso finché la soglia non torna
+            libera, e ci vuole tutto il giorno. Entri al tramonto con le mani
+            piene di vesciche e la gola secca d'arenaria.
+          effetti: { ferite: 0.5 }
+          vai: avv-libro-regina
+
+  # ------------------------------------------------------------ stanze 1-3 (profondità 0-2)
+  - id: avv-libro-regina-la-stanza-della-scriba
+    immagine: icone/scroll-unfurled
+    titolo: La stanza della scriba
+    sommario: "Una stanza con uno scrittoio scavato nella parete. Nel pavimento spaccato luccica un astuccio di bronzo."
+    luogo: Il mausoleo della regina, la stanza della scriba
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina <= 2]
+    testo: |
+      La porta laterale dà su una stanza stretta, con uno scrittoio scavato
+      nella parete e una panca di pietra davanti. Sul piano dello scrittoio ci
+      sono sei calamai incavati nella roccia, secchi. Il pavimento si è
+      spaccato da una parete all'altra, e nella crepa, a un braccio di
+      profondità, luccica il bronzo di un astuccio da pergamene.
+
+      Accanto alla porta, in galleria, la prima statua tiene le mani come si
+      tiene un rotolo.
+
+      {acrobazia Media} La crepa è stretta ma ha i bordi lisci. Un braccio ci
+      arriva fino in fondo, se ti stendi di fianco e lasci andare la spalla.
+    opzioni:
+      - testo: "Infilare il braccio nella crepa"
+        descrizione: "Un braccio di profondità, e la crepa è stretta. Se l'astuccio scivola, scende ancora."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: L'astuccio
+          testo: |
+            Ti stendi sul pavimento e infili il braccio nella crepa fino alla
+            spalla. Le dita trovano il bronzo freddo e lo tirano su piano. Dentro
+            l'astuccio c'è un rotolo di pergamena gialla, e quando lo metti fra
+            le mani della prima statua le dita di pietra si chiudono sul rotolo.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La crepa che stringe
+          testo: |
+            La roccia si assesta mentre hai dentro il braccio, e ci metti molto
+            a liberarlo, con la pelle scorticata fino al gomito. Intanto, da una
+            nicchia bassa della galleria, un morto ha alzato la testa sotto il
+            lino.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare come si apriva lo scrittoio"
+        descrizione: "Una scriba teneva la scorta a portata di mano. Lo scrittoio è scavato nella parete, ma qualcosa si apre."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il coperchio
+          testo: |
+            Il piano dello scrittoio è un coperchio, e si solleva. Sotto c'è la
+            scorta della scriba, un rotolo di pergamena ancora stretto e una
+            manciata di frammenti incisi con gli stessi segni del libro. Il
+            rotolo lo metti fra le mani della prima statua, e i frammenti in
+            tasca.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-libro-regina: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Il lino spostato
+          testo: |
+            Spingi e tiri lo scrittoio per mezz'ora senza trovare niente. Quando
+            ti volti, nella nicchia più vicina alla porta il lino di un morto si
+            è spostato, e non ricordi se era già così.
+          effetti: { tormento: 0.5 }
+      - testo: "Allargare la crepa con il coltello"
+        descrizione: "L'arenaria si scava. Ci vuole molto, e la lama ne esce male."
+        costo: 2
+        esito:
+          titolo: La lama smussata
+          testo: |
+            Scavi l'arenaria intorno alla crepa con la punta del coltello
+            finché il braccio non arriva all'astuccio. Per tutto il tempo senti
+            dalla galleria un fruscio di lino. Metti il rotolo fra le mani della
+            prima statua e riprendi la galleria con la lama smussata.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  - id: avv-libro-regina-la-stanza-dell-orante
+    immagine: icone/prayer-beads
+    titolo: La stanza dell'orante
+    sommario: "Sei inginocchiatoi di pietra davanti a un muro nudo. Nella polvere sono sparsi i grani di un rosario."
+    luogo: Il mausoleo della regina, la stanza dell'orante
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina <= 2]
+    testo: |
+      In questa stanza ci sono sei inginocchiatoi scavati nel pavimento,
+      voltati verso un muro nudo con un foro rotondo all'altezza degli occhi,
+      dove una volta stava una lampada. Nella polvere sono sparsi i grani di
+      un rosario d'arenaria rossa, staccati dal filo marcito. Alcuni sono
+      rotolati fino alla soglia, altri dentro le nicchie della galleria, fra i
+      morti.
+
+      La seconda statua, fuori dalla porta, ha le dita piegate per farci
+      scorrere dei grani.
+
+      {resilienza Media} Ogni grano che raccogli fa un rumore piccolo, e ogni
+      volta dalle nicchie risponde il fruscio del lino.
+    opzioni:
+      - testo: "Raccogliere i grani uno per uno"
+        descrizione: "Quelli nella polvere e sulla soglia, e anche quelli rotolati fra i morti. A quattro zampe, con la torcia bassa."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: L'ultimo grano
+          testo: |
+            Li cerchi a quattro zampe con la torcia bassa. L'ultimo è in una
+            nicchia, nella mano di un morto, e la mano si apre da sola quando lo
+            tocchi. Infili i grani su una stringa della giubba e metti il
+            rosario fra le dita della seconda statua.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La mano nella nicchia
+          testo: |
+            Allunghi la mano in una nicchia verso un grano, e le dita del
+            morto si chiudono sul tuo polso. Si riaprono piano quando smetti
+            di tirare, e tu esci dalla stanza camminando all'indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Cercare il grano grande da cui comincia il giro"
+        descrizione: "Un rosario comincia da un grano più grosso degli altri, e da lì si ritrova l'ordine. Senza frugare fra i morti."
+        prova: { attributo: mentale, abilita: [accademiche, resilienza], difficolta: Difficile }
+        successo:
+          titolo: Il nodo
+          testo: |
+            Il grano grande è nel foro della lampada, con un pezzo di filo ancora
+            annodato intorno. Da quel nodo ricostruisci l'ordine degli altri, e
+            quelli che mancano li trovi nella polvere senza toccare una nicchia.
+            Il rosario intero lo metti fra le dita della seconda statua.
+          pe: { accademiche: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: I fruscii
+          testo: |
+            Cerchi il grano grande dappertutto tranne che nel posto giusto, e
+            intanto i fruscii dalle nicchie si fanno più vicini. Lasci la stanza
+            con le mani vuote.
+          effetti: { tormento: 0.5 }
+      - testo: "Setacciare la polvere con le mani"
+        descrizione: "Tutta la polvere della stanza, fra le dita. Prima o poi i grani ci sono tutti."
+        costo: 2
+        esito:
+          titolo: La polvere fine
+          testo: |
+            Setacci fra le dita tutta la polvere della stanza, la polvere
+            grigia dei morti. Alla fine i grani ci sono tutti, e il rosario va
+            fra le dita della seconda statua. Ti pulisci le mani sulla giubba
+            per tutta la galleria.
+          effetti: { profondita.avv-libro-regina: 1, contaminazione: 0.5 }
+
+  - id: avv-libro-regina-la-guardia-seduta
+    immagine: icone/broadsword
+    titolo: La guardia seduta
+    sommario: "Su una panca di pietra siede lo scheletro di una guardia, con la spada di traverso sulle ginocchia."
+    luogo: Il mausoleo della regina, l'armeria
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina <= 2]
+    testo: |
+      Nella nicchia grande dell'armeria, su una panca di pietra, siede dritto
+      lo scheletro di una guardia nel suo giaco di cuoio. Ha la spada di
+      traverso sulle ginocchia, con l'elsa di bronzo, e la mano destra ancora
+      chiusa intorno all'impugnatura. Sulla parete dietro di lui pendono i
+      ganci vuoti di molte altre spade.
+
+      La terza statua, in galleria, tiene una mano sopra l'altra, all'altezza
+      della cintura, dove si appoggia un'elsa.
+
+      {armi-da-mischia Media} È una lama corta e larga, fatta per stare
+      davanti a una porta. Chi la portava non doveva inseguire nessuno.
+    opzioni:
+      - testo: "Aprire la mano del morto, un dito alla volta"
+        descrizione: "Le ossa tengono ancora. Si aprono con la forza, e non è detto che il padrone sia d'accordo."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Media }
+        successo:
+          titolo: Il dito che si spezza
+          testo: |
+            Gli apri le dita una alla volta, e l'ultima si spezza con un rumore
+            secco che ti fa ritirare la mano. Il teschio, sopra il giaco, si è
+            girato di un dito verso di te. Prendi la spada e la metti fra le
+            mani della terza statua, con la punta a terra.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La guardia si alza
+          testo: |
+            Tiri più forte, e la guardia si alza a metà dalla panca, ancora
+            attaccata alla spada. Molli tutto e arretri fino alla galleria, e
+            lei si rimette seduta adagio.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiedergli la spada come si chiede il cambio"
+        descrizione: "Una guardia morta al suo posto aspetta ancora chi le dia il cambio. Bisogna chiederlo nel modo giusto."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Difficile }
+        successo:
+          titolo: Il cambio
+          testo: |
+            Ti metti davanti alla panca, dritto come un soldato, e chiedi il
+            cambio con le parole che si dicono a mezzanotte in ogni corpo di
+            guardia. Le dita del morto si aprono adagio, e la mano ricade sul
+            ginocchio. Metti la spada fra le mani della terza statua.
+          pe: { galateo: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La parola sbagliata
+          testo: |
+            Sbagli una parola del cambio, e il teschio si alza verso di te con
+            un rumore di cuoio vecchio. Resti sull'attenti finché il teschio
+            non torna giù, poi esci dalla stanza lasciando la spada dov'era.
+          effetti: { tormento: 0.5 }
+      - testo: "Prendere la spada con la mano e tutto"
+        descrizione: "La mano si stacca dal polso più facilmente delle dita dall'elsa. Poi va riportata."
+        costo: 2
+        esito:
+          titolo: La mano sulla panca
+          testo: |
+            Stacchi la mano del morto dal polso e la porti via insieme alla
+            spada. In galleria apri quella mano con il coltello e la riporti
+            sulla panca. La spada la metti fra le mani della terza statua, e
+            il teschio non smette di guardarti.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  - id: avv-libro-regina-la-galleria-delle-nicchie
+    immagine: bestiario/wight
+    titolo: La galleria delle nicchie
+    sommario: "Qui le nicchie sono così fitte che la galleria si stringe. Due morti si mettono a sedere sotto il lino."
+    luogo: Il mausoleo della regina, la galleria delle nicchie
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina <= 2]
+    testo: |
+      In questo tratto le nicchie sono così fitte che la galleria si stringe
+      fino a lasciar passare una persona sola. I morti stanno uno sopra
+      l'altro, avvolti nel lino ingiallito, con i piedi verso di te. Quando
+      passi con la torcia, due di loro si mettono adagio a sedere nelle
+      nicchie più basse e scendono sul pavimento. Puntano le dita lunghe verso
+      la tua bisaccia, dove c'è il libro.
+
+      {intimidire Media} Si muovono piano e senza fretta. Sono abituati a un
+      posto dove nessuno scappa.
+    opzioni:
+      - testo: "Passare fra loro prima che si alzino gli altri"
+        descrizione: "Sono lenti, e la galleria è stretta. Se ci si appiattisce contro l'altro lato, forse si passa."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Di schiena alle nicchie
+          testo: |
+            Ti appiattisci contro le nicchie dell'altro lato e scivoli fra i due
+            morti mentre si raddrizzano. Le loro dita ti sfiorano la bisaccia.
+            Quando ti volti sono ancora lì, in piedi, rivolti verso il punto dove
+            eri.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La cinghia
+          testo: |
+            Uno dei due ti afferra per la cinghia della bisaccia e tira verso la
+            nicchia. Ti liberi con uno strattone che ti lascia la spalla
+            graffiata, e torni indietro di corsa.
+          effetti: { ferite: 0.5 }
+      - testo: "Affrontare le due ombre"
+        descrizione: "Sono secche e leggere, e le dita arrivano lontano. Nella galleria stretta ne viene una alla volta."
+        combattimento: avv-libro-regina-le-ombre
+        vittoria:
+          titolo: Le bende sul pavimento
+          testo: |
+            Quando cadono, i due morti si sfasciano in un mucchio di ossa e di
+            bende sul pavimento. Li rimetti nelle loro nicchie come puoi, con la
+            faccia verso il muro, e prosegui.
+          effetti: { profondita.avv-libro-regina: 1 }
+        sconfitta:
+          titolo: Le dita secche
+          testo: |
+            Le dita secche ti trovano la gola due volte. Torni indietro fino
+            all'ultima stanza laterale e ci resti finché le ombre non tornano a
+            sdraiarsi.
+          effetti: { tormento: 0.5 }
+      - testo: "Tenerli nelle nicchie con le torce della Pece"
+        descrizione: "A Ghoran dicono che il fumo della pece tiene i morti nei loro buchi. È il momento di vedere se è vero."
+        requisiti: [avv-libro-regina.pece >= 1]
+        esito:
+          titolo: Il fumo nero
+          testo: |
+            Accendi una torcia della Pece e la tieni bassa davanti a te. Al fumo
+            nero i due morti si fermano, poi si ritirano nelle loro nicchie uno
+            dopo l'altro, senza voltarti la schiena. Passi con la torcia alta
+            finché la galleria non si allarga.
+          effetti: { profondita.avv-libro-regina: 1 }
+      - testo: "Tornare indietro e aspettare che si sdraino"
+        descrizione: "Prima o poi tornano nelle nicchie. Bisogna stare seduti a guardarli finché non lo fanno."
+        costo: 2
+        esito:
+          titolo: La notte sui gradini
+          testo: |
+            Torni indietro di dieci passi e ti siedi sui gradini con la torcia in
+            mano. Ci vuole quasi tutta la notte prima che i due morti si sdraino
+            di nuovo nelle loro nicchie, e per tutto quel tempo ti guardano.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ stanze 4-6 (profondità 3-4)
+  - id: avv-libro-regina-la-sala-del-canto
+    immagine: icone/lyre
+    titolo: La sala del canto
+    sommario: "Una sala rotonda con la cupola, e in mezzo un pozzo. Dal vertice della cupola pende una lira di bronzo."
+    luogo: Il mausoleo della regina, la sala del canto
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 3, profondita.avv-libro-regina <= 4]
+    testo: |
+      La sala è rotonda, con una cupola scavata così liscia che la luce della
+      torcia ci gira intorno. Il centro del pavimento è sprofondato in un
+      pozzo buio. Dal vertice della cupola pende una catena, e in fondo alla
+      catena, sopra il vuoto, c'è una lira di bronzo con le corde ancora
+      tese. Una trave di pietra attraversa il pozzo per metà, e poi finisce
+      nel nulla.
+
+      La quarta statua, sulla soglia, tiene la mano destra più in alto della
+      sinistra, come sulla cassa di una lira.
+
+      {espressivita Media} La cupola è fatta per portare la voce. Una nota
+      giusta cantata qui arriverebbe dappertutto, fino alle corde della lira.
+    opzioni:
+      - testo: "Camminare sulla trave e allungarti verso la lira"
+        descrizione: "La trave finisce a un braccio dalla lira. Il resto lo fa la punta dei piedi."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: La punta dei piedi
+          testo: |
+            Cammini sulla trave a braccia larghe fino alla fine, poi ti alzi in
+            punta di piedi e prendi la lira per il manico. La catena la lascia
+            andare con uno scatto. Torni indietro con la lira contro il petto e
+            la metti fra le mani della quarta statua.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: A cavalcioni
+          testo: |
+            A metà trave il piede ti scivola, e ti salvi abbracciando la pietra.
+            Torni indietro a cavalcioni, un palmo alla volta, con le ginocchia
+            sbucciate e il pozzo buio sotto i talloni.
+          effetti: { ferite: 0.5 }
+      - testo: "Cantare la nota che fa scendere la lira"
+        descrizione: "Una cantora non saliva sulle travi. Se la catena risponde a una voce, bisogna trovare quale."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: La nota giusta
+          testo: |
+            Provi una nota, poi una più bassa, finché le corde della lira non
+            cominciano a rispondere da sole. Alla nota giusta la catena si
+            allunga con un ronzio e cala la lira fino al bordo del pozzo, davanti
+            ai tuoi piedi. La metti fra le mani della quarta statua.
+          pe: { espressivita: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Le altre voci
+          testo: |
+            La cupola ti restituisce la voce, e insieme alla tua ne restituisce
+            altre, più acute, che cantano una canzone che non conosci. Smetti
+            di cantare. Le altre voci smettono un poco dopo di te.
+          effetti: { tormento: 0.5 }
+      - testo: "Pescare la lira con la corda"
+        descrizione: "Un cappio, un lancio dopo l'altro, finché non si impiglia. La catena però tira dall'altra parte."
+        costo: 2
+        esito:
+          titolo: Il cappio
+          testo: |
+            Fai un cappio con la corda e lo lanci verso la lira finché non si
+            impiglia nel manico. Tirarla fino al bordo ti brucia le mani. La
+            metti fra le mani della quarta statua con i palmi ancora segnati
+            dalla corda.
+          effetti: { profondita.avv-libro-regina: 1, ferite: 0.5 }
+
+  - id: avv-libro-regina-l-incensiere-che-fuma
+    immagine: icone/fire-bowl
+    titolo: L'incensiere che fuma
+    sommario: "In una cappella stretta pende un incensiere di bronzo che fuma ancora, dopo settant'anni."
+    luogo: Il mausoleo della regina, la cappella
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 3, profondita.avv-libro-regina <= 4]
+    testo: |
+      La cappella è stretta e alta, e dal soffitto pende per una catena un
+      incensiere di bronzo grande quanto una testa. Fuma ancora. Dai fori del
+      coperchio esce un filo di fumo giallo che sale piano e si allarga sotto
+      la volta, e l'aria della cappella ha l'odore della resina bruciata. Chi
+      resta sotto quel fumo comincia a vedere gente dove non c'è nessuno.
+
+      La quinta statua, alla porta, tiene le mani a coppa, una sotto l'altra,
+      dove passa la catena di un incensiere.
+
+      {magia Media} Nel ventre dell'incensiere c'è un cristallo piccolo,
+      ancora caldo. È lui che tiene acceso il fumo da settant'anni.
+    opzioni:
+      - testo: "Staccare l'incensiere con il naso nella manica"
+        descrizione: "Bisogna salire sull'altare sotto il fumo e restarci il tempo di sganciarlo."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: Sotto il fumo
+          testo: |
+            Con la manica sul naso ti arrampichi sull'altare e sganci
+            l'incensiere dalla catena. Il fumo ti brucia gli occhi, e fino alla
+            porta vedi una fila di donne velate che camminano accanto a te. Metti
+            l'incensiere fra le mani della quinta statua.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Le donne velate
+          testo: |
+            Il fumo ti passa attraverso la manica. A metà salita la cappella si
+            riempie di donne velate che cantano a bocca chiusa, e quando ti
+            ritrovi in galleria non sai da quanto sei seduto per terra.
+          effetti: { tormento: 0.5 }
+      - testo: "Spegnere il cristallo nel ventre dell'incensiere"
+        descrizione: "Senza il cristallo il fumo smette. Bisogna toccarlo, e il cristallo è della stessa famiglia di quello del libro."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Difficile }
+        successo:
+          titolo: Il cristallo piccolo
+          testo: |
+            Infili due dita fra i fori del coperchio e giri il cristallo finché
+            non si stacca dal suo incastro. Il fumo si assottiglia e smette.
+            Sganci l'incensiere freddo e lo metti fra le mani della quinta
+            statua, e il cristallo spento te lo tieni.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-libro-regina: 1, cristalli.frammento-esausto: 1 }
+        fallimento:
+          titolo: Il morso del cristallo
+          testo: |
+            Il cristallo, quando lo tocchi, ti morde le dita con un freddo che
+            sale fino al gomito. Tiri via la mano con le unghie più gialle di
+            prima.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Lasciare che il fumo ti mostri la processione"
+        descrizione: "Il fumo fa vedere. Ci si siede sotto, e si guarda finché non ha finito."
+        costo: 2
+        esito:
+          titolo: La processione nel fumo
+          testo: |
+            Ti siedi sotto l'incensiere e lasci che il fumo ti arrivi in faccia.
+            Vedi la galleria piena di gente con le torce, una bara portata a
+            spalla e dietro la bara sei donne in fila con le mani piene. Quando
+            il fumo si dirada hai l'incensiere in mano, e lo metti fra le mani
+            della quinta statua senza ricordare di averlo staccato.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  - id: avv-libro-regina-l-altare-dei-teschi
+    immagine: icone/stoned-skull
+    titolo: L'altare dei teschi
+    sommario: "Scaffali di teschi con un nome dipinto sulla fronte. Sull'altare ce n'è uno solo, dipinto di rosso, senza nome."
+    luogo: Il mausoleo della regina, l'altare dei teschi
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 3, profondita.avv-libro-regina <= 4]
+    testo: |
+      Le pareti di questa stanza sono scaffali scavati nell'arenaria, e su
+      ogni scaffale stanno in fila i teschi, ognuno con un nome dipinto sulla
+      fronte in nero sbiadito. Sull'altare in fondo c'è un teschio solo
+      dipinto di rosso. Sulla sua fronte non c'è nessun nome.
+
+      La sesta statua, sulla soglia, tiene le mani basse e aperte,
+      all'altezza della vita.
+
+      {medicina Media} Il teschio rosso è di una donna anziana, con i denti
+      consumati. Qualcuno l'ha pulito molte volte, con la cura che si mette
+      negli oggetti di famiglia.
+    opzioni:
+      - testo: "Prendere il teschio senza sfiorare gli scaffali"
+        descrizione: "La stanza è stretta e gli scaffali sono pieni. Un gomito nel posto sbagliato, e li svegli tutti."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il teschio rosso
+          testo: |
+            Attraversi la stanza di fianco, con i gomiti stretti, e prendi il
+            teschio rosso con tutte e due le mani. Pesa meno di quanto pensavi.
+            Lo porti fuori con la stessa lentezza e lo posi fra le mani della
+            sesta statua.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Il teschio che rotola
+          testo: |
+            Il gomito tocca uno scaffale, e un teschio rotola giù e si spacca sul
+            pavimento. Tutti gli altri, in fila, si voltano verso il rumore con
+            uno scricchiolio lungo. Esci all'indietro senza il teschio rosso.
+          effetti: { tormento: 0.5 }
+      - testo: "Leggere ad alta voce i nomi sulle fronti"
+        descrizione: "Chi viene chiamato per nome sta tranquillo. Sono tanti, e la vernice è sbiadita."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: I nomi sulle fronti
+          testo: |
+            Leggi i nomi uno per uno, a mezza voce, dallo scaffale più alto a
+            quello più basso. Quando hai finito la stanza è più quieta di prima,
+            e prendi il teschio rosso dall'altare senza che niente si muova. Lo
+            posi fra le mani della sesta statua.
+          pe: { accademiche: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Il nome sbagliato
+          testo: |
+            Sbagli un nome, e lo capisci perché il teschio con quel nome cade
+            dallo scaffale. Ricominci da capo due volte, e alla terza lasci la
+            stanza.
+          effetti: { tormento: 0.5 }
+      - testo: "Avvolgere il teschio nel mantello e uscire all'indietro"
+        descrizione: "Senza guardarlo e senza voltarsi. Gli scaffali, intanto, guardano te."
+        costo: 2
+        esito:
+          titolo: All'indietro
+          testo: |
+            Avvolgi il teschio rosso nel mantello senza guardarlo e torni verso
+            la porta all'indietro, un passo alla volta, mentre gli scaffali
+            scricchiolano. Sulla soglia lo posi fra le mani della sesta statua.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  - id: avv-libro-regina-la-processione
+    immagine: bestiario/wight
+    titolo: La processione
+    sommario: "Dove la galleria si allarga, i morti camminano in fila da una nicchia all'altra. La fila ti passa davanti."
+    luogo: Il mausoleo della regina, il tratto largo della galleria
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 3, profondita.avv-libro-regina <= 4]
+    testo: |
+      Dove la galleria si allarga i morti sono scesi dalle nicchie e
+      camminano in fila, adagio, avvolti nel lino, con le mani vuote
+      incrociate sul petto. Escono da una nicchia sulla parete sinistra ed
+      entrano in una sulla destra, e la fila passa fra te e il resto della
+      galleria senza interrompersi. Quando ti avvicini con il libro il passo
+      della fila rallenta, e alcune teste si voltano.
+
+      {empatia Difficile} Cercano il loro nome. Guardano il libro con gli
+      occhi vuoti e aspettano che qualcuno faccia l'appello.
+    opzioni:
+      - testo: "Metterti in fila con loro"
+        descrizione: "Le mani sul petto, la testa bassa, lo stesso passo. Finché nessuno si accorge che sei vivo."
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Difficile }
+        successo:
+          titolo: In fila
+          testo: |
+            Con le mani incrociate sul petto e la testa bassa ti metti in fila
+            fra due morti, allo stesso passo. Il lino ti sfiora le braccia. Quando
+            la fila entra nella nicchia di destra tu prosegui dritto lungo la
+            galleria, e nessuno si volta.
+          pe: { ingannare: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Il passo sbagliato
+          testo: |
+            Sbagli il passo, e il morto davanti a te si ferma. La fila intera si
+            ferma con lui e si volta, e tu torni indietro con tutte quelle facce
+            di lino che ti seguono.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprirti la strada nella fila"
+        descrizione: "Due si staccano dalla fila e ti vengono incontro. Gli altri continuano a camminare."
+        combattimento: avv-libro-regina-le-ombre
+        vittoria:
+          titolo: Il varco
+          testo: |
+            Due morti cadono a pezzi sul pavimento. Gli altri si scostano senza
+            fermarsi e senza cambiare passo, e tu passi dall'altra parte con la
+            lama sporca di polvere.
+          effetti: { profondita.avv-libro-regina: 1 }
+        sconfitta:
+          titolo: Contro la parete
+          testo: |
+            Le ombre ti respingono contro la parete, e la fila riprende il suo
+            passo. Torni indietro fino alla stanza precedente con le braccia
+            piene di graffi.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare dietro una torcia della Pece"
+        descrizione: "Il fumo della pece, dicono a Ghoran, tiene i morti al loro posto. Anche quelli che camminano."
+        requisiti: [avv-libro-regina.pece >= 1]
+        esito:
+          titolo: La fila che si apre
+          testo: |
+            Accendi una torcia della Pece. Al fumo nero la fila si apre adagio
+            in due e ti lascia un varco largo quanto le tue spalle. Lo
+            attraversi con la torcia alta, e dietro di te la fila si richiude.
+          effetti: { profondita.avv-libro-regina: 1 }
+      - testo: "Aspettare in una nicchia vuota"
+        descrizione: "Sdraiato fra i morti, finché la fila non passa. La fila però è lunga."
+        costo: 2
+        esito:
+          titolo: La nicchia vuota
+          testo: |
+            Ti sdrai in una nicchia vuota e aspetti. La fila passa
+            due volte davanti alla tua nicchia prima che tu trovi il varco, e
+            ogni volta qualcuno rallenta a guardarti. Scivoli fuori dall'altra
+            parte con il lino dei vicini attaccato ai vestiti.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ la svolta, a profondità 5
+  - id: avv-libro-regina-la-stanza-delle-sei
+    immagine: ambientazione/cripta-di-idrian-sollen
+    titolo: La stanza delle sei
+    sommario: "In fondo alla galleria sei donne siedono intorno a un tavolo di pietra. Sono lì da settant'anni, e hanno scritto fino all'ultimo."
+    luogo: Il mausoleo della regina, la stanza delle sei
+    area: avv-libro-regina
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina == 5, avv-libro-regina.svolta == 0]
+    testo: |
+      In fondo alla galleria c'è una stanza rotonda con un tavolo di pietra al
+      centro, e intorno al tavolo siedono sei donne. Sono morte da molto,
+      secche dentro gli scialli, con la testa china e le mani posate sul
+      piano. Davanti a ognuna ci sono uno stilo di canna e una ciotola per
+      l'inchiostro, vuota. Fra la prima e la sesta resta un posto libero.
+
+      Il muro di fronte è coperto di nomi. Le donne li hanno scritti
+      direttamente sulla pietra, con l'inchiostro, quando il libro era
+      finito, e le righe scendono fino a terra. Sopra l'ultima riga c'è una
+      data, il novantaseiesimo anno dopo la Caduta, e sotto la data sei nomi
+      soli, ognuno in una grafia diversa.
+
+      Dietro il tavolo c'è una porta di pietra senza maniglia, chiusa, con una
+      riga incisa all'altezza degli occhi, *si apre a chi ha letto*.
+
+      {accademiche Difficile} Sul libro la morte della regina è segnata nel
+      settantottesimo anno. Fra quella riga e questa c'è tutta la Guerra del
+      Cristallo.
+
+      *Hanno scritto i nomi di tutti, finché non è rimasto nessuno da scrivere.*
+      Allora hanno scritto i loro e si sono sedute ad aspettare.
+    opzioni:
+      - testo: "Leggere le ultime righe del muro"
+        descrizione: "La porta si apre a chi ha letto. Le righe sono tante e scendono fino a terra, e la torcia non dura per sempre."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Chi ha letto
+          testo: |
+            Leggi il muro dall'alto in basso, nome per nome, fino ai sei
+            dell'ultima riga. Quando hai finito la porta dietro il tavolo scorre
+            di lato da sola, e dietro c'è una scala che scende verso le stanze
+            della regina.
+          pe: { accademiche: 3 }
+          imposta: { avv-libro-regina.svolta: 1 }
+          effetti: { profondita.avv-libro-regina: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le facce voltate
+          testo: |
+            Leggi finché la torcia non si consuma a metà, e i nomi cominciano a
+            confondersi davanti agli occhi. Quando alzi la testa le sei donne
+            hanno la faccia voltata verso di te, e la porta è sempre chiusa.
+          effetti: { tormento: 0.5 }
+      - testo: "Chinare la testa davanti alle sei"
+        descrizione: "Sono le padrone di casa, qui. Si saluta una alla volta, e nessuna va dimenticata."
+        prova: { attributo: sociale, abilita: [galateo, empatia], difficolta: Difficile }
+        successo:
+          titolo: Il saluto
+          testo: |
+            Ti fermi davanti al tavolo e chini la testa a ognuna, una alla
+            volta, come si saluta una padrona di casa. All'ultima la porta dietro
+            il tavolo scorre di lato da sola, e dietro c'è una scala che scende
+            verso le stanze della regina.
+          pe: { galateo: 3 }
+          imposta: { avv-libro-regina.svolta: 1 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La sesta
+          testo: |
+            Saluti in fretta, e alla sesta ti dimentichi di chinare la testa. La
+            porta resta chiusa, e il tavolo scricchiola sotto le mani delle sei
+            donne finché non esci dalla stanza.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiamarle per nome"
+        descrizione: "I sei nomi in fondo al libro li sai a memoria. Bisogna dirli nell'ordine delle loro pagine."
+        requisiti: [avv-libro-regina.nomi >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: I sei nomi
+          testo: |
+            Dici i sei nomi che hai imparato dal libro, uno per donna,
+            nell'ordine delle loro pagine. A ogni nome una testa si alza di un
+            dito. Al sesto la porta dietro il tavolo scorre di lato, e dietro c'è
+            una scala che scende.
+          pe: { accademiche: 2 }
+          imposta: { avv-libro-regina.svolta: 1 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: L'ordine sbagliato
+          testo: |
+            Sbagli l'ordine dei nomi, e le teste che si erano alzate tornano giù
+            tutte insieme. La porta dietro il tavolo resta chiusa.
+          effetti: { tormento: 0.5 }
+      - testo: "Sederti al posto libero e aspettare"
+        descrizione: "Fra la prima e la sesta c'è un posto vuoto. Loro aspettano da settant'anni, e tu puoi aspettare qualche ora."
+        costo: 2
+        esito:
+          titolo: Il settimo posto
+          testo: |
+            Ti siedi al tavolo nel posto libero e aspetti con le mani sul piano,
+            come loro. Passano ore. A un certo punto la porta dietro il tavolo
+            scorre di lato senza rumore, e ti alzi con le gambe addormentate e
+            le unghie più gialle di prima.
+          imposta: { avv-libro-regina.svolta: 1 }
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+      - testo: "Dire per loro la veglia dei morti"
+        descrizione: "Al Velo si veglia chi muore senza nessuno accanto. Tutte e sei sono morte così."
+        quando: [origine.accolito-del-velo >= 1]
+        esito:
+          titolo: La veglia
+          testo: |
+            Ti inginocchi accanto al tavolo e dici la veglia del Velo per chi
+            muore da solo, come te l'hanno insegnata, e alla fine aggiungi i sei
+            nomi scritti sotto l'ultima data. Quando ti rialzi la porta dietro il
+            tavolo è aperta, e dietro c'è una scala che scende.
+          pe: { resilienza: 3 }
+          imposta: { avv-libro-regina.svolta: 1 }
+          effetti: { profondita.avv-libro-regina: 1 }
+
+  # ------------------------------------------------------------ profondità 5, dopo la svolta
+  - id: avv-libro-regina-di-nuovo-al-tavolo
+    immagine: ambientazione/cripta-di-idrian-sollen
+    titolo: Di nuovo al tavolo delle sei
+    sommario: "Le sei donne sono al loro posto intorno al tavolo, e la porta dietro di loro si è richiusa."
+    luogo: Il mausoleo della regina, la stanza delle sei
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina == 5, avv-libro-regina.svolta >= 1]
+    testo: |
+      Le sei donne sono sedute intorno al tavolo come le hai lasciate, con le
+      mani posate sul piano e il settimo posto vuoto. Sul muro i nomi scendono
+      fino a terra. La porta dietro il tavolo si è richiusa, e la riga incisa
+      sopra è sempre la stessa, *si apre a chi ha letto*.
+
+      {resistenza Media fallita} Le gambe si ricordano delle ore passate a
+      quel tavolo, e prima ancora che tu decida qualcosa ti mettono a sedere
+      sulla soglia.
+    opzioni:
+      - testo: "Rileggere i nomi del muro"
+        descrizione: "Dall'alto in basso, fino alla riga dei sei. La seconda volta non è più breve della prima."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Di nuovo chi ha letto
+          testo: |
+            Rileggi il muro dall'alto in basso, e all'ultimo nome la porta
+            scorre di lato come l'altra volta. La scala dietro di lei scende
+            verso le stanze della regina.
+          pe: { accademiche: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La torcia corta
+          testo: |
+            La torcia si consuma prima che tu arrivi in fondo, e al buio i nomi
+            sembrano scendere anche sul pavimento. Riaccendi e torni in
+            galleria.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiamarle per nome"
+        descrizione: "I sei nomi in fondo al libro, nell'ordine delle loro pagine."
+        requisiti: [avv-libro-regina.nomi >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: I sei nomi, di nuovo
+          testo: |
+            Dici i sei nomi nell'ordine delle pagine, e le teste si alzano di un
+            dito una dopo l'altra. Al sesto la porta scorre di lato.
+          pe: { accademiche: 2 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Un nome fuori posto
+          testo: |
+            Inverti due nomi, e le teste tornano giù tutte insieme. La porta
+            resta chiusa, e le ciotole dell'inchiostro tremano sul piano.
+          effetti: { tormento: 0.5 }
+      - testo: "Sederti al settimo posto e aspettare"
+        descrizione: "La porta si è aperta una volta per chi aspettava. Può aprirsi di nuovo."
+        costo: 2
+        esito:
+          titolo: Le ore al tavolo
+          testo: |
+            Ti siedi al posto libero con le mani sul piano e aspetti. Quando la
+            porta scorre di lato hai le gambe addormentate, e la donna alla tua
+            destra ha la testa voltata verso di te.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ stanze 7-10 (profondità 6-9), le stanze della regina
+  - id: avv-libro-regina-la-lastra-che-scende
+    immagine: ambientazione/cripta-di-idrian-sollen
+    titolo: La lastra che scende
+    sommario: "Alle tue spalle una lastra di pietra chiude il passaggio, e dalle feritoie della volta comincia a scendere la sabbia."
+    luogo: Il mausoleo della regina, le stanze della regina
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 6, profondita.avv-libro-regina <= 9]
+    testo: |
+      Le stanze della regina hanno le pareti dipinte di rosso. In questa,
+      appena ci metti piede, alle tue spalle una lastra di pietra scende dalla
+      volta e chiude il passaggio con un colpo sordo. Dalle feritoie in alto
+      comincia a scendere la sabbia, un filo rosso per ogni feritoia, e in
+      poco tempo ti arriva alle caviglie. La lastra che porta avanti, sul lato
+      opposto, è abbassata.
+
+      {tecnologia Difficile} Le lastre scorrono in due scanalature. Da qualche
+      parte, dietro il rosso della parete, c'è il contrappeso che le regge, e
+      il contrappeso è la sabbia stessa.
+    opzioni:
+      - testo: "Arrampicarti alle feritoie e tapparle"
+        descrizione: "Le feritoie sono in alto, e la parete ha rilievi a cui aggrapparsi. Ci vogliono braccia, e stracci."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Le feritoie tappate
+          testo: |
+            Ti arrampichi sui rilievi della parete e tappi le feritoie una alla
+            volta con gli stracci della bisaccia. Quando la sabbia smette di
+            scendere, la lastra del lato opposto risale di un palmo, e ti basta
+            per passare strisciando.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La sabbia in faccia
+          testo: |
+            Una feritoia ti sputa la sabbia in faccia mentre sei appeso, e cadi
+            sul mucchio. Quando la sabbia smette da sola ti arriva alle
+            ginocchia, e si rialza soltanto la lastra da cui sei entrato.
+          effetti: { ferite: 0.5 }
+      - testo: "Trovare il contrappeso e bloccarlo"
+        descrizione: "Un incastro nascosto nel rosso della parete, e un coltello messo di traverso al momento giusto. Uno solo."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto difficile }
+        successo:
+          titolo: Il coltello di traverso
+          testo: |
+            Segui con le dita le scanalature fino a un incastro nascosto nel
+            rosso della parete. Ci infili il coltello di traverso e lo pieghi, e
+            il contrappeso si blocca. La sabbia smette di scendere, e la lastra
+            del lato opposto risale fino alla volta.
+          pe: { tecnologia: 4 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La lama spezzata
+          testo: |
+            Il coltello ti si spezza nell'incastro, e la scheggia ti apre il
+            palmo. La sabbia ti arriva alle ginocchia prima di smettere da sola,
+            e si rialza soltanto la lastra da cui sei entrato.
+          effetti: { ferite: 0.5 }
+      - testo: "Scavare un passaggio sotto la lastra"
+        descrizione: "Sotto la lastra abbassata c'è sabbia, e la sabbia si scava. Altra sabbia, intanto, ti cade addosso."
+        costo: 3
+        esito:
+          titolo: Sotto la lastra
+          testo: |
+            Scavi con le mani sotto la lastra del lato opposto, mentre la sabbia
+            ti cade sulla schiena, finché non trovi il bordo e un palmo di vuoto
+            sotto. Passi dall'altra parte strisciando, con la sabbia nei vestiti
+            e nelle orecchie.
+          effetti: { profondita.avv-libro-regina: 1, ferite: 0.5 }
+
+  - id: avv-libro-regina-le-ancelle-dell-anticamera
+    immagine: icone/stone-bust
+    titolo: Le ancelle dell'anticamera
+    sommario: "Sei statue di donna, più alte di quelle della galleria. Al tuo passaggio due di loro girano la testa."
+    luogo: Il mausoleo della regina, l'anticamera
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 6, profondita.avv-libro-regina <= 9]
+    testo: |
+      Questa stanza è circondata da sei statue di donna più alte di un uomo,
+      ognuna nella sua nicchia, con le mani aperte e vuote come quelle della
+      galleria. In fondo c'è la porta che prosegue. Quando passi in mezzo alla
+      stanza due statue girano la testa verso di te con un rumore di macina, e
+      scendono dai piedistalli senza piegare le ginocchia.
+
+      {rissa Media} Sono d'arenaria, e l'arenaria si sfoglia. Colpite sulle
+      giunture del collo e delle spalle, si spezzano come pane secco.
+    opzioni:
+      - testo: "Affrontare le due statue"
+        descrizione: "Sono lente e pesanti, e colpiscono con le mani di pietra. Due alla volta."
+        combattimento: avv-libro-regina-le-ancelle
+        vittoria:
+          titolo: I pezzi d'arenaria
+          testo: |
+            La prima statua cade sulle ginocchia e si spacca in due. La seconda
+            ti segue fino alla porta prima di fermarsi con un braccio alzato, e
+            il braccio le si stacca e cade. Passi sopra i pezzi d'arenaria rossa.
+          effetti: { profondita.avv-libro-regina: 1 }
+        sconfitta:
+          titolo: Le mani di pietra
+          testo: |
+            Le mani di pietra ti colpiscono alle costole finché non arretri fino
+            alla parete da cui sei entrato. Lì le statue si fermano, e tornano
+            sui loro piedistalli senza voltarti la schiena.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiamarle con i nomi delle ancelle"
+        descrizione: "Hanno le facce delle sei donne del tavolo. I loro nomi li sai."
+        requisiti: [avv-libro-regina.nomi >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: Al loro posto
+          testo: |
+            Dici a voce alta i sei nomi scritti in fondo al libro. Le due
+            statue si fermano a metà passo e tornano una dopo l'altra sui loro
+            piedistalli, rivolte verso il muro finché non sei passato.
+          pe: { accademiche: 2 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Due nomi confusi
+          testo: |
+            Ti si confondono due nomi in bocca, e le statue fanno un altro passo.
+            Torni indietro prima che facciano il terzo.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare l'inchino delle serve davanti alla padrona"
+        descrizione: "Sono ancelle, e un'ancella riconosce chi sa stare al suo posto. L'inchino lungo, con la mano sul cuore."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Difficile }
+        successo:
+          titolo: L'inchino lungo
+          testo: |
+            Abbassi gli occhi e fai l'inchino delle serve di casa, quello lungo,
+            con la mano sul cuore. Le due statue si fermano davanti a te e ci
+            restano, mentre tu passi oltre camminando all'indietro fino alla
+            porta.
+          pe: { galateo: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: L'inchino dell'ospite
+          testo: |
+            Il tuo è l'inchino di un ospite, e alle statue non basta. Una ti
+            spinge con la mano aperta contro la parete, e torni da dove sei
+            venuto con la spalla che ti fa male.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare all'indietro con gli occhi bassi"
+        descrizione: "Un passo alla volta, senza mai guardarle in faccia. Ti seguono, e ci vuole molto."
+        costo: 3
+        esito:
+          titolo: Un braccio di distanza
+          testo: |
+            Tieni gli occhi bassi e attraversi la stanza all'indietro, un passo
+            alla volta, mentre le due statue ti seguono a un braccio di distanza.
+            Sulla soglia della porta si fermano. Ti tremano le gambe per un pezzo.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  - id: avv-libro-regina-il-pavimento-dei-nomi
+    immagine: icone/rune-stone
+    titolo: Il pavimento dei nomi
+    sommario: "Il pavimento di questa stanza è fatto di lastre incise con un nome. Sotto alcune c'è il vuoto."
+    luogo: Il mausoleo della regina, il pavimento dei nomi
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 6, profondita.avv-libro-regina <= 9]
+    testo: |
+      Il pavimento di questa stanza è fatto di lastre quadrate larghe un
+      passo, e su ognuna è inciso un nome. Sotto alcune c'è il vuoto. Lo senti
+      dal suono quando batti il tallone sulla prima, e lo vedi dalla sabbia
+      che in un angolo è scivolata giù per una fessura e ha lasciato un buco
+      nero. La porta che prosegue è dall'altra parte, a dieci lastre di
+      distanza.
+
+      {percezione Difficile} Le lastre che reggono hanno i nomi più consumati,
+      lisci al centro. Su quelle si camminava ogni giorno.
+    opzioni:
+      - testo: "Saltare da una lastra all'altra"
+        descrizione: "Saggiarle con la punta del piede prima di metterci il peso. Dieci volte di fila."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Molto difficile }
+        successo:
+          titolo: Dieci lastre
+          testo: |
+            Salti di lastra in lastra, saggiando ognuna con la punta del piede
+            prima di metterci il peso. Due cedono sotto la punta e cadono nel
+            buio senza fare rumore. Arrivi alla porta con le gambe che tremano.
+          pe: { acrobazia: 4 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Il bordo
+          testo: |
+            Una lastra cede sotto il tallone, e ti aggrappi con le braccia al
+            bordo della vicina. Ti tiri su mentre la sabbia scende nel buco, e
+            torni indietro sulle lastre che hai già provato.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare sulle lastre più consumate"
+        descrizione: "Dove si è camminato per anni, la pietra regge. Bisogna vedere quali sono, alla luce di una torcia."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Il sentiero storto
+          testo: |
+            Abbassi la torcia fino a terra e guardi le incisioni di traverso,
+            finché non vedi quali nomi sono lisci al centro. Formano un sentiero
+            storto da una porta all'altra. Lo segui senza fretta, e arrivi
+            dall'altra parte senza che una lastra si muova.
+          pe: { percezione: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: La lastra consumata dal tempo
+          testo: |
+            Scambi una lastra consumata dal tempo per una consumata dai passi, e
+            ti cede sotto il piede. Ti tiri fuori dal buco con un ginocchio
+            sbucciato e torni alla porta da cui sei entrato.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare lungo il bordo della parete"
+        descrizione: "Lungo il muro c'è una striscia senza lastre, larga mezzo piede. È lenta, e il vuoto è accanto ai talloni."
+        costo: 3
+        esito:
+          titolo: Mezzo piede
+          testo: |
+            Percorri la striscia di fianco, con la schiena contro il rosso
+            dipinto e i talloni sopra le lastre vuote, e ci metti un'ora per
+            dieci passi. Dall'altra parte ti siedi sulla soglia finché le gambe
+            non smettono di tremare.
+          effetti: { profondita.avv-libro-regina: 1, tormento: 0.5 }
+
+  - id: avv-libro-regina-la-sala-dei-doni
+    immagine: icone/gem-necklace
+    titolo: La sala dei doni
+    sommario: "Il corredo della regina riempie una sala intera. Fra i vasi dormono rannicchiati i servitori sepolti con lei."
+    luogo: Il mausoleo della regina, la sala dei doni
+    area: avv-libro-regina
+    ripetibile: true
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 6, profondita.avv-libro-regina <= 9]
+    testo: |
+      In questa sala c'è il corredo della regina, vasi d'olio sigillati con
+      la cera e cofani di legno nero ammucchiati contro le pareti fino alle
+      spalle. Rannicchiati fra i vasi, piccoli come bambini, dormono i
+      servitori sepolti con lei. Quando la tua torcia li sfiora, tre di loro
+      aprono gli occhi.
+
+      {conoscenze-della-strada Media} Qui c'è da vivere per un anno. Se tocchi
+      un vaso, però, si svegliano tutti.
+    opzioni:
+      - testo: "Attraversare la sala senza toccare niente"
+        descrizione: "Fra i mucchi del corredo c'è un passaggio stretto. I tre svegli guardano."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: I gomiti stretti
+          testo: |
+            Passi fra i mucchi del corredo di fianco, con la torcia bassa e i
+            gomiti stretti, e i tre servitori svegli ti seguono con gli occhi
+            senza muoversi. Sulla porta ti accorgi di avere ancora in mano il
+            coltello, stretto tanto forte da farti male.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-libro-regina: 1 }
+        fallimento:
+          titolo: Il vaso che oscilla
+          testo: |
+            Il mantello sfiora un vaso, e il vaso oscilla. Prima che smetta i
+            servitori sono tutti in piedi fra te e la porta, e tu torni indietro
+            senza voltarti.
+          effetti: { tormento: 0.5 }
+      - testo: "Affrontare i tre servitori svegli"
+        descrizione: "Sono piccoli e svelti, e si muovono fra i vasi senza toccarne uno. Tu invece li tocchi."
+        combattimento: avv-libro-regina-il-corredo
+        vittoria:
+          titolo: Fra i vasi
+          testo: |
+            I tre servitori cadono fra i vasi senza romperne uno, e restano lì
+            rannicchiati. Gli altri non si sono svegliati. Attraversi la sala in
+            punta di piedi fino alla porta.
+          effetti: { profondita.avv-libro-regina: 1 }
+        sconfitta:
+          titolo: I morsi
+          testo: |
+            I servitori ti saltano addosso da tre parti e ti mordono le braccia
+            finché non sei fuori dalla sala. Sulla soglia si fermano, e tornano
+            a rannicchiarsi fra i vasi.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare qualche moneta fra i doni"
+        descrizione: "Un corredo è fatto di doni. Uno in più, lasciato bene in vista, si fa perdonare il passaggio."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Il dono
+          testo: |
+            Posi una manciata di monete bene in vista sul coperchio di un
+            cofano e aspetti. I servitori svegli guardano a lungo le monete e
+            poi te, finché non richiudono gli occhi uno dopo l'altro. Passi
+            dall'altra parte della sala mentre dormono.
+          effetti: { profondita.avv-libro-regina: 1, monete: -10 }
+      - testo: "Passare sopra i cofani, lungo il muro"
+        descrizione: "Carponi, sopra il corredo, con la volta che gratta la schiena. Il legno scricchiola."
+        costo: 3
+        esito:
+          titolo: Carponi
+          testo: |
+            Ti arrampichi sui cofani lungo il muro e attraversi la sala da lì,
+            carponi, con la volta che ti gratta la schiena. Sotto di te i
+            servitori aprono e chiudono gli occhi a ogni scricchiolio del legno.
+          effetti: { profondita.avv-libro-regina: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore, a profondità 10
+  - id: avv-libro-regina-la-camera-della-regina
+    immagine: ambientazione/cripta-di-idrian-sollen
+    titolo: La camera della regina
+    sommario: "Sul letto di pietra rossa dorme la regina Tamsira, con le mani incrociate sopra il posto dove stava il libro."
+    luogo: Il mausoleo della regina, la camera della regina
+    area: avv-libro-regina
+    requisiti: [avventura.libro-regina == 5, profondita.avv-libro-regina >= 10]
+    testo: |
+      La camera della regina è una sala alta, con le pareti dipinte di rosso e
+      di nero e la volta scavata a cerchi, uno dentro l'altro. Sul letto di
+      pietra rossa al centro è distesa la regina. È minuta sotto le bende di
+      lino ingiallito, con una corona di bronzo verde sulla fronte e
+      le mani incrociate sopra uno spazio vuoto della misura di un libro.
+      Intorno al letto, nel pavimento, sono incise sei coppie di impronte di
+      piedi nudi.
+
+      Posi il libro nello spazio vuoto, e il caldo ti lascia le dita di colpo.
+      Le dita secche della regina si stringono sulla copertina. Poi Tamsira si
+      mette adagio a sedere, e dalle impronte del pavimento si alzano sei ombre
+      di donna.
+
+      «Le mie ancelle hanno finito di scrivere» dice, con una voce bassa e
+      chiara e parole antiche che capisci tutte. «Un libro che nessuno
+      custodisce torna in mano al primo che passa. Resta tu. Siediti al
+      settimo posto, e il giallo smette.» Ti tende il libro con tutte e due le
+      mani, come si porge un pane.
+
+      {empatia Difficile} Ti sta offrendo l'unica cosa che ha. Un rifiuto, per
+      lei, è una parola che in vita sua non ha sentito mai.
+
+      {percezione Media} Al polso sinistro della regina le bende sono più
+      chiare, in una fascia larga due dita. Lì, per molti anni, c'è stato
+      stretto un bracciale.
+
+      {origine rampollo-dei-quartieri-alti} Ti parla da regina a suddito, e
+      nei Quartieri Alti hai imparato come si risponde a chi parla così senza
+      perdere la faccia.
+    opzioni:
+      - testo: "Accettare e sederti al settimo posto"
+        descrizione: "Il giallo smette, dice lei. Del resto non parla."
+        esito:
+          titolo: Il settimo posto
+          testo: |
+            Prendi il libro e vai a sederti al settimo posto fra la prima e la
+            sesta ancella. Il giallo smette di farti male. Quanti giorni
+            passino non lo sai. Ti risvegli ai piedi della scarpata,
+            trascinato fuori per le braccia dai ragazzi della Pece che Ragh ha
+            mandato a cercarti, con il libro stretto al petto e il giallo fino
+            ai gomiti.
+          effetti: { contaminazione: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Rifiutare e affrontarla"
+        descrizione: "È una regina, e le regine non accettano un no. Leggera e secca, e colpisce con il dorso della mano."
+        combattimento: avv-libro-regina-la-regina
+        vittoria:
+          titolo: La regina a letto
+          testo: |
+            La regina cade all'indietro sul letto di pietra, e le sei ombre
+            tornano dentro le impronte del pavimento. Le rimetti il libro sotto
+            le mani e gliele chiudi sopra, e il giallo ti lascia le unghie in un
+            momento, come l'acqua lascia una tazza rovesciata. Ai piedi del letto
+            trovi due frammenti incisi e un cristallo ancora carico, che le
+            ancelle avevano lasciato per chi avrebbe riportato il libro.
+
+            Quando risali la galleria i morti nelle nicchie non si muovono più,
+            e alla porta ti accoglie la luce rossa del Gradone.
+          imposta: { avv-libro-regina.maledizione: 0 }
+          effetti: { avventura.libro-regina: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il dorso della mano
+          testo: |
+            La regina ti colpisce con il dorso della mano, e ogni colpo ti lascia
+            la pelle più gialla. Alla fine ti rimette il libro fra le braccia e ti
+            spinge verso la porta. Risali la galleria di corsa con il libro al
+            petto, e i morti si siedono nelle nicchie a guardarti passare.
+          effetti: { contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Rifiutare come si rifiuta a una regina"
+        descrizione: "In ginocchio, con le formule più antiche che conosci, quelle per declinare un onore troppo grande. Se sbagli, l'onore diventa un insulto."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Difficile }
+        successo:
+          titolo: In ginocchio
+          testo: |
+            Ti inginocchi, perché davanti a una regina si sta in ginocchio, e
+            rifiuti con le formule che nei Quartieri Alti si usano ancora per
+            declinare un onore troppo grande. La regina ti guarda a lungo. Poi
+            si stende di nuovo sul letto con il libro sotto le mani incrociate, e
+            le ancelle tornano dentro le impronte. Il giallo ti lascia le unghie
+            mentre la guardi.
+
+            Ai piedi del letto trovi due frammenti incisi e un cristallo ancora
+            carico, lasciati dalle ancelle per chi avrebbe riportato il libro.
+          pe: { galateo: 5 }
+          imposta: { avv-libro-regina.maledizione: 0 }
+          effetti: { avventura.libro-regina: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: L'insulto
+          testo: |
+            Sbagli la formula, e alla regina il tuo rifiuto suona come un
+            insulto. Ti colpisce in faccia con il dorso della mano una volta
+            sola e ti spinge fuori dalla camera con il libro fra le braccia.
+          effetti: { ferite: 1.5, contaminazione: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Chiamare le ancelle per nome"
+        descrizione: "Sono sei ombre, e i loro nomi li sai. Se le chiami tutte, nell'ordine giusto, la regina non resta sola."
+        requisiti: [avv-libro-regina.nomi >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: La veglia delle sei
+          testo: |
+            Chiami le sei ancelle per nome, nell'ordine delle loro pagine, e a
+            ogni nome un'ombra si volta verso la regina. Al sesto le ancelle le
+            posano il libro sul petto e la fanno stendere, adagio, come la sera
+            si mette a letto una vecchia. Tamsira chiude gli occhi, e il giallo
+            ti lascia le unghie.
+
+            Ai piedi del letto trovi due frammenti incisi e un cristallo ancora
+            carico, lasciati dalle ancelle per chi avrebbe riportato il libro.
+          pe: { accademiche: 5 }
+          imposta: { avv-libro-regina.maledizione: 0 }
+          effetti: { avventura.libro-regina: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Le ombre voltate
+          testo: |
+            Al quarto nome la voce ti si incrina, e le ombre si voltano verso di
+            te. La regina si alza in piedi. Ti trovi in galleria con il libro fra
+            le braccia e il segno di sei mani fredde sulla schiena.
+          effetti: { ferite: 1, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Scacciarla con l'Esorcismo"
+        descrizione: "L'Esorcismo scaccia quello che non dovrebbe restare. Una regina che si alza dopo settant'anni è una di quelle cose."
+        incantesimo: esorcismo
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Quello che non dovrebbe restare
+          testo: |
+            Dici l'Esorcismo con la mano aperta verso il letto, e la regina si
+            ferma a metà gesto. Le ombre delle ancelle si sciolgono nelle
+            impronte. Tamsira si stende di nuovo con il libro sul petto, e il
+            giallo ti lascia le unghie mentre l'ultima parola ti esce di bocca.
+
+            Ai piedi del letto trovi due frammenti incisi e un cristallo ancora
+            carico, lasciati dalle ancelle per chi avrebbe riportato il libro.
+          pe: { magia: 5 }
+          imposta: { avv-libro-regina.maledizione: 0 }
+          effetti: { avventura.libro-regina: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La formula che si rompe
+          testo: |
+            La formula ti si rompe in bocca, e la regina risponde con una parola
+            sola nella sua lingua. Ti ritrovi in ginocchio in galleria, con il
+            libro fra le braccia e la testa che ti pulsa.
+          effetti: { tormento: 1.5, ferite: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Tenerla giù finché il libro non torna al suo posto"
+        descrizione: "È leggera, ma tiene. Bisogna premerle il libro sul petto e non mollare, mentre le ancelle tirano dall'altra parte."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Difficile }
+        successo:
+          titolo: Il libro premuto
+          testo: |
+            Le premi il libro contro il petto e la spingi giù sul letto con
+            tutto il tuo peso. Lotta a lungo sotto le tue mani, più forte di
+            quanto sembri, poi le dita secche si chiudono sulla copertina e
+            smette. Le ancelle tornano dentro le impronte, e il giallo ti
+            lascia le unghie.
+
+            Ai piedi del letto trovi due frammenti incisi e un cristallo ancora
+            carico, lasciati dalle ancelle per chi avrebbe riportato il libro.
+          pe: { atletica: 5 }
+          imposta: { avv-libro-regina.maledizione: 0 }
+          effetti: { avventura.libro-regina: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Le mani delle ancelle
+          testo: |
+            Le ancelle ti strappano via dal letto per le braccia e ti trascinano
+            fino alla galleria. Quando ti lasciano hai il libro in braccio e due
+            costole che scricchiolano.
+          effetti: { ferite: 2 }
+          vai: superficie-fratturata

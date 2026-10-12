@@ -1,0 +1,1264 @@
+# La signora delle gole, la spedizione nei Calanchi Rossi (avventura.signora-gole == 5). Si entra da Pannion
+# (`avv-signora-gole-verso-i-calanchi`): per la parete del calanco (Media), per il letto del torrente secco
+# (avv-signora-gole.sentiero, un rintocco) o con il giro dei muli della scorta (2 rintocchi). Corrado Zenni viene con te.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# - 0-2, la pista della mappa fra le gole, prove Medie e Difficili: il canalone d'argilla, il carro della Gilda
+#   (avv-signora-gole.zenni), la spirale sul sasso (via del torrente secco), la sentinella sul crinale (via della nuca).
+# - 3-4, verso la tana, prove Difficili: il ponte di corda, l'acqua rossa, le mute dello scorpione (scontro).
+# - 5, la svolta: la tana dello scorpione, non ripetibile (avv-signora-gole.scorpione == 0), dove Zenni combatte al
+#   tuo fianco e si mette troppo presto dalla parte giusta. Dopo, a 5 c'è la tana vuota.
+# - 6-9, il covo, prove Difficili con una Molto difficile o uno scontro per stanza: la frana che non c'è (via
+#   dell'ombra), le sentinelle del covo (via della nuca), le sete della Gilda (avv-signora-gole.zenni), le gabbie,
+#   il canto.
+# - 10, il cuore `avv-signora-gole-la-signora-delle-gole`: la Signora è una ragazza del cerchio dei briganti, e la sua
+#   ombra ha la coda. Prova a legarti con la voce (Resilienza Difficile; Media con avv-signora-gole.ombra); chi cede
+#   torna in Superficie con Tormento. Poi il seguito `avv-signora-gole-la-lama-ingioiellata`: la Signora e Zenni
+#   insieme (boss), lei sola se sai di Zenni (avv-signora-gole.zenni), o le vie Difficili del cristallo grande e della
+#   nuca. Chi perde torna in Superficie; chi vince porta la pista a 6 e i liberati a Pannion.
+# Ogni stanza ha una via senza prova: 2 rintocchi fino alla svolta, 3 nel covo, sempre con mezzo punto di una negativa.
+aree:
+  - id: avv-signora-gole
+    immagine: ambientazione/gradone-rosso
+    nome: I Calanchi Rossi
+    sommario: "Colline d'argilla rossa fra il bivio del gelso storto e l'altura di Pannion, scavate dalla pioggia in gole dove il sole cuoce."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      I Calanchi Rossi sono un tratto di colline d'argilla fra il bivio del gelso storto e l'altura di Pannion, e la
+      pioggia di molti secoli le ha scavate in gole strette e profonde. Le creste in alto sono affilate e si
+      sbriciolano sotto la mano, e sul fondo la polvere rossa arriva alla caviglia. Di giorno nelle gole fa caldo come
+      dentro un forno, di notte il vento fischia sulle creste.
+
+      Corrado Zenni ti cammina due passi dietro, con la mano sul pomo della spada.
+
+colonna:
+  - { contesto: area, id: avv-signora-gole, musica: unsettling-paths, ambiente: forest-creepy }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, da Pannion
+  - id: avv-signora-gole-verso-i-calanchi
+    presso: pannion
+    immagine: ambientazione/gradone-rosso
+    titolo: Verso i Calanchi Rossi
+    sommario: "Dal ciglio dell'altura le gole dei calanchi sembrano le pieghe di una coperta rossa. La spirale della mappa è là in fondo."
+    luogo: Pannion, il ciglio dell'altura
+    area: superficie-fratturata
+    requisiti: [avventura.signora-gole == 5]
+    testo: |
+      Dal ciglio dell'altura, dove finiscono le carbonaie, i Calanchi Rossi si stendono verso il bivio come le pieghe di una coperta buttata per terra. Al sole sono rossi, e nelle gole diventano neri. Da qualche parte là in fondo c'è la spirale
+      dello straccio.
+
+      Zenni ti aspetta con due dei suoi e i muli carichi d'acqua. I due uomini resteranno sul ciglio con le bestie.
+      «In gola si scende in due» dice Zenni. «A conti fatti, chi è in tre si fa vedere.»
+
+      {atletica Media} La parete del calanco qui sotto è ripida, con l'argilla cotta dal sole a scaglie. Le scaglie
+      tengono il piede, se ci si fida.
+    opzioni:
+      - testo: "Scendere per la parete del calanco"
+        descrizione: "Una parete d'argilla a scaglie, con il fondo della gola trenta braccia più in basso."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Le scaglie
+          testo: |
+            Scendi di fianco, con i talloni sulle scaglie e le dita nell'argilla, e arrivi sul fondo della gola in una
+            nuvola di polvere rossa. Zenni ti raggiunge poco dopo, più lento, senza sporcarsi la giubba.
+          pe: { atletica: 2 }
+          vai: avv-signora-gole
+        fallimento:
+          titolo: La scaglia che cede
+          testo: |
+            A metà parete una scaglia ti si sbriciola sotto il piede, e fai l'ultimo tratto sul fondo dei calzoni.
+            Arrivi giù con le mani scorticate e la bocca piena di polvere. Zenni scende per un'altra strada, e ti
+            aspetta.
+          effetti: { ferite: 0.5 }
+          vai: avv-signora-gole
+      - testo: "Prendere il letto del torrente secco"
+        descrizione: "I puntini dello straccio. Il fondo è duro, e da sopra non ti vede nessuno."
+        requisiti: [avv-signora-gole.sentiero >= 1]
+        esito:
+          titolo: Il letto del torrente
+          testo: |
+            Il torrente secco comincia sotto l'ultima carbonaia, un solco di sassi lisci che scende nei calanchi
+            senza mai salire sulle creste. Ci cammini dentro come in un corridoio. Zenni ti segue, e a un certo punto
+            ti chiede chi te l'ha detto.
+          vai: avv-signora-gole
+      - testo: "Fare il giro lungo con i muli della scorta"
+        descrizione: "Zenni conosce la pista dei muli. È lunga e tutta sotto il sole, e le borracce non bastano."
+        costo: 2
+        esito:
+          titolo: La pista dei muli
+          testo: |
+            Fate il giro largo per la pista dei muli, che sale sulle creste e poi scende per un canalone. Ci mettete fino a sera. Zenni la conosce bene, e la cammina senza guardare dove mette i piedi. Arrivi in fondo alle gole con
+            la testa che pulsa di sole.
+          effetti: { ferite: 0.5 }
+          vai: avv-signora-gole
+
+  # ------------------------------------------------------------ 0-2 · il canalone d'argilla
+  - id: avv-signora-gole-il-canalone
+    immagine: ambientazione/gradone-rosso
+    titolo: Il canalone d'argilla
+    sommario: "La gola scende in un canalone ripido, e ogni passo fa rotolare giù una manciata di zolle."
+    luogo: I Calanchi Rossi, il canalone
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole <= 2]
+    testo: |
+      La gola scende in un canalone ripido, con le pareti d'argilla che si stringono fino quasi a toccarsi in alto e
+      lasciano passare una riga di cielo. Il fondo è un pendio di polvere e di zolle staccate, e ogni passo ne fa
+      rotolare giù una manciata. Più in basso il canalone gira, e dalla curva sale un odore di bestia.
+
+      {natura Media} L'argilla regge dove è più scura. Lì l'ultima pioggia l'ha bagnata e il sole l'ha cotta, dura
+      come un coccio.
+
+      Zenni si ferma in cima e ti fa segno di andare avanti.
+    opzioni:
+      - testo: "Scendere sulle chiazze scure"
+        descrizione: "Dove l'argilla è scura regge. Bisogna trovarne una ogni passo."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Da un coccio all'altro
+          testo: |
+            Scendi piano da una chiazza scura all'altra, e le zolle restano dove sono. In fondo, dietro la curva,
+            l'odore di bestia viene da una carcassa di capra mezza mangiata.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: La chiazza sbagliata
+          testo: |
+            Una chiazza che sembrava scura era soltanto in ombra. Il pendio ti parte sotto i piedi e ti riporta in
+            cima insieme a un carro di zolle, mentre Zenni si scosta per non sporcarsi.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciarti scivolare fino in fondo"
+        descrizione: "Seduto, con i talloni avanti e le mani dietro. È il modo più veloce, e il più sporco."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: In una nuvola rossa
+          testo: |
+            Scivoli giù seduto in una nuvola di polvere, frenando con i talloni, e ti fermi dietro la curva con i
+            calzoni rossi fino alla cintura. Zenni arriva a piedi, un passo alla volta.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il sasso nella polvere
+          testo: |
+            A metà discesa la polvere nasconde un sasso, e il sasso ti trova il fianco. Ti fermi lì, con le lacrime
+            agli occhi, e risali a quattro zampe.
+          effetti: { ferite: 0.5 }
+      - testo: "Scavare i gradini con il coltello"
+        descrizione: "Un gradino alla volta, nell'argilla dura. Ci vuole il pomeriggio, e le mani ne escono male."
+        costo: 2
+        esito:
+          titolo: I gradini
+          testo: |
+            Scavi un gradino dopo l'altro con il coltello, fino in fondo al canalone. Quando hai finito il sole è
+            basso, e hai le nocche aperte dall'argilla. Zenni scende sui tuoi gradini senza ringraziare.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · il carro della Gilda
+  - id: avv-signora-gole-il-carro-della-gilda
+    immagine: icone/cargo-crate
+    titolo: Il carro della Gilda
+    sommario: "In fondo a una gola laterale c'è un carro della Gilda rovesciato, e il carrettiere è ancora a cassetta."
+    luogo: I Calanchi Rossi, una gola laterale
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole <= 2]
+    testo: |
+      In fondo a una gola laterale c'è un carro della Gilda rovesciato su un fianco, con le ruote verso il cielo e lo
+      stemma ancora leggibile sulla sponda. Dei muli restano le ossa e il cuoio secco. Le casse sono aperte e vuote,
+      con la paglia degli imballaggi sparsa dal vento, e il carrettiere è ancora a cassetta, seduto contro la sponda,
+      morto da settimane.
+
+      Zenni lo guarda a lungo. «Quello di primavera» dice. «A conti fatti, il primo.»
+
+      {medicina Media} Il morto ha un buco piccolo e pulito alla base della nuca, già chiuso. È morto di sete, molto
+      dopo.
+    opzioni:
+      - testo: "Guardare come sono state aperte le casse"
+        descrizione: "Una cassa della Gilda ha la serratura di ferro e il sigillo di cera. Chi la forza lascia il segno."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Le serrature intatte
+          testo: |
+            Le serrature sono intatte, e i sigilli sono stati tolti interi, con la lama, come si fa alla Casa dei
+            Nodi. Chi ha aperto queste casse aveva le chiavi, e le chiavi delle casse viaggiano con il capitano della
+            scorta. Le richiudi senza dire niente, e Zenni ti chiede se hai trovato qualcosa.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-signora-gole: 1, avv-signora-gole.zenni: 1 }
+        fallimento:
+          titolo: La scheggia
+          testo: |
+            Frughi fra le casse finché una scheggia di legno ti entra sotto l'unghia del pollice. Zenni ti dice che
+            sono state forzate, e la richiude lui.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire le tracce che partono dal carro"
+        descrizione: "Dal carro partono molti piedi scalzi e niente zoccoli. Vanno tutti nella stessa direzione."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: I piedi scalzi
+          testo: |
+            Le orme scalze vanno in fila verso nord-ovest, una dentro l'altra, come se una persona sola avesse
+            camminato avanti e indietro molte volte. Le segui fino al punto in cui la gola si apre.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il vento
+          testo: |
+            Il vento ha cancellato le orme a metà gola, e tu giri a vuoto fino al tramonto. Torni al carro con la
+            testa che ti scoppia di sole.
+          effetti: { ferite: 0.5 }
+      - testo: "Seppellire il carrettiere"
+        descrizione: "Sotto un mucchio di zolle, con la sua frusta. È poco, e porta via tempo."
+        costo: 2
+        esito:
+          titolo: La frusta
+          testo: |
+            Lo stendi in un incavo della parete e lo copri di zolle, con la frusta sul petto. Zenni ti aiuta per un
+            pezzo, poi va a sedersi all'ombra. Quando riparti hai le unghie piene d'argilla e la faccia del
+            carrettiere davanti agli occhi.
+          effetti: { profondita.avv-signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · la spirale sul sasso
+  - id: avv-signora-gole-la-spirale
+    immagine: icone/spiral-bloom
+    titolo: La spirale sul sasso
+    sommario: "Dove tre gole si incontrano c'è un sasso con una spirale incisa, uguale a quella dello straccio."
+    luogo: I Calanchi Rossi, l'incrocio delle tre gole
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole <= 2]
+    testo: |
+      Dove tre gole si incontrano c'è un sasso grande come un forno, l'unico sasso vero da quando sei sceso, e qualcuno
+      ci ha inciso sopra una spirale uguale a quella dello straccio di Nerina. Intorno al sasso la polvere è battuta da
+      molti piedi scalzi che hanno camminato in cerchio, come intorno a un pozzo. Ognuna delle tre gole scende da una
+      parte diversa.
+
+      {conoscenze-della-strada Difficile} I briganti segnano le strade per i compagni, con una tacca dalla parte
+      giusta. Qui le tacche mancano. Chi passa di qui non ha bisogno di sapere la strada, perché qualcuno la sa per
+      lui.
+    opzioni:
+      - testo: "Confrontare il sasso con lo straccio"
+        descrizione: "La spirale dello straccio ha un verso. Anche quella sul sasso, forse."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il verso della spirale
+          testo: |
+            La spirale sul sasso gira verso sinistra, come quella dello straccio, e l'ultimo giro esce verso la gola
+            di sinistra. Prendi quella, e dopo un'ora trovi un'altra spirale, più piccola, su una zolla.
+          pe: { accademiche: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il giro
+          testo: |
+            Giri intorno al sasso per confrontarlo da ogni lato, e dopo un po' ti accorgi che stai camminando nel
+            cerchio battuto, al passo degli altri. Ti fermi, e ci metti un pezzo a ricordare da che gola sei arrivato.
+          effetti: { tormento: 0.5 }
+      - testo: "Ascoltare le tre gole"
+        descrizione: "Una gola che porta da qualche parte ha il vento che va. Una che finisce, il vento che torna."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il vento che va
+          testo: |
+            Bagni un dito e lo alzi davanti a ognuna delle tre gole. Da due il vento torna indietro, dalla terza va avanti e porta un odore di fumo spento, e tu prendi quella.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Tre venti
+          testo: |
+            Le tre gole hanno tre venti diversi, e ognuno ti sembra quello giusto finché non provi l'altro. Il sole ti
+            batte sulla nuca per tutto il tempo.
+          effetti: { ferite: 0.5 }
+      - testo: "Restare nel letto del torrente secco"
+        descrizione: "I puntini dello straccio passano accanto al sasso e vanno avanti per conto loro."
+        requisiti: [avv-signora-gole.sentiero >= 1]
+        esito:
+          titolo: I puntini
+          testo: |
+            Il letto del torrente passa accanto al sasso senza girarci intorno, e prosegue fra due gole. Ci rientri,
+            e il fondo duro ti porta avanti senza una domanda.
+          effetti: { profondita.avv-signora-gole: 1 }
+      - testo: "Provare le tre gole una dopo l'altra"
+        descrizione: "Prima o poi una è quella giusta. Le altre due vanno fatte all'andata e al ritorno."
+        costo: 2
+        esito:
+          titolo: Tre gole
+          testo: |
+            La prima finisce contro una parete, la seconda in un pozzo di polvere. La terza va avanti. Quando la
+            imbocchi le gambe ti fanno male fino alle anche.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · la sentinella sul crinale
+  - id: avv-signora-gole-la-sentinella
+    immagine: icone/bandit
+    titolo: La sentinella
+    sommario: "Sul crinale sopra la gola c'è un ragazzo in piedi con gli occhi bianchi. Da quanto tempo, non si capisce."
+    luogo: I Calanchi Rossi, sotto il crinale
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole <= 2]
+    testo: |
+      Sul crinale sopra la gola c'è un ragazzo in piedi, con un bastone in mano e gli occhi bianchi rivolti alla strada, e non si muove. Ha la pelle delle braccia scorticata dal sole a strati, e le labbra gonfie e spaccate, e nessuno
+      gli ha detto quando può tornare. Per andare avanti bisogna passargli sotto, lungo la cresta.
+
+      {armi-da-distanza Media fallita} Da qui un sasso lo prenderesti, forse. Più probabilmente prenderesti Zenni, che ti sta salendo accanto.
+
+      {origine figlio-della-citta-bassa} In Città Bassa i ragazzi di vedetta li mettono sui tetti, e quando non
+      tornano a casa per cena qualcuno va a prenderli. Questo l'hanno lasciato qui a seccare.
+    opzioni:
+      - testo: "Passargli sotto senza farti vedere"
+        descrizione: "Guarda la strada e non la cresta. Basta restare nell'ombra delle zolle."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Nell'ombra delle zolle
+          testo: |
+            Passi sotto il crinale piegato in due e vai da un'ombra all'altra, e il ragazzo non gira la testa. Zenni passa
+            dopo di te senza piegarsi, e il ragazzo non gira la testa nemmeno per lui.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: La nota lunga
+          testo: |
+            Una zolla ti rotola sotto il piede, e il ragazzo gira la testa verso di te e canta una nota lunga, senza
+            parole. Da lontano un'altra voce risponde. Torni indietro e aspetti dietro una cresta finché le voci tacciono.
+          effetti: { tormento: 0.5 }
+      - testo: "Salire da lui e togliergli la scheggia"
+        descrizione: "Sai dove la portano e come si sfila. Un ragazzo con gli occhi scuri, quassù, ha bisogno d'acqua più che di altro."
+        requisiti: [avv-signora-gole.nuca >= 1]
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: L'acqua
+          testo: |
+            Gli arrivi alle spalle e gli sfili la scheggia dalla nuca, e il ragazzo si piega sulle ginocchia con gli
+            occhi scuri. Gli dai da bere un sorso alla volta, poi gli indichi la strada di Pannion e il fumo delle
+            carbonaie. Lui ci va, barcollando, senza voltarsi.
+          pe: { medicina: 2 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il bastone
+          testo: |
+            Il ragazzo si gira prima che tu arrivi e ti colpisce col bastone, e ha la forza di un uomo fatto. Scendi
+            dal crinale tenendoti il braccio, e lui torna a guardare la strada.
+          effetti: { ferite: 0.5 }
+      - testo: "Stenderlo prima che dia l'allarme"
+        descrizione: "È magro, ma chi lo tiene gli presta la forza che gli manca."
+        combattimento: avv-signora-gole-la-sentinella
+        vittoria:
+          titolo: Il ragazzo a terra
+          testo: |
+            Il ragazzo cade sulla cresta senza un lamento, e resta lì con gli occhi bianchi aperti verso il cielo. Lo
+            sistemi all'ombra di una zolla con la tua borraccia accanto, e passi.
+          effetti: { profondita.avv-signora-gole: 1 }
+        sconfitta:
+          titolo: La forza prestata
+          testo: |
+            Il ragazzo ti butta giù dalla cresta con il bastone e torna al suo posto, a guardare la strada come se tu
+            non ci fossi mai stato.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare il buio e passare"
+        descrizione: "Di notte guarda lo stesso, ma vede meno. Ci vuole il resto del giorno, sotto il sole."
+        costo: 2
+        esito:
+          titolo: Il resto del giorno
+          testo: |
+            Aspetti il buio sdraiato dietro una cresta, con il sole che ti cuoce la schiena, e passi quando non vedi
+            più le tue mani. Il ragazzo è ancora lassù, nero contro le stelle.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-4 · il ponte di corda
+  - id: avv-signora-gole-il-ponte-di-corda
+    immagine: icone/rope-bridge
+    titolo: Il ponte di corda
+    sommario: "Sopra un calanco più profondo degli altri i briganti hanno teso due corde. I nodi sono quelli dei carri."
+    luogo: I Calanchi Rossi, il calanco profondo
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 3, profondita.avv-signora-gole <= 4]
+    testo: |
+      La pista finisce sul bordo di un calanco più profondo degli altri, largo quanto una strada, con il fondo in
+      ombra. Dall'altra parte i briganti hanno teso un ponte di due corde, una per i piedi e una per le mani, legate a
+      pali di sequoia piantati nell'argilla. Le corde sono nuove, e i nodi sono quelli che si usano per legare le casse
+      sui carri.
+
+      Zenni prova la corda con il piede, senza dire niente.
+
+      {tecnologia Difficile} Il palo di qua è piantato bene. Quello di là si muove quando la corda si tende, e ogni
+      volta che qualcuno passa viene fuori di un dito.
+    opzioni:
+      - testo: "Passare sulle corde"
+        descrizione: "Una corda sotto i piedi e una sotto la mano, e il palo di là che si muove."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Di là
+          testo: |
+            Passi con i piedi di traverso sulla corda bassa e la mano che scorre su quella alta, e a metà il palo di
+            là si piega verso di te. Arrivi prima che ceda. Zenni passa dopo di te senza fatica, e il palo regge anche lui.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: La corda che scende
+          testo: |
+            A metà il palo di là cede di un palmo e la corda sotto i piedi scende di colpo. Resti appeso con le mani
+            alla corda alta e torni indietro un passo alla volta, con le palme bruciate.
+          effetti: { ferite: 0.5 }
+      - testo: "Rinforzare il palo di là con un'altra corda"
+        descrizione: "Una corda lanciata a un sasso dietro il palo, e tesa da qua. Bisogna mirare bene e tirare forte."
+        prova: { attributo: fisico, abilita: [armi-da-distanza, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il secondo nodo
+          testo: |
+            Al terzo lancio la corda si avvolge intorno a un sasso dietro il palo, e la tendi da qua finché il palo
+            si raddrizza. Il ponte adesso è fermo come un pontile di Pannion, e lo passi senza guardare giù.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: I lanci a vuoto
+          testo: |
+            Lanci finché hai le spalle in fiamme, e la corda torna indietro ogni volta. All'ultimo lancio ti scivola
+            il piede sul bordo e ti tieni a un ciuffo d'erba secca.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere nel calanco e risalire dall'altra parte"
+        descrizione: "In fondo c'è ombra, e una parete da risalire. Le corde le usano quelli che hanno fretta."
+        costo: 2
+        esito:
+          titolo: Il fondo in ombra
+          testo: |
+            Scendi nel calanco a ritroso e lo risali dall'altra parte, con le unghie nell'argilla. Sul fondo, all'ombra,
+            c'è un mucchio di stracci e di zoccoli rotti, quello che i briganti buttano giù dal ponte.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-4 · l'acqua rossa
+  - id: avv-signora-gole-l-acqua-rossa
+    immagine: icone/drop
+    titolo: L'acqua rossa
+    sommario: "Una pozza d'acqua rossa, l'unica da quando sei sceso. Sulla superficie galleggiano scorpioni morti."
+    luogo: I Calanchi Rossi, la conca della pozza
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 3, profondita.avv-signora-gole <= 4]
+    testo: |
+      In una conca fra le creste c'è una pozza d'acqua rossa d'argilla, l'unica che hai visto da quando sei sceso, con
+      le orme di decine di piedi scalzi intorno al bordo. Sull'acqua galleggiano scorpioni morti, piccoli come un dito,
+      a pancia in su. Le borracce si sono vuotate a mezzogiorno, e Zenni ha bevuto la sua parte e anche un po' della
+      tua.
+
+      {natura Difficile} Gli scorpioni non annegano in una pozza come questa. Qualcosa nell'acqua li ha uccisi, e i
+      briganti la bevono lo stesso.
+    opzioni:
+      - testo: "Filtrare l'acqua con la sabbia e la brace"
+        descrizione: "Un panno, un letto di sabbia, qualche tizzone pestato. Così si beve anche l'acqua delle carbonaie."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Difficile }
+        successo:
+          titolo: L'acqua chiara
+          testo: |
+            Fai passare l'acqua per il panno pieno di sabbia e di carbone pestato. Alla terza volta esce chiara, con un sapore amaro. Riempi le borracce. Zenni beve per primo, e per la prima volta ti ringrazia.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: L'acqua amara
+          testo: |
+            L'acqua esce dal panno ancora rossa, e la bevi lo stesso. Un'ora dopo sei piegato in due dietro una zolla, e
+            ci resti fino a sera.
+          effetti: { ferite: 0.5 }
+      - testo: "Tirare avanti senza bere"
+        descrizione: "Fino alla tana ci sono poche ore. Il corpo le regge, se non glielo chiedi."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: La lingua di cuoio
+          testo: |
+            Tiri avanti con la lingua di cuoio e un sasso liscio in bocca, come fanno i carrettieri della costa.
+            Dopo un po' la sete diventa un rumore di fondo, e la gola va avanti con te.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Le gambe
+          testo: |
+            A metà pomeriggio le gambe smettono di obbedire e ti siedi nella polvere senza averlo deciso. Torni alla
+            pozza a quattro zampe.
+          effetti: { ferite: 0.5 }
+      - testo: "Bere dalla pozza come i briganti"
+        descrizione: "La bevono loro, e sono ancora vivi. Più o meno."
+        costo: 2
+        esito:
+          titolo: La pozza
+          testo: |
+            Bevi a piene mani l'acqua rossa, che ha il sapore della ruggine. Per il resto della giornata ti gira la testa e
+            ti bruciano le viscere, ma le gambe vanno.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-4 · le mute dello scorpione
+  - id: avv-signora-gole-le-mute
+    immagine: icone/scorpion
+    titolo: Le mute
+    sommario: "Una conca piena di gusci vuoti di scorpione. Il più grande è lungo quanto un carro, e fra i gusci si muovono i piccoli."
+    luogo: I Calanchi Rossi, la conca delle mute
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 3, profondita.avv-signora-gole <= 4]
+    testo: |
+      La gola si allarga in una conca piena di gusci vuoti. Sono le mute di uno scorpione, appoggiate contro le pareti
+      come armature messe ad asciugare, e la più grande è lunga quanto un carro. Fra le mute si muovono gli scorpioni
+      giovani, grandi come cani da pastore, con la coda alzata.
+
+      Zenni sguaina la spada per la prima volta. «Questi non c'erano, a primavera» dice.
+
+      {armi-da-mischia Media} Il punto debole è la giuntura fra la coda e il corpo. Con un colpo di taglio dall'alto
+      la coda cade, e senza coda uno scorpione è un granchio.
+    opzioni:
+      - testo: "Farti largo fra i piccoli"
+        descrizione: "Sono due, e sono svelti. La coda arriva prima delle chele."
+        combattimento: avv-signora-gole-gli-scorpioni-giovani
+        vittoria:
+          titolo: Le code tagliate
+          testo: |
+            Quando il secondo scorpione resta a terra senza coda gli altri si infilano nelle mute vuote e non escono
+            più. Attraversi la conca con la lama ancora sporca, e Zenni ti guarda la mano che tiene l'elsa.
+          effetti: { profondita.avv-signora-gole: 1 }
+        sconfitta:
+          titolo: Il pungiglione
+          testo: |
+            Una coda ti prende alla coscia, e la gamba ti si gonfia sotto i calzoni. Zenni ti trascina fuori dalla
+            conca per il colletto e ti incide la puntura con il coltello.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare dentro una muta vuota"
+        descrizione: "Il guscio grande è vuoto e aperto sul davanti. Dentro, sei uno scorpione anche tu."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Dentro il guscio
+          testo: |
+            Ti infili nella muta più grande e la porti avanti strisciando, un palmo alla volta, con il guscio sopra la
+            testa. Gli scorpioni giovani ci passano accanto e non si fermano. Esci dall'altra parte della conca
+            coperto di una polvere che sa di aceto.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il guscio che si incrina
+          testo: |
+            A metà conca il guscio si incrina sotto il tuo peso, e due scorpioni si girano di scatto. Ne esci di corsa,
+            con un graffio di pungiglione lungo il polpaccio.
+          effetti: { ferite: 0.5 }
+      - testo: "Fare il giro sulle creste"
+        descrizione: "Le creste sono strette e friabili, ma lassù gli scorpioni non salgono."
+        costo: 2
+        esito:
+          titolo: Le creste
+          testo: |
+            Giri intorno alla conca sulle creste, in equilibrio su un filo d'argilla largo quanto un piede, mentre
+            sotto gli scorpioni alzano la coda al tuo passaggio. Scendi dall'altra parte con le caviglie che tremano.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta: la tana dello scorpione
+  - id: avv-signora-gole-la-tana-dello-scorpione
+    immagine: icone/scorpion-tail
+    titolo: La tana dello scorpione
+    sommario: "In fondo alla conca delle mute c'è la tana. Quello che ne esce è grande come due muli, e ha un punto azzurro sul dorso."
+    luogo: I Calanchi Rossi, la tana
+    area: avv-signora-gole
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole == 5, avv-signora-gole.scorpione == 0]
+    testo: |
+      Oltre la conca delle mute la parete del calanco ha un'apertura bassa e larga, e l'argilla intorno è liscia,
+      lucidata da un corpo che ci passa da anni. Dentro è buio e caldo. La pista dello straccio passa proprio lì
+      davanti, e non c'è un'altra strada.
+
+      Lo scorpione esce prima che tu decida. È grande come i due muli del carro di Ansgar messi insieme, con il guscio
+      color ruggine e le chele che si aprono e si chiudono a vuoto. Sul dorso, dove la coda si attacca al corpo, gli
+      brilla un punto azzurro.
+
+      Zenni ti si mette accanto, sulla sinistra, con la spada bassa. «Io la coda» dice, «tu le chele.» Combatte con i
+      piedi larghi e sa sempre dove mettersi, e per un momento sei contento di averlo lì.
+
+      {magia Media} Il punto azzurro è una scheggia di cristallo conduttore piantata nella giuntura, come quelle nella
+      nuca dei briganti. Anche la bestia è legata.
+
+      {percezione Difficile} Zenni si è messo sulla sinistra prima ancora che lo scorpione uscisse dalla tana. Da quella
+      parte la coda non arriva.
+    opzioni:
+      - testo: "Tenere le chele mentre Zenni cerca la coda"
+        descrizione: "Due lame contro una bestia grande come un carro. Zenni sa quello che fa."
+        combattimento: avv-signora-gole-lo-scorpione
+        vittoria:
+          titolo: La bestia rovesciata
+          testo: |
+            Lo scorpione si rovescia sul dorso con le zampe all'aria, e la coda cade in due pezzi sotto la spada di
+            Zenni. Gli stacchi la scheggia dalla giuntura, ed è tiepida come quelle dei briganti. Zenni ti passa la sua borraccia e ti dice che hai fatto un bel lavoro. «A conti fatti» aggiunge, «ci servivi intero.»
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-signora-gole: 1, avv-signora-gole.scorpione: 1 }
+        sconfitta:
+          titolo: La chela
+          testo: |
+            Una chela ti prende alla vita e ti scaglia contro la parete. Zenni ti trascina via fino alla conca delle
+            mute, e lo scorpione rientra nella tana senza inseguirvi, come se avesse avuto un ordine.
+          effetti: { tormento: 0.5 }
+      - testo: "Strappargli la scheggia dal dorso"
+        descrizione: "Zenni tiene le chele, tu salti sul guscio. La scheggia è dove la coda si attacca, e la coda si muove."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: La scheggia azzurra
+          testo: |
+            Salti sul guscio mentre lo scorpione si gira verso Zenni, e strappi la scheggia con tutte e due le mani. La bestia si ferma e scuote le chele come se si svegliasse, poi rientra a ritroso nella tana, da cui non esce più.
+            Zenni ti guarda la scheggia in mano e non dice niente.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-signora-gole: 1, avv-signora-gole.scorpione: 1 }
+        fallimento:
+          titolo: Giù dal guscio
+          testo: |
+            La coda ti trova a metà salto e ti butta giù dal guscio di schiena. Zenni ti tira via per una caviglia
+            prima che le chele arrivino, e lo scorpione torna nella tana.
+          effetti: { ferite: 1 }
+      - testo: "Lasciare che Zenni lo tenga occupato, e passare"
+        descrizione: "Zenni dice che lo tiene lui. Tu devi soltanto correre dall'altra parte."
+        costo: 2
+        esito:
+          titolo: Di corsa
+          testo: |
+            Zenni attira lo scorpione verso la conca battendo la spada sulle mute, e tu passi di corsa davanti alla tana.
+            Lui ti raggiunge un'ora dopo, con un taglio sul braccio e la bestia ferma dietro di sé, rientrata da sola
+            nella tana. Non ti spiega come ha fatto.
+          effetti: { profondita.avv-signora-gole: 1, avv-signora-gole.scorpione: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la tana vuota (dopo la svolta)
+  - id: avv-signora-gole-la-tana-vuota
+    immagine: icone/scorpion
+    titolo: La tana vuota
+    sommario: "Davanti alla tana dello scorpione gli scorpioni giovani si danno il cambio a mangiare."
+    luogo: I Calanchi Rossi, la tana
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole == 5, avv-signora-gole.scorpione >= 1]
+    testo: |
+      Davanti alla tana dello scorpione gli scorpioni giovani si sono presi il posto. Ci entrano e ne escono a turno,
+      con i pezzi di quello che c'è dentro fra le chele, e l'aria puzza di carne guasta. La pista dello straccio passa
+      fra la tana e la parete, a tre passi dalla fila.
+
+      {addestrare-animali Media} Mangiano a turno, e chi aspetta guarda gli altri e non te. Quando uno esce, ne entra
+      uno nuovo, e per un momento davanti alla tana non c'è nessuno.
+    opzioni:
+      - testo: "Passare nel momento del cambio"
+        descrizione: "Quando uno esce e l'altro non è ancora entrato. Tre passi, e non uno di più."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il cambio
+          testo: |
+            Aspetti il cambio accucciato dietro una muta, e quando l'ultimo esce passi davanti alla tana in tre passi
+            lunghi. Dietro di te i pungiglioni battono sul guscio vuoto.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il quarto passo
+          testo: |
+            Al terzo passo uno scorpione esce prima del tempo e ti trova davanti alla tana. Torni indietro di corsa
+            con la sua chela attaccata all'orlo del mantello.
+          effetti: { ferite: 0.5 }
+      - testo: "Spaventarli con una torcia di paglia"
+        descrizione: "Con la paglia del carro e un po' d'olio. Il fuoco li fa scappare, se lo tieni basso."
+        prova: { attributo: mentale, abilita: [natura, addestrare-animali], difficolta: Difficile }
+        successo:
+          titolo: La paglia
+          testo: |
+            Accendi la torcia e la tieni bassa, a un palmo dalla polvere, e gli scorpioni arretrano dentro la tana
+            tutti insieme. Passi con la fiamma davanti, e la lasci a bruciare sulla soglia.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: La paglia umida
+          testo: |
+            La paglia fa più fumo che fuoco, e gli scorpioni escono dal fumo invece di scappare. Ti ritiri tossendo,
+            con gli occhi che lacrimano.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che finiscano"
+        descrizione: "Prima o poi la carcassa finisce, e i piccoli tornano nelle mute."
+        costo: 2
+        esito:
+          titolo: La carcassa
+          testo: |
+            Aspetti fino a sera seduto contro la parete, mentre la carcassa si svuota pezzo per pezzo. Quando passi,
+            dentro la tana c'è soltanto il guscio, e il rumore delle chele ti resta nelle orecchie.
+          effetti: { profondita.avv-signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · la frana che non c'è
+  - id: avv-signora-gole-la-frana
+    immagine: icone/falling-rocks
+    titolo: La frana
+    sommario: "La gola è chiusa da una frana. La polvere sopra le zolle è sospesa, e non scende."
+    luogo: I Calanchi Rossi, la gola chiusa
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 6, profondita.avv-signora-gole <= 9]
+    testo: |
+      La gola è chiusa da una frana. Un pezzo di cresta è venuto giù tutto insieme e ha riempito il passaggio fino a
+      metà parete, con zolle grandi come botti incastrate l'una nell'altra e la polvere ancora sospesa sopra. La spirale
+      dello straccio è dall'altra parte.
+
+      Zenni ci gira intorno, tocca una zolla con la punta della spada e torna indietro. «Si sale» dice. «A conti fatti,
+      di qui si passa soltanto sopra.»
+
+      {magia Difficile} Sopra la frana l'aria trema come sopra le carbonaie di Pannion, e qui non brucia niente.
+    opzioni:
+      - testo: "Arrampicarti sulla frana"
+        descrizione: "Le zolle sono grandi e gli appigli non mancano. Fino in cima ci vuole un'ora."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: La cima che non arriva
+          testo: |
+            Ti arrampichi per un tempo lungo, e quando guardi giù sei sempre alla stessa altezza. Chiudi gli occhi e vai
+            avanti a tentoni, e dopo dieci passi stai camminando in piano, sulla polvere della gola. Dietro di te la
+            frana è ancora lì.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Sempre a metà
+          testo: |
+            Ti arrampichi finché le braccia ti tremano, e sei sempre a metà. Quando ti lasci andare tocchi terra subito,
+            come se non fossi mai salito, e la testa ti gira fino a sera.
+          effetti: { tormento: 0.5 }
+      - testo: "Camminarci dentro a occhi chiusi"
+        descrizione: "Se l'aria trema, forse quello che vedi non c'è. Il corpo però non ci crede."
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Molto difficile }
+        successo:
+          titolo: Dentro la frana
+          testo: |
+            Chiudi gli occhi e cammini dritto contro le zolle, con le mani lungo i fianchi, e le zolle non arrivano mai.
+            Quando riapri gli occhi sei dall'altra parte, e Zenni ti sta raggiungendo dalla cresta, sudato.
+          pe: { resilienza: 5 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il corpo che si ferma
+          testo: |
+            A un passo dalla frana il corpo si ferma da solo, e quando lo spingi avanti cadi in ginocchio. Zenni ti
+            tira su per un braccio, e ride.
+          effetti: { tormento: 0.5 }
+      - testo: "Guardare l'ombra della frana"
+        descrizione: "Nerina ha detto di guardare l'ombra. Il sole del pomeriggio batte sulla frana dal fianco."
+        requisiti: [avv-signora-gole.ombra >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Senza ombra
+          testo: |
+            Il sole batte sulla frana di fianco, e sulla parete dietro non c'è nessuna ombra. La gola, lì, è vuota. Ci
+            cammini dentro tenendo gli occhi sulla parete, e la frana ti si apre davanti come una tenda.
+          pe: { percezione: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Le ombre delle creste
+          testo: |
+            Le ombre delle creste si mescolano sulla parete, e non riesci a capire quale manca. Ci provi finché il
+            sole cala.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire Zenni lungo il bordo della cresta"
+        descrizione: "Zenni dice di conoscere un passaggio in alto. È lungo, ed esposto."
+        costo: 3
+        esito:
+          titolo: Il passaggio di Zenni
+          testo: |
+            Zenni ti porta su per la cresta e giù da un canalone, senza esitare a nessun bivio, e vi ritrovate dall'altra
+            parte della frana prima di sera. Quando gli chiedi come lo conosceva, ti dice che un capitano di scorta conosce tutto, e tu hai le gambe a pezzi.
+          effetti: { profondita.avv-signora-gole: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · le sentinelle del covo
+  - id: avv-signora-gole-le-sentinelle-del-covo
+    immagine: icone/robber
+    titolo: Le sentinelle del covo
+    sommario: "Una parete forata da grotte, e davanti alla più bassa due briganti fermi come pali."
+    luogo: I Calanchi Rossi, la parete delle grotte
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 6, profondita.avv-signora-gole <= 9]
+    testo: |
+      La gola si stringe davanti a una parete forata da grotte, scavate nell'argilla una sopra l'altra come le celle di
+      un alveare. Davanti alla più bassa stanno due briganti con gli occhi bianchi, un uomo grosso con un'ascia da
+      boscaiolo e una donna con il forcone, fermi come pali. Dalla grotta esce un'aria fresca che odora di stoffa.
+
+      Ogni tanto girano la testa insieme verso la gola, e poi la rigirano verso la grotta.
+
+      {empatia Difficile} Nelle loro facce manca perfino la fatica. Chi li tiene lì li ha svuotati come si svuota un
+      sacco, e ci ha messo dentro un ordine solo.
+    opzioni:
+      - testo: "Affrontare le sentinelle"
+        descrizione: "Un'ascia da boscaiolo e un forcone, in mano a due che non sentono dolore."
+        combattimento: avv-signora-gole-le-sentinelle
+        vittoria:
+          titolo: Due pali a terra
+          testo: |
+            L'uomo con l'ascia cade per ultimo e resta in ginocchio con gli occhi bianchi sulla gola. Li leghi
+            schiena contro schiena all'ombra e passi nella grotta.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        sconfitta:
+          titolo: Il forcone
+          testo: |
+            Il forcone ti prende di striscio al fianco e ti spinge indietro fino alla gola, e le sentinelle tornano al
+            loro posto senza inseguirti, a girare la testa insieme.
+          effetti: { tormento: 0.5 }
+      - testo: "Arrivargli alle spalle e sfilare le schegge"
+        descrizione: "Girano la testa insieme, e insieme la rigirano. Fra una volta e l'altra c'è il tempo di una scheggia."
+        requisiti: [avv-signora-gole.nuca >= 1]
+        prova: { attributo: mentale, abilita: medicina, difficolta: Difficile }
+        successo:
+          titolo: Gli occhi scuri
+          testo: |
+            Sfili la scheggia alla donna mentre girano la testa verso la gola, e all'uomo quando la rigirano. Si
+            siedono nella polvere con gli occhi scuri e si guardano come due estranei. Gli lasci la tua borraccia e la
+            strada di Pannion.
+          pe: { medicina: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: La donna che si gira
+          testo: |
+            La donna si gira prima del tempo e ti prende al braccio con il manico del forcone. Torni indietro di corsa,
+            e lei si rimette al suo posto.
+          effetti: { ferite: 0.5 }
+      - testo: "Entrare quando guardano dall'altra parte"
+        descrizione: "Due teste che girano insieme lasciano un vuoto insieme. È breve."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Il vuoto
+          testo: |
+            Conti i giri delle teste per un'ora, e al giro giusto ti infili fra i due, così vicino che senti l'odore
+            dell'ascia. Nessuno dei due si muove.
+          pe: { furtivita: 5 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Fra i due
+          testo: |
+            Arrivi fra i due quando le teste stanno già tornando. L'ascia ti passa a un palmo dalla faccia, e scappi
+            senza voltarti.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciare che Zenni li chiami via"
+        descrizione: "Zenni dice che i carrettieri rispondono al fischio della scorta. Glielo ha visto fare."
+        costo: 3
+        esito:
+          titolo: Il fischio della scorta
+          testo: |
+            Zenni fischia due note corte, e le sentinelle si voltano verso di lui e si allontanano lungo la gola, a
+            passo di marcia, finché non le vedi più. Ci mettete il resto del giorno a entrare senza farle tornare.
+            Il fischio ti resta nelle orecchie, e anche la faccia contenta di Zenni.
+          effetti: { profondita.avv-signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · le sete della Gilda
+  - id: avv-signora-gole-le-sete
+    immagine: icone/wooden-crate
+    titolo: Le sete della Gilda
+    sommario: "La grotta più grande è un magazzino pieno delle casse dei carri scomparsi. In fondo dormono cinque briganti, con gli occhi aperti."
+    luogo: I Calanchi Rossi, il magazzino
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 6, profondita.avv-signora-gole <= 9]
+    testo: |
+      La grotta più grande è un magazzino. Le casse dei carri scomparsi sono impilate fino al soffitto, insieme ai
+      rotoli di seta avvolti nella tela cerata. In un angolo ci sono le cassette imbottite in cui la Gilda trasporta i cristalli conduttori, e sono tutte vuote. Sulle brande in fondo dormono cinque briganti, con gli occhi aperti.
+
+      Zenni passa la mano sui rotoli di seta uno per uno, come si accarezza un cavallo.
+
+      {politica-ed-economia Media} Su metà delle casse c'è un segno di gesso, una piccola croce nell'angolo in basso.
+      Le casse con la croce hanno ancora il sigillo.
+    opzioni:
+      - testo: "Leggere i segni di gesso sulle casse"
+        descrizione: "Chi segna le casse in un magazzino le sta contando. Bisogna capire per chi."
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Le croci
+          testo: |
+            Le casse con la croce sono quelle dei carri migliori, e nessuno le ha aperte. Qualcuno le tiene da parte
+            per portarsele via intere, e i sigilli sono quelli della scorta di Zenni. Quando alzi gli occhi lui ti sta
+            guardando, con il pollice fermo sul pomo.
+          pe: { politica-ed-economia: 3 }
+          effetti: { profondita.avv-signora-gole: 1, avv-signora-gole.zenni: 1 }
+        fallimento:
+          titolo: Il brigante che si siede
+          testo: |
+            Sposti una cassa per leggere quella sotto, e uno dei briganti sulle brande si mette seduto. Resti immobile
+            finché si sdraia di nuovo, con gli occhi bianchi verso il soffitto.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare il magazzino senza svegliarli"
+        descrizione: "Dormono con gli occhi aperti. Non si sa che cosa vedano."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Fra le brande
+          testo: |
+            Passi fra le brande a piedi nudi, con gli stivali in mano, e i cinque briganti non si muovono. Sul fondo
+            del magazzino una tenda di seta nasconde un passaggio che scende.
+          pe: { furtivita: 5 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Cinque teste
+          testo: |
+            Un rotolo di seta ti cade da una pila, e le cinque teste si girano verso di te tutte insieme. Esci dal
+            magazzino all'indietro, e loro tornano a guardare il soffitto solo quando sei fuori.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che Zenni faccia il conto delle casse"
+        descrizione: "Zenni vuole sapere che cosa c'è da riportare alla Gilda. Ci vuole il tempo che ci vuole."
+        costo: 3
+        esito:
+          titolo: Il conto
+          testo: |
+            Zenni conta le casse a mezza voce, battendo il pollice su ognuna, e tu aspetti accanto all'ingresso con gli
+            occhi sui briganti addormentati. Ci mette fino a notte, e quando ha finito sorride. «A conti fatti» dice,
+            e non finisce la frase.
+          effetti: { profondita.avv-signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · le gabbie
+  - id: avv-signora-gole-le-gabbie
+    immagine: icone/cage
+    titolo: Le gabbie
+    sommario: "In una grotta laterale ci sono le gabbie, e dentro la gente presa sulla strada che non ha ancora la scheggia."
+    luogo: I Calanchi Rossi, la grotta delle gabbie
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 6, profondita.avv-signora-gole <= 9]
+    testo: |
+      In una grotta laterale ci sono le gabbie, fatte con le sponde dei carri legate con la corda, e dentro c'è la gente
+      presa sulla strada che non ha ancora la scheggia. Sono sei. Fra loro ci sono una carrettiera con un bambino in
+      braccio e due fratelli di Laresh che si tengono per mano. Hanno gli occhi scuri e non fanno rumore, e la
+      carrettiera si mette un dito sulle labbra.
+
+      Sul tavolo davanti alle gabbie c'è un astuccio di cuoio aperto, con una fila di schegge di cristallo e un
+      punteruolo d'osso.
+
+      {medicina Media} Il punteruolo ha la punta annerita. Lo scaldano sulla fiamma prima di usarlo, perché la pelle
+      si apra meglio.
+    opzioni:
+      - testo: "Sciogliere i nodi delle gabbie in silenzio"
+        descrizione: "Nodi da carro, tirati da gente che non ha fretta. Si sciolgono, a saperli prendere."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: I nodi
+          testo: |
+            Sciogli i nodi uno dopo l'altro, dal più lento al più stretto, e le sponde si aprono senza un cigolio. I sei
+            prigionieri escono in fila e risalgono la gola verso il bivio, scalzi. La carrettiera ti tocca la mano
+            passando. Getti l'astuccio delle schegge nel buio.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Il nodo che stringe
+          testo: |
+            Tiri il capo sbagliato e il nodo si stringe con uno schiocco che rimbalza nella grotta. Ti nascondi dietro
+            le gabbie finché il rumore dei piedi scalzi fuori non si allontana.
+          effetti: { tormento: 0.5 }
+      - testo: "Spezzare le sponde con le mani"
+        descrizione: "Legno di carro vecchio, mezzo marcio. Ma fa rumore, e ci vuole forza."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Molto difficile }
+        successo:
+          titolo: Il legno marcio
+          testo: |
+            Le sponde si spezzano una dopo l'altra sotto le tue mani, con un rumore sordo che l'argilla si beve. I
+            prigionieri escono in fila e risalgono la gola verso il bivio. La carrettiera ti tocca la mano passando.
+          pe: { atletica: 5 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Le schegge di legno
+          testo: |
+            La sponda non si spezza, ti si apre fra le dita in schegge lunghe come aghi. Il bambino comincia a
+            piangere, e la madre gli mette una mano sulla bocca.
+          effetti: { ferite: 0.5 }
+      - testo: "Promettere che tornerai a prenderli"
+        descrizione: "Dopo, quando la gola sarà libera. Adesso c'è da andare avanti."
+        costo: 3
+        esito:
+          titolo: La promessa
+          testo: |
+            Glielo prometti a bassa voce attraverso le sponde, e la carrettiera annuisce senza crederci. Zenni ti
+            aspetta fuori dalla grotta e non ti chiede niente. Per il resto della strada senti il bambino che non piange.
+          effetti: { profondita.avv-signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · il canto
+  - id: avv-signora-gole-il-canto
+    immagine: icone/sound-waves
+    titolo: Il canto
+    sommario: "Dalla curva della gola arriva una voce di donna che canta senza parole, e dopo un po' cammini al suo tempo."
+    luogo: I Calanchi Rossi, la gola del canto
+    area: avv-signora-gole
+    ripetibile: true
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 6, profondita.avv-signora-gole <= 9]
+    testo: |
+      Più avanti la gola si piega, e dalla curva arriva una voce di donna che canta, bassa, senza parole. Il canto
+      rimbalza fra le pareti d'argilla e arriva da tutte le parti, e dopo un po' ti accorgi di camminare al suo tempo.
+
+      Zenni cammina tranquillo, con la testa bassa. Nelle orecchie ha due pallini di cera rossa, la stessa dei
+      sigilli della Gilda.
+
+      {resilienza Difficile fallita} Il canto ti dice che puoi riposare, e ti sembra un'idea eccellente. Te lo dice con la voce di qualcuno che conoscevi.
+    opzioni:
+      - testo: "Andare avanti contando i passi ad alta voce"
+        descrizione: "Un numero dopo l'altro, più forte del canto. Se perdi il conto, ti siedi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il conto dei passi
+          testo: |
+            Conti i passi a voce alta, uno sopra l'altro, finché il canto resta indietro e diventa un rumore come il
+            vento. A duecento sei oltre la curva, con la gola secca.
+          pe: { resilienza: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Seduto
+          testo: |
+            Perdi il conto a ventitré, e ti ritrovi seduto nella polvere con la schiena contro la parete, senza sapere
+            da quanto. Zenni ti sta guardando dall'altra parte della gola, tranquillo.
+          effetti: { tormento: 0.5 }
+      - testo: "Cantarci sopra una canzone dei carbonai"
+        descrizione: "Quella che si canta alla sega a due mani. Ha un tempo suo, e non si piega."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: La sega a due mani
+          testo: |
+            Canti la canzone della sega a due mani, quella che a Pannion tiene il tempo nella fossa, e il canto della
+            gola non riesce a entrarci. Arrivi oltre la curva stonato e intero.
+          pe: { espressivita: 3 }
+          effetti: { profondita.avv-signora-gole: 1 }
+        fallimento:
+          titolo: Le due canzoni
+          testo: |
+            Dopo qualche strofa la tua canzone prende il tempo dell'altra, e non te ne accorgi finché Zenni non ti
+            ferma con una mano sulla spalla.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiedere a Zenni un po' della sua cera"
+        descrizione: "Due pallini di cera rossa per le orecchie. Ne avrà dell'altra, un capitano preparato."
+        prova: { attributo: sociale, abilita: [persuasione, ingannare], difficolta: Molto difficile }
+        successo:
+          titolo: La cera dei sigilli
+          testo: |
+            Zenni ci pensa troppo a lungo, poi stacca un pezzo di cera da un sigillo che porta in tasca e te lo dà. Ti
+            tappi le orecchie, e il canto diventa una cosa lontana. Una cosa ti resta in mente. Lui la cera l'aveva
+            pronta prima di sentire il canto.
+          pe: { persuasione: 5 }
+          effetti: { profondita.avv-signora-gole: 1, avv-signora-gole.zenni: 1 }
+        fallimento:
+          titolo: Ne avevo due
+          testo: |
+            «Ne avevo due» dice Zenni, e si tocca un orecchio. Da quel momento cammina tre passi avanti a te, senza
+            voltarsi.
+          effetti: { sospetto: 0.5 }
+      - testo: "Tapparti le orecchie con la stoffa e andare"
+        descrizione: "Due strisce della camicia, strette fino a far male. Il canto passa lo stesso, ma meno."
+        costo: 3
+        esito:
+          titolo: La stoffa
+          testo: |
+            Ti fasci la testa con due strisce di camicia, strette fino a farti pulsare le tempie, e cammini oltre la
+            curva con il canto che arriva attutito, come da sotto l'acqua. Quando ti togli la stoffa ti sembra ancora
+            di sentirlo.
+          effetti: { profondita.avv-signora-gole: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 10 · il cuore: la Signora delle gole
+  - id: avv-signora-gole-la-signora-delle-gole
+    immagine: icone/snake
+    titolo: La Signora delle gole
+    sommario: "La spirale dello straccio è una conca con una pozza. I briganti stanno in cerchio intorno all'acqua, e una ragazza del cerchio si volta."
+    luogo: I Calanchi Rossi, la conca della pozza
+    area: avv-signora-gole
+    requisiti: [avventura.signora-gole == 5, profondita.avv-signora-gole >= 10]
+    testo: |
+      La spirale dello straccio è una conca rotonda in fondo all'ultima gola, chiusa da pareti d'argilla così alte che
+      il sole ci arriva soltanto la sera, di traverso. Sul fondo c'è una pozza d'acqua ferma, e intorno alla pozza stanno
+      i briganti, una trentina, in cerchio, con gli occhi bianchi rivolti all'acqua. Nella parete sopra la pozza è
+      incastrato un cristallo conduttore grande come una botte, che pulsa di una luce azzurra lenta, e a ogni pulsazione
+      i briganti alzano il mento insieme.
+
+      Una ragazza del cerchio si volta verso di te. È una ragazza qualunque, scalza, con il grembiule di un'osteria e
+      gli occhi bianchi come gli altri, e sorride. Il sole basso le sta alle spalle, e la sua ombra si allunga sulla polvere fino ai tuoi piedi. È un'ombra lunghissima e senza gambe, che finisce in una coda.
+
+      «Sei arrivato» dice la ragazza, con la voce dolce che parlava nella bocca di Nerina. «Riposati, adesso.»
+
+      Corrado Zenni ti passa accanto e va a mettersi alle sue spalle, con la spada nel fodero e la cera nelle orecchie. *Per questo conosceva la strada.* La voce ti entra dalla nuca. Ti dice che hai camminato abbastanza e che nel cerchio c'è un posto anche per te.
+
+      {empatia Media} Zenni non la guarda. Tiene gli occhi sulla pozza come i briganti, e ha le spalle di un uomo che
+      paga un debito.
+
+      {origine accolito-del-velo} La voce ti offre il riposo con le parole che in Cattedrale si dicono ai morenti. Le
+      conosci, e sai che dopo quelle parole, in Cattedrale, non si risponde.
+    opzioni:
+      - testo: "Resistere alla sua voce"
+        descrizione: "La voce entra dalla nuca e conosce il tuo nome. Bisogna tenerla fuori, una parola alla volta."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Fuori dalla testa
+          testo: |
+            Pianti i piedi nella polvere e ti dici il tuo nome, quello vero, finché la voce dolce non trova più dove
+            stare. La ragazza smette di sorridere, e la sua faccia scivola via come acqua da un vetro.
+          pe: { resilienza: 5 }
+          segue: avv-signora-gole-la-lama-ingioiellata
+        fallimento:
+          titolo: Il posto nel cerchio
+          testo: |
+            Ti ritrovi nel cerchio con gli altri, il mento alzato verso il cristallo, senza ricordare di averci
+            camminato. Una mano ti scosta i capelli dalla nuca. Ti strappi via urlando e corri su per la gola, e non ti
+            fermi finché non vedi il fumo di Pannion.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Guardarle l'ombra e non la faccia"
+        descrizione: "Nerina l'aveva detto. L'ombra è l'unica cosa che lei non sa cambiare."
+        requisiti: [avv-signora-gole.ombra >= 1]
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Media }
+        successo:
+          titolo: La coda nella polvere
+          testo: |
+            Abbassi gli occhi sulla coda d'ombra che arriva ai tuoi piedi e non li rialzi, e la voce dolce si accorge
+            che non la guardi. Si fa più forte e poi più rauca, finché si spezza.
+          pe: { percezione: 5 }
+          segue: avv-signora-gole-la-lama-ingioiellata
+        fallimento:
+          titolo: Gli occhi che salgono
+          testo: |
+            Tieni gli occhi sull'ombra finché la voce dice il tuo nome, e gli occhi salgono da soli. Ti ritrovi nel
+            cerchio, con una mano sulla nuca. Scappi su per la gola con le unghie di qualcuno ancora nella pelle.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Fingere di cedere"
+        descrizione: "Lasciarle credere che la voce abbia preso. Per farla avvicinare, e per vedere che cosa fa Zenni."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: Il mento alzato
+          testo: |
+            Alzi il mento come i briganti, e lasci che gli occhi ti si appannino. La ragazza ti viene vicino, e quando
+            ti tocca la nuca le prendi il polso. Il polso è freddo e squamoso, e la faccia della ragazza si sfa.
+          pe: { ingannare: 5 }
+          segue: avv-signora-gole-la-lama-ingioiellata
+        fallimento:
+          titolo: La finta che diventa vera
+          testo: |
+            Fingi di cedere, e a metà della finta non stai più fingendo. Ti svegli sul ciglio dei calanchi all'alba,
+            con la nuca graffiata e nessun ricordo di come ci sei arrivato.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Dire la Preghiera del Battito"
+        descrizione: "Quella che si dice a turno nei riti di purificazione. La voce dolce ha preso le parole della Cattedrale, e la Cattedrale ne ha altre."
+        quando: [origine.accolito-del-velo >= 1]
+        prova: { attributo: mentale, abilita: [resilienza, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Finché il cuore del mondo batterà
+          testo: |
+            Dici due volte la Preghiera del Battito a voce alta, come in Cattedrale alle veglie, e la voce
+            dolce non trova lo spazio fra le parole. La ragazza smette di sorridere, e la sua faccia scivola via.
+          pe: { resilienza: 5 }
+          segue: avv-signora-gole-la-lama-ingioiellata
+        fallimento:
+          titolo: La preghiera interrotta
+          testo: |
+            A metà preghiera la voce dolce la finisce al posto tuo, e la finisce meglio. Ti ritrovi nel cerchio, e
+            scappi su per la gola senza ricordare quando hai cominciato a correre.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ascoltare il cristallo invece della voce"
+        descrizione: "Il cristallo grande batte, e la voce batte con lui. All'Accademia si impara a sentire un cristallo sotto tutto il resto."
+        quando: [origine.allievo-di-torvessa >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il battito sotto la voce
+          testo: |
+            Ascolti il battito del cristallo sotto la voce, come si ascolta una lente prima di accordarla, e la voce
+            diventa una cosa appoggiata sopra, staccata dal resto. La ragazza se ne accorge, e la sua faccia scivola via.
+          pe: { magia: 5 }
+          segue: avv-signora-gole-la-lama-ingioiellata
+        fallimento:
+          titolo: La lente sbagliata
+          testo: |
+            Cerchi il battito, e trovi la voce dentro il battito. Ti ritrovi nel cerchio con una mano sulla nuca, e
+            scappi su per la gola senza ricordare come.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+
+  - id: avv-signora-gole-la-lama-ingioiellata
+    tipo: seguito
+    immagine: icone/snake-tongue
+    titolo: La lama ingioiellata
+    sommario: "La Signora delle gole smette di fingere, e Corrado Zenni le sta a fianco con la spada alta."
+    luogo: I Calanchi Rossi, la conca della pozza
+    area: avv-signora-gole
+    requisiti: [avventura.signora-gole == 5]
+    testo: |
+      Dove c'era la ragazza adesso c'è una donna alta, con la pelle verde e lucida e gli occhi d'oro, che dalla vita in
+      giù è una serpe lunga quanto la pozza. È la Signora delle gole dei canti dei carrettieri, e non ha più bisogno di
+      sorridere. Da sotto le spire tira fuori una lama lunga e curva, con il dorso tempestato di cristalli conduttori
+      piccoli come unghie, presi dalle cassette della Gilda. Quando la muove i cristalli si accendono.
+
+      Intorno alla pozza i briganti non si muovono. Guardano l'acqua, e aspettano un ordine.
+
+      Zenni le si mette a destra, con la spada sguainata. «Te l'avevo detto, signora» dice senza voltarsi. «Questo non si
+      piega.»
+
+      {armi-da-mischia Media} La coda è lenta a girarsi, e lei lo sa. Tiene sempre Zenni dalla parte della coda.
+
+      {tecnologia Difficile} Il cristallo grande nella parete batte allo stesso tempo di quelli sulla lama. Se si spegne
+      quello, si spengono anche gli altri, e forse anche le schegge.
+    opzioni:
+      - testo: "Affrontare la Signora e il suo capitano"
+        descrizione: "La lama ingioiellata e la coda lunga quanto la pozza, e accanto la spada di un capitano che conosce il mestiere."
+        combattimento: avv-signora-gole-la-signora
+        vittoria:
+          titolo: La pozza
+          testo: |
+            Zenni cade per primo e resta in ginocchio con la spada lontana. La Signora si ritrae verso la pozza perdendo
+            sangue scuro, e quando la colpisci l'ultima volta scivola nell'acqua e non risale. La lama le cade di mano e
+            affonda. Il cristallo nella parete si spegne, e i briganti si accasciano uno alla volta, con gli occhi scuri.
+
+            All'alba risalite la gola tutti insieme, con Zenni legato in mezzo alla fila.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.signora-gole: 1, monete: 60 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: La coda
+          testo: |
+            La coda ti prende alle gambe e ti sbatte contro la parete, e la lama ingioiellata ti apre la spalla. Scappi
+            su per la gola trascinandoti, e nessuno ti insegue. Dietro di te la voce dolce ricomincia a cantare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Colpire Zenni prima che si muova"
+        descrizione: "Lo sapevi da prima. Lui ancora non sa che lo sapevi, e ha la cera nelle orecchie."
+        requisiti: [avv-signora-gole.zenni >= 1]
+        combattimento: avv-signora-gole-la-signora-sola
+        vittoria:
+          titolo: Il capitano a terra
+          testo: |
+            Zenni non ti sente arrivare, e cade con l'elsa della tua lama sulla tempia prima di sguainare. La Signora
+            resta sola, e quando la colpisci l'ultima volta scivola nella pozza e non risale. La lama le cade di mano e
+            affonda. Il cristallo nella parete si spegne, e i briganti si accasciano uno alla volta, con gli occhi scuri.
+
+            All'alba risalite la gola tutti insieme, con Zenni legato in mezzo alla fila.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.signora-gole: 1, monete: 60 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: La coda
+          testo: |
+            La coda ti prende alle gambe e ti sbatte contro la parete, e la lama ingioiellata ti apre la spalla. Scappi
+            su per la gola trascinandoti, mentre Zenni si rialza tenendosi la testa. Dietro di te la voce dolce
+            ricomincia a cantare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Spezzare il cristallo grande nella parete"
+        descrizione: "Sopra la pozza, a tre uomini d'altezza. Bisogna arrivarci con la Signora e Zenni addosso."
+        prova: { attributo: fisico, abilita: [atletica, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: Il cristallo spento
+          testo: |
+            Corri sul bordo della pozza, salti sulle spire della Signora e da lì alla parete, e colpisci il cristallo
+            con il pomo finché non si crepa. La luce azzurra si spegne, i cristalli sulla lama si spengono con lei, e i
+            briganti si voltano verso la Signora con gli occhi scuri. Quello che succede dopo lo fanno loro, e quando
+            finisce lei è nella pozza. La lama è affondata con lei, e Zenni l'hanno già legato i carrettieri.
+          pe: { atletica: 5 }
+          effetti: { avventura.signora-gole: 1, monete: 60 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La parete d'argilla
+          testo: |
+            L'argilla della parete ti cede sotto le dita e cadi sulle spire, che si chiudono. Ne esci con le costole
+            incrinate e la lama di Zenni piantata nella coscia, e scappi su per la gola senza voltarti.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Svegliare i briganti, uno alla volta"
+        descrizione: "Sai dove stanno le schegge e come si sfilano. Trenta schegge, mentre la Signora ti cerca con la coda."
+        requisiti: [avv-signora-gole.nuca >= 1]
+        prova: { attributo: mentale, abilita: medicina, difficolta: Difficile }
+        successo:
+          titolo: Il cerchio che si gira
+          testo: |
+            Corri dietro il cerchio e sfili le schegge una dopo l'altra, sempre più in fretta, e ogni brigante che torna scuro si
+            gira verso la Signora con quello che ha in mano. Lei li chiama con la voce dolce, e la voce non li prende
+            più. Quando finisce è nella pozza, con la lama affondata accanto. Zenni si è arreso al primo carrettiere.
+          pe: { medicina: 5 }
+          effetti: { avventura.signora-gole: 1, monete: 60 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La coda dietro il cerchio
+          testo: |
+            Al terzo brigante la coda ti trova dietro il cerchio e ti stringe finché non vedi nero. Ti lascia andare
+            soltanto per riprenderti meglio, e tu ne approfitti per correre su per la gola.
+          effetti: { ferite: 1.5, tormento: 1 }
+          vai: superficie-fratturata

@@ -1,0 +1,742 @@
+# Avventura 1, «La notte della Zanna Rotta» (avventura.zanna-rotta 0 → 8), docs/piano-avventure.md. Si apre dopo
+# Capomozzo (pista.capomozzo >= 10). Alle Scuderie della Zanna Rotta muoiono i cavalli, e Dolovan Stroud dà la colpa
+# agli orchi. È stato Rinaldo Gessi, un mercante di lana che dorme alla Locanda di Ilka: nella Foresta Strisciante ha
+# raccolto un cristallo in una radura dove risale una sacca di Marea, e di notte diventa una bestia senza saperlo.
+# - 0 → 1 l'aggancio alle Scuderie, in due varianti: senza cavalcatura (la giumenta sotto la giubba) e con
+#   (`chiave.cavalcatura`: il tuo cavallo era nel box accanto, ed è l'unico che ha visto).
+# - 1 → 2 la stalla senza tracce. Con scuderie.stroud == 1 c'è Kharb, che dorme nell'ultimo box (citta/minori.yaml).
+# - 2 → 3 la tinozza nel cortile della Locanda di Ilka, dove finiscono le gocce di sangue.
+# - 3 → 4 i tre ospiti delle camere sul cortile. Chi ascolta Rinaldo da solo guadagna la sua fiducia
+#   (avv-zanna-rotta.fiducia), e il Mercante dei Ponti ci arriva parlando di lana.
+# - 4 → 5 la notte nella stalla: lo scontro con la bestia da chiudere nel box, due vie Difficili e, con la fiducia,
+#   una Media (chiamarla per nome).
+# - 5 → 6 il mattino nel box: Rinaldo ricorda la strada (avv-zanna-rotta.itinerario) oppure Dolovan ti dà lo spiedo
+#   da orso (avv-zanna-rotta.spiedo). Con la fiducia la strada si ha senza prova.
+# - 6 il cristallo nella borsa, facoltativo (avv-zanna-rotta.cristallo), e la spedizione (spedizione.yaml), il cui
+#   cuore porta a 7.
+# - 7 → 8 l'epilogo: Rinaldo ai miliziani della casa di pietra blu (rep.caserma) o al Circolo di Velthar
+#   (rep.circolo), avv-zanna-rotta.destino; poi, sempre alle Scuderie, la pelliccia di Mezzaluna (oggetti.yaml).
+#   La pelliccia è una scena fissa e non un seguito: test/revisione.test.ts prova i primi due seguiti dei contenuti, e
+#   la cartella avventure/ viene prima di citta/.
+# Lore nuova, piccola: Besk affitta tre camere sul cortile della locanda, con un lavatoio per gli ospiti.
+# Nomi nuovi in glossario.yaml.
+quality:
+  - { id: avventura.zanna-rotta, immagine: ambientazione/scuderie-della-zanna-rotta, nome: "La notte della Zanna Rotta", categoria: pista, descrizione: "Alle Scuderie della Zanna Rotta qualcosa entra di notte e sbrana i cavalli. Dolovan Stroud dice che sono gli orchi, e che le tracce non ci sono." }
+  - { id: avv-zanna-rotta.fiducia, nome: Rinaldo si fida di te, categoria: stato, nascosta: true, descrizione: "1 se Rinaldo Gessi ti ha detto da solo che si sveglia con il fango sui piedi." }
+  - { id: avv-zanna-rotta.itinerario, immagine: icone/treasure-map, nome: La strada di Rinaldo, categoria: stato, descrizione: "Rinaldo Gessi ti ha raccontato la sua strada nella Foresta Strisciante, dal bivacco sotto la sequoia alla radura dei vetri, con le croci che ha inciso sui tronchi." }
+  - { id: avv-zanna-rotta.spiedo, immagine: icone/barbed-spear, nome: Lo spiedo di Dolovan, categoria: stato, descrizione: "Lo spiedo da orso di Dolovan Stroud, con la traversa di ferro sotto la punta. Te l'ha dato per la bestia vera, e lo rivuole indietro." }
+  - { id: avv-zanna-rotta.cristallo, immagine: icone/crystal-cluster, nome: Il cristallo di Rinaldo, categoria: stato, descrizione: "Il cristallo grigio che Rinaldo Gessi ha raccolto nella radura, avvolto nel piombo. Pulsa, e ogni tanto senti che cosa gli risponde." }
+  - { id: avv-zanna-rotta.svolta, nome: Hai visto la radura dei vetri, categoria: stato, nascosta: true, descrizione: "1 se nella radura dei vetri hai visto gli animali andare verso la scarpata." }
+  - { id: avv-zanna-rotta.destino, nome: Che ne è di Rinaldo, categoria: stato, nascosta: true, descrizione: "1 Rinaldo è nella cella della casa di pietra blu; 2 è al margine del Bosco di Velthar, con il Circolo." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'aggancio, senza cavalcatura
+  - id: avv-zanna-rotta-la-giumenta-sotto-la-giubba
+    presso: scuderie-della-zanna-rotta
+    immagine: personaggi/dolovan-stroud
+    titolo: La giumenta sotto la giubba
+    sommario: "All'alba, nel cortile delle Scuderie della Zanna Rotta, c'è una giumenta sbranata. Dolovan Stroud dice che è la seconda, e che di tracce non ce n'è nemmeno una."
+    luogo: Scuderie della Zanna Rotta, il cortile, all'alba
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 0, pista.capomozzo >= 10, chiave.cavalcatura == 0]
+    testo: |
+      Nel cortile delle Scuderie della Zanna Rotta c'è una giumenta baia stesa sulla paglia, con il ventre aperto
+      dalle costole all'inguine. Qualcuno le ha coperto la testa con una giubba di cuoio. La giubba è di Dolovan
+      Stroud, che sta in maniche di camicia accanto all'abbeveratoio e il freddo dell'alba non sembra sentirlo.
+
+      «È la seconda in dieci notti» dice senza salutarti. «I miliziani della casa di pietra blu hanno scritto *lupi*
+      sul loro libro e se ne sono andati prima di colazione. Lupi che tirano il chiavistello.» Sputa il filo di
+      paglia che aveva fra i denti. «Sono gli orchi. Un orco un chiavistello lo apre, e basta.»
+
+      Poi ti guarda le mani come guarda i denti di un cavallo prima di comprarlo. Dice che le tracce le legge da
+      trent'anni e che intorno alla stalla non ne ha trovata nemmeno una. Vuole un altro paio d'occhi che non siano
+      i suoi, e un testimone da portare allo sceriffo il giorno che avrà ragione.
+
+      {natura Media} Una bestia che sbrana così di solito mangia. Questa ha aperto la giumenta e l'ha lasciata
+      intera, come si apre un sacco per vedere che cosa c'è dentro.
+
+      {origine figlio-della-citta-bassa} In Città Bassa un cavallo morto lo compra il macellaio prima di
+      mezzogiorno, e Dolovan lo sa meglio di te. Il macellaio non l'ha chiamato, e la giubba sulla testa della
+      giumenta non se la riprende.
+    opzioni:
+      - testo: "Dire a Dolovan che guarderai"
+        descrizione: "Dolovan vuole un paio d'occhi che non siano i suoi. In cambio ti lascia la stalla aperta giorno e notte."
+        costo: 1
+        esito:
+          titolo: Un altro paio d'occhi
+          testo: |
+            Dolovan annuisce una volta sola, come si chiude il prezzo di un puledro, e ti porta alla porta della
+            stalla. Prima di entrare si ferma sotto la zanna d'orco inchiodata sull'architrave e la tocca con due
+            dita prima di tirare il chiavistello.
+          effetti: { avventura.zanna-rotta: 1 }
+      - testo: "Chiedergli una paga prima di guardare"
+        descrizione: "Un testimone davanti allo sceriffo vale qualcosa. Dolovan di solito paga in pane, ma gli orchi gli costano più cari dei cavalli."
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Il prezzo degli occhi
+          testo: |
+            Gli spieghi quanto vale un testimone quando lo sceriffo non ti crede, e Dolovan ci pensa con la mascella
+            che lavora sul filo di paglia. Poi va nella selleria e torna con una borsa di cuoio unta, che ti mette
+            in mano dicendo che quella è per gli occhi, e che della bocca davanti allo sceriffo ne parlerete
+            un'altra volta.
+          pe: { persuasione: 3 }
+          effetti: { avventura.zanna-rotta: 1, monete: 12 }
+        fallimento:
+          titolo: Il prezzo sbagliato
+          testo: |
+            Chiedi troppo, e lo chiedi accanto a una giumenta sbranata. Dolovan ti guarda come un cavallo che morde
+            la mano che lo striglia, e due ragazzi del vicolo fermi al cancello si danno di gomito. Alla fine ti fa
+            entrare lo stesso, senza una moneta.
+          effetti: { avventura.zanna-rotta: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 0 → 1 · l'aggancio, con la cavalcatura
+  - id: avv-zanna-rotta-il-tuo-cavallo-ha-visto
+    presso: scuderie-della-zanna-rotta
+    immagine: icone/horse-head
+    titolo: Il tuo cavallo ha visto
+    sommario: "Stanotte, alle Scuderie della Zanna Rotta, qualcosa ha sbranato la giumenta nel box accanto al tuo cavallo. Il tuo si è salvato, e nella stalla non vuole più entrare."
+    luogo: Scuderie della Zanna Rotta, il cortile, all'alba
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 0, pista.capomozzo >= 10, chiave.cavalcatura >= 1]
+    testo: |
+      Quando passi a riprendere il tuo cavallo, Dolovan Stroud te lo porta fuori lui, tenendolo corto per la
+      cavezza. La cavezza è spezzata e rifatta con un nodo, e sulla groppa ci sono tre graffi paralleli lunghi una
+      spanna, già asciutti. In mezzo al cortile, sotto una coperta da sella, c'è la giumenta baia che stava nel box
+      accanto al suo, con il ventre aperto.
+
+      «Il tuo ha spaccato due tavole a calci e si è salvato» dice Dolovan. «Lei no. È la seconda in dieci notti, e i
+      miliziani della casa di pietra blu hanno scritto *lupi* sul loro libro e se ne sono andati.» Sputa il filo di
+      paglia. «Sono gli orchi. Un orco il chiavistello lo apre, e basta.»
+
+      Il tuo cavallo la giumenta non la guarda. Tiene il collo girato verso la stalla e le orecchie piatte, e quando
+      Dolovan prova a riportarlo dentro pianta gli zoccoli sul selciato.
+
+      {cavalcare Media} Ha paura della stalla più che della giumenta morta. Qualunque cosa sia entrata là dentro, il
+      suo odore c'è ancora.
+
+      Dolovan dice che le tracce le legge da trent'anni e che intorno alla stalla non ce n'è nemmeno una. Il tuo
+      cavallo è l'unico che ha visto, e lui vuole sapere che cosa.
+    opzioni:
+      - testo: "Calmare il tuo cavallo e guardare dove guarda"
+        descrizione: "Un cavallo spaventato guarda la cosa che lo ha spaventato. Se smette di tremare, forse te la indica."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La porticina sul vicolo
+          testo: |
+            Gli tieni la mano piatta sul collo finché le orecchie si raddrizzano, poi allenti la cavezza e lo lasci
+            andare dove vuole. Va dritto alla porticina della stalla che dà sul vicolo e soffia contro le tavole.
+            Nella fessura del legno, all'altezza della tua spalla, ci sono due peli grigi incastrati. Dolovan li
+            guarda a lungo senza dire niente, poi tira il chiavistello.
+          pe: { addestrare-animali: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Lo zoccolo
+          testo: |
+            Hai fretta, e il cavallo la sente prima di te. Scarta di lato e ti schiaccia contro lo stipite del
+            cancello con tutta la spalla, e Dolovan deve riprenderlo per la cavezza mentre tu ti tieni le costole.
+          effetti: { ferite: 0.5 }
+      - testo: "Dire a Dolovan che guarderai"
+        descrizione: "Dolovan vuole un paio d'occhi che non siano i suoi. Il tuo cavallo lo lascia nel recinto, lontano dalla stalla."
+        costo: 1
+        esito:
+          titolo: Un altro paio d'occhi
+          testo: |
+            Dolovan porta il tuo cavallo nel recinto, dove almeno smette di tremare, e torna da te pulendosi le mani
+            sui calzoni. Prima di entrare nella stalla si ferma sotto la zanna d'orco inchiodata sull'architrave e
+            la tocca con due dita prima di tirare il chiavistello.
+          effetti: { avventura.zanna-rotta: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · la stalla senza tracce
+  - id: avv-zanna-rotta-la-stalla-senza-tracce
+    presso: scuderie-della-zanna-rotta
+    immagine: ambientazione/scuderie-della-zanna-rotta
+    titolo: La stalla senza tracce
+    sommario: "Nel box della giumenta la paglia racconta una storia che Dolovan Stroud non vuole sentire. Fuori dalla stalla, invece, non c'è niente."
+    luogo: Scuderie della Zanna Rotta, la stalla
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 1]
+    testo: |
+      La stalla della Zanna Rotta è lunga e bassa, con una fila di box per parte e il corridoio di mattoni in mezzo.
+      I cavalli rimasti stanno tutti con la testa girata verso il muro di fondo. Il box della giumenta è il terzo a
+      destra, con il sangue sulle tavole fino alle travi.
+
+      Su una cosa Dolovan ha ragione. Nel fango del cortile, dopo la pioggia di stanotte, ci sono i suoi stivali e
+      gli zoccoli dei cavalli, e nient'altro. Sulla paglia del corridoio ci sono invece le impronte di due piedi
+      nudi larghi e piatti che arrivano dalla porticina sul vicolo. Al terzo passo diventano zampe grandi come un
+      piatto da minestra, con le unghie.
+
+      {percezione Media} Il chiavistello della porticina sta all'altezza della spalla di un uomo. Sotto il ferro,
+      nel legno, c'è un ciuffo di peli grigi, ruvidi come lana grezza.
+
+      Dolovan guarda le impronte dei piedi a lungo, e alla fine dice che gli orchi vanno scalzi.
+    opzioni:
+      - testo: "Seguire il sangue fuori dalla porticina"
+        descrizione: "Chi esce da un box come quello si porta dietro del sangue. La pioggia non l'avrà lavato tutto."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Media }
+        successo:
+          titolo: Le gocce nel vicolo
+          testo: |
+            Oltre la porticina il sangue continua sul selciato del vicolo, una goccia ogni tre passi, lavata a metà
+            dalla pioggia. Lo segui chinato per tre strade storte fino a un cortile di terra battuta con una
+            fontanella in mezzo. È il cortile dietro la Locanda di Ilka, e le gocce finiscono davanti al lavatoio.
+          pe: { percezione: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: La pioggia
+          testo: |
+            Due strade più in là la pioggia ha lavato via tutto, e ti ritrovi a quattro zampe sul selciato davanti a
+            una bottega che apre. Il bottegaio ti chiede se hai perso qualcosa, e te lo chiede ad alta voce.
+          effetti: { scandalo: 0.5 }
+      - testo: "Leggere le impronte nella paglia"
+        descrizione: "Due piedi e quattro zampe. Quanto affondano nella paglia dice quanto pesava chi le ha lasciate."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Media }
+        successo:
+          titolo: Lo stesso peso
+          testo: |
+            Ti accucci sulle impronte e le misuri con il palmo. I piedi sono di un uomo pesante, con l'arco basso di
+            uno che cammina tutto il giorno, e le zampe affondano nella paglia esattamente quanto i piedi.
+            All'uscita, sulla soglia della porticina, ridiventano piedi. Fuori, sul selciato del vicolo, c'è una
+            goccia di sangue, e poi un'altra, fino al cortile dietro la Locanda di Ilka.
+          pe: { natura: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Il terzo passo
+          testo: |
+            Più guardi le impronte, meno ti sembrano piedi, e quando Dolovan ti tocca la spalla fai un salto. Per
+            tutta la mattina ti torna in mente il terzo passo, quello in cui cambiano.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiedere a Kharb che cosa ha sentito"
+        descrizione: "Kharb dorme nell'ultimo box, in fondo alla stalla. Da quando muoiono i cavalli i ragazzi del vicolo lo guardano storto, e lui non esce più."
+        quando: [scuderie.stroud == 1]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Lana bagnata
+          testo: |
+            Kharb parla guardando il grigio vecchio, una parola alla volta. Ha sentito il chiavistello e i passi di
+            un uomo scalzo, che a metà corridoio sono diventati un'altra cosa, con l'odore della lana bagnata.
+            Quando ha avuto il coraggio di guardare, la cosa usciva dalla porticina. «Grigia» dice. «Come la nebbia
+            brutta.» Fuori, sul selciato, le gocce di sangue vanno verso la Locanda di Ilka.
+          pe: { empatia: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Il box chiuso
+          testo: |
+            Gli fai le domande davanti a Dolovan, e Kharb le sente come le sente dai ragazzi del vicolo. Si chiude
+            nel box e non risponde più, e Dolovan si accorge di averlo guardato storto anche lui.
+          effetti: { sospetto: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · la tinozza nel cortile
+  - id: avv-zanna-rotta-la-tinozza-nel-cortile
+    presso: locanda-di-ilka
+    immagine: ambientazione/locanda-di-ilka
+    titolo: La tinozza nel cortile
+    sommario: "Le gocce di sangue finiscono nel cortile dietro la Locanda di Ilka, davanti al lavatoio. Besk Dravec ci sta strofinando una tinozza con la cenere."
+    luogo: Locanda di Ilka, il cortile sul retro
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 2]
+    testo: |
+      Il cortile dietro la Locanda di Ilka è di terra battuta, con la fontanella nel mezzo e il muretto a secco in
+      fondo. Lungo il muro della locanda c'è il lavatoio degli ospiti, una tettoia con una tinozza di doghe, e le
+      gocce di sangue finiscono lì. Besk Dravec è in ginocchio davanti alla tinozza con le maniche sopra il gomito e
+      ne strofina il fondo con la cenere, tanto forte che le doghe scricchiolano.
+
+      «Stamattina l'acqua era rosa» dice prima che tu apra bocca. «E lo scolo era tappato da una matassa di peli
+      grigi. Se è uno scherzo di qualcuno dell'Accademia, lo ammazzo.»
+
+      Sul cortile danno le tre camere che Besk affitta ai forestieri. Dalla finestra della cucina, seduta vicino al
+      fuoco con gli occhi lattiginosi rivolti verso di voi, Ilka Dravec ascolta.
+
+      {medicina Media} Nell'acqua il sangue era tanto, e la tinozza è stretta. Chi ci si è lavato aveva addosso il
+      sangue di un altro, perché perdendo il suo fino a qui non ci sarebbe arrivato.
+
+      {origine allievo-di-torvessa} Besk ti guarda le dita per vedere se hanno le bruciature del cristallo, poi
+      decide che lo scherzo dell'Accademia non sei tu. Torna a strofinare con un grugnito che fra voi due vale un
+      saluto.
+    opzioni:
+      - testo: "Chiedere a Besk chi dorme nelle camere"
+        descrizione: "Besk dei suoi ospiti non parla volentieri. Ne parla ancora meno a chi le guarda la tinozza invece della faccia."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: Tre camere
+          testo: |
+            Besk si siede sui talloni e ti dice chi dorme nelle camere, contando sulle dita bagnate. C'è un mercante
+            di lana che torna da Laresh, un mulattiere olvaro con un mastino e una sellaia che cerca di vendere
+            selle a mezza città. Stanotte erano tutti in camera, almeno a sentir loro, e adesso fanno colazione
+            nella sala.
+          pe: { persuasione: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: La spazzola
+          testo: |
+            Le chiedi dei suoi ospiti con il tono di un miliziano, e Besk butta la spazzola nella tinozza. Ti dice
+            che i suoi ospiti pagano, e che tu le stai sporcando il cortile. Dalla finestra della cucina si sente
+            Ilka che ride piano.
+          effetti: { scandalo: 0.5 }
+      - testo: "Sederti accanto a Ilka"
+        descrizione: "Ilka vede poco e sente tutto, e di notte nella locanda dorme meno di chiunque."
+        prova: { attributo: sociale, abilita: [empatia, espressivita], difficolta: Media }
+        successo:
+          titolo: Le unghie sulle pietre
+          testo: |
+            Prima di parlare Ilka ti prende il polso con le dita secche, come per sapere quanto sei alto. Stanotte
+            ha sentito la porta di una camera e qualcuno scalzo nel cortile. «Al ritorno camminava a quattro piedi»
+            dice con la sua voce roca. «Le unghie sulle pietre, e poi l'acqua nella tinozza, e di nuovo due piedi.»
+            Besk ti dice che le camere sono tre, e i loro ospiti adesso fanno colazione nella sala.
+          pe: { empatia: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: I carri e i falò
+          testo: |
+            Ilka ti racconta una storia lunghissima di carri fermi intorno a un falò, e a metà non sai più se parla
+            di stanotte o di cento anni fa. Quando Besk le mette la coperta sulle ginocchia ti accorgi che è ora di
+            pranzo, e che della notte non sai niente.
+          effetti: { tormento: 0.5 }
+      - testo: "Esaminare la matassa di peli"
+        descrizione: "Besk ha tolto i peli dallo scolo e li ha buttati su un'asse. Sono ancora lì, ad asciugare."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: La matassa
+          testo: |
+            Sono peli grigi lunghi un dito, ruvidi, con un riflesso di ferro quando li giri verso la luce, e mandano
+            l'odore dell'aria dopo un fulmine. In mezzo c'è un filo di lana cardata, bianco, di quella che si vende
+            a balle. Besk ti dice che le camere sono tre, e che una è di un mercante di lana.
+          pe: { medicina: 3 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Il prurito
+          testo: |
+            Tocchi la matassa a mani nude, e per il resto del giorno le dita ti prudono fino alle nocche. Besk ti
+            guarda grattarti e ti manda a lavarti alla fontanella, lontano dalla sua tinozza.
+          effetti: { contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · i tre ospiti
+  - id: avv-zanna-rotta-tre-ospiti-a-colazione
+    presso: locanda-di-ilka
+    immagine: ambientazione/locanda-di-ilka
+    titolo: Tre ospiti a colazione
+    sommario: "Nella sala della Locanda di Ilka i tre ospiti delle camere sul cortile fanno colazione, e si accusano a vicenda con la bocca piena."
+    luogo: Locanda di Ilka, la sala
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 3]
+    testo: |
+      Nella sala della locanda i tre ospiti delle camere sul cortile siedono allo stesso tavolo, perché Besk ha
+      servito le patate a un tavolo solo. Dolovan Stroud ti ha seguito fin qui e si è fermato sulla porta con il
+      forcone in mano, e da quel momento nessuno mangia più.
+
+      Il mulattiere olvaro, Folco Ardizzi, ha la faccia rossa e le spalle di un facchino, e sotto la panca tiene un
+      mastino che non alza nemmeno la testa. «Sulla testa delle mie mule, stanotte ho dormito» dice. «Chiedete a
+      lei, che lo stalliere l'ha cacciata con le sue selle.» La sellaia, Ornella Marangon, ha le dita magre e i
+      pollici pieni dei calli della lesina. Gli risponde che i coltelli da sellaio tagliano il cuoio, mentre i
+      mastini mordono.
+
+      Il mercante di lana, Rinaldo Gessi, ha la faccia tonda e ben rasata e la mano sinistra fasciata fino al polso,
+      ed è l'unico che dà ragione a Dolovan. «Gli orchi, con rispetto parlando. Sulla strada di Laresh lo dicono
+      tutti.» Ha le unghie scure, e le tiene sotto il tavolo.
+
+      {empatia Media} Rinaldo dà ragione a tutti troppo in fretta. Ha paura, e di nessuno di quelli che sono in
+      questa sala.
+
+      {galateo Facile fallita} Ti chiedi se in una locanda olvara chi arriva per ultimo debba salutare per primo.
+      Mentre ci pensi, hai salutato tutti due volte.
+
+      {origine mercante-dei-ponti} Un mercante di lana lo riconosci dal pollice, lucido di grasso a forza di
+      saggiare i velli. Quello di Rinaldo è lucido, e la fasciatura sull'altra mano l'ha fatta uno che non sapeva
+      come si fa.
+    opzioni:
+      - testo: "Prendere Rinaldo da parte"
+        descrizione: "Rinaldo ha paura di qualcosa che non sta in questa sala. Davanti agli altri non lo dirà."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il fango sui piedi
+          testo: |
+            Lo porti nel cortile con la scusa della tinozza, e Rinaldo si siede sul bordo della fontanella come se
+            le gambe gli avessero detto basta. Da dieci giorni si sveglia con il fango sui piedi e le unghie nere, e
+            la mano se l'è graffiata da solo, nel sonno. Che cosa faccia di notte lui non lo sa. Ti chiede, con
+            rispetto parlando, se secondo te sta impazzendo.
+          pe: { empatia: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+          imposta: { avv-zanna-rotta.fiducia: 1 }
+        fallimento:
+          titolo: Davanti a tutti
+          testo: |
+            Gli parli a bassa voce, e nella sala si sente lo stesso. Folco ride forte, e Rinaldo si alza dicendo che
+            ha un carico da pesare e si chiude in camera.
+          effetti: { scandalo: 0.5 }
+      - testo: "Mettere alle strette tutti e tre"
+        descrizione: "Dolovan è sulla porta con il forcone. Con un po' di voce grossa, chi ha qualcosa da nascondere lo fa vedere."
+        prova: { attributo: sociale, abilita: [intimidire, ingannare], difficolta: Media }
+        successo:
+          titolo: Le mani sul tavolo
+          testo: |
+            Batti il palmo sul tavolo e chiedi a tutti di mettere le mani in vista. Ornella le posa piatte accanto
+            alla scodella, Folco ci aggiunge la testa del mastino, che ha i denti puliti. Rinaldo la fascia non se
+            la toglie. Quando ci provi tu, sotto, sul palmo, gli crescono peli grigi e ruvidi, e lui li guarda come
+            se li vedesse adesso. Sulla porta, Dolovan stringe il forcone fino a farsi sbiancare le nocche.
+          pe: { intimidire: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: La voce grossa
+          testo: |
+            Alzi la voce, e Folco la alza più di te. Vola una scodella, Besk vi butta fuori tutti e due, e in strada
+            mezzo vicolo viene a sapere che alla Zanna Rotta cercano un colpevole.
+          effetti: { scandalo: 0.5 }
+      - testo: "Guardare le mani dei tre"
+        descrizione: "Mentre litigano, le mani si muovono da sole. Quelle di chi ha qualcosa da nascondere cercano un posto dove stare."
+        prova: { attributo: mentale, abilita: [percezione, medicina], difficolta: Media }
+        successo:
+          titolo: La terra sotto le unghie
+          testo: |
+            Mentre gli altri due litigano guardi le mani. Quelle di Ornella hanno i calli della lesina, quelle di
+            Folco sanno di mulo. Sotto le unghie della mano buona Rinaldo ha la terra rossiccia del Gradone, e sulla
+            fasciatura c'è una macchia che si è allargata da dentro. Quando si accorge che lo guardi nasconde la
+            mano sotto il tavolo.
+          pe: { percezione: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Lo sguardo
+          testo: |
+            Guardi le mani a tutti con tanta insistenza che Ornella ti chiede se lavori per la Caserma, e Folco
+            sputa per terra. Da quel momento i tre stanno zitti, e a guardare sono loro.
+          effetti: { sospetto: 0.5 }
+      - testo: "Parlare di lana con Rinaldo"
+        descrizione: "I velli di Laresh hanno un prezzo, e un mercante di lana ne parla sempre volentieri. Anche quando ha paura."
+        quando: [origine.mercante-dei-ponti >= 1]
+        costo: 1
+        esito:
+          titolo: Il prezzo dei velli
+          testo: |
+            Gli chiedi a quanto ha comprato i velli a Laresh, e Rinaldo risponde prima di pensarci, sollevato di
+            trovare una domanda a cui sa rispondere. Parlate di lana per mezz'ora. Poi, in cortile, è lui a dirti
+            che da dieci giorni si sveglia con il fango sui piedi e le unghie nere, e ti chiede se secondo te sta
+            impazzendo.
+          effetti: { avventura.zanna-rotta: 1 }
+          imposta: { avv-zanna-rotta.fiducia: 1 }
+
+  # ------------------------------------------------------------ 4 → 5 · la notte nella stalla
+  - id: avv-zanna-rotta-la-notte-nella-stalla
+    presso: scuderie-della-zanna-rotta
+    immagine: icone/wolf-head
+    titolo: La notte nella stalla
+    sommario: "Stanotte Dolovan Stroud aspetta la bestia nella stalla, con lo spiedo da orso sulle ginocchia. Ti ha tenuto un posto sulla paglia."
+    luogo: Scuderie della Zanna Rotta, la stalla, di notte
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 4]
+    testo: |
+      Dolovan ha lasciato aperto il box della giumenta, con un secchio di sangue di bue sulla paglia nuova. Lui si è
+      seduto dall'altra parte del corridoio su una balla di fieno, con uno spiedo da orso sulle ginocchia, la punta
+      larga come una mano e la traversa di ferro sotto la punta. Dice che dal muro della selleria non lo staccava da
+      vent'anni.
+
+      {resistenza Media fallita} Hai sonno. Lo sapevi già, ma a mezzanotte lo sanno anche le ginocchia, e la paglia
+      sotto di te è morbida in modo sleale.
+
+      Verso mezzanotte il chiavistello della porticina scorre da solo. Entra un uomo in camicia da notte, scalzo,
+      con gli occhi aperti e la mano fasciata, e avanza nel corridoio senza vedervi. Al terzo passo si piega in
+      avanti. La camicia gli si strappa sulla schiena, e quello che ne esce è grigio e irsuto, grande come un
+      vitello, con il muso lungo e le mani ancora mezze mani. I cavalli si buttano contro le pareti dei box.
+
+      Dolovan si alza con lo spiedo puntato. «È un uomo» gli dici, e lui la punta non la abbassa.
+
+      {rissa Media} È forte e non sa ancora di esserlo. Una spinta al momento giusto la manda dove vuoi tu, e costa
+      meno che fermarla.
+
+      {origine fuggiasco-di-ghoran} Un box con il chiavistello di fuori lo conosci, e conosci il rumore che fa
+      quando si chiude. Le mani ti si stringono a pugno prima che tu abbia deciso da che parte stai.
+    opzioni:
+      - testo: "Affrontare la bestia e spingerla nel box"
+        descrizione: "È grande come un vitello e ha i denti di un lupo. Va battuta quanto basta per farla entrare nel box."
+        combattimento: avv-zanna-rotta-la-bestia
+        vittoria:
+          titolo: Il chiavistello
+          testo: |
+            La colpisci finché arretra, e all'ultimo colpo inciampa nel secchio e finisce nel box della giumenta.
+            Chiudi la porta con la spalla e Dolovan tira il chiavistello. Per un'ora la bestia si butta contro le
+            tavole, poi smette. All'alba, dalla fessura, si vede un uomo nudo che dorme nella paglia.
+          effetti: { avventura.zanna-rotta: 1 }
+        sconfitta:
+          titolo: Il muro del cortile
+          testo: |
+            La bestia ti passa sopra come sopra un mucchio di fieno, scavalca il muro del cortile e sparisce nel
+            vicolo. Dolovan ti aiuta ad alzarti e per il resto della notte nessuno dei due parla. Domani notte
+            sarete di nuovo qui.
+          effetti: { tormento: 0.5 }
+      - testo: "Saltarle addosso dalla trave"
+        descrizione: "Sopra il corridoio corre una trave. Se le arrivi addosso dall'alto, la spingi nel box prima che capisca da dove vieni."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Dall'alto
+          testo: |
+            Sali sulla trave mentre Dolovan la tiene a bada con lo spiedo, e quando ti passa sotto le cadi sulla
+            schiena con tutto il peso. Rotolate insieme dentro il box della giumenta. Esci strisciando sotto la
+            porta un attimo prima che Dolovan tiri il chiavistello, e la bestia si butta contro le tavole fino
+            all'alba.
+          pe: { acrobazia: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Un passo troppo tardi
+          testo: |
+            Le cadi addosso un passo troppo tardi, e lei si gira a mezz'aria. Ti ritrovi sulla paglia del corridoio
+            con una spalla aperta fino all'osso, mentre la bestia scavalca il muro del cortile.
+          effetti: { ferite: 1 }
+      - testo: "Attirarla nel box con il sangue di bue"
+        descrizione: "Il secchio di Dolovan è nel box. Una bestia affamata segue l'odore del sangue, se nessuno la spaventa."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: La scia
+          testo: |
+            Bagni le dita nel secchio e lasci una scia sul pavimento di mattoni, dalla bestia fino al box, parlando
+            piano con la voce che si usa con i cani da guardia. Lei la segue con il muso basso fin dentro il box, e
+            ci affonda la testa. Dolovan tira il chiavistello senza fare rumore.
+          pe: { addestrare-animali: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Le dita rosse
+          testo: |
+            La bestia lascia stare la scia e annusa le tue dita, che sanno di sangue più dei mattoni. Ti morde la
+            mano fino al polso e scappa dalla porticina nel vicolo.
+          effetti: { ferite: 1 }
+      - testo: "Chiamarla per nome"
+        descrizione: "Stamattina Rinaldo ti ha chiesto se stava impazzendo. Forse sotto il pelo c'è ancora qualcuno che si ricorda la domanda."
+        requisiti: [avv-zanna-rotta.fiducia >= 1]
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Rinaldo
+          testo: |
+            Dici il suo nome piano, e poi più forte. La bestia si ferma in mezzo al corridoio con il muso basso e ti
+            guarda con gli occhi di un uomo stanco. Poi entra da sola nel box della giumenta, gira due volte su se
+            stessa nella paglia e si sdraia. Dolovan tira il chiavistello con una mano che gli trema.
+          pe: { empatia: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+        fallimento:
+          titolo: Il nome sbagliato
+          testo: |
+            Dici il suo nome, e la bestia lo sente come un richiamo di caccia. Ti salta addosso, ti lascia quattro
+            solchi sul braccio e scappa dalla porticina nel vicolo.
+          effetti: { ferite: 0.5 }
+
+  # ------------------------------------------------------------ 5 → 6 · il mattino nel box
+  - id: avv-zanna-rotta-il-mattino-nel-box
+    presso: scuderie-della-zanna-rotta
+    immagine: personaggi/dolovan-stroud
+    titolo: Il mattino nel box
+    sommario: "All'alba, nel box della giumenta, c'è Rinaldo Gessi, nudo nella paglia. Dolovan Stroud è sulla porta con lo spiedo."
+    luogo: Scuderie della Zanna Rotta, il box della giumenta, all'alba
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 5]
+    testo: |
+      All'alba Rinaldo Gessi è seduto nella paglia del box, nudo, con una coperta da sella sulle spalle e la mano
+      fasciata in grembo. Ha graffi dappertutto, e il pelo grigio gli cade dalla schiena a ciuffi, come la lana da
+      una pecora in muta. Guarda i segni delle unghie sulle tavole, all'altezza di un uomo in piedi.
+
+      Dolovan è sulla porta con lo spiedo, e si vede che ha passato la notte a decidere. «Due cavalle» dice. «Una
+      l'avevo da dodici anni.» La punta dello spiedo sta all'altezza del petto di Rinaldo, ferma.
+
+      Rinaldo parla a pezzi, senza guardare nessuno. Tornava da Laresh con il mulo e i velli, e l'ultima sera prima
+      della città si è fermato vicino alla Foresta Strisciante. Il mulo gli è scappato fra gli alberi, e lui l'ha
+      inseguito fino a una radura dove la terra era piena di vetri grigi. Ne ha raccolto uno, il più bello, grande
+      come un uovo.
+
+      {medicina Media} La Marea Grigia muta chi la respira una volta per tutte. Questa mutazione va e viene con le
+      notti, e così fa soltanto finché la sacca che l'ha data resta aperta.
+
+      {accademiche Media fallita} Di sacche della Marea hai letto qualcosa, una volta, in un libro con la copertina
+      verde. Della copertina ti ricordi tutto.
+
+      {origine accolito-del-velo} Ogni autunno il Velo affigge i bollettini delle sacche risalite, e fra quelli
+      dell'ultimo autunno la Foresta Strisciante non c'era. Ti chiedi chi avrebbe dovuto scriverlo.
+    opzioni:
+      - testo: "Farti raccontare la strada, passo per passo"
+        descrizione: "Rinaldo ricorda a pezzi. Se lo tieni sulla strada una domanda alla volta, forse la ricorda tutta."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: La strada di Rinaldo
+          testo: |
+            Lo fai partire dal Ponte del Conciatore e lo tieni sulla strada con le domande più piccole, il colore
+            della polvere, il punto dove il mulo ha alzato le orecchie. Ricorda il bivacco sotto una sequoia e le
+            croci che ha inciso sui tronchi per ritrovare la via, e poi il torrente rosso, dove ha perso un pezzo di
+            camicia. Dei vetri della radura gli torna in mente che erano tiepidi. Dolovan intanto ha abbassato lo
+            spiedo senza accorgersene.
+          pe: { empatia: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+          imposta: { avv-zanna-rotta.itinerario: 1 }
+        fallimento:
+          titolo: Il buio della radura
+          testo: |
+            Gli fai troppe domande insieme, e a ogni domanda Rinaldo torna nel buio della radura e non ne esce. Alla
+            fine piange con la faccia nella coperta, e Dolovan sputa nella paglia.
+          effetti: { tormento: 0.5 }
+      - testo: "Convincere Dolovan ad abbassare lo spiedo"
+        descrizione: "Stamattina, per Dolovan, due cavalle valgono un uomo. Gli serve un'altra bestia da odiare."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Lo spiedo
+          testo: |
+            Gli dici che la cosa che gli ha ammazzato le cavalle sta ancora nella Foresta, e che quest'uomo ne è
+            soltanto il morso. Dolovan ci pensa a lungo, poi gira lo spiedo e te lo mette in mano dalla parte del
+            manico. «Allora usalo su quella» dice. «Lui lo tengo qui, chiuso, finché torni.» Intanto Rinaldo
+            racconta a pezzi la sua strada, dal Ponte del Conciatore alla radura.
+          pe: { persuasione: 4 }
+          effetti: { avventura.zanna-rotta: 1 }
+          imposta: { avv-zanna-rotta.spiedo: 1 }
+        fallimento:
+          titolo: Fuori dalla mia stalla
+          testo: |
+            Dolovan ti ascolta con la punta ferma, poi ti dice di uscire dalla sua stalla. Lo dice tanto forte che
+            dal vicolo si affacciano in tre, e prima che ti lasci rientrare si fa mezzogiorno.
+          effetti: { scandalo: 0.5 }
+      - testo: "Sederti nella paglia accanto a Rinaldo"
+        descrizione: "Ieri ti ha chiesto se stava impazzendo. Oggi la risposta la sa, e la strada la racconta a te."
+        requisiti: [avv-zanna-rotta.fiducia >= 1]
+        costo: 1
+        esito:
+          titolo: Seduti nella paglia
+          testo: |
+            Ti siedi nella paglia accanto a lui spalla contro spalla, e Rinaldo comincia a raccontare a te come se
+            Dolovan non ci fosse. Ricorda il bivacco sotto la sequoia e le croci sui tronchi, e poi il torrente
+            rosso fino alla radura con i vetri tiepidi. A metà racconto Dolovan appoggia lo spiedo al muro e va a
+            dare il fieno ai cavalli.
+          effetti: { avventura.zanna-rotta: 1 }
+          imposta: { avv-zanna-rotta.itinerario: 1 }
+
+  # ------------------------------------------------------------ 6 · il cristallo nella borsa (facoltativo)
+  - id: avv-zanna-rotta-il-cristallo-nella-borsa
+    presso: locanda-di-ilka
+    immagine: icone/crystal-cluster
+    titolo: Il cristallo nella borsa
+    sommario: "Il cristallo che Rinaldo Gessi ha raccolto nella radura è ancora nella sua borsa, appesa a un chiodo della camera sul cortile. Besk ha chiuso la porta a chiave."
+    luogo: Locanda di Ilka, la camera di Rinaldo
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 6, avv-zanna-rotta.cristallo == 0]
+    testo: |
+      Besk apre la camera di Rinaldo e resta sulla soglia con la chiave in mano. Dentro ci sono un letto con le
+      lenzuola strappate, una balla di velli in un angolo e la borsa da viaggio appesa al chiodo dietro la porta.
+      Nella borsa, avvolto in un fazzoletto, c'è il cristallo. È grigio e grande come un uovo di gallina, e dentro
+      ha una luce che sale e scende piano, come la brace sotto la cenere.
+
+      Il fazzoletto è freddo, mentre il cristallo è tiepido.
+
+      {magia Media} Ogni tanto la luce si gonfia tutta insieme, e il Mana che hai nelle dita risponde senza che tu
+      lo chiami. Da qualche parte a ovest c'è un'altra cosa che pulsa insieme a lui.
+
+      Besk vuole portarlo a Orvald Temmerin, all'Accademia, dentro una scatola di piombo.
+    opzioni:
+      - testo: "Convincere Besk a lasciartelo"
+        descrizione: "Orvald può aspettare qualche giorno. Il posto da cui viene il cristallo forse no."
+        prova: { attributo: sociale, abilita: [persuasione, galateo], difficolta: Media }
+        successo:
+          titolo: Il foglio di piombo
+          testo: |
+            Besk ci pensa con il labbro fra i denti, poi va in cucina e torna con un foglio di piombo strappato da
+            una vecchia grondaia. Ci avvolge il cristallo con due giri stretti e te lo mette in mano, dicendo che
+            quando torni lo porterà a Orvald e che prima tu le racconterai tutto.
+          pe: { persuasione: 3 }
+          imposta: { avv-zanna-rotta.cristallo: 1 }
+        fallimento:
+          titolo: La porta chiusa
+          testo: |
+            Insisti troppo, e Besk richiude la camera a chiave con te fuori. Ti dice che il cristallo va
+            all'Accademia domani mattina, e lo dice abbastanza forte perché la sala senta.
+          effetti: { scandalo: 0.5 }
+      - testo: "Studiarlo con Besk sul tavolo di cucina"
+        descrizione: "Besk studia magia con Orvald Temmerin, e sul tavolo di cucina ci sono le bruciature di chi ci ha già provato."
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Media }
+        successo:
+          titolo: Il battito
+          testo: |
+            Sul tavolo di cucina tu e Besk contate i battiti della luce per un'ora, con il quaderno aperto in mezzo.
+            Il cristallo pulsa più forte quando lo giri verso ovest, e più forte ancora verso sud-ovest. Besk lo
+            avvolge in un foglio di piombo e te lo lascia, a patto che tu le porti i numeri giusti.
+          pe: { magia: 3 }
+          imposta: { avv-zanna-rotta.cristallo: 1 }
+        fallimento:
+          titolo: La brace
+          testo: |
+            Lo tieni in mano troppo a lungo per contare i battiti, e la luce ti entra nelle dita. Per tutta la sera
+            ti formicolano fino al gomito, e Besk lo rimette nel fazzoletto con le pinze del camino.
+          effetti: { contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 7 → 8 · l'epilogo
+  - id: avv-zanna-rotta-la-pelle-di-mezzaluna
+    presso: scuderie-della-zanna-rotta
+    immagine: personaggi/dolovan-stroud
+    titolo: La pelle di Mezzaluna
+    sommario: "Torni alle Scuderie della Zanna Rotta con la pelle di un orso grigio sulle spalle. Nel box, Rinaldo Gessi aspetta di sapere che ne sarà di lui."
+    luogo: Scuderie della Zanna Rotta, il cortile
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 7, avv-zanna-rotta.destino == 0]
+    testo: |
+      Quando entri nel cortile con la pelle sulle spalle, Dolovan Stroud lascia cadere il secchio. La stende lui
+      sulla staccionata, con le mani aperte, e trova da solo la macchia sul petto, la mezzaluna che era bianca e
+      adesso ha il colore del ferro. «Mezzaluna» dice. «Gli sono andato dietro tre inverni, quando avevo le
+      ginocchia buone. Era il più bello della Foresta.» Poi gli passa la mano sul pelo contropelo, a lungo, come si
+      fa con un cavallo per vedere se ha la rogna.
+
+      Rinaldo è ancora nel box, con una camicia di Dolovan addosso. Stanotte è cambiato meno delle altre notti, e il
+      pelo grigio gli è rimasto soltanto sulle braccia. Dalla fessura del box ha sentito ogni parola di Dolovan.
+
+      Dolovan vuole portarlo alla casa di pietra blu, perché le cavalle erano sue e la legge è la legge. Al margine
+      del Bosco di Velthar, invece, il Circolo fa bere la Marea alle sue piante, e forse anche a un uomo. Rinaldo
+      guarda te.
+
+      {natura Media} Con la sacca chiusa le notti si accorceranno. Il pelo però non cade da solo, e servirà qualcuno
+      che sappia curare la Marea, oppure una cella abbastanza robusta.
+
+      {origine figlio-del-circolo} Al margine del Bosco c'è chi passa la vita fra le piante che bevono la Marea, e
+      tu sai che un uomo lo terrebbero come tengono un albero malato, lontano dagli altri.
+    opzioni:
+      - testo: "Consegnarlo ai miliziani della casa di pietra blu"
+        descrizione: "Le cavalle erano di Dolovan, e Dolovan vuole un giudice. Una cella robusta tiene dentro anche una bestia."
+        costo: 1
+        esito:
+          titolo: La casa di pietra blu
+          testo: |
+            Lo accompagni tu lungo le strade della Città Bassa, con Dolovan due passi dietro, e la gente si ferma
+            sulle porte a guardarvi passare. Alla casa di pietra blu Fulvio Saldo legge due volte la denuncia di
+            Dolovan, con la sciarpa tirata fino al naso, e chiude Rinaldo nella cella con il catenaccio doppio.
+            Rinaldo ti ringrazia lo stesso, con rispetto parlando, prima che la porta si chiuda. La pelle di
+            Mezzaluna, intanto, Dolovan l'ha già caricata sul carro per la Conceria Kasselt.
+          effetti: { rep.caserma: 1 }
+          imposta: { avv-zanna-rotta.destino: 1 }
+      - testo: "Mandarlo al Circolo di Velthar"
+        descrizione: "Il Circolo sa far bere la Marea alle piante. Dolovan brontolerà, e Rinaldo dovrà pagargli le cavalle."
+        costo: 1
+        esito:
+          titolo: La strada del Bosco
+          testo: |
+            Dolovan brontola fino a sera, poi presta lui il carro. Rinaldo gli lascia la balla di velli e il prezzo
+            delle due cavalle scritto su un foglio, con la sua firma sotto. In una giornata di strada lo porti al
+            margine del Bosco di Velthar, e là Serha Duvain, una druida anziana con il braccio sinistro di legno
+            scuro, gli prende il polso e lo tiene a lungo, contando. Poi gli dice di seguirla, e Rinaldo la segue.
+            Quando torni alle Scuderie, la pelle di Mezzaluna Dolovan l'ha già portata alla Conceria Kasselt.
+          effetti: { rep.circolo: 1 }
+          imposta: { avv-zanna-rotta.destino: 2 }
+
+  - id: avv-zanna-rotta-la-pelliccia-conciata
+    presso: scuderie-della-zanna-rotta
+    immagine: icone/animal-hide
+    titolo: La pelliccia conciata
+    sommario: "Dieci giorni dopo Dolovan Stroud ti fa chiamare alle Scuderie. Ha fatto conciare la pelle di Mezzaluna alla Conceria Kasselt."
+    luogo: Scuderie della Zanna Rotta, la selleria
+    area: citta-bassa
+    requisiti: [avventura.zanna-rotta == 7, avv-zanna-rotta.destino >= 1]
+    testo: |
+      Dieci giorni dopo Dolovan ti fa chiamare alle Scuderie e ti porta nella selleria, dove al posto dello spiedo,
+      sul muro, c'è appesa una giubba lunga di cuoio con il pelo grigio di Mezzaluna rivoltato fuori. L'ha fatta
+      conciare alla Conceria Kasselt, e Gunter Kasselt l'ha cucita di persona, perché gli operai non volevano
+      toccarla. La mezzaluna sta sul petto, del colore del ferro.
+
+      «Di notte il pelo si alza da solo» dice Dolovan. «Kasselt dice che passa. Io dico che è tua, e basta.»
+
+      {resistenza Media} Quando la tocchi il pelo è tiepido come quello di un animale che dorme, e la pelle delle
+      braccia ti si accappona prima che tu ci abbia pensato.
+    opzioni:
+      - testo: "Indossare la pelliccia di Mezzaluna"
+        descrizione: "Pesa come un bambino addormentato, e dentro è più calda di quanto dovrebbe."
+        costo: 0
+        esito:
+          titolo: La pelliccia di Mezzaluna
+          testo: |
+            Te la infili sulle spalle, e la pelliccia si assesta da sola sul tuo corpo come se l'avesse misurato.
+            Dolovan ti guarda dalla porta della selleria, poi torna a strigliare il grigio vecchio. Sopra la porta
+            della stalla la zanna d'orco è ancora inchiodata al suo posto.
+          effetti: { avventura.zanna-rotta: 1, oggetto.avv-zanna-rotta-pelliccia-di-mezzaluna: 1 }

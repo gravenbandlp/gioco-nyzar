@@ -14,7 +14,10 @@ const finta = (id: string, opzioni: TStorylet['opzioni']): TStorylet =>
 describe('revisione finale', () => {
   it('un seguito nuovo non cancella quello in sospeso', () => {
     const s = pg();
-    const seguiti = c.storylet.filter((x) => x.tipo === 'seguito').slice(0, 2).map((x) => x.id);
+    // due seguiti che un personaggio nuovo può giocare, con un'opzione che chiude senza aprirne un altro
+    const giocabile = (x: TStorylet) => requisitiSoddisfatti(s, x.requisiti, c)
+      && x.opzioni.some((o) => !!o.esito && !o.esito.segue && requisitiSoddisfatti(s, o.requisiti ?? [], c));
+    const seguiti = c.storylet.filter((x) => x.tipo === 'seguito' && giocabile(x)).slice(0, 2).map((x) => x.id);
     const apre = (verso: string) => finta(`apre-${verso}`, [{ testo: 'vai', costo: 0, esito: { testo: 'x', segue: verso } }]);
     scegli(s, apre(seguiti[0]!), 0, c, 0);
     scegli(s, apre(seguiti[1]!), 0, c, 0);

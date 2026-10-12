@@ -78,6 +78,6 @@ describe('spedizioni percorribili', () => {
         }
         expect(requisitiSoddisfatti(s, cuore!.requisiti, c), `${area.id}/${seme}: il cuore non si apre`).toBe(true);
       }
-    });
+    }, soglia >= 10 ? 30000 : 10000); // le spedizioni d'Avventura (soglia 10) vanno oltre il tetto di 5 secondi
   }
 });

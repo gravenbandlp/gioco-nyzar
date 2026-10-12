@@ -1,0 +1,871 @@
+# Avventura n. 4, «Le Prove del Guado» (docs/piano-avventure.md, da Ice Trials). Si apre dopo la quest di Ghoran
+# (fazione.ghoran >= 15) e tutte le scene fuori dalla spedizione stanno presso il luogo `ghoran`.
+# La pista avventura.prove-guado (0 → 10):
+# - 0 → 1 `avv-prove-guado-due-nomi` (aggancio): Dunja del Guado cerca il secondo nome per le Prove del Guado.
+# - 1 → 2 `avv-prove-guado-la-sera-prima`: la vigilia al guado con Branko della Pece. Il trucco della scrofa
+#   (avv-prove-guado.trucco) apre una via più facile nella prima prova.
+# - 2 → 3 `avv-prove-guado-i-cinghiali`: prima prova, i cinghiali corazzati nel recinto (vinta: .cinghiali).
+# - 3 → 4 `avv-prove-guado-le-rapide`: seconda prova, la discesa delle rapide afferrando i nastri (vinta: .nastri).
+# - 4 → 5 `avv-prove-guado-il-pino-rosso`: terza prova, l'abbattimento del pino (vinta: .albero).
+# - 5 → 6 `avv-prove-guado-la-gigantessa`: Ozzra scende dal Gradone Rosso e porta via Branko ferito. La scure nella
+#   spalla (.segno) apre una via al cuore, lo sguardo sulla gola (.tracce) una via all'ingresso.
+# - 6 → 7 `avv-prove-guado-la-notte-alla-bilancia`: i clan sotto la bilancia, il nome di Ozzra, la strada (.tracce).
+# - 7 → 8: la spedizione sulle terrazze del Gradone fino alla grotta di Ozzra (spedizione.yaml).
+# - 8 → 9 `avv-prove-guado-giu-dal-gradone`: i ragazzi della banda presi dai clan (.orchi 1 liberi, 2 venduti al
+#   Guado, 3 un anno di lavoro per la Pece).
+# - 9 → 10 `avv-prove-guado-il-banchetto`: Branko ti dichiara vincitore e ti cede il maglio; la regola del nastro
+#   (.regola 1 lo difendi tu, 2 corre chiunque, 3 il nastro a Dunja).
+# Vantaggi in spedizione: .tracce (ingresso), .nastri (la gola), .cinghiali (il recinto di rovi e il cinghiale di
+# Ozzra), .albero (la spaccatura), .ruk (l'arco della grotta, dalla svolta), .segno (il cuore).
+# Canone: gli Spacca-ossa restano nella Palude Acquanera come vuole pista.tribu; Ozzra è una di loro, con sangue di
+# ogre, mandata via dalla palude due inverni fa con sei ragazzi. Il Guado (il clan di Ostrav) prende il nome dal guado
+# dell'Acquarossa, il torrente che scende dal Gradone Rosso verso le pozze, e le Prove sono più vecchie del clan.
+# Nomi nuovi (glossario.yaml): Dunja, Branko della Pece, Ozzra, Ruk, l'Acquarossa, le Prove del Guado.
+quality:
+  - { id: avventura.prove-guado, immagine: icone/laurels-trophy, nome: "Le Prove del Guado", categoria: pista, descrizione: "A Ghoran i clan corrono ogni anno le Prove del Guado, e da nove anni le vince Branko della Pece. Quest'anno sulla tavoletta di Dunja c'è anche il tuo nome." }
+  - { id: avv-prove-guado.trucco, nome: Il trucco della scrofa, categoria: stato, nascosta: true, descrizione: "Sai che i cinghiali delle Prove vanno dietro alla scrofa vecchia, e la scrofa dietro al fumo." }
+  - { id: avv-prove-guado.cinghiali, nome: Hai vinto la prova dei cinghiali, categoria: stato, nascosta: true }
+  - { id: avv-prove-guado.nastri, nome: Hai vinto la prova delle rapide, categoria: stato, nascosta: true }
+  - { id: avv-prove-guado.albero, nome: Hai vinto la prova del pino, categoria: stato, nascosta: true }
+  - { id: avv-prove-guado.segno, nome: La scure nella spalla di Ozzra, categoria: stato, nascosta: true }
+  - { id: avv-prove-guado.tracce, nome: La strada di Ozzra, categoria: stato, nascosta: true, descrizione: "Sai da che parte è salita Ozzra, per il canalone di destra sopra la gola." }
+  - { id: avv-prove-guado.svolta, nome: Hai incontrato Ruk, categoria: stato, nascosta: true }
+  - { id: avv-prove-guado.ruk, nome: La fessura del fumo, categoria: stato, nascosta: true, descrizione: "Ruk ti ha detto della fessura da cui esce il fumo della grotta grande." }
+  - { id: avv-prove-guado.orchi, nome: I ragazzi della banda, categoria: stato, nascosta: true, descrizione: "Che cosa è stato dei ragazzi della banda di Ozzra. 1 tornati alla palude, 2 venduti alla bilancia, 3 un anno di lavoro per la Pece." }
+  - { id: avv-prove-guado.regola, nome: La regola del nastro, categoria: stato, nascosta: true, descrizione: "Che cosa hai deciso del nastro delle Prove. 1 lo difendi tu l'anno dopo, 2 corre chiunque scriva il suo nome, 3 il nastro e le Prove a Dunja." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'aggancio
+  - id: avv-prove-guado-due-nomi
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: Due nomi sulla tavoletta
+    sommario: "Una ragazza del Guado cerca un secondo nome per le Prove. Il primo è lo stesso da nove anni."
+    luogo: Ghoran, il mercato dei recinti
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 0, fazione.ghoran >= 15]
+    testo: |
+      Al mercato dei recinti, sotto la bilancia grande, una ragazza ti sbarra
+      la strada con una tavoletta di cera tenuta a due mani, come si tiene un
+      vassoio. Avrà diciassette anni, porta il sigillo di cera verde del Guado
+      cucito sulla spalla e ha le dita sporche di cera fino alle nocche.
+
+      «Sei l'occhio di Ragh» dice, e ti punta la tavoletta contro il petto. «Io
+      sono Dunja. Domani al guado dell'Acquarossa ci sono le Prove, e per
+      tenerle servono due nomi. È la regola. Il primo ce l'ho, è lo stesso da
+      nove anni, e quest'anno il secondo non lo trovo.»
+
+      Sulla cera c'è inciso il nome di Branko della Pece, e sotto c'è il posto
+      vuoto. Appoggiato al palo della bilancia, Ostrav si gira l'anello di
+      cera verde fra le dita e guarda le nuvole sopra il Gradone Rosso.
+
+      «Le Prove erano del Guado finché il Guado pagava il premio» dice senza
+      abbassare gli occhi. «Adesso sono di questa ragazza, che ci mette la
+      cera.»
+
+      {conoscenze-della-strada Media} Ostrav non ha voglia di pagare un premio
+      che finisce sempre alla Pece. Se le Prove muoiono quest'anno, nessuno
+      potrà dire che le ha fatte morire lui.
+
+      {origine fuggiasco-di-ghoran} Le Prove le guardavi dal recinto dei
+      comprati, con le mani sulle sbarre. Correva chi aveva un clan, e il
+      fango del guado dopo lo pulivi tu.
+    opzioni:
+      - testo: "Scrivere il tuo nome sotto quello di Branko"
+        descrizione: "Lo stilo è legato alla tavoletta con uno spago. Dunja non molla la tavoletta nemmeno mentre scrivi."
+        esito:
+          titolo: Il secondo nome
+          testo: |
+            Incidi il tuo nome nella cera sotto quello di Branko, e Dunja lo
+            legge a voce alta due volte, la seconda per il mercato. Alla
+            bilancia qualcuno ride e qualcun altro smette di ridere. Dunja ti
+            dice che stasera la Pece accende il fuoco al guado, e che Branko ci
+            sarà, perché c'è sempre.
+          effetti: { avventura.prove-guado: 1 }
+      - testo: "Chiedere a Ostrav, davanti a tutti, perché il Guado non paga più"
+        descrizione: "Al mercato dei recinti un clan che non paga quello che deve si fa notare. Bisogna dirlo forte, e senza offendere."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Media }
+        successo:
+          titolo: Il premio del Guado
+          testo: |
+            Lo chiedi forte, con la tavoletta di Dunja in mano, e intorno alla
+            bilancia si fanno tutti attenti. Ostrav sorride come al mercato, poi
+            si stacca dal palo e dice che quest'anno il premio lo paga il Guado,
+            come una volta. Dunja ti guarda come se avessi spostato il Gradone.
+            Scrivi il tuo nome sotto quello di Branko.
+          pe: { persuasione: 3 }
+          effetti: { avventura.prove-guado: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Il mercante
+          testo: |
+            Lo chiedi forte, e Ostrav risponde più forte di te che il Guado paga
+            quello che compra, e le Prove non le compra nessuno. Il mercato ride
+            con lui. Dunja ti mette in mano lo stilo lo stesso, e il tuo nome
+            sotto quello di Branko lo scrivi con le orecchie calde.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+      - testo: "Scrivere il tuo nome intero, senza il segno dei comprati"
+        descrizione: "Nei recinti i comprati firmano con un segno, sempre lo stesso. Chi l'ha visto fare lo riconosce."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Il nome intero
+          testo: |
+            Prendi lo stilo e scrivi piano il tuo nome per intero sotto quello di
+            Branko, e alla fine non aggiungi il segno dei comprati. Dunja
+            non capisce perché ci metti tanto. Ostrav sì, e smette di girare
+            l'anello.
+          pe: { resilienza: 3 }
+          effetti: { avventura.prove-guado: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · la sera prima
+  - id: avv-prove-guado-la-sera-prima
+    presso: ghoran
+    immagine: icone/campfire
+    titolo: La sera prima
+    sommario: "Al guado dell'Acquarossa la Pece accende il fuoco della vigilia. Branko della Pece beve da solo, come ogni anno."
+    luogo: Ghoran, il guado dell'Acquarossa
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 1]
+    testo: |
+      Il guado dell'Acquarossa sta a mezz'ora dalle pozze, dove il torrente
+      scende dal Gradone Rosso e si allarga sui sassi prima di perdersi nel
+      fango. L'acqua ha il colore della ruggine per l'arenaria che si porta
+      dietro. Sulla riva la Pece ha acceso un fuoco, e oltre il fuoco c'è il
+      recinto delle Prove, dove sei cinghiali corazzati sbuffano vapore contro
+      le sbarre.
+
+      Davanti alle fiamme siede Branko della Pece, con un maglio da cunei
+      appoggiato al ginocchio. È largo come una porta, ha la barba intrecciata
+      nel filo di rame e l'impronta nera della Pece sul petto della giubba.
+
+      «Parente» dice quando ti vede, e batte la mano sul sasso accanto al suo.
+      «La sera prima di solito bevo da solo. Siediti, che stanotte non porta
+      male.»
+
+      Più in alto, sulle rapide, Dunja tende le corde dei nastri da una riva
+      all'altra e conta i nodi a voce alta.
+
+      {addestrare-animali Media} Nel recinto i cinghiali non si muovono a caso.
+      Quando si sposta la scrofa vecchia, quella con l'orecchio tagliato, gli
+      altri le vanno dietro.
+    opzioni:
+      - testo: "Bere con Branko la sua acquavite di resina"
+        descrizione: "La Pece la distilla con la resina delle torce. Brucia, e Branko la beve come acqua."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: La borraccia della Pece
+          testo: |
+            Bevete finché il fuoco si abbassa, e a un certo punto Branko ti
+            racconta, ridendo nella barba, che i cinghiali vanno dietro alla
+            scrofa vecchia e la scrofa va dietro al fumo della pece, sempre.
+            «Domani usalo» dice, e ti passa la borraccia. «Nove volte ho vinto
+            contro dei ragazzi. Una volta vorrei perdere contro qualcuno.»
+          pe: { resistenza: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.trucco: 1 }
+        fallimento:
+          titolo: La riva che gira
+          testo: |
+            Alla terza sorsata la riva comincia a girare piano, e alla quinta
+            non ti ricordi più come ti chiami. Ti svegli all'alba con la faccia
+            sui sassi e i ragazzi della Pece che ti scavalcano per andare a
+            prendere l'acqua.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+      - testo: "Restare al recinto a guardare i cinghiali"
+        descrizione: "Sei bestie corazzate dalla Marea, che domani vanno portate dove non vogliono andare. Conviene sapere prima come ragionano."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: La scrofa vecchia
+          testo: |
+            Li guardi fino a tardi con il mento sulle sbarre. Quando il vento
+            porta il fumo del fuoco nel recinto la scrofa vecchia alza il muso e
+            ci va incontro, e gli altri cinque le vanno dietro senza pensarci. Dal
+            fuoco lo vede anche Branko, che alza la borraccia verso di te.
+          pe: { natura: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.trucco: 1 }
+        fallimento:
+          titolo: La zanna fra le sbarre
+          testo: |
+            Ti avvicini troppo, e un cinghiale ti passa la zanna fra le sbarre e
+            ti apre la manica con la pelle sotto. Prima di mattina il taglio fa
+            la crosta grigia delle ferite della Marea.
+          effetti: { avventura.prove-guado: 1, contaminazione: 0.5 }
+      - testo: "Aiutare Dunja a tendere le corde delle rapide"
+        descrizione: "Sei corde da una riva all'altra, sopra l'acqua che corre. Dunja le tende da sola da quando suo nonno non c'è più."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: I conti del nonno
+          testo: |
+            Tieni le corde mentre Dunja fa i nodi, con l'acqua alle ginocchia, e
+            lei parla tutto il tempo. Il nonno teneva le Prove per il Guado, e
+            nei suoi conti c'è scritto che i cinghiali seguono la scrofa vecchia,
+            e la scrofa il fumo. «Non dirlo a Branko» dice, mentre stringe
+            l'ultimo nodo. «Tanto lo sa già.»
+          pe: { atletica: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.trucco: 1 }
+        fallimento:
+          titolo: Il sasso liscio
+          testo: |
+            A metà torrente il piede ti scivola su un sasso liscio e vai sotto
+            con la corda in mano. Dunja ti tira fuori ridendo, e il ginocchio ti
+            fa male fino al mattino.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+      - testo: "Andare a dormire sotto le gradinate del campo"
+        descrizione: "Domani la giornata è lunga. C'è chi la sera prima dorme, e Branko non lo prende per un insulto."
+        esito:
+          titolo: Il sonno della vigilia
+          testo: |
+            Torni alle palafitte con la luna alta e dormi sotto le gradinate del
+            campo, dove le torce sono spente. Dal guado, nel sonno, ti arriva la
+            voce di Branko che canta da solo una canzone della Pece.
+          effetti: { avventura.prove-guado: 1 }
+      - testo: "Riconoscere il taglio nell'orecchio della scrofa"
+        descrizione: "Nei recinti di Ghoran l'orecchio si taglia alla bestia che guida la fila. Lo sa chi è stato in fila."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: La bestia che guida
+          testo: |
+            Il taglio a tacca nell'orecchio della scrofa è quello dei recinti,
+            che si fa alla bestia che guida la fila. Quando il vento porta dentro
+            il fumo del fuoco lei ci va incontro, e gli altri le vanno dietro.
+            Branko, dal fuoco, ti vede annuire da solo e ride.
+          pe: { addestrare-animali: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.trucco: 1 }
+
+  # ------------------------------------------------------------ 2 → 3 · la prima prova
+  - id: avv-prove-guado-i-cinghiali
+    presso: ghoran
+    immagine: bestiario/cinghiale-crudele-mutato
+    titolo: I cinghiali corazzati
+    sommario: "La prima delle Prove è la più vecchia. Tre cinghiali corazzati da portare nel tuo recinto prima che Branko porti i suoi."
+    luogo: Ghoran, la piana di fango del guado
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 2]
+    testo: |
+      All'alba le passerelle di Ghoran sono vuote, perché sui sassi del guado
+      ci sono tutti i clan, ognuno sulla sua riva e con il suo segno cucito sul
+      petto. Ragh siede su uno sgabello piantato nel fango, e accanto a lui
+      Dunja tiene alta la tavoletta. Alle Prove non si portano armi, e la gente
+      è venuta con le borracce e con i bambini sulle spalle.
+
+      La prima prova è la più vecchia. I sei cinghiali corazzati escono dal
+      recinto grande e si spargono sulla piana di fango, e ognuno dei due ne
+      deve portare tre nel suo recinto piccolo, a cento passi. Sono bestie alte
+      quanto un uomo al garrese, con la pelle nera e lucida e le vene color
+      acciaio che pulsano sotto la cotenna.
+
+      Branko si sputa nelle mani e parte per primo, senza fretta.
+
+      {atletica Difficile} Un cinghiale corazzato pesa quanto un carro e non si
+      lascia spingere da nessuno. Gli si può soltanto far credere che l'idea di
+      entrare nel recinto sia stata sua.
+    opzioni:
+      - testo: "Prenderli a spinte e a urla, uno alla volta"
+        descrizione: "Un cinghiale si gira se gli urli davanti al muso e lo spingi sulla spalla. Bisogna farlo tre volte, e ogni volta con tutto il corpo."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Difficile }
+        successo:
+          titolo: A spallate
+          testo: |
+            Ci metti tutta la mattina a forza di urla e di spallate, e il terzo
+            cinghiale entra nel tuo recinto quando Branko ne ha ancora uno fuori. Lui ride
+            e ti alza il pollice nero di resina. Sulla riva della Pece fischiano,
+            e il resto dei clan batte i piedi sui sassi.
+          pe: { atletica: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.cinghiali: 1 }
+        fallimento:
+          titolo: Sotto il cinghiale
+          testo: |
+            Il secondo cinghiale si gira quando non deve e ti passa sopra come
+            sopra un'asse. Quando ti rialzi dal fango Branko chiude il suo
+            cancello, e Dunja incide una tacca sotto il suo nome.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+      - testo: "Guidarli da pastore, senza toccarli"
+        descrizione: "Una mandria va dove capisce di dover andare. Basta mettersi dalla parte giusta, e restarci."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: Il pastore
+          testo: |
+            Ti metti sempre dalla parte da cui non devono andare, con le braccia
+            larghe, e i cinghiali scivolano verso il tuo recinto come acqua in un
+            canale. Chiudi il cancello prima di Branko, che si ferma a guardarti
+            con il terzo cinghiale ancora per l'orecchio.
+          pe: { addestrare-animali: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.cinghiali: 1 }
+        fallimento:
+          titolo: Dall'altra parte
+          testo: |
+            I cinghiali capiscono benissimo dove vuoi portarli, e vanno
+            dall'altra parte. Branko chiude il cancello mentre tu ne hai ancora
+            due a spasso sulla piana, e i ragazzi della Pece te li riportano
+            ridendo.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+      - testo: "Portare la scrofa vecchia verso il fumo della Pece"
+        descrizione: "La scrofa con l'orecchio tagliato va dove c'è fumo, e gli altri vanno dietro a lei. Sulla riva le torce della Pece fumano."
+        requisiti: [avv-prove-guado.trucco >= 1]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: La torcia bassa
+          testo: |
+            Prendi una torcia dal mucchio della Pece e la tieni bassa davanti al
+            muso della scrofa vecchia, e lei ti segue fino al tuo recinto con il
+            naso nel fumo. Due cinghiali le vanno dietro. Branko, a metà piana, si
+            ferma a guardare la torcia e ride così forte che deve appoggiarsi al
+            suo cinghiale.
+          pe: { addestrare-animali: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.cinghiali: 1 }
+        fallimento:
+          titolo: Il vento che gira
+          testo: |
+            La scrofa segue il fumo, e il vento gira proprio allora, verso il
+            recinto di Branko. I cinghiali ci entrano da soli in fila, e Branko
+            chiude il cancello senza aver fatto niente e ti ringrazia con un
+            inchino.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · la seconda prova
+  - id: avv-prove-guado-le-rapide
+    presso: ghoran
+    immagine: ambientazione/gradone-rosso
+    titolo: Le rapide dei nastri
+    sommario: "Sei corde tese sopra le rapide dell'Acquarossa, e a ogni corda un nastro rosso. Si scende sull'otre e si prendono passando."
+    luogo: Ghoran, le rapide dell'Acquarossa
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 3]
+    testo: |
+      A metà mattina i clan risalgono la riva fino alle rapide, dove
+      l'Acquarossa scende dal Gradone a salti fra due pareti di arenaria. Dunja
+      ha teso sei corde da una riva all'altra, e da ogni corda pende un nastro
+      rosso all'altezza di un braccio alzato. Si scende sull'otre, una pelle di
+      capra gonfia e legata, e chi porta più nastri al guado vince la prova.
+
+      Branko si siede sul suo otre come su una panca e si lascia andare per
+      primo. A ogni corda alza la mano senza guardare, e il nastro gli resta fra
+      le dita.
+
+      Dunja ti porge un otre che puzza di capra e ti spiega che le corde basse
+      stanno sopra l'acqua profonda, mentre le alte pendono sopra i sassi.
+
+      {natura Media} Dove l'acqua fa la schiena liscia sotto c'è un sasso, e
+      dove fa la schiuma c'è il fondo. Le corde alte pendono tutte sopra la
+      schiena liscia.
+    opzioni:
+      - testo: "Scendere in piedi sull'otre"
+        descrizione: "In piedi si arriva alle corde alte. Si cade anche più facilmente."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: In piedi
+          testo: |
+            Ti tiri in piedi sull'otre al primo salto e ci resti, con le ginocchia
+            molli e le braccia larghe, e le corde alte ti passano davanti alla
+            faccia una dopo l'altra. Arrivi al guado con sei nastri stretti nel
+            pugno. Branko ne ha cinque, e te lo dice prima ancora di uscire
+            dall'acqua.
+          pe: { acrobazia: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.nastri: 1 }
+        fallimento:
+          titolo: Il sasso con la spalla
+          testo: |
+            Al terzo salto l'otre ti scappa da sotto i piedi e prendi il sasso con
+            la spalla. Arrivi al guado a nuoto con due nastri soltanto, mentre
+            l'otre ti galleggia davanti come un cane morto.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+      - testo: "Leggere l'acqua e scegliere ogni salto"
+        descrizione: "Le rapide sono sempre le stesse. Chi le guarda prima di scendere sa dove l'acqua porta l'otre sotto le corde."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: La schiena liscia
+          testo: |
+            Prima di scendere guardi l'acqua a lungo, finché Dunja tossisce. Poi
+            ti lasci portare, e l'otre passa sotto ogni corda proprio dove pende
+            il nastro. Arrivi al guado con sei nastri, e Branko, che ne ha cinque,
+            ti chiede chi ti ha insegnato a leggere l'Acquarossa.
+          pe: { natura: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.nastri: 1 }
+        fallimento:
+          titolo: L'otre che gira
+          testo: |
+            Scegli la corrente sbagliata al secondo salto, e l'otre gira su se
+            stesso per tutto il resto della discesa. Arrivi al guado con un nastro
+            solo, e con la testa che continua a girare anche dopo.
+          effetti: { avventura.prove-guado: 1, tormento: 0.5 }
+      - testo: "Restare sull'acqua profonda e prendere le corde basse"
+        descrizione: "Le corde basse sono facili. Sotto l'ultima però c'è il salto grande, e il nastro pende proprio sopra."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: L'ultimo nastro
+          testo: |
+            Prendi le corde basse una dopo l'altra, con l'acqua fonda sotto la
+            pancia, e all'ultimo salto ti butti in avanti e prendi il nastro
+            insieme a un sasso sul ginocchio. Arrivi al guado con sei nastri,
+            zoppicando. Branko ne ha cinque, e viene a guardarti il ginocchio.
+          pe: { atletica: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.nastri: 1, ferite: 0.5 }
+        fallimento:
+          titolo: Il salto grande
+          testo: |
+            Il salto grande ti prende di traverso e ti porta sotto, e quando
+            riemergi la corda è già passata. Arrivi al guado con quattro nastri e
+            l'acqua nelle orecchie, mentre Branko ne alza cinque.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4 → 5 · la terza prova
+  - id: avv-prove-guado-il-pino-rosso
+    presso: ghoran
+    immagine: icone/wood-axe
+    titolo: Il pino rosso
+    sommario: "La terza prova è un albero morto sulla riva. Va fatto cadere sul torrente, perché diventi la passerella del guado per un anno."
+    luogo: Ghoran, la riva del guado
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 4]
+    testo: |
+      Il terzo albero delle Prove è un pino rosso morto sulla riva del guado,
+      alto quanto quattro palafitte, con la corteccia caduta e il legno grigio.
+      Chi lo abbatte lo deve far cadere di traverso sul torrente, perché il
+      tronco diventa la passerella del guado fino alle Prove dell'anno dopo.
+      Quella vecchia, marcita, l'hanno tolta ieri.
+
+      Davanti a Ragh due scuri da boscaiolo sono piantate in un ceppo. Branko ne
+      prende una e va al lato del pino che guarda il torrente, soppesandola. A
+      te resta l'altro lato, e il pino è uno solo.
+
+      «Vince chi lo butta giù» dice Ragh, e batte due volte le nocche sul
+      ginocchio. «Dove deve andare.»
+
+      {armi-da-mischia Facile} La scure da boscaiolo ha il manico lungo e la
+      testa stretta. Si tira dall'anca e si lascia cadere da sola, senza
+      spingerla.
+    opzioni:
+      - testo: "Tagliare più in fretta di lui"
+        descrizione: "Due scuri sullo stesso tronco. Chi arriva prima al cuore del legno decide da che parte cade."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Il tonfo
+          testo: |
+            Tagli senza alzare la testa, con il manico che ti scotta nelle mani, e
+            dall'altra parte senti il colpo di Branko rallentare prima del tuo. Il
+            pino si piega dalla tua parte e cade di traverso sul torrente, con un
+            tonfo che bagna mezza riva. La Pece urla, e Branko si siede sul ceppo
+            ridendo.
+          pe: { atletica: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.albero: 1 }
+        fallimento:
+          titolo: Le vesciche
+          testo: |
+            A metà lavoro le mani ti si riempiono di vesciche e il colpo si fa
+            corto. Il pino cade dalla parte di Branko, di traverso sul torrente
+            come vuole la regola, e lui ci sale sopra per primo e ti tende la
+            mano.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+      - testo: "Fare la tacca giusta e lasciar lavorare il pino"
+        descrizione: "Un albero morto cade dalla parte dove pende. Se la tacca è giusta, basta poco."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: La tacca bassa
+          testo: |
+            Giri intorno al pino due volte prima di toccarlo, e lo trovi già
+            piegato verso l'acqua di un palmo. Fai la tacca bassa da quella parte
+            e tagli piano dall'altra. Quando Branko alza la scure per il colpo
+            buono il pino è già in aria, e cade dritto sul torrente.
+          pe: { natura: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.albero: 1 }
+        fallimento:
+          titolo: Lungo la riva
+          testo: |
+            Leggi il pino al contrario e fai la tacca dalla parte sbagliata. Il
+            pino gira su se stesso e cade lungo la riva, sopra il recinto delle
+            Prove, e i clan ridono per tutto il tempo che serve a Branko per
+            spostarlo con le funi e farlo rotolare in acqua.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+      - testo: "Tagliare con calma, un colpo alla volta"
+        descrizione: "Colpi lenti e precisi, come si spacca la legna d'inverno. Ci vuole il doppio del tempo, e tutto il pomeriggio di braccia."
+        costo: 2
+        prova: { attributo: fisico, abilita: armi-da-mischia, difficolta: Media }
+        successo:
+          titolo: Un colpo nel colpo
+          testo: |
+            Tagli con calma, ogni colpo nel solco di quello prima, mentre
+            dall'altra parte Branko si stanca a forza di correre. Il tuo ultimo
+            colpo arriva quando lui si ferma ad asciugarsi la fronte, e il pino
+            cade sul torrente dalla tua parte.
+          pe: { armi-da-mischia: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.albero: 1 }
+        fallimento:
+          titolo: Mezzo palmo
+          testo: |
+            Tagli con calma, e Branko taglia più in fretta. Il pino cade sul
+            torrente dalla sua parte mentre a te manca ancora mezzo palmo, e una
+            scheggia ti è entrata nel palmo della mano.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 5 → 6 · la gigantessa al guado
+  - id: avv-prove-guado-la-gigantessa
+    presso: ghoran
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: La gigantessa al guado
+    sommario: "Al tramonto, mentre Dunja legge i conti delle Prove, dal Gradone Rosso scende una gigantessa degli Spacca-ossa."
+    luogo: Ghoran, il guado dell'Acquarossa al tramonto
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 5]
+    testo: |
+      Al tramonto il pino è steso sul torrente, e i clan sono scesi sui sassi
+      per sentire chi ha vinto. Dunja è in piedi sul tronco nuovo con la
+      tavoletta, e Branko le sta accanto con la giubba già slacciata per il
+      nastro. Le armi sono ammucchiate sotto una pelle accanto al fuoco della
+      Pece, come vuole la regola delle Prove.
+
+      Il primo a sentirla è un cane della Pece, che si mette a guaire. Poi dalla
+      gola dell'Acquarossa scendono cinque cinghiali corazzati con un orco
+      giovane in groppa a ognuno e collane di lische che sbattono sul petto.
+      Dietro di loro, a piedi nel torrente, viene una donna alta quasi il doppio
+      di un uomo. Ha le spalle e la mascella degli ogre, e un pestello di pietra
+      grosso quanto un'incudine.
+
+      Sfonda il recinto delle Prove con un colpo solo, e i cinghiali della prima
+      prova le corrono dietro su per la gola. Branko le va incontro a mani nude
+      per tenerla lontana da Dunja. Lei lo prende di striscio con il pestello, e
+      la gamba di Branko si piega dalla parte sbagliata. Se lo carica sulla
+      spalla e si volta verso il Gradone, mentre due degli orchi in groppa girano
+      i cinghiali sul guado e fanno muro per coprirle la salita.
+
+      {intimidire Media} Gli orchi della banda sono ragazzi, e tengono le lance
+      troppo strette. Hanno più paura di lei che di te.
+    opzioni:
+      - testo: "Prendere l'arma dal mucchio e fare muro anche tu"
+        descrizione: "Due ragazzi su due cinghiali corazzati tengono il guado. Gli altri salgono dietro a lei."
+        combattimento: avv-prove-guado-la-retroguardia
+        vittoria:
+          titolo: Il guado tenuto
+          testo: |
+            Il secondo orco cade dal cinghiale nell'acqua e risale la riva a
+            quattro zampe, e il cinghiale scappa senza di lui. Sul guado nessun
+            altro è stato preso. La gigantessa però è già in cima alla gola, con
+            Branko sulla spalla, e non si volta.
+          effetti: { avventura.prove-guado: 1, rep.ghoran: 0.5 }
+        sconfitta:
+          titolo: Gli zoccoli
+          testo: |
+            Un cinghiale ti passa sopra nel torrente e ti tiene sott'acqua, e
+            quando riemergi la retroguardia è già sparita su per la gola dietro
+            alla gigantessa. Gedda ti tira fuori per il bavero.
+          effetti: { avventura.prove-guado: 1, tormento: 0.5 }
+      - testo: "Tirarle dietro la scure del pino"
+        descrizione: "La scure da boscaiolo è ancora piantata nel ceppo. Lei sale lenta, con Branko sulla spalla, e ti volta la schiena."
+        prova: { attributo: fisico, abilita: [armi-da-distanza, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: La scure nella spalla
+          testo: |
+            Strappi la scure dal ceppo e la tiri con tutte e due le mani. La scure
+            le entra nella spalla sinistra proprio sotto Branko, e lei barcolla di
+            un passo. Si
+            volta a guardarti. Con la mano libera si strappa la scure dalla
+            spalla e la butta nel torrente, senza fermarsi.
+          pe: { armi-da-distanza: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.segno: 1 }
+        fallimento:
+          titolo: La scure nel torrente
+          testo: |
+            La scure ti scivola dalle mani bagnate e gira in aria, e finisce nel
+            torrente a due passi da te. Dalla riva qualcuno del Guado ride, poi
+            smette, perché la gigantessa è già in cima alla gola.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+      - testo: "Portare via dal guado Dunja e i bambini"
+        descrizione: "I cinghiali scendono sul guado di corsa, e sul tronco ci sono Dunja e i figli della Pece venuti a vedere il nastro."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Oltre il fuoco
+          testo: |
+            Prendi Dunja per la cintura e due bambini per il collo della giubba, e
+            li porti oltre il fuoco della Pece mentre i cinghiali sfondano il
+            tronco dove stavano. Quando ti volti la gigantessa è in cima alla
+            gola, e Dunja tiene ancora stretta la tavoletta.
+          pe: { atletica: 3 }
+          effetti: { avventura.prove-guado: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Fra i sassi
+          testo: |
+            Prendi Dunja per la cintura, e un cinghiale ti prende di fianco mentre
+            la tiri giù dal tronco. Rotolate tutti e due fra i sassi. Quando ti
+            rialzi la gigantessa è già in cima alla gola.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+      - testo: "Guardare dove sale, e da che parte"
+        descrizione: "La gola dell'Acquarossa ha più di un'uscita verso le terrazze. Chi vede quale prende sa da dove salire domani."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il canalone di destra
+          testo: |
+            Non la perdi d'occhio un momento. In cima alla gola lascia il torrente
+            e prende a destra, per un canalone di sabbia rossa, e la vedi
+            ricomparire sulla seconda terrazza, piccola, prima che il buio la
+            copra. Ti segni il canalone con un sasso sul bordo del tronco.
+          pe: { percezione: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.tracce: 1 }
+        fallimento:
+          titolo: La polvere
+          testo: |
+            La segui con gli occhi finché la polvere dei cinghiali non copre tutta
+            la gola, e quando si posa lei non c'è più. Sai soltanto che è salita.
+          effetti: { avventura.prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6 → 7 · la notte alla bilancia
+  - id: avv-prove-guado-la-notte-alla-bilancia
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: La notte alla bilancia
+    sommario: "I clan si riuniscono sotto la bilancia con le torce. Ostrav dà un nome alla gigantessa, e Ragh guarda il suo occhio."
+    luogo: Ghoran, la bilancia del mercato dei recinti
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 6]
+    testo: |
+      Di notte i clan si riuniscono sotto la bilancia del mercato con le torce
+      alzate, e nessuno si siede. Gedda della Pece mastica resina così forte che
+      le si vede la mascella dall'altra parte della passerella, e vuole salire
+      al Gradone subito, con tutta la Pece. Ostrav le risponde che sulle
+      terrazze i sentieri sono larghi un piede, e che cento torce si vedono da
+      tre giorni di strada.
+
+      È lui, girandosi l'anello fra le dita, a dare un nome alla gigantessa.
+      «Si chiama Ozzra. Malvo l'anguillaio dice che gli Spacca-ossa l'hanno
+      mandata via dalla palude due inverni fa, con sei ragazzi della tribù. Da
+      allora ai recinti spariscono capre e maiali, e ogni clan ha dato la colpa
+      a quello accanto.»
+
+      Ragh batte le nocche sulla trave della bilancia, due volte. «Sale uno, e
+      quello vede per tutti» dice, e guarda te.
+
+      Dunja è seduta sul piatto vuoto con la tavoletta delle Prove in grembo, e
+      passa il dito sui due nomi.
+
+      {empatia Media} La ragazza pensa che Branko sia salito sul guado per colpa sua,
+      perché le Prove le ha volute lei. Nessuno glielo ha detto, e lei ci crede
+      lo stesso.
+    opzioni:
+      - testo: "Farti dire dai cacciatori del Guado dove sparivano le bestie"
+        descrizione: "Il Guado tiene i cani da presa e conosce ogni sentiero dei fuggiaschi. Le capre sparite, se le contavano, sanno anche da dove."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, persuasione], difficolta: Media }
+        successo:
+          titolo: La fila di sassi
+          testo: |
+            Il capo dei cacciatori ci pensa a lungo, poi stende sul fango una
+            corda e ci mette sopra un sasso per ogni recinto rimasto vuoto. I
+            sassi fanno una fila, e la fila sale lungo l'Acquarossa fino a un
+            canalone di sabbia rossa sopra la gola.
+          pe: { conoscenze-della-strada: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.tracce: 1 }
+        fallimento:
+          titolo: La domanda storta
+          testo: |
+            I cacciatori ti guardano storto, perché a chiedere dove sparivano le
+            capre sembra che tu chieda chi le ha rubate. Ostrav li manda a dormire
+            prima che rispondano.
+          effetti: { avventura.prove-guado: 1, scandalo: 0.5 }
+      - testo: "Tornare al guado con una torcia e leggere le impronte"
+        descrizione: "Le orme dei cinghiali sono ancora fresche nel fango, e quelle di lei sono profonde un palmo."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Il piede sinistro
+          testo: |
+            Al guado le impronte di Ozzra sono buche nel fango, una ogni due passi
+            tuoi, e quella del piede sinistro è più profonda, perché Branko lo
+            porta da quella parte. Le segui con la torcia fino all'imbocco della
+            gola, dove lasciano il torrente e prendono a destra, per un canalone
+            di sabbia rossa.
+          pe: { natura: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.tracce: 1 }
+        fallimento:
+          titolo: La torcia spenta
+          testo: |
+            Nel buio scivoli sui sassi del guado e finisci nel torrente con la
+            torcia. Quando riesci a riaccenderla, l'acqua ha già cancellato le
+            impronte della riva.
+          effetti: { avventura.prove-guado: 1, ferite: 0.5 }
+      - testo: "Farti preparare da Oska per la salita"
+        descrizione: "Oska stasera ha già fasciato tre gambe. Per quella che sale ha un vasetto di grasso e un rotolo di tela."
+        esito:
+          titolo: Il vasetto di Oska
+          testo: |
+            Oska ti mette in mano un vasetto di grasso e un rotolo di bende di vela
+            senza chiederti niente, nemmeno le monete. «Branko lo ricucio io»
+            dice. «Tu riportalo giù intero, che la gamba è già abbastanza.»
+          effetti: { avventura.prove-guado: 1, unguento: 1, bende: 1 }
+      - testo: "Dire ai clan da che parte salivano i fuggiaschi"
+        descrizione: "Nei recinti si sapeva da che parte salivano quelli che scappavano, e dove i cani del Guado li perdevano."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: La strada dei fuggiaschi
+          testo: |
+            Lo dici davanti a tutti, sotto la bilancia. Chi scappava da Ghoran
+            saliva per l'Acquarossa, perché l'acqua confonde i cani, e in cima
+            alla gola prendeva il canalone di destra, l'unico che porta alle
+            terrazze senza passare dal torrente. Ostrav ti guarda il polso, e il
+            capo dei cacciatori annuisce piano.
+          pe: { resilienza: 3 }
+          effetti: { avventura.prove-guado: 1, avv-prove-guado.tracce: 1 }
+
+  # ------------------------------------------------------------ 8 → 9 · giù dal Gradone
+  - id: avv-prove-guado-giu-dal-gradone
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: Giù dal Gradone
+    sommario: "Al guado Oska rimette a posto la gamba di Branko. I cacciatori del Guado scendono con quattro ragazzi della banda legati alla stessa corda."
+    luogo: Ghoran, il guado dell'Acquarossa
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 8]
+    testo: |
+      Al guado Oska rimette a posto la gamba di Branko sul tronco nuovo, senza
+      dirgli quando comincia, e Branko urla una volta sola prima di chiedere da
+      bere. Dunja gli tiene la mano e la tavoletta insieme, e non le molla.
+
+      Dietro di voi scendono i cacciatori del Guado con quattro orchi della
+      banda legati per il collo alla stessa corda, ragazzi, presi sulle
+      terrazze mentre scappavano verso la palude. Li fanno inginocchiare sui
+      sassi. Ostrav arriva dalla passerella e li guarda uno per uno girandosi
+      l'anello fra le dita, come guarda i comprati al mercato.
+
+      «Una capra per ogni capra che ci hanno mangiato, e poi il resto» dice. «Al
+      mercato dei recinti valgono di più di quanto hanno rubato.»
+
+      Gedda sputa la resina sui sassi. Ragh è seduto sul suo sgabello, batte le
+      nocche sul ginocchio due volte e aspetta che parli il suo occhio.
+
+      {politica-ed-economia Media} Quattro orchi giovani e sani, al mercato dei
+      recinti, ripagano tutte le capre sparite da due inverni a questa parte. Il
+      Guado lo sa bene, e la Pece pure.
+
+      {origine fuggiasco-di-ghoran} Il più piccolo dei quattro tiene gli occhi
+      bassi e le spalle curve, come insegnano a fare nei recinti. Ti accorgi che
+      le tue spalle stanno facendo lo stesso.
+    opzioni:
+      - testo: "Lasciarli tornare alla palude"
+        descrizione: "Sono ragazzi, e la gigantessa li ha portati via da casa. A Ghoran però le capre si pagano, e i clan se ne ricorderanno."
+        esito:
+          titolo: La corda tagliata
+          testo: |
+            Dici che i ragazzi tornano alla palude e tagli tu la corda, nodo per
+            nodo. Ostrav ride senza allegria. Ragh batte le nocche una volta sola,
+            che a Ghoran vuol dire *così sia*, e i quattro risalgono la riva di
+            corsa senza voltarsi. Per qualche giorno, sulle passerelle, chi ha
+            perso una capra non ti saluta.
+          imposta: { avv-prove-guado.orchi: 1 }
+          effetti: { avventura.prove-guado: 1, rep.ghoran: -0.5 }
+      - testo: "Lasciare che il Guado li porti alla bilancia"
+        descrizione: "A Ghoran la merce si pesa. I clan riavranno le loro capre, e tu una parte del prezzo."
+        esito:
+          titolo: Sul piatto
+          testo: |
+            Fai un cenno a Ostrav, e lui lo fa ai cacciatori. La sera dopo i
+            quattro salgono sulla bilancia del mercato uno alla volta, e il vecchio
+            della porta scrive il loro peso sulla cera. Ostrav ti manda la tua
+            parte in una borsa con il sigillo verde. Il più piccolo, sul piatto,
+            cercava te con gli occhi.
+          imposta: { avv-prove-guado.orchi: 2 }
+          effetti: { avventura.prove-guado: 1, monete: 40, rep.ghoran: 0.5, tormento: 0.5 }
+      - testo: "Farli lavorare per la Pece fino alle Prove dell'anno prossimo"
+        descrizione: "È la legge vecchia di Ghoran. Chi toglie qualcosa a un clan lo rende con le mani, e quando ha reso se ne va."
+        esito:
+          titolo: Un anno di torce
+          testo: |
+            Dici che lavoreranno per la Pece fino alle Prove dell'anno prossimo
+            per ripagare le capre, e che poi saranno liberi. Gedda ci
+            pensa masticando, poi annuisce. Ostrav dice che un anno di lavoro vale
+            meno del prezzo, e Ragh batte le nocche due volte sopra la sua voce.
+          imposta: { avv-prove-guado.orchi: 3 }
+          effetti: { avventura.prove-guado: 1, rep.ghoran: 0.5 }
+      - testo: "Dire ai clan che cosa costa una corda al collo"
+        descrizione: "Su una corda così ci sei stato anche tu, e i clan lo sanno. Puoi dirlo con meno parole di chiunque altro."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Il polso in vista
+          testo: |
+            Ti metti accanto al più piccolo, con il polso in vista, e dici soltanto
+            che la corda la tagli tu. Nessuno ti ferma. Ragh batte le nocche una
+            volta sola, che a Ghoran vuol dire *così sia*, e i quattro risalgono la
+            riva di corsa. Per qualche giorno chi ha perso una capra non ti saluta,
+            e Tibbo, dalla riva della Pece, sì.
+          pe: { resilienza: 3 }
+          imposta: { avv-prove-guado.orchi: 1 }
+          effetti: { avventura.prove-guado: 1, rep.ghoran: -0.5 }
+
+  # ------------------------------------------------------------ 9 → 10 · il banchetto
+  - id: avv-prove-guado-il-banchetto
+    presso: ghoran
+    immagine: icone/laurels-trophy
+    titolo: Il banchetto del Guado
+    sommario: "Sul guado si fa il banchetto delle Prove, e Branko si fa tirare in piedi per dire chi ha vinto."
+    luogo: Ghoran, il guado dell'Acquarossa di sera
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 9]
+    testo: |
+      Il banchetto si fa la sera dopo, sul guado, con i fuochi accesi sulle due
+      rive e il pino delle Prove steso in mezzo come una tavola. La Pece ha
+      arrostito uno dei cinghiali corazzati, quello che non è tornato giù dal
+      Gradone, e il Guado ha portato l'acquavite. I clan si siedono mescolati sui
+      sassi, e Dunja dice di non averlo mai visto fare. Sul tronco, accanto a
+      lei, c'è la borsa del premio, che quest'anno hanno riempito tutti i clan.
+
+      A metà sera Branko si fa tirare in piedi da due della Pece, con la gamba
+      steccata e il maglio da cunei in mano, e i tamburi tacciono.
+
+      «Nove volte ho vinto io, contro dei ragazzi» dice, con una voce che arriva
+      fino alle palafitte. «Quest'anno vince chi è tornato giù dal Gradone.» Ti
+      mette in mano il maglio. «E questo lo tieni tu, che io per un anno corro
+      soltanto con le stampelle.»
+
+      Dunja incide il tuo nome sulla tavoletta sopra quello di Branko, poi resta
+      con lo stilo alzato. Ti spiega che il nastro delle Prove ha una regola
+      sola, e che la decide chi vince.
+
+      {galateo Media} Ragh non ha detto niente per tutta la sera, e non beve. Sta
+      aspettando di sentire che cosa farai del nastro, perché quello che fa il
+      campione delle Prove i clan lo copiano per un anno.
+
+      {origine fuggiasco-di-ghoran} Al banchetto delle Prove i comprati
+      versavano l'acquavite e bevevano quello che restava nelle tazze. Stasera
+      la tazza te la riempie Gedda della Pece, fino all'orlo.
+    opzioni:
+      - testo: "Tenere il nastro e difenderlo l'anno prossimo"
+        descrizione: "Il campione delle Prove si iscrive per primo l'anno dopo, e tutti sanno contro chi correre."
+        esito:
+          titolo: Il primo nome
+          testo: |
+            Dici che l'anno prossimo il primo nome sulla tavoletta sarà il tuo, e
+            che chi lo vuole può venire a prenderlo. Branko ride così forte che i
+            due della Pece devono tenerlo in piedi. Prima di mezzanotte sulla
+            tavoletta di Dunja ci sono già tre nomi per l'anno dopo, tutti di
+            ragazzi.
+          imposta: { avv-prove-guado.regola: 1 }
+          effetti: { avventura.prove-guado: 1, oggetto.avv-prove-guado-maglio-di-branko: 1, monete: 50, rep.ghoran: 1 }
+      - testo: "Dire che l'anno prossimo corre chiunque scriva il suo nome"
+        descrizione: "Un comprato, un forestiero, una gigantessa della palude. Dunja dice che le Prove sono nate prima dei clan, quando il nastro non chiedeva a nessuno da dove veniva."
+        esito:
+          titolo: Chiunque
+          testo: |
+            Lo dici forte, perché lo sentano tutte e due le rive. Ostrav si alza e
+            chiede se allora può correre anche la sua merce, e tu gli rispondi di
+            sì, la sua per prima. Ragh lo guarda a lungo, poi batte le nocche due
+            volte. Dunja scrive la regola sulla cera, sotto il tuo nome, con le
+            lettere più grandi che le riescono.
+          imposta: { avv-prove-guado.regola: 2 }
+          effetti: { avventura.prove-guado: 1, oggetto.avv-prove-guado-maglio-di-branko: 1, monete: 50, rep.ghoran: 0.5 }
+      - testo: "Legare il nastro al polso di Dunja"
+        descrizione: "Quest'anno le Prove le ha tenute in vita lei con la sua cera e le sue corde. Il nastro può andare anche a chi le fa correre."
+        esito:
+          titolo: La padrona delle Prove
+          testo: |
+            Ti levi il nastro dal collo e lo leghi al polso di Dunja, davanti alle
+            due rive, e lei diventa rossa fino alla radice dei capelli. Ragh batte
+            le nocche due volte e dice che da stasera le Prove sono sue e di nessun
+            clan. Ostrav, per una volta, non trova niente da dire.
+          imposta: { avv-prove-guado.regola: 3 }
+          effetti: { avventura.prove-guado: 1, oggetto.avv-prove-guado-maglio-di-branko: 1, monete: 50, rep.ghoran: 0.5 }
+      - testo: "Chiedere che l'anno prossimo corrano anche i comprati"
+        descrizione: "Nessuno l'ha mai chiesto, perché chi poteva chiederlo stava dietro le sbarre del recinto. Adesso stai sul tronco con il maglio in mano."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        esito:
+          titolo: Anche i comprati
+          testo: |
+            Lo chiedi con il polso in vista e il maglio di Branko nell'altra mano.
+            Sulla riva della Pece Tibbo alza la testa. Ostrav chiede se allora può
+            correre anche la sua merce, e tu gli rispondi di sì, la sua per prima.
+            Ragh batte le nocche due volte, e Dunja scrive la regola sulla cera con
+            le lettere più grandi che le riescono.
+          pe: { resilienza: 3 }
+          imposta: { avv-prove-guado.regola: 2 }
+          effetti: { avventura.prove-guado: 1, oggetto.avv-prove-guado-maglio-di-branko: 1, monete: 50, rep.ghoran: 0.5 }

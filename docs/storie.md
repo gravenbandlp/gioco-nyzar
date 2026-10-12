@@ -664,6 +664,258 @@ quelli delle Cronache (`contenuti/cronache.yaml`); le serie le ricava `src/motor
   2. «Un copione nuovo» (`un-copione-nuovo`)
   3. «Il nome sul cartellone» (`il-nome-sul-cartellone`)
 
+## Le Avventure
+
+### La notte della Zanna Rotta
+
+`avventura.zanna-rotta` · 8 passi · 13 scene
+
+- **File:** `avventure/zanna-rotta/spedizione.yaml`, `avventure/zanna-rotta/storia.yaml`
+- **Spedizioni:** La pista grigia (`avv-zanna-rotta`)
+- **Dipende da:** Capomozzo almeno al passo 10
+- **Oggetti:** Pelliccia di Mezzaluna
+- **Passi:**
+  0. «La giumenta sotto la giubba», «Il tuo cavallo ha visto»
+  1. «La stalla senza tracce»
+  2. «La tinozza nel cortile»
+  3. «Tre ospiti a colazione»
+  4. «La notte nella stalla»
+  5. «Il mattino nel box»
+  6. «La strada di Laresh», «La radura dei vetri», «Mezzaluna», «Il cristallo nella borsa»
+  7. «La pelle di Mezzaluna», «La pelliccia conciata»
+
+### I Puliti di Pannion
+
+`avventura.puliti` · 9 passi · 13 scene
+
+- **File:** `avventure/puliti/spedizione.yaml`, `avventure/puliti/storia.yaml`
+- **Spedizioni:** Le acque sotto la vecchia Pannion (`avv-puliti`)
+- **Dipende da:** Per il fumo di Pannion almeno al passo 15
+- **Oggetti:** Piastrina fredda
+- **Passi:**
+  0. «Il castagnaro»
+  1. «Le gocce sugli stipiti»
+  2. «La mensa che si volta»
+  3. «La pelle bagnata»
+  4. «Quelli che portano all'acqua»
+  5. «Il rito sul bordo», «Le bocche informi»
+  6. «La bocca della cisterna», «I murali del sovrano», «L'offerta», «Lo scontro nell'acqua»
+  7. «Il risveglio»
+  8. «La piastrina fredda»
+
+### La stazione del gelo
+
+`avventura.stazione-gelo` · 7 passi · 9 scene
+
+- **File:** `avventure/stazione-gelo/spedizione.yaml`, `avventure/stazione-gelo/storia.yaml`
+- **Spedizioni:** Le stanze della Brinaia (`avv-stazione-gelo`)
+- **Dipende da:** Capomozzo almeno al passo 10
+- **Oggetti:** Specchio da braccio
+- **Passi:**
+  0. «Una lettera per il Gradone»
+  1. «La Brinaia»
+  2. «La cella gelata»
+  3. «La Raschiatrice»
+  4. «Il forziere del Ghiro»
+  5. «La porta di fuori», «Il Ghiro», «Lo specchio»
+  6. «Dietro le bottiglie»
+
+### Le Prove del Guado
+
+`avventura.prove-guado` · 10 passi · 12 scene
+
+- **File:** `avventure/prove-guado/spedizione.yaml`, `avventure/prove-guado/storia.yaml`
+- **Spedizioni:** Le terrazze del Gradone (`avv-prove-guado`)
+- **Dipende da:** Si pesa almeno al passo 15
+- **Oggetti:** Maglio di Branko
+- **Passi:**
+  0. «Due nomi sulla tavoletta»
+  1. «La sera prima»
+  2. «I cinghiali corazzati»
+  3. «Le rapide dei nastri»
+  4. «Il pino rosso»
+  5. «La gigantessa al guado»
+  6. «La notte alla bilancia»
+  7. «La gola dell'Acquarossa», «Il ragazzo delle lische», «La grotta di Ozzra»
+  8. «Giù dal Gradone»
+  9. «Il banchetto del Guado»
+
+### Il debito del Ponte del Pesce
+
+`avventura.ponte-pesce` · 8 passi · 13 scene
+
+- **File:** `avventure/ponte-pesce/spedizione.yaml`, `avventure/ponte-pesce/storia.yaml`
+- **Spedizioni:** Le acque sotto lo Scoglio (`avv-ponte-pesce`)
+- **Dipende da:** Capomozzo almeno al passo 10
+- **Oggetti:** Arpione del Sommerso
+- **Passi:**
+  0. «L'uomo fradicio»
+  1. «Il racconto di Ciro», «La riva deserta»
+  2. «Il boccaglio del nonno»
+  3. «L'acqua del canale»
+  4. «I turni delle guardie»
+  5. «La barca di Ciro», «L'uomo all'ancora», «Le acque profonde», «La guardia che sale»
+  6. «Sotto l'arco», «La parola di Ilske»
+  7. «L'arpione del Sommerso»
+
+### Il Rosicaossa
+
+`avventura.rosicaossa` · 8 passi · 12 scene
+
+- **File:** `avventure/rosicaossa/spedizione.yaml`, `avventure/rosicaossa/storia.yaml`
+- **Spedizioni:** Le pareti della Cicatrice (`avv-rosicaossa`)
+- **Dipende da:** Capomozzo almeno al passo 10
+- **Oggetti:** Scudo di ossa e ferro
+- **Passi:**
+  0. «La mano sul ponte»
+  1. «Il gioco degli obblighi»
+  2. «Il punto della calata»
+  3. «Lo scolatore»
+  4. «I dispersi della parete»
+  5. «Senza peso», «Il nido», «L'acqua che sale»
+  6. «La risalita», «La ragazzina che non ricorda»
+  7. «Ossa e ferro»
+
+### La signora delle gole
+
+`avventura.signora-gole` · 8 passi · 12 scene
+
+- **File:** `avventure/signora-gole/spedizione.yaml`, `avventure/signora-gole/storia.yaml`
+- **Spedizioni:** I Calanchi Rossi (`avv-signora-gole`)
+- **Dipende da:** Per il fumo di Pannion almeno al passo 15
+- **Oggetti:** Lama della Signora
+- **Passi:**
+  0. «Il carro del bivio», «Gli occhi bianchi»
+  1. «Il capitano della scorta»
+  2. «Gli occhi bianchi»
+  3. «La capa»
+  4. «La mappa»
+  5. «Verso i Calanchi Rossi», «La tana dello scorpione», «La Signora delle gole», «La lama ingioiellata»
+  6. «Il capitano legato»
+  7. «La lama della Signora»
+
+### Il Divoratore
+
+`avventura.divoratore` · 8 passi · 12 scene
+
+- **File:** `avventure/divoratore/spedizione.yaml`, `avventure/divoratore/storia.yaml`
+- **Spedizioni:** Le gallerie del Divoratore (`avv-divoratore`)
+- **Dipende da:** Il vento nuovo almeno al passo 15
+- **Oggetti:** Placca del Divoratore
+- **Passi:**
+  0. «Il muro che crolla»
+  1. «Il carro del fabbro»
+  2. «La grotta dei letti»
+  3. «La campana delle ore»
+  4. «Le cariche»
+  5. «La tana», «Il Divoratore passa», «La Strozza», «La bocca», «Il camino»
+  6. «La Strozza chiusa»
+  7. «La placca»
+
+### Il libro della regina
+
+`avventura.libro-regina` · 8 passi · 10 scene
+
+- **File:** `avventure/libro-regina/spedizione.yaml`, `avventure/libro-regina/storia.yaml`
+- **Spedizioni:** Il mausoleo della regina (`avv-libro-regina`)
+- **Dipende da:** Si pesa almeno al passo 15
+- **Oggetti:** Bracciale di Tamsira
+- **Passi:**
+  0. «Lo stalliere giallo»
+  1. «Il fienile dei muli»
+  2. «Le unghie gialle»
+  3. «Quello che ha visto Nevio»
+  4. «L'anello di cera verde»
+  5. «La Porta delle Sei», «La stanza delle sei», «La camera della regina»
+  6. «Il giallo che se ne va»
+  7. «Quello che teneva Radek»
+
+### Le buche di Laresh
+
+`avventura.buche-laresh` · 7 passi · 13 scene
+
+- **File:** `avventure/buche-laresh/spedizione.yaml`, `avventure/buche-laresh/storia.yaml`
+- **Spedizioni:** Le gallerie del rio basso (`avv-buche-laresh`)
+- **Dipende da:** La terra che beve almeno al passo 15
+- **Oggetti:** Roncola della regina
+- **Passi:**
+  0. «L'avviso al mulino», «L'anno delle zuccaiole»
+  1. «La padrona del rio basso»
+  2. «Grande come un vitello»
+  3. «Lo stivale della caposquadra»
+  4. «La notte sul confine»
+  5. «La buca del pero», «Il canto», «La caposquadra», «Il nido», «La regina che scava»
+  6. «L'ultima dispensa», «Il solco del pero»
+
+### La bambina che sognava il serpente
+
+`avventura.sogno-serpente` · 6 passi · 11 scene
+
+- **File:** `avventure/sogno-serpente/spedizione.yaml`, `avventure/sogno-serpente/storia.yaml`
+- **Spedizioni:** Dentro la roccia rossa (`avv-sogno-serpente`)
+- **Dipende da:** Il vento nuovo almeno al passo 15
+- **Oggetti:** Penna della guardiana
+- **Passi:**
+  0. «Gli avvisi al pozzo»
+  1. «La stanza di Isel»
+  2. «La canzone dei punti»
+  3. «La crepa del serpente»
+  4. «Dentro la roccia», «La parete dei chiamati», «Ulvessa», «Il padre», «L'ultima strofa»
+  5. «La parte della roccia», «Il silenzio di Isel»
+
+### L'investitura
+
+`avventura.investitura` · 8 passi · 11 scene
+
+- **File:** `avventure/investitura/spedizione.yaml`, `avventure/investitura/storia.yaml`
+- **Spedizioni:** La notte della veglia (`avv-investitura`)
+- **Dipende da:** Capomozzo almeno al passo 10
+- **Oggetti:** Lama dell'investitura
+- **Passi:**
+  0. «L'invito dei Castaldi»
+  1. «Un dono per l'erede»
+  2. «Lo scambio dei doni»
+  3. «L'ora prima di mezzanotte»
+  4. «I voti di mezzanotte»
+  5. «La sala al buio», «Il precettore», «La quinta tacca», «L'ultima tacca»
+  6. «La firma all'alba»
+  7. «La lama dell'investitura»
+
+### Il torchio che non si ferma
+
+`avventura.torchio` · 7 passi · 11 scene
+
+- **File:** `avventure/torchio/spedizione.yaml`, `avventure/torchio/storia.yaml`
+- **Spedizioni:** Il Torchio Dossena (`avv-torchio`)
+- **Dipende da:** La terra che beve almeno al passo 15
+- **Oggetti:** Corazza del portabotti
+- **Passi:**
+  0. «Un biglietto con il sigillo»
+  1. «La visita al Torchio Dossena», «Il fulmine sul camino»
+  2. «Oltre il cancello»
+  3. «Il meccanico nella gora», «Quello che sa Lapo»
+  4. «Il melo grande», «Il pannello centrale», «Il cancello del torchio»
+  5. «Il torchio fermo»
+  6. «La corazza del portabotti»
+
+### La radura spenta
+
+`avventura.radura-spenta` · 8 passi · 12 scene
+
+- **File:** `avventure/radura-spenta/spedizione.yaml`, `avventure/radura-spenta/storia.yaml`
+- **Spedizioni:** Il sentiero della Culla (`avv-radura-spenta`)
+- **Dipende da:** Capomozzo almeno al passo 10
+- **Oggetti:** Mantello della Culla
+- **Passi:**
+  0. «La lanterna di Ponente»
+  1. «Il vetro sul dosso»
+  2. «Le impronte bruciate»
+  3. «La notte al cippo»
+  4. «La fonte di Arvel»
+  5. «Il sentiero dei cervi», «I bozzoli», «La Culla delle Foglie», «Lo stallone»
+  6. «La lanterna riaccesa»
+  7. «Le ali rosse», «La Culla in silenzio»
+
 ## Spedizioni che non appartengono a una storia
 
 - Il villaggio storto (`villaggio-storto`)

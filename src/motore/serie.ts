@@ -8,7 +8,8 @@
 // - una raccolta (`raccolte:` nei contenuti) dichiara le storie che non hanno una pista: i luoghi neri con la
 //   Campana, le catene della Superficie, la casa. Raccoglie gli storylet che chiedono o cambiano le sue quality.
 // I seguiti senza serie prendono quella della scena che li apre.
-// Il genere dice che storia è: principale (le piste), di fazione (le quest di `fazioni:`) o di un luogo.
+// Il genere dice che storia è: principale (le piste), di fazione (le quest di `fazioni:`), di un luogo o un'Avventura
+// (le piste `avventura.x`).
 import type { TArea, TContenuti, TRaccolta, TStorylet } from './contenuto';
 import { parseRequisito, requisitiSoddisfatti, requisitoSoddisfatto, type Stato } from './personaggio';
 
@@ -26,7 +27,7 @@ export interface Serie {
   massimo: number;
 }
 
-export type Genere = 'principale' | 'fazione' | 'luogo';
+export type Genere = 'principale' | 'fazione' | 'luogo' | 'avventura';
 
 export interface MappaSerie {
   serie: Serie[];
@@ -59,7 +60,7 @@ export function serieDi(c: TContenuti): MappaSerie {
     for (const st of c.storylet) for (const r of req(st)) if (r.chiave === q.id && r.op === '==') massimo = Math.max(massimo, r.n + 1);
     for (const st of c.storylet) for (const e of esiti(st)) { const v = e.imposta?.[q.id]; if (typeof v === 'number') massimo = Math.max(massimo, v); }
     const f = c.fazioni.find((x) => x.pista === q.id);
-    if (massimo > 0) serie.push({ id: q.id, nome: q.nome, immagine: q.immagine, tipo: 'pista', genere: f ? 'fazione' : 'principale', fazione: f?.nome, quality: q.id, passi: [], tappe: [], massimo });
+    if (massimo > 0) serie.push({ id: q.id, nome: q.nome, immagine: q.immagine, tipo: 'pista', genere: f ? 'fazione' : q.id.startsWith('avventura.') ? 'avventura' : 'principale', fazione: f?.nome, quality: q.id, passi: [], tappe: [], massimo });
   }
   const pista = new Map(serie.map((x) => [x.quality!, x]));
   for (const st of candidati) {

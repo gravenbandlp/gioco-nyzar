@@ -1,0 +1,1338 @@
+# Le Prove del Guado, la spedizione (avventura.prove-guado == 7): le terrazze del Gradone Rosso sopra Ghoran, fino
+# alla grotta di Ozzra. Si entra da `avv-prove-guado-la-gola-dell-acquarossa`, presso Ghoran, con tre vie: la prova
+# Media, il canalone visto la sera prima (avv-prove-guado.tracce) e il giro largo da 2 rintocchi.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# - 0-3, le tracce e il bestiame dei mesi prima (prove Medie e Difficili): la gola dell'Acquarossa (0-1, i nastri),
+#   le capre dei clan (0-2), il recinto di rovi (1-3, i cinghiali), il filo delle lische (2-3), la frana rossa (2-3).
+#   Le fasce dicono 1-3, ma la profondità parte da 0: qui le stanze sono cinque perché coprono quattro passi.
+# - 4-6, le terrazze e i ragazzi della banda (prove Difficili): il campo della banda (4-5, scontro), la spaccatura
+#   (4-6, il pino), il cavaliere (5-6, scontro), i nastri al vento (4-6). La svolta a 5, non ripetibile: Ruk, il
+#   ragazzo che torna alla palude, dice che cosa vuole fare Ozzra e da dove si entra nella grotta (avv-prove-guado.ruk).
+# - 7-9, le grotte in cima (prove Difficili, in ogni stanza una Molto difficile o uno scontro): la dispensa (7-8), il
+#   cinghiale di Ozzra (7-9), l'arco della grotta (8-9, la fessura di Ruk), la cengia del vento (7-9). Le prove Molto
+#   difficili valgono due passi.
+# Ogni stanza ha una via senza prova da 2 rintocchi (3 nelle grotte) con mezza negativa; chi fallisce non sale.
+# Il cuore a 10 è la grotta di Ozzra (boss), con cinque vie Difficili: lo scontro, il lastrone crepato, il pestello a
+# braccio teso, la promessa della tavoletta e la spalla ferita al guado (avv-prove-guado.segno). Chi perde torna sulla
+# Superficie con una negativa, e la spedizione è da rifare.
+aree:
+  - id: avv-prove-guado
+    immagine: ambientazione/gradone-rosso
+    nome: Le terrazze del Gradone
+    sommario: "Sul versante che guarda Ghoran il Gradone Rosso è una scala di terrazze di arenaria. In cima, nelle grotte, Ozzra tiene Branko."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      Sul versante che guarda Ghoran il Gradone Rosso non è una scarpata sola.
+      È una scala di terrazze di arenaria, ognuna larga quanto una piazza e alta
+      quanto una casa, che il vento del nord e le piogge hanno sfogliato a strati
+      sottili. Sulle terrazze cresce un'erba dura e rossiccia, e i cespugli
+      hanno le radici scoperte. L'Acquarossa ci scende in mezzo a salti, e lungo
+      il torrente sale la pista dei cinghiali, fino in cima, dove la roccia è
+      piena di grotte e da una di loro esce un filo di fumo.
+
+colonna:
+  - { contesto: area, id: avv-prove-guado, musica: a-hundred-deaths, ambiente: forest-creepy }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dal guado
+  - id: avv-prove-guado-la-gola-dell-acquarossa
+    presso: ghoran
+    immagine: ambientazione/gradone-rosso
+    titolo: La gola dell'Acquarossa
+    sommario: "All'alba le orme dei cinghiali risalgono il torrente verso il Gradone Rosso. Sull'ultima terrazza sale un filo di fumo."
+    luogo: Ghoran, il guado dell'Acquarossa all'alba
+    area: superficie-fratturata
+    requisiti: [avventura.prove-guado == 7]
+    testo: |
+      All'alba il guado è pieno di impronte. Del recinto delle Prove restano i
+      pali spezzati, e il pino steso sul torrente ha una scheggia fresca dove
+      l'ha preso il pestello. Le orme dei cinghiali risalgono l'Acquarossa fino
+      alla gola, dove il torrente esce dal Gradone Rosso fra due pareti di
+      arenaria.
+
+      Da qui il Gradone sembra un muro solo. Più su si vede che è fatto di
+      gradini, terrazze larghe come piazze messe una sopra l'altra, e
+      sull'ultima, quasi in cima, sale un filo di fumo.
+
+      Dunja ti aspetta seduta sul tronco con il maglio da cunei di Branko fra le
+      braccia, perché da sola non riesce a sollevarlo. «Glielo tengo io finché
+      torna» dice, senza guardarti.
+
+      {resistenza Media} Fino a quel fumo c'è un giorno di salita, forse di più.
+      Le gambe si ricordano ancora le Prove di ieri, e protestano in anticipo.
+    opzioni:
+      - testo: "Risalire il torrente fino alla gola"
+        descrizione: "L'acqua arriva al ginocchio e i sassi sono rossi e lisci. È la strada dei cinghiali, e porta dritta alle terrazze."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Dentro l'acqua rossa
+          testo: |
+            Risali il torrente con l'acqua alle ginocchia, un sasso dopo l'altro,
+            e a metà mattina sei all'imbocco della gola, con le pareti rosse che
+            si chiudono sopra la testa.
+          pe: { atletica: 2 }
+          vai: avv-prove-guado
+        fallimento:
+          titolo: Il polso gonfio
+          testo: |
+            Un sasso ti gira sotto il piede e cadi nell'acqua con le mani avanti.
+            Arrivi alla gola a metà mattina lo stesso, con un polso gonfio e gli
+            stivali pieni.
+          effetti: { ferite: 0.5 }
+          vai: avv-prove-guado
+      - testo: "Prendere il canalone dove l'hai vista salire"
+        descrizione: "Sai da che parte è salita. Il canalone di sabbia rossa sopra la gola evita il tratto peggiore del torrente."
+        requisiti: [avv-prove-guado.tracce >= 1]
+        esito:
+          titolo: Le sue impronte
+          testo: |
+            Lasci il torrente prima della gola e prendi il canalone di sabbia
+            rossa dove è passata lei, con le impronte ancora nette sotto il vento.
+            Arrivi alle prime terrazze prima di mezzogiorno, asciutto.
+          vai: avv-prove-guado
+      - testo: "Fare il giro largo per la strada delle carovane"
+        descrizione: "La strada per Qir-Azel sale il Gradone più a nord, e da lì si scende nella gola per un pendio di sabbia. È lunga."
+        costo: 2
+        esito:
+          titolo: Il pendio di sabbia
+          testo: |
+            Prendi la strada delle carovane e la lasci a metà salita, e scendi
+            nella gola per un pendio di sabbia che ti porta giù più in fretta di
+            quanto vorresti. Arrivi in fondo con le mani scorticate e la sabbia
+            dappertutto.
+          effetti: { ferite: 0.5 }
+          vai: avv-prove-guado
+
+  # ------------------------------------------------------------ 0-1 · la gola
+  - id: avv-prove-guado-dentro-la-gola
+    immagine: ambientazione/gradone-rosso
+    titolo: Dentro la gola
+    sommario: "Dentro la gola l'Acquarossa passa in piena fra due pareti rosse. Su una parete restano i pioli dei cacciatori."
+    luogo: Le terrazze del Gradone, la gola dell'Acquarossa
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado <= 1]
+    testo: |
+      Dentro la gola il torrente corre fra due pareti di arenaria così vicine
+      che in alto quasi si toccano, e l'acqua ci passa in piena con il rumore di
+      un carro sulle pietre. Le orme dei cinghiali entrano nel torrente da una
+      parte e ne escono cento passi più su, dall'altra.
+
+      Sulla parete di sinistra, all'altezza di un uomo, i cacciatori del Guado
+      hanno piantato anni fa una fila di pioli di legno nero, uno ogni passo.
+      Alcuni mancano, strappati.
+
+      {natura Media} Il fondo è sabbia dove l'acqua è rossa e liscia, e regge.
+      Dove l'acqua si fa bianca ci sono i sassi, e girano sotto il piede.
+    opzioni:
+      - testo: "Risalire dentro l'acqua, sulla sabbia"
+        descrizione: "L'acqua arriva alla vita. Bisogna sapere dove mettere i piedi, e non mollare la parete."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Fino alla vita
+          testo: |
+            Cammini nell'acqua fino alla vita tenendo le mani sulla parete e i
+            piedi dove l'acqua è rossa e liscia. Cento passi dopo esci sulla riva insieme alle orme dei
+            cinghiali, gelato fino all'ombelico.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: L'acqua bianca
+          testo: |
+            Metti il piede dove l'acqua è bianca, e il sasso gira. La corrente ti
+            porta indietro di venti passi prima che tu riesca ad aggrapparti alla
+            parete.
+          effetti: { ferite: 0.5 }
+      - testo: "Salire di piolo in piolo"
+        descrizione: "I pioli sono vecchi, e dove mancano c'è soltanto arenaria che si sfoglia."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: I pioli neri
+          testo: |
+            Passi da un piolo all'altro con la pancia contro la parete, e dove ne
+            manca uno pianti le dita nell'arenaria, che si sfoglia ma regge.
+            Scendi dall'altra parte asciutto.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il piolo marcio
+          testo: |
+            Un piolo marcio ti si spezza sotto il piede e finisci in acqua di
+            schiena. Risali sulla riva da dove eri partito, tossendo acqua rossa.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere la corrente come alle rapide"
+        descrizione: "È la stessa acqua delle rapide dei nastri, più su. La schiena liscia e la schiuma dicono le stesse cose."
+        requisiti: [avv-prove-guado.nastri >= 1]
+        esito:
+          titolo: La stessa acqua
+          testo: |
+            Leggi la gola come hai letto le rapide, e passi sempre dove l'acqua fa
+            la schiuma sopra il fondo buono. Esci dall'altra parte bagnato soltanto
+            fino alle ginocchia.
+          effetti: { profondita.avv-prove-guado: 1 }
+      - testo: "Aspettare che la piena cali"
+        descrizione: "A mezzogiorno il sole scalda il Gradone e il torrente cala di un palmo. Fino ad allora si sta seduti sui sassi bagnati."
+        costo: 2
+        esito:
+          titolo: I denti che battono
+          testo: |
+            Aspetti seduto su un sasso con l'acqua che ti schizza addosso, e a
+            mezzogiorno il torrente cala davvero di un palmo. Passi con le ossa
+            gelate e i denti che battono.
+          effetti: { profondita.avv-prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · le capre dei clan
+  - id: avv-prove-guado-le-capre-dei-clan
+    immagine: icone/animal-hide
+    titolo: Le capre dei clan
+    sommario: "In una piega della prima terrazza c'è un mucchio di ossa di capra. Le orecchie hanno ancora i segni dei recinti di Ghoran."
+    luogo: Le terrazze del Gradone, la prima terrazza
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado <= 2]
+    testo: |
+      In una piega della prima terrazza, riparata dal vento, c'è un mucchio di
+      ossa di capra alto fino al ginocchio. Le ossa sono spolpate e spaccate per
+      il lungo, come si spaccano per bere il midollo. Accanto al mucchio la banda
+      ha buttato decine di orecchie, che hanno ancora i segni dei recinti, la
+      tacca della Pece accanto al filo verde del Guado.
+
+      Da qui partono due strisce nella sabbia, larghe quanto un corpo
+      trascinato, e salgono verso la terrazza di sopra per due strade diverse.
+
+      {conoscenze-della-strada Media} Per mesi i clan si sono accusati a vicenda
+      davanti alla bilancia, una capra alla volta, e intanto le capre finivano
+      tutte qui.
+    opzioni:
+      - testo: "Contare le orecchie clan per clan"
+        descrizione: "Se le capre sono state prese per mesi, le più vecchie stanno sotto. La strada buona è quella delle più fresche."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Media }
+        successo:
+          titolo: Le orecchie fresche
+          testo: |
+            Con un bastone separi le orecchie vecchie, che stanno sotto, da quelle
+            fresche. Le fresche sono del Guado, e tu prendi la striscia che va con
+            loro, a sinistra, dove la sabbia è dura.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: L'odore nelle mani
+          testo: |
+            Rimesti nel mucchio troppo a lungo, e l'odore ti resta nel naso e
+            nelle mani per tutta la mattina. Quale striscia prendere non l'hai
+            capito.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire la striscia più profonda"
+        descrizione: "Una delle due strisce è più larga dell'altra. Chi trascinava quella aveva più forza, e più peso."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Le dita sul gradino
+          testo: |
+            La striscia di destra è più larga e più fonda, perché lì è passata lei
+            con una capra per mano. Sale per un pendio di sabbia fino a un gradino
+            di roccia, e sul gradino ci sono le impronte delle sue dita.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il bordo
+          testo: |
+            Segui la striscia di destra fino al bordo della terrazza, dove finisce
+            nel vuoto. Le capre che non servivano le hanno buttate giù da qui. Torni
+            indietro con le gambe che non vogliono saperne.
+          effetti: { tormento: 0.5 }
+      - testo: "Girare largo intorno al mucchio"
+        descrizione: "Il mucchio sta nella piega, e la piega è la strada più corta. Intorno c'è la sabbia molle."
+        costo: 2
+        esito:
+          titolo: Controvento
+          testo: |
+            Fai il giro largo della piega controvento, e l'odore ti trova lo
+            stesso. Sali per la sabbia molle, che a ogni passo ti restituisce
+            mezzo passo, e ci metti il doppio.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 1-3 · il recinto di rovi
+  - id: avv-prove-guado-il-recinto-di-rovi
+    immagine: bestiario/cinghiale-crudele-mutato
+    titolo: Il recinto di rovi
+    sommario: "Sulla seconda terrazza la banda tiene le bestie rubate in un recinto di rovi. La pista ci passa in mezzo."
+    luogo: Le terrazze del Gradone, la seconda terrazza
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 1, profondita.avv-prove-guado <= 3]
+    testo: |
+      Sulla seconda terrazza la banda ha chiuso con pali e rovi un angolo fra due
+      pareti, e dentro ci sono i cinghiali corazzati delle Prove insieme a una
+      dozzina di maiali rubati. La pista passa proprio dentro il recinto, perché
+      dall'altra parte c'è l'unico canalone che porta alla terrazza di sopra. La
+      scrofa vecchia, quella con l'orecchio tagliato, ti guarda da sopra la
+      schiena degli altri.
+
+      {addestrare-animali Media} Sono le bestie del guado, e ti hanno visto ieri.
+      Di te si ricordano soprattutto le spinte.
+    opzioni:
+      - testo: "Attraversare il recinto in mezzo alle bestie"
+        descrizione: "Si entra con le mani basse e i passi lenti, senza mai voltare le spalle al maschio grosso."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: Fra le bestie
+          testo: |
+            Entri piano, con le mani basse, e cammini fra i cinghiali come fra i
+            tavoli di una taverna piena. Ti annusano e ti lasciano passare. Esci
+            dal cancello di là con la giubba sporca di fango fino alle spalle.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il maschio grosso
+          testo: |
+            Il maschio più grosso abbassa la testa quando sei a metà, e ti carica
+            di fianco. Scavalchi i pali dalla parte da cui sei entrato con la
+            coscia aperta da una zanna, e la ferita fa la crosta grigia della
+            Marea.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Girare lungo i pali, dalla parte dei rovi"
+        descrizione: "Fra i pali e la parete c'è un passaggio stretto. I rovi lo tengono quasi chiuso."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: I rovi
+          testo: |
+            Passi fra i pali e la parete piegato in due, con i rovi che ti tirano
+            la giubba a ogni passo. I cinghiali ti sentono senza vederti, e
+            sbuffano verso il lato sbagliato.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Le spine
+          testo: |
+            I rovi ti si piantano nella giubba e nella pelle, e quando tiri per
+            liberarti tutto il recinto si gira a guardare. Torni indietro piano,
+            senza voltare le spalle.
+          effetti: { ferite: 0.5 }
+      - testo: "Portare la scrofa vecchia verso il canalone"
+        descrizione: "Al guado l'hai già fatto. La scrofa va dove va il fumo, e tu hai l'acciarino."
+        requisiti: [avv-prove-guado.cinghiali >= 1]
+        esito:
+          titolo: Il ciuffo d'erba
+          testo: |
+            Accendi un ciuffo d'erba secca e lo agiti piano davanti al muso della
+            scrofa vecchia, che lo segue fino al cancello di là con tutto il
+            recinto dietro. Quando le bestie escono per il canalone, tu esci con
+            loro.
+          effetti: { profondita.avv-prove-guado: 1 }
+      - testo: "Aprire una breccia e lasciar scappare i maiali"
+        descrizione: "Con il recinto vuoto si passa. Una mandria che scappa però si sente fino in cima."
+        costo: 2
+        esito:
+          titolo: La mandria
+          testo: |
+            Apri un varco nei rovi con il coltello, e i maiali scappano tutti
+            insieme giù per la terrazza, con i cinghiali dietro. Sali per il
+            canalone nella polvere che hanno lasciato, e dall'alto qualcuno della
+            banda grida un nome che non capisci.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2-3 · il filo delle lische
+  - id: avv-prove-guado-il-filo-delle-lische
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: Il filo delle lische
+    sommario: "Attraverso il canalone pendono fili di lische e conchiglie di palude. Quando passa il vento suonano fino in cima."
+    luogo: Le terrazze del Gradone, il canalone
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 2, profondita.avv-prove-guado <= 3]
+    testo: |
+      Attraverso il canalone, da una parete all'altra, pendono fili di lische di
+      pesce e di conchiglie di palude legati con le canne. Alcuni stanno
+      all'altezza della testa, altri a quella delle ginocchia. Ogni filo tocca quello accanto, e quando passa il
+      vento il canalone tintinna piano fino in cima. Sono amuleti degli
+      Spacca-ossa, e qui fanno da campanello.
+
+      {accademiche Media} Nella palude gli Spacca-ossa annodano le lische in un
+      verso per dire *passa* e nell'altro per dire *torna indietro*. Qui i nodi
+      sono quasi tutti del secondo tipo, tranne su un filo.
+    opzioni:
+      - testo: "Passare fra i fili senza toccarli"
+        descrizione: "Sotto quelli alti e sopra quelli bassi, fra un colpo di vento e l'altro."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: I fili fermi
+          testo: |
+            Passi piegato sotto i fili alti e scavalchi quelli bassi, uno alla
+            volta, aspettando che il vento si calmi prima di ogni passo. In cima
+            ti volti, e i fili sono fermi.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il canalone che suona
+          testo: |
+            Il gomito ti sfiora una conchiglia, e tutto il canalone suona insieme.
+            Dall'alto risponde un grido in orchesco, e torni giù di corsa prima di
+            sapere chi l'ha mandato.
+          effetti: { tormento: 0.5 }
+      - testo: "Trovare il filo annodato al contrario"
+        descrizione: "Se un filo dice di passare, chi l'ha legato lo usa per salire."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La tenda di lische
+          testo: |
+            Lo trovi a metà canalone, un filo solo annodato al contrario, che si
+            alza come una tenda. Ci passi sotto e lo rimetti com'era, e la banda
+            non ne saprà niente.
+          pe: { accademiche: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il filo sbagliato
+          testo: |
+            Alzi un filo convinto che sia quello buono, e una fila di lische ti
+            cade addosso suonando. Ti appiattisci contro la parete e resti lì
+            finché il canalone non smette di tintinnare.
+          effetti: { tormento: 0.5 }
+      - testo: "Tagliare i fili e correre in cima"
+        descrizione: "I fili si tagliano in un momento. Poi suonano tutti, e bisogna essere già lontani."
+        costo: 2
+        esito:
+          titolo: Dietro il masso
+          testo: |
+            Tagli i fili con il coltello e corri su per il canalone mentre suonano
+            sulla sabbia. In cima ti butti dietro un masso e aspetti a lungo, con
+            le orecchie tese, che non arrivi nessuno.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2-3 · la frana rossa
+  - id: avv-prove-guado-la-frana-rossa
+    immagine: ambientazione/gradone-rosso
+    titolo: La frana rossa
+    sommario: "Fra la seconda e la terza terrazza la parete è venuta giù. La frana sale ripida come un tetto."
+    luogo: Le terrazze del Gradone, la frana
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 2, profondita.avv-prove-guado <= 3]
+    testo: |
+      Fra la seconda e la terza terrazza la parete è venuta giù tutta insieme, e
+      la frana di arenaria che ha lasciato sale ripida come un tetto.
+      La sabbia rossa scivola sotto le mani, e i lastroni più grossi stanno
+      appoggiati uno sull'altro senza niente che li tenga. In cima, legata a un
+      cespuglio piegato dal vento, pende una corda che arriva a metà pendio.
+
+      {percezione Media} La corda è intrecciata alla maniera dei cacciatori del
+      Guado, e il capo di sotto è tagliato di netto. La banda l'ha accorciata
+      apposta, perché chi sale faccia da solo la parte peggiore.
+    opzioni:
+      - testo: "Salire a quattro zampe sulla sabbia"
+        descrizione: "Mani e piedi piantati fino al polso, e ogni passo ne perdi mezzo."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Le unghie rotte
+          testo: |
+            Sali a quattro zampe piantando nella sabbia mani e piedi fino al
+            polso. Quando arrivi alla corda hai le unghie rotte, e da lì in su è
+            facile.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Lo scivolo
+          testo: |
+            La sabbia ti porta giù per tutto il pendio, e arrivi in fondo con la
+            giubba piena di rosso e un ginocchio aperto.
+          effetti: { ferite: 0.5 }
+      - testo: "Salire sui lastroni che reggono"
+        descrizione: "Alcuni lastroni stanno fermi da anni, altri aspettano soltanto un piede. Bisogna capire quali."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La sabbia secca
+          testo: |
+            Guardi i lastroni a lungo. Quelli appoggiati di piatto hanno sotto la
+            sabbia secca e non si muovono da anni, e sali da uno all'altro fino
+            alla corda senza toccare la sabbia.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il lastrone che scende
+          testo: |
+            Il terzo lastrone che scegli si muove appena ci metti il piede, e
+            scendi con lui per tre passi prima di saltare via. Il lastrone
+            continua fino in fondo, con un rumore che si sente fino alla gola.
+          effetti: { ferite: 0.5 }
+      - testo: "Scavare gradini nella sabbia"
+        descrizione: "Con le mani e con il coltello, un gradino alla volta. La sabbia li disfa quasi subito."
+        costo: 2
+        esito:
+          titolo: I gradini
+          testo: |
+            Scavi i gradini uno alla volta con le mani e con il coltello, e ogni
+            gradino si sfa mentre fai il successivo. Arrivi alla corda nel
+            pomeriggio, con le mani a pezzi.
+          effetti: { profondita.avv-prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-5 · il campo della banda
+  - id: avv-prove-guado-il-campo-della-banda
+    immagine: bestiario/orco
+    titolo: Il campo della banda
+    sommario: "La terza terrazza è il campo della banda. Due ragazzi stanno di guardia, con una borraccia."
+    luogo: Le terrazze del Gradone, la terza terrazza
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 4, profondita.avv-prove-guado <= 5]
+    testo: |
+      La terza terrazza è il campo della banda. Ci sono buche per il fuoco
+      ancora tiepide e graticci di canne dove la carne rubata secca al vento,
+      coperta di mosche. Due orchi giovani sono seduti accanto alla buca più
+      grande con le lance di traverso sulle ginocchia, e si passano una
+      borraccia. Il campo va attraversato, perché la scala di pietra per la
+      terrazza di sopra sta dall'altra parte.
+
+      {intimidire Difficile} Quello con la borraccia ha bevuto troppo per stare
+      di guardia, e l'altro lo sa. Se gli corri incontro urlando, uno dei due
+      scappa, e l'altro gli va dietro.
+    opzioni:
+      - testo: "Affrontare i due di guardia"
+        descrizione: "Due ragazzi della banda con le lance. Uno ha bevuto, e l'altro ha paura."
+        combattimento: avv-prove-guado-le-sentinelle
+        vittoria:
+          titolo: Il campo vuoto
+          testo: |
+            Il secondo orco lascia la lancia e scappa giù per la terrazza senza
+            voltarsi. Attraversi il campo fra la carne che secca, e prendi la
+            scala.
+          effetti: { profondita.avv-prove-guado: 1 }
+        sconfitta:
+          titolo: Le lance
+          testo: |
+            Ti spingono fuori dal campo a colpi di lancia, e ti lasci scivolare
+            giù per la terrazza finché non smettono di seguirti.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare dietro i graticci della carne"
+        descrizione: "I graticci fanno un muro di canne e di mosche. Dietro c'è un passaggio, e l'odore."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Le mosche
+          testo: |
+            Passi dietro i graticci piegato in due, con le mosche in faccia e la
+            carne che ti sfiora i capelli. I due di guardia litigano per l'ultima
+            sorsata senza mai girarsi, e tu raggiungi la scala.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il graticcio che cade
+          testo: |
+            Un graticcio si piega quando ci passi accanto, e la carne cade nella
+            sabbia. I due si alzano con le lance, e tu sei già giù per la terrazza
+            prima che ti vedano bene.
+          effetti: { tormento: 0.5 }
+      - testo: "Corrergli incontro urlando"
+        descrizione: "Sono ragazzi lasciati di guardia, e uno dei due ha già voglia di scappare."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: L'urlo
+          testo: |
+            Esci da dietro un masso con l'arma alzata urlando a pieni polmoni, e
+            quello con la borraccia scappa senza nemmeno prendere la lancia.
+            L'altro esita, e poi gli corre dietro giù per la terrazza.
+          pe: { intimidire: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Le lance alzate
+          testo: |
+            Urli, ma i due si alzano con le lance invece di scappare. Tocca a te
+            correre giù per la terrazza, con una lancia che ti passa accanto
+            all'orecchio.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che si addormentino"
+        descrizione: "Prima o poi la borraccia finisce. Il vento sulla terrazza però non finisce mai."
+        costo: 2
+        esito:
+          titolo: Al buio
+          testo: |
+            Aspetti dietro un masso fino a sera, con il vento che ti entra nelle
+            ossa, finché i due non russano accanto alla buca. Attraversi il campo
+            al buio, un passo alla volta.
+          effetti: { profondita.avv-prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la spaccatura
+  - id: avv-prove-guado-la-spaccatura
+    immagine: icone/log
+    titolo: La spaccatura
+    sommario: "Una fenditura larga tre passi taglia la terrazza per il lungo. Sul bordo c'è un pino morto."
+    luogo: Le terrazze del Gradone, la spaccatura
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 4, profondita.avv-prove-guado <= 6]
+    testo: |
+      Qui la terrazza è spaccata per il lungo da una fenditura larga tre passi e
+      profonda quanto il Gradone, e dal fondo sale il rumore dell'Acquarossa.
+      Vicino al bordo c'è un pino morto senza corteccia, grigio come quello
+      delle Prove, con le radici mezze fuori dalla sabbia. Dall'altra parte la
+      banda ha tirato su i due tronchi legati che usa come ponte, così che
+      nessuno passi dietro di lei.
+
+      {atletica Difficile} Tre passi si saltano con una buona rincorsa, e qui fra
+      la parete e il bordo ce ne sono appena quattro.
+    opzioni:
+      - testo: "Prendere la rincorsa e saltare"
+        descrizione: "Quattro passi di rincorsa per tre di vuoto, con il bordo di là che si sfoglia."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Il salto
+          testo: |
+            Fai i tuoi quattro passi e salti, e atterri dall'altra parte con un
+            piede sul bordo e l'altro nel vuoto. Ti butti in avanti sulla sabbia e
+            ci resti un momento, a pancia in giù.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: La radice
+          testo: |
+            Salti corto. Ti aggrappi a una radice che sporge dalla parete di qua e
+            ci resti appeso finché non trovi la forza di risalire, con le mani
+            scorticate.
+          effetti: { ferite: 0.5 }
+      - testo: "Calarti nella fenditura e risalire di là"
+        descrizione: "La schiena contro una parete e i piedi contro l'altra fino a metà fenditura, poi di nuovo su dall'altra parte."
+        prova: { attributo: fisico, abilita: [acrobazia, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Schiena e piedi
+          testo: |
+            Scendi con la schiena contro una parete e i piedi contro l'altra fino
+            a metà fenditura, e risali dall'altra parte nello stesso modo. Quando
+            esci le gambe ti tremano per conto loro.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: La parete che cede
+          testo: |
+            A metà discesa la parete cede sotto i piedi e scivoli per un tratto
+            con la schiena contro la roccia. Risali dalla parte di qua con la
+            giubba lacerata e la schiena che brucia.
+          effetti: { ferite: 0.5 }
+      - testo: "Abbattere il pino di traverso, come al guado"
+        descrizione: "È lo stesso legno grigio del pino delle Prove, e pende già verso la fenditura. Basta la tacca giusta."
+        requisiti: [avv-prove-guado.albero >= 1]
+        esito:
+          titolo: Il ponte
+          testo: |
+            Come al guado, fai la tacca dalla parte della fenditura e tagli piano
+            dall'altra. Il pino si piega e cade di traverso, e quando la punta si
+            pianta nella sabbia del bordo di là ci passi sopra a cavalcioni.
+          effetti: { profondita.avv-prove-guado: 1 }
+      - testo: "Cercare dove la fenditura si chiude"
+        descrizione: "Una spaccatura così finisce da qualche parte, contro la parete. Bisogna camminarle accanto fino in fondo."
+        costo: 2
+        esito:
+          titolo: Il passo lungo
+          testo: |
+            Segui la fenditura lungo tutta la terrazza fino alla parete, dove si
+            stringe abbastanza da passarla con un passo lungo. Torni indietro
+            dall'altra parte fra i rovi, e ci metti il pomeriggio.
+          effetti: { profondita.avv-prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 5-6 · il cavaliere
+  - id: avv-prove-guado-il-cavaliere
+    immagine: bestiario/orco
+    titolo: Il cavaliere della banda
+    sommario: "Fra le colonne di arenaria della quarta terrazza va avanti e indietro un orco su un cinghiale corazzato, con un corno al collo."
+    luogo: Le terrazze del Gradone, la quarta terrazza
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 5, profondita.avv-prove-guado <= 6]
+    testo: |
+      Sulla quarta terrazza la pista corre fra colonne di arenaria che il vento
+      ha scavato alla base, e stanno in piedi su un collo sottile come funghi di
+      pietra. Fra le colonne va avanti e indietro un orco in groppa a un
+      cinghiale corazzato, più vecchio degli altri della banda, con una lancia
+      lunga e un corno di capra appeso al collo. Se suona il corno, in cima lo
+      sentono.
+
+      {armi-da-mischia Difficile} Il cinghiale carica dritto e non sa girare. Se
+      ti sposti all'ultimo, per un battito il suo fianco è scoperto, e il
+      cavaliere ha la lancia dalla parte sbagliata.
+    opzioni:
+      - testo: "Affrontare il cavaliere"
+        descrizione: "Un orco con la lancia lunga e un cinghiale corazzato che carica. Prima che suoni il corno."
+        combattimento: avv-prove-guado-il-cavaliere
+        vittoria:
+          titolo: Il corno intero
+          testo: |
+            Il cinghiale scappa fra le colonne senza il suo cavaliere, e l'orco
+            resta a terra con il corno ancora intero al collo. Glielo togli,
+            perché non suoni più.
+          effetti: { profondita.avv-prove-guado: 1 }
+        sconfitta:
+          titolo: Contro la colonna
+          testo: |
+            Il cinghiale ti prende di petto e ti butta contro una colonna, che
+            regge per un pelo. Ti trascini fuori dalle colonne prima che il
+            cavaliere giri la bestia.
+          effetti: { tormento: 0.5 }
+      - testo: "Nasconderti fra le colonne finché passa"
+        descrizione: "Le colonne sono larghe abbastanza da coprire un uomo. Il cinghiale però sente gli odori meglio del suo padrone."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Intorno alla colonna
+          testo: |
+            Ti appiattisci dietro una colonna e ci giri intorno mentre il cinghiale
+            ti passa accanto, a un braccio. Quando il cavaliere è dall'altra parte
+            della terrazza tu sei già alla scala.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il corno
+          testo: |
+            Il cinghiale ti sente prima del cavaliere e si gira sbuffando. Scappi
+            giù dalla terrazza mentre il corno suona una volta sola, e dalle
+            grotte qualcuno risponde.
+          effetti: { tormento: 0.5 }
+      - testo: "Far cadere una colonna fra te e lui"
+        descrizione: "Alcune colonne stanno su per abitudine. Una spinta nel punto giusto, quando il cinghiale ci passa sotto."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: La colonna
+          testo: |
+            Trovi la colonna con il collo più sottile e già crepato, e quando il
+            cavaliere ci passa accanto la spingi con la spalla. La colonna crolla
+            davanti al cinghiale, che si impenna fino a buttare a terra l'orco, e
+            tu passi oltre nella polvere mentre lui cerca la lancia.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: La colonna che non cade
+          testo: |
+            Spingi la colonna sbagliata, e la colonna non si muove. Il cavaliere ti
+            vede e ti carica fino al bordo della terrazza, dove ti butti giù per
+            la sabbia.
+          effetti: { ferite: 0.5 }
+      - testo: "Fare il giro sul bordo della terrazza"
+        descrizione: "Dove finiscono le colonne comincia il vuoto, e lì il cinghiale non si avventura. Il vento invece ci soffia sempre."
+        costo: 2
+        esito:
+          titolo: Il bordo
+          testo: |
+            Cammini sul bordo della terrazza, dove le colonne finiscono e il vento
+            spinge verso il vuoto, un piede davanti all'altro. Arrivi alla scala
+            dopo un'ora, con le gambe dure come pali.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · i nastri al vento
+  - id: avv-prove-guado-i-nastri-al-vento
+    immagine: icone/windsock
+    titolo: I nastri al vento
+    sommario: "Su un gradino della terrazza sventolano decine di nastri rossi, stinti dal sole. Sono i nastri delle Prove."
+    luogo: Le terrazze del Gradone, il gradino dei nastri
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 4, profondita.avv-prove-guado <= 6]
+    testo: |
+      Su un gradino della terrazza rivolto a sud la banda ha piantato una fila di
+      pali, e sui pali sventolano nastri rossi, decine, stinti dal sole fino al
+      rosa. Sono i nastri delle Prove. Dopo le Prove le corde delle rapide
+      restano tese tutto l'anno, e ogni anno i nastri rimasti sono stati
+      staccati di notte e portati fin quassù. Davanti ai pali c'è un sasso
+      piatto consumato nel mezzo, come una sedia.
+
+      Da qui si vede il guado intero, piccolo, con il pino nuovo steso sul
+      torrente.
+
+      {empatia Difficile} Questi nastri li ha raccolti una persona sola, per
+      anni, seduta su questo sasso a guardare le Prove dall'alto. Li ha tenuti
+      per sé, e non ne ha venduto nessuno.
+    opzioni:
+      - testo: "Passare fra i pali tenendoti basso"
+        descrizione: "Il gradino è scoperto e si vede dalle grotte. I pali sono l'unica cosa dietro cui stare."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Fra i pali
+          testo: |
+            Passi fra i pali piegato, con i nastri che ti schioccano sopra la
+            testa nel vento. Dall'altra parte del gradino una scala scavata nella
+            roccia sale alla terrazza di sopra.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il palo che cade
+          testo: |
+            Un palo cede quando ci appoggi la mano e cade con tutti i suoi nastri
+            giù per la terrazza. Ti nascondi dietro il sasso finché non sei sicuro
+            che nessuno l'abbia visto cadere.
+          effetti: { tormento: 0.5 }
+      - testo: "Contare i nastri e capire chi li ha portati quassù"
+        descrizione: "I nastri hanno nodi diversi, e i più vecchi sono quasi bianchi. Contati bene, dicono da quanto tempo."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Difficile }
+        successo:
+          titolo: Il nodo di canna
+          testo: |
+            I nastri sono legati ai pali con il nodo di canna degli Spacca-ossa, e
+            i più vecchi sono di molto prima che Ozzra lasciasse la palude. Li ha
+            portati quassù lei, una notte all'anno. Dietro l'ultimo palo trovi la
+            scala, e sul primo gradino l'impronta di un piede enorme.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-prove-guado: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Due numeri
+          testo: |
+            Conti i nastri due volte e ti vengono due numeri diversi, e intanto il
+            sole ti è girato alle spalle. Ti accorgi che stai facendo ombra sul
+            campo della banda là sotto, e ti butti a terra.
+          effetti: { tormento: 0.5 }
+      - testo: "Staccare i nastri e portarli via"
+        descrizione: "Sono di Ghoran, e Dunja li conta tutti gli anni. Staccarli uno per uno richiede tempo, allo scoperto."
+        costo: 2
+        esito:
+          titolo: La bisaccia di nastri
+          testo: |
+            Stacchi i nastri uno alla volta e li metti nella bisaccia, da
+            riportare a Dunja. Ci vuole il pomeriggio, e il vento te ne strappa qualcuno di mano prima
+            che tu arrivi alla scala.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta: il ragazzo delle lische
+  - id: avv-prove-guado-il-ragazzo-delle-lische
+    immagine: bestiario/orco
+    titolo: Il ragazzo delle lische
+    sommario: "Dietro un masso un orco giovane della banda siede con un fagotto fra i piedi, e non scappa."
+    luogo: Le terrazze del Gradone, dietro un masso
+    area: avv-prove-guado
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado == 5, avv-prove-guado.svolta == 0]
+    testo: |
+      Dietro un masso della terrazza, al riparo dal vento, c'è un orco giovane
+      seduto per terra con un fagotto fra i piedi. Ha la faccia larga e liscia
+      dei ragazzi, una collana di lische sul petto e un taglio fresco sopra
+      l'occhio, cucito male. Quando ti vede mette la mano sulla lancia e la
+      lascia lì, ferma, senza alzarla.
+
+      «Ruk» dice, e si batte il petto con il pugno. Indica in basso, verso sud,
+      dove nella foschia si allarga la palude. «Ruk torna a casa.» Poi alza il
+      braccio verso le grotte. «Lei spacca ossa del forte quando luna è nuova.
+      Beve dentro, così lei forte.»
+
+      Nel fagotto c'è del pane rubato a Ghoran insieme a una striscia di pelle
+      con dei denti di capra infilati, contati.
+
+      {medicina Difficile} Il taglio sopra l'occhio l'ha fatto il colpo di
+      piatto di un'arma larga e pesante. Il pestello di Ozzra, con ogni
+      probabilità.
+
+      {origine fuggiasco-di-ghoran} Il fagotto stretto fra i piedi, gli occhi
+      che vanno alla strada prima che a te. Sai com'è, tenersi addosso tutto
+      quello che si ha mentre si guarda da che parte scappare.
+    opzioni:
+      - testo: "Chiedergli della grotta e di Branko"
+        descrizione: "Parla un comune storto e ha una lancia. Bisogna sedersi lontano, e aspettare che la mano si stacchi dall'asta."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Difficile }
+        successo:
+          titolo: La strada di Ruk
+          testo: |
+            Ti siedi a tre passi da lui e aspetti che tolga la mano dalla lancia.
+            Ruk allora ti racconta a gesti, con le sue parole storte, che Branko è
+            vivo, legato a un palo in fondo alla grotta grande. Sopra la grotta
+            c'è una fessura da cui esce il fumo, e da lì lui è uscito stanotte.
+            Poi si carica il fagotto e scende verso la palude senza voltarsi.
+          pe: { empatia: 3 }
+          effetti: { profondita.avv-prove-guado: 1, avv-prove-guado.svolta: 1, avv-prove-guado.ruk: 1 }
+        fallimento:
+          titolo: La lancia puntata
+          testo: |
+            Ti avvicini troppo in fretta, e Ruk si alza con la lancia puntata.
+            Restate fermi così finché non fai tre passi indietro, e lui torna a
+            sedersi senza toglierti gli occhi di dosso.
+          effetti: { tormento: 0.5 }
+      - testo: "Fargli dire dov'è la grotta, con le cattive"
+        descrizione: "È un ragazzo che scappa, e ha già preso un colpo stanotte. Uno in più lo fa parlare, o scappare."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: La lancia spezzata
+          testo: |
+            Gli strappi la lancia di mano e la spezzi sul ginocchio, e Ruk si fa
+            piccolo contro il masso. Branko è vivo, dice, legato in fondo alla
+            grotta grande, e sopra la grotta c'è la fessura del fumo, larga
+            abbastanza per un ragazzo. Quando lo lasci andare corre giù verso la
+            palude.
+          pe: { intimidire: 3 }
+          effetti: { profondita.avv-prove-guado: 1, avv-prove-guado.svolta: 1, avv-prove-guado.ruk: 1 }
+        fallimento:
+          titolo: L'asta
+          testo: |
+            Gli vai addosso, e Ruk ti colpisce con l'asta della lancia sopra
+            l'orecchio prima che tu ci arrivi. Quando ti rimetti in piedi lui è
+            ancora lì, con la lancia alta e nessuna intenzione di parlare.
+          effetti: { ferite: 0.5 }
+      - testo: "Dargli il tuo pane per la strada"
+        descrizione: "La palude è lontana, e il pane che ha rubato non basta. Il tuo nemmeno, se lo dai via."
+        costo: 2
+        esito:
+          titolo: Il pane
+          testo: |
+            Gli metti in mano tutto il pane che avevi. Ruk lo annusa e lo mette
+            nel fagotto, poi ti indica la grotta grande e alza due dita, la prima
+            per Branko, la seconda per lei. Sopra la grotta, ti fa capire con le mani, c'è
+            una fessura da cui esce il fumo. Per il resto della salita ti brontola
+            la pancia.
+          effetti: { profondita.avv-prove-guado: 1, avv-prove-guado.svolta: 1, avv-prove-guado.ruk: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-8 · la dispensa
+  - id: avv-prove-guado-la-dispensa
+    immagine: icone/stoned-skull
+    titolo: La dispensa
+    sommario: "La prima grotta in cima al Gradone è la dispensa della banda. Dal fondo arriva una canzone della Pece."
+    luogo: Le terrazze del Gradone, la dispensa
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 7, profondita.avv-prove-guado <= 8]
+    testo: |
+      La prima grotta in cima al Gradone è la dispensa della banda. Dal soffitto
+      pendono a ganci di legno mezzene di maiale e capre intere, e sul pavimento
+      le ossa sono ammucchiate in due mucchi, quelle già spaccate per il midollo
+      e quelle che aspettano. L'aria è ferma e dolciastra. Dal fondo, dove la
+      grotta si stringe in un cunicolo basso, arriva una voce d'uomo che canta
+      piano una canzone stonata della Pece e ogni tanto si interrompe.
+
+      {medicina Media} Le ossa spaccate sono tutte di capra e di maiale. Di ossa
+      d'uomo qui non ce n'è nemmeno una.
+    opzioni:
+      - testo: "Strisciare nel cunicolo, sotto le carcasse"
+        descrizione: "Il cunicolo passa sotto le carcasse appese e sbuca molto più in alto. Si striscia sulla schiena, e quello che cola cade in faccia."
+        prova: { attributo: fisico, abilita: [resistenza, acrobazia], difficolta: Molto difficile }
+        successo:
+          titolo: Il cunicolo
+          testo: |
+            Ti stendi sulla schiena e ti spingi nel cunicolo con i talloni, sotto
+            le carcasse appese, con quello che cola che ti cade sulla giubba. Il
+            cunicolo sbuca molto più su, sulla cengia davanti alla grotta grande,
+            e la canzone di Branko adesso è vicina.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-prove-guado: 2 }
+        fallimento:
+          titolo: La carcassa
+          testo: |
+            A metà cunicolo una carcassa si stacca dal gancio e ti cade sul petto,
+            e ci resti sotto, nel buio, finché non riesci a spingerla via. Torni
+            all'aperto e vomiti nella sabbia.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare lungo la parete, fra le mezzene"
+        descrizione: "Le mezzene pendono fitte, e se una dondola dondolano tutte."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Il dorso della mano
+          testo: |
+            Passi lungo la parete fra le mezzene, spostandole piano con il dorso
+            della mano perché non dondolino. Esci dall'altra parte della dispensa
+            su una cengia, e la canzone ti viene dietro.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: I ganci
+          testo: |
+            Una mezzena ti scivola dalla mano e dondola contro le altre, e tutta la
+            dispensa comincia a oscillare sui ganci con un rumore di legno. Esci di
+            corsa da dove sei entrato e ti nascondi finché non smette.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire la canzone senza guardare"
+        descrizione: "Si cammina piano sulle ossa con una manica sul naso, e ci si mette molto."
+        costo: 3
+        esito:
+          titolo: Sulle ossa
+          testo: |
+            Segui la voce di Branko con gli occhi bassi e una manica sul naso, e
+            attraversi tutta la dispensa camminando sulle ossa. Ci metti un'ora, e
+            le ossa scricchiolano a ogni passo.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · il cinghiale di Ozzra
+  - id: avv-prove-guado-il-cinghiale-di-ozzra
+    immagine: bestiario/cinghiale-mutato-gigante
+    titolo: Il cinghiale di Ozzra
+    sommario: "Sulla cengia davanti alla grotta grande è legato il cinghiale di Ozzra, con le zanne cerchiate di ferro. Ha fame."
+    luogo: Le terrazze del Gradone, la cengia della grotta
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 7, profondita.avv-prove-guado <= 9]
+    testo: |
+      Sulla cengia davanti alla grotta grande è legato con una catena da carro il
+      cinghiale di Ozzra. È più grosso di quelli delle Prove, con le placche
+      della schiena saldate in una corazza sola e le zanne cerchiate di ferro. Ha
+      davanti un trogolo vuoto scavato nella roccia, e ha fame. La catena gli
+      lascia tutta la cengia, da un capo all'altro.
+
+      {natura Difficile} La Marea l'ha preso da piccolo, e la corazza gli è
+      cresciuta intorno alla carne. Sotto la mascella, dove le placche si aprono
+      per lasciarlo masticare, la pelle è ancora quella di un maiale.
+    opzioni:
+      - testo: "Affrontare il cinghiale"
+        descrizione: "Una bestia corazzata grande il doppio di quelle delle Prove, che sta alla catena da giorni senza mangiare."
+        combattimento: avv-prove-guado-il-cinghiale
+        vittoria:
+          titolo: La catena tesa
+          testo: |
+            Il cinghiale cade sul fianco con la catena tesa, e la catena tira il
+            palo fino a farlo uscire di un palmo dalla roccia. Passi oltre il
+            trogolo vuoto senza guardarlo.
+          effetti: { profondita.avv-prove-guado: 1 }
+        sconfitta:
+          titolo: Le zanne di ferro
+          testo: |
+            Il cinghiale ti prende con le zanne cerchiate di ferro e ti butta oltre
+            il trogolo, fuori dalla catena. Ti trascini giù dalla cengia mentre lui
+            tira e sbuffa, e la ferita fa la crosta grigia della Marea.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Guidarlo al trogolo come le bestie del guado"
+        descrizione: "È una bestia corazzata come quelle delle Prove, solo più grande. Le bestie corazzate vanno dove le porta il fumo."
+        requisiti: [avv-prove-guado.cinghiali >= 1]
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Il muso nel trogolo
+          testo: |
+            Accendi un ciuffo d'erba e lo agiti in fondo al trogolo, dalla parte
+            della parete. Il cinghiale ci infila il muso e ci resta, sbuffando,
+            mentre tu gli passi alle spalle fino alla grotta.
+          pe: { addestrare-animali: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Il fumo negli occhi
+          testo: |
+            Il fumo gli va negli occhi invece che nel naso, e il cinghiale si gira
+            verso di te scrollando la testa. Ti butti giù dalla cengia prima che
+            arrivi in fondo alla catena.
+          effetti: { ferite: 0.5 }
+      - testo: "Riempirgli il trogolo con la carne della dispensa"
+        descrizione: "Una bestia che mangia non guarda chi passa. La carne però sta nella dispensa, ed è marcia."
+        costo: 3
+        esito:
+          titolo: Tre viaggi
+          testo: |
+            Porti al trogolo una mezzena alla volta, tre viaggi dalla dispensa con
+            la carne marcia sulle spalle. Il cinghiale mangia senza più alzare il
+            muso, e tu passi oltre.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 8-9 · l'arco della grotta
+  - id: avv-prove-guado-l-arco-della-grotta
+    immagine: bestiario/orco
+    titolo: L'arco della grotta
+    sommario: "Davanti alla grotta grande stanno i due più grossi della banda, con le scuri del guado. Dentro, Ozzra passa una pietra sul pestello."
+    luogo: Le terrazze del Gradone, l'arco della grotta grande
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 8, profondita.avv-prove-guado <= 9]
+    testo: |
+      L'ingresso della grotta grande è un arco basso di arenaria, e davanti
+      all'arco stanno i due più grossi della banda, armati con le scuri da
+      boscaiolo prese al guado. Dentro brucia un fuoco, e contro il fuoco si vede
+      l'ombra di Ozzra, seduta, che passa una pietra sul pestello con un rumore
+      lento. Più in là, legato a un palo, c'è un uomo con la gamba fasciata male.
+
+      {percezione Difficile} Sopra l'arco l'arenaria è annerita fino in alto. Da
+      una fessura lassù esce il fumo del fuoco, e dove passa il fumo può passare
+      anche una persona.
+    opzioni:
+      - testo: "Affrontare le due guardie"
+        descrizione: "I due più grossi della banda, con le scuri del guado. Dentro Ozzra sente tutto."
+        combattimento: avv-prove-guado-la-guardia
+        vittoria:
+          titolo: Sotto l'arco
+          testo: |
+            Il secondo orco cade sotto l'arco con la scure del guado ancora in
+            mano. Dentro, il rumore della pietra sul pestello si ferma.
+          effetti: { profondita.avv-prove-guado: 1 }
+        sconfitta:
+          titolo: Le scuri
+          testo: |
+            Le guardie ti respingono giù dalla cengia a colpi di scure, e dentro la
+            grotta Ozzra non smette nemmeno di passare la pietra sul pestello.
+          effetti: { tormento: 0.5 }
+      - testo: "Prendere la fessura del fumo, come Ruk"
+        descrizione: "Ruk è uscito di lì stanotte. Se è passato un ragazzo della banda, passi anche tu."
+        requisiti: [avv-prove-guado.ruk >= 1]
+        esito:
+          titolo: Dietro le pelli
+          testo: |
+            Sali sul fianco del Gradone fino alla fessura annerita e ti ci infili
+            di piedi, nel fumo, con la manica sulla bocca. Scendi nella grotta
+            grande alle spalle delle guardie, dietro una pila di pelli.
+          effetti: { profondita.avv-prove-guado: 1 }
+      - testo: "Calarti dalla fessura del fumo senza sapere dove porta"
+        descrizione: "Una fessura annerita sopra l'arco, che sputa fumo. Dentro non si vede niente."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: A tentoni nel fumo
+          testo: |
+            Ti infili nella fessura annerita e scendi a tentoni nel fumo, con gli
+            occhi che bruciano, finché i piedi non toccano una pila di pelli. Sei
+            dentro, alle spalle delle guardie.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Incastrato
+          testo: |
+            La fessura si stringe a metà, e resti incastrato nel fumo con gli occhi
+            che lacrimano e la gola in fiamme. Ne esci all'indietro, a forza di
+            spalle.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare il cambio della guardia"
+        descrizione: "Prima o poi le guardie entrano a scaldarsi. Fino ad allora si sta dietro un masso, nel vento della cima."
+        costo: 3
+        esito:
+          titolo: Il cambio
+          testo: |
+            Aspetti dietro un masso fino a notte fonda, quando le due guardie
+            entrano a scaldarsi e ne esce una sola, mezza addormentata. Le passi
+            accanto nel buio, così vicino da sentirne l'odore.
+          effetti: { profondita.avv-prove-guado: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · la cengia del vento
+  - id: avv-prove-guado-la-cengia-del-vento
+    immagine: ambientazione/gradone-rosso
+    titolo: La cengia del vento
+    sommario: "L'ultimo tratto fino alle grotte è una cengia larga due piedi. Il vento arriva a raffiche e spinge verso il vuoto."
+    luogo: Le terrazze del Gradone, la cengia del vento
+    area: avv-prove-guado
+    ripetibile: true
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 7, profondita.avv-prove-guado <= 9]
+    testo: |
+      L'ultimo tratto fino alle grotte è una cengia scavata dal vento nella
+      faccia del Gradone, larga quanto due piedi messi di traverso. Sotto non
+      c'è niente fino alla terrazza da cui sei salito, e più in basso ancora,
+      lontanissime, fumano le pozze di Ghoran, con il filo rosso dell'Acquarossa
+      in mezzo. Il vento arriva a raffiche da nord e spinge verso il vuoto.
+
+      {acrobazia Difficile fallita} Le ginocchia hanno già deciso che non
+      vogliono andare, e lo stanno facendo sapere a tutto il resto.
+    opzioni:
+      - testo: "Passare con la faccia contro la roccia"
+        descrizione: "Il petto contro l'arenaria, i talloni sul vuoto, e le dita nelle crepe a ogni raffica."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: La roccia buona
+          testo: |
+            Passi con il petto contro l'arenaria e i talloni sul vuoto, un piede
+            dopo l'altro, e ti fermi a ogni raffica con le dita nelle crepe. In
+            fondo alla cengia ti siedi sulla roccia buona e aspetti che le mani
+            smettano di tremare.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Appeso al vento
+          testo: |
+            Una raffica ti stacca la spalla dalla roccia, e per un battito sei
+            appeso al vento con una mano sola. Torni indietro piano fino
+            all'inizio della cengia, e ti siedi con la schiena contro la parete.
+          effetti: { tormento: 0.5 }
+      - testo: "Correre fra una raffica e l'altra"
+        descrizione: "Le raffiche hanno un tempo. Chi lo impara può correre per tutta la cengia, e oltre, finché il vento non torna."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Molto difficile }
+        successo:
+          titolo: La corsa
+          testo: |
+            Conti le raffiche finché impari il loro tempo, e appena passa la più
+            forte corri per tutta la cengia senza guardare in basso. Dove finisce
+            continui a correre sulla roccia larga, e ti fermi soltanto davanti
+            alla grotta grande, con mezza salita alle spalle.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-prove-guado: 2 }
+        fallimento:
+          titolo: In ginocchio sul bordo
+          testo: |
+            A metà corsa la raffica arriva prima del previsto e ti butta in
+            ginocchio sul bordo. Ti trascini indietro carponi, con un ginocchio
+            aperto e le mani che non vogliono lasciare la roccia.
+          effetti: { ferite: 0.5 }
+      - testo: "Fissare la roccia e non guardare giù"
+        descrizione: "La cengia non è più stretta di una passerella di Ghoran. È il vuoto sotto che la fa sembrare un filo."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Un nastro alla volta
+          testo: |
+            Fissi la roccia davanti al naso e ti ripeti a mezza voce la discesa
+            delle rapide, un nastro alla volta, finché la cengia finisce. Delle
+            pozze di Ghoran, laggiù, non sapresti dire niente.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-prove-guado: 1 }
+        fallimento:
+          titolo: Le pozze che girano
+          testo: |
+            Guardi giù una volta sola, e le pozze di Ghoran cominciano a girare
+            piano. Torni indietro con le mani sulla roccia e gli occhi chiusi.
+          effetti: { tormento: 0.5 }
+      - testo: "Piantare paletti nelle crepe e legarti"
+        descrizione: "In fondo alla cengia la banda ha lasciato paletti di canna e corda. Ci vuole mezza giornata."
+        costo: 3
+        esito:
+          titolo: I paletti di canna
+          testo: |
+            In fondo alla cengia la banda ha lasciato un mucchio di paletti di
+            canna. Li pianti nelle crepe uno ogni passo e ci leghi la corda, e ci
+            metti mezza giornata, con il vento che ti secca la faccia fino a
+            spaccarti le labbra.
+          effetti: { profondita.avv-prove-guado: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · la grotta di Ozzra
+  - id: avv-prove-guado-la-grotta-di-ozzra
+    immagine: fazioni/tribu-spacca-ossa
+    titolo: La grotta di Ozzra
+    sommario: "In fondo alla grotta grande Branko è legato a un palo, vivo. Ozzra passa una pietra sul pestello, e si alza."
+    luogo: Il Gradone Rosso, la grotta di Ozzra
+    area: avv-prove-guado
+    requisiti: [avventura.prove-guado == 7, profondita.avv-prove-guado >= 10]
+    testo: |
+      La grotta grande è alta come una chiesa e piena di fumo, che sale verso una
+      fessura nella volta. Alle pareti sono appese pelli di capra e collane di
+      lische, e intorno al fuoco i giacigli della banda sono vuoti. In fondo la
+      volta si abbassa fin quasi a toccare un palo, e al palo è legato Branko,
+      grigio in faccia ma vivo, con la gamba rotta stesa su un sasso piatto.
+      Sopra di lui un lastrone di arenaria è crepato da parte a parte.
+
+      Ozzra è seduta davanti a lui su un tronco e passa una pietra sul pestello
+      con pazienza. In piedi è alta quasi il doppio di te. Ha i capelli rasati ai
+      lati e intrecciati in cima con le lische, e le braccia segnate da file di
+      cicatrici bianche. Sull'arco, alle tue spalle, si affacciano i ragazzi
+      della banda rimasti.
+
+      «Tu, l'altro delle Prove» dice, in un comune lento ma giusto. «Lui vince
+      nove volte. Io guardo nove volte da sopra. Adesso lui dentro di me, e io
+      vinco.» Batte il pestello sul sasso, accanto alla gamba di Branko.
+
+      Branko ti guarda e muove la testa verso le corde dei polsi.
+
+      {empatia Media} Ozzra vuole essere quella che vince. Al guado nessuno le ha
+      mai dato una tavoletta su cui scrivere il nome, e lei ha guardato da
+      quassù finché guardare non le è più bastato.
+
+      {origine fuggiasco-di-ghoran} Le file di cicatrici sulle braccia sono
+      conti, come le tacche che i sorveglianti incidevano sui pali dei recinti.
+      Lei se le è fatte da sola, una per ogni anno passato a guardare.
+    opzioni:
+      - testo: "Affrontare Ozzra"
+        descrizione: "Alta il doppio di te, con un pestello che spacca le ossa per mestiere. Branko, legato, non può aiutarti."
+        combattimento: avv-prove-guado-ozzra
+        vittoria:
+          titolo: Il pestello a terra
+          testo: |
+            Ozzra cade in ginocchio accanto al fuoco, e il pestello le scivola di
+            mano e rotola fino ai piedi di Branko. Prova a rialzarsi due volte, e
+            la seconda resta giù, con la fronte sulla pietra. Sull'arco i ragazzi
+            della banda spariscono.
+
+            Fra le pelli del suo giaciglio trovi una borsa di monete di Ghoran e
+            un guscio di metallo preso a qualche carovana. Tagli le corde di
+            Branko e te lo carichi su una spalla, come lei se l'era caricato al
+            guado. Lui ride e bestemmia a ogni passo della discesa, finché a metà
+            del Gradone non vi vengono incontro le torce della Pece.
+          effetti: { avventura.prove-guado: 1, monete: 25, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il pestello
+          testo: |
+            Il pestello ti prende sulla spalla e ti butta fuori dall'arco, sulla
+            cengia. Ozzra non ti insegue. Torna a sedersi davanti a Branko e
+            riprende a passare la pietra, e tu scendi il Gradone a pezzi, una
+            terrazza alla volta.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Far cadere il lastrone crepato"
+        descrizione: "Sopra il palo la volta è bassa e il lastrone è crepato da parte a parte. Deve cadere quando lei è sotto, e Branko no."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il lastrone
+          testo: |
+            Giri intorno al fuoco tenendola a distanza con l'arma, finché lei non
+            si trova sotto la crepa e Branko alle sue spalle, contro il palo.
+            Allora colpisci la volta dove la crepa si apre, e il lastrone viene giù
+            tutto insieme. La prende sulle spalle e la schiaccia sul pavimento, e
+            lei non si muove più.
+
+            Fra le pelli del suo giaciglio trovi una borsa di monete di Ghoran e
+            un guscio di metallo preso a qualche carovana. Tagli le corde di
+            Branko e te lo carichi su una spalla. A metà del Gradone vi vengono
+            incontro le torce della Pece.
+          pe: { percezione: 5 }
+          effetti: { avventura.prove-guado: 1, monete: 25, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La pioggia di sabbia
+          testo: |
+            Colpisci la crepa quando lei non è ancora sotto, e dalla volta cade
+            soltanto una pioggia di sabbia rossa. Ozzra capisce, e ti viene addosso
+            con il pestello. Ti butta fuori dall'arco, e scendi il Gradone con le
+            costole che scricchiolano.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Sfidarla a tenere un peso a braccio teso"
+        descrizione: "Alla bilancia della palizzata i gladiatori tengono il peso grande a braccio teso per farsi guardare. Lei vuole vincere davanti a qualcuno, e la banda è sull'arco."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: Il braccio che cede
+          testo: |
+            Glielo proponi a gesti e a parole, e Ozzra ride, poi accetta, perché
+            sull'arco la guardano tutti. Tenete a braccio teso lei il pestello e tu
+            un masso della stessa misura, mentre la banda conta ad alta voce, e il
+            braccio cede prima a lei. La banda sull'arco tace. Ozzra prende la
+            lancia di un ragazzo e passa sotto l'arco, poi scende verso la palude
+            senza voltarsi, e nessuno la segue.
+
+            Fra le pelli del suo giaciglio trovi una borsa di monete di Ghoran e
+            un guscio di metallo preso a qualche carovana. Tagli le corde di
+            Branko e te lo carichi su una spalla. A metà del Gradone vi vengono
+            incontro le torce della Pece.
+          pe: { resistenza: 5 }
+          effetti: { avventura.prove-guado: 1, monete: 25, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il manico del pestello
+          testo: |
+            Il braccio cede prima a te, e la banda sull'arco urla. Ozzra posa il
+            pestello e ti colpisce con il manico, quasi senza guardarti. Ti svegli
+            sulla cengia fuori dall'arco e scendi il Gradone con la testa che ti
+            rimbomba.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Prometterle un nome sulla tavoletta"
+        descrizione: "Al guado nessuno le ha mai dato una tavoletta. Dunja ce l'ha, e l'occhio di Ragh può chiederle un nome in più, se Ozzra ci crede."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: Il terzo nome
+          testo: |
+            Le dici che, se lo vuole, l'anno prossimo alle Prove del Guado ci sarà
+            un terzo nome, scritto da Dunja davanti a Ragh. Ozzra ti guarda a
+            lungo. Poi taglia lei le corde di Branko con un coltello d'osso e te lo
+            spinge contro, e dice che a fine estate scende. Quando esci dalla
+            grotta è ancora seduta sul tronco, e guarda il guado.
+
+            Branko lo porti giù su una spalla, con la borsa di monete e il guscio
+            di metallo che Ozzra ti ha buttato dietro senza una parola. A metà del
+            Gradone vi vengono incontro le torce della Pece.
+          pe: { persuasione: 5 }
+          effetti: { avventura.prove-guado: 1, monete: 25, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Cose da uomini di fango
+          testo: |
+            Ozzra ascolta fino in fondo e poi ride. Le tavolette, dice, sono cose
+            da uomini di fango, e il pestello arriva prima che tu possa alzare
+            l'arma. Scendi il Gradone trascinandoti, con il braccio stretto al
+            petto.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Colpirla dove l'ha presa la scure"
+        descrizione: "Al guado le hai piantato la scure nella spalla sinistra. Sotto le foglie la ferita è ancora aperta, e lei ci tiene il braccio vicino."
+        requisiti: [avv-prove-guado.segno >= 1]
+        prova: { attributo: fisico, abilita: armi-da-mischia, difficolta: Difficile }
+        successo:
+          titolo: La spalla sinistra
+          testo: |
+            Le giri intorno dalla parte sinistra, quella che lei protegge, e
+            quando alza il pestello colpisci la spalla dove l'ha presa la scure. Il
+            braccio le cade, e il pestello con lui. Il colpo dopo la mette in
+            ginocchio, e non si rialza.
+
+            Fra le pelli del suo giaciglio trovi una borsa di monete di Ghoran e
+            un guscio di metallo preso a qualche carovana. Tagli le corde di
+            Branko e te lo carichi su una spalla. A metà del Gradone vi vengono
+            incontro le torce della Pece.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.prove-guado: 1, monete: 25, reperto.sigillato: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La ferita che conosce
+          testo: |
+            Lei sa dov'è la sua ferita meglio di te, e quando ci provi si gira e ti
+            prende con il manico del pestello sulle costole. Esci dall'arco piegato
+            in due e scendi il Gradone una terrazza alla volta.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata

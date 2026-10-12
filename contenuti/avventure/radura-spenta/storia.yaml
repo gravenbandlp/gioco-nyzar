@@ -1,0 +1,615 @@
+# Avventura n. 14, «La radura spenta» (docs/piano-avventure.md). Si apre con pista.capomozzo >= 10.
+# Al margine ovest del Bosco di Velthar un novizio del Circolo, Edo Fiorani, ha lasciato spegnere la lanterna di
+# Ponente. La lanterna brucia legno di lanterna dietro un disco di vetro verde, e la sua luce corre lungo il margine:
+# il fuoco nero della pianura non la attraversa. Spenta la lanterna, cinque cavalli di fuoco nero sono entrati nel
+# Bosco per il sentiero dei cervi fino alla Culla delle Foglie, la radura dove nascono le farfalle foglia-rossa, e ne
+# hanno scacciato Arvel, il cervo bianco che la veglia (lore nuova approvata). Il Bosco marcisce a partire da lì.
+# Edo non l'ha detto al Circolo, per paura di perdere la lanterna.
+#
+# La pista `avventura.radura-spenta` (0 → 8):
+# 0 → 1 aggancio: la lanterna di Ponente, Edo in ginocchio al cippo (fisso sulla Superficie, senza luogo: il luogo
+#       del Bosco di Velthar si vede solo con fazione.circolo >= 2).
+# 1 → 2 il vetro sul dosso: Edo aveva tolto il vetro per guardarci la Marea, e l'ha perso. Ritrovato intatto dà
+#       avv-radura-spenta.vetro; la via lunga lo trova crepato.
+# 2 → 3 le impronte bruciate: chi le legge sa che le giumente seguono lo stallone dallo zoccolo spaccato
+#       (avv-radura-spenta.tracce).
+# 3 → 4 la notte al cippo: due giumente escono a bere la Marea sulla pianura; chi le batte o le guarda bere vede il
+#       grumo di cristallo che hanno nel petto (avv-radura-spenta.grumo).
+# 4 → 5 la fonte di Arvel: il cervo bianco ferito, fuori dal Bosco; chi si fa avvicinare ha avv-radura-spenta.cervo.
+# 5 → 6 la spedizione `avv-radura-spenta` (spedizione.yaml), con il cuore in due fasi.
+# 6 → 7 epilogo, la lanterna riaccesa: Tharn Koru arriva al cippo e si sceglie che cosa dirgli di Edo
+#       (avv-radura-spenta.edo: 1 la verità, 2 la bugia del vento, 3 Edo parla da solo).
+# 7 → 8 epilogo, la Culla qualche giorno dopo: le ali rosse se nella fossa hai salvato i bozzoli
+#       (avv-radura-spenta.bozzoli), la Culla in silenzio se no. Tharn dà il mantello della Culla (grado 4).
+# Vantaggi: vetro (stanze 3, 8, 7-9 e il cuore), tracce (ingresso, stanze 4 e 7, cuore), grumo (stanze 6 e 9,
+# seconda fase del cuore), cervo (seconda fase del cuore). Origini: figlio-del-circolo (aggancio, fonte, ingresso),
+# accolito-del-velo (le ali cadute, i bozzoli).
+quality:
+  - { id: avventura.radura-spenta, immagine: icone/lantern-flame, nome: La radura spenta, categoria: pista, descrizione: "Al margine ovest del Bosco di Velthar la lanterna di Ponente è spenta, e nella Culla delle Foglie corrono cavalli di fuoco nero." }
+  - { id: avv-radura-spenta.vetro, nome: Il vetro della lanterna, categoria: stato, nascosta: true, descrizione: "1 se hai ritrovato il vetro della lanterna intatto." }
+  - { id: avv-radura-spenta.tracce, nome: Lo zoccolo spaccato, categoria: stato, nascosta: true, descrizione: "1 se sai che le giumente seguono lo stallone dallo zoccolo spaccato." }
+  - { id: avv-radura-spenta.grumo, nome: Il grumo nel petto, categoria: stato, nascosta: true, descrizione: "1 se hai visto il grumo di cristallo che i cavalli hanno nel petto." }
+  - { id: avv-radura-spenta.cervo, nome: Arvel ti conosce, categoria: stato, nascosta: true, descrizione: "1 se Arvel ti ha lasciato avvicinare alla fonte." }
+  - { id: avv-radura-spenta.svolta, nome: I bozzoli della fossa, categoria: stato, nascosta: true, descrizione: "1 dopo la scena dei bozzoli, in qualunque modo sia finita." }
+  - { id: avv-radura-spenta.bozzoli, nome: I bozzoli in salvo, categoria: stato, nascosta: true, descrizione: "1 se nella fossa hai messo in salvo i bozzoli delle foglia-rossa." }
+  - { id: avv-radura-spenta.fase, nome: La seconda fase del cuore, categoria: stato, nascosta: true, descrizione: "1 quando le quattro giumente sono cadute e resta lo stallone; torna a 0 quando la seconda fase finisce." }
+  - { id: avv-radura-spenta.edo, nome: Che cosa sa Tharn, categoria: stato, nascosta: true, descrizione: "1 gli hai detto la verità, 2 gli hai detto che è stato il vento, 3 Edo ha parlato da solo." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'aggancio
+  - id: avv-radura-spenta-la-lanterna-di-ponente
+    immagine: fazioni/circolo-di-velthar
+    titolo: La lanterna di Ponente
+    sommario: "Al margine ovest del Bosco di Velthar la lanterna del cippo è spenta da tre notti, e un novizio del Circolo le sta in ginocchio davanti."
+    luogo: Il Bosco di Velthar, il cippo di Ponente
+    area: superficie-fratturata
+    requisiti: [pista.capomozzo >= 10, avventura.radura-spenta == 0]
+    testo: |
+      Mezza giornata a ovest della strada di Velthar, dove il margine del Bosco piega verso le colline, i
+      carovanieri si orientano di notte con una lanterna appesa a un cippo di pietra. Da tre notti la lanterna è
+      buia, e alla Superficie te lo dice chiunque sia passato di lì.
+
+      Il cippo è alto quanto un uomo, con un braccio di ferro piegato da cui pende la lanterna. Davanti c'è un
+      ragazzo inginocchiato nella tunica grigioverde dei novizi del Circolo, con i gomiti sporchi di terra. Batte
+      la pietra focaia contro l'acciarino sotto la lanterna vuota, e le scintille muoiono nell'erba prima di
+      arrivarci. Alle sue spalle i primi faggi del Bosco hanno la corteccia chiara a chiazze, come una pelle che si
+      squama, e dal sottobosco arriva un odore dolciastro di frutta lasciata al sole.
+
+      {percezione Media} Nella lanterna manca il vetro. Dentro il telaio c'è soltanto un ciocco di legno di
+      lanterna, e il ferro intorno è annerito da un fumo che non ha lasciato fuliggine.
+
+      {origine figlio-del-circolo} Il cippo di Ponente lo conosci. Da bambino ti avevano proibito di toccare la
+      lanterna, e tu avevi aspettato una notte di vento per farlo, e ti eri bruciato due dita.
+
+      Quando ti sente arrivare il ragazzo si alza così in fretta che si pesta l'orlo della tunica.
+
+      «Non dirlo al Maestro» dice prima ancora di sapere chi sei. Poi si accorge dell'arma che porti, e si corregge
+      arrossendo fino alle orecchie. «Buongiorno, cioè. Mi chiamo Edo. Tu sai combattere contro le bestie?»
+    opzioni:
+      - testo: "Farti raccontare che cosa è successo"
+        descrizione: "Un novizio che ti chiede di tacere con il Maestro ha qualcosa da dire. Basta lasciarlo parlare."
+        esito:
+          titolo: La Culla delle Foglie
+          testo: |
+            Edo parla seduto sul piede del cippo, con le mani strette fra le ginocchia. Tre notti fa la lanterna si
+            è spenta. La notte dopo sono arrivati dalla pianura cinque cavalli di fuoco nero, che non fanno luce, e
+            sono entrati nel Bosco per il sentiero dei cervi fino alla Culla delle Foglie, la radura dove nascono le
+            farfalle foglia-rossa. All'alba ne è uscito Arvel, il cervo bianco che la veglia, con un fianco bruciato.
+
+            «Al Circolo non l'ho detto» dice, e si guarda le scarpe. «Se lo dico, la lanterna la danno a un altro.»
+          effetti: { avventura.radura-spenta: 1 }
+      - testo: "Chiedergli perché la lanterna si è spenta"
+        descrizione: "Edo guarda la lanterna vuota come si guarda una tazza che ti si è rotta in mano. Bisogna chiederglielo con garbo."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il vetro
+          testo: |
+            Gli chiedi della lanterna con la voce che si usa con i bambini che hanno rotto qualcosa, e lui si guarda
+            le mani a lungo. Poi ti racconta tutto. Il vetro l'aveva tolto lui, una sera, per guardarci attraverso la
+            pianura, e l'ha perso. Senza vetro il vento ha spento la fiamma, e la notte dopo dalla pianura sono
+            entrati nel Bosco cinque cavalli di fuoco nero, fino alla Culla delle Foglie e al suo cervo bianco.
+          pe: { empatia: 2 }
+          effetti: { avventura.radura-spenta: 1 }
+        fallimento:
+          titolo: Il vento
+          testo: |
+            Glielo chiedi troppo dritto, e Edo stringe le labbra. Dice che è stato il vento, con gli occhi sulla
+            punta delle scarpe, e poi non dice altro. Ti guarda andare via come si guarda uno che potrebbe
+            raccontarlo in giro.
+          effetti: { sospetto: 0.5 }
+      - testo: "Inginocchiarti accanto a lui come al Circolo"
+        descrizione: "Al Circolo chi ha sbagliato non lo si guarda dall'alto. Ci si mette alla sua altezza, e si aspetta."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: Alla sua altezza
+          testo: |
+            Ti inginocchi accanto a lui nell'erba senza dire niente, e Edo smette di battere la pietra. Ti racconta
+            della lanterna spenta e dei cinque cavalli di fuoco nero entrati nel Bosco la notte dopo, fino alla Culla
+            delle Foglie, e di Arvel, il cervo bianco, uscito all'alba con un fianco bruciato. Al Circolo non l'ha
+            detto. Lo dice a te perché parli come uno di casa.
+          pe: { natura: 2 }
+          effetti: { avventura.radura-spenta: 1 }
+
+  # ------------------------------------------------------------ 1 → 2 · il vetro sul dosso
+  - id: avv-radura-spenta-il-vetro-sul-dosso
+    immagine: icone/cracked-glass
+    titolo: Il vetro sul dosso
+    sommario: "Edo ha perso il vetro della lanterna sul dosso dietro il cippo. Sulla quercia in cima due cornacchie lo hanno guardato cercarlo per due giorni."
+    luogo: Il Bosco di Velthar, il dosso sopra il cippo di Ponente
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 1]
+    testo: |
+      Dietro il cippo di Ponente il terreno sale in un dosso d'erba alta, con una quercia sola in cima e tutta la
+      pianura sotto, grigia fino all'orizzonte. Edo ti ci porta camminando mezzo passo dietro di te.
+
+      È qui che si è addormentato, la notte in cui la lanterna si è spenta. Aveva tolto il vetro per guardarci
+      attraverso, perché dietro quel vetro la Marea Grigia si vede a fili colorati, e lui non l'aveva mai vista.
+      Quando si è svegliato il vetro non era più nella sua mano. Lo ha cercato per due giorni a quattro zampe, e
+      sulla quercia due cornacchie lo hanno guardato fare per tutto il tempo.
+
+      «È un disco grande così» dice, e fa un cerchio con le dita. «Verde, spesso un dito. Senza, la lanterna fa la
+      luce di una lanterna qualsiasi, e quella i cavalli non la guardano nemmeno.»
+
+      {natura Media} Le cornacchie del margine portano al nido quello che luccica, e il nido sulla quercia è
+      grosso, fatto da molti anni.
+    opzioni:
+      - testo: "Cercare il luccichio nell'erba"
+        descrizione: "Con il sole basso un vetro verde si accende anche in mezzo all'erba alta. Bisogna stendersi e aspettare il momento."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il lampo verde
+          testo: |
+            Ti stendi a pancia in giù sul dosso con il sole basso alle spalle, e aspetti che l'erba si accenda. A
+            dieci passi dalla quercia qualcosa manda un lampo verde. Il vetro è scivolato in una tana di
+            talpa, intatto,
+            con la terra ancora attaccata sopra. Edo lo pulisce con la manica per un tempo lunghissimo.
+          pe: { percezione: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.vetro: 1 }
+        fallimento:
+          titolo: Le formiche rosse
+          testo: |
+            Passi il pomeriggio a frugare nell'erba con le mani, e trovi una fibbia arrugginita e il nido di un
+            popolo di formiche rosse, che a loro volta trovano te. Sulla quercia le cornacchie non hanno smesso di
+            guardare.
+          effetti: { ferite: 0.5 }
+      - testo: "Portare il saluto alle cornacchie e chiedere il vetro"
+        descrizione: "Nel Bosco di Velthar ai corvi si porta il saluto prima di chiedere qualcosa. Le cornacchie sono parenti, e vogliono un pagamento."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Lo scambio
+          testo: |
+            Ti fermi sotto la quercia, saluti le cornacchie con un inchino del mento e lasci sull'erba una moneta
+            lucida. La più vecchia scende a guardarla da vicino, se la prende nel becco e torna sul ramo. Poco dopo
+            dal nido cade un disco verde, che rimbalza sull'erba senza rompersi. Edo si mette a ridere, per la prima
+            volta da quando lo conosci.
+          pe: { addestrare-animali: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.vetro: 1, monete: -1 }
+        fallimento:
+          titolo: Il regalo dall'alto
+          testo: |
+            Le cornacchie ascoltano il tuo saluto con la testa storta. Poi la più vecchia si alza in volo e ti lascia
+            cadere sulla spalla quello che le cornacchie lasciano cadere. Edo fa finta di guardare la pianura.
+          effetti: { scandalo: 0.5 }
+      - testo: "Arrampicarti sulla quercia fino al nido"
+        descrizione: "La quercia è vecchia e i rami bassi tengono. Quelli alti, dove sta il nido, sono un'altra faccenda."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il nido
+          testo: |
+            Sali di ramo in ramo con le cornacchie che ti girano intorno gridando, e infili il braccio nel nido fino
+            alla spalla. Ne tiri fuori un cucchiaio d'argento insieme al vetro, intatto. Il cucchiaio lo
+            rimetti dove stava.
+          pe: { atletica: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.vetro: 1 }
+        fallimento:
+          titolo: Il ramo alto
+          testo: |
+            A due braccia dal nido il ramo si piega più di quanto ti aspettassi, e ti ritrovi a terra sulla schiena,
+            con l'erba in bocca e una cornacchia che ti guarda dal ramo basso.
+          effetti: { ferite: 0.5 }
+      - testo: "Chiamare la cornacchia con Richiamo"
+        descrizione: "Nella lingua che il Circolo insegna ai bambini si può chiedere una cosa a una bestia. Restituire, per una cornacchia, è difficile."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La lingua dei bambini
+          testo: |
+            Dici il Richiamo a mezza voce, e la cornacchia più vecchia scende sul braccio del cippo a guardarti,
+            prima con un occhio e poi con l'altro. Alla fine torna al nido e ne riporta il vetro, intatto, che ti
+            lascia cadere ai piedi con l'aria di un favore che non si ripeterà.
+          pe: { magia: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.vetro: 1 }
+        fallimento:
+          titolo: La risposta
+          testo: |
+            La cornacchia ti risponde nella stessa lingua e parla più a lungo di te, e quello che dice ti resta in
+            testa fino a sera come un rimprovero.
+          effetti: { tormento: 0.5 }
+      - testo: "Rovesciare il dosso zolla per zolla con Edo"
+        descrizione: "Due persone con le mani nell'erba dall'alba al tramonto. Prima o poi il vetro salta fuori."
+        costo: 2
+        esito:
+          titolo: La crepa
+          testo: |
+            Lo trovate al tramonto sotto una zolla smossa, con una crepa che lo attraversa da parte a parte. Edo lo
+            tiene alto contro il cielo, e la crepa fa una riga nera in mezzo al verde. Dice che servirà lo stesso, e
+            se lo mette in tasca come una cosa che scotta.
+          effetti: { avventura.radura-spenta: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · le impronte bruciate
+  - id: avv-radura-spenta-le-impronte-bruciate
+    immagine: icone/hoof
+    titolo: Le impronte bruciate
+    sommario: "Sul sentiero dei cervi ci sono le impronte dei cavalli di fuoco nero, e dove hanno toccato il muschio è diventato cenere."
+    luogo: Il Bosco di Velthar, il sentiero dei cervi
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 2]
+    testo: |
+      Dal cippo di Ponente il sentiero dei cervi entra nel Bosco fra due faggi, e sul muschio del sentiero ci sono
+      le impronte. Sono zoccoli di cavallo larghi come un piatto, e dove hanno toccato il muschio è diventato grigio
+      e secco come la cenere di un camino spento. Vanno nelle due direzioni, le une sopra le altre, fino alla curva.
+      Ai lati la corteccia dei faggi si stacca a scaglie fino all'altezza di un uomo.
+
+      Edo si ferma sul primo passo del sentiero e resta lì.
+
+      «Di notte escono a bere sulla pianura e all'alba tornano dentro» dice. «Li sento passare dal cippo, ma
+      guardarli non ho mai avuto il coraggio.»
+
+      {medicina Media} Il muschio grigio ha l'odore dei malati di Marea, quello che resta nelle bende. Meglio non
+      toccarlo a mani nude.
+
+      {cavalcare Difficile} Un cavallo che corre affonda di più con la punta dello zoccolo. Queste impronte sono
+      fonde uguali dappertutto, come se le bestie non pesassero niente.
+    opzioni:
+      - testo: "Leggere le impronte"
+        descrizione: "Quante sono, in che ordine passano, chi va davanti. Il muschio bruciato tiene il segno meglio del fango."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Lo zoccolo spaccato
+          testo: |
+            Ti accucci accanto al sentiero senza toccare il muschio. Sono cinque bestie, e una va sempre davanti. Ha
+            lo zoccolo anteriore destro spaccato in due, e le altre quattro mettono gli zoccoli dentro le sue
+            impronte, una dopo l'altra. Davanti c'è uno stallone, e le giumente gli vanno dietro.
+          pe: { natura: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.tracce: 1 }
+        fallimento:
+          titolo: La mano nel muschio
+          testo: |
+            Ti chini troppo, e il palmo ti scivola dentro un'impronta. Il muschio grigio si sbriciola e ti si attacca
+            alla pelle, freddo come la brina, e ci metti un pezzo a toglierlo con l'acqua della borraccia.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Guardarle da cavaliere"
+        descrizione: "Un branco al trotto ha un ordine. Chi ha tenuto una pariglia lo riconosce dal passo."
+        prova: { attributo: fisico, abilita: cavalcare, difficolta: Media }
+        successo:
+          titolo: La pariglia
+          testo: |
+            Segui le impronte per un tratto al passo, come quando si porta un cavallo alla mano. Sono cinque, al
+            trotto, in fila come una pariglia ben domata, con le quattro di dietro che mettono gli zoccoli dentro
+            quelli del primo. Il primo è uno stallone con lo zoccolo anteriore destro spaccato, e porta il gruppo
+            dove vuole lui.
+          pe: { cavalcare: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.tracce: 1 }
+        fallimento:
+          titolo: Il branco qualsiasi
+          testo: |
+            Le guardi a lungo, e ti sembrano le impronte di un branco qualsiasi che è passato di corsa. Quando ti
+            rialzi hai le ginocchia grigie di muschio, e ti prudono fino a sera.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Aspettare l'alba su un faggio e guardarli rientrare"
+        descrizione: "Una notte a cavalcioni di un ramo, sopra il sentiero. I faggi del margine, però, si sbriciolano."
+        costo: 2
+        esito:
+          titolo: Sopra il sentiero
+          testo: |
+            Passi la notte su un ramo del primo faggio, con la corteccia che ti si sbriciola sotto le gambe. All'alba
+            li vedi rientrare dalla pianura, ombre più nere del buio che non fanno rumore sul muschio.
+            Ti passano sotto
+            così vicini che senti il freddo che portano addosso. Quando scendi sai che sono cinque, e poco altro.
+          effetti: { avventura.radura-spenta: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · la notte al cippo
+  - id: avv-radura-spenta-la-notte-al-cippo
+    immagine: icone/horse-head
+    titolo: La notte al cippo
+    sommario: "Di notte i cavalli di fuoco nero escono dal Bosco a bere la Marea sulla pianura. Stanotte li aspetti al cippo di Ponente, con Edo."
+    luogo: Il Bosco di Velthar, il cippo di Ponente, di notte
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 3]
+    testo: |
+      Aspetti la notte con Edo, seduti nell'erba dietro il cippo di Ponente. Lui ha la pietra focaia in mano e la
+      voglia di accendere, e gli hai spiegato perché non deve. Con la lanterna accesa i cavalli resterebbero
+      chiusi nel Bosco insieme alla Culla.
+
+      Verso mezzanotte dalla pianura sale la Marea, bassa, una nebbia lattiginosa che arriva alle ginocchia e luccica
+      come limatura di ferro. Poco dopo dal sentiero dei cervi escono due giumente. Sono nere come la pece e fatte di
+      un fuoco che non fa luce, e dove passano l'erba diventa grigia. Vanno verso la nebbia a testa bassa e ci
+      affondano il muso. Una delle due, mentre beve, alza gli occhi verso il cippo.
+
+      Edo ti stringe la manica con due dita.
+
+      {percezione Media} Quando la giumenta abbassa il muso nella Marea, nel mezzo del petto le si accende un punto
+      grigio, piccolo, come la brace sotto la cenere.
+    opzioni:
+      - testo: "Andare incontro alle giumente"
+        descrizione: "Due bestie di fuoco nero con il muso nella Marea. Bevendo diventano più forti, e adesso hanno sete."
+        combattimento: avv-radura-spenta-le-giumente
+        vittoria:
+          titolo: Il grumo
+          testo: |
+            La seconda giumenta si affloscia sull'erba come una coperta di fumo, e dove aveva il petto resta un grumo
+            di cristallo grigio grande come una noce. Si spegne e si crepa mentre lo guardi. Edo lo gira
+            con un bastone senza
+            toccarlo. Il fuoco nero viene da lì dentro, e lì dentro si può rompere.
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.grumo: 1 }
+        sconfitta:
+          titolo: Gli zoccoli freddi
+          testo: |
+            Le giumente ti passano sopra senza peso, e dove gli zoccoli ti toccano la pelle diventa grigia e fredda.
+            Edo ti trascina dietro il cippo per le ascelle, e loro tornano a bere come se fossi stato un cespuglio.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Restare al buio e guardarle bere"
+        descrizione: "Stanno bevendo, e chi beve guarda poco intorno. Bisogna restare fermi con un novizio che trema accanto."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Quello che beve
+          testo: |
+            Tieni giù Edo con una mano sulla spalla e guardi fino all'alba. Ogni volta che le giumente bevono, nel
+            loro petto si accende un grumo grigio e il fuoco intorno si gonfia come la brace sotto il mantice. Il
+            grumo è quello che beve, e il resto della bestia gli va dietro.
+          pe: { furtivita: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.grumo: 1 }
+        fallimento:
+          titolo: Lo starnuto
+          testo: |
+            Edo starnutisce nella manica. Le giumente alzano la testa insieme, e voi due scappate su per le colline
+            fra i cardi. Tornate al cippo all'alba, con le gambe graffiate e la Marea ancora sull'erba.
+          effetti: { ferite: 0.5 }
+      - testo: "Scacciarle con l'Esorcismo"
+        descrizione: "Sono fatte di Marea e di fuoco, e il fuoco non dovrebbe restare. La formula le scioglie, se è detta bene."
+        incantesimo: esorcismo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La formula
+          testo: |
+            Dici la formula verso la giumenta più vicina, e il fuoco nero le si apre sul petto come un mantello
+            slacciato. Dentro c'è un grumo di cristallo grigio grande come una noce, che si spegne mentre lo guardi.
+            La bestia si disfa, e l'altra scappa nel Bosco al galoppo.
+          pe: { magia: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.grumo: 1 }
+        fallimento:
+          titolo: La formula che torna
+          testo: |
+            La formula arriva alla giumenta e torna indietro fredda, e ti si posa sulla nuca come una mano bagnata.
+            Le bestie finiscono di bere senza guardarti e all'alba rientrano nel Bosco.
+          effetti: { tormento: 0.5 }
+      - testo: "Tenere Edo dietro il cippo fino all'alba"
+        descrizione: "Non le tocchi e loro non toccano voi. La notte però è lunga, e la Marea sale fino al cippo."
+        costo: 2
+        esito:
+          titolo: Fino all'alba
+          testo: |
+            Le guardi bere per tutta la notte, accucciato dietro il cippo con Edo appoggiato alla spalla. All'alba
+            rientrano nel Bosco al passo. La Marea si ritira dall'erba un poco alla volta, e ti lascia un sapore di
+            ferro sotto la lingua.
+          effetti: { avventura.radura-spenta: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 4 → 5 · la fonte di Arvel
+  - id: avv-radura-spenta-la-fonte-di-arvel
+    immagine: icone/stag-head
+    titolo: La fonte di Arvel
+    sommario: "Fuori dal Bosco, in una conca fra le colline, il cervo bianco della Culla beve da una fonte con un fianco bruciato."
+    luogo: Le colline a ovest del Bosco di Velthar, la fonte
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 4]
+    testo: |
+      Edo ti porta fuori dal Bosco per un sentiero di capre che costeggia il margine verso le colline. Dopo un'ora
+      c'è una conca d'erba con una fonte nel mezzo. L'acqua esce da una spaccatura della roccia e si allarga in una
+      pozza bassa, e sulla riva c'è un mucchietto di sale che Edo rinnova ogni mattina.
+
+      Il cervo è sulla riva opposta. È bianco come il latte e più alto di un cavallo da tiro, con le corna larghe
+      sopra la testa come i rami di un albero d'inverno, e una punta spezzata di fresco. Sul fianco sinistro ha una
+      bruciatura nera larga due palmi, con la pelle grigia tutto intorno. Beve piano, e ogni tanto alza la testa
+      verso il Bosco.
+
+      «Arvel» dice Edo sottovoce. «Al Circolo dicono che c'era già quando sono arrivati i primi druidi. Il sale lo
+      prende, cioè, ma a me non si lascia toccare.»
+
+      {medicina Media} La bruciatura non guarisce perché il grigio intorno è ancora vivo e si allarga. Va tolto,
+      e a un cervo di quella stazza non piacerà.
+
+      {origine figlio-del-circolo} Al Circolo il cervo bianco si nomina a voce bassa, e nessuno della tua età l'ha
+      mai visto da vicino. Ti accorgi di avere chinato la testa senza deciderlo.
+    opzioni:
+      - testo: "Avvicinarti piano, con le mani in vista"
+        descrizione: "Un passo alla volta intorno alla pozza, fermandoti ogni volta che alza la testa."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Il naso caldo
+          testo: |
+            Fai il giro della pozza un passo alla volta, fermandoti ogni volta che alza la testa. Quando arrivi a due
+            braccia da lui Arvel smette di bere e ti annusa la manica, a lungo, con il naso caldo. Poi si rimette a
+            bere. Dietro di te Edo si siede nell'erba di colpo, come se gli avessero tolto le gambe.
+          pe: { addestrare-animali: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.cervo: 1 }
+        fallimento:
+          titolo: Lo zoccolo nella pozza
+          testo: |
+            Al terzo passo Arvel abbassa le corna e batte uno zoccolo nella pozza, e l'acqua ti arriva in faccia.
+            Torni indietro fino a Edo senza voltargli le spalle. Lui torna a bere solo quando sei sparito dietro il
+            dosso.
+          effetti: { tormento: 0.5 }
+      - testo: "Pulirgli la bruciatura"
+        descrizione: "Il grigio intorno alla bruciatura va raschiato via finché esce sangue rosso. Un cervo così ti lascia fare una volta sola."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Difficile }
+        successo:
+          titolo: Il sangue rosso
+          testo: |
+            Bagni una pezza nella fonte e gliela posi sulla bruciatura, e Arvel trema dalla spalla alla coscia senza
+            muoversi. Gratti via il grigio con il dorso del coltello finché sotto esce sangue rosso. Quando hai finito
+            ti appoggia sulla spalla il muso pesante, e poi torna a bere.
+          pe: { medicina: 3 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.cervo: 1 }
+        fallimento:
+          titolo: Il corno
+          testo: |
+            Al primo tocco della pezza Arvel scarta di lato e ti prende di striscio con un corno. Ti ritrovi seduto
+            nella pozza con un livido che cresce sul braccio, e lui è già sulla cresta della conca.
+          effetti: { ferite: 0.5 }
+      - testo: "Parlargli con Richiamo"
+        descrizione: "La lingua delle bestie che il Circolo insegna ai bambini. Arvel l'ha sentita parlare da tutti i bambini del Circolo."
+        incantesimo: richiamo
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La lingua vecchia
+          testo: |
+            Gli parli piano nella lingua delle bestie, e Arvel gira un orecchio verso di te prima della testa. Ti
+            lascia arrivare fino alla riva e ti guarda bere dalla stessa pozza, con l'acqua che gli cola dal muso.
+          pe: { magia: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.cervo: 1 }
+        fallimento:
+          titolo: La parola sbagliata
+          testo: |
+            Sbagli una parola, e Arvel alza la testa di scatto. Se ne va su per la conca senza fretta, e dalla cresta
+            si volta a guardarti con un'aria che ti segue fino a sera.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare il sale e aspettare"
+        descrizione: "Un pomeriggio intero seduti lontano dalla pozza. Arvel prende il sale, e decide lui se guardarti."
+        costo: 2
+        esito:
+          titolo: Il sale
+          testo: |
+            Lasci il sale sulla riva e ti siedi lontano, con Edo, fino al tramonto. Arvel lecca il sale
+            senza guardarvi e se ne va su per le colline al passo, e almeno adesso sai dove viene a
+            bere.
+          effetti: { avventura.radura-spenta: 1 }
+      - testo: "Chinare la testa e aspettare che venga lui"
+        descrizione: "Al Circolo davanti alle bestie vecchie si abbassa la testa e si lascia che siano loro a decidere."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: Come al Circolo
+          testo: |
+            Ti inginocchi sulla riva con la testa bassa e le mani aperte sulle cosce, come ti hanno insegnato da
+            bambino. Dopo molto senti l'acqua muoversi, e il naso di Arvel ti sfiora i capelli. Quando rialzi la
+            testa lui è di nuovo a bere, a due braccia da te.
+          pe: { addestrare-animali: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.cervo: 1 }
+
+  # ------------------------------------------------------------ 6 → 7 · epilogo, la lanterna riaccesa
+  - id: avv-radura-spenta-la-lanterna-riaccesa
+    immagine: icone/lantern-flame
+    titolo: La lanterna riaccesa
+    sommario: "I cavalli di fuoco nero non ci sono più. Al cippo di Ponente Edo aspetta di riaccendere la lanterna, e dal margine arriva Tharn Koru."
+    luogo: Il Bosco di Velthar, il cippo di Ponente, all'alba
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 6]
+    testo: |
+      Torni al cippo di Ponente all'alba, per il sentiero dei cervi. Il muschio sotto gli stivali è ancora grigio,
+      e i faggi hanno ancora la corteccia a scaglie, ma l'aria del Bosco ha ripreso a muoversi.
+
+      Edo ti aspetta seduto contro il cippo, e da come si alza si vede che non ha dormito. Rimette il vetro nel
+      telaio della lanterna, ci sistema dietro un ciocco di legno di lanterna e lo accende con la pietra focaia
+      alla prima scintilla. La luce attraversa il vetro e si allunga verde lungo il margine del Bosco, dritta
+      come una corda tesa, fino a perdersi fra i tronchi.
+
+      Poco dopo, dal margine, arriva un uomo con l'arco a tracolla e due lupi grigi al fianco. È Tharn Koru, il
+      cacciatore degli Irriducibili. Si ferma davanti al cippo e guarda i lupi prima di tutto, e soltanto dopo
+      la lanterna e Edo.
+
+      «I lupi da sei notti non volevano venire da questa parte» dice. «Stamattina hanno tirato loro. Che cosa è
+      successo alla lanterna di Ponente?»
+
+      Edo apre la bocca e la richiude. Poi guarda te.
+
+      {empatia Media} Edo ha deciso di dirlo, e non trova da dove cominciare. Se gli lasci il tempo, forse le
+      parole gli arrivano da sole.
+    opzioni:
+      - testo: "Raccontare a Tharn com'è andata, il vetro compreso"
+        descrizione: "La verità, tutta. Al Circolo la lanterna di Ponente conta, e un vetro perso conta con lei."
+        esito:
+          titolo: La verità
+          testo: |
+            Racconti del vetro perso sul dosso e di quello che è entrato nel Bosco quando la lanterna si
+            è spenta. Tharn ascolta
+            senza guardarti, con gli occhi sui lupi. Alla fine dice a Edo di prendere la sua roba, perché per un anno
+            starà alla spirale e la lanterna l'accenderà un altro. Edo annuisce con la faccia bianca, e a te non dice
+            niente.
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.edo: 1, rep.circolo: 1 }
+      - testo: "Dire a Tharn che la lanterna l'ha spenta il vento"
+        descrizione: "Un vento di Marea dalla pianura, una notte. Succede, e il ragazzo si tiene la lanterna."
+        esito:
+          titolo: Il vento
+          testo: |
+            Dici che una notte di vento ha spento la fiamma, e che il resto è venuto da sé. Tharn ti guarda a lungo,
+            mentre i lupi annusano le mani di Edo. Poi annuisce e se ne va lungo il margine senza aggiungere altro.
+            Edo ti mette in mano un ciocco di legno di lanterna, l'unica cosa che ha da darti.
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.edo: 2, circolo.legno-di-lanterna: 1 }
+      - testo: "Aspettare che Edo trovi le parole"
+        descrizione: "Tocca a lui. Basta fargli capire che resti accanto a lui mentre le cerca."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Le parole di Edo
+          testo: |
+            Gli metti una mano sulla spalla e non dici niente. Dopo un po' Edo comincia, e racconta tutto, il vetro
+            sul dosso compreso, con la voce che si rompe due volte. Tharn ascolta fino in fondo. Poi gli dice che la
+            lanterna resta a lui, e che per un anno camminerà il margine ogni notte, da qui fino alla strada.
+          pe: { empatia: 2 }
+          effetti: { avventura.radura-spenta: 1, avv-radura-spenta.edo: 3, rep.circolo: 0.5 }
+        fallimento:
+          titolo: Il silenzio
+          testo: |
+            Aspetti, e Edo non trova niente da dire. Tharn guarda il ragazzo che guarda te, e quello che vede non gli
+            piace. Dice che tornerà domani all'alba, e che a quel punto vuole una risposta.
+          effetti: { sospetto: 0.5 }
+
+  # ------------------------------------------------------------ 7 → 8 · epilogo, la Culla qualche giorno dopo
+  - id: avv-radura-spenta-le-ali-rosse
+    immagine: icone/butterfly
+    titolo: Le ali rosse
+    sommario: "Tharn ti manda a chiamare alla Culla delle Foglie. I bozzoli che hai portato in salvo nella fossa si sono aperti."
+    luogo: Il Bosco di Velthar, la Culla delle Foglie
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 7, avv-radura-spenta.bozzoli == 1]
+    testo: |
+      Qualche giorno dopo Tharn ti manda a dire di raggiungerlo alla Culla delle Foglie. Il sentiero dei
+      cervi è di nuovo verde ai lati, e il muschio grigio si stacca a zolle sotto il muschio nuovo. Le betulle
+      dell'anello sono nere fino ai rami, e dai rami spuntano foglie piccole e chiare.
+
+      Arvel è sdraiato nell'ovale d'erba sotto la quercia, con la bruciatura sul fianco che è già pelo bianco ai
+      bordi. Sulla quercia, nella forcella dove li hai messi tu, i bozzoli si sono aperti. Le foglia-rossa escono
+      una alla volta, stanno ferme sul ramo ad asciugarsi le ali e poi si alzano tutte insieme sopra il prato, con
+      il rosso che sembra acceso da dentro.
+
+      Tharn ha in braccio un mantello di cuoio arrotolato, con il collo di pelo bianco.
+
+      «Il pelo l'ha lasciato lui sulla riva della fonte» dice, e guarda Arvel. «Il cuoio è del margine. Il Maestro
+      ci ha soffiato sopra stamattina, e da adesso la Marea ci scivola sopra. Al Circolo vuol dire che chi lo porta
+      può entrare nella Culla.»
+
+      {origine accolito-del-velo} Al Festival delle Foglie Alate le hai viste uscire da un carro coperto di
+      cremisi. Al Velo nessuno ti ha mai detto da dove venissero.
+    opzioni:
+      - testo: "Prendere il mantello e guardare le ali salire"
+        descrizione: "Il Circolo ringrazia così, una volta sola. Le foglia-rossa vanno verso la pianura, e da lì verso la città."
+        esito:
+          titolo: Il mantello della Culla
+          testo: |
+            Ti metti il mantello sulle spalle, e il collo bianco è caldo come se Arvel ci fosse ancora appoggiato. Le
+            foglia-rossa girano sopra la Culla un'ultima volta e poi si allungano verso est, in fila, sopra le
+            betulle. Tharn le guarda andare con i lupi seduti accanto.
+          effetti: { avventura.radura-spenta: 1, oggetto.avv-radura-spenta-mantello-della-culla: 1, rep.circolo: 0.5 }
+
+  - id: avv-radura-spenta-la-culla-in-silenzio
+    immagine: fazioni/circolo-di-velthar
+    titolo: La Culla in silenzio
+    sommario: "Tharn ti manda a chiamare alla Culla delle Foglie. Il prato è di nuovo verde, e sopra il prato non vola niente."
+    luogo: Il Bosco di Velthar, la Culla delle Foglie
+    area: superficie-fratturata
+    requisiti: [avventura.radura-spenta == 7, avv-radura-spenta.bozzoli == 0]
+    testo: |
+      Qualche giorno dopo Tharn ti manda a dire di raggiungerlo alla Culla delle Foglie. Il sentiero dei
+      cervi è di nuovo verde ai lati, e il muschio grigio si stacca a zolle sotto il muschio nuovo. Le betulle
+      dell'anello sono nere fino ai rami, e dai rami spuntano foglie piccole e chiare.
+
+      Arvel è sdraiato nell'ovale d'erba sotto la quercia, con la bruciatura sul fianco che è già pelo bianco ai
+      bordi. Il prato intorno a lui è verde, e sopra il prato non vola niente. I bozzoli della fossa sono rimasti
+      grigi sotto le foglie bruciate, e quest'anno dalla Culla le foglia-rossa non usciranno.
+
+      Tharn ha in braccio un mantello di cuoio arrotolato, con il collo di pelo bianco.
+
+      «Torneranno da altre radure, fra qualche anno» dice. «Il pelo l'ha lasciato lui sulla riva della fonte, e il
+      cuoio è del margine. Il Maestro ci ha soffiato sopra stamattina, e da adesso la Marea ci scivola sopra. Al
+      Circolo vuol dire che chi lo porta può entrare nella Culla.»
+
+      {origine accolito-del-velo} Al Festival delle Foglie Alate le hai viste uscire da un carro coperto di
+      cremisi. Quest'anno al Velo dovranno cercarle altrove.
+    opzioni:
+      - testo: "Prendere il mantello"
+        descrizione: "Il Circolo ringrazia così, una volta sola. La Culla, intanto, aspetta."
+        esito:
+          titolo: Il mantello della Culla
+          testo: |
+            Ti metti il mantello sulle spalle, e il collo bianco è caldo come se Arvel ci fosse ancora appoggiato.
+            Arvel chiude gli occhi sotto la quercia. Tharn resta a guardare il prato vuoto con i lupi seduti accanto,
+            e quando te ne vai è ancora lì.
+          effetti: { avventura.radura-spenta: 1, oggetto.avv-radura-spenta-mantello-della-culla: 1 }

@@ -1,0 +1,1474 @@
+# Avventura 10, «Le buche di Laresh»: la spedizione nelle gallerie delle zuccaiole (avventura.buche-laresh 5 → 6).
+# Si entra dalla buca grande sotto il pero del confine (`avv-buche-laresh-la-buca-del-pero`, presso Laresh), e la bocca
+# frana alle spalle di chi scende: la ritirata è una risalita da uno sfiatatoio, e riporta alla Superficie.
+# Fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0-2 (passi 1-3), la saliva: la galleria lucida, il pozzo colato, le spighe trascinate, la pozza grande. Prove Medie
+#       e Difficili; la cenere della striscia (avv-buche-laresh.cenere) spegne le pozze in due stanze.
+#   3-5 (passi 4-6), le larve che mangiano il ferro: la camera delle larve, la catena del pozzo, la galleria delle uova,
+#       le mute. Prove Difficili; la ferraglia di Ercole (avv-buche-laresh.ferraglia) in due stanze; la via senza prova
+#       costa due rintocchi, mezza negativa e un rotolo di bende (le larve mangiano le fibbie della bisaccia).
+#       La svolta a profondità 4 (il quinto passo, non ripetibile, avv-buche-laresh.svolta): il canto della colonia,
+#       con una fila di zuccaiole che scava verso il granaio di Casa Velar.
+#   6-9 (passi 7-10), le dispense: il grano, le bestie murate vive, la strettoia delle guardiane, il ferro. Prove
+#       Difficili e una Molto difficile o uno scontro per stanza; la via senza prova costa tre rintocchi. Il mazzuolo
+#       (avv-buche-laresh.mazzuolo) richiama le guardiane altrove. Nella stessa fascia, non ripetibile, Bice Gaddi
+#       murata viva in una dispensa (avv-buche-laresh.bice 1): libera, risale da uno sfiatatoio e ti lascia il verso
+#       della cote.
+#   10, il cuore: il nido sotto il pero, in due fasi (la regina nel nido con le larve, poi la regina che scava verso
+#       il campo). Combattimento o vie Difficili; chi perde o fallisce prende una negativa piena e torna alla Superficie.
+aree:
+  - id: avv-buche-laresh
+    immagine: ambientazione/regno-profondo
+    nome: Le gallerie del rio basso
+    sommario: "Sotto i due campi in fondo al rio basso le zuccaiole hanno scavato gallerie lucide di saliva, che scendono verso il nido sotto il pero."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      Le gallerie delle zuccaiole sono larghe quanto un vitello, e ci si
+      cammina piegati, con la lanterna bassa. Le pareti luccicano di saliva
+      seccata, stesa a strati come lo smalto su una pentola, e tengono su la
+      terra meglio di un muro. Dal soffitto pendono gambi di grano spezzati,
+      e sotto i piedi scricchiolano i chicchi caduti lungo la strada.
+
+      Ogni tanto, da qualche parte più in basso, comincia il canto, un
+      trillo lungo che fa vibrare la malta sotto le dita. Alle tue spalle,
+      da dove sei sceso, c'è soltanto terra franata.
+
+colonna:
+  - { contesto: area, id: avv-buche-laresh, musica: unsettling-paths, ambiente: mines }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, sotto il pero del confine
+  - id: avv-buche-laresh-la-buca-del-pero
+    presso: laresh
+    immagine: icone/dig-hole
+    titolo: La buca del pero
+    sommario: "Sotto il pero del confine si apre la buca più larga di tutte. Mezza Laresh è venuta a guardarti scendere."
+    luogo: Laresh, il pero del confine
+    area: superficie-fratturata
+    requisiti: [avventura.buche-laresh == 5]
+    testo: |
+      Sotto il pero del confine la buca grande scende di sbieco fra le
+      radici, abbastanza larga da farci passare un uomo carponi, e dal fondo
+      sale un'aria fresca che sa di cantina. Mezzo villaggio è venuto a
+      guardare dal bordo dei campi. Gisella ha fatto portare la corda del
+      pozzo e un secchio di braci per accendere le lanterne. Ercole tiene il
+      capo della corda arrotolato intorno al braccio, e Cahir dice che Cenere
+      più vicino di dieci passi non ci viene.
+
+      {tecnologia Media} Intorno alla bocca la terra è tenuta insieme dalla
+      saliva seccata, come da una malta. Sotto il primo braccio di malta c'è
+      terra sciolta, che appena la carichi viene giù.
+
+      «Se frana, scavo» dice Ercole. «Ho scavato pozzi più fondi di questo.»
+      Gisella non dice niente e si mette a tenere la corda dietro di lui.
+    opzioni:
+      - testo: "Calarti con la corda del pozzo"
+        descrizione: "La buca scende di sbieco, poi a picco. La terra sciolta è sotto la malta, e la malta finisce presto."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Media }
+        successo:
+          titolo: La bocca che si chiude
+          testo: |
+            Scendi con la corda fra le mani e i piedi contro la malta, finché
+            tocchi il fondo. Un attimo dopo la bocca della buca ti frana alle
+            spalle con un rumore morbido, come un sacco che si siede. La voce
+            di Ercole arriva attutita e poi più niente, e davanti a te la
+            galleria scende.
+          pe: { atletica: 2 }
+          vai: avv-buche-laresh
+        fallimento:
+          titolo: Sotto la frana
+          testo: |
+            A metà discesa la terra sciolta cede tutta insieme e ti porta giù
+            con sé. Arrivi in fondo coperto di terra fino al collo, e ti scavi
+            fuori con le mani, al buio, finché ritrovi la lanterna. La bocca
+            sopra di te non c'è più.
+          effetti: { ferite: 0.5 }
+          vai: avv-buche-laresh
+      - testo: "Prendere il ramo buono della buca"
+        descrizione: "La buca del pero ha due rami. Quello che scende verso il rio è il più vecchio, e la malta lo tiene."
+        requisiti: [avv-buche-laresh.galleria >= 1]
+        esito:
+          titolo: Il ramo verso il rio
+          testo: |
+            Scivoli nel ramo vecchio, quello che punta verso il rio, e la malta
+            regge sotto di te fino in fondo. Alle tue spalle la bocca frana lo
+            stesso, ma tu sei già nella galleria grande, asciutto, con la
+            lanterna accesa e la corda arrotolata in spalla.
+          vai: avv-buche-laresh
+      - testo: "Puntellare la bocca e scendere piano"
+        descrizione: "Con le tavole del fienile di Ercole e una mattinata di lavoro. Nessuno garantisce che le tavole bastino."
+        costo: 2
+        esito:
+          titolo: Le tavole del fienile
+          testo: |
+            Passi la mattina a puntellare la bocca con Ercole, tavola dopo tavola,
+            mentre Gisella vi passa i chiodi e vi dà dei lumaconi. A mezzogiorno
+            scendi piano, e quando tocchi il fondo le tavole cedono lo stesso e la
+            bocca frana. Hai una scheggia sotto l'unghia e la terra nei capelli.
+          effetti: { tormento: 0.5 }
+          vai: avv-buche-laresh
+      - testo: "Ascoltare la buca come un pozzo della Cicatrice"
+        descrizione: "In Cicatrice ti hanno insegnato a sentire una galleria prima di entrarci, e a non fidarti della terra che fa polvere."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: La terra che fa polvere
+          testo: |
+            Butti un sasso nella buca e conti, poi passi la mano sulla malta
+            finché la senti fredda. Dove la terra fa polvere non ti appoggi.
+            Scendi lungo la parete fredda, e la bocca ti frana alle spalle
+            quando hai già i piedi sul fondo, come avevi previsto.
+          pe: { atletica: 2 }
+          vai: avv-buche-laresh
+
+  # ------------------------------------------------------------ 0-2 · la galleria lucida
+  - id: avv-buche-laresh-la-galleria-lucida
+    immagine: icone/acid
+    titolo: La galleria lucida
+    sommario: "La galleria scende a spirale, con le pareti lucide di saliva. Sul fondo la saliva fresca fa pozze che fumano."
+    luogo: Le gallerie del rio basso, la spirale
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh <= 2]
+    testo: |
+      La galleria scende a spirale larga, e alla luce della lanterna le pareti
+      luccicano come l'interno di una tazza smaltata. Sul fondo della spirale
+      la saliva è fresca, e fa pozze grigie che fumano appena, una dopo
+      l'altra, con un odore d'aceto che punge gli occhi. Fra una pozza e
+      l'altra la malta vecchia forma dei gradini stretti e inclinati.
+
+      {acrobazia Media} Sui gradini ci sta mezzo piede. Se tieni il peso sulla
+      punta, la malta non ti scivola sotto.
+    opzioni:
+      - testo: "Scendere sui gradini di malta"
+        descrizione: "Gradini stretti e inclinati, con le pozze in mezzo."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: Mezzo piede
+          testo: |
+            Scendi sulle punte da un gradino all'altro, con la lanterna alta e
+            la mano libera aperta contro la parete. Le pozze fumano sotto di te
+            senza toccarti, e in fondo alla spirale la galleria torna dritta.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Lo stivale che fuma
+          testo: |
+            Un gradino ti si sbriciola sotto il tallone e metti il piede in una
+            pozza fino alla caviglia. Lo stivale comincia a fumare. Lo togli
+            risalendo la spirale, e la pelle sotto è rossa e lucida come una
+            cipolla sbucciata.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire quali pozze sono vecchie"
+        descrizione: "La saliva vecchia fa la crosta e regge il peso. Quella fresca no, e da lontano si somigliano."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Difficile }
+        successo:
+          titolo: Le croste
+          testo: |
+            Le pozze vecchie hanno la superficie opaca, con le grinze come la
+            panna sul latte, e non fumano più. Scendi la spirale camminando
+            soltanto su quelle, e la crosta scricchiola sotto gli stivali senza
+            rompersi.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: La crosta giovane
+          testo: |
+            Scegli una crosta che sembra vecchia, e sotto è fresca. Ci affondi
+            fino al polpaccio, e l'aceto ti morde attraverso il cuoio finché
+            non sei di nuovo in cima alla spirale.
+          effetti: { ferite: 0.5 }
+      - testo: "Spargere la cenere sulle pozze"
+        descrizione: "La cenere della striscia spegne la saliva. Basta averne abbastanza."
+        requisiti: [avv-buche-laresh.cenere >= 1]
+        esito:
+          titolo: Il selciato grigio
+          testo: |
+            Versi la cenere pozza dopo pozza, e la saliva sfrigola e si copre di
+            una schiuma grigia che indurisce in pochi momenti. Scendi la spirale
+            sulla schiuma come su un selciato, con gli stivali puliti.
+          effetti: { profondita.avv-buche-laresh: 1 }
+      - testo: "Passare dritto nelle pozze"
+        descrizione: "Gli stivali reggono un poco. Si va svelti, e si spera che bastino."
+        costo: 2
+        esito:
+          titolo: Di corsa
+          testo: |
+            Scendi la spirale di corsa, mettendo i piedi dove capita, e a ogni
+            pozza gli stivali fumano un po' di più. In fondo li strofini nella
+            terra asciutta finché smettono, e le dita dei piedi ti bruciano per
+            un pezzo.
+          effetti: { profondita.avv-buche-laresh: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · il pozzo colato
+  - id: avv-buche-laresh-il-pozzo-colato
+    immagine: icone/dripping-goo
+    titolo: Il pozzo colato
+    sommario: "Un pozzo scende dritto per tre altezze d'uomo. Dal bordo cola la saliva in fili lunghi."
+    luogo: Le gallerie del rio basso, il pozzo
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh <= 2]
+    testo: |
+      La galleria finisce sull'orlo di un pozzo che scende dritto per tre
+      altezze d'uomo. Le zuccaiole ci scendono a testa in giù, e sulle pareti
+      hanno lasciato due file di buchi per le zampe, come i pioli di una
+      scala storta. Dal bordo cola la saliva in fili lunghi, che si allungano
+      piano e si staccano, e sul fondo hanno fatto una pozza larga.
+
+      {tecnologia Facile} La malta di saliva, quando è secca, tiene un chiodo
+      meglio del legno di castagno.
+
+      Dal fondo il canto arriva più forte che in alto.
+    opzioni:
+      - testo: "Scendere per i buchi delle zampe"
+        descrizione: "Due file di buchi, abbastanza fondi per le dita. I fili di saliva cadono dove vogliono."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: I pioli storti
+          testo: |
+            Scendi con le dita nei buchi e la punta degli stivali in quelli
+            sotto, un piolo alla volta. A metà un filo ti cade sul collo e brucia,
+            e tu non molli. In fondo giri intorno alla pozza e trovi la galleria
+            che riparte.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: I palmi
+          testo: |
+            A metà un buco si sbriciola, e scivoli giù per l'ultimo tratto con i
+            palmi aperti contro la parete. Ti fermi sull'orlo della pozza con le
+            mani scorticate, e risali piano, perché di là non sai ancora
+            passare.
+          effetti: { ferite: 0.5 }
+      - testo: "Piantare il coltello nella malta e calarti"
+        descrizione: "Un coltello piantato, una cintura legata, un tratto di discesa. Poi si stacca il coltello e si ricomincia."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Media }
+        successo:
+          titolo: La cintura
+          testo: |
+            Pianti il coltello in un buco, ci leghi la cintura e ti cali per un
+            tratto. Poi lo stacchi e lo pianti più in basso, e la malta lo tiene
+            ogni volta come un ceppo. Arrivi in fondo con la cintura in mano e
+            i calzoni tenuti su da un pezzo di spago.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: La fibbia
+          testo: |
+            Il coltello tiene, e la fibbia della cintura si apre a metà discesa.
+            Fai l'ultimo tratto aggrappato alla parete, con la saliva che ti
+            cola fra le dita, e risali per ricominciare da capo.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare che i fili smettano di colare"
+        descrizione: "Prima o poi forse rallentano. Intanto si aspetta seduti sull'orlo, al buio."
+        costo: 2
+        esito:
+          titolo: Sotto la giacca
+          testo: |
+            I fili rallentano e basta, e dopo un'ora scendi lo stesso, con la
+            testa sotto la giacca e le mani nei buchi. Arrivi in fondo con la
+            giacca bucata in tre punti e il canto nelle orecchie, che non ti
+            lascia più.
+          effetti: { profondita.avv-buche-laresh: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · le spighe trascinate
+  - id: avv-buche-laresh-le-spighe-trascinate
+    immagine: icone/grain-bundle
+    titolo: Le spighe trascinate
+    sommario: "Una galleria coperta di paglia pestata, dove passano le zuccaiole con il grano. Una sta arrivando."
+    luogo: Le gallerie del rio basso, la strada del grano
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh <= 2]
+    testo: |
+      Qui il pavimento è coperto di paglia pestata e di chicchi sparsi, la
+      scia di tutto il grano che le zuccaiole hanno portato giù dai campi.
+      Sotto la paglia la saliva fa una poltiglia che si attacca agli stivali.
+      Da una galleria laterale arriva un fruscio lungo, di qualcosa che
+      trascina un peso, e una zuccaiola sbuca nella luce a dieci passi da te,
+      con una fascina di spighe fra le zampe. Si ferma.
+
+      {furtivita Media} Ogni venti passi la galleria ha una nicchia, dove le
+      zuccaiole si fermano a posare il carico. Una è alla tua sinistra.
+
+      {natura Difficile} Seguono la paglia come le formiche seguono la loro
+      strada. Fuori dalla scia per loro non c'è niente.
+    opzioni:
+      - testo: "Infilarti nella nicchia e lasciarla passare"
+        descrizione: "Una nicchia stretta, alla tua sinistra. La zuccaiola passerà a un palmo."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: A un palmo
+          testo: |
+            Ti schiacci nella nicchia con la lanterna sotto la giacca. La
+            zuccaiola passa trascinando le spighe, così vicina che la paglia ti
+            striscia sugli stivali, e sparisce in fondo. Tu prendi la galleria
+            da cui è venuta.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: La zampa nella nicchia
+          testo: |
+            Si ferma proprio davanti alla nicchia e ci infila una zampa, per
+            posare il carico. Ti graffia la coscia prima che tu riesca a
+            sgusciare fuori e a scappare dalla parte da cui eri venuto.
+          effetti: { ferite: 0.5 }
+      - testo: "Uscire dalla scia della paglia"
+        descrizione: "Lungo la parete di destra la paglia non c'è. Bisogna anche togliersi la poltiglia dagli stivali."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Fuori dalla strada
+          testo: |
+            Ti raschi gli stivali con il coltello e passi lungo la parete di destra,
+            sulla terra nuda. La zuccaiola ti passa accanto con le antenne basse
+            sulla paglia, e per lei sei un sasso come gli altri.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: La poltiglia
+          testo: |
+            Esci dalla scia, ma un po' di poltiglia sugli stivali ce l'hai
+            ancora, e la zuccaiola la segue fino a te. Torni indietro di corsa,
+            con la paglia che ti vola intorno.
+          effetti: { tormento: 0.5 }
+      - testo: "Affrontarla in mezzo alla paglia"
+        descrizione: "Ha le zampe occupate dal grano. Per poco."
+        combattimento: avv-buche-laresh-la-zuccaiola
+        vittoria:
+          titolo: Il grano per terra
+          testo: |
+            La zuccaiola molla le spighe e si gira, e la colpisci prima che
+            finisca di girarsi. Quando smette di muoversi scavalchi lei e la
+            fascina, e prosegui sulla paglia sparsa.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        sconfitta:
+          titolo: Le pale
+          testo: |
+            Le zampe dentate ti rovesciano nella paglia, e la zuccaiola
+            riprende la sua fascina e se ne va. Torni indietro zoppicando, con
+            la poltiglia fin dentro le maniche.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che passi tutto il grano"
+        descrizione: "Dietro la prima ne arrivano altre. Prima o poi la fila finisce."
+        costo: 2
+        esito:
+          titolo: Le fascine
+          testo: |
+            Resti fermo nella nicchia mentre passano le fascine, una zuccaiola
+            dopo l'altra, finché la paglia smette di frusciare. Quando esci hai
+            le gambe addormentate e gli stivali mangiati in punta.
+          effetti: { profondita.avv-buche-laresh: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · la pozza grande
+  - id: avv-buche-laresh-la-pozza-grande
+    immagine: icone/acid-blob
+    titolo: La pozza grande
+    sommario: "Una sala bassa che una pozza di saliva occupa quasi tutta. Sull'altra sponda c'è una lanterna con il fondo mangiato."
+    luogo: Le gallerie del rio basso, la pozza grande
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh <= 2]
+    testo: |
+      La galleria si allarga in una sala bassa, e una pozza di saliva grigia
+      la occupa quasi tutta, ferma, con una crosta sottile che fa le grinze
+      come il latte bollito. A mezza pozza affiorano le ossa pulite di una
+      lepre e il ferro di una zappa mangiato fino all'occhio del manico. Lungo
+      la parete corre una cengia di malta larga un palmo. Sull'altra sponda
+      c'è una lanterna da campo rovesciata, con il fondo d'ottone mangiato
+      come una forma di formaggio.
+
+      {percezione Media} Al manico della lanterna è legato un nastro rosso,
+      come quelli che le caposquadra mettono sugli attrezzi della squadra per
+      riconoscerli alla sera.
+    opzioni:
+      - testo: "Passare sulla cengia"
+        descrizione: "Un palmo di malta lungo la parete, e la pozza sotto."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Un palmo
+          testo: |
+            Passi sulla cengia con la schiena contro la parete e i talloni sul
+            vuoto, e dall'altra parte raddrizzi la lanterna di Bice prima di
+            proseguire. Il nastro rosso te lo leghi al polso.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Fino alla vita
+          testo: |
+            A metà la cengia si spacca sotto i tuoi piedi, e finisci nella
+            pozza fino alla vita. Ne esci arrancando dalla parte da cui eri
+            entrato, con i calzoni che fumano e la pelle che tira.
+          effetti: { ferite: 0.5 }
+      - testo: "Camminare sulla crosta dove è più spessa"
+        descrizione: "Le grinze sono più larghe dove la crosta è vecchia. Bisogna leggerle alla luce della lanterna."
+        prova: { attributo: mentale, abilita: [percezione, medicina], difficolta: Media }
+        successo:
+          titolo: Le grinze larghe
+          testo: |
+            Tieni la lanterna bassa e segui le grinze più larghe, che fanno
+            una strada storta fino all'altra sponda. La crosta cede di un dito
+            a ogni passo e poi regge. Dall'altra parte trovi la lanterna di
+            Bice, e ti leghi il suo nastro al polso.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Il piede nell'aceto
+          testo: |
+            Al quarto passo la crosta si apre sotto lo stivale, e ritiri il
+            piede appena in tempo per non lasciarci la suola. Torni indietro a
+            ritroso, con la crosta che si crepa dietro di te.
+          effetti: { ferite: 0.5 }
+      - testo: "Gettare la cenere sulla crosta"
+        descrizione: "Un sacco di cenere della striscia, buttato a manciate davanti ai piedi."
+        requisiti: [avv-buche-laresh.cenere >= 1]
+        esito:
+          titolo: La strada di cenere
+          testo: |
+            Butti la cenere a manciate davanti a te, e la crosta sfrigola e si
+            indurisce in una strada grigia. Arrivi all'altra sponda senza
+            bagnarti le suole, e raccogli la lanterna di Bice con il suo
+            nastro rosso.
+          effetti: { profondita.avv-buche-laresh: 1 }
+      - testo: "Fare il giro scavando nella parete"
+        descrizione: "La terra della parete è morbida. Con il coltello e con le mani si fa il giro della pozza, in molto tempo."
+        costo: 2
+        esito:
+          titolo: Il giro lungo
+          testo: |
+            Scavi una nicchia dopo l'altra nella parete, e ci passi
+            appiattito, con le unghie piene di terra. Ci metti tutto il tempo
+            di una mietitura. Arrivi dall'altra parte con le dita spaccate e la
+            lanterna di Bice da raccogliere.
+          effetti: { profondita.avv-buche-laresh: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-5 · la camera delle larve
+  - id: avv-buche-laresh-la-camera-delle-larve
+    immagine: icone/maggot
+    titolo: La camera delle larve
+    sommario: "Una camera tiepida piena di larve grosse come maialini. Alzano tutte la testa verso la lama che porti al fianco."
+    luogo: Le gallerie del rio basso, la camera delle larve
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 3, profondita.avv-buche-laresh <= 5]
+    testo: |
+      La camera è tiepida come una stalla d'inverno, e il pavimento si muove.
+      Sono larve bianche e molli, grosse come maialini da latte, con la testa
+      scura e dura e la bocca sempre in moto. Quando entri quelle più vicine
+      smettono di masticare e alzano la testa tutte insieme, puntate sulla
+      lama che porti al fianco. L'uscita sta dall'altra parte della camera,
+      dietro di loro.
+
+      {natura Difficile} Sono cieche. Il ferro lo sentono come un cane sente
+      la carne, e per un chiodo si arrampicano sulla gamba di chi lo porta.
+    opzioni:
+      - testo: "Passare in mezzo, piano"
+        descrizione: "Un passo alla volta, con la lama alta sopra la testa. Le larve sentono il ferro, e i chiodi degli stivali sono di ferro."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La lama alta
+          testo: |
+            Ti muovi un passo per volta con la lama sopra la testa, e le larve
+            la seguono con il muso senza capire dove sia. Arrivi all'uscita con
+            due larve aggrappate agli stivali, che ti scrolli di dosso nella
+            galleria.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: I chiodi della suola
+          testo: |
+            Una larva ti si attacca allo stivale e comincia a mangiare i chiodi
+            della suola, e un'altra le sale sopra. Torni indietro trascinandole,
+            e le stacchi con il coltello una alla volta.
+          effetti: { ferite: 0.5 }
+      - testo: "Lasciare il ferro in un angolo e passare a mani vuote"
+        descrizione: "Tutto il ferro in un mucchio, lontano dall'uscita. Poi si attraversa la camera senza niente."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: A mani vuote
+          testo: |
+            Posi il ferro nell'angolo più lontano, e le larve ci si ammucchiano
+            sopra. Passi in mezzo alle altre, che ti strusciano molli e tiepide
+            sulle caviglie. Quando torni a riprenderti la lama, sul taglio ci sono i
+            segni dei denti.
+          pe: { resilienza: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Le gambe
+          testo: |
+            A metà camera le larve ti salgono sulle gambe per i chiodi degli
+            stivali, e smetti di contare i passi. Torni indietro di corsa a
+            riprenderti la lama, prima che se la finiscano.
+          effetti: { tormento: 0.5 }
+      - testo: "Buttare la ferraglia di Ercole in fondo alla camera"
+        descrizione: "Chiodi storti e ferri di cavallo, tutti in un angolo. Le larve vanno al ferro."
+        requisiti: [avv-buche-laresh.ferraglia >= 1]
+        esito:
+          titolo: Ghiaia masticata
+          testo: |
+            Rovesci il sacco di Ercole nell'angolo più lontano, e la camera si
+            svuota verso il rumore. Mentre passi, dal mucchio di larve arriva un
+            rumore fitto e allegro, come di ghiaia masticata.
+          effetti: { profondita.avv-buche-laresh: 1 }
+      - testo: "Lasciare che si prendano la bisaccia"
+        descrizione: "Le larve mangiano le fibbie, e una bisaccia senza fibbie si apre. Le bende, se ne hai, restano per terra."
+        costo: 2
+        esito:
+          titolo: La bisaccia aperta
+          testo: |
+            Attraversi la camera e lasci che le larve ti salgano addosso. Ti
+            mangiano le fibbie della bisaccia finché si apre, e quello che porti per
+            medicarti finisce nella poltiglia del pavimento. Arrivi all'uscita con
+            la bisaccia che penzola e la pelle d'oca fino al collo.
+          effetti: { profondita.avv-buche-laresh: 1, bende: -1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3-5 · la catena del pozzo
+  - id: avv-buche-laresh-la-catena-del-pozzo
+    immagine: icone/crossed-chains
+    titolo: La catena del pozzo
+    sommario: "In mezzo alla galleria c'è la catena del pozzo di Ercole, mezza mangiata. Le larve ci stanno sopra a grappoli."
+    luogo: Le gallerie del rio basso, la galleria della catena
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 3, profondita.avv-buche-laresh <= 5]
+    testo: |
+      In mezzo alla galleria, stesa per terra come un serpente morto, c'è una
+      catena da pozzo lunga dieci braccia, con il secchio ancora attaccato a un
+      capo. È quella di Ercole. Le larve ci stanno sopra a grappoli e mangiano
+      gli anelli uno per uno, con un rumore fitto di denti sul ferro, e il
+      grappolo chiude la galleria da una parete all'altra. Oltre il grappolo
+      la galleria continua nel buio.
+
+      {atletica Difficile} Il capo del secchio è libero. Se tiri la catena,
+      il grappolo le viene dietro mangiando.
+    opzioni:
+      - testo: "Tirare la catena e portarti dietro le larve"
+        descrizione: "Dieci braccia di catena, con sopra un grappolo di larve che non la vuole mollare. Si tira all'indietro, verso la galleria laterale."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Il grappolo che segue
+          testo: |
+            Afferri il secchio e tiri all'indietro, un passo alla volta, e il
+            grappolo segue la catena senza smettere di mangiare. Quando la catena è
+            tutta nella galleria laterale la lasci andare, e torni di corsa per la
+            strada rimasta libera.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Gli anelli mangiati
+          testo: |
+            La catena pesa più di quanto credevi, e il grappolo non si sposta
+            di un palmo. Gli anelli mangiati tagliano come lame, e ti aprono la
+            pelle delle mani prima che tu molli.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare sopra il grappolo, appeso al soffitto"
+        descrizione: "Il soffitto è basso e la malta ha i buchi delle zampe. Le larve sentono il ferro anche dall'alto."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Sopra
+          testo: |
+            Ti appendi al soffitto con le dita nei buchi della malta e passi
+            sopra il grappolo a forza di braccia, con le ginocchia raccolte.
+            Sotto di te le larve alzano la testa tutte insieme e poi tornano
+            alla catena.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: In mezzo
+          testo: |
+            A metà ti cede la presa e cadi in mezzo al grappolo. Le larve ti
+            si attaccano alla fibbia e agli stivali, e ci vuole un pezzo prima
+            che tu riesca a strappartele di dosso e a tornare indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Spargere la ferraglia nella galleria da cui sei venuto"
+        descrizione: "Chiodi e ferri di cavallo dietro di te. Le larve li sentono, e la catena è già mezza mangiata."
+        requisiti: [avv-buche-laresh.ferraglia >= 1]
+        esito:
+          titolo: Il ferro nuovo
+          testo: |
+            Spargi la ferraglia di Ercole a manciate nella galleria alle tue
+            spalle, e il grappolo lascia la catena per il ferro nuovo. Lo
+            aspetti appiattito in una nicchia, e quando è passato riprendi la
+            strada sopra la catena.
+          effetti: { profondita.avv-buche-laresh: 1 }
+      - testo: "Lasciare che si prendano la bisaccia"
+        descrizione: "Una bisaccia con le fibbie di ferro, buttata in mezzo al grappolo per aprirsi un varco. Le bende che ci tieni andranno perse."
+        costo: 2
+        esito:
+          titolo: Il varco
+          testo: |
+            Butti la bisaccia in mezzo al grappolo, e le larve ci si avventano sopra
+            per le fibbie. Passi nel varco che si apre, e dall'altra parte riprendi
+            la bisaccia masticata, vuota a metà. Le bende, se ne avevi, sono rimaste
+            nella poltiglia.
+          effetti: { profondita.avv-buche-laresh: 1, bende: -1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3-5 · la galleria delle uova
+  - id: avv-buche-laresh-la-galleria-delle-uova
+    immagine: icone/egg-clutch
+    titolo: La galleria delle uova
+    sommario: "Nelle pareti ci sono nicchie, e in ogni nicchia un uovo grande come un pugno. Due nutrici le leccano una per una."
+    luogo: Le gallerie del rio basso, la galleria delle uova
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 3, profondita.avv-buche-laresh <= 5]
+    testo: |
+      La galleria corre fra due pareti bucherellate di nicchie, e in ogni
+      nicchia c'è un uovo bianco e lucido grande come un pugno, appoggiato su
+      un letto di paglia masticata. Due zuccaiole più piccole delle altre, di
+      un marrone chiaro, passano da una nicchia all'altra e leccano le uova a
+      una a una, con una cura da balie. Alla luce della lanterna qualche uovo
+      si muove da solo.
+
+      {medicina Difficile} Le nutrici riconoscono le uova dall'odore. Chi non
+      ha addosso l'odore del nido, per loro, è venuto a rubare.
+
+      {origine accolito-del-velo} Le nutrici leccano le uova con lo stesso
+      gesto con cui al Velo si pulivano i vasi dell'altare, uno per uno,
+      senza mai saltarne uno.
+    opzioni:
+      - testo: "Passare quando le nutrici sono girate"
+        descrizione: "Ogni tanto infilano la testa nelle nicchie della stessa parete. La galleria è stretta, e le uova sporgono."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Il gomito
+          testo: |
+            Aspetti che le nutrici infilino la testa in due nicchie della
+            stessa parete e passi radente all'altra, con il gomito a un dito
+            dalle uova. In fondo alla galleria ti volti, e loro stanno ancora
+            leccando.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: L'uovo per terra
+          testo: |
+            Il gomito urta un uovo, che rotola fuori dalla nicchia e si spacca
+            sul pavimento. Le nutrici si girano tutte e due con un fischio acuto
+            e ti rincorrono fino alla galleria da cui eri entrato.
+          effetti: { ferite: 0.5 }
+      - testo: "Sporcarti con la paglia delle nicchie"
+        descrizione: "La paglia masticata sa di nido. Strofinata su mani e collo, forse basta a confondere le nutrici."
+        prova: { attributo: mentale, abilita: [natura, medicina], difficolta: Difficile }
+        successo:
+          titolo: L'odore del nido
+          testo: |
+            Prendi una manciata di paglia da una nicchia vuota e te la strofini
+            sulle mani e sul collo. Puzza di latte inacidito. Le nutrici ti
+            annusano al passaggio, con le antenne che ti toccano la faccia, e
+            poi tornano alle uova.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: L'uovo marcio
+          testo: |
+            La paglia che prendi viene da una nicchia dove un uovo è marcito, e
+            le nutrici ti scacciano come si scaccia una cosa morta dal nido.
+            Torni indietro con la puzza addosso, e non se ne va.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare che la covata si prenda la bisaccia"
+        descrizione: "Una fila di uova si sta aprendo. Le larvine appena nate cercano ferro, e la bisaccia ne ha. Le bende che ci tieni andranno perse."
+        costo: 2
+        esito:
+          titolo: La covata
+          testo: |
+            Mentre passi una fila di uova si schiude, e le larvine ti salgono
+            addosso, piccole come dita, in cerca di ferro. Ti mangiano le fibbie
+            della bisaccia, e le bende, se ne avevi, cadono nelle nicchie. Le
+            nutrici sono troppo occupate con la covata per guardarti.
+          effetti: { profondita.avv-buche-laresh: 1, bende: -1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3-5 · le mute
+  - id: avv-buche-laresh-le-mute
+    immagine: icone/beetle-shell
+    titolo: Le mute
+    sommario: "Dal soffitto pendono le pelli vuote delle larve diventate adulte. Una è ancora piena, e si sta aprendo sulla schiena."
+    luogo: Le gallerie del rio basso, la galleria delle mute
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 3, profondita.avv-buche-laresh <= 5]
+    testo: |
+      Dal soffitto della galleria pendono le mute, le pelli vuote delle larve
+      diventate zuccaiole, appese per le zampe come giacche ad asciugare. Sono
+      trasparenti e secche, e al passaggio della lanterna frusciano. A metà
+      galleria ce n'è una ancora piena. Le si è aperta sulla schiena una
+      fessura lunga, e dalla fessura sta uscendo una zuccaiola nuova e ancora
+      molle, bianca come il lardo, con le zampe da scavo ancora ripiegate
+      sulla pancia.
+
+      {armi-da-mischia Media} Così molle una lama la passa da parte a parte.
+      Fra un'ora avrà il guscio duro come le altre, e una fame da muta.
+    opzioni:
+      - testo: "Colpirla prima che il guscio si indurisca"
+        descrizione: "È molle, ma è grande come le altre, e appena nata."
+        combattimento: avv-buche-laresh-la-zuccaiola
+        vittoria:
+          titolo: La muta vuota
+          testo: |
+            La colpisci mentre ha ancora le zampe ripiegate, e la zuccaiola
+            nuova ricade dentro la sua muta. Passi sotto le pelli appese, che
+            frusciano tutte insieme, e prosegui.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        sconfitta:
+          titolo: La prima fame
+          testo: |
+            Il guscio le si indurisce mentre combattete, e alla fine la
+            zuccaiola nuova ti caccia indietro a colpi di zampa. Torni da dove
+            sei venuto, con le mute che ti si attaccano ai capelli.
+          effetti: { tormento: 0.5 }
+      - testo: "Passarle accanto in mezzo alle mute"
+        descrizione: "Le pelli appese nascondono chi ci cammina in mezzo, finché frusciano."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Fra le giacche
+          testo: |
+            Passi fra le mute di sbieco, scostandole con il dorso della mano
+            una alla volta come tende. La zuccaiola nuova gira la testa molle
+            verso il fruscio, e intanto tu sei già oltre.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Le mute addosso
+          testo: |
+            Una fila di mute si stacca dal soffitto e ti cade addosso, e ci
+            resti impigliato come in una rete. La zuccaiola nuova si libera
+            dalla sua pelle in quel momento. Torni indietro strappandoti le
+            mute di dosso.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciarle la bisaccia da masticare"
+        descrizione: "Una zuccaiola appena nata ha fame di tutto. La bisaccia ha le fibbie, e dentro le bende."
+        costo: 2
+        esito:
+          titolo: La prima cena
+          testo: |
+            Le getti la bisaccia sotto il muso, e la zuccaiola nuova ci affonda le
+            mandibole ancora molli. Passi mentre mastica. Dall'altra parte riprendi
+            la bisaccia senza più fibbie, e senza le bende, se ce n'erano.
+          effetti: { profondita.avv-buche-laresh: 1, bende: -1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ svolta a profondità 4 · il canto
+  - id: avv-buche-laresh-il-canto
+    immagine: icone/sound-waves
+    titolo: Il canto
+    sommario: "Tutta la colonia comincia a cantare insieme. Le gallerie si riempiono di zuccaiole che scendono in fila verso il nido."
+    luogo: Le gallerie del rio basso, l'incrocio
+    area: avv-buche-laresh
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh == 4, avv-buche-laresh.svolta == 0]
+    testo: |
+      Sei a un incrocio di quattro gallerie quando comincia. Il trillo parte
+      da molto lontano sotto di te, e un attimo dopo lo riprendono tutte le
+      zuccaiole del nido, da tutte le pareti. La malta ti vibra sotto le mani
+      e la fiamma della lanterna trema. Dalle gallerie in alto scendono le
+      zuccaiole in file ordinate, ognuna con le antenne sulla coda di quella
+      davanti, e vanno tutte nella stessa direzione, giù.
+
+      Una fila sola va dall'altra parte. Sale per una galleria fresca, scavata
+      da poco, che punta verso ovest, sotto il filare dei gelsi.
+
+      {politica-ed-economia Media} Oltre i gelsi, verso ovest, c'è il granaio
+      di Casa Velar, con tutto il raccolto dei campi salvati. Una colonia
+      cresciuta con il grano di due campi, fra un mese, ha bisogno di un
+      granaio.
+
+      Le prime file ti arrivano addosso. *Il canto è per la regina, e quando
+      lei canta il nido le va incontro.* Hai pochi passi di vantaggio.
+    opzioni:
+      - testo: "Infilarti in una nicchia e lasciarle passare"
+        descrizione: "Le file sono fitte, e le nicchie sono fatte per una zuccaiola. Bisogna starci dentro senza farsi toccare."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Le file
+          testo: |
+            Ti schiacci in una nicchia con la lanterna spenta sotto la giacca, e
+            le file ti passano davanti per un tempo lunghissimo, antenne su
+            coda. Quando il canto si ferma riaccendi la lanterna e segui
+            l'ultima, a distanza, giù verso il nido.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.svolta: 1 }
+        fallimento:
+          titolo: La zampa nella nicchia
+          testo: |
+            Una zuccaiola della fila ti sfiora con un'antenna, e si ferma. Ti
+            colpisce di zampa dentro la nicchia, alla cieca, finché non scappi
+            per la galleria da cui eri venuto, con il canto che ti insegue.
+          effetti: { ferite: 0.5 }
+      - testo: "Contare le file e capire dove vanno"
+        descrizione: "Tante file e quattro gallerie. La regina sta dove vanno quasi tutte, e il guaio dove va l'ultima."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Difficile }
+        successo:
+          titolo: Il pero e i gelsi
+          testo: |
+            Le conti con le labbra, galleria per galleria. Tutte le file
+            scendono verso il pero del confine, tranne quella dei gelsi, che
+            sale ogni volta più lunga. La regina è sotto il pero, e il granaio
+            della Dama ha ancora qualche settimana. Segui le file verso il
+            basso.
+          pe: { percezione: 3 }
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.svolta: 1 }
+        fallimento:
+          titolo: Il canto in testa
+          testo: |
+            Perdi il conto alla terza fila, e il canto ti entra nella testa e
+            ci resta. Ti ritrovi a battere il piede a tempo con le zuccaiole e
+            torni indietro prima di metterti in fila anche tu.
+          effetti: { tormento: 0.5 }
+      - testo: "Battere il mazzuolo contro la parete dei gelsi"
+        descrizione: "Le zuccaiole vanno dove la terra trema. Tre colpi nella galleria che sale, e la fila dei gelsi torna indietro."
+        requisiti: [avv-buche-laresh.mazzuolo >= 1]
+        esito:
+          titolo: Tre colpi
+          testo: |
+            Batti tre colpi di mazzuolo nella galleria dei gelsi, e la fila che
+            saliva si ferma e torna indietro, giù dietro alle altre. Ne batti altri
+            tre più in basso, per buona misura. Poi segui il canto verso il nido, e
+            la galleria dei gelsi resta vuota alle tue spalle.
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.svolta: 1 }
+      - testo: "Buttarti a terra e lasciarle passare sopra"
+        descrizione: "Una zuccaiola cammina su tutto quello che è per terra. Anche su di te, se stai fermo."
+        costo: 2
+        esito:
+          titolo: Sotto le zampe
+          testo: |
+            Ti stendi a faccia in giù contro la parete, e le file ti passano
+            sopra la schiena, zampa dopo zampa, per tutta la durata del canto.
+            Quando finisce ti alzi con la giacca a brandelli, e segui l'ultima
+            fila verso il basso.
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.svolta: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · la dispensa del grano
+  - id: avv-buche-laresh-la-dispensa-del-grano
+    immagine: icone/wheat
+    titolo: La dispensa del grano
+    sommario: "Una sala con le pareti fatte di covoni, murati nella saliva. Fra le file passano due guardiane."
+    luogo: Le gallerie del rio basso, la dispensa del grano
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 6, profondita.avv-buche-laresh <= 9]
+    testo: |
+      La dispensa è una sala lunga e bassa con le pareti fatte di covoni. Le
+      zuccaiole li hanno pressati uno sull'altro e murati con la saliva spiga
+      contro spiga. Qui c'è il grano di tutte le notti del rio basso, insieme
+      a quello dei campi della Dama più vicini. Fra le pareti di covoni
+      passano due guardiane, più grosse delle altre, con la testa larga e due
+      mandibole che sporgono come cesoie. Vanno avanti e indietro con lo
+      stesso passo, senza fermarsi.
+
+      {percezione Difficile} Le guardiane si incrociano sempre a metà sala, e
+      per il tempo di due passi si danno le spalle.
+    opzioni:
+      - testo: "Affrontare le guardiane"
+        descrizione: "Sono due, con mandibole come cesoie. Fra i covoni non c'è spazio per girare intorno."
+        combattimento: avv-buche-laresh-le-guardiane
+        vittoria:
+          titolo: Le cesoie ferme
+          testo: |
+            La seconda guardiana cade contro una parete di covoni e ci resta
+            appoggiata, con le mandibole aperte. Attraversi la dispensa con la
+            lama ancora alzata e il grano di Gisella che ti piove addosso dalle
+            pareti.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        sconfitta:
+          titolo: Le cesoie
+          testo: |
+            Le mandibole ti prendono la gamba e ti trascinano fuori dalla
+            dispensa, e la guardiana ti lascia andare sulla soglia come si
+            lascia un sacco vuoto. Torni indietro zoppicando.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare quando si danno le spalle"
+        descrizione: "Due passi di tempo, a metà sala. Poi bisogna essere già dall'altra parte dei covoni."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Due passi
+          testo: |
+            Aspetti l'incrocio in un varco fra i covoni, e quando si danno le
+            spalle attraversi la sala in due passi lunghi. Ti infili nel varco
+            di fronte con il cuore che batte fin dentro le orecchie, e le
+            guardiane riprendono il giro.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Il covone che cade
+          testo: |
+            Al secondo passo urti un covone, che si stacca dalla parete e cade.
+            Le guardiane si girano insieme. Scappi indietro con una mandibola
+            che ti strappa la giacca e un pezzo della spalla.
+          effetti: { ferite: 1 }
+      - testo: "Battere il mazzuolo in fondo alla sala"
+        descrizione: "Le guardiane vanno dove la terra trema. Basta battere da una parte e passare dall'altra."
+        requisiti: [avv-buche-laresh.mazzuolo >= 1]
+        esito:
+          titolo: Il richiamo
+          testo: |
+            Batti il mazzuolo contro una parete di covoni in fondo alla sala, e
+            le guardiane ci corrono incontro con le mandibole aperte. Quando
+            arrivano tu sei già dall'altra parte, e loro stanno ancora
+            tagliando la paglia dove battevi.
+          effetti: { profondita.avv-buche-laresh: 1 }
+      - testo: "Scavarti un passaggio dentro i covoni"
+        descrizione: "Le pareti sono di grano. Con le mani e con il coltello ci si passa dentro, in molto tempo."
+        costo: 3
+        esito:
+          titolo: Dentro il grano
+          testo: |
+            Scavi nei covoni a forza di mani, sfilando le spighe una manciata
+            alla volta, e passi dentro la parete mentre le guardiane fanno il
+            loro giro dall'altra parte della paglia. Esci con le mani tagliate
+            dalle reste e il grano fin dentro le orecchie.
+          effetti: { profondita.avv-buche-laresh: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · la dispensa delle bestie
+  - id: avv-buche-laresh-la-dispensa-delle-bestie
+    immagine: icone/spider-web
+    titolo: La dispensa delle bestie
+    sommario: "Contro le pareti stanno le bestie prese nei campi, murate nella saliva fino al collo. Sono vive."
+    luogo: Le gallerie del rio basso, la dispensa delle bestie
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 6, profondita.avv-buche-laresh <= 9]
+    testo: |
+      In questa dispensa le zuccaiole tengono le bestie. Contro le pareti
+      stanno una capra e un vitello rossiccio, murati nella saliva seccata
+      fino al collo, con la testa fuori, e più in là un cane da pastore. Sono
+      vivi. Gli occhi seguono la lanterna, e il vitello muggisce piano quando
+      gli passi davanti. Il pavimento è una crosta sottile che scricchiola, e
+      sotto la crosta si sente muoversi qualcosa.
+
+      {medicina Media} Sono svegli e non possono muoversi. La saliva li tiene
+      fermi e li tiene vivi, come la cantina tiene il latte.
+
+      {origine fuggiasco-di-ghoran} Nei recinti di Ghoran le bestie da
+      combattimento stavano legate corte, con la testa fuori dalla stia finché
+      servivano, e guardavano con gli stessi occhi.
+    opzioni:
+      - testo: "Attraversare la crosta senza sfondarla"
+        descrizione: "È sottile come il ghiaccio di una pozzanghera. Sotto, qualcosa aspetta che si rompa."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Molto difficile }
+        successo:
+          titolo: La crosta che regge
+          testo: |
+            Attraversi la dispensa sulle punte dei piedi allargando il peso, e la
+            crosta scricchiola sotto ogni passo senza aprirsi. Il vitello ti guarda
+            andare fino all'ultimo, e tu dall'altra parte non ti volti.
+          pe: { acrobazia: 4 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: La fossa sotto
+          testo: |
+            La crosta si sfonda sotto il tallone, e sotto c'è una fossa piena di
+            larve. Ti si attaccano alla gamba fino al ginocchio prima che tu
+            riesca a tirarla fuori, e le stacchi una a una, tornando indietro.
+          effetti: { ferite: 1 }
+      - testo: "Camminare sul bordo dei bozzoli, lungo la parete"
+        descrizione: "La saliva che tiene le bestie è dura e spessa. Ci si cammina sopra, accanto alle loro teste."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Accanto alle teste
+          testo: |
+            Sali sul bordo dei bozzoli e cammini lungo la parete, con i piedi a
+            un palmo dalle teste delle bestie. La capra ti annusa la caviglia.
+            Scendi dall'altra parte senza aver toccato la crosta.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Il cane
+          testo: |
+            Metti il piede sul bozzolo del cane. Il cane guaisce, e al guaito la
+            crosta sotto di te si muove. Torni indietro saltando da un bozzolo
+            all'altro, e il cane continua a guaire dopo che sei uscito.
+          effetti: { tormento: 1 }
+      - testo: "Rompere la crosta un passo alla volta"
+        descrizione: "Con il tacco, piano, guardando che cosa c'è sotto prima di mettere il piede. Ci vuole molto."
+        costo: 3
+        esito:
+          titolo: Un passo alla volta
+          testo: |
+            Rompi la crosta con il tacco, guardi sotto, schiacci le larve che
+            vengono su e fai un passo. Poi ricominci. Ci metti ore, e il vitello
+            muggisce ogni volta che la crosta si rompe.
+          effetti: { profondita.avv-buche-laresh: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · la strettoia delle guardiane
+  - id: avv-buche-laresh-la-strettoia-delle-guardiane
+    immagine: icone/pincers
+    titolo: La strettoia delle guardiane
+    sommario: "Una galleria stretta, con due guardiane ferme a fare da tappo. Dietro di loro arriva il canto del nido."
+    luogo: Le gallerie del rio basso, la strettoia
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 6, profondita.avv-buche-laresh <= 9]
+    testo: |
+      La galleria si stringe fino a lasciar passare una zuccaiola sola, e in
+      quel punto ce ne sono due, ferme una dietro l'altra, con le teste larghe
+      verso di te e le mandibole aperte. Sono guardiane, e tengono il
+      passaggio come un tappo tiene una botte. Da dietro di loro arriva il
+      canto del nido, e l'aria sa di latte acido.
+
+      {intimidire Media fallita} Le guardi come si guardano i buttafuori del
+      Grifone, e loro ti rispondono con gli occhi di un insetto, che non hanno
+      niente da rispondere.
+
+      {atletica Difficile} Sopra le guardiane il soffitto sale, e la malta ha
+      i buchi delle zampe fino in cima.
+    opzioni:
+      - testo: "Affrontare le guardiane nella strettoia"
+        descrizione: "Due mandibole a cesoia, una dietro l'altra. Nella strettoia si combatte con una sola, finché cade."
+        combattimento: avv-buche-laresh-le-guardiane
+        vittoria:
+          titolo: Il tappo saltato
+          testo: |
+            La prima guardiana cade di traverso nella strettoia, e la seconda
+            deve scavalcarla per arrivarti addosso. È lì che la prendi. Passi
+            sopra tutte e due, verso il canto.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        sconfitta:
+          titolo: Fuori dalla strettoia
+          testo: |
+            Le cesoie ti prendono il braccio della lama e ti spingono indietro fino
+            all'incrocio. Lì le guardiane si fermano, poi tornano al loro posto
+            senza fretta.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare sopra di loro, lungo il soffitto"
+        descrizione: "I buchi delle zampe salgono fino in cima. Dall'alto le guardiane hanno le teste girate dall'altra parte."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Molto difficile }
+        successo:
+          titolo: Sopra le cesoie
+          testo: |
+            Sali per i buchi fino al soffitto e passi sopra le guardiane a forza
+            di dita, con la pancia contro la malta. Una alza le antenne verso di
+            te e le riabbassa. Ti lasci cadere dall'altra parte, già lontano
+            dalle mandibole.
+          pe: { atletica: 4 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: Fra le mandibole
+          testo: |
+            Un buco cede proprio sopra la seconda guardiana, e le cadi davanti.
+            Le mandibole si chiudono un attimo dopo che hai rotolato via, e
+            quello che prendono è soltanto la tua manica. Scappi indietro con il
+            braccio sanguinante.
+          effetti: { ferite: 1 }
+      - testo: "Battere il mazzuolo in una galleria laterale"
+        descrizione: "Una guardiana lascia il posto per controllare. Due, se il colpo è quello giusto."
+        requisiti: [avv-buche-laresh.mazzuolo >= 1]
+        esito:
+          titolo: Il posto vuoto
+          testo: |
+            Batti il mazzuolo in fondo a una galleria laterale e torni di
+            corsa alla strettoia. Le guardiane sono andate tutte e due a vedere,
+            e passi dove stavano loro.
+          effetti: { profondita.avv-buche-laresh: 1 }
+      - testo: "Aspettare il cambio della guardia"
+        descrizione: "Prima o poi qualcuno le sostituisce. Bisogna stare fermi al buio finché succede."
+        costo: 3
+        esito:
+          titolo: Il cambio
+          testo: |
+            Aspetti al buio, seduto contro la parete, finché arrivano due guardiane
+            nuove e le vecchie se ne vanno. Nel momento in cui si incrociano la
+            strettoia resta libera per un battito, e ci passi con le gambe che non
+            senti più.
+          effetti: { profondita.avv-buche-laresh: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · la dispensa del ferro
+  - id: avv-buche-laresh-la-dispensa-del-ferro
+    immagine: icone/pitchfork
+    titolo: La dispensa del ferro
+    sommario: "Il ferro rubato ai campi, ammucchiato per le larve. Sul mucchio dorme una zuccaiola grossa come un bue."
+    luogo: Le gallerie del rio basso, la dispensa del ferro
+    area: avv-buche-laresh
+    ripetibile: true
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 6, profondita.avv-buche-laresh <= 9]
+    testo: |
+      In fondo a una galleria laterale c'è la dispensa del ferro, quella per
+      le larve. In mezzo alla sala c'è un mucchio alto quanto un uomo di
+      vomeri e zappe ancora sporchi di terra, tutto il metallo rubato ai campi
+      intorno. In cima c'è mezzo vomere con il taglio mangiato a mezzelune,
+      quello di Ercole. Sopra il mucchio dorme una zuccaiola grossa come un
+      bue, arrotolata, con le zampe da scavo strette intorno al ferro come un
+      avaro intorno alla borsa. L'uscita è dietro di lei.
+
+      {tecnologia Media} In basso, fra le zappe, c'è un guscio di metallo liscio
+      grande come un pane, di quelli che gli aratri di Laresh trovano ogni
+      tanto nei campi. Le larve non l'hanno nemmeno graffiato.
+    opzioni:
+      - testo: "Svegliarla e affrontarla"
+        descrizione: "È più grossa delle altre e difende il suo mucchio. Una volta sveglia, non lo lascia."
+        combattimento: avv-buche-laresh-la-zuccaiola-del-ferro
+        vittoria:
+          titolo: Il mucchio
+          testo: |
+            La zuccaiola rotola giù dal mucchio con un rumore di pentole, e non
+            si rialza. Prima di proseguire frughi fra le zappe e tiri fuori il
+            guscio di metallo liscio, che pesa come un sasso di fiume.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1, reperto.sigillato: 1 }
+        sconfitta:
+          titolo: Il ferro che suona
+          testo: |
+            La zuccaiola ti scaraventa contro il mucchio, e il ferro ti crolla
+            addosso con un fracasso che si sente in tutto il nido. Ti tiri fuori
+            dalle zappe e scappi da dove sei venuto.
+          effetti: { tormento: 0.5 }
+      - testo: "Girare intorno al mucchio senza farlo suonare"
+        descrizione: "Un vomere che scivola basta a svegliarla. La strada passa fra il mucchio e la parete."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Senza un suono
+          testo: |
+            Passi fra il mucchio e la parete di fianco, con la lanterna chiusa
+            e una mano sul ferro per tenerlo fermo. La zuccaiola si muove nel
+            sonno, stringendo le zampe. Quando arrivi all'uscita il ferro non ha
+            fatto un suono.
+          pe: { furtivita: 4 }
+          effetti: { profondita.avv-buche-laresh: 1 }
+        fallimento:
+          titolo: La zappa
+          testo: |
+            Una zappa scivola giù dal mucchio e batte sulla pietra, e la
+            zuccaiola apre gli occhi. Scappi da dove sei venuto con lei che ti
+            insegue per un pezzo, e poi torna a dormire sul suo ferro.
+          effetti: { ferite: 1 }
+      - testo: "Strisciare sotto il mucchio, fra le zappe"
+        descrizione: "Sotto il mucchio c'è uno spazio, fra i manici. È stretto e il ferro sopra pesa."
+        costo: 3
+        esito:
+          titolo: Sotto il ferro
+          testo: |
+            Strisci sotto il mucchio sulla pancia, fra i manici delle zappe,
+            con il ferro che scricchiola sopra la tua schiena. Ci metti un'ora
+            per dieci passi. Esci dall'altra parte con i gomiti scorticati e il
+            sudore freddo.
+          effetti: { profondita.avv-buche-laresh: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 6-9 · la caposquadra (una volta sola)
+  - id: avv-buche-laresh-la-caposquadra
+    immagine: icone/leather-boot
+    titolo: La caposquadra
+    sommario: "In una dispensa piccola, murata nella saliva fino al petto, Bice Gaddi canta la canzone della spiga con la voce che le resta."
+    luogo: Le gallerie del rio basso, la dispensa piccola
+    area: avv-buche-laresh
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 6, profondita.avv-buche-laresh <= 9, avv-buche-laresh.bice == 0]
+    testo: |
+      La voce la senti prima della luce. È rauca e stonata, e canta la canzone
+      della spiga ricominciando sempre dalla stessa strofa. In una dispensa
+      piccola, accanto a una capra murata che non bela più, c'è Bice Gaddi,
+      chiusa nella saliva seccata fino al petto, con le braccia dentro e la
+      testa fuori. È piccola e asciutta, con i capelli grigi tagliati corti
+      come un ragazzo, e quando la lanterna le arriva in faccia smette di
+      cantare.
+
+      «Uno stivale l'ho perso sopra» dice. «L'altro me l'hanno mangiato
+      addosso, e il piede c'è ancora.» Ha le labbra spaccate e parla piano,
+      per risparmiare la voce. «Quando cantano tutte passano a guardarmi.
+      Fate presto.»
+
+      {medicina Difficile} La crosta le stringe le costole. Se si rompe
+      storta, i pezzi le entrano nella carne.
+
+      {empatia Media} Ha cantato per tre giorni per non addormentarsi. Adesso
+      che c'è qualcuno, ha paura di smettere.
+    opzioni:
+      - testo: "Romperle la crosta con l'impugnatura della lama"
+        descrizione: "Colpi brevi, sempre nello stesso punto, finché si apre una crepa. Troppo forte, e la crosta le entra nel fianco."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il guscio rotto
+          testo: |
+            Batti la crosta con l'impugnatura, piano, sempre nello stesso punto,
+            finché si apre in una crepa e Bice ne esce come da un guscio d'uovo.
+            Mentre le dai da bere ti racconta che nel fosso affilava la falce, e la
+            bestia si è fermata ad ascoltare la cote. «Fa il loro verso» dice. Poi
+            s'infila in uno sfiatatoio troppo stretto per te, e sale verso la luce.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.bice: 1 }
+        fallimento:
+          titolo: La crepa storta
+          testo: |
+            La crosta si spacca storta, e un pezzo le entra nel fianco. Bice
+            stringe i denti e ti dice di andare a cercare qualcosa di meglio di
+            quella lama e di tornare. Quando esci dalla dispensa ricomincia a
+            cantare.
+          effetti: { tormento: 0.5 }
+      - testo: "Ammorbidire la crosta con l'acqua della borraccia"
+        descrizione: "La saliva seccata con l'acqua torna molle, piano. Bisogna sapere dove versarla."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Difficile }
+        successo:
+          titolo: La crosta molle
+          testo: |
+            Versi l'acqua a filo lungo le spalle di Bice, e la crosta torna molle
+            come pane bagnato. La tiri via a pezzi, e lei esce da sola. Beve
+            l'ultima acqua, ti racconta della cote e della bestia che si è
+            fermata ad ascoltarla, e sale per uno sfiatatoio dove tu non passi.
+          pe: { medicina: 3 }
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.bice: 1 }
+        fallimento:
+          titolo: L'acqua sbagliata
+          testo: |
+            L'acqua scioglie la crosta dalla parte sbagliata, e la saliva molle
+            le cola sul collo e brucia. Bice ti manda via con un'occhiata, e tu
+            esci con la borraccia vuota e la sua voce che ricomincia la strofa.
+          effetti: { tormento: 0.5 }
+      - testo: "Sciogliere la crosta con la cenere"
+        descrizione: "La cenere della striscia spegne la saliva. Seccata o no, la crosta è sempre saliva."
+        requisiti: [avv-buche-laresh.cenere >= 1]
+        esito:
+          titolo: La cenere sulle spalle
+          testo: |
+            Le spargi la cenere sulle spalle e sul petto, e la crosta sfrigola e
+            si sbriciola come gesso vecchio. Bice ne esce tossendo. Ti racconta
+            della cote e della bestia che si è fermata ad ascoltarla, poi sale
+            per uno sfiatatoio dove tu non passi.
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.bice: 1 }
+      - testo: "Scavarla fuori con le mani"
+        descrizione: "Un'unghia di crosta alla volta, senza attrezzi. Le mani le perdi tu."
+        costo: 3
+        esito:
+          titolo: Le unghie
+          testo: |
+            Gratti la crosta con le unghie e con la punta del coltello, un
+            pezzetto alla volta, mentre Bice canta per tenerti compagnia. Ci
+            metti ore. Lei esce, ti dice della cote e della bestia che si è
+            fermata ad ascoltarla, e sale per uno sfiatatoio.
+          effetti: { profondita.avv-buche-laresh: 1, avv-buche-laresh.bice: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore, prima fase · il nido
+  - id: avv-buche-laresh-il-nido
+    immagine: icone/insect-jaws
+    titolo: Il nido
+    sommario: "Sotto il pero del confine le gallerie finiscono in una camera a cupola, e al centro della camera c'è la regina."
+    luogo: Le gallerie del rio basso, il nido sotto il pero
+    area: avv-buche-laresh
+    requisiti: [avventura.buche-laresh == 5, profondita.avv-buche-laresh >= 10]
+    testo: |
+      L'ultima galleria sale e sbuca in una camera a cupola grande quanto
+      l'aia di Casa Velar. Dal soffitto scendono le radici del pero, grosse
+      come gambe. Le pareti sono un favo di celle scavate nella malta, a
+      migliaia, ognuna con un uovo o una larva. Il canto, qui, viene dal
+      centro della camera.
+
+      Al centro c'è la regina. Ha la testa e le zampe da scavo di una
+      zuccaiola, ma grandi tre volte, e dietro si trascina un addome gonfio e
+      pallido come un otre pieno, lungo fino alla parete, che pulsa piano. A
+      ogni pulsazione ne esce un uovo, e una nutrice lo porta via. Davanti
+      alla bocca ha due mandibole nere e curve, lunghe come un avambraccio,
+      lucide come unghie.
+
+      Intorno a lei le uova si schiudono una dopo l'altra, e le larve appena
+      nate strisciano verso la tua lanterna.
+
+      {armi-da-mischia Difficile} Fra la testa e il guscio del dorso c'è una
+      piega di pelle chiara, che si apre quando lei gira la testa, e una lama
+      ci entra senza trovare guscio.
+
+      Quando entri il canto si ferma tutto insieme, e la regina gira la testa
+      verso di te.
+
+      {origine allievo-di-torvessa} All'Accademia hai sentito dire che una
+      colonia ha una madre sola, e che senza la madre si disfa in una stagione.
+      Della misura della madre non parlava nessuno.
+    opzioni:
+      - testo: "Affrontare la regina nel nido"
+        descrizione: "Due mandibole come falci, e da ogni cella che si apre una larva in più. È la prima di due volte."
+        combattimento: avv-buche-laresh-il-nido
+        vittoria:
+          titolo: La regina ferita
+          testo: |
+            La prendi nella piega sotto la testa, e la regina si stacca dalle
+            celle con un fischio che fa tremare la cupola. Le larve intorno si
+            fermano tutte. Lei si gira verso le radici del pero e comincia a
+            scavare verso l'alto, trascinandosi dietro l'addome.
+          pe: { armi-da-mischia: 5 }
+          segue: avv-buche-laresh-la-regina
+        sconfitta:
+          titolo: Le mandibole
+          testo: |
+            Le mandibole ti prendono di traverso e ti scagliano contro il favo, e le
+            larve ti salgono addosso prima che tu riesca ad alzarti. Fuggi per la
+            prima galleria che trovi e risali da uno sfiatatoio a forza di gomiti.
+            Quando sbuchi in un campo della Dama, le gallerie sono tutte da rifare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Tirare giù le radici del pero sopra di lei"
+        descrizione: "Le radici reggono il soffitto della cupola. Se ne cedono due, la terra sopra cade sulla regina e sul favo."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: La cupola che cade
+          testo: |
+            Ti appendi con tutto il peso alla radice più grossa finché si stacca
+            dalla malta, e mezza cupola viene giù sulla regina e sulle celle. Lei
+            ne esce scrollandosi la terra di dosso, con una zampa storta, e si
+            mette a scavare verso l'alto fra le radici.
+          pe: { atletica: 5 }
+          segue: avv-buche-laresh-la-regina
+        fallimento:
+          titolo: La terra addosso
+          testo: |
+            La radice cede, e la terra cade addosso a te invece che a lei. Ti scavi
+            fuori mezzo soffocato mentre la regina ti guarda dal centro della
+            camera, e scappi per uno sfiatatoio. Quando sbuchi in un campo della
+            Dama, le gallerie sono tutte da rifare.
+          effetti: { ferite: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Dare fuoco alle celle con l'olio della lanterna"
+        descrizione: "Il favo è di malta e paglia masticata. Se brucia, la regina lascia le uova per salvarle, o lascia te."
+        prova: { attributo: mentale, abilita: [natura, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il favo che brucia
+          testo: |
+            Rovesci l'olio della lanterna su una fila di celle e ci butti lo
+            stoppino. La paglia masticata prende fuoco in un attimo, e la regina
+            si getta sulle celle che bruciano. Quando ne esce ha le antenne
+            bruciate e il dorso nero, e si mette a scavare verso l'alto.
+          pe: { natura: 5 }
+          segue: avv-buche-laresh-la-regina
+        fallimento:
+          titolo: Il fumo
+          testo: |
+            La paglia fa più fumo che fiamma, e il fumo riempie la cupola. Scappi
+            tossendo per la prima galleria che trovi, con le larve dietro, e risali
+            da uno sfiatatoio. Quando sbuchi in un campo della Dama, le gallerie
+            sono tutte da rifare.
+          effetti: { ferite: 1, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Fare il verso della cote, come diceva Bice"
+        descrizione: "La cote sulla lama fa il loro verso, e la bestia si è girata ad ascoltarla. Girata, ha la piega della pelle scoperta."
+        requisiti: [avv-buche-laresh.bice >= 1]
+        prova: { attributo: fisico, abilita: armi-da-mischia, difficolta: Difficile }
+        successo:
+          titolo: La cote
+          testo: |
+            Passi un sasso piatto sul taglio della lama, lungo, come si affila una
+            falce, e la regina gira la testa verso il suono. La piega di pelle
+            chiara si apre. Ci entri con tutta la lama, e lei si strappa via
+            fischiando e si mette a scavare verso l'alto fra le radici.
+          pe: { armi-da-mischia: 5 }
+          segue: avv-buche-laresh-la-regina
+        fallimento:
+          titolo: Il verso sbagliato
+          testo: |
+            Il sasso stride sul filo, e il verso non è quello giusto. La regina
+            ti viene incontro invece di girarsi, e le mandibole ti prendono la
+            spalla. Scappi per uno sfiatatoio fino a un campo della Dama, e le
+            gallerie sono da rifare.
+          effetti: { ferite: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ il cuore, seconda fase · la regina che scava
+  - id: avv-buche-laresh-la-regina
+    tipo: seguito
+    immagine: icone/insect-jaws
+    titolo: La regina che scava
+    sommario: "Ferita, la regina lascia il nido e scava verso il campo fra le radici del pero. Le ultime larve le vanno dietro."
+    luogo: Le gallerie del rio basso, fra le radici del pero
+    area: avv-buche-laresh
+    requisiti: [avventura.buche-laresh == 5]
+    testo: |
+      La regina scava verso l'alto fra le radici del pero, più svelta di
+      quanto avresti creduto, con l'addome che le si trascina dietro come un
+      sacco. Dalle celle intorno escono le ultime larve e le vanno dietro,
+      e tu le vai dietro a tua volta, arrampicandoti sulle radici.
+
+      Sopra di lei, a poche braccia, c'è il campo. Se ci arriva, scava un nido
+      nuovo da un'altra parte, e l'anno prossimo le buche saranno nei campi
+      della Dama.
+
+      {natura Media} Qui le radici del pero sono fitte come una rete. Per
+      passarci in mezzo la regina deve girarsi di fianco, e allora ci mette il
+      doppio.
+
+      Dall'alto arrivano dei colpi sordi e regolari. Qualcuno sta piantando
+      pali nel campo proprio sopra di voi, e la regina scava verso i colpi.
+    opzioni:
+      - testo: "Affrontarla fra le radici"
+        descrizione: "È ferita e ha fretta, e le larve nuove le coprono le spalle. Fra le radici si combatte a un braccio di distanza."
+        combattimento: avv-buche-laresh-la-regina
+        vittoria:
+          titolo: La mandibola
+          testo: |
+            La colpisci nella piega sotto la testa mentre è girata di fianco fra
+            le radici, e la regina si ferma con le zampe ancora piantate nella
+            terra. Le stacchi una mandibola con tre colpi. Poi scavi verso i
+            colpi, finché la vanga di Ercole sfonda la terra sopra di te e la
+            luce del giorno ti arriva in faccia insieme alla sua voce.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 1, racconto: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Le radici
+          testo: |
+            Le larve ti si attaccano alle gambe e la regina ti scalcia giù dalle
+            radici, e quando ti rialzi è sparita verso l'alto. Risali da uno
+            sfiatatoio fino al campo. La notte dopo il canto ricomincia sotto il
+            pero, e le gallerie sono da rifare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Tirarla giù per le zampe"
+        descrizione: "Le zampe di dietro sono fuori dalla terra, e scalciano. Se la stacchi dalle radici, cade nel nido sotto di te."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Giù nel nido
+          testo: |
+            Afferri le zampe di dietro e ti lasci cadere con tutto il peso, e la
+            regina si stacca dalle radici e precipita nel nido. Le salti
+            addosso prima che si raddrizzi e le stacchi una mandibola. Poi scavi
+            verso i colpi, finché la vanga di Ercole sfonda la terra sopra di te.
+          pe: { atletica: 5 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 1, racconto: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il calcio
+          testo: |
+            Una zampa ti prende in pieno petto e ti stacca dalle radici. Cadi nel
+            nido sulla schiena, e quando ti rialzi la regina è sparita verso
+            l'alto. Risali da uno sfiatatoio, e la notte dopo il canto ricomincia
+            sotto il pero.
+          effetti: { ferite: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Chiuderla fra le radici del pero"
+        descrizione: "Se tagli le radici giuste, quelle sopra si abbassano come una grata. Bisogna sapere quali reggono le altre."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: La grata di radici
+          testo: |
+            Tagli due radici alla base, e quelle sopra si abbassano tutte
+            insieme e la chiudono di fianco, come una grata. La regina si dibatte
+            senza potersi girare. Le stacchi una mandibola e la lasci lì. Poi
+            scavi verso i colpi, finché la vanga di Ercole sfonda la terra.
+          pe: { natura: 5 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 1, racconto: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La radice sbagliata
+          testo: |
+            Tagli la radice sbagliata, e invece di chiudersi su di lei la grata
+            si apre. La regina passa e sparisce verso l'alto. Risali da uno
+            sfiatatoio con una radice che ti ha frustato la faccia, e la notte
+            dopo il canto ricomincia sotto il pero.
+          effetti: { ferite: 1, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Battere il mazzuolo sotto di lei, più forte di Ercole"
+        descrizione: "Va verso i colpi di sopra. Se i colpi più forti arrivano da sotto, scende verso di te con la testa avanti."
+        requisiti: [avv-buche-laresh.mazzuolo >= 1]
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Difficile }
+        successo:
+          titolo: I colpi da sotto
+          testo: |
+            Batti il mazzuolo sulla radice più grossa sotto di lei, più forte dei
+            pali di Ercole e più svelto. La regina si ferma e torna giù verso di te
+            a testa avanti, con la piega del collo scoperta. La lama ci entra fino
+            all'elsa, e una mandibola la stacchi dopo. Poi la vanga di Ercole sfonda
+            la terra sopra di te.
+          pe: { percezione: 5 }
+          effetti: { avventura.buche-laresh: 1, rep.laresh: 1, racconto: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il colpo fuori tempo
+          testo: |
+            Batti fuori tempo, e la regina ti viene addosso dall'alto con tutto il
+            suo peso. Ti ritrovi nel nido sotto di lei, e ne esci solo perché lei
+            ha più fretta di te. Risali da uno sfiatatoio, e la notte dopo il
+            canto ricomincia sotto il pero.
+          effetti: { ferite: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata

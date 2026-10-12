@@ -1,0 +1,514 @@
+# Avventura 3 · La stazione del gelo (docs/piano-avventure.md). Si apre con pista.capomozzo >= 10.
+# Lamberto Vaire, maestro di conservazione dell'Accademia di Torvessa, è salito dodici anni fa sul Gradone Rosso a
+# studiare la Brinaia, una stazione dei Precursori sul ciglio sud, e non è più tornato. Ha rimesso in moto la
+# Gelatrice, una ruota di cristalli che prende il caldo dalle stanze e da chi ci dorme e lo manda in uno specchio;
+# quando lo specchio è carico si apre sul suo gemello, lo specchio appannato dietro le bottiglie del Grifone di Ferro.
+# Così, a ogni cambio di stagione, Vaire passa in città a ritirare lo stipendio. Chi si avvicina alla Brinaia si
+# addormenta nella nebbia e si sveglia in cella; il custode gobbo che ride, il Ghiro, è Vaire travestito.
+# La pista avventura.stazione-gelo:
+# - 0 → 1 `avv-stazione-gelo-una-lettera-per-il-gradone` (presso l'Accademia): Orvald manda una lettera a Vaire.
+# - 1 → 2 `avv-stazione-gelo-la-brinaia`: la nebbia, la cattura. Chi riesce conta le svolte (avv-stazione-gelo.passi).
+# - 2 → 3 `avv-stazione-gelo-la-cella-gelata`: il Ghiro, il ragazzo degli Spiumatori. Chi riesce sa quando il custode
+#   fa il giro (avv-stazione-gelo.giro).
+# - 3 → 4 `avv-stazione-gelo-la-raschiatrice`: il fantasma di Sveva Morsani indica la sbarra allentata e lo specchio.
+#   Chi riesce sa l'ordine dei glifi (avv-stazione-gelo.sveva).
+# - 4 → 5 `avv-stazione-gelo-il-forziere`: la roba nel forziere del custode. Chi riesce prende anche il quaderno con
+#   le ore della Gelatrice (avv-stazione-gelo.quaderno).
+# - 5: la spedizione (spedizione.yaml). Il cuore porta a 6 e manda al Grifone di Ferro.
+# - 6 → 7 `avv-stazione-gelo-dietro-le-bottiglie` (presso il Grifone): a chi raccontarlo (avv-stazione-gelo.epilogo
+#   1 Orvald, 2 i Raschiatori con la piastrina di Sveva, 3 nessuno), e lo Specchio da braccio.
+# Le scene dalla 1 alla 5 stanno presso la Brinaia, un luogo della Superficie che si vede finché la pista è fra 1 e 5.
+# Nomi nuovi: la Brinaia, la Gelatrice, Lamberto Vaire, il Ghiro, Sveva Morsani (glossario.yaml). Il ragazzo degli
+# Spiumatori resta senza nome.
+quality:
+  - { id: avventura.stazione-gelo, immagine: ambientazione/gradone-rosso, nome: La stazione del gelo, categoria: pista, descrizione: "Lamberto Vaire, maestro dell'Accademia di Torvessa, è sparito sul Gradone Rosso dodici anni fa. A ogni cambio di stagione qualcuno ritira ancora il suo stipendio, e Orvald Temmerin vuole fargli avere una lettera." }
+  - { id: avv-stazione-gelo.passi, nome: Le svolte contate, categoria: stato, nascosta: true, descrizione: "1 se hai contato le svolte mentre il custode ti portava in cella." }
+  - { id: avv-stazione-gelo.giro, nome: Il giro del custode, categoria: stato, nascosta: true, descrizione: "1 se sai quando il Ghiro fa il giro delle celle." }
+  - { id: avv-stazione-gelo.sveva, nome: L'ordine dei glifi, categoria: stato, nascosta: true, descrizione: "1 se Sveva Morsani ti ha mostrato in che ordine si passano i glifi." }
+  - { id: avv-stazione-gelo.quaderno, immagine: icone/notebook, nome: Il quaderno del forziere, categoria: stato, descrizione: "Un quaderno con la copertina di cuoio, trovato nel forziere della Brinaia. È pieno di ore e di nomi di stanze, e dice quando la Gelatrice prende il caldo da una stanza e quando da un'altra." }
+  - { id: avv-stazione-gelo.piastrina, immagine: icone/old-lantern, nome: La piastrina di Sveva Morsani, categoria: stato, descrizione: "La piastrina che Sveva Morsani portava al collo quando è morta davanti alla porta di fuori della Brinaia. Ci sono incisi il suo nome e il segno della sua squadra." }
+  - { id: avv-stazione-gelo.svelato, nome: Il Ghiro svelato, categoria: stato, nascosta: true, descrizione: "1 quando il Ghiro si è tolto le pelli di capra." }
+  - { id: avv-stazione-gelo.epilogo, nome: Dopo la Brinaia, categoria: stato, nascosta: true, descrizione: "1 l'hai raccontato a Orvald, 2 hai portato la piastrina di Sveva ai Raschiatori, 3 Liaren ha coperto lo specchio e non l'hai detto a nessuno." }
+
+luoghi:
+  - id: avv-stazione-gelo-brinaia
+    area: superficie-fratturata
+    nome: La Brinaia
+    immagine: ambientazione/gradone-rosso
+    requisiti: [avventura.stazione-gelo >= 1, avventura.stazione-gelo <= 5]
+    sommario: "Sul ciglio sud del Gradone Rosso c'è una stazione dei Precursori dove d'estate le pietre si coprono di brina."
+    testo: |
+      Il ciglio sud del Gradone Rosso finisce contro uno sperone di pietra nera, e dentro lo sperone sta la Brinaia,
+      una cupola di metallo scuro mezza affondata nella roccia, con una porta bassa e un camino tozzo. Dal camino esce
+      una nebbia bianca che invece di salire scivola giù lungo la cupola e si sparge sull'arenaria. Per cento passi
+      intorno le pietre sono bianche di brina anche sotto il sole di mezzogiorno, e i pastori del Gradone ci girano al
+      largo con le capre.
+
+colonna:
+  - { contesto: luogo, id: avv-stazione-gelo-brinaia, musica: unsettling-paths, ambiente: forest-creepy }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'aggancio, all'Accademia
+  - id: avv-stazione-gelo-una-lettera-per-il-gradone
+    presso: accademia-di-torvessa
+    immagine: personaggi/orvald-temmerin
+    titolo: Una lettera per il Gradone
+    sommario: "Da dodici anni qualcuno ritira lo stipendio di un maestro sparito sul Gradone Rosso. Orvald Temmerin vuole fargli avere una lettera."
+    luogo: Accademia di Torvessa, l'ufficio del preside
+    area: quartieri-alti
+    requisiti: [pista.capomozzo >= 10, avventura.stazione-gelo == 0]
+    testo: |
+      Nell'ufficio di Orvald Temmerin le mappe coprono la scrivania fino al bordo, e Pett segue dallo stipite ogni
+      foglio che si muove. Davanti alla scrivania c'è Ermanno Querci, il tesoriere, con i manicotti di tela nera e un
+      registro aperto sull'avambraccio, tenuto come si tiene un neonato da mostrare al medico.
+
+      «Lo stipendio di Lamberto Vaire esce dalla cassa a ogni cambio di stagione da dodici anni» dice Querci, e gira il
+      registro verso di te. «E ogni volta qualcuno lo firma.» Le firme sono tutte uguali, con la V lunga e piegata in
+      avanti, e su alcune l'inchiostro si è allargato come se la carta si fosse bagnata.
+
+      Orvald racconta il resto senza guardare Querci. Vaire insegnava conservazione, cioè le ghiacciaie a cristalli
+      dove l'Accademia tiene i campioni e le medicine. Dodici anni fa è partito per il Gradone Rosso a studiare una
+      rovina dei Precursori che i pastori chiamano la Brinaia, perché d'estate le pietre intorno fanno la brina, e da
+      allora nessuno l'ha più visto. Lo stipendio lo ritira un vecchio con il cappuccio calato, che arriva di sera e che
+      gli uscieri non ricordano mai in faccia.
+
+      «Gli ho scritto» dice Orvald, e ti porge una lettera chiusa con la cera blu dell'Accademia. «Che torni, oppure che
+      rinunci al posto e alla paga. Se è vivo, portagliela tu.»
+
+      {empatia Media} Querci vuole la rinuncia, e lo dice il modo in cui stringe il registro. Orvald tiene la lettera fra
+      le dita un momento più del necessario prima di lasciarla, e spera nell'altra risposta.
+
+      {origine allievo-di-torvessa} Il nome di Vaire lo conosci. Sta su una targhetta d'ottone alla porta della ghiacciaia
+      del laboratorio, e al primo anno gli allievi ci appoggiano la lingua per scommessa.
+    opzioni:
+      - testo: "Prendere la lettera e partire per il Gradone"
+        descrizione: "Orvald ti segna sulla mappa il ciglio sud del Gradone Rosso. Dice che la Brinaia si trova seguendo la brina."
+        esito:
+          titolo: La cera blu
+          testo: |
+            Metti la lettera nella giubba, contro il petto, dove la cera non si rompe. Orvald ti segna la strada su una
+            mappa vecchia di trent'anni, con il dito che si ferma sul ciglio sud del Gradone, dove l'arenaria finisce
+            contro uno sperone di pietra nera. Querci, sulla porta, ti ricorda che ogni firma costa all'Accademia una
+            borsa intera.
+          effetti: { avventura.stazione-gelo: 1 }
+      - testo: "Chiedere a Querci del vecchio che firma"
+        descrizione: "Il tesoriere ha visto quella firma nascere a ogni stagione. Qualcosa avrà notato, anche senza guardarlo in faccia."
+        costo: 0
+        esito:
+          titolo: Le dita blu
+          testo: |
+            «Viene la sera dopo il cambio di stagione, quando ho già chiuso la cassa e mi tocca riaprirla» dice Querci,
+            e sospira solo a ricordarlo. «Firma con i guanti. Una volta se li è tolti per contare le monete, e aveva le
+            dita blu come un annegato. Era piena estate, e quando se n'è andato sul pavimento c'era una pozza d'acqua.»
+
+  # ------------------------------------------------------------ 1 → 2 · la nebbia della Brinaia
+  - id: avv-stazione-gelo-la-brinaia
+    presso: avv-stazione-gelo-brinaia
+    immagine: ambientazione/gradone-rosso
+    titolo: La Brinaia
+    sommario: "Sul ciglio sud del Gradone Rosso l'arenaria è bianca di brina in pieno sole, e da una cupola nera scende una nebbia che sta bassa sulle pietre."
+    luogo: Gradone Rosso, il ciglio sud
+    area: superficie-fratturata
+    requisiti: [avventura.stazione-gelo == 1]
+    testo: |
+      Il ciglio sud del Gradone Rosso finisce contro uno sperone di pietra nera, e a cento passi dallo sperone
+      l'arenaria cambia colore. È bianca di brina sotto il sole di mezzogiorno, con i ciuffi d'erba diventati duri e
+      una capra ferma in piedi accanto a un cespuglio, morta da chissà quanto e ancora intera.
+
+      La Brinaia sta dentro lo sperone, una cupola di metallo scuro mezza affondata nella roccia, con una porta bassa
+      e un camino tozzo. Dal camino esce una nebbia bianca che non sale. Scivola giù lungo la cupola e si sparge
+      sull'arenaria all'altezza delle ginocchia, lenta come il latte versato su un tavolo.
+
+      {natura Media} La brina sull'erba è più spessa dalla parte della cupola. Il freddo viene da lì, e la nebbia se lo
+      porta dietro fin dove arriva.
+
+      {resistenza Media fallita} Hai già le dita intorpidite, e sei ancora al sole. Il corpo ti consiglia di tornare
+      indietro, e te lo dice con le ginocchia.
+    opzioni:
+      - testo: "Andare dritto alla porta prima che la nebbia salga"
+        descrizione: "Cento passi nella nebbia fino alla porta bassa. Ci vuole un corpo che regga il freddo senza addormentarsi."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Le svolte
+          testo: |
+            A metà strada le gambe smettono di sentire il terreno, e ti ritrovi in ginocchio nella nebbia con la porta
+            davanti. La porta si apre. Ne esce una figura gobba avvolta nelle pelli di capra, che ride con una risata
+            simile a una tosse e ti carica su una slitta. Resti sveglio quanto basta per contare le svolte del
+            corridoio prima che arrivi il buio. Due volte a destra, poi una curva lunga a sinistra.
+          pe: { resistenza: 2 }
+          imposta: { avv-stazione-gelo.passi: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: Il latte
+          testo: |
+            Dopo venti passi ti siedi nella nebbia senza averlo deciso, e la nebbia ti arriva al mento. L'ultima cosa che
+            senti è una risata vicina, e due braccia avvolte nelle pelli di capra che ti prendono sotto le ascelle.
+          effetti: { avventura.stazione-gelo: 1, ferite: 0.5 }
+      - testo: "Girare intorno alla cupola dalla parte del sole"
+        descrizione: "Dove batte il sole la brina è più sottile. Forse c'è un'altra entrata, e forse ci si arriva senza attraversare la nebbia."
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: Il lato del sole
+          testo: |
+            Giri intorno allo sperone tenendoti sulle rocce più alte, dove la nebbia non arriva, e trovi una seconda
+            porta con i cardini coperti di brina. Mentre la studi la nebbia ti raggiunge dal basso. Fai in tempo a
+            vedere una figura gobba con una lanterna che ti carica su una slitta, e a contare le svolte del corridoio
+            prima di chiudere gli occhi.
+          pe: { furtivita: 2 }
+          imposta: { avv-stazione-gelo.passi: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: La caviglia
+          testo: |
+            Una pietra coperta di brina ti scivola sotto lo stivale, e finisci lungo disteso nella nebbia con la caviglia
+            storta. Il freddo ti prende subito. Senti una risata e il rumore di una slitta trascinata sulla pietra, e
+            poi più niente.
+          effetti: { avventura.stazione-gelo: 1, ferite: 0.5 }
+      - testo: "Fermarti a guardare come si muove la nebbia"
+        descrizione: "Una nebbia che scende invece di salire si comporta in modo strano. Se si capisce che cosa è, forse si capisce anche come non addormentarsi."
+        prova: { attributo: mentale, abilita: [magia, natura], difficolta: Media }
+        successo:
+          titolo: Il Mana freddo
+          testo: |
+            La nebbia ha la luce fioca dei cristalli quando si scaricano, ed è più Mana che acqua, raffreddato finché è
+            diventato pesante. Ti leghi un fazzoletto sulla bocca e ci entri piano. Quando gli occhi cedono le orecchie
+            restano sveglie, e contano le svolte della slitta su cui una risata ti ha caricato.
+          pe: { magia: 2 }
+          imposta: { avv-stazione-gelo.passi: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: La nebbia negli occhi
+          testo: |
+            Ti chini per guardare la nebbia da vicino, e la nebbia ti arriva in faccia. Ti si addormentano gli occhi
+            prima delle mani. L'ultima cosa che vedi è una lanterna che si avvicina dondolando.
+          effetti: { avventura.stazione-gelo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · la cella e il Ghiro
+  - id: avv-stazione-gelo-la-cella-gelata
+    presso: avv-stazione-gelo-brinaia
+    immagine: icone/manacles
+    titolo: La cella gelata
+    sommario: "Ti svegli su una panca di pietra senza le tue armi. Il custode della Brinaia ti porta il brodo e ride."
+    luogo: La Brinaia, le celle
+    area: superficie-fratturata
+    requisiti: [avventura.stazione-gelo == 2]
+    testo: |
+      Ti svegli su una panca di pietra con la brina nelle ciglia. La cella è stretta, con le pareti di metallo nero
+      lisce e senza una giuntura, e sul lato del corridoio ha una grata di sbarre. Le armi e lo zaino non ci sono più.
+      Ti hanno lasciato i vestiti e la lettera di Orvald, ancora chiusa dentro la giubba.
+
+      Nella cella di fronte c'è un ragazzo degli Spiumatori, un orco magro con le orecchie forate, seduto con le
+      ginocchia al petto. Si tiene sotto la camicia un uccello vivo per scaldarsi, e quando ti vede sveglio lo copre
+      con la mano.
+
+      Il custode arriva con una pentola di brodo e una lanterna. È un vecchio gobbo, così avvolto nelle pelli di capra
+      che non gli si vede la faccia, e ride di ogni cosa con una risata secca che sembra una tosse. «Benvenuto alla
+      Brinaia» dice, e ti passa una scodella fra le sbarre. «Qui si dorme bene. Il padrone decide, e intanto si dorme.»
+      Quando se n'è andato, il ragazzo degli Spiumatori lo chiama il Ghiro, a voce bassa.
+
+      {percezione Difficile} Le mani che reggono la pentola non hanno le macchie dei vecchi. Sul medio della destra
+      c'è un callo, quello che viene a tenere la penna per anni.
+
+      {origine fuggiasco-di-ghoran} Le celle di Ghoran erano di legno e puzzavano di piscio. Questa è pulita e silenziosa,
+      e ti fa più paura.
+    opzioni:
+      - testo: "Farlo parlare del padrone mentre versa il brodo"
+        descrizione: "Un custode che ride così tanto ha voglia di parlare. Basta lasciarlo fare, e ascoltare dove si ferma."
+        prova: { attributo: sociale, abilita: [empatia, galateo], difficolta: Media }
+        successo:
+          titolo: Il giro
+          testo: |
+            Gli fai i complimenti per il brodo, e il Ghiro ride e parla. Il padrone dorme di giorno e lavora di notte.
+            Lui fa il giro delle celle una volta sola, quando la macchina che lui chiama la Gelatrice rallenta e le
+            sbarre smettono di brinare. Dopo il giro dorme nella stanza del forziere, con le chiavi alla cintura, fino al
+            mattino.
+          pe: { empatia: 2 }
+          imposta: { avv-stazione-gelo.giro: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: La risata
+          testo: |
+            Gli chiedi del padrone troppo presto, e il Ghiro smette di ridere per un momento. Poi ride più forte, ti
+            riprende la scodella ancora mezza piena e se ne va con la lanterna, lasciandoti al buio.
+          effetti: { avventura.stazione-gelo: 1, sospetto: 0.5 }
+      - testo: "Stare sveglio tutta la notte a guardare il corridoio"
+        descrizione: "Il freddo ti vuole addormentato. Se resisti, vedi quando passa il custode e dove va."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: La notte sveglio
+          testo: |
+            Ti batti le braccia contro il petto per tutta la notte, e a un certo punto le sbarre smettono di brinare.
+            Allora passa il Ghiro, con la lanterna bassa, a guardare dentro ogni cella. Torna indietro per la stessa
+            strada e si chiude nella stanza in fondo al corridoio, e da lì non esce più fino al mattino.
+          pe: { resistenza: 2 }
+          imposta: { avv-stazione-gelo.giro: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: Il sonno bianco
+          testo: |
+            A metà notte ti accorgi di avere chiuso gli occhi soltanto quando li riapri, e sulle mani hai una crosta di
+            brina che si stacca come la pelle di una scottatura. Del Ghiro hai sentito solo la risata, da lontano.
+          effetti: { avventura.stazione-gelo: 1, ferite: 0.5 }
+      - testo: "Parlare con il ragazzo degli Spiumatori"
+        descrizione: "Sta qui da prima di te. Della lingua della città sa poche parole, ma l'uccello sotto la camicia ha contato le notti con lui."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: Il conto dell'uccello
+          testo: |
+            Il ragazzo conta con le dita e con l'uccello, che pigola ogni volta che il custode passa. Una volta per notte,
+            quando le sbarre smettono di brinare, il Ghiro fa il giro delle celle e poi va a dormire nella stanza del
+            forziere. Te lo spiega mescolando l'orchesco alla lingua della città, e alla fine ti chiede se mangerai il
+            suo uccello. Gli rispondi di no, e per la prima volta sorride.
+          pe: { conoscenze-della-strada: 2 }
+          imposta: { avv-stazione-gelo.giro: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: Il becco
+          testo: |
+            Ti avvicini troppo alle sbarre, e il ragazzo si ritira in fondo alla cella con la mano sulla camicia. Per il
+            resto della notte non ti guarda più, e sotto la stoffa l'uccello sbatte le ali senza smettere.
+          effetti: { avventura.stazione-gelo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3 → 4 · la Raschiatrice
+  - id: avv-stazione-gelo-la-raschiatrice
+    presso: avv-stazione-gelo-brinaia
+    immagine: fazioni/raschiatori
+    titolo: La Raschiatrice
+    sommario: "Di notte la brina sulla grata prende la forma di una donna con la giacca dei Raschiatori. Batte su una sbarra e indica il fondo del corridoio."
+    luogo: La Brinaia, le celle, di notte
+    area: superficie-fratturata
+    requisiti: [avventura.stazione-gelo == 3]
+    testo: |
+      È notte fonda, e la Gelatrice gira più forte. La senti nelle sbarre, un ronzio basso che ti arriva nei denti, e il
+      freddo nella cella si fa così fitto che la brina cresce sul metallo mentre la guardi. Sulla grata la brina non
+      cresce a caso. Prende la forma di una spalla, e un momento dopo quella di una donna in piedi nel corridoio.
+
+      Ha la giacca di tela cerata dei Raschiatori, con la lanterna spenta alla cintura e una corda arrotolata a
+      tracolla. Attraverso di lei vedi le sbarre della cella di fronte, come attraverso un vetro appannato. Al collo
+      porta una piastrina, e sulla piastrina leggi un nome, *Sveva Morsani*. Il ragazzo degli Spiumatori si è girato
+      contro il muro e si tiene le mani sulle orecchie.
+
+      La donna muove le labbra senza un suono. Con un dito di brina batte tre volte sulla terza sbarra della tua grata,
+      poi alza il braccio verso il fondo del corridoio e disegna nell'aria un rettangolo alto con un arco in cima.
+
+      {magia Media} Il freddo intorno a lei va tutto nella stessa direzione, verso il fondo della Brinaia. La trattiene
+      qui la stessa corrente che tira il Mana fuori dalle celle.
+
+      {origine apprendista-raschiatore} Sul Ponte dei Morti c'è una lanterna con il nome di Sveva Morsani, e la squadra
+      che l'ha appesa non è più scesa nel Labirinto. Ci passavi accanto ogni mattina, andando ai turni.
+    opzioni:
+      - testo: "Guardarla negli occhi e ascoltare"
+        descrizione: "Le labbra si muovono, e il suono non arriva. Bisogna reggere quello sguardo abbastanza a lungo da leggerle."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Le labbra
+          testo: |
+            Tieni gli occhi nei suoi finché il movimento delle labbra non diventa parole. Dice la terza sbarra, e poi lo
+            specchio nella sala del tesoro, l'unica porta che il gelo non ha chiuso. Prima di sparire ti mostra con il
+            dito l'ordine dei glifi nei corridoi di sotto. Si comincia da un glifo chiaro, poi se ne passano due scuri
+            prima di tornare al chiaro. Quando la brina si scioglie, la terza sbarra ti si muove nella mano.
+          pe: { resilienza: 2 }
+          imposta: { avv-stazione-gelo.sveva: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: Mezza brina
+          testo: |
+            Abbassi gli occhi per un momento, e quando li rialzi la donna è già mezza brina e mezza niente. Ti restano
+            soltanto i tre colpi sulla sbarra e il rettangolo con l'arco. All'alba scopri che la terza sbarra si muove
+            davvero, e per tutto il giorno non riesci a guardare la grata.
+          effetti: { avventura.stazione-gelo: 1, tormento: 0.5 }
+      - testo: "Leggere quello che scrive nella brina"
+        descrizione: "Con il dito traccia segni sulla brina della parete. Una Raschiatrice disegna le strade come le ha camminate."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il disegno
+          testo: |
+            Sveva disegna con il dito sulla parete il corridoio dei glifi visto dall'alto, con le lastre chiare e quelle
+            scure nell'ordine giusto, e in fondo il rettangolo con l'arco, che è uno specchio. Ricopi tutto con l'unghia
+            sul retro della lettera di Orvald prima che la brina si sciolga. Poi lei batte ancora sulla terza sbarra, e
+            la sbarra si muove.
+          pe: { accademiche: 2 }
+          imposta: { avv-stazione-gelo.sveva: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: La brina che si scioglie
+          testo: |
+            Il disegno si scioglie prima che tu capisca da che parte si guarda. Ti restano un rettangolo con l'arco, i
+            tre colpi sulla sbarra e l'impressione di averla delusa. All'alba la terza sbarra si muove nella tua mano.
+          effetti: { avventura.stazione-gelo: 1, tormento: 0.5 }
+      - testo: "Chiederle come è morta"
+        descrizione: "È una Raschiatrice, e i Raschiatori raccontano le loro discese anche dopo. Forse anche questa."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: La porta di fuori
+          testo: |
+            Lei alza le mani. Le nocche sono aperte fino all'osso, e capisci che ha battuto contro una porta finché ha
+            potuto, la porta di fuori, che il gelo tiene chiusa. Poi indica il fondo del corridoio e ridisegna il
+            rettangolo con l'arco, e prima di sparire ti mostra con il dito l'ordine dei glifi dei corridoi. Sulla terza
+            sbarra batte tre volte, e la sbarra si muove.
+          pe: { empatia: 2 }
+          imposta: { avv-stazione-gelo.sveva: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: La domanda
+          testo: |
+            Alla tua domanda Sveva apre la bocca, e dalla bocca esce soltanto brina. Batte sulla terza sbarra prima di
+            sciogliersi nel corridoio, e il ragazzo degli Spiumatori piange piano contro il muro fino all'alba.
+          effetti: { avventura.stazione-gelo: 1, tormento: 0.5 }
+      - testo: "Dire a mezza voce la conta del turno"
+        descrizione: "All'uscita dal turno i Raschiatori dicono i nomi della squadra, uno per lanterna. Il suo lo conosci."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: La conta
+          testo: |
+            Dici a mezza voce la conta che si fa all'uscita dal turno, un nome per ogni lanterna del Ponte dei Morti, e
+            quando arrivi al suo lei abbassa la testa. Ti mostra con il dito l'ordine dei glifi dei corridoi di sotto,
+            poi indica il rettangolo con l'arco in fondo al corridoio. Prima di sciogliersi batte tre volte sulla terza
+            sbarra, e la sbarra si muove.
+          imposta: { avv-stazione-gelo.sveva: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+
+  # ------------------------------------------------------------ 4 → 5 · il forziere del custode
+  - id: avv-stazione-gelo-il-forziere
+    presso: avv-stazione-gelo-brinaia
+    immagine: icone/locked-box
+    titolo: Il forziere del Ghiro
+    sommario: "Oltre la terza sbarra il corridoio porta alla stanza dove dorme il custode. Accanto alla sua sedia c'è il forziere con la tua roba."
+    luogo: La Brinaia, la stanza del custode
+    area: superficie-fratturata
+    requisiti: [avventura.stazione-gelo == 4]
+    testo: |
+      La terza sbarra esce dal suo incavo con un rumore di ghiaccio rotto, e ti lascia passare di fianco. Il corridoio
+      delle celle finisce in una stanza bassa con un braciere in mezzo, che fa una luce azzurra e dà freddo invece di
+      caldo. Il Ghiro dorme su una sedia accanto al braciere, sepolto nelle sue pelli, con un mazzo di chiavi alla
+      cintura e la bocca aperta.
+
+      Accanto alla sedia c'è un forziere cerchiato di ferro e coperto di brina, e dal coperchio socchiuso spunta la
+      cinghia del tuo zaino.
+
+      {furtivita Media} Il Ghiro russa a ondate, con una pausa lunga ogni tanto. Nelle pause la sua mano destra si
+      muove sulla cintura, sopra le chiavi.
+    opzioni:
+      - testo: "Aprire la serratura senza chiave"
+        descrizione: "Una serratura vecchia e gelata. Si apre con pazienza, e con un rumore che il russare deve coprire."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il quaderno
+          testo: |
+            La serratura cede al terzo tentativo, con uno scatto che il russare del Ghiro copre. Nel forziere c'è la tua
+            roba sopra quella di altri, e sul fondo un quaderno con la copertina di cuoio pieno di ore e di nomi di
+            stanze. Prendi tutto e rimetti la sbarra al suo posto, poi aspetti la notte giusta nella cella, con le armi
+            sotto la panca.
+          pe: { tecnologia: 2 }
+          imposta: { avv-stazione-gelo.quaderno: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: Lo scatto
+          testo: |
+            La serratura scatta troppo forte. Il Ghiro smette di russare e ride nel sonno una volta sola. Prendi la tua
+            roba alla cieca e torni nella cella senza voltarti. Di quello che c'era sotto non hai visto niente.
+          effetti: { avventura.stazione-gelo: 1, sospetto: 0.5 }
+      - testo: "Sfilargli le chiavi dalla cintura"
+        descrizione: "Le chiavi pendono sopra la pancia del custode. Bisogna prenderle in una delle pause lunghe."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La chiave più fredda
+          testo: |
+            Aspetti una pausa lunga nel russare e sfili il mazzo dalla cintura un anello alla volta. La chiave giusta è
+            la più fredda. Nel forziere c'è la tua roba, e sotto un quaderno di cuoio pieno di ore e di nomi di stanze,
+            che prendi insieme al resto. Rimetti le chiavi alla cintura del Ghiro prima che riprenda a russare.
+          pe: { furtivita: 2 }
+          imposta: { avv-stazione-gelo.quaderno: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: La mano
+          testo: |
+            Il Ghiro ti afferra il polso nel sonno e ride piano, e ti lascia andare soltanto quando gli rimetti le
+            chiavi in mano. Prendi la tua roba dal coperchio socchiuso e torni nella cella con il polso bianco di brina.
+          effetti: { avventura.stazione-gelo: 1, ferite: 0.5 }
+      - testo: "Fare leva sul coperchio con la sbarra"
+        descrizione: "La terza sbarra è di buon metallo. Il ferro del forziere, coperto di brina, forse lo è meno."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La leva
+          testo: |
+            Infili la sbarra sotto il coperchio e fai leva piano, finché il ferro non cede con un gemito che si perde nel
+            russare. Prendi la tua roba, e in fondo al forziere trovi un quaderno di cuoio pieno di ore e di nomi di
+            stanze, che porti via con te.
+          pe: { atletica: 2 }
+          imposta: { avv-stazione-gelo.quaderno: 1 }
+          effetti: { avventura.stazione-gelo: 1 }
+        fallimento:
+          titolo: Il gemito
+          testo: |
+            Il ferro cede tutto in una volta, con un rumore che rimbomba nella stanza. Afferri la tua roba e scappi nel
+            corridoio, e il Ghiro ti guarda andare dalla sua sedia, ridendo, senza alzarsi.
+          effetti: { avventura.stazione-gelo: 1, sospetto: 0.5 }
+
+  # ------------------------------------------------------------ 6 → 7 · l'epilogo, al Grifone di Ferro
+  - id: avv-stazione-gelo-dietro-le-bottiglie
+    presso: grifone-di-ferro
+    immagine: ambientazione/locanda-del-grifone-di-ferro
+    titolo: Dietro le bottiglie
+    sommario: "Lo specchio appannato dietro il bancone del Grifone di Ferro si schiarisce, e dallo specchio esci tu, con la brina nei capelli."
+    luogo: Locanda del Grifone di Ferro, dietro il bancone
+    area: ponti-sospesi
+    requisiti: [avventura.stazione-gelo == 6]
+    testo: |
+      Dall'altra parte dello specchio c'è il caldo tutto insieme, e c'è l'odore di birra e di legna bagnata del Grifone
+      di Ferro. Esci fra due file di bottiglie e ne butti giù mezza dozzina, che si rompono sul pavimento dietro il
+      bancone. Hai brina sulle spalle e nei capelli, e lo specchio appannato alle tue spalle si sta già schiarendo dai
+      bordi, una goccia alla volta.
+
+      Nella sala si è fatto silenzio. I Raschiatori ai tavoli lunghi ti guardano con il boccale a mezz'aria, e Liaren
+      Tarvelin è ferma accanto alla spina, con lo strofinaccio in mano. Guarda prima te e poi lo specchio, a lungo.
+
+      «Quello specchio c'era già quando ho comprato la locanda» dice alla fine. «Di notte, a ogni cambio di stagione, si
+      appanna da solo. La mattina dopo mi manca sempre una bottiglia di grappa, e io ho sempre dato la colpa a
+      Brunella.» Dalla cucina Brunella Fennick fa sapere a tutta la sala che lei lo diceva da anni.
+
+      Ti siedi su uno sgabello dietro il bancone, e Liaren ti mette davanti un bicchiere senza chiederti niente. Sul
+      braccio hai ancora lo scudo che hai staccato dalla parete della sala del tesoro, un disco di metallo lucido su cui
+      la brina non attacca. Prima di sera mezza locanda saprà della Brinaia, e tocca a te decidere a chi raccontarla
+      per intero.
+
+      {empatia Media} Liaren guarda lo specchio come si guarda una porta lasciata aperta di notte. Vuole sentirsi dire
+      che resterà chiusa.
+
+      {origine mercante-dei-ponti} Uno specchio che porta dal Gradone al Ponte delle Mille Corde senza gabella e senza
+      dogana vale più della locanda intera. Lo pensi prima di riuscire a vergognartene.
+    opzioni:
+      - testo: "Raccontare tutto a Orvald Temmerin"
+        descrizione: "Vaire era un suo maestro, e la lettera era sua. L'Accademia manderà qualcuno a fermare la Gelatrice e a riportare giù chi dorme nelle celle."
+        esito:
+          titolo: Il registro chiuso
+          testo: |
+            Orvald ascolta tutto in piedi, e alla fine si siede. Querci cancella il nome di Vaire dal registro con una
+            riga sola, dritta. Prima della fine della settimana un carro dell'Accademia parte per il Gradone con due
+            maestri e una squadra di Raschiatori, e con le coperte per chi dorme nelle celle. Torna con il ragazzo degli
+            Spiumatori seduto in cassetta, e con Vaire sotto un telo, legato, che ride.
+          imposta: { avv-stazione-gelo.epilogo: 1 }
+          effetti: { avventura.stazione-gelo: 1, rep.accademia: 1, oggetto.avv-stazione-gelo-specchio-da-braccio: 1 }
+      - testo: "Portare la piastrina di Sveva Morsani al Ponte dei Morti"
+        descrizione: "La sua lanterna aspetta da sei anni. Quelli della sua squadra vorranno salire a prenderla, e a svegliare chi dorme nelle celle."
+        quando: [avv-stazione-gelo.piastrina >= 1]
+        esito:
+          titolo: La lanterna di Sveva
+          testo: |
+            Sul Ponte dei Morti trovi la lanterna con il suo nome e ci leghi la piastrina al gancio con un filo. Due
+            Raschiatori anziani della sua squadra ti vedono farlo, e quella sera stessa al Grifone si organizza la salita.
+            Riportano giù Sveva avvolta in un telo, e con lei tutti quelli che dormivano nelle celle. Vaire lo lasciano
+            nella Brinaia, da solo con la sua macchina spenta.
+          imposta: { avv-stazione-gelo.epilogo: 2 }
+          effetti: { avventura.stazione-gelo: 1, rep.raschiatori: 1, oggetto.avv-stazione-gelo-specchio-da-braccio: 1 }
+      - testo: "Chiedere a Liaren di coprire lo specchio e non parlarne con nessuno"
+        descrizione: "Uno specchio che si apre dentro il Grifone fa gola a troppa gente. Meglio che resti un vetro appannato dietro le bottiglie."
+        esito:
+          titolo: Il telo
+          testo: |
+            Liaren copre lo specchio con un telo da tavola e ci appende davanti una fila di mestoli, che suonano se
+            qualcuno li tocca. Il giorno dopo manda al Gradone due Raschiatori di cui si fida, senza dire chi l'ha
+            avvertita, e i due tornano con chi dormiva nelle celle. In città della Brinaia non parla nessuno, e da allora
+            Liaren la prima pinta a te non la fa più pagare.
+          imposta: { avv-stazione-gelo.epilogo: 3 }
+          effetti: { avventura.stazione-gelo: 1, rep.grifone: 0.5, informazioni.segreto: 1, oggetto.avv-stazione-gelo-specchio-da-braccio: 1 }

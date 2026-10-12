@@ -1,0 +1,99 @@
+# I nemici e gli scontri della signora delle gole. L'Avventura si apre a quest di Pannion finita, quindi i nemici
+# stanno sul profilo «fine contenuti» di scripts/simula-fine.ts (`npx tsx scripts/simula-fine.ts avv-signora-gole-`):
+# gregari fra il 70 e l'85%, la Signora con Zenni fra il 40 e il 55% (docs/piano-avventure.md).
+# - L'agguato e le sentinelle: i briganti dagli occhi bianchi, carrettieri e viandanti legati da una scheggia di
+#   cristallo nella nuca. Non sentono il dolore, e la riduzione alta lo dice.
+# - La pista della mappa: gli scorpioni giovani in coppia, e alla svolta lo scorpione dei calanchi.
+# - La sentinella sul crinale è un brigante solo, rinforzato nello scontro (la Signora gli presta la forza).
+# - Il cuore: la Signora delle gole (boss, con la voce che lega) e Corrado Zenni al suo fianco. Zenni da solo vale
+#   poco, ma insieme a lei porta lo scontro sotto il 50%. Chi sa di Zenni lo stende prima che si muova, e affronta
+#   lei sola (intorno al 60%: è il premio del sospetto).
+# Taratura del 12 ottobre 2026, fine contenuti: agguato e sentinelle 83%, sentinella 82%, scorpioni giovani 81%,
+# scorpione 82%, la Signora con Zenni 46%, la Signora sola 62%.
+nemici:
+  - id: avv-signora-gole-brigante
+    immagine: icone/bandit
+    nome: Brigante dagli occhi bianchi
+    descrizione: "Un carrettiere o un viandante preso sulla strada dei calanchi, con una scheggia di cristallo conduttore piantata nella nuca. Ha gli occhi bianchi come uova sode, si muove insieme agli altri e non sente il dolore finché qualcuno non glielo permette."
+    attacco: 5
+    difesa: 3
+    difesaMentale: 6
+    pf: 14
+    danno: 3
+    riduzione: 3
+    iniziativa: 2
+
+  - id: avv-signora-gole-scorpione-giovane
+    immagine: icone/scorpion
+    nome: Scorpione giovane
+    descrizione: "Uno scorpione dei calanchi grande come un cane da pastore, con il guscio ancora chiaro della muta. La coda arriva prima delle chele, e il veleno fa gonfiare la gamba fino al ginocchio."
+    attacco: 5
+    difesa: 4
+    difesaMentale: 3
+    pf: 12
+    danno: 3
+    riduzione: 3
+    iniziativa: 3
+    tratti: [animale]
+
+  - id: avv-signora-gole-scorpione
+    immagine: icone/scorpion-tail
+    nome: Lo scorpione dei calanchi
+    descrizione: "Uno scorpione grande come due muli, con il guscio color ruggine e una scheggia azzurra piantata dove la coda si attacca al corpo. La Signora lo tiene davanti alla sua strada come un cane alla catena."
+    attacco: 6
+    difesa: 5
+    difesaMentale: 4
+    pf: 14
+    danno: 4
+    riduzione: 3
+    iniziativa: 2
+    tratti: [animale]
+
+  - id: avv-signora-gole-zenni
+    immagine: fazioni/gilda-dei-mercanti
+    nome: Corrado Zenni
+    descrizione: "Il capitano della scorta della Gilda sulla strada del nord, con la cotta di maglia sotto la giubba e la cera dei sigilli nelle orecchie. Combatte con i piedi larghi e senza fretta, e sa sempre da che parte mettersi."
+    attacco: 4
+    difesa: 4
+    difesaMentale: 4
+    pf: 6
+    danno: 2
+    riduzione: 2
+    iniziativa: 3
+
+  - id: avv-signora-gole-signora
+    immagine: icone/snake
+    nome: La Signora delle gole
+    descrizione: "Una donna alta dalla pelle verde e lucida e dagli occhi d'oro, che dalla vita in giù è una serpe lunga quanto una pozza. Combatte con una lama curva tempestata di cristalli conduttori, e con la voce che lega i briganti."
+    attacco: 6
+    difesa: 5
+    difesaMentale: 6
+    pf: 24
+    danno: 3
+    riduzione: 5
+    iniziativa: 3
+    magia: 4
+    energia: 4
+    incantesimi: [avv-signora-gole-la-voce-della-signora]
+
+incantesimi:
+  - id: avv-signora-gole-la-voce-della-signora
+    nome: La voce della Signora
+    tradizione: cristalli
+    livello: 2
+    uso: [combattimento]
+    soloNemici: true
+    immagine: icone/sound-waves
+    descrizione: "I cristalli della lama si accendono e la voce dolce ti entra dalla nuca, chiamandoti a riposare. −1 dado a tutti i tiri per 2 round, se non resisti con Resilienza."
+    tipo: indebolimento
+    difesa: resilienza
+    modifica: { tipo: tutti, valore: -1, round: 2 }
+
+scontri:
+  - { id: avv-signora-gole-l-agguato, nome: "L'agguato dei calanchi", nemici: [avv-signora-gole-brigante, avv-signora-gole-brigante], feriteSconfitta: 2 }
+  - { id: avv-signora-gole-la-sentinella, nome: "La sentinella sul crinale", nemici: [avv-signora-gole-brigante], feriteSconfitta: 2, rinforzo: { attacco: 1, difesa: 2, danno: 1 } }
+  - { id: avv-signora-gole-gli-scorpioni-giovani, nome: "Gli scorpioni giovani", nemici: [avv-signora-gole-scorpione-giovane, avv-signora-gole-scorpione-giovane], feriteSconfitta: 2 }
+  - { id: avv-signora-gole-lo-scorpione, nome: "Lo scorpione dei calanchi", nemici: [avv-signora-gole-scorpione], feriteSconfitta: 2 }
+  - { id: avv-signora-gole-le-sentinelle, nome: "Le sentinelle del covo", nemici: [avv-signora-gole-brigante, avv-signora-gole-brigante], feriteSconfitta: 2 }
+  - { id: avv-signora-gole-la-signora, nome: "La Signora delle gole e il suo capitano", nemici: [avv-signora-gole-signora, avv-signora-gole-zenni], feriteSconfitta: 3 }
+  - { id: avv-signora-gole-la-signora-sola, nome: "La Signora delle gole", nemici: [avv-signora-gole-signora], feriteSconfitta: 3 }

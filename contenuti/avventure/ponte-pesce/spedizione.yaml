@@ -1,0 +1,1329 @@
+# Avventura 5, la spedizione «Le acque sotto lo Scoglio» (`avv-ponte-pesce`, avventura.ponte-pesce 5 → 6).
+# Ci si entra dalla barca di Ciro fra i giunchi dell'ansa (`avv-ponte-pesce-la-barca-di-ciro`, in Città Bassa): la
+# prova Media del tuffo, lo scalo dei vecchi (avv-ponte-pesce.approdo, senza prova) o la cima dell'ancora (2
+# rintocchi). L'ingresso rimette a zero l'allarme. La ritirata riporta in Città Bassa e azzera la profondità.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# - 0-2, il fiume: la corrente dell'ansa, i granchi del fondo, il relitto della barca di Ciro con il polpo che l'ha
+#   affondata, le scale della capanna di Wren buttate nel fiume. Prove Medie e Difficili, due scontri.
+# - 3-6 (tranne 5), le grotte: le reti dei Sommersi alla bocca (solo 3-4), la sala delle ancore, il cristallo che si
+#   spegne (avv-ponte-pesce.acqua apre una via Media), il vivaio. Prove Difficili. A 6 resta almeno una stanza.
+# - 5, la svolta non ripetibile: Olm incatenato all'ancora. Unica cosa da giocare a quella profondità.
+# - 7-9, la risalita con Olm: le guardie da stordire una alla volta (la sentinella della strettoia, il posto delle
+#   reti, la guardia che canta, il tamburo d'acqua). Ogni stanza ha prove Difficili, una Molto difficile o uno
+#   scontro, e la via dei turni (avv-ponte-pesce.turni, Media) in due stanze. Chi fallisce una via furtiva fa
+#   scattare l'allarme (avv-ponte-pesce.allarme): da lì le vie furtive spariscono e restano lo scontro e l'attesa.
+# - 10, il cuore: il pozzo delle acque profonde con Ilske alle spalle. Lo scontro con lei, o tre vie Difficili (la
+#   corsa nel pozzo, la parola del debito, e l'alga lume se l'allarme non è scattato). Chi vince va a 6 e torna in
+#   Città Bassa; chi perde torna in Città Bassa con una negativa intera, e Olm torna all'ancora.
+# Ogni stanza ha una via senza prova da 2 rintocchi più ½ negativa (3 rintocchi nelle stanze 7-9).
+aree:
+  - id: avv-ponte-pesce
+    immagine: ambientazione/regno-profondo
+    nome: Le acque sotto lo Scoglio
+    sommario: "Sotto il pelo del Torvessa la Roccia di Wren scende molto più di quanto salga, e alla base si apre nelle grotte allagate dei Sommersi."
+    spedizione: { ritorno: citta-bassa, soglia: 10, stanze: 3 }
+    testo: |
+      Sotto la superficie il Torvessa è marrone per un braccio, poi diventa
+      verde scuro, e la luce del boccaglio arriva a tre passi davanti a te. Il
+      fondo dell'ansa è melma morbida, con le reti perse dei pescatori
+      impigliate ai sassi e qualche barca coricata su un fianco. Sott'acqua la
+      Roccia di Wren è nera e liscia, e scende molto più di quanto salga
+      sopra. Alla base si apre in grotte allagate che vanno verso il buio.
+
+      L'acqua ha un sapore di ferro, e il cristallo ti ronza contro i denti.
+
+colonna:
+  - { contesto: area, id: avv-ponte-pesce, musica: uncharted-dreams, ambiente: cave }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dalla barca di Ciro
+  - id: avv-ponte-pesce-la-barca-di-ciro
+    immagine: ambientazione/roccia-di-wren
+    titolo: La barca di Ciro
+    sommario: "Fra i giunchi dell'ansa Ciro ferma la barca e ti allaccia il boccaglio. Davanti c'è lo Scoglio, e sotto lo Scoglio c'è Olm."
+    luogo: Il Torvessa, i giunchi davanti alla Roccia di Wren
+    area: citta-bassa
+    requisiti: [avventura.ponte-pesce == 5]
+    testo: |
+      Ciro rema piano fra i giunchi con le pale avvolte nella tela, e si ferma
+      dove le canne finiscono. Davanti c'è l'acqua aperta dell'ansa, e in
+      mezzo lo Scoglio, nero contro un cielo appena meno nero. Ciro aspetta il
+      cambio delle guardie sgranando fra le dita una cima piena di nodi, uno
+      per ogni preghiera che sa.
+
+      Ti allaccia il boccaglio dietro la nuca con le dita che tremano e
+      controlla due volte la fibbia. Poi ti mette in mano il suo coltello da
+      reti, con il manico consumato dove si appoggia il pollice.
+
+      «Io resto qui finché non torni» dice. «E se non torni resto qui lo
+      stesso, che tanto a casa non ci dormo.»
+
+      {origine apprendista-raschiatore} Ti torna in mente il primo turno sulle
+      piattaforme della Cicatrice, con la corda alla vita e qualcuno sopra che
+      la teneva senza mai guardare giù, per non portare male.
+    opzioni:
+      - testo: "Tuffarti dalla barca e scendere dritto"
+        descrizione: "Fino al fondo dell'ansa c'è un'altezza di tre uomini, e la corrente spinge verso lo Scoglio."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Giù dritto
+          testo: |
+            Entri in acqua di testa senza fare schizzi, e lasci che il peso ti
+            porti giù. Il cristallo si accende a metà discesa con un ronzio
+            contro i denti. Tocchi con le mani la melma del fondo. Sopra di te
+            la chiglia di Ciro è un'ombra lunga.
+          pe: { atletica: 2 }
+          imposta: { avv-ponte-pesce.allarme: 0 }
+          vai: avv-ponte-pesce
+        fallimento:
+          titolo: La corrente
+          testo: |
+            La corrente ti prende prima del fondo e ti porta verso il largo, a
+            rotoloni. Risali dove Ciro non ti vede, e lui ti ripesca dopo
+            un'ora di remi, con la faccia grigia e la barca piena d'acqua.
+          effetti: { ferite: 0.5 }
+      - testo: "Scendere dallo scalo dei vecchi"
+        descrizione: "Sul lato est dello Scoglio, dove diceva Tersilla. Si scende a piedi, senza un tuffo che si senta."
+        requisiti: [avv-ponte-pesce.approdo >= 1]
+        esito:
+          titolo: Lo scalo
+          testo: |
+            Ciro accosta allo Scoglio dal lato est. Sotto il pelo dell'acqua i
+            gradini dello scalo scendono larghi e lisci, scavati da gente che
+            non aveva fretta. Li scendi uno alla volta con la mano sulla
+            pietra, finché l'acqua ti chiude sopra la testa e il cristallo si
+            accende.
+          imposta: { avv-ponte-pesce.allarme: 0 }
+          vai: avv-ponte-pesce
+      - testo: "Farti calare con la cima dell'ancora"
+        descrizione: "Piano, un braccio alla volta, con Ciro che tiene la cima e chiede con uno strattone se va tutto bene."
+        costo: 2
+        esito:
+          titolo: La cima dell'ancora
+          testo: |
+            Ciro ti cala lentamente, con la cima avvolta due volte intorno al
+            banco, e ogni tanto dà uno strattone per chiederti se va tutto
+            bene. Tu rispondi con uno strattone solo. Arrivi sul fondo con le
+            mani spellate dalla corda e il freddo dentro le ossa.
+          effetti: { ferite: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 0 }
+          vai: avv-ponte-pesce
+
+  # ------------------------------------------------------------ 0-2 · la corrente dell'ansa
+  - id: avv-ponte-pesce-la-corrente-dell-ansa
+    immagine: icone/drowning
+    titolo: La corrente dell'ansa
+    sommario: "Sul fondo la corrente dell'ansa ti spinge verso lo Scoglio e gira intorno alla base, dove l'acqua scava una buca."
+    luogo: Le acque sotto lo Scoglio, il fondo dell'ansa
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce <= 2]
+    testo: |
+      Appena ti stacchi dal fondo la corrente dell'ansa ti prende di fianco e
+      ti porta verso lo Scoglio senza fermarsi mai, con la pazienza di una
+      mano che spinge una porta. Sul fondo i giunchi morti sono piegati tutti
+      nella stessa direzione. Più avanti la corrente gira intorno alla base
+      della Roccia, e dove gira scava una buca che scende nel buio.
+
+      {natura Media} Dietro ogni sasso grosso l'acqua resta ferma, come il
+      vento dietro un muro. Sul lato a valle la melma è liscia e senza
+      increspature, e di lì si passa senza combattere.
+    opzioni:
+      - testo: "Nuotare dritto contro la corrente"
+        descrizione: "La via corta passa accanto alla buca. La corrente spinge proprio lì."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Controcorrente
+          testo: |
+            Nuoti a bracciate lunghe con la testa bassa, e la corrente ti
+            lascia andare solo quando arrivi al riparo della Roccia. Hai le
+            spalle che bruciano, e la buca resta alla tua sinistra, nera.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La buca
+          testo: |
+            A metà la corrente ti gira e ti porta sopra la buca, e per un
+            lungo momento non sai più da che parte sta il fondo. Ne esci
+            aggrappato a una rete persa, con un graffio lungo tutto il
+            braccio.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare da un sasso all'altro, nell'acqua ferma"
+        descrizione: "Dietro i sassi la corrente non tira. È più lungo, e bisogna sapere dove guardare."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Media }
+        successo:
+          titolo: Dietro i sassi
+          testo: |
+            Ti sposti da un sasso al successivo stando sempre sul lato a
+            valle, dove l'acqua è ferma. Ci metti il doppio del tempo e arrivi
+            alla Roccia con le braccia ancora fresche.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il sasso che rotola
+          testo: |
+            Un sasso ti rotola via da sotto la mano, e la corrente ti riporta
+            indietro fino ai giunchi. Ricominci da capo con la melma nel
+            beccuccio del boccaglio.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciarti portare fino alla Roccia"
+        descrizione: "La corrente ci va da sola. Basta non opporsi, e prendere quello che arriva."
+        costo: 2
+        esito:
+          titolo: Portato
+          testo: |
+            Smetti di nuotare e ti lasci portare. La corrente ti sbatte contro
+            i sassi due volte prima di posarti alla base della Roccia, e ci
+            arrivi pesto, con il boccaglio storto fra i denti.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · i granchi del fondo
+  - id: avv-ponte-pesce-i-granchi-del-fondo
+    immagine: icone/crab-claw
+    titolo: I granchi del fondo
+    sommario: "Fra la Roccia e il relitto di una chiatta la melma si muove. Una colonia di granchi larghi come scudi sta mangiando."
+    luogo: Le acque sotto lo Scoglio, il relitto della chiatta
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce <= 2]
+    testo: |
+      Sul fondo la melma si muove, nel tratto fra la Roccia e il relitto di
+      una chiatta. Sono granchi, una dozzina, larghi come scudi, con il guscio
+      coperto d'alga e le chele consumate fino al bianco a forza di aprire
+      conchiglie. Mangiano quello che resta di un pesce grosso, e quando ti
+      avvicini il più grande alza una chela e la tiene alzata.
+
+      Ciro ti ha legato alla cintura un sacchetto di pesce secco, per ogni
+      evenienza.
+
+      {rissa Difficile} Il guscio non si rompe a pugni. Sotto, dove le zampe
+      si attaccano, è molle come il dorso di una mano.
+    opzioni:
+      - testo: "Farti largo fra i granchi"
+        descrizione: "Sono lenti a voltarsi. Le chele però chiudono come una morsa."
+        combattimento: avv-ponte-pesce-i-granchi
+        vittoria:
+          titolo: I gusci
+          testo: |
+            Il più grande resta sul fondo a pancia in su, con le zampe che si
+            muovono ancora. Gli altri si ritirano nella melma con le chele
+            davanti, e tu passi sopra il loro pasto senza guardarlo.
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        sconfitta:
+          titolo: La chela
+          testo: |
+            Una chela ti chiude il polpaccio e non lo molla finché non le
+            pianti il coltello di Ciro nella giuntura. Torni verso i giunchi
+            lasciando nell'acqua una scia scura.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare radente al relitto mentre mangiano"
+        descrizione: "Finché c'è il pesce, i granchi guardano il pesce."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il pasto
+          testo: |
+            Aspetti che il grande abbassi la chela e torni a mangiare, poi
+            passi lungo il fianco della chiatta, a un braccio dai gusci.
+            Nessuno si volta, e dall'altra parte il fondo scende verso la
+            Roccia.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La zampa
+          testo: |
+            Una zampa ti sfiora la caviglia, e la colonia alza le chele tutta
+            insieme. Ti ritiri nuotando all'indietro con una pinzata sulla
+            mano che sanguina nell'acqua.
+          effetti: { ferite: 0.5 }
+      - testo: "Buttare il pesce di Ciro dall'altra parte"
+        descrizione: "Un sacchetto di pesce secco, lanciato lontano. Bisogna sapere che cosa preferisce un granchio."
+        prova: { attributo: mentale, abilita: [natura, addestrare-animali], difficolta: Media }
+        successo:
+          titolo: Il sacchetto
+          testo: |
+            Apri il sacchetto e lo lanci oltre la colonia, lasciando che il
+            pesce secco esca a nuvola. I granchi ci vanno dietro tutti, il
+            grande per primo, e tu passi dalla parte che hanno lasciato.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La nuvola sbagliata
+          testo: |
+            La corrente ti riporta addosso la nuvola di pesce secco, e i
+            granchi vengono a prenderla dove sei tu. Scappi con le chele
+            dietro e la giubba strappata su una spalla.
+          effetti: { ferite: 0.5 }
+      - testo: "Girare largo intorno alla colonia"
+        descrizione: "Dall'altra parte della chiatta il fondo è pieno di cozze. Si passa, ma si paga."
+        costo: 2
+        esito:
+          titolo: Le cozze
+          testo: |
+            Fai il giro lungo dietro il relitto, dove il fondo è tutto cozze e
+            la melma ti arriva al ginocchio. Ci metti molto, e i gusci ti
+            aprono le mani in dieci punti.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · il relitto della barca di Ciro
+  - id: avv-ponte-pesce-il-relitto
+    immagine: icone/brain-tentacle
+    titolo: Il relitto
+    sommario: "La barca di Ciro sta sul fondo, coricata su un fianco. Dentro, fra le ceste, c'è il polpo che l'ha affondata."
+    luogo: Le acque sotto lo Scoglio, la barca di Ciro
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce <= 2]
+    testo: |
+      La barca di Ciro sta sul fondo poco lontano dalla Roccia, coricata su un
+      fianco, con la poppa ancora dipinta di giallo. Dentro, fra le reti, c'è
+      il polpo. Lo vedi quando muove un braccio grigio lungo quanto la barca,
+      con le ventose grandi come piattini. Ha riempito lo scafo delle cose che
+      ha raccolto sul fondo, le ceste di Ciro e un secchio, e una lanterna
+      d'ottone che brilla alla tua luce.
+
+      {natura Media} Un polpo in un fiume non ci dovrebbe stare. Sulle braccia
+      ha anelli più chiari, come una bestia che qualcuno ha tenuto a lungo
+      legata e poi ha lasciato andare.
+
+      *Lo tengono qui apposta, a guardia delle barche.* Il polpo intanto ha
+      girato un occhio verso di te.
+    opzioni:
+      - testo: "Affrontare il polpo"
+        descrizione: "Otto braccia e un becco. Il coltello di Ciro è corto, e il polpo lo sa."
+        combattimento: avv-ponte-pesce-il-polpo
+        vittoria:
+          titolo: La nube nera
+          testo: |
+            Il polpo lascia la barca in una nube nera e si ritira nel buio,
+            trascinando le braccia ferite. Prima di passare prendi dallo scafo
+            la lanterna d'ottone di Ciro e te la leghi alla cintura.
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        sconfitta:
+          titolo: Dentro lo scafo
+          testo: |
+            Un braccio ti prende alla vita e ti tira dentro lo scafo, fra le
+            ceste. Ne esci tagliando alla cieca, e il polpo ti lascia andare
+            quando ormai non hai più forza per nuotare avanti.
+          effetti: { tormento: 0.5 }
+      - testo: "Scivolare sotto la chiglia, dalla parte cieca"
+        descrizione: "La barca è coricata. Sotto la chiglia c'è un palmo d'acqua, e il polpo guarda dall'altra parte."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: La parte cieca
+          testo: |
+            Ti appiattisci nella melma e passi sotto la chiglia come sotto un
+            letto, con la schiena che striscia sul legno. Dall'altra parte il
+            polpo sta ancora guardando dove eri prima.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La ventosa
+          testo: |
+            A metà ti si attacca al collo una ventosa, che strappa via un
+            pezzo di pelle quando ti liberi. Torni indietro di corsa con il
+            collo che brucia.
+          effetti: { ferite: 0.5 }
+      - testo: "Lanciare un sasso contro lo scafo dall'altra parte"
+        descrizione: "Il polpo raccoglie quello che fa rumore. Un sasso ben tirato lo porta a guardare altrove."
+        prova: { attributo: fisico, abilita: [armi-da-distanza, atletica], difficolta: Media }
+        successo:
+          titolo: Il sasso
+          testo: |
+            Tiri il sasso a parabola sopra la barca, e quello batte contro la
+            prua con un suono sordo. Il polpo ci allunga prima tre braccia e
+            poi tutte quante, e tu passi dietro la poppa gialla.
+          pe: { armi-da-distanza: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il sasso corto
+          testo: |
+            Sott'acqua il sasso va dove vuole lui, e cade davanti allo scafo,
+            più vicino a te che alla prua. Il polpo guarda il sasso a lungo,
+            poi allunga un braccio verso di te.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che esca a caccia"
+        descrizione: "Prima o poi avrà fame. Il freddo però arriva prima della fame."
+        costo: 2
+        esito:
+          titolo: L'attesa
+          testo: |
+            Ti nascondi dietro un sasso finché il polpo non esce dallo scafo e
+            si allontana lungo il fondo. Aspetti tanto che le dita ti
+            diventano bianche, e quando passi accanto alla barca non te le
+            senti più.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-2 · le scale nel fiume
+  - id: avv-ponte-pesce-le-scale-nel-fiume
+    immagine: icone/stairs
+    titolo: Le scale nel fiume
+    sommario: "Le scale della capanna di Wren, buttate nel fiume dalle guardie cinque anni fa, scendono adesso dentro una spaccatura della Roccia."
+    luogo: Le acque sotto lo Scoglio, la base della Roccia
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce <= 2]
+    testo: |
+      Ai piedi della Roccia, sul fondo, c'è una scala di legno lunga quanto la
+      Roccia è alta. Sono le scale della capanna di Wren, quelle che la
+      Guardia buttò nel fiume la notte in cui bruciò la casa. Il legno è nero
+      e gonfio, e la scala non sta più dove è caduta. Adesso scende di
+      traverso dentro una spaccatura della pietra, legata alla Roccia con
+      corde d'alga intrecciata, e fa da strada verso il basso.
+
+      {accademiche Media} La Guardia buttò le scale perché nessuno salisse più
+      allo Scoglio. A chi poteva usarle per scendere, quella notte, non ci ha
+      pensato nessuno.
+    opzioni:
+      - testo: "Scendere lungo la scala"
+        descrizione: "Piolo dopo piolo, dentro la spaccatura. Il legno ha cinque anni di fiume."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: I pioli
+          testo: |
+            Scendi piolo dopo piolo tenendoti alle corde d'alga, e la
+            spaccatura si allarga sotto di te in una galleria. I pioli più
+            bassi sono consumati al centro, lisci come un manico, da piedi che
+            ci passano ogni giorno.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il piolo marcio
+          testo: |
+            Un piolo ti si sbriciola sotto il piede e scivoli giù di schiena
+            per tre pioli, finché le corde ti fermano. Risali con un livido
+            lungo quanto il braccio.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire i nodi delle corde d'alga"
+        descrizione: "Chi ha legato la scala ha fatto dei nodi. I nodi dicono da dove è venuto e dove andava."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Bocca di lupo
+          testo: |
+            Le corde sono annodate a bocca di lupo, il nodo che Ciro fa senza
+            guardare. L'hanno imparato guardando le reti del Ponte da sotto.
+            Segui i nodi fino a un passaggio laterale, più comodo della scala,
+            che scende nella galleria.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Le corde che girano
+          testo: |
+            Le corde girano intorno alla Roccia e tornano su se stesse, e dopo
+            un po' ti ritrovi al punto di partenza con il cristallo che si è
+            fatto più fioco.
+          effetti: { tormento: 0.5 }
+      - testo: "Calarti nella spaccatura senza scala"
+        descrizione: "La pietra è viva e tagliente. Le braccia però non si sbriciolano."
+        costo: 2
+        esito:
+          titolo: A forza di braccia
+          testo: |
+            Ti cali nella spaccatura a forza di braccia, strisciando contro la
+            pietra, e lasci la scala a chi l'ha messa lì. Arrivi in fondo con
+            la giubba strappata sulla schiena.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · le reti dei Sommersi
+  - id: avv-ponte-pesce-le-reti-dei-sommersi
+    immagine: icone/rope-coil
+    titolo: Le reti dei Sommersi
+    sommario: "La bocca della grotta è chiusa da tre file di reti del Ponte del Pesce, ricucite con l'alga."
+    luogo: Le acque sotto lo Scoglio, la bocca della grotta
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 3, profondita.avv-ponte-pesce <= 4]
+    testo: |
+      La grotta si apre sotto la Roccia come una bocca storta, e la bocca è
+      chiusa da reti. Sono reti da pesca del Ponte, con i galleggianti di
+      sughero ancora attaccati e le maglie rotte riparate con l'alga, tese da
+      una parete all'altra in tre file. Ce ne sono di ogni età, e le più
+      vecchie hanno nodi che al Ponte non si fanno più da cinquant'anni.
+
+      {conoscenze-della-strada Media} Ecco dove finivano le reti tagliate del
+      nonno di Tersilla. Qualcuno le raccoglie da generazioni, e le ricuce
+      meglio di come erano.
+    opzioni:
+      - testo: "Sciogliere i nodi di una maglia e richiuderla"
+        descrizione: "Una maglia aperta e richiusa non si vede. Bisogna conoscere i nodi, e farli sott'acqua."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: La maglia richiusa
+          testo: |
+            Sciogli i nodi di una maglia in ognuna delle tre reti e li rifai
+            uguali da dietro, dopo essere passato. Quando hai finito le reti
+            sono come prima, e tu sei dall'altra parte.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il nodo che stringe
+          testo: |
+            Sbagli un nodo, e la maglia ti si stringe intorno al polso come un
+            cappio. Ci metti molto a liberarti, e torni indietro con la mano
+            gonfia.
+          effetti: { ferite: 0.5 }
+      - testo: "Tagliarti un varco con il coltello di Ciro"
+        descrizione: "Bastano tre tagli dal basso. Lo spago bagnato però resiste, e una rete tagliata si vede."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Tre tagli
+          testo: |
+            Tagli le tre reti dal basso, dove le maglie toccano la sabbia, e
+            ti infili nel varco strisciando. Dietro di te i lembi tagliati
+            ondeggiano piano, come tende lasciate aperte.
+          pe: { armi-da-mischia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Lo spago bagnato
+          testo: |
+            Lo spago bagnato si allunga sotto la lama invece di tagliarsi, e
+            la rete ti si avvolge alle gambe. Ne esci all'indietro, a
+            strattoni, lasciandoci uno stivale.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare un buco lungo il fondo"
+        descrizione: "Tre reti vecchie da qualche parte non toccano terra. Bisogna strisciare per trovarlo."
+        costo: 2
+        esito:
+          titolo: Sotto le reti
+          testo: |
+            Strisci lungo il fondo sotto la prima rete, poi sotto la seconda,
+            finché trovi il punto dove la terza non arriva alla sabbia. Passi
+            con la faccia nella melma, e un galleggiante ti batte sulla nuca
+            per tutto il tempo.
+          effetti: { profondita.avv-ponte-pesce: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · la sala delle ancore
+  - id: avv-ponte-pesce-la-sala-delle-ancore
+    immagine: icone/crossed-chains
+    titolo: La sala delle ancore
+    sommario: "In una sala piena d'acqua stanno piantate in file le ancore delle barche che si sono avvicinate troppo allo Scoglio."
+    luogo: Le acque sotto lo Scoglio, la sala delle ancore
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 3, profondita.avv-ponte-pesce <= 6, profondita.avv-ponte-pesce != 5]
+    testo: |
+      Qui la grotta si allarga in una sala alta, piena d'acqua fino alla
+      volta. Sul pavimento sono piantate decine di ancore in file dritte,
+      ognuna con il suo pezzo di catena o di cima che sale verso l'alto e
+      finisce nel nulla. Sono le ancore delle barche che si sono avvicinate
+      troppo allo Scoglio, e su qualcuna c'è incisa la marca di un barcaiolo
+      che hai visto sulle porte del Ponte. Dove passa la corrente le catene
+      ondeggiano piano, e quando si toccano suonano.
+
+      {empatia Media} Le file guardano tutte verso il fondo della sala. Chi le
+      ha piantate le ha messe in ordine con cura, come si mettono in ordine le
+      cose di un morto.
+    opzioni:
+      - testo: "Passare fra le catene senza toccarle"
+        descrizione: "Fra una fila e l'altra c'è spazio per un corpo di fianco. Una catena toccata le fa suonare tutte."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Il bosco di catene
+          testo: |
+            Ti muovi fra le file di fianco, piano, con le braccia strette al
+            corpo, come in un bosco d'inverno dove ogni ramo fa rumore. Arrivi
+            in fondo alla sala senza che una catena suoni.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La sala che suona
+          testo: |
+            Un piede tocca una catena, la catena tocca la vicina, e la sala
+            suona per un tempo lunghissimo. Ti nascondi dietro un'ancora
+            finché l'acqua torna ferma, e poi torni sui tuoi passi.
+          effetti: { tormento: 0.5 }
+      - testo: "Seguire il sentiero consumato sul fondo"
+        descrizione: "Chi passa di qui ogni giorno ha lasciato un segno. Bisogna vederlo con una luce che arriva a tre passi."
+        prova: { attributo: mentale, abilita: [percezione, natura], difficolta: Difficile }
+        successo:
+          titolo: Il solco
+          testo: |
+            Nella sabbia c'è un solco appena visibile che passa fra le file
+            dove le catene sono più corte. Lo segui chinato, con la luce
+            bassa, fino all'uscita in fondo alla sala.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il solco sbagliato
+          testo: |
+            Il solco che segui è quello di una catena trascinata, e finisce
+            contro la parete. Quando torni indietro una marra ti apre la
+            coscia.
+          effetti: { ferite: 0.5 }
+      - testo: "Tenere ferme le catene una per una"
+        descrizione: "Con la mano su ogni catena che sfiori. È lento, ed è il modo più sicuro."
+        costo: 2
+        esito:
+          titolo: Una per una
+          testo: |
+            Avanzi tenendo ferma con la mano ogni catena che sfiori, finché
+            arrivi in fondo alla sala con le braccia indolenzite e la ruggine
+            sotto le unghie. Una catena suona lo stesso alle tue spalle, e tu
+            non ti volti a guardare quale.
+          effetti: { profondita.avv-ponte-pesce: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · il cristallo che si spegne
+  - id: avv-ponte-pesce-il-cristallo-che-si-spegne
+    immagine: icone/floating-crystal
+    titolo: Il cristallo che si spegne
+    sommario: "La grotta scende e l'acqua si fa gelida. Il cristallo del boccaglio diventa giallo, e l'aria che ti dà sa di rame."
+    luogo: Le acque sotto lo Scoglio, la discesa fredda
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 3, profondita.avv-ponte-pesce <= 6, profondita.avv-ponte-pesce != 5]
+    testo: |
+      Qui la grotta scende ripida, e l'acqua si fa così fredda che i denti ti
+      battono sull'ottone. Il cristallo comincia a fare una luce bassa e
+      gialla, e l'aria che ti dà sa di rame e arriva a strappi. In alto, dove
+      la volta si alza, c'è una bolla d'aria vera, intrappolata contro la
+      pietra, larga quanto un tavolo.
+
+      {tecnologia Difficile} Il freddo stanca i cristalli conduttori. Scaldato
+      fra le mani, o tenuto all'asciutto per un poco, il cristallo torna a
+      dare quello che deve.
+
+      {resistenza Media fallita} Le dita dei piedi non le senti più, e quelle
+      delle mani hanno cominciato a fare lo stesso.
+    opzioni:
+      - testo: "Salire nella bolla e scaldare il cristallo fra le mani"
+        descrizione: "Un po' d'aria di pietra, e il cristallo stretto nei pugni. Intanto il freddo sale dalle gambe."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: La bolla
+          testo: |
+            Metti la testa nella bolla, dove l'aria sa di muffa, e tieni il
+            boccaglio stretto fra le mani finché il cristallo torna azzurro.
+            Ci vuole molto, e intanto il freddo ti sale fino alla vita. Quando
+            riparti l'ottone ronza di nuovo.
+          pe: { resistenza: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Le mani che tremano
+          testo: |
+            Le mani ti tremano tanto che il cristallo resta giallo. Torni
+            verso l'acqua più tiepida prima che si spenga del tutto, con la
+            testa che pulsa.
+          effetti: { ferite: 0.5 }
+      - testo: "Tirare piano, come nel canale"
+        descrizione: "Nel canale sotto il Ponte hai imparato a non chiedere al cristallo più di quanto può dare."
+        requisiti: [avv-ponte-pesce.acqua >= 1]
+        prova: { attributo: mentale, abilita: [resilienza, tecnologia], difficolta: Media }
+        successo:
+          titolo: Come nel canale
+          testo: |
+            Fai quello che facevi nel canale, con Ciro che teneva la cima.
+            Tiri dal boccaglio poco alla volta e lasci il resto al cristallo,
+            che resta giallo ma regge. Scendi senza fretta fino al fondo
+            freddo, e oltre il fondo l'acqua torna tiepida.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La fretta
+          testo: |
+            A metà discesa tiri troppo forte, e il cristallo ti risponde con
+            un'aria che sa solo di rame. Torni su alla bolla a bocca aperta,
+            con l'ottone che ti sbatte sul mento.
+          effetti: { tormento: 0.5 }
+      - testo: "Dare al cristallo un po' del tuo Mana"
+        descrizione: "Un cristallo conduttore stanco si può nutrire, se si sa da che parte toccarlo."
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Il filo azzurro
+          testo: |
+            Appoggi due dita al castone e lasci passare il Mana piano, come si
+            versa l'acqua in un bicchiere pieno. Il cristallo torna azzurro in
+            un momento, e l'acqua intorno a te si scalda di un niente.
+          pe: { magia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La scossa
+          testo: |
+            Il cristallo prende il Mana tutto in una volta e te lo restituisce
+            in una scossa che ti fa mordere l'ottone. Per un po' vedi le
+            pareti della grotta che si muovono.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere in fretta, prima che si spenga"
+        descrizione: "In fondo l'acqua è più tiepida. Bisogna arrivarci con quello che resta."
+        costo: 2
+        esito:
+          titolo: In fretta
+          testo: |
+            Scendi più in fretta che puoi, con l'aria che arriva a strappi e
+            sa sempre più di rame. In fondo l'acqua torna tiepida e il
+            cristallo si riprende, e a te resta un mal di testa che arriva
+            fino alla nuca.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 3-6 · il vivaio
+  - id: avv-ponte-pesce-il-vivaio
+    immagine: icone/nautilus-shell
+    titolo: Il vivaio
+    sommario: "Sotto la galleria c'è una conca d'acqua tiepida piena di pesci, e fra i pesci giocano tre piccoli Sommersi."
+    luogo: Le acque sotto lo Scoglio, il vivaio
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 3, profondita.avv-ponte-pesce <= 6, profondita.avv-ponte-pesce != 5]
+    testo: |
+      La galleria passa sopra una conca d'acqua tiepida, con le pareti coperte
+      da un'alga bianca che fa una luce debole, come la brace quando si è
+      quasi spenta. Nella conca nuotano pesci, tanti, chiusi da una rete, e
+      fra i pesci giocano tre piccoli Sommersi. Hanno la pelle chiara, quasi
+      trasparente sulle mani, e fanno a gara a toccare i pesci senza farli
+      scappare. Uno dei tre si gira verso la tua luce e resta a guardarla.
+
+      {empatia Media} Ti guarda come i bambini del Ponte guardano un
+      forestiero, prima di decidere se è interessante o se è il caso di
+      chiamare la madre.
+    opzioni:
+      - testo: "Passare radente alla volta, nell'ombra"
+        descrizione: "Dove l'alga non cresce la volta è buia. Bisogna coprire il cristallo e non fare onde."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La volta buia
+          testo: |
+            Copri il cristallo con la mano e ti appiattisci contro la volta,
+            dove l'alga non cresce. Passi sopra la conca senza fare un'onda, e
+            i piccoli continuano il loro gioco con i pesci.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il verso
+          testo: |
+            Il piccolo ti vede e lancia un verso acuto, che rimbalza fra le
+            pareti. Ti ritiri nella galleria e aspetti, finché arriva un
+            adulto a riprenderli e se li porta via, guardando nella tua
+            direzione.
+          effetti: { tormento: 0.5 }
+      - testo: "Fargli un gesto, come si fa con i bambini"
+        descrizione: "Un dito davanti alla bocca, una moneta che sparisce fra le dita. Funziona al Ponte, forse funziona anche qui."
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Difficile }
+        successo:
+          titolo: La moneta
+          testo: |
+            Ti porti un dito davanti al boccaglio, poi fai sparire una moneta
+            fra le dita e la ritrovi dietro l'orecchio. Il piccolo ride a
+            bolle, e quando passi ti segue per un tratto prima di tornare
+            dagli altri, con la moneta stretta nel pugno.
+          pe: { espressivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il gesto storto
+          testo: |
+            Il gesto lo spaventa, e il piccolo si tuffa fra i pesci con un
+            verso che ti arriva dritto nelle orecchie. Ti ritiri nel buio
+            della galleria finché la conca non si svuota.
+          effetti: { tormento: 0.5 }
+      - testo: "Aspettare che i piccoli se ne vadano"
+        descrizione: "Prima o poi qualcuno li chiamerà a casa. Nell'acqua tiepida si aspetta meglio che altrove."
+        costo: 2
+        esito:
+          titolo: L'attesa nella galleria
+          testo: |
+            Aspetti nella galleria con il cristallo coperto dalla mano, finché
+            un adulto viene a riprenderli. Passi sopra la conca vuota con le
+            gambe addormentate e la luce dell'alga negli occhi.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta, l'uomo all'ancora
+  - id: avv-ponte-pesce-l-uomo-all-ancora
+    immagine: icone/manacles
+    titolo: L'uomo all'ancora
+    sommario: "In una camera rotonda, incatenato a un'ancora del Ponte, c'è l'uomo che ha salvato Ciro."
+    luogo: Le acque sotto lo Scoglio, la camera dell'ancora
+    area: avv-ponte-pesce
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce == 5]
+    testo: |
+      In fondo alla galleria c'è una camera rotonda, e al centro, piantata
+      nella sabbia, un'ancora del Ponte a quattro marre, con la marca di un
+      barcaiolo incisa sul fuso. All'anello dell'ancora è legata una catena, e
+      la catena finisce al collo di un uomo seduto sulla sabbia.
+
+      È lungo e magro, con la pelle del colore della pancia di un pesce. Sotto
+      la mascella ha tre tagli per parte che si aprono e si chiudono piano.
+      Gli occhi sono grandi e scuri, e quando la tua luce li raggiunge si
+      coprono di una seconda palpebra trasparente. Intorno all'ancora la
+      sabbia è scavata in cerchio dai suoi piedi. Al collo la catena è chiusa
+      da un lucchetto da barca, ed è così corta che Olm non riesce ad alzarsi
+      in piedi.
+
+      È Olm. Ti guarda, poi guarda il coltello di Ciro che hai alla cintura, e
+      lo riconosce.
+
+      «Ciro» dice, con una voce che fa le bolle. Le parole che sa della lingua
+      di sopra sono poche, e le dice tutte. «Ciro. Barca. Su. Bene?»
+
+      {medicina Media} È magro da giorni. Gli portano da mangiare quel tanto
+      che basta, e i polsi segnati dicono che all'inizio ha tirato la catena
+      con tutte le forze.
+
+      {origine fuggiasco-di-ghoran} La catena al collo e il cerchio scavato
+      nella sabbia li conosci. A Ghoran si legavano così anche gli uomini, e
+      il cerchio si faceva in una notte.
+    opzioni:
+      - testo: "Aprire il lucchetto con la punta del coltello"
+        descrizione: "È un lucchetto da barca, del Ponte, preso a qualcuno affondato. I lucchetti del Ponte li fa lo stesso fabbro da trent'anni."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il lucchetto
+          testo: |
+            Lavori il lucchetto con la punta del coltello finché la molla cede
+            con uno scatto che senti nelle dita. Olm si toglie la catena dal
+            collo e se la avvolge al braccio, perché non resti a nessun altro.
+            Poi si alza in piedi per la prima volta da giorni e ti indica la
+            galleria che sale.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La punta spezzata
+          testo: |
+            La punta del coltello si spezza dentro il lucchetto. Olm ti spinge
+            via con le due mani e ti indica la galleria da cui sei venuto, e
+            dall'alto senti arrivare delle voci a colpi di gola.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprire l'anello dell'ancora a forza di braccia"
+        descrizione: "L'anello è mangiato dalla ruggine. Con i piedi puntati sulle marre forse si apre."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: L'anello aperto
+          testo: |
+            Punti i piedi sulle marre e tiri la catena con le due mani, e alla
+            terza volta l'anello dell'ancora si apre con un suono di ferro
+            stanco. Olm resta con la catena al collo e se la avvolge intorno
+            al braccio per non farla battere, poi ti indica la galleria che
+            sale.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il ferro che tiene
+          testo: |
+            Tiri finché ti si apre una vena nella mano, e l'anello non si
+            muove. Olm ti ferma la mano con la sua e ti indica la galleria da
+            cui sei venuto, perché dall'alto sta arrivando qualcuno.
+          effetti: { ferite: 0.5 }
+      - testo: "Limare la catena con il coltello"
+        descrizione: "Un anello alla volta. Il ferro della catena è più giovane di quello dell'ancora, e ci vuole tempo."
+        costo: 2
+        esito:
+          titolo: La lima
+          testo: |
+            Limi un anello della catena con il filo del coltello di Ciro per
+            un tempo che non finisce, mentre Olm tiene la catena tesa senza
+            muoversi. Quando l'anello cede il coltello ha perso il filo e tu
+            hai le dita aperte.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · la sentinella della strettoia
+  - id: avv-ponte-pesce-la-sentinella
+    immagine: icone/spear-feather
+    titolo: La sentinella della strettoia
+    sommario: "Dove la galleria si stringe c'è una guardia appoggiata alla parete, con l'arpione lungo il fianco e gli occhi verso il basso."
+    luogo: Le acque sotto lo Scoglio, la strettoia
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 7, profondita.avv-ponte-pesce <= 9]
+    testo: |
+      La galleria sale e si stringe, e Olm ti nuota accanto con la catena
+      avvolta al braccio. Alla strettoia c'è una guardia. È appoggiata alla
+      parete con un arpione di ferro nero lungo il fianco, e guarda verso il
+      basso, da dove si arriva dalla camera dell'ancora. Le branchie le si
+      aprono e si chiudono lente. Dietro di lei la strettoia sale verso
+      un'acqua più chiara.
+
+      Olm ti tocca il braccio e si passa due dita sotto la mascella, sui
+      tagli, poi chiude la mano a pugno.
+
+      {medicina Difficile} Una mano chiusa a lungo sulle branchie fa a lei
+      quello che a te farebbe una mano sulla bocca. Se si lascia in tempo, si
+      sveglia con il mal di testa.
+    opzioni:
+      - testo: "Prenderla alle spalle e chiuderle le branchie"
+        descrizione: "Guarda in basso. Da sopra, con le due mani, prima che si volti."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: fisico, abilita: [rissa, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Le branchie
+          testo: |
+            Le arrivi alle spalle mentre guarda in basso e le chiudi le
+            branchie con le due mani. Si dibatte poco, poi resta molle contro
+            di te. Olm la lega con la sua cintura d'alga e la lascia
+            appoggiata alla parete, come se stesse ancora di guardia.
+          pe: { rissa: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il manico dell'arpione
+          testo: |
+            Si volta all'ultimo, e il manico dell'arpione ti prende in faccia.
+            Scappate giù per la galleria, e lei batte l'arpione contro la
+            pietra, tre colpi, che si sentono lontano.
+          effetti: { ferite: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Passare al cambio, come avete contato dalla riva"
+        descrizione: "Quando la guardia nuova scende a incontrare quella vecchia, la strettoia resta senza occhi."
+        quando: [avv-ponte-pesce.allarme == 0]
+        requisiti: [avv-ponte-pesce.turni >= 1]
+        prova: { attributo: fisico, abilita: [furtivita, atletica], difficolta: Media }
+        successo:
+          titolo: Il cambio
+          testo: |
+            Aspettate il cambio che avevi contato dalla barca di Ciro. Quando
+            la guardia nuova arriva dall'alto e quella vecchia le va incontro,
+            voi due passate dietro le loro schiene nel tempo di un saluto.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il conto sbagliato
+          testo: |
+            La guardia nuova arriva prima del tempo e vi trova a metà della
+            strettoia. Tornate giù a bracciate, e lei grida verso l'alto.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Affrontarla con il coltello di Ciro"
+        descrizione: "Un coltello da reti contro un arpione, in una galleria stretta. Se ti cercano già, è la sola strada."
+        combattimento: avv-ponte-pesce-una-guardia
+        vittoria:
+          titolo: La guardia a terra
+          testo: |
+            La guardia va giù sul fondo con l'arpione ancora in mano. Olm la
+            gira sulla schiena perché le branchie restino nell'acqua che
+            passa, poi ti fa segno di salire.
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        sconfitta:
+          titolo: L'arpione nel braccio
+          testo: |
+            L'arpione ti apre il braccio, e devi tornare indietro con Olm che
+            ti tira per la giubba. La guardia non vi segue e batte l'arpione
+            sulla pietra per chiamare le altre.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Aspettare in una nicchia che salga"
+        descrizione: "Prima o poi la chiameranno di sopra. Nella nicchia c'è posto per due, stretti."
+        costo: 3
+        esito:
+          titolo: La nicchia
+          testo: |
+            Tu e Olm vi stringete in una nicchia della galleria ad aspettare.
+            La guardia resta al suo posto per un tempo infinito, e quando
+            finalmente sale avete le gambe di legno. Passate la strettoia
+            dietro di lei, a distanza.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · il posto delle reti
+  - id: avv-ponte-pesce-il-posto-delle-reti
+    immagine: icone/barbed-spear
+    titolo: Il posto delle reti
+    sommario: "Due guardie ricuciono una rete in una sala bassa, e l'uscita sta proprio dietro di loro."
+    luogo: Le acque sotto lo Scoglio, il posto delle reti
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 7, profondita.avv-ponte-pesce <= 9]
+    testo: |
+      In una sala bassa due guardie ricuciono una rete del Ponte tesa fra due
+      pali, e ogni tanto si parlano a colpi di gola. Gli arpioni sono
+      appoggiati alla parete, a un braccio dalle mani. Dal soffitto pendono
+      altre reti messe ad asciugare dove non asciugheranno mai, e l'uscita
+      verso l'alto sta proprio dietro i pali.
+
+      Olm ascolta i colpi di gola e si tocca il petto, poi indica la galleria
+      laterale. Chiamarne via una, dice con le mani, la sa fare.
+
+      {conoscenze-della-strada Media} Due che lavorano insieme da anni si
+      guardano poco. Se una delle due smette di parlare, l'altra ci mette un
+      po' ad accorgersene.
+    opzioni:
+      - testo: "Lasciare che Olm chiami via la prima, e stordire l'altra"
+        descrizione: "Olm chiama dalla galleria laterale. Quando resta una sola, tocca a te."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: fisico, abilita: [rissa, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Una alla volta
+          testo: |
+            Olm chiama dalla galleria con la voce di qualcun altro, e la prima
+            guardia ci va brontolando. Tu prendi la seconda da dietro la rete
+            e le chiudi le branchie finché si affloscia. Quando l'altra torna
+            indietro voi siete già oltre i pali.
+          pe: { rissa: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La seconda voce
+          testo: |
+            La prima guardia riconosce la voce di Olm a metà del richiamo e si
+            volta di scatto verso la galleria. Scappate giù mentre le due
+            chiamano le altre a colpi di gola.
+          effetti: { ferite: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Passare sopra di loro, fra le reti appese"
+        descrizione: "Le reti appese al soffitto fanno un tetto. Sopra il tetto c'è un palmo d'acqua, e nessuno guarda in su."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Molto difficile }
+        successo:
+          titolo: Il tetto di reti
+          testo: |
+            Ti tiri su fra le reti appese e avanzi a mani, una maglia dopo
+            l'altra, con Olm dietro. Sotto di voi le due guardie continuano a
+            cucire e a parlarsi. Ti lasci cadere oltre i pali senza un'onda.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La maglia che cede
+          testo: |
+            Una maglia vecchia ti si rompe in mano, e una rete intera ti cade
+            addosso davanti alle guardie. Ne esci a coltellate mentre loro
+            prendono gli arpioni.
+          effetti: { ferite: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Prenderle di sorpresa, una alla volta"
+        descrizione: "Prima che arrivino agli arpioni. Olm tiene occupata la seconda, e la prima tocca a te."
+        combattimento: avv-ponte-pesce-una-guardia
+        vittoria:
+          titolo: I pali
+          testo: |
+            La guardia che hai davanti va giù fra i pali, e l'altra si ferma
+            vedendo Olm con la catena alzata. Passate oltre mentre lei resta
+            ferma, con l'arpione basso, a guardarvi andare.
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        sconfitta:
+          titolo: Gli arpioni
+          testo: |
+            Arrivano agli arpioni prima di te. Scappate giù con una punta nera
+            che ti segue fino alla galleria, e dietro i colpi di gola chiamano
+            tutta la grotta.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Aspettare che finiscano la rete"
+        descrizione: "Prima o poi la rete sarà finita. Il freddo intanto arriva."
+        costo: 3
+        esito:
+          titolo: L'ultimo nodo
+          testo: |
+            Aspettate nella galleria laterale, con Olm che conta i nodi a
+            colpi di gola sottovoce. Le guardie finiscono la rete e se la
+            portano via arrotolata, e voi passate la sala vuota intirizziti.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · la guardia che canta
+  - id: avv-ponte-pesce-la-guardia-che-canta
+    immagine: icone/sound-waves
+    titolo: La guardia che canta
+    sommario: "Una guardia ferma a un incrocio risponde con la gola a un'altra guardia lontana. Se smette di rispondere, l'altra viene a vedere."
+    luogo: Le acque sotto lo Scoglio, l'incrocio delle gallerie
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 7, profondita.avv-ponte-pesce <= 9]
+    testo: |
+      All'incrocio di due gallerie c'è una guardia ferma, con l'arpione
+      piantato nella sabbia accanto a sé. Ogni tanto da lontano arriva un
+      colpo di gola lungo e basso. Lei risponde con lo stesso colpo, sempre
+      dopo lo stesso tempo. Dove va la galleria che sale lo sa lei.
+
+      Olm ti fa capire a gesti che se la guardia smette di rispondere,
+      dall'altra parte qualcuno viene a vedere perché.
+
+      {espressivita Difficile} Il colpo lungo e basso è sempre uguale. Con la
+      gola giusta un uomo di sopra li sa rifare, se ha orecchio per i tempi.
+    opzioni:
+      - testo: "Stordirla e lasciare che Olm risponda al posto suo"
+        descrizione: "Tu le chiudi le branchie fra un colpo e l'altro. Olm risponde al colpo dopo, con la sua gola."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: fisico, abilita: [rissa, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Fra un colpo e l'altro
+          testo: |
+            La prendi appena ha risposto, e la tieni finché si affloscia. Al
+            colpo successivo risponde Olm con la sua gola, e continua a
+            rispondere mentre la legate all'arpione. Quando prendete la
+            galleria che sale, dall'altra parte nessuno si è accorto di
+            niente.
+          pe: { rissa: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il colpo che manca
+          testo: |
+            Si divincola, e il colpo successivo nessuno lo risponde.
+            Dall'altra parte il richiamo si ripete, più forte, poi diventa un
+            altro suono.
+          effetti: { ferite: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Passare nel tempo fra due richiami"
+        descrizione: "Dai giunchi hai contato anche questo. Fra un richiamo e l'altro la guardia guarda verso il suono."
+        quando: [avv-ponte-pesce.allarme == 0]
+        requisiti: [avv-ponte-pesce.turni >= 1]
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Il tempo giusto
+          testo: |
+            Quando arriva il colpo da lontano la guardia gira la testa verso
+            il suono, sempre per lo stesso tempo. In quel tempo passate
+            l'incrocio uno alla volta, con Olm davanti.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il tempo sbagliato
+          testo: |
+            Il richiamo arriva prima del solito, e la guardia gira la testa
+            proprio verso di te. Prende l'arpione e chiama.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Rispondere tu al richiamo, con la gola"
+        descrizione: "Se la guardia sente rispondere da un'altra parte, va a vedere lei. Bisogna farlo uguale."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: sociale, abilita: [espressivita, ingannare], difficolta: Molto difficile }
+        successo:
+          titolo: La gola giusta
+          testo: |
+            Al colpo successivo rispondi tu, da una galleria laterale, prima
+            di lei. La guardia resta a bocca aperta. Poi prende l'arpione e
+            viene a vedere chi le ruba il turno. Quando arriva nella galleria
+            laterale voi state già salendo dall'altra parte.
+          pe: { espressivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: La gola sbagliata
+          testo: |
+            Il colpo ti esce stonato, con le bolle. La guardia capisce subito,
+            e il suo richiamo cambia.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Affrontarla prima che chiami"
+        descrizione: "Se ti cercano già, almeno questa non porterà notizie."
+        combattimento: avv-ponte-pesce-una-guardia
+        vittoria:
+          titolo: L'incrocio libero
+          testo: |
+            La guardia cade accanto al suo arpione, e la galleria che sale è
+            libera. Da lontano il richiamo arriva ancora, e nessuno risponde.
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        sconfitta:
+          titolo: Il richiamo
+          testo: |
+            Ti tiene lontano con l'arpione mentre chiama, e il suo colpo di
+            gola sveglia le gallerie una dopo l'altra. Tornate giù di corsa.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Aspettare il cambio della guardia"
+        descrizione: "Prima o poi anche una guardia che canta da sola smette per andare a dormire."
+        costo: 3
+        esito:
+          titolo: Il cambio
+          testo: |
+            Aspettate il cambio nascosti in una galleria morta, a lungo, con
+            il freddo che vi entra nelle ossa. Quando la guardia nuova arriva
+            e comincia a rispondere, voi passate alle sue spalle mentre guarda
+            verso il richiamo.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · il tamburo d'acqua
+  - id: avv-ponte-pesce-il-tamburo-d-acqua
+    immagine: icone/drum
+    titolo: Il tamburo d'acqua
+    sommario: "Accanto a un guscio enorme appeso a una corda dorme una guardia. Basta un colpo sul guscio per svegliare tutta la grotta."
+    luogo: Le acque sotto lo Scoglio, il tamburo
+    area: avv-ponte-pesce
+    ripetibile: true
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 7, profondita.avv-ponte-pesce <= 9]
+    testo: |
+      In una sala dove l'acqua è quasi chiara, appeso al soffitto con una
+      corda d'alga, c'è un guscio enorme, vuoto, largo quanto un carro. Sotto
+      il guscio, sulla sabbia, c'è un osso lungo che serve da battente. Una
+      guardia vecchia dorme accanto all'osso, seduta, con le braccia
+      incrociate sull'arpione. L'uscita della sala è dall'altra parte, e sale.
+
+      {tecnologia Media} Il guscio suona perché è appeso e libero di vibrare.
+      Appoggiato a qualcosa, o fermato con una catena, il battente farebbe
+      soltanto un tonfo.
+
+      {origine apprendista-raschiatore} Sulle piattaforme c'è una campana
+      d'allarme a ogni pianerottolo, e il primo lavoro dell'apprendista è
+      imparare a non sfiorarla con lo zaino.
+    opzioni:
+      - testo: "Passare in punta di piedi accanto a lei"
+        descrizione: "È vecchia e dorme. I vecchi però dormono leggero."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Il sonno della vecchia
+          testo: |
+            Le passate accanto uno alla volta, tenendo la luce bassa. La
+            vecchia borbotta nel sonno a colpi di gola e stringe l'arpione, ma
+            non apre gli occhi, e l'uscita della sala vi porta verso l'alto.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Gli occhi aperti
+          testo: |
+            La vecchia apre gli occhi quando le sei davanti. Non prova nemmeno
+            a prendere l'arpione, e allunga la mano verso l'osso. Il guscio
+            suona una volta sola, e basta.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Fermare il guscio con la catena di Olm"
+        descrizione: "Una catena avvolta al guscio e legata alla parete. Poi la vecchia può svegliarsi quanto vuole."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il guscio muto
+          testo: |
+            Con la catena di Olm leghi il guscio alla parete, piano, un giro
+            alla volta. Quando la vecchia si sveglia e afferra l'osso, il
+            colpo fa un tonfo sordo e nient'altro. Ve ne andate mentre lei
+            batte e ribatte, sempre più confusa.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        fallimento:
+          titolo: Il giro di catena
+          testo: |
+            La catena scivola sul guscio e lo fa suonare piano, una nota lunga
+            che sveglia la vecchia. Il resto lo fa lei con l'osso.
+          effetti: { ferite: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Affrontare la vecchia prima che arrivi all'osso"
+        descrizione: "Vecchia, sì. L'arpione però l'ha in mano da quando Olm era piccolo."
+        combattimento: avv-ponte-pesce-una-guardia
+        vittoria:
+          titolo: L'osso
+          testo: |
+            La vecchia cade a un palmo dall'osso. Olm lo prende e lo porta via
+            con sé, e il guscio resta appeso, muto, mentre voi uscite dalla
+            sala verso l'alto.
+          effetti: { profondita.avv-ponte-pesce: 1 }
+        sconfitta:
+          titolo: Il guscio
+          testo: |
+            La vecchia ti tiene lontano con l'arpione e con l'altra mano batte
+            l'osso sul guscio, e la sala suona come una campana. Tornate giù
+            con il suono che vi insegue per tutte le gallerie.
+          effetti: { tormento: 0.5 }
+          imposta: { avv-ponte-pesce.allarme: 1 }
+      - testo: "Aspettare che la vecchia si svegli e se ne vada"
+        descrizione: "Quando si sveglia va a mangiare. Il guscio resta lì, e l'acqua è fredda."
+        costo: 3
+        esito:
+          titolo: Il risveglio
+          testo: |
+            La vecchia dorme a lungo. Quando si sveglia si stiracchia, guarda
+            il guscio come per salutarlo e se ne va da una galleria laterale.
+            Voi uscite dalla sala con le dita viola e le gambe di pietra.
+          effetti: { profondita.avv-ponte-pesce: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 10 · il cuore, le acque profonde
+  - id: avv-ponte-pesce-le-acque-profonde
+    immagine: ambientazione/regno-profondo
+    titolo: Le acque profonde
+    sommario: "In cima alle grotte c'è il pozzo delle acque profonde, che porta fuori nel fiume aperto. Da sopra arriva la capo delle guardie."
+    luogo: Le acque sotto lo Scoglio, il pozzo delle acque profonde
+    area: avv-ponte-pesce
+    requisiti: [avventura.ponte-pesce == 5, profondita.avv-ponte-pesce >= 10]
+    testo: |
+      Le gallerie finiscono in un pozzo largo che scende dritto nella roccia,
+      e dal fondo sale una corrente fredda che sa di fiume aperto. È la via
+      delle acque profonde, ti spiega Olm con le mani. Passa sotto l'ansa e
+      sbuca nel letto del Torvessa, lontano dalle guardie. Si toglie la catena
+      dal braccio e la lascia cadere nel pozzo, e la guardate sparire nel
+      buio.
+
+      Dall'alto arriva Ilske, la capo delle guardie. Ha un occhio solo, e al
+      collo porta un anello di catena come un ciondolo. Nuota senza fretta con
+      l'arpione nero tenuto basso, e dietro di lei la galleria si riempie di
+      luci bianche, l'alga che le altre guardie portano legata ai polsi. Si
+      ferma a un'asta di distanza e guarda Olm, poi te.
+
+      Parla nella lingua dei Sommersi, a colpi di gola, e Olm traduce con le
+      parole che ha. «Lei dice. Uomo di sopra tocca. Debito.» Si batte la mano
+      sul petto. «Debito mio.»
+
+      {empatia Difficile} Ilske non vuole ucciderlo. Vuole che torni
+      all'ancora, perché la legge è la legge e perché se Olm se ne va, le
+      guardie dietro di lei cominceranno a chiedersi perché restano.
+
+      Il pozzo è a tre bracciate da te.
+    opzioni:
+      - testo: "Affrontare Ilske"
+        descrizione: "La capo delle guardie dei Sommersi, con l'arpione nero, nell'acqua che è sua. Le altre guardano."
+        combattimento: avv-ponte-pesce-ilske
+        vittoria:
+          titolo: L'arpione spezzato
+          testo: |
+            Ilske va contro la parete del pozzo con l'arpione spezzato in due,
+            e le guardie dietro di lei si fermano tutte. Ti butti nel pozzo
+            con Olm, e la corrente vi porta giù e poi su, nel letto del fiume.
+
+            Ciro vi ripesca tutti e due fra i giunchi all'alba, e piange senza
+            vergogna mentre rema verso il Ponte.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.ponte-pesce: 1 }
+          vai: citta-bassa
+        sconfitta:
+          titolo: L'ancora di nuovo
+          testo: |
+            L'arpione ti inchioda la giubba alla parete del pozzo, e quando te
+            ne liberi le guardie hanno già preso Olm per le braccia. Esci dal
+            pozzo da solo e mezzo morto. Ciro ti ripesca nel fiume senza fare
+            domande.
+          effetti: { tormento: 1 }
+          vai: citta-bassa
+      - testo: "Gettarti nel pozzo con Olm e nuotare più forte di lei"
+        descrizione: "Nella corrente del pozzo nuota meglio chi è nato in acqua. Bisogna andare giù prima che arrivi."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: La corrente del pozzo
+          testo: |
+            Prendi Olm per la catena e ti butti nel pozzo, e la corrente vi
+            porta giù così in fretta che le orecchie ti fanno male. Ilske vi
+            insegue fino a metà, poi si ferma. Sbucate nel letto del fiume, e
+            all'alba Ciro vi ripesca fra i giunchi, piangendo senza vergogna.
+          pe: { atletica: 5 }
+          effetti: { avventura.ponte-pesce: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: L'arpione nella corrente
+          testo: |
+            A metà pozzo l'arpione di Ilske ti prende alla gamba e ti tira
+            indietro per la corda. Te ne liberi lasciandoci un pezzo di carne,
+            e risali nel fiume da solo mentre Olm resta laggiù con lei.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: citta-bassa
+      - testo: "Parlarle del debito, con Olm che traduce"
+        descrizione: "Il debito è di Ciro, e Ciro l'ha passato a te. Una legge che conta i debiti forse sa contare anche questo."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Difficile }
+        successo:
+          titolo: Il debito passato
+          testo: |
+            Le dici che il debito è passato da Olm a Ciro, e da Ciro a te, e
+            che adesso sei tu a pagarlo, scendendo fin qui. Olm traduce piano.
+            Ilske ascolta, gira l'arpione con la punta in alto e si fa da
+            parte. Nel pozzo la corrente vi porta fuori, e all'alba Ciro vi
+            ripesca fra i giunchi, piangendo senza vergogna.
+          pe: { persuasione: 5 }
+          effetti: { avventura.ponte-pesce: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La legge
+          testo: |
+            Ilske ti lascia finire, poi ti colpisce con il manico dell'arpione
+            in pieno petto. Le guardie prendono Olm, e tu vieni buttato nel
+            pozzo come una cosa che non serve. Ciro ti trova nel fiume a metà
+            mattina.
+          effetti: { ferite: 2, scandalo: 0.5 }
+          vai: citta-bassa
+      - testo: "Nasconderti con Olm nell'alga e lasciarla passare"
+        descrizione: "Le guardie non sanno ancora dove siete. Sotto l'orlo del pozzo l'alga lume è fitta come una tenda."
+        quando: [avv-ponte-pesce.allarme == 0]
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La tenda d'alga
+          testo: |
+            Vi infilate tutti e due nell'alga sotto l'orlo del pozzo, con il
+            cristallo spento contro il petto. Ilske passa a un braccio da voi
+            e scende nel pozzo a cercarvi. Quando torna su a mani vuote, voi
+            siete già nella corrente, e all'alba Ciro vi ripesca fra i
+            giunchi.
+          pe: { furtivita: 5 }
+          effetti: { avventura.ponte-pesce: 1 }
+          vai: citta-bassa
+        fallimento:
+          titolo: La luce
+          testo: |
+            Il cristallo si riaccende da solo contro il tuo petto, e l'alga
+            diventa una lanterna. Ilske vi tira fuori uno per volta. Olm torna
+            all'ancora, e tu torni al fiume con il segno del suo arpione sulla
+            schiena.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: citta-bassa

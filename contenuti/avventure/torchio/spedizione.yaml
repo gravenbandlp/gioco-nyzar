@@ -1,0 +1,1231 @@
+# La spedizione dell'Avventura «Il torchio che non si ferma» (avventura.torchio == 4): dentro il Torchio Dossena,
+# dal cancello al pannello centrale. Ci si entra da `avv-torchio-il-cancello` (storia.yaml, presso Laresh); la ritirata
+# riporta alla Superficie e azzera la profondità.
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+#   0-1 il cortile del brindisi, il secondo cancello;
+#   2-3 la ruota del mulino, la rimessa delle Rondini (prove Medie e Difficili, uno scontro con le cesoie volanti);
+#   4-6 il meleto: i filari, il carro delle ceste, le arnie, la vasca del lavaggio (prove Difficili, uno scontro
+#       con i raccoglitori), e a profondità 5 la svolta non ripetibile, il melo grande con gli ospiti di Dossena
+#       (avv-torchio.ospiti, che l'epilogo ricorda);
+#   7-9 il reparto: le caldaie, il pavimento di mosto, la galleria delle botti, gli alambicchi (prove Difficili, in
+#       ogni stanza una Molto difficile o uno scontro con i tappatori).
+# Ogni stanza ha una via senza prova da 2 rintocchi con ½ di Ferite o Tormento (3 rintocchi nel reparto). Chi
+# fallisce prende almeno ½ negativa e non scende.
+# I vantaggi della storia aprono vie più facili: avv-torchio.sportelli (la rimessa delle Rondini, il carro delle ceste),
+# avv-torchio.valvola (le caldaie), avv-torchio.pannello (gli alambicchi e il cuore).
+# Il cuore a profondità 10 è il pannello centrale, con il portabotti accelerato (boss): combattimento, o tre vie
+# Difficili per rompere il pannello alle sue spalle (una chiede avv-torchio.pannello). Chi vince ferma il torchio e
+# porta la pista a 5; chi perde o fallisce torna in Superficie con una negativa e può rientrare.
+aree:
+  - id: avv-torchio
+    immagine: ambientazione/mulino-malgrani
+    nome: Il Torchio Dossena
+    sommario: "Il vecchio mulino del rio basso, con un reparto di mattoni nuovi, un camino di rame e gli automi che non si fermano più."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      Il Torchio Dossena è il vecchio mulino del rio basso, con un reparto di
+      mattoni nuovi addossato al fianco e un camino di rame che sale più alto di
+      qualunque tetto di Laresh. Dentro il muro di cinta ci sono i due cortili
+      sotto i fili d'ottone delle Rondini, poi il meleto con gli Aironi, e in
+      fondo il reparto, dove il torchio spreme e gli alambicchi bollono.
+
+      Da quando è caduto il fulmine niente si ferma. Il torchio batte a colpi
+      doppi e la ruota del mulino gira come in piena. Dal camino esce un fumo
+      azzurro che odora di mele cotte.
+
+colonna:
+  - { contesto: area, id: avv-torchio, musica: a-hundred-deaths, ambiente: mines }
+
+storylet:
+  # ------------------------------------------------------------ 0-1 · il cortile del brindisi
+  - id: avv-torchio-il-cortile-del-brindisi
+    immagine: icone/saw-claw
+    titolo: Il cortile del brindisi
+    sommario: "I tavoli del brindisi sono ancora rovesciati, e sopra il cortile le Rondini corrono sui fili d'ottone."
+    luogo: Il Torchio Dossena, il primo cortile
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio <= 1]
+    testo: |
+      Il primo cortile è come l'hai lasciato, con i tavoli del brindisi
+      rovesciati e i bicchierini verdi sparsi sul selciato, quasi tutti interi.
+      Sopra, a due braccia da terra, corrono i fili d'ottone, e sui fili le
+      Rondini vanno e vengono da un tetto all'altro. Quando una passa sopra un
+      tavolo, gli taglia via un lembo di tovaglia. Dall'altra parte del cortile
+      si apre il passaggio verso il secondo cancello.
+
+      {percezione Media} Ogni Rondine fa sempre la sua strada sullo stesso filo.
+      Fra due passaggi della stessa Rondine c'è il tempo di contare fino a sei.
+    opzioni:
+      - testo: "Attraversare contando i passaggi"
+        descrizione: "Fra un passaggio e l'altro c'è il tempo di contare fino a sei. Bisogna partire al numero giusto."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Media }
+        successo:
+          titolo: Al cinque
+          testo: |
+            Conti i passaggi della Rondine più vicina e parti al cinque, piegato
+            in due. Arrivi dall'altra parte del cortile mentre lei ti passa
+            sopra la nuca e taglia l'aria dove un attimo prima c'era la tua
+            testa.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Al tre
+          testo: |
+            Parti al tre invece che al cinque, e la Rondine ti prende di
+            striscio sulla spalla. Torni a ripararti sotto un tavolo rovesciato,
+            con la manica aperta e il conto da rifare.
+          effetti: { ferite: 0.5 }
+      - testo: "Far saltare una Rondine dal suo filo"
+        descrizione: "Le ruote di una Rondine stanno su un filo solo. Un colpo dal basso al momento giusto la fa volare via."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, rissa], difficolta: Difficile }
+        successo:
+          titolo: Il filo vuoto
+          testo: |
+            Aspetti la Rondine sotto il filo con una gamba di tavolo in mano e
+            la colpisci sulle ruote quando ti passa sopra. Salta via dal filo e
+            si schianta sul selciato, dove agita le cesoie a vuoto. Attraversi
+            il cortile sotto il suo filo, che adesso è libero.
+          pe: { armi-da-mischia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La gamba di tavolo
+          testo: |
+            Colpisci troppo tardi, e la gamba di tavolo ti resta in mano
+            tagliata a metà. La Rondine torna indietro sul filo, e tu ti butti
+            di nuovo sotto i tavoli.
+          effetti: { ferite: 0.5 }
+      - testo: "Ripararti sotto un piano di tavolo"
+        descrizione: "Un piano di tavolo sopra la testa regge qualche colpo di cesoie. Si cammina adagio, e le braccia si stancano."
+        costo: 2
+        esito:
+          titolo: Mezzo tavolo
+          testo: |
+            Ti metti sopra la testa un piano di tavolo e attraversi il cortile a
+            piccoli passi, con le Rondini che ci sbattono contro a ogni
+            passaggio. Dall'altra parte arrivi con mezzo tavolo sopra la testa e
+            un taglio sul dorso della mano.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-1 · il secondo cancello
+  - id: avv-torchio-il-secondo-cancello
+    immagine: icone/big-gear
+    titolo: Il secondo cancello
+    sommario: "Fra il primo cortile e quello del torchio c'è un cancello che si apre da solo, e adesso sbatte al ritmo del torchio."
+    luogo: Il Torchio Dossena, il secondo cancello
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio <= 1]
+    testo: |
+      Fra il primo cortile e il cortile del torchio c'è un secondo cancello, di
+      ferro, che si apre da solo con un contrappeso appeso a una catena. Lapo
+      l'ha montato perché gli Aironi passassero con le ceste senza che nessuno
+      dovesse aprire. Adesso il contrappeso va su e giù al ritmo del torchio, e
+      il cancello si spalanca e sbatte di nuovo a ogni colpo, con un rumore che
+      senti nei denti.
+
+      {tecnologia Media} La catena del contrappeso passa su una carrucola in
+      cima al pilastro. Un ferro infilato fra la catena e la carrucola, quando
+      il cancello è aperto, lo tiene aperto.
+    opzioni:
+      - testo: "Passare quando si apre"
+        descrizione: "Il cancello resta aperto per il tempo di un colpo del torchio. Si passa di corsa, senza esitare."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Fra due colpi
+          testo: |
+            Ti metti accanto al pilastro e aspetti il colpo del torchio. Il
+            cancello si spalanca, e tu ci passi in mezzo di corsa prima che ti
+            sbatta sui talloni.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: L'anca
+          testo: |
+            Parti un colpo in ritardo, e il cancello ti prende di striscio
+            sull'anca e ti ributta nel primo cortile, lungo disteso sul
+            selciato.
+          effetti: { ferite: 0.5 }
+      - testo: "Bloccare la catena del contrappeso"
+        descrizione: "In cima al pilastro c'è la carrucola. Basta un ferro infilato al momento giusto perché il cancello resti aperto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Il ferro nella carrucola
+          testo: |
+            Sali sul pilastro e infili un ferro del gazebo fra la catena e la
+            carrucola quando il cancello è aperto. La catena si tende con un
+            gemito della carrucola, e il cancello resta spalancato abbastanza a
+            lungo da passare senza correre.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Le nocche
+          testo: |
+            Infili il ferro nel momento sbagliato, e la catena te lo strappa di
+            mano e te lo rimanda sulle dita. Scendi dal pilastro succhiandoti le
+            nocche.
+          effetti: { ferite: 0.5 }
+      - testo: "Arrampicarti sul muro accanto al pilastro"
+        descrizione: "Il muro è di mattoni nuovi, e i mattoni nuovi si sbriciolano. Si sale lo stesso, adagio."
+        costo: 2
+        esito:
+          titolo: I mattoni nuovi
+          testo: |
+            Sali sul muro di fianco al pilastro, aggrappato ai mattoni nuovi che
+            si sbriciolano sotto le dita, e salti giù dall'altra parte. Atterri
+            su un ginocchio nel cortile del torchio, e il ginocchio te lo
+            ricorderà fino a sera.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 2-3 · la ruota del mulino
+  - id: avv-torchio-la-ruota-del-mulino
+    immagine: icone/cog
+    titolo: La ruota del mulino
+    sommario: "La vecchia ruota del mulino gira come in piena, legata al torchio con una cinghia. Per arrivare al meleto si passa accanto."
+    luogo: Il Torchio Dossena, la gora
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 2, profondita.avv-torchio <= 3]
+    testo: |
+      Il cortile del torchio finisce sulla gora, dove gira la ruota del vecchio
+      mulino. Lapo l'ha collegata all'albero del torchio con una cinghia di
+      cuoio larga una spanna, e la ruota adesso gira come in piena, buttando
+      acqua sul selciato a ogni pala. Per arrivare al meleto bisogna passare
+      sulla passerella di legno che scavalca la gora a un braccio dalla ruota,
+      lucida di schizzi.
+
+      {natura Media} L'acqua della gora è tiepida e dolciastra, e sulle assi
+      della passerella sono rimaste attaccate le bucce delle mele. Dove ci sono
+      le bucce, il piede va per conto suo.
+    opzioni:
+      - testo: "Passare sulla passerella"
+        descrizione: "Le assi sono bagnate e la ruota spruzza. Si passa con le braccia larghe, guardando dove si mettono i piedi."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Fra le bucce
+          testo: |
+            Attraversi la passerella con le braccia larghe, mettendo i piedi fra
+            le bucce, mentre la ruota ti bagna di lato a ogni pala. Dall'altra
+            parte senti l'odore del meleto.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Una gamba nella gora
+          testo: |
+            A metà passerella pesti una buccia e finisci con una gamba nella
+            gora, a una spanna dalla ruota. Ti tiri su per la ringhiera e torni
+            indietro bagnato fino all'anca.
+          effetti: { ferite: 0.5 }
+      - testo: "Far saltare la cinghia dalla puleggia"
+        descrizione: "La cinghia che lega la ruota al torchio è tesa come una corda d'arco. Se salta, la ruota rallenta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La cinghia
+          testo: |
+            Ti avvicini alla cinghia di fianco e la spingi fuori dalla puleggia
+            con una pertica, nel momento in cui passa la cucitura. La cinghia
+            salta e frusta il selciato, e la ruota rallenta fino al passo di una
+            ruota qualunque. Attraversi la passerella con gli stivali quasi
+            asciutti.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La pertica
+          testo: |
+            La cinghia ti strappa la pertica di mano e te la rimanda contro le
+            costole. Ti siedi sul selciato con una mano sul fianco, finché il
+            cortile smette di girare.
+          effetti: { ferite: 0.5 }
+      - testo: "Risalire la gora a valle della ruota"
+        descrizione: "A valle della ruota l'acqua arriva alla vita. È tiepida, ed è più mosto che acqua."
+        costo: 2
+        esito:
+          titolo: Nella gora
+          testo: |
+            Scendi nella gora a valle della ruota, dove l'acqua è più bassa, e
+            la risali tenendoti al muro con l'acqua dolciastra fino alla vita.
+            Esci dalla parte del meleto appiccicoso di mosto fino ai fianchi,
+            con le vespe che ti seguono.
+          effetti: { profondita.avv-torchio: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2-3 · la rimessa delle Rondini
+  - id: avv-torchio-la-rimessa-delle-gazze
+    immagine: icone/energy-tank
+    titolo: La rimessa delle Rondini
+    sommario: "In fondo al cortile del torchio c'è la rimessa dove le Rondini tornano a ricaricarsi. Per uscire verso il meleto la si attraversa."
+    luogo: Il Torchio Dossena, la rimessa delle Rondini
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 2, profondita.avv-torchio <= 3]
+    testo: |
+      In fondo al cortile del torchio c'è una rimessa di tavole dove finiscono
+      tutti i fili d'ottone, e dentro la rimessa le Rondini tornano a
+      ricaricarsi, appese in fila a un'asta di rame come prosciutti in una
+      dispensa. Adesso nessuna resta ferma più di un momento. Toccano l'asta con
+      un lampo azzurro e ripartono subito. La porta sul retro della rimessa è
+      l'unica uscita del cortile verso il meleto.
+
+      {magia Media} L'asta di rame è carica di Mana fino a ronzare, e toccarla
+      vuol dire restarci attaccati. Se però la si stacca dal muro, le Rondini
+      appese si spengono tutte insieme.
+    opzioni:
+      - testo: "Affrontare le Rondini nella rimessa"
+        descrizione: "Due Rondini si staccano dall'asta e ti scendono addosso con le cesoie aperte."
+        combattimento: avv-torchio-le-cesoie
+        vittoria:
+          titolo: Le Rondini a terra
+          testo: |
+            Ne rompi una contro il pavimento della rimessa, e l'altra ti passa
+            sopra la testa e si incastra fra le tavole del tetto, dove resta a
+            tagliare il legno. Esci dalla porta sul retro, verso il meleto.
+          effetti: { profondita.avv-torchio: 1 }
+        sconfitta:
+          titolo: La giubba a strisce
+          testo: |
+            Le cesoie ti aprono la giubba in più punti prima che tu riesca a
+            tornare nel cortile, dove ti butti dietro una botte finché le
+            Rondini non tornano all'asta.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprire lo sportello di una Rondine"
+        descrizione: "La vite a farfalla gira a sinistra. Senza il cristallo la Rondine dorme, e quelle dietro restano ferme sul filo."
+        requisiti: [avv-torchio.sportelli >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il cristallo sfilato
+          testo: |
+            Afferri una Rondine per il corpo mentre tocca l'asta, giri la vite a
+            farfalla verso sinistra e le sfili il cristallo dal dorso. Si
+            affloscia sull'asta, e le altre le si ammucchiano dietro sullo
+            stesso filo, bloccate. Passi sotto di loro fino alla porta sul
+            retro.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La vite al contrario
+          testo: |
+            Giri la vite dalla parte sbagliata, e la Rondine ti morde la manica
+            con le cesoie e ti trascina contro l'asta. La scossa ti arriva fino
+            ai denti.
+          effetti: { ferite: 0.5 }
+      - testo: "Staccare l'asta di rame dal muro"
+        descrizione: "Senza asta, le Rondini appese si spengono. L'asta però è carica, e le mani sono le tue."
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: L'asta staccata
+          testo: |
+            Prendi l'asta con due stracci arrotolati intorno alle mani e la tiri
+            via dalle staffe. Le Rondini appese si spengono tutte insieme, con
+            un ultimo scatto delle cesoie, e restano lì senza un movimento.
+            Attraversi la rimessa fra le lame ferme.
+          pe: { magia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: I palmi rossi
+          testo: |
+            Gli stracci non bastano. L'asta ti tiene le mani incollate per tre
+            battiti, e quando ti lascia andare hai i palmi rossi e un ronzio in
+            testa che non se ne va.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare sotto l'asta, nella segatura"
+        descrizione: "Sotto l'asta, a terra, le cesoie arrivano di rado. Di rado non vuol dire mai."
+        costo: 2
+        esito:
+          titolo: La segatura
+          testo: |
+            Ti butti a terra nella segatura e passi sotto l'asta strisciando,
+            mentre sopra di te le Rondini vanno e vengono. Arrivi alla porta sul
+            retro con la segatura in bocca e un taglio sul polpaccio, dove una
+            cesoia è scesa troppo.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · i filari
+  - id: avv-torchio-i-filari-del-meleto
+    immagine: icone/fruit-tree
+    titolo: I filari del meleto
+    sommario: "Fra i filari del meleto camminano gli Aironi su tre gambe sottili, e colgono tutto quello che è tondo e rosso."
+    luogo: Il Torchio Dossena, il meleto
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 4, profondita.avv-torchio <= 6]
+    testo: |
+      Il meleto vecchio del rio basso è fatto di filari lunghi, con i meli a
+      cinque passi uno dall'altro e l'erba alta in mezzo. Fra i filari camminano
+      gli Aironi su tre gambe sottili, e colgono tutto quello che è tondo e
+      rosso. Hanno finito le mele mature e adesso strappano le acerbe insieme ai
+      rami, così che i meli più vicini al cortile sono già spogli come
+      d'inverno. A terra le mele sono tante che si cammina su un tappeto che
+      rotola.
+
+      {percezione Difficile} Ogni Airone arriva in fondo al filare e torna
+      indietro dall'altra parte dell'albero, sempre girando a destra. Per tre
+      passi, mentre gira, ha la schiena verso il filare.
+    opzioni:
+      - testo: "Passare fra i filari alle loro spalle"
+        descrizione: "Quando girano in fondo al filare, per tre passi gli Aironi non guardano. Bisogna essere lì in quel momento."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Tre passi
+          testo: |
+            Ti muovi da un filare all'altro nei tre passi in cui gli Aironi
+            girano, rannicchiato nell'erba alta fra un passaggio e l'altro. Esci
+            dal meleto sul lato del reparto con le ginocchia verdi d'erba.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Come una mela
+          testo: |
+            Un Airone gira prima del previsto e ti trova a metà filare. Ti
+            afferra per la cintura e ti alza fino all'altezza dei rami, ti
+            rigira davanti a sé come una mela da guardare, poi ti lascia cadere
+            nell'erba.
+          effetti: { ferite: 0.5 }
+      - testo: "Tirare le mele lontano per distrarli"
+        descrizione: "Gli Aironi colgono quello che è tondo e rosso. Una mela lanciata lontano è una mela da cogliere."
+        prova: { attributo: mentale, abilita: [natura, percezione], difficolta: Difficile }
+        successo:
+          titolo: Le mele in fondo al filare
+          testo: |
+            Raccogli una bracciata di mele dal tappeto e le tiri una dopo
+            l'altra in fondo al filare di sinistra. Gli Aironi ci vanno tutti a
+            passi lunghi, e tu attraversi il filare di destra con le tasche
+            piene di mele.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La mela al volo
+          testo: |
+            Tiri la prima mela, e un Airone la coglie al volo e si volta dalla
+            parte da cui è arrivata, cioè verso di te. Ti butti nell'erba alta e
+            ci resti, immobile, finché non torna ai suoi rami.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare il giro lungo il muro di cinta"
+        descrizione: "Lungo il muro gli Aironi non vanno, perché lì non ci sono meli. Ci sono le ortiche."
+        costo: 2
+        esito:
+          titolo: Le ortiche
+          testo: |
+            Cammini lungo il muro di cinta fino in fondo al meleto, fra ortiche
+            alte fino alla vita e rovi che nessuno taglia dai tempi del mugnaio.
+            Quando sbuchi dall'altra parte hai le gambe in fiamme.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · il carro delle ceste
+  - id: avv-torchio-il-carro-delle-ceste
+    immagine: icone/robot-grab
+    titolo: Il carro delle ceste
+    sommario: "Sul viottolo fra il meleto e il reparto c'è un carro rovesciato, e due Aironi lo stanno smontando tavola per tavola."
+    luogo: Il Torchio Dossena, il viottolo del reparto
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 4, profondita.avv-torchio <= 6]
+    testo: |
+      Sul viottolo che dal meleto porta al reparto c'è un carro rovesciato, con
+      le ceste di mele sparse intorno. Due Aironi ci stanno sopra e lo smontano
+      tavola per tavola, perché le ruote sono tonde e il legno è dipinto di
+      rosso. Il viottolo è l'unica strada asciutta fra il meleto e il reparto, e
+      il carro lo chiude tutto.
+
+      {armi-da-mischia Difficile} Le gambe degli Aironi sono sottili alle
+      giunture, dove il rame nuovo è saldato al metallo vecchio, e lì il rame è
+      più tenero.
+    opzioni:
+      - testo: "Affrontare i due Aironi sul carro"
+        descrizione: "Alti due uomini, con le dita di rame che stringono come morse. Le giunture delle gambe sono il loro punto tenero."
+        combattimento: avv-torchio-i-raccoglitori
+        vittoria:
+          titolo: Gli Aironi seduti
+          testo: |
+            Pieghi una gamba al primo Airone sulla giuntura, e quello si siede
+            sul carro come un vecchio sulla panca. Il secondo lo segue a terra
+            per un colpo nello stesso punto. Scavalchi il carro mentre le loro
+            braccia cercano ancora le mele.
+          effetti: { profondita.avv-torchio: 1 }
+        sconfitta:
+          titolo: Da dividere in due
+          testo: |
+            Un Airone ti prende per il braccio e l'altro per la gamba, e per un
+            momento sei una mela da dividere. Ti liberi lasciandogli la manica e
+            ti rifugi sotto il carro, dove le loro dita non arrivano.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprire lo sportello di un Airone"
+        descrizione: "Si arriva al dorso da dietro, mentre è chino sul carro. La vite gira a sinistra."
+        requisiti: [avv-torchio.sportelli >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: La ruota fra le dita
+          testo: |
+            Ti avvicini al primo Airone da dietro mentre stacca una ruota, e la
+            vite a farfalla gira a sinistra come diceva Lapo. Sfili il
+            cristallo, e l'Airone si ferma con la ruota fra le dita. L'altro si
+            mette a smontare lui, e tu passi.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Lo sportello arrugginito
+          testo: |
+            La vite gira, e lo sportello resta incastrato dalla ruggine mentre
+            l'Airone si volta. Ti prende per il collo della giubba e ti appende
+            al ramo del melo più vicino, dove resti finché non riesci a
+            sfilarti.
+          effetti: { tormento: 0.5 }
+      - testo: "Raddrizzare il carro con una stanga"
+        descrizione: "Un carro rovesciato si raddrizza con una stanga e tutto il peso del corpo. Chi ci sta sopra cade."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Il carro raddrizzato
+          testo: |
+            Infili una stanga sotto la sponda del carro e lo raddrizzi di colpo,
+            e i due Aironi rotolano giù nell'erba con le ceste. Prima che si
+            rialzino sei già sul viottolo.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La stanga
+          testo: |
+            Il carro resta dov'è, e gli Aironi si accorgono della stanga, che
+            per loro è legno da smontare. Te la strappano di mano con tutte e
+            due le braccia, e la spalla segue la stanga per un buon tratto.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare per il fosso accanto al viottolo"
+        descrizione: "Accanto al viottolo corre un fosso di scolo, pieno di mele marce e di acqua che non si sa da dove venga."
+        costo: 2
+        esito:
+          titolo: Il fosso
+          testo: |
+            Ti cali nel fosso di scolo, che è pieno d'acqua scura e di mele
+            marce, e lo percorri a quattro zampe fino al reparto, con gli Aironi
+            che smontano il carro sopra la tua testa.
+          effetti: { profondita.avv-torchio: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · le arnie
+  - id: avv-torchio-le-arnie
+    immagine: icone/beehive
+    titolo: Le arnie
+    sommario: "Gli Aironi hanno colto anche le arnie del vecchio mugnaio. L'aria in fondo al meleto è piena di api."
+    luogo: Il Torchio Dossena, le arnie in fondo al meleto
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 4, profondita.avv-torchio <= 6]
+    testo: |
+      In fondo al meleto, sotto una tettoia di paglia, c'erano le arnie del
+      vecchio mugnaio, sei cassette di legno dipinte di giallo. Gli Aironi le
+      hanno prese per ceste piene e le hanno colte, e adesso le cassette sono
+      per terra, sfondate. L'aria fra gli ultimi meli è piena di api, che
+      ronzano in nuvole basse e si posano su tutto quello che si muove.
+      Dall'altra parte delle arnie, a venti passi, c'è la porta posteriore del
+      reparto.
+
+      {natura Difficile} Con un fumo bianco e denso le api si calmano, e la
+      paglia bagnata della tettoia ne fa abbastanza.
+
+      {origine figlio-del-circolo} Al Circolo un vecchio ti ha insegnato ad
+      avvicinarti a uno sciame camminando di fianco, con le mani basse. Le mani,
+      adesso, si abbassano da sole.
+    opzioni:
+      - testo: "Calmarle con il fumo della paglia bagnata"
+        descrizione: "Una scintilla nella paglia bagnata, e davanti a te sale un fumo da incensiere."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Il fumo bianco
+          testo: |
+            Bagni una manciata di paglia nel secchio del meleto, la accendi con
+            l'acciarino e la fai fumare davanti a te. Le api si posano sulle
+            cassette sfondate e smettono di cercarti, e tu passi fra le arnie a
+            passi lenti fino alla porta del reparto.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La paglia che brucia
+          testo: |
+            La paglia prende fuoco invece di fumare, e le api capiscono
+            benissimo da dove viene la fiamma. Torni indietro di corsa fra i
+            meli, con uno sciame che ti insegue fino al viottolo.
+          effetti: { ferite: 0.5 }
+      - testo: "Attraversare lo sciame di corsa"
+        descrizione: "Venti passi sono pochi. Con la giubba sopra la testa, sono pochi lo stesso."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: Le punture
+          testo: |
+            Ti tiri la giubba sopra la testa e attraversi le arnie di corsa, con
+            le api che ti si aggrappano alle mani e al collo. Arrivi alla porta
+            del reparto con le mani gonfie e la richiudi alle spalle, e le
+            punture le senti soltanto dopo.
+          pe: { resistenza: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La faccia gonfia
+          testo: |
+            A metà strada le punture sulle mani diventano troppe, e la giubba ti
+            scivola dalla testa. Torni indietro alla cieca fra i meli, con la
+            faccia che si gonfia.
+          effetti: { ferite: 1 }
+      - testo: "Avvicinarti di fianco, con le mani basse"
+        descrizione: "Così ti hanno insegnato al Circolo. Le api lasciano passare chi cammina come un ramo."
+        quando: [origine.figlio-del-circolo >= 1]
+        esito:
+          titolo: Come un ramo
+          testo: |
+            Cammini di fianco fra le arnie con le mani basse e lente, e le api
+            ti si posano sulle spalle e sulle braccia senza pungere. Arrivi alla
+            porta del reparto con un mantello d'api che se ne va da solo, una
+            alla volta.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+      - testo: "Aspettare che lo sciame si posi"
+        descrizione: "Prima o poi le api tornano alle cassette. Bisogna stare fermi, e lasciarle fare."
+        costo: 2
+        esito:
+          titolo: L'attesa
+          testo: |
+            Ti nascondi dietro l'ultimo melo e aspetti immobile, mentre le api
+            ti esplorano le mani e il collo. Ci vuole fino a sera perché si
+            posino sulle cassette, e qualcuna, prima di andare, ti punge per
+            scrupolo.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la vasca del lavaggio
+  - id: avv-torchio-la-vasca-del-lavaggio
+    immagine: icone/droplet-splash
+    titolo: La vasca del lavaggio
+    sommario: "Le mele si lavano in una vasca lunga quanto una stalla, e un nastro di tela le porta dentro il reparto. Il nastro corre al doppio."
+    luogo: Il Torchio Dossena, la vasca del lavaggio
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 4, profondita.avv-torchio <= 6]
+    testo: |
+      Fra il meleto e il reparto c'è la vasca dove le mele si lavano prima di
+      andare al torchio, lunga quanto una stalla e piena d'acqua presa dalla
+      gora. Un nastro di tela la attraversa da un capo all'altro e porta le mele
+      dentro il reparto, per un'apertura nel muro. Il nastro corre al doppio
+      della velocità, e la vasca trabocca, con le mele che galleggiano fino alle
+      tue scarpe. L'apertura del nastro è l'unico ingresso che non sia sbarrato.
+
+      {tecnologia Difficile} Il rullo d'uscita del nastro ha un freno a
+      ganascia. Le ganasce sono legate aperte con il filo di ferro, perché il
+      freno rallentava il lavoro.
+    opzioni:
+      - testo: "Salire sul nastro e farti portare dentro"
+        descrizione: "Il nastro va dove devi andare tu. Bisogna saltarci sopra, e restarci."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Fra due ceste
+          testo: |
+            Salti sul nastro fra due ceste di mele e ti accucci, e il nastro ti
+            porta attraverso la vasca e dentro il muro, nel buio caldo del
+            reparto. Ne scendi rotolando un momento prima del torchio.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Fra le mele
+          testo: |
+            Il nastro ti butta giù a metà vasca, e finisci in acqua fra le mele.
+            Ne esci fradicio dal bordo da cui eri partito, con una mela in tasca
+            che non ricordi di aver preso.
+          effetti: { tormento: 0.5 }
+      - testo: "Liberare il freno del rullo"
+        descrizione: "Un filo di ferro tiene aperte le ganasce. Tagliato quello, il nastro si ferma."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Le ganasce
+          testo: |
+            Tagli il filo di ferro che tiene aperte le ganasce, e le ganasce si
+            chiudono sul rullo con un fischio. Il nastro rallenta fino a
+            fermarsi, e lo percorri a piedi fino all'apertura nel muro.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La mano nelle ganasce
+          testo: |
+            Tagli il filo, e le ganasce si chiudono sulla tua mano prima che sul
+            rullo. Ci vuole un pezzo per liberarla, e intanto il nastro continua
+            a correre.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare a nuoto sotto le mele"
+        descrizione: "La vasca è profonda quanto un uomo, e sopra galleggia uno strato di mele. Sotto, si nuota."
+        costo: 2
+        esito:
+          titolo: Sotto le mele
+          testo: |
+            Scendi nella vasca e la attraversi a nuoto sotto lo strato di mele,
+            con le mani avanti per non sbattere la testa. Esci sotto l'apertura
+            del nastro e ti tiri dentro il muro per il bordo, con l'acqua del
+            lavaggio nelle orecchie.
+          effetti: { profondita.avv-torchio: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta: il melo grande
+  - id: avv-torchio-il-melo-grande
+    immagine: icone/tree-growth
+    titolo: Il melo grande
+    sommario: "In mezzo al meleto, sul melo più vecchio, ci sono ancora gli ospiti di Dossena. Un Airone scuote il tronco."
+    luogo: Il Torchio Dossena, il melo grande
+    area: avv-torchio
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio == 5, avv-torchio.ospiti == 0]
+    testo: |
+      In mezzo al meleto c'è il melo più vecchio, con il tronco storto e grosso
+      come una botte e i rami che arrivano all'altezza di un tetto. Sui rami ci
+      sono gli ospiti di Dossena. Rufo Pandolfi sta a cavalcioni del ramo più
+      grosso, senza cappello. Più in alto Gemma Siroli tiene il bastone d'ebano
+      stretto contro il petto, e il suo notaio è aggrappato alla punta di un
+      ramo che si piega.
+
+      Ai piedi dell'albero un Airone ha preso il tronco fra le braccia e lo
+      scuote senza fretta per far cadere quello che c'è sopra. Un altro arriva
+      dal filare accanto. A ogni scossa il ramo di Rufo scricchiola.
+
+      «Era ora!» grida Gemma quando ti vede. «Smettila di piangere, Rufo, che è
+      arrivato qualcuno.»
+
+      {empatia Media} Rufo piange davvero. Gemma ha paura soprattutto per il
+      notaio, e lo guarda più spesso di quanto guardi te.
+
+      {origine rampollo-dei-quartieri-alti} Ai balli dei Quartieri Alti Gemma
+      Siroli la vedevi sempre seduta accanto alla porta, con lo stesso bastone.
+      Allora le mancava soltanto un ramo da cui gridare.
+    opzioni:
+      - testo: "Staccare gli Aironi dall'albero"
+        descrizione: "Finché scuotono, nessuno scende. Sono due, e il melo scricchiola."
+        combattimento: avv-torchio-i-raccoglitori
+        vittoria:
+          titolo: Il tronco fermo
+          testo: |
+            Il primo Airone crolla contro il tronco, e il secondo si ferma a
+            coglierne i pezzi. Gli ospiti scendono uno alla volta, Gemma per
+            prima, con il bastone stretto fra i denti. Li porti fino al muro di
+            cinta dalla parte del rio, dove il villaggio li tira su con le
+            corde.
+          effetti: { profondita.avv-torchio: 1, avv-torchio.ospiti: 1 }
+        sconfitta:
+          titolo: Contro il tronco
+          testo: |
+            I due Aironi ti spingono contro il tronco con le braccia di rame, e
+            sopra di te il ramo del notaio si piega fino a sfiorarti i capelli.
+            Torni al riparo dei filari, e gli Aironi tornano all'albero.
+          effetti: { tormento: 0.5 }
+      - testo: "Farli scendere dalla parte opposta"
+        descrizione: "Mentre l'Airone scuote da una parte, si scende dall'altra. Bisogna che scendano quando lo dici tu, e Rufo non vuole."
+        prova: { attributo: sociale, abilita: [persuasione, intimidire], difficolta: Difficile }
+        successo:
+          titolo: Una scossa per uno
+          testo: |
+            Ti metti dalla parte del tronco dove l'Airone non arriva e dai gli
+            ordini come a una ciurma, un ospite per ogni scossa. Il notaio
+            scende per primo, poi Gemma, che arriva a terra con il bastone in
+            mano. Rufo lo devi convincere tre volte, e alla terza scivola giù
+            lungo il tronco a sedere. Li porti fino al muro di cinta dalla parte
+            del rio, dove il villaggio li tira su con le corde.
+          pe: { persuasione: 2 }
+          effetti: { profondita.avv-torchio: 1, avv-torchio.ospiti: 1 }
+        fallimento:
+          titolo: Il bastone sulle dita
+          testo: |
+            Rufo si rifiuta di muoversi, e Gemma lo prende a colpi di bastone
+            sulle dita finché lui si aggrappa ancora più forte. L'Airone sente
+            le grida e si volta verso di te, e devi ritirarti fra i filari.
+          effetti: { scandalo: 0.5 }
+      - testo: "Puntellare il ramo con una scala da raccolta"
+        descrizione: "In ogni meleto c'è una scala da raccolta. Si pianta contro il ramo grosso, e si sale mentre il tronco trema."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: La scala da raccolta
+          testo: |
+            Trascini sotto il melo una scala da raccolta, la pianti contro il
+            ramo grosso e ci sali mentre l'Airone scuote. Prendi gli ospiti uno
+            per volta e te li porti sulle spalle fino a terra, Rufo per ultimo,
+            che pesa come due. Li accompagni fino al muro di cinta dalla parte
+            del rio, dove il villaggio li tira su con le corde.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-torchio: 1, avv-torchio.ospiti: 1 }
+        fallimento:
+          titolo: La scala che scivola
+          testo: |
+            Alla prima scossa la scala scivola sull'erba, e tu con lei. Atterri
+            fra le radici con la scala addosso, e dal ramo più alto Gemma ti
+            raccomanda di fare piano.
+          effetti: { ferite: 0.5 }
+      - testo: "Distrarre gli Aironi con una cesta di mele"
+        descrizione: "Una cesta rovesciata nel filare accanto vale più di un albero da scuotere. Poi, però, le mele finiscono."
+        costo: 2
+        esito:
+          titolo: La cesta rovesciata
+          testo: |
+            Riempi una cesta di mele dal tappeto e la rovesci nel filare
+            accanto, e gli Aironi lasciano il tronco per andare a coglierle una
+            per una. Gli ospiti scendono di corsa, e li porti fino al muro di
+            cinta, dove il villaggio li tira su con le corde. Quando torni
+            indietro le mele sono finite, e un Airone ti prende di striscio con
+            le dita di rame.
+          effetti: { profondita.avv-torchio: 1, avv-torchio.ospiti: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · le caldaie
+  - id: avv-torchio-le-caldaie
+    immagine: icone/steam
+    titolo: Le caldaie
+    sommario: "Il reparto comincia con tre caldaie di rame che sfiatano vapore da ogni giuntura."
+    luogo: Il Torchio Dossena, la sala delle caldaie
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 7, profondita.avv-torchio <= 9]
+    testo: |
+      Il reparto comincia con la sala delle caldaie, tre pance di rame alte come
+      un uomo che scaldano l'acqua per gli alambicchi. Dalle giunture escono
+      getti di vapore bianco che fischiano da una parete all'altra, e il
+      pavimento è coperto di gocce bollenti. La porta per il reparto grande sta
+      in fondo, oltre la terza caldaia.
+
+      {resistenza Difficile} Due passi nel vapore li regge chiunque, mentre il
+      terzo ti lascia il segno per un mese.
+    opzioni:
+      - testo: "Correre fra un getto e l'altro"
+        descrizione: "I getti vanno e vengono. Si corre piegati, con le maniche sulle mani."
+        prova: { attributo: fisico, abilita: [resistenza, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: La porta in fondo
+          testo: |
+            Corri piegato fra i getti con le maniche tirate sulle mani, e due ti
+            prendono di striscio senza riuscire a fermarti. Sbatti contro la
+            porta in fondo e la apri con la spalla.
+          pe: { resistenza: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Il braccio rosso
+          testo: |
+            Un getto ti prende in pieno sul braccio, e torni indietro di corsa
+            fino al muro, con la manica che fuma e la pelle rossa sotto.
+          effetti: { ferite: 1 }
+      - testo: "Chiudere la valvola grande dietro la terza caldaia"
+        descrizione: "Un quarto di giro, ha detto Lapo. Mezzo giro e ti cuoci."
+        requisiti: [avv-torchio.valvola >= 1]
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Un quarto di giro
+          testo: |
+            Dietro il pannello di legno della terza caldaia c'è la valvola, come
+            diceva Lapo, con il volantino fasciato di stracci. Lo giri di un
+            quarto, e i getti si abbassano fino a un sibilo. Attraversi la sala
+            in una nebbia tiepida.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Mezzo giro
+          testo: |
+            Il volantino scivola fra gli stracci e gira di mezzo giro invece che
+            di un quarto. Il vapore ti esplode in faccia da tutte le giunture
+            insieme, e lo richiudi a tentoni con gli occhi che lacrimano.
+          effetti: { ferite: 1 }
+      - testo: "Chiudere gli sfoghi delle caldaie uno a uno"
+        descrizione: "Ogni caldaia ha il suo rubinetto di sfogo. Bisogna trovarli nel vapore, e chiuderli nell'ordine giusto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto difficile }
+        successo:
+          titolo: L'ordine giusto
+          testo: |
+            Trovi a tentoni il rubinetto di sfogo di ogni caldaia e li chiudi
+            partendo dalla più lontana, perché la pressione non ti torni
+            addosso. All'ultimo i getti si spengono uno dopo l'altro, e la sala
+            resta piena di una nebbia che gocciola.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La caldaia accanto
+          testo: |
+            Chiudi il primo rubinetto, e il vapore che non esce più da lì esce
+            dalla caldaia accanto, tutto insieme, a un palmo dalla tua faccia.
+            Ti butti a terra e strisci indietro fino al muro.
+          effetti: { ferite: 1 }
+      - testo: "Passare sotto un sacco bagnato"
+        descrizione: "Un sacco di juta bagnato regge il vapore per qualche passo. Le mani restano fuori."
+        costo: 3
+        esito:
+          titolo: Il sacco di juta
+          testo: |
+            Bagni un sacco di juta nella vasca dell'acqua fredda e te lo tiri
+            sopra la testa. Attraversi la sala a passi lunghi, con il vapore che
+            fischia sul sacco, e arrivi alla porta con le mani scottate.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · il pavimento di mosto
+  - id: avv-torchio-il-pavimento-di-mosto
+    immagine: icone/barrel
+    titolo: Il pavimento di mosto
+    sommario: "Nel reparto grande il torchio batte a colpi doppi, e il mosto traboccato dalle vasche ha fatto del pavimento una lastra."
+    luogo: Il Torchio Dossena, il reparto grande
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 7, profondita.avv-torchio <= 9]
+    testo: |
+      Il reparto grande è una sala lunga con il torchio nel mezzo, una vite di
+      legno grossa come un tronco che scende sulla polpa di mele e risale, a
+      colpi doppi. Le vasche di raccolta sono traboccate, e il mosto ha coperto
+      tutto il pavimento con uno strato lucido e appiccicoso, che trema a ogni
+      colpo del torchio. Un piede appoggiato sopra scivola, e se resti fermo ti
+      ci incolli. Sopra le vasche passano basse le travi del soffitto.
+
+      {atletica Media} Le travi sono a un salto dal bordo delle vasche, e il
+      bordo delle vasche è largo un palmo.
+    opzioni:
+      - testo: "Camminare sul bordo delle vasche"
+        descrizione: "Un palmo di legno bagnato, da una vasca all'altra, con il torchio che fa tremare tutto."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Sul bordo
+          testo: |
+            Sali sul bordo della prima vasca e lo percorri a piccoli passi con
+            le braccia larghe, saltando da una vasca all'altra dove si toccano.
+            Arrivi in fondo alla sala senza aver toccato il pavimento.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Nella polpa
+          testo: |
+            Al terzo salto il bordo è bagnato di mosto e il piede va per conto
+            suo. Batti il ginocchio sullo spigolo e finisci fino alla vita nella
+            polpa calda della vasca. Ne esci dalla parte da cui eri venuto.
+          effetti: { ferite: 1 }
+      - testo: "Saltare alle travi e passare di sopra"
+        descrizione: "Dalle travi il mosto non arriva. Ci si arriva con un salto, e ci si resta con le braccia."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Molto difficile }
+        successo:
+          titolo: A cavalcioni delle travi
+          testo: |
+            Prendi la rincorsa sul bordo della vasca e salti alla trave, ci
+            resti appeso per le mani e ti tiri su. Attraversi la sala a
+            cavalcioni, una trave dopo l'altra, con il torchio che batte sotto
+            di te, e in fondo ti lasci cadere sul pavimento asciutto.
+          pe: { atletica: 3 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Di schiena
+          testo: |
+            Prendi la trave con una mano sola e ci resti appeso un momento, poi
+            la mano scivola. Atterri di schiena nel mosto, e ci resti incollato
+            finché non ti strappi via lasciando un pezzo di giubba.
+          effetti: { ferite: 1 }
+      - testo: "Spargere la segatura e passare"
+        descrizione: "Accanto alla porta ci sono i sacchi di segatura per le perdite. Un passo di segatura alla volta, il pavimento tiene."
+        costo: 3
+        esito:
+          titolo: La segatura
+          testo: |
+            Trascini dentro due sacchi di segatura e li spargi sul mosto davanti
+            a te, un passo alla volta, finché il pavimento non tiene. Ci metti
+            fino a notte, con il torchio che batte a un braccio dalla tua testa,
+            e arrivi in fondo con le mani piene di schegge.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · la galleria delle botti
+  - id: avv-torchio-la-galleria-delle-botti
+    immagine: icone/cellar-barrels
+    titolo: La galleria delle botti
+    sommario: "Dietro il torchio le botti stanno in fila su due piani. Fra le file lavorano i Picchi, con il mazzuolo al posto della mano."
+    luogo: Il Torchio Dossena, la galleria delle botti
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 7, profondita.avv-torchio <= 9]
+    testo: |
+      Dietro il torchio si apre la galleria delle botti, dove il mosto fermenta
+      prima di passare agli alambicchi. Le botti sono in fila su due piani, e
+      fra le file lavorano i tappatori che Lapo chiama Picchi, automi tozzi con
+      un mazzuolo di legno al posto della mano destra. Piantano i tappi nelle
+      botti a colpi secchi, e quando i tappi finiscono continuano a piantare il
+      mazzuolo nelle doghe. Dalle botti sfondate cola il mosto.
+
+      {furtivita Media} I Picchi si voltano verso i rumori di legno. Sulle
+      pietre del pavimento, a piedi nudi, non ti sentono.
+    opzioni:
+      - testo: "Affrontare i Picchi"
+        descrizione: "Due tappatori bassi e tozzi, che piantano il mazzuolo in tutto quello che ha la forma di un tappo."
+        combattimento: avv-torchio-i-tappatori
+        vittoria:
+          titolo: I mazzuoli fermi
+          testo: |
+            Spacchi il manico del mazzuolo al primo Picchio, e il secondo lo
+            finisci contro una botte che gli crolla addosso. La galleria resta
+            piena di mosto e di tappi sparsi, e tu la attraversi.
+          effetti: { profondita.avv-torchio: 1 }
+        sconfitta:
+          titolo: Fra le doghe
+          testo: |
+            Il mazzuolo di un Picchio ti prende sul ginocchio, e mentre cadi
+            l'altro ti cerca la testa. Rotoli sotto la fila delle botti e torni
+            indietro strisciando fra le doghe.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare scalzo sulle pietre"
+        descrizione: "I Picchi sentono il legno. Le pietre del pavimento no, se ci cammini a piedi nudi e lontano dalle doghe."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Gli stivali al collo
+          testo: |
+            Ti togli gli stivali, te li leghi al collo e attraversi la galleria
+            sulle pietre, tenendoti lontano dalle doghe. I Picchi battono a un
+            braccio da te senza voltarsi.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Il tappo
+          testo: |
+            A metà galleria pesti un tappo di legno, e i due Picchi più vicini
+            si voltano insieme. Uno ti prende di striscio sul piede nudo con il
+            mazzuolo, e scappi indietro zoppicando.
+          effetti: { ferite: 1 }
+      - testo: "Far rotolare una botte vuota in mezzo a loro"
+        descrizione: "Una botte vuota è tutta legno. I Picchi ci si butterebbero sopra."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: La botte vuota
+          testo: |
+            Spingi una botte vuota giù per la galleria, e i Picchi le si buttano
+            addosso a colpi di mazzuolo. Mentre la riducono in doghe, passi
+            dall'altra parte.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: La botte incastrata
+          testo: |
+            La botte si incastra a metà galleria, e i Picchi, finita quella,
+            cercano altro legno. Lo trovano nel manico della tua arma, e nelle
+            tue nocche intorno al manico.
+          effetti: { ferite: 1 }
+      - testo: "Strisciare sopra il secondo piano di botti"
+        descrizione: "Fra le botti di sopra e il soffitto c'è lo spazio di un corpo sdraiato. I Picchi battono sotto."
+        costo: 3
+        esito:
+          titolo: Sopra le botti
+          testo: |
+            Sali sul secondo piano delle botti e lo attraversi sdraiato nello
+            spazio che resta sotto il soffitto. I Picchi battono sotto di te per
+            tutta la strada, e ogni colpo ti arriva nelle ossa.
+          effetti: { profondita.avv-torchio: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · gli alambicchi
+  - id: avv-torchio-gli-alambicchi
+    immagine: icone/fizzing-flask
+    titolo: Gli alambicchi
+    sommario: "Sei alambicchi di rame bollono sopra fornelli che nessuno ha spento, e l'aria brucia di liquore."
+    luogo: Il Torchio Dossena, la sala degli alambicchi
+    area: avv-torchio
+    ripetibile: true
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 7, profondita.avv-torchio <= 9]
+    testo: |
+      In fondo alla galleria c'è la sala degli alambicchi, sei bocce di rame con
+      il collo lungo, sopra sei fornelli che nessuno ha spento. Le bocce bollono
+      troppo, e dalle serpentine l'acquavite gocciola sul pavimento invece che
+      nelle damigiane. L'aria è così piena di vapori di liquore che bruciano gli
+      occhi, e una fiammella azzurra salta da una pozza all'altra senza
+      spegnersi mai. Oltre una porta a due battenti, dall'altra parte della
+      sala, senti correre il Mulo.
+
+      {medicina Difficile} Quei vapori, se li respiri troppo a lungo, ti mettono
+      a dormire in piedi. La fiammella aspetta soltanto una pozza abbastanza
+      grande.
+    opzioni:
+      - testo: "Spegnere i fornelli uno a uno"
+        descrizione: "Ogni fornello ha la sua presa d'aria. Chiuse quelle, le bocce smettono di bollire."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Le prese d'aria
+          testo: |
+            Chiudi le prese d'aria dei fornelli una dopo l'altra con il
+            fazzoletto sulla bocca, e le bocce smettono di bollire. La fiammella
+            azzurra si spegne contro la parete. Attraversi la sala fino alla
+            porta a due battenti con gli occhi che bruciano.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Seduto contro il muro
+          testo: |
+            Al quarto fornello la testa ti gira, e ti ritrovi seduto contro il
+            muro da cui eri partito, con la bocca impastata e la fiammella che
+            balla nella pozza accanto al tuo stivale.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Attraversare la sala senza prendere aria"
+        descrizione: "Quaranta passi fra sei alambicchi, con i polmoni pieni fin dalla soglia."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Molto difficile }
+        successo:
+          titolo: Quaranta passi
+          testo: |
+            Riempi i polmoni sulla soglia e attraversi la sala a passi lunghi
+            girando intorno alle pozze. Arrivi alla porta a due battenti con la
+            vista che si stringe, e la apri con tutto il corpo.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: I vapori
+          testo: |
+            A metà sala i polmoni cedono, e i vapori ti entrano in testa tutti
+            insieme. Torni indietro a tentoni lungo il muro e ti siedi fuori
+            dalla sala, finché il pavimento smette di muoversi.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Seguire la fossa dei cavi"
+        descrizione: "I cavi del pannello passano sotto gli alambicchi, in una fossa coperta da assi. Sai dove."
+        requisiti: [avv-torchio.pannello >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La fossa dei cavi
+          testo: |
+            Trovi le assi della fossa dei cavi accanto al terzo fornello, dove
+            ti aspettavi. Sotto c'è un cunicolo basso e fresco, con i cavi di
+            rame che ronzano lungo la parete, e lo percorri a quattro zampe fin
+            sotto la porta a due battenti.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-torchio: 1 }
+        fallimento:
+          titolo: Le assi sbagliate
+          testo: |
+            Sollevi le assi sbagliate, sopra la fossa dello scolo, e l'acquavite
+            calda ti arriva fino ai polsi. Le rimetti a posto prima che la
+            fiammella se ne accorga, e torni indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Bagnarti da capo a piedi e passare in fretta"
+        descrizione: "Un secchio d'acqua addosso e il fazzoletto sulla bocca. La fiammella, se ti trova, trova un uomo bagnato."
+        costo: 3
+        esito:
+          titolo: La manica bagnata
+          testo: |
+            Ti rovesci addosso un secchio d'acqua e passi in fretta lungo il
+            muro, con il fazzoletto sulla bocca. Quando la fiammella salta nella
+            pozza accanto a te e ti prende la manica, la spegni con la mano
+            nuda.
+          effetti: { profondita.avv-torchio: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il cuore · il pannello centrale
+  - id: avv-torchio-il-pannello-centrale
+    immagine: bestiario/salvaguardia-precursori
+    titolo: Il pannello centrale
+    sommario: "Nella sala delle botti piene il Mulo corre sulla sua rotaia, e sul muro in fondo il pannello dei cristalli è bianco come la brace."
+    luogo: Il Torchio Dossena, la sala del pannello
+    area: avv-torchio
+    requisiti: [avventura.torchio == 4, profondita.avv-torchio >= 10]
+    testo: |
+      Oltre la porta a due battenti c'è la sala dove finisce il torchio, una
+      stanza alta con le botti piene in fila lungo i muri e una rotaia di ferro
+      che ne fa il giro all'altezza delle ginocchia. In fondo, sul muro, c'è il
+      pannello, la tavola d'ottone con i dodici cristalli conduttori in file.
+      Sono bianchi come la brace sotto la cenere, e ronzano tanto forte che il
+      ronzio ti arriva nei denti.
+
+      Sulla rotaia corre il Mulo. È largo come un carro, con quattro braccia a
+      tenaglia, e porta una botte piena da un capo all'altro della sala senza
+      mai posarla. A ogni giro passa davanti al pannello, e a ogni giro va più
+      forte, con le piastre che fumano e le ruote che sprizzano scintille.
+
+      Quando ti vede, il Mulo posa la botte.
+
+      {tecnologia Difficile} Il Mulo prende il Mana dal pannello attraverso la
+      rotaia, e ne prende di più ogni volta che ci passa davanti. Se il pannello
+      si rompe, il Mulo si ferma. Il Mulo a terra, invece, lascia il pannello a
+      scaldarsi finché il reparto prende fuoco.
+
+      {origine allievo-di-torvessa} All'Accademia una tavola carica così si
+      scarica da lontano, con una pertica di legno lunga tre braccia, e chi la
+      tocca con le mani lo ricordano poi a lezione, come esempio.
+    opzioni:
+      - testo: "Affrontare il Mulo sulla rotaia"
+        descrizione: "Quattro tenaglie che alzano una botte piena, e un corpo di piastre che il fulmine ha reso più svelto. Poi, a Mulo fermo, il pannello."
+        combattimento: avv-torchio-il-portabotti
+        vittoria:
+          titolo: Il Mulo rovesciato
+          testo: |
+            Colpisci il Mulo sulle ruote finché una salta via dalla rotaia, e la
+            macchina si rovescia di traverso con le tenaglie che si aprono e si
+            chiudono sul vuoto. Le passi sopra e spacchi il pannello con quello
+            che hai in mano, un cristallo dopo l'altro. Nel reparto il torchio
+            batte un ultimo colpo, e poi più niente.
+
+            Adesso senti il rio basso, e da fuori il villaggio che grida.
+            Stacchi dalla tavola due cristalli bruciati e dal Mulo una piastra
+            ancora calda, e ti avvii verso il cancello.
+          effetti: { avventura.torchio: 1, cristalli.cristallo-sterile: 2, parte.involucro-2: 1 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Le tenaglie
+          testo: |
+            Il Mulo ti prende con due tenaglie e ti porta per un giro intero
+            della sala come una botte, poi ti posa contro la porta a due
+            battenti con una cura che fa più paura dei colpi. Esci dal reparto a
+            carponi e non ti fermi fino al cancello.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Correre sulla rotaia alle sue spalle"
+        descrizione: "Il Mulo fa il giro della sala. Se gli corri dietro nella sua scia, arrivi al pannello un passo prima che ci torni lui."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Un passo prima
+          testo: |
+            Aspetti che il Mulo passi davanti al pannello e gli corri dietro
+            sulla rotaia, nella sua scia di scintille. Arrivi al muro un passo
+            prima che ci torni lui e spacchi la tavola d'ottone nel mezzo, con
+            un colpo solo. I cristalli si spengono a file, e il Mulo fa ancora
+            due passi e si ferma con la botte alzata. Nel reparto il torchio
+            batte un ultimo colpo, e poi più niente.
+
+            Adesso senti il rio basso, e da fuori il villaggio che grida.
+            Stacchi dalla tavola due cristalli bruciati e dal Mulo una piastra
+            ancora calda, e ti avvii verso il cancello.
+          pe: { atletica: 5 }
+          effetti: { avventura.torchio: 1, cristalli.cristallo-sterile: 2, parte.involucro-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Contro le botti
+          testo: |
+            Il Mulo finisce il giro prima di te. Ti prende di fianco con una
+            tenaglia e ti scaraventa contro le botti, che ti piovono addosso
+            piene, e dalla sala esci trascinandoti fino al cancello.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Sfilare i cristalli dalla tavola"
+        descrizione: "Uno alla volta, dall'alto in basso, fra un passaggio del Mulo e l'altro. Toccati con le mani, bruciano."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Difficile }
+        successo:
+          titolo: Dodici cristalli
+          testo: |
+            Ti schiacci fra le botti accanto al pannello, e fra un passaggio e
+            l'altro del Mulo sfili i cristalli dalle griffe con la punta della
+            lama, dall'alto in basso, perché la carica non ti torni addosso. Al
+            dodicesimo il Mulo rallenta a metà giro e si ferma, e la botte gli
+            scivola dalle tenaglie e si sfascia sul pavimento. Nel reparto il
+            torchio batte un ultimo colpo, e poi più niente.
+
+            Adesso senti il rio basso, e da fuori il villaggio che grida. Ti
+            metti in tasca due cristalli bruciati, stacchi dal Mulo una piastra
+            ancora calda e ti avvii verso il cancello.
+          pe: { tecnologia: 5 }
+          effetti: { avventura.torchio: 1, cristalli.cristallo-sterile: 2, parte.involucro-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La carica sulla lama
+          testo: |
+            Al terzo cristallo la carica ti salta sulla lama e dalla lama al
+            braccio, e ti butta a terra sulla rotaia. Ti tiri via da sotto le
+            ruote del Mulo appena in tempo, ed esci dal reparto con il braccio
+            che non risponde e un ronzio in testa che non smette.
+          effetti: { ferite: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Colpire la giunzione sotto la tavola"
+        descrizione: "Dove i cavi entrano nella tavola c'è la giunzione. Un colpo solo, ben dato, da lontano, mentre il Mulo è dall'altra parte."
+        requisiti: [avv-torchio.pannello >= 1]
+        prova: { attributo: fisico, abilita: [armi-da-distanza, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: La giunzione
+          testo: |
+            Raccogli il mazzuolo di un Picchio, aspetti che il Mulo sia
+            dall'altra parte della sala e lo scagli contro la giunzione, nel
+            punto dove i cavi di rame entrano nell'ottone. La giunzione si apre.
+            Il pannello sputa una fiammata azzurra e si spegne tutto insieme, e
+            il Mulo si blocca a metà rotaia con la botte sopra la testa. Nel
+            reparto il torchio batte un ultimo colpo, e poi più niente.
+
+            Adesso senti il rio basso, e da fuori il villaggio che grida.
+            Stacchi dalla tavola due cristalli bruciati e dal Mulo una piastra
+            ancora calda, e ti avvii verso il cancello.
+          pe: { armi-da-distanza: 5 }
+          effetti: { avventura.torchio: 1, cristalli.cristallo-sterile: 2, parte.involucro-2: 1 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Una spanna sopra
+          testo: |
+            Il mazzuolo prende l'ottone una spanna sopra la giunzione e
+            rimbalza. Il Mulo si gira verso il rumore, e prima che tu trovi
+            un'altra cosa da tirare ti è addosso. Esci dal reparto a carponi,
+            con le botti che rotolano dietro di te.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata

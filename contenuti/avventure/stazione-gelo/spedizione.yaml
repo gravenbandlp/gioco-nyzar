@@ -1,0 +1,1312 @@
+# La stazione del gelo, la spedizione (avventura.stazione-gelo == 5): dalla cella allo specchio della sala del
+# tesoro. È una spedizione «al contrario»: la profondità misura quanto ti avvicini allo specchio, l'unica uscita che
+# il gelo non ha chiuso. Ci si entra dalla cella con `avv-stazione-gelo-la-grata-allentata` (presso la Brinaia).
+# Le stanze vanno in fasce di profondità (una stanza superata non ricompare nella stessa visita):
+# - 0-3, le celle e le ghiacciaie (prove Medie e Difficili): le celle degli altri (il vantaggio delle svolte contate,
+#   avv-stazione-gelo.passi), la ghiacciaia dei lupi (scontro), il pozzo della brina, le condotte, la dispensa.
+# - 4-6, i corridoi dei glifi (prove Difficili): il corridoio dei glifi (il vantaggio dell'ordine di Sveva,
+#   avv-stazione-gelo.sveva), la sentinella di brina (scontro), la scala che gira, la Gelatrice. A 5 la svolta, non
+#   ripetibile: la porta di fuori, dove Sveva Morsani è morta (la sua piastrina, avv-stazione-gelo.piastrina).
+# - 7-8, le sale (prove Difficili, una Molto difficile o uno scontro per stanza): la sala da ballo (scontro), la
+#   galleria degli specchi, il salotto del tè (il vantaggio del quaderno, avv-stazione-gelo.quaderno), la serra bianca
+#   (scontro).
+# - 9, la seconda svolta, non ripetibile: il Ghiro si toglie le pelli ed è Lamberto Vaire (avv-stazione-gelo.svelato).
+#   Dopo, nelle visite seguenti, a 9 c'è la porta del tesoro (ripetibile, svelato >= 1).
+# - 10, il cuore `avv-stazione-gelo-lo-specchio`: Vaire fra te e lo specchio che si carica. Lo scontro, oppure
+#   attraversare lo specchio, rovesciare la Gelatrice o convincere Vaire (tutte Difficili). Chi passa va al Grifone di
+#   Ferro (avventura.stazione-gelo 6, segue l'epilogo); chi perde si risveglia in cella e torna in Superficie.
+# Ogni stanza ha una via senza prova da 2 rintocchi (3 nelle sale) con mezza negativa; chi fallisce non scende.
+aree:
+  - id: avv-stazione-gelo
+    immagine: ambientazione/rovine-dei-precursori
+    nome: Le stanze della Brinaia
+    sommario: "Dentro la cupola la Brinaia scende per corridoi di metallo nero coperti di brina, e in fondo, dove fa più freddo, c'è lo specchio."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      Oltre la stanza del custode la Brinaia scende dentro lo sperone per corridoi bassi di metallo nero, con la brina
+      che copre le pareti fino all'altezza del ginocchio. Più vai avanti, più le stanze cambiano. Le celle e
+      le ghiacciaie lasciano il posto a corridoi incisi di glifi, e i corridoi a sale alte con il pavimento di vetro
+      scuro, fatte per gente che ci stava comoda. Il ronzio della Gelatrice ti accompagna dappertutto, e a ogni porta
+      il freddo cresce. Lo specchio sta in fondo, dove il freddo è più forte.
+
+colonna:
+  - { contesto: area, id: avv-stazione-gelo, musica: the-light-that-failed, ambiente: dungeon-ii }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dalla cella
+  - id: avv-stazione-gelo-la-grata-allentata
+    presso: avv-stazione-gelo-brinaia
+    immagine: icone/key-lock
+    titolo: La grata allentata
+    sommario: "Nella tua cella la terza sbarra esce dal suo incavo. Oltre la stanza del custode la Brinaia scende verso lo specchio."
+    luogo: La Brinaia, le celle
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5]
+    testo: |
+      La tua roba è avvolta nella coperta sotto la panca. La terza sbarra della grata esce dal suo incavo appena la
+      tiri. Nella cella di fronte il ragazzo degli Spiumatori ti guarda prepararti, con una mano sulla camicia dove
+      l'uccello si muove. Oltre la stanza del custode comincia la Brinaia vera, quella che scende dentro lo sperone.
+      Lo specchio sta in fondo, nella sala del tesoro, ed è l'unica porta che il gelo non ha chiuso.
+
+      {furtivita Media} Il Ghiro russa nella stanza del forziere. Fra un'ondata e l'altra c'è il tempo di passare, se
+      non ti fermi a guardarlo.
+    opzioni:
+      - testo: "Passare davanti al Ghiro mentre dorme"
+        descrizione: "La sua sedia sta fra le celle e il resto della Brinaia. Si passa in punta di piedi, nelle pause del russare."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Media }
+        successo:
+          titolo: Fra un'ondata e l'altra
+          testo: |
+            Passi accanto alla sedia del Ghiro nel tempo di una pausa, con la sbarra in mano e il braciere azzurro che ti
+            gela il fianco. Lui non si muove. Oltre la sua stanza il corridoio comincia a scendere.
+          pe: { furtivita: 2 }
+          vai: avv-stazione-gelo
+        fallimento:
+          titolo: La pelle di capra
+          testo: |
+            Inciampi in una delle pelli che il Ghiro ha lasciato per terra. Lui apre un occhio e ride piano, poi lo
+            richiude. Passi lo stesso, con la schiena gelata e la certezza che sa dove stai andando.
+          effetti: { sospetto: 0.5 }
+          vai: avv-stazione-gelo
+      - testo: "Uscire mentre il Ghiro fa il giro delle celle"
+        descrizione: "Una volta per notte, quando le sbarre smettono di brinare, il custode guarda dentro ogni cella. La sua stanza resta vuota."
+        requisiti: [avv-stazione-gelo.giro >= 1]
+        esito:
+          titolo: La stanza vuota
+          testo: |
+            Sotto la coperta lasci lo zaino arrotolato a forma di corpo. Quando il Ghiro è in fondo al corridoio, a
+            guardare dentro l'ultima cella, esci dalla grata alle sue spalle e attraversi la sua stanza vuota, accanto al
+            braciere che fa freddo.
+          vai: avv-stazione-gelo
+      - testo: "Aspettare che il Ghiro dorma della grossa"
+        descrizione: "Verso l'alba il russare del custode diventa un rumore di sega. Fino ad allora c'è da stare seduti al freddo."
+        costo: 2
+        esito:
+          titolo: La notte lunga
+          testo: |
+            Aspetti seduto sulla panca per tutta la notte, con il freddo che ti sale dalle cosce, finché il russare del
+            Ghiro non diventa un rumore di sega. Quando passi davanti alla sua sedia hai le gambe dure come legno, e
+            nella testa soltanto il conto delle ore.
+          effetti: { tormento: 0.5 }
+          vai: avv-stazione-gelo
+
+  # ------------------------------------------------------------ 0-3 · le celle degli altri
+  - id: avv-stazione-gelo-le-celle-degli-altri
+    immagine: icone/manacles
+    titolo: Le celle degli altri
+    sommario: "Oltre la stanza del custode il corridoio delle celle continua. In ognuna dorme qualcuno, con la brina sulle ciglia."
+    luogo: Le stanze della Brinaia, il corridoio delle celle
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo <= 3]
+    testo: |
+      Oltre la stanza del custode il corridoio delle celle continua per un tratto che dalla tua grata non vedevi. Le
+      celle sono una ventina, e in quasi tutte qualcuno dorme sulla panca. In una c'è un pastore con il bastone ancora
+      in mano, in un'altra un orco anziano con le trecce bianche di brina, e nessuno si sveglia al rumore dei tuoi
+      passi. A mezz'altezza, da una parete all'altra, corre una cordicella con una fila di campanelli di rame.
+
+      {medicina Media} Dormono un sonno che non è il loro. Il freddo li tiene giù quanto basta perché il cuore batta
+      piano, e il calore che resta se lo prende la Gelatrice.
+    opzioni:
+      - testo: "Scavalcare la cordicella dei campanelli"
+        descrizione: "La cordicella pende di più nel mezzo. Si passa sotto, sulla brina, con la schiena a un dito dal rame."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: I campanelli fermi
+          testo: |
+            Ti abbassi dove la cordicella pende di più e passi strisciando sulla brina, con la schiena a un dito dal rame.
+            I campanelli restano fermi. In fondo al corridoio una scala scende verso il ronzio.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il rame
+          testo: |
+            Un campanello suona. Ti appiatti contro una grata e aspetti, e dopo molto senti la risata del Ghiro dalla sua
+            stanza, una volta sola. Torni indietro piano, finché la risata non si spegne.
+          effetti: { sospetto: 0.5 }
+      - testo: "Svegliare il pastore e chiedergli la strada"
+        descrizione: "Il freddo li tiene giù, e il sangue si può rimettere in moto. Il pastore sa da dove l'hanno portato."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Difficile }
+        successo:
+          titolo: Il bastone
+          testo: |
+            Gli strofini i polsi e le tempie finché il sangue non riprende a muoversi, e il pastore apre gli occhi. Del suo
+            nome non si ricorda più. Si ricorda invece la strada per cui il Ghiro l'ha portato la prima notte, e te la
+            indica con il bastone prima di riaddormentarsi.
+          pe: { medicina: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: L'urlo
+          testo: |
+            Il pastore si sveglia urlando e sbatte la mano contro le sbarre, e lungo tutta la cordicella i campanelli
+            suonano. Ti nascondi nell'ombra finché lui non si riaddormenta, e il suo urlo ti resta nelle orecchie.
+          effetti: { tormento: 0.5 }
+      - testo: "Ritrovare le svolte contate sulla slitta"
+        descrizione: "Questo corridoio l'hai già fatto da sdraiato, mezzo addormentato. Due volte a destra, poi una curva lunga."
+        requisiti: [avv-stazione-gelo.passi >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Facile }
+        successo:
+          titolo: La porticina bassa
+          testo: |
+            In piedi le svolte sono più corte che da sdraiato, ma sono quelle. Dopo la curva lunga c'è una porticina bassa
+            che chi cammina non nota, e oltre la porticina sei dall'altra parte della cordicella senza averla toccata.
+          pe: { percezione: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Le svolte confuse
+          testo: |
+            Conti le svolte al contrario e ti ritrovi davanti alla stanza del custode, con il Ghiro che russa a tre passi.
+            Torni indietro trattenendo i passi.
+          effetti: { tormento: 0.5 }
+      - testo: "Fare il giro dietro le celle"
+        descrizione: "Dietro le celle corre un cunicolo basso per il ricambio dell'aria. Si fa carponi, ed è lungo."
+        costo: 2
+        esito:
+          titolo: Il cunicolo
+          testo: |
+            Fai tutto il cunicolo carponi, con il ronzio della Gelatrice che ti arriva nelle ginocchia. Sbuchi oltre la
+            cordicella con le mani bianche di brina e le nocche aperte.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · la ghiacciaia dei lupi
+  - id: avv-stazione-gelo-la-ghiacciaia-dei-lupi
+    immagine: icone/wolf-head
+    titolo: La ghiacciaia dei lupi
+    sommario: "In una stanza piena di carcasse appese dormono due lupi con il pelo diventato bianco. Il più grosso ha già aperto un occhio."
+    luogo: Le stanze della Brinaia, la ghiacciaia
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo <= 3]
+    testo: |
+      La scala scende in una stanza lunga dove dai ganci pendono carcasse di capra intere e dure come legno. Fra le
+      carcasse dormono due lupi. Un tempo erano lupi grigi del Gradone, e il freddo gli ha fatto crescere un pelo bianco
+      e fitto che li fa sembrare grandi il doppio. La porta per scendere sta dall'altra parte della stanza, e il lupo
+      più grosso ha già aperto un occhio.
+
+      {addestrare-animali Difficile} Il grosso ha un collare di cuoio sepolto nel pelo. Qualcuno gli ha insegnato a
+      obbedire, e a lasciar passare chi tiene la mano bassa.
+    opzioni:
+      - testo: "Affrontare il lupo grosso"
+        descrizione: "Il secondo è giovane e scappa se il primo cade. Il primo però non cade facilmente."
+        combattimento: avv-stazione-gelo-il-lupo-bianco
+        vittoria:
+          titolo: Il pelo bianco
+          testo: |
+            Il lupo grosso cade fra le carcasse, e l'altro scappa su per la scala con la coda bassa. Passi la porta in
+            fondo con il braccio della lama intorpidito fino alla spalla.
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        sconfitta:
+          titolo: I denti
+          testo: |
+            Il lupo ti trascina per una gamba fino ai piedi della scala e ti lascia lì, con la stessa cura con cui si lascia
+            un osso già spolpato. Ti rialzi aggrappandoti al corrimano.
+          effetti: { tormento: 0.5 }
+      - testo: "Tenere la mano bassa e passare piano"
+        descrizione: "Un lupo con il collare ha avuto un padrone. Si passa come si passa davanti ai cani da guardia, senza fretta."
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Difficile }
+        successo:
+          titolo: La mano bassa
+          testo: |
+            Ti avvicini con la mano aperta all'altezza del ginocchio, come si fa con i cani da guardia. Il lupo grosso ti
+            annusa le dita, sbuffa una nuvola bianca e ti segue con gli occhi fino alla porta senza alzarsi.
+          pe: { addestrare-animali: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il ringhio
+          testo: |
+            Il lupo ringhia appena alzi la mano di un dito, e il secondo si sveglia. Torni sulla scala all'indietro, e il
+            giovane fa in tempo a strapparti un pezzo di calzone insieme alla pelle sotto.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare fra le carcasse appese"
+        descrizione: "Dove le carcasse pendono più fitte l'odore di capra copre ogni altro odore."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Fra le capre
+          testo: |
+            Passi fra le carcasse dove pendono più fitte, con il loro gelo che ti si attacca ai vestiti, e i lupi annusano
+            soltanto capra. Alla porta in fondo ti volti, e il grosso ha richiuso l'occhio.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il gancio
+          testo: |
+            Urti una carcassa con la spalla, e il gancio stride sulla trave. Il lupo grosso si alza. Torni sulla scala
+            prima che decida che cosa fare, con un graffio sul dorso della mano.
+          effetti: { ferite: 0.5 }
+      - testo: "Buttargli una capra e passare mentre mangiano"
+        descrizione: "Le carcasse sono gelate e pesanti. Staccarne una dal gancio a mani nude costa la pelle dei palmi."
+        costo: 2
+        esito:
+          titolo: La capra
+          testo: |
+            Stacchi una capra dal gancio a mani nude, e il gelo della carne ti brucia i palmi. I lupi ci si gettano sopra
+            senza un verso, e tu attraversi la stanza mentre strappano.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · il pozzo della brina
+  - id: avv-stazione-gelo-il-pozzo-della-brina
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il pozzo della brina
+    sommario: "Un pozzo scende nel buio con una scala di pioli coperti di brina. Dal fondo sale un vento freddo che non smette mai."
+    luogo: Le stanze della Brinaia, il pozzo
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo <= 3]
+    testo: |
+      Il passaggio finisce sull'orlo di un pozzo rotondo, largo come una stanza, con una scala di pioli di metallo
+      piantata nella parete. Dal fondo sale un vento freddo e costante, e la brina sui pioli è spessa due dita, con i
+      ghiaccioli che pendono di sotto. Più in basso, dove il pozzo si apre in un corridoio, una luce azzurra va e viene.
+      Accanto all'orlo, nella parete, c'è uno sportello con una leva.
+
+      {tecnologia Media} Lo sportello chiude il condotto da cui sale il vento. Se il vento si ferma la brina smette di
+      crescere, e quella che c'è si può grattare via.
+    opzioni:
+      - testo: "Scendere i pioli così come sono"
+        descrizione: "Due dita di brina su ogni piolo. Si rompe con il tallone prima di appoggiarci il peso."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Due dita di brina
+          testo: |
+            Scendi un piolo alla volta, rompendo la brina con il tallone prima di appoggiarci il peso. Quando tocchi il
+            fondo hai le mani rosse e le braccia che tremano.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il piolo
+          testo: |
+            Un piolo ti scivola sotto lo stivale, e resti appeso per le mani alla brina, che cede. Risali a forza di
+            braccia fino all'orlo e ci resti seduto a lungo, con le mani fra le cosce.
+          effetti: { ferite: 0.5 }
+      - testo: "Chiudere lo sportello e grattare i pioli"
+        descrizione: "La leva è dura di brina. Se si sblocca, il vento si ferma e la scala torna una scala."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La leva
+          testo: |
+            Sblocchi la leva a colpi di tallone, e lo sportello si chiude con un tonfo che fa tacere il vento. Scendi
+            grattando i pioli con il coltello, uno alla volta, comodo come su una scala di casa.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il vento in faccia
+          testo: |
+            La leva cede di colpo, e lo sportello si spalanca invece di chiudersi. Il vento ti arriva in faccia carico di
+            brina, e per un pezzo non vedi niente e non senti più le orecchie.
+          effetti: { ferite: 0.5 }
+      - testo: "Calarti con la corda lungo il centro del pozzo"
+        descrizione: "Nel mezzo del pozzo la brina è lontana e il vento è forte. Si scende lontano dai pioli, girando."
+        costo: 2
+        esito:
+          titolo: La corda
+          testo: |
+            Leghi la corda al piolo più alto e ti cali lungo il centro del pozzo, nel vento, girando su te stesso. In
+            fondo la corda è dura come un bastone, e i palmi ti bruciano.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · le condotte
+  - id: avv-stazione-gelo-le-condotte
+    immagine: icone/pipes
+    titolo: Le condotte
+    sommario: "Un cunicolo corre fra due file di tubi, una coperta di brina e una tiepida. Per andare avanti bisogna strisciare a lungo."
+    luogo: Le stanze della Brinaia, le condotte
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo <= 3]
+    testo: |
+      Il corridoio si stringe fino a diventare un cunicolo fra due file di tubi grossi come un uomo, e per andare avanti
+      bisogna strisciare. I tubi di sinistra sono bianchi di brina, e la pelle ci resta attaccata se li sfiori. Quelli
+      di destra sono tiepidi e ronzano. Contro un tubo tiepido c'è una coperta lisa, con le iniziali *S. M.* ricamate
+      in un angolo, stesa come per dormirci sopra.
+
+      {tecnologia Difficile} I tubi tiepidi portano via quello che la Gelatrice toglie alle stanze. Il caldo deve
+      finire da qualche parte, e finisce dove vanno questi tubi.
+    opzioni:
+      - testo: "Strisciare con la spalla contro i tubi tiepidi"
+        descrizione: "Il caldo di destra tiene lontano il gelo di sinistra, finché non ti si alza una manica."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Media }
+        successo:
+          titolo: Il tubo tiepido
+          testo: |
+            Strisci per tutto il cunicolo con la spalla contro i tubi tiepidi e le maniche tirate fino alle dita. Dall'altra
+            parte ti fanno male i gomiti, e le mani sono ancora tue.
+          pe: { resistenza: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La pelle
+          testo: |
+            A metà cunicolo la manica ti si alza, e il polso tocca un tubo di brina e ci resta attaccato. Lo stacchi
+            lasciandoci un pezzo di pelle, e torni indietro con il polso fasciato nella coperta di Sveva.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire i tubi tiepidi fino a una botola"
+        descrizione: "I tubi che portano via il caldo vanno controllati. Da qualche parte ci sarà una botola d'ispezione."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: La botola
+          testo: |
+            Batti le nocche sui tubi tiepidi finché non senti il ronzio cambiare. Lì sotto c'è una botola d'ispezione, e
+            la botola porta in un corridoio di servizio, asciutto, che sbuca oltre il cunicolo.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Lo sbuffo
+          testo: |
+            La botola che apri è quella sbagliata, e ti sputa in faccia uno sbuffo di vapore gelato che ti incolla le
+            ciglia. Ci metti un pezzo a riaprire gli occhi.
+          effetti: { ferite: 0.5 }
+      - testo: "Strisciare piano, fermandoti a scaldarti"
+        descrizione: "Con il tempo si passa. Il tempo però ha un prezzo, e lo pagano i gomiti."
+        costo: 2
+        esito:
+          titolo: Mezza notte
+          testo: |
+            Ci metti mezza notte, fermandoti ogni dieci braccia contro i tubi tiepidi come contro una stufa. Arrivi
+            dall'altra parte con i gomiti scorticati e la schiena rigida.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 0-3 · la dispensa del custode
+  - id: avv-stazione-gelo-la-dispensa-del-custode
+    immagine: icone/teapot
+    titolo: La dispensa del custode
+    sommario: "Una dispensa ordinata, con i sacchi in fila e un servizio da tè di porcellana buona. La porta in fondo è saldata dalla brina."
+    luogo: Le stanze della Brinaia, la dispensa
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo <= 3]
+    testo: |
+      La dispensa del Ghiro è più ordinata della sua stanza. I sacchi di farina e di fagioli stanno in fila contro il
+      muro, e su una mensola c'è un servizio da tè di porcellana bianca con il bordo azzurro. Le tazze sono tutte
+      capovolte tranne una, appoggiata sul suo piattino. La porta in fondo, quella che scende, è chiusa da una crosta di
+      brina che la salda allo stipite.
+
+      {galateo Media} È porcellana dei Quartieri Alti, di quella che si regala a chi lascia una cattedra dopo molti anni.
+      Un custode non la compra, e di solito non la sa nemmeno lavare.
+    opzioni:
+      - testo: "Aprire la porta a spallate"
+        descrizione: "La crosta di brina è spessa, e il legno sotto è vecchio. Qualcosa cede prima."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La crosta
+          testo: |
+            Ci dai dentro con la spalla tre volte, e alla terza la crosta si spacca tutta in una volta. La porta si apre
+            su una scala che scende, e dal basso sale una luce azzurra.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La spalla
+          testo: |
+            Alla terza spallata la porta è ancora al suo posto, e la tua spalla non si alza più sopra il petto. I colpi li
+            ha sentiti mezza Brinaia, e torni indietro ad aspettare che la Brinaia se ne dimentichi.
+          effetti: { ferite: 0.5 }
+      - testo: "Cercare come la apre il custode"
+        descrizione: "Il Ghiro ci passa tutti i giorni, e non sembra uno che prende le porte a spallate."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il bollitore
+          testo: |
+            Accanto al fornello c'è un bollitore di rame ancora tiepido, e sullo stipite i segni dell'acqua calda versata
+            tante volte. Scaldi l'acqua sulla brace e la versi sulla crosta, che si scioglie in un minuto.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La brace
+          testo: |
+            Il fornello ha la brace accesa sotto la cenere, e te ne accorgi con le dita. Ti succhi i polpastrelli per un
+            pezzo, davanti alla porta ancora chiusa.
+          effetti: { ferite: 0.5 }
+      - testo: "Grattare la brina con il coltello"
+        descrizione: "Un dito alla volta la crosta viene via. Il rumore è poco, il tempo è tanto."
+        costo: 2
+        esito:
+          titolo: Un dito alla volta
+          testo: |
+            Gratti la crosta con la punta del coltello per un'ora, fermandoti ogni tanto ad ascoltare se il Ghiro si è
+            svegliato. Quando la porta si apre hai le dita piene di schegge di brina, e ogni rumore della Brinaia ti fa
+            voltare.
+          effetti: { profondita.avv-stazione-gelo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · il corridoio dei glifi
+  - id: avv-stazione-gelo-il-corridoio-dei-glifi
+    immagine: ambientazione/rovine-dei-precursori
+    titolo: Il corridoio dei glifi
+    sommario: "Il pavimento del corridoio è fatto di lastre incise chiare e scure. Le lastre sbagliate gelano il piede."
+    luogo: Le stanze della Brinaia, il corridoio dei glifi
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 4, profondita.avv-stazione-gelo <= 6]
+    testo: |
+      Il corridoio è lungo una trentina di passi, e il pavimento è fatto di lastre quadrate, ognuna con un glifo
+      inciso. Le lastre chiare hanno i glifi pieni di luce azzurra, quelle scure sono spente. Sulla quarta lastra c'è
+      uno stivale da solo, gelato al pavimento fino alla caviglia, e dentro lo stivale non c'è niente. Sulle pareti i
+      glifi continuano in file ordinate fino al soffitto.
+
+      {accademiche Difficile} I glifi del pavimento sono numeri, scritti come li scrivevano i Precursori nei loro
+      registri. Contano i passi di chi entra, e chi sbaglia il conto resta lì.
+    opzioni:
+      - testo: "Leggere i glifi e camminare sul conto giusto"
+        descrizione: "Se sono numeri, hanno una regola. Basta trovarla prima della quinta lastra."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Il conto
+          testo: |
+            Leggi le prime lastre come un registro, una cifra dopo l'altra, finché la regola non salta fuori. Cammini sul
+            conto giusto senza fretta, e in fondo ti volti a guardare lo stivale rimasto solo nel mezzo.
+          pe: { accademiche: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La quinta lastra
+          testo: |
+            Sbagli la quinta lastra. Il gelo ti sale nello stivale in un attimo, e strappi via il piede con un grido
+            lasciando sulla pietra un pezzo di suola.
+          effetti: { ferite: 1 }
+      - testo: "Saltare le lastre a due a due"
+        descrizione: "Il gelo ha bisogno di un momento per prendere. Chi non si ferma mai su una lastra forse gli sfugge."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Sulle punte
+          testo: |
+            Salti due lastre per volta, senza mai restare su una più di un battito, e il gelo arriva sempre dopo di te. In
+            fondo al corridoio hai le suole bianche e le caviglie intatte.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La tagliola
+          testo: |
+            Atterri storto a metà corridoio, e la brina ti chiude la caviglia come una tagliola. Ti liberi tirando con
+            tutte e due le mani, e torni indietro zoppicando.
+          effetti: { ferite: 1 }
+      - testo: "Seguire l'ordine che ti ha mostrato Sveva"
+        descrizione: "Un glifo chiaro, poi due scuri prima di tornare al chiaro. Lei è passata di qui da viva."
+        requisiti: [avv-stazione-gelo.sveva >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: L'ordine di Sveva
+          testo: |
+            Ripeti l'ordine a mezza voce a ogni lastra, come te l'ha mostrato lei, e arrivi in fondo con i piedi asciutti.
+            Sull'ultima lastra c'è un segno di gesso, una freccia che punta avanti.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il conto perso
+          testo: |
+            A metà corridoio perdi il conto, e la lastra sotto di te si copre di brina. Torni indietro sulle tue impronte,
+            piano, con le dita dei piedi che non senti più.
+          effetti: { ferite: 0.5 }
+      - testo: "Stendere il mantello e camminarci sopra"
+        descrizione: "Il gelo prende il mantello prima di prendere te. Il mantello però resta sul pavimento."
+        costo: 2
+        esito:
+          titolo: Il mantello
+          testo: |
+            Stendi il mantello e lo trascini avanti a ogni passo, camminandoci sopra. Alla fine resta incollato
+            all'ultima lastra, e prosegui senza, con il freddo che ti entra dalle spalle.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la sentinella di brina
+  - id: avv-stazione-gelo-la-sentinella-di-brina
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La sentinella di brina
+    sommario: "Una macchina dei Precursori alta due volte un uomo sta ferma in mezzo a una sala, coperta di brina. Si gira verso le cose calde."
+    luogo: Le stanze della Brinaia, la sala rotonda
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 4, profondita.avv-stazione-gelo <= 6]
+    testo: |
+      La sala è rotonda, con una porta per parte, e in mezzo c'è una macchina dei Precursori alta due volte un uomo, su
+      quattro zampe sottili, con il corpo a forma di lanterna. È coperta di brina da capo a piedi, e sta ferma. Quando
+      fai tre passi nella sala, la testa si gira verso di te con un cigolio lento.
+
+      {percezione Media} La testa segue il vapore che ti esce dalla bocca, più che i tuoi movimenti. Quando ti copri la
+      bocca con la mano, esita.
+    opzioni:
+      - testo: "Affrontare la sentinella"
+        descrizione: "Le zampe sono sottili e il corpo è duro. Sotto la brina le giunture si vedono appena."
+        combattimento: avv-stazione-gelo-la-sentinella
+        vittoria:
+          titolo: La lanterna spenta
+          testo: |
+            La sentinella si piega sulle zampe, e la luce del suo corpo si spegne. Mentre passi oltre, la brina comincia
+            già a coprire le giunture dove l'hai colpita.
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        sconfitta:
+          titolo: La zampa
+          testo: |
+            Una zampa ti prende in pieno petto e ti butta contro la porta da cui sei entrato. Esci strisciando, e la
+            sentinella torna a guardare il centro della sala.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare la sala senza fare vapore"
+        descrizione: "La sentinella guarda il vapore della bocca. Con la sciarpa sul viso, forse, non c'è niente da guardare."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: La sciarpa
+          testo: |
+            Ti premi la sciarpa sulla bocca, così il vapore ci resta dentro, e attraversi la sala lungo il muro. La
+            sentinella guarda il punto dove eri entrato finché non sei uscito dall'altra parte.
+          pe: { furtivita: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il vapore
+          testo: |
+            Al decimo passo la sciarpa ti scivola sotto il mento. La testa si gira, una zampa si alza, e tu torni di corsa
+            alla porta mentre la zampa batte sul pavimento dove avevi il piede.
+          effetti: { tormento: 0.5 }
+      - testo: "Darle un cristallo caldo da guardare"
+        descrizione: "Un cristallo scaldato nel pugno brucia più di un corpo. Se rotola verso la porta sbagliata, la sentinella lo segue."
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il cristallo che rotola
+          testo: |
+            Stringi un cristallo nel pugno e ci spingi dentro il Mana finché non ti brucia la mano, poi lo fai rotolare
+            verso la porta di sinistra. La sentinella lo segue a passi lunghi, e tu esci da quella di destra.
+          pe: { magia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il cristallo spento
+          testo: |
+            Il cristallo si incrina nel pugno prima di scaldarsi, e la sentinella si gira verso la tua mano, che adesso è
+            la cosa più calda della sala. Esci di spalle, con il palmo che pulsa.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare di essere freddo come la sala"
+        descrizione: "La sentinella guarda le cose calde. Basta non esserlo più, e il prezzo lo paga il corpo."
+        costo: 2
+        esito:
+          titolo: Freddo come la sala
+          testo: |
+            Ti sdrai sulla brina dietro la porta e aspetti, finché le mani non ti diventano bianche. Quando entri la
+            sentinella non gira nemmeno la testa, e tu attraversi la sala con le gambe che non ti obbediscono.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la scala che gira
+  - id: avv-stazione-gelo-la-scala-che-gira
+    immagine: icone/stairs
+    titolo: La scala che gira
+    sommario: "Una scala a chiocciola scende intorno a una colonna di vetro. I gradini girano piano, ognuno per conto suo."
+    luogo: Le stanze della Brinaia, la scala a chiocciola
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 4, profondita.avv-stazione-gelo <= 6]
+    testo: |
+      Una scala a chiocciola scende intorno a una colonna di vetro, e dentro la colonna sale una luce azzurra a impulsi
+      lenti. I gradini sono lastre di metallo incise come quelle del corridoio, e girano intorno alla colonna ognuno con
+      il suo passo. Ogni tanto due gradini si allineano e fanno una scala vera per un tratto. Poi si separano, e sotto
+      resta il vuoto.
+
+      {tecnologia Difficile} La colonna è un orologio. Gli impulsi di luce dicono quando i gradini si allineano, e lo
+      dicono un momento prima che succeda.
+    opzioni:
+      - testo: "Saltare di gradino in gradino"
+        descrizione: "Quando due gradini si sfiorano, si passa. Bisogna farlo trenta volte di fila senza sbagliare."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Trenta salti
+          testo: |
+            Salti quando due gradini si sfiorano, e poi ancora, giù intorno alla colonna, sempre sul bordo del gradino che
+            arriva. In fondo ti tremano le ginocchia, e le guardi come se fossero di un altro.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il gradino che se ne va
+          testo: |
+            Un gradino si sposta mentre ci hai sopra un piede solo. Ti aggrappi al bordo di quello di sopra e ti tiri su,
+            e resti seduto lì, su un gradino che gira, finché non ti riporta davanti alla porta da cui sei venuto.
+          effetti: { ferite: 0.5 }
+      - testo: "Leggere gli impulsi della colonna"
+        descrizione: "Se la colonna è un orologio, basta contare. Un errore però costa un piede nel vuoto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: L'orologio
+          testo: |
+            Conti gli impulsi finché non capisci quando la luce si allunga, un momento prima che i gradini si allineino.
+            Scendi soltanto in quel momento, e arrivi in fondo camminando come su una scala qualunque.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il conto sbagliato
+          testo: |
+            Il gradino arriva un battito dopo il tuo piede. Resti appeso alla ringhiera di quello di prima, con le gambe
+            nel vuoto, e ti tiri su a forza di braccia fino alla porta.
+          effetti: { ferite: 0.5 }
+      - testo: "Calarti lungo la colonna, fuori dai gradini"
+        descrizione: "La colonna di vetro è liscia e fredda, ma sta ferma. Chi ci si abbraccia scende."
+        costo: 2
+        esito:
+          titolo: La colonna
+          testo: |
+            Abbracci la colonna di vetro e ti lasci scivolare giù un palmo alla volta, con le cosce strette e la luce che
+            ti pulsa contro il petto. In fondo hai la faccia azzurra di riflessi e la pelle delle braccia rossa di freddo.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 4-6 · la Gelatrice
+  - id: avv-stazione-gelo-la-gelatrice
+    immagine: ambientazione/cristalli-conduttori
+    titolo: La Gelatrice
+    sommario: "Al centro della Brinaia una ruota di cristalli gira in una sala piena di brina, e prende il caldo da tutto quello che le passa vicino."
+    luogo: Le stanze della Brinaia, la sala della Gelatrice
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 4, profondita.avv-stazione-gelo <= 6]
+    testo: |
+      La sala è alta come una torre, e in mezzo c'è la Gelatrice. È una ruota di metallo nero larga quanto una piazza,
+      piantata in verticale, con i cristalli conduttori incastonati lungo il bordo come i denti di un ingranaggio. Gira
+      piano, e a ogni giro i cristalli si accendono di azzurro e la sala diventa più fredda. Il ponte di ferro che
+      attraversa la sala passa a un braccio dalla ruota, e la brina ti si forma sulle sopracciglia mentre la guardi.
+
+      {magia Media} Il Mana della sala corre tutto verso la ruota, e dalla ruota se ne va per i tubi verso il fondo
+      della Brinaia. Quello che entra nella ruota è caldo, e ne esce freddo.
+    opzioni:
+      - testo: "Attraversare il ponte di corsa"
+        descrizione: "Trenta passi a un braccio dalla ruota. Se ti accende addosso a metà, le gambe si fermano da sole."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Difficile }
+        successo:
+          titolo: Il ponte
+          testo: |
+            Corri sul ponte con la testa bassa, e il freddo della ruota ti passa addosso tutto in una volta. Dall'altra
+            parte ti accorgi di avere la brina anche dentro le maniche.
+          pe: { resistenza: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Le gambe ferme
+          testo: |
+            A metà ponte la ruota si accende, e le gambe ti si fermano da sole. Torni indietro trascinando i piedi, e ci
+            metti un'ora a sentirti di nuovo le dita.
+          effetti: { ferite: 1 }
+      - testo: "Rallentare la ruota dal quadro delle leve"
+        descrizione: "Sul pilone del ponte c'è un quadro di leve. Una di quelle frena la ruota, le altre chissà."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La leva del freno
+          testo: |
+            Le leve hanno incisi segni dei Precursori, e uno è una ruota con una linea di traverso. Abbassi quella, e la
+            Gelatrice rallenta quanto basta per attraversare il ponte. Quando la rialzi, dall'altra parte, la ruota
+            riprende a girare come se niente fosse.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La leva sbagliata
+          testo: |
+            Abbassi la leva sbagliata, e la ruota accelera. I cristalli si accendono tutti insieme, e la brina ti copre le
+            mani prima che tu riesca a staccarle dal quadro.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare il giro lento della ruota"
+        descrizione: "Ogni tanto la ruota rallenta da sola. Bisogna aspettare quel momento al freddo, sul pilone."
+        costo: 2
+        esito:
+          titolo: Il giro lento
+          testo: |
+            Aspetti accucciato contro il pilone, con le mani sotto le ascelle, finché la ruota non fa il suo giro lento.
+            Attraversi il ponte allora, e dall'altra parte ti accorgi che hai perso la sensibilità di due dita.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta: la porta di fuori
+  - id: avv-stazione-gelo-la-porta-di-fuori
+    immagine: fazioni/raschiatori
+    titolo: La porta di fuori
+    sommario: "In cima a una scala che sale c'è una porta saldata dal gelo, e sull'ultimo gradino è seduta una donna con la giacca dei Raschiatori."
+    luogo: Le stanze della Brinaia, la scala della porta di fuori
+    area: avv-stazione-gelo
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo == 5, avv-stazione-gelo.piastrina == 0]
+    testo: |
+      Dal corridoio parte una scala laterale, l'unica della Brinaia che sale, e in cima c'è una porta di metallo larga
+      quanto un carro. È la porta di fuori. La brina l'ha saldata allo stipite con una crosta spessa un palmo, e sulla
+      crosta ci sono i segni di molte mani.
+
+      Davanti alla porta c'è Sveva Morsani, seduta sull'ultimo gradino con la schiena contro il metallo. È intera,
+      bianca di brina dai capelli agli stivali, e ha le nocche aperte fino all'osso. Dalla cintura le pende la lanterna
+      spenta, e dal collo la piastrina. Accanto a lei, sul gradino, ha scritto con il dito nella brina *giù, allo
+      specchio*, con una freccia che punta verso il fondo della scala, e la Brinaia l'ha conservato.
+
+      {origine apprendista-raschiatore} Nocche come quelle le hai viste ai turni, su chi era rimasto chiuso oltre una
+      paratia. Chi batte così continua finché gli restano le mani.
+
+      {resilienza Media} Lei è morta davanti all'uscita. Ha lasciato la freccia per chi sarebbe venuto dopo, e la
+      strada che resta è la sua.
+    opzioni:
+      - testo: "Prenderle la piastrina e chiuderle gli occhi"
+        descrizione: "La sua squadra ha appeso una lanterna sul Ponte dei Morti. La piastrina è la cosa che le manca."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La piastrina
+          testo: |
+            Le chiudi gli occhi con il pollice, e la brina delle ciglia ti resta sul dito. La piastrina viene via dal
+            collo con il suo cordino, e la metti in tasca accanto alla lettera di Orvald. Poi scendi dalla parte della
+            freccia.
+          pe: { resilienza: 2 }
+          imposta: { avv-stazione-gelo.piastrina: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Le ciglia
+          testo: |
+            Allunghi la mano verso il suo viso e la ritiri, due volte. Alla terza torni giù per la scala senza averla
+            toccata, e per un pezzo ti manca il coraggio di andare oltre.
+          effetti: { tormento: 0.5 }
+      - testo: "Cercare nelle sue tasche quello che sapeva"
+        descrizione: "Una Raschiatrice si segna la strada. Se è arrivata fin qui, da qualche parte c'è il suo disegno."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La pianta
+          testo: |
+            In una tasca della giacca ha un mozzicone di gesso e un foglio piegato, con la pianta della Brinaia disegnata a
+            memoria e la sala dello specchio segnata da una croce. Prendi il foglio e la piastrina, e scendi seguendo la
+            croce.
+          pe: { percezione: 2 }
+          imposta: { avv-stazione-gelo.piastrina: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La stoffa
+          testo: |
+            Le tasche sono saldate dalla brina, e quando tiri la stoffa si strappa. Resti con un pezzo di giacca in mano e
+            l'impressione di averla derubata, e torni giù senza guardarla.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciarla dov'è e scendere"
+        descrizione: "Ha scritto la strada per chi veniva dopo. Per seguirla non serve toccarla."
+        costo: 2
+        esito:
+          titolo: La freccia
+          testo: |
+            Le passi accanto e scendi senza voltarti, perché a guardarla ancora resteresti lì anche tu. La sua freccia ti
+            resta davanti agli occhi per tutta la scala, e oltre.
+          effetti: { profondita.avv-stazione-gelo: 1, tormento: 0.5 }
+      - testo: "Dire la conta del turno e prenderle la piastrina"
+        descrizione: "All'uscita dal turno si dicono i nomi della squadra. Il suo va detto qui, dove si è fermata."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: La conta sulla scala
+          testo: |
+            Dici la conta del turno, i nomi della squadra uno per uno come si fa all'uscita, e quando arrivi al suo le
+            sfili la piastrina dal collo. È tiepida, l'unica cosa tiepida della scala. La metti in tasca e scendi dalla
+            parte della freccia.
+          imposta: { avv-stazione-gelo.piastrina: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+
+  # ------------------------------------------------------------ 7-8 · la sala da ballo
+  - id: avv-stazione-gelo-la-sala-da-ballo
+    immagine: bestiario/wight
+    titolo: La sala da ballo
+    sommario: "Una sala con il pavimento di vetro nero e le colonne sottili. In mezzo ci sono figure bianche ferme a coppie, con le braccia alzate."
+    luogo: Le stanze della Brinaia, la sala da ballo
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 7, profondita.avv-stazione-gelo <= 8]
+    testo: |
+      Qui le stanze cambiano. La sala ha il pavimento di vetro nero, lucido come acqua ferma, e colonne sottili che
+      salgono fino a una volta dipinta d'azzurro. In mezzo ci sono una dozzina di figure bianche di brina, ferme a
+      coppie con le braccia alzate, in una figura di ballo. Sono i prigionieri degli anni passati, vestiti come quando
+      sono arrivati, e uno di loro, il più vicino, ha ancora il cappello in testa e la pipa in bocca.
+
+      {medicina Difficile} Li hanno messi in posa da morti, anni fa. La Gelatrice li tiene caldi quanto basta
+      per muoversi, e due di loro hanno girato la testa da quando sei entrato.
+    opzioni:
+      - testo: "Farti largo fra i congelati"
+        descrizione: "Due figure si sono già staccate dalle coppie. Sono lente, ma il freddo che hanno addosso morde."
+        combattimento: avv-stazione-gelo-i-congelati
+        vittoria:
+          titolo: Le coppie rotte
+          testo: |
+            I due congelati ti vengono addosso, e quando cadono si rompono sul vetro come stoviglie. Le altre figure
+            restano ferme con le braccia alzate, e tu attraversi la sala senza guardarle in faccia.
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        sconfitta:
+          titolo: Il ballo
+          testo: |
+            I congelati ti prendono uno per braccio e ti fanno girare finché non cadi. Ti trascini fuori
+            dalla sala sul vetro, con il freddo nelle ossa.
+          effetti: { tormento: 1 }
+      - testo: "Passare fra le coppie al loro ritmo"
+        descrizione: "Le figure si muovono a ogni giro della ruota. Chi si muove con loro sembra uno del ballo."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Molto difficile }
+        successo:
+          titolo: Il passo
+          testo: |
+            Ti muovi fra le coppie con il loro ritmo, che è quello lento della ruota, un passo per ogni giro dei
+            cristalli. Le figure girano la testa verso di te e poi la girano altrove. Esci dall'altra parte senza che
+            nessuna ti abbia toccato.
+          pe: { acrobazia: 4 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il passo sbagliato
+          testo: |
+            Sbagli il passo davanti a una coppia, e una mano bianca ti si chiude sul braccio. Te ne liberi lasciandole la
+            manica, e tutte le teste della sala si girano verso di te mentre torni indietro.
+          effetti: { ferite: 1 }
+      - testo: "Girare lungo il muro, dietro le colonne"
+        descrizione: "Dietro le colonne le figure non guardano. La sala però è grande, e il freddo non aspetta."
+        costo: 3
+        esito:
+          titolo: Dietro le colonne
+          testo: |
+            Fai il giro lungo, con la schiena contro il muro e gli occhi sulle coppie, e a ogni giro della ruota ti fermi
+            come si fermano loro. Ci metti un'ora, e quando esci non senti più i piedi.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-8 · la galleria degli specchi
+  - id: avv-stazione-gelo-la-galleria-degli-specchi
+    immagine: icone/mirror-mirror
+    titolo: La galleria degli specchi
+    sommario: "Una galleria lunga, con specchi spenti alle pareti. Nei riflessi hai più brina addosso di quanta ne hai davvero."
+    luogo: Le stanze della Brinaia, la galleria degli specchi
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 7, profondita.avv-stazione-gelo <= 8]
+    testo: |
+      La galleria è lunga e stretta, con un tappeto marcito nel mezzo e specchi alti alle pareti, uno accanto
+      all'altro, ognuno nella sua cornice di metallo nero. Sono specchi spenti dei Precursori, come quello che cerchi, e
+      riflettono male. Il tuo riflesso cammina un passo dietro di te, e ha brina sui capelli e sulle labbra, più di
+      quanta ne hai tu. In fondo la galleria finisce davanti a tre porte uguali.
+
+      {resilienza Difficile} Il riflesso è avanti nel tempo, più che indietro nel passo. Ti fa vedere come sarai fra
+      un'ora, se resti qui a guardarlo.
+    opzioni:
+      - testo: "Trovare la porta vera fra i riflessi"
+        descrizione: "Tre porte uguali in fondo a una galleria di specchi. Almeno due sono riflessi di qualcos'altro."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Difficile }
+        successo:
+          titolo: La porta senza riflesso
+          testo: |
+            Guardi le tre porte negli specchi invece che dal vero. Due hanno il loro riflesso negli specchi di fronte, e
+            la terza è l'unica che negli specchi manca. È quella vera, e la maniglia ti gela la mano.
+          pe: { percezione: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il vetro
+          testo: |
+            Prendi la porta di sinistra e sbatti la fronte contro il vetro. Dall'altra parte il tuo riflesso, più bianco
+            di te, si tocca la fronte nello stesso punto con un momento di ritardo.
+          effetti: { tormento: 1 }
+      - testo: "Camminare a occhi chiusi fino in fondo"
+        descrizione: "Quello che mostrano gli specchi non serve a niente. Il tappeto sotto i piedi porta alla porta giusta, forse."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: A occhi chiusi
+          testo: |
+            Chiudi gli occhi e cammini tenendo il tappeto sotto i piedi, contando i passi, mentre dalle due pareti
+            ti arriva il rumore dei tuoi stessi passi, in ritardo. In fondo allunghi la mano, e la maniglia che trovi è
+            fredda e vera.
+          pe: { resilienza: 4 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Il riflesso girato
+          testo: |
+            Apri gli occhi a metà galleria, e trovi il tuo riflesso a un passo da te, girato dalla tua parte invece che
+            dalla sua. Torni indietro di corsa fino all'ingresso, e il riflesso ti segue un passo dopo.
+          effetti: { tormento: 1 }
+      - testo: "Rompere gli specchi uno dopo l'altro"
+        descrizione: "Senza specchi, restano soltanto le porte. Il vetro però taglia, e il rumore si sente lontano."
+        costo: 3
+        esito:
+          titolo: Il vetro rotto
+          testo: |
+            Rompi gli specchi con l'elsa, uno dopo l'altro, finché i riflessi non finiscono. Restano tre porte, e due sono
+            dipinte sul muro. Esci da quella vera con le nocche tagliate e il rumore del vetro nelle orecchie.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-8 · il salotto del tè
+  - id: avv-stazione-gelo-il-salotto-del-te
+    immagine: icone/fireplace
+    titolo: Il salotto del tè
+    sommario: "Un salotto con le poltrone intorno a un camino acceso. Il fuoco è azzurro, e invece di scaldare fa freddo."
+    luogo: Le stanze della Brinaia, il salotto
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 7, profondita.avv-stazione-gelo <= 8]
+    testo: |
+      Il salotto è arredato come uno dei Quartieri Alti, con le poltrone di velluto intorno a un camino e un tavolino
+      apparecchiato per il tè. Nel camino brucia un fuoco azzurro e silenzioso, che dà freddo come una finestra
+      aperta d'inverno. Su una poltrona c'è un uomo seduto con la tazza in mano e gli occhi chiusi, bianco di brina. Le
+      poltrone sono tutte girate verso il fuoco, e la porta dall'altra parte è lontana.
+
+      {resistenza Difficile fallita} Le gambe ti stanno già spiegando che una poltrona di velluto è la cosa più
+      ragionevole del mondo. Dar loro retta sarebbe l'ultima cosa ragionevole che fai.
+    opzioni:
+      - testo: "Attraversare il salotto senza fermarti"
+        descrizione: "Chi si siede non si alza più. Bisogna arrivare alla porta in piedi, con le ginocchia che chiedono il contrario."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Molto difficile }
+        successo:
+          titolo: In piedi
+          testo: |
+            Attraversi il salotto con un passo regolare, e ogni volta che le ginocchia accennano a piegarsi verso una
+            poltrona te le batti con il pugno. Arrivi alla porta con le gambe di legno, ma ci arrivi in piedi.
+          pe: { resistenza: 4 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La poltrona
+          testo: |
+            Ti siedi solo per un momento, e il momento si allunga. Ti risvegli con in mano una tazza che non ricordi di
+            avere preso, e ti alzi strappando i calzoni al velluto a cui si erano attaccati.
+          effetti: { ferite: 1 }
+      - testo: "Tenere il sangue in movimento"
+        descrizione: "Il freddo addormenta prima le mani, poi la testa. Chi sa dove sfregare arriva dall'altra parte sveglio."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Difficile }
+        successo:
+          titolo: Il sangue
+          testo: |
+            Ti sfreghi le mani e le cosce mentre cammini, e ti morsichi l'interno della guancia ogni volta che la testa si
+            fa pesante. Il dolore tiene sveglio il corpo meglio della volontà, e alla porta ci arrivi con la bocca che sa
+            di sangue.
+          pe: { medicina: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La testa pesante
+          testo: |
+            A metà salotto le mani smettono di rispondere, e la testa le segue. Ti ritrovi in ginocchio accanto
+            all'uomo con la tazza, e torni indietro a quattro zampe prima di sederti accanto a lui.
+          effetti: { ferite: 1 }
+      - testo: "Passare quando la Gelatrice beve da un'altra stanza"
+        descrizione: "Nel quaderno del forziere il salotto ha un'ora segnata accanto. A quell'ora il fuoco azzurro si abbassa."
+        requisiti: [avv-stazione-gelo.quaderno >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: L'ora scritta
+          testo: |
+            Nel quaderno il salotto ha un'ora segnata con una riga sotto, in una grafia con le V lunghe e piegate in
+            avanti. Aspetti quell'ora fuori dalla porta, e quando arriva il fuoco azzurro si abbassa fino alla brace.
+            Attraversi il salotto quasi tiepido, con il quaderno ancora aperto in mano.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: L'ora sbagliata
+          testo: |
+            Leggi male una cifra, e il fuoco si alza quando sei a metà salotto. Torni indietro con le dita che non si
+            piegano più.
+          effetti: { ferite: 0.5 }
+      - testo: "Fare il giro dietro le poltrone, rasente al muro"
+        descrizione: "Più lontano dal fuoco, più lungo. Il freddo arriva lo stesso, solo più piano."
+        costo: 3
+        esito:
+          titolo: Rasente al muro
+          testo: |
+            Fai il giro lungo con la spalla contro la carta da parati, che si sbriciola di brina a ogni passo. Arrivi
+            alla porta con le labbra blu, e per un pezzo non riesci a dire una parola.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 7-8 · la serra bianca
+  - id: avv-stazione-gelo-la-serra-bianca
+    immagine: icone/crystal-growth
+    titolo: La serra bianca
+    sommario: "Una serra dei Precursori con le piante diventate dure e trasparenti di brina. Le foglie tagliano, e il sentiero è stretto."
+    luogo: Le stanze della Brinaia, la serra
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 7, profondita.avv-stazione-gelo <= 8]
+    testo: |
+      Sotto una volta di vetro opaco c'è una serra, con le aiuole in file e un sentiero di ghiaia nel mezzo. Le piante
+      sono tutte bianche, trasformate dalla brina in qualcosa di duro e trasparente, e le foglie hanno il filo di una
+      lama. Al centro della serra c'è una fontana asciutta, e sull'orlo della fontana è inginocchiata una figura bianca
+      con una cesoia in mano.
+
+      {natura Difficile} Erano piante vere, e alcune lo sono ancora sotto la brina. Le felci basse si piegano senza
+      rompersi, se le prendi dal basso.
+    opzioni:
+      - testo: "Affrontare il giardiniere"
+        descrizione: "La figura sull'orlo della fontana si è alzata. La cesoia è lunga, e lei sa usarla."
+        combattimento: avv-stazione-gelo-il-giardiniere
+        vittoria:
+          titolo: La cesoia
+          testo: |
+            Il giardiniere cade nella fontana asciutta e si rompe in pezzi bianchi, e la cesoia resta in piedi fra i
+            sassi. Prendi il sentiero di ghiaia fino alla porta in fondo.
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        sconfitta:
+          titolo: Il taglio
+          testo: |
+            La cesoia ti apre la manica e il braccio sotto, e il giardiniere torna a inginocchiarsi sull'orlo della
+            fontana appena esci dalla serra.
+          effetti: { tormento: 1 }
+      - testo: "Passare fra le felci prendendole dal basso"
+        descrizione: "Sotto la brina certe piante sono ancora piante. Bisogna sapere quali, e dove prenderle."
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Le felci
+          testo: |
+            Pieghi le felci basse prendendole dal gambo, e le lasci tornare al loro posto dietro di te. Il
+            giardiniere non alza la testa. Esci dalla serra con le mani verdi sotto la brina.
+          pe: { natura: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La felce sbagliata
+          testo: |
+            La felce che pieghi è morta del tutto, e si spezza in schegge che ti entrano nel palmo. Il giardiniere alza la
+            testa, e tu torni indietro con la mano stretta al petto.
+          effetti: { ferite: 1 }
+      - testo: "Correre sul sentiero senza toccare le foglie"
+        descrizione: "Il sentiero è largo una spanna e le foglie si chiudono sopra. Si passa piegati, di corsa."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Molto difficile }
+        successo:
+          titolo: Di corsa
+          testo: |
+            Corri piegato sul sentiero, girando le spalle a ogni foglia che sporge, e la ghiaia ti scricchiola sotto gli
+            stivali come zucchero. Arrivi alla porta con un solo taglio, sul lobo dell'orecchio.
+          pe: { acrobazia: 4 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Le foglie
+          testo: |
+            Una foglia ti prende sulla guancia e un'altra sul polso, e ti fermi. Il giardiniere si alza. Torni sui tuoi
+            passi senza correre più.
+          effetti: { ferite: 1 }
+      - testo: "Spezzare le foglie con l'arma"
+        descrizione: "Le foglie di brina si rompono, e le schegge volano dappertutto. Si passa, con qualche taglio."
+        costo: 3
+        esito:
+          titolo: Le schegge
+          testo: |
+            Ti apri il sentiero spezzando le foglie a colpi d'arma, con il braccio davanti agli occhi. Le schegge ti
+            piovono addosso per tutta la serra, e alla porta ti togli dal collo quelle più grosse.
+          effetti: { profondita.avv-stazione-gelo: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ 9 · la svolta: il Ghiro
+  - id: avv-stazione-gelo-il-ghiro
+    immagine: icone/hooded-figure
+    titolo: Il Ghiro
+    sommario: "Davanti alla porta della sala del tesoro, seduto su uno sgabello, il Ghiro ti aspetta. Ride, poi si alza."
+    luogo: Le stanze della Brinaia, l'anticamera del tesoro
+    area: avv-stazione-gelo
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo == 9, avv-stazione-gelo.svelato == 0]
+    testo: |
+      L'anticamera è piccola e calda, la prima stanza calda della Brinaia, con un tappeto vero e una lampada a olio. In
+      fondo c'è una porta a due battenti coperta di brina, e da sotto i battenti esce una luce bianca che va e viene.
+      Davanti alla porta, seduto su uno sgabello, c'è il Ghiro.
+
+      Ride quando ti vede, con la sua risata secca, e si batte le mani sulle ginocchia. «Arrivano tutti qui» dice.
+      «Tutti quelli che scappano. Ci mettono una settimana o un anno, e alla fine arrivano qui.» Poi si alza. Si alza
+      dritto e senza la gobba, mentre le pelli di capra gli scivolano dalle spalle fino a terra.
+
+      Sotto le pelli porta la vecchia tonaca blu dei maestri dell'Accademia, rammendata ai gomiti. È più giovane di
+      quanto facesse credere la gobba. Ha la barba bianca di brina e la faccia segnata dal freddo, ma gli occhi sono
+      quelli di un uomo di cinquant'anni, e sul medio della destra ha il callo della penna.
+
+      «Lamberto Vaire» dice. «Insegno ancora conservazione all'Accademia di Torvessa, a sentire il registro di Querci.
+      Orvald ti ha dato una lettera, immagino.»
+
+      Ti spiega tutto camminando avanti e indietro davanti alla porta, come a lezione. La Gelatrice prende il caldo
+      dalle stanze e da chi ci dorme, e lo manda allo specchio della sala del tesoro. Quando lo specchio ne ha
+      abbastanza si apre sul suo gemello, appeso dietro il bancone del Grifone di Ferro, e lui passa in città a
+      ritirare lo stipendio. «Il padrone non c'è mai stato» dice. «Chi scappa corre verso lo specchio, e chi corre è
+      più caldo di chi dorme.» Poi si volta verso la porta del tesoro.
+
+      {empatia Media} Quando nomina Orvald la voce gli si abbassa di un tono. Della lettera ha più paura che di te.
+
+      {origine allievo-di-torvessa} La tonaca ha il taglio vecchio, con i bottoni sulla spalla. I maestri non la
+      portano più così da quando eri bambino.
+    opzioni:
+      - testo: "Tendergli la lettera di Orvald"
+        descrizione: "Dodici anni che la aspetta, o che la teme. Bisogna fargliela prendere prima che chiuda la porta."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Difficile }
+        successo:
+          titolo: La cera blu
+          testo: |
+            Vaire guarda la cera blu senza prenderla. Poi la prende, la rompe con l'unghia e legge in piedi, tenendo il
+            foglio vicino alla lampada.
+
+            Quando ha finito piega la lettera in quattro e se la mette nella tonaca. «Vediamo chi passa» dice, e ti tiene
+            aperta la porta del tesoro come a un ospite.
+          pe: { empatia: 3 }
+          imposta: { avv-stazione-gelo.svelato: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La lettera alla lampada
+          testo: |
+            Vaire prende la lettera e la avvicina alla lampada finché la carta non prende fuoco. «Orvald scrive sempre le
+            stesse cose» dice ridendo, ed entra nel tesoro. La porta si richiude, e la brina ti cresce sulle dita
+            appoggiate al battente.
+          imposta: { avv-stazione-gelo.svelato: 1 }
+          effetti: { tormento: 1 }
+      - testo: "Infilarti dietro di lui prima che la porta si chiuda"
+        descrizione: "I battenti si aprono per lui e si chiudono subito dopo. Bisogna essere già lì quando si chiudono."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Fra i battenti
+          testo: |
+            Ti butti fra i battenti mentre si chiudono, e passi con la spalla che striscia sulla brina. Vaire si gira e ti
+            guarda senza stupore, come si guarda un allievo che arriva in ritardo ma arriva.
+          pe: { atletica: 3 }
+          imposta: { avv-stazione-gelo.svelato: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: I battenti
+          testo: |
+            I battenti ti si chiudono addosso a metà, e la brina ti salda la manica al legno. Te ne liberi lasciandoci un
+            pezzo di stoffa e un po' di pelle, e la porta resta chiusa.
+          imposta: { avv-stazione-gelo.svelato: 1 }
+          effetti: { ferite: 1 }
+      - testo: "Aspettare che la porta si riapra da sola"
+        descrizione: "La porta del tesoro si apre a ogni giro lungo della Gelatrice, per far entrare il caldo. Si aspetta, nel caldo."
+        costo: 3
+        esito:
+          titolo: Lo sgabello
+          testo: |
+            Ti siedi ad aspettare sullo sgabello del Ghiro, nel caldo dell'anticamera. La porta si riapre da sola al terzo
+            giro lungo della Gelatrice, e tu passi. Hai fatto in tempo a scoprire quanto è comodo quello sgabello, e un
+            po' te ne vergogni.
+          imposta: { avv-stazione-gelo.svelato: 1 }
+          effetti: { profondita.avv-stazione-gelo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 9 · la porta del tesoro (dopo la svolta)
+  - id: avv-stazione-gelo-la-porta-del-tesoro
+    immagine: icone/wooden-door
+    titolo: La porta del tesoro
+    sommario: "Nell'anticamera calda la porta a due battenti è chiusa e bianca di brina. Dall'altra parte Vaire aspetta che lo specchio si carichi."
+    luogo: Le stanze della Brinaia, l'anticamera del tesoro
+    area: avv-stazione-gelo
+    ripetibile: true
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo == 9, avv-stazione-gelo.svelato >= 1]
+    testo: |
+      L'anticamera è vuota, con lo sgabello del Ghiro rovesciato e le pelli di capra ancora per terra. La porta del
+      tesoro è chiusa, coperta di brina fino alla maniglia, e da sotto i battenti la luce bianca batte svelta. Dall'altra
+      parte senti Vaire che parla da solo, a voce bassa, come si ripassa una lezione.
+
+      {tecnologia Media} La porta si apre a ogni giro lungo della Gelatrice, per far entrare il caldo. Il resto del
+      tempo la tiene chiusa la brina.
+    opzioni:
+      - testo: "Forzare la serratura gelata"
+        descrizione: "Una serratura dei Precursori sotto un dito di brina. Va scaldata, e poi convinta."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La serratura
+          testo: |
+            Scaldi la serratura con le mani a coppa finché la brina non si scioglie, poi trovi con la punta del coltello il
+            dente che la tiene. La porta si apre di un palmo, e tu ci passi di fianco.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: Le mani sulla serratura
+          testo: |
+            Tieni le mani sulla serratura troppo a lungo, e quando le stacchi la pelle dei palmi resta sul metallo. La
+            porta non si è mossa.
+          effetti: { ferite: 1 }
+      - testo: "Sfondare i battenti"
+        descrizione: "Legno vecchio e brina. Con abbastanza peso dietro la spalla, forse cede."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Molto difficile }
+        successo:
+          titolo: I battenti sfondati
+          testo: |
+            Al quarto colpo un battente si stacca dal cardine di sopra e si piega verso l'interno, e tu entri scavalcandolo
+            con la spalla che ti fa male fino al gomito.
+          pe: { atletica: 4 }
+          effetti: { profondita.avv-stazione-gelo: 1 }
+        fallimento:
+          titolo: La spalla contro il legno
+          testo: |
+            I battenti reggono. Dall'altra parte Vaire ride, e la tua spalla ti chiede di smettere prima che te lo chieda
+            lui.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare il giro lungo della Gelatrice"
+        descrizione: "La porta si apre da sola per far entrare il caldo. Si aspetta nel caldo, sapendo per chi è."
+        costo: 3
+        esito:
+          titolo: Il giro lungo
+          testo: |
+            Aspetti seduto sul tappeto, con le spalle contro il muro, finché la porta non si apre da sola per far entrare il
+            caldo dell'anticamera. Entri con il caldo, e senti che è anche tuo.
+          effetti: { profondita.avv-stazione-gelo: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 10 · il cuore: lo specchio
+  - id: avv-stazione-gelo-lo-specchio
+    immagine: ambientazione/mito-occhio-nel-cristallo
+    titolo: Lo specchio
+    sommario: "La sala del tesoro è piena delle cose dei prigionieri. In fondo c'è lo specchio, e la brina sul vetro si ritira dai bordi."
+    luogo: Le stanze della Brinaia, la sala del tesoro
+    area: avv-stazione-gelo
+    requisiti: [avventura.stazione-gelo == 5, profondita.avv-stazione-gelo >= 10]
+    testo: |
+      La sala del tesoro è lunga e alta, e gli scaffali lungo le pareti sono pieni delle cose dei prigionieri, messe in
+      ordine come in un museo. Ci sono bastoni da pastore appoggiati in fila, e un liuto con le corde rotte, e su ogni
+      oggetto c'è un cartellino scritto con la stessa mano. Alla parete di destra è appeso uno scudo rotondo di metallo
+      lucido, l'unica cosa della sala su cui la brina non attacca.
+
+      In fondo c'è lo specchio. È alto due volte un uomo, in una cornice di metallo nero da cui escono i tubi della
+      Gelatrice, e il vetro è coperto da una crosta di brina che si ritira piano dai bordi verso il centro. Dove la
+      brina se n'è già andata si vedono, dall'altra parte, una fila di bottiglie e la luce di un camino.
+
+      Vaire sta fra te e lo specchio, a mani nude. Ha le mani bianche di brina fino ai polsi, e l'aria intorno alle
+      dita è così fredda che trema. «Quando il vetro è pulito passa uno di noi due» dice. «Uno solo, perché dopo lo
+      specchio ha bisogno di una stagione. L'altro resta qui a scaldarlo.»
+
+      {magia Difficile} Il Mana della Gelatrice non va soltanto nello specchio. Una parte entra in lui dalle mani, ed è
+      per questo che il freddo non l'ha ancora ucciso.
+
+      {origine allievo-di-torvessa} La grafia dei cartellini è quella delle etichette nella ghiacciaia del laboratorio,
+      che al primo anno leggevi senza chiederti chi le avesse scritte.
+    opzioni:
+      - testo: "Affrontare Lamberto Vaire"
+        descrizione: "Ha la Gelatrice nelle mani, e il freddo lo tiene in piedi. Però ha cinquant'anni e una tonaca rammendata."
+        combattimento: avv-stazione-gelo-il-magister
+        vittoria:
+          titolo: Il vetro pulito
+          testo: |
+            Vaire cade in ginocchio davanti allo specchio, con le mani che fumano, e si guarda le dita come se fossero di
+            un altro. Il vetro adesso è pulito. Stacchi lo scudo dalla parete e attraversi lo specchio passandogli
+            accanto, nel freddo vero che la Gelatrice ha messo da parte per tutta una stagione.
+          effetti: { avventura.stazione-gelo: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: ponti-sospesi
+          segue: avv-stazione-gelo-dietro-le-bottiglie
+        sconfitta:
+          titolo: Di nuovo in cella
+          testo: |
+            Il freddo di Vaire ti prende alle ginocchia e poi alle mani, e quando cadi non senti il pavimento. Ti svegli
+            nella tua cella, con la roba sotto la panca e la terza sbarra rimessa nel suo incavo. Dal corridoio arriva la
+            risata di Vaire, la stessa del Ghiro, e il ronzio della Gelatrice è più forte di prima.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Attraversare lo specchio prima che il vetro sia pulito"
+        descrizione: "Al centro la brina è ancora sottile. Chi ci si butta contro adesso passa con la pelle che si strappa, oppure non passa."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Attraverso la brina
+          testo: |
+            Stacchi lo scudo dalla parete mentre corri e lo tieni davanti alla faccia. La brina del vetro si rompe contro
+            il metallo come una lastra di zucchero, e per un momento sei dentro il freddo vero, quello che la Gelatrice ha
+            messo da parte per tutta una stagione. Poi cadi in avanti, nel caldo.
+          pe: { atletica: 5 }
+          effetti: { avventura.stazione-gelo: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: ponti-sospesi
+          segue: avv-stazione-gelo-dietro-le-bottiglie
+        fallimento:
+          titolo: La brina che tiene
+          testo: |
+            Il vetro ti respinge come un muro, e la brina ti si attacca alla faccia e alle mani. Vaire ti prende per il
+            collo della giubba e ti trascina via con la calma di un infermiere. Ti svegli nella tua cella, con la pelle
+            che brucia.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Rovesciare la Gelatrice dal quadro della cornice"
+        descrizione: "I tubi entrano nella cornice da un quadro di leve. Se il caldo torna indietro, le mani di Vaire smettono di essere sue."
+        prova: { attributo: mentale, abilita: [tecnologia, magia], difficolta: Difficile }
+        successo:
+          titolo: Il caldo all'indietro
+          testo: |
+            Trovi la leva che decide da che parte corre il caldo, e la tiri fino in fondo. Il caldo esce dai tubi tutto
+            insieme, e Vaire si piega con le mani strette fra le ginocchia, perché gli fanno male come fanno male le mani gelate
+            vicino al fuoco. Lo specchio è già carico, e il vetro si pulisce lo stesso. Stacchi lo scudo dalla
+            parete e passi.
+          pe: { tecnologia: 5 }
+          effetti: { avventura.stazione-gelo: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: ponti-sospesi
+          segue: avv-stazione-gelo-dietro-le-bottiglie
+        fallimento:
+          titolo: Il quadro
+          testo: |
+            La leva che tiri manda il freddo nei tubi sbagliati, e il quadro ti esplode di brina in faccia. Vaire ti porta
+            via di peso. Ti svegli nella tua cella con le dita che non si chiudono.
+          effetti: { ferite: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Parlargli di Orvald e del registro di Querci"
+        descrizione: "Dodici anni di stipendio ritirato di persona. Uno che vuole sparire davvero non passa a firmare il registro a ogni stagione."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Difficile }
+        successo:
+          titolo: La firma
+          testo: |
+            Gli dici quello che hai capito dal registro. Uno che firma ogni stagione con la sua mano vuole che all'Accademia
+            qualcuno lo veda, e Orvald l'ha visto. Vaire ascolta con le mani bianche lungo i fianchi, poi si fa da parte, e
+            il vetro pulito ti mostra il Grifone. «Di' a Orvald che il posto lo lascio» dice. «Lo stipendio no.» Stacchi
+            lo scudo dalla parete e passi.
+          pe: { persuasione: 5 }
+          effetti: { avventura.stazione-gelo: 1, reliquie.frammento-inciso: 2, cristalli.cristallo-carico: 1 }
+          vai: ponti-sospesi
+          segue: avv-stazione-gelo-dietro-le-bottiglie
+        fallimento:
+          titolo: La lezione
+          testo: |
+            Vaire ti lascia parlare fino in fondo, poi ti corregge due cose, come a un allievo, e ti appoggia sulla fronte
+            una mano gelata. Ti svegli nella tua cella, e per giorni non ricordi quello che gli hai detto.
+          effetti: { tormento: 1.5 }
+          vai: superficie-fratturata

@@ -1,0 +1,1172 @@
+# I Puliti di Pannion, la spedizione (avventura.puliti == 6): le acque sotto la vecchia Pannion. Si scende dalla
+# cisterna del forno vecchio (`avv-puliti-la-bocca-della-cisterna`, presso Pannion): per la scala con una prova Media,
+# dietro Delek con avv-puliti.delek, o calati da Nerio con la corda a 2 rintocchi. La ritirata riporta alla Superficie
+# e azzera la profondità. Soglia 10, tre stanze alla volta; una stanza superata non ricompare nella stessa visita.
+# Le fasce di profondità:
+# - 0-2, la cisterna allagata (prove Medie e Difficili, vie senza prova da 2 rintocchi e ½ negativa): la scala sotto
+#   l'acqua (avv-puliti.goccia apre la via delle gocce), i pesci ciechi (l'anguilla), le cose lasciate (il carbone
+#   di Darrin, avv-puliti.carbone), il sifone.
+# - 3, 4 e 6, le rovine dell'antico dominio (prove Difficili): la via dei gradini bassi, le nicchie dei servi (un
+#   servo), l'acqua in piedi (avv-puliti.pelle toglie la Contaminazione), la vasca dei tributi.
+# - 5, la svolta: i murali del sovrano, che un tempo regnava su un impero sotto il mare e lo ha perso quando i suoi
+#   hanno alzato la testa verso una balena-spirito (avv-puliti.murali). Non è ripetibile: è l'unica stanza a 5, e si
+#   rigioca a ogni visita.
+# - 7-9, la soglia del Regno Profondo, dove le visioni chiedono di arrendersi (prove Difficili, una Molto difficile o
+#   uno scontro per stanza, vie senza prova da 3 rintocchi e ½ negativa): la luce che sale, la voce di Darrin
+#   (avv-puliti.coro e chiave.vecchio), gli annegati in piedi (due servi), la porta di casa.
+# - 10, il cuore `avv-puliti-l-offerta`: Ossaleth offre di pulirti (accettare è la sconfitta, una negativa e fuori),
+#   poi il seguito `avv-puliti-lo-scontro-nell-acqua` con lo scontro e le vie Difficili (avv-puliti.pagine,
+#   avv-puliti.murali, l'opzione d'origine dell'Accolito del Velo). Chi vince porta la pista a 7 e torna in
+#   Superficie; chi perde o fallisce torna in Superficie con Ferite e Tormento, e il cuore è da rifare.
+# Origini: apprendista-raschiatore (la porta di casa), allievo-di-torvessa (i murali).
+aree:
+  - id: avv-puliti
+    immagine: ambientazione/regno-profondo
+    nome: Le acque sotto la vecchia Pannion
+    sommario: "Sotto il forno della vecchia Pannion una cisterna allagata scende verso rovine più vecchie del bosco, e più in basso ancora c'è il Regno Profondo."
+    spedizione: { ritorno: superficie-fratturata, soglia: 10, stanze: 3 }
+    testo: |
+      La cisterna del forno vecchio è una sala di pietra grigia allagata fino al petto, con le volte basse e la scala
+      che gira lungo le pareti. Oltre la cisterna le gallerie non le ha scavate la gente di Pannion. Scendono lisce e
+      larghe verso rovine fatte per corpi che nuotavano, e l'acqua le segue fino in fondo.
+
+      Qui sotto l'acqua è tiepida, e ha una bava chiara che si attacca a tutto. I pesci ciechi ti vengono dietro a
+      banchi, e più scendi più la lanterna fa una luce corta, come se l'aria stessa fosse bagnata.
+
+colonna:
+  - { contesto: area, id: avv-puliti, musica: the-light-that-failed, ambiente: cave }
+
+storylet:
+  # ------------------------------------------------------------ l'ingresso, dal forno vecchio
+  - id: avv-puliti-la-bocca-della-cisterna
+    presso: pannion
+    immagine: icone/well
+    titolo: La bocca della cisterna
+    sommario: "Sotto il forno della vecchia Pannion l'acqua nera si muove dal fondo, e in piazza i Puliti aspettano ancora."
+    luogo: La vecchia Pannion, il forno vecchio
+    area: superficie-fratturata
+    requisiti: [avventura.puliti == 6]
+    testo: |
+      Lumelli sta legato a una panca della cappella di Frate Koln, con i guanti di nuovo infilati e gli occhi sul
+      pavimento. Da quando l'hai portato su ha detto una parola sola, e la ripete ogni volta che qualcuno entra.
+      «Ossaleth» dice. «Ossaleth è sveglio.» In piazza i Puliti sono ancora in piedi davanti alla valle, con Darrin in
+      prima fila.
+
+      Nella vecchia Pannion, al posto del forno, l'acqua della cisterna sale e scende in cerchi che partono dal fondo.
+      Lungo la parete interna una scala di pietra scende a spirale fino al pelo dell'acqua, e poi sotto. Nerio ha
+      portato la corda del suo pozzo e la lega intorno al tronco della sequoia che ha sfondato il tetto.
+
+      {natura Media} L'acqua è più calda dell'aria della notte. Da sotto un bosco, in una valle, non dovrebbe salire
+      niente di caldo.
+    opzioni:
+      - testo: "Scendere per la scala della cisterna"
+        descrizione: "I gradini sono coperti da una bava trasparente. Nerio tiene la corda, se serve."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Media }
+        successo:
+          titolo: La scala
+          testo: |
+            Scendi i gradini con una mano sulla parete, girando con la scala, e la bava ti si attacca alle suole come
+            colla fresca. Quando l'acqua ti arriva alle ginocchia alzi la lanterna. Sopra di te Nerio è un'ombra
+            piccola contro il cielo senza luna.
+          pe: { acrobazia: 2 }
+          vai: avv-puliti
+        fallimento:
+          titolo: Gli ultimi gradini
+          testo: |
+            A metà scala la suola scivola sulla bava e fai gli ultimi gradini seduto, fino a finire nell'acqua alla
+            cintura. È tiepida e densa. Nerio ti grida dall'alto se sei vivo, e tu gli rispondi sputando.
+          effetti: { contaminazione: 0.5 }
+          vai: avv-puliti
+      - testo: "Scendere dietro Delek, che conosce la cisterna"
+        descrizione: "Delek ci ha portato Lumelli. Sa dove i fornai di una volta scendevano a prendere l'acqua."
+        requisiti: [avv-puliti.delek >= 1]
+        esito:
+          titolo: La scala dei fornai
+          testo: |
+            Delek infila il braccio nella bocca del forno crollato e tira fuori una scala di ferro murata nella
+            parete, nascosta dalla fuliggine di settant'anni. La scendete uno dietro l'altro, all'asciutto fino al
+            pelo dell'acqua. In fondo Delek ti batte una mano sulla spalla e risale senza voltarsi.
+          vai: avv-puliti
+      - testo: "Farti calare da Nerio con la corda del pozzo"
+        descrizione: "Nerio batte castagni da quarant'anni e ha le braccia per farlo. Ci vuole tempo, e la corda dondola."
+        costo: 2
+        esito:
+          titolo: La corda che dondola
+          testo: |
+            Nerio ti cala piano, un palmo alla volta, contando ad alta voce per farsi coraggio. La corda gira su se
+            stessa e ti porta a sbattere contro la parete bagnata a ogni giro. Arrivi in fondo con la nausea e le mani
+            impastate di bava.
+          effetti: { contaminazione: 0.5 }
+          vai: avv-puliti
+
+  # ------------------------------------------------------------ 0-2 · la cisterna allagata
+  - id: avv-puliti-la-scala-sotto-l-acqua
+    immagine: icone/stairs
+    titolo: La scala sotto l'acqua
+    sommario: "La scala della cisterna continua sott'acqua, e su ogni gradino c'è una goccia incisa."
+    luogo: Le acque sotto la vecchia Pannion, la scala
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti <= 2]
+    testo: |
+      Sotto il pelo dell'acqua la scala della cisterna continua a scendere lungo la parete, finché la lanterna non ci
+      arriva più. L'acqua ti sale alle ginocchia e poi alla vita. Su ogni gradino c'è una goccia incisa come quelle
+      degli stipiti, e sopra le gocce una bava trasparente tiene la luce della lanterna come una gelatina.
+
+      {acrobazia Media} I gradini sono consumati al centro e intatti sui bordi. Chi ci scendeva lo faceva sempre allo
+      stesso modo, e da moltissimo tempo.
+    opzioni:
+      - testo: "Scendere tenendoti alla parete"
+        descrizione: "Una mano sulla pietra, un gradino alla volta, con l'acqua che sale."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Il fondo della scala
+          testo: |
+            Scendi con il petto contro la parete e la lanterna alta, finché l'acqua ti arriva alle ascelle e il
+            gradino dopo non c'è più. La scala finisce su un pavimento piano. Intorno a te la cisterna si apre in una
+            sala.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Sotto
+          testo: |
+            Il piede scivola sulla bava e vai sotto con tutta la testa. L'acqua tiepida e densa ti entra in bocca, e
+            ne esci tossendo aggrappato al gradino di prima, con la lanterna miracolosamente accesa.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Seguire le gocce dove puntano"
+        descrizione: "Le gocce dei Puliti indicano l'acqua. Qui sotto, forse, indicano anche la strada."
+        requisiti: [avv-puliti.goccia >= 1]
+        esito:
+          titolo: Le punte storte
+          testo: |
+            Le punte delle gocce pendono tutte a sinistra, gradino dopo gradino. A metà discesa trovi a sinistra un
+            arco basso sott'acqua che porta dritto in fondo alla cisterna, senza girare. Ci passi chinato, con la
+            lanterna sopra la testa.
+          effetti: { profondita.avv-puliti: 1 }
+      - testo: "Cercare dove la scala lascia la parete"
+        descrizione: "Una scala così lunga ha un pianerottolo, o una porta, da qualche parte sotto l'acqua."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il pianerottolo
+          testo: |
+            Tasti la parete con il piede a ogni gradino finché senti il vuoto. È un pianerottolo, e dal pianerottolo
+            parte un passaggio in piano che taglia la cisterna. Così ti risparmi metà della discesa a spirale.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il vuoto
+          testo: |
+            Il vuoto che senti con il piede è la fine del gradino, e ci cadi dentro fino al mento. Torni su per tre
+            gradini a forza di braccia, e ti siedi con l'acqua alla vita a guardare la lanterna che trema.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere un gradino alla volta, legato alla corda"
+        descrizione: "La corda di Nerio arriva fin qui. È lenta, e la corda tira."
+        costo: 2
+        esito:
+          titolo: La corda tesa
+          testo: |
+            Scendi con la corda legata in vita, fermandoti dopo ogni gradino, finché la corda finisce e devi slegarla.
+            Sei in fondo, con la pelle delle mani bianca e grinzosa e la bava fino ai gomiti.
+          effetti: { profondita.avv-puliti: 1, contaminazione: 0.5 }
+
+  - id: avv-puliti-i-pesci-ciechi
+    immagine: icone/eel
+    titolo: I pesci ciechi
+    sommario: "In fondo alla cisterna l'acqua è piena di pesci bianchi senza occhi. Fra loro nuota una forma lunga come una barca."
+    luogo: Le acque sotto la vecchia Pannion, il fondo della cisterna
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti <= 2]
+    testo: |
+      Il fondo della cisterna è una sala allagata fino al petto, con le volte basse e l'acqua quasi ferma. Ci nuotano
+      a centinaia i pesci bianchi senza occhi che i Puliti mangiano crudi, e ti sfiorano le gambe e ti mordicchiano le
+      dita con bocche senza denti. Più in là, dove l'acqua è più scura, si muove una forma lunga quanto una barca.
+
+      {natura Media} I pesci si allontanano dalla forma lunga e tornano quando è passata. Dove sono fitti, lei in quel
+      momento non c'è.
+    opzioni:
+      - testo: "Muoverti dove i pesci sono fitti"
+        descrizione: "I pesci sanno dove sta la forma lunga. Basta stare in mezzo a loro."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: In mezzo al banco
+          testo: |
+            Attraversi la sala in mezzo al banco più fitto, spostandoti insieme a lui, e i pesci ti battono contro le
+            gambe come pioggia. La forma lunga ti gira intorno due volte e poi va a cercare altrove.
+          pe: { natura: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il banco che si apre
+          testo: |
+            Il banco si apre davanti a te tutto in una volta, e nel vuoto c'è la forma lunga, con la bocca aperta.
+            Torni indietro a bracciate fino alla scala, con un morso sul polpaccio.
+          effetti: { ferite: 0.5 }
+      - testo: "Affrontare l'anguilla cieca"
+        descrizione: "È lunga quanto una barca e non ha occhi. Sente l'acqua che sposti, e tu ne sposti molta."
+        combattimento: avv-puliti-l-anguilla
+        vittoria:
+          titolo: L'anguilla
+          testo: |
+            L'anguilla si gira sulla schiena e affonda lenta, con la pancia bianca verso la volta. I pesci ciechi le
+            si buttano addosso tutti insieme, e tu attraversi la sala mentre mangiano.
+          effetti: { profondita.avv-puliti: 1 }
+        sconfitta:
+          titolo: La coda
+          testo: |
+            L'anguilla ti avvolge le gambe con la coda e ti tira sotto due volte. La seconda volta ti lascia, e tu
+            risali la scala con l'acqua che ti esce dal naso.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare a nuoto, in fretta"
+        descrizione: "La sala è lunga venti bracciate. Si possono fare prima che la forma lunga torni."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Venti bracciate
+          testo: |
+            Nuoti con la lanterna stretta fra i denti per il manico, e senti la forma lunga passarti sotto quando sei
+            già a metà. Arrivi dall'altra parte con le braccia di piombo, e sei già fuori dall'acqua alta.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il morso
+          testo: |
+            A metà sala la forma lunga ti prende per lo stivale e ti trascina indietro per tutta la strada fatta. Ti
+            lascia andare vicino alla scala, con lo stivale bucato e la caviglia che sanguina.
+          effetti: { ferite: 0.5 }
+      - testo: "Stare fermo finché la forma va lontano"
+        descrizione: "Immobile nell'acqua, come i Puliti in piazza. Ci vuole il tempo che ci vuole."
+        costo: 2
+        esito:
+          titolo: Fermo
+          testo: |
+            Resti immobile con l'acqua al petto per un tempo lunghissimo, mentre i pesci ti mordicchiano le dita. A un
+            certo punto ti accorgi che stare fermo ti piace, e quella è la cosa che ti fa muovere.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  - id: avv-puliti-le-cose-lasciate
+    immagine: icone/basket
+    titolo: Le cose lasciate
+    sommario: "Su una cengia sopra l'acqua i Puliti hanno lasciato le loro cose, piegate con cura una accanto all'altra."
+    luogo: Le acque sotto la vecchia Pannion, la cengia
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti <= 2]
+    testo: |
+      Dove la cisterna si stringe in una galleria c'è una cengia di pietra sopra l'acqua, e sulla cengia i Puliti
+      hanno lasciato le loro cose. Ci sono zoccoli e cinture, pettini di osso, una bambola di stracci con accanto una
+      pipa ancora carica. Tutto è piegato e messo in fila. In cima al mucchio c'è un cappello di feltro bruciacchiato,
+      e dentro il cappello un pezzo di carbone con la punta consumata, quello con cui Darrin segna i turni sull'asse
+      della segheria.
+
+      {resilienza Media} Ti viene voglia di posarci anche la cintura, e la voglia arriva da sola, come la sete.
+    opzioni:
+      - testo: "Passare oltre senza toccare niente"
+        descrizione: "La galleria è dall'altra parte del mucchio. Si passa sul bordo della cengia."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: Le mani in tasca
+          testo: |
+            Passi sul bordo della cengia con le mani in tasca e gli occhi sulla galleria. Quando sei dall'altra parte
+            ti accorgi di avere ancora tutto addosso, e ti viene da ridere.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La cintura
+          testo: |
+            Ti ritrovi in ginocchio davanti al mucchio, con la cintura piegata in quattro fra le mani, e non sai da
+            quanto. Te la rimetti con le dita che tremano e torni indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Riprendere il carbone di Darrin"
+        descrizione: "È una cosa piccola. Toccarla vuol dire mettere le mani nel mucchio."
+        prova: { attributo: mentale, abilita: [resilienza, empatia], difficolta: Difficile }
+        successo:
+          titolo: Il carbone in tasca
+          testo: |
+            Infili la mano nel cappello e prendi il carbone senza guardare il resto, e il mucchio ti lascia andare. Lo
+            metti in tasca. Pesa quanto un sasso, e tutto il tempo che cammini nella galleria ti sembra caldo.
+          pe: { empatia: 2 }
+          imposta: { avv-puliti.carbone: 1 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il cappello
+          testo: |
+            Prendi il carbone, e quando ritiri la mano ti accorgi di averci lasciato dentro in cambio un anello che
+            avevi al dito. Lo riprendi, e il carbone resta nel cappello.
+          effetti: { tormento: 0.5 }
+      - testo: "Cercare il passaggio dietro il mucchio"
+        descrizione: "Un mucchio così ordinato sta contro una parete per una ragione."
+        prova: { attributo: mentale, abilita: [percezione, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: La fessura
+          testo: |
+            Dietro il mucchio la parete ha una fessura larga una spalla, da cui esce aria più fredda. Ci passi di
+            fianco senza spostare niente, e dall'altra parte la galleria scende.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La bambola
+          testo: |
+            Sposti la bambola per guardare dietro, e il resto del mucchio scivola nell'acqua senza rumore, pezzo dopo
+            pezzo. Resti a guardare gli zoccoli che affondano.
+          effetti: { tormento: 0.5 }
+      - testo: "Lasciare anche tu una cosa, come loro"
+        descrizione: "Una cosa piccola, e il mucchio ti lascia passare. Dopo però ci pensi."
+        costo: 2
+        esito:
+          titolo: Il bottone
+          testo: |
+            Ti strappi un bottone dalla giubba e lo posi in fila accanto alla bambola, con cura. La galleria si fa
+            facile. Per tutto il resto della discesa ti tocchi il punto dove c'era il bottone.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  - id: avv-puliti-il-sifone
+    immagine: icone/drowning
+    titolo: Il sifone
+    sommario: "La galleria scende sotto il pelo dell'acqua e si riempie fino al soffitto. Una corda marcia entra nel buio."
+    luogo: Le acque sotto la vecchia Pannion, il sifone
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti <= 2]
+    testo: |
+      La galleria in fondo alla cisterna scende e si riempie d'acqua fino al soffitto. Oltre il tratto allagato
+      dev'esserci aria, perché a ogni onda l'acqua fa un risucchio lento. Una corda di canapa gonfia d'acqua, legata a
+      un anello di ferro, entra nel buio.
+
+      {atletica Difficile} Ci vogliono venti bracciate, forse trenta, da fare al buio e con i vestiti addosso.
+    opzioni:
+      - testo: "Passare sott'acqua tirandoti con la corda"
+        descrizione: "La corda arriva dall'altra parte. Se tiene, ci si tira come su una scala."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: L'altra parte
+          testo: |
+            Ti tiri lungo la corda una mano dopo l'altra, con gli occhi chiusi e il petto che brucia, e riemergi in
+            una galleria asciutta per metà. La lanterna l'hai portata spenta in alto, e la riaccendi al terzo colpo.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La corda marcia
+          testo: |
+            A metà la corda ti resta in mano, e torni indietro a tentoni lungo il soffitto. Riemergi dalla parte da
+            cui eri partito, e per un pezzo l'aria non ti basta mai.
+          effetti: { ferite: 0.5 }
+      - testo: "Capire quanto è lungo il tratto"
+        descrizione: "L'acqua tira e lascia. Contando il risucchio si capisce quanta galleria c'è sott'acqua."
+        prova: { attributo: mentale, abilita: [tecnologia, natura], difficolta: Media }
+        successo:
+          titolo: Il conto del risucchio
+          testo: |
+            Conti i risucchi seduto sul bordo, e quando hai capito il ritmo ti butti con l'acqua che tira dall'altra
+            parte. Ti porta lei per metà del tratto. Riemergi senza fretta, con la lanterna intera.
+          pe: { tecnologia: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il risucchio contrario
+          testo: |
+            Ti butti quando l'acqua torna indietro, e l'acqua ti risputa contro il bordo con la lanterna. Ti rialzi
+            con un taglio sulla fronte e la lanterna da riaccendere.
+          effetti: { ferite: 0.5 }
+      - testo: "Aspettare l'onda che tira dall'altra parte"
+        descrizione: "Prima o poi arriva un'onda più lunga delle altre. Bisogna aspettarla nell'acqua."
+        costo: 2
+        esito:
+          titolo: L'onda lunga
+          testo: |
+            Aspetti con l'acqua alle spalle per ore, finché arriva un'onda più lunga delle altre e ti porta dall'altra
+            parte come un ramo. Esci coperto di bava, e la pelle delle braccia ti pizzica fino ai gomiti.
+          effetti: { profondita.avv-puliti: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 3, 4 e 6 · le rovine dell'antico dominio
+  - id: avv-puliti-la-via-dei-gradini-bassi
+    immagine: icone/ancient-columns
+    titolo: La via dei gradini bassi
+    sommario: "Oltre la cisterna comincia una strada scavata per gente che non camminava. I gradini sono larghi come letti."
+    luogo: Le acque sotto la vecchia Pannion, la via dei gradini bassi
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 3, profondita.avv-puliti <= 6, profondita.avv-puliti != 5]
+    testo: |
+      Oltre la cisterna la galleria diventa una strada. Scende in gradini bassi e larghi come letti, troppo bassi per
+      un passo e troppo larghi per due, e ai lati si alzano pilastri scolpiti a forma di alghe che si intrecciano in
+      cima, alti come torri. La pietra è liscia d'acqua, e l'acqua scorre lenta giù per i gradini.
+
+      {accademiche Difficile} Chi ha scavato questi gradini ci scendeva strisciando, o nuotando in un'acqua che allora
+      arrivava fin qui. Sulla pietra non c'è un segno di scalpello.
+    opzioni:
+      - testo: "Scendere sulle mani e sui piedi"
+        descrizione: "I gradini sono scivolosi e storti. A quattro zampe si scende come scendevano loro."
+        prova: { attributo: fisico, abilita: [atletica, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: A quattro zampe
+          testo: |
+            Scendi a quattro zampe, con l'acqua che ti scorre fra le dita, e i gradini sotto le mani e le ginocchia
+            hanno improvvisamente senso. In fondo alla strada i pilastri si allargano su una sala.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Lo scivolo
+          testo: |
+            Al quinto gradino il ginocchio scivola e scendi i dieci successivi sulla schiena, sbattendo contro i
+            bordi. Ti fermi contro un pilastro e torni su a fatica.
+          effetti: { ferite: 0.5 }
+      - testo: "Seguire la corsia delle processioni"
+        descrizione: "Su una strada così ci si muoveva in processione. Il passaggio di molti consuma la pietra in un punto solo."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Difficile }
+        successo:
+          titolo: La corsia
+          testo: |
+            Al centro dei gradini la pietra è appena più scura e più bassa, larga quanto due corpi affiancati. Ci
+            cammini sopra, e i gradini sotto i piedi diventano una rampa leggera.
+          pe: { accademiche: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La corsia sbagliata
+          testo: |
+            Segui una striscia scura che finisce contro un pilastro, e dietro il pilastro non c'è niente. Quando ti
+            volti, la strada ti sembra più lunga di prima.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere seduto, un gradino alla volta"
+        descrizione: "Lento, e scomodo. Si arriva in fondo."
+        costo: 2
+        esito:
+          titolo: Seduto
+          testo: |
+            Scendi seduto, un gradino alla volta, con l'acqua che ti passa sotto e i calzoni che si consumano sulla
+            pietra. In fondo hai le gambe intorpidite e un livido per ogni gradino.
+          effetti: { profondita.avv-puliti: 1, ferite: 0.5 }
+
+  - id: avv-puliti-le-nicchie-dei-servi
+    immagine: icone/fish-monster
+    titolo: Le nicchie dei servi
+    sommario: "Nelle nicchie ai lati della strada stanno in piedi servi antichi dalla pelle pallida. Uno ha gli occhi aperti."
+    luogo: Le acque sotto la vecchia Pannion, le nicchie
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 3, profondita.avv-puliti <= 6, profondita.avv-puliti != 5]
+    testo: |
+      Ai due lati della strada si aprono nicchie alte il doppio di un uomo, e in ogni nicchia sta in piedi una figura
+      pallida, con la pelle lucida come quella di Ansgar. Hanno le dita palmate e il collo segnato da fessure che si
+      aprono e si chiudono piano. Stanno lì da più tempo di quanto riesci a immaginare, eppure sono vivi.
+
+      Quello della quarta nicchia a sinistra ha gli occhi aperti, e li gira verso la tua lanterna.
+
+      {furtivita Difficile} Si muovono soltanto quando la luce li tocca. Con la lanterna coperta si passa nel buio fra
+      le nicchie, contando i passi.
+    opzioni:
+      - testo: "Passare al buio con la lanterna coperta"
+        descrizione: "Sono trenta passi di strada fra le nicchie, senza vedere dove metti i piedi."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Trenta passi
+          testo: |
+            Copri la lanterna con la giubba e conti trenta passi nel buio, con le fessure dei colli che respirano
+            intorno a te. Al trentunesimo scopri la lanterna, e le nicchie sono alle tue spalle.
+          pe: { furtivita: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La giubba che scivola
+          testo: |
+            A metà strada la giubba scivola dalla lanterna, e la luce prende in pieno una nicchia. Il servo dentro fa
+            un passo avanti, e tu corri indietro fino al primo pilastro.
+          effetti: { ferite: 0.5 }
+      - testo: "Affrontare il servo che si è svegliato"
+        descrizione: "Uno solo ha gli occhi aperti. Meglio lui adesso che tutti dopo."
+        combattimento: avv-puliti-il-servo
+        vittoria:
+          titolo: Il servo a terra
+          testo: |
+            Il servo cade sul fianco e le fessure del collo si fermano aperte. Nelle altre nicchie nessuno ha mosso un
+            dito. Passi in mezzo a loro con la lanterna bassa.
+          effetti: { profondita.avv-puliti: 1 }
+        sconfitta:
+          titolo: Le dita palmate
+          testo: |
+            Il servo ti prende per la gola con le dita palmate e ti spinge indietro lungo la strada, gradino dopo
+            gradino, poi torna nella sua nicchia e chiude gli occhi.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare sotto le nicchie, nell'acqua"
+        descrizione: "Sotto il bordo delle nicchie corre un canale d'acqua bassa e piena di bava, dove la luce delle lanterne non arriva."
+        costo: 2
+        esito:
+          titolo: Il canale
+          testo: |
+            Strisci nel canale sulla pancia, con la lanterna spenta e la faccia a un dito dall'acqua. La bava ti entra
+            nel colletto e nelle maniche, e dall'altra parte te la togli a manciate.
+          effetti: { profondita.avv-puliti: 1, contaminazione: 0.5 }
+
+  - id: avv-puliti-l-acqua-in-piedi
+    immagine: icone/transparent-slime
+    titolo: L'acqua in piedi
+    sommario: "Un arco della strada è chiuso da una parete d'acqua che sta in piedi da sola."
+    luogo: Le acque sotto la vecchia Pannion, l'arco dell'acqua
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 3, profondita.avv-puliti <= 6, profondita.avv-puliti != 5]
+    testo: |
+      La strada passa sotto un arco, e l'arco è chiuso da una parete d'acqua che sta in piedi da sola, dritta come un
+      vetro, dal pavimento alla volta. Dentro ci galleggiano fili di bava chiara, e dall'altra parte si vedono,
+      deformati, altri gradini che scendono. Quando ci avvicini la mano, la parete si incurva verso le dita.
+
+      {magia Difficile} Nell'acqua il Mana non si sente. La tiene su una volontà, stretta come un pugno, e la volontà
+      viene dal basso.
+    opzioni:
+      - testo: "Attraversarla a occhi chiusi"
+        descrizione: "Sono tre passi d'acqua. Bisogna farli tutti e tre senza respirare."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: Tre passi
+          testo: |
+            Chiudi gli occhi ed entri nell'acqua, e l'acqua ti stringe da tutte le parti come una mano. Fai il primo
+            passo, poi gli altri due. Quando esci dall'altra parte l'acqua ti scivola via di dosso tutta insieme.
+          pe: { resistenza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La mano d'acqua
+          testo: |
+            Al secondo passo l'acqua ti tiene fermo, e quando ti lascia esci dalla parte da cui eri entrato, in
+            ginocchio, tossendo bava. Ce l'hai nella gola per un'ora.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Spalmarti la linfa di Koln e passare"
+        descrizione: "La linfa del Vecchio tiene chiusa la pelle contro l'acqua di quaggiù. Koln te ne ha dato un vasetto."
+        requisiti: [avv-puliti.pelle >= 1]
+        esito:
+          titolo: La pelle chiusa
+          testo: |
+            Ti spalmi la linfa rossa sulla faccia e sulle mani, e quando entri nella parete l'acqua ti scivola addosso
+            senza attaccarsi. Esci dall'altra parte asciutto come se fossi passato sotto una tettoia, e l'unguento ti
+            puzza di montone fino all'ultima galleria.
+          effetti: { profondita.avv-puliti: 1 }
+      - testo: "Spingerla con la volontà"
+        descrizione: "Se la tiene su una volontà, la si può spingere da parte con un'altra, per il tempo di passare."
+        prova: { attributo: mentale, abilita: [magia, resilienza], difficolta: Difficile }
+        successo:
+          titolo: Il varco
+          testo: |
+            Appoggi le mani sulla parete e la spingi con la testa più che con le braccia. L'acqua si apre in un varco
+            stretto quanto te, e si richiude alle tue spalle appena sei passato.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: L'altra volontà
+          testo: |
+            Spingi, e dall'altra parte della parete qualcosa spinge indietro, con calma, finché ti siedi per terra con
+            il mal di testa. La parete non si è mossa di un dito.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare piano, lasciandola entrare nei vestiti"
+        descrizione: "Lentamente l'acqua si lascia attraversare. Lentamente, però, entra dappertutto."
+        costo: 2
+        esito:
+          titolo: Fradicio
+          testo: |
+            Attraversi la parete un dito alla volta, e l'acqua ti entra nei vestiti, nelle orecchie, sotto le unghie.
+            Dall'altra parte ti strizzi la giubba e non viene fuori niente, perché la bava è rimasta tutta su di te.
+          effetti: { profondita.avv-puliti: 1, contaminazione: 0.5 }
+
+  - id: avv-puliti-la-vasca-dei-tributi
+    immagine: icone/spiral-shell
+    titolo: La vasca dei tributi
+    sommario: "Una vasca larga come una piazza, piena di doni posati in cerchi da gente di cui non resta il nome."
+    luogo: Le acque sotto la vecchia Pannion, la vasca dei tributi
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 3, profondita.avv-puliti <= 6, profondita.avv-puliti != 5]
+    testo: |
+      La strada finisce sul bordo di una vasca larga come la piazza di Pannion e piena d'acqua bassa e limpida. Sul
+      fondo sono posati i doni di chi scendeva qui prima. Ci sono conchiglie grandi come scudi, ossa di animali che
+      non hai mai visto, anelli di un metallo verde e collane di denti, messi in cerchi intorno al centro. Per
+      arrivare dall'altra parte bisogna camminare sopra i cerchi.
+
+      {percezione Difficile} I cerchi vanno dal più vecchio in mezzo al più nuovo sul bordo, e fra un cerchio e
+      l'altro resta sempre una striscia libera, larga un piede.
+    opzioni:
+      - testo: "Camminare sulle strisce libere"
+        descrizione: "Un piede di pietra fra un cerchio e l'altro, sott'acqua. Basta non sbagliare un passo."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Le strisce
+          testo: |
+            Attraversi la vasca a passi stretti, un piede dietro l'altro sulle strisce di pietra, senza toccare un
+            dono. Dall'altra parte l'acqua è più fredda, e il pavimento scende di nuovo.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: L'osso rotto
+          testo: |
+            Il piede scivola su un osso, che si rompe con un rumore secco. Tutta l'acqua della vasca diventa fredda in
+            un momento, e tu torni indietro con i piedi che non senti più.
+          effetti: { tormento: 0.5 }
+      - testo: "Leggere l'ordine dei doni"
+        descrizione: "Chi porta un dono lo mette in un posto preciso. I posti, insieme, fanno una strada."
+        prova: { attributo: mentale, abilita: [percezione, accademiche], difficolta: Difficile }
+        successo:
+          titolo: La strada dei doni
+          testo: |
+            I cerchi hanno un'apertura ciascuno, sempre nello stesso punto, come le porte di una città. Passi da una
+            porta all'altra fino al centro, e dal centro all'uscita. In mezzo alla vasca raccogli un anello verde che
+            l'acqua ha staccato dal suo cerchio.
+          pe: { percezione: 2 }
+          effetti: { profondita.avv-puliti: 1, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: La porta chiusa
+          testo: |
+            Segui un'apertura che non porta da nessuna parte, e ti trovi in mezzo ai doni senza una strada per uscire.
+            Torni indietro sui tuoi passi, uno per uno, con le ossa che scricchiolano.
+          effetti: { tormento: 0.5 }
+      - testo: "Attraversare nell'acqua, scostando i doni con i piedi"
+        descrizione: "È la strada più corta, ed è anche la più scortese."
+        costo: 2
+        esito:
+          titolo: Scortese
+          testo: |
+            Attraversi la vasca dritto, spostando con i piedi conchiglie e collane, e tutto quello che sposti torna al
+            suo posto appena sei passato. Ti senti guardato fino all'uscita, e anche dopo.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 5 · la svolta: i murali del sovrano
+  - id: avv-puliti-i-murali-del-sovrano
+    immagine: ambientazione/regno-profondo
+    titolo: I murali del sovrano
+    sommario: "Una sala rotonda dipinta dal pavimento alla volta. Racconta di un impero sotto il mare, e del suo sovrano."
+    luogo: Le acque sotto la vecchia Pannion, la sala dei murali
+    area: avv-puliti
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti == 5]
+    testo: |
+      Oltre la strada si apre una sala rotonda con la volta alta, dipinta dal pavimento fino in cima in verde scuro e
+      in bianco di madreperla, due colori che l'acqua ha lasciato vivi. Le figure girano intorno alla sala, e la
+      lanterna le prende una dopo l'altra.
+
+      C'è un mare senza fondo, con foreste di alghe alte come torri e una luce che scende dall'alto, stanca. In mezzo
+      alle alghe, su un trono di conchiglie, sta una creatura lunga come tre barche, pallida, con tre occhi in fila
+      sulla fronte e un ventaglio di tentacoli intorno alla bocca. Davanti al trono, a migliaia, figure come i servi
+      delle nicchie stanno in ginocchio e immobili. Sotto il trono è ripetuta la stessa fila di gocce che Lumelli
+      leggeva sul bordo della cisterna.
+
+      Più avanti, sopra il trono, passa una balena trasparente grande come una cattedrale, e le figure in ginocchio
+      alzano la testa per guardarla. Nell'ultimo pezzo di parete il trono è vuoto, e la creatura sale da sola verso un
+      buco nero in cima al mare.
+
+      {accademiche Media} Le balene-spirito del Regno Profondo le conosce chiunque abbia letto in Biblioteca le
+      bottiglie spiaggiate. Di un sovrano venuto prima di loro non parla nessun libro.
+
+      {origine allievo-di-torvessa} All'Accademia si discute da anni se il Regno Profondo abbia una storia o soltanto
+      delle stagioni. La risposta è su questa parete, e Orvald Temmerin darebbe la sua biblioteca per vederla.
+    opzioni:
+      - testo: "Leggere i murali dall'inizio alla fine"
+        descrizione: "Una parete dipinta si legge come un libro, da dove comincia a dove finisce."
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: Il trono vuoto
+          testo: |
+            Fai il giro della sala due volte, con la lanterna vicino alla pietra. Era un sovrano, e i suoi stavano
+            fermi davanti a lui per tutta la vita, finché una balena è passata sopra il trono e hanno guardato lei.
+            Allora è salito quassù, da solo, ad aspettare qualcuno che leggesse di nuovo il suo nome. Dietro l'ultimo
+            pezzo di parete una porta bassa scende ancora.
+          pe: { accademiche: 3 }
+          imposta: { avv-puliti.murali: 1 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Le figure che girano
+          testo: |
+            Giri intorno alla sala seguendo le figure, e dopo il terzo giro non sai più dove cominciano. Ti fermi in
+            mezzo alla sala, con migliaia di occhi dipinti addosso, finché ritrovi la porta da cui sei entrato.
+          effetti: { tormento: 0.5 }
+      - testo: "Guardare le facce di quelli in ginocchio"
+        descrizione: "Sono migliaia, dipinte una per una. Qualcuno, dipingendole, ha voluto dire com'erano."
+        prova: { attributo: sociale, abilita: [empatia, espressivita], difficolta: Difficile }
+        successo:
+          titolo: Le facce
+          testo: |
+            Davanti al trono le facce sono lisce e uguali, senza un'espressione. Quando alzano la testa verso la
+            balena hanno gli occhi spalancati, e qualcuno ride. Il sovrano li ha persi così, perché hanno trovato
+            un'altra cosa da guardare. Oltre l'ultimo pezzo di parete una porta bassa scende ancora.
+          pe: { empatia: 3 }
+          imposta: { avv-puliti.murali: 1 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Le facce uguali
+          testo: |
+            Le facce dipinte sono tutte uguali, e a forza di guardarle ti sembrano tutte la tua. Esci dalla sala
+            camminando all'indietro.
+          effetti: { tormento: 0.5 }
+      - testo: "Passare oltre senza guardare le pareti"
+        descrizione: "La porta bassa è dall'altra parte della sala. Ci si arriva con gli occhi sul pavimento."
+        costo: 2
+        esito:
+          titolo: Gli occhi bassi
+          testo: |
+            Attraversi la sala con gli occhi sul pavimento e la lanterna bassa, e lo stesso, ai margini dello sguardo,
+            le figure ti girano intorno. Arrivi alla porta bassa con il collo indolenzito.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 7-9 · la soglia del Regno Profondo
+  - id: avv-puliti-la-luce-che-sale
+    immagine: ambientazione/regno-profondo
+    titolo: La luce che sale
+    sommario: "L'acqua cade in un pozzo senza fondo, e dal pozzo sale una colonna di luce pallida."
+    luogo: Le acque sotto la vecchia Pannion, il pozzo della luce
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 7, profondita.avv-puliti <= 9]
+    testo: |
+      La strada si ferma sul bordo di un pozzo largo come una cava, e l'acqua che scorreva sui gradini ci cade dentro
+      senza fare rumore. Dal fondo, che non si vede, sale una colonna di luce pallida e dritta, e dove la luce tocca
+      le pareti la pietra diventa verde. Una cengia gira intorno al pozzo fino a un'apertura dall'altra parte.
+
+      Se guardi la luce troppo a lungo, una voce dentro le orecchie ti dice che puoi smettere di camminare.
+
+      {resilienza Difficile} Laggiù c'è il Regno Profondo, da cui nessuno è mai tornato, e la voce lo sa benissimo.
+    opzioni:
+      - testo: "Girare sulla cengia senza guardare giù"
+        descrizione: "La cengia è larga mezzo passo, e la luce sale proprio accanto."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Mezzo passo
+          testo: |
+            Giri intorno al pozzo con la guancia contro la parete e gli occhi sulla pietra, un mezzo passo alla volta.
+            La luce ti scalda il fianco per tutto il giro, e tu non la guardi nemmeno una volta.
+          pe: { acrobazia: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Lo sguardo
+          testo: |
+            A metà cengia guardi giù. La luce ti riempie gli occhi, e ti ritrovi seduto sul bordo con le gambe nel
+            vuoto, senza ricordare di esserti seduto. Torni indietro a carponi fino all'imbocco della strada.
+          effetti: { tormento: 0.5 }
+      - testo: "Guardare la luce e continuare a camminare"
+        descrizione: "La voce dice che puoi fermarti. Si può ascoltarla fino in fondo, e camminare lo stesso."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: Fino in fondo
+          testo: |
+            Guardi la luce e lasci parlare la voce, e intanto metti un piede davanti all'altro. Nella colonna, molto
+            in basso, passa una sagoma trasparente grande come una cattedrale. Quando arrivi all'apertura la voce ha
+            smesso, e tu hai visto quello che i murali dipingevano.
+          pe: { resilienza: 3 }
+          effetti: { profondita.avv-puliti: 1, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Fermo sulla cengia
+          testo: |
+            La voce ha ragione, e ti fermi. Torni in te molto tempo dopo, in piedi sulla cengia, con le gambe
+            addormentate e la lanterna quasi vuota.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare sulla cengia a occhi chiusi"
+        descrizione: "Al buio la voce è più debole. Anche la cengia, però, è più stretta."
+        costo: 3
+        esito:
+          titolo: A occhi chiusi
+          testo: |
+            Fai il giro del pozzo strisciando a occhi chiusi, con le mani avanti a cercare il bordo. Ci metti un tempo
+            infinito, e la voce ti accompagna fino all'apertura.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  - id: avv-puliti-la-voce-di-darrin
+    immagine: icone/echo-ripples
+    titolo: La voce di Darrin
+    sommario: "In una galleria buia la voce di Darrin Huld ti chiama per nome e ti chiede di restare."
+    luogo: Le acque sotto la vecchia Pannion, la galleria buia
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 7, profondita.avv-puliti <= 9]
+    testo: |
+      Nella galleria il buio è così fitto che la lanterna illumina soltanto le tue mani. Davanti a te, a pochi passi,
+      Darrin Huld ti chiama per nome. È la sua voce bassa e corta, con la erre che si impunta.
+
+      «Resti» dice piano, e lo ripete subito, «Resti, Radice.»
+
+      La voce viene da dove stai andando. A ogni passo lui lo ripete con la stessa calma della sera in cui ti ha dato
+      il posto sulla panca, e le gambe ti diventano pesanti come dopo una giornata alla sega.
+
+      {empatia Difficile} Darrin le cose le dice una volta sola, e questa voce le ripete a ogni passo.
+    opzioni:
+      - testo: "Rispondere come rispondono i Puliti"
+        descrizione: "Sai la risposta del coro. Chi la dice, quaggiù, è uno di casa."
+        requisiti: [avv-puliti.coro >= 1]
+        prova: { attributo: sociale, abilita: [ingannare, espressivita], difficolta: Media }
+        successo:
+          titolo: Uno di casa
+          testo: |
+            «E ferma a chi resta» rispondi, con la voce piatta della mensa. La voce di Darrin tace contenta e ti
+            lascia passare come si lascia passare uno dei propri.
+          pe: { ingannare: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La voce che aspetta
+          testo: |
+            La risposta ti esce con la tua voce, e la voce di Darrin la sente. Ripete «Resti» più vicina, finché torni
+            indietro fino all'imbocco della galleria.
+          effetti: { tormento: 0.5 }
+      - testo: "Stringere la scheggia del Vecchio"
+        descrizione: "La scheggia che Darrin ti ha messo al collo con le sue mani. Quella era la sua voce vera."
+        requisiti: [chiave.vecchio >= 1]
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Media }
+        successo:
+          titolo: La mano vera
+          testo: |
+            Stringi la scheggia nel pugno, e ricordi la mano di Darrin che stringeva il laccio un poco più del
+            necessario. Questa voce non ha mani. Le passi accanto, e lei resta indietro.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il laccio
+          testo: |
+            Stringi la scheggia, e la voce dice «Guardia del Vecchio» proprio come lui. Ti siedi nel buio con la
+            scheggia in mano finché la lanterna comincia a calare.
+          effetti: { tormento: 0.5 }
+      - testo: "Camminare contro la voce"
+        descrizione: "È soltanto una voce. Le gambe però le danno ragione."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Contro
+          testo: |
+            Cammini con la voce in faccia come contro il vento, passo dopo passo, finché la superi. Dietro di te
+            continua a dire il tuo nome, sempre più piano.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il posto sulla panca
+          testo: |
+            A dieci passi la voce ti dice che c'è ancora il tuo posto sulla panca, e ti siedi per terra. Ti rialzi
+            molto dopo al buio, e torni indietro tastando la parete.
+          effetti: { tormento: 0.5 }
+      - testo: "Rispondergli come ti risponderebbe lui"
+        descrizione: "Darrin, a una domanda, risponde con una parola e un gesto. Chi lo imita non sa quale."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Molto difficile }
+        successo:
+          titolo: I turni di domani
+          testo: |
+            Chiedi alla voce quali sono i turni di domani alla segheria. Darrin risponderebbe con tre nomi e un gesto
+            del carbone. La voce dice «Resti», e tu sai che non è lui, e la galleria torna una galleria qualunque.
+          pe: { empatia: 3 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Tre nomi
+          testo: |
+            La voce ti risponde con i nomi giusti di tre della squadra, e per un momento ci credi. Quando te ne
+            accorgi sei seduto contro la parete, e hai perso il conto del tempo.
+          effetti: { tormento: 0.5 }
+      - testo: "Tapparti le orecchie e andare a tentoni"
+        descrizione: "Con le orecchie tappate la voce si sente lo stesso, ma lontana. E non vedi dove vai."
+        costo: 3
+        esito:
+          titolo: A tentoni
+          testo: |
+            Ti tappi le orecchie con la cera di una candela e cammini con una spalla contro la parete, senza lanterna,
+            per tutta la galleria. Quando ne esci la voce di Darrin ce l'hai ancora in testa, e ci resta.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  - id: avv-puliti-gli-annegati-in-piedi
+    immagine: icone/fish-monster
+    titolo: Gli annegati in piedi
+    sommario: "Una sala allagata piena di servi in piedi nell'acqua. Girano la testa tutti insieme verso chi si muove."
+    luogo: Le acque sotto la vecchia Pannion, la sala degli annegati
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 7, profondita.avv-puliti <= 9]
+    testo: |
+      La galleria sbocca in una sala allagata fino alla vita, e la sala è piena di servi in piedi nell'acqua, a
+      decine, con le fessure del collo che si aprono e si chiudono tutte nello stesso momento. Quando entri girano la
+      testa verso di te insieme, come alla mensa dei carbonai, e restano a guardarti.
+
+      Due si staccano dagli altri e vengono avanti, spingendo l'acqua con il petto.
+
+      {armi-da-mischia Media} Nell'acqua alta sono lenti, e il collo è la parte molle. Sul bordo della sala, dove
+      l'acqua è bassa, sarebbero più veloci di te.
+    opzioni:
+      - testo: "Affrontare i due servi nell'acqua alta"
+        descrizione: "Due servi del sovrano, con le dita palmate e la pazienza di chi è stato fermo mille anni."
+        combattimento: avv-puliti-i-servi
+        vittoria:
+          titolo: I due servi
+          testo: |
+            Il secondo servo va sotto e non torna su. Gli altri restano dove sono, con le teste girate verso di te, e
+            ti guardano attraversare la sala fino all'uscita senza muovere un dito.
+          effetti: { profondita.avv-puliti: 1 }
+        sconfitta:
+          titolo: Indietro
+          testo: |
+            I servi ti tengono sott'acqua a turno e senza fretta. Quando ti lasciano risali a fatica verso la galleria
+            da cui sei venuto, e nessuno ti segue.
+          effetti: { tormento: 0.5 }
+      - testo: "Stare fermo finché smettono di guardarti"
+        descrizione: "Guardano chi si muove. Chi non si muove, per loro, è uno di loro."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Uno di loro
+          testo: |
+            Ti fermi con l'acqua alla vita e smetti di muoverti, anche con gli occhi. Dopo un'ora le teste si girano
+            altrove una alla volta, e i due servi tornano in fila. Attraversi la sala un passo ogni volta che le
+            fessure si chiudono.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Il prurito
+          testo: |
+            Ti prude il naso, e ti gratti. Tutte le teste si girano, e i due servi ti sono addosso prima che tu arrivi
+            alla galleria.
+          effetti: { ferite: 0.5 }
+      - testo: "Passare sul bordo, dove l'acqua è bassa"
+        descrizione: "Sul bordo sono veloci, ma il bordo è stretto e loro stanno in mezzo alla sala."
+        prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Il bordo
+          testo: |
+            Corri sul bordo della sala con l'acqua alle caviglie, e i servi si voltano tutti a seguirti, ma tu sei già
+            all'uscita prima che il primo arrivi al bordo.
+          pe: { atletica: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: Le dita palmate
+          testo: |
+            A metà bordo una mano palmata ti prende la caviglia e ti tira nell'acqua alta. Ti liberi con un calcio e
+            torni indietro con il segno delle dita sulla pelle.
+          effetti: { ferite: 0.5 }
+      - testo: "Tornare indietro e aspettare che si rimettano in fila"
+        descrizione: "Prima o poi tornano al loro posto. Bisogna aspettare quaggiù, e l'aspettare quaggiù costa."
+        costo: 3
+        esito:
+          titolo: L'attesa
+          testo: |
+            Aspetti nella galleria finché le fessure dei colli tornano tutte allo stesso ritmo, e poi attraversi la
+            sala in punta di piedi. Durante l'attesa ti sei addormentato due volte, e hai sognato di essere in fila.
+          effetti: { profondita.avv-puliti: 1, tormento: 0.5 }
+
+  - id: avv-puliti-la-porta-di-casa
+    immagine: icone/wooden-door
+    titolo: La porta di casa
+    sommario: "Nell'acqua nera della galleria c'è una porta che conosci, socchiusa, con la luce accesa dietro."
+    luogo: Le acque sotto la vecchia Pannion, l'ultima galleria
+    area: avv-puliti
+    ripetibile: true
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 7, profondita.avv-puliti <= 9]
+    testo: |
+      In fondo all'ultima galleria, a mezza altezza nell'acqua nera, c'è una porta che conosci. È la porta di casa
+      tua, con la maniglia storta e la luce accesa dietro, e da sotto la porta arriva l'odore della cena. Dietro, lo
+      sai senza chiederti come, c'è un letto asciutto in una stanza dove non può entrare nessuno.
+
+      L'acqua intorno alla porta è calma. Basterebbe aprirla ed entrare.
+
+      {percezione Molto difficile} Sullo stipite c'è una goccia incisa con la punta in alto. La tua porta non l'ha mai
+      avuta.
+
+      {origine apprendista-raschiatore} Sulle piattaforme della Cicatrice i vecchi dicono che giù nel Labirinto la
+      cosa più pericolosa è una porta che riconosci. Lo dicono ridendo, e poi ci girano intorno.
+    opzioni:
+      - testo: "Passare oltre la porta"
+        descrizione: "La galleria continua oltre la porta. Basta non fermarsi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Oltre
+          testo: |
+            Passi accanto alla porta con gli occhi avanti, e l'odore della cena ti segue per dieci passi e poi resta
+            indietro. Quando ti volti la porta non c'è più, e l'acqua è soltanto acqua.
+          pe: { resilienza: 2 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La maniglia
+          testo: |
+            Ti ritrovi con la mano sulla maniglia e la porta mezza aperta. La lasci andare, e la porta si richiude con
+            il rumore che fa sempre. Torni indietro con quel rumore nelle orecchie.
+          effetti: { tormento: 0.5 }
+      - testo: "Aprirla e guardare che cosa c'è davvero"
+        descrizione: "Una porta finta ha un dietro vero. Bisogna guardarlo senza crederci."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: Il dietro
+          testo: |
+            Apri la porta e dietro non c'è una stanza. C'è un occhio pallido grande come una ruota di carro, molto
+            lontano nell'acqua, che si chiude piano quando capisce che l'hai visto. La porta sparisce, e la galleria
+            davanti a te scende verso quell'occhio.
+          pe: { percezione: 3 }
+          effetti: { profondita.avv-puliti: 1 }
+        fallimento:
+          titolo: La cena
+          testo: |
+            Apri, e c'è davvero la cena in tavola. Ti siedi. Quando ti alzi hai la bocca piena di acqua salata e sei
+            in ginocchio nella galleria, molto più indietro di prima.
+          effetti: { tormento: 0.5 }
+      - testo: "Chiudere gli occhi e nuotare alla cieca"
+        descrizione: "Se non la vedi, la porta non può chiamarti. L'acqua però è nera, e lunga."
+        costo: 3
+        esito:
+          titolo: Alla cieca
+          testo: |
+            Nuoti a occhi chiusi lungo la galleria, sbattendo le mani contro le pareti, finché l'odore della cena
+            sparisce. Quando apri gli occhi hai la bava fin dentro le orecchie.
+          effetti: { profondita.avv-puliti: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 10 · il cuore: l'offerta e lo scontro nell'acqua
+  - id: avv-puliti-l-offerta
+    immagine: ambientazione/regno-profondo
+    titolo: L'offerta
+    sommario: "Dal lago sotto la valle si alza il sovrano dei murali, e ti offre di pulirti."
+    luogo: Le acque sotto la vecchia Pannion, il lago del sovrano
+    area: avv-puliti
+    requisiti: [avventura.puliti == 6, profondita.avv-puliti >= 10]
+    testo: |
+      L'ultima galleria si apre su un lago sotterraneo così grande che la lanterna non ne trova le pareti. L'acqua è
+      tiepida e liscia come olio, e dal fondo, molto in basso, sale la stessa luce pallida del pozzo. Dove la lanterna
+      non arriva più l'acqua si gonfia piano, e dal lago si alza la creatura dei murali.
+
+      È lunga più di tre barche e pallida come i pesci ciechi, con la pelle coperta di una bava che cola in fili. I
+      tre occhi stanno in fila sulla fronte, uno sopra l'altro, grandi come ruote di carro, e si aprono uno alla
+      volta. Intorno alla bocca i tentacoli si muovono lenti come alghe nella corrente. È Ossaleth, e ti sta
+      guardando.
+
+      La voce non viene dalla bocca. Ti arriva dentro la testa con la voce di Darrin e subito dopo con quella di
+      Liduina, e alla fine con la tua.
+
+      «Sei stanco, e ti porti dietro ferite che non guariscono» dice. «Io ti pulisco. Entri nell'acqua e l'acqua ti
+      tiene, e non devi più decidere niente.»
+
+      {resilienza Difficile} Mentre parlava hai fatto un passo verso l'acqua, e i piedi non ti hanno chiesto il
+      permesso.
+    opzioni:
+      - testo: "Lasciarti pulire"
+        descrizione: "Entrare nell'acqua e smettere di decidere. È quello che ti chiede, ed è facile."
+        esito:
+          titolo: Pulito
+          testo: |
+            Entri nell'acqua fino al petto, e l'acqua ti tiene. Per un tempo che non misuri non hai fame e non hai
+            paura. Ti risvegli all'alba sul bordo della cisterna del forno, con le braccia bagnate fino ai gomiti e
+            Nerio che ti tira fuori per il colletto bestemmiando. Di come sei risalito non ricordi niente.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Rifiutare e scendere in acqua contro di lui"
+        descrizione: "Il sovrano dei murali ha già perso un impero. Puoi provare a fargli perdere anche Pannion."
+        esito:
+          titolo: Il rifiuto
+          testo: |
+            Gli dici di no ad alta voce, e la parola rimbomba sul lago come un sasso in un pozzo. I tre occhi si
+            chiudono e si riaprono insieme. Poi Ossaleth scende nell'acqua, e l'acqua comincia a muoversi verso di te.
+          segue: avv-puliti-lo-scontro-nell-acqua
+
+  - id: avv-puliti-lo-scontro-nell-acqua
+    tipo: seguito
+    immagine: icone/kraken-tentacle
+    titolo: Lo scontro nell'acqua
+    sommario: "Ossaleth scende nel lago, e il lago si alza con lui."
+    luogo: Le acque sotto la vecchia Pannion, il lago del sovrano
+    area: avv-puliti
+    requisiti: [avventura.puliti == 6]
+    testo: |
+      Ossaleth scende nel lago e il lago si alza con lui. L'acqua ti arriva al petto e poi alle spalle, e i tentacoli
+      salgono lenti da sotto a cercarti le caviglie. La bava che colano fa l'acqua densa come brodo, e ogni movimento
+      ti costa il doppio. In alto, sopra la bocca, i tre occhi ti seguono senza sbattere.
+
+      Sulla riva hai lasciato la lanterna, e la sua luce gialla arriva fin qui, bassa sull'acqua.
+
+      {armi-da-mischia Difficile} I tentacoli si piegano tutti verso l'esterno e non arrivano sotto la bocca, contro
+      il petto della creatura. Da lì gli occhi sono a portata di lama.
+    opzioni:
+      - testo: "Affrontare Ossaleth"
+        descrizione: "Un sovrano del Regno Profondo, nell'acqua che comanda. Ha tre occhi, e nessuna fretta."
+        combattimento: avv-puliti-ossaleth
+        vittoria:
+          titolo: Il trono vuoto
+          testo: |
+            Il terzo occhio si spacca sotto la lama, e Ossaleth affonda nel lago piano, senza un suono, finché la luce
+            della lanterna non lo trova più. L'acqua si fa chiara. Sulla riva da cui è salito trovi ossa che nessuno
+            ha mai classificato e anelli di metallo verde come quelli della vasca.
+
+            Risali per tutta la notte. All'alba, sul bordo della cisterna del forno, Nerio ti aspetta con la lanterna
+            accesa e una castagna arrosto in mano.
+          effetti: { avventura.puliti: 1, informazioni.segreto: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        sconfitta:
+          titolo: Il fondo
+          testo: |
+            I tentacoli ti tirano sotto, e sotto è buio e tiepido. Ti risvegli sulla riva con l'acqua nei polmoni e la
+            lanterna spenta accanto. Risali senza voltarti, e sul bordo della cisterna Nerio ti tira fuori senza fare
+            domande.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Colpire gli occhi da sotto la bocca"
+        descrizione: "Sotto la bocca i tentacoli non arrivano. Bisogna arrivarci, e restarci."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Sotto la bocca
+          testo: |
+            Ti tuffi sotto i tentacoli e risali contro il petto della creatura, dove la pelle è molle e calda. Da lì
+            colpisci in alto, un occhio dopo l'altro, e Ossaleth affonda nel lago senza un suono, finché la luce non
+            lo trova più. Sulla riva trovi ossa mai classificate e anelli di metallo verde.
+
+            Risali per tutta la notte. All'alba Nerio ti aspetta sul bordo della cisterna con la lanterna accesa.
+          pe: { armi-da-mischia: 5 }
+          effetti: { avventura.puliti: 1, informazioni.segreto: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: I tentacoli
+          testo: |
+            A metà strada un tentacolo ti prende alla vita e ti sbatte contro la riva tre volte. Ti trascini su per le
+            gallerie con le costole che scricchiolano, e all'alba Nerio ti tira fuori dalla cisterna.
+          effetti: { ferite: 2, tormento: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Leggere al contrario le ultime pagine di Lumelli"
+        descrizione: "Le pagine strappate al rito sono la fine del libro. Lette dall'ultima riga alla prima, forse disfano quello che il libro ha fatto."
+        requisiti: [avv-puliti.pagine >= 1]
+        prova: { attributo: mentale, abilita: [accademiche, magia], difficolta: Difficile }
+        successo:
+          titolo: All'indietro
+          testo: |
+            Tieni le pagine sopra l'acqua e leggi le file di gocce dal basso in alto con la voce che ti trema,
+            schioccando la lingua come faceva Lumelli. Al terzo rigo i tentacoli si fermano. All'ultimo Ossaleth
+            chiude gli occhi uno alla volta e affonda, e le pagine ti si sciolgono fra le dita. Sulla riva trovi ossa
+            mai classificate e anelli di metallo verde.
+
+            All'alba Nerio ti aspetta sul bordo della cisterna con la lanterna accesa.
+          pe: { accademiche: 5 }
+          effetti: { avventura.puliti: 1, informazioni.segreto: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: Il rigo saltato
+          testo: |
+            Salti un rigo, e Ossaleth sente la differenza. Un tentacolo ti strappa le pagine di mano e un altro ti
+            prende al petto. Ti risvegli sulla riva, e risali fino alla cisterna con la testa che ronza.
+          effetti: { ferite: 1.5, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ricordargli il trono vuoto"
+        descrizione: "Quelli in ginocchio, un giorno, hanno alzato la testa verso una balena. Lui se lo ricorda."
+        requisiti: [avv-puliti.murali >= 1]
+        prova: { attributo: sociale, abilita: [intimidire, espressivita], difficolta: Difficile }
+        successo:
+          titolo: La balena
+          testo: |
+            Gli gridi della balena che è passata sopra il trono, e di quelli che hanno alzato la testa a guardarla.
+            Ossaleth si alza fuori dall'acqua con tutti e tre gli occhi aperti, e scopre il petto. Lo colpisci lì, e
+            lui affonda nel lago finché la luce non lo trova più. Sulla riva trovi ossa mai classificate e anelli di
+            metallo verde.
+
+            All'alba Nerio ti aspetta sul bordo della cisterna con la lanterna accesa.
+          pe: { intimidire: 5 }
+          effetti: { avventura.puliti: 1, informazioni.segreto: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La voce che si spezza
+          testo: |
+            La voce ti si spezza a metà, e Ossaleth ti risponde con la tua, finendo la frase al posto tuo. Poi i
+            tentacoli ti trovano. Risali fino alla cisterna all'alba, e per giorni ti senti finire le frasi da solo.
+          effetti: { ferite: 1.5, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Dire nell'acqua la Preghiera del Battito"
+        descrizione: "La formula dei riti di purificazione dice che anche noi ricorderemo. È quello che lui vuole toglierti."
+        quando: [origine.accolito-del-velo >= 1]
+        prova: { attributo: mentale, abilita: [resilienza, magia], difficolta: Difficile }
+        successo:
+          titolo: Finché il cuore batterà
+          testo: |
+            Dici la Preghiera del Battito ad alta voce, con l'acqua alla gola, e la ripeti finché Ossaleth smette di
+            parlarti dentro la testa. Senza la sua voce i tentacoli si muovono a caso, e tu arrivi agli occhi. Lui
+            affonda nel lago finché la luce non lo trova più. Sulla riva trovi ossa mai classificate e anelli di
+            metallo verde.
+
+            All'alba Nerio ti aspetta sul bordo della cisterna con la lanterna accesa.
+          pe: { resilienza: 5 }
+          effetti: { avventura.puliti: 1, informazioni.segreto: 1, reliquie.frammento-inciso: 2 }
+          vai: superficie-fratturata
+        fallimento:
+          titolo: La preghiera dimenticata
+          testo: |
+            A metà preghiera non ricordi più come continua, e Ossaleth te la recita lui, con la tua voce. I tentacoli
+            ti trovano mentre ascolti. Risali fino alla cisterna all'alba, e la preghiera ti torna in mente soltanto
+            sulla scala.
+          effetti: { ferite: 1.5, tormento: 1 }
+          vai: superficie-fratturata

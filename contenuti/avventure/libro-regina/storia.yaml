@@ -1,0 +1,659 @@
+# Avventura n. 9, «Il libro della regina» (docs/piano-avventure.md). Avventura di villaggio: si apre a Ghoran a
+# quest finita (fazione.ghoran >= 15). La pista è avventura.libro-regina, da 0 a 8; il prefisso le dà il marchio
+# «Avventura» nelle Cronache.
+# - 0 → 1 `avv-libro-regina-lo-stalliere-giallo` (aggancio, presso ghoran): Radek, lo stalliere del recinto dei muli,
+#   ti cade davanti giallo e scavato.
+# - 1 → 2 `avv-libro-regina-il-fienile-dei-muli`: Nevio Calò, predatore di rovine, delira nel fienile con il libro in
+#   braccio. Chi tocca il libro prende la maledizione (avv-libro-regina.maledizione).
+# - 2 → 3 `avv-libro-regina-le-unghie-gialle`: da Oska, il libro letto o il cristallo sentito. Vantaggio: i nomi delle
+#   sei ancelle (avv-libro-regina.nomi), che aprono vie alla stanza delle sei, nell'anticamera e al cuore.
+# - 3 → 4 `avv-libro-regina-quello-che-ha-visto-nevio`: la strada per il mausoleo. Vantaggio: la fessura da cui è
+#   entrato Nevio (avv-libro-regina.porta), che apre l'ingresso senza prova.
+# - 4 → 5 `avv-libro-regina-l-anello-di-cera-verde`: Ostrav vuole comprare il libro alla bilancia, Ragh dice dove va
+#   riportato. Vantaggio: le torce della Pece (avv-libro-regina.pece), che tengono le ombre nelle nicchie.
+# - 5 → 6 la spedizione nel mausoleo (spedizione.yaml), fino al cuore.
+# - 6 → 7 `avv-libro-regina-il-giallo-che-se-ne-va` (epilogo): che cosa fare di Nevio (avv-libro-regina.ladro 1 pesato
+#   dai clan, 2 riportato ai Raschiatori, 3 lasciato andare). Conseguenze su rep.ghoran e rep.raschiatori.
+# - 7 → 8 `avv-libro-regina-quello-che-teneva-radek` (epilogo): il bracciale di Tamsira, che Radek aveva preso dalla
+#   bisaccia di Nevio (avv-libro-regina.radek 1 segreto tenuto, 2 detto a Ragh). Dà l'oggetto di grado 4.
+# La maledizione: dalla scena del fienile a quella della bilancia ogni scena dà mezza Contaminazione, anche quando
+# riesce; al cuore vinto avv-libro-regina.maledizione torna a 0.
+# Lore nuova (approvata nel capitolato): Tamsira regnò su una comunità del Gradone Rosso dal cinquantunesimo anno
+# dopo la Caduta alla morte, nel settantottesimo, prima della Guerra del Cristallo, e tenne acceso il cristallo della
+# sua gente. Le sue sei ancelle continuarono il libro dei nomi durante la guerra, montarono il cristallo nella
+# copertina e si chiusero nel mausoleo nel novantaseiesimo anno, quando della loro gente non restava nessuno. I
+# vincitori ne cancellarono il nome dagli archivi (codex mn-guerra-del-cristallo).
+# Nomi nuovi (glossario.yaml): Tamsira, la Porta delle Sei, Radek, Nevio Calò.
+quality:
+  - { id: avventura.libro-regina, immagine: icone/black-book, nome: "Il libro della regina", categoria: pista, descrizione: "Lo stalliere del recinto dei muli di Ghoran ti è caduto davanti giallo come una pergamena vecchia, e nel fienile del recinto qualcuno ha tirato su la scala." }
+  - { id: avv-libro-regina.maledizione, immagine: icone/scroll-unfurled, nome: "Il giallo del libro", categoria: stato, descrizione: "Da quando hai toccato il libro della regina il giallo ti sale dalle unghie e la pelle ti si fa sottile come carta. Il cristallo della copertina prende a chi lo tiene, finché il libro non torna da dove viene." }
+  - { id: avv-libro-regina.nomi, immagine: icone/open-book, nome: "I nomi delle sei", categoria: stato, descrizione: "Hai letto le ultime pagine del libro della regina, scritte da sei mani diverse. I nomi delle sei ancelle li sai a memoria." }
+  - { id: avv-libro-regina.porta, immagine: icone/treasure-map, nome: "La fessura di Nevio", categoria: stato, descrizione: "Nevio ti ha detto da dove è entrato nel mausoleo, una fessura sotto la sesta donna scolpita, nascosta da un ginepro secco." }
+  - { id: avv-libro-regina.pece, immagine: icone/lantern-flame, nome: "Le torce della Pece", categoria: stato, descrizione: "Un fascio di torce che Gedda ti ha fatto portare. A Ghoran dicono che il fumo della pece tiene i morti nei loro buchi." }
+  - { id: avv-libro-regina.svolta, nome: "La stanza delle sei", categoria: stato, nascosta: true, descrizione: "La porta dietro il tavolo delle sei ancelle si è aperta almeno una volta." }
+  - { id: avv-libro-regina.ladro, nome: "Che ne è di Nevio", categoria: stato, nascosta: true, descrizione: "1 pesato dai clan e messo a lavorare al recinto; 2 riportato ai Raschiatori di Qir-Azel; 3 lasciato andare." }
+  - { id: avv-libro-regina.radek, nome: "Il segreto di Radek", categoria: stato, nascosta: true, descrizione: "1 hai tenuto per te che Radek aveva preso il bracciale; 2 l'hai portato da Ragh." }
+
+storylet:
+  # ------------------------------------------------------------ 0 → 1 · l'aggancio
+  - id: avv-libro-regina-lo-stalliere-giallo
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: Lo stalliere giallo
+    sommario: "Al recinto dei muli lo stalliere di Ghoran ti cade davanti con la pelle gialla come una pergamena vecchia."
+    luogo: Ghoran, il recinto dei muli accanto alla palizzata
+    area: superficie-fratturata
+    requisiti: [fazione.ghoran >= 15, avventura.libro-regina == 0]
+    testo: |
+      Accanto alla palizzata, dove le carovane lasciano le bestie prima di
+      salire sulle passerelle, c'è il recinto dei muli. Lo tiene Radek, uno
+      stalliere magro con le dita storte dai morsi, che ha una canzone diversa
+      per ogni mulo e le canta tutte stonate allo stesso modo.
+
+      Stamattina ti viene incontro tirando una mula baia per la cavezza, e a
+      tre passi da te si ferma. Ha la faccia gialla come una pergamena
+      lasciata al sole e le guance scavate fino ai denti. Apre la bocca per
+      salutarti, poi cade in ginocchio nel fango con la cavezza ancora in mano.
+
+      La mula resta ferma accanto a lui. Lo annusa a lungo e poi alza la testa
+      verso il fienile del recinto, dove la scala a pioli è stata tirata su da
+      dentro.
+
+      {medicina Media} La pelle del polso è fredda, senza traccia di febbre,
+      e sotto il tuo pollice si piega come carta e resta piegata.
+
+      {origine fuggiasco-di-ghoran} Il recinto dei muli confina con lo
+      steccato della fila che aspettava la bilancia di porta. I muli
+      mangiavano prima di voi, e da dietro lo steccato li guardavate mangiare.
+    opzioni:
+      - testo: "Portarlo da Oska sotto le gradinate"
+        descrizione: "Oska ricuce i gladiatori sotto il campo dei tamburi. Fin lì ci sono tre passerelle, e Radek pesa più di quanto sembri."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: Tre passerelle
+          testo: |
+            Te lo carichi sulle spalle e attraversi le passerelle con le assi
+            che si piegano sotto tutti e due. Oska lo fa stendere sul tavolo
+            senza domande. Mentre gli apre la camicia, Radek si aggrappa alla
+            tua manica e ripete che bisogna salire nel fienile, finché lei non
+            gli fa bere un sorso d'acquavite.
+          pe: { atletica: 2 }
+          effetti: { avventura.libro-regina: 1 }
+        fallimento:
+          titolo: L'asse che cede
+          testo: |
+            A metà della seconda passerella un'asse cede, e cadete insieme
+            nella pozza fino alla cintura. Vi tirano fuori due ragazzi della
+            Pece ridendo, e Oska vi aspetta sotto le gradinate con le mani sui
+            fianchi. Radek, sul tavolo, continua a dire che bisogna salire nel
+            fienile.
+          effetti: { avventura.libro-regina: 1, scandalo: 0.5 }
+      - testo: "Guardargli la pelle prima di muoverlo"
+        descrizione: "La pelle gialla si piega come carta. Prima di spostare un malato bisogna capire che cosa ha."
+        prova: { attributo: mentale, abilita: [medicina, natura], difficolta: Media }
+        successo:
+          titolo: Polvere d'arenaria
+          testo: |
+            Sotto le unghie di Radek c'è una polvere fine d'arenaria rossa, e
+            la sua camicia ha l'odore secco delle stanze chiuse da molto tempo.
+            Il giallo parte dalle mani e sale verso i gomiti. Lo porti da Oska
+            con la mula dietro, e intanto guardi la scala tirata su del fienile.
+          pe: { medicina: 2 }
+          effetti: { avventura.libro-regina: 1 }
+        fallimento:
+          titolo: Il giallo sulle dita
+          testo: |
+            Gli tieni il polso troppo a lungo, e quando lo lasci hai i
+            polpastrelli asciutti e un po' gialli. Te li strofini sulla giubba
+            finché tornano del loro colore, e porti Radek da Oska con la mano
+            che ti prude.
+          effetti: { avventura.libro-regina: 1, tormento: 0.5 }
+      - testo: "Chiedere ai garzoni chi è salito nel fienile"
+        descrizione: "Al recinto dei muli i garzoni vedono tutto e lo raccontano per poco. La scala, di sicuro, non l'ha tirata su la mula."
+        prova: { attributo: sociale, abilita: [conoscenze-della-strada, intimidire], difficolta: Media }
+        successo:
+          titolo: Il forestiero della bisaccia
+          testo: |
+            Tre notti fa è arrivato da nord un forestiero di Qir-Azel con una
+            mula baia e una bisaccia che non posava mai. Ha pagato Radek in
+            argento perché gli custodisse la bestia e tenesse la bocca chiusa,
+            e da allora Radek dorme lassù accanto a lui. Poi i garzoni ti aiutano
+            a portare Radek da Oska, sotto le gradinate del campo.
+          pe: { conoscenze-della-strada: 2 }
+          effetti: { avventura.libro-regina: 1 }
+        fallimento:
+          titolo: I garzoni muti
+          testo: |
+            I garzoni guardano il fienile e poi le tue mani, e nessuno parla. Uno
+            sputa nel fango e dice soltanto che il forestiero paga meglio di te.
+            Porti Radek da Oska da solo, sotto gli occhi di tutto il recinto.
+          effetti: { avventura.libro-regina: 1, scandalo: 0.5 }
+
+  # ------------------------------------------------------------ 1 → 2 · il fienile
+  - id: avv-libro-regina-il-fienile-dei-muli
+    presso: ghoran
+    immagine: icone/black-book
+    titolo: Il fienile dei muli
+    sommario: "Nel fienile del recinto un forestiero con la febbre stringe un fagotto e non lo lascia a nessuno."
+    luogo: Ghoran, il fienile del recinto dei muli
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 1]
+    testo: |
+      Rimetti giù la scala con un bastone e sali nel fienile. Fra le balle di
+      fieno, con la schiena contro una trave, c'è un uomo di Città Bassa con
+      la giubba sporca di sabbia rossa e un gancio da Raschiatore alla
+      cintura. È più giallo di Radek. Stringe al petto un fagotto di tela
+      cerata grande quanto una pagnotta, e quando ti vede alza un coltello
+      corto senza riuscire a tenerlo dritto.
+
+      «Lo riporto» dice, con una voce impastata e lenta. «Domani lo riporto,
+      lo giuro.» Poi ride, e la risata finisce in una tosse secca.
+
+      {empatia Media} Il coltello lo tiene puntato verso il fagotto, più che
+      verso di te. Ha più paura di quello che tiene in braccio che di chi
+      sale la scala.
+
+      {origine apprendista-raschiatore} Il gancio è di quelli delle
+      piattaforme della Cicatrice, con il manico consumato nel punto dove lo
+      si stringe per calarsi. Chi l'ha consumato così ha fatto molti turni, e
+      poi ha smesso.
+    opzioni:
+      - testo: "Parlargli piano finché non molla il fagotto"
+        descrizione: "Ha più paura del fagotto che di te. Bisogna dargli un motivo per lasciarlo andare."
+        prova: { attributo: sociale, abilita: [empatia, persuasione], difficolta: Media }
+        successo:
+          titolo: Il fagotto
+          testo: |
+            Ti siedi sul fieno a due passi da lui e gli parli di Radek e di
+            quello che farai tu del fagotto. Alla fine te lo spinge contro le
+            ginocchia e si gira verso la trave. Dentro la tela c'è un libro con
+            le assi rivestite di cuoio rosso e un cristallo opaco incastonato
+            nel bronzo della copertina. Appena lo prendi in mano ti si gelano i
+            polpastrelli, e sotto le unghie comincia il giallo.
+          pe: { empatia: 2 }
+          imposta: { avv-libro-regina.maledizione: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Il coltello di piatto
+          testo: |
+            Parli troppo, e lui si agita. Alla fine il fagotto te lo lancia
+            addosso urlando, e insieme al fagotto arriva il coltello, di piatto,
+            sulla fronte. Dentro la tela c'è un libro rilegato in cuoio rosso,
+            con un cristallo opaco nel bronzo della copertina. Ti gela le dita
+            appena lo tocchi.
+          imposta: { avv-libro-regina.maledizione: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, ferite: 0.5 }
+      - testo: "Strappargli il fagotto prima che alzi il coltello"
+        descrizione: "Ha la febbre e le mani che tremano. Basta un gesto solo, prima che capisca."
+        prova: { attributo: fisico, abilita: [rissa, atletica], difficolta: Media }
+        successo:
+          titolo: Un gesto solo
+          testo: |
+            Gli blocchi il polso del coltello contro la trave e con l'altra mano
+            gli sfili il fagotto dalle braccia. Lui lascia andare tutto e si
+            mette a piangere nel fieno. Nella tela c'è un libro rilegato in
+            cuoio rosso, con un cristallo opaco nel bronzo della copertina, e
+            appena lo stringi le dita ti diventano fredde fino alle nocche.
+          pe: { rissa: 2 }
+          imposta: { avv-libro-regina.maledizione: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: La lama
+          testo: |
+            Sei lento, e la lama ti apre il dorso della mano prima che tu gli
+            prenda il polso. Il fagotto lo strappi lo stesso, con il sangue che
+            cola sulla tela cerata. Dentro c'è un libro rilegato in cuoio rosso,
+            e il suo freddo ti entra nelle dita insieme al dolore.
+          imposta: { avv-libro-regina.maledizione: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, ferite: 0.5 }
+      - testo: "Aspettare che la febbre lo addormenti"
+        descrizione: "Prima o poi crolla. Bisogna restare nel fienile con lui, e con quello che tiene in braccio."
+        costo: 2
+        esito:
+          titolo: La notte nel fienile
+          testo: |
+            Resti nel fienile fino a notte, seduto sul fieno, ad ascoltarlo
+            parlare con gente che non c'è. Quando crolla gli sfili il fagotto
+            dalle braccia. Dentro c'è un libro rilegato in cuoio rosso con un
+            cristallo opaco nella copertina, e al mattino hai le unghie gialle
+            fino alla lunetta.
+          imposta: { avv-libro-regina.maledizione: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ 2 → 3 · da Oska
+  - id: avv-libro-regina-le-unghie-gialle
+    presso: ghoran
+    immagine: icone/open-book
+    titolo: Le unghie gialle
+    sommario: "Sotto le gradinate Oska ha due malati e un libro che non brucia. Il giallo, adesso, ce l'hai anche tu."
+    luogo: Ghoran, sotto le gradinate del campo dei tamburi
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 2]
+    testo: |
+      Sotto le gradinate Oska ha steso Radek sul tavolo e il forestiero su una
+      stuoia. Nel sonno il forestiero ha detto di chiamarsi Nevio Calò e di
+      abitare in un vicolo della Città Bassa. Il libro sta sul braciere
+      spento. Oska ha provato a bruciarne un angolo, e la fiamma si è spenta
+      appena ha toccato il cuoio.
+
+      «Gli aghi qui non servono» dice, senza alzare gli occhi dal polso di
+      Radek. «Quello che hanno viene da lì dentro, e da lì dentro lo devi
+      tirare fuori tu.»
+
+      Ti guardi le mani. Il giallo ti è salito dalle unghie alla prima
+      falange, e la pelle sul dorso è più sottile di ieri. Il cristallo nella
+      copertina è opaco, e se avvicini le dita lo senti appena tiepido.
+
+      {resistenza Media fallita} Hai sonno, ed è un sonno diverso da quello
+      che viene dopo il lavoro. Le mani sono stanche anche se oggi hanno
+      fatto soltanto una scala.
+    opzioni:
+      - testo: "Leggere il libro dalla prima pagina"
+        descrizione: "È scritto a mano, con una grafia di prima della Guerra del Cristallo. Chi sa leggere le carte vecchie ci arriva in fondo."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: I nomi
+          testo: |
+            È un libro di nomi. Sulla prima pagina c'è una regina, Tamsira,
+            incoronata nel cinquantunesimo anno dopo la Caduta, e dopo di lei
+            migliaia di nomi della sua gente, uno per riga, con il mestiere
+            accanto. Le ultime pagine sono scritte da sei mani diverse, e ognuna
+            chiude con il proprio nome. Quei sei nomi li impari a memoria senza
+            volerlo.
+          pe: { accademiche: 2 }
+          imposta: { avv-libro-regina.nomi: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Le righe che scivolano
+          testo: |
+            La grafia è fitta e inclinata, e dopo poche pagine le righe ti
+            scivolano sotto gli occhi. Capisci soltanto che sono migliaia di
+            nomi. In cima alla prima pagina c'è quello di una regina, Tamsira.
+            Chiudi il libro con un mal di testa che ti dura fino a sera.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, tormento: 0.5 }
+      - testo: "Sentire con le dita il cristallo della copertina"
+        descrizione: "È opaco e appena tiepido, come un conduttore spento. Un conduttore spento però non fa ingiallire la gente."
+        prova: { attributo: mentale, abilita: [magia, tecnologia], difficolta: Media }
+        successo:
+          titolo: Il cristallo che tira
+          testo: |
+            Il cristallo è un conduttore di taglio antico, e la sua carica va
+            all'indietro, verso l'interno. Tira come l'acqua tira verso il
+            basso, e quello che prende lo prende a chi lo tiene. Vuole tornare
+            da dove viene, e finché non ci torna continua a prendere.
+          pe: { magia: 2 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il freddo nel polso
+          testo: |
+            Tieni le dita sul cristallo troppo a lungo, e il freddo ti sale fino
+            al polso. Quando le stacchi hai il giallo fino alla seconda falange,
+            e Oska ti guarda la mano con le labbra strette.
+          effetti: { avventura.libro-regina: 1, contaminazione: 1 }
+      - testo: "Aiutare Oska a tenere in vita Radek"
+        descrizione: "Radek ha dormito tre notti accanto alla bisaccia, e sta peggio di tutti. Oska ha bisogno di due mani in più."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Brodo e acquavite
+          testo: |
+            Tieni sollevata la testa di Radek mentre Oska gli fa scendere in
+            gola brodo di capra e acquavite, un cucchiaio alla volta, per
+            tutta la notte. All'alba Radek ha ancora la faccia gialla, eppure
+            ti riconosce subito e ti chiede della sua mula. Oska ti versa
+            nella tazza l'ultima acquavite.
+          pe: { medicina: 2 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: La tazza rovesciata
+          testo: |
+            Ti tremano le mani gialle, e a metà notte rovesci la tazza del brodo
+            sulla camicia di Radek. Oska ti allontana dal tavolo con un gesto e
+            finisce da sola. All'alba Radek dorme, e Oska fa finta di non vederti.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, tormento: 0.5 }
+      - testo: "Riconoscere il taglio del cristallo"
+        descrizione: "All'Accademia i tagli dei conduttori più vecchi si studiano sulle tavole di Orvald. Questo è uno di quelli."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: Il taglio vecchio
+          testo: |
+            Riconosci il taglio dalle tavole di Orvald, quello dei conduttori
+            delle prime comunità, che si tenevano accesi uno per villaggio.
+            Questo è montato al contrario, con la punta verso l'interno, per
+            tirare. Vuole tornare da dove viene, e finché non ci torna prende a
+            chi lo tiene.
+          pe: { magia: 2 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, informazioni.segreto: 1 }
+
+  # ------------------------------------------------------------ 3 → 4 · il racconto di Nevio
+  - id: avv-libro-regina-quello-che-ha-visto-nevio
+    presso: ghoran
+    immagine: ambientazione/gradone-rosso
+    titolo: Quello che ha visto Nevio
+    sommario: "All'alba la febbre di Nevio Calò scende per un'ora, e Nevio racconta dove ha preso il libro."
+    luogo: Ghoran, sotto le gradinate del campo dei tamburi
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 3]
+    testo: |
+      All'alba la febbre di Nevio scende, e lui si mette seduto sulla stuoia
+      con una ciotola di brodo fra le mani gialle. Parla in fretta, perché sa
+      che l'ora buona dura poco.
+
+      «Un carovaniere di Ghoran me l'ha raccontata al Grifone» dice,
+      pulendosi la bocca con il dorso della mano. «Una porta nella scarpata
+      del Gradone, sul lato che guarda qui, con sei donne scolpite sopra. Ci
+      sono entrato da sotto. Dentro c'è una galleria lunga, con i morti nelle
+      nicchie e sei statue che tengono le mani aperte, vuote. In fondo c'era
+      lei, sdraiata, con il libro sul petto.» Si guarda le mani. «Quando sono
+      uscito le statue avevano girato la testa.»
+
+      {ingannare Media} Una parte del racconto la tiene per sé. Chi racconta
+      un furto salta sempre il momento in cui ha deciso di farlo.
+    opzioni:
+      - testo: "Fargli disegnare la strada nella cenere"
+        descrizione: "Ha la testa confusa, ma le mani di chi scava ricordano le strade meglio della testa."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: La fessura
+          testo: |
+            Gli metti davanti il braciere spento, e Nevio ci disegna con un dito
+            la scarpata e la porta. Sotto la sesta donna scolpita segna una
+            fessura, nascosta da un ginepro secco. «Ci passa uno magro» dice, e
+            ti guarda le spalle per misurarle. Poi si riaddormenta con il dito
+            ancora nella cenere.
+          pe: { persuasione: 2 }
+          imposta: { avv-libro-regina.porta: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Il disegno storto
+          testo: |
+            Nevio comincia a disegnare nella cenere, e a metà la mano gli trema
+            tanto che la scarpata diventa un groviglio di righe. Si riaddormenta
+            prima di finire. Della strada ti resta quello che ha detto, la porta
+            con le sei donne sul lato del Gradone che guarda Ghoran.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, tormento: 0.5 }
+      - testo: "Fargli dire tutto quello che ha toccato"
+        descrizione: "Un ladro di rovine sa sempre che cosa ha spostato e da dove è uscito. Glielo si può chiedere con meno gentilezza."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Tutto quello che ha toccato
+          testo: |
+            Gli tieni il polso finché non ti dice tutto. È entrato e uscito da
+            una fessura sotto la sesta donna scolpita, nascosta da un ginepro
+            secco. Ha toccato il libro e un'altra cosa, ma su quella non riesce
+            a finire la frase. Ti indica la sua bisaccia e sviene. Nella
+            bisaccia, quando la apri, c'è soltanto sabbia rossa.
+          pe: { intimidire: 2 }
+          imposta: { avv-libro-regina.porta: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Il cucchiaio di Oska
+          testo: |
+            Stringi troppo, e Nevio si chiude a riccio sulla stuoia. Oska ti
+            allontana con il manico del cucchiaio, davanti ai garzoni che
+            portano l'acqua, e Nevio fino a sera tiene la bocca chiusa.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, scandalo: 0.5 }
+      - testo: "Lasciarlo parlare finché vuole"
+        descrizione: "L'ora buona dura poco, e lui la vuole spendere a raccontare. Si ascolta tutto, anche quello che non serve."
+        costo: 2
+        esito:
+          titolo: L'ora buona
+          testo: |
+            Lo lasci parlare. Racconta dei debiti che ha in Città Bassa e di un
+            collezionista dei Quartieri Alti che paga bene i libri di prima
+            della Guerra. Della strada ti dice soltanto quello che sai già, la
+            porta con le sei donne sul fianco del Gradone verso Ghoran. Poi la
+            febbre torna e se lo riprende a metà di una parola.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, tormento: 0.5 }
+      - testo: "Chiedergli dei segni che ha lasciato sulla roccia"
+        descrizione: "Sulle piattaforme si segna la roccia per ritrovare la strada. Uno che ha fatto molti turni lo fa anche quando lavora da solo."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: I segni di gesso
+          testo: |
+            Gli chiedi dei segni, e Nevio sorride per la prima volta. Li ha
+            fatti con il gesso, come si fa sulle piattaforme, una tacca doppia
+            ogni venti passi e una croce sopra la fessura da cui è entrato,
+            sotto la sesta donna scolpita. Te li disegna sulla stuoia con il
+            dito, e tu li riconosci tutti.
+          pe: { conoscenze-della-strada: 2 }
+          imposta: { avv-libro-regina.porta: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ 4 → 5 · alla bilancia
+  - id: avv-libro-regina-l-anello-di-cera-verde
+    presso: ghoran
+    immagine: icone/weight-scale
+    titolo: L'anello di cera verde
+    sommario: "Alla bilancia del mercato Ostrav vuole comprare il libro, e Ragh vuole sapere quando lo riporti."
+    luogo: Ghoran, la bilancia del mercato
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 4]
+    testo: |
+      Sulle passerelle la voce del libro è già arrivata dappertutto, e la
+      gente si scosta per lasciarti passare. Alla bilancia del mercato ti
+      aspettano i capi dei clan. Ragh siede sulla sua sedia nera, portata
+      fuori per l'occasione, e batte le nocche sul bracciolo due volte.
+
+      Ostrav parla per primo, girandosi fra le dita l'anello di cera verde.
+      «Un libro di prima della Guerra, con un conduttore nella copertina»
+      dice, con il tono di un mercante che fa un favore. «Lo compro io a peso
+      d'argento, e il male me lo porto a Qir-Azel insieme al libro.» Gedda
+      della Pece sputa la resina sulle assi.
+
+      «Chi l'ha portato a Ghoran lo riporta dove stava» dice Ragh, e ti
+      guarda con l'occhio buono. «I pastori la chiamano la Porta delle Sei,
+      sul fianco del Gradone che guarda qui. Due giorni di strada.»
+
+      {politica-ed-economia Media} Ostrav ha già fatto il conto. Se l'occhio
+      di Ragh gli vende il libro davanti ai clan, il prezzo vero lo paga Ragh.
+    opzioni:
+      - testo: "Rifiutare l'offerta davanti a tutti"
+        descrizione: "Alla bilancia si parla per ultimi e si rifiuta in piedi. Gedda guarda come lo fai."
+        prova: { attributo: sociale, abilita: [galateo, intimidire], difficolta: Media }
+        successo:
+          titolo: In piedi
+          testo: |
+            Aspetti che abbiano parlato tutti. Poi ti alzi in piedi e rifiuti
+            guardando Ostrav negli occhi, senza alzare la voce, e i capi battono
+            il piede sulle assi. Più tardi Gedda ti fa portare un fascio di
+            torce della Pece. «La pece tiene i morti nei loro buchi» dice il
+            ragazzo che te le porta, e se ne va in fretta.
+          pe: { galateo: 2 }
+          imposta: { avv-libro-regina.pece: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: La voce alta
+          testo: |
+            Rifiuti troppo presto e troppo forte, e Ostrav allarga le mani
+            davanti ai clan come davanti a un bambino. Qualcuno ride. Ragh batte
+            le nocche una volta sola, e la bilancia si scioglie senza che la
+            Pece ti guardi in faccia.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, scandalo: 0.5 }
+      - testo: "Mettere il libro sul piatto della bilancia"
+        descrizione: "Ostrav vuole pagarlo a peso. Che lo pesino, allora, davanti a tutti."
+        prova: { attributo: sociale, abilita: [espressivita, intimidire], difficolta: Media }
+        successo:
+          titolo: Il piatto che resta in alto
+          testo: |
+            Posi il libro sul piatto della bilancia, e il piatto resta in alto,
+            fermo, come se sopra non ci fosse niente. Sul mercato nessuno parla
+            più. Ostrav ritira l'offerta con un sorriso storto, e prima di sera
+            Gedda ti manda un fascio di torce della Pece, perché a Ghoran si dice
+            che la pece tiene i morti nei loro buchi.
+          pe: { espressivita: 2 }
+          imposta: { avv-libro-regina.pece: 1 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5 }
+        fallimento:
+          titolo: Il piatto che scende
+          testo: |
+            Posi il libro sul piatto, e il piatto scende fino a terra e fa
+            saltare i pesi di bronzo sul banco. La gente arretra sulle
+            passerelle. Ostrav ride per primo, e dopo di lui ridono in molti,
+            per scacciare la paura.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, tormento: 0.5 }
+      - testo: "Fingere di trattare con Ostrav"
+        descrizione: "Un mercante che vuole comprare sa sempre qualcosa che il venditore ignora. Basta fargli credere che il prezzo si possa alzare."
+        prova: { attributo: sociale, abilita: [ingannare, politica-ed-economia], difficolta: Media }
+        successo:
+          titolo: Quello che sanno i pastori
+          testo: |
+            Fingi di trattare, e Ostrav per alzare il prezzo si lascia scappare
+            quello che sanno i suoi pastori. Da tre notti, alla Porta delle Sei,
+            si vedono lumi che salgono e scendono lungo la scarpata. Quando alla
+            fine rifiuti, i clan pensano che tu abbia tirato sul prezzo, e Ragh
+            ride dal fondo del petto.
+          pe: { ingannare: 2 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: L'argento
+          testo: |
+            Ostrav capisce che fingi alla seconda offerta. Da quel momento
+            parla soltanto dell'argento e a voce alta, finché i clan non si
+            convincono che ci stai pensando davvero.
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, sospetto: 0.5 }
+      - testo: "Rispondergli con le formule dei Ponti"
+        descrizione: "Alla Gilda si impara a trattare le merci che nessuno assicura. Ostrav conosce quelle formule, e sa che cosa vogliono dire."
+        quando: [origine.mercante-dei-ponti >= 1]
+        esito:
+          titolo: Il prezzo dei Ponti
+          testo: |
+            Gli rispondi con le formule della Gilda per le merci che non si
+            possono assicurare, e Ostrav capisce che con te il prezzo non sale.
+            Per tenerti al tavolo ti dice quello che sanno i suoi pastori, i
+            lumi che da tre notti salgono e scendono alla Porta delle Sei. Poi
+            rifiuti, e lui ti fa un inchino appena accennato.
+          pe: { politica-ed-economia: 2 }
+          effetti: { avventura.libro-regina: 1, contaminazione: 0.5, informazioni.pettegolezzo: 1 }
+
+  # ------------------------------------------------------------ 6 → 7 · l'epilogo, Nevio
+  - id: avv-libro-regina-il-giallo-che-se-ne-va
+    presso: ghoran
+    immagine: ambientazione/ghoran
+    titolo: Il giallo che se ne va
+    sommario: "Il libro è tornato alla regina, e a Ghoran i malati si alzano. Ragh vuole che qualcuno pesi Nevio."
+    luogo: Ghoran, sotto le gradinate del campo dei tamburi
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 6]
+    testo: |
+      Torni a Ghoran con le mani del loro colore, e sotto le gradinate Oska
+      ti fa vedere i suoi malati. Radek siede sul tavolo e mangia, con un
+      resto di giallo sulle tempie. Nevio è in piedi accanto alla stuoia,
+      magro da far paura, e non sa dove mettere le mani.
+
+      Ragh è venuto di persona, con la sua sedia. Batte le nocche sul
+      bracciolo due volte. «Ha portato il male sulle mie passerelle» dice,
+      senza guardare Nevio. «A Ghoran chi porta il male sale sul piatto. Il
+      libro però l'ha riportato il mio occhio» e ti indica con il mento, «e la
+      pesata spetta a te.»
+
+      {empatia Media} Nevio ha più paura della bilancia che della Fossa. Ha
+      sentito raccontare come si pesa la gente, qui.
+
+      {origine fuggiasco-di-ghoran} Ragh ti chiede di pesare un uomo, a te
+      che sul piatto ci sei salito con la corda ai polsi. Lo sa, e te lo
+      chiede lo stesso.
+    opzioni:
+      - testo: "Lasciare che lo pesino i clan"
+        descrizione: "Alla bilancia del mercato, come si fa a Ghoran. Il debito è con Radek, e lo decide il piatto."
+        esito:
+          titolo: Una stagione al recinto
+          testo: |
+            Alla bilancia del mercato i capi mettono Nevio su un piatto e
+            sull'altro la paga di una stagione al recinto dei muli. Il piatto di
+            Nevio sale. Lavorerà per Radek fino alle piogge, e Radek, con le
+            tempie ancora gialle, gli insegna subito la canzone della mula baia.
+          imposta: { avv-libro-regina.ladro: 1 }
+          effetti: { avventura.libro-regina: 1, rep.ghoran: 0.5 }
+      - testo: "Riportarlo a Qir-Azel, ai Raschiatori"
+        descrizione: "Nevio ha fatto i turni sulla Cicatrice, e i Raschiatori sanno che cosa fare di uno dei loro che lavora le rovine per conto suo. Ragh va convinto."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Chi pesa un Raschiatore
+          testo: |
+            Dici a Ragh che un Raschiatore lo pesano i Raschiatori, e Ragh ci
+            pensa a lungo prima di annuire. Nevio parte con la prima carovana
+            per Qir-Azel, con una lettera tua per il Ponte dei Morti, dove lo
+            aspetta chi gli ha insegnato il mestiere.
+          pe: { persuasione: 2 }
+          imposta: { avv-libro-regina.ladro: 2 }
+          effetti: { avventura.libro-regina: 1, rep.raschiatori: 0.5 }
+        fallimento:
+          titolo: L'occhio buono
+          testo: |
+            Ragh ti lascia fare, perché la pesata spetta a te, e lo dice
+            davanti a tutti con un tono che non piace a nessuno. Nevio parte con
+            la prima carovana per Qir-Azel, e per qualche giorno sulle
+            passerelle ti salutano in pochi.
+          imposta: { avv-libro-regina.ladro: 2 }
+          effetti: { avventura.libro-regina: 1, scandalo: 0.5 }
+      - testo: "Lasciarlo andare all'alba con la sua mula"
+        descrizione: "Il libro è tornato al suo posto, e Nevio ha già pagato con il giallo. A Ghoran però un debito non pagato si ricorda."
+        esito:
+          titolo: All'alba
+          testo: |
+            Dici a Ragh che il libro è tornato e che a Ghoran non resta niente
+            da pesare. Ragh si alza senza rispondere e porta via la sedia. Nevio
+            parte all'alba con la mula baia, e sul tavolo di Oska ti lascia il
+            suo quaderno di rovine, con le strade di tre anni segnate a matita.
+          imposta: { avv-libro-regina.ladro: 3 }
+          effetti: { avventura.libro-regina: 1, rep.ghoran: -0.5, informazioni.segreto: 1 }
+
+  # ------------------------------------------------------------ 7 → 8 · l'epilogo, il bracciale
+  - id: avv-libro-regina-quello-che-teneva-radek
+    presso: ghoran
+    immagine: icone/bracer
+    titolo: Quello che teneva Radek
+    sommario: "Di notte Radek ti aspetta al recinto con qualcosa avvolto in una coperta da mulo."
+    luogo: Ghoran, il recinto dei muli di notte
+    area: superficie-fratturata
+    requisiti: [avventura.libro-regina == 7]
+    testo: |
+      La sera dopo Radek ti aspetta al recinto con la lanterna bassa e una
+      coperta da mulo arrotolata sotto il braccio. Ha di nuovo la faccia del
+      suo colore, e le mani che non stanno ferme.
+
+      «La prima notte, mentre lui dormiva, ho guardato nella bisaccia» dice, e
+      si gratta la nuca. «C'era questo. L'ho preso e l'ho nascosto nella
+      mangiatoia, sotto il fieno.» Apre la coperta sul bordo della mangiatoia,
+      e dentro c'è un bracciale di bronzo scuro, con sei placchette d'arenaria
+      rossa in fila. «Io lassù non ci torno più, e un bracciale così non lo
+      voglio in casa mia. Se lo sa Ragh, sul piatto ci salgo io.»
+
+      {percezione Facile} Su ogni placchetta è incisa una donna diversa, in
+      piedi. Tutte e sei hanno le mani piene.
+    opzioni:
+      - testo: "Tenere per te il segreto di Radek"
+        descrizione: "Il libro è tornato, e il bracciale non l'ha visto nessuno. Ragh può non saperlo."
+        esito:
+          titolo: Il bracciale
+          testo: |
+            Prometti a Radek di non dire niente a Ragh e prendi il bracciale.
+            Quando lo appoggi al polso il bronzo si chiude da solo, con uno
+            scatto leggero, e la giuntura sparisce. Il giorno dopo Oska ci prova
+            con il grasso di capra e poi con una lima, e alla fine ti dice di
+            tenertelo.
+          imposta: { avv-libro-regina.radek: 1 }
+          effetti: { avventura.libro-regina: 1, oggetto.avv-libro-regina-bracciale: 1 }
+      - testo: "Portare Radek da Ragh, e parlare per lui"
+        descrizione: "A Ghoran chi restituisce pesa meno di chi tiene. Bisogna dirlo a Ragh nel modo giusto."
+        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
+        successo:
+          titolo: Chi restituisce
+          testo: |
+            Nella sala lunga Radek posa la coperta ai piedi della sedia nera, e
+            tu parli per lui. Ragh batte le nocche due volte e dice che chi
+            restituisce pesa il giusto. Poi ti fa cenno di prendere il bracciale.
+            Quando lo appoggi al polso il bronzo si chiude da solo, e la
+            giuntura sparisce.
+          pe: { persuasione: 2 }
+          imposta: { avv-libro-regina.radek: 2 }
+          effetti: { avventura.libro-regina: 1, oggetto.avv-libro-regina-bracciale: 1, rep.ghoran: 0.5 }
+        fallimento:
+          titolo: Un mese alla palizzata
+          testo: |
+            Parli per Radek, e Ragh ti ascolta fino in fondo. Poi lo mette sul
+            piatto per un mese di turni alla palizzata, e Radek da quel giorno
+            ti saluta guardando i muli. Il bracciale te lo dà Ragh in persona, e
+            quando lo appoggi al polso il bronzo si chiude da solo.
+          imposta: { avv-libro-regina.radek: 2 }
+          effetti: { avventura.libro-regina: 1, oggetto.avv-libro-regina-bracciale: 1, scandalo: 0.5 }
