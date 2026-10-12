@@ -1,0 +1,126 @@
+# Le Cronache: la scheda che raccoglie le storie lunghe cominciate e non ancora chiuse (src/ui/viste.ts, cronache).
+# - `sezioni`: i quattro gruppi della scheda e, in ordine, le serie che contengono. Gli id sono quelli di
+#   src/motore/serie.ts: `pista.x` e `fazione.x` per le piste, `luogo.<reputazione>` per le storie dei luoghi,
+#   `raccolta.x` per le raccolte qui sotto. Ogni serie sta in una sezione sola (test/cronache.test.ts).
+# - `raccolte`: le storie lunghe che non hanno una pista e che il motore non sa ricavare da solo. Appartengono a una
+#   raccolta gli storylet che chiedono o cambiano una quality con uno dei prefissi di `chiavi`; ogni requisito di
+#   `passi` soddisfatto è un passo fatto, e la storia è chiusa quando vale `conclusa` o quando sono fatti tutti.
+raccolte:
+  - id: luoghi-neri
+    nome: I luoghi neri e la Campana Sepolta
+    immagine: icone/ringing-bell
+    descrizione: "Nove luoghi dei Precursori sparsi per la Superficie, ognuno con la sua misura. Messe insieme, le nove misure portano alla Campana sotto la Ripamuta."
+    chiavi: [traccia., misura., campana.]
+    passi:
+      - misura.costola >= 1
+      - misura.tamburi >= 1
+      - misura.aculeo >= 1
+      - misura.anello >= 1
+      - misura.forno >= 1
+      - misura.stele >= 1
+      - misura.sornione >= 1
+      - misura.mara >= 1
+      - misura.spina >= 1
+      - campana.annuncio >= 1
+      - campana.strato >= 1
+      - campana.strato >= 2
+      - campana.strato >= 3
+      - campana.scelta >= 1
+      - campana.epilogo >= 1
+
+  - id: mercante
+    nome: Il Mercante della Memoria Residua
+    immagine: icone/wooden-crate
+    genere: luogo
+    descrizione: "Un uomo seduto su una cassa in mezzo a un pianoro senza strade, con davanti delle cose che dice tue."
+    chiavi: [mercante.]
+    passi: [mercante.incontri >= 1, mercante.incontri >= 2, mercante.incontri >= 3, mercante.incontri >= 4, mercante.scatola >= 1]
+
+  - id: bambino
+    nome: Il bambino senza impronte
+    immagine: icone/barefoot
+    genere: luogo
+    descrizione: "Un bambino seduto sul bordo del sentiero, che dice di essersi perso e non lascia impronte."
+    chiavi: [bambino.]
+    passi: [bambino.stadio >= 1, bambino.stadio >= 2, bambino.stadio >= 3, bambino.fine >= 1]
+    conclusa: bambino.fine >= 1
+
+  - id: cavaliere
+    nome: Il Cavaliere della Marea
+    immagine: icone/black-knight-helm
+    genere: luogo
+    descrizione: "Un'armatura completa con le crepe piene di luce, che si ferma sul sentiero e non ricorda il suo nome."
+    chiavi: [cavaliere.]
+    passi: [cavaliere.incontri >= 1, cavaliere.memoria >= 1, cavaliere.memoria >= 2, cavaliere.memoria >= 3, cavaliere.fine >= 1]
+    conclusa: cavaliere.fine >= 1
+
+  - id: frattura
+    nome: La Frattura che respira
+    immagine: ambientazione/rovine-dei-precursori
+    genere: luogo
+    descrizione: "Un anello dei Precursori spezzato in due, su un gradone delle terrazze di basalto, che respira."
+    chiavi: [frattura.]
+    passi: [frattura.respiro >= 1, frattura.respiro >= 2, frattura.respiro >= 3, frattura.respiro >= 4, frattura.premio >= 1]
+    conclusa: frattura.spenta >= 1
+
+  - id: casa
+    nome: La casa nel vicolo
+    immagine: icone/family-house
+    genere: luogo
+    descrizione: "La casa nel Vicolo dei Cardatori, dalla soffitta in affitto all'altana sui tetti, e gli ospiti di riguardo."
+    chiavi: [casa, ospite.]
+    passi: [casa >= 1, casa >= 2, casa >= 3, casa >= 4, casa >= 5, casa >= 6, ospite.primo >= 1, ospite.secondo >= 1, ospite.terzo >= 1, ospite.quarto >= 1]
+
+sezioni:
+  - id: qir-azel
+    nome: Le storie di Qir-Azel
+    serie:
+      - pista.dama-argento
+      - pista.sepolcro
+      - pista.corin
+      - pista.teatro
+      - pista.registro
+      - pista.tribu
+      - pista.acciaio
+      - pista.capomozzo
+      - pista.arena
+      - pista.pelle
+
+  - id: fazioni
+    nome: Le fazioni della città
+    serie:
+      - fazione.velo
+      - fazione.gilda
+      - fazione.caserma
+      - fazione.consiglio
+      - fazione.accademia
+      - fazione.maison
+      - fazione.raschiatori
+      - fazione.scuri
+      - fazione.circolo
+
+  - id: superficie
+    nome: La Superficie
+    serie:
+      - fazione.ghoran
+      - fazione.laresh
+      - fazione.tuarmir
+      - fazione.pannion
+      - raccolta.luoghi-neri
+      - raccolta.mercante
+      - raccolta.bambino
+      - raccolta.cavaliere
+      - raccolta.frattura
+
+  - id: luoghi
+    nome: I luoghi della città
+    serie:
+      - raccolta.casa
+      - luogo.rep.grifone
+      - luogo.rep.nodo
+      - luogo.rep.ponti
+      - luogo.rep.botteghe
+      - luogo.nomea.citta-bassa
+      - luogo.rep.cimitero
+      - luogo.rep.biblioteca
+      - luogo.rep.teatro

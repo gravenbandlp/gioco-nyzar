@@ -14,7 +14,9 @@ import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonI
 import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
-import { serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, attese, type Serie, type Genere } from '../motore/serie';
+import {
+  serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, attese, prossimoPasso, statoSpedizione, iniziata, type Serie, type Genere,
+} from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
 import { vistaCombattimento } from './scontro';
@@ -28,7 +30,7 @@ import {
   descriviArma, descriviArmatura, descriviOggetto, spiegaOggetto, srcTavola, ROMBO,
 } from './componenti';
 
-export type Scheda = 'storia' | 'personaggio' | 'averi' | 'bazar' | 'mappa' | 'diario';
+export type Scheda = 'storia' | 'personaggio' | 'cronache' | 'averi' | 'bazar' | 'mappa' | 'diario';
 export type Vista =
   | { tipo: 'area' }
   | { tipo: 'storylet'; id: string }
@@ -108,7 +110,7 @@ function statoMobile(x: Contesto): string {
 
 /** Le voci della barra in basso, alla maniera di Fallen London sul telefono. Diario e il resto stanno in «Altro». */
 const VOCI_NAV: [Scheda, string, string][] = [
-  ['storia', 'Storia', 'open-book'], ['personaggio', 'Scheda', 'cowled'], ['averi', 'Averi', 'knapsack'],
+  ['storia', 'Storia', 'open-book'], ['personaggio', 'Scheda', 'cowled'], ['cronache', 'Cronache', 'scroll-unfurled'], ['averi', 'Averi', 'knapsack'],
   ['bazar', 'Bazar', 'shop'], ['mappa', 'Mappa', 'treasure-map'],
 ];
 
@@ -189,7 +191,7 @@ const SCHEDE_DEL_PROLOGO: Scheda[] = ['storia', 'personaggio', 'averi'];
 export const schedaAperta = (s: Stato, k: Scheda): boolean => !inPrologo(s) || SCHEDE_DEL_PROLOGO.includes(k);
 
 function schede(x: Contesto): string {
-  const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa'], ['diario', 'Diario']];
+  const voci: [Scheda, string][] = [['storia', 'Storia'], ['personaggio', 'Personaggio'], ['cronache', 'Cronache'], ['averi', 'Averi'], ['bazar', 'Bazar'], ['mappa', 'Mappa'], ['diario', 'Diario']];
   return `<div class="barra-schede">
     <nav class="schede" aria-label="Sezioni">${voci
     .map(([id, t]) => schedaAperta(x.s, id)
@@ -307,9 +309,69 @@ function vistaArea(x: Contesto): string {
   return `
     ${avvisoCrisi}
     ${occasioni(x)}
-    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
+    ${storie.length ? `<h2 class="titolo-sezione">La tua storia</h2>${elencoStorie(x, storie, riprendi)}` : ''}
     ${schede ? `<h2 class="titolo-sezione">I luoghi</h2><ul class="griglia-luoghi">${schede}</ul>` : ''}
-    ${inGiro.length ? `<h2 class="titolo-sezione">In giro per ${h(areaDi(x).nome)}</h2><ul class="elenco-storylet">${inGiro.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}`;
+    ${inGiro.length ? `<h2 class="titolo-sezione">In giro per ${h(areaDi(x).nome)}</h2>${elencoCose(x, inGiro)}` : ''}`;
+}
+
+/** La serie a cui va uno storylet nell'elenco: la sua, o la quest della fazione per i servizi e gli ingressi. */
+function serieInElenco(c: TContenuti, st: TStorylet): Serie | undefined {
+  const { serie, diStorylet } = serieDi(c);
+  const propria = st.ripetibile ? undefined : diStorylet.get(st.id);
+  if (propria) return propria;
+  const f = fazioneDi(c, st);
+  const pista = f ? c.fazioni.find((x) => x.nome === f)?.pista : undefined;
+  return pista ? serie.find((z) => z.quality === pista) : undefined;
+}
+
+/**
+ * Le storie da giocare, raccolte come nelle Cronache: per sezione, e dentro la sezione una riga per storia lunga, con
+ * le altre scene della stessa storia in una tendina. In cima il seguito da riprendere, in fondo le storie singole.
+ */
+function elencoStorie(x: Pick<Contesto, 's' | 'c'>, storie: TStorylet[], riprendi: TStorylet[] = []): string {
+  const { c } = x;
+  const resto = storie.filter((st) => !riprendi.includes(st));
+  const perSerie = new Map<string, TStorylet[]>();
+  const singole: TStorylet[] = [];
+  for (const st of resto) {
+    const z = serieInElenco(c, st);
+    if (z) perSerie.set(z.id, [...(perSerie.get(z.id) ?? []), st]);
+    else singole.push(st);
+  }
+  const tutte = serieDi(c).serie;
+  const gruppo = (z: Serie, sts: TStorylet[]) => {
+    const [prima, ...altre] = sts;
+    const tendina = altre.length
+      ? `<li class="altre-storie"><details><summary>${altre.length === 1 ? 'Un\'altra scena' : `Altre ${altre.length} scene`} di «${h(z.nome)}»</summary><ul class="elenco-storylet">${altre.map((st) => rigaStorylet(x, st)).join('')}</ul></details></li>`
+      : '';
+    return rigaStorylet(x, prima!) + tendina;
+  };
+  const sezioni = c.sezioni.map((sez) => {
+    const righe = sez.serie.filter((id) => perSerie.has(id)).map((id) => gruppo(tutte.find((z) => z.id === id)!, perSerie.get(id)!)).join('');
+    return righe ? { nome: sez.nome, righe } : undefined;
+  }).filter((g): g is { nome: string; righe: string } => !!g);
+  // le serie che nessuna sezione cita (non dovrebbero esserci: lo controlla test/cronache.test.ts)
+  const citate = new Set(c.sezioni.flatMap((sez) => sez.serie));
+  const fuori = [...perSerie].filter(([id]) => !citate.has(id)).map(([id, sts]) => gruppo(tutte.find((z) => z.id === id)!, sts)).join('');
+  if (singole.length || fuori) sezioni.push({ nome: 'Altre storie', righe: fuori + singole.map((st) => rigaStorylet(x, st)).join('') });
+  const titoli = sezioni.length > 1;
+  return (riprendi.length ? `<ul class="elenco-storylet">${riprendi.map((st) => rigaStorylet(x, st)).join('')}</ul>` : '')
+    + sezioni.map((g) => `${titoli ? `<h3 class="sotto-sezione">${h(g.nome)}</h3>` : ''}<ul class="elenco-storylet">${g.righe}</ul>`).join('');
+}
+
+/** Le cose da fare (i ripetibili): prima quelle di tutti, poi quelle di ogni fazione o storia, ognuna col suo titolo. */
+function elencoCose(x: Pick<Contesto, 's' | 'c'>, cose: TStorylet[]): string {
+  const { c } = x;
+  const gruppi = new Map<string, TStorylet[]>();
+  for (const st of cose) {
+    const z = serieInElenco(c, st) ?? serieDi(c).diStorylet.get(st.id);
+    const f = z?.genere === 'fazione' ? c.fazioni.find((y) => y.pista === z.quality)?.nome : undefined;
+    const k = f ?? z?.nome ?? '';
+    gruppi.set(k, [...(gruppi.get(k) ?? []), st]);
+  }
+  const ordine = [...gruppi.keys()].sort((a, b) => (a === '' ? -1 : b === '' ? 1 : 0));
+  const titoli = ordine.length > 1;
+  return ordine.map((k) => `${titoli ? `<h3 class="sotto-sezione">${h(k || 'Per tutti')}</h3>` : ''}<ul class="elenco-storylet">${gruppi.get(k)!.map((st) => rigaStorylet(x, st)).join('')}</ul>`).join('');
 }
 
 function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: TStorylet[] = []): string {
@@ -339,8 +401,8 @@ function vistaLuogo(x: Contesto, l: TLuogo, storieArea: TStorylet[], riprendi: T
       </div>
     </header>
     ${occasioni(x)}
-    ${storie.length || inAttesa ? `<h2 class="titolo-sezione">La tua storia</h2><ul class="elenco-storylet">${storie.map((st) => rigaStorylet(x, st)).join('')}${inAttesa}</ul>` : ''}
-    ${ripetibili.length ? `<h2 class="titolo-sezione">Cose da fare</h2><ul class="elenco-storylet">${ripetibili.map((st) => rigaStorylet(x, st)).join('')}</ul>` : ''}
+    ${storie.length || inAttesa ? `<h2 class="titolo-sezione">La tua storia</h2>${storie.length ? elencoStorie(x, storie, riprendi) : ''}${inAttesa ? `<ul class="elenco-storylet">${inAttesa}</ul>` : ''}` : ''}
+    ${ripetibili.length ? `<h2 class="titolo-sezione">Cose da fare</h2>${elencoCose(x, ripetibili)}` : ''}
     ${botteghe}
     ${vuoto ? '<p class="vuoto">Per ora qui non c\'è niente per te. Torna più avanti.</p>' : ''}
   </article>`;
@@ -393,18 +455,6 @@ function occasioni(x: Contesto): string {
   </section>`;
 }
 
-/** Una riga della scheda Personaggio per una serie: nome, descrizione, tacche e, a serie chiusa, la parola "conclusa". */
-function rigaPista(s: Stato, c: TContenuti, id: string, nomeSerie: string, descrizione?: string, immagine?: string): string {
-  const z = serieDi(c).serie.find((x) => x.id === id || x.quality === id);
-  const fatti = z ? avanzamento(s, z) : Math.floor(s.quality[id] ?? 0);
-  const speso = z ? s.tempo?.serie[z.id] ?? 0 : 0;
-  const tempo = speso >= 60000 ? `<span class="tempo-serie" title="Tempo di gioco in questa storia">${h(tempoGiocato(speso))}</span>` : '';
-  const segno = z ? `<span class="serie">${tacche(fatti, z.massimo)}${fatti >= z.massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}${tempo}</span>` : `<span class="etichetta velo">Capitolo ${mezzi(fatti)}</span>`;
-  const prossima = z?.tipo === 'luogo' ? prossimaTappa(s, z) : undefined;
-  const dopo = prossima ? `<p>Prossima storia: «${h(trova(c, prossima)?.titolo ?? '')}».</p>` : '';
-  return `<li class="${z && fatti >= z.massimo ? 'conclusa' : ''}">${tavola(immagine, { classe: 'icona' })}<div><b>${h(nomeSerie)}</b>${descrizione ? `<p>${h(descrizione)}</p>` : ''}${dopo}${z ? rigaAttese(s, c, z) : ''}</div>${segno}</li>`;
-}
-
 /** Che cosa ferma il prossimo passo di una pista, se dipende da un'altra storia. */
 function rigaAttese(s: Stato, c: TContenuti, z: Serie): string {
   const voci = attese(s, c, z).map((a) => {
@@ -419,19 +469,76 @@ function rigaAttese(s: Stato, c: TContenuti, z: Serie): string {
   return voci.length ? `<p class="serve-prima"><span class="freccia" aria-hidden="true">→</span> Per andare avanti: ${voci.join('; ')}.</p>` : '';
 }
 
-/** Una riga della sezione Fazioni: il grado raggiunto, la quest a che punto è e il grado che viene dopo. */
-function rigaFazione(s: Stato, c: TContenuti, f: TContenuti['fazioni'][number]): string {
+/** I gradi presi in una fazione, per la scheda Personaggio: il grado, che cosa dà e il prossimo. */
+function rigaGrado(s: Stato, c: TContenuti, f: TContenuti['fazioni'][number]): string {
   const z = serieDi(c).serie.find((x) => x.quality === f.pista);
-  const q = c.quality.find((x) => x.id === f.pista);
   const fatti = z ? avanzamento(s, z) : Math.floor(s.quality[f.pista] ?? 0);
-  const massimo = z?.massimo ?? f.gradi[f.gradi.length - 1]!.passo;
   const presi = f.gradi.filter((g) => fatti >= g.passo);
   const grado = presi[presi.length - 1];
   const prossimo = f.gradi.find((g) => fatti < g.passo);
-  const titolo = grado ? `${etichetta(`Grado ${presi.length} · ${grado.nome}`, 'velo')}` : etichetta('Aspirante', 'dim');
+  const titolo = grado ? etichetta(`Grado ${presi.length} · ${grado.nome}`, 'velo') : etichetta('Aspirante', 'dim');
   const dopo = prossimo ? `<p>Prossimo grado al passo ${prossimo.passo}: ${h(prossimo.nome)}. ${h(prossimo.ricompensa)}</p>` : '';
-  const ottenuti = grado ? `<p>${h(grado.ricompensa)}</p>` : '';
-  return `<li class="${fatti >= massimo ? 'conclusa' : ''}">${tavola(f.immagine ?? q?.immagine, { classe: 'icona' })}<div><b>${h(f.nome)}</b><div class="grado-fazione">${titolo}</div>${q?.nome ? `<p>${h(q.nome)}</p>` : ''}${ottenuti}${dopo}${z ? rigaAttese(s, c, z) : ''}</div><span class="serie">${tacche(fatti, massimo)}${fatti >= massimo ? '<span class="etichetta velo">Conclusa</span>' : ''}</span></li>`;
+  return `<li>${tavola(f.immagine, { classe: 'icona' })}<div><b>${h(f.nome)}</b><div class="grado-fazione">${titolo}</div>${grado ? `<p>${h(grado.ricompensa)}</p>` : ''}${dopo}</div><span></span></li>`;
+}
+
+/** Dove si gioca uno storylet, in poche parole: il luogo e il quartiere, o il mazzo per le carte. */
+function doveSi(c: TContenuti, st: TStorylet): string {
+  const area = c.aree.find((a) => a.id === st.area)?.nome;
+  if (st.tipo === 'carta') return area ? `una carta del mazzo di ${area}` : 'una carta del mazzo, in città';
+  const l = st.presso ? c.luoghi.find((x) => x.id === st.presso) : undefined;
+  return l ? `${l.nome}, ${area}` : area ?? 'in città';
+}
+
+const ETICHETTA_SPEDIZIONE = { vinta: 'cuore vinto', aperta: 'aperta', chiusa: '' } as const;
+
+/**
+ * Una storia lunga nelle Cronache: nome, a che punto sei, il prossimo passo e dove, che cosa lo ferma, le spedizioni
+ * della storia già aperte o vinte (quelle ancora da trovare si contano soltanto). Per le fazioni anche il grado.
+ */
+function rigaCronaca(s: Stato, c: TContenuti, z: Serie): string {
+  const f = z.genere === 'fazione' ? c.fazioni.find((x) => x.pista === z.quality) : undefined;
+  const q = z.quality ? c.quality.find((x) => x.id === z.quality) : undefined;
+  const fatti = avanzamento(s, z);
+  const sotto = f ? z.nome : z.raccolta?.descrizione ?? q?.descrizione;
+  let grado = '';
+  if (f) {
+    const presi = f.gradi.filter((g) => fatti >= g.passo);
+    const ultimo = presi[presi.length - 1];
+    grado = `<div class="grado-fazione">${ultimo ? etichetta(`Grado ${presi.length} · ${ultimo.nome}`, 'velo') : etichetta('Aspirante', 'dim')}</div>`;
+  }
+  const passo = prossimoPasso(s, c, z);
+  const riga = passo
+    ? `<p class="prossimo-passo"><span class="freccia" aria-hidden="true">→</span> ${passo.aperta ? 'Prossimo passo' : 'Il prossimo passo, ancora chiuso'}: <b>«${h(passo.st.titolo)}»</b>, ${h(doveSi(c, passo.st))}.</p>`
+    : '';
+  const spedizioni = (serieDi(c).spedizioni.get(z.id) ?? []).map((a) => ({ a, stato: statoSpedizione(s, c, a) }));
+  const viste = spedizioni.filter((x) => x.stato !== 'chiusa');
+  const altre = spedizioni.length - viste.length;
+  const daAprire = altre ? `<small>${altre === 1 ? 'una ancora da aprire' : `${altre} ancora da aprire`}</small>` : '';
+  const sped = spedizioni.length
+    ? `<p class="spedizioni-serie"><span class="etichetta">Spedizioni</span> ${[...viste.map((x) => `${h(x.a.nome)} <small class="${x.stato}">${ETICHETTA_SPEDIZIONE[x.stato]}</small>`), daAprire].filter(Boolean).join(' · ')}</p>`
+    : '';
+  const speso = s.tempo?.serie[z.id] ?? 0;
+  const tempo = speso >= 60000 ? `<span class="tempo-serie" title="Tempo di gioco in questa storia">${h(tempoGiocato(speso))}</span>` : '';
+  return `<li>${tavola(f?.immagine ?? z.immagine, { classe: 'icona' })}<div><b>${h(f?.nome ?? z.nome)}</b>${grado}${sotto ? `<p>${h(sotto)}</p>` : ''}${riga}${passo && !passo.aperta ? rigaAttese(s, c, z) : ''}${sped}</div><span class="serie">${tacche(fatti, z.massimo)}${tempo}</span></li>`;
+}
+
+/** Le Cronache: le storie lunghe cominciate e non ancora chiuse, nelle sezioni di cronache.yaml. Le concluse escono. */
+export function cronache(x: Contesto): string {
+  const { s, c } = x;
+  const tutte = serieDi(c).serie;
+  const inCorso = (z: Serie) => iniziata(s, z) && avanzamento(s, z) < z.massimo;
+  const sezioni = c.sezioni.map((sez) => {
+    const righe = sez.serie.map((id) => tutte.find((z) => z.id === id)).filter((z): z is Serie => !!z && inCorso(z));
+    return righe.length ? `<h2 class="titolo-sezione">${h(sez.nome)}</h2><ul class="elenco-piste elenco-cronache">${righe.map((z) => rigaCronaca(s, c, z)).join('')}</ul>` : '';
+  }).join('');
+  const nota = sezioni
+    ? "Le storie che hai cominciato, con il prossimo passo e dove trovarlo. Quando una storia si chiude esce dall'elenco."
+    : 'Non hai storie in corso. Le storie lunghe compaiono qui appena ne cominci una.';
+  return `<section class="cronache">
+    <h2 class="titolo-sezione primo">Cronache</h2>
+    <p class="nota">${nota}</p>
+    ${sezioni}
+  </section>`;
 }
 
 /** Le tacche di una serie: piene fino a dove sei, quella del passo in corso accesa. */
@@ -713,9 +820,7 @@ export function personaggio(x: Contesto): string {
     const v = s.quality[q.id] ?? 0;
     return `<li class="${v === 0 ? 'zero' : v < 0 ? 'neg' : 'pos'}">${tavola(q.immagine, { classe: 'icona' })}<span>${h(q.nome)}</span><b>${segno(v)}</b></li>`;
   }).join('');
-  const piste = c.quality.filter((q) => q.categoria === 'pista' && (s.quality[q.id] ?? 0) > 0 && !c.fazioni.some((f) => f.pista === q.id));
   const fazioni = c.fazioni.filter((f) => (s.quality[f.pista] ?? 0) > 0);
-  const luoghiAvviati = serieDi(c).serie.filter((z) => z.tipo === 'luogo' && avanzamento(s, z) > 0);
   const mutazioni = mutazioniDi(s, c);
   const conosciuti = incantesimiConosciuti(s, c);
   const rep = repertorio(s, c).map((i) => i.id);
@@ -745,9 +850,8 @@ export function personaggio(x: Contesto): string {
     </header>
     <h2 class="titolo-sezione">Attributi e abilità</h2>
     <div class="attributi-griglia">${colonne}</div>
-    ${fazioni.length ? `<h2 class="titolo-sezione">Fazioni</h2><ul class="elenco-piste elenco-fazioni">${fazioni.map((f) => rigaFazione(s, c, f)).join('')}</ul>` : ''}
-    ${piste.length ? `<h2 class="titolo-sezione">Le tue storie</h2><ul class="elenco-piste">${piste.map((q) => rigaPista(s, c, q.id, q.nome, q.descrizione, q.immagine)).join('')}</ul>` : ''}
-    ${luoghiAvviati.length ? `<h2 class="titolo-sezione">Nei luoghi della città</h2><ul class="elenco-piste">${luoghiAvviati.map((z) => rigaPista(s, c, z.id, z.nome, undefined, z.immagine)).join('')}</ul>` : ''}
+    ${fazioni.length ? `<h2 class="titolo-sezione">Fazioni</h2><ul class="elenco-piste elenco-fazioni">${fazioni.map((f) => rigaGrado(s, c, f)).join('')}</ul>` : ''}
+    <p class="nota">Le storie che hai in corso, a che punto sono e dove si va avanti stanno nelle <button type="button" class="link" data-az="scheda" data-id="cronache">Cronache</button>.</p>
     <h2 class="titolo-sezione">Incantesimi ${conosciuti.length ? `<small>repertorio ${rep.length}/${limite} · Energia ${energia}</small>` : ''}</h2>
     ${conosciuti.length ? `<ul class="incantesimi">${incantesimi}</ul>` : '<p class="vuoto">Non conosci ancora nessun incantesimo. Alla Locanda di Ilka, Besk Dravec insegna le basi a chi vuole imparare.</p>'}
     ${mutazioni.length ? `<h2 class="titolo-sezione">Mutazioni</h2><ul class="incantesimi">${mutazioni.map((m) => `<li class="incantesimo-riga">

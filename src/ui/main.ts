@@ -30,7 +30,7 @@ import { crisiAttiva } from '../motore/crisi';
 import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
 import {
-  pagina, storia, personaggio, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
+  pagina, storia, personaggio, cronache, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
 } from './viste';
 
 interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string | null; salvatoAl?: number }
@@ -205,6 +205,7 @@ function render(): void {
   const centro = info ? contenutoInfo(info)
     : scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
+    : scheda === 'cronache' ? cronache(x)
     : scheda === 'bazar' ? bazar(x)
     : scheda === 'mappa' ? mappa(x)
     : scheda === 'diario' ? diario(x)

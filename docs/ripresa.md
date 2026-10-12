@@ -83,7 +83,7 @@ i Castaldi), ognuna con una quest da 15 passi in `contenuti/fazioni/<id>/`. Malg
   perché le ricompense dei primi gradi, rivendute, valevano più di mille lyssan nei primi giorni di gioco. I seguiti
   del primo passo non lo chiedono, così chi li ha già aperti non resta bloccato.
 - I gradi sono cinque, ai passi 3, 6, 9, 12 e 15, e stanno nella raccolta `fazioni:` con il nome e la ricompensa da
-  mostrare: la scheda del personaggio ha la sezione «Fazioni». Ogni passo di grado porta la reputazione almeno a 2, 4,
+  mostrare: la scheda del personaggio ha la sezione «Fazioni» con il grado, la quest sta nelle Cronache. Ogni passo di grado porta la reputazione almeno a 2, 4,
   6, 8, 10 con l'esito `almeno`, che alza una quality fino a una soglia senza mai abbassarla.
 - Ricompense: un oggetto, un servizio o un incantesimo a ogni grado; al grado 5 un oggetto unico di grado 4.
 - Quality condivise in `contenuti/fazioni/comuni.yaml`: `bivio.legge` (Caserma e Scuri insieme fino all'ottavo passo,
@@ -106,20 +106,45 @@ tabella degli incontri casuali della cronaca. L'area ha `fuori: true`, quindi le
 
 ## La Superficie dopo l'Arena (10 ottobre 2026)
 Piano, canone fissato e id in `docs/piano-superficie.md`. Tutto si apre con `pista.arena >= 5`.
-- `contenuti/scoperte/tracce.yaml`: le quality condivise (`traccia.<luogo>` 0–3, `misura.<luogo>`, `dono.<villaggio>`),
+- `contenuti/luoghi-neri/tracce.yaml`: le quality condivise (`traccia.<luogo>` 0–3, `misura.<luogo>`, `dono.<villaggio>`),
   l'aggancio in città (`gente-di-fuori`), «Battere la Superficie» (una direzione per volta, un luogo per direzione) e
   le nove carte di voci. Test: `test/scoperte.test.ts`.
 - `contenuti/villaggi/<villaggio>/`: Ghoran, Laresh, Tuarmir e Pannion, luoghi della Superficie con una quest da 15
-  passi (sono fazioni: compaiono nella scheda e in `FAZIONI` di `test/fazioni-percorsi.ts`). Il passo 3 dà le tracce
+  passi (sono fazioni: compaiono nella sezione «La Superficie» delle Cronache e in `FAZIONI` di `test/fazioni-percorsi.ts`). Il passo 3 dà le tracce
   dei due luoghi neri vicini, il passo 15 il dono.
-- `contenuti/scoperte/<luogo>.yaml`: le nove spedizioni dei luoghi neri; l'ingresso chiede tre tracce, il cuore dà la
+- `contenuti/luoghi-neri/<luogo>.yaml`: le nove spedizioni dei luoghi neri; l'ingresso chiede tre tracce, il cuore dà la
   misura una volta sola, poi c'è un secondo cuore ripetibile.
-- `contenuti/campana/`: la Campana Sepolta, quattro strati in catena (`campana.strato`) aperti dalle nove misure, con
+- `contenuti/luoghi-neri/campana/`: la Campana Sepolta, quattro strati in catena (`campana.strato`) aperti dalle nove misure, con
   il Campanaro in tre fasi e gli unici oggetti di grado 5. Test: `test/campana.test.ts`.
 - `scripts/simula-fine.ts`: probabilità di vittoria per un combattente di fine capitolo e uno di fine contenuti
   (`npx tsx scripts/simula-fine.ts <prefisso dello scontro>`).
 - I test di percorso sono sincroni e lunghi: `test/cedi.ts` (in `setupFiles`) lascia una pausa dopo ogni test, le
   piste lunghe stanno in `test/piste-lunghe.test.ts` e le quest di fazione hanno un test per origine.
+
+## Le Cronache e l'ordine delle storie (11 ottobre 2026)
+- La scheda **Cronache** (`cronache` in `src/ui/viste.ts`) mostra le storie lunghe cominciate e non ancora chiuse, in
+  quattro sezioni: le storie di Qir-Azel, le fazioni della città, la Superficie, i luoghi della città. Per ognuna: a che
+  punto sei, il prossimo passo e dove si gioca, che cosa lo ferma, le spedizioni aperte o con il cuore vinto (quelle
+  ancora da trovare si contano soltanto). Le concluse escono dall'elenco (decisione di Luca). La scheda Personaggio
+  tiene solo i gradi delle fazioni.
+- `contenuti/cronache.yaml`: le `sezioni` (ordine e appartenenza di ogni serie) e le `raccolte`, le storie lunghe senza
+  pista che il motore non ricava da solo: i luoghi neri con la Campana (15 passi: nove misure, l'annuncio, tre strati,
+  la scelta, l'epilogo), le quattro catene della Superficie e la casa nel vicolo. Una raccolta prende gli storylet che
+  toccano le sue quality (`chiavi`, per prefisso) e conta come passi fatti i requisiti di `passi`.
+- `src/motore/serie.ts`: le serie hanno un terzo tipo, `raccolta`; `prossimoPasso`, `iniziata`, le spedizioni di ogni
+  serie (`serieDi(c).spedizioni`, dalla storia degli storylet dentro o dell'ingresso) e `statoSpedizione` (cuore vinto
+  quando la condizione che il cuore chiede e poi cambia è superata, come `misura.x == 0`).
+- Nelle pagine del quartiere e del luogo «La tua storia» è raccolta per sezione, una riga per storia lunga e le altre
+  scene della stessa storia in una tendina; in fondo le storie singole. Le cose da fare si dividono per fazione o storia.
+- Tre luoghi nuovi raccolgono le scene sciolte: la Locanda di Ilka (`luoghi.yaml`), il Maniero Castaldi, sede del
+  Consiglio (`fazioni/consiglio/quest.yaml`), e I luoghi neri sulla Superficie, con «Battere la Superficie» e i nove
+  ingressi (`luoghi-neri/tracce.yaml`). I passi delle fazioni che si giocano per strada restano senza luogo.
+- `contenuti/scoperte/` e `contenuti/campana/` sono diventate `contenuti/luoghi-neri/` e `contenuti/luoghi-neri/campana/`.
+- `npm run mappa-storie` rigenera `docs/storie.md`, la mappa di tutte le storie (file, passi, spedizioni, dipendenze,
+  oggetti). Va rilanciato dopo ogni cambio alle storie.
+- `test/cronache.test.ts`: ogni serie sta in una sezione sola, ogni scena da giocare una volta appartiene a una storia
+  lunga o all'elenco `STORIE_SINGOLE` del test, ogni spedizione appartiene a una storia (tranne il Villaggio storto).
+  Una scena nuova fuori da ogni storia fa fallire il test: o la si lega a una storia o la si aggiunge all'elenco.
 
 ## Combattimento (8 ottobre 2026)
 - Uno scontro dà il triplo dei PE di una prova (`PE_COMBATTIMENTO` in `src/motore/regole.ts`), all'arma e alla Magia.

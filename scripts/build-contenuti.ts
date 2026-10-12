@@ -28,7 +28,7 @@ function catalogo(): Record<string, { body: string }> {
 export const ICONE_INTERFACCIA = [
   'icone/scroll-quill', 'icone/stairs',
   // la barra di navigazione in basso, sul telefono (src/ui/viste.ts, VOCI_NAV)
-  'icone/open-book', 'icone/cowled', 'icone/knapsack', 'icone/shop', 'icone/treasure-map', 'icone/hamburger-menu',
+  'icone/open-book', 'icone/cowled', 'icone/knapsack', 'icone/shop', 'icone/treasure-map', 'icone/hamburger-menu', 'icone/scroll-unfurled',
 ];
 export function iconeCitate(c: TContenuti): { icone: Record<string, string>; errori: string[] } {
   const icone: Record<string, string> = {}; const errori: string[] = [];
@@ -41,7 +41,7 @@ export function iconeCitate(c: TContenuti): { icone: Record<string, string>; err
   return { icone, errori };
 }
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar', 'fazioni'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar', 'fazioni', 'raccolte', 'sezioni'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)

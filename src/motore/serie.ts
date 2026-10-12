@@ -5,17 +5,20 @@
 // - una reputazione della città viva raccoglie le storie non ripetibili dei luoghi che si aprono con essa
 //   (`rep.x >= n`) e si chiudono con il proprio flag (`flag == 0`): ogni flag è un passo. Il nome è quello del
 //   luogo, o della reputazione quando i luoghi sono più d'uno (la Fucina e l'Armeria, i due ponti).
+// - una raccolta (`raccolte:` nei contenuti) dichiara le storie che non hanno una pista: i luoghi neri con la
+//   Campana, le catene della Superficie, la casa. Raccoglie gli storylet che chiedono o cambiano le sue quality.
 // I seguiti senza serie prendono quella della scena che li apre.
 // Il genere dice che storia è: principale (le piste), di fazione (le quest di `fazioni:`) o di un luogo.
-import type { TContenuti, TStorylet } from './contenuto';
-import { parseRequisito, requisitoSoddisfatto, type Stato } from './personaggio';
+import type { TArea, TContenuti, TRaccolta, TStorylet } from './contenuto';
+import { parseRequisito, requisitiSoddisfatti, requisitoSoddisfatto, type Stato } from './personaggio';
 
 export interface Serie {
   id: string;
   nome: string;
   immagine?: string;
-  tipo: 'pista' | 'luogo';
+  tipo: 'pista' | 'luogo' | 'raccolta';
   genere: Genere;
+  raccolta?: TRaccolta;
   fazione?: string; // il nome della fazione, per le quest di fazione
   quality?: string; // pista
   passi: string[]; // luogo: i flag delle storie, in ordine di reputazione
@@ -28,6 +31,8 @@ export type Genere = 'principale' | 'fazione' | 'luogo';
 export interface MappaSerie {
   serie: Serie[];
   diStorylet: Map<string, Serie>;
+  spedizioni: Map<string, TArea[]>; // per serie: le spedizioni che le appartengono
+  ingressi: Map<string, TStorylet[]>; // per spedizione: gli storylet di fuori che portano dentro
 }
 
 const cache = new WeakMap<TContenuti, MappaSerie>();
@@ -62,6 +67,13 @@ export function serieDi(c: TContenuti): MappaSerie {
     const avanza = esiti(st).flatMap((e) => [...Object.keys(e.effetti ?? {}), ...Object.keys(e.imposta ?? {})]).find((k) => pista.has(k));
     const p = uguale ? pista.get(uguale.chiave) : avanza ? pista.get(avanza) : undefined;
     if (p) diStorylet.set(st.id, p);
+  }
+
+  // --- raccolte: le storie dichiarate nei contenuti, a cui appartiene chi tocca le loro quality
+  for (const r of c.raccolte) {
+    const z: Serie = { id: `raccolta.${r.id}`, nome: r.nome, immagine: r.immagine, tipo: 'raccolta', genere: r.genere, raccolta: r, passi: [], tappe: [], massimo: r.passi.length };
+    serie.push(z);
+    for (const st of candidati) if (!diStorylet.has(st.id) && tocca(st, r)) diStorylet.set(st.id, z);
   }
 
   // --- luoghi della città viva: una serie per reputazione (Fucina e Armeria ne condividono una, così i due ponti)
@@ -101,14 +113,54 @@ export function serieDi(c: TContenuti): MappaSerie {
     }
   }
 
-  const pronta2 = { serie, diStorylet };
+  // --- le spedizioni: di chi sono le storie dentro (la maggioranza), o in mancanza di chi è l'ingresso
+  const aree = c.aree.filter((a) => a.spedizione);
+  const idSped = new Set(aree.map((a) => a.id));
+  const ingressi = new Map<string, TStorylet[]>();
+  for (const st of c.storylet) {
+    if (idSped.has(st.area)) continue;
+    for (const e of esiti(st)) if (e.vai && idSped.has(e.vai)) {
+      const l = ingressi.get(e.vai) ?? [];
+      if (!l.includes(st)) l.push(st);
+      ingressi.set(e.vai, l);
+    }
+  }
+  const raccolte = serie.filter((z) => z.raccolta);
+  const spedizioni = new Map<string, TArea[]>();
+  for (const a of aree) {
+    const voti = new Map<Serie, number>();
+    for (const st of c.storylet.filter((x) => x.area === a.id)) {
+      const z = diStorylet.get(st.id) ?? raccolte.find((x) => tocca(st, x.raccolta!));
+      if (z) voti.set(z, (voti.get(z) ?? 0) + 1);
+    }
+    let z = [...voti].sort((x, y) => y[1] - x[1])[0]?.[0];
+    for (const st of ingressi.get(a.id) ?? []) {
+      z ??= diStorylet.get(st.id) ?? serie.find((x) => x.quality && req(st).some((r) => r.chiave === x.quality)) ?? raccolte.find((x) => tocca(st, x.raccolta!));
+    }
+    if (z) spedizioni.set(z.id, [...(spedizioni.get(z.id) ?? []), a]);
+  }
+
+  const pronta2 = { serie, diStorylet, spedizioni, ingressi };
   cache.set(c, pronta2);
   return pronta2;
 }
 
+/** Le chiavi che uno storylet chiede o cambia. */
+function chiaviDi(st: TStorylet): string[] {
+  return [...req(st).map((r) => r.chiave), ...esiti(st).flatMap((e) => [...Object.keys(e.effetti ?? {}), ...Object.keys(e.imposta ?? {}), ...Object.keys(e.almeno ?? {})])];
+}
+
+/** Lo storylet chiede o cambia una quality della raccolta. */
+const tocca = (st: TStorylet, r: TRaccolta) => chiaviDi(st).some((k) => r.chiavi.some((p) => k.startsWith(p)));
+
 /** A che punto sei della serie: passi fatti, da 0 al massimo. */
 export function avanzamento(s: Stato, serie: Serie): number {
   if (serie.tipo === 'pista') return Math.min(serie.massimo, Math.floor(s.quality[serie.quality!] ?? 0));
+  if (serie.tipo === 'raccolta') {
+    const r = serie.raccolta!;
+    if (r.conclusa && requisitoSoddisfatto(s, r.conclusa)) return serie.massimo;
+    return r.passi.filter((p) => requisitoSoddisfatto(s, p)).length;
+  }
   return serie.passi.filter((f) => (s.quality[f] ?? 0) >= 1).length;
 }
 
@@ -125,6 +177,7 @@ export function fazioneDi(c: TContenuti, st: TStorylet): string | undefined {
 
 /** Le storie che vengono subito dopo nella serie: quelle del passo a cui sei, o la prossima tappa del luogo. */
 function prossimi(s: Stato, c: TContenuti, serie: Serie): TStorylet[] {
+  if (serie.tipo === 'raccolta') return [];
   if (serie.tipo === 'luogo') {
     const id = prossimaTappa(s, serie);
     const st = id ? c.storylet.find((x) => x.id === id) : undefined;
@@ -202,4 +255,52 @@ export function attese(s: Stato, c: TContenuti, serie: Serie): Attesa[] {
     if (!meglio || unite.size < meglio.length) meglio = [...unite.values()];
   }
   return meglio ?? [];
+}
+
+/** Lo storylet si può aprire adesso: i suoi requisiti e quelli del luogo dove sta. */
+function apribile(s: Stato, c: TContenuti, st: TStorylet): boolean {
+  const l = st.presso ? c.luoghi.find((x) => x.id === st.presso) : undefined;
+  return requisitiSoddisfatti(s, st.requisiti, c) && (!l || requisitiSoddisfatti(s, l.requisiti, c));
+}
+
+/**
+ * Il prossimo passo di una serie, per le Cronache: la storia da giocare e se si può già aprire. Per una raccolta è
+ * la prima storia aperta che tocca le sue quality, prima quelle che si giocano una volta, poi le ripetibili, poi le
+ * carte; fuori dalle spedizioni.
+ */
+export function prossimoPasso(s: Stato, c: TContenuti, serie: Serie): { st: TStorylet; aperta: boolean } | undefined {
+  if (avanzamento(s, serie) >= serie.massimo) return undefined;
+  if (serie.tipo === 'raccolta') {
+    const sped = new Set(c.aree.filter((a) => a.spedizione).map((a) => a.id));
+    const aperte = c.storylet.filter((st) => st.tipo !== 'seguito' && !sped.has(st.area) && tocca(st, serie.raccolta!) && apribile(s, c, st));
+    const st = aperte.find((x) => x.tipo === 'fisso' && !x.ripetibile) ?? aperte.find((x) => x.tipo === 'fisso') ?? aperte[0];
+    return st ? { st, aperta: true } : undefined;
+  }
+  const cand = prossimi(s, c, serie);
+  const st = cand.find((x) => apribile(s, c, x)) ?? cand[0];
+  return st ? { st, aperta: apribile(s, c, st) } : undefined;
+}
+
+export type StatoSpedizione = 'vinta' | 'aperta' | 'chiusa';
+
+/**
+ * A che punto è una spedizione: «vinta» se il suo cuore è stato giocato (lo dice la condizione che il cuore chiede e
+ * poi cambia, come `misura.x == 0` o `pista.x == 5`, ormai superata), «aperta» se un ingresso si può prendere adesso.
+ */
+export function statoSpedizione(s: Stato, c: TContenuti, a: TArea): StatoSpedizione {
+  const prof = `profondita.${a.id}`;
+  const cuori = c.storylet.filter((st) => st.area === a.id && req(st).some((r) => r.chiave === prof && ['>=', '=='].includes(r.op) && r.n >= (a.spedizione?.soglia ?? 1)));
+  for (const st of cuori) {
+    const cambia = new Set(esiti(st).flatMap((e) => [...Object.keys(e.effetti ?? {}), ...Object.keys(e.imposta ?? {})]));
+    if (req(st).some((r) => r.op === '==' && r.chiave !== prof && cambia.has(r.chiave) && (s.quality[r.chiave] ?? 0) > r.n)) return 'vinta';
+  }
+  return (serieDi(c).ingressi.get(a.id) ?? []).some((st) => apribile(s, c, st)) ? 'aperta' : 'chiusa';
+}
+
+/** La storia è cominciata: la pista è sopra zero, il luogo ha un passo fatto, la raccolta ha una sua quality accesa. */
+export function iniziata(s: Stato, serie: Serie): boolean {
+  if (serie.tipo === 'pista') return (s.quality[serie.quality!] ?? 0) > 0;
+  if (serie.tipo === 'luogo') return avanzamento(s, serie) > 0;
+  const prefissi = serie.raccolta!.chiavi;
+  return Object.entries(s.quality).some(([k, v]) => v > 0 && prefissi.some((p) => k.startsWith(p)));
 }

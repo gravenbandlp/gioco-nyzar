@@ -420,6 +420,29 @@ export const Fazione = z.object({
   })).length(5),
 });
 
+/**
+ * Una storia lunga che il motore non ricava da solo (serie.ts): i luoghi neri con la Campana, le catene della
+ * Superficie, la casa. Le appartengono gli storylet che chiedono o cambiano una quality con uno dei prefissi di
+ * `chiavi`; è a un passo per ogni requisito di `passi` soddisfatto, ed è chiusa quando vale `conclusa` (o tutti i passi).
+ */
+export const Raccolta = z.object({
+  id: Id,
+  nome: z.string(),
+  immagine: Immagine.optional(),
+  descrizione: z.string().optional(), // una riga nelle Cronache
+  genere: z.enum(['principale', 'fazione', 'luogo']).default('principale'),
+  chiavi: z.array(z.string()).min(1), // prefissi delle quality, es. "misura." o "casa"
+  passi: z.array(z.string()).min(1), // requisiti, uno per passo
+  conclusa: z.string().optional(),
+});
+
+/** Una sezione delle Cronache: il titolo e le serie che raccoglie, in ordine (id delle serie, come in serie.ts). */
+export const SezioneCronache = z.object({
+  id: Id,
+  nome: z.string(),
+  serie: z.array(z.string()).min(1),
+});
+
 /** Un avversario a Zekar: le sue quattro laterali e come gioca (motore/zekar.ts). */
 export const AvversarioZekar = z.object({
   id: Id,
@@ -453,6 +476,8 @@ export const Contenuti = z.object({
   colonna: z.array(VoceColonna).default([]),
   zekar: z.array(AvversarioZekar).default([]),
   fazioni: z.array(Fazione).default([]),
+  raccolte: z.array(Raccolta).default([]),
+  sezioni: z.array(SezioneCronache).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;
@@ -467,6 +492,8 @@ export type TScontro = z.infer<typeof Scontro>;
 export type TArma = z.infer<typeof Arma>;
 export type TArmatura = z.infer<typeof Armatura>;
 export type TNegozio = z.infer<typeof Negozio>;
+export type TRaccolta = z.infer<typeof Raccolta>;
+export type TSezioneCronache = z.infer<typeof SezioneCronache>;
 export type TOrigine = z.infer<typeof Origine>;
 export type TMutazione = z.infer<typeof Mutazione>;
 export type TOggetto = z.infer<typeof Oggetto>;

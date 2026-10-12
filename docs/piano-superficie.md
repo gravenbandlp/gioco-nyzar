@@ -42,11 +42,11 @@ tracce vengono dall'azione e dalla carta.
 ## Struttura dei file
 
 ```
-contenuti/scoperte/tracce.yaml        quality condivise, l'aggancio dopo l'Arena, «Battere la Superficie», le carte
-contenuti/scoperte/<luogo>.yaml       una spedizione per file, con area, ingresso, stanze, cuore, nemici, oggetti, colonna
+contenuti/luoghi-neri/tracce.yaml        quality condivise, l'aggancio dopo l'Arena, «Battere la Superficie», le carte
+contenuti/luoghi-neri/<luogo>.yaml       una spedizione per file, con area, ingresso, stanze, cuore, nemici, oggetti, colonna
 contenuti/villaggi/<villaggio>/       quest.yaml, luogo.yaml, passi-1/2/3.yaml, spedizione-*.yaml, nemici.yaml,
                                       oggetti.yaml, glossario.yaml (come le fazioni in contenuti/fazioni/<id>/)
-contenuti/campana/                    la spedizione finale, in più file
+contenuti/luoghi-neri/campana/                    la spedizione finale, in più file
 scripts/simula-fine.ts                probabilità di vittoria per un personaggio di fine capitolo e di fine contenuti
 ```
 
@@ -54,7 +54,7 @@ La colonna sonora di ogni area e luogo nuovo va nel file che lo definisce (sezio
 sono già in `contenuti/audio.yaml`. Le tavole sono solo quelle che esistono in `public/tavole/` (o le icone
 `icone/<nome>` di game-icons.net): non se ne aggiungono senza Luca.
 
-## Quality condivise (in `contenuti/scoperte/tracce.yaml`)
+## Quality condivise (in `contenuti/luoghi-neri/tracce.yaml`)
 
 | Quality | Valori | A cosa serve |
 |---|---|---|
@@ -163,7 +163,7 @@ raccoglie ai suoi piedi una linfa rossastra per gli unguenti della cappella, e l
 
 ## Le nove spedizioni dei luoghi neri
 
-Una per file in `contenuti/scoperte/`. L'area ha id uguale al nome del luogo (`costola-di-drago`, `tamburi-di-fondo`,
+Una per file in `contenuti/luoghi-neri/`. L'area ha id uguale al nome del luogo (`costola-di-drago`, `tamburi-di-fondo`,
 `volta-dell-aculeo`, `anello-del-camminatore`, `forno-della-nonna`, `stele-dei-naviganti`, `lente-del-sornione`,
 `soglia-di-mara`, `spina-dell-eco`), `spedizione: { ritorno: superficie-fratturata, soglia: 4, stanze: 3 }`.
 
@@ -235,11 +235,11 @@ Rovolungo (il nome del posto lo dà la spedizione finale).
 
 ## Avanzamento
 
-- [x] Blocco 1: questo piano, `contenuti/scoperte/tracce.yaml` (quality condivise, aggancio dopo l'Arena,
+- [x] Blocco 1: questo piano, `contenuti/luoghi-neri/tracce.yaml` (quality condivise, aggancio dopo l'Arena,
       «Battere la Superficie», nove carte), `scripts/simula-fine.ts`, le tre incongruenze.
 - [x] Blocchi 2–5: Ghoran, Laresh, Tuarmir, Pannion (`contenuti/villaggi/`, 28–32 storylet ciascuno).
-- [x] Blocchi 6–7: le nove spedizioni (`contenuti/scoperte/`, 11–12 storylet ciascuna).
-- [x] Blocco 8: la Campana Sepolta (`contenuti/campana/`, la Ripamuta, 4 strati da 11 stanze, il Campanaro in tre fasi).
+- [x] Blocchi 6–7: le nove spedizioni (`contenuti/luoghi-neri/`, 11–12 storylet ciascuna).
+- [x] Blocco 8: la Campana Sepolta (`contenuti/luoghi-neri/campana/`, la Ripamuta, 4 strati da 11 stanze, il Campanaro in tre fasi).
 
 ## Canone fissato dai contenuti (da rivedere con Luca)
 

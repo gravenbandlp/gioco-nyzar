@@ -108,8 +108,12 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - **10 ottobre.** La Superficie dopo l'Arena (`docs/piano-superficie.md`): i quattro villaggi (Ghoran, Laresh,
   Tuarmir, Pannion) come luoghi della Superficie con una quest da 15 passi ciascuno e una spedizione propria
   (`contenuti/villaggi/`), il sistema delle tracce con «Battere la Superficie» e nove carte di voci, le nove
-  spedizioni dei luoghi neri (`contenuti/scoperte/`) e la Campana Sepolta, quattro strati con il Campanaro e gli
-  oggetti di grado 5 (`contenuti/campana/`). Circa 276 storylet nuovi (1472 in tutto), 380 test.
+  spedizioni dei luoghi neri (`contenuti/luoghi-neri/`) e la Campana Sepolta, quattro strati con il Campanaro e gli
+  oggetti di grado 5 (`contenuti/luoghi-neri/campana/`). Circa 276 storylet nuovi (1472 in tutto), 380 test.
+- **11 ottobre.** Tetto di 5 per ogni consumabile. Le Cronache: una scheda con le storie in corso divise in quattro
+  sezioni, il prossimo passo e le spedizioni di ogni storia; i luoghi neri e la Campana come una storia sola; le
+  pagine dei quartieri e dei luoghi raccolte per storia; tre luoghi nuovi (Locanda di Ilka, Maniero Castaldi, I luoghi
+  neri); `docs/storie.md` generato da `npm run mappa-storie`.
 
 ## Checklist
 

@@ -1,4 +1,4 @@
-// La Campana Sepolta (contenuti/campana/, docs/piano-superficie.md, blocco 8): l'annuncio con le nove misure, le
+// La Campana Sepolta (contenuti/luoghi-neri/campana/, docs/piano-superficie.md, blocco 8): l'annuncio con le nove misure, le
 // ripartenze verso lo strato raggiunto, il Campanaro in tre fasi fino alla scelta, gli oggetti di grado 5.
 import { describe, it, expect } from 'vitest';
 import { nuovoPersonaggio, storyletDisponibili, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
