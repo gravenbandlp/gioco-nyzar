@@ -27,7 +27,7 @@ export interface Serie {
   massimo: number;
 }
 
-export type Genere = 'principale' | 'fazione' | 'luogo' | 'avventura';
+export type Genere = 'principale' | 'fazione' | 'luogo' | 'avventura' | 'addestramento';
 
 export interface MappaSerie {
   serie: Serie[];

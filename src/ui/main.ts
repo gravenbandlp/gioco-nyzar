@@ -7,7 +7,9 @@ import {
   nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, scortaPiena, limitaScorte, type Stato,
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, concludiZekar, lateraliDi, puoEntrare, muovi, compra, vendi, vendibili, correggi, secondaScelta } from '../motore/azioni';
-import { ritirati } from '../motore/spedizioni';
+import { ritirati, profondita } from '../motore/spedizioni';
+import { forseNotato } from '../motore/inquietudine';
+import { avviaInquietudine, aggiornaInquietudine } from './inquietudine';
 import { annota, strappa } from '../motore/diario';
 import { indossa, togli, ricaricaReperto, migraOggetti, perchéNonIndossabile } from '../motore/oggetti';
 import { cambiaRepertorio, limiteRepertorio } from '../motore/magia';
@@ -26,7 +28,7 @@ import { avviaSfondo } from './sfondo';
 import { sceltaAudio } from './colonna';
 import { paginaInfo, corpoSalvataggio, PAGINE_INFO, type PaginaInfo } from './pagine';
 import { Sincronia, archivioGoogle, configSupabase, entraConGoogle, idPersonaggio, type DatiSalvati } from './salvataggi';
-import { crisiAttiva } from '../motore/crisi';
+import { crisiAttiva, hash } from '../motore/crisi';
 import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
 import {
@@ -188,6 +190,7 @@ function render(): void {
     app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
+    aggiornaInquietudine(null, false);
     return;
   }
   document.body.classList.remove('in-creazione');
@@ -215,6 +218,7 @@ function render(): void {
   avviaLettura(app);
   aggiornaIndicatore();
   avviso = '';
+  aggiornaInquietudine(s, !!c.aree.find((a) => a.id === s.area)?.spedizione);
   suona(s);
 }
 
@@ -222,13 +226,18 @@ function render(): void {
 function suona(s: Stato): void {
   const idScena = vista.tipo === 'area' ? crisiAttiva(s, c)?.id : vista.id;
   const st = idScena ? c.storylet.find((z) => z.id === idScena) : undefined;
+  // nelle stanze dell'ultimo terzo di una spedizione, una volta su tre, la musica tace di colpo
+  const sped = c.aree.find((a) => a.id === s.area)?.spedizione;
+  const silenzio = !!sped && !!st?.ripetibile && st.area === s.area && profondita(s, s.area) >= sped.soglia * 0.7
+    && hash(`${st.id}#${(s.stanzePassate ?? []).length}`) % 3 === 0;
   lettore.imposta(sceltaAudio(c, {
+    silenzio,
     area: s.area,
     luogo: st?.presso ?? (luogo && c.luoghi.some((l) => l.id === luogo && l.area === s.area) ? luogo : undefined),
     prologo: st?.tipo === 'prologo',
     crisi: st?.tipo === 'crisi',
     combattimento: vista.tipo === 'combattimento',
-  }));
+  }), silenzio);
 }
 
 /** Cambia vista e riporta lo sguardo sul pannello centrale. */
@@ -320,7 +329,10 @@ function azione(az: string, el: HTMLElement): void {
         zekarScelte = [...lateraliDi(s)];
         cambia({ tipo: 'zekar', id, indice, zs: r.zekar });
       }
-      else cambia({ tipo: 'risultato', id, risultato: r.risultato, indice, prima });
+      else {
+        forseNotato(s, c, ora, Math.random, (req) => requisitiSoddisfatti(s, req, c));
+        cambia({ tipo: 'risultato', id, risultato: r.risultato, indice, prima });
+      }
       break;
     }
     case 'bersaglio': bersaglio = id; render(); break;
@@ -529,6 +541,7 @@ setInterval(() => {
 // ---------------------------------------------------------------- avvio
 avviaSchede(c.glossario);
 montaControlli(lettore);
+avviaInquietudine(lettore);
 montaOpzioneLettura();
 // si gioca solo da dentro l'account Google: la soglia resta chiusa finché il personaggio non arriva dall'account
 const soglia = montaIngresso(lettore, {

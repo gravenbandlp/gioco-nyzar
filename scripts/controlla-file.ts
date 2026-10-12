@@ -34,7 +34,7 @@ function testi(x: unknown, dove: string, out: { dove: string; testo: string }[])
     const o = x as Record<string, unknown>;
     const qui = typeof o['id'] === 'string' ? `${dove} ${o['id']}` : dove;
     for (const [k, v] of Object.entries(o)) {
-      if (['testo', 'descrizione', 'sommario', 'titolo'].includes(k) && typeof v === 'string') out.push({ dove: `${qui}.${k}`, testo: v });
+      if (['testo', 'descrizione', 'inquieta', 'sommario', 'titolo'].includes(k) && typeof v === 'string') out.push({ dove: `${qui}.${k}`, testo: v });
       else testi(v, `${qui}.${k}`, out);
     }
   }

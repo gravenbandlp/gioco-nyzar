@@ -103,7 +103,10 @@ function regolamento(): string {
   incerto: da 3 a 4 punti con una probabilità fra una su cinque e sette su dieci, uno solo se la prova era quasi certa o
   quasi disperata. L'attributo dell'abilità riceve un quarto di quei punti. Per salire servono
   ${SOGLIE_PE.map((n, i) => `${n} punti per il livello ${i + 1}`).join(', ')}. Le abilità a zero si allenano con le
-  azioni facili dei luoghi, che in città ci sono per tutte.</p>
+  azioni facili dei luoghi, che in città ci sono per tutte. Da 2 in su c'è anche l'<b>addestramento</b> a pagamento: ogni
+  abilità ha un maestro, in una bottega o presso una fazione, che insegna a chi ha abbastanza reputazione con i suoi.
+  Ogni lezione costa un rintocco e del denaro, sempre di più man mano che sali, e dà 10 punti all'abilità; a 5 non c'è
+  più niente da imparare.</p>
 
   <h3>I rintocchi</h3>
   <p>Qir-Azel scandisce le giornate a campane, e il tuo tempo si conta a rintocchi. Quasi ogni azione costa un rintocco,

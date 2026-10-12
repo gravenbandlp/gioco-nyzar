@@ -119,6 +119,11 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
   dalle piste `avventura.x`), una spedizione da 10 passi e un oggetto di grado 4 (5 armi, 3 armature, 3 scudi, 3
   accessori; gli accessori arrivano ora a grado 4). Si aprono con `pista.capomozzo >= 10` o dopo il passo 15 della
   quest del villaggio. Circa 341 storylet nuovi (1813 in tutto), 406 test.
+  Poi l'addestramento a pagamento (`contenuti/maestri.yaml`, marchio «Addestramento»: nove maestri, lezioni da 10 PE
+  a 200, 400 e 800 monete dal livello 2 al 5, senza tetto) e la venatura horror (`src/motore/inquietudine.ts`,
+  `src/ui/inquietudine.ts`): vignetta e parole che cambiano col Tormento, venature della Marea con la Contaminazione,
+  battito con le Ferite, campana stonata, rumori di lato, silenzi nelle stanze profonde, paragrafi `{mezzanotte}`,
+  descrizioni `inquieta` delle opzioni, pagine «notate» nel diario (`contenuti/notati.yaml`). 462 test.
 
 ## Checklist
 

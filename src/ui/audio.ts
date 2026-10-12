@@ -133,16 +133,26 @@ export class Lettore {
   }
 
   /** Chiamata a ogni render: se la zona è cambiata, sfuma verso le tracce nuove. */
-  imposta(s: Scelta): void {
+  imposta(s: Scelta, taglio = false): void {
     if (s.musica === this.desiderato.musica && s.ambiente === this.desiderato.ambiente) return;
     this.desiderato = { ...s };
+    this.taglio = taglio;
     this.applica();
   }
+  /** La musica si spegne di colpo invece che sfumando (i silenzi delle stanze profonde). */
+  private taglio = false;
 
-  /** Un effetto sonoro del combattimento, se l'audio è acceso. */
-  effetto(s: Suono): void {
+  /** Un effetto sonoro, se l'audio è acceso; `pan` da -1 (tutto a sinistra) a 1 (tutto a destra). */
+  effetto(s: Suono, pan?: number): void {
     if (!this.ctx || !this.principale || this.prefs.muto || this.ctx.state !== 'running' || this.prefs.effetti <= 0) return;
-    suona(this.ctx, this.principale.effetti, s);
+    let out: AudioNode = this.principale.effetti;
+    if (pan) {
+      const p = this.ctx.createStereoPanner();
+      p.pan.value = pan;
+      p.connect(out);
+      out = p;
+    }
+    suona(this.ctx, out, s);
   }
 
   volume(k: Volume, v: number): void {
@@ -199,8 +209,9 @@ export class Lettore {
       const ora = ctx.currentTime;
       vecchio.guadagno.gain.cancelScheduledValues(ora);
       vecchio.guadagno.gain.setValueAtTime(vecchio.guadagno.gain.value, ora);
-      vecchio.guadagno.gain.linearRampToValueAtTime(0, ora + DISSOLVENZA);
-      vecchio.sorgente.stop(ora + DISSOLVENZA + 0.1);
+      const sfuma = this.taglio && k === 'musica' && !id ? 0.06 : DISSOLVENZA;
+      vecchio.guadagno.gain.linearRampToValueAtTime(0, ora + sfuma);
+      vecchio.sorgente.stop(ora + sfuma + 0.1);
       this.attuale[k] = null;
     }
     if (!id) { this.avvisa(); return; }

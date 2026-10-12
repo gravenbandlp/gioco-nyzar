@@ -156,6 +156,17 @@ Piano, canone fissato e id in `docs/piano-superficie.md`. Tutto si apre con `pis
 - Le quest di fazione riusano nemici dell'inizio: lo scontro li rinforza con `rinforzo: { pf, danno, riduzione, attacco,
   solo }` (`src/motore/contenuto.ts`), senza toccare il nemico negli altri scontri.
 
+## L'addestramento (12 ottobre 2026)
+Le abilità crescono con i PE delle prove (`SOGLIE_PE` in `src/motore/regole.ts`, un quarto va all'attributo). Due
+vie di addestramento, tutte e due con `marchio: addestramento` (l'etichetta «Addestramento» sulla riga):
+- **di base**, gratis (`contenuti/allenamento.yaml`): prove Molto facili su una sola abilità, da 0 a 2;
+- **a pagamento, alla Skyrim** (`contenuti/maestri.yaml`, decisione di Luca): nove maestri, uno per bottega o
+  fazione, e ogni abilità ha un maestro solo. Una lezione costa un rintocco e 200, 400 o 800 monete ai livelli 2, 3 e 4,
+  non ha prova e dà 10 PE (`pe:` nell'esito). Senza tetto al numero di lezioni. Il livello sta in `quando`, monete e
+  reputazione in `requisiti` (4 per i livelli 2 e 3, 8 per il 4; alla Fucina `rep.botteghe` 3 e 6). Gli esiti sono
+  scritti per maestro e livello e si riusano con le ancore YAML. Il Bosco di Velthar (Aelion) e la Casa dei Nodi
+  (Lira Demos) si aprono con le quest del Circolo e della Gilda. Test: `test/maestri.test.ts`.
+
 ## Il gioco sul telefono (8 ottobre 2026)
 Sotto gli 860px l'interfaccia segue Fallen London sul telefono (`src/ui/viste.ts`, sezione «telefono»; in fondo a
 `src/ui/stile.css`): una riga di stato fissa in cima (rintocchi, monete, tasto dell'audio), il racconto a tutta

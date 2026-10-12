@@ -41,7 +41,7 @@ export function iconeCitate(c: TContenuti): { icone: Record<string, string>; err
   return { icone, errori };
 }
 
-const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar', 'fazioni', 'raccolte', 'sezioni'] as const;
+const CHIAVI = ['aree', 'storylet', 'quality', 'nemici', 'scontri', 'armi', 'armature', 'negozi', 'origini', 'frammenti', 'incantesimi', 'scudi', 'oggetti', 'mutazioni', 'glossario', 'luoghi', 'tracce', 'colonna', 'zekar', 'fazioni', 'raccolte', 'sezioni', 'notati'] as const;
 
 function fileYaml(dir: string): string[] {
   return readdirSync(dir)

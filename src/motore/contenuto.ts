@@ -37,6 +37,7 @@ export const Opzione = z
     immagine: Immagine.optional(),
     testo: z.string(),
     descrizione: z.string().optional(),
+    inquieta: z.string().optional(), // la descrizione storta che si legge con il Tormento alto (narratore inaffidabile)
     incantesimo: Id.optional(), // l'opzione richiede questo incantesimo e ne applica Dissonanza e prezzo
     reperto: Id.optional(), // l'opzione usa questo reperto: con zero successi si guasta
     requisiti: z.array(z.string()).optional(), // se mancano, l'opzione si vede chiusa con quello che manca
@@ -83,6 +84,7 @@ export const Storylet = z.object({
   testo: z.string(),
   opzioni: z.array(Opzione).min(1),
   mostra: z.number().int().min(1).optional(), // mostra solo N opzioni disponibili, scelte a caso
+  marchio: z.enum(['addestramento']).optional(), // un marchio proprio in testa alla riga: le lezioni e i luoghi di allenamento
 });
 
 export const Area = z.object({
@@ -455,6 +457,13 @@ export const AvversarioZekar = z.object({
   mira: z.number().int().min(12).max(20), // usa una laterale se lo porta almeno qui
 });
 
+/** Una pagina che il personaggio non ha scritto e che, di rado, si ritrova nel diario (motore/inquietudine.ts). */
+export const Notato = z.object({
+  id: Id,
+  testo: z.string(), // {nome} diventa il nome del personaggio
+  requisiti: z.array(z.string()).default([]),
+});
+
 export const Contenuti = z.object({
   aree: z.array(Area),
   storylet: z.array(Storylet),
@@ -478,6 +487,7 @@ export const Contenuti = z.object({
   fazioni: z.array(Fazione).default([]),
   raccolte: z.array(Raccolta).default([]),
   sezioni: z.array(SezioneCronache).default([]),
+  notati: z.array(Notato).default([]),
 });
 
 export type TEffetti = z.infer<typeof Effetti>;

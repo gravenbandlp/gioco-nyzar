@@ -5,7 +5,8 @@ import { NOMI_DIFETTI } from '../motore/contenuto';
 import { NOMI, MAX_NEGATIVA, SOGLIA_PERICOLO, RINTOCCHI_MAX } from '../motore/regole';
 import { progressoPE, type Stato } from '../motore/personaggio';
 import { h, mezzi } from './formato';
-import { leggiVoce, leggiOrigine, nomeVoce, senzaSegni, type Voce } from '../motore/voci';
+import { leggiVoce, leggiOrigine, leggiMezzanotte, nomeVoce, senzaSegni, type Voce } from '../motore/voci';
+import { notteFonda } from '../motore/inquietudine';
 
 /** Le icone minori (game-icons.net, CC BY 3.0) sono SVG in linea, colorati dal CSS. */
 export const èIcona = (t: string): boolean => t.startsWith('icone/');
@@ -86,7 +87,11 @@ function registri(html: string): string {
 export function prosa(testo: string, classe = 'prosa', valuta?: (v: Voce) => boolean, origine?: { id: string; nome: string }): string {
   const paragrafi = testo.trim().split(/\n\s*\n/).map((p) => p.replace(/\s*\n\s*/g, ' ').trim()).filter(Boolean);
   const viste = new Set<string>();
+  const notte = notteFonda();
   const html = paragrafi.map((p) => {
+    // un paragrafo di mezzanotte compare solo a notte fonda, senza etichetta: come se ci fosse sempre stato
+    const mz = leggiMezzanotte(p);
+    if (mz !== null) return notte ? `<p class="mezzanotte">${registri(annota(h(mz), viste))}</p>` : '';
     // un paragrafo d'origine compare solo a chi ha quell'origine, con il nome dell'origine come etichetta
     const o = leggiOrigine(p);
     if (o) {

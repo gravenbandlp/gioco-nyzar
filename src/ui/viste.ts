@@ -14,6 +14,7 @@ import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonI
 import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
 import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
+import { descrizioneDi } from '../motore/inquietudine';
 import {
   serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, attese, prossimoPasso, statoSpedizione, iniziata, type Serie, type Genere,
 } from '../motore/serie';
@@ -71,7 +72,7 @@ export function luogoAperto(x: Pick<Contesto, 's' | 'c' | 'luogo'>): TLuogo | un
   return x.luogo ? luoghiQui(x.s, x.c).find((l) => l.id === x.luogo) : undefined;
 }
 const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia singola');
-const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', fazione: 'Fazione', luogo: 'Storia del luogo', avventura: 'Avventura' };
+const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', fazione: 'Fazione', luogo: 'Storia del luogo', avventura: 'Avventura', addestramento: 'Addestramento' };
 
 // ================================================================ impianto
 
@@ -549,6 +550,7 @@ export function tacche(fatti: number, massimo: number, ora?: number): string {
 
 /** Il genere dello storylet: quello della sua serie, o la fazione per i servizi e le spedizioni di una quest. */
 function genereDi(c: TContenuti, st: TStorylet): { genere?: Genere; serie?: Serie; nome?: string } {
+  if (st.marchio) return { genere: st.marchio, nome: NOMI_GENERE[st.marchio] };
   const serie = st.ripetibile ? undefined : serieDi(c).diStorylet.get(st.id);
   if (serie) return { genere: serie.genere, serie, nome: serie.fazione ?? NOMI_GENERE[serie.genere] };
   const f = fazioneDi(c, st);
@@ -626,6 +628,7 @@ function vistaStorylet(x: Contesto, id: string): string {
   const rami = st.opzioni.map((o, i) => {
     if (!visibili.includes(i)) return '';
     const a = anteprima(s, o, c);
+    const descrizione = descrizioneDi(s, st, i, o, x.ora);
     let sfida = '';
     if (a.prova) {
       const attr = o.prova!.attributo;
@@ -683,7 +686,7 @@ function vistaStorylet(x: Contesto, id: string): string {
       ${tavola(o.immagine ?? st.immagine, { classe: 'ritratto piccolo' })}
       <div class="corpo">
         <h3>${h(o.testo)}</h3>
-        ${o.descrizione ? `<p class="descrizione">${h(o.descrizione)}</p>` : ''}
+        ${descrizione ? `<p class="descrizione">${h(descrizione)}</p>` : ''}
         ${vendita}
         ${magia}
         ${sfida}
@@ -1046,13 +1049,15 @@ function bottega(x: Contesto, n: TNegozio): string {
 export function diario(x: Contesto): string {
   const pagine = [...(x.s.diario ?? [])].reverse();
   const data = (n: number) => new Date(n).toLocaleDateString('it-IT', { day: 'numeric', month: 'long' });
-  const elenco = pagine.map((p) => `<li class="pagina-diario">
+  // le pagine «notate» (motore/inquietudine.ts) non hanno titolo: si legge l'inizio, in una grafia che non è la tua
+  const notata = (p: { storylet: string }) => p.storylet.startsWith('notato.');
+  const elenco = pagine.map((p) => `<li class="pagina-diario${notata(p) ? ' notata' : ''}">
       <details>
         <summary>
           ${tavola(p.immagine, { classe: 'icona' })}
           <span class="pagina-testa">
             <span class="etichetta">${h(p.luogo)} · ${h(data(p.quando))}${p.esito ? ` · ${p.esito === 'successo' ? 'riuscito' : 'fallito'}` : ''}</span>
-            <b>${h(p.titolo)}</b>
+            <b>${h(notata(p) ? `${p.testo.slice(0, 46).replace(/\s+\S*$/, '')}…` : p.titolo)}</b>
             <small>${h(p.scena)}</small>
           </span>
         </summary>

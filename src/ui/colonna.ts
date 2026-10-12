@@ -10,6 +10,7 @@ export interface Momento {
   prologo?: boolean;
   crisi?: boolean;
   combattimento?: boolean;
+  silenzio?: boolean; // una stanza profonda in cui la musica tace e resta solo l'ambiente
 }
 
 export interface Scelta { musica: string | null; ambiente: string | null }
@@ -32,5 +33,6 @@ export function sceltaAudio(c: Pick<TContenuti, 'colonna'>, m: Momento): Scelta 
     if (v.musica) out.musica = v.musica;
     if (v.ambiente) out.ambiente = v.ambiente === 'nessuno' ? null : v.ambiente;
   }
+  if (m.silenzio && !m.combattimento) out.musica = null;
   return out;
 }

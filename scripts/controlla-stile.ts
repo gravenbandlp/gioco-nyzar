@@ -113,7 +113,7 @@ function blocchi(dati: unknown, dove = ''): { dove: string; testo: string }[] {
     const o = dati as Record<string, unknown>;
     const qui = typeof o['id'] === 'string' ? `${dove}${dove ? ' › ' : ''}${o['id']}` : dove;
     for (const [k, v] of Object.entries(o)) {
-      if (['testo', 'sommario', 'descrizione', 'titolo'].includes(k) && typeof v === 'string') out.push({ dove: `${qui} [${k}]`, testo: senzaSegni(v) });
+      if (['testo', 'sommario', 'descrizione', 'inquieta', 'titolo'].includes(k) && typeof v === 'string') out.push({ dove: `${qui} [${k}]`, testo: senzaSegni(v) });
       else if (k !== 'id') out.push(...blocchi(v, typeof v === 'object' && !Array.isArray(v) ? `${qui} › ${k}` : qui));
     }
   }

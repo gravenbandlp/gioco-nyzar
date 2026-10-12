@@ -39,6 +39,8 @@ export interface Stato {
   stanzePassate?: string[];
   seguitiDa?: Record<string, string>;
   zekarLaterali?: number[]; // le quattro laterali dell'ultima partita a Zekar, proposte alla successiva
+  notati?: string[]; // le pagine «notate» già finite nel diario (motore/inquietudine.ts)
+  notatoAl?: number; // ms di gioco dell'ultima pagina notata
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {

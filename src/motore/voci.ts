@@ -16,6 +16,14 @@ import type { TContenuti } from './contenuto';
 const DIFF = '(Molto facile|Facile|Media|Difficile|Molto difficile)';
 export const RX_VOCE = new RegExp(`^\\{([a-z-]+) ${DIFF}( fallita)?\\}\\s*`);
 export const RX_ORIGINE = /^\{origine((?: [a-z-]+)+)\}\s*/;
+// E un paragrafo `{mezzanotte}` compare solo fra mezzanotte e le quattro, ora di chi gioca (motore/inquietudine.ts).
+export const RX_MEZZANOTTE = /^\{mezzanotte\}\s*/;
+
+/** Il paragrafo di mezzanotte senza il segno, o null se non lo è. */
+export function leggiMezzanotte(paragrafo: string): string | null {
+  const m = RX_MEZZANOTTE.exec(paragrafo);
+  return m ? paragrafo.slice(m[0].length) : null;
+}
 
 /** Il segno d'origine all'inizio di un paragrafo, se c'è. */
 export function leggiOrigine(paragrafo: string): { origini: string[]; testo: string } | null {
@@ -52,6 +60,10 @@ export function erroriVoci(testo: string, origini?: string[]): string[] {
     if (!t.startsWith('{')) continue;
     const m = /^\{([^}]*)\}/.exec(t);
     if (!m) { errori.push(`graffa aperta e mai chiusa: "${t.slice(0, 40)}"`); continue; }
+    if (m[1] === 'mezzanotte') {
+      if (!leggiMezzanotte(t)?.trim()) errori.push('paragrafo di mezzanotte senza testo');
+      continue;
+    }
     if (m[1]!.startsWith('origine')) {
       const o = leggiOrigine(t);
       if (!o) errori.push(`segno d'origine non valido "{${m[1]}}": serve {origine id-origine}`);
@@ -69,6 +81,7 @@ export function erroriVoci(testo: string, origini?: string[]): string[] {
 /** Il testo senza i segni delle voci (per il controllo di stile e per le prime frasi). */
 export const senzaSegni = (testo: string) => testo
   .replace(new RegExp(`(^|\\n)\\s*\\{[a-z-]+ ${DIFF}( fallita)?\\}\\s*`, 'g'), '$1')
-  .replace(/(^|\n)\s*\{origine(?: [a-z-]+)+\}\s*/g, '$1');
+  .replace(/(^|\n)\s*\{origine(?: [a-z-]+)+\}\s*/g, '$1')
+  .replace(/(^|\n)\s*\{mezzanotte\}\s*/g, '$1');
 
 export const nomeVoce = (abilita: string) => (NOMI[abilita] ?? abilita).toUpperCase();

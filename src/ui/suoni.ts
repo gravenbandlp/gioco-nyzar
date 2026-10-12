@@ -2,7 +2,8 @@
 // quindi niente file da importare né licenze. Ogni suono è breve e passa per il canale «effetti» del lettore.
 
 export type Suono = 'dadi' | 'colpo' | 'caduto' | 'parata' | 'magia' | 'cura' | 'dissonanza' | 'minaccia' | 'fermo' | 'vittoria' | 'sconfitta'
-  | 'carta' | 'laterale' | 'sta' | 'round' | 'mescola';
+  | 'carta' | 'laterale' | 'sta' | 'round' | 'mescola'
+  | 'battito' | 'campana-stonata' | 'graffio' | 'passo'; // la venatura horror (ui/inquietudine.ts)
 
 let rumoreBianco: AudioBuffer | null = null;
 function rumore(ctx: BaseAudioContext): AudioBuffer {
@@ -117,5 +118,31 @@ export function suona(ctx: BaseAudioContext, out: AudioNode, s: Suono): void {
       [220, 174.61, 130.81].forEach((f, i) => nota(ctx, out, t + i * 0.32, f, 1.2, 0.2, 'sine', f * 0.97, 0.03));
       soffio(ctx, out, t, 1.2, 'lowpass', 300, 0.15);
       break;
+    case 'battito': // il cuore sotto la musica: due colpi sordi, il secondo più debole
+      nota(ctx, out, t, 58, 0.16, 0.5, 'sine', 40, 0.012);
+      nota(ctx, out, t + 0.19, 52, 0.18, 0.32, 'sine', 36, 0.012);
+      break;
+    case 'campana-stonata': campanaStonata(ctx, out, t); break;
+    case 'graffio': // unghie sul legno, dietro una parete
+      for (let i = 0; i < 5; i++) soffio(ctx, out, t + i * 0.09 + Math.random() * 0.03, 0.12, 'bandpass', 1400 + Math.random() * 900, 0.16, 6);
+      break;
+    case 'passo': // due passi pesanti, lontani
+      for (const d of [0, 0.62]) { nota(ctx, out, t + d, 70, 0.2, 0.28, 'sine', 45); soffio(ctx, out, t + d, 0.1, 'lowpass', 380, 0.22); }
+      break;
   }
+}
+
+/**
+ * Una campana lontana, con le parziali di una campana vera ma due crescenti di un quarto di tono; a volte il secondo
+ * rintocco arriva in ritardo. Passa da un passa-basso, così sembra venire da sotto la città.
+ */
+function campanaStonata(ctx: BaseAudioContext, out: AudioNode, t: number): void {
+  const lontano = ctx.createBiquadFilter();
+  lontano.type = 'lowpass'; lontano.frequency.value = 1400;
+  lontano.connect(out);
+  const f0 = 146.8;
+  const parziali: [number, number][] = [[0.5, 0.1], [1, 0.12], [1.19 * 1.03, 0.07], [1.5, 0.05], [2 * 1.029, 0.05], [2.74, 0.03]];
+  const tocco = (x: number, v: number) => parziali.forEach(([r, g]) => nota(ctx, lontano, x, f0 * r, 5.5, g * v, 'sine', undefined, 0.006));
+  tocco(t, 1);
+  tocco(t + (Math.random() < 0.5 ? 2.4 : 3.1), 0.7);
 }

@@ -20,11 +20,12 @@
   --pensiero: #8fc3cb; /* i pensieri del protagonista, in corsivo */
   --precursore-spento: #2a5d68;
   --mana: #c63a4a;
-  /* i generi delle storie: principale, di fazione, del luogo, le Avventure */
+  /* i generi delle storie: principale, di fazione, del luogo, le Avventure; e l'Addestramento */
   --g-principale: #d4a55a;
   --g-fazione: #c9705a;
   --g-luogo: #5fa3b0;
   --g-avventura: #a9b45e;
+  --g-addestramento: #b9a7d6;
   --cera: #efe3c8;
   --filetto: rgba(58, 138, 153, 0.35);
   --filetto-tenue: rgba(58, 138, 153, 0.18);
@@ -395,6 +396,7 @@ main.creazione .pagina-info { margin: 0 auto; padding-top: 20px; }
 .genere.fazione { color: var(--g-fazione); }
 .genere.luogo { color: var(--g-luogo); }
 .genere.avventura { color: var(--g-avventura); }
+.genere.addestramento { color: var(--g-addestramento); }
 .sblocca { font-size: var(--t-s); color: var(--inchiostro-spento); line-height: 1.6; margin-top: 2px; }
 .sblocca .freccia { color: var(--velo); }
 .sblocca .genere { font-size: 0.58rem; padding: 0 5px; margin-right: 2px; }
@@ -1418,3 +1420,27 @@ button.zk-carta:disabled { cursor: default; opacity: 0.45; }
   .ramo { gap: 12px; }
   .ramo h3 { font-size: 1.2rem; }
 }
+
+/* ------------------------------------------------ la venatura horror (ui/inquietudine.ts) */
+/* il Tormento scurisce l'orlo dello schermo, e l'orlo respira piano */
+#vignetta, #venature { position: fixed; inset: 0; pointer-events: none; z-index: 30; opacity: 0; transition: opacity 4s ease; }
+#vignetta { background: radial-gradient(ellipse at center, transparent 48%, rgba(6, 3, 2, 0.9) 100%); }
+html.tormentato #vignetta { opacity: calc(0.3 + 0.65 * var(--tormento, 0)); animation: respiro-orlo 7s ease-in-out infinite; }
+@keyframes respiro-orlo { 50% { transform: scale(0.97); } }
+/* la Contaminazione: venature grigie che salgono dagli angoli, più in alto quanto più è alta */
+#venature {
+  background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='720' height='720'><filter id='f' x='0' y='0' width='1' height='1'><feTurbulence type='fractalNoise' baseFrequency='0.007 0.011' numOctaves='5' seed='11' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.62 0 0 0 0 0.64 0 0 0 0 0.6 1 0 0 0 0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0 0 0 0 0 0 0.85 0 0 0 0 0 0 0'/></feComponentTransfer></filter><rect width='720' height='720' filter='url(%23f)'/></svg>");
+  background-size: 720px 720px;
+  mix-blend-mode: screen;
+  --fin: calc(8vmax + 30vmax * var(--contaminazione, 0));
+  -webkit-mask-image: radial-gradient(circle at 0 0, #000, transparent var(--fin)), radial-gradient(circle at 100% 0, #000, transparent var(--fin)),
+    radial-gradient(circle at 0 100%, #000, transparent var(--fin)), radial-gradient(circle at 100% 100%, #000, transparent var(--fin));
+  mask-image: radial-gradient(circle at 0 0, #000, transparent var(--fin)), radial-gradient(circle at 100% 0, #000, transparent var(--fin)),
+    radial-gradient(circle at 0 100%, #000, transparent var(--fin)), radial-gradient(circle at 100% 100%, #000, transparent var(--fin));
+}
+html.contaminato #venature { opacity: calc(0.22 + 0.45 * var(--contaminazione, 0)); animation: deriva-marea 300s linear infinite; }
+@keyframes deriva-marea { to { background-position: 720px 360px; } }
+@media (prefers-reduced-motion: reduce) { html.tormentato #vignetta, html.contaminato #venature { animation: none; } }
+/* le pagine del diario che non hai scritto tu */
+.pagina-diario.notata b { font-style: italic; font-weight: 400; color: #b48a7c; }
+.pagina-diario.notata .pagina-corpo .prosa { font-style: italic; color: #c9b8a6; }
