@@ -11,10 +11,14 @@ import { mutazioniAbilita, mutazioneSchermata } from './crisi';
 import { OVUNQUE } from './contenuto';
 import type { PaginaDiario } from './diario';
 
+/** L'aspetto del ritratto in pixel art (ui/ritratto): si sceglie alla creazione, o al primo ingresso per chi non l'ha. */
+export interface AspettoPg { pelle: string; capelli: string; coloreCapelli: string; barba: string; coloreBarba: string }
+
 export interface Stato {
   versione: 1;
   nome: string;
   origine: string;
+  aspetto?: AspettoPg;
   attributi: Record<Attributo, number>;
   abilita: Record<string, number>;
   pe: Record<string, number>; // PE accumulati verso il livello successivo (abilità e attributi)
@@ -43,8 +47,9 @@ export interface Stato {
   notatoAl?: number; // ms di gioco dell'ultima pagina notata
 }
 
-export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string): Stato {
+export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string, aspetto?: AspettoPg): Stato {
   const s = creaStato(nome, origine, ora, areaIniziale);
+  if (aspetto) s.aspetto = { ...aspetto };
   s.quality['prologo'] = 1; // prologo da giocare; i salvataggi di prima non lo hanno e lo saltano
   migraOggetti(s); // l'arma e l'armatura di partenza sono anche oggetti posseduti
   return s;

@@ -24,6 +24,10 @@ import { vistaCombattimento } from './scontro';
 import type { StatoCombattimento } from '../motore/combattimento';
 import type { StatoZekar } from '../motore/zekar';
 import { vistaZekar } from './zekar';
+import { canvasRitratto } from './ritratto/tela';
+import { sceltaAspetto } from './ritratto/scelta';
+import { figura, figuraDi } from './ritratto/aspetti';
+import type { Aspetto } from './ritratto/motore';
 import { checkPassivo, type Voce } from '../motore/voci';
 import { h, mezzi, segno, durata, percentuale, nome, requisitoLeggibile, tempoGiocato } from './formato';
 import {
@@ -52,6 +56,7 @@ export interface Contesto {
   zekarScelte?: number[]; // le laterali scelte prima di sedersi al tavolo
   luogo?: string; // il luogo (mini-hub) aperto dentro l'area, se c'è
   altro?: boolean; // sul telefono, il foglio «Altro» aperto sopra la barra in basso
+  aspetto?: { bozza: Aspetto; prima: boolean }; // la pagina dell'aspetto è aperta (prima volta o «Cambia aspetto»)
 }
 
 const trova = (c: TContenuti, id: string) => c.storylet.find((x) => x.id === id);
@@ -845,8 +850,11 @@ export function personaggio(x: Contesto): string {
     </li>`;
   }).join('');
   return `<article class="scheda-pg">
-    <header class="scena-testa">
-      ${tavola(origine?.immagine, { classe: 'ritratto grande' })}
+    <header class="scena-testa con-ritratto">
+      <figure class="ritratto-pg">
+        ${(() => { const f = figuraDi(s, c); return canvasRitratto(f, { scala: f.accessori.some((x) => x.tipo === 'compagno') ? 3 : 4, etichetta: `Ritratto di ${s.nome}, con quello che indossa` }); })()}
+        <figcaption><button type="button" class="link" data-az="aspetto-cambia">Cambia aspetto</button></figcaption>
+      </figure>
       <div class="scena-titoli">
         ${etichetta(origine?.nome ?? '', 'velo')}
         <h2>${h(s.nome)}</h2>
@@ -870,6 +878,31 @@ export function personaggio(x: Contesto): string {
     <ul class="negative-dettaglio">${negative}</ul>
     <h2 class="titolo-sezione">Reputazione</h2>
     <ul class="reputazioni">${reputazioni}</ul>
+  </article>`;
+}
+
+// ================================================================ ASPETTO
+
+/** Il ritratto da scegliere: al primo ingresso di un personaggio che non l'ha, o da «Cambia aspetto». */
+export function vistaAspetto(x: Contesto): string {
+  const { s, c } = x;
+  const a = x.aspetto!;
+  return `<article class="scheda-aspetto">
+    <header class="aspetto-testa">
+      ${etichetta(a.prima ? 'Prima di riprendere' : 'Il ritratto', 'velo')}
+      <h2>${a.prima ? `Che aspetto ha ${h(s.nome)}` : `L'aspetto di ${h(s.nome)}`}</h2>
+      <p>${a.prima
+        ? `Da oggi la scheda del personaggio ha un ritratto. Scegli la pelle, i capelli e la barba di ${h(s.nome)}. Quello che porta addosso c'è già, e cambia quando cambi equipaggiamento.`
+        : 'Quello che porta addosso cambia quando cambi equipaggiamento.'}</p>
+    </header>
+    <div class="aspetto-corpo">
+      <div class="aspetto-figura">${canvasRitratto(figuraDi(s, c, a.bozza), { scala: 5, etichetta: `Ritratto di ${s.nome}` })}</div>
+      ${sceltaAspetto(a.bozza)}
+    </div>
+    <div class="azioni">
+      <button type="button" class="bottone primario" data-az="aspetto-conferma">${a.prima ? 'Riprendi a giocare' : 'Tieni questo aspetto'}</button>
+      ${a.prima ? '' : '<button type="button" class="bottone" data-az="aspetto-annulla">Annulla</button>'}
+    </div>
   </article>`;
 }
 
@@ -1103,7 +1136,7 @@ export function mappa(x: Contesto): string {
 
 const ROMANI = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
-export function creazione(c: TContenuti, scelta: string): string {
+export function creazione(c: TContenuti, scelta: string, aspetto: Aspetto): string {
   const o = c.origini.find((z) => z.id === scelta)!;
   const n = c.origini.indexOf(o);
   const voci = c.origini.map((z, i) => `<li><button type="button" class="origine${z.id === scelta ? ' scelta' : ''}" data-az="origine" data-id="${z.id}" aria-pressed="${z.id === scelta}">
@@ -1155,8 +1188,15 @@ export function creazione(c: TContenuti, scelta: string): string {
             <div><dt>Armatura</dt><dd>${h(armatura.nome)} <small>${h(armatura.dettagli)}</small></dd></div>
             <div><dt>Con te</dt><dd>${beni || 'niente'}</dd></div>
           </dl>
+          <section class="passo-aspetto" aria-labelledby="passo-aspetto">
+            <h2 class="passo" id="passo-aspetto"><span>II</span>Che aspetto hai</h2>
+            <div class="aspetto-corpo">
+              <div class="aspetto-figura">${canvasRitratto(figura(aspetto, { arma: o.arma, armatura: o.armatura, scudo: '', accessori: [], segni: [] }, c), { scala: 4, etichetta: 'Il tuo ritratto, con la dotazione di partenza' })}</div>
+              ${sceltaAspetto(aspetto)}
+            </div>
+          </section>
           <form class="modulo-nome" data-form="crea">
-            <h2 class="passo"><span>II</span><label for="nome-pg">Come ti chiamano</label></h2>
+            <h2 class="passo"><span>III</span><label for="nome-pg">Come ti chiamano</label></h2>
             <div class="riga">
               <input id="nome-pg" name="nome" maxlength="40" autocomplete="off" placeholder="Il nome che usano nei vicoli" required>
               <button type="submit" class="bottone primario">Scendi in città</button>

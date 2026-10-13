@@ -32,8 +32,12 @@ import { crisiAttiva, hash } from '../motore/crisi';
 import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
 import {
-  pagina, storia, personaggio, cronache, averi, bazar, mappa, diario, creazione, schedaAperta, type Contesto, type Scheda, type Vista,
+  pagina, storia, personaggio, cronache, averi, bazar, mappa, diario, creazione, vistaAspetto, schedaAperta, type Contesto, type Scheda, type Vista,
 } from './viste';
+import { montaRitratti } from './ritratto/tela';
+import { cambiaAspetto } from './ritratto/scelta';
+import { aspettoPredefinito, aspettoValido } from './ritratto/aspetti';
+import type { Aspetto } from './ritratto/motore';
 
 interface Salvataggio { stato: Stato; vista: Vista; scheda?: Scheda; luogo?: string | null; salvatoAl?: number }
 
@@ -55,6 +59,11 @@ let luogo: string | undefined; // il mini-hub aperto dentro l'area
 let info: PaginaInfo | null = null; // regolamento, termini, crediti o salvataggio, aperti dal piè di pagina
 let salvatoAl = 0; // ultima modifica del personaggio, mostrata nella pagina del salvataggio
 let altro = false; // sul telefono, il foglio «Altro» sopra la barra in basso
+// Il ritratto: l'aspetto scelto nella creazione, e la bozza della pagina dell'aspetto per il personaggio in gioco.
+// Un personaggio senza aspetto valido (i salvataggi di prima dei ritratti) passa dalla pagina prima di riprendere.
+let aspettoNuovo: Aspetto = { pelle: 'chiara', capelli: 'corti', coloreCapelli: 'castano', barba: 'corta', coloreBarba: 'castano' };
+let bozzaAspetto: Aspetto | null = null;
+let modificaAspetto = false;
 
 const app = document.getElementById('app')!;
 const lettore = new Lettore(c.tracce);
@@ -112,6 +121,7 @@ async function avviaArchivio(): Promise<void> {
 /** Toglie il personaggio dalla pagina e torna alla creazione. */
 function ricomincia(): void {
   stato = null; vista = { tipo: 'area' }; scheda = 'storia'; luogo = undefined; confermaNuovo = false; altro = false;
+  bozzaAspetto = null; modificaAspetto = false;
 }
 
 async function esciDallAccount(): Promise<void> {
@@ -134,6 +144,7 @@ function carica(s: Partial<Salvataggio>): void {
     scheda = s.scheda ?? 'storia';
     luogo = s.luogo ?? undefined;
     salvatoAl = s.salvatoAl ?? 0;
+    bozzaAspetto = null; modificaAspetto = false;
     idPersonaggio(stato);
   }
 }
@@ -168,7 +179,7 @@ function prossimoFrammento(): void {
 /** Le pagine informative prima di creare il personaggio: stesso impianto della creazione. */
 function creazioneInfo(id: PaginaInfo): string {
   const tmp = document.createElement('div');
-  tmp.innerHTML = creazione(c, origineScelta);
+  tmp.innerHTML = creazione(c, origineScelta, aspettoNuovo);
   const main = tmp.querySelector('main.creazione');
   if (main) main.innerHTML = contenutoInfo(id);
   return tmp.innerHTML;
@@ -187,7 +198,8 @@ function render(): void {
   if (!stato) {
     document.body.classList.add('in-creazione');
     document.documentElement.classList.remove('foglio-aperto');
-    app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta);
+    app.innerHTML = info ? creazioneInfo(info) : creazione(c, origineScelta, aspettoNuovo);
+    montaRitratti(app);
     avviso = '';
     lettore.imposta(sceltaAudio(c, { creazione: true }));
     aggiornaInquietudine(null, false);
@@ -203,9 +215,14 @@ function render(): void {
   const ora = Date.now();
   aggiornaTempo(stato, ora);
   if (vista.tipo === 'zekar' && !zekarScelte) zekarScelte = [...lateraliDi(s)]; // una partita ripresa da un salvataggio
-  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, zekarScelte: zekarScelte ?? [], luogo, altro };
+  const senzaAspetto = !aspettoValido(s.aspetto);
+  const aspetto = !info && (senzaAspetto || modificaAspetto)
+    ? { bozza: (bozzaAspetto ??= aspettoValido(s.aspetto) ?? aspettoPredefinito(s.nome)), prima: senzaAspetto }
+    : undefined;
+  const x: Contesto = { s: stato, c, vista, scheda: info ? ('info' as Scheda) : scheda, frammento: frammentoCorrente(), confermaNuovo, avviso, ora, bersaglio, zekarScelte: zekarScelte ?? [], luogo, altro, aspetto };
   ultimoContesto = x;
   const centro = info ? contenutoInfo(info)
+    : aspetto ? vistaAspetto(x)
     : scheda === 'personaggio' ? personaggio(x)
     : scheda === 'averi' ? averi(x)
     : scheda === 'cronache' ? cronache(x)
@@ -216,6 +233,7 @@ function render(): void {
   app.innerHTML = pagina(x, centro);
   document.documentElement.classList.toggle('foglio-aperto', altro);
   avviaLettura(app);
+  montaRitratti(app);
   aggiornaIndicatore();
   avviso = '';
   aggiornaInquietudine(s, !!c.aree.find((a) => a.id === s.area)?.spedizione);
@@ -287,6 +305,17 @@ function azione(az: string, el: HTMLElement): void {
     if (inp) inp.value = nomeAttuale;
     return;
   }
+  if (az === 'aspetto') {
+    const k = el.dataset['k'], v = el.dataset['v'];
+    if (!stato) {
+      const nomeAttuale = (document.getElementById('nome-pg') as HTMLInputElement | null)?.value ?? '';
+      aspettoNuovo = cambiaAspetto(aspettoNuovo, k, v);
+      render();
+      const inp = document.getElementById('nome-pg') as HTMLInputElement | null;
+      if (inp) inp.value = nomeAttuale;
+    } else if (bozzaAspetto) { bozzaAspetto = cambiaAspetto(bozzaAspetto, k, v); render(); }
+    return;
+  }
   if (az === 'pagina' && (PAGINE_INFO as string[]).includes(id)) { info = id as PaginaInfo; render(); if (stato) scorriAlPannello(); else window.scrollTo({ top: 0 }); return; }
   if (az === 'chiudi-pagina') { info = null; render(); scorriAlPannello(); return; }
   if (az === 'entra-google') { const cfg = configSupabase(); if (cfg) entraConGoogle(cfg); return; }
@@ -302,6 +331,13 @@ function azione(az: string, el: HTMLElement): void {
       confermaNuovo = false; salva(); render(); scorriAlPannello();
       break;
     }
+    case 'aspetto-cambia': modificaAspetto = true; bozzaAspetto = null; render(); scorriAlPannello(); break;
+    case 'aspetto-annulla': modificaAspetto = false; bozzaAspetto = null; render(); scorriAlPannello(); break;
+    case 'aspetto-conferma':
+      if (bozzaAspetto) s.aspetto = { ...bozzaAspetto };
+      modificaAspetto = false; bozzaAspetto = null;
+      salva(); render(); scorriAlPannello();
+      break;
     case 'area': cambia({ tipo: 'area' }); break;
     case 'luogo': luogo = id; cambia({ tipo: 'area' }); break;
     case 'esci-luogo': luogo = undefined; cambia({ tipo: 'area' }); break;
@@ -514,7 +550,7 @@ app.addEventListener('submit', (e) => {
   const nomePg = String(new FormData(form).get('nome') ?? '').trim();
   if (!nomePg) { (form.querySelector('input') as HTMLInputElement | null)?.focus(); return; }
   const o = c.origini.find((z) => z.id === origineScelta)!;
-  stato = nuovoPersonaggio(nomePg, o, Date.now(), AREA_INIZIALE);
+  stato = nuovoPersonaggio(nomePg, o, Date.now(), AREA_INIZIALE, aspettoNuovo);
   idPersonaggio(stato);
   cambia({ tipo: 'area' });
   window.scrollTo({ top: 0 });

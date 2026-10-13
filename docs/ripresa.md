@@ -167,6 +167,23 @@ vie di addestramento, tutte e due con `marchio: addestramento` (l'etichetta «Ad
   scritti per maestro e livello e si riusano con le ancore YAML. Il Bosco di Velthar (Aelion) e la Casa dei Nodi
   (Lira Demos) si aprono con le quest del Circolo e della Gilda. Test: `test/maestri.test.ts`.
 
+## Il ritratto in pixel art (13 ottobre 2026)
+Ogni personaggio ha un ritratto in pixel art, disegnato tutto da codice (nessuna immagine, nessuna IA): `src/ui/ritratto/`.
+- `motore.ts`: la figura in 48×72 pixel (84 con un compagno). Ogni pezzo è una forma di righe di pixel con un materiale;
+  il tono viene dalla luce fredda in alto a sinistra, ogni forma getta un'ombra a destra e sotto, il contorno prende il
+  colore del materiale. `tavolozza.ts`: le rampe di quattro toni dei materiali, delle pelli e delle chiome.
+- `aspetti.ts`: che aspetto ha ogni oggetto. Armi, armature e scudi comuni prendono la forma della base; gli unici e
+  tutti gli accessori (compagni compresi: cavalli, la lupa, il puma) hanno una voce scritta dalla loro descrizione.
+  **Un oggetto indossabile nuovo va aggiunto qui**: `test/ritratto.test.ts` fallisce se manca, o se non si vede.
+- Le mutazioni visibili (occhi luminescenti, vene di luce, unghie di metallo, pelle increspata) si vedono sul ritratto.
+- L'aspetto (pelle, capelli, barba e loro colori) sta in `Stato.aspetto` e si sceglie nella creazione (passo II).
+  Un personaggio senza aspetto valido (i salvataggi di prima) passa da «Che aspetto ha…» prima di riprendere; dalla
+  scheda Personaggio si cambia con «Cambia aspetto».
+- `tela.ts` disegna i `<canvas data-figura>` dopo ogni render, a ingrandimento intero, con il bagliore delle luci e un
+  battito di palpebre ogni tanto (fermo con il movimento ridotto).
+- `npx tsx scripts/strumenti/ritratti.ts <cartella> [armi|armature|scudi|accessori|bestie|teste] [scala]` fa le
+  tavole di prova in PNG con tutti gli oggetti; `RITAGLIO=x0,x1,y0,y1` guarda da vicino una parte della figura.
+
 ## Il gioco sul telefono (8 ottobre 2026)
 Sotto gli 860px l'interfaccia segue Fallen London sul telefono (`src/ui/viste.ts`, sezione «telefono»; in fondo a
 `src/ui/stile.css`): una riga di stato fissa in cima (rintocchi, monete, tasto dell'audio), il racconto a tutta
