@@ -3,7 +3,7 @@
 import { describe, it, expect } from 'vitest';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 import { nuovoPersonaggio, parseRequisito } from '../src/motore/personaggio';
-import { serieDi, avanzamento, prossimoPasso, statoSpedizione } from '../src/motore/serie';
+import { serieDi, avanzamento, prossimoPasso, sbarra, statoSpedizione } from '../src/motore/serie';
 
 /** Le scene che si giocano una volta e non fanno parte di una storia lunga: incontri, epiloghi, scelte sciolte. */
 const STORIE_SINGOLE = [
@@ -82,5 +82,24 @@ describe('le cronache', () => {
     const z = serie.find((x) => x.id === 'pista.dama-argento')!;
     const p = prossimoPasso(s, c, z);
     expect(p?.st.requisiti).toContain('pista.dama-argento == 0');
+  });
+
+  it("un bivio già deciso ferma la storia dell'altra strada, e lo dice", () => {
+    const s = pg();
+    const caserma = serie.find((x) => x.id === 'fazione.caserma')!;
+    const scuri = serie.find((x) => x.id === 'fazione.scuri')!;
+    s.quality['fazione.caserma'] = 8;
+    s.quality['fazione.scuri'] = 8;
+    s.quality['pista.pelle'] = 6;
+    // ancora da decidere: tutte e due le strade restano aperte
+    expect(sbarra(s, c, caserma)).toBeUndefined();
+    expect(sbarra(s, c, scuri)).toBeUndefined();
+    s.quality['bivio.legge'] = 2;
+    expect(prossimoPasso(s, c, caserma)?.aperta).toBe(false);
+    expect(sbarra(s, c, caserma)).toEqual({ quality: 'bivio.legge', scelta: 'gli Scuri' });
+    expect(sbarra(s, c, scuri)).toBeUndefined();
+    s.quality['bivio.legge'] = 1;
+    expect(sbarra(s, c, scuri)).toEqual({ quality: 'bivio.legge', scelta: 'la Caserma' });
+    expect(sbarra(s, c, caserma)).toBeUndefined();
   });
 });

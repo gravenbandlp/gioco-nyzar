@@ -258,6 +258,30 @@ export function attese(s: Stato, c: TContenuti, serie: Serie): Attesa[] {
   return meglio ?? [];
 }
 
+/** Un bivio già deciso che chiude per sempre il prossimo passo di una serie: quale bivio e che cosa hai scelto. */
+export interface Sbarra { quality: string; scelta: string }
+
+/**
+ * Il bivio che ferma la serie: tutte le storie del passo successivo chiedono a un bivio (una quality con `scelte`)
+ * un valore diverso da quello che hai già scelto. Al passo 9 della Caserma, con gli Scuri scelti, «La lista dello
+ * sceriffo» non si aprirà più. Niente se almeno una storia del passo ha ancora una strada.
+ */
+export function sbarra(s: Stato, c: TContenuti, serie: Serie): Sbarra | undefined {
+  const cand = prossimi(s, c, serie);
+  if (!cand.length) return undefined;
+  let trovata: Sbarra | undefined;
+  for (const st of cand) {
+    const r = req(st).find((x) => {
+      const v = s.quality[x.chiave] ?? 0;
+      return v !== 0 && !!c.quality.find((q) => q.id === x.chiave)?.scelte && !requisitoSoddisfatto(s, `${x.chiave} ${x.op} ${x.n}`, c);
+    });
+    if (!r) return undefined;
+    const v = s.quality[r.chiave]!;
+    trovata ??= { quality: r.chiave, scelta: c.quality.find((q) => q.id === r.chiave)!.scelte![String(v)] ?? String(v) };
+  }
+  return trovata;
+}
+
 /** Lo storylet si può aprire adesso: i suoi requisiti e quelli del luogo dove sta. */
 function apribile(s: Stato, c: TContenuti, st: TStorylet): boolean {
   const l = st.presso ? c.luoghi.find((x) => x.id === st.presso) : undefined;

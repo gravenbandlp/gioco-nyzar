@@ -129,6 +129,9 @@ export const Quality = z.object({
   valore: z.number().optional(), // valore in monete (beni)
   famiglia: z.string().optional(), // famiglia di beni: cristalli, informazioni, reliquie
   nascosta: z.boolean().optional(),
+  // un bivio: che cosa vuol dire ogni valore, per le Cronache ({ 1: la Caserma, 2: gli Scuri }). Una volta deciso
+  // non cambia più, e un passo che chiede un'altra scelta resta chiuso per sempre
+  scelte: z.record(z.string(), z.string()).optional(),
 });
 
 export const Nemico = z.object({

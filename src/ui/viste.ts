@@ -16,7 +16,7 @@ import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/s
 import { nelDiario } from '../motore/diario';
 import { descrizioneDi } from '../motore/inquietudine';
 import {
-  serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, attese, prossimoPasso, statoSpedizione, iniziata, type Serie, type Genere,
+  serieDi, avanzamento, prossimaTappa, fazioneDi, sblocchi, attese, sbarra, prossimoPasso, statoSpedizione, iniziata, type Serie, type Genere,
 } from '../motore/serie';
 import { NOMI_TRADIZIONI, OVUNQUE } from '../motore/contenuto';
 import { piede } from './pagine';
@@ -513,9 +513,13 @@ function rigaCronaca(s: Stato, c: TContenuti, z: Serie): string {
     grado = `<div class="grado-fazione">${ultimo ? etichetta(`Grado ${presi.length} · ${ultimo.nome}`, 'velo') : etichetta('Aspirante', 'dim')}</div>`;
   }
   const passo = prossimoPasso(s, c, z);
-  const riga = passo
-    ? `<p class="prossimo-passo"><span class="freccia" aria-hidden="true">→</span> ${passo.aperta ? 'Prossimo passo' : 'Il prossimo passo, ancora chiuso'}: <b>«${h(passo.st.titolo)}»</b>, ${h(doveSi(c, passo.st))}.</p>`
-    : '';
+  // un bivio già deciso che chiude la storia: lo si dice, invece di mostrare un passo che non si aprirà più
+  const fermo = passo && !passo.aperta ? sbarra(s, c, z) : undefined;
+  const riga = fermo
+    ? `<p class="prossimo-passo"><span class="freccia" aria-hidden="true">→</span> La storia si ferma qui, perché hai scelto ${h(fermo.scelta)}.</p>`
+    : passo
+      ? `<p class="prossimo-passo"><span class="freccia" aria-hidden="true">→</span> ${passo.aperta ? 'Prossimo passo' : 'Il prossimo passo, ancora chiuso'}: <b>«${h(passo.st.titolo)}»</b>, ${h(doveSi(c, passo.st))}.</p>`
+      : '';
   const spedizioni = (serieDi(c).spedizioni.get(z.id) ?? []).map((a) => ({ a, stato: statoSpedizione(s, c, a) }));
   const viste = spedizioni.filter((x) => x.stato !== 'chiusa');
   const altre = spedizioni.length - viste.length;
@@ -525,7 +529,7 @@ function rigaCronaca(s: Stato, c: TContenuti, z: Serie): string {
     : '';
   const speso = s.tempo?.serie[z.id] ?? 0;
   const tempo = speso >= 60000 ? `<span class="tempo-serie" title="Tempo di gioco in questa storia">${h(tempoGiocato(speso))}</span>` : '';
-  return `<li>${tavola(f?.immagine ?? z.immagine, { classe: 'icona' })}<div><b>${h(f?.nome ?? z.nome)}</b>${grado}${sotto ? `<p>${h(sotto)}</p>` : ''}${riga}${passo && !passo.aperta ? rigaAttese(s, c, z) : ''}${sped}</div><span class="serie">${tacche(fatti, z.massimo)}${tempo}</span></li>`;
+  return `<li>${tavola(f?.immagine ?? z.immagine, { classe: 'icona' })}<div><b>${h(f?.nome ?? z.nome)}</b>${grado}${sotto ? `<p>${h(sotto)}</p>` : ''}${riga}${passo && !passo.aperta && !fermo ? rigaAttese(s, c, z) : ''}${sped}</div><span class="serie">${tacche(fatti, z.massimo)}${tempo}</span></li>`;
 }
 
 /** Le Cronache: le storie lunghe cominciate e non ancora chiuse, nelle sezioni di cronache.yaml. Le concluse escono. */
