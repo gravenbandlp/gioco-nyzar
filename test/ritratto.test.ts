@@ -1,12 +1,13 @@
 import { CONTENUTI as c } from '../src/dati/contenuti';
 import { nuovoPersonaggio } from '../src/motore/personaggio';
 import { disegna, type Aspetto } from '../src/ui/ritratto/motore';
-import { ACCESSORI, ARMI_BASE, ARMATURE_BASE, SCUDI_BASE, UNICI, aspettoPredefinito, aspettoValido, figura, figuraDi, type Dotazione } from '../src/ui/ritratto/aspetti';
+import { ACCESSORI, ARMI_BASE, ARMATURE_BASE, SCUDI_BASE, UNICI, aspettoPredefinito, aspettoValido, figura, figuraDi, posaDi, visArma, type Dotazione } from '../src/ui/ritratto/aspetti';
 import { cambiaAspetto } from '../src/ui/ritratto/scelta';
 
 const ASPETTO: Aspetto = { pelle: 'olivastra', capelli: 'corti', coloreCapelli: 'nero', barba: 'corta', coloreBarba: 'grigio' };
 const NUDO: Dotazione = { arma: 'mani-nude', armatura: 'nessuna', scudo: '', accessori: [], segni: [] };
-const pixel = (d: Dotazione) => Buffer.from(disegna(figura(ASPETTO, d, c)).pixel).toString('base64');
+const DONNA: Aspetto = { ...ASPETTO, corpo: 'femminile', capelli: 'lunghi' };
+const pixel = (d: Dotazione, a: Aspetto = ASPETTO) => Buffer.from(disegna(figura(a, d, c)).pixel).toString('base64');
 const BASI = new Set([...Object.keys(ARMI_BASE), ...Object.keys(ARMATURE_BASE), ...Object.keys(SCUDI_BASE)]);
 
 describe('ritratto', () => {
@@ -71,5 +72,31 @@ describe('ritratto', () => {
     s.quality['mutazione.occhi-luminescenti'] = 1;
     s.quality['mutazione.gola-roca'] = 1;
     expect(figuraDi(s, c).segni).toEqual(['occhi']);
+  });
+
+  it("la posa viene dalle regole dell'arma, e la forma disegnata le somiglia", () => {
+    const DUE_MANI = new Set(['spadone', 'bipenne', 'martello', 'falce']), MIRA = new Set(['arcoCorto', 'arcoLungo', 'balestra']);
+    for (const o of c.oggetti.filter((x) => x.slot === 'arma')) {
+      const posa = posaDi(o.id, '', c), forma = visArma(o.id, c).forma;
+      expect(posa === 'dueMani', `${o.id}: ${posa} con la forma ${forma}`).toBe(DUE_MANI.has(forma));
+      expect(posa === 'mira', `${o.id}: ${posa} con la forma ${forma}`).toBe(MIRA.has(forma));
+    }
+    expect(posaDi('mani-nude', '', c)).toBe('dritta');
+    expect(posaDi('mani-nude', 'scudo', c)).toBe('guardia');
+    expect(posaDi('pugnale', '', c)).toBe('guardia');
+  });
+
+  it('ogni arma si vede anche in mano al corpo femminile', () => {
+    const nuda = pixel(NUDO, DONNA);
+    expect(nuda).not.toBe(nudo);
+    for (const o of c.oggetti.filter((x) => x.slot === 'arma' && x.id !== 'mani-nude')) expect(pixel({ ...NUDO, arma: o.id }, DONNA), o.id).not.toBe(nuda);
+  });
+
+  it('il corpo si sceglie; quello femminile non ha barba, e i salvataggi senza corpo restano validi', () => {
+    expect(cambiaAspetto(ASPETTO, 'corpo', 'femminile').corpo).toBe('femminile');
+    expect(cambiaAspetto(ASPETTO, 'corpo', 'altro')).toEqual(ASPETTO);
+    expect(aspettoValido(ASPETTO)).toEqual(ASPETTO);
+    expect(aspettoValido({ ...ASPETTO, corpo: 'altro' })).toBeUndefined();
+    expect(pixel(NUDO, { ...DONNA, barba: 'lunga' })).toBe(pixel(NUDO, { ...DONNA, barba: 'nessuna' }));
   });
 });

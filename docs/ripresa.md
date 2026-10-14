@@ -175,14 +175,24 @@ Ogni personaggio ha un ritratto in pixel art, disegnato tutto da codice (nessuna
 - `aspetti.ts`: che aspetto ha ogni oggetto. Armi, armature e scudi comuni prendono la forma della base; gli unici e
   tutti gli accessori (compagni compresi: cavalli, la lupa, il puma) hanno una voce scritta dalla loro descrizione.
   **Un oggetto indossabile nuovo va aggiunto qui**: `test/ritratto.test.ts` fallisce se manca, o se non si vede.
+- Le pose (14 ottobre 2026): dritta a mani vuote; in guardia con un'arma a una mano o uno scudo; con le due mani
+  sull'arma da mischia «Due mani»; in mira con arco e balestra. La decide `posaDi` in `aspetti.ts` dalle regole
+  dell'arma, e il test controlla che la forma disegnata sia coerente. La figura si disegna sempre dritta su strati
+  (fondo, corpo, arma, scudo); per le altre pose le braccia si staccano e si rimontano a pezzi fra spalla, gomito e
+  mano (`tratto`), le gambe si aprono (`divarica`), l'arma si disegna appesa alla mano e si porta nella posa ribaltata
+  e inclinata a scaletta (`presa`). Armature e accessori sulle braccia vanno con loro: non serve una versione per
+  posa. Arco e balestra in mira si disegnano a parte (`arcoInMira`, `balestraInMira`).
+- Il corpo femminile (`aspetto.corpo`): `restringi` stringe le spalle già vestite e avvicina le braccia; volto con
+  mento più stretto e labbra, niente barba. Senza `corpo` la figura è maschile (i salvataggi di prima).
 - Le mutazioni visibili (occhi luminescenti, vene di luce, unghie di metallo, pelle increspata) si vedono sul ritratto.
-- L'aspetto (pelle, capelli, barba e loro colori) sta in `Stato.aspetto` e si sceglie nella creazione (passo II).
+- L'aspetto (corpo, pelle, capelli, barba e loro colori) sta in `Stato.aspetto` e si sceglie nella creazione (passo II).
   Un personaggio senza aspetto valido (i salvataggi di prima) passa da «Che aspetto ha…» prima di riprendere; dalla
   scheda Personaggio si cambia con «Cambia aspetto».
 - `tela.ts` disegna i `<canvas data-figura>` dopo ogni render, a ingrandimento intero, con il bagliore delle luci e un
   battito di palpebre ogni tanto (fermo con il movimento ridotto).
-- `npx tsx scripts/strumenti/ritratti.ts <cartella> [armi|armature|scudi|accessori|bestie|teste] [scala]` fa le
-  tavole di prova in PNG con tutti gli oggetti; `RITAGLIO=x0,x1,y0,y1` guarda da vicino una parte della figura.
+- `npx tsx scripts/strumenti/ritratti.ts <cartella> [armi|armature|scudi|accessori|pose|bestie|teste|una] [scala]` fa
+  le tavole di prova in PNG; `RITAGLIO=x0,x1,y0,y1` guarda da vicino una parte della figura, `CORPO=femminile` usa la
+  figura femminile, e `una` disegna le figure di `ARMI=spadone:cotta-di-maglia,arco-lungo` (con SCUDO e ACCESSORI).
 
 ## Il gioco sul telefono (8 ottobre 2026)
 Sotto gli 860px l'interfaccia segue Fallen London sul telefono (`src/ui/viste.ts`, sezione «telefono»; in fondo a

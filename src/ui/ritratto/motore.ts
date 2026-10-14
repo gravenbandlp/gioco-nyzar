@@ -11,10 +11,14 @@ export const LARGHEZZA_COMPAGNO = 84;
 
 export const TAGLI = ['rasati', 'corti', 'arruffati', 'lunghi', 'raccolti'] as const;
 export const BARBE = ['nessuna', 'ispida', 'baffi', 'corta', 'lunga'] as const;
+export const CORPI = ['maschile', 'femminile'] as const;
 export type Taglio = (typeof TAGLI)[number];
 export type Barba = (typeof BARBE)[number];
+export type Corpo = (typeof CORPI)[number];
 
 export interface Aspetto {
+  /** Senza, maschile: i salvataggi di prima della scelta. */
+  corpo?: Corpo;
   pelle: string;
   capelli: Taglio;
   coloreCapelli: string;
@@ -85,8 +89,16 @@ export type VisAccessorio =
 
 export type Segno = 'occhi' | 'vene' | 'unghie' | 'pelle';
 
+/**
+ * Come sta in piedi la figura: dritta a mani vuote; in guardia con un'arma a una mano o uno scudo; con le due mani
+ * sull'arma da mischia a due mani; in mira con l'arco o la balestra.
+ */
+export type Posa = 'dritta' | 'guardia' | 'dueMani' | 'mira';
+
 export interface Figura {
   aspetto: Aspetto;
+  /** Senza: dritta, o in guardia se c'è uno scudo. */
+  posa?: Posa;
   arma: VisArma;
   armatura: VisArmatura;
   scudo?: VisScudo;
@@ -113,16 +125,19 @@ interface OpzForma {
 export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   const compagni = f.accessori.filter((a): a is Extract<VisAccessorio, { tipo: 'compagno' }> => a.tipo === 'compagno');
   const W = compagni.length ? LARGHEZZA_COMPAGNO : LARGHEZZA, H = ALTEZZA;
-  const M: (string | null)[] = new Array(W * H).fill(null);
-  const T = new Int8Array(W * H);
-  const R: (string | null)[] = new Array(W * H).fill(null);
-  const V: ([string, number] | null)[] = new Array(W * H).fill(null);
+  // si disegna su strati: il fondo, il corpo, l'arma, lo scudo; alla fine si compongono sulla tela. Uno strato può
+  // essere più alto della tela (l'arma, che si disegna appesa alla mano e poi si gira): `oy` righe sopra lo zero
+  interface Strato { M: (string | null)[]; T: Int8Array; R: (string | null)[]; V: ([string, number] | null)[]; oy: number; h: number }
+  const strato = (h = H, oy = 0): Strato => ({ M: new Array(W * h).fill(null), T: new Int8Array(W * h), R: new Array(W * h).fill(null), V: new Array(W * h).fill(null), oy, h });
+  const tela = strato();
+  let M = tela.M, T = tela.T, R = tela.R, V = tela.V, OY = 0, HS = H;
+  const usa = (s: Strato) => { M = s.M; T = s.T; R = s.R; V = s.V; OY = s.oy; HS = s.h; };
   const luci: Luce[] = [];
   const a = f.aspetto;
   const acc = <K extends VisAccessorio['tipo']>(t: K) => f.accessori.filter((x): x is Extract<VisAccessorio, { tipo: K }> => x.tipo === t);
   const segni = new Set(f.segni);
-  const inb = (x: number, y: number) => x >= 0 && y >= 0 && x < W && y < H;
-  const id = (x: number, y: number) => y * W + x;
+  const inb = (x: number, y: number) => x >= 0 && y + OY >= 0 && x < W && y + OY < HS;
+  const id = (x: number, y: number) => (y + OY) * W + x;
   const rett = (x0: number, y0: number, x1: number, y1: number): Riga[] => { const r: Riga[] = []; for (let y = y0; y <= y1; y++) r.push([y, x0, x1]); return r; };
   const spec = (sp: Riga[]): Riga[] => sp.map(([y, x0, x1]) => [y, LARGHEZZA - 1 - x1, LARGHEZZA - 1 - x0]);
   const sposta = (sp: Riga[], dx: number, dy = 0): Riga[] => sp.map(([y, x0, x1]) => [y + dy, x0 + dx, x1 + dx]);
@@ -155,7 +170,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     if (o.ombra !== false && !EMISSIVI.has(mat)) {
       const visti = new Set<number>();
       for (const i of fatti) {
-        const x = i % W, y = (i / W) | 0;
+        const x = i % W, y = ((i / W) | 0) - OY;
         for (const [nx, ny] of [[x + 1, y], [x, y + 1]] as const) {
           if (!inb(nx, ny) || ha(nx, ny)) continue;
           const j = id(nx, ny), m = M[j];
@@ -334,7 +349,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     for (const [x, y, t] of p) px(x, y, s.mat, t);
   }
 
-  type ArmaturaFatta = { scollo: 'v' | 'tondo' | null; dopoTesta?: () => void };
+  type ArmaturaFatta = { scollo: 'v' | 'tondo' | null; dopoTesta?: () => void; orlo?: number };
   function armatura(v: VisArmatura): ArmaturaFatta {
     const sotto = v.sotto ?? 'lana';
     switch (v.forma) {
@@ -348,7 +363,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         forma(rett(13, 36, 15, 39), 'pelle'); forma(rett(32, 36, 34, 39), 'pelle', { scuro: 1 });
         tono(14, 35, 3, m); tono(33, 35, 2, m);
         mani(); cintura();
-        return { scollo: 'v' };
+        return { scollo: 'v', orlo: v.lungo ? 52 : undefined };
       }
       case 'giaco': {
         const m = v.corpo ?? 'lino';
@@ -361,7 +376,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         if (v.lungo) for (const [x, y] of [[22, 21], [22, 24], [22, 27], [22, 30], [22, 33]] as const) px(x, y, 'argentoBrunito', 2);
         if (v.stemma) stemma(v.stemma, 18, 22);
         mani(); cintura();
-        return { scollo: null, dopoTesta: () => forma([[18, 21, 26], [19, 20, 27]], m) };
+        return { scollo: null, dopoTesta: () => forma([[18, 21, 26], [19, 20, 27]], m), orlo: v.lungo ? 54 : undefined };
       }
       case 'cuoio': {
         const m = v.corpo ?? 'cuoio2';
@@ -404,6 +419,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         mani(); cintura();
         return {
           scollo: 'tondo',
+          orlo: orlo > 40 ? orlo + 1 : undefined,
           dopoTesta: v.pelo ? () => forma([[16, 20, 27], [17, 18, 29], [18, 16, 31], [19, 15, 32], [20, 15, 32], [21, 16, 18], [21, 29, 31]], v.pelo!, { retino: true, luce: 0.25 }) : undefined,
         };
       }
@@ -467,18 +483,22 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     if (scollo === 'v') collo.push([19, 22, 25], [20, 23, 24]);
     if (scollo === 'tondo') collo.push([19, 21, 26]);
     forma(collo, 'pelle', { tono: (x, y) => (y <= 17 || x >= 25 ? 0 : 1), ombra: false });
-    const h: Riga[] = [[6, 21, 26]]; for (let y = 7; y <= 14; y++) h.push([y, 20, 27]); h.push([15, 21, 26], [16, 22, 25]);
+    // il volto femminile ha il mento più stretto
+    const h: Riga[] = [[6, 21, 26]]; for (let y = 7; y <= (femmina ? 13 : 14); y++) h.push([y, 20, 27]);
+    if (femmina) h.push([14, 21, 26], [15, 22, 25], [16, 23, 24]); else h.push([15, 21, 26], [16, 22, 25]);
     forma(h, 'pelle', { luce: 0.15 });
     px(19, 11, 'pelle', 2); px(19, 12, 'pelle', 1); px(28, 11, 'pelle', 1); px(28, 12, 'pelle', 0);
   }
   function volto(): void {
-    px(21, 10, 'capelli', 1); px(22, 10, 'capelli', 1); px(25, 10, 'capelli', 1); px(26, 10, 'capelli', 0);
+    if (femmina) { px(21, 10, 'capelli', 1); px(22, 9, 'capelli', 2); px(25, 9, 'capelli', 1); px(26, 10, 'capelli', 0); }
+    else { px(21, 10, 'capelli', 1); px(22, 10, 'capelli', 1); px(25, 10, 'capelli', 1); px(26, 10, 'capelli', 0); }
     tono(21, 11, 0); tono(26, 11, 0);
     tono(21, 12, 1); tono(22, 12, 1); tono(25, 12, 0); tono(26, 12, 0);
     if (opz.palpebre) { tono(22, 11, 1); tono(25, 11, 0); } else { raw(22, 11, OCCHIO); raw(25, 11, OCCHIO); }
     tono(23, 12, 3); tono(24, 12, 1); tono(24, 13, 0); tono(23, 13, 2);
     tono(22, 14, 1); tono(23, 14, 0); tono(24, 14, 0); tono(25, 14, 1);
-    tono(21, 15, 2); tono(26, 15, 0);
+    if (femmina) { vela(23, 14, 'scarlatto', 0.45); vela(24, 14, 'scarlatto', 0.4); tono(22, 14, 2); tono(25, 14, 1); tono(22, 15, 2); tono(25, 15, 0); }
+    else { tono(21, 15, 2); tono(26, 15, 0); }
   }
   const CAPELLI: Record<Taglio, () => void> = {
     rasati() {
@@ -711,8 +731,8 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   // ================================================================ armi (mano sinistra a schermo: x 13..15, y 40..43)
   function arma(v: VisArma): void {
     const m = { lama: 'acciaio', manico: 'legno', elsa: 'ferro', pomo: 'ferro', testa: 'ferro', impugnatura: 'cuoio', ...v } as Required<Omit<VisArma, 'variante' | 'dettaglio'>> & VisArma;
-    const asta = (x0: number, y0: number, y1: number, mm = m.manico) => { for (let y = y0; y <= y1; y++) { if (y >= 40 && y <= 42 && x0 >= 13) continue; px(x0, y, mm, 2); px(x0 + 1, y, mm, 1); } };
-    const ditaSu = (x0: number) => { for (let y = 40; y <= 42; y++) { px(x0, y, manoMat, y === 40 ? 3 : 2); px(x0 + 1, y, manoMat, y === 42 ? 1 : 2); } };
+    // le mani le mette la posa, sopra l'arma: qui l'impugnatura si disegna intera
+    const asta = (x0: number, y0: number, y1: number, mm = m.manico) => { for (let y = y0; y <= y1; y++) { px(x0, y, mm, 2); px(x0 + 1, y, mm, 1); } };
     switch (v.forma) {
       case 'mani': return;
       case 'tirapugni': px(13, 41, m.testa, 3); px(14, 41, m.testa, 2); px(15, 41, m.testa, 1); px(13, 42, m.testa, 1); return;
@@ -755,16 +775,16 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         forma([[43, 10, 19]], m.elsa); px(10, 44, m.elsa, 1); px(19, 44, m.elsa, 0);
         const curva = v.forma === 'spadaCurva';
         const toni = m.lama === 'neroLama' ? [2, 1] : [3, 1];
-        for (let y = 44; y <= 64; y++) {
-          const d = curva ? Math.round(((y - 44) / 20) ** 2 * 3) : 0;
+        for (let y = 44; y <= 60; y++) {
+          const d = curva ? Math.round(((y - 44) / 16) ** 2 * 3) : 0;
           px(14 - d, y, m.lama, toni[0]!); px(15 - d, y, m.lama, toni[1]!);
-          if (curva && v.dettaglio && y % 3 === 0 && y < 62) { px(16 - d, y, v.dettaglio, 3); }
+          if (curva && v.dettaglio && y % 3 === 0 && y < 58) { px(16 - d, y, v.dettaglio, 3); }
         }
         const dt = curva ? 3 : 0;
-        px(14 - dt, 65, m.lama, toni[0]!); px(15 - dt, 65, m.lama, 0); px(14 - dt, 66, m.lama, toni[1]!);
+        px(14 - dt, 61, m.lama, toni[0]!); px(15 - dt, 61, m.lama, 0); px(14 - dt, 62, m.lama, toni[1]!);
         if (!curva && v.dettaglio) { px(14, 47, v.dettaglio, 3); px(15, 48, v.dettaglio, 3); px(14, 49, v.dettaglio, 3); }
         if (v.variante === 'ammaccata') { tono(14, 54, 1); tono(14, 55, 0); }
-        if (v.dettaglio && EMISSIVI.has(v.dettaglio)) accendi(curva ? 14 : 15, 52, v.dettaglio, 7, 0.25);
+        if (v.dettaglio && EMISSIVI.has(v.dettaglio)) accendi(curva ? 14 : 15, 50, v.dettaglio, 7, 0.25);
         return;
       }
       case 'spadone': {
@@ -772,14 +792,14 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         for (let y = 36; y <= 39; y++) { px(14, y, m.impugnatura, y % 2 ? 2 : 1); px(15, y, m.impugnatura, y % 2 ? 1 : 0); }
         forma([[43, 9, 20]], m.elsa); px(9, 44, m.elsa, 1); px(20, 44, m.elsa, 0);
         const largo = v.variante === 'largo' || v.variante === 'storto';
-        for (let y = 44; y <= 66; y++) {
-          const d = v.variante === 'storto' && y > 52 && y < 62 ? 1 : 0;
+        for (let y = 44; y <= 74; y++) {
+          const d = v.variante === 'storto' && y > 54 && y < 68 ? 1 : 0;
           if (largo) lama(12 - d, 16 - d, y, y, m.lama, [3, 2, 2, 1, 0]);
           else lama(13, 16, y, y, m.lama, [3, 2, 1, 0]);
         }
-        if (!largo) for (let y = 45; y <= 58; y++) px(14, y, m.lama, 1);
-        lama(14, 15, 67, 68, m.lama, [2, 0]);
-        if (v.dettaglio) { for (const y of [47, 51, 55, 59]) px(14, y, v.dettaglio, 3); if (EMISSIVI.has(v.dettaglio)) accendi(14.5, 53, v.dettaglio, 7, 0.22); }
+        if (!largo) for (let y = 45; y <= 66; y++) px(14, y, m.lama, 1);
+        lama(14, 15, 75, 76, m.lama, [2, 0]);
+        if (v.dettaglio) { for (const y of [47, 51, 55, 59, 63, 67]) px(14, y, v.dettaglio, 3); if (EMISSIVI.has(v.dettaglio)) accendi(14.5, 57, v.dettaglio, 8, 0.22); }
         return;
       }
       case 'lancia': case 'bastone': {
@@ -801,7 +821,6 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
             if (v.variante === 'cristallo') forma([[4, 11, 12], [5, 10, 13], [6, 11, 12]], v.dettaglio ?? 'vetro', { luce: 0.4 });
             break;
         }
-        ditaSu(11);
         if (v.dettaglio && v.forma === 'lancia' && EMISSIVI.has(v.dettaglio)) accendi(11.5, 3, v.dettaglio, 5, 0.25);
         return;
       }
@@ -841,31 +860,36 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         return;
       case 'bipenne':
         px(14, 39, m.manico, 3);
-        asta(14, 43, 66);
-        forma([[52, 12, 13], [53, 10, 13], [54, 9, 13], [55, 8, 13], [56, 8, 13], [57, 8, 13], [58, 9, 13], [59, 10, 13], [60, 12, 13]], m.lama, { luce: 0.3 });
-        forma(spec([[52, 12, 13], [53, 10, 13], [54, 9, 13], [55, 8, 13], [56, 8, 13], [57, 8, 13], [58, 9, 13], [59, 10, 13], [60, 12, 13]]).map(([y, x0, x1]) => [y, x0 - 18, x1 - 18] as Riga), m.lama, { scuro: 1 });
-        if (v.variante === 'scure') { for (let x = 16; x <= 21; x++) for (let y = 52; y <= 60; y++) togli(x, y); forma([[52, 16, 16], [53, 16, 17], [54, 16, 17], [55, 16, 18]], m.testa); }
-        if (v.dettaglio) { for (const [x, y] of [[9, 55], [8, 57], [10, 59], [11, 53]] as const) px(x, y, v.dettaglio, 3); }
+        asta(14, 43, 80);
+        {
+          const t = 14; // la testa scende in fondo al manico
+          const ala: Riga[] = [[52, 12, 13], [53, 10, 13], [54, 9, 13], [55, 8, 13], [56, 8, 13], [57, 8, 13], [58, 9, 13], [59, 10, 13], [60, 12, 13]].map(([y, x0, x1]) => [y! + t, x0!, x1!] as Riga);
+          forma(ala, m.lama, { luce: 0.3 });
+          forma(spec(ala).map(([y, x0, x1]) => [y, x0 - 18, x1 - 18] as Riga), m.lama, { scuro: 1 });
+          if (v.variante === 'scure') { for (let x = 16; x <= 21; x++) for (let y = 52 + t; y <= 60 + t; y++) togli(x, y); forma([[52 + t, 16, 16], [53 + t, 16, 17], [54 + t, 16, 17], [55 + t, 16, 18]], m.testa); }
+          if (v.dettaglio) { for (const [x, y] of [[9, 55], [8, 57], [10, 59], [11, 53]] as const) px(x, y + t, v.dettaglio, 3); }
+        }
         return;
       case 'falce': {
         const x = 11;
         for (let y = 4; y <= 69; y++) { px(x, y, m.manico, 2); px(x + 1, y, m.manico, 1); }
         forma([[0, 12, 12], [1, 12, 13], [2, 12, 14], [3, 12, 14], [4, 12, 14], [5, 12, 14], [6, 12, 14], [7, 12, 14], [8, 12, 13], [9, 12, 13]], m.lama, { luce: 0.4 });
         forma(rett(11, 10, 12, 11), m.testa);
-        ditaSu(11);
         return;
       }
       case 'martello': {
+        // un'arma a due mani: il manico è lungo, la testa sta in fondo
+        const t = 14;
         px(14, 39, m.manico, 3);
-        asta(14, 43, 61);
-        if (v.variante === 'maglio') { forma(rett(11, 55, 17, 59), m.testa, { luce: 0.2 }); forma([[56, 18, 19], [57, 18, 20], [58, 18, 19]], m.testa, { scuro: 1 }); }
-        else if (v.variante === 'piccone') { forma([[55, 7, 21], [56, 8, 20], [57, 12, 17]], m.testa, { luce: 0.25 }); px(7, 56, m.testa, 1); px(21, 56, m.testa, 0); }
+        asta(14, 43, 61 + t);
+        if (v.variante === 'maglio') { forma(rett(11, 55 + t, 17, 59 + t), m.testa, { luce: 0.2 }); forma(sposta([[56, 18, 19], [57, 18, 20], [58, 18, 19]], 0, t), m.testa, { scuro: 1 }); }
+        else if (v.variante === 'piccone') { forma(sposta([[55, 7, 21], [56, 8, 20], [57, 12, 17]], 0, t), m.testa, { luce: 0.25 }); px(7, 56 + t, m.testa, 1); px(21, 56 + t, m.testa, 0); }
         else if (v.variante === 'battente') {
-          for (let y = 43; y <= 58; y++) { px(14, y, m.manico, y % 2 ? 3 : 1); px(15, y, m.manico, y % 2 ? 1 : 0); }
-          forma([[57, 12, 17], [58, 11, 18], [59, 11, 18], [60, 11, 18], [61, 12, 17]], m.testa, { luce: 0.3 });
-        } else if (v.variante === 'feltro') { forma(rett(11, 55, 18, 59), m.testa, { luce: 0.25, retino: true }); }
-        else { forma(rett(11, 55, 18, 59), m.testa, { luce: 0.25 }); forma([[57, 19, 20]], m.lama); }
-        if (v.dettaglio) { px(13, 56, v.dettaglio, 3); px(14, 57, v.dettaglio, 2); }
+          for (let y = 43; y <= 58 + t; y++) { px(14, y, m.manico, y % 2 ? 3 : 1); px(15, y, m.manico, y % 2 ? 1 : 0); }
+          forma(sposta([[57, 12, 17], [58, 11, 18], [59, 11, 18], [60, 11, 18], [61, 12, 17]], 0, t), m.testa, { luce: 0.3 });
+        } else if (v.variante === 'feltro') { forma(rett(11, 55 + t, 18, 59 + t), m.testa, { luce: 0.25, retino: true }); }
+        else { forma(rett(11, 55 + t, 18, 59 + t), m.testa, { luce: 0.25 }); forma([[57 + t, 19, 20]], m.lama); }
+        if (v.dettaglio) { px(13, 56 + t, v.dettaglio, 3); px(14, 57 + t, v.dettaglio, 2); }
         return;
       }
       case 'arcoCorto': case 'arcoLungo': {
@@ -898,7 +922,6 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         return;
       case 'coltelli': {
         px(14, 39, m.impugnatura, 2); forma([[43, 13, 15]], m.elsa); lama(14, 14, 44, 49, m.lama, [3]); px(15, 44, m.lama, 1);
-        for (const dx of [0, 2]) { px(18 + dx, 38, m.impugnatura, 2); px(18 + dx, 39, m.impugnatura, 1); px(18 + dx, 40, m.lama, 3); px(18 + dx, 41, m.lama, 2); px(18 + dx, 42, m.lama, 1); }
         if (v.dettaglio) { px(15, 46, v.dettaglio, 2); px(15, 48, v.dettaglio, 2); }
         return;
       }
@@ -913,6 +936,59 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         return;
       }
     }
+  }
+
+  /** I coltelli di scorta, infilati nella cintura. */
+  function coltelliAllaCintura(v: VisArma): void {
+    const imp = v.impugnatura ?? 'cuoio', lm = v.lama ?? 'acciaio';
+    for (const dx of [0, 2]) { px(18 + dx, 38, imp, 2); px(18 + dx, 39, imp, 1); px(18 + dx, 40, lm, 3); px(18 + dx, 41, lm, 2); px(18 + dx, 42, lm, 1); }
+  }
+
+  // ================================================================ arco e balestra in mira (verso sinistra)
+  /** L'arco teso: dritto nella mano sinistra, la corda tirata fino alla mano destra, la freccia in mezzo. */
+  function arcoInMira(v: VisArma, mn: Record<'sx' | 'dx', [number, number]>): void {
+    const legnoArco = v.manico ?? 'legno';
+    const gx = Math.round(mn.sx[0]) - 1, gy = Math.round(mn.sx[1]), cx = Math.round(mn.dx[0]);
+    const [mezza, amp] = v.forma === 'arcoLungo' ? [22, 5] : [15, 4];
+    const y0 = gy - mezza, y1 = gy + mezza;
+    const punte: [number, number][] = [];
+    for (let y = y0; y <= y1; y++) {
+      const q = Math.abs(y - gy) / mezza;
+      const x = gx + Math.round(amp * q * q);
+      const legno = v.variante === 'composito' && q > 0.7 ? 'corno' : legnoArco;
+      px(x, y, legno, q < 0.3 ? 3 : 2); if (q < 0.3) px(x - 1, y, legno, 2);
+    }
+    if (v.variante === 'composito') for (const y of [gy - 15, gy + 15]) px(gx + Math.round(amp * (15 / mezza) ** 2), y, 'ottone', 3);
+    punte.push([gx + amp, y0], [gx + amp, y1]);
+    px(gx + amp, y0 - 1, 'osso', 3); px(gx + amp, y1 + 1, 'osso', 2);
+    for (const [x, y] of punte) linea(x, y, cx, gy, 'corda', 1);
+    // la freccia: l'asta fino alla punta oltre l'arco
+    for (let x = gx - 3; x < cx; x++) px(x, gy, 'legno', 2);
+    px(gx - 4, gy, 'ferro', 3); px(gx - 3, gy - 1, 'ferro', 2); px(gx - 3, gy + 1, 'ferro', 1);
+  }
+  /** Le penne della freccia, davanti alla mano che tira. */
+  function frecciaInMira(v: VisArma, mn: Record<'sx' | 'dx', [number, number]>): void {
+    if (v.forma === 'balestra') return;
+    const cx = Math.round(mn.dx[0]), gy = Math.round(mn.sx[1]);
+    for (const dx of [-5, -4, -3]) { px(cx + dx, gy - 1, 'piuma', dx === -5 ? 2 : 3); px(cx + dx, gy + 1, 'piuma', 1); }
+  }
+  /** La balestra imbracciata: il calcio alla spalla, il fusto teso verso sinistra, l'arco d'acciaio in punta. */
+  function balestraInMira(v: VisArma, mn: Record<'sx' | 'dx', [number, number]>): void {
+    const pesante = v.variante !== 'leggera';
+    const gy = Math.round(mn.sx[1]), cx = Math.round(mn.dx[0]), fx = Math.round(mn.sx[0]) - 3;
+    const legno = v.manico ?? 'legno', arcoM = v.lama ?? 'acciaio';
+    // il fusto, e il calcio più alto contro la spalla
+    forma([[gy, fx, cx + 2], [gy + 1, fx + 1, cx + 2]], legno);
+    forma([[gy - 1, cx - 1, cx + 3], [gy + 2, cx - 1, cx + 3], [gy + 3, cx, cx + 3]], legno, { scuro: 1 });
+    // l'arco: verticale in punta, le punte piegate verso chi tira
+    const mezza = pesante ? 9 : 7;
+    for (let y = gy - mezza; y <= gy + mezza; y++) { const d = Math.abs(y - gy); px(fx + Math.round((d * d) / (mezza * 3)), y, arcoM, d < 3 ? 3 : 2); }
+    const tx = fx + Math.round(mezza / 3), noce = fx + (pesante ? 11 : 9);
+    linea(tx, gy - mezza, noce, gy - 1, 'corda', 2); linea(tx, gy + mezza, noce, gy + 1, 'corda', 2);
+    // il quadrello sopra il fusto
+    for (let x = fx - 2; x <= noce; x++) px(x, gy - 1, 'ferro', x < fx ? 3 : 1);
+    if (pesante) { px(cx - 4, gy + 2, 'ferro', 2); px(cx - 4, gy + 3, 'ferro', 1); px(cx - 5, gy + 3, 'ferro', 1); px(fx - 1, gy + 1, 'ferro', 2); px(fx - 2, gy + 1, 'ferro', 1); }
+    if (v.dettaglio) { px(fx + 6, gy, v.dettaglio, 3); px(fx + 7, gy, v.dettaglio, 2); }
   }
 
   // ================================================================ compagni (davanti)
@@ -948,15 +1024,76 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     forma(qui(o, [...rett(16, 56, 18, 60), ...rett(16, 61, 17, 66), [67, 16, 18]]), m);
   }
 
+  // ================================================================ pose
+  // La figura si disegna sempre dritta, con le braccia lungo i fianchi e l'arma appesa alla mano sinistra (a schermo).
+  // Per le altre pose le braccia si staccano dal corpo e si rimontano a pezzi (braccio, avambraccio) fra la spalla, il
+  // gomito e la mano della posa; le armature e gli accessori sulle braccia vanno con loro. L'arma si disegna su uno
+  // strato suo e si porta nella mano, ribaltata e inclinata a scaletta, così i pixel restano puliti.
+  type Punto = [number, number];
+  /** Una trasformazione: da un punto della figura dritta al suo posto nella posa, e ritorno. */
+  interface Mappa { avanti: (x: number, y: number) => Punto; indietro: (x: number, y: number) => Punto }
+  /** Il tratto di braccio da (asse, y0) a (asse, y1) della figura dritta, portato sul segmento da `da` ad `a`. */
+  function tratto(asse: number, y0: number, y1: number, da: Punto, a: Punto): Mappa {
+    const dx = a[0] - da[0], dy = a[1] - da[1], l = Math.hypot(dx, dy) || 1;
+    const ux = dx / l, uy = dy / l, s = l / (y1 - y0);
+    return {
+      avanti: (x, y) => [da[0] + (y - y0) * s * ux + (x - asse) * uy, da[1] + (y - y0) * s * uy - (x - asse) * ux],
+      indietro: (x, y) => { const wx = x - da[0], wy = y - da[1]; return [asse + wx * uy - wy * ux, y0 + (wx * ux + wy * uy) / s]; },
+    };
+  }
+  /** L'arma: il punto `g` della presa va in `h`; ribaltata (la punta in su) e inclinata di `k` pixel per riga. */
+  function presa(g: Punto, h: Punto, ribalta: boolean, k: number): Mappa {
+    const sg = ribalta ? -1 : 1;
+    return {
+      avanti: (x, y) => { const dy = y - g[1]; return [h[0] + (x - g[0]) + sg * k * dy, h[1] + sg * dy]; },
+      indietro: (x, y) => { const dy = sg * (y - h[1]); return [g[0] + (x - h[0]) - sg * k * dy, g[1] + dy]; },
+    };
+  }
+  /** Copia sulla tela i pixel di `src` portati da `m`, nel rettangolo [x0, y0, x1, y1] della tela; `dentro` filtra l'origine. */
+  function porta(src: Strato, m: Mappa, box: [number, number, number, number], dentro: (x: number, y: number) => boolean = () => true): void {
+    usa(tela);
+    for (let y = Math.max(0, Math.floor(box[1])); y <= Math.min(H - 1, Math.ceil(box[3])); y++)
+      for (let x = Math.max(0, Math.floor(box[0])); x <= Math.min(W - 1, Math.ceil(box[2])); x++) {
+        const [fx, fy] = m.indietro(x, y), sx = Math.round(fx), sy = Math.round(fy);
+        if (!dentro(sx, sy) || sx < 0 || sx >= W || sy + src.oy < 0 || sy + src.oy >= src.h) continue;
+        const j = (sy + src.oy) * W + sx;
+        if (!src.M[j]) continue;
+        const i = id(x, y); M[i] = src.M[j]!; T[i] = src.T[j]!; R[i] = src.R[j]!; V[i] = src.V[j]!;
+      }
+  }
+  /** Il rettangolo che contiene i punti portati da `m`, con un margine. */
+  function scatola(m: Mappa, angoli: Punto[], margine = 3): [number, number, number, number] {
+    const p = angoli.map(([x, y]) => m.avanti(x, y));
+    return [Math.min(...p.map((q) => q[0])) - margine, Math.min(...p.map((q) => q[1])) - margine, Math.max(...p.map((q) => q[0])) + margine, Math.max(...p.map((q) => q[1])) + margine];
+  }
+
+  // le armi: come si tengono. `g` è il punto dell'arma dritta sotto la mano sinistra; per le due mani `g2` quello
+  // sotto la destra, più vicino al fondo dell'impugnatura
+  const ASTE = new Set<FormaArma>(['lancia', 'bastone', 'falce']);
+  const SENZA_GIRO = new Set<FormaArma>(['mani', 'tirapugni', 'fionda']);
+  const presaDi = (v: VisArma, p: Posa): { g: Punto; g2: Punto; ribalta: boolean } => {
+    if (ASTE.has(v.forma)) return p === 'dueMani' ? { g: [11.5, 37], g2: [11.5, 46], ribalta: false } : { g: [11.5, 41], g2: [11.5, 41], ribalta: false };
+    if (v.forma === 'spadone') return { g: [14.5, 41.5], g2: [14.5, 37.5], ribalta: true };
+    if (v.forma === 'bipenne' || v.forma === 'martello') return { g: [14.5, 47.5], g2: [14.5, 41.5], ribalta: true };
+    return { g: [14.5, 41.5], g2: [14.5, 41.5], ribalta: !SENZA_GIRO.has(v.forma) };
+  };
+
   // ================================================================ composizione
+  const posa: Posa = f.posa ?? (conScudo ? 'guardia' : 'dritta');
+  const femmina = a.corpo === 'femminile';
+  const sh = femmina ? 1 : 0; // le braccia più vicine al busto
+  const corpo = strato();
+  usa(corpo);
+  const luciCorpo = luci.length;
   gambe();
   const fatta = armatura(f.armatura);
+  if (femmina) restringi();
   if (arco) linea(30, 20, 17, 37, 'cuoio', 1);
   testa(fatta.scollo); volto();
   if (fatta.dopoTesta) fatta.dopoTesta();
   if (!testaCoperta) CAPELLI[a.capelli]();
   else if (cappuccio && a.capelli !== 'rasati') forma([[7, 20, 22], [8, 20, 21]], 'capelli', { scuro: 1 });
-  BARBE_F[a.barba]();
+  if (!femmina) BARBE_F[a.barba]();
   for (const cp of acc('capelli')) {
     if (testaCoperta) continue;
     if (cp.forma === 'filo') for (const [x, y, t] of [[19, 9, 3], [19, 10, 2], [18, 11, 3], [19, 12, 2], [18, 13, 3], [19, 14, 2], [18, 15, 1]] as const) px(x, y, cp.mat, t);
@@ -967,39 +1104,33 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   if (cappuccio) cappuccioDavanti(cappuccio.mat);
   else if (velo) veloDavanti(velo.mat);
   if (mantello) {
-    forma([[18, 19, 21], [18, 26, 28], [19, 17, 21], [19, 26, 30], [20, 16, 18], [20, 29, 31]], mantello.mat);
+    forma([[18, 19, 21], [18, 26, 28], [19, 17 + sh, 21], [19, 26, 30 - sh], [20, 16 + sh, 18], [20, 29, 31 - sh]], mantello.mat);
     px(22, 19, 'oro', 3); px(25, 19, 'oro', 2); px(23, 19, 'oro', 1); px(24, 19, 'oro', 1);
-    if (mantello.mat === 'scarlatto') { raw(28, 19, '#b07a5a'); raw(30, 20, '#b07a5a'); }
+    if (mantello.mat === 'scarlatto') { raw(28, 19, '#b07a5a'); raw(30 - sh, 20, '#b07a5a'); }
   }
-  acc('pendente').forEach((p, i) => pendente(p, i > 0 || a.barba === 'lunga'));
+  acc('pendente').forEach((p, i) => pendente(p, i > 0 || (!femmina && a.barba === 'lunga')));
   for (const s of acc('spilla')) spilla(s);
   for (const p of acc('petto')) {
     if (p.forma === 'sfera') { forma([[26, 22, 24], [27, 21, 25], [28, 21, 25], [29, 22, 24]], p.mat, { luce: 0.3 }); px(23, 27, p.luce ?? 'luceBianca', 3); px(22, 28, p.luce ?? 'luceBianca', 2); accendi(23, 27.5, p.luce ?? 'luceBianca', 7, 0.35); }
     else { forma(rett(21, 25, 25, 28), p.mat, { luce: 0.3 }); for (let x = 21; x <= 25; x += 2) tono(x, 26, 0, p.mat); }
   }
   acc('bracciale').forEach((b, i) => {
-    const [x0, x1, s] = i === 0 ? [13, 15, 0] : [32, 34, 1];
+    const [x0, x1, s] = i === 0 ? [13 + sh, 15 + sh, 0] : [32 - sh, 34 - sh, 1];
     forma(rett(x0, 37, x1, 38), b.mat, { scuro: s, luce: 0.4 });
     if (b.dettaglio) { px(x0 + 1, 37, b.dettaglio, 3 - s); px(x0, 38, b.dettaglio, 2 - s); px(x1, 38, b.dettaglio, 1); }
     if (b.luce && b.dettaglio) accendi((x0 + x1) / 2, 37.5, b.dettaglio, 4, 0.25);
   });
   for (const _ of acc('innesto')) {
-    for (const [x, y, t] of [[14, 34, 2], [14, 35, 1], [15, 36, 2], [14, 37, 1], [14, 38, 2], [15, 39, 1]] as const) px(x, y, 'legnoNero', t);
-    raw(14, 36, '#6a8a3a');
+    for (const [x, y, t] of [[14, 34, 2], [14, 35, 1], [15, 36, 2], [14, 37, 1], [14, 38, 2], [15, 39, 1]] as const) px(x + sh, y, 'legnoNero', t);
+    raw(14 + sh, 36, '#6a8a3a');
   }
   for (const o of acc('fianco')) aFianco(o);
-  if (f.scudo) scudo(f.scudo);
-  lanterne.forEach((l, i) => {
-    if (i === 0 && !conScudo) { px(33, 44, 'ferro', 2); px(33, 45, 'ferro', 1); lanterna(l.forma, 31, 46); }
-    else { const [x, y] = fianchi[fianco++ % 2]!; px(x + 2, y - 1, 'ferro', 1); lanterna(l.forma, x - 1, y); }
-  });
-  arma(f.arma);
+  if (f.arma.forma === 'coltelli') coltelliAllaCintura(f.arma);
   acc('anello').forEach((r, i) => {
-    const [x, y] = i === 0 ? [13, 41] : conScudo ? [15, 41] : [33, 41];
+    const [x, y] = i === 0 ? [13 + sh, 41] : conScudo ? [15 + sh, 41] : [33 - sh, 41];
     px(x, y, r.mat, 3);
     if (r.gemma) { px(x, y + 1, r.gemma, 3); if (EMISSIVI.has(r.gemma)) accendi(x, y + 1, r.gemma, 3, 0.25); }
   });
-  for (const c of compagni) if (c.specie !== 'cavallo') { bestia(c); break; }
 
   // segni della Marea
   if (segni.has('occhi') && !opz.palpebre && !acc('maschera').some((m) => m.forma !== 'erbe')) {
@@ -1007,11 +1138,171 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     luci.push({ x: 23.5, y: 11, r: 5, colore: [143, 195, 203], forza: 0.35, tipo: 'fredda' });
   }
   if (segni.has('vene')) {
-    for (const [x, y] of [[22, 17], [23, 18], [22, 16], [20, 9], [20, 10], [14, 38], [15, 39], [14, 40], [33, 38], [33, 39], [34, 40], [23, 19], [24, 20]] as const)
+    for (const [x, y] of [[22, 17], [23, 18], [22, 16], [20, 9], [20, 10], [14 + sh, 38], [15 + sh, 39], [14 + sh, 40], [33 - sh, 38], [33 - sh, 39], [34 - sh, 40], [23, 19], [24, 20]] as const)
       if (mat(x, y) === 'pelle') raw(x, y, VENA);
   }
-  if (segni.has('unghie')) for (const [x, y] of [[13, 43], [14, 43], [33, 43], [34, 43]] as const) if (mat(x, y) === 'pelle') raw(x, y, UNGHIA);
+  if (segni.has('unghie')) for (const [x, y] of [[13 + sh, 43], [14 + sh, 43], [33 - sh, 43], [34 - sh, 43]] as const) if (mat(x, y) === 'pelle') raw(x, y, UNGHIA);
   if (segni.has('pelle')) for (let i = 0; i < W * H; i++) if (M[i] === 'pelle') { const x = i % W, y = (i / W) | 0; if (y > 16 && (x * 3 + y * 5) % 4 === 0) T[i] = Math.max(0, T[i]! - 1); else if ((x + y) % 5 === 0 && x !== 22 && x !== 25) T[i] = Math.max(0, T[i]! - 1); }
+
+  // le braccia: dove sono nella figura dritta, e dove vanno nella posa
+  const assi = { sx: 14 + sh, dx: 33 - sh };
+  const spalle: Record<'sx' | 'dx', Punto> = { sx: [assi.sx, 24.5], dx: [assi.dx, 24.5] };
+  const nelBraccio = (lato: 'sx' | 'dx') => (x: number, y: number) =>
+    y >= 25 && y <= 44 && (lato === 'sx' ? x <= (y >= 43 ? 15 : 15 + sh) && x >= 7 : x >= (y >= 43 ? 32 : 32 - sh) && x <= 40);
+  const manoDritta: Record<'sx' | 'dx', Punto> = { sx: [assi.sx, 41.5], dx: [assi.dx + 0.5, 41.5] };
+  let palmi: Record<'sx' | 'dx', Punto> = manoDritta;
+  const conArma = f.arma.forma !== 'mani';
+  const lanternaInMano = !!lanterne.length && !conScudo && (posa === 'dritta' || posa === 'guardia');
+
+  if (posa !== 'dritta') {
+    // gomiti e mani della posa; per le due mani le mani stanno dove l'arma ha l'impugnatura
+    const p = presaDi(f.arma, posa);
+    let gomiti: Record<'sx' | 'dx', Punto>;
+    let mArma: Mappa | undefined;
+    if (posa === 'guardia') {
+      palmi = { sx: [9, 37], dx: conScudo ? [35, 36] : [37, 41] };
+      gomiti = { sx: [11, 31], dx: conScudo ? [37, 31] : [36, 32] };
+      if (conArma) mArma = presa(p.g, [palmi.sx[0] + 0.5, palmi.sx[1]], p.ribalta, ASTE.has(f.arma.forma) ? 0 : 1 / 3);
+    } else if (posa === 'dueMani') {
+      const k = ASTE.has(f.arma.forma) ? 1 / 3 : 1 / 2;
+      mArma = presa(p.g2, [26.5, 41], p.ribalta, k);
+      const [gx, gy] = mArma.avanti(p.g[0], p.g[1]);
+      palmi = { sx: [gx - 0.5, gy], dx: [26, 41] };
+      gomiti = { sx: [11, 32], dx: [36, 33] };
+    } else {
+      palmi = { sx: [4, 24], dx: [28, 24] };
+      gomiti = { sx: [9, 24], dx: [38, 28] };
+    }
+    // l'arma, appesa alla mano come nella figura dritta, su uno strato suo
+    let armaS: Strato | undefined, sue: Luce[] = [];
+    if (mArma) {
+      armaS = strato(H + 80, 40);
+      usa(armaS);
+      const l0 = luci.length;
+      arma(f.arma);
+      sue = luci.splice(l0);
+      usa(corpo);
+    }
+    // le braccia lasciano il corpo
+    const braccia = strato();
+    for (let y = 25; y <= 44; y++) for (let x = 0; x < W; x++) {
+      if (!nelBraccio('sx')(x, y) && !nelBraccio('dx')(x, y)) continue;
+      const i = id(x, y);
+      if (!corpo.M[i]) continue;
+      braccia.M[i] = corpo.M[i]!; braccia.T[i] = corpo.T[i]!; braccia.R[i] = corpo.R[i]!; braccia.V[i] = corpo.V[i]!;
+      togli(x, y);
+    }
+    const pezzi = (['sx', 'dx'] as const).flatMap((lato) => [
+      { lato, m: tratto(assi[lato], 24.5, 31.5, spalle[lato], gomiti[lato]), y0: 25, y1: 32 },
+      { lato, m: tratto(assi[lato], 31.5, 41.5, gomiti[lato], palmi[lato]), y0: 31, y1: 44 },
+    ]);
+    // le luci sulle braccia (bracciali, gemme) vanno con loro
+    for (const l of luci.slice(luciCorpo)) {
+      const lato = nelBraccio('sx')(Math.round(l.x), Math.round(l.y)) ? 'sx' : nelBraccio('dx')(Math.round(l.x), Math.round(l.y)) ? 'dx' : null;
+      if (!lato) continue;
+      const pz = pezzi.find((q) => q.lato === lato && l.y >= q.y0 && l.y <= q.y1)!;
+      [l.x, l.y] = pz.m.avanti(l.x, l.y);
+    }
+    // le gambe si aprono
+    divarica(posa === 'guardia' ? 3 : 4, fatta.orlo);
+    usa(corpo);
+    lanterneAllaCintura(lanternaInMano);
+    incolla(corpo);
+    if (armaS && mArma) {
+      porta(armaS, mArma, scatola(mArma, [[0, -40], [W - 1, -40], [0, H + 39], [W - 1, H + 39]], 1));
+      for (const l of sue) { const [x, y] = mArma.avanti(l.x, l.y); luci.push({ ...l, x, y }); }
+    }
+    if (posa === 'mira') { if (f.arma.forma === 'balestra') balestraInMira(f.arma, palmi); else arcoInMira(f.arma, palmi); }
+    // prima il braccio lontano dall'arma, poi l'altro; dentro ogni braccio prima il braccio, poi l'avambraccio
+    for (const pz of pezzi) {
+      const angoli: Punto[] = [[assi[pz.lato] - 4, pz.y0], [assi[pz.lato] + 4, pz.y0], [assi[pz.lato] - 4, pz.y1], [assi[pz.lato] + 4, pz.y1]];
+      porta(braccia, pz.m, scatola(pz.m, angoli), (x, y) => y >= pz.y0 && y <= pz.y1 && nelBraccio(pz.lato)(x, y));
+    }
+    if (posa === 'mira') frecciaInMira(f.arma, palmi);
+  } else {
+    usa(corpo);
+    lanterneAllaCintura(lanternaInMano);
+    incolla(corpo);
+  }
+  usa(tela);
+  if (f.scudo) {
+    const sc = strato();
+    usa(sc);
+    const l0 = luci.length;
+    scudo(f.scudo);
+    const sue = luci.splice(l0);
+    const d: Punto = [Math.round(palmi.dx[0] - manoDritta.dx[0]), Math.round(palmi.dx[1] - manoDritta.dx[1])];
+    porta(sc, { avanti: (x, y) => [x + d[0], y + d[1]], indietro: (x, y) => [x - d[0], y - d[1]] }, [0, 0, W - 1, H - 1]);
+    for (const l of sue) luci.push({ ...l, x: l.x + d[0], y: l.y + d[1] });
+  }
+  if (lanternaInMano) {
+    const [hx, hy] = palmi.dx;
+    px(Math.round(hx - 0.5), Math.round(hy + 2.5), 'ferro', 2); px(Math.round(hx - 0.5), Math.round(hy + 3.5), 'ferro', 1);
+    lanterna(lanterne[0]!.forma, Math.round(hx - 2.5), Math.round(hy + 4.5));
+  }
+  for (const c of compagni) if (c.specie !== 'cavallo') { bestia(c); break; }
+
+  // ---------------------------------------------------------------- aiuti della composizione
+  type Px = readonly [string | null, number, string | null, [string, number] | null];
+  function leggi(x: number, y: number): Px { const i = id(x, y); return [M[i] ?? null, T[i] ?? 0, R[i] ?? null, V[i] ?? null]; }
+  function scrivi(x: number, y: number, k: Px): void { const i = id(x, y); M[i] = k[0]; T[i] = k[1]; R[i] = k[2]; V[i] = k[3]; }
+  /** Copia uno strato sulla tela; dove copre il fondo, il fondo prende la sua ombra a destra e sotto. */
+  function incolla(src: Strato): void {
+    usa(tela);
+    const sotto = new Set<number>();
+    for (let i = 0; i < W * H; i++) if (src.M[i]) { M[i] = src.M[i]!; T[i] = src.T[i]!; R[i] = src.R[i]!; V[i] = src.V[i]!; }
+    for (let i = 0; i < W * H; i++) {
+      if (!src.M[i]) continue;
+      const x = i % W, y = (i / W) | 0;
+      for (const [nx, ny] of [[x + 1, y], [x, y + 1]] as const) {
+        if (!inb(nx, ny)) continue;
+        const j = id(nx, ny);
+        if (src.M[j] || !M[j] || M[j] === 'raw' || EMISSIVI.has(M[j]!) || sotto.has(j)) continue;
+        sotto.add(j); T[j] = Math.max(0, T[j]! - 1);
+      }
+    }
+  }
+  /** Le gambe si aprono: ogni riga sotto i fianchi si sposta in fuori di `n` pixel in fondo. Un orlo lungo resta chiuso. */
+  function divarica(n: number, orlo?: number): void {
+    usa(corpo);
+    for (let y = 42; y < H; y++) {
+      const off = Math.round((n * (y - 41)) / 27);
+      if (!off) continue;
+      const riga = Array.from({ length: W }, (_, x) => leggi(x, y));
+      for (let x = 0; x < W; x++) togli(x, y);
+      const metti = (x: number, k: Px) => { if (x >= 0 && x < W && k[0]) scrivi(x, y, k); };
+      for (let x = 0; x < W; x++) metti(x < 24 ? x - off : x + off, riga[x]!);
+      if (orlo && y <= orlo && riga[23]![0] && riga[23]![0] === riga[24]![0]) {
+        // la falda si allarga: la stoffa di qua e di là della cucitura riempie lo spazio, la cucitura resta al centro
+        for (let x = 24 - off; x <= 23 + off; x++) metti(x, riga[x < 24 ? 22 : 25]!);
+        for (const x of [23, 24]) if (leggi(x, y)[0]) tono(x, y, '-');
+      }
+    }
+  }
+  /** Le lanterne che non stanno in mano pendono dalla cintura. */
+  function lanterneAllaCintura(primaInMano: boolean): void {
+    lanterne.forEach((l, i) => {
+      if (i === 0 && primaInMano) return;
+      const [x, y] = fianchi[fianco++ % 2]!; px(x + 2, y - 1, 'ferro', 1); lanterna(l.forma, x - 1, y);
+    });
+  }
+  /**
+   * Il corpo femminile: le spalle perdono un pixel per parte e le braccia si avvicinano, così il busto scende dritto
+   * invece che a cuneo; il seno è accennato con l'ombra. Il busto è già vestito: si stringe con quello che indossa.
+   */
+  function restringi(): void {
+    for (let y = 17; y <= 44; y++) {
+      const riga = Array.from({ length: W }, (_, x) => leggi(x, y));
+      for (let x = 0; x < W; x++) togli(x, y);
+      const metti = (x: number, k: Px) => { if (x >= 0 && x < W && k[0]) scrivi(x, y, k); };
+      for (let x = 0; x <= 15; x++) metti(x + 1, riga[x]!);
+      for (let x = 32; x < W; x++) metti(x - 1, riga[x]!);
+      if (y > 30) { for (let x = 16; x <= 31; x++) metti(x, riga[x]!); continue; }
+      for (let x = 17; x <= 30; x++) metti(x, riga[16 + Math.round(((x - 17) * 15) / 13)]!);
+    }
+    for (let x = 18; x <= 29; x++) if (x !== 23 && x !== 24) tono(x, 28, '-');
+    for (const x of [19, 20, 26]) tono(x, 25, '+');
+  }
 
   // ================================================================ colori
   const rampa = (m: string): Rampa => (m === 'pelle' ? PELLI[a.pelle] ?? PELLI['chiara']! : m === 'capelli' ? CHIOME[a.coloreCapelli] ?? CHIOME['castano']!

@@ -5,7 +5,7 @@ import type { TContenuti } from '../../motore/contenuto';
 import type { Stato, AspettoPg } from '../../motore/personaggio';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto } from '../../motore/oggetti';
 import { mutazioniDi, hash } from '../../motore/crisi';
-import { TAGLI, BARBE, type Aspetto, type Figura, type Segno, type VisAccessorio, type VisArma, type VisArmatura, type VisScudo } from './motore';
+import { TAGLI, BARBE, CORPI, type Aspetto, type Figura, type Posa, type Segno, type VisAccessorio, type VisArma, type VisArmatura, type VisScudo } from './motore';
 import { PELLI, CHIOME } from './tavolozza';
 
 export const ARMI_BASE: Record<string, VisArma> = {
@@ -252,14 +252,24 @@ export function aspettoValido(a: AspettoPg | undefined): Aspetto | undefined {
   if (!a) return undefined;
   if (!(a.pelle in PELLI) || !(a.coloreCapelli in CHIOME) || !(a.coloreBarba in CHIOME)) return undefined;
   if (!(TAGLI as readonly string[]).includes(a.capelli) || !(BARBE as readonly string[]).includes(a.barba)) return undefined;
+  if (a.corpo !== undefined && !(CORPI as readonly string[]).includes(a.corpo)) return undefined;
   return a as Aspetto;
 }
 
 export interface Dotazione { arma: string; armatura: string; scudo: string; accessori: string[]; segni: Segno[] }
 
+/** Come si tiene l'arma, dalle sue regole: due mani da mischia, due mani da distanza, una mano o lo scudo. */
+export function posaDi(arma: string, scudo: string, c: TContenuti): Posa {
+  const id = arma || NIENTE_ARMA;
+  const base = c.armi.find((a) => a.id === (oggetto(c, id)?.base ?? id));
+  if (base?.proprieta.includes('Due mani')) return base.abilita === 'armi-da-distanza' ? 'mira' : 'dueMani';
+  return id !== NIENTE_ARMA || scudo ? 'guardia' : 'dritta';
+}
+
 export function figura(aspetto: Aspetto, d: Dotazione, c: TContenuti): Figura {
   return {
     aspetto,
+    posa: posaDi(d.arma, d.scudo, c),
     arma: visArma(d.arma || NIENTE_ARMA, c),
     armatura: visArmatura(d.armatura || NIENTE_ARMATURA, c),
     scudo: visScudo(d.scudo, c),

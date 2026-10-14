@@ -12,7 +12,7 @@ import { OVUNQUE } from './contenuto';
 import type { PaginaDiario } from './diario';
 
 /** L'aspetto del ritratto in pixel art (ui/ritratto): si sceglie alla creazione, o al primo ingresso per chi non l'ha. */
-export interface AspettoPg { pelle: string; capelli: string; coloreCapelli: string; barba: string; coloreBarba: string }
+export interface AspettoPg { corpo?: string; pelle: string; capelli: string; coloreCapelli: string; barba: string; coloreBarba: string }
 
 export interface Stato {
   versione: 1;
