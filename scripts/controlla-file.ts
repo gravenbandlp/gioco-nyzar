@@ -12,6 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { parse } from 'yaml';
 import { analizza, quotaFrasiBrevi } from './controlla-stile';
 import { erroriVoci, leggiVoce, leggiOrigine, senzaSegni } from '../src/motore/voci';
+import { declina, erroriGenere } from '../src/motore/genere';
 
 const ORIGINI: string[] = (parse(readFileSync('contenuti/origini.yaml', 'utf8')).origini as { id: string }[]).map((o) => o.id);
 
@@ -99,7 +100,8 @@ for (const file of process.argv.slice(2)) {
       const o = leggiOrigine(p.trim());
       if (o) for (const id of o.origini) perOrigine[id] = (perOrigine[id] ?? 0) + 1;
     }
-    const t = senzaSegni(b.testo);
+    for (const x of erroriGenere(b.testo)) { console.log(`  GENERE${b.dove}: ${x}`); errori++; }
+    const t = senzaSegni(declina(b.testo, 'maschile'));
     const r = analizza(t);
     if (quotaFrasiBrevi(t) > 0.25) r['troppe frasi brevi'] = [`${Math.round(quotaFrasiBrevi(t) * 100)}% delle frasi ha quattro parole o meno`];
     const voci = Object.entries(r).filter(([, v]) => v.length);

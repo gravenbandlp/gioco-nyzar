@@ -194,6 +194,14 @@ Ogni personaggio ha un ritratto in pixel art, disegnato tutto da codice (nessuna
   le tavole di prova in PNG; `RITAGLIO=x0,x1,y0,y1` guarda da vicino una parte della figura, `CORPO=femminile` usa la
   figura femminile, e `una` disegna le figure di `ARMI=spadone:cotta-di-maglia,arco-lungo` (con SCUDO e ACCESSORI).
 
+## Il genere nei testi (14 ottobre 2026)
+Con il corpo femminile anche la prosa è al femminile. I contenuti portano le due forme fra graffe, `sei arrivat{o|a}`
+(le regole di scrittura in `docs/stile-dei-testi.md`), e `src/motore/genere.ts` le risolve: `applicaGenere` riscrive
+una volta sola i testi dei contenuti per il genere del personaggio, ed è chiamata all'inizio di `render()` in
+`main.ts` (nella creazione con il corpo scelto). Senza `aspetto.corpo` i testi restano al maschile. La prima passata,
+il 14 ottobre, ha segnato circa 1.400 forme comuni (participi e aggettivi dopo i verbi, da bambino/da ragazzo, i
+titoli degli esiti, i vocativi dei PNG); le forme meno comuni si segnano quando si incontrano. Test: `test/genere.test.ts`.
+
 ## Il gioco sul telefono (8 ottobre 2026)
 Sotto gli 860px l'interfaccia segue Fallen London sul telefono (`src/ui/viste.ts`, sezione «telefono»; in fondo a
 `src/ui/stile.css`): una riga di stato fissa in cima (rintocchi, monete, tasto dell'audio), il racconto a tutta

@@ -168,7 +168,7 @@ function regolamento(): string {
   </ul>
   <p><b>Come finisce.</b> Lo scontro finisce quando cadi tu o cadono (o scappano) tutti i nemici. Se vinci, le Ferite
   dipendono dai PF che ti restano: nessuna se ne hai almeno quattro quinti, mezza se ne hai almeno due quinti, una se
-  sei sceso sotto. Se perdi prendi le Ferite che lo scontro prevede e la storia prosegue dal ramo della sconfitta, che
+  ne hai di meno. Se perdi prendi le Ferite che lo scontro prevede e la storia prosegue dal ramo della sconfitta, che
   costa ma non ti uccide. I nemici più duri della trama restano duri: le vie per batterli sono Difficili e fallire costa.</p>
   <div class="esempio-regole">
     <span class="etichetta">Esempio di combattimento</span>
@@ -314,7 +314,7 @@ export function corpoSalvataggio(p: DatiPaginaSalvataggio): string {
   const a = p.archivio;
   const righe: string[] = [];
   if (a.connesso) {
-    righe.push(`<p>Sei entrato con Google${a.chi ? ` come <b>${h(a.chi)}</b>` : ''}. Il personaggio si salva solo nel tuo account,
+    righe.push(`<p>Hai fatto l'accesso con Google${a.chi ? ` come <b>${h(a.chi)}</b>` : ''}. Il personaggio si salva solo nel tuo account,
     a ogni mossa, e lo ritrovi uguale da qualunque dispositivo.${a.ultimo ? ` Ultimo salvataggio: ${quando(a.ultimo)}.` : ''}</p>
     <p><button type="button" class="link" data-az="esci-account">Esci dall'account</button></p>`);
   } else {

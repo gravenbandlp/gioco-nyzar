@@ -10,6 +10,7 @@ import { Contenuti, COSTI_PROPRIETA, DIFETTI, OVUNQUE, type TContenuti } from '.
 import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
 import { parseRequisito } from '../src/motore/personaggio';
 import { erroriVoci } from '../src/motore/voci';
+import { erroriGenere } from '../src/motore/genere';
 
 const RADICE = fileURLToPath(new URL('..', import.meta.url));
 const CARTELLA = join(RADICE, 'contenuti');
@@ -192,6 +193,16 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     }
     for (const n of a.negozi) if (!negozi.has(n)) errori.push(`area ${a.id}: negozio sconosciuto "${n}"`);
   }
+
+  // i segni di genere, in qualunque testo
+  const testi = (o: unknown, dove: string): void => {
+    if (typeof o === 'string') { for (const x of erroriGenere(o)) errori.push(`${dove}: ${x}`); return; }
+    if (!o || typeof o !== 'object') return;
+    const d = o as Record<string, unknown>;
+    const qui = typeof d['id'] === 'string' ? d['id'] : dove;
+    for (const v of Object.values(d)) testi(v, qui);
+  };
+  testi(c, 'contenuti');
 
   for (const st of c.storylet) {
     const dove = `storylet ${st.id}`;

@@ -57,7 +57,7 @@ export function erroriVoci(testo: string, origini?: string[]): string[] {
   const errori: string[] = [];
   for (const p of testo.trim().split(/\n\s*\n/)) {
     const t = p.trim();
-    if (!t.startsWith('{')) continue;
+    if (!t.startsWith('{') || /^\{[^{}|]*\|[^{}|]*\}/.test(t)) continue; // un paragrafo che comincia con un segno di genere
     const m = /^\{([^}]*)\}/.exec(t);
     if (!m) { errori.push(`graffa aperta e mai chiusa: "${t.slice(0, 40)}"`); continue; }
     if (m[1] === 'mezzanotte') {

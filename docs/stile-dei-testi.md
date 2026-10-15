@@ -91,6 +91,7 @@ fissata in fondo, in "La lunghezza" (11 ottobre 2026): la voce sta nella scelta 
   segue lo sguardo; poi frasi di media lunghezza. Niente raffiche.
 - **I PNG parlano ciascuno a modo proprio.** Un intercalare, una parola che ripetono, qualcosa che
   evitano di dire, un gesto tra una battuta e l'altra. Le battute possono essere un po' più lunghe.
+  Dal 15 ottobre 2026 ogni PNG parla secondo un archetipo: vedi `docs/voci-dei-png.md`.
 - **Lo stato del protagonista si sente.** Stanchezza, ferite, soldi che mancano entrano nella percezione
   quando c'entrano, senza che il testo ne faccia un tema.
 
@@ -215,6 +216,24 @@ solo tu noti. Le regole:
 effetti, flag, `vai` e `segue`. Possono saltare la prova o usarne una diversa, e hanno testo, descrizione ed esiti
 propri. `scripts/controlla-file.ts` accetta le opzioni d'origine aggiunte e controlla che ogni loro esito porti a uno
 stato che una delle opzioni normali della scena dà già.
+
+## Il genere del protagonista (14 ottobre 2026)
+
+Il personaggio può avere il corpo maschile o femminile, e la prosa si accorda con lui. Dove una parola cambia con
+il genere di chi gioca si scrivono le due forme fra graffe, prima la maschile e poi la femminile:
+
+    Resti sedut{o|a} sulla cengia, bagnat{o|a} fino alle ossa.
+    «{Ragazzo mio|Ragazza mia}» dice il carrettiere.
+    Ti guarda come {un uomo bagnato|una donna bagnata}.
+
+- Si segna tutto quello che si accorda con il protagonista: participi e aggettivi (sei arrivat{o|a}, resti
+  ferm{o|a}, scendi sedut{o|a}, da bambin{o|a}), pronomi e articoli (sei {il primo|la prima}, sei un{o|a} di
+  loro), e i titoli degli esiti che lo descrivono («Sedut{o|a}»).
+- I PNG che ti apostrofano: il vocativo si segna e, quando l'accordo non basta, la battuta femminile si riscrive
+  per intero dentro il segno.
+- I titoli di grado e le cariche restano invariati: Capitano della Guardia, Novizio della Spirale, membro eletto.
+- Le forme non contengono graffe né altre barre. Un nome di quality con un segno, dentro una mappa YAML in linea,
+  va fra virgolette. `npm run contenuti` controlla i segni; il controllo di stile legge la forma maschile.
 
 ## Cosa resta
 

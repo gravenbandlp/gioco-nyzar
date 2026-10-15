@@ -31,6 +31,7 @@ import { Sincronia, archivioGoogle, configSupabase, entraConGoogle, idPersonaggi
 import { crisiAttiva, hash } from '../motore/crisi';
 import { segnaTempo, sospendiTempo } from '../motore/tempo';
 import { serieDi } from '../motore/serie';
+import { applicaGenere, genereDi } from '../motore/genere';
 import {
   pagina, storia, personaggio, cronache, averi, bazar, mappa, diario, creazione, vistaAspetto, schedaAperta, type Contesto, type Scheda, type Vista,
 } from './viste';
@@ -130,8 +131,8 @@ async function esciDallAccount(): Promise<void> {
   info = null;
   render();
   soglia.mostra('accedi', allineato
-    ? 'Sei uscito. Il personaggio è salvato nel tuo account: rientra con Google per riprenderlo.'
-    : "Sei uscito, ma l'ultima mossa non è arrivata nell'account.");
+    ? 'Hai chiuso la sessione. Il personaggio è salvato nel tuo account: rientra con Google per riprenderlo.'
+    : "Hai chiuso la sessione, ma l'ultima mossa non è arrivata nell'account.");
 }
 
 function carica(s: Partial<Salvataggio>): void {
@@ -195,6 +196,8 @@ function contenutoInfo(id: PaginaInfo): string {
 }
 
 function render(): void {
+  // i testi si accordano con il corpo del personaggio (nella creazione, con quello scelto)
+  applicaGenere(c, genereDi(stato ? stato.aspetto : aspettoNuovo));
   if (!stato) {
     document.body.classList.add('in-creazione');
     document.documentElement.classList.remove('foglio-aperto');
