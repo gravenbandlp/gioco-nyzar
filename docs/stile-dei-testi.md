@@ -260,3 +260,27 @@ Vale anche per i testi nuovi.
   120 e 160; le scene importanti (prologhi, primi incontri, boss, rivelazioni, gradi delle quest) anche oltre le
   200; gli esiti fra 30 e 80; aree e luoghi intorno alle 100.
 - Una frase lunga ma chiara va bene. Una frase corta che si capisce solo conoscendo il testo di prima no.
+
+## La prosa scorrevole (16 ottobre 2026)
+
+Luca: le frasi a catena di virgole e di incisi sono lente ed esasperanti da leggere, soprattutto sul telefono. Un
+esempio da non rifare: «Ha piantato nella ghiaia, ai margini del suo tratto di sentiero, una fila di sassi dritti,
+alti come un palmo, a distanza regolare, come i paletti che segnano il bordo di una strada di carri.» Questa regola
+supera la prima di «La lunghezza»: adesso si riscrive anche dentro le frasi, a patto che il risultato scorra.
+
+- **Una frase dice una cosa.** Al massimo un inciso, e solo quando serve.
+- **Soggetto, verbo, complemento.** Le frasi si legano con «e», «che», «quando», «perché», non con file di virgole.
+  L'obiettivo è meno di una virgola a frase in media.
+- **Via le misure di contorno** («alto come un palmo», «lungo quanto un braccio», «a distanza regolare») e il secondo
+  dettaglio sulla stessa cosa. Via le attenuazioni vaghe («o almeno riconosce qualcosa»).
+- **Niente raffiche di frasi brevi:** il testo deve scorrere, non andare a scatti. Le frasi restano di lunghezza media.
+- Resta tutto quello che opzioni ed esiti riprendono. Voci e paragrafi d'origine restano, più corti.
+
+Prima: «Ti riconosce, o almeno riconosce qualcosa, e la spada resta nel fodero. Ha piantato nella ghiaia, ai margini del
+suo tratto di sentiero, una fila di sassi dritti, alti come un palmo, a distanza regolare, come i paletti che segnano
+il bordo di una strada di carri.»
+
+Dopo: «Ti riconosce, e la spada resta nel fodero. Lungo il suo tratto di sentiero ha piantato nella ghiaia una fila di
+sassi dritti, come i paletti che segnano il bordo di una strada di carri.»
+
+La riscrittura di tutto il gioco con queste regole si fa con `scripts/riscrittura.ts` (istruzioni in testa al file).
