@@ -3,7 +3,6 @@
 // - Tormento da SOGLIA_INQUIETUDINE in su: l'orlo dello schermo scurisce, una parola della prosa cambia per un
 //   istante, una campana lontana suona stonata.
 // - Tormento da SOGLIA_NARRATORE in su: le opzioni che hanno una descrizione `inquieta` a volte mostrano quella.
-// - Contaminazione: le venature grigie della Marea salgono dagli angoli.
 // - Ferite da SOGLIA_INQUIETUDINE in su: un battito sotto la musica, più veloce quanto più sono alte.
 // - Fra mezzanotte e le quattro, ora del giocatore: i paragrafi `{mezzanotte}` compaiono.
 // - Una volta ogni molte ore di gioco, il diario si ritrova una pagina che il personaggio non ha scritto.
@@ -27,14 +26,12 @@ export function intensita(valore: number, da = SOGLIA_INQUIETUDINE): number {
 
 export interface Inquietudine {
   tormento: number; // 0..1
-  contaminazione: number; // 0..1, comincia prima (da 3)
   ferite: number; // 0..1
 }
 
 export function inquietudineDi(s: Stato): Inquietudine {
   return {
     tormento: intensita(s.quality['tormento'] ?? 0),
-    contaminazione: intensita(s.quality['contaminazione'] ?? 0, 3),
     ferite: intensita(s.quality['ferite'] ?? 0),
   };
 }

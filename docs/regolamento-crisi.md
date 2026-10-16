@@ -25,7 +25,7 @@ Integrazione alle sezioni 5.3–5.5 del Regolamento v0.4, approvata il 30 settem
 - Sono nascoste dalla mappa: non ci si entra e non se ne esce a piedi, e dentro non si pescano
   le carte che valgono ovunque.
 - Tre azioni ripetibili, ciascuna con abilità diverse, fanno salire `recupero.<area>` (successo +1,
-  fallimento +½). A 4 si apre l'uscita: tre strade, ognuna dà 10 PE a un'abilità e porta in un'area
+  fallimento +½). A 15 si apre l'uscita: tre strade, ognuna dà 10 PE a un'abilità e porta in un'area
   diversa (i Quartieri Alti solo con l'invito). Uscendo la statistica va a 3 e il recupero a 0.
 
 ## Mutazioni

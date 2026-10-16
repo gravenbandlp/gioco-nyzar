@@ -675,18 +675,28 @@ function vistaStorylet(x: Contesto, id: string): string {
     // un oggetto in vendita: prezzo sempre in vista e statistiche in chiaro, prima di comprarlo
     const effetti = o.esito?.effetti ?? {};
     const inVendita = o.vende ?? Object.keys(effetti).map((k) => k.replace(/^oggetto\./, '')).find((k) => (effetti[`oggetto.${k}`] ?? 0) > 0 && c.oggetti.some((og) => og.id === k));
-    const prezzo = -(effetti['monete'] ?? 0);
+    // il prezzo di un servizio: quello che l'esito (o la prova riuscita) toglie, o in mancanza la soglia del requisito
+    const soglia = (o.requisiti ?? []).map(parseRequisito).find((r) => r.chiave === 'monete' && r.op === '>=')?.n ?? 0;
+    const pagaSuccesso = -(o.successo?.effetti?.['monete'] ?? 0);
+    const pagaFallimento = -(o.fallimento?.effetti?.['monete'] ?? 0);
+    const prezzo = a.zekar ? 0 : o.esito ? -(effetti['monete'] ?? 0) : o.prova ? (pagaSuccesso > 0 ? pagaSuccesso : soglia) : soglia;
+    const soloSeRiesci = !!o.prova && pagaSuccesso > 0 && pagaFallimento <= 0;
+    const hai = s.quality['monete'] ?? 0;
+    const rigaPrezzo = prezzo > 0
+      ? `<p class="costa${hai < prezzo ? ' manca' : ''}">Prezzo: <b>${prezzo}</b> ${h(nome('monete', c).toLowerCase())}${soloSeRiesci ? ', solo se riesci' : ''}${hai < prezzo ? ` (ne hai ${mezzi(hai)})` : ''}</p>`
+      : '';
     let vendita = '';
     if (inVendita) {
       const { voci, difetti } = spiegaOggetto(inVendita, c);
-      const hai = s.quality['monete'] ?? 0;
       vendita = `<div class="scheda-vendita">
-        ${prezzo > 0 ? `<p class="costa${hai < prezzo ? ' manca' : ''}">Prezzo: <b>${prezzo}</b> ${h(nome('monete', c).toLowerCase())}${hai < prezzo ? ` (ne hai ${mezzi(hai)})` : ''}</p>` : ''}
+        ${rigaPrezzo}
         <ul>${voci.map((v) => `<li>${h(v)}</li>`).join('')}${difetti.map((d) => `<li class="difetto">${h(d)}</li>`).join('')}</ul>
       </div>`;
+    } else if (rigaPrezzo) {
+      vendita = `<div class="scheda-vendita">${rigaPrezzo}</div>`;
     }
-    // il prezzo lo dice già la scheda: fra le cose che mancano non si ripete
-    const mancanti = a.mancanti.filter((r) => !(vendita && prezzo > 0 && parseRequisito(r).chiave === 'monete')).map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
+    // il prezzo lo dice già la riga sopra: fra le cose che mancano non si ripete, se la soglia è la stessa
+    const mancanti = a.mancanti.filter((r) => { const q = parseRequisito(r); return !(prezzo > 0 && q.chiave === 'monete' && q.n <= prezzo); }).map((r) => `<li>${h(requisitoLeggibile(r, s, c))}</li>`).join('');
     const costo = a.costo === 0 ? 'Gratis' : `${a.costo} ${a.costo === 1 ? 'rintocco' : 'rintocchi'}`;
     const inc = a.incantesimo;
     const magia = inc ? `<p class="nota-incantesimo">${etichetta(`Incantesimo · ${inc.nome}`, 'precursore')}

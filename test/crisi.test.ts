@@ -53,7 +53,7 @@ describe('crisi', () => {
   });
   it("l'uscita riporta la statistica a 3, azzera il recupero e regala 10 PE", () => {
     const s = figlio();
-    s.area = 'convalescenza'; s.quality['ferite'] = 8; s.quality['recupero.convalescenza'] = 4;
+    s.area = 'convalescenza'; s.quality['ferite'] = 8; s.quality['recupero.convalescenza'] = 15;
     const r = scegli(s, st('convalescenza-uscita'), 0, c, 0, rngConSeme(1));
     if (r.tipo !== 'risultato') throw new Error('atteso risultato');
     expect(s.quality['ferite']).toBe(3);
@@ -65,9 +65,9 @@ describe('crisi', () => {
     // in ogni stato del mondo (prima e dopo Sotto la pelle) ci sono tre ripetibili e una sola uscita
     for (const pelle of [0, 4, 7]) for (const a of c.aree.filter((x) => x.penalita)) {
       const s = { ...figlio(), area: a.id };
-      s.quality = { ...s.quality, 'pista.pelle': pelle, [`recupero.${a.id}`]: 4 };
+      s.quality = { ...s.quality, 'pista.pelle': pelle, [`recupero.${a.id}`]: 15 };
       const lista = c.storylet.filter((x) => x.area === a.id && requisitiSoddisfatti(s, x.requisiti, c));
-      expect(lista.filter((x) => x.requisiti.some((r) => r.startsWith(`recupero.${a.id} >= 4`))), `${a.id} pelle ${pelle}`).toHaveLength(1);
+      expect(lista.filter((x) => x.requisiti.some((r) => r.startsWith(`recupero.${a.id} >= 15`))), `${a.id} pelle ${pelle}`).toHaveLength(1);
       expect(lista.filter((x) => x.ripetibile && !x.requisiti.some((r) => r.startsWith('recupero'))), `${a.id} pelle ${pelle}`).toHaveLength(3);
     }
   });

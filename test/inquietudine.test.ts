@@ -18,9 +18,9 @@ describe('la venatura horror', () => {
     expect(intensita(5)).toBeGreaterThan(0);
     expect(intensita(8)).toBe(1);
     const s = pg();
-    s.quality['contaminazione'] = 3;
-    expect(inquietudineDi(s).contaminazione).toBeGreaterThan(0);
-    expect(inquietudineDi(s).tormento).toBe(0);
+    s.quality['tormento'] = 5;
+    expect(inquietudineDi(s).tormento).toBeGreaterThan(0);
+    expect(inquietudineDi(s).ferite).toBe(0);
   });
 
   it('la descrizione inquieta compare solo col Tormento alto, e resta ferma per dieci minuti', () => {

@@ -1,5 +1,5 @@
-// La venatura horror a schermo e nelle cuffie (regole in motore/inquietudine.ts). Tutto è generato qui: due veli
-// fissi sopra la pagina (la vignetta del Tormento e le venature della Marea), la parola che cambia per un istante,
+// La venatura horror a schermo e nelle cuffie (regole in motore/inquietudine.ts). Tutto è generato qui: un velo
+// fisso sopra la pagina (la vignetta del Tormento), la parola che cambia per un istante,
 // il battito delle Ferite, la campana stonata, i rumori di lato. Chi chiede meno movimento al sistema non vede
 // animazioni né parole che cambiano.
 import { inquietudineDi, type Inquietudine } from '../motore/inquietudine';
@@ -7,7 +7,7 @@ import type { Stato } from '../motore/personaggio';
 import type { Lettore } from './audio';
 
 const calma = matchMedia('(prefers-reduced-motion: reduce)');
-const NIENTE: Inquietudine = { tormento: 0, contaminazione: 0, ferite: 0 };
+const NIENTE: Inquietudine = { tormento: 0, ferite: 0 };
 
 let ora: Inquietudine = NIENTE;
 let inSpedizione = false;
@@ -18,12 +18,10 @@ const PAROLE = ['sotto', 'dentro', 'ascolta', 'girati', 'vicino', 'respira', 're
 
 function veli(): void {
   if (document.getElementById('vignetta')) return;
-  for (const id of ['vignetta', 'venature']) {
-    const d = document.createElement('div');
-    d.id = id;
-    d.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(d);
-  }
+  const d = document.createElement('div');
+  d.id = 'vignetta';
+  d.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(d);
 }
 
 /** A ogni render: quanto sta male il personaggio e dove si trova. */
@@ -33,9 +31,7 @@ export function aggiornaInquietudine(s: Stato | null, spedizione: boolean): void
   inSpedizione = !!s && spedizione;
   const r = document.documentElement;
   r.style.setProperty('--tormento', ora.tormento.toFixed(2));
-  r.style.setProperty('--contaminazione', ora.contaminazione.toFixed(2));
   r.classList.toggle('tormentato', ora.tormento > 0);
-  r.classList.toggle('contaminato', ora.contaminazione > 0);
 }
 
 // ---------------------------------------------------------------- la parola che cambia
