@@ -7,12 +7,12 @@ import { pisteConcluse, scegli } from '../src/motore/azioni';
 import { serieDi } from '../src/motore/serie';
 
 describe('rintocchi', () => {
-  it('il tetto è trenta, e i salvataggi più alti scendono al tetto', () => {
-    expect(RINTOCCHI_MAX).toBe(30);
+  it('il tetto è quaranta, e i salvataggi più alti scendono al tetto', () => {
+    expect(RINTOCCHI_MAX).toBe(40);
     const s = nuovoPersonaggio('Vessa', c.origini[0]!, 0, 'citta-bassa');
     s.rintocchi = 60;
     aggiornaTempo(s, 1000);
-    expect(s.rintocchi).toBe(30);
+    expect(s.rintocchi).toBe(40);
   });
 
   it('un salvataggio con le candele di prima si ritrova i rintocchi', () => {
