@@ -58,7 +58,7 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 
 - **Rintocchi** (la campana): 40 al massimo, uno ogni 10 minuti, e nessun'altra ricarica (dal 3 ottobre 2026: né a
   fine storia, né alle tappe, né il pulsante di prova).
-- **Mazzo di occasioni**: mano da 3, coda da 6, una carta ogni 10 minuti; ogni area ha il suo mazzo, le carte
+- **Mazzo di occasioni**: mano da 3, coda da 10 (6 fino al 17 ottobre 2026), una carta ogni 10 minuti; ogni area ha il suo mazzo, le carte
   "ovunque" non arrivano fuori città né in spedizione. Rarità comune, insolita, rara (pesi 3/2/1); gli agguati
   inevitabili si aprono appena pescati; le carte di ristoro ridanno rintocchi; le catene di carte sono mini-Cronache.
 - **Personaggio**: tre attributi (Fisico, Sociale, Mentale) e 24 abilità; crescono con i PE delle prove.

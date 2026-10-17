@@ -69,6 +69,7 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
 
 ## Il mazzo delle occasioni (17 ottobre 2026)
 Proposta approvata da Luca: 81 carte nuove, i premi finali delle catene e cinque cambi al motore.
+- Il mazzo si riempie fino a 10 carte (`CODA_MAX`), non più 6.
 - `rarita` sulle carte (comune, insolita, rara): pesi 3, 2, 1 nella pesca (`PESI_RARITA` in `src/motore/regole.ts`).
 - `inevitabile: true`: appena pescata la carta si apre da sola (`crisiAttiva`, dopo prologo e crisi), non si scarta, non
   ha «Non ora» e tutte le sue opzioni costano 0 rintocchi. Dopo un'inevitabile ne passano `TREGUA_INEVITABILI` pescate

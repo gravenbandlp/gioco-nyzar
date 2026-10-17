@@ -66,7 +66,7 @@ export const REPUTAZIONE_MAX = 10;
 export const RINTOCCHI_MAX = 40; // ne torna uno ogni 10 minuti; ridanno rintocchi solo le carte di ristoro (17 ottobre 2026)
 export const MINUTI_PER_RINTOCCO = 10;
 export const MANO_MAX = 3;
-export const CODA_MAX = 6;
+export const CODA_MAX = 10; // 6 fino al 17 ottobre 2026
 export const MINUTI_PER_CARTA = 10;
 // Peso di una carta nella pesca secondo la sua rarità (17 ottobre 2026)
 export const PESI_RARITA = { comune: 3, insolita: 2, rara: 1 } as const;
