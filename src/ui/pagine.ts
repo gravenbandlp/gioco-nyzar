@@ -111,7 +111,7 @@ function regolamento(): string {
   <h3>I rintocchi</h3>
   <p>Qir-Azel scandisce le giornate a campane, e il tuo tempo si conta a rintocchi. Quasi ogni azione costa un rintocco,
   alcune due o tre, alcune niente. Ne hai al massimo ${RINTOCCHI_MAX} e ne torna uno ogni ${MINUTI_PER_RINTOCCO} minuti,
-  anche a gioco chiuso, e non si ricaricano in nessun altro modo. Senza rintocchi
+  anche a gioco chiuso. Solo alcune occasioni rare te ne ridanno qualcuno. Senza rintocchi
   puoi ancora leggere il diario, cambiare equipaggiamento e fare compere. Il ritmo è voluto, perché Ny'Zar si gioca a
   sessioni brevi, tornando più volte al giorno.</p>
 
@@ -136,7 +136,10 @@ function regolamento(): string {
   <h3>Le occasioni</h3>
   <p>Il mazzo delle occasioni si riempie da solo, una carta ogni ${MINUTI_PER_CARTA} minuti fino a ${CODA_MAX}. Peschi in
   mano fino a ${MANO_MAX} carte, con gli incontri e i guai che capitano per strada. Una carta legata a un quartiere si
-  gioca solo lì; quelle che non ti interessano le scarti con la ×.</p>
+  gioca solo lì; quelle che non ti interessano le scarti con la ×. Alcune carte sono più rare delle altre: un momento di
+  riposo che ti ridà qualche rintocco, un tesoro da conquistare con una prova difficile. Altre sono <b>agguati</b>: si aprono
+  appena le peschi e vanno affrontate subito, senza scartarle. Alcune occasioni tornano a più riprese e formano una
+  storia breve, che si segue nelle Cronache e alla fine paga bene.</p>
 
   <h3>Il combattimento</h3>
   <p>Gli scontri si giocano a round. Prima di cominciare vedi quanto è difficile, da <i>Molto facile</i> a

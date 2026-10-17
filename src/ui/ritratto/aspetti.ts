@@ -122,6 +122,13 @@ export const UNICI: Record<string, VisArma | VisArmatura | VisScudo> = {
   'avv-rosicaossa-scudo-di-ossa-e-ferro': { forma: 'tondo', faccia: 'ferroNero', emblema: 'osso' },
   'avv-stazione-gelo-specchio-da-braccio': { forma: 'disco', faccia: 'precursoreGrigio', specchio: true },
   'campana-la-sordina': { forma: 'disco', faccia: 'ferroNero' },
+  // le occasioni del 17 ottobre 2026
+  'spada-del-cercatore': { forma: 'spada', impugnatura: 'cuoioChiaro' },
+  'stocco-del-maestro-di-sala': { forma: 'spada', elsa: 'argento' },
+  'sf-tubo-della-capsula': { forma: 'balestra', variante: 'leggera', manico: 'precursoreGrigio' },
+  'sf-lama-che-non-dorme': { forma: 'spada', lama: 'neroLama', dettaglio: 'mana' },
+  'corazza-del-vecchio-campione': { forma: 'maglia', anelli: { dove: 'spalle', mat: 'bronzo' } },
+  'sf-corazza-del-tumulo': { forma: 'maglia', spalleLarghe: true, anelli: { dove: 'spalle', mat: 'precursoreGrigio' } },
 };
 
 export const ACCESSORI: Record<string, VisAccessorio> = {
@@ -201,6 +208,13 @@ export const ACCESSORI: Record<string, VisAccessorio> = {
   'pannion-lanterna-da-pontile': { tipo: 'lanterna', forma: 'pontile' },
   'pannion-scheggia-del-vecchio': { tipo: 'pendente', forma: 'scheggia', mat: 'legnoNero', filo: 'cuoio' },
   'tuarmir-maschera-d-erbe': { tipo: 'maschera', forma: 'erbe', mat: 'tela' },
+  // le occasioni del 17 ottobre 2026
+  'compasso-dei-primi-maghi': { tipo: 'fianco', forma: 'reticolo', mat: 'ottone' },
+  'cintura-da-cavo': { tipo: 'cintura', mat: 'canapa', fibbia: 'ferro' },
+  'bussola-senza-nord': { tipo: 'fianco', forma: 'stella', mat: 'ottone' },
+  'astrolabio-del-forestiero': { tipo: 'pendente', forma: 'ruota', mat: 'ottone', filo: 'cuoio' },
+  'bracciale-del-lottatore': { tipo: 'bracciale', mat: 'cuoio', dettaglio: 'rame' },
+  'sf-cristallo-della-fenditura': { tipo: 'pendente', forma: 'scheggia', mat: 'cristallo', filo: 'cuoio' },
 };
 
 const SEGNI: Record<string, Segno> = {

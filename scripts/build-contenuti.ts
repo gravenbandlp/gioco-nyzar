@@ -160,7 +160,7 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
   };
   const effetti = (dove: string, eff: Record<string, number> | undefined) => {
     for (const k of Object.keys(eff ?? {})) {
-      if (!quality.has(k)) errori.push(`${dove}: effetto su quality sconosciuta "${k}"`);
+      if (!quality.has(k) && k !== 'rintocchi') errori.push(`${dove}: effetto su quality sconosciuta "${k}"`);
       else if (Math.abs((eff![k]! * 2) % 1) > 1e-9) errori.push(`${dove}: "${k}" deve variare a mezzi punti`);
     }
   };
@@ -209,6 +209,12 @@ export function controlliIncrociati(c: TContenuti, avvisi: string[]): string[] {
     for (const x of erroriVoci(st.testo, c.origini.map((o) => o.id))) errori.push(`${dove}: ${x}`);
     if (!aree.has(st.area) && !(st.area === OVUNQUE && st.tipo === 'carta')) errori.push(`${dove}: area sconosciuta "${st.area}"`);
     if ((st.tipo === 'crisi' || st.tipo === 'prologo') && st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di ${st.tipo === 'crisi' ? 'una crisi' : 'un prologo'} costano 0 rintocchi`);
+    if ((st.rarita || st.inevitabile) && st.tipo !== 'carta') errori.push(`${dove}: rarità e inevitabile valgono solo per le carte`);
+    if (st.inevitabile) {
+      if (st.opzioni.some((o) => (o.costo ?? 1) !== 0)) errori.push(`${dove}: le opzioni di una carta inevitabile costano 0 rintocchi`);
+      if (!st.opzioni.some((o) => !o.requisiti?.length && !o.quando?.length)) errori.push(`${dove}: una carta inevitabile ha bisogno di un'opzione sempre aperta`);
+      if (st.opzioni.some((o) => o.esito && !o.esito.segue && !Object.keys(o.esito.effetti ?? {}).length && !o.esito.imposta)) errori.push(`${dove}: una carta inevitabile non si rimanda (opzione senza effetti)`);
+    }
     requisiti(dove, st.requisiti);
     const areaSt = c.aree.find((a) => a.id === st.area);
     const inAreaPenalita = !!areaSt?.penalita || !!areaSt?.spedizione;

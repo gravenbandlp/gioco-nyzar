@@ -1,7 +1,7 @@
 // Stato del personaggio, requisiti, effetti, crescita, rintocchi e mazzo.
 import {
   ATTRIBUTI, TUTTE_LE_ABILITA, attributoDi, SOGLIE_PE, QUOTA_ATTRIBUTO, MAX_GIOCATORE, NEGATIVE, MAX_NEGATIVA,
-  REPUTAZIONE_MIN, REPUTAZIONE_MAX, RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI, SCORTA_MAX,
+  REPUTAZIONE_MIN, REPUTAZIONE_MAX, RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI, SCORTA_MAX, PESI_RARITA, TREGUA_INEVITABILI,
   type Attributo,
 } from './regole';
 import type { TContenuti, TEffetti, TOrigine, TStorylet } from './contenuto';
@@ -171,6 +171,13 @@ function protezioni(s: Stato, chiave: string, delta: number, c: TContenuti): num
 export function applicaEffetti(s: Stato, effetti: TEffetti | undefined, contenuti: TContenuti): Variazione[] {
   const out: Variazione[] = [];
   for (const [chiave, grezzo] of Object.entries(effetti ?? {})) {
+    // le carte di ristoro ridanno rintocchi, mai oltre il tetto
+    if (chiave === 'rintocchi') {
+      const prima = s.rintocchi;
+      s.rintocchi = Math.max(0, Math.min(RINTOCCHI_MAX, prima + grezzo));
+      if (s.rintocchi !== prima) out.push({ chiave, prima, dopo: s.rintocchi });
+      continue;
+    }
     const delta = protezioni(s, chiave, grezzo, contenuti);
     const prima = s.quality[chiave] ?? 0;
     const dopo = limita(chiave, prima + delta, contenuti);
@@ -284,10 +291,22 @@ export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {
   // le carte "ovunque" valgono in città: non nelle aree di penalità, nelle spedizioni o fuori città
   const qui = c.aree.find((a) => a.id === s.area);
   const chiusa = !!qui && (qui.penalita || !!qui.spedizione || qui.fuori);
+  const tregua = (s.quality[TREGUA] ?? 0) > 0;
   return c.storylet.filter(
     (st) => st.tipo === 'carta' && (st.area === s.area || (st.area === OVUNQUE && !chiusa)) && !s.mano.includes(st.id)
-      && requisitiSoddisfatti(s, st.requisiti, c),
+      && !(tregua && st.inevitabile) && requisitiSoddisfatti(s, st.requisiti, c),
   );
+}
+
+/** Quante pescate mancano prima che possa arrivare un'altra carta inevitabile. */
+export const TREGUA = 'tregua.inevitabili';
+
+/** Pesca pesata con la rarità: comune 3, insolita 2, rara 1. */
+function scegliCarta(mazzo: TStorylet[], rng: Rng): TStorylet {
+  const peso = (st: TStorylet) => PESI_RARITA[st.rarita ?? 'comune'];
+  let x = rng() * mazzo.reduce((t, st) => t + peso(st), 0);
+  for (const st of mazzo) { x -= peso(st); if (x < 0) return st; }
+  return mazzo[mazzo.length - 1]!;
 }
 
 /** Pesca una carta dalla coda nella mano. Restituisce l'id pescato o null. */
@@ -296,7 +315,9 @@ export function pesca(s: Stato, c: TContenuti, ora: number, rng: Rng = Math.rand
   if (s.coda <= 0 || s.mano.length >= MANO_MAX) return null;
   const mazzo = cartePescabili(s, c);
   if (mazzo.length === 0) return null;
-  const carta = mazzo[Math.floor(rng() * mazzo.length)]!;
+  const carta = scegliCarta(mazzo, rng);
+  if ((s.quality[TREGUA] ?? 0) > 0) s.quality[TREGUA] = s.quality[TREGUA]! - 1;
+  if (carta.inevitabile) s.quality[TREGUA] = TREGUA_INEVITABILI;
   if (s.coda >= CODA_MAX) s.codaAl = ora;
   s.coda -= 1;
   s.mano.push(carta.id);

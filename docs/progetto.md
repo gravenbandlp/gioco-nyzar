@@ -59,7 +59,8 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - **Rintocchi** (la campana): 40 al massimo, uno ogni 10 minuti, e nessun'altra ricarica (dal 3 ottobre 2026: né a
   fine storia, né alle tappe, né il pulsante di prova).
 - **Mazzo di occasioni**: mano da 3, coda da 6, una carta ogni 10 minuti; ogni area ha il suo mazzo, le carte
-  "ovunque" non arrivano fuori città né in spedizione.
+  "ovunque" non arrivano fuori città né in spedizione. Rarità comune, insolita, rara (pesi 3/2/1); gli agguati
+  inevitabili si aprono appena pescati; le carte di ristoro ridanno rintocchi; le catene di carte sono mini-Cronache.
 - **Personaggio**: tre attributi (Fisico, Sociale, Mentale) e 24 abilità; crescono con i PE delle prove.
   Otto origini, ognuna con prologo proprio e opzioni proprie nelle scene (88 opzioni di origine).
 - **Prove e combattimento**: prove a dadi con difficoltà nominate; combattimento a round con attacco, intimidire,
@@ -124,6 +125,9 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
   `src/ui/inquietudine.ts`): vignetta e parole che cambiano col Tormento, venature della Marea con la Contaminazione,
   battito con le Ferite, campana stonata, rumori di lato, silenzi nelle stanze profonde, paragrafi `{mezzanotte}`,
   descrizioni `inquieta` delle opzioni, pagine «notate» nel diario (`contenuti/notati.yaml`). 462 test.
+- **17 ottobre.** Il mazzo delle occasioni da 145 a 227 carte (`docs/ripresa.md`, "Il mazzo delle occasioni"): rarità
+  con la pesca pesata, agguati inevitabili con la tregua, carte di ristoro che ridanno rintocchi, tesori con oggetti
+  magici nuovi, sette mini-Cronache nuove e il premio finale in lyssan su ogni catena del mazzo.
 
 ## Checklist
 

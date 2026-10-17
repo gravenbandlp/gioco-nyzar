@@ -1,0 +1,1292 @@
+# Città Bassa, occasioni nuove del mazzo (ottobre 2026): ristoro, tesori, agguati, una mini-Cronaca e cinque comuni.
+#
+# RISTORO (insolite, ripetibili, rintocchi <= 30)
+#   carta-cb-la-branda-dietro-il-forno   +4 rintocchi netti. Gratis se hai aiutato Agata Sorre (visto.carta-il-forno-sulla-crepa
+#                                        a 2, che la carta del forno dà con le due riuscite), altrimenti qualche moneta.
+#                                        Scaricare la farina dà +2.
+#   carta-cb-il-turno-scambiato          +8 rintocchi netti. Un facchino fa le tue commissioni: prezzo pieno, conoscenze della
+#                                        strada per metà prezzo, o solo i giri pesanti (+4).
+#
+# TESORI (rari)
+#   carta-cb-la-cassaforte-murata        pista.capomozzo >= 10. Tecnologia Difficile, o atletica/resistenza Media con Sospetto.
+#                                        Dentro la spada-del-cercatore (grado 2).
+#   carta-cb-la-fossa-sotto-la-conceria  pista.dama-argento >= 6. Scontro Difficile con il vecchio campione per la
+#                                        corazza-del-vecchio-campione (grado 1), o intimidire Media per la borsa delle scommesse.
+#
+# AGGUATI (inevitabili, insoliti, ripetibili)
+#   carta-cb-il-vicolo-chiuso            ferite < 6. Tre teppisti: combattere (scontro vicolo-chiuso), pagare, la grondaia
+#                                        (acrobazia), intimidire il più giovane.
+#   carta-cb-la-scala-che-cede           ferite < 6. Atletica, la fune dei muratori, pagarli con le voci. Senza combattimento.
+#   carta-cb-la-retata                   sospetto < 6. Farsi frugare (tre varianti con quando, secondo il Sospetto e i frammenti
+#                                        incisi senza timbro), corrompere, sgusciare via (furtivita). Senza combattimento.
+#
+# LA BOTTEGA CHE TICCHETTA (mini-Cronaca di quattro carte comuni)
+#   bottega.passo 0-4, bottega.fine 1 gli Scuri, 2 la Caserma, 3 la grata. Ogni chiusura paga il premio intero.
+#     carta-cb-bottega-la-chiave        passo 0, fine 0   furtivita, persuasione (Ermes Calvi), l'offerta → 1
+#     carta-cb-bottega-il-congegno      passo 1           tecnologia, conoscenze della strada, portarlo via → 2
+#     carta-cb-bottega-i-creditori      passo 2           politica ed economia, intimidire, pagare il debito → 3
+#     carta-cb-bottega-la-grata         passo 3           chiude: Scuri (quando pista.pelle < 6), Caserma, grata
+#
+# COMUNI
+#   carta-cb-la-corsa-delle-carriole     si ripete. Atletica, puntare sulla favorita, allentare il perno (furtivita).
+#   carta-cb-il-guaritore-senza-licenza  una volta sola. Medicina, comprare un unguento, persuasione.
+#   carta-cb-la-lettera-nella-crepa      una volta sola. Empatia, leggerla, venderla all'usuraio.
+#   carta-cb-il-pozzo-che-canta          una volta sola. Atletica (Contaminazione), l'Accademia, la notizia.
+#   carta-cb-lo-sfratto                  una volta sola. Pagare, intimidire, furtivita.
+#
+# Nessun nome nuovo: tornano Agata Sorre, Ermes Calvi e Gunter Kasselt.
+quality:
+  - { id: bottega.passo, nome: "La bottega che ticchetta", categoria: stato, nascosta: true, descrizione: "0 non ci sei ancora entrat{o|a}, 1 hai la chiave, 2 hai visto il congegno e l'ordine, 3 i creditori se ne sono andati, 4 il congegno ha trovato posto." }
+  - { id: bottega.fine, nome: "Il congegno dell'orologiaio", categoria: stato, nascosta: true, scelte: { 1: "agli Scuri", 2: "alla Caserma", 3: "nella grata" } }
+  - { id: visto.carta-cb-il-guaritore-senza-licenza, nome: Il guaritore senza licenza, categoria: stato, nascosta: true }
+  - { id: visto.carta-cb-la-lettera-nella-crepa, nome: La lettera nella crepa, categoria: stato, nascosta: true }
+  - { id: visto.carta-cb-il-pozzo-che-canta, nome: Il pozzo che canta, categoria: stato, nascosta: true }
+  - { id: visto.carta-cb-lo-sfratto, nome: Lo sfratto, categoria: stato, nascosta: true }
+
+oggetti:
+  - id: spada-del-cercatore
+    nome: Spada del cercatore
+    immagine: icone/broadsword
+    descrizione: "Una spada lunga di un acciaio grigio che la ruggine non tocca, rimasta per generazioni in una cassaforte murata sotto la Città Bassa. Chi l'ha nascosta l'ha affilata un'ultima volta prima di chiudere lo sportello, e il filo entra nel cuoio senza fermarsi."
+    slot: arma
+    base: spada-lunga
+    grado: 2
+    dadi: 1
+    proprieta: { penetrante: 1 }
+
+  - id: corazza-del-vecchio-campione
+    nome: Corazza del vecchio campione
+    immagine: icone/scale-mail
+    descrizione: "Una cotta di maglia rattoppata con anelli di tre ferri diversi, che il vecchio campione della fossa ha portato in cento incontri. Nella Città Bassa la riconoscono tutti, e chi la indossa resta in piedi un colpo più del dovuto."
+    slot: armatura
+    base: cotta-di-maglia
+    grado: 1
+    proprieta: { ultimoRespiro: true }
+    difetti: [riconoscibile]
+
+nemici:
+  - id: teppista-del-vicolo
+    nome: Teppista del vicolo
+    immagine: icone/robber
+    descrizione: "Un ragazzo di vicolo con un bastone o un coltello da cucina. Da solo scapperebbe, in tre si sente un soldato."
+    attacco: 2
+    difesa: 2
+    difesaMentale: 1
+    pf: 4
+    danno: 0
+    iniziativa: 2
+    puoFuggire: true
+
+  - id: vecchio-campione-della-fossa
+    nome: Il vecchio campione della fossa
+    immagine: icone/mailed-fist
+    descrizione: "Ha la barba bianca e le mani di un fabbro, e nella fossa sotto la conceria non ha mai perso. Para con l'avambraccio e colpisce di rovescio."
+    attacco: 4
+    difesa: 4
+    difesaMentale: 3
+    pf: 10
+    danno: 1
+    riduzione: 2
+    iniziativa: 3
+
+scontri:
+  - { id: vicolo-chiuso, nome: "Il vicolo chiuso", nemici: [teppista-del-vicolo, teppista-del-vicolo, teppista-del-vicolo], feriteSconfitta: 2 }
+  - { id: fossa-della-conceria, nome: "La fossa sotto la conceria", nemici: [vecchio-campione-della-fossa], feriteSconfitta: 3 }
+
+storylet:
+  # ================================================================ ristoro
+  - id: carta-cb-la-branda-dietro-il-forno
+    immagine: icone/bed
+    titolo: La branda dietro il forno
+    sommario: "Dietro il forno di Agata Sorre c'è una branda che il calore della crepa tiene tiepida, e lei la presta per un'ora."
+    luogo: Città Bassa, il cortile del forno sulla crepa
+    tipo: carta
+    area: citta-bassa
+    rarita: insolita
+    requisiti: [rintocchi <= 30]
+    testo: |
+      Passi davanti al cortile dietro Via del Salmone con le gambe che ti pesano dalle ginocchia in giù. La
+      cassa di ferro del forno è sempre piantata sulla fenditura, e Agata Sorre sta sfornando con la pala
+      lunga. Dietro il forno c'è una branda di tela con una coperta piegata sopra. Il calore della crepa la
+      tiene tiepida anche quando il fuoco è spento.
+
+      Agata ti vede guardarla e si pulisce le mani sul grembiule. «Un'ora la puoi avere» dice. «Basta non
+      russare, se no i clienti si spaventano.»
+
+      {resistenza Facile} Le spalle l'hanno vista prima di te. Il tepore che sale dal terreno ti arriva alle
+      caviglie e ci resta.
+    opzioni:
+      - testo: "Dormire un'ora sulla branda"
+        descrizione: "Agata ti conosce dal giorno dell'ispettore, e da chi conosce non vuole niente."
+        quando: [visto.carta-il-forno-sulla-crepa >= 2]
+        esito:
+          titolo: La seconda infornata
+          testo: |
+            Ti stendi sulla tela con la coperta fino al mento, e il calore della crepa ti scioglie la schiena
+            prima che tu chiuda gli occhi. Ti svegli con l'odore della seconda infornata. Agata ti mette in
+            mano una pagnotta ancora calda e ti spinge fuori dal cortile senza volere niente.
+          effetti: { rintocchi: 5 }
+
+      - testo: "Pagare l'ora di branda"
+        descrizione: "Agata non ti conosce, e la branda la presta a chi paga quanto una pagnotta."
+        quando: [visto.carta-il-forno-sulla-crepa < 2]
+        requisiti: [monete >= 3]
+        esito:
+          titolo: Quanto una pagnotta
+          testo: |
+            Lasci qualche moneta sul bordo della madia e Agata le fa sparire nella tasca del grembiule. Dormi
+            un'ora filata sulla tela tiepida. Quando ti svegli il cortile è pieno di vicini in fila con il pane
+            crudo, e nessuno ti guarda come un estraneo.
+          effetti: { rintocchi: 5, monete: -3 }
+
+      - testo: "Scaricare la farina in cambio"
+        descrizione: "Il garzone non è venuto e i sacchi sono ancora sul carretto. Un'ora di lavoro vale mezz'ora di branda."
+        esito:
+          titolo: I sacchi
+          testo: |
+            Porti i sacchi dal carretto alla madia uno alla volta, con la farina che ti si attacca al sudore.
+            Agata conta i sacchi ad alta voce e poi ti indica la branda con la pala. Riposi poco e bene.
+            Quando ti alzi hai le braccia bianche fino ai gomiti.
+          pe: { resistenza: 2 }
+          effetti: { rintocchi: 3 }
+
+  - id: carta-cb-il-turno-scambiato
+    immagine: icone/knapsack
+    titolo: Il turno scambiato
+    sommario: "Un facchino della discesa del bazaar si offre di fare lui le tue commissioni della giornata, e intanto tu ti siedi."
+    luogo: Città Bassa, la discesa del bazaar
+    tipo: carta
+    area: citta-bassa
+    rarita: insolita
+    requisiti: [rintocchi <= 30]
+    testo: |
+      Ai piedi della discesa del bazaar i facchini aspettano il lavoro seduti sulle gerle rovesciate. Uno di
+      loro ti ha visto passare tre volte nella stessa mattina con le stesse borse, e si alza per venirti
+      dietro. Ha le spalle larghe e una corda arrotolata sulla spalla.
+
+      «Senti, te lo dico io dove devi andare» dice, e ti conta i giri sulle dita. «La conceria e il fabbro li
+      faccio io per oggi, e tu ti siedi da Ilka. Mi paghi la giornata, eh, che mica lavoro per la gloria.»
+
+      {conoscenze-della-strada Media} La giornata di un facchino costa la metà di quello che ha detto. Lo sa
+      lui e lo sanno quelli seduti sulle gerle, che fanno finta di non ascoltare.
+    opzioni:
+      - testo: "Pagargli la giornata"
+        descrizione: "Il prezzo che chiede, senza discutere. Le commissioni le fa lui."
+        requisiti: [monete >= 20]
+        esito:
+          titolo: Da Ilka
+          testo: |
+            Gli metti le monete in mano e lui se le infila nella camicia senza contarle. Passi il pomeriggio
+            alla Locanda di Ilka con i piedi su una sedia e un boccale di sidro che si scalda piano. A sera il
+            facchino ti riporta le ricevute di tutti i giri e la sacca vuota piegata in quattro.
+          effetti: { monete: -20, rintocchi: 9 }
+
+      - testo: "Tirare sul prezzo"
+        descrizione: "Con i facchini si tratta come al bazaar. Se sbagli il tono, la discesa ride per una settimana."
+        requisiti: [monete >= 10]
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Media }
+        successo:
+          titolo: Mezza giornata di paga
+          testo: |
+            Gli dici quanto prende di solito un facchino a quest'ora, e anche il nome di chi lo paga così. Lui
+            sputa per terra e ti stringe la mano. Passi il pomeriggio sedut{o|a} da Ilka, e a sera hai le
+            ricevute in tasca e metà delle monete che pensavi di spendere.
+          pe: { conoscenze-della-strada: 4 }
+          effetti: { monete: -10, rintocchi: 9 }
+        fallimento:
+          titolo: Il prezzo del bazaar
+          testo: |
+            Gli proponi una paga che a te sembrava giusta. Il facchino la ripete ad alta voce verso le gerle, e
+            tutti si mettono a ridere. Poi si rimette la corda sulla spalla e va a cercare un cliente meno
+            tirchio, e le commissioni restano a te.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Dargli solo i giri pesanti"
+        descrizione: "Il fabbro e la conceria li fa lui, il resto lo porti tu. Costa meno e ti siedi meno."
+        requisiti: [monete >= 8]
+        esito:
+          titolo: Mezzo pomeriggio
+          testo: |
+            Il facchino si carica i fagotti più pesanti e sparisce giù per la discesa fischiando. Tu fai i giri
+            leggeri senza fretta, e ti avanza mezzo pomeriggio per sederti al sole sul muretto del lavatoio.
+          effetti: { monete: -8, rintocchi: 5 }
+
+  # ================================================================ tesori
+  - id: carta-cb-la-cassaforte-murata
+    immagine: icone/locked-chest
+    titolo: La cassaforte murata
+    sommario: "In una cantina della Città Bassa un pezzo di muro è venuto giù e ha scoperto lo sportello di una cassaforte."
+    luogo: Città Bassa, la cantina di un caseggiato
+    tipo: carta
+    area: citta-bassa
+    rarita: rara
+    requisiti: [oggetto.spada-del-cercatore == 0, pista.capomozzo >= 10]
+    testo: |
+      La vecchia del pianterreno ti prende per la manica appena entri nel portone. Stanotte la terra ha
+      tremato, e in cantina è venuto giù un pezzo di muro. Ti porta giù per la scala con una candela. Fra i
+      mattoni caduti c'è lo sportello di una cassaforte di ferro murata nella roccia blu, con una serratura a
+      ruote dentate. La ruggine l'ha mangiata solo agli angoli.
+
+      «Era qui prima di me, e io sono qui da sessant'anni» dice la vecchia. «Quello che c'è dentro lo
+      dividiamo. Però senza far rumore, che al primo piano ci dorme un sergente della Caserma.»
+
+      {tecnologia Difficile} Le ruote sono cinque, e i denti sono consumati ognuno in un punto diverso. Chi
+      l'apriva spesso ha lasciato la combinazione scritta nel ferro.
+    opzioni:
+      - testo: "Aprire la serratura a ruote"
+        descrizione: "Cinque ruote dentate e una combinazione che nessuno ricorda. Le dita devono sentire il dente giusto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Lo scatto
+          testo: |
+            Giri le ruote una alla volta con l'orecchio contro il ferro, finché ogni dente cade nel suo incavo
+            con un colpo sordo. Lo sportello si apre su un panno oliato. Dentro c'è una spada lunga di un acciaio
+            grigio che la ruggine non ha toccato, e sotto un sacchetto di monete vecchie. La vecchia si prende il
+            sacchetto e ti lascia la spada.
+          pe: { tecnologia: 6 }
+          effetti: { oggetto.spada-del-cercatore: 1 }
+        fallimento:
+          titolo: Il bordo del ferro
+          testo: |
+            Giri le ruote per un'ora senza sentire niente, e il bordo tagliente dello sportello ti apre il
+            pollice. La vecchia ti fascia con un fazzoletto e ti rimanda su per la scala. Le ruote restano dove
+            le hai lasciate, e la vecchia rimette i mattoni davanti allo sportello.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Sfondarla a martellate"
+        descrizione: "Il ferro è vecchio e i cardini sono arrugginiti. Il sergente del primo piano però ha il sonno leggero."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Media }
+        successo:
+          titolo: I cardini
+          testo: |
+            Prendi la mazza del carbonaio e picchi sui cardini finché saltano tutti e due. Lo sportello cade
+            nella polvere con un fracasso che sveglia tutto il caseggiato. Dentro c'è una spada lunga avvolta in
+            un panno oliato. Quando il sergente scende in camicia la spada è già sotto il tuo mantello, ma lui
+            si segna la tua faccia.
+          pe: { atletica: 4 }
+          effetti: { oggetto.spada-del-cercatore: 1, sospetto: 1 }
+        fallimento:
+          titolo: Il sergente in camicia
+          testo: |
+            Picchi per mezz'ora e il ferro si ammacca senza cedere. A un certo punto il sergente scende in
+            camicia con la lanterna e due miliziani, e ti chiede che cosa ci fai in una cantina non tua. La
+            vecchia giura di non averti mai visto prima.
+          effetti: { sospetto: 1.5 }
+
+      - testo: "Farti raccontare il caseggiato"
+        descrizione: "Sessant'anni nello stesso portone sono tante storie. La cassaforte può aspettare."
+        esito:
+          titolo: Sessant'anni di portone
+          testo: |
+            Ti siedi con la vecchia sul primo gradino della cantina e la lasci parlare. Sa chi ha abitato in ogni
+            stanza del caseggiato negli ultimi sessant'anni, e chi è scappato senza pagare l'affitto. Quando
+            arriva alla cassaforte alza le spalle e torna a parlare dei vicini.
+          effetti: { informazioni.voce: 2 }
+
+      - testo: "Tornare con gli attrezzi giusti"
+        descrizione: "Rimetti i mattoni davanti allo sportello e prometti alla vecchia di tornare."
+        costo: 0
+        esito:
+          titolo: I mattoni
+          testo: |
+            Rimetti i mattoni uno sopra l'altro davanti allo sportello, storti come prima. La vecchia ti
+            accompagna su per la scala tenendo la candela alta, e ti ricorda due volte che la metà è sua.
+
+  - id: carta-cb-la-fossa-sotto-la-conceria
+    immagine: icone/arena
+    titolo: La fossa sotto la conceria
+    sommario: "Sotto la Conceria Kasselt c'è una vasca vuota dove si combatte di notte, e un vecchio campione mette in palio la sua corazza."
+    luogo: Città Bassa, le cantine della Conceria Kasselt
+    tipo: carta
+    area: citta-bassa
+    rarita: rara
+    requisiti: [oggetto.corazza-del-vecchio-campione == 0, pista.dama-argento >= 6]
+    testo: |
+      Sotto la Conceria Kasselt c'è una vecchia vasca di concia scavata nella roccia, che non si usa più. Di notte gli operai la svuotano dei rifiuti e ci combattono, e Gunter Kasselt
+      fa finta di non sapere niente. Intorno al bordo la gente scommette con la puzza delle pelli nel naso.
+
+      Nella fossa c'è un vecchio con la barba bianca e una cotta di maglia rattoppata. Ha appena mandato al
+      tappeto un fonditore che aveva la metà dei suoi anni. Si asciuga la fronte e alza la voce verso il bordo.
+
+      «Allora, chi scende? La corazza che ho addosso va a chi mi batte, e chi perde paga il giro a tutti.»
+
+      {intimidire Media} Il vecchio regge la voce, ma le spalle gli tremano dopo ogni incontro. Ha paura di
+      perdere, e ce l'ha da un pezzo.
+    opzioni:
+      - testo: "Scendere nella fossa"
+        descrizione: "Il vecchio non ha mai perso in questa vasca. Para con l'avambraccio e colpisce di rovescio."
+        combattimento: fossa-della-conceria
+        vittoria:
+          titolo: La corazza
+          testo: |
+            Il vecchio va giù al terzo scambio, seduto nella sporcizia con la schiena contro la parete della
+            vasca. Resta lì un momento con gli occhi chiusi. Poi si sfila la cotta da sopra la testa e te la
+            porge con tutte e due le mani, mentre il bordo della fossa grida il tuo nome.
+          effetti: { oggetto.corazza-del-vecchio-campione: 1 }
+        sconfitta:
+          titolo: Il giro per tutti
+          testo: |
+            Il rovescio del vecchio ti prende alla tempia e ti ritrovi a guardare il bordo della vasca dal basso.
+            Due operai ti tirano su per le braccia. Paghi il giro a tutta la conceria, e il vecchio brinda alla
+            tua salute senza cattiveria.
+          effetti: { monete: -10, scandalo: 0.5 }
+
+      - testo: "Convincerlo a cedere qualcosa"
+        descrizione: "Il vecchio ha paura di perdere davanti a tutti. Si può parlargli prima, a quattr'occhi."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: La borsa delle scommesse
+          testo: |
+            Lo prendi da parte vicino ai barili e gli dici che dal bordo si vedono le spalle che gli tremano
+            dopo ogni incontro. Gli dici anche che stanotte scendi tu. Il vecchio ti guarda a lungo e poi ti mette
+            in mano la borsa delle scommesse e un tonico. «La corazza no, quella me la vieni a prendere giù» dice.
+          pe: { intimidire: 4 }
+          effetti: { monete: 25, tonico: 1 }
+        fallimento:
+          titolo: Il vecchio ride
+          testo: |
+            Provi a fargli paura e il vecchio ti ride in faccia, poi ripete ad alta voce quello che hai detto
+            perché lo senta tutto il bordo. Gli operai ti indicano e ti chiedono quando scendi. Te ne vai prima
+            del prossimo incontro.
+          effetti: { scandalo: 1 }
+
+      - testo: "Guardare gli incontri dal bordo"
+        descrizione: "Fra un incontro e l'altro gli operai parlano di tutto, e di Kasselt più che di tutto."
+        esito:
+          titolo: Dal bordo della vasca
+          testo: |
+            Ti appoggi a un barile e guardi il vecchio stendere altri due sfidanti. Intorno a te gli operai
+            della conceria parlano dei turni e delle paghe, e di quali clienti di Kasselt pagano in ritardo.
+            Uno di loro ti spiega come si batte il vecchio, se uno ha il coraggio di provarci.
+          effetti: { informazioni.pettegolezzo: 1 }
+
+      - testo: "Tornare un'altra notte"
+        descrizione: "Il vecchio combatte ogni notte, e la corazza non scappa."
+        costo: 0
+        esito:
+          titolo: Un'altra notte
+          testo: |
+            Risali la scala della cantina con le grida della fossa che ti vengono dietro. In cortile l'aria
+            sa ancora di pelli, però è fresca.
+
+  # ================================================================ agguati
+  - id: carta-cb-il-vicolo-chiuso
+    immagine: icone/robber
+    titolo: Il vicolo chiuso
+    sommario: "Tre teppisti ti chiudono il vicolo davanti e alle spalle."
+    luogo: Città Bassa, un vicolo dietro Via dei Rasoi
+    tipo: carta
+    area: citta-bassa
+    rarita: insolita
+    inevitabile: true
+    requisiti: [ferite < 6]
+    testo: |
+      Il vicolo è stretto e storto, e lo prendi per tagliare verso casa. A metà strada due ragazzi si staccano
+      dal muro e si mettono in mezzo. Quando ti volti, un terzo ha già chiuso l'imbocco alle tue spalle con un
+      bastone appoggiato sulla spalla. Il più alto dei due davanti si gratta il mento con il pollice.
+
+      «Amico mio, qui si paga il pedaggio» dice. «Paghi e passi. Se non paghi ti rompiamo una gamba, e la
+      borsa la prendiamo lo stesso.»
+
+      {acrobazia Media} Sopra la tua testa una grondaia di lamiera corre fino al tetto di una stalla. Regge, se
+      ci arrivi con un salto solo.
+
+      {origine figlio-della-citta-bassa} Questo gioco lo conosci da quando eri bambin{o|a}. Quello alle tue
+      spalle è il più giovane, e tiene il bastone troppo stretto.
+    opzioni:
+      - testo: "Fare a botte"
+        descrizione: "Sono tre, ma sono ragazzi di vicolo e non soldati."
+        costo: 0
+        combattimento: vicolo-chiuso
+        vittoria:
+          titolo: Il bastone per terra
+          testo: |
+            Il primo va giù con un colpo al ginocchio e il secondo scappa appena lo vede. Il ragazzo con il
+            bastone ti guarda a bocca aperta, poi lo lascia cadere e corre via anche lui. Sul selciato è rimasta
+            la borsa del più alto, con dentro il pedaggio di mezza giornata.
+          effetti: { monete: 15 }
+        sconfitta:
+          titolo: Il pedaggio
+          testo: |
+            Il bastone ti arriva dietro le ginocchia mentre guardi gli altri due. Ti ritrovi sedut{o|a} contro
+            il muro con il labbro gonfio e la borsa molto più leggera. Qualcuno ti ha lasciato una moneta sul
+            ginocchio, per il medico.
+          effetti: { monete: -10 }
+
+      - testo: "Pagare il pedaggio"
+        descrizione: "Qualche moneta, e il vicolo torna a essere un vicolo."
+        costo: 0
+        requisiti: [monete >= 6]
+        esito:
+          titolo: Passi
+          testo: |
+            Conti le monete nel palmo del più alto. Lui le soppesa e si sposta di lato con un inchino da
+            cameriere. Il ragazzo con il bastone ti augura buona giornata mentre gli passi accanto, con la voce
+            che gli trema ancora un po'.
+          effetti: { monete: -6 }
+
+      - testo: "Saltare sulla grondaia"
+        descrizione: "Un salto, la lamiera, i tetti delle stalle. Se la grondaia cede, cadi in mezzo a loro."
+        costo: 0
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: I tetti
+          testo: |
+            Fai due passi verso il più alto, poi scarti di lato e ti aggrappi alla grondaia. La lamiera geme ma
+            regge. Corri sui tetti delle stalle fino in fondo al vicolo mentre i tre ti gridano dietro, e scendi
+            in un cortile dove una donna stende i panni e non ti chiede niente.
+          pe: { acrobazia: 4 }
+        fallimento:
+          titolo: La grondaia
+          testo: |
+            La grondaia ti resta in mano con un pezzo di muro attaccato. Cadi di schiena sul selciato, e i tre ti
+            sono addosso prima che tu riesca a girarti. Ti prendono la borsa e ti lasciano un calcio nelle
+            costole per il disturbo.
+          effetti: { ferite: 1, monete: -8 }
+
+      - testo: "Guardare in faccia il più giovane"
+        descrizione: "Quello alle tue spalle ha più paura di te. Se scappa lui, il pedaggio non lo riscuote nessuno."
+        costo: 0
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il più giovane
+          testo: |
+            Ti volti verso il ragazzo con il bastone e gli dici con calma che cosa ne fai, del bastone, se lo
+            alza. Lui guarda i compagni e poi te. Il bastone cade per terra e lui sparisce dietro l'angolo. Gli
+            altri due ci pensano un momento e se ne vanno senza fretta, per salvare la faccia.
+          pe: { intimidire: 4 }
+        fallimento:
+          titolo: Più paura dei compagni
+          testo: |
+            Il ragazzo ti ascolta tremando e poi colpisce lo stesso, perché dei compagni ha più paura che di te.
+            Il bastone ti prende sul braccio. Quando riesci a rialzarti loro hanno già la tua borsa e ridono in
+            fondo al vicolo.
+          effetti: { ferite: 1, monete: -6 }
+
+  - id: carta-cb-la-scala-che-cede
+    immagine: icone/falling-rocks
+    titolo: La scala che cede
+    sommario: "La scala esterna di un caseggiato si stacca dal muro mentre ci sei sopra."
+    luogo: Città Bassa, un caseggiato sulla discesa del bazaar
+    tipo: carta
+    area: citta-bassa
+    rarita: insolita
+    inevitabile: true
+    requisiti: [ferite < 6]
+    testo: |
+      La scala esterna del caseggiato è di legno, inchiodata al muro con staffe di ferro che hanno visto troppi
+      inverni. Sali al terzo piano a cercare un rigattiere. Sul secondo pianerottolo senti una staffa che si
+      sfila dalla pietra con un rumore di unghie. Poi si sfila anche quella di sotto, e la scala si piega verso
+      la strada con te sopra.
+
+      Sotto, sul selciato, una squadra di muratori smette di mangiare e alza la testa. Uno di loro ha già in
+      mano una fune.
+
+      {atletica Media} La ringhiera del pianerottolo di sopra è di ferro ed è ancora attaccata al muro. Ti basta
+      un buon colpo di reni per arrivarci.
+    opzioni:
+      - testo: "Aggrapparti alla ringhiera"
+        descrizione: "Una spinta sola, prima che la scala se ne vada del tutto."
+        costo: 0
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La ringhiera
+          testo: |
+            Ti dai la spinta proprio mentre la scala se ne va, e le dita si chiudono sul ferro freddo. Resti
+            appes{o|a} lì mentre il legno si schianta sul selciato. Poi ti tiri su a forza di braccia fino al
+            pianerottolo, e i muratori ti applaudono con il pane in mano.
+          pe: { atletica: 4 }
+        fallimento:
+          titolo: Sotto le assi
+          testo: |
+            Le dita sfiorano la ringhiera e scivolano via. Vieni giù con la scala e finisci sotto le assi con una
+            gamba piegata male. I muratori ti tirano fuori a mani nude e uno ti tasta le ossa con le dita sporche
+            di calce. Poi ti tende la mano aperta, perché la mezza giornata persa la vuole pagata.
+          effetti: { ferite: 1, monete: -5 }
+
+      - testo: "Gridare ai muratori di lanciarti la fune"
+        descrizione: "La fune c'è e i muratori pure. Poi però vorranno qualcosa."
+        costo: 0
+        esito:
+          titolo: La fune
+          testo: |
+            Il muratore lancia la fune e tu la prendi al secondo tentativo. Ti calano giù mentre la scala si
+            sfascia un pezzo alla volta, e arrivi a terra con le mani scorticate dalla canapa. Il capomastro ti
+            spiega che la fune è sua e il tempo perso pure, e tu paghi senza discutere.
+          effetti: { monete: -5, ferite: 0.5 }
+
+      - testo: "Pagarli con quello che sai"
+        descrizione: "Una squadra di muratori ha sempre bisogno di sapere dove si lavora la settimana prossima."
+        costo: 0
+        requisiti: [informazioni.voce >= 2]
+        esito:
+          titolo: Lavoro per la squadra
+          testo: |
+            Ti calano giù con la fune. Quando il capomastro tende la mano, gli dici invece quale cantiere cerca
+            muratori la settimana prossima e chi paga in anticipo. Lui ci pensa, poi sputa nella mano e te la
+            stringe.
+          effetti: { informazioni.voce: -2, ferite: 0.5 }
+
+  - id: carta-cb-la-retata
+    immagine: icone/police-officer-head
+    titolo: La retata
+    sommario: "La Caserma ha chiuso la strada da tutte e due le parti e perquisisce chiunque passi."
+    luogo: Città Bassa, Via del Salmone
+    tipo: carta
+    area: citta-bassa
+    rarita: insolita
+    inevitabile: true
+    requisiti: [sospetto < 6]
+    testo: |
+      In fondo a Via del Salmone due carri messi di traverso chiudono la strada, e altri due la chiudono alle tue
+      spalle. In mezzo i miliziani della Caserma fanno passare la gente uno alla volta. Ognuno apre la borsa su
+      un tavolo pieghevole e alza le braccia. Un sergente con il registro sotto il braccio legge i nomi ad alta
+      voce, e accanto a lui un miliziano scrive.
+
+      «In fila, e le borse aperte» grida il sergente. «Le persone oneste fanno presto. Chi scappa lo prendiamo lo
+      stesso, e poi parliamo.»
+
+      {furtivita Facile} Il carro di sinistra non arriva fino al muro. Fra la ruota e lo spigolo passa una persona
+      di traverso, se nessuno guarda.
+    opzioni:
+      - testo: "Farti frugare"
+        descrizione: "Non hai niente da nascondere, e alla Caserma il tuo nome dice poco."
+        costo: 0
+        quando: [sospetto < 3, reliquie.frammento-inciso == 0]
+        esito:
+          titolo: Pulit{o|a}
+          testo: |
+            Apri la borsa sul tavolo e alzi le braccia. Il miliziano ti tasta le tasche svogliato, perché lo fa da
+            stamattina. Il sergente cerca il tuo nome sul registro e non lo trova, così ti fa passare con un cenno.
+            Per qualche giorno le ronde che ti incrociano guardano da un'altra parte.
+          effetti: { sospetto: -0.5 }
+
+      - testo: "Farti frugare"
+        descrizione: "Il tuo nome alla Caserma lo conoscono. Farsi frugare vuol dire farsi frugare con calma."
+        costo: 0
+        quando: [sospetto >= 3]
+        esito:
+          titolo: Il tuo nome sul registro
+          testo: |
+            Il sergente trova il tuo nome sul registro al primo colpo e ci fa un segno con l'unghia. Ti tengono
+            contro il muro fino a sera e ti rivoltano la borsa due volte. Alla fine qualche moneta nella borsa
+            non ci torna. Poi ti lasciano andare con il nome scritto un'altra volta.
+          effetti: { sospetto: 0.5, monete: -4 }
+
+      - testo: "Farti frugare"
+        descrizione: "In fondo alla borsa hai un frammento inciso senza il timbro della Gilda."
+        costo: 0
+        quando: [sospetto < 3, reliquie.frammento-inciso >= 1]
+        esito:
+          titolo: Senza timbro
+          testo: |
+            Il miliziano trova il frammento inciso in fondo alla borsa e lo alza verso il sergente. È una
+            reliquia senza il timbro della Gilda. Il sergente la chiude in una cassetta e scrive il tuo nome sul
+            registro, con una riga sotto.
+          effetti: { reliquie.frammento-inciso: -1, sospetto: 1 }
+
+      - testo: "Allungare qualche moneta al miliziano"
+        descrizione: "Il miliziano al tavolo ha la paga di un miliziano, e lo sa."
+        costo: 0
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Il tavolo pieghevole
+          testo: |
+            Quando arriva il tuo turno appoggi la borsa sul tavolo con qualche moneta sotto. Il miliziano la
+            solleva e te la rende senza aprirla. Le monete restano sul tavolo e poi spariscono nella sua manica.
+            Il sergente era girato dall'altra parte, o ha fatto finta di esserlo.
+          effetti: { monete: -10 }
+
+      - testo: "Sgusciare fra il carro e il muro"
+        descrizione: "Bisogna aspettare che il sergente si volti, e passare di traverso senza toccare la ruota."
+        costo: 0
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Di traverso
+          testo: |
+            Aspetti che il sergente si volti a gridare contro uno della fila e ti infili di traverso fra la ruota
+            e lo spigolo. Il mozzo ti graffia la schiena. Dall'altra parte c'è un vicolo, e in fondo al vicolo la
+            strada di sempre.
+          pe: { furtivita: 4 }
+        fallimento:
+          titolo: La manica nel mozzo
+          testo: |
+            Sei a metà quando la manica ti si impiglia nel mozzo della ruota. Un miliziano ti tira fuori per il
+            colletto e ti porta davanti al sergente, che scrive il tuo nome con molta cura. Poi ti frugano due
+            volte, per principio.
+          effetti: { sospetto: 1 }
+
+  # ================================================================ la bottega che ticchetta
+  - id: carta-cb-bottega-la-chiave
+    immagine: icone/pocket-watch
+    titolo: La bottega che ticchetta
+    sommario: "L'orologiaio della discesa è morto da una settimana, e dalla sua bottega chiusa viene ancora un ticchettio."
+    luogo: Città Bassa, la discesa del bazaar
+    tipo: carta
+    area: citta-bassa
+    requisiti: [bottega.fine == 0, bottega.passo == 0]
+    testo: |
+      Sulla discesa del bazaar la bottega dell'orologiaio ha le imposte chiuse da una settimana, da quando lui è
+      morto. Dentro però qualcosa ticchetta ancora. Lo senti appena ti fermi davanti alla porta. È un colpo
+      fitto e regolare che non viene da nessun pendolo. In vetrina le sveglie impolverate sono ferme, ognuna a
+      un'ora diversa.
+
+      La vicina della bottega accanto sta spazzando la soglia. Ti dice che l'orologiaio non aveva parenti e che
+      la chiave non l'ha trovata nessuno. «Io lo so dove la teneva» aggiunge a voce bassa. «Nella cassetta delle
+      offerte del lavatoio, sotto le monete. Diceva che rubare alla cassetta del lavatoio porta male.»
+
+      {percezione Media} Il ticchettio cambia passo. Ogni tanto salta un colpo e poi riprende più veloce, e gli
+      orologi non lo fanno.
+    opzioni:
+      - testo: "Prendere la chiave dalla cassetta"
+        descrizione: "La cassetta sta sotto la tettoia del lavatoio, davanti a tutte le lavandaie. Ci vuole la mano di un borseggiatore."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il nastro rosso
+          testo: |
+            Aspetti che le lavandaie si girino a stendere un lenzuolo lungo e infili due dita nella fessura. La
+            chiave è in fondo, sotto le monete, legata a un nastro rosso. La sfili senza far tintinnare niente e
+            te ne vai senza fretta.
+          pe: { furtivita: 4 }
+          imposta: { bottega.passo: 1 }
+        fallimento:
+          titolo: Al ladro
+          testo: |
+            Hai la mano nella cassetta fino al polso quando una lavandaia ti vede e grida al ladro. Ritiri la
+            mano vuota e ti allontani con mezzo lavatoio che ti indica. Nessuno ti insegue, ma prima di sera lo
+            sa tutta la discesa.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Chiedere a Ermes Calvi"
+        descrizione: "Lo scrivano del lavatoio conosce tutti, e il suo tavolino sta proprio accanto alla cassetta."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Facile }
+        successo:
+          titolo: Lo scrivano
+          testo: |
+            Aspetti il tuo turno nella fila e gli spieghi che cosa cerchi. Ermes posa la penna e ti racconta che
+            l'orologiaio veniva qui tutte le sere a guardare l'acqua delle vasche. Poi apre la cassetta con una
+            chiavetta che porta al collo e ti dà la chiave legata al nastro rosso. «Se trovi delle lettere
+            portamele, che qualcuno le starà aspettando» dice, e torna alla sua fila.
+          pe: { persuasione: 3 }
+          imposta: { bottega.passo: 1 }
+        fallimento:
+          titolo: La fila
+          testo: |
+            Ermes ha la fila fino alle vasche e non ha tempo per te. Insisti, e le donne in fila cominciano a
+            guardarti storto. Lui alza la voce quel tanto che basta e ti dice di tornare quando avrai imparato
+            ad aspettare il tuo turno.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Lasciare un'offerta in cambio"
+        descrizione: "Una moneta per una chiave, davanti a tutti. Così nessuno può dire niente."
+        requisiti: [monete >= 5]
+        esito:
+          titolo: L'offerta
+          testo: |
+            Infili qualche moneta nella fessura davanti alle lavandaie, poi apri il coperchio e prendi la chiave
+            legata al nastro rosso. Una lavandaia ti guarda fare e annuisce, perché il conto torna.
+          effetti: { monete: -5 }
+          imposta: { bottega.passo: 1 }
+
+      - testo: "Rimandare"
+        descrizione: "La bottega può ticchettare ancora un giorno."
+        costo: 0
+        esito:
+          titolo: Il rumore del bazaar
+          testo: |
+            Lasci la discesa con il ticchettio nelle orecchie. Ti segue fino all'angolo, e poi lo copre il rumore
+            del bazaar.
+
+  - id: carta-cb-bottega-il-congegno
+    immagine: icone/clockwork
+    titolo: Il congegno sul banco
+    sommario: "Nella bottega dell'orologiaio un congegno a metà ticchetta sotto una campana di vetro, accanto a un ordine con il segno degli Scuri."
+    luogo: Città Bassa, la bottega dell'orologiaio
+    tipo: carta
+    area: citta-bassa
+    requisiti: [bottega.passo == 1]
+    testo: |
+      La chiave gira al secondo tentativo, e la bottega ti accoglie con un odore di olio fino e di polvere. Il
+      ticchettio viene dal banco da lavoro. Sotto una campana di vetro c'è un congegno di ottone grande come una
+      pagnotta, con la cassa ancora mezza aperta. Le ruote dentate girano da sole intorno a un piccolo cristallo,
+      e ogni tanto una leva scatta a vuoto.
+
+      Accanto alla campana c'è un foglio piegato in tre. È un ordine scritto con una bella calligrafia, per un
+      congegno che apra le casseforti della Gilda senza chiave, con la consegna a fine mese e metà della paga in
+      anticipo. In fondo al foglio non c'è una firma. C'è il segno degli Scuri, disegnato a inchiostro.
+
+      {conoscenze-della-strada Facile} Chi mette quel segno al posto della firma vuole che chi legge sappia chi
+      paga. E vuole anche che stia zitto.
+    opzioni:
+      - testo: "Fermare il congegno"
+        descrizione: "Le ruote girano da una settimana senza che nessuno le carichi. Prima di toccarlo bisogna capire che cosa lo muove."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il cristallo
+          testo: |
+            Sollevi la campana e segui le ruote con la punta di un cacciavite fino al cristallo. È lui che le
+            muove, un frammento carico che l'orologiaio ha montato al posto della molla. Lo sfili dal suo
+            alloggio e il ticchettio si ferma. Dalla strada torna a sentirsi il rumore del bazaar.
+          pe: { tecnologia: 4 }
+          imposta: { bottega.passo: 2 }
+        fallimento:
+          titolo: La leva
+          testo: |
+            Infili le dita fra le ruote per cercare la molla, e una leva scatta proprio in quel momento. Ti
+            pizzica il dito fino all'osso. Ritiri la mano che sanguina, e il congegno continua a ticchettare come
+            prima.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Chiedere in giro chi l'ha ordinato"
+        descrizione: "In Città Bassa c'è sempre qualcuno che sa a chi va consegnata una cosa. Basta non chiederlo alla persona sbagliata."
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Media }
+        successo:
+          titolo: Un nome
+          testo: |
+            Porti il foglio in una bisca di Via dei Rasoi e lo fai vedere a un oste che deve un favore a mezzo
+            quartiere. Lui lo legge e te lo restituisce piegato. Ti dice a chi va consegnato il congegno, se
+            qualcuno lo finisce, e anche chi altro lo sta cercando. Torni alla bottega con un nome e un'idea più
+            chiara di quanto vale.
+          pe: { conoscenze-della-strada: 4 }
+          imposta: { bottega.passo: 2 }
+        fallimento:
+          titolo: Troppe domande
+          testo: |
+            Fai vedere il foglio alle persone sbagliate. Prima di sera due tipi che non conosci passano davanti
+            alla bottega tre volte, e uno si ferma a guardare dentro dalla vetrina con le mani in tasca.
+          effetti: { sospetto: 0.5 }
+
+      - testo: "Portare via tutto così com'è"
+        descrizione: "Tutto in una coperta, e via. Sulla discesa però le finestre hanno gli occhi."
+        esito:
+          titolo: La coperta
+          testo: |
+            Avvolgi la campana e il foglio in una coperta presa dal retro e porti il fagotto fuori sotto il
+            braccio, con il ticchettio che si sente attraverso la lana. La vicina smette di spazzare e ti guarda
+            passare, e domani lo racconterà a qualcuno.
+          effetti: { sospetto: 0.5 }
+          imposta: { bottega.passo: 2 }
+
+      - testo: "Rimandare"
+        descrizione: "Il congegno ticchetta da una settimana. Può ticchettare ancora un po'."
+        costo: 0
+        esito:
+          titolo: La porta chiusa
+          testo: |
+            Richiudi la porta a chiave e resti un momento sulla soglia ad ascoltare. Il ticchettio va avanti
+            uguale, con il suo colpo saltato ogni tanto.
+
+  - id: carta-cb-bottega-i-creditori
+    immagine: icone/scroll-unfurled
+    titolo: I creditori dell'orologiaio
+    sommario: "Un prestatore e due facchini sono entrati nella bottega dell'orologiaio. Vogliono la bottega e il congegno con lei."
+    luogo: Città Bassa, la bottega dell'orologiaio
+    tipo: carta
+    area: citta-bassa
+    requisiti: [bottega.passo == 2]
+    testo: |
+      Torni alla bottega e trovi la porta aperta. Dentro un prestatore con il panciotto abbottonato fino al
+      collo sfoglia i registri dell'orologiaio. Due facchini aspettano accanto alla porta con le mani in tasca.
+      Il prestatore alza gli occhi e ti sorride come si sorride a un cliente.
+
+      «Lei dev'essere l'amico del povero orologiaio» dice. «Mi doveva parecchio, e la bottega adesso è mia con
+      tutto quello che c'è dentro. Anche quel congegno, s'intende. Mi dicono che c'è chi lo paga bene.» Ti
+      mostra una carta con la firma dell'orologiaio. È un prestito con la bottega in garanzia.
+
+      {politica-ed-economia Media} La carta dice *la bottega e gli attrezzi*. Un lavoro su ordinazione con
+      l'anticipo già incassato appartiene a chi l'ha ordinato.
+    opzioni:
+      - testo: "Leggere la carta del prestito"
+        descrizione: "Un prestito ha sempre una riga che il prestatore spera che nessuno legga."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Gli attrezzi
+          testo: |
+            Gli leggi la carta riga per riga a voce alta e ti fermi su *la bottega e gli attrezzi*. Il congegno
+            è un lavoro su ordinazione e l'anticipo l'ha già incassato l'orologiaio. Il prestatore fa due conti a
+            mente e decide che non gli conviene litigare con chi l'ha ordinato. Si tiene la bottega e ti lascia
+            il congegno.
+          pe: { politica-ed-economia: 4 }
+          imposta: { bottega.passo: 3 }
+        fallimento:
+          titolo: Un notaio
+          testo: |
+            Cerchi il cavillo davanti ai facchini e non lo trovi. Il prestatore ti lascia parlare fino in fondo e
+            poi ti dice che le opinioni le ascolta volentieri, ma da un notaio. Ti accompagna alla porta con
+            molta gentilezza, e i facchini ridono.
+          effetti: { scandalo: 0.5 }
+
+      - testo: "Mettere paura ai facchini"
+        descrizione: "Il prestatore è coraggioso finché ha i suoi due facchini. Senza di loro è un uomo con un panciotto."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: La porta
+          testo: |
+            Ti metti fra i facchini e la porta e chiedi a tutti e due quanto li paga il prestatore per farsi
+            rompere il naso. Si guardano e se ne vanno. Il prestatore chiude i registri con molta calma, ti dice
+            che la bottega resta sua e esce dietro di loro. Il congegno lo lascia sul banco.
+          pe: { intimidire: 4 }
+          imposta: { bottega.passo: 3 }
+        fallimento:
+          titolo: Il facchino più grosso
+          testo: |
+            Il facchino più grosso non ha paura di te e te lo fa capire con una spinta. Finisci contro una
+            vetrina di sveglie che si rovescia con un gran tintinnio. Il prestatore ti fa accompagnare fuori e ti
+            dice di tornare quando sarai più educat{o|a}.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Pagare il debito dell'orologiaio"
+        descrizione: "Il prestatore vuole i suoi soldi più del congegno. Glieli dai, e il congegno è tuo."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: Il conto chiuso
+          testo: |
+            Chiedi quanto doveva l'orologiaio, e il prestatore te lo dice senza esitare, con gli interessi.
+            Paghi. Lui ti scrive la ricevuta con una calligrafia minuta e ti consegna il congegno sotto la sua
+            campana di vetro. Poi se ne va con i facchini e con i registri sotto il braccio.
+          effetti: { monete: -30 }
+          imposta: { bottega.passo: 3 }
+
+      - testo: "Rimandare"
+        descrizione: "Il prestatore ha tempo, e i facchini sono pagati a giornata."
+        costo: 0
+        esito:
+          titolo: I registri
+          testo: |
+            Esci dalla bottega senza dire niente. Dalla porta aperta vedi il prestatore che riprende a sfogliare i
+            registri, con un dito che scorre lungo le colonne.
+
+  - id: carta-cb-bottega-la-grata
+    immagine: icone/gears
+    titolo: Dove va il congegno
+    sommario: "Il congegno dell'orologiaio è tuo per una sera. Lo aspettano gli Scuri, la Caserma pagherebbe per vederlo e in fondo alla discesa c'è una grata."
+    luogo: Città Bassa, la bottega dell'orologiaio
+    tipo: carta
+    area: citta-bassa
+    requisiti: [bottega.passo == 3]
+    testo: |
+      Il congegno è fermo sul banco, e la bottega è tua per una sera ancora. Mentre metti in ordine gli attrezzi
+      trovi il gruzzolo dell'orologiaio. Era nella cassa del pendolo grande, in un sacchetto di tela, e nessuno
+      dei creditori ci aveva pensato. Basta a ripagarti di tutta questa storia.
+
+      Resta da decidere del congegno. Gli Scuri l'hanno ordinato e lo aspettano a fine mese. La Caserma pagherebbe
+      per sapere che esiste e chi lo voleva. In fondo alla discesa una grata di ferro copre una fenditura senza
+      fondo, e quello che ci cade non torna su.
+
+      {empatia Media} Sul banco ci sono gli occhiali dell'orologiaio, con una stanghetta aggiustata con il filo.
+      Ha lavorato al congegno fino all'ultimo giorno, e non ti sembra uno che lo facesse volentieri.
+    opzioni:
+      - testo: "Consegnarlo agli Scuri"
+        descrizione: "L'hanno ordinato e pagato a metà. Chi finisce i lavori degli altri, con gli Scuri, si fa un nome."
+        quando: [pista.pelle < 6]
+        esito:
+          titolo: A fine mese
+          testo: |
+            Porti il congegno alla porta sul retro della Pignatta Grassa. Lo prende un uomo magro che conta le
+            ruote con il dito e annuisce. Ti dice che gli Scuri si ricordano di chi finisce i lavori degli altri,
+            e del gruzzolo non chiede niente.
+          effetti: { monete: 200, rep.scuri: 1 }
+          imposta: { bottega.passo: 4, bottega.fine: 1 }
+
+      - testo: "Portarlo alla Caserma"
+        descrizione: "Un congegno che apre le casseforti della Gilda, e un ordine con il segno degli Scuri. Lo sceriffo vorrà vederli."
+        esito:
+          titolo: Il rapporto
+          testo: |
+            Il sergente di guardia ti fa raccontare tutto due volte e mette il congegno in una cassa con il
+            sigillo. «Il foglio lo vuole vedere lo sceriffo» dice. «Hai fatto un buon lavoro, e alla Caserma ce lo
+            ricordiamo.» Sulla strada del ritorno ti accorgi che alla Pignatta qualcuno ti guarda passare.
+          effetti: { monete: 200, rep.caserma: 1, rep.scuri: -0.5 }
+          imposta: { bottega.passo: 4, bottega.fine: 2 }
+
+      - testo: "Buttarlo nella grata"
+        descrizione: "Niente Scuri e niente Caserma. Il congegno finisce dove nessuno lo va a cercare."
+        esito:
+          titolo: La grata
+          testo: |
+            Scendi in fondo alla discesa di notte con il congegno sotto il braccio. Lo infili fra le sbarre della
+            grata e lo lasci andare. Lo senti battere due volte contro la roccia, e poi più niente. Torni a casa
+            con il gruzzolo dell'orologiaio, e nessuno sa che cosa ne hai fatto.
+          effetti: { monete: 200 }
+          imposta: { bottega.passo: 4, bottega.fine: 3 }
+
+  # ================================================================ comuni
+  - id: carta-cb-la-corsa-delle-carriole
+    immagine: icone/wheelbarrow
+    titolo: La corsa delle carriole
+    sommario: "Sulla discesa del bazaar si corre con le carriole, e chi non corre scommette."
+    luogo: Città Bassa, la discesa del bazaar
+    tipo: carta
+    area: citta-bassa
+    testo: |
+      La discesa che porta al bazaar è sgombra di bancarelle, e ai lati la gente si accalca fino ai davanzali.
+      In cima ci sono sei carriole in fila, ognuna con un ragazzo seduto dentro e uno dietro a spingere. La
+      favorita è la carriola rossa del figlio del fabbro, con le ruote che luccicano di grasso. Un
+      uomo con un cappello sfondato raccoglie le puntate su una lavagnetta e grida le quote.
+
+      All'ultimo momento uno dei ragazzi che spingono si siede sul marciapiede con una caviglia gonfia. La sua
+      carriola resta senza nessuno dietro.
+
+      {percezione Facile} Il mozzo della ruota rossa è tenuto da un perno solo, e basterebbe allentarlo di
+      mezzo giro.
+    opzioni:
+      - testo: "Spingere la carriola rimasta sola"
+        descrizione: "Il ragazzo seduto dentro ti guarda con speranza. La discesa è ripida, e in fondo c'è il muro del bazaar."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Il muro del bazaar
+          testo: |
+            Spingi a testa bassa con il ragazzo che strilla e si tiene ai bordi. Alla curva sorpassi la carriola
+            rossa all'esterno, e arrivi al muro del bazaar con mezza ruota di vantaggio. L'uomo con il cappello
+            paga il premio con una smorfia, e il ragazzo ne vuole metà.
+          pe: { atletica: 4 }
+          effetti: { monete: 5 }
+        fallimento:
+          titolo: La curva
+          testo: |
+            La carriola prende la curva più veloce di te. Il ragazzo salta fuori in tempo. Tu finisci
+            contro i sacchi di un granaio con le braccia ancora tese. La discesa ride fino a sera, e a te fa male
+            una spalla.
+          effetti: { ferite: 0.5 }
+
+      - testo: "Puntare sulla carriola rossa"
+        descrizione: "La favorita paga poco, ma di solito vince."
+        requisiti: [monete >= 3]
+        esito:
+          titolo: Come previsto
+          testo: |
+            La carriola rossa arriva prima con un buon distacco, e il figlio del fabbro alza le braccia dentro la
+            cassa. L'uomo con il cappello ti rende la puntata con qualche moneta in più, e ti dice che con i
+            prudenti come te non si arricchisce nessuno.
+          effetti: { monete: 2 }
+
+      - testo: "Allentare il perno della carriola rossa"
+        descrizione: "Mezzo giro al perno e una puntata contro la favorita. Se il figlio del fabbro ti vede, la corsa la fai tu, inseguit{o|a}."
+        requisiti: [monete >= 3]
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Mezzo giro
+          testo: |
+            Ti chini ad allacciarti una scarpa accanto alla carriola rossa e il perno gira sotto le dita. Poi punti
+            sulla terza della fila. Alla curva la ruota rossa se ne va per conto suo, giù per la discesa, e la
+            terza arriva prima. L'uomo con il cappello paga e non ti guarda in faccia.
+          pe: { furtivita: 4 }
+          effetti: { monete: 8 }
+        fallimento:
+          titolo: Il figlio del fabbro
+          testo: |
+            Hai le dita sul perno quando il figlio del fabbro ti vede e grida. Mezza discesa si volta. Te la cavi
+            con uno spintone e una promessa di botte la prossima volta, e l'uomo con il cappello si ricorda la tua
+            faccia.
+          effetti: { sospetto: 1 }
+
+  - id: carta-cb-il-guaritore-senza-licenza
+    immagine: icone/round-potion
+    titolo: Il guaritore senza licenza
+    sommario: "All'angolo di Via del Salmone un ciarlatano vende unguenti da un baule, e qualcuno giura che funzionano."
+    luogo: Città Bassa, l'angolo di Via del Salmone
+    tipo: carta
+    area: citta-bassa
+    requisiti: [visto.carta-cb-il-guaritore-senza-licenza == 0]
+    testo: |
+      All'angolo di Via del Salmone un uomo in redingote verde ha aperto un baule su due cavalletti. Dentro ci
+      sono file di vasetti di coccio chiusi con la cera, e su ognuno è scritto a pennello il male che cura. Lui
+      ne tiene uno alto sopra la testa e parla di reumi e di mal di denti con la stessa voce sicura.
+
+      Una lavandaia giura alla folla che l'unguento le ha guarito la mano in tre giorni. Accanto a lei un vecchio
+      si gratta un'eruzione che con l'unguento è peggiorata.
+
+      {medicina Media} Dal vasetto aperto viene odore di sego e di canfora. La canfora fa bene ai reumi, e il
+      resto serve a far pesare il vasetto.
+    opzioni:
+      - testo: "Smascherarlo davanti a tutti"
+        descrizione: "Basta aprire un vasetto e dire alla folla che cosa c'è dentro. Bisogna però saperlo davvero."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Sego e canfora
+          testo: |
+            Apri un vasetto e lo fai annusare ai primi della fila, poi spieghi che cosa c'è dentro e a che cosa
+            serve davvero. Il vecchio con l'eruzione si fa ridare i soldi. L'uomo in redingote chiude il baule
+            senza una parola, e la folla ti resta intorno a farti domande sui suoi acciacchi.
+          pe: { medicina: 4 }
+          effetti: { informazioni.voce: 2 }
+          imposta: { visto.carta-cb-il-guaritore-senza-licenza: 1 }
+        fallimento:
+          titolo: Acqua di rose
+          testo: |
+            Apri un vasetto per smascherarlo e ti ritrovi in mano acqua di rose, che non fa male a nessuno.
+            L'uomo in redingote ti ringrazia ad alta voce della pubblicità. La folla ride, e lui vende tre
+            vasetti alla gente che hai convinto tu.
+          effetti: { scandalo: 0.5 }
+          imposta: { visto.carta-cb-il-guaritore-senza-licenza: 1 }
+
+      - testo: "Comprare un vasetto"
+        descrizione: "A volte funzionano. La canfora c'è davvero."
+        requisiti: [monete >= 4, unguento < 5]
+        esito:
+          titolo: Il tappo di cera
+          testo: |
+            L'uomo ti sceglie il vasetto per le ferite con la cura di un farmacista. A casa lo apri e lo annusi.
+            C'è il sego e c'è la canfora, e sotto senti un'erba amara che conosci. Su un taglio fresco funziona
+            abbastanza.
+          effetti: { monete: -4, unguento: 1 }
+          imposta: { visto.carta-cb-il-guaritore-senza-licenza: 1 }
+
+      - testo: "Farti spiegare come li fa"
+        descrizione: "Un ciarlatano ama parlare del suo mestiere quasi quanto venderlo. Bisogna trovare il tono."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Facile }
+        successo:
+          titolo: La ricetta
+          testo: |
+            Aspetti che la folla se ne vada e lo inviti a bere un sidro. Davanti al boccale l'uomo si scioglie e
+            ti racconta la ricetta, e anche quale vasetto è buono davvero e quale no. Alla fine te ne regala uno
+            dei buoni, perché parlare con qualcuno che ascolta gli capita di rado.
+          pe: { persuasione: 3 }
+          effetti: { unguento: 1 }
+          imposta: { visto.carta-cb-il-guaritore-senza-licenza: 1 }
+        fallimento:
+          titolo: Segreti di bottega
+          testo: |
+            L'uomo ti prende per un concorrente venuto a rubargli il mestiere. Lo dice alla folla con molte
+            parole, e aggiunge che i tuoi unguenti sono acqua di pozzo. Qualcuno nella fila ti guarda storto per
+            tutta la strada.
+          effetti: { scandalo: 0.5 }
+          imposta: { visto.carta-cb-il-guaritore-senza-licenza: 1 }
+
+      - testo: "Tirare dritto"
+        descrizione: "I reumi sono degli altri, e i vasetti pure."
+        costo: 0
+        esito:
+          titolo: La voce sicura
+          testo: |
+            Lasci l'angolo mentre l'uomo in redingote attacca a parlare dei calli. La sua voce sicura ti segue per
+            mezza via, finché la copre il rumore del lavatoio.
+          imposta: { visto.carta-cb-il-guaritore-senza-licenza: 1 }
+
+  - id: carta-cb-la-lettera-nella-crepa
+    immagine: icone/love-letter
+    titolo: La lettera nella crepa
+    sommario: "Dalla crepa di un muro spunta l'angolo di una lettera sigillata, e fuori c'è scritto un nome di donna."
+    luogo: Città Bassa, un vicolo dietro Via del Salmone
+    tipo: carta
+    area: citta-bassa
+    requisiti: [visto.carta-cb-la-lettera-nella-crepa == 0]
+    testo: |
+      In un vicolo dietro Via del Salmone c'è un muro di pietra con una crepa obliqua, larga abbastanza per una
+      mano. Dalla crepa spunta l'angolo di un foglio piegato in quattro. Lo tiri fuori. È una lettera chiusa con
+      una goccia di cera rossa, e fuori c'è scritto un nome di donna con una calligrafia accurata, di chi ha
+      fatto tre brutte copie prima.
+
+      Il nome lo conosci, perché al lavatoio lo dicono tutti. È la moglie del tintore di Via del Salmone, e il
+      tintore ha fama di uomo geloso.
+
+      {ingannare Media} Una lettera così vale parecchio a chi la sa usare. L'usuraio di Via dei Rasoi compra
+      queste cose, e poi le rivende a chi ha più paura che vengano lette.
+    opzioni:
+      - testo: "Consegnarla alla moglie del tintore"
+        descrizione: "Bisogna dargliela senza che il marito veda, e senza farla vergognare davanti alle altre."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Sotto il fagotto
+          testo: |
+            La trovi al lavatoio e aspetti che resti sola alla vasca. Le infili la lettera sotto il fagotto dei
+            panni con due parole a voce bassa. Lei arrossisce fino al collo e non ti guarda. Il giorno dopo trovi
+            sulla tua soglia un fazzoletto annodato con dentro qualche moneta.
+          pe: { empatia: 4 }
+          effetti: { monete: 3 }
+          imposta: { visto.carta-cb-la-lettera-nella-crepa: 1 }
+        fallimento:
+          titolo: Il tintore
+          testo: |
+            Stai per darle la lettera quando arriva il marito con le mani blu di tintura fino ai gomiti. Nascondi
+            il foglio male, e la cera rossa si vede. Il tintore non dice niente a te. A lei dice parecchio, davanti
+            a tutto il lavatoio.
+          effetti: { scandalo: 1 }
+          imposta: { visto.carta-cb-la-lettera-nella-crepa: 1 }
+
+      - testo: "Leggerla"
+        descrizione: "La cera si stacca con la lama di un coltello e si riattacca con un po' di calore."
+        esito:
+          titolo: Cera rossa
+          testo: |
+            Scaldi la lama del coltello e stacchi la cera senza romperla. La lettera è di un garzone della Fucina
+            dei Due Mastini, e dice dove si vedranno e a che ora. Ci sono anche due righe sul tintore che non gli
+            farebbero piacere. Rimetti la lettera nella crepa con la cera al suo posto.
+          effetti: { informazioni.pettegolezzo: 1 }
+          imposta: { visto.carta-cb-la-lettera-nella-crepa: 1 }
+
+      - testo: "Venderla all'usuraio di Via dei Rasoi"
+        descrizione: "Lui paga subito. A chi la rivende poi non sono affari tuoi."
+        esito:
+          titolo: L'usuraio
+          testo: |
+            L'usuraio legge il nome sulla lettera senza aprirla e ti paga senza contrattare. La
+            mette in un cassetto dove ce ne sono altre. Quando esci, un ragazzo seduto sui gradini ti guarda
+            passare e poi entra a sua volta.
+          effetti: { monete: 6, sospetto: 0.5 }
+          imposta: { visto.carta-cb-la-lettera-nella-crepa: 1 }
+
+      - testo: "Rimetterla nella crepa"
+        descrizione: "Chi l'ha scritta sa dove l'ha messa, e chi deve trovarla anche."
+        costo: 0
+        esito:
+          titolo: L'angolo che spunta
+          testo: |
+            Rimetti la lettera nella crepa con l'angolo che spunta come prima. In fondo al vicolo ti volti, e una
+            ragazza sta già tendendo la mano verso il muro.
+          imposta: { visto.carta-cb-la-lettera-nella-crepa: 1 }
+
+  - id: carta-cb-il-pozzo-che-canta
+    immagine: icone/well
+    titolo: Il pozzo che canta
+    sommario: "Di notte un pozzo chiuso da anni manda su una nota sola, e i vicini non dormono più."
+    luogo: Città Bassa, un cortile dietro la Fucina dei Due Mastini
+    tipo: carta
+    area: citta-bassa
+    requisiti: [visto.carta-cb-il-pozzo-che-canta == 0]
+    testo: |
+      Il pozzo del cortile è chiuso da anni con un coperchio di assi inchiodate e una catena arrugginita. Da
+      qualche notte, quando le fucine tacciono, ne sale una nota sola. È una nota bassa che ricomincia ogni
+      volta che finisce. Una donna alla finestra ti racconta che il pozzo l'hanno chiuso quando
+      l'acqua è diventata grigia, e che da allora nessuno ci è più sceso.
+
+      Fra le assi del coperchio sale un filo di aria tiepida.
+
+      {magia Media} La nota non porta Mana. Laggiù qualcosa vibra per conto suo, come un bicchiere sulla mensola
+      quando passa un carro.
+    opzioni:
+      - testo: "Scendere a vedere"
+        descrizione: "La catena forse regge ancora. L'acqua però era grigia, e la Marea non se ne va da sola."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Il cristallo incrinato
+          testo: |
+            Schiodi due assi e scendi lungo la catena con i piedi contro le pareti. In fondo l'acqua è sparita, e
+            al suo posto c'è una fenditura che manda su aria calda. Incastrato nella roccia c'è un cristallo
+            incrinato che vibra al passaggio del calore. Lo stacchi con il coltello e la nota si spegne.
+          pe: { atletica: 4 }
+          effetti: { cristalli.cristallo-sterile: 1 }
+          imposta: { visto.carta-cb-il-pozzo-che-canta: 1 }
+        fallimento:
+          titolo: L'acqua grigia
+          testo: |
+            A metà discesa un anello della catena si apre e tu finisci di sotto. L'acqua grigia ti arriva alle
+            ginocchia ed è tiepida come un brodo. Risali a forza di braccia con i vestiti che puzzano di Marea, e
+            la nota continua come prima.
+          effetti: { contaminazione: 1 }
+          imposta: { visto.carta-cb-il-pozzo-che-canta: 1 }
+
+      - testo: "Chiamare l'Accademia"
+        descrizione: "All'Accademia di Torvessa c'è sempre qualcuno che vorrebbe ascoltare un pozzo che canta."
+        esito:
+          titolo: L'allievo con il diapason
+          testo: |
+            Il giorno dopo arriva un allievo dell'Accademia con un diapason e un taccuino. Ascolta il pozzo con
+            l'orecchio contro le assi per un'ora intera e prende appunti fitti. Prima di andarsene si segna il tuo
+            nome, perché il suo maestro vorrà sapere chi l'ha avvisato.
+          effetti: { rep.accademia: 0.5 }
+          imposta: { visto.carta-cb-il-pozzo-che-canta: 1 }
+
+      - testo: "Tenerti la notizia per chi la paga"
+        descrizione: "Un pozzo che canta vicino alla Fucina interessa ai Raschiatori, e a chi compra notizie per loro."
+        esito:
+          titolo: Una notizia da vendere
+          testo: |
+            Ti fai raccontare dalla donna alla finestra quando è cominciata la nota e a che ora si sente. Poi
+            ascolti il pozzo fino a mezzanotte per esserne sicur{o|a}. È una notizia che qualcuno al Grifone di
+            Ferro pagherà volentieri.
+          effetti: { informazioni.pettegolezzo: 1 }
+          imposta: { visto.carta-cb-il-pozzo-che-canta: 1 }
+
+      - testo: "Tirare dritto"
+        descrizione: "Il pozzo è chiuso e i vicini hanno i tappi per le orecchie."
+        costo: 0
+        esito:
+          titolo: La nota
+          testo: |
+            Lasci il cortile mentre la nota ricomincia. La senti ancora per due vicoli, finché la copre il primo
+            martello della Fucina che riprende a battere.
+          imposta: { visto.carta-cb-il-pozzo-che-canta: 1 }
+
+  - id: carta-cb-lo-sfratto
+    immagine: icone/family-house
+    titolo: Lo sfratto
+    sommario: "Un esattore mette in strada una famiglia con le sue masserizie, e domani torna con il padrone."
+    luogo: Città Bassa, un cortile dietro Via dei Rasoi
+    tipo: carta
+    area: citta-bassa
+    requisiti: [visto.carta-cb-lo-sfratto == 0]
+    testo: |
+      Nel cortile un esattore con il cappotto lungo e un registro sotto il braccio sorveglia due facchini. Dalla
+      porta del pianterreno portano fuori un tavolo e un materasso arrotolato, e li posano sul selciato. Una donna
+      tiene per mano due bambini e guarda la sua roba senza dire niente. Il marito discute con l'esattore, e ogni
+      volta che alza la voce l'esattore gira una pagina.
+
+      «Tre mesi di affitto» dice l'esattore. «Domani passo con il padrone. Se trovo ancora qualcuno dentro,
+      chiamo la Caserma.»
+
+      {empatia Facile} La donna tiene i bambini davanti a sé, come se l'esattore potesse portarsi via anche loro.
+    opzioni:
+      - testo: "Pagare il debito"
+        descrizione: "Tre mesi d'affitto in Città Bassa non sono una fortuna. Per loro però lo sono."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: La ricevuta
+          testo: |
+            Paghi l'esattore davanti a tutto il cortile. Lui conta le monete due volte e ti scrive la ricevuta
+            con il nome della famiglia. I facchini riportano dentro il tavolo e il materasso. Il marito vuole
+            sapere come ti chiami, e quella sera nel cortile si racconta di te.
+          effetti: { monete: -15, racconto: 1 }
+          imposta: { visto.carta-cb-lo-sfratto: 1 }
+
+      - testo: "Spaventare l'esattore"
+        descrizione: "Un esattore va dove gli dicono e torna a casa intero. Bisogna fargli venire dei dubbi sul tornare intero."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il registro chiuso
+          testo: |
+            Ti metti fra l'esattore e la porta e gli chiedi, con calma, se il padrone lo paga anche per le ossa
+            rotte. Lui chiude il registro e richiama i facchini. Domani il padrone ci penserà due volte prima di
+            mandarlo, e intanto la donna ti racconta chi altro nel cortile è indietro con l'affitto.
+          pe: { intimidire: 4 }
+          effetti: { informazioni.voce: 1 }
+          imposta: { visto.carta-cb-lo-sfratto: 1 }
+        fallimento:
+          titolo: Il tuo nome nel registro
+          testo: |
+            L'esattore ti ascolta senza battere ciglio, poi apre il registro e scrive il tuo nome sotto quello
+            della famiglia. Ti dice che domani lo legge alla Caserma insieme al resto. I facchini finiscono di
+            svuotare la casa.
+          effetti: { sospetto: 1 }
+          imposta: { visto.carta-cb-lo-sfratto: 1 }
+
+      - testo: "Aiutarli a sparire stanotte"
+        descrizione: "Una famiglia con le sue masserizie che attraversa la Città Bassa di notte si nota. Bisogna sapere quali vicoli prendere."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: I vicoli di notte
+          testo: |
+            Aspetti il buio e carichi le masserizie su un carretto preso in prestito. Porti la famiglia per i
+            vicoli fino a una cantina vuota dalle parti dell'Orlo dei Rottami. Quando il padrone arriva trova la
+            porta aperta e la casa vuota, e nel cortile nessuno ha visto niente.
+          pe: { furtivita: 4 }
+          effetti: { racconto: 1 }
+          imposta: { visto.carta-cb-lo-sfratto: 1 }
+        fallimento:
+          titolo: La ronda
+          testo: |
+            A metà strada il carretto perde una ruota davanti a una ronda della Caserma. I miliziani vogliono
+            sapere di chi è la roba e dove la porti a quest'ora. La famiglia passa la notte in Caserma, e il tuo
+            nome finisce sul rapporto.
+          effetti: { sospetto: 1 }
+          imposta: { visto.carta-cb-lo-sfratto: 1 }
+
+      - testo: "Tirare dritto"
+        descrizione: "In Città Bassa di sfratti ce n'è uno a settimana."
+        costo: 0
+        esito:
+          titolo: Il materasso arrotolato
+          testo: |
+            Attraversi il cortile girando intorno al tavolo sul selciato. Dietro di te l'esattore gira un'altra
+            pagina, e uno dei bambini si è seduto sul materasso arrotolato come su un cavallo.
+          imposta: { visto.carta-cb-lo-sfratto: 1 }

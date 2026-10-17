@@ -7,6 +7,7 @@
 #                                  Gilda (rep.gilda), tirare dritto.
 #   carta-le-bottiglie-sul-muretto si ripete. Tiro alle bottiglie dietro la Locanda di Ilka: armi-da-distanza,
 #                                  ingannare (il banco delle scommesse), restare a guardare (una voce).
+#                                  Con pista.dama-argento >= 11 una sfida Difficile a posta alta.
 #   carta-lo-scrivano-del-lavatoio una volta sola (visto). Ermes Calvi ha la mano fasciata e la fila aspetta:
 #                                  espressivita, medicina, tirare dritto.
 #
@@ -17,6 +18,8 @@
 #     carta-fosco-la-targa-di-smalto   fosco 1   percezione all'Orlo (fallendo resta 1), comprarla da Grusk → 2.
 #     carta-fosco-la-casa-quattordici  fosco 2   furtivita (anche fallendo la targa va su, con scandalo),
 #                                                persuasione (fallendo resta 2) → 3 e il taccuino.
+#                                                Ogni esito che porta a 3 paga anche il premio della catena
+#                                                in monete (i risparmi di Fosco).
 #
 # CARTE DI PIÙ AVANTI
 #   carta-il-cerchio-di-gesso      pista.arena >= 5 e campione: i bambini giocano all'Arena e un ubriaco di
@@ -28,7 +31,7 @@
 # (imbianchino), la signora Mora (la vicina della quindici di Via del Salmone).
 quality:
   - { id: fosco, nome: "Fosco Ambri e i civici", categoria: stato, nascosta: true, descrizione: "0 non l'hai ancora conosciuto, 1 ti ha raccontato della casa che manca, 2 hai la targa di smalto, 3 la targa è al suo posto." }
-  - { id: visto.carta-il-forno-sulla-crepa, nome: Il forno di Agata Sorre, categoria: stato, nascosta: true }
+  - { id: visto.carta-il-forno-sulla-crepa, nome: Il forno di Agata Sorre, categoria: stato, nascosta: true, descrizione: "1 se hai visto la carta del forno, 2 se hai aiutato Agata Sorre (la branda dietro il forno è gratis)." }
   - { id: visto.carta-lo-scrivano-del-lavatoio, nome: La mano di Ermes Calvi, categoria: stato, nascosta: true }
   - { id: visto.carta-il-cerchio-di-gesso, nome: Il cerchio di gesso, categoria: stato, nascosta: true }
   - { id: visto.carta-vapore-nelle-cantine, nome: Il vapore nelle cantine, categoria: stato, nascosta: true }
@@ -81,7 +84,7 @@ storylet:
             che sanno della Gilda in quartiere, e ne sanno parecchio.
           pe: { politica-ed-economia: 4 }
           effetti: { informazioni.voce: 2, rep.gilda: -0.5 }
-          imposta: { visto.carta-il-forno-sulla-crepa: 1 }
+          imposta: { visto.carta-il-forno-sulla-crepa: 2 }
         fallimento:
           titolo: La riga sotto
           testo: |
@@ -110,7 +113,7 @@ storylet:
             che avrebbe dato alla Gilda.
           pe: { resistenza: 3 }
           effetti: { monete: 3 }
-          imposta: { visto.carta-il-forno-sulla-crepa: 1 }
+          imposta: { visto.carta-il-forno-sulla-crepa: 2 }
         fallimento:
           titolo: Il ferro
           testo: |
@@ -230,6 +233,30 @@ storylet:
             di paga. Uno dei due dice anche a che ora passa la ronda, e l'altro gli
             dà una gomitata quando ormai è troppo tardi.
           effetti: { informazioni.voce: 1 }
+
+      - testo: "Sfidare il Raschiatore vecchio a posta alta"
+        descrizione: "Una bottiglia sola, la più lontana, sul bordo della crepa. Chi sbaglia paga la posta di tutti e due."
+        quando: [pista.dama-argento >= 11]
+        requisiti: [monete >= 10]
+        prova: { attributo: fisico, abilita: armi-da-distanza, difficolta: Difficile }
+        successo:
+          titolo: Il bordo della crepa
+          testo: |
+            Il Raschiatore vecchio mette sull'asse la paga di una settimana, e tu
+            ci metti accanto la tua. Il caldo della crepa fa ballare quella
+            bottiglia più di tutte le altre. Aspetti l'onda corta e tiri, e il vetro
+            salta. Il vecchio ti spinge la posta con il dorso della mano e ti versa
+            da bere.
+          pe: { armi-da-distanza: 5 }
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: La posta di tutti e due
+          testo: |
+            Il dardo sfiora il collo della bottiglia e sparisce nella fenditura.
+            Paghi la posta di tutti e due davanti al cortile, una moneta alla volta.
+            I miliziani raccontano il tiro al tavolo accanto, e a ogni racconto la
+            bottiglia era più vicina.
+          effetti: { monete: -10, scandalo: 1 }
 
   - id: carta-lo-scrivano-del-lavatoio
     immagine: icone/quill-ink
@@ -510,9 +537,11 @@ storylet:
             sull'angolo, si soffia il naso molto a lungo.
 
             Qualche giorno più tardi Fosco ti mette in mano il suo taccuino, con
-            tutte le porte del quartiere e chi ci abita dietro.
+            tutte le porte del quartiere e chi ci abita dietro. Insieme c'è una
+            borsa pesante con i risparmi di trent'anni, che teneva da parte per
+            il giorno in cui la quattordici sarebbe tornata al suo posto.
           pe: { furtivita: 4 }
-          effetti: { oggetto.taccuino-dei-civici: 1 }
+          effetti: { oggetto.taccuino-dei-civici: 1, monete: 150 }
           imposta: { fosco: 3 }
         fallimento:
           titolo: Le galline
@@ -524,9 +553,10 @@ storylet:
 
             Poi vede la targa, e la scopa si abbassa piano. Finisce che il secondo
             chiodo lo pianta lei, borbottando, con mezza via alle finestre. Fosco
-            ti dà il suo taccuino il giorno dopo, e per una settimana in Città
-            Bassa si racconta del ladro di galline con il martello.
-          effetti: { oggetto.taccuino-dei-civici: 1, scandalo: 1 }
+            ti dà il suo taccuino il giorno dopo, con la borsa dei risparmi che
+            teneva da parte per la quattordici. Per una settimana in Città Bassa
+            si racconta del ladro di galline con il martello.
+          effetti: { oggetto.taccuino-dei-civici: 1, scandalo: 1, monete: 150 }
           imposta: { fosco: 3 }
 
       - testo: "Chiedere il permesso alla signora Mora"
@@ -541,9 +571,11 @@ storylet:
 
             Alla fine dice che il muretto è suo, il quattordici di Fosco, e il
             riscossore si arrangi. Quella sera Fosco ti porta il suo taccuino, con
-            tutte le porte del quartiere e chi ci abita dietro.
+            tutte le porte del quartiere e chi ci abita dietro. Ti lascia anche
+            una borsa pesante, i risparmi che teneva da parte da trent'anni per
+            rimettere al suo posto la quattordici.
           pe: { persuasione: 4 }
-          effetti: { oggetto.taccuino-dei-civici: 1, informazioni.voce: 1 }
+          effetti: { oggetto.taccuino-dei-civici: 1, informazioni.voce: 1, monete: 150 }
           imposta: { fosco: 3 }
         fallimento:
           titolo: La porta chiusa

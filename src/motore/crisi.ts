@@ -1,18 +1,19 @@
 // Crisi, aree di penalità e mutazioni (Regolamento 5.3–5.5 e docs/regolamento-crisi.md).
-import type { TContenuti, TMutazione, TStorylet } from './contenuto';
+import { OVUNQUE, type TContenuti, type TMutazione, type TStorylet } from './contenuto';
 import { requisitiSoddisfatti, requisitiMancanti, parseRequisito, type Stato } from './personaggio';
 
 export const inPenalita = (s: Stato, c: TContenuti) => !!c.aree.find((a) => a.id === s.area)?.penalita;
 
 /**
- * Lo storylet che si apre da solo adesso, se c'è: prima il prologo, poi la crisi.
- * Nelle aree di penalità le crisi aspettano l'uscita.
+ * Lo storylet che si apre da solo adesso, se c'è: prima il prologo, poi la crisi, poi la carta inevitabile
+ * appena pescata. Nelle aree di penalità le crisi aspettano l'uscita.
  */
 export function crisiAttiva(s: Stato, c: TContenuti): TStorylet | undefined {
   const prologo = c.storylet.find((st) => st.tipo === 'prologo' && requisitiSoddisfatti(s, st.requisiti, c));
   if (prologo) return prologo;
   if (inPenalita(s, c)) return undefined;
-  return c.storylet.find((st) => st.tipo === 'crisi' && requisitiSoddisfatti(s, st.requisiti, c));
+  return c.storylet.find((st) => st.tipo === 'crisi' && requisitiSoddisfatti(s, st.requisiti, c))
+    ?? c.storylet.find((st) => st.tipo === 'carta' && st.inevitabile && s.mano.includes(st.id) && (st.area === s.area || st.area === OVUNQUE));
 }
 
 /** Semplice hash di una stringa, per scelte a caso ripetibili. */

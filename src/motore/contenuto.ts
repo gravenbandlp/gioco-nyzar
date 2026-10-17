@@ -84,6 +84,10 @@ export const Storylet = z.object({
   testo: z.string(),
   opzioni: z.array(Opzione).min(1),
   mostra: z.number().int().min(1).optional(), // mostra solo N opzioni disponibili, scelte a caso
+  // carte: quanto spesso escono (pesi in PESI_RARITA, regole.ts); senza, la carta è comune
+  rarita: z.enum(['comune', 'insolita', 'rara']).optional(),
+  // carte: appena pescata si apre da sola come una crisi, non si scarta e le sue opzioni costano 0 rintocchi
+  inevitabile: z.boolean().optional(),
   marchio: z.enum(['addestramento']).optional(), // un marchio proprio in testa alla riga: le lezioni e i luoghi di allenamento
 });
 

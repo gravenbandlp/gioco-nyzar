@@ -211,7 +211,7 @@ export function scegli(
   }
 
   spendiRintocchi(s, ante.costo, ora);
-  if (st.tipo === 'carta' && ante.costo > 0) scarta(s, st.id);
+  if (st.tipo === 'carta' && (ante.costo > 0 || st.inevitabile)) scarta(s, st.id);
   const r: Risultato = { testo: '', variazioni: [], crescite: [] };
   if (opz.prova && ante.prova) {
     const t = tira(ante.prova.pool, rng);

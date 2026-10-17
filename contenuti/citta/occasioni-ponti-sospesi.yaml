@@ -1,0 +1,1200 @@
+# Ponti Sospesi, le occasioni nuove del mazzo (ottobre 2026): sedici carte, con rarità, ristori, tesori, agguati e
+# una mini-Cronaca. Il resto del mazzo sta in carte-ponti-sospesi.yaml e nei file dei luoghi e delle piste.
+#
+# RISTORO (insolite, ripetibili, requisiti rintocchi <= 30; l'effetto è il netto + 1)
+#   carta-ps2-l-amaca-sotto-la-campata  +4 netti. Percezione (fallendo perdi qualche moneta, i rintocchi restano),
+#                                       pagare un ragazzo di guardia, con l'Apprendista Raschiatore il nodo delle
+#                                       piattaforme.
+#   carta-ps2-la-chiatta-lenta          +8 netti. Pagare il posto, pagarlo con due voci, con chiatta.posto == 1 la Mula.
+#
+# TESORI (rari, spariscono quando hai l'oggetto)
+#   carta-ps2-il-relitto-nelle-funi     pista.dama-argento >= 6. Atletica Difficile, o i Raschiatori pagati con
+#                                       persuasione o conoscenze della strada Media. Oggetto cintura-da-cavo (+1).
+#   carta-ps2-la-vetrina-che-non-vende  pista.capomozzo >= 10. Zekar contro il mercante dell'argento (avversario di
+#                                       fazioni/maison/passi-1.yaml, con rep.grifone >= 2), ingannare o politica ed
+#                                       economia Difficili, il baratto con un meccanismo spento. Oggetto
+#                                       bussola-senza-nord (+2).
+#
+# AGGUATI (inevitabili, insoliti, ripetibili, requisiti ferite < 6, tutte le opzioni a costo 0)
+#   carta-ps2-la-passerella-tagliata    acrobazia, la chiatta della lana, lo scontro ps2-il-tagliafuni.
+#   carta-ps2-il-rampino                lo scontro ps2-la-ciurma-del-rampino, il pedaggio, intimidire, il salto.
+#   carta-ps2-la-gabella-dei-forestieri pagare, politica ed economia, lo scontro ps2-i-falsi-esattori.
+#   Sotto i Ponti non c'è acqua ma la Cicatrice: le chiatte sono quelle a fune, e chi si butta finisce sulle
+#   passerelle o nelle reti dei ponteggiatori.
+#
+# L'ULTIMO PONTIERE, mini-Cronaca di quattro carte comuni (pontiere.passo 0 → 4, pontiere.fine 1..3)
+#   carta-ps2-pontiere-le-mani          0 → 1  empatia, medicina, la zuppa (monete).
+#   carta-ps2-pontiere-gli-attrezzi     1 → 2  riscattarli (monete), intimidire l'usuraio, furtività.
+#   carta-ps2-pontiere-i-nodi           2 → 3  atletica, tecnologia, lo scrivano (monete).
+#   carta-ps2-pontiere-la-campata       3 → 4  chiude con 200 monete: ai Custodi (fine 1, rep.gilda e rep.ponti),
+#                                              al Consiglio (fine 2, politica ed economia, rep.castaldi), il segreto
+#                                              venduto al capomastro (fine 3, un segreto e Sospetto).
+#
+# COMUNI
+#   carta-ps2-il-funambolo              ripetibile. Acrobazia, percezione con la posta, furtività per i mercanti.
+#   carta-ps2-la-moneta-nel-pesce       una volta sola. Comprarla, natura, portarla ad Ambrin Qell (rep.nodo).
+#   carta-ps2-il-carico-che-piange      una volta sola. Furtività, i Custodi (rep.gilda), comprare il carico.
+#   carta-ps2-la-gara-dei-rampini       ripetibile. Armi da distanza, conoscenze della strada con la posta, la lezione.
+#   carta-ps2-il-dazio-raddoppiato      una volta sola. Persuasione (rep.ponti), atletica (rep.gilda), il barile.
+#
+# Nomi nuovi, che il Codex non dà: nessuna persona. Luoghi: la campata alta, la campata e il pilone dei bottai, il
+# pilone del Grifone, il banco dei pegni del Mercato dei Nodi, i nodi del Patto (i nodi originali delle funi
+# maestre, insegnati solo a voce dai pontieri) e il nodo da barca.
+# Nessuna cifra nella prosa: i numeri stanno negli effetti (docs/stile-dei-testi.md, regola 11).
+
+quality:
+  - { id: pontiere.passo, nome: "L'ultimo pontiere", categoria: stato, nascosta: true, descrizione: "A che punto sei con l'ultimo pontiere, da 0 (non l'hai conosciuto) a 4 (la sua storia è chiusa)." }
+  - { id: pontiere.fine, nome: "La campata di ponente", categoria: stato, nascosta: true, descrizione: "Che cosa hai fatto della campata rifatta male.", scelte: { 1: "la Gilda l'ha riparata", 2: "l'hai portata al Consiglio", 3: "hai venduto il segreto al capomastro" } }
+  - { id: visto.carta-ps2-la-moneta-nel-pesce, nome: "La moneta nel pesce", categoria: stato, nascosta: true }
+  - { id: visto.carta-ps2-il-carico-che-piange, nome: "Il carico che piange", categoria: stato, nascosta: true }
+  - { id: visto.carta-ps2-il-dazio-raddoppiato, nome: "Il dazio raddoppiato", categoria: stato, nascosta: true }
+
+oggetti:
+  - id: cintura-da-cavo
+    nome: Cintura da cavo
+    immagine: icone/belt
+    descrizione: "Una cintura di cuoio ingrassato con un anello di lyssan cucito sul fianco, che i chiattaioli agganciavano al cavo. L'anello si scalda quando sotto i piedi non c'è più niente."
+    slot: accessorio
+    grado: 1
+    proprieta: { talento: { acrobazia: 1 } }
+
+  - id: bussola-senza-nord
+    nome: Bussola senza nord
+    immagine: icone/compass
+    descrizione: "Una bussola dei Precursori in una cassa di metallo grigio. L'ago non cerca il nord e si gira piano verso chi ti sta parlando, e trema quando quella persona mente."
+    slot: accessorio
+    grado: 2
+    proprieta: { talento: { empatia: 1, percezione: 1 } }
+
+nemici:
+  - id: ps2-tagliafuni
+    nome: Il tagliafuni
+    descrizione: "Un uomo magro con un coltello da vela e le maniche legate al polso. Taglia le passerelle e aspetta che le borse cadano nelle reti."
+    attacco: 3
+    difesa: 3
+    difesaMentale: 2
+    pf: 6
+    danno: 1
+    iniziativa: 3
+    puoFuggire: true
+
+  - id: ps2-uomo-del-rampino
+    nome: Uomo del rampino
+    descrizione: "Un chiattaiolo che lavora di traverso alla legge, con il rampino in una mano e un bastone corto nell'altra."
+    attacco: 2
+    difesa: 2
+    difesaMentale: 1
+    pf: 5
+    danno: 1
+    iniziativa: 2
+    puoFuggire: true
+
+  - id: ps2-falso-esattore
+    nome: Falso esattore
+    descrizione: "Porta al braccio una fascia della Gilda cucita in fretta. Il coltello invece è vero."
+    attacco: 3
+    difesa: 2
+    difesaMentale: 2
+    pf: 5
+    danno: 1
+    iniziativa: 2
+    puoFuggire: true
+
+scontri:
+  - { id: ps2-il-tagliafuni, nome: "Il tagliafuni", nemici: [ps2-tagliafuni], feriteSconfitta: 2 }
+  - { id: ps2-la-ciurma-del-rampino, nome: "La ciurma del rampino", nemici: [ps2-uomo-del-rampino, ps2-uomo-del-rampino], feriteSconfitta: 2 }
+  - { id: ps2-i-falsi-esattori, nome: "I falsi esattori", nemici: [ps2-falso-esattore, ps2-falso-esattore], feriteSconfitta: 2 }
+
+storylet:
+  # ================================================================ ristoro
+  - id: carta-ps2-l-amaca-sotto-la-campata
+    immagine: icone/night-sleep
+    titolo: L'amaca sotto la campata
+    sommario: "Un chiattaiolo ti presta la sua amaca appesa sotto il ponte, dove il vento culla e le tasche si alleggeriscono."
+    luogo: Ponte delle Mille Corde, sotto la campata dei bottai
+    tipo: carta
+    area: ponti-sospesi
+    rarita: insolita
+    requisiti: [rintocchi <= 30]
+    testo: |
+      Sotto la campata dei bottai pende fra due travi annerite un'amaca di tela cerata, che si muove piano con il
+      vento della Cicatrice. È di un chiattaiolo con la barba bruciata dal sole. Ti vede sbadigliare sul parapetto
+      e ride.
+
+      «Be', io stacco fino al prossimo carico» dice. «Se vuoi l'amaca è tua finché non torno. Ci si dorme da re,
+      basta non guardare giù.»
+
+      Sulla scala a pioli che porta all'amaca salgono e scendono tutto il giorno i facchini e i ragazzi con le mani
+      in tasca.
+
+      {percezione Facile} I ragazzi scendono con le tasche vuote e risalgono con le tasche gonfie. Alle chiatte
+      non ci lavora nessuno di loro.
+    opzioni:
+      - testo: "Dormire con un occhio aperto"
+        descrizione: "L'amaca è comoda e il vento culla. Bisogna solo svegliarsi quando una mano entra nelle tasche."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: La mano nella tasca
+          testo: |
+            Dormi a lungo, cullat{o|a} dal vento che sale dalla Cicatrice. A un certo punto senti la tasca che si
+            alleggerisce e afferri un polso magro. Il ragazzo strilla e scappa giù per la scala a mani vuote. Ti
+            riaddormenti, e quando ti svegli il sole è passato dall'altra parte del ponte.
+          effetti: { rintocchi: 5 }
+        fallimento:
+          titolo: Le tasche leggere
+          testo: |
+            Dormi come non dormivi da giorni, e ti svegli riposat{o|a} con le tasche rivoltate. Il chiattaiolo
+            torna con il carico e scuote la testa davanti alle tasche. Dalla passerella due facchini ridono e si
+            danno di gomito.
+          effetti: { rintocchi: 5, monete: -3, scandalo: 0.5 }
+      - testo: "Pagare un ragazzo perché faccia la guardia"
+        descrizione: "Fra i ragazzi della scala ce n'è uno con le tasche vuote anche al ritorno. Per qualche moneta ti guarda il sonno."
+        requisiti: [monete >= 2]
+        esito:
+          titolo: Il guardiano
+          testo: |
+            Il ragazzo si siede sulla trave con le gambe nel vuoto e un bastone sulle ginocchia. Dormi fino al
+            tramonto. Quando apri gli occhi lui è ancora lì, e ti racconta di aver mandato via due amici suoi con
+            una minaccia che non vuole ripetere.
+          effetti: { rintocchi: 5, monete: -2 }
+      - testo: "Legare la borsa con il nodo delle piattaforme"
+        descrizione: "Sulle piattaforme la borsa si lega alla cintura con un nodo che si scioglie solo tirando dal verso giusto."
+        quando: [origine.apprendista-raschiatore >= 1]
+        esito:
+          titolo: Il nodo delle piattaforme
+          testo: |
+            Leghi la borsa alla cintura come ti hanno insegnato al primo turno e ti addormenti subito. Nel sonno
+            senti qualcuno che armeggia e poi impreca a mezza voce. Ti svegli con la borsa al suo posto e il nodo
+            più stretto di prima.
+          effetti: { rintocchi: 5 }
+
+  - id: carta-ps2-la-chiatta-lenta
+    immagine: icone/ropeway
+    titolo: La chiatta lenta
+    sommario: "Una chiatta del sale attraversa la Cicatrice al passo di un mulo, e a bordo c'è posto per chi ha cose da sbrigare."
+    luogo: Ponti Sospesi, l'approdo delle chiatte
+    tipo: carta
+    area: ponti-sospesi
+    rarita: insolita
+    requisiti: [rintocchi <= 30]
+    testo: |
+      All'approdo delle chiatte una piattaforma carica di sacchi di sale aspetta l'argano. È la più lenta di tutte,
+      perché l'argano lo gira un uomo solo e la fune è vecchia. Per arrivare all'altra sponda ci mette mezza giornata.
+
+      Il chiattaiolo ha sistemato fra i sacchi una panca e un tavolino inchiodato. «Si paga il posto» dice, e batte
+      la mano sulla panca. «Chi sale qui ci scrive le lettere e ci fa i conti, oppure dorme. Io non chiedo niente e
+      non guardo niente.»
+
+      {resistenza Media fallita} Le gambe ti pesano da giorni, e adesso lo dicono anche alle ginocchia. Mezza
+      giornata sedut{o|a} su una panca ti sembra un lusso da Casato.
+    opzioni:
+      - testo: "Pagare il posto"
+        descrizione: "Il prezzo di una cena e di una branda. In cambio hai mezza giornata in cui nessuno ti cerca."
+        requisiti: [monete >= 6]
+        esito:
+          titolo: Mezza giornata sul vuoto
+          testo: |
+            Ti siedi sulla panca fra i sacchi e la chiatta parte con uno scossone. Sotto le tavole passa il vuoto
+            della Cicatrice, così lento che dopo un po' smetti di guardarlo. Rimetti in ordine la borsa e i conti, e
+            ti addormenti con la testa su un sacco di sale. All'altra sponda il chiattaiolo ti sveglia con un colpo
+            di tosse.
+          effetti: { rintocchi: 9, monete: -6 }
+      - testo: "Pagare con le notizie"
+        descrizione: "Il chiattaiolo ascolta volentieri chi ha qualcosa da raccontare. Due voci della città valgono un posto sulla panca."
+        requisiti: [informazioni.voce >= 2]
+        esito:
+          titolo: Le notizie del viaggio
+          testo: |
+            Gli racconti quello che hai sentito in giro, e lui ascolta girando l'argano con una mano sola. A metà
+            traversata ti dice che il posto è pagato e ti lascia in pace. Scrivi due lettere che rimandavi da
+            settimane e poi dormi fino all'altra sponda.
+          effetti: { rintocchi: 9, informazioni.voce: -2 }
+      - testo: "Salire sulla Mula"
+        descrizione: "La Mula di Ilde Sarrocchi aspetta al cavo accanto, e il tuo posto a bordo non si paga."
+        quando: [chiatta.posto == 1]
+        esito:
+          titolo: A bordo della Mula
+          testo: |
+            Ilde ti fa sedere a poppa su un rotolo di fune e ti passa un pezzo di liquirizia. «Oggi non lavori,
+            {socio|socia}» dice. «Guardi il vuoto e basta.» La Mula è più veloce della chiatta del sale, però
+            Ilde la fa andare piano apposta. Arrivi dall'altra parte riposat{o|a} come dopo una domenica.
+          effetti: { rintocchi: 9 }
+
+  # ================================================================ tesori
+  - id: carta-ps2-il-relitto-nelle-funi
+    immagine: icone/ship-wreck
+    titolo: Il relitto nelle funi
+    sommario: "Sotto la campata alta pende fra le funi una chiatta caduta anni fa, con una cassa sigillata ancora legata a bordo."
+    luogo: Ponti Sospesi, sotto la campata alta
+    tipo: carta
+    area: ponti-sospesi
+    rarita: rara
+    requisiti: [oggetto.cintura-da-cavo == 0, pista.dama-argento >= 6]
+    testo: |
+      Sotto la campata alta, dove le funi di sostegno scendono più lontano dal Mercato, pende un relitto. Era una
+      chiatta a fune, e quando il cavo si è spezzato è rimasta impigliata nella rete di funi sotto il ponte. Da
+      allora è lì con le tavole sbiancate dal vento e la prua che punta verso il basso.
+
+      A poppa c'è ancora una cassa legata con le catene, e il sigillo di ceralacca si vede anche dal parapetto.
+
+      Accanto a te un Raschiatore con la corda a tracolla guarda la stessa cassa. «Noi ci scendiamo, se paghi»
+      dice. «Chi scende da solo per la prima volta di solito non risale.»
+
+      {atletica Difficile} Venti braccia di fune e poi le travi del relitto, che reggono ancora. Le mani lo sanno
+      fare, se non tremano.
+    opzioni:
+      - testo: "Calarti fino alla cassa"
+        descrizione: "Ti cali con una corda sopra il vuoto. La cassa è tua se arrivi a poppa e torni su."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: La cassa di poppa
+          testo: |
+            Scendi lungo la fune con i piedi incrociati e arrivi sulle tavole del relitto. Le tavole
+            scricchiolano ma reggono. Il sigillo salta con un colpo di coltello. Dentro la cassa, avvolta in una tela cerata, c'è una
+            cintura di cuoio con un anello di lyssan cucito sul fianco. Te la allacci prima di risalire, e l'anello
+            si scalda appena guardi giù.
+          effetti: { oggetto.cintura-da-cavo: 1 }
+        fallimento:
+          titolo: La trave marcia
+          testo: |
+            A metà discesa una trave del relitto cede sotto il tuo piede e cade nella Cicatrice senza fare rumore.
+            Resti appes{o|a} alla fune con le braccia che bruciano. Il Raschiatore ti tira su bestemmiando e ti
+            chiede una moneta per il disturbo, e la cassa resta dov'è.
+          effetti: { ferite: 1, monete: -1 }
+      - testo: "Pagare i Raschiatori perché scendano loro"
+        descrizione: "Conoscono le funi meglio di te. Bisogna solo convincerli a portarti su la cassa chiusa."
+        requisiti: [monete >= 60]
+        prova: { attributo: sociale, abilita: [persuasione, conoscenze-della-strada], difficolta: Media }
+        successo:
+          titolo: Il sigillo intatto
+          testo: |
+            Paghi la squadra e resti sul parapetto a guardare. Due Raschiatori scendono legati alla stessa corda e
+            risalgono con la cassa fra loro, il sigillo ancora intero. La apri sulle assi davanti a tutti. Dentro c'è
+            una cintura di cuoio con un anello di lyssan sul fianco, e il caposquadra fischia piano.
+          effetti: { monete: -60, oggetto.cintura-da-cavo: 1 }
+        fallimento:
+          titolo: Le catene saldate
+          testo: |
+            La squadra scende e risale in fretta senza la cassa. Il caposquadra dice che le catene sono saldate alla
+            poppa e che il lavoro l'hanno fatto lo stesso. Tiene i soldi, e la gente sul parapetto si gode la scena.
+          effetti: { monete: -60, scandalo: 0.5 }
+      - testo: "Chiedere ai Custodi di chi era la chiatta"
+        descrizione: "Al gabbiotto tengono il registro delle chiatte cadute, e a chi chiede con garbo lo leggono."
+        esito:
+          titolo: Il registro delle chiatte
+          testo: |
+            Il Custode di turno sfoglia un registro con la copertina gonfia di umidità e trova la riga. La chiatta
+            portava la merce di un mercante di Pannion, che è morto prima di poterla reclamare. Nessuno l'ha più
+            cercata, dice, perché per scendere fin laggiù non basta essere eredi.
+          effetti: { informazioni.voce: 1 }
+
+  - id: carta-ps2-la-vetrina-che-non-vende
+    immagine: icone/card-play
+    titolo: La vetrina che non vende
+    sommario: "Un banchista del Mercato delle Ombre tiene in vetrina una bussola che non vende a nessun prezzo. Se la vuoi, te la giochi a Zekar."
+    luogo: Ponti Sospesi, un magazzino sotto la prima campata
+    tipo: carta
+    area: ponti-sospesi
+    rarita: rara
+    requisiti: [oggetto.bussola-senza-nord == 0, pista.capomozzo >= 10]
+    testo: |
+      Questo mese uno degli ingressi del Mercato delle Ombre si apre in un magazzino sotto la prima campata dei
+      Ponti. Dietro una tenda di sacchi c'è un banco con una vetrina di legno, e nella vetrina c'è una cosa sola. È
+      una bussola dei Precursori in una cassa di metallo grigio, e l'ago non cerca il nord. Si gira piano verso chi
+      le sta davanti.
+
+      Il banchista ha gli anelli d'argento a tutte le dita e un mazzo di Zekar accanto al registro. «Non è in
+      vendita» dice. «Però me la gioco. La mia bussola contro la tua borsa, una mano sola.»
+
+      {ingannare Media} Ha risposto prima ancora che tu chiedessi il prezzo. A uno così basta trovare il prezzo
+      giusto.
+    opzioni:
+      - testo: "Giocarsela a Zekar"
+        descrizione: "Una mano secca. Se vinci la bussola è tua, se perdi il banchista si tiene la tua posta."
+        requisiti: [rep.grifone >= 2, monete >= 150]
+        zekar: maison-mercante-dell-argento
+        vittoria:
+          titolo: La mano buona
+          testo: |
+            Il banchista guarda le tue carte a lungo e si sfila un anello per rigirarlo fra le dita. Poi apre la
+            vetrina con una chiave che tiene al collo e ti mette in mano la bussola. L'ago trema e si gira verso di
+            te. «Almeno è finita in mano a uno che sa giocare» dice.
+          effetti: { oggetto.bussola-senza-nord: 1 }
+        sconfitta:
+          titolo: La borsa sul banco
+          testo: |
+            L'ultima carta è sua, e il banchista la posa piano sul banco. Raccoglie la tua borsa senza contarla e la
+            infila sotto il registro, mentre la bussola resta in vetrina con l'ago girato verso di te. «Torna quando
+            vuoi, io sto qui fino a fine mese» dice, e intanto rimescola il mazzo.
+          effetti: { monete: -150 }
+      - testo: "Convincerlo che oggi conviene vendere"
+        descrizione: "Raccontargli che la Gilda ha mandato un ispettore a cercare le reliquie senza timbro."
+        requisiti: [monete >= 80]
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: L'ispettore che non c'è
+          testo: |
+            Gli parli a mezza voce di un ispettore della Gilda che fa il giro dei magazzini sotto le campate e porta
+            via tutto quello che non ha il timbro. Mentre parli guardi la tenda. Il banchista smette di giocare con
+            gli anelli. Ti vende la bussola per una borsa di monete e chiude la vetrina vuota prima che tu sia
+            uscit{o|a}.
+          effetti: { monete: -80, oggetto.bussola-senza-nord: 1 }
+        fallimento:
+          titolo: Il nome dell'ispettore
+          testo: |
+            Il banchista ti ascolta fino in fondo e poi ti chiede il nome dell'ispettore. Ne dici uno, e lui ride,
+            perché quell'ispettore gioca a Zekar con lui il giovedì. Ti accompagna alla tenda con una mano sulla
+            spalla e intanto racconta la storia ai due clienti che entrano.
+          effetti: { scandalo: 1 }
+      - testo: "Fargli i conti in tasca"
+        descrizione: "Una reliquia che non si vende è denaro fermo. Basta mostrargli quanto gli costa tenerla."
+        requisiti: [monete >= 80]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: Il denaro fermo
+          testo: |
+            Gli fai il conto ad alta voce, dall'affitto del magazzino a quello che i Custodi chiedono per non vedere
+            la tenda. Poi aggiungi quanto gli renderebbe la stessa somma prestata al Mercato dei Nodi. Lui segue il
+            conto muovendo le labbra e alla fine sospira. La bussola te la vende per meno di quanto pensavi.
+          effetti: { monete: -80, oggetto.bussola-senza-nord: 1 }
+        fallimento:
+          titolo: I conti degli altri
+          testo: |
+            Cominci bene, poi sbagli l'affitto del magazzino e il banchista ti corregge con garbo. Da lì in avanti ti
+            corregge a ogni riga. Alla fine ti ringrazia per la lezione e rimette il mazzo di Zekar al centro del
+            banco.
+          effetti: { scandalo: 0.5 }
+      - testo: "Offrirgli un baratto"
+        descrizione: "Chi tiene in vetrina una bussola dei Precursori colleziona i loro congegni. Un meccanismo spento e la differenza in monete potrebbero bastare."
+        requisiti: [reliquie.meccanismo-spento >= 1, monete >= 100]
+        esito:
+          titolo: Un congegno per un altro
+          testo: |
+            Posi sul banco il meccanismo spento, e il banchista lo gira fra le dita con una cura che non aveva per i
+            clienti. Se lo porta vicino all'orecchio e poi annuisce. Chiede la differenza in monete e la conta due
+            volte, e la bussola esce dalla vetrina avvolta in un pezzo di velluto.
+          effetti: { reliquie.meccanismo-spento: -1, monete: -100, oggetto.bussola-senza-nord: 1 }
+
+  # ================================================================ agguati
+  - id: carta-ps2-la-passerella-tagliata
+    immagine: icone/stiletto
+    titolo: La passerella tagliata
+    sommario: "A metà di una passerella sotto il Mercato qualcuno taglia le funi, e le assi cominciano a scendere sotto i tuoi piedi."
+    luogo: Ponti Sospesi, una passerella sotto il Mercato dei Nodi
+    tipo: carta
+    area: ponti-sospesi
+    rarita: insolita
+    inevitabile: true
+    requisiti: [ferite < 6]
+    testo: |
+      Prendi la passerella che scende dal Mercato dei Nodi verso le case appese, perché è più corta. A metà senti
+      uno strappo secco alle tue spalle. All'imbocco un uomo magro con le maniche legate al polso sta segando la
+      fune di destra con un coltello da vela.
+
+      La passerella si piega di lato e le assi cominciano a scivolare. Dieci braccia più sotto passa lenta una
+      chiatta carica di balle di lana. Ancora più in basso ci sono le reti dei ponteggiatori, dove finisce tutto
+      quello che cade dalle passerelle, borse comprese.
+
+      {acrobazia Media} La fune di sinistra regge ancora. Se ti ci aggrappi adesso il peso resta su un lato solo.
+    opzioni:
+      - testo: "Aggrapparti alla fune che regge"
+        descrizione: "Le mani sulla fune di sinistra e i piedi sulle assi che restano. Poi su, un braccio alla volta."
+        costo: 0
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Un braccio alla volta
+          testo: |
+            Ti aggrappi alla fune buona e risali verso il Mercato con i piedi sulle assi che restano. L'uomo con il
+            coltello ti vede arrivare e scappa, e nella fuga perde la borsa da cintura. Dentro c'è il guadagno della
+            sua mattina, e nessuno viene a reclamarlo.
+          effetti: { monete: 8 }
+        fallimento:
+          titolo: Le reti dei ponteggiatori
+          testo: |
+            La fune ti scivola fra le mani e cadi. Le reti dei ponteggiatori ti prendono dopo un volo che dura
+            troppo e ti lasciano lividi dappertutto. Quando riesci a rimetterti in piedi un ragazzo che corre sulle
+            reti come su un pavimento ti ha già sfilato la borsa.
+          effetti: { ferite: 1, monete: -5 }
+      - testo: "Lasciarti cadere sulla chiatta"
+        descrizione: "Dieci braccia più sotto passa la chiatta della lana. Le balle sono morbide, il chiattaiolo molto meno."
+        costo: 0
+        esito:
+          titolo: Le balle di lana
+          testo: |
+            Ti lasci andare e atterri su una balla di lana, che ti salva le ossa e si squarcia. Il chiattaiolo
+            arriva con un bastone e si calma solo quando gli paghi il danno. Dall'alto l'uomo con il coltello ti
+            guarda andare via sulla chiatta e rinfodera la lama.
+          effetti: { monete: -4, ferite: 0.5 }
+      - testo: "Afferrare il braccio con il coltello"
+        descrizione: "Tornare indietro sulle assi che cadono e prenderlo prima che finisca la fune."
+        costo: 0
+        combattimento: ps2-il-tagliafuni
+        vittoria:
+          titolo: Il coltello da vela
+          testo: |
+            Lo raggiungi all'imbocco mentre la passerella ti cade alle spalle. Lotta come un gatto messo all'angolo,
+            finché il coltello gli scivola di mano e finisce nel vuoto. Allora scappa verso il Mercato. Nella borsa
+            che gli hai strappato ci sono le monete di almeno tre passanti prima di te.
+          effetti: { monete: 18 }
+        sconfitta:
+          titolo: Le assi alle spalle
+          testo: |
+            Lo raggiungi, ma con il coltello è più svelto di te. Ti apre la manica e il braccio sotto, poi ti spinge
+            contro il parapetto e ti sfila la borsa. Quando ti rialzi è già sparito fra i banchi del Mercato, e la
+            passerella dietro di te penzola nel vuoto.
+          effetti: { monete: -6 }
+
+  - id: carta-ps2-il-rampino
+    immagine: icone/grapple
+    titolo: Il rampino
+    sommario: "Una chiatta si accosta alla passerella e un rampino ti prende per la cintura. A bordo vogliono il pedaggio."
+    luogo: Ponti Sospesi, la passerella lungo i cavi delle chiatte
+    tipo: carta
+    area: ponti-sospesi
+    rarita: insolita
+    inevitabile: true
+    requisiti: [ferite < 6]
+    testo: |
+      La passerella di servizio corre accanto ai cavi delle chiatte, e di solito ci passano soltanto i
+      ponteggiatori. Una chiatta vuota si accosta senza rumore. Prima che tu capisca perché, un rampino ti si
+      aggancia alla cintura e ti tira a bordo.
+
+      Sulle tavole ti aspettano due uomini con i bastoni corti. «Pedaggio della chiatta» dice il più vecchio, e
+      tende la mano. «Chi passa sulla nostra passerella paga. Se non paghi ti rimettiamo giù dove ci pare, e qui
+      sotto c'è la Cicatrice.»
+
+      {intimidire Facile} Il più giovane tiene il bastone troppo stretto. Ha più paura lui di te.
+    opzioni:
+      - testo: "Combattere sulla chiatta"
+        descrizione: "Sono in due, su tavole che ballano. Chi cade per primo ha perso."
+        costo: 0
+        combattimento: ps2-la-ciurma-del-rampino
+        vittoria:
+          titolo: Il pedaggio rovesciato
+          testo: |
+            Il più giovane finisce aggrappato al cavo, e il vecchio alza le mani prima di fare la stessa fine. Ti
+            riporta alla passerella con il rampino. Prima di lasciarti scendere svuota sulle tavole la cassetta dei
+            pedaggi della giornata, che adesso è tua.
+          effetti: { monete: 20 }
+        sconfitta:
+          titolo: Le tavole che ballano
+          testo: |
+            Le tavole ballano più per te che per loro, e un colpo di bastone ti piega in due. Il vecchio ti fruga
+            nella borsa con calma e prende il pedaggio con gli interessi. Poi ti rimette sulla passerella con il
+            rampino, quasi con garbo.
+          effetti: { monete: -8 }
+      - testo: "Pagare il pedaggio"
+        descrizione: "Il pedaggio di una chiatta che non porta niente. Costa meno di un osso rotto."
+        costo: 0
+        requisiti: [monete >= 5]
+        esito:
+          titolo: La ricevuta di corteccia
+          testo: |
+            Paghi, e il vecchio conta le monete una per una prima di metterle nella cassetta. Ti riporta alla
+            passerella e ti dà perfino una ricevuta, scritta su un pezzo di corteccia. Dice che con quella per una
+            settimana non ti tira su nessuno.
+          effetti: { monete: -5 }
+      - testo: "Spaventare il più giovane"
+        descrizione: "Se molla lui, il vecchio da solo non tiene la chiatta."
+        costo: 0
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il bastone stretto
+          testo: |
+            Ti rivolgi al più giovane e gli dici con calma che cosa gli farai, prima che il vecchio riesca a
+            muoversi. Lui lascia cadere il bastone e si mette a girare l'argano verso la passerella. Il vecchio sputa
+            di lato e per non perdere la faccia ti lancia una moneta come resto.
+          effetti: { monete: 3 }
+        fallimento:
+          titolo: La paura degli altri
+          testo: |
+            Alzi la voce, e il più giovane ha paura davvero. Per questo colpisce per primo, e il bastone ti prende
+            sulla spalla. Il vecchio si prende il pedaggio dalla tua borsa mentre il ragazzo si scusa a mezza voce.
+          effetti: { monete: -5, ferite: 0.5 }
+      - testo: "Saltare sulla passerella"
+        descrizione: "Sfilarti la cintura con il rampino ancora attaccato e saltare. Quello che c'è appeso alla cintura resta a loro."
+        costo: 0
+        esito:
+          titolo: La cintura al rampino
+          testo: |
+            Sciogli la fibbia e la cintura resta appesa al rampino con tutto quello che c'è attaccato. Salti sulla
+            passerella mentre la chiatta si allontana e atterri male su un ginocchio. Dalla chiatta il vecchio
+            alza la tua borsa da cintura e te la mostra, come un pescatore con il pesce.
+          effetti: { monete: -3, ferite: 0.5 }
+
+  - id: carta-ps2-la-gabella-dei-forestieri
+    immagine: icone/robber
+    titolo: La gabella dei forestieri
+    sommario: "Due esattori con la fascia della Gilda chiedono la gabella dei forestieri, e uno dei due tiene il coltello in mano."
+    luogo: Ponte delle Mille Corde, un ballatoio laterale
+    tipo: carta
+    area: ponti-sospesi
+    rarita: insolita
+    inevitabile: true
+    requisiti: [ferite < 6]
+    testo: |
+      Su un ballatoio laterale del Ponte delle Mille Corde due uomini ti sbarrano la strada. Portano al braccio una
+      fascia della Gilda cucita in fretta, con i colori sbiaditi. Il primo ha in mano una tavoletta con delle
+      righe scritte. Il secondo tiene un coltello da macellaio.
+
+      «Gabella dei forestieri» dice quello della tavoletta. «Chi non è del quartiere paga il passaggio sul
+      ballatoio. Paghi adesso e ti scrivo la ricevuta, così stai tranquill{o|a}.»
+
+      {politica-ed-economia Facile} La Gilda riscuote al gabbiotto e da nessun'altra parte. In nessun tariffario
+      esiste una gabella dei forestieri.
+    opzioni:
+      - testo: "Pagare"
+        descrizione: "La gabella costa poco, e il coltello è lungo."
+        costo: 0
+        requisiti: [monete >= 5]
+        esito:
+          titolo: La ricevuta coi riccioli
+          testo: |
+            Paghi, e quello della tavoletta ti scrive una ricevuta con una firma piena di riccioli. Più tardi al
+            gabbiotto il Custode la guarda e ride. Te la restituisce piegata in quattro e ti dice di tenerla per
+            ricordo.
+          effetti: { monete: -5 }
+      - testo: "Smascherarli"
+        descrizione: "Chiedergli a che voce del tariffario sta la gabella, e quando l'ha votata la Casa dei Nodi."
+        costo: 0
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: La voce del tariffario
+          testo: |
+            Gli chiedi la voce del tariffario e la data in cui la Casa dei Nodi l'ha votata. Quello della tavoletta
+            comincia a rispondere e poi si ferma. Il compagno guarda la fascia sul braccio come se la vedesse per la
+            prima volta. Se ne vanno di corsa, e uno dei due lascia cadere la borsa con l'incasso della giornata.
+          effetti: { monete: 8 }
+        fallimento:
+          titolo: Il tariffario a memoria
+          testo: |
+            Cominci a citare il tariffario e sbagli il nome della prima voce. Quello della tavoletta se ne accorge e
+            sorride, perché di tariffari ne ha sentiti tanti. Il coltello si avvicina, e alla fine paghi il doppio
+            davanti a una lavandaia che ti guarda con pietà.
+          effetti: { monete: -8, scandalo: 0.5 }
+      - testo: "Combattere"
+        descrizione: "Due contro uno su un ballatoio stretto. Il coltello però ce l'ha uno solo."
+        costo: 0
+        combattimento: ps2-i-falsi-esattori
+        vittoria:
+          titolo: Le fasce strappate
+          testo: |
+            Il primo finisce contro il parapetto, e quello del coltello lascia cadere la lama e scappa. Prima che
+            sparisca gli strappi la fascia dal braccio. Nella borsa dell'altro c'è l'incasso della mattina, e le due
+            fasce le porti al gabbiotto, dove un Custode le butta nella stufa.
+          effetti: { monete: 20 }
+        sconfitta:
+          titolo: Il ballatoio stretto
+          testo: |
+            Il ballatoio è stretto, e in due ti chiudono contro il parapetto. Quello del coltello ti fa un taglio sul
+            braccio mentre l'altro ti svuota la borsa. Prima di andarsene scrive perfino la ricevuta e te la infila
+            nel colletto.
+          effetti: { monete: -8 }
+
+  # ================================================================ l'ultimo pontiere
+  - id: carta-ps2-pontiere-le-mani
+    immagine: icone/slipknot
+    titolo: Le mani del pontiere
+    sommario: "In una casa appesa al margine del reticolo l'ultimo pontiere che conosce i nodi del Patto non riesce più a tenere una corda."
+    luogo: Ponti Sospesi, le case appese del margine
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [pontiere.fine == 0, pontiere.passo == 0]
+    testo: |
+      Al margine del reticolo c'è una casa appesa che dondola più delle altre. Dentro, su una branda vicino alla
+      stufa, siede un vecchio con un pezzo di fune in grembo. Prova a fare un nodo, e le dita non gli obbediscono.
+
+      La vicina che ti ha fatto entrare dice che è l'ultimo pontiere. Da giovane legava le funi maestre dei Ponti
+      con i nodi del Patto, quelli che i ponteggiatori di adesso non sanno più fare. Nessuno li ha mai scritti,
+      perché i pontieri li insegnavano soltanto a voce.
+
+      «Me li porto via con me» dice il vecchio, e ride con la bocca storta. «La Gilda mi ha mandato un medico, mica
+      uno scrivano.»
+
+      {origine apprendista-raschiatore} Sulle piattaforme i vecchi nominavano i nodi del Patto come si nominano i
+      santi. Credevi che fossero una storia per far stare zitti gli apprendisti.
+
+      {medicina Media} Le mani tremano a riposo e si fermano quando stringono. Gli restano parecchi mesi, e le mani
+      se ne andranno prima di lui.
+    opzioni:
+      - testo: "Farti raccontare i nodi"
+        descrizione: "Ha voglia di parlare, e nessuno è mai venuto ad ascoltarlo."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: La fune in grembo
+          testo: |
+            Ti siedi sullo sgabello e gli chiedi del primo ponte che ha legato. Lui parla fino a sera, con la fune
+            che gira fra le dita storte. Alla fine ti chiede di tornare, perché i nodi a voce non bastano e gli
+            servono i suoi attrezzi. Li ha impegnati l'inverno scorso da un usuraio del Mercato dei Nodi.
+          effetti: { pontiere.passo: 1, informazioni.voce: 1 }
+        fallimento:
+          titolo: Le domande sbagliate
+          testo: |
+            Gli chiedi dei nodi troppo presto, prima ancora del suo nome. Il vecchio si gira verso la stufa e non
+            risponde più. La vicina ti accompagna fuori e ti dice di tornare un altro giorno, quando avrai imparato a
+            salutare.
+          effetti: { scandalo: 0.5 }
+      - testo: "Guardargli le mani"
+        descrizione: "Il medico della Gilda è passato e se n'è andato in fretta. Forse ha guardato male."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: Le dita fasciate
+          testo: |
+            Gli fasci le dita a due a due con strisce di tela, come si fa con i fabbri anziani, e gli mostri come
+            stringere. Il vecchio fa un nodo piano e lo guarda a lungo. Poi ti dice che per insegnarti i nodi gli
+            servono i suoi attrezzi, impegnati l'inverno scorso da un usuraio del Mercato dei Nodi.
+          effetti: { pontiere.passo: 1, tormento: -0.5 }
+        fallimento:
+          titolo: La stessa diagnosi
+          testo: |
+            Gli guardi le mani a lungo e arrivi alla stessa conclusione del medico della Gilda. Glielo dici, e lui
+            annuisce come se gli avessi detto che piove. La vicina ti accompagna alla porta senza guardarti.
+          effetti: { tormento: 0.5 }
+      - testo: "Portargli da mangiare"
+        descrizione: "La stufa è accesa a metà, e in dispensa c'è soltanto pane secco."
+        requisiti: [monete >= 2]
+        esito:
+          titolo: La zuppa della vicina
+          testo: |
+            Compri una pentola di zuppa dalla vicina e la mangiate in tre sulla branda. Il vecchio si scalda e
+            comincia a parlare dei Ponti di quando era giovane. Prima che tu te ne vada ti chiede un favore. I suoi
+            attrezzi sono da un usuraio del Mercato dei Nodi, e senza quelli i nodi non si insegnano.
+          effetti: { monete: -2, pontiere.passo: 1 }
+
+  - id: carta-ps2-pontiere-gli-attrezzi
+    immagine: icone/toolbox
+    titolo: Gli attrezzi impegnati
+    sommario: "Gli attrezzi dell'ultimo pontiere sono appesi nel banco dei pegni di un usuraio, e l'usuraio non ha fretta di renderli."
+    luogo: Mercato dei Nodi, il banco dei pegni
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [pontiere.passo == 1]
+    testo: |
+      Il banco dei pegni sta in fondo al Mercato dei Nodi, sotto una tettoia di lamiera. L'usuraio è un uomo grasso
+      con le mezze maniche di tela nera, e scrive ogni cosa in un registro incatenato al banco.
+
+      Gli attrezzi del pontiere sono appesi al muro dietro di lui. C'è un rotolo di cuoio con i punteruoli d'osso e
+      c'è una mazzuola di legno consumata dal palmo, con un cartellino legato al manico.
+
+      «Scaduti da un mese» dice l'usuraio, e batte il dito sul registro. «Se il vecchio vuole la sua roba paga il
+      pegno e gli interessi, come tutti. Sennò a fine settimana la vendo a peso.»
+
+      {conoscenze-della-strada Media} Li ha appesi in vista apposta. Al Mercato c'è chi li pagherebbe il doppio
+      come ricordo del Patto, e lui lo sa benissimo.
+    opzioni:
+      - testo: "Riscattare gli attrezzi"
+        descrizione: "Il pegno e gli interessi fino all'ultima moneta, contati due volte sul registro."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: Il pegno pagato
+          testo: |
+            Paghi, e l'usuraio conta le monete due volte prima di cancellare la riga con un tratto di penna. Ti
+            porge il rotolo di cuoio e la mazzuola. Quando li porti al vecchio lui sfila un punteruolo dal rotolo e
+            lo annusa, poi dice che domani si comincia.
+          effetti: { monete: -15, pontiere.passo: 1 }
+      - testo: "Fargli passare la voglia degli interessi"
+        descrizione: "Gli interessi su un vecchio che muore sono un brutto affare, se lo viene a sapere tutto il Mercato. Il pegno va pagato comunque."
+        requisiti: [monete >= 6]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: Il Mercato lo saprà
+          testo: |
+            Gli dici a voce alta che tutto il Mercato saprà come tratta i vecchi del quartiere, e ai banchi vicini
+            smettono di parlare per ascoltare. L'usuraio diventa rosso fino alle orecchie. Ti dà gli attrezzi per il
+            solo pegno, purché te ne vada in fretta.
+          effetti: { monete: -6, pontiere.passo: 1 }
+        fallimento:
+          titolo: Il registro incatenato
+          testo: |
+            Alzi la voce, e l'usuraio alza la sua più forte. Chiama due facchini a testimoniare che lo minacci e
+            scrive il tuo nome sul registro incatenato. Gli attrezzi restano appesi al muro, e gli interessi salgono
+            di un'altra settimana.
+          effetti: { scandalo: 0.5, sospetto: 0.5 }
+      - testo: "Prenderli senza chiedere"
+        descrizione: "Il muro dietro il banco dà su un vicolo di tavole, e la tettoia ha un buco che si vede da fuori."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il buco nella tettoia
+          testo: |
+            Aspetti che l'usuraio vada a pranzo e ti infili dal buco della tettoia. Il rotolo e la mazzuola vengono
+            via dal chiodo senza rumore, e al loro posto lasci il cartellino. Il vecchio, quando glieli porti, non ti
+            chiede come li hai avuti.
+          effetti: { pontiere.passo: 1 }
+        fallimento:
+          titolo: La lamiera
+          testo: |
+            La lamiera si piega sotto il tuo peso con un rumore che sentono fino al Grifone. L'usuraio esce con un
+            bastone e grida al ladro. Scappi fra i banchi a mani vuote, e mezzo Mercato ti ha visto la faccia.
+          effetti: { sospetto: 1 }
+
+  - id: carta-ps2-pontiere-i-nodi
+    immagine: icone/bowen-knot
+    titolo: I nodi del Patto
+    sommario: "Con i suoi attrezzi in mano l'ultimo pontiere ti insegna i nodi, e i nodi dicono che una campata è stata rifatta male di proposito."
+    luogo: Ponti Sospesi, sotto la campata di ponente
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [pontiere.passo == 2]
+    testo: |
+      Il vecchio ti porta sotto la campata di ponente appoggiato al tuo braccio, con il rotolo di cuoio sotto
+      l'altro. Ti mette in mano una fune e ti fa ripetere il primo nodo finché non lo sbagli più. Le sue dita non
+      stringono, però sanno ancora correggere le tue.
+
+      A metà mattina alza la testa verso le funi maestre della campata e smette di parlare. I nodi lassù sono nuovi,
+      rifatti l'anno scorso dai ponteggiatori della Gilda. Li guarda a lungo e poi ti chiede di salire a vederli da
+      vicino.
+
+      «Quello è un nodo da barca» dice. «Tiene per anni, poi passa un carro pesante e si scioglie tutto in una
+      volta. Chi l'ha fatto lo sapeva, perché lo sa anche un apprendista.»
+
+      {tecnologia Media} Il nodo da barca si fa in metà tempo e con metà fune. Su una campata intera la fune
+      risparmiata vale un bel guadagno.
+    opzioni:
+      - testo: "Salire a guardare i nodi"
+        descrizione: "Le funi maestre stanno in alto sopra il vuoto. Da vicino un nodo si legge come una firma."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La firma nel nodo
+          testo: |
+            Ti arrampichi lungo il pilone fino alle funi maestre, con il vento che ti tira la giubba. Da vicino i
+            nodi sono tutti uguali e tutti sbagliati. In ognuno è infilato un piombino con un marchio, un'ancora dentro
+            un cerchio. Lo descrivi al vecchio, che sputa per terra e ti dice di chi è il marchio. È il capomastro
+            che ha avuto l'appalto della campata.
+          effetti: { pontiere.passo: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Il pilone
+          testo: |
+            A metà pilone ti manca l'appiglio e scivoli giù per un tratto, con le mani che si scorticano sul legno.
+            Il vecchio ti guarda tornare a terra e scuote la testa. Dice che riproverete domani, se le mani te lo
+            permettono.
+          effetti: { ferite: 0.5 }
+      - testo: "Imparare i nodi fino in fondo"
+        descrizione: "Ripeterli finché le mani li fanno da sole. Allora il nodo sbagliato si riconosce anche da qui sotto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Media }
+        successo:
+          titolo: Il nodo da barca
+          testo: |
+            A sera le tue mani fanno i nodi del Patto senza che tu ci pensi. Allora alzi gli occhi alla campata e il
+            nodo sbagliato lo vedi anche tu, da terra. Il vecchio ti fa ripetere tutto un'ultima volta. Poi ti dice
+            il nome del capomastro che ha avuto l'appalto, perché il suo lavoro lo riconosce da quarant'anni.
+          effetti: { pontiere.passo: 1, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Le dita sbagliate
+          testo: |
+            Le tue dita si incrociano nel posto sbagliato a ogni giro, e a sera la fune è un groviglio. Il vecchio si
+            stanca prima di te e chiede di tornare a casa. Lungo la strada non parla, e tu pensi a quanti giorni gli
+            restano.
+          effetti: { tormento: 0.5 }
+      - testo: "Far scrivere i nodi a uno scrivano"
+        descrizione: "Nessuno li ha mai scritti. Uno scrivano del Mercato si fa pagare a giornata, e il vecchio può dettare."
+        requisiti: [monete >= 5]
+        esito:
+          titolo: Il quaderno dei nodi
+          testo: |
+            Paghi uno scrivano del Mercato perché venga con il suo quaderno, e il vecchio detta ogni nodo con le mani
+            che tremano sopra la fune. Lo scrivano disegna ogni giro con una cura che non ti aspettavi. All'ultimo
+            nodo il vecchio alza gli occhi alla campata. Ti dice che quello lassù è un nodo da barca, e il nome del
+            capomastro che ha avuto l'appalto.
+          effetti: { monete: -5, pontiere.passo: 1 }
+
+  - id: carta-ps2-pontiere-la-campata
+    immagine: icone/rope-bridge
+    titolo: La campata di ponente
+    sommario: "L'ultimo pontiere non si alza più dalla branda, e a te resta da decidere che cosa fare della campata di ponente."
+    luogo: Ponti Sospesi, le case appese del margine
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [pontiere.passo == 3]
+    testo: |
+      Quando torni alla casa appesa il vecchio non si alza più dalla branda. La vicina gli ha messo in grembo il
+      rotolo dei punteruoli, e lui ci tiene sopra le mani.
+
+      «La campata di ponente regge ancora un inverno, forse due» dice. «Poi passa un carro di pietra e viene giù
+      tutto, con chi c'è sopra.» Si gira verso di te. «Io non ci arrivo a vederla. Tu decidi che cosa farne, e
+      decidi presto.»
+
+      Il capomastro che ha avuto l'appalto ha la bottega sulla piattaforma dei bottai. La Gilda paga la
+      manutenzione dei Ponti e i Custodi firmano i lavori. Il Consiglio, al Municipio, ascolta chi porta prove
+      contro la Gilda, quando le prove sono buone.
+
+      {politica-ed-economia Media} Quei lavori li ha firmati la Gilda, e la Gilda ha interesse a ripararli in
+      silenzio. Al Consiglio il silenzio le costerebbe molto di più.
+    opzioni:
+      - testo: "Portare tutto ai Custodi"
+        descrizione: "La Gilda ripara la campata, e il vecchio vede le sue funi rifatte come si deve. Del capomastro si occupa lei, a modo suo."
+        esito:
+          titolo: La campata rifatta
+          testo: |
+            Il Custode anziano del gabbiotto ascolta tutto e manda a chiamare i ponteggiatori il giorno stesso. In
+            una settimana la campata di ponente è chiusa e rifatta con i nodi del Patto, che i ponteggiatori imparano
+            da te. Il vecchio fa in tempo a vederla dalla finestra. La Gilda ti paga il disturbo con una borsa
+            pesante, e la bottega del capomastro una mattina è vuota.
+          effetti: { pontiere.passo: 1, monete: 200, rep.gilda: 1, rep.ponti: 0.5 }
+          imposta: { pontiere.fine: 1 }
+      - testo: "Portare le prove al Consiglio"
+        descrizione: "Al Municipio la Gilda deve rispondere davanti a tutti i seggi. Bisogna saper presentare le prove."
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
+        successo:
+          titolo: Davanti ai sette seggi
+          testo: |
+            Al Municipio presenti i nodi e l'appalto uno dopo l'altro, e il seggio della Gilda non trova niente da
+            rispondere. Il Consiglio ordina che la campata sia rifatta a spese della Gilda e che si controllino tutti
+            i lavori dell'ultimo anno. La Rappresentante ti fa pagare dalla cassa del Municipio. Il vecchio muore il
+            giorno dopo la seduta, con il rotolo dei punteruoli in grembo.
+          effetti: { pontiere.passo: 1, monete: 200, rep.castaldi: 1, rep.ponti: 0.5, rep.gilda: -0.5 }
+          imposta: { pontiere.fine: 2 }
+        fallimento:
+          titolo: Il rinvio
+          testo: |
+            Al Municipio ti fanno aspettare tutta la mattina e parlare per ultim{o|a}, quando metà dei seggi è già a
+            pranzo. Il seggio della Gilda chiede un rinvio e lo ottiene. La campata la rifanno lo stesso in gran
+            fretta, perché ormai lo sanno tutti. Il Municipio ti paga il disturbo, e la Gilda si ricorda di te.
+          effetti: { pontiere.passo: 1, monete: 200, rep.gilda: -0.5, scandalo: 0.5 }
+          imposta: { pontiere.fine: 2 }
+      - testo: "Vendere il segreto al capomastro"
+        descrizione: "Il capomastro pagherà bene perché i nodi restino nella tua testa. La campata resta com'è."
+        esito:
+          titolo: Il prezzo del silenzio
+          testo: |
+            Il capomastro ti riceve nella sua bottega fra le matasse di fune e non nega niente. Conta le monete su un
+            banco da lavoro e aggiunge una lettera con i nomi dei Custodi che hanno firmato i suoi lavori. Quando
+            torni alla casa appesa il vecchio è morto da un'ora. La vicina ti dice che ha chiesto di te.
+          effetti: { pontiere.passo: 1, monete: 200, informazioni.segreto: 1, sospetto: 1, tormento: 0.5 }
+          imposta: { pontiere.fine: 3 }
+
+  # ================================================================ comuni
+  - id: carta-ps2-il-funambolo
+    immagine: icone/tightrope
+    titolo: Il funambolo
+    sommario: "Un funambolo attraversa sul vuoto una fune tesa fra due piloni e scommette che nessuno lo segue."
+    luogo: Ponti Sospesi, fra il pilone del Grifone e quello dei bottai
+    tipo: carta
+    area: ponti-sospesi
+    testo: |
+      Fra il pilone del Grifone e quello dei bottai qualcuno ha teso una fune sola, senza rete. Ci cammina sopra un
+      ragazzo magro con le scarpe di pezza e una pertica di traverso sulle spalle. Arrivato in fondo si gira e
+      allarga le braccia.
+
+      «Chi mi segue fino all'altro pilone si prende il piatto!» grida. «Se uno ci prova e cade, be', ci ha provato.»
+
+      Sul parapetto la gente punta, e un uomo con il cappello a tesa larga tiene il banco. Due mercanti hanno puntato
+      forte sul ragazzo, e uno ti fa cenno di avvicinarti e ti mostra un coltello da corda.
+
+      {acrobazia Media} Prima il tallone e poi la pianta, con il peso sempre in avanti. I tuoi piedi l'hanno già
+      capito.
+    opzioni:
+      - testo: "Seguirlo sulla fune"
+        descrizione: "Hai una pertica per stare in equilibrio, e sotto c'è il vuoto. Il piatto lo paga chi tiene il banco."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: L'altro pilone
+          testo: |
+            Prendi la pertica e metti il primo piede sulla fune, e sul parapetto si fa silenzio. A metà il vento ti
+            spinge di lato e la pertica ti riporta in centro. Arrivi al pilone dei bottai e il ragazzo ti abbraccia
+            ridendo, come se avesse vinto lui. Chi tiene il banco ti paga con una smorfia.
+          effetti: { monete: 6 }
+        fallimento:
+          titolo: Appes{o|a} alla fune
+          testo: |
+            Al terzo passo la fune comincia a ballare e la pertica non basta più. Ti aggrappi alla fune con le mani e
+            resti appes{o|a} sul vuoto finché il ragazzo non torna indietro a prenderti. Dal parapetto ridono tutti, e
+            chi aveva puntato su di te ti fischia dietro fino al Grifone.
+          effetti: { scandalo: 0.5, ferite: 0.5 }
+      - testo: "Scommettere su un altro"
+        descrizione: "Un Raschiatore scalzo misura la fune con gli occhi. Se lo segue lui, chi ha puntato contro il ragazzo incassa."
+        requisiti: [monete >= 3]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il Raschiatore scalzo
+          testo: |
+            Il Raschiatore ha i piedi duri come il cuoio, e punti su di lui. Attraversa con le mani in
+            tasca e scende dall'altra parte senza voltarsi. Il banco paga, e il ragazzo sulla fune lo applaude per
+            primo.
+          effetti: { monete: 4 }
+        fallimento:
+          titolo: I piedi sbagliati
+          testo: |
+            Punti sul Raschiatore, che a metà fune si ricorda di avere bevuto e torna indietro a quattro zampe. Il
+            banco si tiene la tua posta. L'uomo con il cappello ti ringrazia ad alta voce, e mezza piattaforma si gira
+            a guardarti.
+          effetti: { monete: -3, scandalo: 0.5 }
+      - testo: "Tagliare la fune per i due mercanti"
+        descrizione: "Hanno puntato che nessuno lo segue. Basta un taglio al nodo del pilone appena il ragazzo arriva, e una parte del piatto è tua."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il nodo del pilone
+          testo: |
+            Aspetti che il ragazzo tocchi il pilone e tagli il nodo mentre tutti guardano lui. La fune cade nel vuoto
+            con un fruscio, e nessuno può più seguirlo. I due mercanti incassano e ti passano la tua parte dietro una
+            botte. La sera il ragazzo cerca la sua fune per mezzo Mercato.
+          effetti: { monete: 7 }
+        fallimento:
+          titolo: Il coltello sul nodo
+          testo: |
+            Il ragazzo ti vede con il coltello sul nodo e grida, e tutto il parapetto si gira verso di te. I due
+            mercanti fingono di non conoscerti. Un Custode ti chiede il nome e lo scrive su una tavoletta, mentre il
+            ragazzo ti guarda con gli occhi lucidi.
+          effetti: { sospetto: 1 }
+
+  - id: carta-ps2-la-moneta-nel-pesce
+    immagine: icone/fish-corpse
+    titolo: La moneta nel pesce
+    sommario: "Al banco del pesce una pescivendola trova nella pancia di un luccio una moneta che nessuno in città ha coniato."
+    luogo: Mercato dei Nodi, il banco del pesce
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [visto.carta-ps2-la-moneta-nel-pesce == 0]
+    testo: |
+      Al banco del pesce una donna con il grembiule di cuoio pulisce i pesci arrivati la mattina dal Torvessa.
+      Apre la pancia di un luccio e si ferma con il coltello a mezz'aria. Fra le interiora c'è una moneta. La
+      pulisce sul grembiule e la alza alla luce.
+
+      È di un metallo grigio che non si ossida, con un buco quadrato al centro e segni a raggiera che non sono
+      lettere. Un vecchio nella piccola folla dice che è roba dei Precursori.
+
+      «Chi la vuole?» dice la pescivendola, e la fa girare sul banco. «La vendo a chi me la paga, e del pesce non
+      mi chiedete niente.»
+
+      {accademiche Media fallita} Il buco quadrato ti ricorda una tavola della Biblioteca. Soprattutto ti ricorda
+      che non hai fatto colazione, e l'odore del banco non aiuta.
+    opzioni:
+      - testo: "Comprarla"
+        descrizione: "La pescivendola chiede quanto vale un pesce grosso. Per una cosa dei Precursori è quasi niente."
+        requisiti: [monete >= 4]
+        esito:
+          titolo: Il metallo grigio
+          testo: |
+            Paghi, e la pescivendola ti mette in mano la moneta ancora umida. A casa la pulisci con l'aceto, e i
+            segni a raggiera vengono fuori netti. Sul bordo c'è una tacca che dovrebbe combaciare con un altro pezzo,
+            e quel pezzo non ce l'hai.
+          effetti: { monete: -4, reliquie.frammento-inciso: 1 }
+          imposta: { visto.carta-ps2-la-moneta-nel-pesce: 1 }
+      - testo: "Scoprire da quale acqua viene"
+        descrizione: "Un luccio di quella taglia non vive dappertutto. Dalle squame si capisce in che tratto del fiume ha mangiato."
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: L'acqua lenta
+          testo: |
+            Guardi le squame e la pancia scura come il fango. Un luccio così vive solo nell'acqua lenta dove il canale
+            della Città Bassa entra nel Torvessa. Se le monete arrivano da lì, sul fondo del canale c'è qualcosa dei
+            Precursori. Lo dici alla pescivendola, e più tardi un Raschiatore del Grifone ti paga da bere per sapere
+            il posto.
+          effetti: { informazioni.pettegolezzo: 1, monete: 2 }
+          imposta: { visto.carta-ps2-la-moneta-nel-pesce: 1 }
+        fallimento:
+          titolo: Un pesce come un altro
+          testo: |
+            Giri il luccio da tutte le parti e ti sembra un pesce come un altro. La pescivendola ti guarda fare per un
+            po'. Poi vende la moneta a un rigattiere mentre tu stai ancora contando le pinne, e la folla ride.
+          effetti: { scandalo: 0.5 }
+          imposta: { visto.carta-ps2-la-moneta-nel-pesce: 1 }
+      - testo: "Portarla ad Ambrin Qell"
+        descrizione: "Il Nodo d'Ossidiana è a pochi banchi da qui. Ambrin conosce la storia di ogni pezzo, e paga chi gli porta una storia buona."
+        esito:
+          titolo: Il corvo sul bancone
+          testo: |
+            Convinci la pescivendola a seguirti al Nodo d'Ossidiana con la moneta avvolta nel grembiule. Ambrin
+            la guarda con una lente e dice che è un gettone dei Precursori, di quelli che aprivano le loro porte. La
+            paga alla donna più di quanto sperava. A te lascia una piccola commissione, e il corvo sul bancone ti
+            guarda per tutto il tempo.
+          effetti: { monete: 3, rep.nodo: 0.5 }
+          imposta: { visto.carta-ps2-la-moneta-nel-pesce: 1 }
+
+  - id: carta-ps2-il-carico-che-piange
+    immagine: icone/wooden-crate
+    titolo: Il carico che piange
+    sommario: "Da una cassa su una chiatta ferma all'approdo esce un pianto, e il chiattaiolo fa finta di non sentirlo."
+    luogo: Ponti Sospesi, l'approdo delle chiatte
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [visto.carta-ps2-il-carico-che-piange == 0]
+    testo: |
+      All'approdo delle chiatte una piattaforma carica di casse aspetta l'argano da stamattina. Il chiattaiolo fuma a
+      prua e guarda dall'altra parte. Passandoci accanto senti un pianto sottile che viene da una delle casse,
+      quella con i fori nel coperchio.
+
+      Sul fianco della cassa c'è scritto *attrezzi da Laresh* con la vernice ancora fresca. Il chiattaiolo ti vede
+      fermarti e si alza.
+
+      «Roba mia» dice, e batte la mano sulla cassa. «Se ti interessa il carico te lo vendo tutto adesso, e senza
+      domande. Sennò cammina.»
+
+      {origine fuggiasco-di-ghoran} Quei fori li conosci. Le casse per Ghoran si bucano così, perché quello che c'è
+      dentro arrivi vivo alla bilancia.
+
+      {empatia Facile} È il pianto di un bambino che ha già pianto tanto e non ha più forza.
+    opzioni:
+      - testo: "Aprire la cassa di nascosto"
+        descrizione: "Prima o poi il chiattaiolo scende dalla chiatta. Il coperchio è inchiodato con quattro chiodi soltanto."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: Il bambino nella paglia
+          testo: |
+            Aspetti che il chiattaiolo scenda a parlare con l'uomo dell'argano e fai leva sul coperchio con il
+            coltello. Dentro, nella paglia, c'è un bambino magro con i polsi legati. Lo porti via sotto la giubba fino
+            al Grifone. Brunella lo prende in cucina senza fare domande e ti versa da bere.
+          effetti: { tormento: -0.5, rep.grifone: 0.5 }
+          imposta: { visto.carta-ps2-il-carico-che-piange: 1 }
+        fallimento:
+          titolo: Il chiodo che stride
+          testo: |
+            L'ultimo chiodo stride, e il chiattaiolo torna indietro di corsa. Ti spinge via dalla cassa e chiama aiuto
+            all'argano. Prima che i Custodi arrivino la chiatta è già partita sul cavo con la cassa e il pianto, e a
+            te resta in mano soltanto il chiodo storto.
+          effetti: { tormento: 1 }
+          imposta: { visto.carta-ps2-il-carico-che-piange: 1 }
+      - testo: "Chiamare i Custodi"
+        descrizione: "Il gabbiotto è a cento passi. I Custodi sono lenti, però una cassa senza bolla la aprono sempre."
+        esito:
+          titolo: La bolla che manca
+          testo: |
+            Corri al gabbiotto e torni con due guardie e un Custode con la tavoletta. Il chiattaiolo prova a mostrare
+            una bolla, e il Custode gliela fa leggere ad alta voce. Nella cassa c'è un bambino di Laresh con i polsi
+            legati. Il Custode lo affida alle sorelle del Velo e scrive il tuo nome nel registro, fra i testimoni.
+          effetti: { rep.gilda: 0.5 }
+          imposta: { visto.carta-ps2-il-carico-che-piange: 1 }
+      - testo: "Comprare il carico senza domande"
+        descrizione: "Il chiattaiolo vuole liberarsi della merce prima che arrivi qualcuno, e la vende per meno del dovuto."
+        requisiti: [monete >= 8]
+        esito:
+          titolo: Tutto il carico
+          testo: |
+            Paghi, e il chiattaiolo scarica le casse sull'approdo e riparte con la chiatta vuota. Nella cassa con i
+            fori c'è un bambino di Laresh, che si attacca alla tua manica e non la molla più. Lo porti al Grifone, dove
+            Brunella gli scalda il latte. Nelle altre casse ci sono attrezzi veri e un cristallo senza timbro.
+          effetti: { monete: -8, cristalli.cristallo-sterile: 1, tormento: -0.5 }
+          imposta: { visto.carta-ps2-il-carico-che-piange: 1 }
+
+  - id: carta-ps2-la-gara-dei-rampini
+    immagine: icone/hook
+    titolo: La gara dei rampini
+    sommario: "Dietro il Grifone i Raschiatori del turno lungo fanno a gara a chi aggancia il rampino più lontano."
+    luogo: Ponti Sospesi, la piattaforma dietro il Grifone
+    tipo: carta
+    area: ponti-sospesi
+    testo: |
+      Sulla piattaforma dietro il Grifone i Raschiatori del turno lungo hanno appeso un cerchio di ferro a una trave
+      lontana, sopra il vuoto. A turno lanciano il rampino legato alla corda e provano ad agganciarlo. Chi ci riesce
+      si prende i boccali puntati, e chi sbaglia recupera la corda fra le risate.
+
+      Una ragazza con le braccia segnate dalle corde ha fatto centro tre volte di fila. Adesso si guarda intorno per
+      trovare qualcuno da battere.
+
+      «Tu» dice, e ti porge il rampino. «Un lancio. Se lo agganci ti pago da bere, sennò paghi tu.»
+
+      {armi-da-distanza Media fallita} Il rampino ti sembra un attrezzo da pescatori. Le tue braccia non si mettono
+      d'accordo su quale parte vada lanciata per prima.
+    opzioni:
+      - testo: "Lanciare il rampino"
+        descrizione: "Un lancio sopra il vuoto, con mezza piattaforma che guarda."
+        prova: { attributo: fisico, abilita: armi-da-distanza, difficolta: Media }
+        successo:
+          titolo: Il cerchio di ferro
+          testo: |
+            Lanci basso e il rampino sale da solo, gira due volte intorno al cerchio e si aggancia con un colpo secco.
+            Sulla piattaforma urlano tutti. La ragazza ti paga da bere e poi ancora, e a fine serata ti ritrovi con i
+            boccali puntati e qualche moneta in tasca.
+          effetti: { monete: 4 }
+        fallimento:
+          titolo: La corda nel vuoto
+          testo: |
+            Il rampino parte storto e scende nel vuoto trascinandosi dietro la corda. La recuperi a bracciate davanti a
+            tutti, con le mani che bruciano. Poi paghi il giro alla ragazza e a mezza piattaforma, che non perde
+            occasione per ricordarti il lancio.
+          effetti: { monete: -2, scandalo: 0.5 }
+      - testo: "Scommettere sui lanci"
+        descrizione: "Fra i Raschiatori c'è chi lancia per vincere e chi lancia per farsi guardare. Basta capire chi è chi."
+        requisiti: [monete >= 2]
+        prova: { attributo: sociale, abilita: conoscenze-della-strada, difficolta: Media }
+        successo:
+          titolo: Chi lancia per vincere
+          testo: |
+            Punti su un vecchio con un occhio solo che non ha ancora lanciato e beve acqua. Aggancia il cerchio al
+            primo colpo, e la ragazza resta a bocca aperta. Il banco paga, e il vecchio ti strizza l'occhio che gli
+            resta.
+          effetti: { monete: 4 }
+        fallimento:
+          titolo: Chi lancia per farsi guardare
+          testo: |
+            Punti sul più grosso, che si toglie la camicia prima di lanciare e manca il cerchio di due braccia. Perdi
+            la posta, e il grosso ti dà una pacca sulla spalla per consolarti che ti fa male fino a sera.
+          effetti: { monete: -2, scandalo: 0.5 }
+      - testo: "Farti insegnare il lancio"
+        descrizione: "Un boccale alla ragazza, e lei ti mostra come si tiene la corda."
+        requisiti: [monete >= 2]
+        esito:
+          titolo: La corda sul braccio
+          testo: |
+            Le offri un boccale, e lei ti mostra come si arrotola la corda sul braccio e dove si guarda prima di
+            lanciare. Dopo una lunga serie di lanci il rampino tocca il cerchio. Lei dice che con un altro mese di
+            pratica potresti fare il turno lungo.
+          effetti: { monete: -2 }
+          pe: { armi-da-distanza: 5 }
+
+  - id: carta-ps2-il-dazio-raddoppiato
+    immagine: icone/barrel
+    titolo: Il dazio raddoppiato
+    sommario: "I Custodi hanno raddoppiato il dazio sui carri, e i carrettieri hanno bloccato il Ponte delle Mille Corde."
+    luogo: Ponte delle Mille Corde, davanti al gabbiotto
+    tipo: carta
+    area: ponti-sospesi
+    requisiti: [visto.carta-ps2-il-dazio-raddoppiato == 0]
+    testo: |
+      Stamattina al gabbiotto dei Custodi hanno appeso un tariffario nuovo, e il dazio sui carri è il doppio di ieri.
+      I carrettieri hanno messo i carri di traverso sul Ponte delle Mille Corde, e adesso non passa nessuno.
+
+      Da una parte ci sono i carrettieri con le fruste arrotolate in mano. Dall'altra ci sono quattro guardie dei
+      Custodi con le picche. In mezzo un Custode giovane legge il tariffario ad alta voce per la terza volta, e
+      nessuno lo ascolta.
+
+      {persuasione Media} Nessuno dei due vuole davvero menare le mani. Cercano solo una scusa per smettere senza
+      perdere la faccia.
+    opzioni:
+      - testo: "Metterti in mezzo"
+        descrizione: "Trovare un accordo che nessuno ha ancora proposto, e farlo sembrare un'idea loro."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il dazio della notte
+          testo: |
+            Proponi che il dazio doppio valga soltanto per i carri che passano dopo il tramonto, quando i ponti si
+            consumano di più. Il Custode giovane lo scrive sulla tavoletta come se l'avesse pensato lui. I carrettieri
+            tirano su i carri, e uno di loro ti lancia una mela e una moneta dal carro che riparte.
+          effetti: { monete: 2, rep.ponti: 0.5 }
+          imposta: { visto.carta-ps2-il-dazio-raddoppiato: 1 }
+        fallimento:
+          titolo: D'accordo su una cosa
+          testo: |
+            Proponi un accordo, e per la prima volta in tutta la mattina carrettieri e guardie sono d'accordo su una
+            cosa, e cioè che non vogliono sentirti. Ti spingono fuori dal blocco in due. La donna che vende frittelle
+            all'angolo ride fino alle lacrime.
+          effetti: { scandalo: 1 }
+          imposta: { visto.carta-ps2-il-dazio-raddoppiato: 1 }
+      - testo: "Spostare il carro di testa"
+        descrizione: "Uno spintone al carro di testa, e il blocco si scioglie. I Custodi pagano chi gli libera il ponte."
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: Il carro di testa
+          testo: |
+            Ti metti con la spalla contro il carro di testa e lo spingi finché le ruote non girano. Il carrettiere
+            urla, poi vede gli altri che si spostano e si arrende. Il Custode giovane ti paga dalla cassetta del
+            gabbiotto. I carrettieri ti guardano andare via, e per un po' sui Ponti ti salutano in pochi.
+          effetti: { monete: 5, rep.gilda: 0.5, rep.ponti: -0.5 }
+          imposta: { visto.carta-ps2-il-dazio-raddoppiato: 1 }
+        fallimento:
+          titolo: La ruota sul piede
+          testo: |
+            Spingi il carro, e il carro si muove dalla parte sbagliata. La ruota ti passa sul piede e il carrettiere ti
+            dà del crumiro davanti a tutti. Zoppichi fino al Grifone con lo stivale che stringe a ogni passo.
+          effetti: { ferite: 0.5, scandalo: 0.5 }
+          imposta: { visto.carta-ps2-il-dazio-raddoppiato: 1 }
+      - testo: "Vendere da bere a tutti e due"
+        descrizione: "Un barile di birra dal Grifone, e un blocco di mezza giornata ha più sete di una fornace."
+        requisiti: [monete >= 3]
+        esito:
+          titolo: Il barile in mezzo
+          testo: |
+            Fai rotolare un barile di birra dal Grifone fino in mezzo al blocco e vendi boccali a destra e a sinistra.
+            Verso mezzogiorno carrettieri e guardie bevono dallo stesso barile e discutono di prezzi come vecchi amici.
+            Il blocco si scioglie da sé prima di sera, e la tua cassetta è piena.
+          effetti: { monete: 4 }
+          imposta: { visto.carta-ps2-il-dazio-raddoppiato: 1 }

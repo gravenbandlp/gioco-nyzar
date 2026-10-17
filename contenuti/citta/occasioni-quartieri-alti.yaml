@@ -1,0 +1,1270 @@
+# Le occasioni nuove dei Quartieri Alti (17 ottobre 2026): sedici carte per il mazzo, con le rarità e gli agguati.
+#
+# RISTORO (insolite, ripetibili, requisiti rintocchi <= 30; l'effetto è il netto più il rintocco speso):
+#   palco-vuoto       un palchetto del Teatro mai occupato, +4 rintocchi netti.
+#   terme-di-vapore   i bagni di vapore dietro la Casa dei Nodi: galateo Media o l'ingresso pagato, +8 netti.
+#
+# TESORI (rari, spariscono quando hai l'oggetto):
+#   lotto-senza-nome  pista.capomozzo >= 10. Accademiche Difficile e poche monete, oppure l'offerta alta.
+#                     Dà il compasso dei primi maghi (accessorio +2: Magia +1, riserva 1).
+#   sala-d-armi       pista.dama-argento >= 6. Armi da mischia Difficile, chi perde si prende un taglio.
+#                     Dà lo stocco del maestro di sala (spada lunga +1, rapida 1).
+#
+# AGGUATI (inevitabili, insoliti, ripetibili):
+#   duello-imposto            scandalo < 6, ferite < 6. Duello (qa2-duello-sul-sagrato), scuse con Persuasione
+#                             Difficile, rifiuto con Scandalo, riparazione in monete; il Rampollo cita il codice.
+#   carrozza-senza-cocchiere  ferite < 6. Acrobazia, Addestrare animali, o la bottega del guantaio. Senza scontro.
+#   livree-senza-stemma       scandalo >= 2, ferite < 6: arriva solo a chi ha fatto parlare di sé. Scontro
+#                             (qa2-livree-nel-cortile), fuga con Atletica, Intimidire Difficile, pagare.
+#
+# LA MINI-CRONACA DELLA GOVERNANTE (governante.passo 0-4, governante.fine 1-3; 200 monete su ogni chiusura):
+#   0  governante-pensione  la trovi in una pensione con un nome falso: empatia o la stanza pagata → passo 1.
+#   1  governante-uomini    gli uomini della casa la cercano: nasconderla (furtività), depistarli (ingannare)
+#                           o venderla (governante.venduta 1) → passo 2.
+#   2  governante-registro  il registro dice che un cerusico curava di nascosto la febbre di Marea del figlio
+#                           minore: medicina, o uno scrivano pagato → passo 3.
+#   3  governante-scelta    chiude: ai fogli volanti (fine 1), al Velo (fine 2), alla casa in cambio della
+#                           governante (fine 3, persuasione; due varianti secondo governante.venduta).
+#   La casa è una casa senza nome di Via del Velo.
+#
+# COMUNI:
+#   misura-dal-vivo (magia, ingannare; opzione dell'Allievo), ritratto-sbagliato (intimidire, una volta sola),
+#   reliquiario-smarrito (percezione, una volta sola), debutto (galateo), seggio-vacante (persuasione, ingannare).
+#   Le ripetibili danno monete, merci, PE e piccole negative; le reputazioni con una catena di storie non salgono.
+#
+# Nomi nuovi, che il Codex non dà: nessuno. Il seggio vacante è quello dei vetrai nel consiglio della Gilda,
+# perché i sette seggi del Consiglio di Qir-Azel sono fissi. I prezzi stanno negli effetti, mai nella prosa.
+
+quality:
+  - { id: governante.passo, nome: "Il registro della governante", categoria: stato, nascosta: true, descrizione: "A che punto sei con la governante. Vale 1 dopo la pensione, 2 dopo gli uomini della casa, 3 dopo aver letto il registro, 4 a storia chiusa." }
+  - { id: governante.fine, nome: "Dove è finito il registro", categoria: stato, nascosta: true, descrizione: "Come si è chiusa la storia della governante.", scelte: { "1": "Il registro ai fogli volanti", "2": "Il registro al Velo", "3": "Il registro tornato alla casa" } }
+  - { id: governante.venduta, nome: "La governante venduta", categoria: stato, nascosta: true, descrizione: "1 se hai venduto la governante al maggiordomo della casa." }
+  - { id: visto.carta-qa2-ritratto-sbagliato, nome: "Il ritratto sbagliato", categoria: stato, nascosta: true }
+  - { id: visto.carta-qa2-reliquiario-smarrito, nome: "Il reliquiario smarrito", categoria: stato, nascosta: true }
+
+oggetti:
+  - id: compasso-dei-primi-maghi
+    nome: Compasso dei primi maghi
+    immagine: icone/compass
+    descrizione: "Due bracci d'ottone incernierati attorno a un piccolo cristallo. I primi maghi lo usavano per misurare la carica di un cristallo prima di toccarlo, e in mano a chi conosce il Mana si accende ancora."
+    slot: accessorio
+    grado: 2
+    proprieta: { riserva: 1, talento: { magia: 1 } }
+
+  - id: stocco-del-maestro-di-sala
+    nome: Stocco del maestro di sala
+    immagine: icone/piercing-sword
+    descrizione: "Una lama lunga e sottile con l'elsa a coppa, lucidata ogni sera per quarant'anni. Il vecchio maestro la usava per insegnare a colpire per primi."
+    slot: arma
+    base: spada-lunga
+    grado: 1
+    proprieta: { rapida: 1 }
+
+nemici:
+  - id: qa2-nobile-offeso
+    nome: Nobile offeso
+    descrizione: "Un giovane dei Quartieri Alti con il mantello foderato di rosso. Ha preso lezioni di scherma per anni, e i suoi amici lo sanno."
+    attacco: 3
+    difesa: 3
+    difesaMentale: 2
+    pf: 6
+    danno: 1
+    iniziativa: 3
+
+  - id: qa2-servitore-senza-stemma
+    nome: Servitore senza stemma
+    descrizione: "Una livrea grigia con il posto dello stemma scucito e un paio di guanti di cuoio. Fa questi lavori per la sua casa quando serve."
+    attacco: 2
+    difesa: 2
+    difesaMentale: 2
+    pf: 5
+    danno: 1
+    iniziativa: 2
+    puoFuggire: true
+
+scontri:
+  - { id: qa2-duello-sul-sagrato, nome: "Il duello sul sagrato", nemici: [qa2-nobile-offeso], feriteSconfitta: 2 }
+  - { id: qa2-livree-nel-cortile, nome: "Le livree nel cortile", nemici: [qa2-servitore-senza-stemma, qa2-servitore-senza-stemma], feriteSconfitta: 2 }
+
+storylet:
+  # ================================================================ ristoro
+  - id: carta-qa2-palco-vuoto
+    immagine: icone/theater-curtains
+    titolo: Il palco vuoto
+    sommario: "Al Teatro delle Meraviglie c'è un palchetto pagato per tutta la stagione, e nessuno ci si siede mai."
+    luogo: Quartieri Alti, un palchetto del Teatro delle Meraviglie
+    tipo: carta
+    area: quartieri-alti
+    rarita: insolita
+    requisiti: [rintocchi <= 30]
+    testo: |
+      Al secondo ordine del Teatro delle Meraviglie c'è un palchetto che una famiglia del quartiere paga per tutta
+      la stagione e non occupa mai. La maschera che sorveglia il corridoio lo sa. Per una parola gentile ti apre la
+      porticina e ti lascia entrare.
+
+      Di pomeriggio in sala si fanno le prove. Orazio Belcanto ripete la stessa battuta da un'ora e la cambia ogni
+      volta di un niente, mentre un macchinista trascina una nuvola di cartapesta da una parte all'altra del palco.
+      Sul bracciolo della poltrona il velluto è consumato dal gomito di qualcuno che non viene più.
+
+      {espressivita Facile} Senti come allunga la seconda sillaba. Stasera la sala riderà proprio lì, e lui lo sa
+      già.
+    opzioni:
+      - testo: "Sederti al buio e lasciar passare le prove"
+        descrizione: "Qui dentro nessuno ti cerca. Per un'ora il tempo passa senza di te."
+        esito:
+          titolo: Il secondo ordine
+          testo: |
+            Ti togli gli stivali e appoggi i piedi sul parapetto, dove dalla
+            platea non si vedono. Orazio sbaglia la battuta due volte e alla terza
+            la dice giusta. Dietro le quinte un macchinista applaude da solo.
+            A un certo punto chiudi gli occhi. Quando li riapri il palco è buio,
+            e la maschera ti batte piano sulla spalla perché fra poco arriva il
+            pubblico vero.
+          effetti: { rintocchi: 5 }
+      - testo: "Lasciare il palco a chi lo paga"
+        costo: 0
+        esito:
+          testo: |
+            Ringrazi la maschera e torni nel corridoio. Lei richiude la porticina
+            e si rimette la chiave nel taschino del panciotto, accanto a una
+            decina di chiavi uguali.
+
+  - id: carta-qa2-terme-di-vapore
+    immagine: icone/steam
+    titolo: I bagni di vapore
+    sommario: "Dietro la Casa dei Nodi ci sono i bagni caldi delle grandi case, e alla porta si entra con un buon nome o con molte monete."
+    luogo: Quartieri Alti, i bagni di vapore dietro la Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    rarita: insolita
+    requisiti: [rintocchi <= 30]
+    testo: |
+      Dietro la Casa dei Nodi c'è un edificio basso con il tetto di rame e i camini che fumano anche d'estate. Sono i
+      bagni delle grandi case. Sotto il pavimento i cristalli scaldano l'acqua di tre vasche, e il vapore esce dalle
+      grate fino in strada.
+
+      Alla porta un portiere in grembiule bianco tiene un registro aperto sul banco. Le famiglie che pagano
+      l'abbonamento ci mandano i loro ospiti, e chi non è ospite di nessuno paga un ingresso che costa caro.
+
+      {resistenza Facile fallita} Le spalle ti fanno male da giorni. Adesso che senti il caldo te ne accorgi tutto in
+      una volta.
+
+      {origine rampollo-dei-quartieri-alti} Da {ragazzo|ragazza} entravi da questa porta senza fermarti al banco. Il
+      portiere di adesso non ti conosce, e non sai se esserne sollevat{o|a}.
+    opzioni:
+      - testo: "Entrare come ospite di una casa nobile"
+        descrizione: "Un cognome detto con sicurezza e la faccia di un ospite atteso. Il portiere ha il registro, però lo legge di rado fino in fondo."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: La vasca di mezzo
+          testo: |
+            Dici al portiere che ti manda una casa di Via del Velo e gli lasci il
+            tempo di cercare il cognome. Lui non lo trova e si scusa con te. Nella
+            vasca di mezzo l'acqua è così calda che le gambe ti diventano rosse
+            fino alle ginocchia. Resti a mollo finché il vapore ti scioglie le
+            spalle, e poi ti addormenti su una panca di marmo con l'asciugamano
+            sulla faccia.
+          pe: { galateo: 3 }
+          effetti: { rintocchi: 9 }
+        fallimento:
+          titolo: Il registro
+          testo: |
+            Dici un cognome, e il portiere lo trova. Il guaio è che accanto c'è
+            scritto che quell'ospite è una signora di settant'anni. Ti accompagna
+            fuori con gentilezza davanti a due signori in accappatoio, che ridono
+            sotto i baffi bagnati. In strada il freddo ti arriva subito alle
+            orecchie.
+          effetti: { scandalo: 0.5 }
+      - testo: "Pagare l'ingresso"
+        descrizione: "Il prezzo è scritto su una tavoletta d'ardesia accanto alla porta, e il portiere non lo tratta."
+        requisiti: [monete >= 40]
+        esito:
+          titolo: Un'ora pagata
+          testo: |
+            Conti le monete sul banco e il portiere le fa sparire senza guardarle.
+            Ti dà un asciugamano caldo e una chiave d'ottone con un numero. Nella
+            vasca piccola c'è soltanto un vecchio magistrato che dorme con la bocca
+            aperta, e tu ti siedi dall'altra parte. Quando esci, il cielo sopra la
+            Casa dei Nodi ha cambiato colore.
+          effetti: { monete: -40, rintocchi: 9 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: |
+            Passi davanti alle grate e il vapore ti bagna la faccia per un
+            momento. Poi la strada torna fredda, e tu infili le mani in tasca.
+
+  # ================================================================ tesori
+  - id: carta-qa2-lotto-senza-nome
+    immagine: icone/gavel
+    titolo: Il lotto senza nome
+    sommario: "All'asta dei mobili di una casa passa un oggetto senza nome, e in sala nessuno sa che cosa sia."
+    luogo: Quartieri Alti, la sala d'aste della Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    rarita: rara
+    requisiti: [oggetto.compasso-dei-primi-maghi == 0, pista.capomozzo >= 10]
+    testo: |
+      Nella sala d'aste della Casa dei Nodi oggi si vende quello che resta di una casa di Via del Velo. I lotti
+      passano in fretta, e il banditore li annuncia con la stessa voce annoiata che usa per i comò.
+
+      Al numero trentuno solleva una scatola di legno scuro con dentro un oggetto d'ottone. Ha due bracci
+      incernierati e un piccolo cristallo opaco incastrato dove i bracci si uniscono. Il catalogo dice soltanto
+      *oggetto di uso ignoto*. In sala qualcuno ride, e la base d'asta è quella di un fermacarte.
+
+      {percezione Media} Ai lati del cristallo l'ottone è lucido e consumato. Qualcuno lo ha girato fra le dita ogni
+      giorno, per anni.
+    opzioni:
+      - testo: "Capire che cos'è"
+        descrizione: "Due bracci e un cristallo nel mezzo. Nei manuali dei primi maghi c'era un disegno simile, se ricordi quale."
+        requisiti: [monete >= 60]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: Il compasso
+          testo: |
+            Lo riconosci al secondo sguardo. È un compasso di Mana dei primi
+            maghi, uno di quelli che servivano a misurare la carica di un
+            cristallo prima di toccarlo. Alzi la mano alla base d'asta con la
+            faccia annoiata del banditore, e nessuno rilancia. Quando apri la
+            scatola il cristallo si accende appena sotto il tuo pollice.
+          pe: { accademiche: 4 }
+          effetti: { monete: -60, oggetto.compasso-dei-primi-maghi: 1 }
+        fallimento:
+          titolo: Lo strumento da cartografo
+          testo: |
+            Ti sembra di ricordare un disegno, poi un altro. Alla fine dici al tuo
+            vicino che è uno strumento da cartografo, e lui lo ripete al suo. Il
+            lotto se lo aggiudica alla base un collezionista di Laresh, e per il
+            resto dell'asta la gente intorno ti chiede consigli sulle mappe.
+          effetti: { scandalo: 0.5 }
+      - testo: "Rilanciare finché gli altri smettono"
+        descrizione: "Se lo vuoi senza sapere che cos'è, bisogna pagarlo più di chiunque altro in sala."
+        requisiti: [monete >= 500]
+        esito:
+          titolo: Aggiudicato
+          testo: |
+            Alzi la mano alla base, e un mercante di stampe alza la sua per
+            ripicca. Andate avanti così finché in sala nessuno ride più. Alla fine
+            il mercante si stringe nelle spalle e il martelletto batte. Al banco
+            il banditore scrive la cifra due volte per essere sicuro. Quando apri
+            la scatola il cristallo si accende appena sotto il tuo pollice.
+          effetti: { monete: -500, oggetto.compasso-dei-primi-maghi: 1 }
+      - testo: "Guardare il lotto passare"
+        costo: 0
+        esito:
+          testo: |
+            Lasci passare il numero trentuno. Lo prende una signora che cercava un
+            fermacarte, e lo mette nella borsa fra un ventaglio e un pacchetto di
+            mandorle.
+
+  - id: carta-qa2-sala-d-armi
+    immagine: icone/fencer
+    titolo: La sala d'armi chiusa
+    sommario: "Un vecchio maestro d'armi ha chiuso la sua sala, e regala la sua lama a chi lo tocca tre volte in un assalto."
+    luogo: Quartieri Alti, una sala d'armi in una traversa di Via del Velo
+    tipo: carta
+    area: quartieri-alti
+    rarita: rara
+    requisiti: [oggetto.stocco-del-maestro-di-sala == 0, pista.dama-argento >= 6]
+    testo: |
+      In una traversa di Via del Velo c'è una sala d'armi con le imposte chiuse e la porta socchiusa. Dentro gli
+      specchi sono coperti da lenzuola, e sulle rastrelliere resta una lama sola. Il maestro è un uomo vecchio e
+      asciutto in camicia bianca, con i baffi tinti di nero. Ha chiuso a fine stagione perché non ha più allievi.
+
+      La sua lama la regala a chi lo tocca tre volte prima che lui tocchi tre volte. Chi perde esce con un taglio
+      sul braccio, perché in questa sala si tira senza il bottone sulla punta.
+
+      {armi-da-mischia Media} Tiene la guardia bassa e il peso sul piede di dietro. Aspetterà che sia tu ad
+      attaccare, e il primo colpo sarà il suo.
+    opzioni:
+      - testo: "Accettare l'assalto"
+        descrizione: "Tre stoccate contro tre, con la lama vera. Il maestro è vecchio, e il polso è rimasto quello di trent'anni fa."
+        prova: { attributo: fisico, abilita: armi-da-mischia, difficolta: Difficile }
+        successo:
+          titolo: La terza stoccata
+          testo: |
+            Il maestro ti tocca subito alla spalla, poi tu lo tocchi due volte di
+            seguito sul petto, e lui ride per la prima volta. La terza stoccata la
+            porti sotto la sua guardia bassa. Lui si guarda il graffio sulla
+            camicia e annuisce. Poi va alla rastrelliera e ti porge la sua lama
+            con l'elsa in avanti.
+          pe: { armi-da-mischia: 5 }
+          effetti: { oggetto.stocco-del-maestro-di-sala: 1 }
+        fallimento:
+          titolo: Il braccio
+          testo: |
+            Lo tocchi una volta, ed è la volta che lui ti lascia fare. Poi la sua
+            punta ti trova il braccio tre volte, sempre un dito più in alto, e
+            l'ultima volta il taglio è vero. Il maestro te lo fascia con un
+            fazzoletto pulito. Ti dice di tornare quando avrai smesso di
+            guardargli la lama.
+          effetti: { ferite: 1 }
+      - testo: "Restare a guardare"
+        descrizione: "Prima o poi arriva un altro sfidante. Dalla panca si vede bene dove il maestro mette i piedi."
+        esito:
+          titolo: Dalla panca
+          testo: |
+            Nel pomeriggio arriva un cadetto della Caserma e chiede l'assalto. Lo
+            perde in poco tempo e se ne va tenendosi il braccio. Tu hai guardato
+            i piedi del maestro per tutto l'assalto, e adesso sai dove li mette
+            prima di attaccare.
+          pe: { armi-da-mischia: 2 }
+      - testo: "Tornare un'altra volta"
+        costo: 0
+        esito:
+          testo: |
+            Dici al maestro che tornerai. Lui annuisce e riprende a lucidare la
+            lama con un panno di lana, dalla punta all'elsa.
+
+  # ================================================================ agguati
+  - id: carta-qa2-duello-imposto
+    immagine: icone/duel
+    titolo: Il duello imposto
+    sommario: "Un giovane nobile dice che lo hai offeso e ti sfida davanti a tutta la piazza."
+    luogo: Quartieri Alti, la piazza davanti al Municipio
+    tipo: carta
+    area: quartieri-alti
+    rarita: insolita
+    inevitabile: true
+    requisiti: [scandalo < 6, ferite < 6]
+    testo: |
+      Davanti al Municipio un giovane nobile con il mantello foderato di rosso ti sbarra la strada. Dice che lo hai
+      urtato senza chiedere scusa, e lo dice abbastanza forte da far voltare la piazza. Due suoi amici si mettono ai
+      lati come testimoni, e uno ha già sfilato il guanto.
+
+      Il nobile vuole soddisfazione subito, al primo sangue. In alternativa pretende le tue scuse davanti a tutti. Se
+      te ne vai senza fare né l'una né l'altra cosa, stasera lo saprà tutto il quartiere.
+
+      {galateo Facile} Il guanto lo ha sfilato l'amico, e il nobile tiene ancora i suoi. Vuole la sfida, però spera
+      che tu dica di no.
+    opzioni:
+      - testo: "Accettare il duello"
+        descrizione: "Al primo sangue, con i testimoni a guardare. Lui ha preso lezioni di scherma, e si vede da come sta in piedi."
+        costo: 0
+        combattimento: qa2-duello-sul-sagrato
+        vittoria:
+          titolo: Primo sangue
+          testo: |
+            Il nobile tira bene per tre scambi e poi si scopre. La tua lama gli
+            apre la manica e un graffio sull'avambraccio, e i testimoni dichiarano
+            chiuso il duello. Lui si fascia il braccio con il fazzoletto
+            dell'amico. Poi ti lascia la borsa che aveva scommesso con loro, per
+            non dover ammettere di averla persa.
+          effetti: { monete: 20 }
+        sconfitta:
+          titolo: Il sangue è tuo
+          testo: |
+            Al terzo scambio la sua lama ti trova il fianco, e il primo sangue è
+            il tuo. I testimoni battono le mani. Il nobile si fa dare la tua borsa
+            e ne prende la parte che chiama *riparazione*. Il resto te lo
+            restituisce con un inchino.
+          effetti: { monete: -10, scandalo: 0.5 }
+      - testo: "Scusarti con garbo"
+        descrizione: "Scuse lunghe e cortesi, che lo lascino uscire bene dalla scena senza toccare la lama."
+        costo: 0
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: Le scuse
+          testo: |
+            Gli chiedi scusa in piedi, con le parole lente che si usano in
+            Municipio, e alla fine aggiungi che un uomo del suo rango sa
+            riconoscere un incidente. I testimoni annuiscono. Il nobile non può
+            dire di no senza fare la figura del villano. Ti stringe la mano e ti
+            porta a bere al Daino Zoppo, dove ti racconta con chi ce l'ha davvero.
+          pe: { persuasione: 4 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: Troppo corte
+          testo: |
+            Le scuse ti escono troppo corte, e il nobile dice che non bastano.
+            Davanti alla piazza devi scegliere fra la lama e il selciato, e scegli
+            il selciato. Ti inginocchi per il tempo di una frase. Lui se ne va
+            soddisfatto, e i testimoni raccontano la scena a tutti quelli che
+            incontrano.
+          effetti: { scandalo: 1 }
+      - testo: "Rifiutare e andartene"
+        descrizione: "Un urto non vale una lama. La piazza però la penserà diversamente."
+        costo: 0
+        esito:
+          titolo: Il guanto per terra
+          testo: |
+            Gli dici che non ti batti per un urto e gli volti le spalle. L'amico
+            lascia cadere il guanto sul selciato dietro di te, perché tutti lo
+            vedano. Prima di sera al Daino Zoppo si scommette su quando tornerai
+            a farti vedere in piazza.
+          effetti: { scandalo: 1 }
+      - testo: "Offrire una riparazione in moneta"
+        descrizione: "Per gli sgarbi da poco i Quartieri Alti accettano ancora un risarcimento, se è abbastanza pesante."
+        costo: 0
+        requisiti: [monete >= 30]
+        esito:
+          titolo: La borsa
+          testo: |
+            Gli offri una riparazione in moneta, come vuole l'uso dei Quartieri
+            Alti per gli sgarbi da poco. Il nobile finge di pensarci, e intanto
+            gli amici guardano la borsa. Alla fine accetta e conta le monete
+            davanti ai testimoni, una alla volta.
+          effetti: { monete: -30 }
+      - testo: "Ricordargli il codice dei duelli"
+        descrizione: "Il codice vuole un padrino da ogni parte e un giorno di tempo. Lui lo sa, e sa che lo sai."
+        costo: 0
+        quando: [origine.rampollo-dei-quartieri-alti >= 1]
+        esito:
+          titolo: Il codice
+          testo: |
+            Gli ricordi a voce alta che il codice dei Quartieri Alti vuole un
+            padrino da tutte e due le parti e un giorno di tempo. I testimoni si
+            guardano. Il nobile arrossisce e dice che non intendeva mancare alle
+            regole. Ti stringe la mano e ti porta a bere al Daino Zoppo, dove ti
+            racconta con chi ce l'ha davvero.
+          pe: { persuasione: 4 }
+          effetti: { informazioni.pettegolezzo: 1 }
+
+  - id: carta-qa2-carrozza-senza-cocchiere
+    immagine: icone/horse-head
+    titolo: La carrozza senza cocchiere
+    sommario: "In un vicolo stretto due cavalli imbizzarriti scendono al galoppo con una carrozza vuota, e il vicolo è largo quanto la carrozza."
+    luogo: Quartieri Alti, un vicolo dietro le rimesse delle carrozze
+    tipo: carta
+    area: quartieri-alti
+    rarita: insolita
+    inevitabile: true
+    requisiti: [ferite < 6]
+    testo: |
+      Il vicolo dietro le rimesse delle carrozze è largo quanto una carrozza, e lo scopri perché adesso ne arriva
+      una. Due cavalli bai scendono al galoppo con le redini che sbattono sul selciato. A cassetta non c'è nessuno, e
+      la portiera aperta batte contro i muri a ogni sobbalzo. Più su qualcuno grida il nome di un cavallo.
+
+      Davanti a te c'è la bottega di un guantaio con la porta chiusa. Alla tua sinistra un portone rientra appena nel
+      muro, in cima a tre scalini.
+
+      {atletica Facile} Il secondo scalino del portone è rotto. Ci arrivi con un salto solo, se non ti fermi a
+      pensarci.
+    opzioni:
+      - testo: "Saltare nel vano del portone"
+        descrizione: "Tre scalini e un vano poco profondo. Bisogna arrivarci prima delle ruote e starci dentro tutto."
+        costo: 0
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Il vano del portone
+          testo: |
+            Salti nel vano e ti schiacci contro il legno. La carrozza ti passa
+            così vicina che il mozzo di una ruota ti strappa un bottone. Più giù i
+            cavalli si fermano da soli contro una fontanella. Il cocchiere arriva
+            di corsa senza cappello e ti offre un sorso dalla sua fiaschetta,
+            insieme ai nomi di tutti i padroni che ha avuto.
+          pe: { acrobazia: 3 }
+          effetti: { informazioni.voce: 1 }
+        fallimento:
+          titolo: Il mozzo
+          testo: |
+            Salti, ma lo scalino rotto ti tradisce e resti con una gamba fuori.
+            Il mozzo della ruota ti prende la coscia e ti fa girare su te
+            stess{o|a}. Quando la carrozza è passata sei sedut{o|a} sul selciato,
+            e la gamba ha già cominciato a gonfiarsi.
+          effetti: { ferite: 1 }
+      - testo: "Fermare i cavalli"
+        descrizione: "Mettersi in mezzo e chiamarli con il nome che gridano più su. Se non ti ascoltano ti passano sopra."
+        costo: 0
+        prova: { attributo: sociale, abilita: addestrare-animali, difficolta: Media }
+        successo:
+          titolo: Il nome del cavallo
+          testo: |
+            Ti metti in mezzo al vicolo a braccia larghe e chiami i cavalli con il
+            nome che gridavano più su. Il primo pianta gli zoccoli e scivola, e
+            l'altro si ferma con lui. Li tieni per il morso finché arriva il
+            cocchiere. Lui ti mette in mano la mancia del suo padrone e ti prega
+            di non raccontargli niente.
+          pe: { addestrare-animali: 4 }
+          effetti: { monete: 20 }
+        fallimento:
+          titolo: Sotto le ruote
+          testo: |
+            I cavalli tirano dritto senza sentire il loro nome. All'ultimo
+            momento ti butti di lato, e la ruota ti passa sul piede. Il cocchiere
+            arriva quando la carrozza si è già fermata più giù, e ti aiuta a
+            sfilare lo stivale con molte scuse.
+          effetti: { ferite: 1.5 }
+      - testo: "Buttarti nella bottega del guantaio"
+        descrizione: "La porta è chiusa ma vecchia. Una spallata dovrebbe bastare."
+        costo: 0
+        esito:
+          titolo: La vetrina
+          testo: |
+            Apri la porta della bottega con una spallata e cadi dentro insieme a
+            un espositore di guanti. Fuori la carrozza passa e se ne va. Il
+            guantaio ti aiuta ad alzarti con gentilezza. Poi ti presenta il conto
+            della vetrina, che era incrinata già da prima.
+          effetti: { monete: -10 }
+
+  - id: carta-qa2-livree-senza-stemma
+    immagine: icone/hooded-figure
+    titolo: Livree senza stemma
+    sommario: "In un cortile ti aspettano due uomini in livrea, e sulle livree il posto dello stemma è vuoto."
+    luogo: Quartieri Alti, un cortile interno dietro Via del Velo
+    tipo: carta
+    area: quartieri-alti
+    rarita: insolita
+    inevitabile: true
+    requisiti: [scandalo >= 2, ferite < 6]
+    testo: |
+      Entri in un cortile per tagliare la strada, e il portone si chiude alle tue spalle. Ti aspettano due uomini in
+      livrea grigia. Sul petto, dove le livree delle grandi case portano lo stemma, hanno soltanto un rettangolo di
+      stoffa più scura. Il più grosso si infila un paio di guanti di cuoio.
+
+      L'altro ti spiega con cortesia che nel quartiere si parla troppo di te, e che qualcuno preferirebbe vederti
+      altrove per un po'. Aggiunge che i guanti servono a non lasciare segni.
+
+      {conoscenze-della-strada Media} I fili intorno al rettangolo sono ancora bianchi, quindi lo stemma lo hanno
+      scucito stamattina. Sono servitori veri che una casa ha prestato per un lavoro sporco.
+    opzioni:
+      - testo: "Difenderti"
+        descrizione: "Sono in due e non sono soldati. Uno però ha i guanti, e li sa usare."
+        costo: 0
+        combattimento: qa2-livree-nel-cortile
+        vittoria:
+          titolo: I guanti
+          testo: |
+            Il più grosso finisce contro la pompa del cortile e ci resta seduto.
+            L'altro scappa dal portone senza voltarsi. In tasca al primo trovi una
+            borsa con la paga del lavoro, che a quanto pare gli avevano dato in
+            anticipo.
+          effetti: { monete: 20 }
+        sconfitta:
+          titolo: Senza segni
+          testo: |
+            Mantengono la promessa, e i colpi arrivano dove i vestiti coprono.
+            Quando hanno finito il più grosso ti alleggerisce la borsa. L'altro ti
+            consiglia di cambiare quartiere per qualche giorno.
+          effetti: { monete: -15 }
+      - testo: "Scappare dalla porta di servizio"
+        descrizione: "In fondo al cortile c'è una porta di servizio con il paletto tirato. Bisogna arrivarci prima di loro."
+        costo: 0
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: La cucina
+          testo: |
+            Arrivi alla porta di servizio prima di loro e la richiudi dall'altra
+            parte. Ti ritrovi in una cucina piena di vapore, dove una cuoca ti
+            indica l'uscita con il mestolo senza smettere di rimestare. Dietro di
+            te i due uomini prendono a pugni la porta, e poi smettono.
+          pe: { atletica: 3 }
+          effetti: { informazioni.voce: 1 }
+        fallimento:
+          titolo: Il paletto
+          testo: |
+            Il paletto della porta di servizio è più duro del previsto. Il più
+            grosso ti prende per il colletto mentre lo stai ancora tirando, e ti
+            sbatte due volte contro lo stipite prima di lasciarti andare.
+          effetti: { ferite: 1 }
+      - testo: "Farti dire chi li manda"
+        descrizione: "Un servitore teme il padrone più di te. Bisogna fargli temere te un po' di più."
+        costo: 0
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Il nome della casa
+          testo: |
+            Prendi il più piccolo per il bavero e gli dici che una livrea scucita
+            la riconosci anche così. Stasera andrai a chiedere al suo padrone se
+            gli manca un servitore. Lui impallidisce e ti dice il nome della
+            casa, purché tu non ci vada. Poi se ne vanno dal portone senza averti
+            toccato con un dito.
+          pe: { intimidire: 4 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Nessun nome
+          testo: |
+            Il più piccolo ti ascolta fino in fondo e poi fa un cenno al compagno.
+            I guanti di cuoio lavorano in fretta e con ordine. Quando il portone
+            si riapre hai un labbro spaccato e ancora nessun nome.
+          effetti: { ferite: 1 }
+      - testo: "Pagare per andartene"
+        descrizione: "Chiedere quanto li pagano, e offrire lo stesso perché il lavoro risulti fatto."
+        costo: 0
+        requisiti: [monete >= 25]
+        esito:
+          titolo: La paga doppia
+          testo: |
+            Chiedi quanto li pagano, e il più piccolo te lo dice senza vergogna.
+            Gli offri lo stesso perché al padrone il lavoro risulti fatto. Lui
+            conta le monete e ti apre il portone con un inchino da servitore di
+            casa buona.
+          effetti: { monete: -25 }
+
+  # ================================================================ la mini-cronaca della governante
+  - id: carta-qa2-governante-pensione
+    immagine: icone/house-keys
+    titolo: La donna del secondo piano
+    sommario: "In una pensione vicino alla porta nord una donna si è registrata con un nome falso, e ha paura di chi bussa."
+    luogo: Quartieri Alti, una pensione vicino alla porta nord
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [governante.passo == 0, governante.fine == 0]
+    testo: |
+      La pensione vicino alla porta nord ha sei stanze e una padrona che sa tutto dei suoi clienti. Stamattina ti
+      ferma sulle scale e ti chiede un favore. Al secondo piano c'è una donna arrivata da tre giorni con un nome
+      falso, che non scende nemmeno per mangiare. Porta il colletto inamidato delle governanti di casa buona. Quando
+      qualcuno bussa, la padrona la sente spostare il letto contro la porta.
+
+      Bussi tu. La donna ti apre di un dito e ti guarda dalla fessura. Sotto il braccio stringe un registro rilegato
+      in cuoio verde.
+
+      {empatia Media} Ha paura da tre giorni e non dorme da due. Se qualcuno le parla piano, forse si siede.
+
+      {origine rampollo-dei-quartieri-alti} Il colletto lo riconosci. Le governanti delle grandi case lo inamidano da
+      sole la domenica sera e se lo tolgono soltanto per dormire.
+    opzioni:
+      - testo: "Convincerla ad aprire"
+        descrizione: "Parlarle dal corridoio senza fretta, finché decide che di te può fidarsi."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Il registro verde
+          testo: |
+            Ti siedi per terra nel corridoio e le parli della padrona e della
+            minestra che si raffredda. Alla fine apre. Era la governante di una
+            grande casa di Via del Velo, e l'hanno licenziata una settimana fa.
+            Prima di uscire ha preso il registro delle visite notturne. Te lo
+            mette in mano perché lo cercheranno da lei, e da te nessuno ci pensa.
+          pe: { empatia: 3 }
+          imposta: { governante.passo: 1 }
+        fallimento:
+          titolo: Il letto contro la porta
+          testo: |
+            Le dici che vuoi aiutarla, e lo dici troppo in fretta. Lei richiude e
+            senti il letto strisciare sul pavimento. Poi grida che chiamerà la
+            guardia. La padrona sale di corsa e ti chiede di andartene, davanti a
+            due clienti affacciati sul pianerottolo.
+          effetti: { scandalo: 0.5 }
+      - testo: "Pagarle la stanza per una settimana"
+        descrizione: "Dirlo forte alla padrona, perché si senta fino al secondo piano."
+        requisiti: [monete >= 10]
+        esito:
+          titolo: Una settimana
+          testo: |
+            Paghi alla padrona la stanza per una settimana e lo dici forte. Dopo
+            un po' la porta del secondo piano si apre. La donna era la governante
+            di una grande casa di Via del Velo, e l'hanno licenziata. Uscendo ha
+            portato via il registro delle visite notturne. Te lo affida perché lo
+            cercheranno da lei, e da te nessuno ci pensa.
+          effetti: { monete: -10 }
+          imposta: { governante.passo: 1 }
+      - testo: "Lasciarla in pace"
+        costo: 0
+        esito:
+          testo: |
+            Dici alla padrona che non sono affari tuoi. Lei sospira e porta su un
+            piatto di minestra, e lo lascia per terra davanti alla porta chiusa.
+
+  - id: carta-qa2-governante-uomini
+    immagine: icone/hidden
+    titolo: Gli uomini della casa
+    sommario: "Il maggiordomo della casa di Via del Velo chiede della governante a tutte le pensioni del quartiere."
+    luogo: Quartieri Alti, una pensione vicino alla porta nord
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [governante.passo == 1]
+    testo: |
+      Due giorni dopo arrivano alla pensione due uomini in livrea blu con i bottoni d'argento. Uno è il maggiordomo
+      della casa di Via del Velo, un uomo magro che tiene sempre in mano un fazzoletto. L'altro è grosso e resta sulla
+      porta. Chiedono alla padrona di una donna con il colletto inamidato. Quando lei finge di non sapere niente, il
+      maggiordomo posa sul banco una borsa.
+
+      Prima di andarsene ti nota sulle scale. Torna indietro e ti dice che la casa pagherebbe bene chi la aiuta a
+      ritrovare una cosa sua e una persona che ha sbagliato. Al piano di sopra la governante ha sentito tutto.
+
+      {furtivita Facile} La pensione ha una scala di servizio che scende nel cortile della lavanderia. Gli uomini
+      sono entrati dalla porta davanti.
+    opzioni:
+      - testo: "Portarla via dalla scala di servizio"
+        descrizione: "Giù per la scala e attraverso il cortile, mentre il maggiordomo parla ancora con la padrona."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La lavanderia
+          testo: |
+            Porti la governante giù per la scala di servizio con il suo fagotto
+            in mano. Attraversate il cortile della lavanderia fra le lenzuola
+            stese. La lasci in una stanza sopra una bottega di candele, da una
+            vedova che non fa domande. Il maggiordomo, alla pensione, sta ancora
+            contando la sua borsa sul banco.
+          pe: { furtivita: 3 }
+          imposta: { governante.passo: 2 }
+        fallimento:
+          titolo: Il cortile
+          testo: |
+            Sulla scala di servizio la governante inciampa nel fagotto, e il
+            rumore arriva fino all'ingresso. Fate in tempo a rientrare in camera.
+            Dalla finestra vedi l'uomo grosso fermo nel cortile della lavanderia,
+            che guarda in su e si segna la tua faccia.
+          effetti: { sospetto: 1 }
+      - testo: "Mandarli fuori strada"
+        descrizione: "Una storia semplice, raccontata al maggiordomo con molta voglia di rendersi utile."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Il carro di lana
+          testo: |
+            Dici al maggiordomo che la donna che cerca è partita ieri su un carro
+            di lana diretto a Laresh, e gli descrivi il suo cappello. Lui ti
+            ringrazia agitando il fazzoletto e ti lascia qualche moneta per il
+            disturbo. Quando le livree blu girano l'angolo, la governante scende
+            le scale per la prima volta.
+          pe: { ingannare: 3 }
+          effetti: { monete: 5 }
+          imposta: { governante.passo: 2 }
+        fallimento:
+          titolo: Il cappello
+          testo: |
+            Gli dici che la donna è partita per Laresh, e il maggiordomo ti chiede
+            di che colore aveva il cappello. Sbagli colore. Lui ti ringrazia lo
+            stesso e se ne va, ma l'uomo grosso resta in strada davanti alla
+            pensione fino a sera, e ogni tanto ti cerca alla finestra.
+          effetti: { sospetto: 1 }
+      - testo: "Venderla al maggiordomo"
+        descrizione: "La casa paga bene, e il maggiordomo non sa del registro."
+        esito:
+          titolo: La borsa sul banco
+          testo: |
+            Indichi la scala al maggiordomo, e lui ti dà la borsa senza contarla.
+            L'uomo grosso sale al secondo piano. La governante scende fra loro due
+            con il fagotto stretto al petto e non ti guarda. Nessuno chiede del
+            registro, perché lei non dice di averlo dato a te.
+          effetti: { monete: 40, tormento: 1 }
+          imposta: { governante.passo: 2, governante.venduta: 1 }
+      - testo: "Aspettare che se ne vadano"
+        costo: 0
+        esito:
+          testo: |
+            Resti sulle scale finché i due uomini escono. La governante ti sente
+            salire e non apre, e il registro verde resta nella tua borsa ancora un
+            giorno.
+
+  - id: carta-qa2-governante-registro
+    immagine: icone/archive-register
+    titolo: Il registro verde
+    sommario: "Il registro della governante dice chi entrava di notte nella casa di Via del Velo. Resta da capire perché."
+    luogo: Quartieri Alti, un tavolo d'angolo alla Locanda del Daino Zoppo
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [governante.passo == 2]
+    testo: |
+      Apri il registro verde su un tavolo del Daino Zoppo, nell'angolo dove non arriva la luce della sala. La
+      governante scriveva con una grafia piccola e ordinata. Per ogni notte ci sono l'ora e il nome di chi è entrato, con accanto una spesa.
+
+      Il nome che torna più spesso è quello di un cerusico dei Ponti che entrava dalla porta della lavanderia, sempre
+      il giovedì dopo la mezzanotte. Accanto alle sue visite ci sono liste di unguenti e di bende. C'è anche una
+      polvere di cui la governante ha scritto soltanto l'iniziale. In fondo a ogni pagina compare il nome del figlio
+      minore della casa.
+
+      {medicina Media} Quella polvere la vendono in Città Bassa a chi ha la febbre di Marea e non vuole che si veda.
+    opzioni:
+      - testo: "Capire che cosa curava il cerusico"
+        descrizione: "Le liste di acquisti, lette in ordine, raccontano una malattia a chi sa leggerle."
+        prova: { attributo: mentale, abilita: medicina, difficolta: Media }
+        successo:
+          titolo: La febbre di Marea
+          testo: |
+            Rileggi le liste in ordine. Il ragazzo ha la febbre di Marea dalla
+            primavera, e il cerusico gliela spegne ogni settimana con la polvere
+            che nasconde le vene accese. La casa non lo ha portato in Cattedrale.
+            Chi ha la Marea addosso il Velo lo tiene in Cripta, e un ragazzo di
+            quell'età non lo rivedrebbero per mesi.
+          pe: { medicina: 3 }
+          imposta: { governante.passo: 3 }
+        fallimento:
+          titolo: Le liste
+          testo: |
+            Leggi le liste fino a tardi, finché le parole ti si confondono con le
+            ore. Ti addormenti con la faccia sul registro, e l'oste ti sveglia
+            all'alba. Hai sognato tutta la notte un ragazzo con le vene che
+            brillano al buio.
+          effetti: { tormento: 0.5 }
+      - testo: "Farlo leggere a uno scrivano dei Ponti"
+        descrizione: "Gli scrivani del mercato leggono qualunque grafia, e si fanno pagare anche per dimenticarla. Di solito."
+        requisiti: [monete >= 15]
+        esito:
+          titolo: Lo scrivano
+          testo: |
+            Uno scrivano dei Ponti legge il registro in un'ora con il dito sulle
+            righe. Ti spiega che il cerusico curava il figlio minore per la
+            febbre di Marea, e che la casa lo nascondeva al Velo per non mandarlo
+            in Cripta. Poi si fa pagare e ti guarda andare via, e adesso lo sa
+            anche lui.
+          effetti: { monete: -15, sospetto: 0.5 }
+          imposta: { governante.passo: 3 }
+      - testo: "Richiuderlo per stasera"
+        costo: 0
+        esito:
+          testo: |
+            Richiudi il registro e lo rimetti nella borsa. L'oste ti chiede se
+            vuoi un'altra candela, e tu gli dici di no.
+
+  - id: carta-qa2-governante-scelta
+    immagine: icone/wax-seal
+    titolo: Chi entrava di notte
+    sommario: "Sai chi entrava di notte nella casa di Via del Velo, e perché. Adesso il registro deve andare da qualche parte."
+    luogo: Quartieri Alti, Via del Velo
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [governante.passo == 3]
+    testo: |
+      Il registro verde è nella tua borsa da giorni, e ormai sai a chi interessa. Sotto il portico del Teatro un
+      gazzettiere stampa fogli volanti e paga bene le storie delle grandi case. Questa la venderebbe in tutta la
+      città prima di sera. Il Velo vorrebbe sapere dei ragazzi con la Marea addosso che i Quartieri Alti tengono in
+      casa. La casa di Via del Velo rivuole il suo registro, e il maggiordomo ti ha fatto sapere che è disposta a
+      trattare.
+
+      {politica-ed-economia Media} Chi paga di più è la casa, e chi può fare più danno è il gazzettiere. Il Velo paga
+      meno di tutti e due, però non dimentica chi gli ha fatto un favore.
+    opzioni:
+      - testo: "Venderlo al gazzettiere"
+        descrizione: "La storia uscirà in tutti i fogli volanti del quartiere, e con lei il ragazzo."
+        esito:
+          titolo: I fogli volanti
+          testo: |
+            Il gazzettiere legge tre pagine in piedi sotto il portico e ti paga
+            senza contrattare. La mattina dopo la storia del ragazzo con le vene
+            accese è in tutte le botteghe del quartiere. A mezzogiorno due
+            accoliti del Velo bussano alla casa di Via del Velo. Il tuo nome nei
+            fogli non c'è, però al Daino Zoppo qualcuno lo dice lo stesso.
+          effetti: { monete: 200, scandalo: 1 }
+          imposta: { governante.passo: 4, governante.fine: 1 }
+      - testo: "Darlo al Velo"
+        descrizione: "In Cattedrale il registro andrebbe a Ottilia Sanvel, e il ragazzo in Cripta senza rumore."
+        esito:
+          titolo: La carrozza chiusa
+          testo: |
+            Porti il registro in Cattedrale e lo consegni a Ottilia Sanvel, che lo
+            sfoglia fino all'ultima pagina. «Il ragazzo lo prendiamo noi. La casa
+            non saprà da chi» dice. Ti fa firmare una ricevuta e ti paga dalla
+            cassa della Confraternita. Quella sera alla casa di Via del Velo
+            arriva una carrozza chiusa, e nessuno nel quartiere ne parla.
+          effetti: { monete: 200, tormento: 0.5 }
+          imposta: { governante.passo: 4, governante.fine: 2 }
+      - testo: "Riportarlo alla casa in cambio della pace per la governante"
+        descrizione: "Il maggiordomo vuole il registro. Tu vuoi che la casa si dimentichi della governante, per iscritto."
+        quando: [governante.venduta == 0]
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il patto scritto
+          testo: |
+            Il maggiordomo ti riceve nella stanza della servitù e sfoglia il
+            registro con il fazzoletto in mano. Gli chiedi che la casa dimentichi
+            la governante e che lo metta per iscritto. Lui firma e ti paga. Poi
+            brucia il registro nella stufa davanti a te. Il ragazzo resta in casa con il
+            suo cerusico del giovedì.
+          pe: { persuasione: 3 }
+          effetti: { monete: 200 }
+          imposta: { governante.passo: 4, governante.fine: 3 }
+        fallimento:
+          titolo: La porta della servitù
+          testo: |
+            Il maggiordomo ti ascolta e poi ripiega il fazzoletto. Dice che la casa
+            non firma niente per chi la ricatta, e che il registro se lo andrà a
+            prendere quando vorrà. L'uomo grosso ti accompagna fuori dalla porta
+            della servitù e ti segue fino in fondo alla via.
+          effetti: { sospetto: 1 }
+      - testo: "Riportarlo alla casa in cambio della libertà della governante"
+        descrizione: "La governante è ancora nelle mani della casa. Il registro potrebbe bastare a farla uscire."
+        quando: [governante.venduta == 1]
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il fagotto
+          testo: |
+            Il maggiordomo ti riceve nella stanza della servitù e sfoglia il
+            registro con il fazzoletto in mano. Gli chiedi di lasciar andare la
+            governante. Lui ci pensa poco e ti paga. Poi brucia il registro nella
+            stufa davanti a te. La sera stessa la vedi uscire dalla porta della
+            lavanderia con il suo fagotto, senza voltarsi.
+          pe: { persuasione: 3 }
+          effetti: { monete: 200 }
+          imposta: { governante.passo: 4, governante.fine: 3 }
+        fallimento:
+          titolo: La porta della servitù
+          testo: |
+            Il maggiordomo ti ascolta e poi ripiega il fazzoletto. Dice che la
+            governante sta dove deve stare, e che il registro se lo andrà a
+            prendere quando vorrà. L'uomo grosso ti accompagna fuori dalla porta
+            della servitù e ti segue fino in fondo alla via.
+          effetti: { sospetto: 1 }
+      - testo: "Tenerlo ancora"
+        costo: 0
+        esito:
+          testo: |
+            Rimetti il registro nella borsa. Per ora non lo vuoi dare a nessuno, e
+            nessuno sa ancora con certezza che ce l'hai tu.
+
+  # ================================================================ comuni
+  - id: carta-qa2-misura-dal-vivo
+    immagine: icone/measure-tape
+    titolo: La misura dal vivo
+    sommario: "Sulla scalinata dell'Accademia una studentessa cerca qualcuno su cui provare l'incantesimo di misura del suo esame."
+    luogo: Quartieri Alti, la scalinata dell'Accademia di Torvessa
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Sulla scalinata dell'Accademia di Torvessa una studentessa con le maniche sporche di gesso ferma tutti quelli
+      che passano. Domani ha l'esame di misura, e le serve una persona vera su cui provare l'incantesimo. Vuole sapere
+      quanto Mana porta addosso chi non è un mago. Ha un cristallo legato a un filo e un taccuino pieno di colonne di
+      numeri.
+
+      Più in alto sui gradini un ragazzo con il colletto di pizzo la guarda. Quando lei si volta, lui ti fa un cenno
+      e tocca la borsa che porta alla cintura.
+
+      {magia Facile} Il cristallo sul filo è tagliato male. Misurerà il doppio di quello che c'è, a meno che qualcuno
+      non lo tenga fermo.
+    opzioni:
+      - testo: "Prestarti alla misura"
+        descrizione: "Sederti su un gradino e lasciarle fare il suo lavoro."
+        esito:
+          titolo: Le colonne
+          testo: |
+            Ti siedi su un gradino, e lei ti fa girare il cristallo intorno alla
+            testa e poi intorno alle mani. Il filo trema. Lei scrive una colonna
+            di numeri e ricomincia da capo. Alla fine ti ringrazia con qualche
+            moneta della sua paghetta, e per il resto della giornata ti
+            formicolano le dita.
+          pe: { resilienza: 2 }
+          effetti: { monete: 3 }
+      - testo: "Tenerle fermo il cristallo"
+        descrizione: "Un filo di Mana tiene fermo un cristallo tagliato male, se sai quanto darne."
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il filo fermo
+          testo: |
+            Le chiedi il filo e tieni il cristallo fermo con un po' del tuo Mana
+            mentre lei misura. Questa volta i numeri tornano, e la studentessa li
+            ricopia in bella con la lingua fra i denti. Per ringraziarti ti regala
+            i due frammenti che ha bruciato stamattina provando da sola.
+          pe: { magia: 3 }
+          effetti: { cristalli.frammento-esausto: 2 }
+        fallimento:
+          titolo: La scossa
+          testo: |
+            Prendi il filo, e il cristallo ti scarica nelle dita tutto quello che
+            ha misurato finora. Hai il braccio intorpidito fino al gomito. La
+            studentessa si scusa tre volte, e per un'ora senti nella testa un
+            ronzio che non è tuo.
+          effetti: { tormento: 0.5 }
+      - testo: "Sabotarle l'esame per conto del ragazzo"
+        descrizione: "Il ragazzo con il pizzo vuole che domani i numeri di lei siano sbagliati. Basta girare il cristallo sul filo quando lei non guarda."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Un quarto di giro
+          testo: |
+            Le chiedi di mostrarti il taccuino, e mentre lei sfoglia giri il
+            cristallo di un quarto sul filo. Domani misurerà tutto il doppio. Il
+            ragazzo con il pizzo ti aspetta all'angolo e ti mette in mano una
+            borsa senza dire niente.
+          pe: { ingannare: 3 }
+          effetti: { monete: 12 }
+        fallimento:
+          titolo: La mano sul filo
+          testo: |
+            Allunghi la mano verso il cristallo proprio mentre lei alza gli occhi.
+            Guarda te, poi il ragazzo con il pizzo, e capisce. Grida così forte
+            che un maestro si affaccia dalla finestra del primo piano e si segna
+            la tua faccia.
+          effetti: { scandalo: 1 }
+      - testo: "Tirare dritto"
+        costo: 0
+        esito:
+          testo: |
+            Le dici che hai fretta. Lei annuisce e ferma il passante dopo di te, un
+            facchino che si lascia misurare senza posare la cassa che ha sulle
+            spalle.
+      - testo: "Fare la misura con lei"
+        descrizione: "Quel cristallo tagliato male lo conosci, perché è il modello che danno agli allievi."
+        quando: [origine.allievo-di-torvessa >= 1]
+        esito:
+          titolo: Fra allievi
+          testo: |
+            Le dici che il cristallo del magazzino misura sempre il doppio e le
+            mostri come si tiene il filo con due dita. Lei arrossisce e ringrazia.
+            Fate la misura insieme, e questa volta i numeri tornano. Per
+            sdebitarsi ti regala i due frammenti che ha bruciato stamattina
+            provando da sola.
+          pe: { magia: 3 }
+          effetti: { cristalli.frammento-esausto: 2 }
+
+  - id: carta-qa2-ritratto-sbagliato
+    immagine: icone/portrait
+    titolo: Il ritratto sbagliato
+    sommario: "Un pittore ha finito il ritratto di un nobile del quartiere, e la faccia sulla tela è la tua."
+    luogo: Quartieri Alti, la bottega di un ritrattista in Via del Velo
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [visto.carta-qa2-ritratto-sbagliato == 0]
+    testo: |
+      Dalla porta di una bottega in Via del Velo un pittore ti chiama con il pennello in mano. È un ometto con il
+      grembiule pieno di macchie, e sembra disperato. Sul cavalletto c'è il ritratto a figura intera di un nobile del
+      quartiere con il suo cane da caccia, e la faccia sul ritratto è la tua.
+
+      Il nobile non aveva tempo di posare, e il pittore ti ha visto passare per settimane sotto la finestra. Dice che
+      avevi la fronte giusta. Il quadro va consegnato domani, e il nobile darà una festa per mostrarlo.
+
+      {percezione Facile} Ti ha copiato anche il modo di piegare un po' la testa quando aspetti. Ha lavorato a
+      memoria, ed è molto bravo.
+    opzioni:
+      - testo: "Comprare il quadro"
+        descrizione: "Pagarlo perché resti tuo, e lasciare che il pittore rifaccia il nobile in una notte."
+        requisiti: [monete >= 30]
+        esito:
+          titolo: In velluto
+          testo: |
+            Paghi il pittore perché il quadro resti tuo. Lui giura che rifarà il
+            ritratto del nobile in una notte, con una faccia qualunque. Ti porti a
+            casa te stess{o|a} vestit{o|a} di velluto, e ogni volta che lo guardi
+            ti viene da ridere.
+          effetti: { monete: -30, tormento: -0.5 }
+          imposta: { visto.carta-qa2-ritratto-sbagliato: 1 }
+      - testo: "Farti pagare il silenzio"
+        descrizione: "Il nobile pagherebbe molto per sapere chi c'è sul suo ritratto. Il pittore lo sa."
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Media }
+        successo:
+          titolo: L'anticipo
+          testo: |
+            Gli fai notare che il nobile pagherebbe molto per sapere chi c'è
+            davvero sul suo ritratto. Il pittore impallidisce sotto le macchie di
+            colore. Ti paga il silenzio con i soldi dell'anticipo, e ti ringrazia
+            anche.
+          pe: { intimidire: 3 }
+          effetti: { monete: 15 }
+          imposta: { visto.carta-qa2-ritratto-sbagliato: 1 }
+        fallimento:
+          titolo: La finestra aperta
+          testo: |
+            Alzi la voce, e il pittore la alza più di te. Vi sentono dalla strada.
+            Prima di sera mezza Via del Velo sa che qualcuno ricatta i pittori, e
+            lui lo racconta a tutti quelli che gli comprano un quadro.
+          effetti: { scandalo: 1 }
+          imposta: { visto.carta-qa2-ritratto-sbagliato: 1 }
+      - testo: "Lasciarlo arrivare in salotto"
+        descrizione: "Che il nobile appenda la tua faccia nel suo salone. Qualcuno se ne accorgerà."
+        esito:
+          titolo: La somiglianza
+          testo: |
+            Lasci che il quadro vada per la sua strada. Alla festa il nobile lo
+            scopre davanti a trenta invitati, e nessuno trova il coraggio di dire
+            niente. Una settimana dopo ti fermano per strada a chiederti se sei
+            parente di quel signore. Qualcuno ti invita a cena per vedere la
+            somiglianza da vicino.
+          effetti: { scandalo: 0.5, informazioni.pettegolezzo: 1 }
+          imposta: { visto.carta-qa2-ritratto-sbagliato: 1 }
+      - testo: "Dirgli che non è affare tuo"
+        costo: 0
+        esito:
+          testo: |
+            Gli dici che la faccia ce l'hai una sola e non la presti. Il pittore
+            richiude la porta, e dalla finestra lo vedi fermo davanti alla tela
+            con il pennello sospeso.
+
+  - id: carta-qa2-reliquiario-smarrito
+    immagine: icone/holy-grail
+    titolo: Il reliquiario smarrito
+    sommario: "Un sacrestano della Cattedrale ha perso un reliquiario, e ha due giorni prima che qualcuno se ne accorga."
+    luogo: Quartieri Alti, il portico laterale della Cattedrale del Velo
+    tipo: carta
+    area: quartieri-alti
+    requisiti: [visto.carta-qa2-reliquiario-smarrito == 0]
+    testo: |
+      Sotto il portico laterale della Cattedrale del Velo un sacrestano in tonaca grigia ti prende per la manica. È
+      un uomo grasso e pallido che suda nonostante il freddo. Ieri ha portato in processione un reliquiario d'argento
+      con una foglia rossa conservata sotto il vetro. Stamattina il reliquiario non era più nella sua nicchia.
+
+      Fra due giorni c'è la funzione grande, e prima di ogni funzione grande Ottilia Sanvel controlla le nicchie. Il
+      sacrestano ti chiede aiuto perché hai la faccia di una persona che non va a raccontarlo in giro.
+
+      {accademiche Media fallita} Ti sembra di sapere di chi fosse quella foglia. Invece ti viene in mente soltanto
+      che non hai fatto colazione.
+    opzioni:
+      - testo: "Rifare la strada della processione"
+        descrizione: "Un reliquiario non sparisce da solo. Qualcuno lo ha posato da qualche parte lungo il percorso."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Fra i vasi
+          testo: |
+            Rifai la strada della processione a passo lento con gli occhi per
+            terra. Il reliquiario è nei Giardini della Linfa, incastrato fra due
+            vasi dove un accolito lo ha posato per allacciarsi un sandalo. Il
+            sacrestano piange quando lo vede. Ti dà le monete che ha in tasca, e
+            ti benedice due volte.
+          pe: { percezione: 3 }
+          effetti: { monete: 10 }
+          imposta: { visto.carta-qa2-reliquiario-smarrito: 1 }
+        fallimento:
+          titolo: Dietro un vaso
+          testo: |
+            Cerchi fino a sera fra le aiuole dei Giardini, e quando fa buio sei
+            ancora lì con le mani nella terra. Una guardia del Velo ti trova
+            accucciat{o|a} dietro un vaso. Le spieghi che cerchi una cosa, e lei
+            scrive il tuo nome sul suo taccuino.
+          effetti: { sospetto: 1 }
+          imposta: { visto.carta-qa2-reliquiario-smarrito: 1 }
+      - testo: "Fargli fare una copia"
+        descrizione: "Un argentiere dietro la Casa dei Nodi fa una copia in una notte, se lo paghi."
+        requisiti: [monete >= 25]
+        esito:
+          titolo: La foglia di carta
+          testo: |
+            L'argentiere fa una copia del reliquiario in una notte, con il vetro
+            vero e una foglia di carta dipinta. Il sacrestano la mette nella
+            nicchia con le mani che tremano. Per gratitudine ti racconta quale
+            consigliere viene a confessarsi in Cripta ogni settimana, e per che
+            cosa.
+          effetti: { monete: -25, informazioni.segreto: 1, tormento: 0.5 }
+          imposta: { visto.carta-qa2-reliquiario-smarrito: 1 }
+      - testo: "Accompagnarlo da Ottilia Sanvel"
+        descrizione: "Prima o poi lo verrà a sapere. Meglio che lo sappia da lui."
+        esito:
+          titolo: L'armadio di Ottilia
+          testo: |
+            Accompagni il sacrestano da Ottilia Sanvel, che lo ascolta senza
+            interromperlo. «Il reliquiario è nel mio armadio da ieri sera. Lo hai
+            lasciato sul gradino del coro. Domattina pulirai il coro» dice. Il
+            sacrestano esce sollevato e umiliato insieme. A te Ottilia fa un cenno
+            con la testa, che da lei è molto.
+          effetti: { tormento: -0.5 }
+          imposta: { visto.carta-qa2-reliquiario-smarrito: 1 }
+      - testo: "Dirgli che non puoi"
+        costo: 0
+        esito:
+          testo: |
+            Gli dici che non puoi aiutarlo. Il sacrestano ti lascia la manica e
+            ferma il prossimo che passa sotto il portico, con la stessa faccia.
+
+  - id: carta-qa2-debutto
+    immagine: icone/dress
+    titolo: Il debutto
+    sommario: "Al ballo delle debuttanti una ragazza di una famiglia decaduta deve fare il suo ingresso, e non ha nessuno che la accompagni."
+    luogo: Quartieri Alti, lo scalone di un palazzo in festa
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Stasera un palazzo di Via del Velo apre le finestre per il ballo delle debuttanti. In fondo allo scalone una
+      ragazza aspetta il suo turno in un vestito bianco rifatto da uno della madre. Le altre salgono al braccio di un
+      fratello o di un cugino. Lei ha soltanto la madre, che le aggiusta i guanti per la decima volta e guarda la
+      porta. La famiglia aveva un nome, e adesso ha un debito con il sarto.
+
+      Il maestro di cerimonie chiama il nome della ragazza, e nessuno si muove.
+
+      {galateo Media} Se sale da sola, domani tutto il quartiere saprà che i suoi non hanno più nessuno. Basta un
+      braccio qualsiasi, purché vestito bene.
+    opzioni:
+      - testo: "Farle da cavaliere"
+        descrizione: "Offrirle il braccio e salire lo scalone al passo giusto, davanti a tutta la sala."
+        prova: { attributo: sociale, abilita: galateo, difficolta: Media }
+        successo:
+          titolo: Lo scalone
+          testo: |
+            Le offri il braccio prima che il maestro di cerimonie ripeta il nome.
+            Salite lo scalone al passo giusto, e in cima ti inchini da una parte e
+            lei dall'altra. Al primo ballo la madre piange in un angolo. Più tardi
+            due signore ti chiedono da quale casa vieni, e tu lasci la domanda
+            senza risposta.
+          pe: { galateo: 3 }
+          effetti: { informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: L'orlo
+          testo: |
+            Le offri il braccio, e a metà scalone le pesti l'orlo del vestito. Lei
+            inciampa e si riprende da sola. In cima vi accolgono gli sguardi di
+            tutta la sala, e il primo ballo lo balla con il maestro di cerimonie,
+            per pietà.
+          effetti: { scandalo: 1 }
+      - testo: "Garantire per lei"
+        descrizione: "Dire al maestro di cerimonie che stasera la ragazza è sotto la tua protezione. Il tuo nome finirà accanto al suo."
+        esito:
+          titolo: Sotto la tua protezione
+          testo: |
+            Dici al maestro di cerimonie che stasera la ragazza è sotto la tua
+            protezione. Lui ti guarda dalla testa ai piedi e alla fine annuncia
+            il suo nome insieme al tuo. La ragazza sale con la testa alta. In
+            sala qualcuno si chiede chi sei per garantire una famiglia così. La
+            madre ti stringe le mani e ti racconta tutto quello che sa delle
+            famiglie in sala.
+          effetti: { scandalo: 0.5, tormento: -0.5, informazioni.voce: 2 }
+      - testo: "Lasciarla sola"
+        costo: 0
+        esito:
+          testo: |
+            Resti dove sei. Dopo un momento la ragazza sale lo scalone da sola,
+            con la schiena dritta e le mani strette sul vestito. In cima la
+            saluta soltanto il maestro di cerimonie, perché è il suo mestiere.
+
+  - id: carta-qa2-seggio-vacante
+    immagine: icone/vote
+    titolo: Il seggio vacante
+    sommario: "Nel consiglio della Gilda si è liberato il seggio dei vetrai, e sotto il portico della Casa dei Nodi i voti cambiano di mano."
+    luogo: Quartieri Alti, il portico della Casa dei Nodi
+    tipo: carta
+    area: quartieri-alti
+    testo: |
+      Il vecchio capo dei vetrai è morto la settimana scorsa, e il suo seggio nel consiglio della Gilda è vacante. Lo
+      votano i soci della corporazione, che sono una trentina e quasi tutti poveri.
+
+      Sotto il portico della Casa dei Nodi due candidati passano la mattina a offrire da bere. Uno è un vetraio grasso
+      con la parrucca nuova. L'altra è la vedova di un mercante di sabbia, che di vetro non sa niente e ha molte
+      borse. I voti si comprano uno alla volta, e tutti sanno quanto costa ciascuno.
+
+      {politica-ed-economia Facile} Un seggio minore conta poco da solo. Al consiglio della Gilda, però, le votazioni
+      si decidono spesso per un voto.
+    opzioni:
+      - testo: "Portare un voto al vetraio"
+        descrizione: "Una cosa detta all'orecchio giusto fa cambiare idea a un soffiatore di vetro."
+        requisiti: [informazioni.pettegolezzo >= 1]
+        esito:
+          titolo: Il soffiatore
+          testo: |
+            Sai una cosa su un soffiatore di vetro che vota per la vedova, e
+            gliela dici all'orecchio sotto il portico. Lui cambia idea in un
+            momento. Il vetraio con la parrucca ti paga il disturbo e ti promette
+            un bicchiere con il tuo nome inciso, che non arriverà mai.
+          pe: { politica-ed-economia: 2 }
+          effetti: { informazioni.pettegolezzo: -1, monete: 12 }
+      - testo: "Denunciare chi compra"
+        descrizione: "Il cancelliere della Gilda non ama le elezioni comprate. Deve credere che valga la fatica di scendere."
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Media }
+        successo:
+          titolo: Il voto rinviato
+          testo: |
+            Porti il cancelliere sotto il portico all'ora giusta, mentre la vedova
+            conta le monete nella mano di un vetraio. Il cancelliere rinvia il
+            voto di un mese e scrive i nomi dei due candidati sul suo registro.
+            Ti ringrazia con un cenno, e per una volta si ricorda della tua
+            faccia in bene.
+          pe: { persuasione: 3 }
+          effetti: { sospetto: -0.5 }
+        fallimento:
+          titolo: Senza prove
+          testo: |
+            Il cancelliere scende e sotto il portico trova soltanto due candidati
+            che offrono da bere. Ti chiede se hai prove, e non ne hai. I vetrai
+            ridono, e il vetraio con la parrucca ti offre da bere davanti a tutti
+            perché tu stia zitt{o|a}.
+          effetti: { scandalo: 1 }
+      - testo: "Vendere a tutti e due i nomi degli altri"
+        descrizione: "Lei vorrebbe sapere chi ha comprato lui, e lui chi ha comprato lei."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Media }
+        successo:
+          titolo: Due liste
+          testo: |
+            Vai dal vetraio e gli vendi i nomi di chi la vedova ha già comprato.
+            Poi vai dalla vedova e le vendi quelli del vetraio. Tutti e due ti
+            pagano e ti ringraziano. A sera i voti sono gli stessi di stamattina,
+            e costano il doppio.
+          pe: { ingannare: 3 }
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: La stessa lista
+          testo: |
+            La vedova riconosce sulla tua lista un nome che il vetraio le ha già
+            venduto stamattina, e lo dice ad alta voce. Per la prima volta i due
+            candidati sono d'accordo. Ti fanno accompagnare fuori dal portico da
+            due facchini.
+          effetti: { sospetto: 1 }
+      - testo: "Lasciare le elezioni ai vetrai"
+        costo: 0
+        esito:
+          testo: |
+            Passi sotto il portico senza fermarti. Il vetraio con la parrucca ti
+            offre da bere per abitudine. La vedova ti guarda come si guarda un
+            voto perso.

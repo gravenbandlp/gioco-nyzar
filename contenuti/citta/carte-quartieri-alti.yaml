@@ -10,6 +10,8 @@
 #   giorno-di-consiglio (galateo, furtività). Le reputazioni con una catena di storie (velo, accademia,
 #   castaldi, teatro, biblioteca) qui non salgono: le carte ripetibili danno monete, merci, PE e piccole
 #   negative; la carrozza, che si gioca una volta, dà rep.tarvelin.
+#   Le otto ripetibili hanno un'opzione Difficile in più, con posta e premio alti, per chi ha chiuso la Dama
+#   d'Argento (quando: pista.dama-argento >= 11).
 #
 # LA CATENA DI BERENGARIO LUSARDI, l'ultimo dei Lusardi del Patto (lusardi.passo):
 #   0  carta-qa-lusardi-candelabro    aiutarlo a vendere il candelabro (politica ed economia), comprarlo tu
@@ -19,7 +21,8 @@
 #   2  carta-qa-lusardi-ultima-stanza il palazzo è venduto: l'anello (oggetto.sigillo-dei-lusardi, accessorio
 #                                     +1 Galateo), il Patto alla Biblioteca (empatia: monete e un segreto; se
 #                                     fallisce l'anello), con lusardi.candelabro 1 restituire il candelabro
-#                                     (monete, anello, tormento -0.5) → passo 3, chiusa.
+#                                     (monete, anello, tormento -0.5) → passo 3, chiusa. Ogni esito che porta
+#                                     al passo 3 paga il premio della catena in monete.
 #
 # TRE CARTE DA PIÙ AVANTI:
 #   asta-dei-malgrani (pista.pelle >= 7, una volta sola), programma-della-promessa (pista.teatro >= 2),
@@ -135,6 +138,27 @@ storylet:
             di chi».
           pe: { empatia: 3 }
           effetti: { tormento: -0.5 }
+      - testo: "Raccontare a Madame la tua storia"
+        descrizione: "In città il tuo nome gira, e Madame lo vuole sentire da te. Una parola sbagliata domani la ripete Via del Velo."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: sociale, abilita: galateo, difficolta: Difficile }
+        successo:
+          titolo: La sedia accanto
+          testo: |
+            Racconti la tua storia senza il sangue e con i nomi giusti, come si
+            racconta a tavola. Madame ti fa sedere accanto a sé e non usa
+            mai l'occhialino. Dopo, ogni ospite ti prende da parte per darti
+            qualcosa in cambio, e il magistrato ti dice più di quanto dovrebbe.
+          pe: { galateo: 5 }
+          effetti: { informazioni.pettegolezzo: 3 }
+        fallimento:
+          titolo: Il nome di troppo
+          testo: |
+            A metà racconto nomini una famiglia che ha una figlia in quel salotto.
+            La dama si alza e se ne va senza salutare, e Madame fa servire il tè
+            con molta calma. Prima di sera la tua storia gira per Via del Velo
+            nella versione della dama.
+          effetti: { scandalo: 1.5 }
       - testo: "Declinare con un inchino"
         costo: 0
         esito:
@@ -213,6 +237,27 @@ storylet:
             ti scavalca senza fermarsi. Il fianco ti fa male fino a sera, ogni
             volta che ridi.
           effetti: { ferite: 0.5 }
+      - testo: "Riportare cane e guanto alla signora Isotta"
+        descrizione: "Il valletto rischia il posto. La signora paga bene chi le riporta il levriero, se sa presentarsi alla sua porta."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: sociale, abilita: galateo, difficolta: Difficile }
+        successo:
+          titolo: La porta dei Cordani
+          testo: |
+            Il levriero ti segue docile fino al palazzo dei Cordani, con il guanto
+            ancora in bocca. La signora Isotta ti riceve in un salottino e ascolta
+            la storia della scalinata senza ridere. Poi ti mette in mano una borsa
+            ricamata e ti chiede di dire al valletto che il posto è salvo.
+          pe: { galateo: 5 }
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: Le scarpe sbagliate
+          testo: |
+            La signora Isotta ti riceve sulla porta e guarda prima il guanto pieno
+            di bava, poi le tue scarpe. Licenzia il valletto davanti a te e ti
+            chiude la porta in faccia. Dal portico mezza via ha visto tutto, e il
+            levriero ti ringhia dietro fino in fondo alla strada.
+          effetti: { scandalo: 1.5 }
       - testo: "Lasciarlo correre"
         costo: 0
         esito:
@@ -306,6 +351,27 @@ storylet:
             un tono che spiega molte cose.
           pe: { accademiche: 2 }
           effetti: { informazioni.voce: 1 }
+      - testo: "Accettare la sfida del più grande"
+        descrizione: "Il ragazzo con il cognome importante scommette tre cristalli contro chiunque lo batta, e guarda te."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Tre cristalli
+          testo: |
+            Il ragazzo tira per primo, e tu sciogli il suo dardo a metà strada. Il
+            tuo gli strappa di mano il cristallo e lo fa rotolare fino al pozzo. Il
+            cerchio applaude, e lui paga la scommessa contando i cristalli uno per
+            uno, con le orecchie rosse.
+          pe: { magia: 5 }
+          effetti: { cristalli.cristallo-sterile: 3 }
+        fallimento:
+          titolo: Sotto il fico
+          testo: |
+            Il suo dardo ti arriva in pieno petto e ti stende sotto il fico, e il
+            cerchio si scioglie in un momento. Il ragazzo se ne va con le mani in
+            tasca. Tu ti rialzi con la camicia bruciata e una macchia rossa che ci
+            mette giorni a sparire.
+          effetti: { ferite: 1.5 }
       - testo: "Lasciarli fare"
         costo: 0
         esito:
@@ -385,6 +451,27 @@ storylet:
             scalinata il contadino si è ripreso da solo, e un accolito ha
             scritto il tuo nome sul registro della Confraternita.
           effetti: { scandalo: 1 }
+      - testo: "Aprirgli la strada fino all'infermeria"
+        descrizione: "La coda non si sposta per nessuno, forse nemmeno per una voce che si fa ubbidire. Dentro c'è l'infermeria del Velo."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: I vasetti avanzati
+          testo: |
+            Alzi la voce, e la coda si apre davanti a te. Porti il contadino fino
+            all'infermeria, dove Nadja Oresca gli mette in bocca un cucchiaio di
+            miele. Poi ti chiede una mano con chi aspetta, e a sera ti riempie la
+            borsa con i vasetti avanzati.
+          pe: { intimidire: 5 }
+          effetti: { unguento: 2 }
+        fallimento:
+          titolo: Due gradini più giù
+          testo: |
+            Alzi la voce, e la coda si stringe. La signora ti pianta il ventaglio
+            nelle costole e un uomo ti spinge giù di due gradini. Il contadino entra
+            in braccio a un accolito, e il tuo nome finisce sul registro della
+            Confraternita per rissa sulla scalinata.
+          effetti: { scandalo: 1, ferite: 0.5 }
       - testo: "Chiamare un accolito"
         costo: 0
         esito:
@@ -480,6 +567,28 @@ storylet:
             Zoppo vuol dire *ha perso anche lui*. Il ragazzo è sparito prima
             della fine della mano.
           effetti: { monete: -10, scandalo: 1 }
+      - testo: "Rilevare tutto il registro del mercante"
+        descrizione: "Sul registro ci sono i debiti di mezzo Daino Zoppo. Il mercante vuole tornare a Laresh, e un registro intero si compra a sconto."
+        quando: [pista.dama-argento >= 11]
+        requisiti: [monete >= 20]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: I nomi della lavagna
+          testo: |
+            Tratti sul prezzo finché il mercante si stanca, e il
+            registro passa a te. Nei giorni dopo i nomi della lavagna pagano uno
+            dopo l'altro, e quasi tutti ti chiedono di non dirlo in giro. Il
+            ragazzo dal panciotto ricamato paga per primo.
+          pe: { politica-ed-economia: 5 }
+          effetti: { monete: 25, informazioni.pettegolezzo: 1 }
+        fallimento:
+          titolo: "{Lo strozzino|La strozzina}"
+          testo: |
+            Il registro lo compri, e i nomi non pagano. Due giurano di aver già
+            saldato e uno è partito per Laresh. Il ragazzo ti dice che i debiti di
+            gioco si pagano al tavolo e non a chi li compra. Al Daino Zoppo, da
+            quel giorno, ti chiamano {lo strozzino|la strozzina}.
+          effetti: { monete: -20, scandalo: 1 }
       - testo: "Non immischiarti"
         costo: 0
         esito:
@@ -557,6 +666,29 @@ storylet:
             ragazza correre verso Via del Velo, dove passeggiano due guardie del
             Velo, e indicarti con il mento.
           effetti: { sospetto: 1 }
+      - testo: "Calarti oltre il parapetto"
+        descrizione: "Se passa il parapetto, la tovaglia si impiglia ai ferri dello scolo. La casa dello stemma paga bene chi le riporta il filo d'oro."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: Il ferro dello scolo
+          testo: |
+            La tovaglia passa il parapetto e si impiglia al ferro dello scolo, un
+            braccio più sotto. Ti cali con una corda da bucato legata in vita, che
+            sei cameriere tengono dall'alto, e la prendi al secondo tentativo. Il
+            maggiordomo della casa dello stemma arriva quando sei di nuovo sopra, e
+            ti paga senza contare.
+          pe: { atletica: 5 }
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: Contro la pietra
+          testo: |
+            La tovaglia passa il parapetto e si impiglia sotto lo scolo. A metà
+            discesa la corda da bucato scivola fra le mani delle cameriere, e tu
+            scendi di un braccio tutto in una volta contro la pietra. Ti tirano su
+            con le ginocchia aperte, e la tovaglia se ne va verso il fondo della
+            Cicatrice.
+          effetti: { ferite: 1.5 }
       - testo: "Andartene prima che ti chiedano aiuto"
         costo: 0
         esito:
@@ -713,6 +845,28 @@ storylet:
             Mentre dipinge il tuo nome in oro, l'uomo ti racconta a chi altro ha
             venduto quella stessa sorella nell'ultimo mese.
           effetti: { monete: -10, informazioni.voce: 2, tormento: -0.5 }
+      - testo: "Farti dare il quaderno dei clienti"
+        descrizione: "Alcuni dei suoi clienti siedono al Consiglio e pagherebbero perché il loro antenato restasse un segreto. Lui lo sa bene."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: sociale, abilita: intimidire, difficolta: Difficile }
+        successo:
+          titolo: Lo stesso inchiostro
+          testo: |
+            Ti siedi al suo tavolino, versi il tè per due e gli dici a bassa voce
+            quello che hai capito delle sue date. Lui ti guarda a lungo, poi fa
+            scivolare il quaderno sotto la tua tazza. Gli antenati di mezzo
+            Consiglio sono stati scritti nella stessa settimana, con lo stesso
+            inchiostro.
+          pe: { intimidire: 5 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Il lavoro di una vita
+          testo: |
+            L'uomo con la parrucca alza la voce prima di te e chiama la guardia
+            della Casa dei Nodi. Le spiega con le lacrime agli occhi che volevi
+            rubargli il lavoro di una vita. La guardia scrive il tuo nome, e il
+            mercante di tessuti si offre come testimone.
+          effetti: { sospetto: 1.5 }
       - testo: "Tirare dritto"
         costo: 0
         esito:
@@ -808,6 +962,27 @@ storylet:
             sguattera, uscendo, ti saluta per prima.
           pe: { resistenza: 2 }
           effetti: { monete: 4 }
+      - testo: "Sederti a tavola con il Consiglio"
+        descrizione: "Marella Castaldi ha sentito il tuo nome e ti vuole a cena, dalla porta principale. A quella tavola un'opinione sbagliata si paga."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: Fra un mese
+          testo: |
+            Ti siedi in fondo alla tavola, fra un consigliere sordo e uno che parla
+            troppo. Quando ti chiedono della Gilda rispondi con i conti, e Marella
+            smette di riportare il discorso sul vino. Sulla porta ti dice a bassa
+            voce che cosa voterà il Consiglio fra un mese.
+          pe: { politica-ed-economia: 5 }
+          effetti: { informazioni.segreto: 1 }
+        fallimento:
+          titolo: Le cifre vere
+          testo: |
+            Alla domanda sulla Gilda rispondi con una cosa sentita in strada, e un
+            consigliere ti corregge con le cifre vere davanti a tutti. Marella
+            sorride e riporta il discorso sul vino. Il giorno dopo mezzo Consiglio
+            sa chi ha cenato dai Castaldi senza sapere di che cosa parlava.
+          effetti: { scandalo: 1.5 }
       - testo: "Dire che hai già da fare"
         costo: 0
         esito:
@@ -1009,9 +1184,10 @@ storylet:
             nipoti, e ci batte sopra due volte con l'unghia per sentire che è
             argento vero. Ti è largo di mezzo dito. «Con questo, nei salotti, ti
             offriranno la sedia buona» dice. «Non lo vendere finché sono vivo.»
-            Poi chiude la cassetta con il Patto e se la mette sotto il braccio, e
-            Gemma spegne la lanterna dello studio.
-          effetti: { oggetto.sigillo-dei-lusardi: 1 }
+            Poi chiude la cassetta con il Patto e se la mette sotto il braccio.
+            Sulla porta Gemma ti dà una borsa pesante da parte del signore, presa
+            dal denaro della vendita del palazzo, e spegne la lanterna dello studio.
+          effetti: { oggetto.sigillo-dei-lusardi: 1, monete: 150 }
           imposta: { lusardi.passo: 3 }
       - testo: "Convincerlo a dare il Patto alla Biblioteca"
         descrizione: "In una stanza del Daino Zoppo il Patto prenderà l'umido. Alla Biblioteca lo leggerebbero, e Ulric Stanne lo pagherebbe."
@@ -1023,12 +1199,12 @@ storylet:
             si mette il monocolo e legge la firma del trisavolo ad alta voce, con
             tutti i titoli.
 
-            Stanne paga senza discutere e fa scrivere il nome dei Lusardi su un
-            cartellino. Fuori, sui gradini, Berengario divide la borsa con te e
-            insiste finché accetti. Poi ti dice sottovoce chi tiene le ipoteche di
+            Stanne paga bene e senza discutere, e fa scrivere il nome dei Lusardi
+            su un cartellino. Fuori, sui gradini, Berengario divide la borsa con te
+            e insiste finché accetti. Poi ti dice sottovoce chi tiene le ipoteche di
             mezzo quartiere, cosa che lui sa per esperienza.
           pe: { empatia: 4 }
-          effetti: { monete: 15, informazioni.segreto: 1 }
+          effetti: { monete: 150, informazioni.segreto: 1 }
           imposta: { lusardi.passo: 3 }
         fallimento:
           titolo: Finché ce n'è uno
@@ -1037,8 +1213,10 @@ storylet:
             ascolta con educazione fino in fondo. «Il Patto resta con i Lusardi
             finché ce n'è uno» dice, e chiude la cassetta. Poi, per non lasciarti
             andare a mani vuote, ti mette in mano l'anello con la carrucola, come
-            se fosse la cosa meno importante della stanza.
-          effetti: { oggetto.sigillo-dei-lusardi: 1, tormento: 0.5 }
+            se fosse la cosa meno importante della stanza. Insieme ti dà una borsa
+            pesante, la tua parte della vendita del palazzo, per tutte le volte che
+            sei venut{o|a} quando la casa era vuota.
+          effetti: { oggetto.sigillo-dei-lusardi: 1, tormento: 0.5, monete: 150 }
           imposta: { lusardi.passo: 3 }
       - testo: "Restituirgli il candelabro"
         descrizione: "La ricevuta dice *in deposito*, e il deposito finisce oggi."
@@ -1049,14 +1227,14 @@ storylet:
             Gli rimetti il candelabro sulla scrivania vuota, insieme alla
             ricevuta. Berengario guarda prima l'uno e poi l'altra, e straccia la
             ricevuta in quattro con cura. Con il denaro del palazzo ti rende il
-            prezzo e qualcosa di più, perché un deposito, dice, si paga. Gemma
+            prezzo molte volte, perché un deposito, dice, si paga. Gemma
             trova cinque mozziconi di candela in fondo a un cassetto e li accende,
             e per qualche minuto lo studio è illuminato come doveva esserlo una
             volta.
 
             Prima che tu esca, Berengario ti infila al dito l'anello con la
             carrucola.
-          effetti: { monete: 40, oggetto.sigillo-dei-lusardi: 1, tormento: -0.5 }
+          effetti: { monete: 150, oggetto.sigillo-dei-lusardi: 1, tormento: -0.5 }
           imposta: { lusardi.passo: 3, lusardi.candelabro: 0 }
       - testo: "Tornare un'altra volta"
         costo: 0

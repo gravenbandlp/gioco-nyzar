@@ -7,6 +7,8 @@
 #   galline al gabbiotto, le botti di Varn Kett, l'asta dei colli, la casa che dondola, il gabbiano, l'involto
 #   nella borsa, la lanterna che sfrigola, il cantastorie senza voce, Clelia Vennari, il posto del banco, la
 #   lenza fra le assi, la nebbia sulla campata, l'approdo delle chiatte (con chiatta.posto == 1 la via di Ilde).
+#   Le dodici ripetibili hanno un'opzione Difficile in più, con posta e premio alti, per chi ha chiuso la Dama
+#   d'Argento (quando: pista.dama-argento >= 11).
 #
 # LA CATENA DI ILDE SARROCCHI, la chiattaiola della Mula (una carta alla volta, ogni opzione porta al passo dopo)
 #   chiatta.ilde       0 non la conosci, 1..3 i passi fatti, 4 finita.
@@ -17,6 +19,7 @@
 #     carta-ilde-l-ultima-traversata 3 → 4 la lettera della Gilda. Convincerla (successo) o fare il nome di Bracco a Varn
 #                                          Kett (chiatta.colpevole == 1) la fanno restare: chiatta.fine 1 e chiatta.posto 1.
 #                                          Altrimenti vende (chiatta.fine 2) e ti dà la tua parte.
+#                                          Ogni esito che chiude paga il premio della catena in monete.
 #   chiatta.posto, la ricompensa che resta: un posto sulla Mula. Apre l'opzione migliore dell'approdo delle chiatte.
 #
 # LE CARTE CHE ARRIVANO DOPO
@@ -138,6 +141,26 @@ storylet:
             notte dalle parti di Laresh, carichi di grano che nessun mulino ha
             macinato.
           effetti: { informazioni.voce: 1, tormento: -0.5 }
+      - testo: "Rifare i conti a tutta la fila"
+        descrizione: "Un tariffario applicato male alle galline lo è anche al resto della fila. Chi lo dimostra al capoturno si fa pagare da tutti."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: La fila paga te
+          testo: |
+            Leggi il tariffario dalla prima riga all'ultima e chiami il capoturno.
+            Gli mostri tre voci applicate al contrario da chissà quanto, e lui rifà i
+            conti a tutta la fila con la faccia scura. Chi riceve indietro qualcosa
+            ne lascia una parte a te, e la ragazza delle galline ti regala un uovo.
+          effetti: { monete: 12, informazioni.voce: 1 }
+        fallimento:
+          titolo: La circolare
+          testo: |
+            Il capoturno ti ascolta fino in fondo, poi tira fuori una circolare della
+            Gilda che dà ragione al tariffario su ogni voce. La fila ti volta le
+            spalle, e il tuo nome finisce sulla tavoletta sotto *intralcio*,
+            sottolineato due volte.
+          effetti: { scandalo: 1.5 }
 
   - id: carta-ponti-il-conto-delle-botti
     immagine: personaggi/varn-kett
@@ -216,6 +239,26 @@ storylet:
             accompagna fino alla passerella. Strada facendo ti racconta che i Fosco
             pagano la Gilda con l'olio annacquato da tre generazioni.
           effetti: { rep.gilda: 0.5, informazioni.pettegolezzo: 1 }
+      - testo: "Rifare a Varn il conto della stagione"
+        descrizione: "Se il signor Fosco nasconde una fila oggi, l'ha nascosta anche i mesi scorsi. Le bolle sono nel registro di Varn, e vanno lette tutte."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Difficile }
+        successo:
+          titolo: Tre mesi di botti
+          testo: |
+            Passi la sera al banco di Varn con le bolle di tre mesi aperte davanti.
+            Alla fine la fila nascosta compare ogni settimana, sempre della stessa
+            lunghezza. Varn chiude il registro con un colpo secco e ti paga come un
+            contabile della Gilda.
+          effetti: { monete: 12, rep.gilda: 0.5 }
+        fallimento:
+          titolo: Le bolle storte
+          testo: |
+            Ti perdi fra bolle scritte in tre grafie diverse, e a mezzanotte hai un
+            numero che non torna con niente. Varn lo legge e non lo scrive. Il
+            giorno dopo il signor Fosco racconta al Mercato che la Gilda paga dei
+            dilettanti per contargli le botti.
+          effetti: { scandalo: 1.5, rep.gilda: -0.5 }
 
   - id: carta-ponti-i-colli-senza-padrone
     immagine: icone/cargo-crate
@@ -292,6 +335,27 @@ storylet:
             Parlano di affari andati male e di un debito di gioco, e in una c'è il
             nome di un Custode che chiudeva un occhio a pagamento.
           effetti: { monete: -1, informazioni.voce: 2 }
+      - testo: "Puntare sul lotto grosso"
+        descrizione: "Una cassa con i sigilli rossi della Casa dei Nodi, che i rigattieri si contendono. Costa cara e vale di più, se è quella giusta."
+        quando: [pista.dama-argento >= 11]
+        requisiti: [monete >= 15]
+        prova: { attributo: mentale, abilita: [politica-ed-economia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il feltro
+          testo: |
+            I sigilli sono autentici e la cucitura non è mai stata aperta. Rilanci
+            finché l'ultimo rigattiere abbassa la mano. Nella cassa trovi un
+            cristallo carico avvolto nel feltro e due frammenti di metallo inciso,
+            con la bolla di un compratore che non è mai arrivato.
+          effetti: { monete: -15, cristalli.cristallo-carico: 1, reliquie.frammento-inciso: 2 }
+        fallimento:
+          titolo: Mattoni
+          testo: |
+            Rilanci finché l'ultimo rigattiere abbassa la mano, con un sorriso che
+            dopo ti torna in mente. I sigilli sono buoni e la cassa no. Dentro ci
+            sono mattoni avvolti nel feltro, e mezzo Mercato dei Nodi lo sa prima
+            di sera.
+          effetti: { monete: -15, scandalo: 1 }
 
   - id: carta-ponti-la-casa-che-dondola
     immagine: ambientazione/ponti-sospesi
@@ -384,6 +448,27 @@ storylet:
             ponteggiatori arrivano a cose fatte e chiedono chi è il responsabile,
             e dieci dita indicano te.
           effetti: { scandalo: 1 }
+      - testo: "Rifare l'angolo come un ponteggiatore"
+        descrizione: "La corda e il nodo da sol{o|a}, con il vento di traverso. La Gilda paga i ponteggiatori a giornata, e oggi la giornata è tua."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: La giornata dei ponteggiatori
+          testo: |
+            Leghi la corda nuova all'angolo con il nodo dei ponteggiatori, poi rifai
+            anche le altre due, che erano marce. La casa smette di battere contro la
+            trave. Quando arrivano i ponteggiatori della Gilda non resta niente da
+            fare, e il capomastro ti paga la loro giornata. Il vecchio aggiunge il
+            suo vasetto d'unguento.
+          effetti: { monete: 20, unguento: 1 }
+        fallimento:
+          titolo: La trave marcia
+          testo: |
+            Sull'angolo la trave è più marcia di quanto sembrasse. Si spezza sotto
+            il tuo piede, e resti appes{o|a} alla corda nuova sopra il vuoto finché
+            i vicini non ti tirano su. Hai le mani aperte e una caviglia gonfia, e
+            la casa dondola ancora.
+          effetti: { ferite: 1.5 }
 
   - id: carta-ponti-il-ladro-con-le-ali
     immagine: icone/seagull
@@ -473,6 +558,27 @@ storylet:
             siede sulla cesta e ride fino alle lacrime, perché a quel punto c'è
             soltanto da ridere.
           effetti: { scandalo: 0.5 }
+      - testo: "Scendere al nido sotto le assi"
+        descrizione: "Il gabbiano porta tutto in un nido fra le travi, sotto la piattaforma. Da sotto ci si arriva, con le mani buone."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Il nido fra le travi
+          testo: |
+            Ti cali fra le travi sotto la piattaforma, con il vento della Cicatrice
+            che ti tira gli stivali. Il nido è grande come una cesta e pieno di cose
+            lucide. La borsa della venditrice sta sopra tutto, e sotto ci sono
+            monete forestiere e un pezzo di metallo inciso. Lei ti lascia tenere
+            quello che non è suo.
+          effetti: { monete: 8, reliquie.frammento-inciso: 1 }
+        fallimento:
+          titolo: Le reti
+          testo: |
+            A metà strada il gabbiano ti trova e ti becca le dita finché molli la
+            presa. Le reti dei sottoponti fermano la caduta e ti lasciano graffi
+            dappertutto. Per risalire ci metti un'ora, e la venditrice ha smesso di
+            aspettarti.
+          effetti: { ferite: 1.5 }
 
   - id: carta-ponti-un-peso-in-piu
     immagine: icone/swap-bag
@@ -556,6 +662,26 @@ storylet:
             borsa con un coltellino. Quando ti giri il ragazzo è già giù per la
             scala a pioli con l'involto, e a te resta un graffio lungo sulla mano.
           effetti: { monete: 1, ferite: 0.5 }
+      - testo: "Prendere l'uomo con la mela"
+        descrizione: "È appoggiato al parapetto oltre il gabbiotto. Con l'involto in una mano e lui nell'altra, i Custodi pagano la taglia sui cristalli senza timbro."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: fisico, abilita: rissa, difficolta: Difficile }
+        successo:
+          titolo: La taglia
+          testo: |
+            Passi il gabbiotto con l'involto e arrivi alle sue spalle mentre finisce
+            la mela. Prova a scavalcare il parapetto, e tu lo tiri giù per il
+            cappuccio. Lo porti al gabbiotto con un braccio piegato dietro la
+            schiena, e il Custode ti paga la taglia contando due volte.
+          effetti: { monete: 12, rep.gilda: 0.5 }
+        fallimento:
+          titolo: La scala a pioli
+          testo: |
+            Arrivi alle sue spalle, e lui ti pianta un gomito nelle costole e
+            sparisce giù per una scala a pioli. Quando ti rialzi hai addosso il cane
+            dei Custodi e in mano l'involto. Passi il pomeriggio nel gabbiotto, e il
+            tuo nome resta sul registro.
+          effetti: { sospetto: 1.5, ferite: 0.5 }
 
   - id: carta-ponti-la-lanterna-che-sfrigola
     immagine: icone/old-lantern
@@ -638,6 +764,26 @@ storylet:
             lui, mentre firma, ti indica come quello che ha salvato la
             piattaforma.
           effetti: { cristalli.frammento-esausto: 1, rep.gilda: 0.5 }
+      - testo: "Mettere in pari tutta la campata"
+        descrizione: "Le lanterne della campata stanno sullo stesso cavo, e fra poco sfrigoleranno tutte. Il lampionaio ti darebbe i cristalli di una stagione."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Una luce ferma
+          testo: |
+            Segui il Mana lungo il cavo da una lanterna all'altra e le calmi a una a
+            una, finché tutta la campata fa una luce bianca e ferma. Il lampionaio
+            apre la cassetta degli attrezzi e ti lascia scegliere fra i cristalli
+            che la Gilda gli ha dato per l'inverno.
+          effetti: { cristalli.cristallo-sterile: 3 }
+        fallimento:
+          titolo: Cento vetri
+          testo: |
+            Alla terza lanterna il Mana ti torna indietro lungo il cavo tutto in una
+            volta. Le scintille ti piovono addosso, e per un'ora nella testa hai il
+            ronzio di cento vetri. Le lanterne si calmano da sole, una dopo l'altra,
+            mentre tu sei ancora sedut{o|a} sulle assi.
+          effetti: { tormento: 1, ferite: 1 }
 
   - id: carta-ponti-il-cantastorie-senza-voce
     immagine: icone/scroll-unfurled
@@ -722,6 +868,26 @@ storylet:
             Raccoglie il telone e se ne va dallo slargo con il cappello vuoto sotto
             il braccio, e ti saluta lo stesso, con la mano.
           effetti: { tormento: 0.5 }
+      - testo: "Raccontare la tua storia più grande"
+        descrizione: "Sui Ponti hanno sentito parlare di te. Raccontata bene, la tua storia riempie lo slargo fino alla campana."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: Fino alla campana
+          testo: |
+            Racconti senza bacchetta e senza telone, e lo slargo si riempie fino al
+            palo della campana. I facchini restano in piedi fino alla fine. Nel
+            cappello piovono tante monete che Bastiano deve svuotarlo due volte, e
+            poi divide l'incasso con te a metà esatta.
+          effetti: { monete: 15 }
+        fallimento:
+          titolo: La versione del facchino
+          testo: |
+            A metà storia ti accorgi che la gente la conosce meglio di te, in una
+            versione più bella. Un facchino ti corregge ad alta voce, e lo slargo
+            ride con lui. Bastiano ti riprende la bacchetta, e per una settimana sui
+            Ponti si ripete la correzione del facchino.
+          effetti: { scandalo: 1.5 }
 
   - id: carta-ponti-clelia-vennari
     immagine: icone/wax-seal
@@ -909,6 +1075,26 @@ storylet:
             tardi, mentre ripiega il foglio, ti spiega quali famiglie hanno ancora
             le quote delle funi, e ti sembra che parlarne gli faccia bene.
           effetti: { informazioni.pettegolezzo: 1 }
+      - testo: "Fare da arbitro davanti al capo dei Custodi"
+        descrizione: "Il capo dei Custodi accetta un arbitro quando le due parti lo pagano. Bisogna convincere lui e loro."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: sociale, abilita: persuasione, difficolta: Difficile }
+        successo:
+          titolo: Mattina e pomeriggio
+          testo: |
+            Porti i due banchi davanti al capo dei Custodi e parli per tutti e due.
+            Il vecchio avrà il posto la mattina e la ragazza il pomeriggio, e il capo
+            lo scrive sul registro. Tutti e due ti pagano la parte dell'arbitro, e
+            la ragazza ci aggiunge una striscia di stoffa tinta.
+          effetti: { monete: 12, rep.gilda: 0.5 }
+        fallimento:
+          titolo: Il terzo banco
+          testo: |
+            Davanti al capo dei Custodi parli troppo a lungo. Il vecchio ti accusa di
+            stare con la ragazza perché è giovane, e lei ti accusa di stare con lui.
+            Il capo assegna il posto a un terzo banco e ti scrive sul registro come
+            parte in causa.
+          effetti: { scandalo: 1.5 }
 
   - id: carta-ponti-la-lenza-fra-le-assi
     immagine: icone/fishing-hook
@@ -986,6 +1172,26 @@ storylet:
             di bende pulite e un biglietto scritto a carbone, con il nome di un
             Custode che di notte si addormenta e l'ora in cui succede.
           effetti: { monete: -1, bende: 1, informazioni.voce: 1 }
+      - testo: "Scendere a prendere il cesto del pescatore"
+        descrizione: "Il pescato della mattina sta in un cesto ai piedi di chi tiene la canna. Ci si arriva senza farsi sentire, se le passerelle reggono."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Il cesto
+          testo: |
+            Scendi la scala a pioli e segui il filo fra le passerelle senza far
+            scricchiolare una tavola. Il pescatore è chino sulla fessura e non si
+            volta. Il cesto è pieno di borse altrui. Quelle con un nome le porti al
+            gabbiotto, e il resto lo tieni.
+          effetti: { monete: 10 }
+        fallimento:
+          titolo: A faccia in giù
+          testo: |
+            A metà passerella una tavola cede sotto il tuo piede, e finisci a faccia
+            in giù nella rete dei sottoponti. Il pescatore ti guarda dall'alto e
+            ride. Per tirarti fuori ti servono un'ora e due ragazzini, che poi lo
+            raccontano a tutto il ponte.
+          effetti: { ferite: 1, scandalo: 0.5 }
 
   - id: carta-ponti-la-nebbia-sulla-campata
     immagine: ambientazione/cicatrice-del-mondo
@@ -1068,6 +1274,26 @@ storylet:
             senza nessuna fretta. I Custodi sono di ottimo umore e ti aprono la
             porta del gabbiotto con un inchino.
           effetti: { monete: -2, scandalo: 0.5 }
+      - testo: "Guidare i carri fermi dall'altra parte"
+        descrizione: "Al gabbiotto aspettano tre carrettieri che non si fidano della nebbia. Pagano bene chi cammina davanti ai cavalli fino in fondo."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Davanti ai cavalli
+          testo: |
+            Cammini davanti al primo cavallo con una lanterna alzata, e le voci del
+            fondo ti chiamano per tutta la campata. Tu non ti fermi e non rispondi.
+            Dall'altra parte i carrettieri ti pagano uno dopo l'altro, e il più
+            vecchio ti dà anche una scheggia trovata fra le ruote.
+          effetti: { monete: 10, reliquie.scheggia: 1 }
+        fallimento:
+          titolo: I cavalli fermi
+          testo: |
+            A metà campata una voce ti chiama e ti fermi, e i cavalli si fermano con
+            te. Quando la nebbia si dirada sei sedut{o|a} sulle assi davanti al
+            primo carro, e i carrettieri ti guardano senza dire niente. Quella notte
+            le voci tornano a cercarti.
+          effetti: { tormento: 2 }
 
   - id: carta-ponti-l-approdo-delle-chiatte
     immagine: icone/pulley-hook
@@ -1147,6 +1373,26 @@ storylet:
             che sono più di quelle del Mercato. A fine giornata divide la paga a
             metà.
           effetti: { monete: 4, informazioni.pettegolezzo: 1 }
+      - testo: "Fare la guardia al carico di lyssan"
+        descrizione: "Sulla chiatta grande viaggia il lyssan grezzo, e a metà cavo qualcuno ne fa sempre sparire un po'. Bracco paga bene chi scopre come."
+        quando: [pista.dama-argento >= 11]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Difficile }
+        successo:
+          titolo: Il cesto sotto le tavole
+          testo: |
+            Ti siedi sulle casse e guardi le mani di tutti invece del vuoto. A metà
+            cavo vedi il chiattaiolo di prua far scivolare un sacchetto in un cesto
+            appeso sotto le tavole. All'approdo Bracco lo fa scendere con un calcio
+            e ti paga contando le monete due volte.
+          effetti: { monete: 12 }
+        fallimento:
+          titolo: La cassa che manca
+          testo: |
+            Guardi le mani di tutti per l'intera traversata e non vedi niente.
+            All'arrivo manca una cassa intera. Bracco ti fa svuotare le tasche
+            davanti all'approdo, e poi ti tiene d'occhio finché non sei sparit{o|a}
+            oltre i carri.
+          effetti: { sospetto: 1.5 }
 
   # ================================================================ la catena di Ilde Sarrocchi
   - id: carta-ilde-la-mula
@@ -1455,8 +1701,10 @@ storylet:
             andare sopra il vuoto, e i pezzi scendono girando, bianchi, finché
             la nebbia non se li prende. «Allora il posto a
             bordo è tuo, soci{o|a}» dice. «Quando vuoi, la prima traversata la fai
-            con me.» Fischia, e la Mula riparte verso le luci.
-          effetti: { monete: 3, chiatta.ilde: 1, chiatta.fine: 1, chiatta.posto: 1 }
+            con me.» Fischia, e la Mula riparte verso le luci. Sull'approdo tira
+            fuori da sotto la panca il sacchetto che teneva per il cavo nuovo e
+            te lo mette in mano, perché il cavo adesso lo pagherà la fune.
+          effetti: { monete: 200, chiatta.ilde: 1, chiatta.fine: 1, chiatta.posto: 1 }
         fallimento:
           titolo: La firma
           testo: |
@@ -1465,9 +1713,9 @@ storylet:
             spiega che le ginocchia la mattina non si piegano più e che il cavo
             nuovo l'ha pagato con i risparmi di tre anni. Firma la lettera sulla
             sponda, con il mozzicone di matita. Una settimana dopo ti manda un
-            ragazzo con un sacchetto e un biglietto storto, dentro c'è la tua
-            parte di socio.
-          effetti: { monete: 4, chiatta.ilde: 1, chiatta.fine: 2, tormento: 0.5 }
+            ragazzo con un sacchetto pesante e un biglietto storto. Dentro c'è la
+            tua parte della vendita, da socio.
+          effetti: { monete: 200, chiatta.ilde: 1, chiatta.fine: 2, tormento: 0.5 }
       - testo: "Scrivere a Varn Kett il nome di Ugo Bracco"
         descrizione: "Quello che hai scoperto sulla fune segata, scritto per bene. Varn Kett non ha mai sbagliato una riga."
         quando: [chiatta.colpevole == 1]
@@ -1476,10 +1724,11 @@ storylet:
           testo: |
             Varn Kett risponde dopo tre giorni con poche righe. La Casa dei Nodi
             ritira l'offerta, il privilegio di fune resta a Ilde Sarrocchi, e il
-            signor Bracco pagherà una multa per ogni metro di cavo segato. Ilde
-            legge la lettera due volte, poi ti dice che sulla Mula, da adesso, un
-            posto è tuo.
-          effetti: { rep.gilda: 1, informazioni.pettegolezzo: 1, chiatta.ilde: 1, chiatta.fine: 1, chiatta.posto: 1 }
+            signor Bracco pagherà una multa per ogni metro di cavo segato. A chi
+            denuncia un cavo segato la Gilda gira una parte della multa, e Varn
+            Kett ti manda la tua in una borsa sigillata. Ilde legge la lettera due
+            volte, poi ti dice che sulla Mula, da adesso, un posto è tuo.
+          effetti: { monete: 200, rep.gilda: 1, informazioni.pettegolezzo: 1, chiatta.ilde: 1, chiatta.fine: 1, chiatta.posto: 1 }
       - testo: "Aiutarla a vendere al prezzo giusto"
         descrizione: "Se deve vendere, che venda bene. Una somma scritta in una lettera si può sempre ritoccare."
         prova: { attributo: mentale, abilita: politica-ed-economia, difficolta: Media }
@@ -1491,20 +1740,20 @@ storylet:
             l'approdo tutto per sé. Scrivete la risposta insieme, con i conti in
             colonna.
 
-            La Casa dei Nodi alza l'offerta. Ilde firma, e ti dà la tua parte in
-            una borsa di cuoio con le sue iniziali, e per una volta senza
-            liquirizia in bocca.
-          effetti: { monete: 10, rep.gilda: 0.5, chiatta.ilde: 1, chiatta.fine: 2 }
+            La Casa dei Nodi alza l'offerta. Ilde firma e ti dà la tua parte in
+            una borsa di cuoio con le sue iniziali, pesante come un mattone. Per
+            una volta non ha la liquirizia in bocca.
+          effetti: { monete: 200, rep.gilda: 0.5, chiatta.ilde: 1, chiatta.fine: 2 }
         fallimento:
           titolo: L'offerta ferma
           testo: |
             Scrivete una risposta con i conti in colonna, e la Casa dei Nodi la
             rimanda indietro con una riga sola, che l'offerta è quella. Ilde
             firma lo stesso, perché la luna nuova arriva, e preme sulla carta
-            fino a romperne quasi la punta. Ti dà la tua parte senza
-            fartela pesare. L'ultima volta che la vedi sull'approdo sta
+            fino a romperne quasi la punta. Della vendita ti dà la tua parte di
+            socio senza fartela pesare. L'ultima volta che la vedi sull'approdo sta
             insegnando al ragazzo dell'argano a bestemmiare per bene.
-          effetti: { monete: 5, chiatta.ilde: 1, chiatta.fine: 2, tormento: 0.5 }
+          effetti: { monete: 200, chiatta.ilde: 1, chiatta.fine: 2, tormento: 0.5 }
 
   # ================================================================ le carte che arrivano dopo
   - id: carta-ponti-il-turno-di-notte

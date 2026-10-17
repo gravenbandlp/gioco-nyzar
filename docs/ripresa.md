@@ -42,8 +42,9 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   la fonte in `src/dati/fonti-tavole.json` (la pagina Crediti la mostra). Il doppiaggio è stato tolto il 4 ottobre 2026.
 - La risorsa delle azioni si chiama **rintocchi** (fino al 2 ottobre 2026 erano candele, troppo legate a Fallen
   London): nell'interfaccia è una campana. Nella prosa le candele restano oggetti veri, mai la risorsa.
-- **Rintocchi**: 40 al massimo, ne torna uno ogni 10 minuti e basta. Niente ricariche a fine storia o alle tappe, niente
-  pulsante di prova: è una scelta di Luca (3 ottobre 2026), non reintrodurle.
+- **Rintocchi**: 40 al massimo, ne torna uno ogni 10 minuti. Niente ricariche a fine storia o alle tappe, niente
+  pulsante di prova: è una scelta di Luca (3 ottobre 2026), non reintrodurle. L'unica eccezione, decisa da Luca il
+  17 ottobre 2026, sono le carte di ristoro del mazzo (effetto `rintocchi`, vedi "Il mazzo delle occasioni").
 - **Origini**: le opzioni legate all'origine stanno in fondo alla scena con `quando: [origine.<id> >= 1]` e portano allo
   stesso stato della via normale che sostituiscono (stessi avanzamenti, flag, `vai`/`segue`).
 - **Frammenti del Codex** (colonna destra): in `contenuti/frammenti.yaml` e in `contenuti/codex/` (uno per quartiere,
@@ -65,6 +66,19 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
   è fallita; una scena che resta aperta si riprende con «Prosegui», un'azione ripetibile con «Di nuovo».
 - Le varianti di stato del mondo sulle opzioni usano `quando` (l'opzione non compare) o requisiti su piste e flag
   (il motore le nasconde se chiuse); i requisiti su monete, merci, abilità e reputazione mostrano l'opzione chiusa.
+
+## Il mazzo delle occasioni (17 ottobre 2026)
+Proposta approvata da Luca: 81 carte nuove, i premi finali delle catene e cinque cambi al motore.
+- `rarita` sulle carte (comune, insolita, rara): pesi 3, 2, 1 nella pesca (`PESI_RARITA` in `src/motore/regole.ts`).
+- `inevitabile: true`: appena pescata la carta si apre da sola (`crisiAttiva`, dopo prologo e crisi), non si scarta, non
+  ha «Non ora» e tutte le sue opzioni costano 0 rintocchi. Dopo un'inevitabile ne passano `TREGUA_INEVITABILI` pescate
+  prima della successiva (quality `tregua.inevitabili`). Ogni agguato chiede la sua negativa principale sotto 6.
+- Effetto `rintocchi`, col tetto: solo per le carte di ristoro, che ne danno il netto più uno (l'opzione costa 1).
+- Tesori: un oggetto magico nuovo dietro una prova Difficile (città) o Molto difficile (Superficie). In città il grado
+  +1 chiede `pista.dama-argento >= 6` e il +2 `pista.capomozzo >= 10`, sulla Superficie `pista.arena >= 5`.
+- Mini-Cronache: catene di carte con `<catena>.passo` e `<catena>.fine`, raccolte in `contenuti/cronache.yaml`. Ogni
+  chiusura paga 50 lyssan a passo in città e 70 in Superficie (`test/occasioni-cronache.test.ts`).
+- File: `contenuti/citta/occasioni-*.yaml`, `contenuti/superficie/occasioni-*.yaml`. Test: `test/occasioni.test.ts`.
 
 ## Lo Zekar (5 ottobre 2026)
 Il gioco di carte del Grifone di Ferro, aperto con `rep.grifone >= 2`. Regole e IA in `src/motore/zekar.ts` (le scelte

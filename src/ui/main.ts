@@ -472,11 +472,14 @@ function azione(az: string, el: HTMLElement): void {
       break;
     }
     case 'pesca': {
-      if (!pesca(s, c, ora)) avviso = 'Non ci sono occasioni da pescare adesso.';
+      const pescata = pesca(s, c, ora);
+      if (!pescata) avviso = 'Non ci sono occasioni da pescare adesso.';
+      // una carta inevitabile si apre subito, come una crisi
+      if (pescata && c.storylet.find((z) => z.id === pescata)?.inevitabile) { cambia({ tipo: 'area' }); break; }
       salva(); render();
       break;
     }
-    case 'scarta': scarta(s, id); salva(); render(); break;
+    case 'scarta': if (!c.storylet.find((z) => z.id === id)?.inevitabile) { scarta(s, id); salva(); render(); } break;
     case 'vai': {
       if (muovi(s, id, c)) { frammentoId = null; luogo = undefined; cambia({ tipo: 'area' }); }
       else { avviso = puoEntrare(s, id, c).motivo ?? 'Non puoi andarci.'; render(); }

@@ -76,7 +76,7 @@ export function luoghiQui(s: Stato, c: TContenuti): TLuogo[] {
 export function luogoAperto(x: Pick<Contesto, 's' | 'c' | 'luogo'>): TLuogo | undefined {
   return x.luogo ? luoghiQui(x.s, x.c).find((l) => l.id === x.luogo) : undefined;
 }
-const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia singola');
+const tipoStorylet = (st: TStorylet) => (st.tipo === 'crisi' ? 'Crisi' : st.inevitabile ? 'Agguato' : st.tipo === 'prologo' ? 'Prologo' : st.tipo === 'carta' ? 'Occasione' : st.ripetibile ? 'Ripetibile' : 'Storia singola');
 const NOMI_GENERE: Record<Genere, string> = { principale: 'Storia principale', fazione: 'Fazione', luogo: 'Storia del luogo', avventura: 'Avventura', addestramento: 'Addestramento' };
 
 // ================================================================ impianto
@@ -447,7 +447,7 @@ function occasioni(x: Contesto): string {
         ${tavola(st.immagine, { classe: 'ritratto' })}
         <span class="titolo-carta">${h(st.titolo)}</span>
       </button>
-      <button type="button" class="scarta" data-az="scarta" data-id="${st.id}" aria-label="Scarta ${h(st.titolo)}" title="Scarta">×</button>
+      ${st.inevitabile ? '' : `<button type="button" class="scarta" data-az="scarta" data-id="${st.id}" aria-label="Scarta ${h(st.titolo)}" title="Scarta">×</button>`}
     </li>`;
   }).join('');
   return `<section class="occasioni" aria-label="Occasioni">
@@ -730,7 +730,7 @@ function vistaStorylet(x: Contesto, id: string): string {
     </header>
     <ul class="rami">${rami}</ul>
     ${st.mostra && visibili.length === 0 ? `<div class="azioni-fondo"><button type="button" class="bottone primario" data-az="fine-mutazioni">Prosegui</button></div>` : ''}
-    ${st.tipo === 'crisi' || st.tipo === 'seguito' || st.tipo === 'prologo' ? '' : '<button type="button" class="bottone indietro" data-az="area">← Non ora</button>'}
+    ${st.tipo === 'crisi' || st.tipo === 'seguito' || st.tipo === 'prologo' || st.inevitabile ? '' : '<button type="button" class="bottone indietro" data-az="area">← Non ora</button>'}
   </article>`;
 }
 
