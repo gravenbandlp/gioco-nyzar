@@ -16,7 +16,7 @@ npm install
 npm run dev        # gioca in locale su http://localhost:5173
 npm test           # valida i contenuti e prova il motore
 npm run simula     # tabella di vittoria: origini × scontri
-npm run build      # dist/index.html (un solo file) più dist/tavole/
+npm run build      # dist/: index.html leggero, codice e contenuti a pezzi in assets/, tavole e audio
 ```
 
 ## Tavole
