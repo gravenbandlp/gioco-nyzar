@@ -64,7 +64,7 @@ export function montaIngresso(l: Lettore, opzioni: Opzioni): Soglia {
   const nota = (modo: ModoSoglia): string => modo === 'entra'
     ? 'Musica e ambienti: meglio con le cuffie.'
     : `Si gioca con un account Google: lì si salva il personaggio, e lo ritrovi da qualunque dispositivo.
-       <a href="https://gioco-nyzar.pages.dev/privacy" target="_blank" rel="noopener">Privacy</a>`;
+       <a href="https://ludus.nyzar.net/privacy" target="_blank" rel="noopener">Privacy</a>`;
 
   const mostra = (modo: ModoSoglia, messaggio?: string) => {
     if (!soglia.isConnected) {

@@ -6,7 +6,8 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
-- Gioco pubblicato: https://gioco-nyzar.pages.dev (Cloudflare Pages, salvataggi negli account Google su Supabase).
+- Gioco pubblicato: https://ludus.nyzar.net (Worker Cloudflare, salvataggi negli account Google su Supabase). Il
+  vecchio https://gioco-nyzar.pages.dev resta aggiornato finché i giocatori non sono passati.
   L'Artifact su claude.ai (https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR) è fermo dal 6 ottobre e non si aggiorna.
 - Canone del mondo: il Codex online (codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
@@ -22,11 +23,11 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 - `npm run stile`: controlla le regole di `docs/stile-dei-testi.md` (deve dare 0 segnalazioni).
 - `npx vitest run`: test (188 al 2 ottobre).
 - `npm run build`: contenuti + tsc + build in `dist/index.html` (file unico).
-- `npm run pubblica:pages`: build e pubblicazione su Cloudflare Pages (`docs/locale.md`).
+- `npm run pubblica`: build e pubblicazione sul Worker e su Pages (`docs/locale.md`).
 
 ## Pubblicare
-`npm run pubblica:pages` da questa macchina: build e caricamento di `dist/` sul progetto Pages `gioco-nyzar`
-(`docs/locale.md`, sezione 4). Prima i controlli (`npm run contenuti`, `npm run stile`, `npx vitest run`), il commit
+`npm run pubblica` da questa macchina: build e caricamento di `dist/` sul Worker `gioco-nyzar` (ludus.nyzar.net) e
+sul progetto Pages `gioco-nyzar` (`docs/locale.md`, sezione 4). Prima i controlli (`npm run contenuti`, `npm run stile`, `npx vitest run`), il commit
 e il push su `main`.
 
 Per provare il gioco in un browser: `scripts/strumenti/servi.py` (server dentro lo stesso processo di Playwright);

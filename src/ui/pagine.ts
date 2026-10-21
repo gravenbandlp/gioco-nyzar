@@ -247,7 +247,7 @@ function termini(): string {
   rispettivi autori, elencati nei crediti, e sono usati secondo le loro licenze.</p>
   <p>Sul sito si gioca entrando con Google: il gioco conserva nome, email e salvataggio, solo per farti ritrovare il
   personaggio. I dettagli sono nella
-  ${a('https://gioco-nyzar.pages.dev/privacy', 'pagina sulla privacy')}. Non usa cookie di profilazione e non
+  ${a('https://ludus.nyzar.net/privacy', 'pagina sulla privacy')}. Non usa cookie di profilazione e non
   contiene pubblicità.</p>`;
 }
 

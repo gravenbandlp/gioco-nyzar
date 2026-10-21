@@ -53,15 +53,25 @@ e regia in `../doppiaggio-archivio`, il codice nella storia git.
 
 Si pubblica solo sul sito. L'Artifact su claude.ai, usato fino all'inizio di ottobre 2026, non si aggiorna più.
 
-**Sito su Cloudflare Pages, con il login Google.** Chiunque abbia il link può giocare e salvare nel proprio
+**Sito su https://ludus.nyzar.net, con il login Google.** Chiunque abbia il link può giocare e salvare nel proprio
 account Google. Serve una volta sola la configurazione qui sotto, poi:
 
 ```sh
-npm run pubblica:pages
+npm run pubblica
 ```
 
-che fa il build e carica `dist/` sul progetto Pages `gioco-nyzar` (la prima volta `npx wrangler login` ti chiede di
-entrare in Cloudflare). L'audio non è in git, quindi si pubblica da questa macchina, dove `public/audio/` c'è.
+che fa il build e carica `dist/` in due posti: sul Worker `gioco-nyzar` (`wrangler.jsonc`, solo file statici), che
+risponde su `ludus.nyzar.net`, e sul vecchio progetto Pages `gioco-nyzar`, che resta su `gioco-nyzar.pages.dev` finché
+tutti i giocatori non sono passati al dominio nuovo. `npm run pubblica:workers` e `npm run pubblica:pages` caricano
+uno solo dei due. La prima volta `npx wrangler login` ti chiede di entrare in Cloudflare. L'audio non è in git, quindi
+si pubblica da questa macchina, dove `public/audio/` c'è.
+
+Il 21 ottobre 2026 il gioco su pages.dev non partiva più: i pezzi dei contenuti si piantavano a metà. Da casa i siti
+sul piano free di Cloudflare (pages.dev, workers.dev e anche ludus.nyzar.net) arrivano da Zurigo o Monaco, mentre i
+servizi di Cloudflare stessa arrivano da Milano, e la strada verso Zurigo perde colpi quando Milano è carica. Si vede
+con `curl https://ludus.nyzar.net/cdn-cgi/trace` (riga `colo=`). Il dominio e il Worker non lo risolvono: lo assorbe
+`src/dati/scarica.ts`, che riscarica un pezzo fermo da 10 secondi. Se non basta, le strade sono il piano Pro sulla
+zona `nyzar.net` o i file statici fuori da Cloudflare.
 
 ## 5. Il login Google con Supabase
 
@@ -90,8 +100,8 @@ Il codice è già nel gioco (`src/ui/salvataggi.ts`, prove in `test/salvataggi.t
 6. **Prova in locale.** `npm run dev`, apri il gioco, pagina **Salvataggio** dal piè di pagina: c'è **Entra con
    Google**. Dopo il login la stessa pagina dice con che account sei entrato, e in Supabase, *Table Editor →
    salvataggi*, compare la tua riga dopo la prima mossa.
-7. **Online.** Su Cloudflare, nel progetto Pages, non servono variabili: il build si fa qui con `.env.local` e
-   `npm run pubblica:pages` carica il risultato.
+7. **Online.** Su Cloudflare, nel Worker e nel progetto Pages, non servono variabili: il build si fa qui con
+   `.env.local` e `npm run pubblica` carica il risultato.
 
 Il gioco usa il flusso di login implicito di Supabase senza librerie esterne: il pulsante porta a Google, il ritorno
 arriva con i gettoni nel frammento dell'indirizzo, il gioco li conserva nel browser e li rinnova da solo. Se un giorno
@@ -108,10 +118,19 @@ si vuole il flusso PKCE, si cambia `archivioGoogle` in `src/ui/salvataggi.ts`.
 
 ## 7. Com'è configurato (3 ottobre 2026)
 
-- Sito: https://gioco-nyzar.pages.dev, progetto Pages `gioco-nyzar` (creato con `wrangler pages project create --force`:
-  wrangler 4.147 manda i progetti nuovi sui Workers, il `--force` è servito solo la prima volta).
+- Sito: https://ludus.nyzar.net dal 21 ottobre 2026, Worker `gioco-nyzar` (`wrangler.jsonc`, anche su
+  https://gioco-nyzar.gravenbandlp.workers.dev). Il dominio `nyzar.net` è registrato su Cloudflare, nello stesso
+  account, e terrà anche `codex.` ed `editor.`.
+- Il sito di prima, https://gioco-nyzar.pages.dev, progetto Pages `gioco-nyzar` (creato con
+  `wrangler pages project create --force`: wrangler 4.147 manda i progetti nuovi sui Workers, il `--force` è servito
+  solo la prima volta). Resta aggiornato finché i giocatori non sono passati al dominio nuovo.
 - Supabase: progetto `gioco-nyzar` (ref `yvfxpusdtlutalqdigyz`, Irlanda), tabella `salvataggi` da `supabase/schema.sql`,
-  provider Google attivo, Site URL il sito, Redirect URLs il sito e `http://localhost:5173/`.
+  provider Google attivo, Site URL `https://gioco-nyzar.pages.dev`, Redirect URLs `https://ludus.nyzar.net/`,
+  `https://gioco-nyzar.pages.dev/` e `http://localhost:5173/`. Il Site URL serve solo se manca l'indirizzo di ritorno,
+  che il gioco passa sempre.
 - Google Cloud: progetto `gioco-nyzar`, client web «gioco-nyzar web», app OAuth pubblicata (in produzione, senza logo
-  per non far scattare la verifica). Privacy e termini: https://gioco-nyzar.pages.dev/privacy (`public/privacy.html`).
+  per non far scattare la verifica). Privacy e termini nel branding Google: https://gioco-nyzar.pages.dev/privacy
+  (`public/privacy.html`, la stessa pagina che il gioco linka su https://ludus.nyzar.net/privacy). Il ritorno da Google
+  va a Supabase, quindi il dominio nuovo non ha richiesto modifiche a Google. Se un giorno si spegne pages.dev, prima
+  va cambiato quel link nel branding.
 - Su Windows i comandi `!` di Claude Code passano per bash: percorsi con le barre dritte (`/c/Users/...`).

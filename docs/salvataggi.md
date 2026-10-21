@@ -2,7 +2,7 @@
 
 Dal 7 ottobre 2026 c'è un solo salvataggio: il personaggio sta nell'account Google di chi gioca, una riga per account
 nella tabella `salvataggi` di Supabase (personaggio in jsonb, colonna `dati`). Si gioca solo sul sito,
-https://gioco-nyzar.pages.dev, e solo dopo essere entrati con Google. Nel browser non resta nessuna copia del
+https://ludus.nyzar.net (o il vecchio https://gioco-nyzar.pages.dev), e solo dopo essere entrati con Google. Nel browser non resta nessuna copia del
 personaggio: solo i gettoni del login (`gioco-nyzar/sessione`). Niente Artifact di claude.ai, niente file da scaricare
 o caricare. Codice: `src/ui/salvataggi.ts`, test: `test/salvataggi.test.ts`.
 

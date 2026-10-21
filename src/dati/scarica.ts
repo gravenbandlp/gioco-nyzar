@@ -3,17 +3,28 @@
 // rallenta il caricamento invece di fermarlo.
 import type { TContenuti } from '../motore/contenuto';
 
-const ATTESA_MS = 15_000; // oltre, il pezzo si dà per perso e si riscarica
+const SILENZIO_MS = 10_000; // senza un byte per tanto, il pezzo si dà per perso e si riscarica
 const TENTATIVI = 5;
 
 async function scaricaPezzo(url: string): Promise<Record<string, unknown>> {
   for (let tentativo = 1; ; tentativo++) {
     const ferma = new AbortController();
-    const timer = setTimeout(() => ferma.abort(), ATTESA_MS * tentativo);
+    let timer = setTimeout(() => ferma.abort(), SILENZIO_MS);
+    const ancoraVivo = () => { clearTimeout(timer); timer = setTimeout(() => ferma.abort(), SILENZIO_MS); };
     try {
-      const risposta = await fetch(url, { signal: ferma.signal });
-      if (!risposta.ok) throw new Error(`${url}: ${risposta.status}`);
-      return await risposta.json() as Record<string, unknown>;
+      const risposta = await fetch(url, { signal: ferma.signal, cache: tentativo > 1 ? 'reload' : 'default' });
+      if (!risposta.ok || !risposta.body) throw new Error(`${url}: ${risposta.status}`);
+      // Il corpo si legge a blocchi: un pezzo lento ma che arriva non si interrompe.
+      const lettore = risposta.body.getReader();
+      const decodifica = new TextDecoder();
+      let testo = '';
+      for (;;) {
+        ancoraVivo();
+        const { done, value } = await lettore.read();
+        if (done) break;
+        testo += decodifica.decode(value, { stream: true });
+      }
+      return JSON.parse(testo + decodifica.decode()) as Record<string, unknown>;
     } catch (errore) {
       if (tentativo >= TENTATIVI) throw errore;
     } finally {
