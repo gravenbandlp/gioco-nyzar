@@ -2,7 +2,7 @@
 
 Dal 7 ottobre 2026 c'è un solo salvataggio: il personaggio sta nell'account Google di chi gioca, una riga per account
 nella tabella `salvataggi` di Supabase (personaggio in jsonb, colonna `dati`). Si gioca solo sul sito,
-https://ludus.nyzar.net (o il vecchio https://gioco-nyzar.pages.dev), e solo dopo essere entrati con Google. Nel browser non resta nessuna copia del
+https://ludus.nyzar.net, e solo dopo essere entrati con Google. Nel browser non resta nessuna copia del
 personaggio: solo i gettoni del login (`gioco-nyzar/sessione`). Niente Artifact di claude.ai, niente file da scaricare
 o caricare. Codice: `src/ui/salvataggi.ts`, test: `test/salvataggi.test.ts`.
 
@@ -34,7 +34,7 @@ propria riga.
 
 ## L'accesso Google
 
-Serve il sito su Cloudflare Pages e il progetto Supabase gratuito, con `VITE_SUPABASE_URL` e `VITE_SUPABASE_CHIAVE`
+Serve il sito su Cloudflare (il Worker di `wrangler.jsonc`) e il progetto Supabase gratuito, con `VITE_SUPABASE_URL` e `VITE_SUPABASE_CHIAVE`
 nel build (in `.env.local`, vedi `.env.example`). I passi, dalla tabella (`supabase/schema.sql`) al client OAuth e alla
 pubblicazione, sono in `docs/locale.md`, sezioni 5 e 6.
 
