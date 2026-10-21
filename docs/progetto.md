@@ -137,7 +137,7 @@ piena a circa un mese e una settimana per chi gioca una volta al giorno.
 - [x] Importare musica e ambienti (`npm run audio`) e le voci già registrate (`npm run voci`). Mancano i 4 esiti di `prologo-figlio-della-citta-bassa`, registrati ma senza file.
 - [x] Portare le spunte del copione dall'Artifact al locale («Scarica le spunte» → «Carica spunte»).
 - [x] Pubblicato su Cloudflare Pages: https://gioco-nyzar.pages.dev (3 ottobre 2026), con login Google. L'Artifact resta.
-- [x] Spostato su https://ludus.nyzar.net, Worker con i soli file statici (21 ottobre 2026). pages.dev rimanda lì.
+- [x] Spostato su https://ludus.nyzar.net, Worker con i soli file statici (21 ottobre 2026). Il progetto Pages è cancellato.
 
 ### Salvataggio e pubblicazione
 - [x] Creare il progetto Supabase, il client OAuth Google e accendere il login (`docs/locale.md`, sezione Google).

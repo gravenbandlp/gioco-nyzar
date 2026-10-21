@@ -64,15 +64,12 @@ che fa il build e carica `dist/` sul Worker `gioco-nyzar` (`wrangler.jsonc`, sol
 `ludus.nyzar.net`. La prima volta `npx wrangler login` ti chiede di entrare in Cloudflare. L'audio non è in git, quindi
 si pubblica da questa macchina, dove `public/audio/` c'è.
 
-Il vecchio progetto Pages `gioco-nyzar` contiene solo `rinvio-pages/`: `gioco-nyzar.pages.dev` rimanda a
-`ludus.nyzar.net` con lo stesso percorso. Si ricarica con `npm run rinvio:pages`, e non serve rifarlo a ogni
-pubblicazione.
-
 Il 21 ottobre 2026 il gioco su pages.dev non partiva più: i pezzi dei contenuti e le tavole si piantavano a metà.
 Succedeva a tutto quello che stava sul piano free di Cloudflare (pages.dev, workers.dev, anche ludus.nyzar.net),
 mentre i servizi di Cloudflare stessa andavano. Il dominio e il Worker da soli non hanno cambiato niente. L'ha risolto
-il piano Pro sulla zona `nyzar.net`, che vale per tutti i suoi sottodomini. `src/dati/scarica.ts` riscarica comunque un
-pezzo fermo da 10 secondi.
+il piano Pro sulla zona `nyzar.net`, che vale per tutti i suoi sottodomini. Anche col Pro, Pages sul dominio proprio
+restava lento (pagine del Codex in quasi 8 secondi, il verbale dell'editor oltre i 30), i Worker no: per questo gioco,
+Codex ed editor sono tutti Worker. `src/dati/scarica.ts` riscarica comunque un pezzo fermo da 10 secondi.
 
 ## 5. Il login Google con Supabase
 
@@ -122,9 +119,8 @@ si vuole il flusso PKCE, si cambia `archivioGoogle` in `src/ui/salvataggi.ts`.
 - Sito: https://ludus.nyzar.net dal 21 ottobre 2026, Worker `gioco-nyzar` (`wrangler.jsonc`, anche su
   https://gioco-nyzar.gravenbandlp.workers.dev). Il dominio `nyzar.net` è registrato su Cloudflare, nello stesso
   account, sul piano Pro, e terrà anche `codex.` ed `editor.`.
-- Il sito di prima, https://gioco-nyzar.pages.dev, progetto Pages `gioco-nyzar` (creato con
-  `wrangler pages project create --force`: wrangler 4.147 manda i progetti nuovi sui Workers, il `--force` è servito
-  solo la prima volta). Dal 21 ottobre 2026 rimanda a ludus.nyzar.net (`rinvio-pages/`).
+- Il sito di prima, https://gioco-nyzar.pages.dev, è stato cancellato il 21 ottobre 2026 insieme ai progetti Pages
+  del Codex e dell'editor: i vecchi indirizzi pages.dev non rispondono più.
 - Supabase: progetto `gioco-nyzar` (ref `yvfxpusdtlutalqdigyz`, Irlanda), tabella `salvataggi` da `supabase/schema.sql`,
   provider Google attivo, Site URL `https://ludus.nyzar.net`, Redirect URLs `https://ludus.nyzar.net/` e
   `http://localhost:5173/`. Il Site URL serve solo se manca l'indirizzo di ritorno, che il gioco passa sempre.

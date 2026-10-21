@@ -6,8 +6,7 @@ storico delle chat precedenti. Aggiornato il 2 ottobre 2026. Il quadro generale 
 
 ## Dove sta cosa
 - Codice e contenuti: questo repository (github.com/gravenbandlp/gioco-nyzar, ramo `main`).
-- Gioco pubblicato: https://ludus.nyzar.net (Worker Cloudflare, salvataggi negli account Google su Supabase). Il
-  vecchio https://gioco-nyzar.pages.dev rimanda lì.
+- Gioco pubblicato: https://ludus.nyzar.net (Worker Cloudflare, salvataggi negli account Google su Supabase).
   L'Artifact su claude.ai (https://claude.ai/artifact/My9PgxUPzocV6rBKTJNGrR) è fermo dal 6 ottobre e non si aggiorna.
 - Canone del mondo: il Codex online (codex.nyzar.net, prima codex-nyzar.pages.dev), repository github.com/gravenbandlp/codex-nyzar.
   **Non pubblicare mai il ramo `rinomina-nomi` del Codex**: il Codex online è quello che i giocatori usano da un anno.
