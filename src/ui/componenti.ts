@@ -279,5 +279,5 @@ export function spiegaOggetto(id: string, c: TContenuti): { voci: string[]; dife
 export function descriviArma(id: string, c: TContenuti) { return descriviOggetto(id, c); }
 export function descriviArmatura(id: string, c: TContenuti) { return descriviOggetto(id, c); }
 
-/** Il rombo del Codex, usato come marchio. */
-export const ROMBO = `<svg class="rombo" viewBox="0 0 32 32" aria-hidden="true"><rect x="6" y="6" width="20" height="20" transform="rotate(45 16 16)" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="12" y="12" width="8" height="8" transform="rotate(45 16 16)" fill="currentColor"/></svg>`;
+/** Il marchio comune a gioco, Codex e Scriptorium: il reticolo della Rete Cristallina (anche in public/favicon.svg). */
+export const ROMBO = `<svg class="rombo" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M16 1.3 20.7 6 16 10.7 11.3 6Z M26 11.3 30.7 16 26 20.7 21.3 16Z M16 21.3 20.7 26 16 30.7 11.3 26Z M6 11.3 10.7 16 6 20.7 1.3 16Z" style="stroke: var(--precursore)" stroke-width="1.3"/><g fill="currentColor"><path d="M16 11 21 16 16 21 11 16Z"/><circle cx="16" cy="11" r="1.1"/><circle cx="21" cy="16" r="1.1"/><circle cx="16" cy="21" r="1.1"/><circle cx="11" cy="16" r="1.1"/></g></svg>`;
