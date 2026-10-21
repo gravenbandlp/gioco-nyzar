@@ -128,7 +128,8 @@ si vuole il flusso PKCE, si cambia `archivioGoogle` in `src/ui/salvataggi.ts`.
 - Supabase: progetto `gioco-nyzar` (ref `yvfxpusdtlutalqdigyz`, Irlanda), tabella `salvataggi` da `supabase/schema.sql`,
   provider Google attivo, Site URL `https://ludus.nyzar.net`, Redirect URLs `https://ludus.nyzar.net/` e
   `http://localhost:5173/`. Il Site URL serve solo se manca l'indirizzo di ritorno, che il gioco passa sempre.
-- Google Cloud: progetto `gioco-nyzar`, client web «gioco-nyzar web», app OAuth pubblicata (in produzione, senza logo
+- Google Cloud: progetto `gioco-nyzar`, client web «gioco-nyzar web» (origini `http://localhost:5173` e
+  `https://ludus.nyzar.net`, reindirizzamento al callback di Supabase), app OAuth pubblicata (in produzione, senza logo
   per non far scattare la verifica). Nel branding, dal 21 ottobre 2026: home https://ludus.nyzar.net, privacy e
   termini https://ludus.nyzar.net/privacy (`public/privacy.html`), domini autorizzati `nyzar.net` e quello di
   Supabase. Il ritorno da Google va a Supabase, quindi il login non dipende dal
