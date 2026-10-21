@@ -222,7 +222,7 @@ function termini(): string {
   <header><span class="etichetta velo">Termini</span><h2>Da dove nasce il gioco</h2></header>
   <p>Ny'Zar è un'ambientazione techno-fantasy per giochi di ruolo da tavolo, nata e cresciuta al tavolo con un gruppo di
   amici. Da quasi un anno la giochiamo nella cronaca <em>Il Peccato degli Uomini</em>, e tutto quello che è emerso nelle
-  sessioni è raccolto nel ${a('https://codex-nyzar.pages.dev', 'Codex di Ny\'Zar')}.</p>
+  sessioni è raccolto nel ${a('https://codex.nyzar.net','Codex di Ny\'Zar')}.</p>
   <p>Questo gioco porta la città di Qir-Azel e il primo capitolo della cronaca in una forma diversa: un racconto a scelte che
   si gioca da soli, nel browser, pochi rintocchi alla volta. Rispetto alla cronaca alcuni nomi sono cambiati e la storia si
   apre a un protagonista nuovo, che non è nessuno dei personaggi del nostro tavolo.</p>
