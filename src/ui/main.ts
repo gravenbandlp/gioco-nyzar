@@ -139,7 +139,7 @@ function carica(s: Partial<Salvataggio>): void {
   if (s.stato?.versione === 1 && c.aree.some((a) => a.id === s.stato!.area)) {
     stato = s.stato;
     stato.repertorio ??= [];
-    migraOggetti(stato);
+    migraOggetti(stato, c);
     limitaScorte(stato, c);
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';

@@ -295,5 +295,5 @@ export function figura(aspetto: Aspetto, d: Dotazione, c: TContenuti): Figura {
 /** La figura del personaggio in gioco, con quello che indossa e i segni della Marea. */
 export function figuraDi(s: Stato, c: TContenuti, aspetto?: Aspetto): Figura {
   const segni = mutazioniDi(s, c).map((m) => SEGNI[m.id]).filter((x): x is Segno => !!x);
-  return figura(aspetto ?? aspettoValido(s.aspetto) ?? aspettoPredefinito(s.nome), { arma: s.arma, armatura: s.armatura, scudo: s.scudo, accessori: s.accessori ?? [], segni }, c);
+  return figura(aspetto ?? aspettoValido(s.aspetto) ?? aspettoPredefinito(s.nome), { arma: s.arma, armatura: s.armatura, scudo: s.scudo, accessori: [...(s.accessori ?? []), ...(s.animale ? [s.animale] : [])], segni }, c);
 }

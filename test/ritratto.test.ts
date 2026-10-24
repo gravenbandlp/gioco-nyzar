@@ -21,9 +21,10 @@ describe('ritratto', () => {
     for (const id of Object.keys(UNICI)) expect(c.oggetti.some((o) => o.id === id), `${id} non è un oggetto del gioco`).toBe(true);
   });
 
-  it('ogni accessorio ha un aspetto', () => {
-    for (const o of c.oggetti.filter((x) => x.slot === 'accessorio')) expect(ACCESSORI[o.id], `${o.id} non ha un aspetto`).toBeDefined();
-    for (const id of Object.keys(ACCESSORI)) expect(c.oggetti.some((o) => o.id === id && o.slot === 'accessorio'), `${id} non è un accessorio`).toBe(true);
+  it('ogni accessorio e ogni animale ha un aspetto', () => {
+    const accessorio = (slot: string) => slot === 'accessorio' || slot === 'animale';
+    for (const o of c.oggetti.filter((x) => accessorio(x.slot))) expect(ACCESSORI[o.id], `${o.id} non ha un aspetto`).toBeDefined();
+    for (const id of Object.keys(ACCESSORI)) expect(c.oggetti.some((o) => o.id === id && accessorio(o.slot)), `${id} non è un accessorio né un animale`).toBe(true);
   });
 
   it('ogni oggetto indossato si vede sul ritratto', () => {

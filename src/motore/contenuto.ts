@@ -260,7 +260,7 @@ export const Oggetto = z
     nome: z.string(),
     descrizione: z.string().optional(),
     immagine: Immagine.optional(),
-    slot: z.enum(['arma', 'armatura', 'scudo', 'accessorio', 'nessuno']),
+    slot: z.enum(['arma', 'armatura', 'scudo', 'accessorio', 'animale', 'nessuno']),
     base: Id.optional(), // arma, armatura o scudo di base
     grado: z.number().int().min(0).max(5).default(0),
     dadi: z.number().int().min(0).max(5).default(0), // in attacco (armi) o in difesa (armature e scudi)
@@ -272,7 +272,8 @@ export const Oggetto = z
   })
   .superRefine((o, ctx) => {
     if (['arma', 'armatura', 'scudo'].includes(o.slot) && !o.base) ctx.addIssue({ code: 'custom', message: `un oggetto nello slot ${o.slot} richiede una base` });
-    if (o.slot === 'accessorio' && (o.dadi > 0 || o.grado > 4)) ctx.addIssue({ code: 'custom', message: 'gli accessori arrivano a +4 e non danno dadi' });
+    if (['accessorio', 'animale'].includes(o.slot) && (o.dadi > 0 || o.grado > 4)) ctx.addIssue({ code: 'custom', message: 'accessori e animali arrivano a +4 e non danno dadi' });
+    if (o.slot === 'animale' && o.prezzo !== undefined) ctx.addIssue({ code: 'custom', message: 'gli animali non si vendono: niente prezzo' });
     const p = o.proprieta;
     let punti = o.dadi + Object.values(p.talento).reduce((a, b) => a + b, 0);
     for (const [k, costo] of Object.entries(COSTI_PROPRIETA)) {
@@ -294,8 +295,8 @@ export const Negozio = z.object({
   // fra le voci aperte, e la voce migliore ancora chiusa si mostra come suggerimento.
   compra: z.array(VoceNegozio).default([]), // il negozio compra dal giocatore
   vende: z.array(VoceNegozio).default([]), // il giocatore compra
-  // oggetti magici che la bottega compra (vociCompra): armi, armature e scudi, accessori, cavalcature
-  reliquie: z.array(z.enum(['arma', 'armatura', 'scudo', 'accessorio', 'cavalcatura'])).default([]),
+  // oggetti magici che la bottega compra (vociCompra): armi, armature e scudi, accessori. Gli animali no.
+  reliquie: z.array(z.enum(['arma', 'armatura', 'scudo', 'accessorio'])).default([]),
 });
 
 export const Origine = z.object({

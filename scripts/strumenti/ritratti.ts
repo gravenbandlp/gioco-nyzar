@@ -1,11 +1,11 @@
 // Tavole di prova del ritratto: ogni oggetto indossabile del gioco su un personaggio di prova, in PNG.
-// npx tsx scripts/strumenti/ritratti.ts <cartella> [armi|armature|scudi|accessori|pose|bestie|teste] [scala]
+// npx tsx scripts/strumenti/ritratti.ts <cartella> [armi|armature|scudi|accessori|pose|bestie|teste|capelli] [scala]
 // CORPO=femminile disegna la figura femminile; con «una» le variabili ARMI, ARMATURA, SCUDO e ACCESSORI.
 import { deflateSync } from 'node:zlib';
 import { writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { CONTENUTI as c } from '../../src/dati/contenuti';
-import { disegna, type Aspetto } from '../../src/ui/ritratto/motore';
+import { disegna, TAGLI, BARBE, type Aspetto } from '../../src/ui/ritratto/motore';
 import { figura, type Dotazione } from '../../src/ui/ritratto/aspetti';
 
 const [cartella = '.', quali = 'tutti', scalaArg = '3'] = process.argv.slice(2);
@@ -27,8 +27,8 @@ function png(w: number, h: number, rgb: Buffer): Buffer {
   return Buffer.concat([Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]), pezzo('IHDR', ih), pezzo('IDAT', deflateSync(raw)), pezzo('IEND', Buffer.alloc(0))]);
 }
 
-function tavola(nome: string, dotazioni: Dotazione[], colonne: number): void {
-  const rs = dotazioni.map((d) => disegna(figura(ASPETTO, d, c)));
+function tavola(nome: string, dotazioni: Dotazione[], colonne: number, aspetti?: Aspetto[]): void {
+  const rs = dotazioni.map((d, k) => disegna(figura(aspetti?.[k] ?? ASPETTO, d, c)));
   const cw = (Math.min(rx1, 83) - rx0 + 1) * S + 6, ch = (ry1 - ry0 + 1) * S + 6;
   const righe = Math.ceil(rs.length / colonne), w = colonne * cw, h = righe * ch;
   const img = Buffer.alloc(w * h * 3);
@@ -64,3 +64,11 @@ if (quali === 'una') {
 if (quali === 'bestie') tavola('bestie', ['cavallo-da-guerra', 'ombrafosca', 'laresh-puledra-grigia', 'circolo-lupa-brina', 'circolo-braska'].map((id) => ({ ...NUDO, accessori: [id] })), 3);
 if (quali === 'teste') tavola('teste', ['circolo-cappuccio-di-nebbia', 'scuri-cappuccio-degli-scuri', 'velo-velo-grigio', 'maschera-della-forza', 'maschera-della-rottura', 'maschera-della-distorsione', 'maschera-della-natura', 'tuarmir-maschera-d-erbe', 'ghoran-filo-di-rame', 'avv-sogno-serpente-penna-della-guardiana', 'campana-conchiglia-sorda', 'velo-simbolo-in-platino', 'gilda-catena-del-terzo-piano', 'cristalli-anti-marea', 'fonte-di-energia', 'caserma-distintivo-del-capitano'].map((id) => ({ ...NUDO, armatura: 'nessuna', accessori: [id] })), 8);
 if (fai('accessori')) { const l = og('accessorio'); for (let i = 0; i < l.length; i += 20) tavola(`accessori-${i / 20 + 1}`, l.slice(i, i + 20).map((o) => ({ ...NUDO, armatura: 'nessuna', accessori: [o.id] })), 5); }
+// i tagli di capelli e le barbe, con i due corpi
+if (quali === 'capelli') {
+  const asp: Aspetto[] = [
+    ...TAGLI.map((capelli, k): Aspetto => ({ pelle: ['chiara', 'olivastra', 'ambrata', 'scura', 'pallida'][k]!, capelli, coloreCapelli: ['castano', 'nero', 'rame', 'cenere', 'grigio'][k]!, barba: BARBE[k]!, coloreBarba: ['castano', 'nero', 'rame', 'cenere', 'grigio'][k]! })),
+    ...TAGLI.map((capelli, k): Aspetto => ({ corpo: 'femminile', pelle: ['pallida', 'scura', 'chiara', 'olivastra', 'ambrata'][k]!, capelli, coloreCapelli: ['rosso', 'nero', 'castano', 'bianco', 'cenere'][k]!, barba: 'nessuna', coloreBarba: 'castano' })),
+  ];
+  tavola('capelli', asp.map(() => ({ ...NUDO, armatura: 'nessuna' })), 5, asp);
+}

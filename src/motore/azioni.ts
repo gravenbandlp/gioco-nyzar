@@ -330,9 +330,6 @@ export function negozioAperto(s: Stato, n: TNegozio, c: TContenuti): boolean {
   return compra.length > 0 || listino(s, n.vende, c, 'vende').length > 0;
 }
 
-/** Il genere di un oggetto per le botteghe che comprano oggetti magici: le cavalcature sono accessori a parte. */
-const genereMagico = (o: TOggetto) => (o.proprieta.chiave.includes('cavalcatura') ? 'cavalcatura' : o.slot);
-
 /**
  * Valore di un oggetto magico: il prezzo scritto, oppure 700 per grado (più il prezzo della base per armi, armature e
  * scudi), meno 150 per difetto, più 100 se apre opzioni nelle storie (una chiave).
@@ -357,17 +354,18 @@ export function vociCompra(n: TNegozio, c: TContenuti): TVoceNegozio[] {
     return [{ ...v, prezzo }];
   });
   const magici = c.oggetti
-    .filter((o) => o.grado > 0 && !legata(o) && n.reliquie.includes(genereMagico(o) as (typeof n.reliquie)[number]))
+    .filter((o) => o.grado > 0 && !legata(o) && n.reliquie.includes(o.slot as (typeof n.reliquie)[number]))
     .map((o) => ({ quality: `oggetto.${o.id}`, prezzo: Math.floor(valoreMagico(o, c) / 2) }));
   return [...n.compra, ...usato, ...magici];
 }
 
-/** Quanti pezzi di una merce si possono vendere: degli oggetti non conta quello indossato, e i legati non si vendono. */
+/** Quanti pezzi di una merce si possono vendere: degli oggetti non conta quello indossato, e legati e animali non si vendono. */
 export function vendibili(s: Stato, quality: string, c: TContenuti): number {
   const hai = Math.floor(s.quality[quality] ?? 0);
   if (!quality.startsWith('oggetto.')) return hai;
   const id = quality.slice(8);
-  if ((oggetto(c, id)?.difetti as string[] | undefined)?.includes('legata')) return 0;
+  const o = oggetto(c, id);
+  if ((o?.difetti as string[] | undefined)?.includes('legata') || o?.slot === 'animale') return 0;
   return Math.max(0, hai - (indossato(s, id) ? 1 : 0));
 }
 

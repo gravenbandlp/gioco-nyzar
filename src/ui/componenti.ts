@@ -258,7 +258,7 @@ export function spiegaOggetto(id: string, c: TContenuti): { voci: string[]; dife
   const og = c.oggetti.find((o) => o.id === id);
   if (!og) return { voci: [], difetti: [] };
   const voci: string[] = [];
-  const slot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio', nessuno: 'Oggetto' };
+  const slot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio', animale: 'Animale', nessuno: 'Oggetto' };
   const arma = og.slot === 'arma' ? c.armi.find((a) => a.id === og.base) : undefined;
   const armatura = og.slot === 'armatura' ? c.armature.find((a) => a.id === og.base) : undefined;
   const scudo = og.slot === 'scudo' ? c.scudi.find((a) => a.id === og.base) : undefined;

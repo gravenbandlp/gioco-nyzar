@@ -213,6 +213,17 @@ Ogni personaggio ha un ritratto in pixel art, disegnato tutto da codice (nessuna
 - `npx tsx scripts/strumenti/ritratti.ts <cartella> [armi|armature|scudi|accessori|pose|bestie|teste|una] [scala]` fa
   le tavole di prova in PNG; `RITAGLIO=x0,x1,y0,y1` guarda da vicino una parte della figura, `CORPO=femminile` usa la
   figura femminile, e `una` disegna le figure di `ARMI=spadone:cotta-di-maglia,arco-lungo` (con SCUDO e ACCESSORI).
+  `capelli` mette a confronto i tagli e le barbe sui due corpi.
+- Il 24 ottobre 2026 Luca ha approvato questa versione:
+  - asce, bipenni, martelli e mazze ridisegnati con il filo chiaro (`filo`), l'occhio e il tallone o il becco;
+  - lance, bastoni e la falce della Chiusa con la punta dalla riga 2, che resta nella tela;
+  - le armi che la posa ribalta prendono la luce dall'alto (`capo`);
+  - asce, mazze e roncole in guardia stanno dritte (`TESTE`);
+  - cavalli con la groppa tonda, lupa e puma ingranditi intorno alle zampe (`bestia`, `K` e `AX`);
+  - nella fase dei colori, ombre fredde e luci calde, il riflesso sui metalli, le linee interne fra materiali diversi,
+    il controluce sul bordo destro e gli angoli delle diagonali ammorbiditi.
+  Ha provato e scartato due alternative: le proporzioni nuove (testa 10×13, vita stretta) e la risoluzione doppia
+  (96×144). Non riproporle senza che lo chieda.
 
 ## Il genere nei testi (14 ottobre 2026)
 Con il corpo femminile anche la prosa è al femminile. I contenuti portano le due forme fra graffe, `sei arrivat{o|a}`

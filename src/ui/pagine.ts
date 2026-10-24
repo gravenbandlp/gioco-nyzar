@@ -193,8 +193,9 @@ function regolamento(): string {
   </div>
 
   <h3>Armi, armature e oggetti</h3>
-  <p>Porti un'arma, un'armatura, uno scudo e due accessori; il resto sta negli Averi, e cambiare equipaggiamento non costa
-  rintocchi. L'armatura toglie danni a ogni colpo (la <b>riduzione</b>) ma può darti penalità ad Acrobazia, Furtività o
+  <p>Porti un'arma, un'armatura, uno scudo e due accessori, e puoi portare con te un animale; il resto sta negli Averi, e
+  cambiare equipaggiamento non costa rintocchi. Un cavallo non dà bonus: averlo apre le opzioni a cavallo, e quello che
+  porti con te si vede sul ritratto. Gli animali non si vendono. L'armatura toglie danni a ogni colpo (la <b>riduzione</b>) ma può darti penalità ad Acrobazia, Furtività o
   Atletica. Lo scudo dà dadi in difesa; se anche l'armatura ne dà, vale il più alto dei due.</p>
   <p>Ogni famiglia di armi ha un suo vantaggio, e lo portano anche le armi magiche fatte su quella base:</p>
   <ul class="elenco-regole">

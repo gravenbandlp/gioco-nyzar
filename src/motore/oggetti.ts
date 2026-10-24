@@ -1,6 +1,7 @@
 // Inventario, slot e oggetti (Regolamento 8.1, 8.7–8.9 e docs/regolamento-oggetti.md).
 // Un oggetto posseduto è la quality oggetto.<id>; gli slot stanno nello Stato. avuto.<id> ricorda che l'hai
 // ricevuto almeno una volta, e non si azzera vendendolo: gli oggetti unici delle storie si danno con avuto.<id> == 0.
+// Lo slot Animale (24 ottobre 2026) tiene un cavallo, la lupa o il puma; gli animali non si vendono.
 import type { TArma, TArmatura, TContenuti, TOggetto, TScudo } from './contenuto';
 import type { Stato } from './personaggio';
 
@@ -15,9 +16,9 @@ export function oggetto(c: TContenuti, id: string | undefined): TOggetto | undef
   return id ? c.oggetti.find((o) => o.id === id) : undefined;
 }
 
-/** Gli oggetti indossati negli slot (arma, armatura, scudo, accessori). */
+/** Gli oggetti indossati negli slot (arma, armatura, scudo, accessori, animale). */
 export function indossati(s: Stato, c: TContenuti): TOggetto[] {
-  return [s.arma, s.armatura, s.scudo, ...(s.accessori ?? [])]
+  return [s.arma, s.armatura, s.scudo, ...(s.accessori ?? []), s.animale]
     .map((id) => oggetto(c, id))
     .filter((o): o is TOggetto => !!o);
 }
@@ -107,7 +108,7 @@ export function valoreOggetti(s: Stato, c: TContenuti, k: string): number | unde
 
 // ---------------------------------------------------------------- indossare
 
-export function slotLiberoPer(s: Stato, o: TOggetto): 'arma' | 'armatura' | 'scudo' | 'accessorio' | null {
+export function slotLiberoPer(s: Stato, o: TOggetto): 'arma' | 'armatura' | 'scudo' | 'accessorio' | 'animale' | null {
   return o.slot === 'nessuno' ? null : o.slot;
 }
 
@@ -122,6 +123,7 @@ export function perchéNonIndossabile(s: Stato, c: TContenuti, id: string): stri
   }
   if (o.slot === 'accessorio' && (s.accessori ?? []).includes(id)) return 'Lo indossi già.';
   if (o.slot === 'accessorio' && (s.accessori ?? []).length >= MAX_ACCESSORI) return `Porti già ${MAX_ACCESSORI} accessori.`;
+  if (o.slot === 'animale' && s.animale === id) return 'È già con te.';
   return null;
 }
 
@@ -135,6 +137,7 @@ export function indossa(s: Stato, c: TContenuti, id: string): boolean {
   } else if (o.slot === 'armatura') s.armatura = id;
   else if (o.slot === 'scudo') s.scudo = id;
   else if (o.slot === 'accessorio') s.accessori = [...(s.accessori ?? []), id];
+  else if (o.slot === 'animale') s.animale = id; // ne tieni uno solo: quello di prima resta negli Averi
   return true;
 }
 
@@ -143,9 +146,10 @@ export function togli(s: Stato, id: string): void {
   if (s.armatura === id) s.armatura = NIENTE_ARMATURA;
   if (s.scudo === id) s.scudo = '';
   s.accessori = (s.accessori ?? []).filter((x) => x !== id);
+  if (s.animale === id) s.animale = '';
 }
 
-export const indossato = (s: Stato, id: string) => [s.arma, s.armatura, s.scudo, ...(s.accessori ?? [])].includes(id);
+export const indossato = (s: Stato, id: string) => [s.arma, s.armatura, s.scudo, ...(s.accessori ?? []), s.animale].includes(id);
 
 /** Aggiunge un oggetto all'inventario; se lo slot è vuoto lo indossa subito. */
 export function ricevi(s: Stato, c: TContenuti, id: string): void {
@@ -154,7 +158,8 @@ export function ricevi(s: Stato, c: TContenuti, id: string): void {
   const o = oggetto(c, id);
   if (!o) return;
   const vuoto = (o.slot === 'arma' && s.arma === NIENTE_ARMA) || (o.slot === 'armatura' && s.armatura === NIENTE_ARMATURA)
-    || (o.slot === 'scudo' && !s.scudo) || (o.slot === 'accessorio' && (s.accessori ?? []).length < MAX_ACCESSORI);
+    || (o.slot === 'scudo' && !s.scudo) || (o.slot === 'accessorio' && (s.accessori ?? []).length < MAX_ACCESSORI)
+    || (o.slot === 'animale' && !s.animale);
   if (vuoto) indossa(s, c, id);
   if (o.reperto && (s.quality[`decifrato.${id}`] ?? 0) >= 1 && s.quality[`cariche.${id}`] === undefined) s.quality[`cariche.${id}`] = o.reperto.cariche;
 }
@@ -169,10 +174,31 @@ export function ricaricaReperto(s: Stato, c: TContenuti, id: string): boolean {
   return true;
 }
 
-/** Completa uno stato salvato con una versione precedente del gioco. */
-export function migraOggetti(s: Stato): void {
+/**
+ * I cavalli che le storie danno, con il segno che lasciano. Fino al 24 ottobre 2026 si vendevano alla stalla di
+ * Dolovan: chi ha il segno e non ha più il cavallo lo riceve di nuovo (i cavalli non si perdono in nessun altro modo).
+ */
+const CAVALLI_DELLE_STORIE: [string, string, number][] = [
+  ['cavallo-da-guerra', 'pista.corin', 4], // il banchetto del cinghiale
+  ['ombrafosca', 'ombrafosca', 2], // portato via dal Forte
+  ['laresh-puledra-grigia', 'fazione.laresh', 6], // trenta cani per tre carri
+];
+
+/** Completa uno stato salvato con una versione precedente del gioco. Con i contenuti sistema anche gli animali. */
+export function migraOggetti(s: Stato, c?: TContenuti): void {
   s.scudo ??= '';
   s.accessori ??= [];
+  s.animale ??= '';
+  if (c) {
+    // gli animali portati come accessori passano nello slot Animale (il primo; gli altri restano negli Averi)
+    for (const id of s.accessori.filter((x) => oggetto(c, x)?.slot === 'animale')) {
+      s.accessori = s.accessori.filter((x) => x !== id);
+      if (!s.animale) s.animale = id;
+    }
+    for (const [id, q, min] of CAVALLI_DELLE_STORIE) {
+      if ((s.quality[q] ?? 0) >= min && !possiede(s, id)) ricevi(s, c, id);
+    }
+  }
   for (const id of [s.arma, s.armatura]) if (id && id !== NIENTE_ARMA && id !== NIENTE_ARMATURA) s.quality[chiaveOggetto(id)] ??= 1;
   // i salvataggi di prima di avuto.<id>: vale per quello che hai adesso (quello già venduto non si può sapere)
   for (const [k, v] of Object.entries(s.quality)) if (k.startsWith('oggetto.') && v >= 1) s.quality[`avuto.${k.slice(8)}`] = 1;

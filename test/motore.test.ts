@@ -237,7 +237,7 @@ describe('spostamenti e negozi', () => {
     expect(vendi(s, 'armeria-di-irsa', 'oggetto.arco-di-isvaro', c)).toBe(true);
     expect(s.quality['monete']).toBe(685 + 387);
   });
-  it('Ambrin compra gli accessori magici e Dolovan le cavalcature', () => {
+  it('Ambrin compra gli accessori magici, gli animali non li compra nessuno', () => {
     const s = figlio();
     s.quality['monete'] = 0;
     s.quality['oggetto.maison-ventaglio-dei-segnali'] = 1;
@@ -248,9 +248,7 @@ describe('spostamenti e negozi', () => {
     expect(vendi(s, 'nodo-d-ossidiana', 'oggetto.maschera-della-forza', c)).toBe(false); // Legata
     expect(vendi(s, 'nodo-d-ossidiana', 'oggetto.maison-ventaglio-dei-segnali', c)).toBe(true);
     expect(s.quality['monete']).toBe(400); // (700 + 100 per la chiave) / 2
-    expect(vendi(s, 'stalla-di-dolovan', 'oggetto.ombrafosca', c)).toBe(true);
-    expect(s.quality['monete']).toBe(400 + 750);
-    expect(negozioAperto(s, c.negozi.find((n) => n.id === 'stalla-di-dolovan')!, c)).toBe(false); // niente da vendergli
+    for (const n of c.negozi) expect(vendi(s, n.id, 'oggetto.ombrafosca', c), n.id).toBe(false);
     expect(negozioAperto(s, nodo, c)).toBe(true);
   });
 });

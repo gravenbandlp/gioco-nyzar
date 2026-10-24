@@ -142,7 +142,10 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   const spec = (sp: Riga[]): Riga[] => sp.map(([y, x0, x1]) => [y, LARGHEZZA - 1 - x1, LARGHEZZA - 1 - x0]);
   const sposta = (sp: Riga[], dx: number, dy = 0): Riga[] => sp.map(([y, x0, x1]) => [y + dy, x0 + dx, x1 + dx]);
 
+  // l'arma che la posa ribalta si disegna capovolta: lo spigolo chiaro e l'ombra proiettata si scambiano sopra e sotto
+  let capo = false;
   function forma(sp: Riga[], mat: string, o: OpzForma = {}): void {
+    const su = capo ? 1 : -1;
     const dentro = new Set<number>(), est = new Map<number, [number, number]>();
     for (const [y, x0, x1] of sp) {
       for (let x = x0; x <= x1; x++) if (inb(x, y)) dentro.add(id(x, y));
@@ -161,7 +164,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         if (L >= 2 && q >= 0.67) t = 1;
         if (L >= 6 && q >= 0.9) t = 0;
         if (o.retino && L >= 4 && q >= 0.5 && q < 0.67 && (x + y) % 2 === 0) t = 1;
-        if (!o.piatto) { if (!ha(x, y - 1)) t = Math.min(3, t + 1); if (!ha(x, y + 1)) t = Math.max(0, t - 1); }
+        if (!o.piatto) { if (!ha(x, y + su)) t = Math.min(3, t + 1); if (!ha(x, y - su)) t = Math.max(0, t - 1); }
         if (o.maglia && (x + y) % 2 === 1) t = Math.max(0, t - 1);
         t = Math.max(0, t - (o.scuro ?? 0));
       }
@@ -171,7 +174,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
       const visti = new Set<number>();
       for (const i of fatti) {
         const x = i % W, y = ((i / W) | 0) - OY;
-        for (const [nx, ny] of [[x + 1, y], [x, y + 1]] as const) {
+        for (const [nx, ny] of [[x + 1, y], [x, y - su]] as const) {
           if (!inb(nx, ny) || ha(nx, ny)) continue;
           const j = id(nx, ny), m = M[j];
           if (visti.has(j) || !m || m === 'raw' || EMISSIVI.has(m)) continue;
@@ -205,6 +208,20 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   const lama = (x0: number, x1: number, y0: number, y1: number, m: string, toni: number[]) => {
     for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) px(x, y, m, toni[x - x0] ?? 1);
   };
+  /** Una lama: il filo (dal lato `lato`, o sotto per `giu`) prende la luce, il dorso verso il manico resta scuro. */
+  const filo = (sp: Riga[], m: string, lato: 'sx' | 'dx' | 'giu') => {
+    forma(sp, m);
+    if (lato === 'giu') {
+      const col = new Map<number, [number, number]>();
+      for (const [y, x0, x1] of sp) for (let x = x0; x <= x1; x++) { const c = col.get(x); col.set(x, c ? [Math.min(c[0], y), Math.max(c[1], y)] : [y, y]); }
+      for (const [x, [y0, y1]] of col) for (let y = y0; y <= y1; y++) px(x, y, m, y === y1 ? 3 : y === y0 ? 1 : 2);
+      return;
+    }
+    for (const [y, x0, x1] of sp) for (let x = x0; x <= x1; x++) {
+      const d = lato === 'sx' ? x - x0 : x1 - x;
+      px(x, y, m, d === 0 ? 3 : d === 1 ? 2 : 1);
+    }
+  };
   const accendi = (x: number, y: number, m: string, r: number, forza: number, tipo: Luce['tipo'] = 'fredda') => {
     luci.push({ x, y, r, colore: COLORI_LUCE[m] ?? [143, 195, 203], forza, tipo });
   };
@@ -227,7 +244,8 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     const balzane = c.manto === 'baio' ? 'criniera' : manto; // il baio ha le estremità nere
     const zampaAnt = (dx: number): Riga[] => [...rett(27 + dx, 41, 31 + dx, 47), ...rett(28 + dx, 48, 30 + dx, 50), [51, 28 + dx, 31 + dx], ...rett(29 + dx, 52, 30 + dx, 60), ...rett(28 + dx, 61, 31 + dx, 62), ...rett(29 + dx, 63, 31 + dx, 64)];
     const zampaPost = (dx: number): Riga[] => [...rett(3 + dx, 40, 10 + dx, 46), ...rett(5 + dx, 47, 9 + dx, 50), [51, 5 + dx, 9 + dx], [52, 5 + dx, 8 + dx], ...rett(7 + dx, 53, 8 + dx, 60), ...rett(6 + dx, 61, 9 + dx, 62), ...rett(7 + dx, 63, 9 + dx, 64)];
-    const zoccolo = (x0: number, scuro: number) => forma(rett(o + x0, 65, o + x0 + 4, 68), 'zoccolo', { scuro });
+    // lo zoccolo si allarga verso terra
+    const zoccolo = (x0: number, scuro: number) => forma(qui(o, [[65, x0 + 1, x0 + 3], [66, x0 + 1, x0 + 4], [67, x0, x0 + 4], [68, x0, x0 + 4]]), 'zoccolo', { scuro });
     // coda
     forma(qui(o, [[27, 1, 3], [28, 0, 3], [29, -1, 2], [30, -1, 2], [31, -1, 2], ...rett(-1, 32, 1, 40), ...rett(-2, 41, 1, 47), [48, -1, 2], [49, 0, 2], [50, 0, 1]]), crin, { scuro: 1 });
     // zampe lontane
@@ -235,10 +253,15 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     forma(qui(o, zampaPost(4)), manto, { scuro: 2 }); zoccolo(10, 2);
     for (let y = 55; y <= 64; y++) { tono(o + 26, y, 0); tono(o + 12, y, 0); }
     // corpo e collo
-    const corpo: Riga[] = [[24, 24, 28], [25, 6, 12], [25, 22, 30], [26, 4, 31], [27, 3, 32]];
-    for (let y = 28; y <= 36; y++) corpo.push([y, 2, 33]);
-    corpo.push([37, 2, 32], [38, 2, 32], [39, 2, 32], [40, 3, 31], [41, 5, 29], [42, 8, 27]);
+    // la groppa tonda, la schiena che si abbassa appena dietro il garrese, il petto in fuori e la pancia che risale
+    // verso le cosce
+    const corpo: Riga[] = [[23, 25, 29], [24, 7, 12], [24, 22, 30], [25, 4, 15], [25, 19, 31], [26, 2, 32], [27, 1, 33], [28, 0, 33],
+      ...rett(0, 29, 34, 34), [35, 0, 33], [36, 1, 33], [37, 1, 32], [38, 2, 32], [39, 3, 31], [40, 4, 11], [40, 14, 30], [41, 5, 10], [41, 17, 29], [42, 20, 28]];
     forma(qui(o, corpo), manto, { luce: 0.15 });
+    // i muscoli: la spalla e la coscia, con l'ombra sotto e un filo di luce sopra
+    for (const [x, y] of [[28, 27], [27, 28], [26, 30], [26, 32], [26, 34], [27, 36], [28, 37]] as const) tono(o + x, y, '-', manto);
+    for (const [x, y] of [[12, 27], [13, 29], [13, 31], [12, 33], [12, 35], [11, 37], [11, 39]] as const) tono(o + x, y, '-', manto);
+    for (const [x, y] of [[5, 26], [6, 26], [7, 25], [8, 25], [21, 26], [23, 25], [24, 24]] as const) tono(o + x, y, '+', manto);
     const collo: Riga[] = [[14, 31, 35], [15, 30, 36], [16, 29, 36], [17, 29, 37], [18, 28, 37], [19, 28, 37], [20, 27, 37], [21, 27, 37], [22, 27, 37], [23, 27, 36], [24, 28, 36], [25, 29, 36], [26, 30, 35], [27, 31, 35], [28, 32, 35], [29, 33, 35], [30, 33, 34]];
     forma(qui(o, collo), manto, { luce: 0.3 });
     const testaC: Riga[] = [[10, 33, 37], [11, 33, 38], [12, 34, 39], [13, 35, 40], [14, 36, 41], [15, 37, 42], [16, 38, 43], [17, 38, 44], [18, 39, 44], [19, 40, 44], [20, 41, 43]];
@@ -254,7 +277,11 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     px(o + 43, 17, manto, 0); for (const x of [42, 43, 44]) tono(o + x, 19, '-', manto);
     tono(o + 32, 16, '-', manto); tono(o + 31, 17, '-', manto);
     if (c.manto === 'morello') for (const [x, y] of [[10, 28], [14, 27], [20, 28], [31, 16], [35, 11], [6, 30]] as const) raw(o + x, y, '#4a6a7a');
-    if (c.manto === 'grigio') for (let y = 28; y <= 40; y += 3) for (let x = 5; x <= 30; x += 4) tono(o + x + (y % 2 ? 2 : 0), y, '-', manto);
+    // il pomellato: macchie tonde più chiare sparse sul corpo, con il bordo appena più scuro
+    if (c.manto === 'grigio') for (const [x, y] of [[4, 29], [9, 27], [15, 28], [20, 27], [6, 34], [12, 32], [18, 33], [24, 30], [9, 37], [15, 37], [21, 37], [27, 34]] as const) {
+      for (const [dx, dy] of [[0, 0], [1, 0], [0, 1], [1, 1]] as const) tono(o + x + dx, y + dy, '+', manto);
+      for (const [dx, dy] of [[-1, 0], [2, 1], [0, 2], [1, -1]] as const) tono(o + x + dx, y + dy, '-', manto);
+    }
     // zampe vicine
     forma(qui(o, zampaPost(0)), manto); zoccolo(6, 0);
     forma(qui(o, zampaAnt(0)), manto); zoccolo(28, 0);
@@ -490,8 +517,9 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     px(19, 11, 'pelle', 2); px(19, 12, 'pelle', 1); px(28, 11, 'pelle', 1); px(28, 12, 'pelle', 0);
   }
   function volto(): void {
-    if (femmina) { px(21, 10, 'capelli', 1); px(22, 9, 'capelli', 2); px(25, 9, 'capelli', 1); px(26, 10, 'capelli', 0); }
-    else { px(21, 10, 'capelli', 1); px(22, 10, 'capelli', 1); px(25, 10, 'capelli', 1); px(26, 10, 'capelli', 0); }
+    // le sopracciglia nel tono più scuro della chioma: con i capelli rossi o chiari, attaccate agli occhi, sembravano occhi colorati
+    if (femmina) { px(21, 10, 'capelli', 0); px(22, 9, 'capelli', 1); px(25, 9, 'capelli', 1); px(26, 10, 'capelli', 0); }
+    else { px(21, 10, 'capelli', 0); px(22, 10, 'capelli', 0); px(25, 10, 'capelli', 0); px(26, 10, 'capelli', 0); }
     tono(21, 11, 0); tono(26, 11, 0);
     tono(21, 12, 1); tono(22, 12, 1); tono(25, 12, 0); tono(26, 12, 0);
     if (opz.palpebre) { tono(22, 11, 1); tono(25, 11, 0); } else { raw(22, 11, OCCHIO); raw(25, 11, OCCHIO); }
@@ -803,92 +831,140 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         return;
       }
       case 'lancia': case 'bastone': {
-        // asta tenuta dritta accanto al corpo, la mano la stringe
-        const x = 11;
-        const cima = v.forma === 'bastone' ? 8 : 6;
+        // asta tenuta dritta accanto al corpo, la mano la stringe; la punta parte dalla riga 2, così resta nella tela
+        const x = 11, d = 2;
+        const cima = (v.forma === 'bastone' ? 8 : 6) + d;
         for (let y = cima; y <= 69; y++) { px(x, y, m.manico, 2); px(x + 1, y, m.manico, 1); }
+        for (let y = cima + 4; y <= 64; y += 9) px(x + 1, y, m.manico, 0); // le venature
+        forma(rett(x, 67, x + 1, 69), 'ferro'); // il puntale
         const pt = m.lama;
+        const P = (sp: Riga[]) => sposta(sp, 0, d);
+        const ghiera = () => { forma(P(rett(11, 6, 12, 7)), m.testa); px(10, 7 + d, m.testa, 2); px(13, 7 + d, m.testa, 0); };
         switch (v.forma === 'bastone' ? 'bastone' : v.variante ?? 'foglia') {
-          case 'foglia': forma([[0, 11, 12], [1, 10, 13], [2, 10, 13], [3, 10, 13], [4, 11, 12], [5, 11, 12]], pt, { luce: 0.3 }); forma(rett(11, 6, 12, 7), m.testa); break;
-          case 'stretta': forma([[0, 11, 11], [1, 11, 12], [2, 11, 12], [3, 11, 12], [4, 11, 12], [5, 10, 13]], pt, { luce: 0.3 }); forma(rett(11, 6, 12, 7), m.testa); break;
-          case 'tridente': for (const xx of [9, 11, 12, 14]) { px(xx, 1, pt, 3); px(xx, 2, pt, 2); } px(12, 0, pt, 3); forma([[3, 9, 14], [4, 10, 13]], pt, { luce: 0.3 }); forma(rett(11, 5, 12, 6), m.testa); break;
-          case 'ritorto': for (const [xx, y, t] of [[11, 1, 3], [12, 2, 2], [11, 3, 3], [12, 4, 1], [11, 5, 2]] as const) px(xx, y, pt, t); forma(rett(11, 6, 12, 7), m.testa); break;
-          case 'dente': forma([[0, 11, 11], [1, 11, 12], [2, 10, 12], [3, 10, 13], [4, 10, 13], [5, 10, 13], [6, 11, 13], [7, 11, 12]], pt, { luce: 0.3 }); px(12, 3, 'cristallo', 2); break;
-          case 'ramo': for (const [xx, y] of [[10, 18], [13, 30], [10, 46], [13, 58]] as const) px(xx, y, m.manico, 1); forma([[1, 11, 11], [2, 11, 12], [3, 11, 12], [4, 11, 12], [5, 11, 12]], pt, { luce: 0.3 }); break;
-          case 'asta': forma([[2, 11, 11], [3, 11, 12], [4, 11, 12], [5, 11, 12]], pt, { luce: 0.3 }); break;
+          case 'foglia':
+            forma(P([[0, 11, 11], [1, 11, 12], [2, 10, 12], [3, 10, 13], [4, 10, 13], [5, 11, 12]]), pt, { luce: 0.3 });
+            for (let y = 1; y <= 4; y++) px(11, y + d, pt, 3); // la costola
+            ghiera(); break;
+          case 'stretta': forma(P([[0, 11, 11], [1, 11, 12], [2, 11, 12], [3, 11, 12], [4, 11, 12], [5, 10, 13]]), pt, { luce: 0.3 }); px(11, 1 + d, pt, 3); px(11, 2 + d, pt, 3); ghiera(); break;
+          case 'tridente': for (const xx of [9, 11, 12, 14]) { px(xx, 1 + d, pt, 3); px(xx, 2 + d, pt, 2); } px(12, d, pt, 3); px(9, d, pt, 3); px(14, d, pt, 2); forma(P([[3, 9, 14], [4, 10, 13]]), pt, { luce: 0.3 }); forma(P(rett(11, 5, 12, 6)), m.testa); break;
+          case 'ritorto': for (const [xx, y, t] of [[11, 0, 3], [11, 1, 3], [12, 2, 2], [11, 3, 3], [12, 4, 1], [11, 5, 2]] as const) px(xx, y + d, pt, t); ghiera(); break;
+          case 'dente': forma(P([[0, 11, 11], [1, 11, 12], [2, 10, 12], [3, 10, 13], [4, 10, 13], [5, 10, 13], [6, 11, 13], [7, 11, 12]]), pt, { luce: 0.3 }); px(12, 3 + d, 'cristallo', 2); break;
+          case 'ramo': for (const [xx, y] of [[10, 18], [13, 30], [10, 46], [13, 58]] as const) px(xx, y, m.manico, 1); forma(P([[1, 11, 11], [2, 11, 12], [3, 11, 12], [4, 11, 12], [5, 11, 12]]), pt, { luce: 0.3 }); break;
+          case 'asta': forma(P([[2, 11, 11], [3, 11, 12], [4, 11, 12], [5, 11, 12]]), pt, { luce: 0.3 }); break;
           case 'bastone':
-            forma(rett(11, 7, 12, 8), 'ottone');
-            if (v.variante === 'cristallo') forma([[4, 11, 12], [5, 10, 13], [6, 11, 12]], v.dettaglio ?? 'vetro', { luce: 0.4 });
+            forma(P(rett(11, 7, 12, 8)), 'ottone');
+            if (v.variante === 'cristallo') forma(P([[4, 11, 12], [5, 10, 13], [6, 11, 12]]), v.dettaglio ?? 'vetro', { luce: 0.4 });
             break;
         }
-        if (v.dettaglio && v.forma === 'lancia' && EMISSIVI.has(v.dettaglio)) accendi(11.5, 3, v.dettaglio, 5, 0.25);
+        if (v.dettaglio && v.forma === 'lancia' && EMISSIVI.has(v.dettaglio)) accendi(11.5, 3 + d, v.dettaglio, 5, 0.25);
         return;
       }
       case 'mazza':
-        px(14, 39, m.pomo, 2);
+        // la mazza flangiata: un nucleo con le alette, che prendono la luce sullo spigolo
+        px(14, 39, m.pomo, 2); px(15, 39, m.pomo, 1);
         asta(14, 43, 52);
-        if (v.variante === 'borchie') { forma(rett(13, 53, 16, 58), m.testa); for (const [x, y] of [[12, 54], [12, 57], [17, 54], [17, 57]] as const) px(x, y, m.testa, x < 14 ? 3 : 0); }
-        else {
-          forma(rett(13, 53, 16, 58), m.testa);
-          for (const y of [54, 57]) { px(12, y, m.testa, 3); px(17, y, m.testa, 0); }
-          if (v.dettaglio) { px(13, 55, v.dettaglio, 3); px(16, 56, v.dettaglio, 2); }
+        for (const y of [45, 47]) { px(14, y, 'cuoio', 1); px(15, y, 'cuoio', 0); } // la fasciatura
+        forma(rett(13, 52, 16, 53), 'ferro'); // il collare
+        if (v.variante === 'borchie') {
+          forma([[54, 12, 17], [55, 11, 18], [56, 11, 18], [57, 11, 18], [58, 11, 18], [59, 12, 17]], m.testa, { luce: 0.3 });
+          for (const [x, y] of [[10, 56], [10, 57], [19, 56], [19, 57], [14, 60], [15, 60], [12, 54], [17, 54], [12, 59], [17, 59]] as const) px(x, y, m.testa, x < 14 ? 3 : 1);
+          for (const [x, y] of [[13, 55], [16, 58], [14, 57]] as const) px(x, y, m.testa, 3);
+        } else {
+          // le alette di profilo: strisce chiare e scure alternate, come spigoli che prendono e perdono la luce
+          const testa: Riga[] = [[54, 12, 17], [55, 11, 18], [56, 11, 18], [57, 11, 18], [58, 11, 18], [59, 12, 17]];
+          forma(testa, m.testa);
+          for (const [y, x0, x1] of testa) for (let x = x0; x <= x1; x++) px(x, y, m.testa, [3, 1, 2, 0, 2, 1, 1, 0][x - 11] ?? 1);
+          if (v.dettaglio) { px(13, 56, v.dettaglio, 3); px(15, 57, v.dettaglio, 3); }
         }
-        px(14, 59, m.testa, 2); px(15, 59, m.testa, 0);
+        px(14, 60, m.testa, 2); px(15, 60, m.testa, 1);
         return;
       case 'verga':
         for (let y = 37; y <= 39; y++) px(14, y, m.manico, y === 37 ? 3 : 2);
         for (let y = 43; y <= 52; y++) { px(14, y, m.manico, 2); px(15, y, m.manico, 1); }
         if (v.dettaglio) { px(14, 52, v.dettaglio, 3); accendi(14.5, 51, v.dettaglio, 5, 0.25); }
         return;
-      case 'ascia':
-        px(14, 39, m.manico, 3);
-        if (v.variante === 'corta') {
-          asta(14, 43, 53);
-          forma([[47, 12, 13], [48, 11, 13], [49, 10, 13], [50, 10, 13], [51, 10, 13], [52, 11, 13], [53, 12, 13]], m.lama, { luce: 0.3 });
-        } else {
-          asta(14, 43, 63);
-          forma([[54, 12, 13], [55, 11, 13], [56, 10, 13], [57, 9, 13], [58, 9, 13], [59, 10, 13], [60, 11, 13], [61, 12, 13]], m.lama, { luce: 0.3 });
-          forma([[56, 16, 17], [57, 16, 18], [58, 16, 17]], m.testa);
-        }
+      case 'ascia': {
+        // la lama barbuta verso l'esterno, con il filo chiaro; l'occhio di ferro stringe il manico, dietro il tallone
+        px(14, 39, m.manico, 3); px(15, 39, m.manico, 1);
+        const corta = v.variante === 'corta';
+        const t = corta ? -8 : 0;
+        asta(14, 43, 58 + t);
+        for (const y of [45, 47]) { px(14, y, 'cuoio', 1); px(15, y, 'cuoio', 0); }
+        // la lama si allarga dal collo stretto al filo, che è alto e curvo
+        filo(sposta([[49, 8, 8], [50, 8, 9], [51, 7, 9], [52, 7, 10], [53, 7, 11], [54, 7, 12], [55, 7, 12], [56, 7, 12], [57, 7, 10], [58, 8, 9], [59, 8, 8]], 0, t), m.lama, 'sx');
+        forma(sposta(rett(13, 53, 16, 58), 0, t), m.testa, { luce: 0.3 });
+        forma(sposta([[54, 17, 17], [55, 17, 18], [56, 17, 18], [57, 17, 17]], 0, t), m.testa, { scuro: 1 });
+        px(14, 59 + t, m.testa, 2); px(15, 59 + t, m.testa, 1);
         return;
+      }
       case 'piccozza':
         px(14, 39, m.manico, 3);
         asta(14, 43, 62);
-        forma([[55, 8, 21], [56, 9, 20]], m.lama, { luce: 0.2 });
-        px(8, 56, m.lama, 0); px(7, 56, m.lama, 1); px(21, 54, m.lama, 2); px(22, 54, m.lama, 1);
+        forma(rett(13, 54, 16, 58), m.testa, { luce: 0.3 });
+        filo([[55, 7, 12], [56, 8, 12], [57, 10, 12]], m.lama, 'sx');
+        forma([[55, 17, 21], [56, 17, 22], [57, 17, 19]], m.lama, { scuro: 1 });
+        px(22, 55, m.lama, 1);
         if (v.dettaglio) { px(14, 55, v.dettaglio, 3); px(15, 56, v.dettaglio, 2); }
         return;
-      case 'bipenne':
-        px(14, 39, m.manico, 3);
-        asta(14, 43, 80);
-        {
-          const t = 14; // la testa scende in fondo al manico
-          const ala: Riga[] = [[52, 12, 13], [53, 10, 13], [54, 9, 13], [55, 8, 13], [56, 8, 13], [57, 8, 13], [58, 9, 13], [59, 10, 13], [60, 12, 13]].map(([y, x0, x1]) => [y! + t, x0!, x1!] as Riga);
-          forma(ala, m.lama, { luce: 0.3 });
-          forma(spec(ala).map(([y, x0, x1]) => [y, x0 - 18, x1 - 18] as Riga), m.lama, { scuro: 1 });
-          if (v.variante === 'scure') { for (let x = 16; x <= 21; x++) for (let y = 52 + t; y <= 60 + t; y++) togli(x, y); forma([[52 + t, 16, 16], [53 + t, 16, 17], [54 + t, 16, 17], [55 + t, 16, 18]], m.testa); }
-          if (v.dettaglio) { for (const [x, y] of [[9, 55], [8, 57], [10, 59], [11, 53]] as const) px(x, y + t, v.dettaglio, 3); }
-        }
+      case 'bipenne': {
+        // due lame a mezzaluna ai lati dell'occhio, in fondo al manico lungo; il filo prende la luce
+        const t = 14;
+        px(14, 39, m.manico, 3); px(15, 39, m.manico, 1);
+        asta(14, 43, 62 + t);
+        for (const y of [45, 47, 49]) { px(14, y, 'cuoio', 1); px(15, y, 'cuoio', 0); }
+        const ala: Riga[] = [[51, 10, 11], [52, 8, 11], [53, 7, 12], [54, 7, 13], [55, 7, 13], [56, 7, 13], [57, 7, 13], [58, 7, 12], [59, 8, 11], [60, 10, 11]].map(([y, x0, x1]) => [y! + t, x0!, x1!] as Riga);
+        filo(ala, m.lama, 'sx');
+        if (v.variante !== 'scure') filo(spec(ala).map(([y, x0, x1]) => [y, x0 - 18, x1 - 18] as Riga), m.lama, 'dx');
+        else forma([[54 + t, 16, 17], [55 + t, 16, 18], [56 + t, 16, 18], [57 + t, 16, 17]], m.testa, { scuro: 1 });
+        forma(rett(13, 53 + t, 16, 60 + t), m.testa, { luce: 0.3 });
+        px(14, 63 + t, m.testa, 2); px(15, 63 + t, m.testa, 1);
+        if (v.dettaglio) { for (const [x, y] of [[9, 55], [8, 57], [10, 59], [11, 54]] as const) px(x, y + t, v.dettaglio, 3); }
         return;
+      }
       case 'falce': {
+        // la falce da guerra: il manico lungo con la manopola, la lama curva in cima che si piega verso l'esterno
         const x = 11;
-        for (let y = 4; y <= 69; y++) { px(x, y, m.manico, 2); px(x + 1, y, m.manico, 1); }
-        forma([[0, 12, 12], [1, 12, 13], [2, 12, 14], [3, 12, 14], [4, 12, 14], [5, 12, 14], [6, 12, 14], [7, 12, 14], [8, 12, 13], [9, 12, 13]], m.lama, { luce: 0.4 });
-        forma(rett(11, 10, 12, 11), m.testa);
+        for (let y = 7; y <= 69; y++) { px(x, y, m.manico, 2); px(x + 1, y, m.manico, 1); }
+        for (let y = 12; y <= 64; y += 9) px(x + 1, y, m.manico, 0);
+        forma([[29, 13, 14], [30, 13, 15], [31, 14, 15]], m.manico, { luce: 0.4 }); // la manopola
+        filo([[3, 6, 12], [4, 4, 12], [5, 3, 10], [6, 2, 6], [7, 1, 3], [8, 1, 1]], m.lama, 'giu');
+        forma(rett(11, 5, 12, 8), m.testa); px(13, 6, m.testa, 1); // la ghiera che tiene la lama
+        forma(rett(x, 67, x + 1, 69), 'ferro');
         return;
       }
       case 'martello': {
-        // un'arma a due mani: il manico è lungo, la testa sta in fondo
+        // un'arma a due mani: il manico lungo con le bandelle, la testa in fondo; di qua la bocca, di là il becco
         const t = 14;
-        px(14, 39, m.manico, 3);
+        px(14, 39, m.manico, 3); px(15, 39, m.manico, 1);
         asta(14, 43, 61 + t);
-        if (v.variante === 'maglio') { forma(rett(11, 55 + t, 17, 59 + t), m.testa, { luce: 0.2 }); forma(sposta([[56, 18, 19], [57, 18, 20], [58, 18, 19]], 0, t), m.testa, { scuro: 1 }); }
-        else if (v.variante === 'piccone') { forma(sposta([[55, 7, 21], [56, 8, 20], [57, 12, 17]], 0, t), m.testa, { luce: 0.25 }); px(7, 56 + t, m.testa, 1); px(21, 56 + t, m.testa, 0); }
-        else if (v.variante === 'battente') {
-          for (let y = 43; y <= 58 + t; y++) { px(14, y, m.manico, y % 2 ? 3 : 1); px(15, y, m.manico, y % 2 ? 1 : 0); }
-          forma(sposta([[57, 12, 17], [58, 11, 18], [59, 11, 18], [60, 11, 18], [61, 12, 17]], 0, t), m.testa, { luce: 0.3 });
-        } else if (v.variante === 'feltro') { forma(rett(11, 55 + t, 18, 59 + t), m.testa, { luce: 0.25, retino: true }); }
-        else { forma(rett(11, 55 + t, 18, 59 + t), m.testa, { luce: 0.25 }); forma([[57 + t, 19, 20]], m.lama); }
+        for (const y of [45, 47, 49]) { px(14, y, 'cuoio', 1); px(15, y, 'cuoio', 0); }
+        if (v.variante === 'battente') for (let y = 43; y <= 58 + t; y++) { px(14, y, m.manico, y % 2 ? 3 : 1); px(15, y, m.manico, y % 2 ? 1 : 0); }
+        else for (let y = 49 + t; y <= 54 + t; y++) { px(14, y, 'ferro', y % 2 ? 2 : 3); px(15, y, 'ferro', 1); } // le bandelle
+        const T = (sp: Riga[]) => sposta(sp, 0, t);
+        if (v.variante === 'maglio') {
+          forma(T(rett(10, 54, 19, 61)), m.testa, { luce: 0.2 });
+          for (const x of [12, 17]) for (let y = 54; y <= 61; y++) px(x, y + t, 'ferro', x === 12 ? 2 : 0); // i cerchi
+          for (let y = 55; y <= 60; y++) px(10, y + t, m.testa, 3);
+        } else if (v.variante === 'piccone') {
+          forma(T(rett(13, 54, 16, 58)), m.testa, { luce: 0.3 });
+          filo(T([[55, 7, 12], [56, 8, 12], [57, 10, 12]]), m.testa, 'sx');
+          forma(T([[55, 17, 21], [56, 17, 22], [57, 17, 19]]), m.testa, { scuro: 1 });
+        } else if (v.variante === 'battente') {
+          forma(T([[56, 13, 16], [57, 12, 17], [58, 11, 18], [59, 11, 18], [60, 11, 18], [61, 12, 17]]), m.testa, { luce: 0.3 });
+          px(11, 59 + t, m.testa, 3); px(11, 60 + t, m.testa, 3);
+        } else if (v.variante === 'feltro') {
+          forma(T(rett(13, 54, 16, 60)), 'ferro', { luce: 0.3 });
+          forma(T([[55, 9, 12], [56, 8, 12], [57, 8, 12], [58, 8, 12], [59, 9, 12]]), m.testa, { luce: 0.25, retino: true });
+          forma(T([[55, 17, 20], [56, 17, 21], [57, 17, 21], [58, 17, 21], [59, 17, 20]]), m.testa, { scuro: 1, retino: true });
+        } else {
+          forma(T(rett(13, 54, 16, 60)), m.testa, { luce: 0.3 });
+          // la bocca: un blocco con gli spigoli smussati e la faccia battente che prende la luce
+          forma(T([[54, 9, 12], [55, 8, 12], [56, 8, 12], [57, 8, 12], [58, 8, 12], [59, 8, 12], [60, 9, 12]]), m.lama, { luce: 0.3 });
+          for (let y = 55; y <= 59; y++) { px(8, y + t, m.lama, 3); px(12, y + t, m.lama, 0); }
+          // il becco, affilato e un po' piegato
+          filo(T([[56, 17, 19], [57, 17, 21], [58, 17, 22], [59, 20, 22]]), m.lama, 'dx');
+        }
+        px(14, 62 + t, m.testa, 2); px(15, 62 + t, m.testa, 1);
         if (v.dettaglio) { px(13, 56 + t, v.dettaglio, 3); px(14, 57 + t, v.dettaglio, 2); }
         return;
       }
@@ -929,7 +1005,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         asta(14, 43, 50);
         px(15, 51, m.manico, 1);
         for (let g = 40; g <= 215; g += 3) {
-          const r = (g * Math.PI) / 180, cx = 10, cy = 48;
+          const r = (g * Math.PI) / 180, cx = 13, cy = 48; // il centro a destra: in guardia la lama resta nella tela
           px(Math.round(cx + 6 * Math.cos(r)), Math.round(cy + 6 * Math.sin(r)), m.lama, g > 120 && g < 175 ? 3 : 2);
           if (g < 160) px(Math.round(cx + 5 * Math.cos(r)), Math.round(cy + 5 * Math.sin(r)), m.lama, 1);
         }
@@ -994,34 +1070,61 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   // ================================================================ compagni (davanti)
   function bestia(c: Extract<VisAccessorio, { tipo: 'compagno' }>): void {
     const o = 50;
+    // la lupa e il puma si disegnano più grandi di come sono scritti (24 ottobre 2026): ogni forma si ingrandisce
+    // intorno alle zampe prima di prendere la luce, così toni, ombre e contorno restano puliti
+    // l'appoggio AX è scelto per ciascuno: la bestia sta fra la mano destra della figura e il bordo della tela
+    const [K, AX] = c.specie === 'puma' ? [1.4, 75] : [1.45, 69], AY = 68;
+    const sorgente = (tx: number, ty: number): [number, number] => [Math.floor(AX + (tx + 0.5 - AX) / K), Math.floor(AY + (ty + 0.5 - AY) / K)];
+    const scala = (sp: Riga[]): Riga[] => {
+      const S = new Set<number>();
+      let x0 = Infinity, x1 = -Infinity, y0 = Infinity, y1 = -Infinity;
+      for (const [y, a, b] of sp) for (let x = a; x <= b; x++) { S.add(y * 1000 + x + 500); x0 = Math.min(x0, x); x1 = Math.max(x1, x); y0 = Math.min(y0, y); y1 = Math.max(y1, y); }
+      const out: Riga[] = [];
+      for (let ty = Math.floor(AY + (y0 - AY) * K) - 1; ty <= Math.ceil(AY + (y1 + 1 - AY) * K); ty++)
+        for (let tx = Math.floor(AX + (x0 - AX) * K) - 1; tx <= Math.ceil(AX + (x1 + 1 - AX) * K); tx++) {
+          const [sx, sy] = sorgente(tx, ty);
+          if (S.has(sy * 1000 + sx + 500)) out.push([ty, tx, tx]);
+        }
+      return out;
+    };
+    const blocco = (sx: number, sy: number, fai: (x: number, y: number) => void) => {
+      for (let ty = Math.floor(AY + (sy - AY) * K) - 1; ty <= Math.ceil(AY + (sy + 1 - AY) * K); ty++)
+        for (let tx = Math.floor(AX + (sx - AX) * K) - 1; tx <= Math.ceil(AX + (sx + 1 - AX) * K); tx++) {
+          const [x, y] = sorgente(tx, ty);
+          if (x === sx && y === sy) fai(tx, ty);
+        }
+    };
+    const F = (sp: Riga[], m: string, op: OpzForma = {}) => forma(scala(sp), m, op);
+    const P = (x: number, y: number, m: string, k: number) => blocco(x, y, (tx, ty) => px(tx, ty, m, k));
+    const Rw = (x: number, y: number, colore: string) => blocco(x, y, (tx, ty) => raw(tx, ty, colore));
     if (c.specie === 'puma') {
       const m = 'puma';
-      forma(qui(o, [[53, 1, 4], [54, -1, 1], [55, -3, -1], [56, -5, -3], [57, -7, -5], [56, -8, -7], [55, -8, -7], [54, -8, -7], [53, -8, -7], [52, -7, -6]]), m, { scuro: 1 });
-      forma(qui(o, [...rett(21, 57, 22, 66), [67, 20, 23]]), m, { scuro: 2 });
-      forma(qui(o, [...rett(8, 57, 10, 61), ...rett(8, 62, 9, 66), [67, 8, 11]]), m, { scuro: 2 });
-      forma(qui(o, [[51, 5, 9], [51, 18, 22], [52, 4, 23], ...rett(3, 53, 24, 57), [58, 5, 23], [59, 14, 22]]), m, { luce: 0.15 });
-      forma(qui(o, [[50, 21, 24], [51, 22, 25], [52, 23, 26], [53, 24, 26]]), m, { luce: 0.3 });
-      forma(qui(o, [[48, 24, 27], [49, 23, 29], [50, 23, 30], [51, 24, 30], [52, 25, 28]]), m, { luce: 0.3 });
-      px(o + 24, 47, m, 2); px(o + 27, 47, m, 1);
-      raw(o + 28, 49, '#c8a040'); px(o + 30, 50, 'criniera', 0);
+      F(qui(o, [[53, 1, 4], [54, -1, 1], [55, -3, -1], [56, -4, -3], [55, -5, -4], [54, -5, -5], [53, -5, -5], [52, -4, -4]]), m, { scuro: 1 }); // la coda arricciata
+      F(qui(o, [...rett(21, 57, 22, 66), [67, 20, 23]]), m, { scuro: 2 });
+      F(qui(o, [...rett(8, 57, 10, 61), ...rett(8, 62, 9, 66), [67, 8, 11]]), m, { scuro: 2 });
+      F(qui(o, [[51, 5, 9], [51, 18, 22], [52, 4, 23], ...rett(3, 53, 24, 57), [58, 5, 23], [59, 14, 22]]), m, { luce: 0.15 });
+      F(qui(o, [[50, 21, 24], [51, 22, 25], [52, 23, 26], [53, 24, 26]]), m, { luce: 0.3 });
+      F(qui(o, [[48, 24, 27], [49, 23, 29], [50, 23, 30], [51, 24, 30], [52, 25, 28]]), m, { luce: 0.3 });
+      P(o + 24, 47, m, 2); P(o + 27, 47, m, 1);
+      Rw(o + 28, 49, '#c8a040'); P(o + 30, 50, 'criniera', 0);
       // il pelo che ai fianchi si accende di rosso
-      for (let y = 54; y <= 57; y++) for (let x = 7; x <= 19; x++) if ((x * 7 + y * 3) % 5 < 2) raw(o + x, y, RAMPE['pumaFuoco']![y === 56 ? 2 : 1]);
-      forma(qui(o, [...rett(3, 53, 8, 59), ...rett(4, 60, 6, 66), [67, 4, 7]]), m);
-      forma(qui(o, [...rett(18, 56, 21, 60), ...rett(19, 61, 21, 66), [67, 18, 22]]), m);
+      for (let y = 54; y <= 57; y++) for (let x = 7; x <= 19; x++) if ((x * 7 + y * 3) % 5 < 2) Rw(o + x, y, RAMPE['pumaFuoco']![y === 56 ? 2 : 1]);
+      F(qui(o, [...rett(3, 53, 8, 59), ...rett(4, 60, 6, 66), [67, 4, 7]]), m);
+      F(qui(o, [...rett(18, 56, 21, 60), ...rett(19, 61, 21, 66), [67, 18, 22]]), m);
       return;
     }
     const m = 'lupo';
-    forma(qui(o, [[50, 1, 4], [51, 0, 3], ...rett(-1, 52, 2, 56), [57, 0, 2], [58, 0, 2], [59, 0, 1], [60, 1, 1]]), m, { scuro: 1, retino: true });
-    forma(qui(o, [...rett(14, 57, 15, 66), [67, 14, 16]]), m, { scuro: 2 });
-    forma(qui(o, [...rett(6, 56, 8, 59), ...rett(7, 60, 8, 66), [67, 7, 9]]), m, { scuro: 2 });
-    forma(qui(o, [[50, 6, 17], [51, 4, 19], ...rett(3, 52, 20, 55), [56, 4, 19], [57, 11, 18]]), m, { luce: 0.15, retino: true });
-    forma(qui(o, rett(17, 46, 22, 52)), m, { luce: 0.3 });
-    forma(qui(o, [[45, 19, 24], [46, 18, 26], [47, 18, 28], [48, 19, 28], [49, 20, 25]]), m, { luce: 0.3 });
-    forma(qui(o, [[42, 20, 20], [43, 19, 20], [44, 19, 21], [42, 23, 23], [43, 22, 23], [44, 22, 23]]), m, { luce: 0.5 });
-    raw(o + 23, 46, '#b8b088'); px(o + 28, 47, 'criniera', 1); px(o + 27, 48, 'criniera', 0);
-    for (const [x, y] of [[20, 50], [21, 50], [21, 51], [20, 49]] as const) px(o + x, y, 'peloBianco', 2);
-    forma(qui(o, [...rett(3, 52, 7, 57), ...rett(4, 58, 6, 60), ...rett(5, 61, 6, 66), [67, 5, 7]]), m);
-    forma(qui(o, [...rett(16, 56, 18, 60), ...rett(16, 61, 17, 66), [67, 16, 18]]), m);
+    F(qui(o, [[50, 1, 4], [51, 0, 3], ...rett(-1, 52, 2, 56), [57, 0, 2], [58, 0, 2], [59, 0, 1], [60, 1, 1]]), m, { scuro: 1, retino: true });
+    F(qui(o, [...rett(14, 57, 15, 66), [67, 14, 16]]), m, { scuro: 2 });
+    F(qui(o, [...rett(6, 56, 8, 59), ...rett(7, 60, 8, 66), [67, 7, 9]]), m, { scuro: 2 });
+    F(qui(o, [[50, 6, 17], [51, 4, 19], ...rett(3, 52, 20, 55), [56, 4, 19], [57, 11, 18]]), m, { luce: 0.15, retino: true });
+    F(qui(o, rett(17, 46, 22, 52)), m, { luce: 0.3 });
+    F(qui(o, [[45, 19, 24], [46, 18, 26], [47, 18, 28], [48, 19, 28], [49, 20, 25]]), m, { luce: 0.3 });
+    F(qui(o, [[42, 20, 20], [43, 19, 20], [44, 19, 21], [42, 23, 23], [43, 22, 23], [44, 22, 23]]), m, { luce: 0.5 });
+    Rw(o + 23, 46, '#b8b088'); P(o + 28, 47, 'criniera', 1); P(o + 27, 48, 'criniera', 0);
+    for (const [x, y] of [[20, 50], [21, 50], [21, 51], [20, 49]] as const) P(o + x, y, 'peloBianco', 2);
+    F(qui(o, [...rett(3, 52, 7, 57), ...rett(4, 58, 6, 60), ...rett(5, 61, 6, 66), [67, 5, 7]]), m);
+    F(qui(o, [...rett(16, 56, 18, 60), ...rett(16, 61, 17, 66), [67, 16, 18]]), m);
   }
 
   // ================================================================ pose
@@ -1070,9 +1173,10 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   // le armi: come si tengono. `g` è il punto dell'arma dritta sotto la mano sinistra; per le due mani `g2` quello
   // sotto la destra, più vicino al fondo dell'impugnatura
   const ASTE = new Set<FormaArma>(['lancia', 'bastone', 'falce']);
+  const TESTE = new Set<FormaArma>(['ascia', 'mazza', 'piccozza', 'roncola']);
   const SENZA_GIRO = new Set<FormaArma>(['mani', 'tirapugni', 'fionda']);
   const presaDi = (v: VisArma, p: Posa): { g: Punto; g2: Punto; ribalta: boolean } => {
-    if (ASTE.has(v.forma)) return p === 'dueMani' ? { g: [11.5, 37], g2: [11.5, 46], ribalta: false } : { g: [11.5, 41], g2: [11.5, 41], ribalta: false };
+    if (ASTE.has(v.forma)) return p === 'dueMani' ? { g: [11.5, 33], g2: [11.5, 41], ribalta: false } : { g: [11.5, 37], g2: [11.5, 37], ribalta: false };
     if (v.forma === 'spadone') return { g: [14.5, 41.5], g2: [14.5, 37.5], ribalta: true };
     if (v.forma === 'bipenne' || v.forma === 'martello') return { g: [14.5, 47.5], g2: [14.5, 41.5], ribalta: true };
     return { g: [14.5, 41.5], g2: [14.5, 41.5], ribalta: !SENZA_GIRO.has(v.forma) };
@@ -1162,7 +1266,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     if (posa === 'guardia') {
       palmi = { sx: [9, 37], dx: conScudo ? [35, 36] : [37, 41] };
       gomiti = { sx: [11, 31], dx: conScudo ? [37, 31] : [36, 32] };
-      if (conArma) mArma = presa(p.g, [palmi.sx[0] + 0.5, palmi.sx[1]], p.ribalta, ASTE.has(f.arma.forma) ? 0 : 1 / 3);
+      if (conArma) mArma = presa(p.g, [palmi.sx[0] + 0.5, palmi.sx[1]], p.ribalta, ASTE.has(f.arma.forma) || TESTE.has(f.arma.forma) ? 0 : 1 / 3);
     } else if (posa === 'dueMani') {
       const k = ASTE.has(f.arma.forma) ? 1 / 3 : 1 / 2;
       mArma = presa(p.g2, [26.5, 41], p.ribalta, k);
@@ -1170,8 +1274,9 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
       palmi = { sx: [gx - 0.5, gy], dx: [26, 41] };
       gomiti = { sx: [11, 32], dx: [36, 33] };
     } else {
-      palmi = { sx: [4, 24], dx: [28, 24] };
-      gomiti = { sx: [9, 24], dx: [38, 28] };
+      // due pixel più a destra di prima: la punta della freccia e l'arco della balestra restano nella tela
+      palmi = { sx: [6, 24], dx: [30, 24] };
+      gomiti = { sx: [10, 24], dx: [39, 28] };
     }
     // l'arma, appesa alla mano come nella figura dritta, su uno strato suo
     let armaS: Strato | undefined, sue: Luce[] = [];
@@ -1179,7 +1284,9 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
       armaS = strato(H + 80, 40);
       usa(armaS);
       const l0 = luci.length;
+      capo = p.ribalta;
       arma(f.arma);
+      capo = false;
       sue = luci.splice(l0);
       usa(corpo);
     }
@@ -1307,6 +1414,12 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   // ================================================================ colori
   const rampa = (m: string): Rampa => (m === 'pelle' ? PELLI[a.pelle] ?? PELLI['chiara']! : m === 'capelli' ? CHIOME[a.coloreCapelli] ?? CHIOME['castano']!
     : m === 'barba' ? CHIOME[a.coloreBarba] ?? CHIOME['castano']! : RAMPE[m] ?? RAMPE['ferro']!);
+  // la rifinitura (24 ottobre 2026): le ombre tirano verso il blu-verde della Rete e le luci verso l'avorio; sui
+  // metalli e sulle gemme lo spigolo in alto a sinistra prende un riflesso
+  const buio = hex(BUIO);
+  const FREDDO = hex('#14303a'), CALDO = hex('#f2e6cc'), RIFLESSO = hex('#eef3ee'), CONTROLUCE = hex('#5fa3b0');
+  const LUCIDI = new Set(['ferro', 'acciaio', 'acciaioChiaro', 'maglia', 'precursoreGrigio', 'oro', 'oroOpaco', 'argento', 'argentoBrunito', 'bronzo', 'rame', 'ottone', 'latta', 'platino', 'vetro', 'ossidiana', 'giaietto', 'madreperla', 'avorio']);
+  const stesso = (x: number, y: number, m: string) => inb(x, y) && M[id(x, y)] === m;
   const C: (RGB | null)[] = new Array(W * H).fill(null);
   for (let i = 0; i < W * H; i++) {
     const m = M[i];
@@ -1314,10 +1427,36 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     let c = hex(m === 'raw' ? R[i]! : rampa(m)[T[i]!]!);
     const v = V[i];
     if (v && m === 'pelle') c = mescola(c, hex(rampa(v[0])[Math.max(0, T[i]! - 1)]!), v[1]);
+    if (m !== 'raw' && !EMISSIVI.has(m)) {
+      const t = T[i]!, x = i % W, y = (i / W) | 0;
+      if (t === 0) c = mescola(c, FREDDO, 0.16); else if (t === 1) c = mescola(c, FREDDO, 0.08); else if (t === 3) c = mescola(c, CALDO, 0.1);
+      // il riflesso solo sulle forme più grandi di un pixel: sulle borchie sembravano brillantini
+      const grande = stesso(x + 1, y, m) || stesso(x, y + 1, m);
+      if (t === 3 && grande && !stesso(x, y - 1, m) && !stesso(x - 1, y, m)) c = mescola(c, LUCIDI.has(m) ? RIFLESSO : CALDO, LUCIDI.has(m) ? 0.5 : 0.18);
+    }
     C[i] = c;
   }
+  // le linee interne: dove un materiale tocca un altro, il pixel dal lato in ombra (sotto o a destra del confine) si
+  // scurisce, e i pezzi si staccano l'uno dall'altro. Il volto resta pulito
+  const VOLTO = new Set(['pelle', 'capelli', 'barba']);
+  const linee: number[] = [];
+  for (let y = 1; y < H; y++) for (let x = 1; x < W; x++) {
+    const i = id(x, y), m = M[i];
+    if (!C[i] || !m || m === 'raw' || EMISSIVI.has(m) || VOLTO.has(m)) continue;
+    if (![[1, 0], [-1, 0], [0, 1], [0, -1]].some(([dx, dy]) => stesso(x + dx!, y + dy!, m))) continue; // borchie e dettagli di un pixel
+    const altro = (k: number) => { const n = M[k]; return !!n && n !== m && n !== 'raw' && !EMISSIVI.has(n); };
+    if (altro(id(x - 1, y)) || altro(id(x, y - 1))) linee.push(i);
+  }
+  for (const i of linee) C[i] = mescola(C[i]!, buio, 0.3);
+  // il controluce: lungo il bordo destro delle sagome piene (larghe almeno tre pixel) un filo della luce fredda della
+  // Rete, che le stacca dal fondo; le aste e le lame sottili ne restano fuori
+  for (let y = 0; y < 69; y++) for (let x = 2; x < W; x++) {
+    const i = id(x, y), m = M[i];
+    if (!C[i] || !m || m === 'raw' || EMISSIVI.has(m)) continue;
+    if ((x + 1 < W && M[id(x + 1, y)]) || !M[id(x - 1, y)] || !M[id(x - 2, y)]) continue;
+    C[i] = mescola(C[i]!, CONTROLUCE, 0.2);
+  }
   // contorno: dal lato della luce più chiaro, dal lato in ombra quasi nero; sempre del colore del materiale
-  const buio = hex(BUIO);
   const O: (RGB | null)[] = new Array(W * H).fill(null);
   for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
     const i = id(x, y); if (M[i]) continue;
@@ -1328,6 +1467,11 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     const mj = M[j]!;
     const base = mj === 'raw' ? buio : hex(rampa(mj)[0]);
     O[i] = mescola(base, buio, lOmbra >= 0 ? 0.78 : 0.4);
+    // gli angoli dei gradini sulle diagonali: due vicini perpendicolari dello stesso materiale, e nient'altro intorno.
+    // Il pixel prende una via di mezzo fra il contorno e il materiale, e la scaletta si ammorbidisce
+    const pieni = [sx, su, dx, giu].filter((k) => k >= 0);
+    if (pieni.length === 2 && !(sx >= 0 && dx >= 0) && !(su >= 0 && giu >= 0) && mj !== 'raw' && !EMISSIVI.has(mj) && M[pieni[0]!] === M[pieni[1]!])
+      O[i] = mescola(hex(rampa(mj)[1]), O[i]!, 0.55);
   }
   // la luce calda delle fiamme sulle cose vicine
   for (const l of luci) {

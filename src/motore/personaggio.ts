@@ -35,6 +35,7 @@ export interface Stato {
   repertorio: string[]; // incantesimi scelti per il combattimento (vuoto: scelta automatica)
   scudo: string; // '' se nessuno
   accessori: string[]; // al massimo 2
+  animale?: string; // '' se nessuno: un cavallo, la lupa o il puma
   sospeso?: string; // seguito aperto da un esito e non ancora giocato
   sospesiPrima?: string[]; // seguiti rimasti in attesa sotto quello attuale: tornano in cima quando lo giochi
   diario?: PaginaDiario[]; // le pagine che il giocatore ha scelto di conservare
@@ -80,6 +81,7 @@ function creaStato(nome: string, origine: TOrigine, ora: number, areaIniziale: s
     repertorio: [],
     scudo: '',
     accessori: [],
+    animale: '',
   };
 }
 

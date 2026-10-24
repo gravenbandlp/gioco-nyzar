@@ -947,7 +947,7 @@ function banco(s: Stato, c: Contesto['c']): string {
 
 export function averi(x: Contesto): string {
   const { s, c } = x;
-  const nomeSlot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio' };
+  const nomeSlot: Record<string, string> = { arma: 'Arma', armatura: 'Armatura', scudo: 'Scudo', accessorio: 'Accessorio', animale: 'Animale' };
   const riga = (id: string, azioni: string, etich?: string) => {
     const d = descriviOggetto(id, c);
     return `<li class="slot">
@@ -965,13 +965,14 @@ export function averi(x: Contesto): string {
     s.armatura && s.armatura !== NIENTE_ARMATURA ? riga(s.armatura, togli(s.armatura), 'Armatura') : riga(NIENTE_ARMATURA, '', 'Armatura'),
     s.scudo ? riga(s.scudo, togli(s.scudo), 'Scudo') : vuoto('Scudo'),
     ...[0, 1].map((k) => (s.accessori ?? [])[k] ? riga(s.accessori[k]!, togli(s.accessori[k]!), 'Accessorio') : vuoto('Accessorio')),
+    s.animale ? riga(s.animale, togli(s.animale), 'Animale') : vuoto('Animale'),
   ].join('');
 
   const posseduti = c.oggetti.filter((o) => possiede(s, o.id) && !indossato(s, o.id));
   const sacca = posseduti.filter((o) => o.slot !== 'nessuno').map((o) => {
     const motivo = perchéNonIndossabile(s, c, o.id);
     const n = s.quality[`oggetto.${o.id}`] ?? 0;
-    return riga(o.id, `<button type="button" class="bottone piccolo" data-az="indossa" data-id="${o.id}" ${motivo ? `disabled title="${h(motivo)}"` : ''}>Indossa</button>${motivo ? `<small class="motivo">${h(motivo)}</small>` : ''}`,
+    return riga(o.id, `<button type="button" class="bottone piccolo" data-az="indossa" data-id="${o.id}" ${motivo ? `disabled title="${h(motivo)}"` : ''}>${o.slot === 'animale' ? 'Porta con te' : 'Indossa'}</button>${motivo ? `<small class="motivo">${h(motivo)}</small>` : ''}`,
       `${nomeSlot[o.slot]}${n > 1 ? ` · ${n}` : ''}`);
   }).join('');
 
