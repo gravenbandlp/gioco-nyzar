@@ -55,7 +55,8 @@ in Playwright lo stato si cambia da `window.nyzar.stato` e poi si ridisegna con 
 - **Spedizioni**: una stanza superata non ricompare nella stessa visita (`src/motore/spedizioni.ts`), e l'ordine delle
   stanze (avvicinamento, ingresso, interno, piano di sopra) si dà con fasce di requisiti sulla profondità, documentate
   in testa a ogni file. Una stanza scritta come luogo o oggetto unico va messa nella sua fascia, mai lasciata libera.
-  Gli oggetti unici dati da stanze ripetibili si proteggono con `quando: [oggetto.<id> == 0]`.
+  Gli oggetti unici dati da stanze ripetibili si proteggono con `quando: [avuto.<id> == 0]` (23 ottobre 2026: con
+  `oggetto.<id> == 0` bastava vendere l'oggetto per riaverlo; `avuto.<id>` lo mette `ricevi` e non si azzera).
   `test/spedizioni-percorribili.test.ts` controlla che ogni spedizione arrivi al cuore con le sole stanze mostrate.
 - **Statistiche negative** (10 ottobre 2026, su richiesta di Luca): nelle storie, nei seguiti e nelle carte ogni
   fallimento dà almeno ½ di una negativa (Scandalo se c'è un testimone, Sospetto se c'è qualcosa di losco, Tormento,
@@ -75,6 +76,10 @@ Proposta approvata da Luca: 81 carte nuove, i premi finali delle catene e cinque
   ha «Non ora» e tutte le sue opzioni costano 0 rintocchi. Dopo un'inevitabile ne passano `TREGUA_INEVITABILI` pescate
   prima della successiva (quality `tregua.inevitabili`). Ogni agguato chiede la sua negativa principale sotto 6.
 - Effetto `rintocchi`, col tetto: solo per le carte di ristoro, che ne danno il netto più uno (l'opzione costa 1).
+  Ogni carta di ristoro si pesca al massimo una volta ogni sette giorni (`GIORNI_TRA_RISTORI`, `s.ristori`; Luca,
+  23 ottobre 2026, perché apparivano troppo spesso). Il 24 ottobre Luca le ha ridotte da 10 a 5, una per zona: la
+  branda dietro il forno (Città Bassa), l'amaca sotto la campata (Ponti Sospesi), i bagni di vapore (Quartieri Alti),
+  il caffè dei vaporieri (ovunque in città), la pozza calda (Superficie). Non aggiungerne senza chiedere.
 - Tesori: un oggetto magico nuovo dietro una prova Difficile (città) o Molto difficile (Superficie). In città il grado
   +1 chiede `pista.dama-argento >= 6` e il +2 `pista.capomozzo >= 10`, sulla Superficie `pista.arena >= 5`.
 - Mini-Cronache: catene di carte con `<catena>.passo` e `<catena>.fine`, raccolte in `contenuti/cronache.yaml`. Ogni

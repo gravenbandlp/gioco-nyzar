@@ -1,5 +1,6 @@
 // Inventario, slot e oggetti (Regolamento 8.1, 8.7–8.9 e docs/regolamento-oggetti.md).
-// Un oggetto posseduto è la quality oggetto.<id>; gli slot stanno nello Stato.
+// Un oggetto posseduto è la quality oggetto.<id>; gli slot stanno nello Stato. avuto.<id> ricorda che l'hai
+// ricevuto almeno una volta, e non si azzera vendendolo: gli oggetti unici delle storie si danno con avuto.<id> == 0.
 import type { TArma, TArmatura, TContenuti, TOggetto, TScudo } from './contenuto';
 import type { Stato } from './personaggio';
 
@@ -149,6 +150,7 @@ export const indossato = (s: Stato, id: string) => [s.arma, s.armatura, s.scudo,
 /** Aggiunge un oggetto all'inventario; se lo slot è vuoto lo indossa subito. */
 export function ricevi(s: Stato, c: TContenuti, id: string): void {
   s.quality[chiaveOggetto(id)] = (s.quality[chiaveOggetto(id)] ?? 0) + 1;
+  s.quality[`avuto.${id}`] = 1;
   const o = oggetto(c, id);
   if (!o) return;
   const vuoto = (o.slot === 'arma' && s.arma === NIENTE_ARMA) || (o.slot === 'armatura' && s.armatura === NIENTE_ARMATURA)
@@ -172,4 +174,6 @@ export function migraOggetti(s: Stato): void {
   s.scudo ??= '';
   s.accessori ??= [];
   for (const id of [s.arma, s.armatura]) if (id && id !== NIENTE_ARMA && id !== NIENTE_ARMATURA) s.quality[chiaveOggetto(id)] ??= 1;
+  // i salvataggi di prima di avuto.<id>: vale per quello che hai adesso (quello già venduto non si può sapere)
+  for (const [k, v] of Object.entries(s.quality)) if (k.startsWith('oggetto.') && v >= 1) s.quality[`avuto.${k.slice(8)}`] = 1;
 }

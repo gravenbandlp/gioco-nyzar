@@ -219,8 +219,21 @@ export function descriviOggetto(id: string, c: TContenuti): { nome: string; dett
     difetti: (og?.difetti ?? []).map((d) => NOMI_DIFETTI[d]) };
 }
 
+/** Che cosa fanno le proprietà delle armi di base (contenuti/equipaggiamento.yaml); le armi magiche le ereditano. */
+export const EFFETTI_ARMI: Record<string, string> = {
+  Bilanciata: 'Bilanciata: +1 dado in attacco. È il vantaggio delle spade.',
+  Spietata: "Spietata: un colpo a segno fa almeno 2 danni, anche contro un'armatura pesante. È il vantaggio delle asce.",
+  Contundente: "Contundente: ignora 1 punto di riduzione dell'armatura del nemico. Mazze e martelli.",
+  Perforante: "Perforante: ignora 2 punti di riduzione dell'armatura del nemico. Le balestre.",
+  Portata: 'Portata: +1 dado in difesa, perché tieni il nemico lontano, e nel primo round attacchi per primo. Lance e archi.',
+  Ricarica: "Ricarica: dopo ogni tiro passi un round a ricaricare, e intanto non attacchi. Le balestre.",
+  Leggera: 'Leggera: +1 dado di iniziativa.',
+  Occultabile: 'Occultabile: si porta nascosta addosso. Nei tiri non cambia niente.',
+  'Due mani': 'Due mani: non puoi portare uno scudo.',
+};
+
 /** Che cosa fanno le proprietà e i difetti degli oggetti magici (docs/regolamento-oggetti.md), per chi deve decidere se comprarli. */
-const EFFETTI_PROPRIETA: Record<string, string> = {
+export const EFFETTI_PROPRIETA: Record<string, string> = {
   assetata: 'Assetata: recuperi 1 PF a ogni colpo a segno.',
   schermata: 'Schermata: la Contaminazione che prendi si dimezza.',
   lucida: 'Lucida: il Tormento che prendi si dimezza.',
@@ -228,9 +241,9 @@ const EFFETTI_PROPRIETA: Record<string, string> = {
   secondaScelta: 'Seconda scelta: una volta per esito ripeti una prova fallita; se la seconda riesce, +½ Tormento.',
   ostinata: 'Ostinata: +2 danno quando hai meno di metà dei PF.',
   silenziosa: "Silenziosa: niente penalità di Furtività dall'armatura.",
-  caricatore: "Caricatore: l'arma non perde un round a ricaricare dopo ogni tiro.",
+  caricatore: "Caricatore: con un'arma a Ricarica ricarichi dopo due tiri invece che dopo ogni tiro.",
 };
-const EFFETTI_DIFETTI: Record<string, string> = {
+export const EFFETTI_DIFETTI: Record<string, string> = {
   pesante: 'Pesante: serve Fisico 3 per indossarla.',
   rumorosa: 'Rumorosa: −1 Furtività.',
   riconoscibile: 'Riconoscibile: in certe storie chi la vede la riconosce.',
@@ -254,7 +267,7 @@ export function spiegaOggetto(id: string, c: TContenuti): { voci: string[]; dife
   const p = og.proprieta;
   if (arma) {
     voci.push(`Si usa con ${NOMI[arma.abilita]}. Danno +${arma.danno + p.affilata}${p.affilata ? ` (${p.affilata} dall'affilatura)` : ''}.`);
-    if (arma.proprieta.length) voci.push(`Proprietà dell'arma: ${arma.proprieta.join(', ')}.`);
+    for (const pr of arma.proprieta) voci.push(EFFETTI_ARMI[pr] ?? `${pr}.`);
   }
   if (armatura) {
     voci.push(`Riduce il danno di ${armatura.riduzione + p.robusta}${p.robusta ? ` (${p.robusta} in più perché robusta)` : ''}.`);

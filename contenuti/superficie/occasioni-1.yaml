@@ -1,6 +1,6 @@
-# Superficie Fratturata, il mazzo delle occasioni (primo gruppo, 17 ottobre 2026): quattordici carte nuove.
-# Ristoro (insolite, ripetibili, con rintocchi <= 30): la capanna col fuoco acceso (chi fallisce la guardia finisce nel
-# seguito carta-sf-capanna-chi-torna), la pozza calda.
+# Superficie Fratturata, il mazzo delle occasioni (primo gruppo, 17 ottobre 2026): tredici carte nuove.
+# Ristoro (insolita, ripetibile, con rintocchi <= 30): la pozza calda. La capanna col fuoco acceso e il suo seguito
+# sono stati tolti il 24 ottobre 2026: Luca ha tenuto un solo ristoro per zona.
 # Tesori (insoliti, con pista.arena >= 5, spariscono quando hai l'oggetto): la capsula caduta (sf-tubo-della-capsula),
 # il tumulo col guardiano (sf-corazza-del-tumulo), il cristallo nella fenditura (sf-cristallo-della-fenditura), le lame
 # piantate (sf-lama-che-non-dorme).
@@ -10,140 +10,6 @@
 # Nessun nome nuovo. I numeri stanno solo negli effetti (docs/stile-dei-testi.md, regola 11).
 
 storylet:
-  # ================================================================ ristoro · la capanna col fuoco acceso
-  - id: carta-sf-capanna-col-fuoco
-    tipo: carta
-    rarita: insolita
-    area: superficie-fratturata
-    immagine: icone/hut
-    titolo: La capanna col fuoco acceso
-    sommario: "Su un pascolo alto c'è una capanna di pietre a secco con il fuoco ancora caldo, e dentro non c'è nessuno."
-    luogo: Superficie Fratturata, un pascolo alto sopra le terrazze
-    requisiti: [rintocchi <= 30]
-    testo: |
-      Dove le terrazze finiscono e comincia l'erba magra c'è una capanna di pietre a secco con il tetto di
-      zolle. Dalla porta esce un filo di fumo. Dentro il fuoco è ridotto a brace ed è ancora caldo, e accanto
-      al focolare ci sono due giacigli di pelli di capra. A un chiodo è appesa una balestra senza corda.
-
-      Di chi ci abita non c'è traccia, e chi lascia il fuoco acceso conta di tornare prima di notte.
-
-      {resistenza Facile} Le gambe hanno già deciso per te. Da quando hai visto il fumo pensano soltanto a
-      quei giacigli.
-    opzioni:
-      - testo: "Dormire con un orecchio alla porta"
-        descrizione: "Qualche ora di sonno vero sulle pelli. Se qualcuno torna devi sentirlo prima che arrivi sulla soglia."
-        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
-        successo:
-          titolo: La risata sul sentiero
-          testo: |
-            Dormi a tratti con la testa sulla sacca. Verso sera ti svegliano
-            delle voci sul sentiero ancora lontane, e una risata che non è da
-            pastori. Esci dal retro mentre loro entrano dalla porta. Dal pascolo
-            di sotto senti uno che bestemmia perché qualcuno gli ha consumato la
-            legna, e intanto le gambe sono tornate tue.
-          pe: { percezione: 6 }
-          effetti: { rintocchi: 7 }
-        fallimento:
-          titolo: La punta dello stivale
-          testo: |
-            Dormi come non dormivi da giorni, e ti sveglia la punta di uno
-            stivale fra le costole. Sopra di te ci sono due uomini con le armi in
-            mano e la faccia di chi trova un estraneo nel proprio letto.
-          effetti: { rintocchi: 3, ferite: 0.5 }
-          segue: carta-sf-capanna-chi-torna
-
-      - testo: "Dormire fuori, contro il muro"
-        descrizione: "Dietro la capanna la pietra ha preso il calore del focolare. Si dorme peggio, e chi torna non ti trova."
-        esito:
-          titolo: Il muro tiepido
-          testo: |
-            Porti fuori un tizzone e ti stendi dietro la capanna, con la schiena
-            contro le pietre calde. Dormi poco e male, e ti svegli a ogni verso
-            di capra. Quando riparti nessuno è ancora tornato. La schiena però ti
-            fa meno male di stamattina.
-          effetti: { rintocchi: 4 }
-
-      - testo: "Tirare dritto"
-        descrizione: "Una casa con il fuoco acceso ha un padrone, anche se non si vede."
-        costo: 0
-        esito:
-          titolo: Il fumo alle spalle
-          testo: |
-            Passi accanto alla capanna senza fermarti. Dal pascolo di sopra ti
-            volti una volta, e il filo di fumo sale ancora dritto nell'aria ferma.
-
-  - id: carta-sf-capanna-chi-torna
-    tipo: seguito
-    area: superficie-fratturata
-    immagine: icone/hut
-    titolo: Chi torna
-    sommario: "I padroni della capanna sono tornati, e trovano qualcuno addormentato sulle loro pelli."
-    luogo: Superficie Fratturata, la capanna sul pascolo alto
-    testo: |
-      Sono due, con le armature fatte di pezzi diversi e le armi tenute bene. Il più grosso ha ancora lo
-      stivale alzato. L'altro ti punta una lancia alla gola e non ha fretta.
-
-      «Questa è casa nostra» dice quello con la lancia. «Chi dorme a casa d'altri paga la notte, e qui la notte
-      costa cara.»
-
-      {intimidire Media} Il grosso ti ha svegliato con lo stivale e non con la lama. Preferiscono le monete al
-      sangue, e lo sanno anche loro.
-    opzioni:
-      - testo: "Combattere"
-        descrizione: "Sono soltanto due, e uno ha ancora il piede per aria."
-        costo: 0
-        combattimento: sf-predoni-della-capanna
-        vittoria:
-          titolo: Il focolare
-          testo: |
-            Il grosso inciampa nel focolare e si rialza con la giubba che fuma,
-            e scappa dietro al compagno giù per il pascolo. Sotto uno dei
-            giacigli trovi la loro borsa. Dentro ci sono le monete di qualcuno
-            che si è fermato qui prima di te, e ha dormito meno bene.
-          effetti: { monete: 12 }
-        sconfitta:
-          titolo: La faccia nell'erba
-          testo: |
-            Ti lasciano fuori dalla soglia con la faccia nell'erba e la borsa
-            vuotata a metà. Il grosso ti ributta addosso gli stivali che ti
-            aveva tolto, perché a lui stanno stretti.
-          effetti: { monete: -8 }
-
-      - testo: "Pagare la notte"
-        descrizione: "Il prezzo lo fanno loro, e non è basso."
-        costo: 0
-        requisiti: [monete >= 10]
-        esito:
-          titolo: Il conto della notte
-          testo: |
-            Conti le monete sul tavolo, e il grosso le fa sparire nella giubba
-            senza guardarle. Quello con la lancia ti accompagna fino al bordo
-            del pascolo. Prima di lasciarti ti dice che la prossima volta la
-            notte la paghi prima di dormire.
-          effetti: { monete: -10 }
-
-      - testo: "Convincerli che sei solo di passaggio"
-        descrizione: "Un viandante stanco non ha visto niente e non racconterà niente. Bisogna che ci credano."
-        costo: 0
-        prova: { attributo: sociale, abilita: [persuasione, empatia], difficolta: Media }
-        successo:
-          titolo: Un viandante stanco
-          testo: |
-            Ti metti a sedere piano con le mani bene in vista e racconti da dove
-            vieni e dove vai. Non chiedi niente della balestra senza corda. A metà
-            racconto il grosso sbadiglia, e quello con la lancia la abbassa.
-            Ti lasciano andare con un calcio alla sacca, più per abitudine che
-            per cattiveria.
-          pe: { persuasione: 6 }
-        fallimento:
-          titolo: Troppe parole
-          testo: |
-            Parli troppo e troppo in fretta, e a un certo punto nomini la
-            Caserma. Il grosso ti tira su per il bavero e ti sbatte contro lo
-            stipite. Poi ti vuotano la borsa sul pavimento e prendono quello che
-            gli piace.
-          effetti: { ferite: 1, monete: -5 }
-
   # ================================================================ ristoro · la pozza calda
   - id: carta-sf-pozza-calda
     tipo: carta
@@ -214,7 +80,7 @@ storylet:
     titolo: La capsula caduta
     sommario: "Stanotte una scia di luce è caduta dietro le terrazze. In fondo al solco c'è una capsula dei Precursori, e i predoni ci stanno già andando."
     luogo: Superficie Fratturata, un pianoro di ghiaia verso nord
-    requisiti: [pista.arena >= 5, oggetto.sf-tubo-della-capsula == 0]
+    requisiti: [pista.arena >= 5, avuto.sf-tubo-della-capsula == 0]
     testo: |
       Stanotte hai visto una scia di luce bianca tagliare il cielo e spegnersi dietro le terrazze. Stamattina
       sul pianoro c'è un solco fresco nella ghiaia, e in fondo al solco fuma qualcosa di metallo. È una
@@ -295,7 +161,7 @@ storylet:
     titolo: Il tumulo col guardiano
     sommario: "Intorno a un tumulo di pietre nere una macchina della Salvaguardia gira in tondo da tanto tempo che ha scavato un solco nella roccia."
     luogo: Superficie Fratturata, un tumulo di pietre sul crinale
-    requisiti: [pista.arena >= 5, oggetto.sf-corazza-del-tumulo == 0]
+    requisiti: [pista.arena >= 5, avuto.sf-corazza-del-tumulo == 0]
     testo: |
       Sul crinale c'è un tumulo di pietre nere alto due volte un uomo, con un'apertura bassa che guarda a est.
       Intorno al tumulo cammina una macchina di metallo con le gambe da insetto e una testa che si gira piano
@@ -378,7 +244,7 @@ storylet:
     titolo: Il cristallo nella fenditura
     sommario: "In fondo a una fenditura azzurra pulsa un cristallo grande come un pugno, chiuso in una ghiera dei Precursori."
     luogo: Superficie Fratturata, una fenditura fra due terrazze
-    requisiti: [pista.arena >= 5, oggetto.sf-cristallo-della-fenditura == 0]
+    requisiti: [pista.arena >= 5, avuto.sf-cristallo-della-fenditura == 0]
     testo: |
       Fra due terrazze la roccia si apre in una fenditura stretta da cui sale il bagliore azzurro delle crepe.
       A un braccio di profondità c'è un cristallo grande come un pugno, incastrato in una ghiera di metallo
@@ -441,7 +307,7 @@ storylet:
     titolo: Le lame piantate
     sommario: "Un altopiano irto di lame arrugginite piantate nella terra, e una sola continua a cantare quando il vento si ferma."
     luogo: Superficie Fratturata, un altopiano irto di lame
-    requisiti: [pista.arena >= 5, oggetto.sf-lama-che-non-dorme == 0]
+    requisiti: [pista.arena >= 5, avuto.sf-lama-che-non-dorme == 0]
     testo: |
       L'altopiano è irto di lame. Sono centinaia, piantate di punta nella terra a file storte, e la ruggine le
       ha mangiate quasi tutte fino all'elsa. Di chi le ha portate qui non sono rimaste nemmeno le ossa.

@@ -43,7 +43,8 @@ function testi(x: unknown, dove: string, out: { dove: string; testo: string }[])
 
 interface Esito { effetti?: Record<string, number>; imposta?: Record<string, number>; vai?: string; segue?: string }
 interface Opz { testo: string; quando?: string[]; esito?: Esito; successo?: Esito; fallimento?: Esito; vittoria?: Esito; sconfitta?: Esito }
-const diOrigine = (o: Opz) => (o.quando ?? []).some((q) => q.startsWith('origine.'));
+// d'origine solo le opzioni per un'origine: quelle nascoste a un'origine (`origine.x == 0`) restano opzioni normali
+const diOrigine = (o: Opz) => (o.quando ?? []).some((q) => /^origine\.[a-z-]+ >= 1$/.test(q));
 const esitiDi = (o: Opz) => [o.esito, o.successo, o.fallimento, o.vittoria, o.sconfitta].filter((e): e is Esito => !!e);
 /** Lo stato a cui porta un esito: effetti, flag impostati, spostamenti e seguiti (i PE regalati possono cambiare). */
 const statoDi = (e: Esito) => JSON.stringify({ effetti: e.effetti ?? {}, imposta: e.imposta ?? {}, vai: e.vai ?? null, segue: e.segue ?? null });

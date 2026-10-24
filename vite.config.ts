@@ -26,5 +26,6 @@ export default defineConfig({
     },
   },
   define: { __VERSIONE__: JSON.stringify(commit ? `${versione} (${commit})` : versione) },
-  test: { globals: true, setupFiles: ['test/cedi.ts'] },
+  // Quattro worker al massimo: con tutti i thread i test di percorso tengono la CPU al 90% (Luca, 24 ottobre 2026)
+  test: { globals: true, setupFiles: ['test/cedi.ts'], maxWorkers: 4 },
 });

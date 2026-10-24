@@ -6,7 +6,7 @@ import type { TContenuti, TStorylet } from '../src/motore/contenuto';
 import { nuovoPersonaggio, pesca, cartePescabili, applicaEffetti, TREGUA } from '../src/motore/personaggio';
 import { scegli } from '../src/motore/azioni';
 import { crisiAttiva } from '../src/motore/crisi';
-import { RINTOCCHI_MAX, TREGUA_INEVITABILI } from '../src/motore/regole';
+import { RINTOCCHI_MAX, TREGUA_INEVITABILI, GIORNI_TRA_RISTORI } from '../src/motore/regole';
 
 const carta = (id: string, extra: Partial<TStorylet> = {}): TStorylet => ({
   id, titolo: id, area: 'citta-bassa', tipo: 'carta', ripetibile: false, requisiti: [], testo: 'Una carta di prova.',
@@ -22,6 +22,19 @@ const nuovo = () => {
 };
 
 describe('occasioni', () => {
+  it('una carta di ristoro torna nel mazzo solo dopo una settimana', () => {
+    const ristoro = carta('branda', { opzioni: [{ testo: 'Dormire', esito: { testo: 'Fatto.', effetti: { rintocchi: 5 } } }] });
+    const c = mazzo(carta('quieta'), ristoro);
+    const s = nuovo();
+    const t0 = Date.now();
+    s.coda = 1;
+    expect(pesca(s, c, t0, () => 0.99)).toBe('branda');
+    s.mano = [];
+    const giorno = 24 * 60 * 60_000;
+    expect(cartePescabili(s, c, t0 + (GIORNI_TRA_RISTORI - 1) * giorno).map((x) => x.id)).toEqual(['quieta']);
+    expect(cartePescabili(s, c, t0 + GIORNI_TRA_RISTORI * giorno).map((x) => x.id)).toContain('branda');
+  });
+
   it('la pesca segue i pesi della rarità', () => {
     const c = mazzo(carta('comune'), carta('insolita', { rarita: 'insolita' }), carta('rara', { rarita: 'rara' }));
     const conta: Record<string, number> = { comune: 0, insolita: 0, rara: 0 };

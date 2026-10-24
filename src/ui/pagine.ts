@@ -7,6 +7,7 @@ import {
   ETICHETTE_DIFFICOLTA, SOGLIE_PE, MAX_CONSUMABILI_IN_COMBATTIMENTO, SCORTA_MAX,
 } from '../motore/regole';
 import { probabilita } from '../motore/dadi';
+import { EFFETTI_ARMI, EFFETTI_PROPRIETA, EFFETTI_DIFETTI } from './componenti';
 import FONTI from '../dati/fonti-tavole.json';
 
 export type PaginaInfo = 'regolamento' | 'termini' | 'crediti' | 'salvataggio';
@@ -17,6 +18,8 @@ export const VERSIONE: string = typeof __VERSIONE__ === 'string' ? __VERSIONE__ 
 const ANNO = 2026;
 
 const a = (href: string, testo: string) => `<a href="${href}" target="_blank" rel="noopener">${testo}</a>`;
+/** «Nome: effetto» con il nome in grassetto. */
+const voceRegola = (t: string) => h(t).replace(/^([^:]+):/, '<b>$1</b>:');
 
 export function piede(): string {
   return `<footer class="piede-pagina">
@@ -156,8 +159,8 @@ function regolamento(): string {
   <p><b>Attaccare.</b> Chi attacca tira i dadi d'Attacco, chi si difende i dadi di Difesa, e si contano i successi di
   entrambi. Se l'attacco ne fa di più, il colpo va a segno e fa tanti danni quanta è la differenza, più il danno
   dell'arma, meno la riduzione dell'armatura. Un colpo a segno fa sempre almeno 1 danno. Con un pareggio o meno, il colpo
-  è parato. Le armi <i>Perforanti</i> ignorano 2 punti di riduzione e quelle <i>Contundenti</i> 1; con un'arma a
-  <i>Portata</i> colpisci per primo nel primo round.</p>
+  è parato. Le proprietà delle armi (Bilanciata, Contundente, Portata e le altre) cambiano questi conti: sono spiegate
+  più sotto, in «Armi, armature e oggetti».</p>
   <p>A ogni round, al tuo turno, scegli una di queste azioni:</p>
   <ul class="elenco-regole">
     <li><b>Attaccare</b> un nemico, come sopra.</li>
@@ -188,6 +191,28 @@ function regolamento(): string {
     1 e 3, zero successi. Vinci di 3 e il predone è di quelli che scappano, quindi se ne va.</p>
     <p><b>Fine.</b> Hai vinto con 5 PF su 7, più di due quinti: prendi mezza Ferita.</p>
   </div>
+
+  <h3>Armi, armature e oggetti</h3>
+  <p>Porti un'arma, un'armatura, uno scudo e due accessori; il resto sta negli Averi, e cambiare equipaggiamento non costa
+  rintocchi. L'armatura toglie danni a ogni colpo (la <b>riduzione</b>) ma può darti penalità ad Acrobazia, Furtività o
+  Atletica. Lo scudo dà dadi in difesa; se anche l'armatura ne dà, vale il più alto dei due.</p>
+  <p>Ogni famiglia di armi ha un suo vantaggio, e lo portano anche le armi magiche fatte su quella base:</p>
+  <ul class="elenco-regole">
+    ${Object.values(EFFETTI_ARMI).map((t) => `<li>${voceRegola(t)}</li>`).join('')}
+  </ul>
+  <p>Gli <b>oggetti magici</b> hanno un grado, da 1 a 5, che dice quanto sono forti. Possono dare dadi in attacco o in
+  difesa, danno in più (<i>affilata</i>), riduzione in più (<i>robusta</i>), dadi d'iniziativa (<i>rapida</i>), Energia
+  per gli incantesimi, punti di armatura del nemico da ignorare, dadi in più a un'abilità fuori dal combattimento
+  (<i>talento</i>), e a volte aprono opzioni in più nelle storie. Hanno anche queste proprietà:</p>
+  <ul class="elenco-regole">
+    ${Object.values(EFFETTI_PROPRIETA).map((t) => `<li>${voceRegola(t)}</li>`).join('')}
+  </ul>
+  <p>Alcuni hanno un <b>difetto</b>, che li rende più forti per il loro grado ma chiede qualcosa in cambio:</p>
+  <ul class="elenco-regole">
+    ${Object.values(EFFETTI_DIFETTI).map((t) => `<li>${voceRegola(t)}</li>`).join('')}
+  </ul>
+  <p>I <b>reperti</b> dei Precursori vanno decifrati prima di usarli, con una prova di Mentale e Tecnologia. Hanno
+  cariche che si ricaricano con le celle, e con zero successi si guastano: li ripara Oda Krell sulla Superficie.</p>
 
   <h3>Le statistiche negative e le crisi</h3>
   <p>Ferite, Scandalo, Sospetto, Tormento e Contaminazione salgono con i rischi che corri. Si abbassano con il riposo,

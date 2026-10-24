@@ -72,7 +72,10 @@ export interface Combattente {
   inceppamento?: boolean;
   ricarica?: boolean;
   ricaricando?: boolean;
+  caricatore?: boolean; // con Ricarica: si ricarica dopo due tiri invece che dopo ogni tiro
+  tiri?: number; // i tiri fatti dall'ultima ricarica
   portata?: boolean;
+  spietata?: boolean; // le asce: un colpo a segno fa almeno 2 danni
   dissonanza?: number; // Tormento dato da una Dissonanza (½, di più con certe mutazioni)
   incantesimi?: TIncantesimo[]; // quelli che un nemico sa lanciare (il repertorio del giocatore sta nello scontro)
 }
@@ -141,8 +144,10 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
     id: 'pg',
     nome: s.nome,
     lato: 'pg',
-    attacco: s.attributi.fisico + eff(abilArma) + (ogArma?.dadi ?? 0),
-    difesa: s.attributi.fisico + eff('acrobazia') + dadiDifesa(s, c),
+    // Bilanciata (le spade): un dado in più in attacco, anche per le armi magiche che hanno quella base
+    attacco: s.attributi.fisico + eff(abilArma) + (ogArma?.dadi ?? 0) + (arma?.proprieta.includes('Bilanciata') ? 1 : 0),
+    // Portata (lance e archi): tieni il nemico lontano, un dado in più in difesa
+    difesa: s.attributi.fisico + eff('acrobazia') + dadiDifesa(s, c) + (arma?.proprieta.includes('Portata') ? 1 : 0),
     difesaMentale: s.attributi.mentale + eff('resilienza'),
     difesaFisica: s.attributi.fisico + eff('resistenza'),
     intimidire: s.attributi.sociale + eff('intimidire'),
@@ -166,8 +171,10 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
     ostinata: !!pa?.ostinata,
     assetata: !!pa?.assetata,
     inceppamento: !!ogArma?.difetti.includes('inceppamento'),
-    ricarica: !!arma?.proprieta.includes('Ricarica') && !pa?.caricatore,
+    ricarica: !!arma?.proprieta.includes('Ricarica'),
+    caricatore: !!pa?.caricatore,
     portata: !!arma?.proprieta.includes('Portata'),
+    spietata: !!arma?.proprieta.includes('Spietata'),
     dissonanza: tormentoDissonanza(s, c),
   };
 }
@@ -297,7 +304,7 @@ function attacca(cs: StatoCombattimento, att: Combattente, dif: Combattente, rng
   if (a > d) {
     const rid = Math.max(0, dif.riduzione + modifica(dif, 'riduzione') - att.ignora);
     const ostinata = att.ostinata && att.pf < att.pfMax / 2 ? 2 : 0;
-    infliggi(cs, dif, Math.max(1, a - d + att.danno + ostinata - rid), `${soggetto} ${oggetto}: ${a} contro ${d}`, ev);
+    infliggi(cs, dif, Math.max(att.spietata ? 2 : 1, a - d + att.danno + ostinata - rid), `${soggetto} ${oggetto}: ${a} contro ${d}`, ev);
     if (att.assetata && att.pf < att.pfMax) { att.pf += 1; annota(cs, 'L\'arma beve: recuperi 1 PF.', { tipo: 'cura', chi: att.id, contro: att.id, cura: 1 }); }
   } else {
     annota(cs, att.lato === 'pg' ? `Attacchi ${oggetto}: ${a} contro ${d}, parato.` : `${att.nome} attacca ${oggetto}: ${a} contro ${d}, schivato.`, { ...ev, colpo: false });
@@ -573,7 +580,11 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
       } else if (b) {
         if (azione.tipo === 'attacco') {
           if (att.ricaricando) { att.ricaricando = false; annota(cs, 'Ricarichi l\'arma.', { tipo: 'fermo', chi: att.id }); }
-          else { attacca(cs, att, b, rng); if (att.ricarica) att.ricaricando = true; }
+          else {
+            attacca(cs, att, b, rng);
+            // Ricarica: il tiro dopo si salta per ricaricare; con il caricatore, dopo due tiri
+            if (att.ricarica) { att.tiri = (att.tiri ?? 0) + 1; if (att.tiri >= (att.caricatore ? 2 : 1)) { att.ricaricando = true; att.tiri = 0; } }
+          }
         } else intimidisci(cs, att, b, rng);
       }
     } else {

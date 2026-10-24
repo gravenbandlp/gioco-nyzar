@@ -60,8 +60,8 @@ function vittoria(s: Stato, scontroId: string, c: TContenuti): number {
   const pg = combattenteDaStato(s, c);
   const rep = repertorio(s, c);
   const chiave = [scontroId, pg.attacco, pg.difesa, pg.difesaMentale, pg.difesaFisica, pg.pfMax, pg.danno, pg.riduzione,
-    pg.ignora, pg.iniziativa, pg.magia, pg.energiaMax, pg.ultimoRespiro, pg.ostinata, pg.assetata, pg.inceppamento, pg.ricarica,
-    pg.portata, rep.map((i) => i.id).join('+')].join('|');
+    pg.ignora, pg.iniziativa, pg.magia, pg.energiaMax, pg.ultimoRespiro, pg.ostinata, pg.assetata, pg.inceppamento, pg.ricarica, pg.caricatore,
+    pg.portata, pg.spietata, rep.map((i) => i.id).join('+')].join('|');
   let p = cacheVittoria.get(chiave);
   if (p === undefined) { p = probabilitaVittoria(pg, sc, c, 2000, 1, rep); cacheVittoria.set(chiave, p); }
   return p;
@@ -103,6 +103,7 @@ export interface Risultato {
   area?: string;
   dissonanza?: boolean;
   corretto?: boolean;
+  rifatto?: boolean; // viene da una Correzione o da una seconda scelta, riuscita o no: non si rifà più
   guasto?: string; // reperto guastato da zero successi
   conclusa?: string; // la storia principale appena conclusa
 }
@@ -211,7 +212,8 @@ export function scegli(
   }
 
   spendiRintocchi(s, ante.costo, ora);
-  if (st.tipo === 'carta' && (ante.costo > 0 || st.inevitabile)) scarta(s, st.id);
+  // la carta si scarta secondo il costo scritto: una prova rifatta gratis la scarta come la prima
+  if (st.tipo === 'carta' && ((opz.costo ?? 1) > 0 || st.inevitabile)) scarta(s, st.id);
   const r: Risultato = { testo: '', variazioni: [], crescite: [] };
   if (opz.prova && ante.prova) {
     const t = tira(ante.prova.pool, rng);
@@ -389,9 +391,9 @@ export function compra(s: Stato, negozioId: string, quality: string, c: TContenu
 
 // ---------------------------------------------------------------- Correzione (formula precuriana)
 
-/** Si può correggere questo risultato? Serve una prova fallita e l'incantesimo Correzione. */
+/** Si può correggere questo risultato? Serve una prova fallita, mai rifatta, e l'incantesimo Correzione. */
 export function correggibile(s: Stato, r: Risultato): boolean {
-  return !!r.tiro && r.riuscito === false && (s.quality[chiaveIncantesimo('correzione')] ?? 0) >= 1;
+  return !!r.tiro && r.riuscito === false && !r.rifatto && (s.quality[chiaveIncantesimo('correzione')] ?? 0) >= 1;
 }
 
 /**
@@ -419,7 +421,7 @@ export function correggi(
       risultato: {
         titolo: 'La formula non prende', testo: 'Le linee che tracci nell\'aria non si chiudono, e quello che è successo resta com\'era.',
         riuscito: false, tiro: { facce: t.facce, successi: t.successi, richiesti, abilita: 'magia', probabilita: p },
-        variazioni, crescite, dissonanza: t.successi === 0,
+        variazioni, crescite, dissonanza: t.successi === 0, rifatto: true,
       },
     };
   }
@@ -431,6 +433,7 @@ export function correggi(
     rifatta.risultato.variazioni.unshift(...variazioni);
     rifatta.risultato.crescite.unshift(...crescite);
     rifatta.risultato.corretto = true;
+    rifatta.risultato.rifatto = true;
   }
   return rifatta;
 }
@@ -438,7 +441,7 @@ export function correggi(
 // ---------------------------------------------------------------- Seconda scelta (Specchio della Seconda Scelta)
 
 export function secondaSceltaDisponibile(s: Stato, r: Risultato, c: TContenuti): boolean {
-  return !!r.tiro && r.riuscito === false && haProprieta(s, c, 'secondaScelta');
+  return !!r.tiro && r.riuscito === false && !r.rifatto && haProprieta(s, c, 'secondaScelta');
 }
 
 /**
@@ -454,6 +457,7 @@ export function secondaScelta(
   const rifatta = scegli(s, st, indice, c, ora, rng, { gratis: true });
   if (rifatta.tipo === 'risultato') {
     rifatta.risultato.corretto = true;
+    rifatta.risultato.rifatto = true;
     if (rifatta.risultato.riuscito) rifatta.risultato.variazioni.push(...applicaEffetti(s, { tormento: 0.5 }, c));
   }
   return rifatta;

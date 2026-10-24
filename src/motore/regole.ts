@@ -72,6 +72,8 @@ export const MINUTI_PER_CARTA = 10;
 export const PESI_RARITA = { comune: 3, insolita: 2, rara: 1 } as const;
 // Dopo una carta inevitabile, quante pescate passano prima che ne possa arrivare un'altra
 export const TREGUA_INEVITABILI = 6;
+// Ogni carta di ristoro (che ridà rintocchi) si pesca al massimo una volta in questi giorni (Luca, 23 ottobre 2026)
+export const GIORNI_TRA_RISTORI = 7;
 
 // Combattimento (6.)
 export const ETICHETTE_COMBATTIMENTO: { min: number; etichetta: string }[] = [

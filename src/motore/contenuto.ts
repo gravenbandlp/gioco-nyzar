@@ -239,7 +239,7 @@ export const Proprieta = z.object({
   secondaScelta: z.boolean().default(false), // ripeti una prova fallita per esito
   ostinata: z.boolean().default(false), // +2 danno sotto metà PF
   silenziosa: z.boolean().default(false), // niente penalità di Furtività
-  caricatore: z.boolean().default(false), // ignora Ricarica
+  caricatore: z.boolean().default(false), // con Ricarica, si ricarica ogni due tiri
   talento: z.record(z.string(), z.number().int().min(1)).default({}), // +N dadi a un'abilità fuori dal combattimento
   chiave: z.array(z.string()).default([]), // apre opzioni negli storylet (chiave.<nome>)
 });

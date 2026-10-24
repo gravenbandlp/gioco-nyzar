@@ -7,16 +7,20 @@ Integrazione alle sezioni 5.3–5.5 del Regolamento v0.4, approvata il 30 settem
 - Quando una statistica negativa arriva a 8 si apre lo storylet di crisi (`tipo: crisi`). Finché non
   lo risolvi, al posto dell'area vedi solo la crisi. Le sue opzioni costano 0 rintocchi. Se due
   statistiche sono a 8, le crisi arrivano una dopo l'altra.
-- Pagare o sacrificare: la statistica scende a 4. Accettare: vai nell'area di penalità; la
-  statistica resta a 8 finché non esci, e intanto le altre crisi aspettano.
+- Sacrificare: la statistica scende a 4. Accettare: vai nell'area di penalità; la statistica resta a 8 finché
+  non esci, e intanto le altre crisi aspettano.
+- Il 23 ottobre 2026 Luca ha tolto tutte le opzioni a pagamento (le monete ricorrevano troppo, e più avanti
+  erano poche): una crisi si sacrifica o si sconta coi rintocchi. `test/crisi.test.ts` lo controlla.
+  Il 24 ottobre ha tolto anche il cristallo carico ceduto al Velo: la Contaminazione non si sacrifica,
+  porta sempre a una mutazione.
 
-| Statistica | Pagare | Sacrificare | Accettare |
-|---|---|---|---|
-| Ferite | 40 monete a Nestor Gramm | i PE accumulati in Resistenza (almeno 10) | Convalescenza |
-| Scandalo | 60 monete, oppure 2 pettegolezzi verificati | −2 reputazione con Velo, Gilda, Castaldi o Maison | Ostracismo |
-| Sospetto | 80 monete di tangente | consegni un nome (Scuri −2, Caserma +1), oppure perdi il Contatto nell'ombra | Prigione |
-| Tormento | 50 monete al Velo | i PE accumulati in Resilienza (almeno 10) | Delirio |
-| Contaminazione | 150 monete di purificazione straordinaria | un cristallo carico ceduto al Velo | mutazione |
+| Statistica | Sacrificare | Accettare |
+|---|---|---|
+| Ferite | i PE accumulati in Resistenza (almeno 10) | Convalescenza |
+| Scandalo | 2 pettegolezzi verificati, oppure −2 reputazione con Velo, Gilda, Castaldi o Maison | Ostracismo |
+| Sospetto | consegni un nome (Scuri −2, Caserma +1), oppure perdi il Contatto nell'ombra | Prigione |
+| Tormento | i PE accumulati in Resilienza (almeno 10) | Delirio |
+| Contaminazione | (nessuno) | mutazione |
 
 ## Aree di penalità
 

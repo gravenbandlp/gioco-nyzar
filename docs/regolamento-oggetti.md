@@ -27,10 +27,10 @@ magici da +1 a +5, reperti con cariche e celle, consumabili.
 | Proprietà | Punti | Effetto |
 |---|---|---|
 | Ultimo respiro | 2 | a 0 PF resti a 1, una volta per scontro |
-| Seconda scelta | 3 | una volta per esito ripeti una prova fallita; se la nuova riesce, +½ Tormento |
+| Seconda scelta | 3 | una volta per esito ripeti una prova fallita; se la nuova riesce, +½ Tormento. Una prova già rifatta (con la Seconda scelta o con Correzione) non si rifà più |
 | Ostinata | 1 | +2 danno quando hai meno di metà dei PF |
 | Silenziosa | 1 | toglie la penalità di Furtività dell'armatura |
-| Caricatore | 1 | l'arma ignora Ricarica |
+| Caricatore | 1 | con Ricarica, ricarichi dopo due tiri invece che dopo ogni tiro (fino al 23 ottobre 2026 la ignorava) |
 | Chiave | 0 | apre opzioni negli storylet (requisito `chiave.<nome>`) |
 
 Lucida e Schermata dimezzano al mezzo punto inferiore (½ diventa 0, 1 diventa ½). Due fonti di
@@ -52,8 +52,36 @@ Ogni difetto dà un punto di grado in più.
 
 ## Proprietà delle armi nel motore
 
-Portata (nel primo round attacchi per primo), Ricarica (attacchi un round sì e uno no),
-Contundente e Perforante (armatura ignorata), Leggera (+1 iniziativa), Due mani (niente scudo).
+Ribilanciate il 23 ottobre 2026 su richiesta di Luca (la mazza faceva quanto la spada lunga, costava meno e in più
+era Contundente). Ogni famiglia ha un vantaggio, che le armi magiche ereditano dalla base:
+
+- Bilanciata (spade): +1 dado in attacco.
+- Spietata (asce): un colpo a segno fa almeno 2 danni invece di 1.
+- Contundente (mazze e martelli): ignora 1 di riduzione. Perforante (balestre): ignora 2.
+- Portata (lance e archi): +1 dado in difesa, e nel primo round attacchi per primo.
+- Ricarica (balestre): dopo ogni tiro un round di ricarica. Il Caricatore lo porta a un round ogni due tiri.
+- Leggera (+1 iniziativa), Occultabile (nessun effetto nei tiri), Due mani (niente scudo).
+
+I prezzi seguono la probabilità media di vittoria su un campione di scontri (`scripts/strumenti/armi.ts`), con un
+combattente di metà gioco (Fisico 3, abilità 3, cuoio rinforzato):
+
+| Arma | Danno | Proprietà | Prezzo | Vittorie |
+|---|---|---|---|---|
+| Pugnale | 1 | Leggera, Occultabile | 10 | 38% |
+| Lancia | 1 | Portata | 30 | 44% |
+| Spada corta | 1 | Leggera, Bilanciata | 35 | 41% |
+| Ascia da battaglia | 2 | Spietata | 50 | 44% |
+| Mazza | 2 | Contundente | 60 | 45% |
+| Spada lunga | 2 | Bilanciata | 60 | 45% |
+| Ascia bipenne | 3 | Due mani, Spietata | 90 | 47% |
+| Martello da guerra | 3 | Due mani, Contundente | 115 | 49% |
+| Spadone | 4 | Due mani | 120 | 49% |
+| Arco corto | 1 | Due mani, Portata | 35 | 44% |
+| Balestra leggera | 4 | Due mani, Perforante, Ricarica | 70 | 47% |
+| Arco lungo | 2 | Due mani, Portata | 75 | 47% |
+| Balestra pesante | 5 | Due mani, Perforante, Ricarica | 130 | 50% |
+
+Lo spadone non è cambiato, perché la taratura dei boss dell'8 ottobre usa lo Spadone di Uzgreth.
 
 ## Reliquie del Codex
 

@@ -2,6 +2,7 @@
 import {
   ATTRIBUTI, TUTTE_LE_ABILITA, attributoDi, SOGLIE_PE, QUOTA_ATTRIBUTO, MAX_GIOCATORE, NEGATIVE, MAX_NEGATIVA,
   REPUTAZIONE_MIN, REPUTAZIONE_MAX, RINTOCCHI_MAX, MINUTI_PER_RINTOCCO, CODA_MAX, MINUTI_PER_CARTA, MANO_MAX, NOMI, SCORTA_MAX, PESI_RARITA, TREGUA_INEVITABILI,
+  GIORNI_TRA_RISTORI,
   type Attributo,
 } from './regole';
 import type { TContenuti, TEffetti, TOrigine, TStorylet } from './contenuto';
@@ -45,6 +46,7 @@ export interface Stato {
   zekarLaterali?: number[]; // le quattro laterali dell'ultima partita a Zekar, proposte alla successiva
   notati?: string[]; // le pagine «notate» già finite nel diario (motore/inquietudine.ts)
   notatoAl?: number; // ms di gioco dell'ultima pagina notata
+  ristori?: Record<string, number>; // quando è stata pescata l'ultima volta ogni carta di ristoro (timestamp)
 }
 
 export function nuovoPersonaggio(nome: string, origine: TOrigine, ora: number, areaIniziale: string, aspetto?: AspettoPg): Stato {
@@ -287,14 +289,31 @@ export function storyletDisponibili(s: Stato, c: TContenuti): TStorylet[] {
   return c.storylet.filter((st) => st.area === s.area && st.tipo === 'fisso' && !chiuso(st.presso) && requisitiSoddisfatti(s, st.requisiti, c));
 }
 
-export function cartePescabili(s: Stato, c: TContenuti): TStorylet[] {
+const ristoriDi = new WeakMap<TContenuti, Set<string>>();
+/** Le carte di ristoro: quelle con un esito che ridà rintocchi. */
+export function carteDiRistoro(c: TContenuti): Set<string> {
+  let r = ristoriDi.get(c);
+  if (!r) {
+    const esiti = (st: TStorylet) => st.opzioni.flatMap((o) => [o.esito, o.successo, o.fallimento, o.vittoria, o.sconfitta]);
+    r = new Set(c.storylet.filter((st) => st.tipo === 'carta' && esiti(st).some((e) => (e?.effetti?.['rintocchi'] ?? 0) > 0)).map((st) => st.id));
+    ristoriDi.set(c, r);
+  }
+  return r;
+}
+
+const MS_TRA_RISTORI = GIORNI_TRA_RISTORI * 24 * 60 * 60_000;
+
+/** Con l'ora, una carta di ristoro pescata da meno di GIORNI_TRA_RISTORI giorni non torna nel mazzo. */
+export function cartePescabili(s: Stato, c: TContenuti, ora?: number): TStorylet[] {
   // le carte "ovunque" valgono in città: non nelle aree di penalità, nelle spedizioni o fuori città
   const qui = c.aree.find((a) => a.id === s.area);
   const chiusa = !!qui && (qui.penalita || !!qui.spedizione || qui.fuori);
   const tregua = (s.quality[TREGUA] ?? 0) > 0;
+  const ristori = carteDiRistoro(c);
+  const recente = (id: string) => ora !== undefined && ristori.has(id) && ora - (s.ristori?.[id] ?? -Infinity) < MS_TRA_RISTORI;
   return c.storylet.filter(
     (st) => st.tipo === 'carta' && (st.area === s.area || (st.area === OVUNQUE && !chiusa)) && !s.mano.includes(st.id)
-      && !(tregua && st.inevitabile) && requisitiSoddisfatti(s, st.requisiti, c),
+      && !(tregua && st.inevitabile) && !recente(st.id) && requisitiSoddisfatti(s, st.requisiti, c),
   );
 }
 
@@ -313,9 +332,10 @@ function scegliCarta(mazzo: TStorylet[], rng: Rng): TStorylet {
 export function pesca(s: Stato, c: TContenuti, ora: number, rng: Rng = Math.random): string | null {
   aggiornaTempo(s, ora);
   if (s.coda <= 0 || s.mano.length >= MANO_MAX) return null;
-  const mazzo = cartePescabili(s, c);
+  const mazzo = cartePescabili(s, c, ora);
   if (mazzo.length === 0) return null;
   const carta = scegliCarta(mazzo, rng);
+  if (carteDiRistoro(c).has(carta.id)) s.ristori = { ...s.ristori, [carta.id]: ora };
   if ((s.quality[TREGUA] ?? 0) > 0) s.quality[TREGUA] = s.quality[TREGUA]! - 1;
   if (carta.inevitabile) s.quality[TREGUA] = TREGUA_INEVITABILI;
   if (s.coda >= CODA_MAX) s.codaAl = ora;

@@ -104,7 +104,7 @@ export function caricaContenuti(opzioni: { tavole?: boolean } = {}): { contenuti
 
 /**
  * Ogni arma, armatura e scudo di base è anche un oggetto comune con lo stesso id.
- * Ogni oggetto è una quality (oggetto.<id>); i reperti hanno cariche, guasto e decifrato.
+ * Ogni oggetto è una quality (oggetto.<id>) con il suo avuto.<id>; i reperti hanno cariche, guasto e decifrato.
  */
 export function completaOggetti(c: TContenuti): void {
   const esiste = new Set(c.oggetti.map((o) => o.id));
@@ -119,6 +119,8 @@ export function completaOggetti(c: TContenuti): void {
   for (const a of c.scudi) aggiungi(a.id, a.nome, 'scudo', a.dadi, a.prezzo, a.immagine);
   for (const o of c.oggetti) {
     c.quality.push({ id: `oggetto.${o.id}`, nome: o.nome, categoria: 'equipaggiamento', descrizione: o.descrizione, immagine: o.immagine });
+    // resta a 1 anche quando l'oggetto si vende o si consuma: le storie che lo danno una volta sola guardano questa
+    c.quality.push({ id: `avuto.${o.id}`, nome: `Hai avuto: ${o.nome}`, categoria: 'stato', nascosta: true });
     if (o.reperto) {
       c.quality.push({ id: `cariche.${o.id}`, nome: `Cariche: ${o.nome}`, categoria: 'stato', nascosta: true });
       c.quality.push({ id: `guasto.${o.id}`, nome: `${o.nome} guasto`, categoria: 'stato', nascosta: true });

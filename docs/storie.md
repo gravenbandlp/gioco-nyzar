@@ -561,13 +561,65 @@ quelli delle Cronache (`contenuti/cronache.yaml`); le serie le ricava `src/motor
   4. `frattura.respiro >= 4`
   5. `frattura.premio >= 1`
 
+### La carovana dei muti
+
+`raccolta.carovana` · 5 passi · 5 scene
+
+- **File:** `superficie/occasioni-catene.yaml`
+- **Passi:**
+  1. `carovana.passo >= 1`
+  2. `carovana.passo >= 2`
+  3. `carovana.passo >= 3`
+  4. `carovana.passo >= 4`
+  5. `carovana.passo >= 5`
+
+### Il cartografo cieco
+
+`raccolta.cartografo` · 4 passi · 4 scene
+
+- **File:** `superficie/occasioni-catene.yaml`
+- **Passi:**
+  1. `cartografo.passo >= 1`
+  2. `cartografo.passo >= 2`
+  3. `cartografo.passo >= 3`
+  4. `cartografo.passo >= 4`
+
+### Il corriere della Caserma
+
+`raccolta.corriere` · 2 passi · 2 scene
+
+- **File:** `superficie/carte-3.yaml`
+- **Passi:**
+  1. `sup3.messaggero >= 1`
+  2. `sup3.messaggero >= 2`
+
+### Il cane che aspetta
+
+`raccolta.cane` · 2 passi · 2 scene
+
+- **File:** `superficie/carte-3.yaml`
+- **Passi:**
+  1. `sup3.cane >= 1`
+  2. `sup3.cane >= 4`
+
+### La voce nel metallo
+
+`raccolta.voce` · 4 passi · 3 scene
+
+- **File:** `superficie/carte-3.yaml`
+- **Passi:**
+  1. `sup3.voce >= 1`
+  2. `sup3.voce >= 2`
+  3. `sup3.voce >= 3`
+  4. `sup3.voce >= 99`
+
 ## I luoghi della città
 
 ### La casa nel vicolo
 
-`raccolta.casa` · 10 passi · 10 scene
+`raccolta.casa` · 10 passi · 11 scene
 
-- **File:** `economia/casa.yaml`
+- **File:** `citta/occasioni-ovunque.yaml`, `economia/casa.yaml`
 - **Oggetti:** Ciondolo del Nodo, Spillone di Nerissa
 - **Passi:**
   1. `casa >= 1`
@@ -580,6 +632,83 @@ quelli delle Cronache (`contenuti/cronache.yaml`); le serie le ricava `src/motor
   8. `ospite.secondo >= 1`
   9. `ospite.terzo >= 1`
   10. `ospite.quarto >= 1`
+
+### Fosco e la casa che manca
+
+`raccolta.fosco` · 3 passi · 3 scene
+
+- **File:** `citta/carte-citta-bassa.yaml`
+- **Oggetti:** Taccuino dei civici
+- **Passi:**
+  1. `fosco >= 1`
+  2. `fosco >= 2`
+  3. `fosco >= 3`
+
+### L'argento dei Lusardi
+
+`raccolta.lusardi` · 3 passi · 3 scene
+
+- **File:** `citta/carte-quartieri-alti.yaml`
+- **Oggetti:** Sigillo dei Lusardi
+- **Passi:**
+  1. `lusardi.passo >= 1`
+  2. `lusardi.passo >= 2`
+  3. `lusardi.passo >= 3`
+
+### Ilde e la Mula
+
+`raccolta.ilde` · 4 passi · 4 scene
+
+- **File:** `citta/carte-ponti-sospesi.yaml`
+- **Passi:**
+  1. `chiatta.ilde >= 1`
+  2. `chiatta.ilde >= 2`
+  3. `chiatta.ilde >= 3`
+  4. `chiatta.ilde >= 4`
+
+### La bottega che ticchetta
+
+`raccolta.bottega` · 4 passi · 4 scene
+
+- **File:** `citta/occasioni-citta-bassa.yaml`
+- **Passi:**
+  1. `bottega.passo >= 1`
+  2. `bottega.passo >= 2`
+  3. `bottega.passo >= 3`
+  4. `bottega.passo >= 4`
+
+### Il registro della governante
+
+`raccolta.governante` · 4 passi · 4 scene
+
+- **File:** `citta/occasioni-quartieri-alti.yaml`
+- **Passi:**
+  1. `governante.passo >= 1`
+  2. `governante.passo >= 2`
+  3. `governante.passo >= 3`
+  4. `governante.passo >= 4`
+
+### L'ultimo pontiere
+
+`raccolta.pontiere` · 4 passi · 4 scene
+
+- **File:** `citta/occasioni-ponti-sospesi.yaml`
+- **Passi:**
+  1. `pontiere.passo >= 1`
+  2. `pontiere.passo >= 2`
+  3. `pontiere.passo >= 3`
+  4. `pontiere.passo >= 4`
+
+### Le lettere senza mittente
+
+`raccolta.lettere` · 4 passi · 4 scene
+
+- **File:** `citta/occasioni-ovunque.yaml`
+- **Passi:**
+  1. `lettere.passo >= 1`
+  2. `lettere.passo >= 2`
+  3. `lettere.passo >= 3`
+  4. `lettere.passo >= 4`
 
 ### Locanda del Grifone di Ferro
 

@@ -1,4 +1,3 @@
-import { RINTOCCHI_MAX } from '../src/motore/regole';
 import { rngConSeme } from '../src/motore/dadi';
 import { nuovoPersonaggio, cartePescabili, abilitaEffettiva, applicaEffetti, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
 import { scegli, anteprima, puoEntrare } from '../src/motore/azioni';
@@ -21,15 +20,13 @@ describe('crisi', () => {
     s.quality['ferite'] = 8;
     expect(crisiAttiva(s, c)?.id).toBe('crisi-ferite');
   });
-  it('pagare costa 0 rintocchi e porta la statistica a 4', () => {
-    const s = figlio();
-    s.quality['ferite'] = 8; s.quality['monete'] = 50;
-    const i = opzione('crisi-ferite', (o) => (o.requisiti ?? []).some((r) => r.startsWith('monete')));
-    const r = scegli(s, st('crisi-ferite'), i, c, 0, rngConSeme(1));
-    expect(r.tipo).toBe('risultato');
-    expect(s.quality['ferite']).toBe(4);
-    expect(s.quality['monete']).toBe(10);
-    expect(s.rintocchi).toBe(RINTOCCHI_MAX);
+  it('nessuna crisi si risolve pagando (Luca, 23 ottobre 2026)', () => {
+    const crisi = c.storylet.filter((x) => x.tipo === 'crisi');
+    expect(crisi.length).toBeGreaterThan(0);
+    for (const x of crisi) for (const o of x.opzioni) {
+      expect((o.requisiti ?? []).some((r) => r.startsWith('monete')), `${x.id}: ${o.testo}`).toBe(false);
+      expect(o.esito?.effetti?.['monete'] ?? 0, `${x.id}: ${o.testo}`).toBeGreaterThanOrEqual(0);
+    }
   });
   it('sacrificare richiede almeno 10 PE e li azzera', () => {
     const s = figlio();
