@@ -83,10 +83,13 @@ Decise da Luca il 24 ottobre 2026.
 - Il set, approvato da Luca il 24 ottobre 2026: «Il bronzo della canna», bronzo da campana (`bronzoCampana`), verderame e
   luce di cristallo. Gli aspetti sono già nel motore del ritratto (spada `variante: 'canna'`, scudo `forma: 'campana'`,
   piastre con `rifiniture` e `onde`, mantello con `orlo`); gli accessori arrivano al grado 5 da quel giorno.
-  - Piano 10, **La Nota Lunga** (spada lunga): +2 dadi in attacco, Affilata 2, Penetrante 1.
+  - Piano 10, **La Nota Lunga** (spada lunga): Affilata 2, Penetrante 2, Ostinata.
   - Piano 20, **La Cassa Armonica** (piastre): Robusta 1, Lucida, Talento Resilienza 1.
-  - Piano 30, **La Bocca della Campana** (scudo): +3 dadi in difesa, Schermata.
+  - Piano 30, **La Bocca della Campana** (scudo): +4 dadi in difesa, Talento Resistenza 1.
   - Piano 40, **Il Manto del Battito** (mantello, accessorio): Ultimo respiro, Rapida 1, Talento Percezione 1 e Atletica 1.
+- Ritarati il 24 ottobre 2026 perché il set intero valga almeno il Battente con le piastre del Campanaro: con la prima
+  versione chi lo indossava perdeva quasi ogni scontro della torre (Lettore alla porta 3% contro 30%). Ora i tre pezzi
+  vincono in media il 47% degli scontri della torre contro il 43% di Battente e piastre, e con il Manto il 63% contro il 60%.
 - Il megaboss dà anche il frammento che nel Capitolo II porterà la Maschera al grado 4 (non è un oggetto da indossare).
 - Le discese ripetute danno solo PE e lyssan: gli oggetti del set una volta sola (`avuto.<id> == 0`).
 
