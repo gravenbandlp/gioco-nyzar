@@ -29,13 +29,21 @@ export function stanzeVisibili(s: Stato, c: TContenuti): TStorylet[] {
   const ripetibili = storyletDisponibili(s, c).filter((st) => st.ripetibile);
   if (!a?.spedizione) return ripetibili;
   const passate = new Set(s.stanzePassate ?? []);
-  const seme = hash(`${s.nome}|${a.id}|${profondita(s, a.id)}`);
+  // con `rimescola` il seme prende anche il valore di quella quality: a ogni discesa stanze diverse
+  const rimescola = a.spedizione.rimescola ? `|${s.quality[a.spedizione.rimescola] ?? 0}` : '';
+  const seme = hash(`${s.nome}|${a.id}|${profondita(s, a.id)}${rimescola}`);
   return ripetibili
     .filter((st) => !passate.has(st.id))
     .map((st) => ({ st, k: hash(`${seme}|${st.id}`) }))
     .sort((x, y) => x.k - y.k)
     .slice(0, a.spedizione.stanze)
     .map((x) => x.st);
+}
+
+/** Il piano a cui sei, per le spedizioni che contano i piani (`piani`); altrimenti undefined. */
+export function piano(s: Stato, c: TContenuti): number | undefined {
+  const a = areaAttuale(s, c);
+  return a?.spedizione?.piani === undefined ? undefined : a.spedizione.piani + profondita(s, a.id) + 1;
 }
 
 /** Cambia area; se si lascia una spedizione la sua profondità torna a zero. */

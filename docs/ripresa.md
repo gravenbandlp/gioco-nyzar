@@ -225,6 +225,20 @@ Ogni personaggio ha un ritratto in pixel art, disegnato tutto da codice (nessuna
   Ha provato e scartato due alternative: le proporzioni nuove (testa 10×13, vita stretta) e la risoluzione doppia
   (96×144). Non riproporle senza che lo chieda.
 
+## Il campanile rovescio (24 ottobre 2026)
+Il contenuto finale del Capitolo I, sotto la Campana Sepolta: `contenuti/torre/`, piano in `docs/piano-torre.md`.
+- Si apre da Portatore (`pista.capomozzo >= 10`) dopo l'epilogo della Campana: la botola sotto il batacchio legge la
+  Maschera. La scala della canna (`torre-la-scala-della-canna`, sulla costa grigia) scende al primo piano e a quelli
+  dopo ogni sigillo passato (`torre.anello`).
+- Quattro anelli da dieci piani, ognuno un'area spedizione con `rimescola: torre.discese` (a ogni discesa stanze
+  diverse) e `piani` (l'intestazione mostra «Piano N»). Il cuore di ogni anello è un guardiano in più fasi: la
+  Tessitrice, l'Uditore, la Colata, il Lettore. Ognuno dà un pezzo del set «Il bronzo della canna», una volta sola
+  (`avuto.<id> == 0`), più PE e lyssan; nelle stanze solo PE. Dopo ogni guardiano una porta tonda: scendere o risalire.
+- Sotto il quarantesimo piano il sigillo del 41 chiede `maschera.grado >= 4` (calcolato dalle Maschere con la chiave
+  `maschera`). È il gancio del Capitolo II, con il frammento del sigillo che dà il Lettore.
+- I nemici stanno sul profilo «fine Campana» di `scripts/simula-fine.ts`; le statistiche si cercano con
+  `npx tsx scripts/strumenti/tara-nemici.ts <scontro> <nemico> <obiettivo>`. Test: `test/torre.test.ts`.
+
 ## Il genere nei testi (14 ottobre 2026)
 Con il corpo femminile anche la prosa è al femminile. I contenuti portano le due forme fra graffe, `sei arrivat{o|a}`
 (le regole di scrittura in `docs/stile-dei-testi.md`), e `src/motore/genere.ts` le risolve: `applicaGenere` riscrive

@@ -1,0 +1,675 @@
+# Il campanile rovescio, anello 1, piani 7-10 (docs/piano-torre.md, blocco 1; l'area e i piani 1-6 sono in anello-1.yaml).
+# - Piani 7-9 (profondità 6-8): la porta dei quattro volti (un'opzione Media per ciascuna Maschera di Capomozzo, con
+#   il talento della Maschera), il filo d'argento, il nido dei bozzoli (i rammendatori), la corda sul vuoto (il mercante
+#   dei ponti), la trama, le sagome nella trama (il rampollo).
+# - Il cuore a profondità 9, il decimo piano: `torre-1-la-tessitrice`, la Tessitrice sulla rete; chi vince o taglia i fili
+#   portanti passa al seguito `torre-1-la-tessitrice-a-terra`, la Tessitrice senza rete; chi vince anche quella apre
+#   `torre-1-il-fuso`: La Nota Lunga la prima volta (avuto.torre-la-nota-lunga == 0), sempre PE e lyssan, torre.anello
+#   almeno 1; poi `torre-1-la-porta-tonda`, da cui si scende nell'anello 2 o si risale. Chi perde una fase qualsiasi
+#   torna in Superficie, e l'anello è da rifare.
+storylet:
+  # ================================================================ piani 7-9 (profondità 6-8)
+  # ------------------------------------------------------------ la porta dei quattro volti (le Maschere)
+  - id: torre-1-la-porta-dei-quattro-volti
+    immagine: icone/drama-masks
+    titolo: La porta dei quattro volti
+    sommario: "Una porta di metallo nero con quattro volti scolpiti, uno per ogni Maschera. Il tuo si scalda quando ti avvicini."
+    luogo: Il campanile rovescio, la scala delle corde
+    area: torre-anello-1
+    ripetibile: true
+    requisiti: [profondita.torre-anello-1 >= 6, profondita.torre-anello-1 <= 8]
+    testo: |
+      La scala finisce contro una porta di metallo nero che chiude il giro, con quattro volti scolpiti a
+      bassorilievo. Sono i volti delle quattro Maschere dei Portatori, dalla nebbia negli occhi della Forza alla
+      corteccia della Natura, e quello della tua è appena tiepido.
+
+      Ai lati della porta la parete è coperta di fili d'acciaio, e da qualche parte dietro la porta qualcosa la
+      tiene chiusa con un peso.
+    opzioni:
+      - testo: "Sfondare la porta"
+        descrizione: "Dietro la porta c'è qualcosa di pesante, ma i cardini sono vecchi. Basta un colpo di spalla nel punto giusto."
+        prova: { attributo: fisico, abilita: [atletica, rissa], difficolta: Molto difficile }
+        successo:
+          titolo: I cardini
+          testo: |
+            Colpisci con la spalla la porta sotto il cardine più basso, e al secondo colpo il cardine salta.
+            La porta si piega di lato, e passi nel varco con il braccio che formicola fino alle dita.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: La spalla
+          testo: |
+            La porta non si muove, e la spalla ti risponde con un dolore che ti toglie il fiato. Torni indietro
+            tenendoti il braccio.
+          effetti: { ferite: 1.5 }
+      - testo: "Arrampicarsi sui fili accanto alla porta"
+        descrizione: "I fili della parete portano sopra la porta, dove c'è uno spiraglio. Tagliano, come tutti i fili qui."
+        costo: 3
+        esito:
+          titolo: Lo spiraglio
+          testo: |
+            Sali sui fili della parete fino allo spiraglio sopra la porta e ti ci infili di fianco, lasciando ai fili
+            un pezzo di giubba e un po' di pelle delle mani.
+          effetti: { profondita.torre-anello-1: 1, ferite: 1 }
+      - testo: "Restare in piedi davanti al volto della Forza"
+        descrizione: "Il volto con la nebbia negli occhi chiede la volontà di restare in piedi. La tua Maschera ce l'ha."
+        quando: [oggetto.maschera-della-forza >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: In piedi
+          testo: |
+            Resti in piedi davanti al volto finché la nebbia nei suoi occhi non si ritira, con le gambe che tremano
+            sotto un peso che non vedi. La porta si apre da sola, verso l'interno.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: In ginocchio
+          testo: |
+            Il peso che non vedi ti mette in ginocchio, e la nebbia negli occhi del volto si fa più fitta. Ti rialzi
+            quando la porta smette di guardarti.
+          effetti: { ferite: 1 }
+      - testo: "Guardare con pietà il volto della Rottura"
+        descrizione: "Il volto senza bocca è di chi ha perso il divino e l'ha ritrovato nelle cose di ogni giorno. Chiede di essere capito."
+        quando: [oggetto.maschera-della-rottura >= 1]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Le cose di ogni giorno
+          testo: |
+            Guardi il volto senza bocca e ti tornano in mente le cose più semplici che hai visto in vita tua, una
+            dopo l'altra. Sul metallo scendono due rivoli di luce, e la porta si apre.
+          pe: { empatia: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Niente in mente
+          testo: |
+            Cerchi qualcosa di semplice da ricordare e trovi solo la canna, i fili, il battito. Il volto resta di
+            metallo.
+          effetti: { tormento: 1 }
+      - testo: "Credere a quello che dice il volto della Distorsione"
+        descrizione: "Il volto incrinato propone convinzioni che forse non sono tue. Accettarle per un momento apre la porta."
+        quando: [oggetto.maschera-della-distorsione >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Una convinzione in prestito
+          testo: |
+            Lasci che il volto ti metta in testa una certezza che non è tua, e per un battito sai che la porta è già
+            aperta. Lo è. Quando passi la certezza se ne va, e non ricordi più che cosa diceva.
+          pe: { magia: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Due certezze
+          testo: |
+            La certezza del volto si scontra con una delle tue, e per un momento ne hai due che non possono stare
+            insieme. La testa ti fa male finché una delle due non se ne va.
+          effetti: { tormento: 1 }
+      - testo: "Toccare il volto della Natura"
+        descrizione: "Il volto di corteccia lega la carne alla macchina. Basta lasciare che la lega anche a te, per un momento."
+        quando: [oggetto.maschera-della-natura >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: La linfa nel metallo
+          testo: |
+            Appoggi il palmo sulla corteccia e senti la linfa scorrere nel metallo della porta come in un tronco. La
+            porta si apre lenta, come un ramo che si piega.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: La corteccia ruvida
+          testo: |
+            La corteccia ti graffia il palmo, e la linfa che senti è fredda e grigia. Ritiri la mano prima che salga.
+          effetti: { contaminazione: 0.5, ferite: 0.5 }
+
+  # ------------------------------------------------------------ il filo d'argento
+  - id: torre-1-il-filo-d-argento
+    immagine: icone/sewing-needle
+    titolo: Il filo d'argento
+    sommario: "Il pianerottolo sembra libero. Poi la luce azzurra batte su un filo sottilissimo teso all'altezza del collo."
+    luogo: Il campanile rovescio, la scala delle corde
+    area: torre-anello-1
+    ripetibile: true
+    requisiti: [profondita.torre-anello-1 >= 6, profondita.torre-anello-1 <= 8]
+    testo: |
+      Il pianerottolo sembra libero, e la porta del piano è aperta. Fai un passo, e la luce azzurra dei segni batte
+      su un filo così sottile che lo vedi solo mentre la luce ci passa sopra, teso all'altezza del collo da una parete all'altra.
+      Poi la luce si sposta e il filo sparisce.
+
+      Più avanti ce ne sono altri, a altezze diverse. A guardare bene il pianerottolo è una gabbia.
+    opzioni:
+      - testo: "Trovare i fili uno per uno"
+        descrizione: "Si vedono solo quando la luce ci batte sopra. Bisogna aspettare la luce, e ricordare dove passano."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: La gabbia invisibile
+          testo: |
+            Aspetti che la luce passi su ogni filo e te li segni a mente, uno dopo l'altro. Attraversi il pianerottolo
+            piegandoti e scavalcando cose che non vedi, e arrivi alla porta senza un graffio.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Il filo al collo
+          testo: |
+            Un filo che non avevi visto ti passa sulla guancia e ti apre una riga sottile fino all'orecchio. Torni
+            indietro con la mano sulla faccia.
+          effetti: { ferite: 1 }
+      - testo: "Strisciare sotto tutti i fili"
+        descrizione: "Il filo più basso è all'altezza del ginocchio. Sotto, il pavimento è libero, e freddo."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: Sotto la gabbia
+          testo: |
+            Attraversi il pianerottolo strisciando sulla pancia, con il mento sul metallo, e senti i fili passarti
+            sopra la schiena a un palmo. Arrivi alla porta copert{o|a} di polvere nera.
+          pe: { furtivita: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Il filo più basso
+          testo: |
+            Il filo più basso è più basso di quanto pensassi, e ti segna la schiena da una spalla all'altra.
+          effetti: { ferite: 1 }
+      - testo: "Passare con il braccio alzato davanti"
+        descrizione: "Il braccio fascia nella giubba, alzato davanti alla faccia. I fili troveranno il braccio prima del collo."
+        costo: 3
+        esito:
+          titolo: Il braccio davanti
+          testo: |
+            Attraversi il pianerottolo con il braccio fasciato alzato davanti alla faccia, e i fili lo trovano uno
+            dopo l'altro. Dall'altra parte la manica è a strisce, e il braccio sotto pure.
+          effetti: { profondita.torre-anello-1: 1, ferite: 1.5 }
+
+  # ------------------------------------------------------------ il nido dei bozzoli
+  - id: torre-1-il-nido-dei-bozzoli
+    immagine: icone/spider-web
+    titolo: Il nido dei bozzoli
+    sommario: "Il piano è pieno di bozzoli appesi, e due rammendatori fanno la guardia fra loro."
+    luogo: Il campanile rovescio, la scala delle corde
+    area: torre-anello-1
+    ripetibile: true
+    requisiti: [profondita.torre-anello-1 >= 6, profondita.torre-anello-1 <= 8]
+    testo: |
+      Il piano è una sala rotonda piena di bozzoli di fili d'acciaio, appesi al soffitto a file come salami in una
+      dispensa. Alcuni sono piccoli come pugni, altri grandi come uomini. Fra le file camminano due rammendatori, e a
+      ogni giro toccano i bozzoli con le zampe davanti, uno per uno, come per contarli.
+
+      La porta di sotto è dall'altra parte della sala.
+    opzioni:
+      - testo: "Affrontare i rammendatori"
+        descrizione: "Due ragni fra le file dei bozzoli, dove lo spazio è stretto anche per loro."
+        combattimento: torre-i-rammendatori
+        vittoria:
+          titolo: La conta interrotta
+          testo: |
+            I due ragni restano a terra fra le file, e i bozzoli dondolano piano sopra di loro. Attraversi la sala
+            senza guardarli.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        sconfitta:
+          titolo: Contat{o|a}
+          testo: |
+            Uno dei ragni ti tocca con le zampe davanti, come tocca i bozzoli, e l'altro comincia ad avvolgerti. Ti
+            liberi e scappi su per la scala, con il filo d'acciaio ancora intorno al braccio.
+      - testo: "Passare fra le file quando non guardano"
+        descrizione: "Fanno sempre lo stesso giro. Basta stare dalla parte opposta della sala."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Dall'altra parte del giro
+          testo: |
+            Ti muovi fra le file sempre dalla parte opposta dei ragni, e arrivi alla porta mentre loro contano i
+            bozzoli in fondo alla sala.
+          pe: { furtivita: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Il bozzolo che dondola
+          testo: |
+            Urti un bozzolo con la spalla, e quello dondola contro gli altri. I ragni si fermano tutti e due, e tu torni
+            indietro prima che si girino.
+          effetti: { tormento: 0.5, ferite: 0.5 }
+      - testo: "Aggiungere un bozzolo alla conta"
+        descrizione: "Se contano, si accorgono di quello che manca. Forse anche di quello che è in più."
+        prova: { attributo: sociale, abilita: [ingannare, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Uno in più
+          testo: |
+            Avvolgi la giubba intorno a un pezzo di corda e la appendi in fondo a una fila. I ragni la trovano al giro
+            dopo e si fermano a toccarla e ritoccarla, e tu attraversi la sala alle loro spalle.
+          pe: { ingannare: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: La conta giusta
+          testo: |
+            I ragni passano accanto al bozzolo finto senza fermarsi, e poi tornano indietro verso di te. Te ne vai prima
+            che ti trovino, senza giubba.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare che finiscano il giro e correre"
+        descrizione: "Fra un giro e l'altro c'è un momento in cui tutti e due sono in fondo. Un momento solo."
+        costo: 3
+        esito:
+          titolo: La corsa fra i bozzoli
+          testo: |
+            Corri fra le file mentre i ragni sono in fondo alla sala, e i bozzoli ti sbattono contro le spalle. Arrivi
+            alla porta con il cuore in gola e il suono di quei bozzoli nelle orecchie.
+          effetti: { profondita.torre-anello-1: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ la corda sul vuoto
+  - id: torre-1-la-corda-sul-vuoto
+    immagine: icone/tightrope
+    titolo: La corda sul vuoto
+    sommario: "La scala finisce. Una corda sola attraversa la canna fino alla parete opposta, dove la scala ricomincia."
+    luogo: Il campanile rovescio, la scala delle corde
+    area: torre-anello-1
+    ripetibile: true
+    requisiti: [profondita.torre-anello-1 >= 6, profondita.torre-anello-1 <= 8]
+    testo: |
+      Qui la scala finisce contro la parete, e ricomincia dalla parte opposta della canna. Fra le due estremità c'è
+      una sola corda di metallo, lunga quanto una strada di quartiere. Sopra, all'altezza delle
+      mani, ne corre un'altra più sottile.
+
+      {origine mercante-dei-ponti} Ai Ponti Sospesi le passerelle più vecchie sono così, una corda per i piedi e una
+      per le mani. I ragazzini ci corrono sopra per una moneta.
+    opzioni:
+      - testo: "Camminare sulla corda"
+        descrizione: "La corda di sotto per i piedi e quella di sopra per le mani, senza fermarsi a metà."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Molto difficile }
+        successo:
+          titolo: Dall'altra parte
+          testo: |
+            Cammini sulla corda con le mani su quella di sopra, un passo dopo l'altro, senza guardare giù. A metà la
+            corda comincia a ondeggiare, e tu continui finché la parete opposta non ti arriva sotto le dita.
+          pe: { acrobazia: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: A metà
+          testo: |
+            A metà la corda ondeggia e ti resta solo quella di sopra, con i piedi nel vuoto. Torni indietro a forza di
+            braccia, una mano dopo l'altra, e quando tocchi la parete non riesci più a chiudere le dita.
+          effetti: { ferite: 1.5 }
+      - testo: "Attraversare appes{o|a} a quella di sopra"
+        descrizione: "Solo le braccia, con i piedi raccolti. Si fa più fatica, e si resta dritti."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: Le braccia
+          testo: |
+            Attraversi appes{o|a} alla corda di sopra, le gambe raccolte, una presa dopo l'altra. Dall'altra parte ti
+            siedi sul primo gradino finché le braccia non smettono di tremare.
+          pe: { resistenza: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Le braccia che cedono
+          testo: |
+            A due terzi della strada le braccia cedono, e ti salvi solo perché un piede trova la corda di sotto. Torni
+            indietro piano, con le spalle in fiamme.
+          effetti: { ferite: 1 }
+      - testo: "Correre sulla corda come ai Ponti"
+        descrizione: "Sui ponti di corda si corre, perché il peso non fa in tempo a far ondeggiare niente."
+        quando: [origine.mercante-dei-ponti >= 1]
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Media }
+        successo:
+          titolo: Come i ragazzini
+          testo: |
+            Corri sulla corda come i ragazzini dei Ponti, senza dare alla corda il tempo di muoversi, e sei dall'altra
+            parte prima che la paura arrivi. Ti arriva addosso quando ti siedi sul primo gradino.
+          pe: { acrobazia: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Troppo lunga
+          testo: |
+            La corda è più lunga di qualunque ponte, e a metà le gambe rallentano da sole. Torni indietro aggrappat{o|a}
+            a quella di sopra.
+          effetti: { ferite: 1 }
+      - testo: "Scendere lungo la parete fino al giro di sotto"
+        descrizione: "Mezzo piano di roccia da scendere a mani nude, lungo le crepe della parete."
+        costo: 3
+        esito:
+          titolo: La roccia
+          testo: |
+            Scendi lungo la parete fino al giro di sotto, con la corda che ti ronza sopra la testa. Arrivi con le dita spellate e un piano guadagnato a fatica.
+          effetti: { profondita.torre-anello-1: 1, ferite: 1 }
+
+  # ------------------------------------------------------------ la trama
+  - id: torre-1-la-trama
+    immagine: icone/spider-web
+    titolo: La trama
+    sommario: "Le pareti del piano sono rivestite di fili tessuti fitti come stoffa. Ogni filo porta a qualcosa che sta più in basso."
+    luogo: Il campanile rovescio, la scala delle corde
+    area: torre-anello-1
+    ripetibile: true
+    requisiti: [profondita.torre-anello-1 >= 6, profondita.torre-anello-1 <= 8]
+    testo: |
+      Su questo piano ogni superficie è rivestita di fili d'acciaio tessuti fitti
+      come stoffa. La trama sale dal fondo della canna e scende verso il fondo, e tutti i fili, a guardarli, puntano
+      verso il basso.
+
+      {percezione Difficile} Ogni filo trema appena, come una ragnatela quando il ragno è vicino. Quello che tiene
+      l'altra estremità sta sotto di te, e aspetta di sentire un passo.
+    opzioni:
+      - testo: "Camminare dove la trama non arriva"
+        descrizione: "Una striscia storta di pavimento è ancora nuda, e va seguita senza sbagliare un passo."
+        prova: { attributo: fisico, abilita: [furtivita, acrobazia], difficolta: Molto difficile }
+        successo:
+          titolo: La striscia nuda
+          testo: |
+            Segui la striscia di pavimento nudo con un piede davanti all'altro, e la trama resta immobile intorno a te.
+            Dal basso non arriva niente.
+          pe: { furtivita: 5 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Il passo sentito
+          testo: |
+            Un tallone tocca la trama, e tutti i fili del piano vibrano insieme. Dal basso sale un ticchettio veloce, e
+            tu torni sulla scala prima che arrivi.
+          effetti: { tormento: 1 }
+      - testo: "Far vibrare un filo lontano"
+        descrizione: "Se quello che aspetta sente i passi, si può dargli un passo da un'altra parte."
+        prova: { attributo: mentale, abilita: [ingannare, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il passo falso
+          testo: |
+            Lanci un sasso sulla trama in fondo al piano, e i fili da quella parte vibrano. Il tremito della trama si
+            sposta verso il sasso, e tu attraversi il piano dall'altra parte.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Due passi
+          testo: |
+            La trama sente il sasso e sente anche te, e il tremito arriva dritto sotto i tuoi piedi. Torni indietro di
+            corsa.
+          effetti: { tormento: 1 }
+      - testo: "Attraversare in fretta e lasciarsi sentire"
+        descrizione: "Che senta pure. Bisogna essere già oltre quando arriva."
+        costo: 3
+        esito:
+          titolo: Sentit{o|a}
+          testo: |
+            Attraversi la trama di corsa, e i fili cantano sotto i piedi. Dal basso arriva qualcosa che ti segue lungo la
+            parete per un giro intero, sempre un piano sotto di te, e poi si ferma.
+          effetti: { profondita.torre-anello-1: 1, tormento: 1, ferite: 0.5 }
+
+  # ------------------------------------------------------------ le sagome nella trama
+  - id: torre-1-le-sagome-nella-trama
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: Le sagome nella trama
+    sommario: "Nella trama che riveste la parete ci sono delle sagome di Marea Grigia, avvolte come mosche. Una ti segue con gli occhi."
+    luogo: Il campanile rovescio, la scala delle corde
+    area: torre-anello-1
+    ripetibile: true
+    requisiti: [profondita.torre-anello-1 >= 6, profondita.torre-anello-1 <= 8]
+    testo: |
+      Nella trama che riveste la parete lungo la scala ci sono delle sagome di Marea Grigia, avvolte nei fili come
+      mosche in una ragnatela. Hanno la forma di persone, e i vestiti di una moda che nessuno porta più da secoli.
+      Quando passi, una di loro gira gli occhi verso di te e muove le labbra.
+
+      {origine rampollo-dei-quartieri-alti} Quei vestiti li hai visti nei ritratti più vecchi delle case nobili, quelli
+      di cui si è perso il nome.
+    opzioni:
+      - testo: "Ascoltare quello che dice"
+        descrizione: "Muove le labbra senza voce, e potrebbe dire qualcosa che serve o soltanto il suo nome."
+        prova: { attributo: sociale, abilita: empatia, difficolta: Difficile }
+        successo:
+          titolo: Il nome del piano
+          testo: |
+            Le avvicini l'orecchio e la sagoma ti sussurra una parola sola, tre volte. La ripeti davanti alla porta del
+            piano, e la porta si apre sulla scala che scende mentre la sagoma chiude gli occhi.
+          pe: { empatia: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: La voce nella testa
+          testo: |
+            La sagoma non sussurra. Grida, dentro la tua testa, una cosa che non capisci e che ti resta nelle orecchie
+            per tutto il piano.
+          effetti: { tormento: 1 }
+      - testo: "Passare senza guardarla"
+        descrizione: "Gli occhi della Marea cercano chi li guarda. Testa bassa, e i gradini davanti ai piedi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: La testa bassa
+          testo: |
+            Scendi con lo sguardo sui gradini e le mani sulla parete, e gli occhi della sagoma ti scivolano sulla nuca
+            senza trovarti.
+          pe: { resilienza: 3 }
+          effetti: { profondita.torre-anello-1: 1 }
+        fallimento:
+          titolo: Lo sguardo
+          testo: |
+            A metà strada alzi gli occhi senza volerlo, e la sagoma ti guarda dritta in faccia. Per un momento i suoi
+            vestiti sono i tuoi, e la trama è intorno a te.
+          effetti: { tormento: 1, contaminazione: 0.5 }
+      - testo: "Liberarla dalla trama"
+        descrizione: "Tagliare i fili intorno alla sagoma. Quello che succede dopo, non lo sa nessuno."
+        costo: 3
+        esito:
+          titolo: La sagoma libera
+          testo: |
+            Tagli i fili intorno alla sagoma uno dopo l'altro, e lei si sfa in nebbia grigia appena l'ultimo cede. La
+            nebbia ti passa attraverso prima di disperdersi, e ti lascia in bocca un sapore di ferro e di cenere.
+          effetti: { profondita.torre-anello-1: 1, contaminazione: 1 }
+
+  # ================================================================ il decimo piano: la Tessitrice
+  - id: torre-1-la-tessitrice
+    immagine: bestiario/salvaguardia-precursori
+    titolo: La Tessitrice
+    sommario: "Sotto il nono piano la canna è chiusa da una rete enorme. Al centro, su otto braccia, aspetta la Tessitrice."
+    luogo: Il campanile rovescio, il decimo piano
+    area: torre-anello-1
+    requisiti: [profondita.torre-anello-1 >= 9]
+    testo: |
+      Sotto il nono piano la scala finisce sul pavimento di pietra del decimo, e sopra di te la canna è
+      chiusa da una rete che va da parete a parete. Tutti i fili del campanile arrivano qui. Al centro della rete,
+      appesa a testa in giù, c'è una forma grande quanto una carrozza, con otto braccia sottili e una maschera
+      bianca senza bocca.
+
+      Quando metti piede sulla pietra, la rete trema tutta, e la Tessitrice gira la maschera verso di te.
+
+      {tecnologia Difficile} La rete regge tutto il suo peso su sei fili portanti, più spessi degli altri, fissati
+      alla parete con anelli di bronzo.
+
+      {origine figlio-del-circolo} Nel Bosco un ragno scende dalla rete solo quando sta morendo, e sulla terra
+      combatte con tutto quello che gli resta.
+    opzioni:
+      - testo: "Affrontare la Tessitrice sulla rete"
+        descrizione: "Sulla sua rete è veloce come un pensiero, e sente ogni tuo passo prima che tu lo faccia."
+        combattimento: torre-la-tessitrice-sulla-rete
+        vittoria:
+          titolo: La rete strappata
+          testo: |
+            Le colpisci due braccia di seguito, e la Tessitrice perde la presa sui fili. Cade dalla rete con uno
+            schianto che fa tremare il pavimento, e si rialza su sei braccia, con le altre due alzate verso di te.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-1-la-tessitrice-a-terra
+        sconfitta:
+          titolo: Avvolt{o|a}
+          testo: |
+            Otto braccia ti avvolgono nel filo d'acciaio più in fretta di quanto tu riesca a tagliarlo, e la
+            Tessitrice ti appende alla rete come un bozzolo. Quando ti liberi, ore dopo, risali tutta la scala fino
+            alla Campana, con l'anello da rifare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Tagliare i fili portanti"
+        descrizione: "Sei fili tengono la rete. Se cedono, la Tessitrice cade con lei, e sulla pietra è un'altra bestia."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, atletica], difficolta: Difficile }
+        successo:
+          titolo: I sei fili
+          testo: |
+            Corri lungo la parete e tagli i fili portanti ai loro anelli, uno dopo l'altro, mentre la Tessitrice ti
+            insegue sulla rete. Al sesto la rete cede tutta insieme e lei cade con lei, in un groviglio d'acciaio, e
+            si rialza sulla pietra su sei braccia.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-1-la-tessitrice-a-terra
+        fallimento:
+          titolo: Il quinto filo
+          testo: |
+            Al quinto filo la Tessitrice ti raggiunge, e il suo braccio ti butta contro la parete. Quando riapri gli
+            occhi sei appes{o|a} alla rete, avvolt{o|a} fino al collo. Ti liberi, e risali fino alla Campana con
+            l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Ordinare alla macchina di fermarsi"
+        descrizione: "Il Comando parla alla Salvaguardia nella sua lingua. La Tessitrice è una forma che il Codex non conosce."
+        incantesimo: comando
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Le braccia aperte
+          testo: |
+            Dici la formula, e la Tessitrice si ferma con le otto braccia aperte. Per un battito lascia andare la
+            rete, e cade sulla pietra davanti a te. Quando si rialza la formula è finita, e lei è a terra.
+          pe: { magia: 5 }
+          segue: torre-1-la-tessitrice-a-terra
+        fallimento:
+          titolo: La formula fra i fili
+          testo: |
+            La formula ti si impiglia in gola, e la Tessitrice risponde scendendo dalla rete su di te. Ti ritrovi
+            avvolt{o|a} e appes{o|a}, e quando ti liberi risali tutta la scala con l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ la seconda fase: la Tessitrice senza rete
+  - id: torre-1-la-tessitrice-a-terra
+    immagine: bestiario/salvaguardia-precursori
+    tipo: seguito
+    titolo: La Tessitrice senza rete
+    sommario: "La Tessitrice è caduta dalla rete, e sul pavimento del decimo piano combatte su sei braccia."
+    luogo: Il campanile rovescio, il decimo piano
+    area: torre-anello-1
+    testo: |
+      Senza la rete la Tessitrice è più lenta, e più cattiva. Sta appoggiata su sei braccia e tiene le altre due
+      alzate come falci, e a ogni movimento le giunture scoperte mandano un rumore di forbici. Dove passa lascia
+      sulla pietra fili d'acciaio sottili, che si avvolgono alle caviglie come erba alta.
+
+      {percezione Difficile} Quando alza le braccia per colpire, la maschera resta scoperta per un battito.
+    opzioni:
+      - testo: "Finire la Tessitrice"
+        descrizione: "Sulla pietra è lenta, ma ha più forza di prima, e ogni colpo che manca ti lega un po' di più."
+        combattimento: torre-la-tessitrice-senza-rete
+        vittoria:
+          titolo: Il rumore di forbici
+          testo: |
+            L'ultimo colpo le spacca la maschera bianca da un bordo all'altro, e la Tessitrice si accascia sulle braccia
+            con un rumore di forbici che si chiudono. Le giunture smettono di muoversi una alla volta, dalle punte
+            verso il corpo.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-1-il-fuso
+        sconfitta:
+          titolo: Legat{o|a} alla pietra
+          testo: |
+            I fili che lascia sulla pietra ti legano le caviglie, e il resto lo fanno le braccia. Quando ti liberi,
+            ore dopo, la Tessitrice è tornata sulla rete a ritesserla, e tu risali fino alla Campana con l'anello da
+            rifare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Lasciare che si leghi da sola"
+        descrizione: "Ogni filo che lascia sulla pietra lega chi ci passa. Anche lei, se la fai girare abbastanza."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: La sua trama
+          testo: |
+            Le giri intorno, sempre fuori dalla portata delle braccia, e lei ti segue sui suoi stessi fili finché non
+            le si stringono intorno alle giunture. Si ferma, legata alla pietra dalla trama che ha fatto lei, e la
+            finisci con un colpo sotto la maschera.
+          pe: { acrobazia: 5 }
+          segue: torre-1-il-fuso
+        fallimento:
+          titolo: La trama di tutti e due
+          testo: |
+            I fili legano anche te, e vi trovate legati alla pietra a due passi l'uno dall'altra. Lei ha più braccia.
+            Quando ti liberi risali fino alla Campana, con l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Colpire la maschera scoperta"
+        descrizione: "Un battito solo, quando alza le braccia. Un colpo dalla distanza, o un salto sotto le falci."
+        prova: { attributo: fisico, abilita: [armi-da-distanza, armi-da-mischia], difficolta: Difficile }
+        successo:
+          titolo: Il battito scoperto
+          testo: |
+            Aspetti che alzi le braccia e colpisci nel battito in cui la maschera resta scoperta. La maschera si crepa,
+            e la Tessitrice si accascia sulla pietra con le braccia ancora alzate.
+          pe: { percezione: 5 }
+          segue: torre-1-il-fuso
+        fallimento:
+          titolo: Le falci
+          testo: |
+            Il battito passa prima del colpo, e le due braccia alzate scendono su di te come falci. Ti trascini fuori
+            dalla loro portata e risali fino alla Campana, con l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ il fuso: La Nota Lunga, PE e lyssan
+  - id: torre-1-il-fuso
+    immagine: icone/rune-sword
+    tipo: seguito
+    titolo: Il fuso della Tessitrice
+    sommario: "Al centro del decimo piano, sotto la rete strappata, c'è il fuso su cui la Tessitrice avvolgeva i suoi fili."
+    luogo: Il campanile rovescio, il decimo piano
+    area: torre-anello-1
+    testo: |
+      Al centro del pavimento, dove la rete aveva il suo centro, c'è un fuso di bronzo alto quanto te, piantato nella
+      pietra. Ci sono avvolti intorno chilometri di filo d'acciaio, così stretti da sembrare metallo pieno, e fra
+      le spire si vede qualcosa che manda una luce fredda.
+
+      Sotto il fuso, nel pavimento, c'è una porta tonda di metallo nero con un incavo a forma di mano aperta. È il
+      primo sigillo, e la tua Maschera si scalda.
+    opzioni:
+      - testo: "Svolgere il filo dal fuso"
+        descrizione: "Fra le spire c'è qualcosa di bronzo. La Tessitrice lo teneva al centro di tutto."
+        quando: [avuto.torre-la-nota-lunga == 0]
+        costo: 0
+        esito:
+          titolo: La Nota Lunga
+          testo: |
+            Svolgi il filo un giro dopo l'altro, e fra le ultime spire trovi una spada lunga di bronzo da campana, con
+            la guardia piegata come il labbro di una campana e il pomo a campanella. Quando la estrai dal fuso taglia
+            l'aria con una nota che dura più del gesto, e lungo la scanalatura verde si accendono tre luci fredde.
+
+            Accanto, nella pietra, ci sono le tasche dove i suonatori lasciavano i lyssan del turno. Ci sono ancora.
+
+            Appoggi la mano nell'incavo della porta tonda, e la porta legge la tua Maschera e si apre di un dito. Dalla
+            fessura sale un'aria calda che sa di metallo, e con lei il battito dell'anello di sotto.
+          pe: { armi-da-mischia: 10 }
+          effetti: { oggetto.torre-la-nota-lunga: 1, monete: 150 }
+          almeno: { torre.anello: 1 }
+          segue: torre-1-la-porta-tonda
+      - testo: "Prendere i lyssan del turno"
+        descrizione: "La spada è già tua. Nelle tasche della pietra i suonatori lasciavano la paga del turno."
+        quando: [avuto.torre-la-nota-lunga >= 1]
+        costo: 0
+        esito:
+          titolo: La paga del turno
+          testo: |
+            Nelle tasche della pietra accanto al fuso ci sono di nuovo i lyssan del turno, come se qualcuno li avesse
+            rimessi. Li prendi, e appoggi la mano nell'incavo della porta tonda, che legge la tua Maschera e si apre di
+            un dito sul battito dell'anello di sotto.
+          pe: { armi-da-mischia: 10 }
+          effetti: { monete: 150 }
+          almeno: { torre.anello: 1 }
+          segue: torre-1-la-porta-tonda
+
+  # ------------------------------------------------------------ la porta tonda: scendere o risalire
+  - id: torre-1-la-porta-tonda
+    immagine: ambientazione/mito-salvaguardia-precursori
+    tipo: seguito
+    titolo: La prima porta tonda
+    sommario: "Sotto il fuso la porta tonda è aperta di un dito. Dalla fessura sale il rombo delle casse di risonanza."
+    luogo: Il campanile rovescio, il decimo piano
+    area: torre-anello-1
+    testo: |
+      La porta tonda sotto il fuso è aperta di un dito, e dalla fessura sale un rombo basso che ti arriva nelle ossa del
+      petto prima che nelle orecchie. Sotto il decimo piano la canna si allarga, e la scala ricomincia a scendere verso le
+      casse di risonanza.
+
+      Il primo sigillo ti ha riconosciut{o|a}, e la prossima volta ti lascerà passare anche dalla scala della canna.
+    opzioni:
+      - testo: "Scendere nelle casse di risonanza"
+        descrizione: "Dall'undicesimo piano in giù. Quello che hai addosso adesso è quello che avrai laggiù."
+        costo: 0
+        esito:
+          titolo: L'undicesimo piano
+          testo: |
+            Spingi la porta tonda e scendi. Il rombo cresce a ogni gradino, e quando arrivi all'undicesimo piano anche il
+            tuo respiro ti torna alle orecchie da tutte le parti.
+          vai: torre-anello-2
+      - testo: "Risalire alla Campana"
+        descrizione: "Dieci piani di scala fino alla botola e da lì la costa grigia, mentre le casse aspettano."
+        costo: 0
+        esito:
+          titolo: La risalita
+          testo: |
+            Risali la scala della canna un giro dopo l'altro, e i segni azzurri restano accesi alle tue spalle fino al
+            decimo piano. Esci dalla botola con le gambe dure e la Nota Lunga che ronza piano a ogni passo.
+          vai: superficie-fratturata

@@ -1,0 +1,124 @@
+// Il campanile rovescio (docs/piano-torre.md): lo sblocco, il grado della Maschera, le discese fra gli anelli, i pezzi
+// del set una volta sola, il sigillo del quarantunesimo piano, il rimescolamento delle stanze e il piano mostrato.
+import { describe, it, expect } from 'vitest';
+import { nuovoPersonaggio, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
+import { scegli } from '../src/motore/azioni';
+import { ricevi } from '../src/motore/oggetti';
+import { stanzeVisibili, piano } from '../src/motore/spedizioni';
+import type { TContenuti, TStorylet } from '../src/motore/contenuto';
+import { CONTENUTI as c } from '../src/dati/contenuti';
+
+const figlio = (): Stato => {
+  const s = nuovoPersonaggio('Vessa', c.origini.find((o) => o.id === 'figlio-della-citta-bassa')!, 0, 'superficie-fratturata');
+  delete s.quality['prologo'];
+  return s;
+};
+const st = (id: string) => c.storylet.find((x) => x.id === id)!;
+const aperto = (s: Stato, id: string) => requisitiSoddisfatti(s, st(id).requisiti, c);
+/** Un Portatore che ha zittito la Campana e visto l'epilogo. */
+const portatore = (scelta = 1): Stato => {
+  const s = figlio();
+  Object.assign(s.quality, { 'campana.scelta': scelta, 'campana.epilogo': 1, 'pista.capomozzo': 10 });
+  ricevi(s, c, 'maschera-della-forza');
+  return s;
+};
+
+describe('il campanile rovescio', () => {
+  it('il grado della Maschera viene dalle Maschere possedute', () => {
+    const s = figlio();
+    expect(requisitiSoddisfatti(s, ['maschera.grado == 0'], c)).toBe(true);
+    ricevi(s, c, 'maschera-della-natura');
+    expect(requisitiSoddisfatti(s, ['maschera.grado == 3'], c)).toBe(true);
+    expect(requisitiSoddisfatti(s, ['maschera.grado >= 4'], c)).toBe(false);
+  });
+
+  it('la botola si apre al Portatore, con la prosa della sua Campana', () => {
+    const z = portatore(1), a = portatore(2);
+    expect(aperto(z, 'torre-la-botola-zittita')).toBe(true);
+    expect(aperto(z, 'torre-la-botola-armata')).toBe(false);
+    expect(aperto(a, 'torre-la-botola-armata')).toBe(true);
+    expect(aperto(z, 'torre-la-botola-chiusa')).toBe(false);
+    expect(aperto(z, 'torre-la-scala-della-canna')).toBe(false);
+    scegli(z, st('torre-la-botola-zittita'), 0, c, 0);
+    expect(z.quality['torre.botola']).toBe(1);
+    expect(aperto(z, 'torre-la-botola-zittita')).toBe(false);
+    expect(aperto(z, 'torre-la-scala-della-canna')).toBe(true);
+  });
+
+  it('chi ha battuto il Campanaro senza essere Portatore trova la lastra chiusa', () => {
+    const s = portatore(1);
+    s.quality['pista.capomozzo'] = 8;
+    expect(aperto(s, 'torre-la-botola-zittita')).toBe(false);
+    expect(aperto(s, 'torre-la-botola-chiusa')).toBe(true);
+    scegli(s, st('torre-la-botola-chiusa'), 0, c, 0);
+    expect(aperto(s, 'torre-la-botola-chiusa')).toBe(false);
+    s.quality['pista.capomozzo'] = 10;
+    expect(aperto(s, 'torre-la-botola-zittita')).toBe(true);
+  });
+
+  it('il sigillo del quarantunesimo segue il Lettore la prima volta, legge la Maschera di grado 3 e non si apre', () => {
+    const s = portatore(1);
+    s.quality['torre.botola'] = 1;
+    s.quality['torre.anello'] = 4;
+    expect(aperto(s, 'torre-la-scala-della-canna')).toBe(true); // si torna giù anche a campanile finito
+    const [prima, dopo] = st('torre-4-il-leggio').opzioni;
+    expect(prima!.esito?.segue).toBe('torre-il-sigillo');
+    expect(prima!.esito?.effetti?.['oggetto.torre-frammento-del-sigillo']).toBe(1);
+    expect(dopo!.esito?.vai).toBe('superficie-fratturata');
+    const sigillo = st('torre-il-sigillo');
+    expect(sigillo.tipo).toBe('seguito');
+    const i = sigillo.opzioni.findIndex((o) => requisitiSoddisfatti(s, o.quando, c));
+    expect(sigillo.opzioni[i]!.testo).toContain('Maschera');
+    scegli(s, sigillo, i, c, 0);
+    expect(s.quality['torre.sigillo']).toBe(1);
+  });
+
+  it('dopo la Tessitrice si scende nell\'anello 2, dalla porta tonda o dalla scala della canna', () => {
+    const s = portatore(1);
+    s.quality['torre.botola'] = 1;
+    const scala = st('torre-la-scala-della-canna');
+    const discese = () => scala.opzioni.filter((o) => requisitiSoddisfatti(s, o.quando, c) && o.esito?.vai).map((o) => o.esito!.vai);
+    expect(discese()).not.toContain('torre-anello-2');
+    s.quality['torre.anello'] = 1;
+    expect(discese()).toContain('torre-anello-2');
+    const porta = st('torre-1-la-porta-tonda');
+    expect(porta.opzioni.map((o) => o.esito?.vai)).toEqual(['torre-anello-2', 'superficie-fratturata']);
+    for (const o of st('torre-1-il-fuso').opzioni) expect(o.esito?.segue).toBe('torre-1-la-porta-tonda');
+  });
+
+  it('dopo l\'Uditore si scende nell\'anello 3, e ogni guardiano dà il suo pezzo del set una volta sola', () => {
+    const s = portatore(1);
+    s.quality['torre.botola'] = 1;
+    s.quality['torre.anello'] = 2;
+    const scala = st('torre-la-scala-della-canna');
+    expect(scala.opzioni.filter((o) => requisitiSoddisfatti(s, o.quando, c)).map((o) => o.esito?.vai)).toContain('torre-anello-3');
+    expect(st('torre-2-la-porta-tonda').opzioni.map((o) => o.esito?.vai)).toEqual(['torre-anello-3', 'superficie-fratturata']);
+    for (const o of st('torre-2-la-cassa').opzioni) expect(o.esito?.segue).toBe('torre-2-la-porta-tonda');
+    expect(st('torre-3-la-porta-tonda').opzioni.map((o) => o.esito?.vai)).toEqual(['torre-anello-4', 'superficie-fratturata']);
+    s.quality['torre.anello'] = 3;
+    expect(scala.opzioni.filter((o) => requisitiSoddisfatti(s, o.quando, c)).map((o) => o.esito?.vai)).toContain('torre-anello-4');
+    const premi: [string, string][] = [['torre-1-il-fuso', 'torre-la-nota-lunga'], ['torre-2-la-cassa', 'torre-la-cassa-armonica'], ['torre-3-l-ultima-campana', 'torre-la-bocca-della-campana'], ['torre-4-il-leggio', 'torre-il-manto-del-battito']];
+    for (const [id, pezzo] of premi) {
+      const [prima, dopo] = st(id).opzioni;
+      expect(prima!.quando, id).toContain(`avuto.${pezzo} == 0`);
+      expect(prima!.esito?.effetti?.[`oggetto.${pezzo}`], id).toBe(1);
+      expect(dopo!.quando, id).toContain(`avuto.${pezzo} >= 1`);
+      expect(dopo!.esito?.effetti?.[`oggetto.${pezzo}`], id).toBeUndefined();
+    }
+  });
+
+  it('le stanze cambiano a ogni discesa, e il piano si conta dall\'anello', () => {
+    const stanza = (n: number): TStorylet => ({ ...st('torre-la-scala-della-canna'), id: `prova-stanza-${n}`, area: 'prova', presso: undefined, requisiti: [], ripetibile: true });
+    const area = { ...c.aree.find((a) => a.id === 'campana-sfiati')!, id: 'prova' };
+    const conRimescola: TContenuti = { ...c, aree: [...c.aree, { ...area, spedizione: { ...area.spedizione!, stanze: 3, rimescola: 'torre.discese', piani: 10 } }], storylet: [...c.storylet, ...Array.from({ length: 12 }, (_, n) => stanza(n))] };
+    const senza: TContenuti = { ...conRimescola, aree: [...c.aree, area] };
+    const s = figlio();
+    s.area = 'prova';
+    const viste = (k: TContenuti) => new Set(Array.from({ length: 6 }, (_, d) => { s.quality['torre.discese'] = d; return stanzeVisibili(s, k).map((x) => x.id).join(','); }));
+    expect(viste(conRimescola).size).toBeGreaterThan(1);
+    expect(viste(senza).size).toBe(1);
+    s.quality['profondita.prova'] = 3;
+    expect(piano(s, conRimescola)).toBe(14);
+    expect(piano(s, senza)).toBeUndefined();
+  });
+});

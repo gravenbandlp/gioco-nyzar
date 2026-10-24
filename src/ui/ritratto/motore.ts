@@ -54,6 +54,10 @@ export interface VisArmatura {
   brigantina?: boolean;
   /** Emblema sul petto: bilance, torre, nodo, spirale, cerchio. */
   stemma?: { forma: 'bilance' | 'torre' | 'spirale' | 'cerchio'; mat: string };
+  /** Le onde incise sul petto, concentriche come un suono che si allarga, nel materiale dato (il set della canna). */
+  onde?: string;
+  /** Il bordo delle piastre in un altro metallo. */
+  rifiniture?: string;
   /** Anelli di un altro metallo: sulle spalle, o a zig-zag sul petto. */
   anelli?: { dove: 'spalle' | 'zigzag'; mat: string };
   irregolare?: boolean;
@@ -61,7 +65,7 @@ export interface VisArmatura {
 }
 
 export interface VisScudo {
-  forma: 'scudo' | 'torre' | 'tondo' | 'disco' | 'placca';
+  forma: 'scudo' | 'torre' | 'tondo' | 'disco' | 'placca' | 'campana';
   faccia?: string;
   bordo?: string;
   emblema?: 'rombo' | 'osso' | 'nessuno';
@@ -69,7 +73,7 @@ export interface VisScudo {
 }
 
 export type VisAccessorio =
-  | { tipo: 'mantello'; mat: string; riflesso?: string }
+  | { tipo: 'mantello'; mat: string; riflesso?: string; orlo?: string }
   | { tipo: 'cappuccio'; mat: string }
   | { tipo: 'velo'; mat: string }
   | { tipo: 'maschera'; forma: 'volto' | 'senzaBocca' | 'incrinata' | 'corteccia' | 'erbe'; mat: string; dettaglio?: string }
@@ -312,6 +316,8 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
     for (const [y, x0, x1] of sp) if (y >= 33) { tono(x0 + 2, y, '-', mantello.mat); tono(x1 - 2, y, 0, mantello.mat); tono(23, y, 0, mantello.mat); }
     for (let y = 42; y <= 65; y++) { tono(23, y, 0, mantello.mat); tono(24, y, 0, mantello.mat); }
     if (mantello.riflesso) for (const [y, x0] of sp) if (y >= 30 && y % 4 === 0) raw(x0 + 1, y, mantello.riflesso);
+    // l'orlo che fa luce: un'onda di due righe lungo il fondo
+    if (mantello.orlo) for (const [y, x0, x1] of sp) if (y === 62 || y === 63) for (let x = x0 + 1; x < x1; x++) if ((x + (y === 62 ? 0 : 2)) % 4 < 2) px(x, y, mantello.orlo, 2);
     for (let x = 8; x <= 40; x++) if (x % 3 === 0) togli(x, 65); else if (x % 3 === 1) tono(x, 65, 0, mantello.mat);
   }
   if (arco) {
@@ -485,6 +491,20 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
           for (const [x, y] of [[18, 21], [21, 21], [26, 23], [29, 23], [18, 28], [22, 31], [27, 31], [19, 34]] as const) px(x, y, 'ferro', x < 24 ? 3 : 2);
         } else if (m === 'acciaio' || m === 'acciaioChiaro') { raw(19, 21, '#9fb3ba'); raw(18, 22, '#9fb3ba'); raw(23, 24, '#c5d3d6'); }
         if (v.stemma) stemma(v.stemma, 21, 25);
+        if (v.rifiniture) {
+          for (let y = 20; y <= 33; y++) { px(17, y, v.rifiniture, 2); px(30, y, v.rifiniture, 0); }
+          for (let x = 18; x <= 29; x++) px(x, 19, v.rifiniture, x < 24 ? 3 : 1);
+          for (const [x, y] of [[18, 34], [19, 35], [20, 36], [29, 34], [28, 35], [27, 36]] as const) px(x, y, v.rifiniture, x < 24 ? 2 : 0);
+        }
+        if (v.onde) {
+          // il segno del suono: un punto di luce e due archi per parte, come un rintocco che si allarga
+          forma([[26, 23, 24], [27, 23, 24]], v.onde);
+          for (const s of [-1, 1]) {
+            const cx = s < 0 ? 23 : 24;
+            for (const [dx, dy] of [[2, -1], [2, 0], [2, 1], [4, -2], [5, -1], [5, 0], [5, 1], [4, 2]] as const) px(cx + s * dx, 26.5 + dy + (dy >= 0 ? 0.5 : -0.5) | 0, v.onde, Math.abs(dx) < 3 ? 3 : 2);
+          }
+          if (EMISSIVI.has(v.onde)) accendi(23.5, 26.5, v.onde, 8, 0.22);
+        }
         const fa: Riga[] = []; for (let y = 37; y <= 42; y++) fa.push([y, 17, 30]);
         forma(fa, m);
         for (const y of [39, 41]) for (let x = 17; x <= 30; x++) tono(x, y, 0, m);
@@ -743,6 +763,20 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         }
         break;
       }
+      case 'campana': {
+        // la sagoma di una campana: la testa tonda in alto, i fianchi che si allargano, il labbro svasato in fondo
+        const faccia = v.faccia ?? 'bronzoCampana';
+        const sp: Riga[] = [[23, 32, 36], [24, 31, 37], [25, 31, 37], [26, 30, 38], [27, 30, 38], [28, 30, 38], [29, 30, 38], [30, 30, 38],
+          [31, 29, 39], [32, 29, 39], [33, 29, 39], [34, 29, 39], [35, 28, 40], [36, 28, 40], [37, 27, 41], [38, 27, 41], [39, 28, 40]];
+        const inn = scudoCon(sp, bordo, faccia);
+        forma([[22, 33, 35], [21, 34, 34]], bordo, { luce: 0.4 }); // l'anello in cima
+        forma(rett(27, 37, 41, 37), bordo, { piatto: true }); // il labbro
+        const luce = v.emblema === 'nessuno' ? null : 'cristallo';
+        // le fasce in rilievo delle campane vere, sottolineate da un filo di luce, e un punto di luce in mezzo
+        for (const y of [27, 33]) for (const [yy, x0, x1] of inn) if (yy === y) for (let x = x0; x <= x1; x++) { px(x, y, bordo, x < 34 ? 2 : 1); if (luce && (x + y) % 2 === 0) px(x, y + 1, luce, 2); }
+        if (luce) { px(34, 30, luce, 3); px(33, 30, luce, 2); px(35, 30, luce, 2); px(34, 29, luce, 2); px(34, 31, luce, 2); accendi(34, 30, luce, 7, 0.25); }
+        break;
+      }
       case 'placca': {
         const sp: Riga[] = [[23, 31, 36], [24, 30, 38]];
         for (let y = 25; y <= 30; y++) sp.push([y, 29, 39]);
@@ -799,6 +833,16 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
         px(14, 67, 'ferro', 2); px(15, 67, 'ferro', 1);
         return;
       case 'spada': case 'spadaCurva': {
+        if (v.variante === 'canna') {
+          forma([[35, 14, 15], [36, 13, 16], [37, 13, 16]], m.pomo, { luce: 0.3 }); px(14, 34, m.pomo, 3);
+          for (let y = 38; y <= 42; y++) { px(14, y, m.impugnatura, y % 2 ? 2 : 1); px(15, y, m.impugnatura, y % 2 ? 1 : 0); }
+          forma([[42, 12, 17], [43, 10, 19], [44, 9, 11], [44, 18, 20], [45, 9, 9], [45, 20, 20]], m.elsa, { luce: 0.3 });
+          for (let y = 44; y <= 61; y++) { const largo = y < 58; px(13, y, m.lama, 3); px(14, y, m.lama, 2); px(15, y, m.lama, 1); if (largo) px(16, y, m.lama, 0); }
+          for (let y = 45; y <= 57; y++) px(14, y, 'verderame', 2); // la scanalatura con la patina
+          lama(13, 15, 62, 62, m.lama, [3, 2, 1]); px(14, 63, m.lama, 2); px(14, 64, m.lama, 1);
+          if (v.dettaglio) for (const y of [47, 51, 55]) { px(14, y, v.dettaglio, 3); accendi(14.5, y, v.dettaglio, 4, 0.18); }
+          return;
+        }
         forma(rett(14, 37, 15, 38), m.pomo); px(14, 39, m.impugnatura, 2); px(15, 39, m.impugnatura, 1);
         forma([[43, 10, 19]], m.elsa); px(10, 44, m.elsa, 1); px(19, 44, m.elsa, 0);
         const curva = v.forma === 'spadaCurva';
@@ -1418,7 +1462,7 @@ export function disegna(f: Figura, opz: { palpebre?: boolean } = {}): Ritratto {
   // metalli e sulle gemme lo spigolo in alto a sinistra prende un riflesso
   const buio = hex(BUIO);
   const FREDDO = hex('#14303a'), CALDO = hex('#f2e6cc'), RIFLESSO = hex('#eef3ee'), CONTROLUCE = hex('#5fa3b0');
-  const LUCIDI = new Set(['ferro', 'acciaio', 'acciaioChiaro', 'maglia', 'precursoreGrigio', 'oro', 'oroOpaco', 'argento', 'argentoBrunito', 'bronzo', 'rame', 'ottone', 'latta', 'platino', 'vetro', 'ossidiana', 'giaietto', 'madreperla', 'avorio']);
+  const LUCIDI = new Set(['bronzoCampana', 'ferro', 'acciaio', 'acciaioChiaro', 'maglia', 'precursoreGrigio', 'oro', 'oroOpaco', 'argento', 'argentoBrunito', 'bronzo', 'rame', 'ottone', 'latta', 'platino', 'vetro', 'ossidiana', 'giaietto', 'madreperla', 'avorio']);
   const stesso = (x: number, y: number, m: string) => inb(x, y) && M[id(x, y)] === m;
   const C: (RGB | null)[] = new Array(W * H).fill(null);
   for (let i = 0; i < W * H; i++) {

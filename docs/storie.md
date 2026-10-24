@@ -490,11 +490,11 @@ quelli delle Cronache (`contenuti/cronache.yaml`); le serie le ricava `src/motor
 
 ### I luoghi neri e la Campana Sepolta
 
-`raccolta.luoghi-neri` · 15 passi · 28 scene
+`raccolta.luoghi-neri` · 15 passi · 31 scene
 
-- **File:** `luoghi-neri/anello-del-camminatore.yaml`, `luoghi-neri/campana/batacchio.yaml`, `luoghi-neri/campana/canne.yaml`, `luoghi-neri/campana/coro.yaml`, `luoghi-neri/campana/sblocco.yaml`, `luoghi-neri/campana/sfiati.yaml`, `luoghi-neri/costola-di-drago.yaml`, `luoghi-neri/forno-della-nonna.yaml`, `luoghi-neri/lente-del-sornione.yaml`, `luoghi-neri/soglia-di-mara.yaml`, `luoghi-neri/spina-dell-eco.yaml`, `luoghi-neri/stele-dei-naviganti.yaml`, `luoghi-neri/tamburi-di-fondo.yaml`, `luoghi-neri/tracce.yaml`, `luoghi-neri/volta-dell-aculeo.yaml`
+- **File:** `luoghi-neri/anello-del-camminatore.yaml`, `luoghi-neri/campana/batacchio.yaml`, `luoghi-neri/campana/canne.yaml`, `luoghi-neri/campana/coro.yaml`, `luoghi-neri/campana/sblocco.yaml`, `luoghi-neri/campana/sfiati.yaml`, `luoghi-neri/costola-di-drago.yaml`, `luoghi-neri/forno-della-nonna.yaml`, `luoghi-neri/lente-del-sornione.yaml`, `luoghi-neri/soglia-di-mara.yaml`, `luoghi-neri/spina-dell-eco.yaml`, `luoghi-neri/stele-dei-naviganti.yaml`, `luoghi-neri/tamburi-di-fondo.yaml`, `luoghi-neri/tracce.yaml`, `luoghi-neri/volta-dell-aculeo.yaml`, `torre/sblocco.yaml`
 - **Spedizioni:** L'Anello del Camminatore (`anello-del-camminatore`), La camera del batacchio (`campana-batacchio`), Le canne (`campana-canne`), Il coro (`campana-coro`), Gli sfiati della Ripamuta (`campana-sfiati`), La Costola di Drago (`costola-di-drago`), Il Forno della Nonna (`forno-della-nonna`), La Lente del Sornione (`lente-del-sornione`), La Soglia di Mara (`soglia-di-mara`), La Spina dell'Eco (`spina-dell-eco`), Le Stele dei Naviganti (`stele-dei-naviganti`), I Tamburi di Fondo (`tamburi-di-fondo`), La Volta dell'Aculeo (`volta-dell-aculeo`)
-- **Dipende da:** L'Arena di Qir-Azel almeno al passo 5
+- **Dipende da:** L'Arena di Qir-Azel almeno al passo 5; Capomozzo almeno al passo 10
 - **Oggetti:** Perno del quadrante, Il Battente, Le piastre del Campanaro, La Sordina, La verga della Capoturno, La conchiglia sorda, Martello d'accordatura, Piastrina della mano aperta, Vetro delle due stelle, Cerata del portinaio, Canna della voce, Asta del fanalista, Rotella del conto, Aculeo della Lancetta
 - **Passi:**
   1. `misura.costola >= 1`
@@ -512,6 +512,21 @@ quelli delle Cronache (`contenuti/cronache.yaml`); le serie le ricava `src/motor
   13. `campana.strato >= 3`
   14. `campana.scelta >= 1`
   15. `campana.epilogo >= 1`
+
+### Il campanile rovescio
+
+`raccolta.torre` · 6 passi · 8 scene
+
+- **File:** `torre/anello-1-fondo.yaml`, `torre/anello-2-fondo.yaml`, `torre/anello-3-fondo.yaml`, `torre/anello-4-fondo.yaml`, `torre/sblocco.yaml`
+- **Spedizioni:** La scala delle corde (`torre-anello-1`), Le casse di risonanza (`torre-anello-2`), La fonderia delle note (`torre-anello-3`), Il battito (`torre-anello-4`)
+- **Oggetti:** La Nota Lunga, La Cassa Armonica, La Bocca della Campana, Il Manto del Battito, Il frammento del sigillo
+- **Passi:**
+  1. `torre.botola >= 1`
+  2. `torre.anello >= 1`
+  3. `torre.anello >= 2`
+  4. `torre.anello >= 3`
+  5. `torre.anello >= 4`
+  6. `torre.sigillo >= 1`
 
 ### Il Mercante della Memoria Residua
 

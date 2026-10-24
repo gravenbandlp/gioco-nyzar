@@ -1,0 +1,295 @@
+# Il campanile rovescio (docs/piano-torre.md, blocco 0): lo sblocco nella camera del batacchio, l'ingresso dalla
+# costa grigia e il sigillo del quarantunesimo piano. Le quality condivise della torre stanno qui.
+# - `torre-la-botola-zittita` / `torre-la-botola-armata` (non ripetibili, dopo l'epilogo della Campana, da Portatore:
+#   pista.capomozzo >= 10): sotto il nido del Campanaro c'è la botola, con un incavo a mano aperta che legge la
+#   Maschera. La prosa cambia con campana.scelta. torre.botola 1.
+# - `torre-la-botola-chiusa` (non ripetibile, Campana finita ma Capomozzo no): la lastra c'è e non risponde.
+#   torre.chiusa 1. Quando il giocatore diventa Portatore si apre la scena della botola.
+# - `torre-la-scala-della-canna` (ripetibile, torre.botola >= 1, anche a campanile finito): l'ingresso e le ripartenze.
+#   Scende al primo piano, e all'undicesimo, al ventunesimo e al trentunesimo per chi ha passato i sigilli
+#   (torre.anello 1, 2, 3). Ogni discesa fa `effetti: { torre.discese: 1 }`, perché a ogni discesa i piani cambiano
+#   (`rimescola: torre.discese` nelle aree degli anelli).
+# - `torre-il-sigillo` (seguito, la prima volta dopo il leggio del Lettore, anello-4-fondo.yaml): la porta del
+#   quarantunesimo piano legge la Maschera e non si apre (maschera.grado 3, ne serve 4). torre.sigillo 1. È il gancio
+#   del Capitolo II.
+# - maschera.grado non si imposta: lo calcola il motore dalle Maschere possedute (la chiave "maschera" in
+#   contenuti/oggetti.yaml, valoreOggetti in src/motore/oggetti.ts). La quality c'è perché i requisiti la leggano.
+quality:
+  - { id: torre.botola, nome: "La botola sotto il batacchio", categoria: stato, nascosta: true, descrizione: "1 quando la botola sotto il batacchio ha letto la tua Maschera e si è aperta." }
+  - { id: torre.chiusa, nome: "La lastra nel nido", categoria: stato, nascosta: true, descrizione: "1 quando hai trovato la lastra sotto il batacchio e non ti ha riconosciut{o|a}." }
+  - { id: torre.anello, immagine: icone/stairs, nome: "Il campanile rovescio", categoria: stato, descrizione: "Quanti anelli del campanile rovescio ti sei lasciat{o|a} sopra la testa, dieci piani ciascuno." }
+  - { id: torre.discese, nome: "Le discese nella canna", categoria: stato, nascosta: true, descrizione: "Quante volte sei sces{o|a} nel campanile rovescio. A ogni discesa i piani sono diversi." }
+  - { id: torre.sigillo, nome: "Il sigillo del quarantunesimo piano", categoria: stato, nascosta: true, descrizione: "1 quando la porta sotto il quarantesimo piano ha letto la tua Maschera e non si è aperta." }
+  - { id: maschera.grado, nome: "Il grado della Maschera", categoria: stato, nascosta: true, descrizione: "Lo calcola il gioco dalla Maschera del Portatore che possiedi." }
+
+storylet:
+  # ------------------------------------------------------------ la botola, con la Campana zittita
+  - id: torre-la-botola-zittita
+    presso: campana-la-costa-grigia
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: La botola sotto il batacchio
+    sommario: "Torni nella camera del batacchio. Sotto la Campana muta, dove il Campanaro aveva il nido, c'è una lastra che la prima volta non avevi visto."
+    luogo: La Campana Sepolta, la camera del batacchio
+    area: superficie-fratturata
+    requisiti: [campana.scelta == 1, campana.epilogo >= 1, pista.capomozzo >= 10, torre.botola == 0]
+    testo: |
+      Attraversi la Campana in una mattina. Adesso tace, e le macchine ti lasciano passare. Nella camera
+      del batacchio la Campana pende ferma sopra la tua testa, e la catena grossa come un tronco non vibra più.
+
+      Il nido del Campanaro è un groviglio di catene spezzate intorno a una lastra di metallo nero, larga quanto
+      un tavolo da osteria. La prima volta c'era sopra il Campanaro, e non l'hai vista. In mezzo alla lastra c'è
+      un incavo a forma di mano aperta con un dito in più, come quello della seconda porta degli sfiati.
+
+      {percezione Difficile} Intorno all'incavo corre un anello di quattro segni che nei luoghi neri non hai mai
+      visto. Uno ha la forma della tua Maschera.
+
+      {origine accolito-del-velo} Nel reliquiario dei Tre Portatori, alla Cripta, c'è un incavo uguale scolpito
+      nella pietra. Ti hanno insegnato che era un ornamento.
+
+      La Maschera che porti con te è tiepida, come la sera in cui l'hai presa sotto Capomozzo.
+    opzioni:
+      - testo: "Mettere la mano nell'incavo"
+        descrizione: "Il dito in più resterà vuoto. La lastra però non sembra interessata alla mano."
+        costo: 1
+        esito:
+          titolo: La canna
+          testo: |
+            Appoggi il palmo nell'incavo e la Maschera si scalda contro il petto fino a bruciare. La lastra si
+            divide in quattro spicchi, che scivolano dentro il pavimento senza un rumore.
+
+            Al loro posto si apre un pozzo largo quanto la bocca della Campana, e lungo la parete scende una scala a
+            chiocciola di metallo nero, senza ringhiera. Lasci cadere un sasso nel mezzo e aspetti, ma non lo
+            senti arrivare.
+
+            Lungo la scala si accendono dei segni azzurri, un giro dopo l'altro, sempre più piccoli finché non
+            riesci più a contarli. Capisci allora che la Campana sta in cima a un campanile costruito all'ingiù,
+            e che il campanile continua sotto i tuoi piedi.
+          imposta: { torre.botola: 1 }
+          pe: { percezione: 5 }
+
+  # ------------------------------------------------------------ la botola, con la Campana armata
+  - id: torre-la-botola-armata
+    presso: campana-la-costa-grigia
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: La botola sotto il batacchio
+    sommario: "Torni nella camera del batacchio. La Campana armata manda ancora il suo rintocco basso, e sotto, dove il Campanaro aveva il nido, c'è una lastra che a ogni rintocco si muove."
+    luogo: La Campana Sepolta, la camera del batacchio
+    area: superficie-fratturata
+    requisiti: [campana.scelta == 2, campana.epilogo >= 1, pista.capomozzo >= 10, torre.botola == 0]
+    testo: |
+      Attraversi la Campana in una mattina. Le macchine non si muovono più, e ogni tanto
+      la Campana manda un rintocco così basso che lo senti nei denti prima che nelle orecchie. Nella camera del
+      batacchio la catena vibra ancora, come la prima volta.
+
+      Il nido del Campanaro è un groviglio di catene spezzate intorno a una lastra di metallo nero, larga quanto
+      un tavolo da osteria. In mezzo c'è un incavo a forma di mano aperta con un dito in più, come quello della
+      seconda porta degli sfiati. A ogni rintocco la lastra gira su se stessa di un dito, e poi si ferma.
+
+      {percezione Difficile} Intorno all'incavo corre un anello di quattro segni che nei luoghi neri non hai mai
+      visto. Uno ha la forma della tua Maschera, e a ogni rintocco si accende per un battito.
+
+      {origine accolito-del-velo} Nel reliquiario dei Tre Portatori, alla Cripta, c'è un incavo uguale scolpito
+      nella pietra. Ti hanno insegnato che era un ornamento.
+
+      La Maschera che porti con te è tiepida, e si scalda un poco a ogni rintocco.
+    opzioni:
+      - testo: "Mettere la mano nell'incavo fra due rintocchi"
+        descrizione: "La lastra sta ferma per il tempo di un respiro. La mano deve arrivare lì in quel momento."
+        costo: 1
+        esito:
+          titolo: La canna
+          testo: |
+            Aspetti il rintocco, poi appoggi il palmo nell'incavo. La Maschera si scalda contro il petto fino a
+            bruciare, e la lastra si divide in quattro spicchi che scivolano dentro il pavimento.
+
+            Sotto c'è un pozzo largo quanto la bocca della Campana, e lungo la parete scende una scala a
+            chiocciola di metallo nero, senza ringhiera. Il rintocco dopo scende nel pozzo come una pietra, e
+            lo senti rimbalzare di parete in parete finché non lo perdi.
+
+            Lungo la scala si accendono dei segni azzurri, un giro dopo l'altro, e a ogni rintocco si spengono
+            e si riaccendono in un ordine diverso. Capisci allora che la Campana sta in cima a un campanile
+            costruito all'ingiù, che il campanile continua sotto i tuoi piedi e che laggiù i piani cambiano
+            posto a ogni rintocco.
+          imposta: { torre.botola: 1 }
+          pe: { percezione: 5 }
+
+  # ------------------------------------------------------------ la lastra che non risponde
+  - id: torre-la-botola-chiusa
+    presso: campana-la-costa-grigia
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: La lastra nel nido
+    sommario: "Nella camera del batacchio, sotto il nido del Campanaro, c'è una lastra con un incavo a forma di mano. La tua mano non le basta."
+    luogo: La Campana Sepolta, la camera del batacchio
+    area: superficie-fratturata
+    requisiti: [campana.epilogo >= 1, pista.capomozzo < 10, torre.chiusa == 0]
+    testo: |
+      Torni nella camera del batacchio a guardare quello che la prima volta non avevi avuto il tempo di vedere.
+      Il nido del Campanaro è un groviglio di catene spezzate intorno a una lastra di metallo nero, larga quanto
+      un tavolo da osteria, con un incavo a forma di mano aperta e un dito in più.
+
+      Appoggi il palmo nell'incavo e il metallo resta freddo. Intorno corre un anello di quattro segni, e
+      nessuno si accende.
+
+      {accademiche Difficile} La Confraternita del Velo racconta che i Tre Portatori tornarono dal Labirinto con
+      una Maschera ciascuno, e che le porte dei Precursori si aprivano davanti a loro. I quattro segni hanno la
+      forma di quattro maschere.
+    opzioni:
+      - testo: "Lasciare la lastra com'è"
+        descrizione: "La lastra aspetta qualcosa che non hai, ed è stata ferma molto più a lungo di te."
+        costo: 0
+        esito:
+          titolo: La lastra fredda
+          testo: |
+            Ritiri la mano e ti pulisci la polvere nera sui calzoni. Prima di risalire ti volti a guardare
+            la lastra un'ultima volta, e ti accorgi che l'incavo ha la misura esatta della tua mano, dito in
+            più a parte.
+          imposta: { torre.chiusa: 1 }
+
+  # ------------------------------------------------------------ l'ingresso e le ripartenze
+  - id: torre-la-scala-della-canna
+    presso: campana-la-costa-grigia
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: La scala della canna
+    sommario: "Tre giorni fino alla Ripamuta, una mattina dentro la Campana, e poi la scala a chiocciola che scende nella canna."
+    luogo: La Campana Sepolta, la botola sotto il batacchio
+    area: superficie-fratturata
+    ripetibile: true
+    requisiti: [torre.botola >= 1]
+    testo: |
+      Il sentiero dei pescatori, l'arco di pietra nera e gli strati della Campana li conosci ormai a memoria.
+      Sotto il batacchio la botola è aperta come l'hai lasciata, e dal pozzo sale un'aria tiepida che sa di
+      metallo.
+
+      La scala gira lungo la parete senza ringhiera. A ogni giro una porta bassa dà su un piano, e i segni
+      azzurri dicono quale. I piani che hai già passato restano accesi, gli altri aspettano al buio.
+
+      {origine apprendista-raschiatore} Sulle piattaforme si dice che una scala senza ringhiera l'hanno fatta
+      quelli che non avevano paura di cadere, e che conviene scenderla come se l'avessi fatta tu.
+    opzioni:
+      # ------------------------------------------------ anello 1 · la scala delle corde
+      - testo: "Scendere nella canna"
+        descrizione: "Tre giorni fino alla Ripamuta, una mattina nella Campana, e poi giù per la scala. I piani non sono mai gli stessi."
+        costo: 2
+        esito:
+          titolo: Il primo giro
+          testo: |
+            Metti il piede sul primo gradino e la scala ti risponde con una vibrazione che sale dalle caviglie. I
+            segni azzurri si accendono davanti a te, un giro dopo l'altro, in un ordine che non è quello dell'ultima
+            volta.
+          effetti: { torre.discese: 1 }
+          vai: torre-anello-1
+      - testo: "Andare a cavallo fino alla Ripamuta"
+        descrizione: "In sella la costa passa più in fretta. Il cavallo resta legato in cima alla scogliera."
+        requisiti: [chiave.cavalcatura >= 1]
+        costo: 1
+        esito:
+          titolo: Il cavallo sulla scogliera
+          testo: |
+            Lasci il cavallo legato a un ginepro in cima alla Ripamuta e scendi a piedi attraverso la Campana. Sul
+            primo gradino della canna i segni azzurri si accendono in un ordine che non è quello dell'ultima volta.
+          effetti: { torre.discese: 1 }
+          vai: torre-anello-1
+      # ------------------------------------------------ anello 2 · le casse di risonanza
+      - testo: "Scendere fino all'undicesimo piano"
+        descrizione: "Il primo sigillo ti riconosce. Dieci piani di scala senza fermarsi, fino alle casse di risonanza."
+        quando: [torre.anello >= 1]
+        costo: 2
+        esito:
+          titolo: Oltre il primo sigillo
+          testo: |
+            Scendi i primi dieci piani senza fermarti, con i segni azzurri che si accendono al tuo passaggio, e sotto il
+            fuso della Tessitrice la porta tonda si apre da sola quando ti avvicini. Sotto, il rombo delle casse ti viene
+            incontro.
+          effetti: { torre.discese: 1 }
+          vai: torre-anello-2
+      # ------------------------------------------------ anello 3 · la fonderia delle note
+      - testo: "Scendere fino al ventunesimo piano"
+        descrizione: "Due sigilli ti riconoscono. Venti piani di scala senza fermarsi, fino alla fonderia."
+        quando: [torre.anello >= 2]
+        costo: 2
+        esito:
+          titolo: Oltre il secondo sigillo
+          testo: |
+            Scendi i primi venti piani senza fermarti, attraverso le casse ormai mute, e la seconda porta tonda si apre da sola
+            quando ti avvicini. Sotto, il calore della fonderia ti viene incontro.
+          effetti: { torre.discese: 1 }
+          vai: torre-anello-3
+      # ------------------------------------------------ anello 4 · il battito
+      - testo: "Scendere fino al trentunesimo piano"
+        descrizione: "Tre sigilli ti riconoscono. Trenta piani di scala senza fermarsi, fino al battito."
+        quando: [torre.anello >= 3]
+        costo: 2
+        esito:
+          titolo: Oltre il terzo sigillo
+          testo: |
+            Scendi i primi trenta piani senza fermarti, attraverso le casse mute e la fonderia spenta, e la terza porta tonda si
+            apre da sola quando ti avvicini. Sotto, il battito ti viene incontro dalle pareti.
+          effetti: { torre.discese: 1 }
+          vai: torre-anello-4
+      - testo: "Guardare giù dalla botola"
+        descrizione: "I segni azzurri scendono a giri sempre più stretti, finché la luce diventa un punto solo."
+        costo: 0
+        esito:
+          titolo: Il punto di luce
+          testo: |
+            Ti sdrai sul bordo della botola e guardi giù. I giri della scala si stringono uno dentro l'altro,
+            e i segni azzurri si fanno così piccoli che a un certo punto smetti di distinguerli. In fondo resta
+            un punto di luce che si accende e si spegne piano, con il ritmo di un cuore che dorme.
+
+  # ------------------------------------------------------------ il sigillo del quarantunesimo piano
+  - id: torre-il-sigillo
+    immagine: ambientazione/mito-salvaguardia-precursori
+    tipo: seguito
+    titolo: Il sigillo del quarantunesimo piano
+    sommario: "Sotto il quarantesimo piano la scala finisce contro una porta tonda senza maniglia. La Maschera si scalda prima ancora che tu la tocchi."
+    luogo: Il campanile rovescio, sotto il quarantesimo piano
+    area: torre-anello-4
+    testo: |
+      Lasci il Lettore in ginocchio e ti avvicini alla porta che custodiva. È tonda, di metallo nero, grande come la
+      bocca della Campana, e oltre la porta la scala continua a scendere.
+
+      Al centro della porta ci sono quattro incavi a forma di maschera, disposti come i punti di una croce. Il
+      battito che sali a sentire dal primo piano qui fa tremare il metallo sotto le dita.
+
+      {percezione Molto difficile} Lungo il bordo della porta corrono dei segni sottili, quaranta per ogni
+      quarto di giro. Quelli del primo quarto sono accesi.
+
+      {origine accolito-del-velo} Le preghiere del Velo dicono che i Portatori dell'Alba scenderanno più in
+      basso dei Tre, e su quanto più in basso le preghiere tacciono.
+    opzioni:
+      - testo: "Mettere la Maschera nel suo incavo"
+        descrizione: "Uno dei quattro incavi ha la forma esatta della tua Maschera."
+        quando: [maschera.grado >= 3, maschera.grado < 4]
+        costo: 1
+        esito:
+          titolo: Tre quarti di giro
+          testo: |
+            La Maschera entra nell'incavo con uno scatto, e una luce azzurra parte dal centro della porta e
+            corre lungo il bordo, segno dopo segno. A metà del secondo quarto rallenta e si ferma, e dopo un
+            battito torna indietro fino al punto da cui era partita.
+
+            Togli la Maschera dall'incavo. È calda come una pietra rimasta al sole, e per un momento ti sembra
+            più pesante. Dall'altra parte della porta il battito continua, e mentre risali la scala lo senti
+            ancora per molti giri, come qualcosa che aspetta.
+          imposta: { torre.sigillo: 1 }
+          pe: { resilienza: 10 }
+          vai: superficie-fratturata
+      - testo: "Appoggiare la mano alla porta"
+        descrizione: "Senza una Maschera la porta è metallo e basta."
+        quando: [maschera.grado < 3]
+        costo: 1
+        esito:
+          titolo: Il metallo freddo
+          testo: |
+            Appoggi il palmo al centro della porta, fra i quattro incavi. Il metallo è freddo e trema appena,
+            al ritmo del battito che sale da sotto, e i segni lungo il bordo restano spenti mentre togli la mano.
+          imposta: { torre.sigillo: 1 }
+          vai: superficie-fratturata
+
+glossario:
+  - id: torre-campanile-rovescio
+    nome: Campanile rovescio
+    tipo: luogo
+    sottotitolo: "La torre che scende sotto la Campana"
+    testo: "La torre dei Precursori che scende nella roccia sotto la Ripamuta, con la Campana Sepolta per cella campanaria. Una scala a chiocciola senza ringhiera gira intorno alla canna, il pozzo dove la Campana mandava la sua voce, e a ogni giro una porta dà su un piano. Dietro ogni dieci piani c'è un sigillo che legge le Maschere dei Portatori."
+    requisiti: [torre.botola >= 1]

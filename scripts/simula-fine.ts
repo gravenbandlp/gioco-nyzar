@@ -2,7 +2,8 @@
 // - fine capitolo: il combattente della taratura dell'8 ottobre 2026 (Fisico 3, Armi da mischia 3, lo Spadone di
 //   Uzgreth, cuoio rinforzato), su cui stanno le quest di fazione;
 // - fine contenuti: chi ha finito una quest di fazione e i villaggi (Fisico 4, Armi da mischia 4, Spadone di Uzgreth,
-//   cotta di maglia), su cui stanno la Campana Sepolta e i boss dell'ultimo atto dei villaggi.
+//   cotta di maglia), su cui stanno la Campana Sepolta e i boss dell'ultimo atto dei villaggi;
+// - fine Campana: lo stesso con il Battente e le piastre del Campanaro, su cui sta il campanile rovescio.
 // Uso: npx tsx scripts/simula-fine.ts [prefisso dello scontro ...]   (senza argomenti: tutti gli scontri)
 import { caricaContenuti } from './build-contenuti';
 import { nuovoPersonaggio, type Stato } from '../src/motore/personaggio';
@@ -27,6 +28,8 @@ function profilo(fisico: number, abilita: number, arma: string, armatura: string
 const profili = {
   'fine capitolo': profilo(3, 3, 'spadone-di-uzgreth', 'cuoio-rinforzato'),
   'fine contenuti': profilo(4, 4, 'spadone-di-uzgreth', 'cotta-di-maglia'),
+  // chi ha finito la Campana e scende nel campanile rovescio (docs/piano-torre.md)
+  'fine Campana': profilo(4, 4, 'campana-il-battente', 'campana-piastre-del-campanaro'),
 };
 
 const prefissi = process.argv.slice(2);

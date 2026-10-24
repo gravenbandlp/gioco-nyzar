@@ -129,6 +129,10 @@ export const UNICI: Record<string, VisArma | VisArmatura | VisScudo> = {
   'sf-lama-che-non-dorme': { forma: 'spada', lama: 'neroLama', dettaglio: 'mana' },
   'corazza-del-vecchio-campione': { forma: 'maglia', anelli: { dove: 'spalle', mat: 'bronzo' } },
   'sf-corazza-del-tumulo': { forma: 'maglia', spalleLarghe: true, anelli: { dove: 'spalle', mat: 'precursoreGrigio' } },
+  // il bronzo della canna, il set del campanile rovescio (contenuti/torre/oggetti.yaml)
+  'torre-la-nota-lunga': { forma: 'spada', variante: 'canna', lama: 'bronzoCampana', elsa: 'verderame', pomo: 'bronzoCampana', impugnatura: 'cuoioNero', dettaglio: 'cristallo' },
+  'torre-la-cassa-armonica': { forma: 'piastre', corpo: 'bronzoCampana', sotto: 'maglia', rifiniture: 'verderame', onde: 'cristallo' },
+  'torre-la-bocca-della-campana': { forma: 'campana', faccia: 'bronzoCampana', bordo: 'verderame' },
 };
 
 export const ACCESSORI: Record<string, VisAccessorio> = {
@@ -148,6 +152,8 @@ export const ACCESSORI: Record<string, VisAccessorio> = {
   'circolo-segno-delle-tre-tacche': { tipo: 'pendente', forma: 'disco', mat: 'corteccia', filo: 'canapa' },
   'circolo-lupa-brina': { tipo: 'compagno', specie: 'lupa' },
   'circolo-braska': { tipo: 'compagno', specie: 'puma' },
+  // il bronzo della canna (contenuti/torre/oggetti.yaml): il mantello del Lettore
+  'torre-il-manto-del-battito': { tipo: 'mantello', mat: 'verderame', riflesso: '#8fc3cb', orlo: 'cristallo' },
   'circolo-innesto-di-legnoscuro': { tipo: 'innesto' },
   'circolo-cappuccio-di-nebbia': { tipo: 'cappuccio', mat: 'lanaVerde' },
   'circolo-ghianda-di-metallo-vivo': { tipo: 'pendente', forma: 'ghianda', mat: 'precursoreGrigio', filo: 'corteccia' },

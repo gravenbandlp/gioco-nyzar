@@ -96,8 +96,10 @@ export function chiavi(s: Stato, c: TContenuti): Set<string> {
   return new Set(c.oggetti.filter((o) => possiede(s, o.id)).flatMap((o) => o.proprieta.chiave));
 }
 
-/** Valore delle chiavi di requisito speciali: chiave.<nome>, indossa.<proprietà o difetto>. */
+/** Valore delle chiavi di requisito speciali: chiave.<nome>, indossa.<proprietà o difetto>, maschera.grado. */
 export function valoreOggetti(s: Stato, c: TContenuti, k: string): number | undefined {
+  // il grado della Maschera del Portatore: il più alto fra gli oggetti con la chiave "maschera" (3 nel Capitolo I)
+  if (k === 'maschera.grado') return Math.max(0, ...c.oggetti.filter((o) => o.proprieta.chiave.includes('maschera') && possiede(s, o.id)).map((o) => o.grado));
   if (k.startsWith('chiave.')) return chiavi(s, c).has(k.slice(7)) ? 1 : 0;
   if (k.startsWith('indossa.')) {
     const t = k.slice(8);

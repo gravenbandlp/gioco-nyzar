@@ -108,6 +108,11 @@ export const Area = z.object({
     ritorno: Id, // dove porta la ritirata
     soglia: z.number().int().min(1), // profondità a cui si apre il cuore della spedizione (per la barra)
     stanze: z.number().int().min(1).default(3), // quante stanze si vedono alla volta
+    // una quality che cambia le stanze visibili a ogni suo valore (il campanile rovescio: torre.discese sale a ogni
+    // discesa, e i piani non sono mai gli stessi)
+    rimescola: Id.optional(),
+    // il piano prima della prima stanza: l'intestazione mostra «Piano N» (profondità più questo più uno)
+    piani: z.number().int().min(0).optional(),
   }).optional(),
 });
 
@@ -272,7 +277,8 @@ export const Oggetto = z
   })
   .superRefine((o, ctx) => {
     if (['arma', 'armatura', 'scudo'].includes(o.slot) && !o.base) ctx.addIssue({ code: 'custom', message: `un oggetto nello slot ${o.slot} richiede una base` });
-    if (['accessorio', 'animale'].includes(o.slot) && (o.dadi > 0 || o.grado > 4)) ctx.addIssue({ code: 'custom', message: 'accessori e animali arrivano a +4 e non danno dadi' });
+    // gli accessori arrivano a +5 dal 24 ottobre 2026, per il set della canna (piano-torre.md); prima a +4
+    if (['accessorio', 'animale'].includes(o.slot) && o.dadi > 0) ctx.addIssue({ code: 'custom', message: 'accessori e animali non danno dadi' });
     if (o.slot === 'animale' && o.prezzo !== undefined) ctx.addIssue({ code: 'custom', message: 'gli animali non si vendono: niente prezzo' });
     const p = o.proprieta;
     let punti = o.dadi + Object.values(p.talento).reduce((a, b) => a + b, 0);

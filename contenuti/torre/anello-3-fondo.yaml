@@ -1,0 +1,664 @@
+# Il campanile rovescio, anello 3, piani 27-30 (docs/piano-torre.md, blocco 3; l'area e i piani 21-26 sono in
+# anello-3.yaml).
+# - Piani 27-29 (profondità 6-8): la forgia dei quattro volti (un'opzione Media per ciascuna Maschera di Capomozzo), la
+#   pioggia di gocce, gli stampi dei volti (il figlio del Circolo), il bagno di tempra (l'apprendista raschiatore), le
+#   scorie del fondo, il calore del crogiolo grande.
+# - Il cuore a profondità 9, il trentesimo piano: `torre-3-la-colata`, la Colata nel crogiolo; chi vince o la raffredda
+#   passa al seguito `torre-3-la-colata-rappresa`; chi vince anche quella apre `torre-3-l-ultima-campana`: La Bocca della
+#   Campana la prima volta (avuto.torre-la-bocca-della-campana == 0), sempre PE e lyssan, torre.anello almeno 3; poi
+#   `torre-3-la-porta-tonda`, da cui si scende nell'anello 4 o si risale. Chi perde una fase qualsiasi torna in Superficie, e l'anello è da rifare.
+storylet:
+  # ================================================================ piani 27-29 (profondità 6-8)
+  # ------------------------------------------------------------ la forgia dei quattro volti (le Maschere)
+  - id: torre-3-la-forgia-dei-quattro-volti
+    immagine: icone/drama-masks
+    titolo: La forgia dei quattro volti
+    sommario: "Su un'incudine di bronzo ci sono quattro stampi a forma di volto, uno per ogni Maschera. Il tuo è tiepido."
+    luogo: Il campanile rovescio, la fonderia delle note
+    area: torre-anello-3
+    ripetibile: true
+    requisiti: [profondita.torre-anello-3 >= 6, profondita.torre-anello-3 <= 8]
+    testo: |
+      In mezzo al piano c'è un'incudine di bronzo grande come un altare, e sull'incudine sono incassati quattro stampi a
+      forma di volto. Sono le quattro Maschere dei Portatori in negativo, come se qualcuno le avesse fuse qui per la prima
+      volta, e lo stampo della tua è tiepido al tatto.
+
+      La porta di sotto è chiusa da una saracinesca di bronzo, e la catena che la regge passa sotto l'incudine.
+    opzioni:
+      - testo: "Sollevare la saracinesca a forza"
+        descrizione: "È bronzo, ed è pesante. Le dita sotto il bordo e le gambe che spingono."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Molto difficile }
+        successo:
+          titolo: La saracinesca alzata
+          testo: |
+            Infili le dita sotto il bordo della saracinesca e spingi con le gambe finché non sale abbastanza da passarci sotto.
+            La lasci ricadere alle tue spalle con un tonfo che fa tremare l'incudine.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Le dita sotto il bordo
+          testo: |
+            La saracinesca sale di un palmo e ricade, e per poco non ti lascia le dita sotto. Ti siedi a terra a guardarti le
+            mani.
+          effetti: { ferite: 1.5 }
+      - testo: "Passare dalla bocca di un forno vicino"
+        descrizione: "Un forno spento comunica con il piano di sotto. È spento da poco, e la cenere è ancora calda."
+        costo: 3
+        esito:
+          titolo: Dentro il forno spento
+          testo: |
+            Ti infili nella bocca di un forno spento e scendi lungo il condotto nella cenere ancora calda, fino al piano di
+            sotto. Esci grigi{o|a} dalla testa ai piedi, con le mani scottate.
+          effetti: { profondita.torre-anello-3: 1, ferite: 1 }
+      - testo: "Restare in piedi davanti allo stampo della Forza"
+        descrizione: "Lo stampo della Forza chiede la volontà di restare in piedi. La tua Maschera ce l'ha."
+        quando: [oggetto.maschera-della-forza >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: In piedi davanti all'incudine
+          testo: |
+            Resti in piedi davanti allo stampo mentre il calore dell'incudine ti spinge indietro, e la Maschera ti tiene
+            dritt{o|a}. La catena sotto l'incudine scorre da sola, e la saracinesca si alza.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Il calore che spinge
+          testo: |
+            Il calore ti spinge indietro di un passo, poi di un altro, e la saracinesca resta giù.
+          effetti: { ferite: 1 }
+      - testo: "Toccare con pietà lo stampo della Rottura"
+        descrizione: "Lo stampo senza bocca è di chi ha ritrovato il divino nelle cose semplici. Chiede una carezza, non una spinta."
+        quando: [oggetto.maschera-della-rottura >= 1]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: La carezza
+          testo: |
+            Passi la mano sullo stampo senza bocca come si accarezza il viso di qualcuno che dorme, e dagli occhi dello stampo
+            colano due gocce di bronzo chiaro. La saracinesca si alza.
+          pe: { empatia: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Lo stampo freddo
+          testo: |
+            Lo stampo diventa freddo sotto la mano, e ti resta addosso una tristezza senza nome.
+          effetti: { tormento: 1 }
+      - testo: "Credere allo stampo della Distorsione"
+        descrizione: "Lo stampo incrinato suggerisce che la saracinesca sia già aperta. Crederci per un momento basta."
+        quando: [oggetto.maschera-della-distorsione >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: La saracinesca aperta
+          testo: |
+            Guardi lo stampo incrinato e per un battito sai che la saracinesca è aperta, e quando ti volti lo è davvero. Passi
+            prima che la certezza se ne vada.
+          pe: { magia: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: La certezza che si incrina
+          testo: |
+            La certezza dello stampo si incrina come il vetro di cui è fatto, e ti lascia in testa una crepa che fa male.
+          effetti: { tormento: 1 }
+      - testo: "Mettere la mano nello stampo della Natura"
+        descrizione: "Lo stampo di corteccia lega la carne alla macchina. La mano dentro, e la macchina risponde."
+        quando: [oggetto.maschera-della-natura >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: La linfa nel bronzo
+          testo: |
+            Appoggi la mano nello stampo di corteccia, e senti la linfa scorrere nel bronzo dell'incudine fino alla catena. La
+            catena si muove come una radice che cresce, e la saracinesca si alza.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: La linfa grigia
+          testo: |
+            La linfa che senti nel bronzo è grigia e fredda, e ti sale lungo il braccio prima che tu riesca a ritirarlo.
+          effetti: { contaminazione: 1 }
+
+  # ------------------------------------------------------------ la pioggia di gocce
+  - id: torre-3-la-pioggia-di-gocce
+    immagine: icone/gas-mask
+    titolo: La pioggia di gocce
+    sommario: "Dal soffitto di questo piano cade una pioggia lenta di gocce di bronzo fuso."
+    luogo: Il campanile rovescio, la fonderia delle note
+    area: torre-anello-3
+    ripetibile: true
+    requisiti: [profondita.torre-anello-3 >= 6, profondita.torre-anello-3 <= 8]
+    testo: |
+      Il soffitto di questo piano è il fondo di un crogiolo enorme, crepato in mille punti, e dalle crepe cade una pioggia
+      lenta di gocce di bronzo fuso. Ogni goccia che tocca il pavimento si spiaccica con uno sfrigolio e si rapprende in
+      una moneta opaca. Il pavimento ne è coperto.
+
+      {percezione Difficile} Le gocce cadono sempre dalle stesse crepe. Fra le crepe ci sono strisce di pavimento pulito.
+    opzioni:
+      - testo: "Camminare dove non piove"
+        descrizione: "Le strisce di pavimento pulito fanno un sentiero storto. Bisogna vederlo, e non uscirne."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: Il sentiero asciutto
+          testo: |
+            Segui le strisce di pavimento pulito da una crepa all'altra, e le gocce ti cadono accanto senza mai toccarti.
+            Arrivi alla porta con le orecchie piene dello sfrigolio.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Una goccia sola
+          testo: |
+            Esci dal sentiero di un passo, e una goccia ti cade sul dorso della mano. Il dolore ti fa tornare indietro di
+            corsa.
+          effetti: { ferite: 1 }
+      - testo: "Schivare le gocce correndo"
+        descrizione: "Le gocce sono lente. Chi è svelto ci passa in mezzo, quasi tutte."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: In mezzo alla pioggia
+          testo: |
+            Attraversi il piano a balzi con lo sguardo in alto, e le gocce ti cadono intorno senza prenderti. Una sola ti
+            sfiora la manica e la buca.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Tre gocce
+          testo: |
+            Uno scarto ti porta sotto una crepa, e tre gocce ti cadono sulla spalla una dopo l'altra. Torni indietro
+            stringendoti il braccio.
+          effetti: { ferite: 1.5 }
+      - testo: "Coprirsi con uno scudo di fortuna"
+        descrizione: "Una lastra, un coperchio, qualunque cosa sopra la testa. Le gocce cadranno sopra."
+        costo: 3
+        esito:
+          titolo: Sotto il coperchio
+          testo: |
+            Attraversi il piano con il coperchio di un crogiolo sopra la testa, e le gocce ci sfrigolano sopra come grasso in
+            padella. Il coperchio si scalda finché non riesci più a tenerlo, e arrivi alla porta con le mani scottate.
+          effetti: { profondita.torre-anello-3: 1, ferite: 1 }
+
+  # ------------------------------------------------------------ gli stampi dei volti
+  - id: torre-3-gli-stampi-dei-volti
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: Gli stampi dei volti
+    sommario: "Le pareti del piano sono coperte di stampi a forma di volto umano. Dentro alcuni c'è ancora la faccia di chi ci ha lasciato l'impronta."
+    luogo: Il campanile rovescio, la fonderia delle note
+    area: torre-anello-3
+    ripetibile: true
+    requisiti: [profondita.torre-anello-3 >= 6, profondita.torre-anello-3 <= 8]
+    testo: |
+      Le pareti del piano sono coperte di stampi d'argilla a forma di volto umano, centinaia, appesi come ex voto in una
+      chiesa. Sono le impronte degli operatori della fonderia, prese quando erano vivi. In alcuni stampi, dove dovrebbe
+      esserci il vuoto, c'è una nebbia grigia che ha la forma della faccia, e la faccia ti segue con gli occhi.
+
+      {origine figlio-del-circolo} Al Circolo le maschere di corteccia si fanno sul viso dei morti, perché il bosco li
+      riconosca. Queste sono fatte sul viso dei vivi, e il bosco qui non c'è.
+    opzioni:
+      - testo: "Passare senza guardarli negli occhi"
+        descrizione: "Le facce di nebbia cercano chi le guarda. Testa bassa, e lo sguardo sui gradini."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Lo sguardo basso
+          testo: |
+            Scendi con gli occhi sui gradini e le mani sulla ringhiera di bronzo, e gli sguardi delle facce ti scivolano sulla
+            nuca senza trovarti.
+          pe: { resilienza: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Uno sguardo
+          testo: |
+            A metà alzi gli occhi senza volerlo, e una faccia di nebbia ti guarda dritto. Per un momento la sua faccia è la tua,
+            e la nebbia ti entra in bocca.
+          effetti: { contaminazione: 1 }
+      - testo: "Svuotare gli stampi dalla nebbia"
+        descrizione: "Uno stampo rovesciato perde quello che ha dentro. La nebbia deve andare da qualche parte."
+        prova: { attributo: fisico, abilita: [atletica, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Gli stampi rovesciati
+          testo: |
+            Rovesci uno dopo l'altro gli stampi pieni di nebbia tenendo la faccia girata, e la nebbia scivola fuori
+            e si disperde nel calore dei forni. Quando scendi gli stampi sono vuoti.
+          pe: { atletica: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: La nebbia addosso
+          testo: |
+            Uno stampo si rovescia verso di te, e la nebbia ti avvolge la faccia prima di disperdersi.
+          effetti: { contaminazione: 1 }
+      - testo: "Riconoscerli come si riconoscono i morti al Circolo"
+        descrizione: "Al Circolo, davanti alle maschere dei morti, si dice il nome del bosco. I morti si calmano."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Il nome del bosco
+          testo: |
+            Dici il nome del bosco davanti alle facce di nebbia, come davanti alle maschere dei morti del Circolo, e le facce
+            chiudono gli occhi una dopo l'altra. Scendi in mezzo a loro mentre dormono.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Il bosco lontano
+          testo: |
+            Il nome del bosco qui sotto non vuol dire niente, e le facce continuano a guardarti mentre scendi.
+          effetti: { contaminazione: 0.5 }
+      - testo: "Scendere coprendosi la faccia"
+        descrizione: "Una mano davanti agli occhi e l'altra sulla parete. Le facce guarderanno lo stesso."
+        costo: 3
+        esito:
+          titolo: La faccia coperta
+          testo: |
+            Scendi con una mano davanti agli occhi e l'altra sulla parete, e senti gli sguardi delle facce sulla pelle come
+            aria fredda. In fondo ti tremano le mani, e ti resta in bocca un sapore di ferro.
+          effetti: { profondita.torre-anello-3: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ il bagno di tempra
+  - id: torre-3-il-bagno-di-tempra
+    immagine: icone/spiral-shell
+    titolo: Il bagno di tempra
+    sommario: "Una vasca d'acqua per la tempra occupa tutto il piano, e il vapore che sale è così fitto che non si vede la porta."
+    luogo: Il campanile rovescio, la fonderia delle note
+    area: torre-anello-3
+    ripetibile: true
+    requisiti: [profondita.torre-anello-3 >= 6, profondita.torre-anello-3 <= 8]
+    testo: |
+      Una vasca d'acqua per la tempra occupa tutto il piano da parete a parete, e una gru ci immerge di continuo pezzi di
+      bronzo rovente. A ogni immersione l'acqua urla e sale una nuvola di vapore, così fitta che la porta dall'altra parte
+      sparisce per lunghi momenti. Sopra la vasca corre una passerella di bronzo che il vapore tiene sempre bagnata.
+
+      {origine apprendista-raschiatore} Nelle condotte vicino alle fenditure il vapore arriva a ondate, e i Raschiatori
+      contano fra un'ondata e l'altra prima di passare.
+    opzioni:
+      - testo: "Attraversare sulla passerella"
+        descrizione: "Bagnata e scivolosa, con il vapore che ti acceca a ogni immersione. Senza fermarsi."
+        prova: { attributo: fisico, abilita: acrobazia, difficolta: Difficile }
+        successo:
+          titolo: Sulla passerella
+          testo: |
+            Attraversi la passerella con le mani sul corrimano e i piedi che cercano il bronzo sotto il velo d'acqua, e quando
+            arriva il vapore ti fermi e aspetti. Arrivi alla porta fradici{o|a} e inter{o|a}.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Il vapore in faccia
+          testo: |
+            Il vapore ti investe a metà passerella, e il piede scivola sul bronzo bagnato. Ti riprendi aggrappat{o|a} al
+            corrimano, con la faccia scottata dal vapore.
+          effetti: { ferite: 1 }
+      - testo: "Contare le ondate come nelle condotte"
+        descrizione: "Il vapore arriva a ondate, come vicino alle fenditure. Si conta, e si passa fra un'ondata e l'altra."
+        quando: [origine.apprendista-raschiatore >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Fra due ondate
+          testo: |
+            Conti le immersioni della gru come contavi le ondate nelle condotte, e passi la passerella nel momento fra l'una e
+            l'altra. Il vapore sale alle tue spalle quando sei già alla porta.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: L'ondata in anticipo
+          testo: |
+            La gru immerge un pezzo in anticipo, e il vapore ti prende in pieno sulla passerella.
+          effetti: { ferite: 1 }
+      - testo: "Attraversare a nuoto sotto il vapore"
+        descrizione: "L'acqua della vasca è calda, non bollente. Sotto, il vapore non arriva."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Molto difficile }
+        successo:
+          titolo: Sott'acqua
+          testo: |
+            Ti tuffi nella vasca e nuoti sott'acqua fino all'altra parte, risalendo a prendere aria solo fra un'immersione e
+            l'altra. Esci con la pelle rossa come un gambero e la porta davanti.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: L'acqua che scotta
+          testo: |
+            La gru immerge un pezzo rovente proprio sopra di te, e l'acqua intorno diventa bollente. Esci dalla vasca dalla
+            parte da cui eri entrat{o|a}, scottat{o|a}.
+          effetti: { ferite: 1.5 }
+      - testo: "Fermare la gru e aspettare che il vapore si diradi"
+        descrizione: "La gru ha un freno a portata di mano. Fermata lei, il vapore si dirada, lentamente."
+        costo: 3
+        esito:
+          titolo: La vasca calma
+          testo: |
+            Tiri il freno della gru e aspetti che il vapore si diradi, e intanto respiri l'aria umida e verde del piano. Quando
+            attraversi la passerella la vasca è calma, e tu hai la gola piena di fumo.
+          effetti: { profondita.torre-anello-3: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ le scorie del fondo
+  - id: torre-3-le-scorie-del-fondo
+    immagine: icone/dig-hole
+    titolo: Le scorie del fondo
+    sommario: "Sul fondo della fonderia le scorie si sono ammucchiate per secoli, e due grumi si alzano dal mucchio."
+    luogo: Il campanile rovescio, la fonderia delle note
+    area: torre-anello-3
+    ripetibile: true
+    requisiti: [profondita.torre-anello-3 >= 6, profondita.torre-anello-3 <= 8]
+    testo: |
+      Sul fondo della fonderia le scorie di secoli di colate si sono ammucchiate fino al soffitto, e la scala passa in un
+      corridoio scavato nel mucchio. A metà corridoio due grumi grandi come botti si staccano dalle pareti di scoria e
+      rotolano verso di te, con la nebbia grigia che si muove dentro le crepe.
+
+      {natura Difficile} Qui sotto la Marea è più vecchia, e le scorie più dure. Il freddo le addormenta lo stesso.
+    opzioni:
+      - testo: "Affrontare le scorie"
+        descrizione: "Due grumi di scoria vecchia, nel corridoio stretto. Non c'è spazio per girarci intorno."
+        combattimento: torre-le-scorie-vive
+        vittoria:
+          titolo: Il corridoio libero
+          testo: |
+            Le due scorie si spaccano una dopo l'altra contro le pareti del corridoio, e la nebbia che avevano dentro si
+            disperde. Scendi in mezzo ai pezzi.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        sconfitta:
+          titolo: Schiacciat{o|a}
+          testo: |
+            Le scorie ti schiacciano contro le pareti del corridoio, e ti trascini indietro con la nebbia grigia in gola.
+      - testo: "Far crollare il corridoio dietro di sé"
+        descrizione: "Le pareti di scoria sono instabili. Una spinta nel punto giusto, e le scorie restano dall'altra parte."
+        prova: { attributo: mentale, abilita: [tecnologia, percezione], difficolta: Difficile }
+        successo:
+          titolo: Il crollo
+          testo: |
+            Corri oltre le scorie lungo il corridoio e dai una spallata al punto dove la parete è crepata. Il corridoio crolla
+            alle tue spalle in una pioggia di scoria nera, e i due grumi restano dall'altra parte.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Il crollo addosso
+          testo: |
+            La parete crolla un momento troppo presto, e ti cade addosso una parte del mucchio. Ne esci tossendo, dalla parte
+            sbagliata.
+          effetti: { ferite: 1, contaminazione: 0.5 }
+      - testo: "Arrampicarsi sopra il mucchio"
+        descrizione: "Sopra le pareti del corridoio, sulla cima del mucchio, fino alla scala. La scoria taglia."
+        costo: 3
+        esito:
+          titolo: Sul mucchio
+          testo: |
+            Ti arrampichi sulla parete del corridoio e attraversi la cima del mucchio a carponi, mentre le scorie ti cercano
+            sotto. Arrivi alla scala con le mani tagliate dalla scoria e un po' di nebbia grigia addosso.
+          effetti: { profondita.torre-anello-3: 1, ferite: 0.5, contaminazione: 0.5 }
+
+  # ------------------------------------------------------------ il calore del crogiolo grande
+  - id: torre-3-il-calore-del-crogiolo-grande
+    immagine: icone/ringing-bell
+    titolo: Il calore del crogiolo grande
+    sommario: "La scala scende verso un bagliore arancione che illumina tutta la canna. Più in basso c'è il crogiolo grande, e il suo calore sale fin qui."
+    luogo: Il campanile rovescio, la fonderia delle note
+    area: torre-anello-3
+    ripetibile: true
+    requisiti: [profondita.torre-anello-3 >= 6, profondita.torre-anello-3 <= 8]
+    testo: |
+      Da qui la scala scende verso un bagliore arancione che illumina tutta la canna, e il calore sale dal basso come da un
+      camino. I gradini sono così caldi che il cuoio delle suole fuma, e il ferro della ringhiera non si può toccare. Più
+      in basso, fra le volute del fumo, si vede il bordo di un crogiolo grande come una piazza.
+
+      Dal crogiolo sale un canto, a molte voci, che si sente appena sopra il crepitio del fuoco.
+    opzioni:
+      - testo: "Scendere nel calore"
+        descrizione: "I gradini fumano e l'aria brucia. Bisogna scendere svelti e non fermarsi a guardare."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Molto difficile }
+        successo:
+          titolo: Verso il crogiolo
+          testo: |
+            Scendi i gradini svelt{o|a} con la giubba sulla bocca, e il calore ti asciuga gli occhi e le labbra. Arrivi al piano di
+            sotto con le suole bruciacchiate e il canto più forte nelle orecchie.
+          pe: { resistenza: 5 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: Le suole
+          testo: |
+            A metà una suola si stacca dallo stivale per il calore, e il piede nudo tocca il gradino. Risali saltellando.
+          effetti: { ferite: 1.5 }
+      - testo: "Bagnarsi i vestiti e scendere"
+        descrizione: "I vestiti bagnati tengono lontano il calore per un po'. Un po', e poi fumano."
+        prova: { attributo: mentale, abilita: [medicina, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: I vestiti fumanti
+          testo: |
+            Ti bagni la giubba e i calzoni con l'acqua della borraccia e di una cisterna lì accanto, e scendi mentre i vestiti
+            fumano addosso a te. Arrivi in fondo con la stoffa asciutta e la pelle intera.
+          pe: { medicina: 3 }
+          effetti: { profondita.torre-anello-3: 1 }
+        fallimento:
+          titolo: La stoffa asciutta
+          testo: |
+            La stoffa si asciuga troppo presto, e il calore ti trova a metà scala. Torni su con le braccia rosse.
+          effetti: { ferite: 1 }
+      - testo: "Scendere lungo la canna, lontano dai gradini"
+        descrizione: "Una corda di metallo pende al centro della canna, dove il calore sale dritto. Scotta meno dei gradini."
+        costo: 3
+        esito:
+          titolo: La corda calda
+          testo: |
+            Scendi lungo la corda di metallo con le mani avvolte nella giubba, nel calore che sale dritto dal crogiolo. Arrivi
+            al piano di sotto con le mani bruciate e il canto del crogiolo in testa.
+          effetti: { profondita.torre-anello-3: 1, ferite: 1, contaminazione: 0.5 }
+
+  # ================================================================ il trentesimo piano: la Colata
+  - id: torre-3-la-colata
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: La Colata
+    sommario: "Al trentesimo piano il crogiolo grande è pieno di bronzo fuso che non si raffredda mai. Dentro il bronzo galleggiano dei volti, e cantano."
+    luogo: Il campanile rovescio, il trentesimo piano
+    area: torre-anello-3
+    requisiti: [profondita.torre-anello-3 >= 9]
+    testo: |
+      Il trentesimo piano è il crogiolo grande, una conca di pietra larga come una piazza e piena di bronzo fuso fino al
+      bordo. Il bronzo brilla di un arancione così forte che fa male guardarlo. Dentro il metallo galleggiano decine di volti
+      che salgono e scendono come foglie in un fiume, e cantano tutti insieme la stessa melodia a bocca chiusa.
+
+      Quando metti piede sul bordo, il bronzo si alza dal crogiolo in una forma alta tre uomini, con decine di facce sul
+      petto e sulle braccia. È la Colata, e il coro della fonderia canta dentro di lei.
+
+      {tecnologia Difficile} Sopra il crogiolo pendono le chiuse della vasca di tempra. Aperte, l'acqua fredda raffredda
+      tutto quello che tocca.
+
+      {empatia Difficile} Il coro dentro la Colata canta una melodia che si interrompe sempre allo stesso punto, come se
+      mancasse una voce.
+    opzioni:
+      - testo: "Affrontare la Colata nel crogiolo"
+        descrizione: "Bronzo fuso con un coro dentro, alto tre uomini. Ogni colpo che le dai ti schizza addosso."
+        combattimento: torre-la-colata-nel-crogiolo
+        vittoria:
+          titolo: Il bronzo che si rapprende
+          testo: |
+            La colpisci finché il bronzo non comincia a perdere calore dove la lama lo apre, e la Colata rallenta. Il bronzo
+            le si rapprende addosso in una crosta scura, e quando si rialza è una forma di metallo con le facce imprigionate
+            dentro, che non cantano più.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-3-la-colata-rappresa
+        sconfitta:
+          titolo: Il bronzo addosso
+          testo: |
+            Un braccio di bronzo fuso ti prende in pieno, e il dolore ti spegne la vista. Quando torni in te sei sulla scala,
+            molti giri più su, con la pelle che brucia e la sensazione di aver cantato con il coro. Risali fino alla Campana
+            con l'anello da rifare.
+          effetti: { contaminazione: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Aprire le chiuse della vasca di tempra"
+        descrizione: "L'acqua fredda raffredda tutto quello che tocca. Anche la Colata, se le cade addosso tutta insieme."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La tempra
+          testo: |
+            Corri alle leve delle chiuse mentre la Colata ti insegue lungo il bordo, e le apri tutte insieme. L'acqua fredda le
+            cade addosso con un urlo di vapore che riempie la canna, e quando il vapore si dirada la Colata è una forma di
+            metallo rappreso, con le facce imprigionate dentro.
+          pe: { tecnologia: 5 }
+          segue: torre-3-la-colata-rappresa
+        fallimento:
+          titolo: Le chiuse bloccate
+          testo: |
+            Le chiuse sono bloccate dal calcare, e mentre le forzi la Colata ti raggiunge. Torni in te sulla scala, con le
+            mani bruciate, e risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 2, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Cantare la voce che manca"
+        descrizione: "Il coro si interrompe sempre allo stesso punto. Se qualcuno canta la voce che manca, il coro finisce."
+        prova: { attributo: sociale, abilita: [espressivita, empatia], difficolta: Difficile }
+        successo:
+          titolo: La voce che mancava
+          testo: |
+            Ascolti il coro fino al punto in cui si interrompe e canti tu la nota che manca, e per un momento le facce dentro la
+            Colata smettono di salire e scendere. Il coro finisce la sua melodia per la prima volta da secoli, e la Colata si
+            ferma e si rapprende come metallo che ha finito il suo lavoro, prima di rialzarsi muta.
+          pe: { espressivita: 5 }
+          segue: torre-3-la-colata-rappresa
+        fallimento:
+          titolo: La voce sbagliata
+          testo: |
+            La tua voce entra nel coro una nota sbagliata, e le facce si girano tutte verso di te. La Colata ti prende, e torni
+            in te sulla scala. Risali fino alla Campana con l'anello da rifare.
+          effetti: { contaminazione: 1.5, tormento: 0.5 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ la seconda fase: la Colata rappresa
+  - id: torre-3-la-colata-rappresa
+    immagine: ambientazione/mito-salvaguardia-precursori
+    tipo: seguito
+    titolo: La Colata rappresa
+    sommario: "Il bronzo della Colata si è rappreso in una forma di metallo con le facce imprigionate dentro. Si crepa a ogni passo, e dalle crepe esce il fuoco."
+    luogo: Il campanile rovescio, il trentesimo piano
+    area: torre-anello-3
+    testo: |
+      Rappresa, la Colata è una forma di metallo scuro alta tre uomini e lenta a muoversi, con le facce del coro chiuse nel
+      bronzo come mosche nell'ambra. A ogni passo il metallo si crepa, e dalle crepe esce il bronzo ancora fuso di dentro,
+      come sangue arancione. Quando colpisce, il pavimento si spacca.
+
+      {percezione Difficile} Le crepe si aprono sempre nello stesso punto, sul petto, dove le facce sono più fitte.
+    opzioni:
+      - testo: "Spezzare la Colata"
+        descrizione: "Metallo rappreso, durissimo, con il fuoco dentro. Ogni crepa che apri ti sputa addosso bronzo fuso."
+        combattimento: torre-la-colata-rappresa
+        vittoria:
+          titolo: Il guscio rotto
+          testo: |
+            L'ultimo colpo apre la Colata dal petto alla base come un guscio d'uovo, e il bronzo fuso che aveva dentro si versa
+            nel crogiolo e si spegne. Le facce del coro escono una dopo l'altra dal metallo come nebbia e si disperdono nel
+            calore con un sospiro.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-3-l-ultima-campana
+        sconfitta:
+          titolo: Il pavimento spaccato
+          testo: |
+            Un colpo della Colata spacca il pavimento sotto di te, e cadi in una crepa piena di calore. Ne esci a fatica, e
+            risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 1, contaminazione: 1 }
+          vai: superficie-fratturata
+      - testo: "Colpire le crepe del petto"
+        descrizione: "Le crepe si aprono sempre sul petto. Un colpo preciso nel momento in cui si aprono, e il guscio cede."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, armi-da-distanza], difficolta: Difficile }
+        successo:
+          titolo: Nella crepa
+          testo: |
+            Aspetti che la crepa sul petto si apra e colpisci dentro, dove il bronzo è ancora liquido. La Colata si spacca dal
+            centro, e le facce escono come nebbia dalle crepe che si allargano.
+          pe: { percezione: 5 }
+          segue: torre-3-l-ultima-campana
+        fallimento:
+          titolo: Il bronzo che schizza
+          testo: |
+            La crepa si richiude prima del colpo, e quella dopo ti schizza addosso il bronzo fuso. Torni in te sulla scala, e
+            risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 2, contaminazione: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Rovesciarle addosso la vasca di tempra"
+        descrizione: "Il metallo caldo che si raffredda di colpo si spacca. Bisogna attirarla sotto la vasca, e rovesciarla."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: La tempra che spacca
+          testo: |
+            Attiri la Colata sotto la vasca di tempra e rovesci la vasca con una spallata. L'acqua fredda colpisce il metallo
+            caldo, e la Colata si spacca in mille pezzi con un suono di campana rotta, e le facce escono come vapore.
+          pe: { atletica: 5 }
+          segue: torre-3-l-ultima-campana
+        fallimento:
+          titolo: La vasca che non cade
+          testo: |
+            La vasca non si rovescia, e la Colata ti raggiunge mentre spingi ancora. Torni in te sulla scala, e risali fino
+            alla Campana con l'anello da rifare.
+          effetti: { ferite: 2, contaminazione: 1 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ l'ultima campana: La Bocca della Campana, PE e lyssan
+  - id: torre-3-l-ultima-campana
+    immagine: icone/bell-shield
+    tipo: seguito
+    titolo: L'ultima campana
+    sommario: "Nel fondo del crogiolo, dove la Colata stava, c'è l'ultima campana che la fonderia stava fondendo."
+    luogo: Il campanile rovescio, il trentesimo piano
+    area: torre-anello-3
+    testo: |
+      Il bronzo nel crogiolo si è spento, e sul fondo, dove la Colata aveva il suo centro, c'è una campana. È piccola, alta
+      quanto un braccio, e perfetta, l'unica campana senza difetti di tutta la fonderia. La Colata l'ha tenuta dentro di
+      sé per secoli, al caldo, come una madre tiene un figlio.
+
+      Più in là, nel bordo del crogiolo, c'è la terza porta tonda, con l'incavo a forma di mano aperta. La tua Maschera si
+      scalda.
+    opzioni:
+      - testo: "Sollevare la campana dal fondo del crogiolo"
+        descrizione: "È piccola e perfetta, con delle cinghie di cuoio annodate al manico come per portarla al braccio."
+        quando: [avuto.torre-la-bocca-della-campana == 0]
+        costo: 0
+        esito:
+          titolo: La Bocca della Campana
+          testo: |
+            Sollevi la campana dal fondo del crogiolo, e il bronzo è tiepido come una pietra al sole. Ha l'anello in cima e il
+            labbro svasato in fondo, e due fasce in rilievo che mandano un filo di luce fredda. Qualcuno, alla fine, ci ha
+            annodato delle cinghie di cuoio per portarla al braccio come uno scudo.
+
+            Accanto al crogiolo, nella pietra, ci sono le tasche dei fonditori con i lyssan del turno.
+
+            Appoggi la mano nell'incavo della terza porta tonda, e la porta legge la tua Maschera e si apre di un dito. Dalla
+            fessura non sale calore. Sale il battito, così forte che lo senti nei denti.
+          pe: { resistenza: 10 }
+          effetti: { oggetto.torre-la-bocca-della-campana: 1, monete: 250 }
+          almeno: { torre.anello: 3 }
+          segue: torre-3-la-porta-tonda
+      - testo: "Prendere i lyssan del turno"
+        descrizione: "Lo scudo è già tuo. Nelle tasche della pietra i fonditori lasciavano la paga del turno."
+        quando: [avuto.torre-la-bocca-della-campana >= 1]
+        costo: 0
+        esito:
+          titolo: La paga dei fonditori
+          testo: |
+            Nelle tasche della pietra accanto al crogiolo ci sono di nuovo i lyssan del turno. Li prendi, e appoggi la mano
+            nell'incavo della terza porta tonda, che legge la tua Maschera e si apre di un dito sul battito di sotto.
+          pe: { resistenza: 10 }
+          effetti: { monete: 250 }
+          almeno: { torre.anello: 3 }
+          segue: torre-3-la-porta-tonda
+
+  # ------------------------------------------------------------ la terza porta tonda: scendere o risalire
+  - id: torre-3-la-porta-tonda
+    immagine: ambientazione/mito-salvaguardia-precursori
+    tipo: seguito
+    titolo: La terza porta tonda
+    sommario: "Sul bordo del crogiolo la terza porta tonda è aperta di un dito. Dalla fessura sale il battito, così forte che lo senti nei denti."
+    luogo: Il campanile rovescio, il trentesimo piano
+    area: torre-anello-3
+    testo: |
+      La terza porta tonda è aperta di un dito, e dalla fessura non sale calore. Sale il battito, così forte che lo senti nei
+      denti, e con il battito un'aria fresca che sa di pietra bagnata. Sotto il trentesimo piano la canna torna stretta e buia,
+      e le pareti, da quello che si vede, si muovono.
+
+      Il terzo sigillo ti ha riconosciut{o|a}, e la prossima volta la scala della canna ti porterà fin qui.
+    opzioni:
+      - testo: "Scendere verso il battito"
+        descrizione: "Dal trentunesimo piano in giù, fino al quarantesimo. Quello che hai addosso adesso è quello che avrai laggiù."
+        costo: 0
+        esito:
+          titolo: Il trentunesimo piano
+          testo: |
+            Spingi la porta tonda e scendi. A ogni gradino il battito cresce, e quando arrivi al trentunesimo piano lo senti nei
+            piedi prima che nelle orecchie.
+          vai: torre-anello-4
+      - testo: "Risalire alla Campana"
+        descrizione: "Trenta piani di scala fino alla botola, e poi la costa grigia. Il battito aspetterà."
+        costo: 0
+        esito:
+          titolo: La risalita
+          testo: |
+            Risali la scala attraverso la fonderia spenta e le casse mute, e i segni azzurri restano accesi
+            alle tue spalle. Esci dalla botola con la Bocca della Campana al braccio e le gambe dure come legno.
+          vai: superficie-fratturata

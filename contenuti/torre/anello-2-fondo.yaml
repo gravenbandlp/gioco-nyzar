@@ -1,0 +1,668 @@
+# Il campanile rovescio, anello 2, piani 17-20 (docs/piano-torre.md, blocco 2; l'area e i piani 11-16 sono in
+# anello-2.yaml).
+# - Piani 17-19 (profondità 6-8): la sala delle quattro voci (un'opzione Media per ciascuna Maschera di Capomozzo), il
+#   nome ripetuto (l'allievo di Torvessa), il timpano grande (il figlio del Circolo), le orecchie nel muro, il silenzio
+#   che pesa, la conca del battito.
+# - Il cuore a profondità 9, il ventesimo piano: `torre-2-l-uditore`, l'Uditore nella cassa; chi vince o lo inganna
+#   passa al seguito `torre-2-l-uditore-nel-silenzio`; chi vince anche quella apre `torre-2-la-cassa`: La Cassa Armonica
+#   la prima volta (avuto.torre-la-cassa-armonica == 0), sempre PE e lyssan, torre.anello almeno 2; poi
+#   `torre-2-la-porta-tonda`, da cui si scende nell'anello 3 o si risale.
+#   Chi perde una fase qualsiasi torna in Superficie, e l'anello è da rifare.
+storylet:
+  # ================================================================ piani 17-19 (profondità 6-8)
+  # ------------------------------------------------------------ la sala delle quattro voci (le Maschere)
+  - id: torre-2-la-sala-delle-quattro-voci
+    immagine: icone/drama-masks
+    titolo: La sala delle quattro voci
+    sommario: "Quattro bocche di metallo sporgono dalle pareti della cassa, e ognuna parla con una voce diversa. Una ha la voce della tua Maschera."
+    luogo: Il campanile rovescio, le casse di risonanza
+    area: torre-anello-2
+    ripetibile: true
+    requisiti: [profondita.torre-anello-2 >= 6, profondita.torre-anello-2 <= 8]
+    testo: |
+      Dalle pareti della cassa sporgono quattro bocche di metallo, grandi come quelle di un pozzo, e ognuna parla con una
+      voce diversa. Le voci si sovrappongono e riempiono la sala, così forti che la porta di sotto trema nei cardini.
+      Quando ti fermi ad ascoltarle, una delle quattro ha lo stesso timbro che senti nella testa quando porti la tua
+      Maschera.
+
+      In mezzo alla sala, fra le quattro voci, il rumore è tale che pensare diventa fatica.
+    opzioni:
+      - testo: "Attraversare la sala con la testa ferma"
+        descrizione: "Quattro voci insieme sono tante. Bisogna lasciarle parlare e non ascoltarne nessuna."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: Quattro voci e nessuna
+          testo: |
+            Attraversi la sala con lo sguardo sulla porta, lasciando che le voci ti passino attraverso come vento. Dall'altra
+            parte ti accorgi di averle sentite tutte, e di non ricordare una parola.
+          pe: { resilienza: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: La voce che resta
+          testo: |
+            A metà sala una delle voci ti prende e non ti lascia più, e per un momento non sai se è sua o tua. Torni
+            indietro con quella voce in testa.
+          effetti: { tormento: 1.5 }
+      - testo: "Correre con le orecchie tappate"
+        descrizione: "Con la stoffa nelle orecchie e le mani premute sopra. Le voci arriveranno lo stesso, dalle ossa."
+        costo: 3
+        esito:
+          titolo: Dalle ossa
+          testo: |
+            Attraversi la sala di corsa con le orecchie tappate, e le quattro voci ti arrivano lo stesso attraverso le
+            ossa della faccia. Scendi con un ronzio che dura un piano intero.
+          effetti: { profondita.torre-anello-2: 1, tormento: 1.5 }
+      - testo: "Rispondere alla voce della Forza"
+        descrizione: "La voce della Forza chiede di restare in piedi. La tua Maschera sa come si fa."
+        quando: [oggetto.maschera-della-forza >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: In piedi nel rumore
+          testo: |
+            Resti in piedi in mezzo alla sala mentre la voce della Forza ti spinge giù, e la Maschera ti tiene dritt{o|a}.
+            Le altre tre voci si zittiscono una dopo l'altra, e la porta smette di tremare.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: In ginocchio nel rumore
+          testo: |
+            La voce ti mette in ginocchio, e la Maschera resta fredda. Ti rialzi quando la voce si stanca di te.
+          effetti: { ferite: 1 }
+      - testo: "Ascoltare con pietà la voce della Rottura"
+        descrizione: "La voce della Rottura parla delle cose semplici. Chiede di essere ascoltata come si ascolta un amico."
+        quando: [oggetto.maschera-della-rottura >= 1]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: Le cose semplici
+          testo: |
+            Ascolti la voce della Rottura come si ascolta un amico che parla del pane e del tempo, e le altre voci perdono
+            forza una dopo l'altra. Quando la sala tace, la porta è aperta.
+          pe: { empatia: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Troppe cose
+          testo: |
+            La voce parla di troppe cose insieme, e non riesci a seguirne nessuna. Ti resta la tristezza di un discorso
+            interrotto.
+          effetti: { tormento: 1 }
+      - testo: "Lasciar parlare la voce della Distorsione"
+        descrizione: "La voce della Distorsione dice cose che forse non sono tue. Crederle per un momento zittisce le altre."
+        quando: [oggetto.maschera-della-distorsione >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Una voce in prestito
+          testo: |
+            Lasci che la voce della Distorsione ti convinca che le altre tre sono un'illusione, e per un battito ci credi.
+            Le altre tre smettono di esistere, e attraversi la sala in silenzio.
+          pe: { magia: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Quattro certezze
+          testo: |
+            La voce della Distorsione ti dice una cosa e le altre tre il contrario, e per un momento le credi tutte.
+          effetti: { tormento: 1 }
+      - testo: "Toccare la bocca della Natura"
+        descrizione: "La voce della Natura viene da una bocca coperta di muschio. Lega la carne alla macchina, e la voce al silenzio."
+        quando: [oggetto.maschera-della-natura >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Il muschio sulla bocca
+          testo: |
+            Appoggi la mano sul muschio che copre la bocca della Natura, e la voce rallenta fino al fruscio di un bosco.
+            Le altre tre la seguono, e la sala si riempie di un rumore di foglie.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il muschio grigio
+          testo: |
+            Il muschio sotto la mano è grigio e freddo, e la voce che ne esce ha il sapore della Marea.
+          effetti: { contaminazione: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ il nome ripetuto
+  - id: torre-2-il-nome-ripetuto
+    immagine: icone/spiral-shell
+    titolo: Il nome ripetuto
+    sommario: "La cassa ripete il tuo nome storcendolo un poco alla volta, finché non sei più sicur{o|a} di come ti chiami."
+    luogo: Il campanile rovescio, le casse di risonanza
+    area: torre-anello-2
+    ripetibile: true
+    requisiti: [profondita.torre-anello-2 >= 6, profondita.torre-anello-2 <= 8]
+    testo: |
+      Appena entri nella cassa una voce dice il tuo nome. Poi lo ripete sempre più svelta, e a ogni
+      ripetizione il nome si storce di una sillaba. Dopo un po' la voce dice un nome che somiglia al tuo, e non sei più
+      sicur{o|a} che non lo sia.
+
+      {origine allievo-di-torvessa} All'Accademia gli studenti del primo anno imparano una formula per ricordare le
+      cose quando la testa vacilla, una frase da dire al contrario.
+    opzioni:
+      - testo: "Tenere a mente il proprio nome"
+        descrizione: "Ripeterlo a voce bassa, giusto, sopra la voce che lo storce. Per tutta la cassa."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: Il nome giusto
+          testo: |
+            A ogni passo ripeti a voce bassa il tuo nome giusto, e la voce della cassa lo storce senza riuscire a
+            prenderlo. Quando arrivi alla porta tace, e il tuo nome è ancora tuo.
+          pe: { resilienza: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il nome storto
+          testo: |
+            A metà cassa ti accorgi di aver ripetuto il nome storto insieme alla voce, e ti fermi. Ci metti un pezzo a
+            ritrovare quello giusto.
+          effetti: { tormento: 1.5 }
+      - testo: "Coprire la voce con un'altra parola"
+        descrizione: "Se la cassa ripete il nome, bisogna darle da ripetere qualcos'altro. Più forte."
+        prova: { attributo: sociale, abilita: [espressivita, intimidire], difficolta: Difficile }
+        successo:
+          titolo: Un'altra parola
+          testo: |
+            Gridi una parola qualsiasi più forte del tuo nome, e la cassa comincia a ripetere quella. Attraversi la
+            sala mentre la storce, e il tuo nome resta fuori dal gioco.
+          pe: { espressivita: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Due parole storte
+          testo: |
+            La cassa ripete le due parole insieme, e le storce l'una nell'altra fino a farne una sola. Ti resta in testa.
+          effetti: { tormento: 1 }
+      - testo: "Dire la formula dell'Accademia al contrario"
+        descrizione: "La frase da dire al contrario tiene ferma la memoria. Il professore la chiamava l'àncora."
+        quando: [origine.allievo-di-torvessa >= 1]
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Media }
+        successo:
+          titolo: L'àncora
+          testo: |
+            Dici lentamente la frase al contrario, e la memoria si ferma come una barca all'ancora. Il nome che la cassa
+            ripete diventa un rumore qualunque, e attraversi la sala senza ascoltarlo.
+          pe: { accademiche: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: La frase dritta
+          testo: |
+            A metà ti accorgi di dire la frase dritta invece che al contrario, e la cassa la ripete con il tuo nome in mezzo.
+          effetti: { tormento: 0.5 }
+      - testo: "Uscire di corsa prima che finisca"
+        descrizione: "Prima che il nome diventi un altro. La porta è vicina, se le gambe sono svelte."
+        costo: 3
+        esito:
+          titolo: Il nome a metà
+          testo: |
+            Corri alla porta mentre la voce storce il tuo nome, e scendi con una sillaba sbagliata in testa che non se ne
+            va. Per un piano intero, quando pensi a te, la senti.
+          effetti: { profondita.torre-anello-2: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ il timpano grande
+  - id: torre-2-il-timpano-grande
+    immagine: icone/sound-waves
+    titolo: Il timpano grande
+    sommario: "Una membrana grigia larga quanto una piazza chiude la cassa da parete a parete. Dietro c'è la porta di sotto."
+    luogo: Il campanile rovescio, le casse di risonanza
+    area: torre-anello-2
+    ripetibile: true
+    requisiti: [profondita.torre-anello-2 >= 6, profondita.torre-anello-2 <= 8]
+    testo: |
+      La cassa è divisa in due da una membrana grigia tesa da parete a parete, larga quanto una piazza e alta fino al
+      soffitto. È tiepida, e a guardarla da vicino ha delle vene sottili. Quando la sfiori vibra con un suono basso, e
+      dall'altra parte qualcosa risponde allo stesso modo.
+
+      {origine figlio-del-circolo} Il tamburo del Circolo è di pelle di cervo e si suona con il palmo aperto per
+      chiamare chi è lontano, e la pelle di questo timpano un cervo non l'ha mai avuta.
+    opzioni:
+      - testo: "Tagliare la membrana"
+        descrizione: "È spessa, e tiepida. Una lama la apre, ma il suono che farà è un'altra cosa."
+        prova: { attributo: fisico, abilita: [armi-da-mischia, rissa], difficolta: Difficile }
+        successo:
+          titolo: Il taglio
+          testo: |
+            Affondi la lama nella membrana e la apri dall'alto in basso, e il suono che esce è un gemito che fa tremare la
+            cassa. Passi nel taglio prima che i lembi si richiudano.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il gemito
+          testo: |
+            La lama scivola sulla membrana senza aprirla, e il gemito ti investe come un'onda. Ti ritrovi a terra, con le
+            orecchie piene.
+          effetti: { tormento: 1.5 }
+      - testo: "Suonarla finché non si apre"
+        descrizione: "Una membrana tesa ha un punto in cui, battuta, si allenta. Bisogna trovarlo con il palmo."
+        prova: { attributo: sociale, abilita: espressivita, difficolta: Difficile }
+        successo:
+          titolo: Il punto molle
+          testo: |
+            Batti la membrana con il palmo aperto in punti diversi, ascoltando, finché uno non suona più basso degli altri.
+            Lo batti tre volte e la membrana si allenta, e passi sotto il bordo sollevato.
+          pe: { espressivita: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: La risposta
+          testo: |
+            Dall'altra parte qualcosa risponde ai tuoi colpi con colpi più forti, e la membrana ti rimbalza la mano indietro.
+          effetti: { tormento: 1 }
+      - testo: "Chiamare con il colpo del Circolo"
+        descrizione: "Tre colpi lenti e uno svelto con il palmo aperto, come al Circolo per chiamare chi è lontano."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: La chiamata
+          testo: |
+            Batti tre colpi lenti e uno svelto con il palmo aperto, e la membrana si ritira dal pavimento come una tenda
+            che qualcuno alza dall'altra parte. Passi sotto, e nessuno ti aspetta.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il colpo sbagliato
+          testo: |
+            Il colpo svelto arriva troppo presto, e la membrana risponde con un brontolio che ti scuote le ossa.
+          effetti: { tormento: 0.5 }
+      - testo: "Strisciare sotto il bordo"
+        descrizione: "In fondo la membrana non tocca il pavimento. Lo spazio di un corpo, e la pelle tiepida sopra."
+        costo: 3
+        esito:
+          titolo: Sotto la pelle
+          testo: |
+            Strisci sotto il bordo della membrana, e la pelle tiepida ti sfiora la schiena per tutta la lunghezza della
+            cassa. Dall'altra parte ti senti addosso un odore di Marea che non va via.
+          effetti: { profondita.torre-anello-2: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ le orecchie nel muro
+  - id: torre-2-le-orecchie-nel-muro
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: Le orecchie nel muro
+    sommario: "Le pareti della scala sono coperte di carne grigia, e la carne è piena di orecchie che si girano verso di te."
+    luogo: Il campanile rovescio, le casse di risonanza
+    area: torre-anello-2
+    ripetibile: true
+    requisiti: [profondita.torre-anello-2 >= 6, profondita.torre-anello-2 <= 8]
+    testo: |
+      Per un giro intero la parete della scala è coperta di una carne grigia e tiepida che pulsa piano. Nella carne
+      si aprono delle orecchie, centinaia, di tutte le misure, e quando passi si girano verso di te una dopo l'altra.
+      Più in basso la carne si fa più spessa, e da sotto arriva un respiro lento e grande.
+
+      {natura Difficile} È la stessa carne. Tutte quelle orecchie appartengono a qualcosa che sta più in basso, e che
+      ascolta da qui.
+    opzioni:
+      - testo: "Passare senza farti sentire"
+        descrizione: "Centinaia di orecchie ascoltano per qualcosa che sta più in basso, e sentono anche un respiro."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Inascoltat{o|a}
+          testo: |
+            Scendi il giro a passi lenti, e le orecchie restano girate verso il punto in cui eri prima. Sotto, il grande
+            respiro continua con lo stesso ritmo.
+          pe: { furtivita: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Sentit{o|a}
+          testo: |
+            Le orecchie si girano tutte insieme verso di te, e il respiro grande, sotto, si ferma. Torni indietro prima
+            che riprenda.
+          effetti: { tormento: 1 }
+      - testo: "Dare alle orecchie qualcosa da ascoltare"
+        descrizione: "Un rumore lontano, ripetuto, che le tenga girate dall'altra parte."
+        prova: { attributo: mentale, abilita: [ingannare, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Il rumore lontano
+          testo: |
+            Incastri un sasso in una corda che oscilla nella canna, così che batta contro la parete opposta a ogni giro. Le
+            orecchie si girano verso quel colpo e restano girate, e tu scendi alle loro spalle.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il rumore che non basta
+          testo: |
+            Il sasso batte una volta e poi si ferma, e le orecchie tornano a cercarti. Ti trovano.
+          effetti: { tormento: 1 }
+      - testo: "Tagliare via la carne dalla scala"
+        descrizione: "Tagliate le orecchie, quella cosa resta sorda da questa parte. È carne di Marea, e sanguina grigio."
+        costo: 3
+        esito:
+          titolo: La carne tagliata
+          testo: |
+            Tagli la carne dalla parete a strisce mentre scendi, e le orecchie si chiudono una dopo l'altra come bocche.
+            Sotto il respiro grande diventa un lamento, e tu arrivi in fondo al giro con le braccia grigie fino ai gomiti.
+          effetti: { profondita.torre-anello-2: 1, contaminazione: 1, tormento: 0.5 }
+
+  # ------------------------------------------------------------ il silenzio che pesa
+  - id: torre-2-il-silenzio-che-pesa
+    immagine: icone/gas-mask
+    titolo: Il silenzio che pesa
+    sommario: "In questa cassa c'è un silenzio così fitto che senti il sangue scorrere, e il cuore diventa assordante."
+    luogo: Il campanile rovescio, le casse di risonanza
+    area: torre-anello-2
+    ripetibile: true
+    requisiti: [profondita.torre-anello-2 >= 6, profondita.torre-anello-2 <= 8]
+    testo: |
+      Questa cassa è più silenziosa della stanza sorda. Appena entri il battito del fondo scompare, e al suo posto senti
+      il tuo sangue scorrere nelle orecchie. Poi senti il tuo cuore, e il cuore diventa sempre più forte, finché non ti
+      sembra che rimbombi nella sala come il battaglio.
+
+      La porta di sotto è chiusa da un chiavistello a vista, dall'altra parte della sala.
+    opzioni:
+      - testo: "Calmare il cuore e attraversare"
+        descrizione: "Se il cuore rallenta, rallenta anche il rumore. Bisogna calmarsi in un posto che non aiuta."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il cuore lento
+          testo: |
+            Respiri lungo finché il cuore non rallenta, e il rombo nelle orecchie diventa un tamburo lontano. Attraversi la
+            sala e apri il chiavistello con le mani ferme.
+          pe: { resilienza: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il cuore che corre
+          testo: |
+            Più cerchi di calmarlo più il cuore corre, e il suo rumore ti riempie la testa finché non ti siedi per terra.
+            Torni indietro carponi.
+          effetti: { tormento: 1.5 }
+      - testo: "Attraversare di corsa e aprire il chiavistello"
+        descrizione: "Il cuore correrà comunque. Tanto vale che corrano anche le gambe."
+        prova: { attributo: fisico, abilita: [atletica, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: La corsa e il chiavistello
+          testo: |
+            Corri attraverso la sala con il cuore che ti rimbomba in testa e apri il chiavistello al primo tentativo. La
+            porta si apre sul battito del fondo, che ti sembra la cosa più tranquilla del mondo.
+          pe: { atletica: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il chiavistello duro
+          testo: |
+            Il chiavistello non si muove, e mentre lo forzi il cuore ti batte così forte che vedi le stelle. Ti lasci
+            andare contro la porta finché non passa.
+          effetti: { tormento: 1, ferite: 0.5 }
+      - testo: "Cantare per coprire il cuore"
+        descrizione: "Una canzone qualsiasi, a voce bassa. Il cuore si sentirà meno, e la cassa ascolterà la canzone."
+        costo: 2
+        esito:
+          titolo: La canzone nel silenzio
+          testo: |
+            Canti a voce bassa una canzone da osteria, e il silenzio della cassa se la beve tutta, nota dopo nota. Arrivi alla
+            porta con la gola secca e la canzone che non riesci a smettere di cantare per mezzo piano.
+          effetti: { profondita.torre-anello-2: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ la conca del battito
+  - id: torre-2-la-conca-del-battito
+    immagine: icone/ringing-bell
+    titolo: La conca del battito
+    sommario: "Una cassa a forma di conca raccoglie il battito che sale dal fondo, e qui il battito è così forte che il pavimento sobbalza."
+    luogo: Il campanile rovescio, le casse di risonanza
+    area: torre-anello-2
+    ripetibile: true
+    requisiti: [profondita.torre-anello-2 >= 6, profondita.torre-anello-2 <= 8]
+    testo: |
+      Questa cassa ha il fondo a conca, come una scodella enorme, e raccoglie il battito che sale dal fondo del
+      campanile. Qui il battito è così forte che il pavimento sobbalza a ogni colpo, e gli oggetti lasciati per terra
+      saltano di un palmo e ricadono. Al centro della conca la porta di sotto si apre a tempo, a ogni battito.
+
+      {percezione Difficile} Il battito non è regolare. Ogni tanto ne salta uno, e in quel momento la conca sta ferma.
+    opzioni:
+      - testo: "Scendere nella conca a tempo"
+        descrizione: "Un passo a ogni battito, quando il pavimento ricade. Fuori tempo, si vola."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: A tempo
+          testo: |
+            Scendi nella conca un passo a ogni battito, quando il pavimento ricade, e arrivi alla porta al centro mentre si
+            apre. Ci passi attraverso con il battito nel petto.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Fuori tempo
+          testo: |
+            Un passo cade fuori tempo, e il pavimento ti lancia in aria come un sacco. Ricadi sul fianco e rotoli fino al
+            bordo della conca.
+          effetti: { ferite: 1.5 }
+      - testo: "Aspettare il battito che manca"
+        descrizione: "Ogni tanto il battito ne salta uno. In quel momento la conca sta ferma, e la porta resta aperta."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: Il battito che manca
+          testo: |
+            Conti i battiti sul bordo della conca finché non ne manca uno, e in quel silenzio scendi di corsa fino alla
+            porta. Il battito dopo ti trova già dall'altra parte.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-2: 1 }
+        fallimento:
+          titolo: Il battito che torna
+          testo: |
+            Ti sembra che ne manchi uno, e scendi, ma il battito torna proprio allora. Il pavimento ti butta indietro come
+            un'onda.
+          effetti: { ferite: 1, tormento: 0.5 }
+      - testo: "Scendere aggrappat{o|a} al bordo, un battito alla volta"
+        descrizione: "Lento, con le mani sul pavimento. Ogni battito sbatte, ma da sdraiati si cade meno."
+        costo: 3
+        esito:
+          titolo: Un battito alla volta
+          testo: |
+            Scendi nella conca strisciando, con le mani piatte sul metallo, e a ogni battito il pavimento ti sbatte contro
+            lo stomaco. Arrivi alla porta pest{o|a} e con il battito che ti è entrato nelle costole.
+          effetti: { profondita.torre-anello-2: 1, ferite: 1 }
+
+  # ================================================================ il ventesimo piano: l'Uditore
+  - id: torre-2-l-uditore
+    immagine: ambientazione/mito-salvaguardia-precursori
+    titolo: L'Uditore
+    sommario: "Al ventesimo piano la cassa più grande del campanile. Dentro c'è una massa di carne grigia coperta di timpani, che ascolta."
+    luogo: Il campanile rovescio, il ventesimo piano
+    area: torre-anello-2
+    requisiti: [profondita.torre-anello-2 >= 9]
+    testo: |
+      Il ventesimo piano è una cassa sola, la più grande del campanile, alta quanto una cattedrale. Al centro c'è una massa grande
+      quanto una casa, attaccata alle pareti con fasci di carne grigia. Al posto degli occhi e della bocca ha soltanto
+      pelle liscia, e su tutto il corpo ha migliaia di membrane tese come timpani, che quando entri vibrano tutte insieme.
+
+      È l'Uditore. Da secoli ascolta la Campana, e adesso ascolta te.
+
+      {natura Difficile} È cresciuto dentro la cassa come un frutto, nutrito dal suono. La cassa è il suo orecchio, e
+      tutto quello che risuona nella cassa lo sente.
+
+      {tecnologia Difficile} Le pareti della cassa sono tenute insieme da quattro tiranti. Una cassa che non risuona non
+      porta più suoni a nessuno.
+    opzioni:
+      - testo: "Affrontare l'Uditore nella cassa"
+        descrizione: "Nella sua cassa sente ogni tuo movimento prima che tu lo faccia. Combatte con le corde e con la carne."
+        combattimento: torre-l-uditore-nella-cassa
+        vittoria:
+          titolo: La cassa rotta
+          testo: |
+            Colpisci i fasci di carne che lo tengono attaccato alle pareti, uno dopo l'altro, finché l'Uditore non si
+            stacca e cade sul pavimento della cassa. La cassa si crepa sotto il suo peso, e per la prima volta da quando
+            sei sces{o|a} il rimbombo si spegne. Nel silenzio l'Uditore si solleva sui suoi fasci, e comincia a gridare.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-2-l-uditore-nel-silenzio
+        sconfitta:
+          titolo: Ascoltat{o|a}
+          testo: |
+            L'Uditore sente ogni tuo colpo prima che arrivi, e ti prende con le corde mentre ti muovi. Quando ti liberi,
+            ore dopo, risali tutta la scala fino alla Campana, con l'anello da rifare.
+          effetti: { tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Allentare i tiranti della cassa"
+        descrizione: "Quattro tiranti tengono insieme la cassa. Se cedono, la cassa smette di risuonare, e l'Uditore resta sordo."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: La cassa sorda
+          testo: |
+            Corri lungo la parete e allenti i tiranti uno dopo l'altro, mentre l'Uditore ti cerca con le corde. Al quarto
+            la cassa smette di risuonare, e le sue membrane vibrano a vuoto. Si stacca dalle pareti e cade sordo sul pavimento, dove comincia a
+            gridare nel silenzio.
+          pe: { tecnologia: 5 }
+          segue: torre-2-l-uditore-nel-silenzio
+        fallimento:
+          titolo: Il terzo tirante
+          testo: |
+            Al terzo tirante le corde ti trovano, e l'Uditore ti appende alla parete come una campana. Ti liberi ore dopo,
+            e risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Avvicinarsi senza fare un suono"
+        descrizione: "Senza un suono da seguire l'Uditore ti perde. Bisogna arrivare sotto di lui in silenzio, e colpire i fasci."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Difficile }
+        successo:
+          titolo: Sotto l'Uditore
+          testo: |
+            Attraversi la cassa senza un suono e arrivi sotto la massa grigia, dove i fasci di carne la tengono alle pareti.
+            Li tagli prima che le membrane si accorgano di te, e l'Uditore cade sul pavimento crepato e comincia a
+            gridare nel silenzio.
+          pe: { furtivita: 5 }
+          segue: torre-2-l-uditore-nel-silenzio
+        fallimento:
+          titolo: Un suono solo
+          testo: |
+            A metà cassa ti scappa un suono solo, e le membrane si girano tutte insieme. Le corde ti prendono e ti
+            sollevano, e quando ti liberi risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ la seconda fase: l'Uditore nel silenzio
+  - id: torre-2-l-uditore-nel-silenzio
+    immagine: ambientazione/mito-salvaguardia-precursori
+    tipo: seguito
+    titolo: L'Uditore nel silenzio
+    sommario: "Senza la sua cassa l'Uditore è sordo, e grida con la voce della Campana."
+    luogo: Il campanile rovescio, il ventesimo piano
+    area: torre-anello-2
+    testo: |
+      Senza la cassa che risuona l'Uditore è sordo, e la sordità lo fa impazzire. Si trascina sul pavimento crepato sui
+      suoi fasci di carne e grida, e dalle membrane gli esce la voce della Campana, così forte che senti i denti vibrare
+      nelle gengive. Non sa dove sei, e grida verso tutte le parti.
+
+      {resilienza Difficile} È la voce della Campana, che cerca i ricordi. Chi non la ascolta non ne viene trovato.
+    opzioni:
+      - testo: "Finire l'Uditore"
+        descrizione: "Sordo, ma con la voce della Campana in corpo. Ogni grido ti cerca nella testa."
+        combattimento: torre-l-uditore-nel-silenzio
+        vittoria:
+          titolo: L'ultimo grido
+          testo: |
+            L'ultimo colpo apre la carne grigia fino al cuore, e il grido si spegne a metà. Le membrane si afflosciano una
+            dopo l'altra, come vele senza vento, e nella cassa resta soltanto il battito del fondo.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-2-la-cassa
+        sconfitta:
+          titolo: La voce che trova
+          testo: |
+            La voce della Campana ti trova e ti porta via dentro un ricordo che non è tuo. Quando torni in te sei sulla
+            scala, molti giri più su, e risali fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Non ascoltare la voce e colpire"
+        descrizione: "La voce cerca chi la ascolta. Bisogna tenere la testa ferma per tutto il tempo di arrivargli addosso."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: La voce che non trova
+          testo: |
+            Cammini verso l'Uditore mentre grida, con la testa piena dei tuoi ricordi e di nient'altro, e la voce ti
+            scivola addosso senza trovare dove entrare. Gli arrivi sopra e colpisci dove la carne pulsa, finché il grido
+            non si spegne.
+          pe: { resilienza: 5 }
+          segue: torre-2-la-cassa
+        fallimento:
+          titolo: Un ricordo non tuo
+          testo: |
+            A metà strada la voce trova un ricordo e ci entra, e per un momento sei nel coro della Campana, la notte del
+            suono. Quando torni in te sei sulla scala, e risali fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 2 }
+          vai: superficie-fratturata
+      - testo: "Rompere i timpani più grandi"
+        descrizione: "Le membrane più grandi sono quelle da cui esce la voce. Un colpo preciso dalla distanza, o un salto fra i fasci."
+        prova: { attributo: fisico, abilita: [armi-da-distanza, acrobazia], difficolta: Difficile }
+        successo:
+          titolo: I timpani rotti
+          testo: |
+            Colpisci le membrane più grandi una dopo l'altra, e la voce della Campana si rompe in gracchi sempre più deboli.
+            Quando l'ultima si squarcia l'Uditore resta muto, e si accascia sul pavimento crepato.
+          pe: { percezione: 5 }
+          segue: torre-2-la-cassa
+        fallimento:
+          titolo: La membrana intatta
+          testo: |
+            Il colpo rimbalza sulla membrana senza romperla, e la voce ti investe in pieno. Torni in te sulla scala, e
+            risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 1, tormento: 1.5 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ la cassa: La Cassa Armonica, PE e lyssan
+  - id: torre-2-la-cassa
+    immagine: icone/chain-mail
+    tipo: seguito
+    titolo: Il cuore della cassa
+    sommario: "Dove l'Uditore era attaccato alla parete, nella carne grigia, c'è qualcosa di bronzo che risuona ancora."
+    luogo: Il campanile rovescio, il ventesimo piano
+    area: torre-anello-2
+    testo: |
+      Dove l'Uditore era attaccato alla parete della cassa, la carne grigia si sta seccando e si stacca a scaglie. Sotto
+      la carne, incastrato nel metallo, c'è qualcosa di bronzo che risuona ancora, piano, con la nota bassa della
+      Campana.
+
+      Più in là, nel pavimento crepato, c'è la seconda porta tonda, con l'incavo a forma di mano aperta. La tua Maschera
+      si scalda.
+    opzioni:
+      - testo: "Staccare il bronzo dalla parete"
+        descrizione: "Qualcosa di bronzo, grande quanto un busto. L'Uditore ci era cresciuto intorno."
+        quando: [avuto.torre-la-cassa-armonica == 0]
+        costo: 0
+        esito:
+          titolo: La Cassa Armonica
+          testo: |
+            Stacchi le ultime scaglie di carne e tiri fuori dalla parete un'armatura a piastre di bronzo da campana,
+            bordata di verderame. Sul petto è inciso il segno del rintocco, un punto con due archi per parte, e quando ci
+            batti sopra con le nocche il suono si spegne prima di arrivarti al braccio.
+
+            Accanto alla parete, nella pietra, ci sono le tasche dei suonatori con i lyssan del turno.
+
+            Appoggi la mano nell'incavo della seconda porta tonda, e la porta legge la tua Maschera e si apre di un dito
+            sul battito dell'anello di sotto, più forte di tutti quelli che hai sentito finora.
+          pe: { resilienza: 10 }
+          effetti: { oggetto.torre-la-cassa-armonica: 1, monete: 200 }
+          almeno: { torre.anello: 2 }
+          segue: torre-2-la-porta-tonda
+      - testo: "Prendere i lyssan del turno"
+        descrizione: "L'armatura è già tua. Nelle tasche della pietra i suonatori lasciavano la paga del turno."
+        quando: [avuto.torre-la-cassa-armonica >= 1]
+        costo: 0
+        esito:
+          titolo: La paga del turno
+          testo: |
+            Nelle tasche della pietra accanto alla parete ci sono di nuovo i lyssan del turno. Li prendi, e appoggi la mano
+            nell'incavo della seconda porta tonda, che legge la tua Maschera e si apre di un dito sul battito di sotto.
+          pe: { resilienza: 10 }
+          effetti: { monete: 200 }
+          almeno: { torre.anello: 2 }
+          segue: torre-2-la-porta-tonda
+
+  # ------------------------------------------------------------ la seconda porta tonda: scendere o risalire
+  - id: torre-2-la-porta-tonda
+    immagine: ambientazione/mito-salvaguardia-precursori
+    tipo: seguito
+    titolo: La seconda porta tonda
+    sommario: "Nel pavimento crepato la seconda porta tonda è aperta di un dito. Dalla fessura sale un calore secco che sa di metallo."
+    luogo: Il campanile rovescio, il ventesimo piano
+    area: torre-anello-2
+    testo: |
+      La seconda porta tonda è aperta di un dito, e dalla fessura sale un calore secco che ti asciuga le labbra. Sotto il
+      ventesimo piano la scala scende verso un bagliore rosso cupo, e fra il rombo delle casse si sente un crepitio di
+      fuochi accesi.
+
+      Il secondo sigillo ti ha riconosciut{o|a}, e la prossima volta la scala della canna ti porterà fin qui.
+    opzioni:
+      - testo: "Scendere nella fonderia delle note"
+        descrizione: "Dal ventunesimo piano in giù. Quello che hai addosso adesso è quello che avrai laggiù."
+        costo: 0
+        esito:
+          titolo: Il ventunesimo piano
+          testo: |
+            Spingi la porta tonda e scendi verso il bagliore. A ogni gradino l'aria si fa più calda e più secca, e quando
+            arrivi al ventunesimo piano le fibbie della giubba sono già tiepide.
+          vai: torre-anello-3
+      - testo: "Risalire alla Campana"
+        descrizione: "Venti piani di scala fino alla botola, e poi la costa grigia. La fonderia aspetterà."
+        costo: 0
+        esito:
+          titolo: La risalita
+          testo: |
+            Risali la scala della canna attraverso le casse ormai mute e i primi dieci piani, e i segni azzurri restano accesi
+            alle tue spalle. Esci dalla botola con le gambe dure e la Cassa Armonica che ti pesa sulle spalle come un abbraccio.
+          vai: superficie-fratturata

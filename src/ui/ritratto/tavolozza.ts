@@ -49,6 +49,9 @@ export const RAMPE: Record<string, Rampa> = {
   ottone: ['#2c220c', '#54421a', '#806a2c', '#ab9246'],
   latta: ['#1f2224', '#3b4144', '#5d6467', '#868d8f'],
   platino: ['#3a3e40', '#6d7273', '#a0a5a4', '#d4d8d4'],
+  // il bronzo delle campane, più chiaro e dorato del bronzo comune, e la patina verde del rame (il set della canna)
+  bronzoCampana: ['#2c1c0e', '#5c3c1c', '#946232', '#d09a56'],
+  verderame: ['#0e1f1c', '#1d3d36', '#2f6658', '#5a9a86'],
   // legni, ossa, corni
   legno: ['#160f0a', '#2d2016', '#443222', '#5e4630'],
   frassino: ['#2a1f14', '#4a3a26', '#6a5638', '#8a7550'],

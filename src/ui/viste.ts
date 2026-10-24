@@ -12,7 +12,7 @@ import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino,
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
-import { areaAttuale, areaChiusa, profondita, stanzeVisibili } from '../motore/spedizioni';
+import { areaAttuale, areaChiusa, piano, profondita, stanzeVisibili } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
 import { descrizioneDi } from '../motore/inquietudine';
 import {
@@ -422,9 +422,10 @@ function testataSpedizione(x: Contesto): string {
   const ritorno = c.aree.find((z) => z.id === sped.ritorno)?.nome ?? sped.ritorno;
   // la barra serve solo se qualcosa qui dipende dalla profondità (nel pozzo dell'Ira, per esempio, no)
   const misura = storyletDisponibili(s, c).some((st) => st.area === a.id && st.requisiti.some((r) => r.startsWith(`profondita.${a.id}`)));
+  const n = piano(s, c);
   return `<section class="spedizione">
     ${misura ? `<div class="profondita">
-      <span class="etichetta">Profondità</span>
+      <span class="etichetta">${n === undefined ? 'Profondità' : `Piano ${n}`}</span>
       <span class="barra pe${p >= sped.soglia ? ' piena' : ''}"><i style="width:${Math.min(100, (p / sped.soglia) * 100).toFixed(1)}%"></i></span>
       <b>${mezzi(p)} / ${sped.soglia}</b>
     </div>` : ''}

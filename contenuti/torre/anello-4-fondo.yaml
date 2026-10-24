@@ -1,0 +1,779 @@
+# Il campanile rovescio, anello 4, piani 37-40 (docs/piano-torre.md, blocco 4; l'area e i piani 31-36 sono in
+# anello-4.yaml).
+# - Piani 37-39 (profondità 6-8): la sala delle quattro Maschere (un'opzione Media per ciascuna Maschera), il battito
+#   che manca (l'apprendista raschiatore), la pagina bianca (il mercante dei ponti), la luce del sigillo (il figlio del
+#   Circolo), il Lettore lontano (il fuggiasco di Ghoran), l'ultimo giro.
+# - Il cuore a profondità 9, il quarantesimo piano: `torre-4-il-lettore`, il Lettore alla porta, che legge la Maschera:
+#   oltre al combattimento c'è una via Difficile per ciascuna delle quattro Maschere. Poi i seguiti
+#   `torre-4-il-lettore-senza-volto` (mentirgli o non farsi leggere) e `torre-4-il-lettore-nel-battito` (il battito che
+#   manca, o leggerlo a sua volta). Chi vince la terza fase apre `torre-4-il-leggio`: la prima volta Il Manto del Battito
+#   e il frammento del sigillo, poi il sigillo del quarantunesimo piano (`torre-il-sigillo`, sblocco.yaml); le volte dopo
+#   PE e lyssan e la risalita. torre.anello almeno 4. Chi perde una fase qualsiasi torna in Superficie, e l'anello è da
+#   rifare.
+storylet:
+  # ================================================================ piani 37-39 (profondità 6-8)
+  # ------------------------------------------------------------ la sala delle quattro Maschere
+  - id: torre-4-la-sala-delle-quattro-maschere
+    immagine: icone/drama-masks
+    titolo: La sala delle quattro Maschere
+    sommario: "In una sala rotonda ci sono quattro piedistalli, e su ognuno una Maschera di metallo grigio. Quella al posto della tua è vuota."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 8]
+    testo: |
+      La scala entra in una sala rotonda con quattro piedistalli disposti come i punti di una croce. Su tre piedistalli c'è
+      una Maschera di metallo grigio, la copia esatta di tre delle quattro Maschere dei Portatori. Il quarto piedistallo è
+      quello della tua ed è vuoto, mentre la porta di sotto è chiusa.
+
+      Quando ti avvicini al piedistallo vuoto la tua Maschera si scalda, come se volesse andarci da sola.
+    opzioni:
+      - testo: "Forzare la porta senza ascoltare la sala"
+        descrizione: "Anche una porta antica resta una porta, e si apre con una leva mentre la sala guarda."
+        prova: { attributo: fisico, abilita: [atletica, tecnologia], difficolta: Molto difficile }
+        successo:
+          titolo: La porta forzata
+          testo: |
+            Forzi la porta con una sbarra infilata nella fessura finché non cede, e intanto le tre Maschere sui piedistalli
+            ti guardano senza occhi. Passi, e la porta si richiude da sola alle tue spalle.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La porta che resiste
+          testo: |
+            La porta resiste, e la sbarra ti schizza via dalle mani e ti colpisce il petto.
+          effetti: { ferite: 1.5 }
+      - testo: "Passare dal condotto sotto il pavimento"
+        descrizione: "Una grata nel pavimento dà su un condotto stretto che scende pieno di Marea."
+        costo: 3
+        esito:
+          titolo: Il condotto
+          testo: |
+            Sollevi la grata e scendi nel condotto, strisciando nella Marea densa fino al piano di sotto. Esci con i vestiti
+            grigi e la sensazione di aver lasciato indietro qualcosa.
+          effetti: { profondita.torre-anello-4: 1, contaminazione: 1 }
+      - testo: "Restare in piedi davanti al piedistallo della Forza"
+        descrizione: "Il piedistallo della tua Maschera chiede che tu resti in piedi. La Forza sa come si fa."
+        quando: [oggetto.maschera-della-forza >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Media }
+        successo:
+          titolo: In piedi
+          testo: |
+            Resti in piedi davanti al piedistallo vuoto mentre la sala ti spinge giù con un peso invisibile, e la Maschera ti
+            tiene dritt{o|a}. La porta si apre.
+          pe: { atletica: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: In ginocchio
+          testo: |
+            La sala ti mette in ginocchio davanti al piedistallo, e la Maschera resta fredda.
+          effetti: { ferite: 1 }
+      - testo: "Toccare con pietà il piedistallo della Rottura"
+        descrizione: "La Rottura ritrova il divino nelle cose semplici. Il piedistallo vuoto è una cosa semplice."
+        quando: [oggetto.maschera-della-rottura >= 1]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Media }
+        successo:
+          titolo: La cosa semplice
+          testo: |
+            Appoggi la mano sul piedistallo vuoto come si appoggia la mano su un tavolo di casa, e senti la pietra scaldarsi.
+            La porta si apre.
+          pe: { empatia: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La pietra fredda
+          testo: |
+            La pietra resta fredda sotto la mano, e ti resta addosso la tristezza di una casa vuota.
+          effetti: { tormento: 1 }
+      - testo: "Credere che il piedistallo sia pieno"
+        descrizione: "La Distorsione presta certezze. Basta credere, per un momento, che la tua Maschera sia già lì."
+        quando: [oggetto.maschera-della-distorsione >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Media }
+        successo:
+          titolo: Il piedistallo pieno
+          testo: |
+            Guardi il piedistallo vuoto e per un battito ci vedi sopra la tua Maschera, e la sala ci crede con te. La porta si
+            apre, e quando ti volti il piedistallo è di nuovo vuoto.
+          pe: { magia: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Due Maschere
+          testo: |
+            Vedi la tua Maschera sul piedistallo e anche sulla tua faccia, e per un momento non sai quale delle due è vera.
+          effetti: { tormento: 1 }
+      - testo: "Lasciare che il piedistallo metta radici"
+        descrizione: "La Natura lega la carne alla macchina. Il piedistallo è macchina, e tu sei carne."
+        quando: [oggetto.maschera-della-natura >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: Le radici di metallo
+          testo: |
+            Appoggi la mano sul piedistallo, e dal metallo escono radici sottili che ti si avvolgono intorno al polso e poi ti
+            lasciano. La porta si apre come un ramo che si piega.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Le radici grigie
+          testo: |
+            Le radici che escono dal piedistallo sono grigie e fredde, e ti salgono lungo il braccio prima che tu riesca a
+            strapparle.
+          effetti: { contaminazione: 1 }
+
+  # ------------------------------------------------------------ il battito che manca
+  - id: torre-4-il-battito-che-manca
+    immagine: icone/heart-organ
+    titolo: Il battito che manca
+    sommario: "In questa sala ogni tanto il battito salta, e in quel silenzio si ferma tutto, anche la porta."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 8]
+    testo: |
+      In questa sala il battito è irregolare e ogni tanto salta, e nel silenzio del battito che manca ogni cosa
+      si ferma. Si ferma la polvere nell'aria, si ferma la luce dei segni. La porta di sotto, che a ogni battito si apre e si
+      chiude, resta aperta soltanto in quel silenzio.
+
+      {origine apprendista-raschiatore} Nelle gallerie vicine alla Cicatrice si dice che la Marea batte come un cuore, e che fra un
+      colpo e l'altro c'è un momento in cui puoi passare dove vuoi. I veterani lo chiamano il buco.
+    opzioni:
+      - testo: "Passare nel battito che manca"
+        descrizione: "Il silenzio dura poco. Bisogna essere alla porta quando arriva, e passare prima che finisca."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: Nel silenzio
+          testo: |
+            Conti i battiti accanto alla porta, e quando ne manca uno passi nel silenzio. Il battito dopo ti trova già dall'altra
+            parte, e la porta si chiude dietro di te con un colpo.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il battito che torna
+          testo: |
+            Ti sembra che ne manchi uno e passi, ma il battito torna proprio allora, e la porta ti si chiude sul braccio.
+          effetti: { ferite: 1 }
+      - testo: "Aspettare il buco come i veterani"
+        descrizione: "I veterani non contano il respiro della Marea. Lo sentono arrivare, come un'onda prima che rompa."
+        quando: [origine.apprendista-raschiatore >= 1]
+        prova: { attributo: mentale, abilita: percezione, difficolta: Media }
+        successo:
+          titolo: Il buco
+          testo: |
+            Smetti di contare e ascolti, come facevano i veterani nelle gallerie, e senti il silenzio arrivare un momento prima
+            che arrivi. Passi nel buco, e il battito ti segue senza prenderti.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il buco chiuso
+          testo: |
+            Il silenzio arriva quando non te lo aspetti, e passa prima che tu ti muova.
+          effetti: { tormento: 0.5 }
+      - testo: "Tenere la porta aperta a forza"
+        descrizione: "La porta si chiude a ogni battito. Con le spalle e le gambe, forse resta aperta abbastanza."
+        prova: { attributo: fisico, abilita: [atletica, resistenza], difficolta: Difficile }
+        successo:
+          titolo: La porta tenuta
+          testo: |
+            Ti metti nello stipite e tieni la porta con la schiena mentre si chiude, e a ogni battito ti schiaccia un po' di più.
+            Scivoli dall'altra parte al terzo battito, con la schiena dolorante.
+          pe: { resistenza: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La porta che schiaccia
+          testo: |
+            La porta ti schiaccia contro lo stipite finché non ti tiri indietro senza fiato.
+          effetti: { ferite: 1.5 }
+      - testo: "Aspettare molti battiti, e provare"
+        descrizione: "Il silenzio prima o poi arriva mentre sei pront{o|a}, e intanto il battito martella."
+        costo: 3
+        esito:
+          titolo: Molti battiti
+          testo: |
+            Aspetti accanto alla porta per molti battiti, e passi quando il silenzio arriva mentre sei pront{o|a}. Arrivi
+            dall'altra parte con il battito che ti martella nelle tempie e il silenzio che ti è sembrato lunghissimo.
+          effetti: { profondita.torre-anello-4: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ la pagina bianca
+  - id: torre-4-la-pagina-bianca
+    immagine: icone/scroll-quill
+    titolo: La pagina bianca
+    sommario: "Su un leggio c'è una pagina di metallo bianca e una penna. La porta di sotto aspetta che tu scriva qualcosa."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 8]
+    testo: |
+      Davanti alla porta del piano c'è un leggio, e sul leggio una pagina di metallo bianco, liscia come la superficie di
+      un lago. Accanto c'è una penna di metallo con la punta fine. Sulla porta, all'altezza degli occhi, è incisa una riga di
+      scrittura che finisce a metà, come una frase che aspetta di essere finita.
+
+      {origine mercante-dei-ponti} Ai Ponti un contratto si chiude con la firma, e chi firma senza leggere paga per tutti.
+      Qui c'è soltanto lo spazio per firmare.
+    opzioni:
+      - testo: "Scrivere il proprio nome"
+        descrizione: "La pagina aspetta qualcosa. Il nome è la cosa più semplice da scrivere, e la più vera."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Il nome sulla pagina
+          testo: |
+            Scrivi il tuo nome sulla pagina, e le lettere si incidono nel metallo da sole, più profonde di quanto hai premuto.
+            La riga sulla porta si completa con il tuo nome, e la porta si apre.
+          pe: { resilienza: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il nome che cambia
+          testo: |
+            Scrivi il tuo nome, e sulla pagina le lettere diventano un altro nome che ti somiglia.
+          effetti: { tormento: 1 }
+      - testo: "Scrivere un nome falso"
+        descrizione: "Se la pagina vuole un nome, che ne abbia uno. Non è detto che debba essere il tuo."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: Il nome falso
+          testo: |
+            Scrivi un nome che non è il tuo, con la calligrafia di un altro, e la pagina lo accetta dopo un'esitazione. La porta
+            si apre, e ti sembra che il campanile abbia sorriso.
+          pe: { ingannare: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La pagina che lo sa
+          testo: |
+            La pagina cancella il nome falso appena lo finisci, e sotto compare il tuo, scritto da un'altra mano.
+          effetti: { tormento: 1 }
+      - testo: "Leggere la riga prima di firmare, come ai Ponti"
+        descrizione: "Chi firma senza leggere paga per tutti. La riga sulla porta va letta tutta, prima."
+        quando: [origine.mercante-dei-ponti >= 1]
+        prova: { attributo: mentale, abilita: [accademiche, percezione], difficolta: Media }
+        successo:
+          titolo: La clausola
+          testo: |
+            Leggi la riga sulla porta fino in fondo prima di scrivere, e capisci che chiede soltanto chi passa, non chi resta.
+            Scrivi «chi passa», e la porta si apre senza pretendere altro.
+          pe: { accademiche: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La clausola nascosta
+          testo: |
+            La riga ha una parola che non capisci, e mentre ci pensi la penna ti scivola e scrive da sola.
+          effetti: { tormento: 0.5 }
+      - testo: "Forzare la porta senza scrivere"
+        descrizione: "Una porta che aspetta una firma resta una porta. Con la forza, e la pagina che guarda."
+        costo: 3
+        esito:
+          titolo: La porta senza firma
+          testo: |
+            Forzi la porta senza toccare la penna, e la porta cede con un lamento di metallo. Quando passi, sulla pagina bianca
+            si incide da sola una riga che non riesci a leggere.
+          effetti: { profondita.torre-anello-4: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ la luce del sigillo
+  - id: torre-4-la-luce-del-sigillo
+    immagine: icone/crystal-shine
+    titolo: La luce del sigillo
+    sommario: "Dal fondo della canna sale una luce azzurra così forte che fa male guardarla. È la luce del sigillo, e viene da poco più sotto."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 8]
+    testo: |
+      Da qui in giù la canna è piena di una luce azzurra che sale dal fondo, così forte che i gradini diventano bianchi e le
+      ombre spariscono. Guardarla fa male agli occhi, e anche a occhi chiusi la luce passa attraverso le palpebre. È la
+      luce dei segni di tutti i piani insieme, e sale dal sigillo che sta sotto il quarantesimo piano.
+
+      {origine figlio-del-circolo} Al Circolo si dice che nel bosco la luce troppo forte è come la notte troppo buia, e che si
+      attraversa allo stesso modo, toccando gli alberi.
+    opzioni:
+      - testo: "Scendere a occhi chiusi, contando i gradini"
+        descrizione: "Con gli occhi chiusi la luce brucia meno. I gradini si contano, e si spera che siano regolari."
+        prova: { attributo: mentale, abilita: [resilienza, percezione], difficolta: Difficile }
+        successo:
+          titolo: A occhi chiusi
+          testo: |
+            Scendi a occhi chiusi contando i gradini, con la luce che ti passa attraverso le palpebre, e quando li riapri sei al
+            piano di sotto. Per un po' vedi soltanto macchie azzurre.
+          pe: { resilienza: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il gradino che manca
+          testo: |
+            Un gradino non è dove lo avevi contato, e cadi per tre gradini nella luce bianca.
+          effetti: { ferite: 1, tormento: 0.5 }
+      - testo: "Scendere toccando la parete come nel bosco"
+        descrizione: "La luce troppo forte si attraversa come la notte troppo buia, toccando quello che c'è."
+        quando: [origine.figlio-del-circolo >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Media }
+        successo:
+          titolo: La parete come un albero
+          testo: |
+            Scendi toccando la parete come toccavi i tronchi nel bosco di notte, e la mano ti dice dove sono i gradini meglio
+            degli occhi. Arrivi in fondo senza aver guardato la luce.
+          pe: { natura: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La parete liscia
+          testo: |
+            La parete è liscia come vetro, e la mano non ti dice niente. La luce sì.
+          effetti: { tormento: 0.5 }
+      - testo: "Reggere la luce a occhi aperti"
+        descrizione: "Guardarla fa male, ma si vede dove si mette il piede. Bisogna reggere il dolore."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Molto difficile }
+        successo:
+          titolo: Gli occhi aperti
+          testo: |
+            Scendi con gli occhi aperti nella luce, e il dolore ti riempie la testa ma i piedi trovano i gradini. In fondo ti siedi
+            con le mani sugli occhi finché il mondo non torna di colori normali.
+          pe: { resistenza: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Gli occhi che bruciano
+          testo: |
+            La luce ti brucia gli occhi e ti costringe a chiuderli, e torni su a tentoni.
+          effetti: { tormento: 1, ferite: 0.5 }
+      - testo: "Coprirsi gli occhi con la stoffa e scendere piano"
+        descrizione: "Una benda di stoffa sugli occhi, e un gradino alla volta con il piede che tasta."
+        costo: 3
+        esito:
+          titolo: La benda
+          testo: |
+            Ti bendi gli occhi con una striscia di stoffa e scendi un gradino alla volta tastando con il piede, e la luce ti arriva
+            lo stesso, attraverso la stoffa, come un sole d'agosto. Arrivi in fondo con la testa che pulsa.
+          effetti: { profondita.torre-anello-4: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ il Lettore lontano
+  - id: torre-4-il-lettore-lontano
+    immagine: icone/semi-closed-eye
+    titolo: Il Lettore lontano
+    sommario: "Dalla ringhiera, molto più in basso, si vede una figura seduta davanti a un leggio. Gira una pagina, e alza la testa."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 8]
+    testo: |
+      Dalla ringhiera di questo giro, guardando giù nella canna, si vede il fondo per la prima volta. Molto più in basso,
+      nella luce azzurra, c'è una figura alta seduta davanti a un leggio. Gira le pagine lentamente, una dopo l'altra. A ogni
+      pagina che gira, ti sembra di sentire una cosa che hai fatto nella torre raccontata a voce bassa.
+
+      Poi la figura smette di leggere, e alza la testa verso di te.
+
+      {origine fuggiasco-di-ghoran} A Ghoran, quando il custode del Seme alza la testa, si scappa nelle capanne e si chiude la
+      porta, e qui sotto di capanne non ce ne sono.
+    opzioni:
+      - testo: "Scendere senza farsi vedere"
+        descrizione: "La figura guarda in alto. Bisogna scendere dalla parte della canna che non vede."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Fuori dallo sguardo
+          testo: |
+            Scendi rasente alla parete, sempre dalla parte della canna che la figura non guarda, e quando torni a guardare giù lei
+            ha ripreso a leggere. Arrivi al piano di sotto con il cuore che batte forte.
+          pe: { furtivita: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Visto da sotto
+          testo: |
+            La figura ti trova con lo sguardo, e per un momento ti senti letto da cima a fondo. Ti ritrovi sulla scala qualche giro
+            più su, senza ricordare di esserci tornat{o|a}.
+          effetti: { tormento: 1.5 }
+      - testo: "Sostenere lo sguardo"
+        descrizione: "Se guarda, che guardi. Bisogna reggere quello sguardo senza abbassare gli occhi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: Lo sguardo retto
+          testo: |
+            Sostieni lo sguardo della figura dall'alto, e dopo un lungo momento è lei ad abbassare la testa sul libro. Scendi, e a
+            ogni giro senti le pagine girare un po' più forte.
+          pe: { resilienza: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Lo sguardo che pesa
+          testo: |
+            Lo sguardo della figura ti schiaccia contro la ringhiera, e ti ritrovi a terra con le mani sulla testa.
+          effetti: { tormento: 1 }
+      - testo: "Nascondersi come a Ghoran"
+        descrizione: "Senza capanne, si fa capanna di quello che c'è. Contro la parete, raccolti, finché non torna a leggere."
+        quando: [origine.fuggiasco-di-ghoran >= 1]
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Media }
+        successo:
+          titolo: La capanna di pietra
+          testo: |
+            Ti raccogli contro la parete in un incavo della roccia, come una capanna di pietra, e aspetti con gli occhi chiusi
+            finché le pagine non riprendono a girare. Poi scendi.
+          pe: { furtivita: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: L'incavo troppo piccolo
+          testo: |
+            L'incavo è troppo piccolo, e lo sguardo ti trova lo stesso.
+          effetti: { tormento: 0.5 }
+      - testo: "Scendere in fretta, sotto lo sguardo"
+        descrizione: "Che guardi pure, tanto in fondo bisogna arrivarci."
+        costo: 3
+        esito:
+          titolo: Sotto lo sguardo
+          testo: |
+            Scendi in fretta sotto lo sguardo della figura, e a ogni giro senti una pagina girare e una tua scelta raccontata a
+            voce bassa. Arrivi al piano di sotto con la sensazione di essere una storia che qualcuno sta leggendo.
+          effetti: { profondita.torre-anello-4: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ l'ultimo giro
+  - id: torre-4-l-ultimo-giro
+    immagine: icone/stairs
+    titolo: L'ultimo giro
+    sommario: "L'ultimo giro di scala prima del quarantesimo piano, dove il campanile ti dà tutto insieme."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 8]
+    testo: |
+      È l'ultimo giro di scala prima del quarantesimo piano, e qui il campanile ti dà tutto insieme. Il battito fa tremare i
+      gradini e la luce azzurra sale dal fondo. La Marea cola dalle pareti in fili grigi, e le pagine che girano si sentono
+      chiare, a pochi giri da te.
+
+      La scala è stretta, e non c'è un modo facile di scendere.
+    opzioni:
+      - testo: "Scendere con le gambe salde e la testa ferma"
+        descrizione: "Il corpo e la testa insieme, per un giro intero. È l'ultimo, e si sente."
+        prova: { attributo: fisico, abilita: [resistenza, atletica], difficolta: Molto difficile }
+        successo:
+          titolo: L'ultimo giro
+          testo: |
+            Scendi l'ultimo giro senza fermarti, con il battito nei piedi e la luce negli occhi, e la Marea ti cola accanto senza
+            toccarti. In fondo c'è il pavimento del quarantesimo piano.
+          pe: { resistenza: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Troppo insieme
+          testo: |
+            A metà giro è troppo insieme, e ti siedi sui gradini con la testa fra le ginocchia finché non trovi la forza di
+            risalire.
+          effetti: { ferite: 0.5, tormento: 1 }
+      - testo: "Scendere un gradino alla volta, ascoltando le pagine"
+        descrizione: "Le pagine girano a un ritmo. Seguendo quel ritmo si scende senza fretta e senza paura."
+        prova: { attributo: mentale, abilita: [percezione, resilienza], difficolta: Difficile }
+        successo:
+          titolo: Il ritmo delle pagine
+          testo: |
+            Scendi un gradino a ogni pagina che senti girare, e il ritmo delle pagine ti porta giù meglio del battito. Arrivi in
+            fondo calm{o|a}, sapendo che qualcuno ti sta aspettando.
+          pe: { percezione: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Le pagine che corrono
+          testo: |
+            A un certo punto le pagine girano più in fretta del tuo passo, e il ritmo ti sfugge.
+          effetti: { tormento: 1 }
+      - testo: "Scendere come si può"
+        descrizione: "Senza scegliere come, e il campanile si prenderà la sua parte."
+        costo: 3
+        esito:
+          titolo: Come si può
+          testo: |
+            Scendi l'ultimo giro aggrappat{o|a} alla parete, e il campanile ti prende un po' di tutto. Arrivi in fondo
+            con le gambe pesanti e gli occhi pieni di luce.
+          effetti: { profondita.torre-anello-4: 1, ferite: 0.5, tormento: 0.5, contaminazione: 0.5 }
+
+  # ================================================================ il quarantesimo piano: il Lettore
+  - id: torre-4-il-lettore
+    immagine: icone/open-book
+    titolo: Il Lettore
+    sommario: "Al quarantesimo piano, davanti alla porta del sigillo, una figura alta legge un libro di metallo. Alza la testa, e chiude il libro su un dito."
+    luogo: Il campanile rovescio, il quarantesimo piano
+    area: torre-anello-4
+    requisiti: [profondita.torre-anello-4 >= 9]
+    testo: |
+      Il quarantesimo piano è una sala rotonda e bianca di luce. In fondo c'è la porta tonda del sigillo, e davanti alla
+      porta, seduta su uno scranno di metallo, c'è una figura alta il doppio di un uomo. Ha un libro di metallo sulle
+      ginocchia, e lo sta leggendo. Al posto della faccia ha una piastra liscia con quattro incavi a forma di maschera.
+
+      Quando entri smette di leggere. Chiude il libro tenendoci un dito in mezzo, a segnare la pagina, e si
+      alza. È il Lettore, la forma della Salvaguardia che legge le Maschere ai sigilli, e da quando hai aperto la botola ha
+      letto ogni passo che hai fatto.
+
+      I quattro incavi della piastra si girano verso di te, e uno dei quattro cerca la tua Maschera.
+    opzioni:
+      - testo: "Affrontare il Lettore alla porta"
+        descrizione: "Ha letto ogni tuo passo. Sa che cosa farai prima che tu lo faccia, e combatte di conseguenza."
+        combattimento: torre-il-lettore-alla-porta
+        vittoria:
+          titolo: La pagina strappata
+          testo: |
+            Il tuo colpo arriva dove il Lettore non l'aveva letto, e il libro gli cade dalle mani e si apre sul pavimento. Il
+            Lettore si porta le mani alla piastra e se la strappa via, e sotto non c'è niente, solo un vuoto bianco come una
+            pagina, e il Lettore ti guarda con quello.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-4-il-lettore-senza-volto
+        sconfitta:
+          titolo: Letto fino in fondo
+          testo: |
+            Il Lettore ti legge fino all'ultima riga, e ogni tuo colpo lo trova già scritto. Quando torni in te sei sulla scala,
+            molti giri più su, e risali fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Mostrargli la Forza"
+        descrizione: "La Maschera della Forza è la volontà di restare in piedi. Il Lettore la legge, e deve leggerla fino in fondo."
+        quando: [oggetto.maschera-della-forza >= 1]
+        prova: { attributo: fisico, abilita: atletica, difficolta: Difficile }
+        successo:
+          titolo: In piedi davanti al Lettore
+          testo: |
+            Resti in piedi davanti al Lettore mentre la sua lettura ti pesa addosso come un muro, e la Maschera della Forza ti
+            tiene dritt{o|a}. Il Lettore legge e rilegge, e alla fine il libro gli trema fra le mani. Si strappa la piastra, e
+            sotto c'è soltanto un vuoto bianco.
+          pe: { atletica: 5 }
+          segue: torre-4-il-lettore-senza-volto
+        fallimento:
+          titolo: La Forza che cede
+          testo: |
+            La lettura ti mette in ginocchio, e la Maschera resta fredda. Torni in te sulla scala, e risali fino alla Campana con
+            l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Mostrargli la Rottura"
+        descrizione: "La Maschera della Rottura ritrova il divino nelle cose semplici. Il Lettore non sa leggere le cose semplici."
+        quando: [oggetto.maschera-della-rottura >= 1]
+        prova: { attributo: sociale, abilita: empatia, difficolta: Difficile }
+        successo:
+          titolo: Le cose semplici
+          testo: |
+            Pensi al pane caldo e alla pioggia sul tetto, e il Lettore legge quelle cose semplici senza capirle.
+            Gira le pagine sempre più in fretta, cercando qualcosa di difficile che non c'è, e alla fine si strappa la piastra.
+            Sotto c'è soltanto un vuoto bianco.
+          pe: { empatia: 5 }
+          segue: torre-4-il-lettore-senza-volto
+        fallimento:
+          titolo: Le cose difficili
+          testo: |
+            Il Lettore trova sotto le cose semplici quelle difficili, e te le legge una per una. Torni in te sulla scala, e risali
+            fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 2 }
+          vai: superficie-fratturata
+      - testo: "Mostrargli la Distorsione"
+        descrizione: "La Maschera della Distorsione presta convinzioni. Al Lettore se ne può prestare una falsa."
+        quando: [oggetto.maschera-della-distorsione >= 1]
+        prova: { attributo: mentale, abilita: magia, difficolta: Difficile }
+        successo:
+          titolo: Una riga falsa
+          testo: |
+            Lasci che la Maschera della Distorsione scriva in te una convinzione che non è tua, e il Lettore la legge come vera.
+            Per un momento non sa più che cosa sta leggendo, e il libro gli scivola dalle dita. Si strappa la piastra, e sotto
+            c'è soltanto un vuoto bianco.
+          pe: { magia: 5 }
+          segue: torre-4-il-lettore-senza-volto
+        fallimento:
+          titolo: La riga cancellata
+          testo: |
+            Il Lettore cancella la riga falsa con un dito, e sotto legge quella vera. Torni in te sulla scala, e risali fino alla
+            Campana con l'anello da rifare.
+          effetti: { tormento: 1.5, ferite: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Mostrargli la Natura"
+        descrizione: "La Maschera della Natura lega la carne alla macchina. Il Lettore è macchina, e si può legare."
+        quando: [oggetto.maschera-della-natura >= 1]
+        prova: { attributo: mentale, abilita: natura, difficolta: Difficile }
+        successo:
+          titolo: Le radici nel libro
+          testo: |
+            Lasci che la Maschera della Natura ti scorra nelle mani, e dal pavimento salgono radici di metallo che si avvolgono
+            intorno al libro del Lettore e lo chiudono. Il Lettore tira, e non riesce più ad aprirlo. Si strappa la piastra, e
+            sotto c'è soltanto un vuoto bianco.
+          pe: { natura: 5 }
+          segue: torre-4-il-lettore-senza-volto
+        fallimento:
+          titolo: Le radici strappate
+          testo: |
+            Il Lettore strappa le radici come fili d'erba, e ti legge mentre cadi. Torni in te sulla scala, e risali fino alla
+            Campana con l'anello da rifare.
+          effetti: { contaminazione: 1, tormento: 1 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ la seconda fase: il Lettore senza volto
+  - id: torre-4-il-lettore-senza-volto
+    immagine: icone/semi-closed-eye
+    tipo: seguito
+    titolo: Il Lettore senza volto
+    sommario: "Senza la piastra il Lettore ha al posto della faccia un vuoto bianco come una pagina. Ti guarda con quello, e ti legge ancora."
+    luogo: Il campanile rovescio, il quarantesimo piano
+    area: torre-anello-4
+    testo: |
+      Senza la piastra il Lettore è più svelto, e più crudele. Al posto della faccia ha un vuoto bianco come una pagina
+      appena tagliata, e in quel vuoto, mentre ti guarda, compaiono delle righe. Le riconosci, una per una. Sono le cose che
+      hai fatto nel campanile, dalla botola fino a qui, scritte in una calligrafia minuta.
+
+      {resilienza Difficile} Legge quello che hai fatto. Quello che farai adesso non è ancora scritto.
+
+      {ingannare Difficile} Un lettore crede alla pagina. Se la pagina mente, il lettore sbaglia.
+    opzioni:
+      - testo: "Combattere il Lettore senza volto"
+        descrizione: "Svelto e crudele, con le tue mosse scritte nella faccia. Bisogna fare qualcosa che non ha ancora letto."
+        combattimento: torre-il-lettore-senza-volto
+        vittoria:
+          titolo: La riga nuova
+          testo: |
+            Fai una cosa che non avevi mai fatto nel campanile, e nel vuoto bianco della sua faccia la riga non compare. Il
+            colpo lo prende dove guardava di meno, e il Lettore barcolla. Poi si gira verso la porta del sigillo e ci appoggia la
+            mano, e la luce azzurra della porta gli entra nel braccio fino al petto.
+          pe: { armi-da-mischia: 5 }
+          segue: torre-4-il-lettore-nel-battito
+        sconfitta:
+          titolo: La riga già scritta
+          testo: |
+            Ogni tua mossa compare scritta nella sua faccia prima che tu la faccia, e il Lettore ti aspetta dove stai andando.
+            Torni in te sulla scala, e risali fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 1.5, ferite: 0.5 }
+          vai: superficie-fratturata
+      - testo: "Mentirgli con quello che fai"
+        descrizione: "Un lettore crede alla pagina. Bisogna essere una pagina che mente, con un passo che va a sinistra quando il corpo dice destra."
+        prova: { attributo: sociale, abilita: ingannare, difficolta: Difficile }
+        successo:
+          titolo: La pagina che mente
+          testo: |
+            Cominci un gesto e ne fai un altro, ti volti da una parte e vai dall'altra, e nella faccia del Lettore le righe si
+            scrivono e si cancellano finché la pagina non si riempie di righe cancellate. Il Lettore si porta le mani al vuoto,
+            poi si gira verso la porta del sigillo e ci appoggia la mano, e la luce gli entra nel petto.
+          pe: { ingannare: 5 }
+          segue: torre-4-il-lettore-nel-battito
+        fallimento:
+          titolo: La bugia letta
+          testo: |
+            Il Lettore legge la bugia prima che tu la finisca, e scrive accanto quella vera. Torni in te sulla scala, e risali fino
+            alla Campana con l'anello da rifare.
+          effetti: { tormento: 2 }
+          vai: superficie-fratturata
+      - testo: "Non farsi leggere"
+        descrizione: "Quello che farai non è ancora scritto. Bisogna smettere di essere quello che hai fatto, per un momento."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Difficile }
+        successo:
+          titolo: La pagina bianca
+          testo: |
+            Smetti di pensare a quello che hai fatto e pensi soltanto al prossimo passo, e nel vuoto della faccia del Lettore le
+            righe smettono di comparire. Per la prima volta guarda una pagina bianca, e non sa che cosa leggere. Si gira verso
+            la porta del sigillo e ci appoggia la mano, e la luce gli entra nel petto.
+          pe: { resilienza: 5 }
+          segue: torre-4-il-lettore-nel-battito
+        fallimento:
+          titolo: Le righe che tornano
+          testo: |
+            Le righe tornano a comparire nella sua faccia una dopo l'altra, sempre più in fretta. Torni in te sulla scala, e
+            risali fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 2 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ la terza fase: il Lettore nel battito
+  - id: torre-4-il-lettore-nel-battito
+    immagine: icone/heart-organ
+    tipo: seguito
+    titolo: Il Lettore nel battito
+    sommario: "Il Lettore ha preso la luce del sigillo nel petto, e adesso batte con il battito del fondo. A ogni battito cresce."
+    luogo: Il campanile rovescio, il quarantesimo piano
+    area: torre-anello-4
+    testo: |
+      La luce del sigillo è entrata nel Lettore, e il battito che senti dalla Campana adesso viene dal suo petto. A ogni
+      battito la luce gli si accende sotto la pelle di metallo e lui cresce di un palmo, e a ogni battito il pavimento sotto
+      di te sobbalza. Nella sua faccia bianca non ci sono più righe. C'è soltanto la luce, che pulsa.
+
+      {percezione Difficile} Come nella sala del battito che manca, anche questo battito salta, ogni tanto. In quel silenzio
+      la luce nel suo petto si spegne.
+
+      {accademiche Difficile} Il libro del Lettore è ancora sul pavimento, aperto. In fondo a ogni libro c'è l'ultima pagina.
+    opzioni:
+      - testo: "Combattere il Lettore nel battito"
+        descrizione: "Cresce a ogni battito, e la voce della Campana gli esce dal petto. È l'ultimo scontro del campanile."
+        combattimento: torre-il-lettore-nel-battito
+        vittoria:
+          titolo: Il battito che si ferma
+          testo: |
+            L'ultimo colpo arriva nel petto del Lettore, dove la luce batte, e il battito si ferma. Per la prima volta da quando
+            hai aperto la botola, il campanile è in silenzio. Il Lettore si inginocchia piano, la luce gli esce dal petto e torna
+            nella porta del sigillo, e lui resta lì in ginocchio, con il libro chiuso su un dito come un lettore che ha finito e non vuole ancora riporlo.
+          pe: { armi-da-mischia: 10 }
+          segue: torre-4-il-leggio
+        sconfitta:
+          titolo: Il battito più forte
+          testo: |
+            Il battito del Lettore diventa così forte che ti butta a terra, e ogni colpo successivo ti tiene giù. Torni in te sulla
+            scala, e risali fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 1, tormento: 1.5 }
+          vai: superficie-fratturata
+      - testo: "Colpire nel battito che manca"
+        descrizione: "Anche questo battito salta, ogni tanto. In quel silenzio la luce si spegne, e il petto è scoperto."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Difficile }
+        successo:
+          titolo: Il silenzio nel petto
+          testo: |
+            Conti i battiti del Lettore schivando i suoi colpi, finché non ne manca uno. Nel silenzio colpisci il petto dove la
+            luce si è spenta, e il battito non torna. Il Lettore si inginocchia, e la luce esce da lui e torna nella porta del
+            sigillo.
+          pe: { percezione: 10 }
+          segue: torre-4-il-leggio
+        fallimento:
+          titolo: Il battito che torna
+          testo: |
+            Il battito torna proprio quando colpisci, e la luce ti respinge contro la parete. Torni in te sulla scala, e risali
+            fino alla Campana con l'anello da rifare.
+          effetti: { ferite: 2, tormento: 1 }
+          vai: superficie-fratturata
+      - testo: "Leggere l'ultima pagina del suo libro"
+        descrizione: "Il Lettore ha letto te. Il suo libro è sul pavimento, e in fondo a ogni libro c'è l'ultima pagina."
+        prova: { attributo: mentale, abilita: accademiche, difficolta: Difficile }
+        successo:
+          titolo: L'ultima pagina
+          testo: |
+            Raccogli il libro di metallo dal pavimento e lo apri all'ultima pagina, e la leggi ad alta voce, una parola dopo
+            l'altra, anche se non conosci la lingua. Il Lettore si ferma ad ascoltare. Quando arrivi all'ultima parola il battito
+            gli si spegne nel petto, e si inginocchia ad ascoltare la fine della propria storia.
+          pe: { accademiche: 10 }
+          segue: torre-4-il-leggio
+        fallimento:
+          titolo: La pagina che sfugge
+          testo: |
+            Le parole dell'ultima pagina ti sfuggono a metà, e il Lettore ti strappa il libro di mano. Torni in te sulla scala, e
+            risali fino alla Campana con l'anello da rifare.
+          effetti: { tormento: 2 }
+          vai: superficie-fratturata
+
+  # ------------------------------------------------------------ il leggio: Il Manto del Battito, il frammento, PE e lyssan
+  - id: torre-4-il-leggio
+    immagine: icone/cape
+    tipo: seguito
+    titolo: Il leggio del Lettore
+    sommario: "Il Lettore è in ginocchio davanti alla porta del sigillo. Sullo scranno, dove sedeva, c'è il suo mantello."
+    luogo: Il campanile rovescio, il quarantesimo piano
+    area: torre-anello-4
+    testo: |
+      Il Lettore resta in ginocchio davanti alla porta del sigillo, immobile, con il libro chiuso sulle ginocchia. Sullo
+      scranno dove sedeva è rimasto un mantello verde come il rame vecchio, piegato con cura. L'orlo si accende e si spegne
+      piano, a tempo con un battito che adesso senti appena.
+
+      Accanto al mantello, sul bracciolo dello scranno, c'è una scheggia di metallo azzurro grande come un'unghia, staccata
+      dal bordo della porta del sigillo.
+    opzioni:
+      - testo: "Prendere il mantello e la scheggia"
+        descrizione: "Il mantello del Lettore, e una scheggia del sigillo. Lui non li reclama."
+        quando: [avuto.torre-il-manto-del-battito == 0]
+        costo: 0
+        esito:
+          titolo: Il Manto del Battito
+          testo: |
+            Prendi il mantello dallo scranno e te lo metti sulle spalle, e l'orlo si accende a tempo con il tuo cuore. Il battito
+            che senti adesso è il tuo, e per un momento le gambe stanche si fanno leggere.
+
+            Prendi anche la scheggia azzurra. È calda, e quando la avvicini alla tua Maschera la Maschera vibra come una corda
+            toccata. Sotto lo scranno, nelle tasche della pietra, ci sono i lyssan di chi faceva la guardia al sigillo.
+
+            Il Lettore non si muove. Davanti a lui la porta del sigillo aspetta.
+          pe: { resilienza: 10 }
+          effetti: { oggetto.torre-il-manto-del-battito: 1, oggetto.torre-frammento-del-sigillo: 1, monete: 400 }
+          almeno: { torre.anello: 4 }
+          segue: torre-il-sigillo
+      - testo: "Prendere i lyssan della guardia"
+        descrizione: "Il mantello è già tuo. Sotto lo scranno, nelle tasche della pietra, ci sono i lyssan della guardia."
+        quando: [avuto.torre-il-manto-del-battito >= 1]
+        costo: 0
+        esito:
+          titolo: La paga della guardia
+          testo: |
+            Sotto lo scranno, nelle tasche della pietra, ci sono di nuovo i lyssan della guardia. Li prendi, e lasci il Lettore in
+            ginocchio davanti alla porta del sigillo, con il libro chiuso sulle ginocchia. Risali la scala un giro dopo l'altro, e
+            i quaranta piani si accendono di azzurro al tuo passaggio.
+          pe: { resilienza: 10 }
+          effetti: { monete: 400 }
+          almeno: { torre.anello: 4 }
+          vai: superficie-fratturata
