@@ -284,3 +284,26 @@ Dopo: «Ti riconosce, e la spada resta nel fodero. Lungo il suo tratto di sentie
 sassi dritti, come i paletti che segnano il bordo di una strada di carri.»
 
 La riscrittura di tutto il gioco con queste regole si fa con `scripts/riscrittura.ts` (istruzioni in testa al file).
+
+## Il passo di Lovecraft (26 ottobre 2026)
+
+Luca, dopo aver letto *Le Montagne della Follia*: la prosa deve avere più dettaglio e una tensione che sa diventare
+inquietante nei momenti giusti. Il gioco è per chi ama leggere, e le scene che si leggono davvero sono quelle delle
+storie e delle spedizioni nuove. Tutto il gioco, testi delle scene ed esiti, è stato riscritto così con
+`scripts/riscrittura-lovecraft.ts` (istruzioni complete in `../cantiere/lovecraft/istruzioni.md`). Questa sezione
+supera le misure di «La lunghezza»: i testi possono crescere, ma ogni frase aggiunta porta un dettaglio preciso.
+
+- **Lo sguardo del tecnico.** Il protagonista misura, confronta i materiali e ricostruisce chi ha usato una cosa
+  dall'usura che ha lasciato.
+- **L'inquietudine sta nei fatti fisici**, mai negli aggettivi: un gradino largo il doppio di un passo, una lamiera
+  senza ruggine su travi marce. Niente «innominabile», «blasfemo», «ciclopico».
+- **La spiegazione razionale** che il protagonista si dà e si ripete, e che regge poco.
+- **Il dettaglio decisivo in fondo**, detto piano. Non in tutte le scene, o diventa un tic.
+- **Animali e suoni** reagiscono prima delle persone, e nessuno lo commenta.
+- **Il dosaggio.** Le scene neutre (città, botteghe, servizi, carte dei quartieri) cambiano nello sguardo e hanno al
+  massimo un dettaglio storto: la comicità resta. Le scene di confine (Superficie, rovine e reperti dei Precursori,
+  Marea, Cripta) hanno due o tre fatti che non tornano. Le spedizioni e le scene già spaventose hanno il passo pieno,
+  che cresce con la profondità. Gli esiti dicono prima cosa è successo, poi al massimo un dettaglio.
+- **Niente fatti nuovi.** I dettagli sono materiali e sensoriali. Non si aggiungono persone, nomi, oggetti da prendere,
+  eventi, regole del mondo, tratti dei PNG. Un dettaglio storto non deve sembrare un indizio che nessuna opzione
+  raccoglie, e i misteri non si spiegano.

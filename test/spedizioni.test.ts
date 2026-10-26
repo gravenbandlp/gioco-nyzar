@@ -5,6 +5,7 @@ import { stanzeVisibili, ritirati, profondita, inSpedizione } from '../src/motor
 import { CONTENUTI } from '../src/dati/contenuti';
 import type { TContenuti, TStorylet } from '../src/motore/contenuto';
 import { rngConSeme } from '../src/motore/dadi';
+import { storia } from '../src/ui/viste';
 
 // Una spedizione di prova con sei stanze e un cuore a profondità 3.
 function stanza(n: number): TStorylet {
@@ -85,5 +86,15 @@ describe('spedizioni', () => {
     s.area = 'grotta';
     s.quality['ferite'] = 8;
     expect(crisiAttiva(s, c)?.id).toBe('crisi-ferite');
+  });
+  it('il risultato di una stanza non offre di rifarla', () => {
+    const s = pg();
+    s.area = 'grotta';
+    const st = stanzeVisibili(s, c)[0]!;
+    const r = scegli(s, st, 0, c, 0, rngConSeme(1));
+    if (r.tipo !== 'risultato') throw new Error('atteso un risultato');
+    const html = storia({ s, c, vista: { tipo: 'risultato', id: st.id, risultato: r.risultato }, scheda: 'storia', frammento: undefined, confermaNuovo: false, avviso: '', ora: 0 });
+    expect(html).not.toContain(`data-az="apri" data-id="${st.id}"`);
+    expect(html).toContain('data-az="area"');
   });
 });

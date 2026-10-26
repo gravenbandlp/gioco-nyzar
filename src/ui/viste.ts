@@ -798,8 +798,10 @@ function vistaRisultato(x: Contesto, id: string, r: Risultato): string {
   const ancora = st && !crisiAttiva(s, c) && (st.tipo === 'carta' ? s.mano.includes(st.id) : storyletDisponibili(s, c).some((z) => z.id === st.id));
   const segue = r.segue ? trova(c, r.segue) : undefined;
   // «Riprova» solo dopo una prova fallita; una scena della storia che resta aperta (una domanda, una scelta senza
-  // tiro) si riprende con «Prosegui», un'azione ripetibile con «Di nuovo»
-  const ripresa = !ancora || segue?.id === st!.id ? '' : r.riuscito === false ? 'Riprova' : st!.ripetibile ? 'Di nuovo' : 'Prosegui';
+  // tiro) si riprende con «Prosegui», un'azione ripetibile con «Di nuovo». Le stanze di una spedizione no: la prova
+  // riesce o fallisce, e si torna all'elenco delle stanze
+  const stanza = !!st && !!areaAttuale(s, c)?.spedizione && st.area === s.area;
+  const ripresa = !ancora || stanza || segue?.id === st!.id ? '' : r.riuscito === false ? 'Riprova' : st!.ripetibile ? 'Di nuovo' : 'Prosegui';
   const ripresaPrimaria = ripresa === 'Prosegui' && !segue;
   const titolo = r.titolo ?? (r.riuscito === undefined ? st?.titolo ?? '' : r.riuscito ? 'Riuscito' : 'Fallito');
   const annotato = nelDiario(s, { storylet: id, titolo, testo: r.testo });
