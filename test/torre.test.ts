@@ -5,7 +5,7 @@ import { describe, it, expect } from 'vitest';
 import { nuovoPersonaggio, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
 import { scegli } from '../src/motore/azioni';
 import { ricevi } from '../src/motore/oggetti';
-import { stanzeVisibili, piano } from '../src/motore/spedizioni';
+import { stanzeVisibili, piano, ritirati, cambiaArea, scartaSeguitiRimasti } from '../src/motore/spedizioni';
 import { combattenteDaStato, feriteDopo, iniziaCombattimento, probabilitaVittoria } from '../src/motore/combattimento';
 import { rngConSeme } from '../src/motore/dadi';
 import type { TContenuti, TStorylet } from '../src/motore/contenuto';
@@ -180,4 +180,28 @@ describe('il campanile rovescio', () => {
     expect(Math.abs(pd - pf)).toBeLessThan(0.2);
     expect(pf).toBeLessThan(0.7);
   }, 20000);
+
+  it('chi scappa dopo la prima fase del Lettore lascia la seconda nella torre', () => {
+    const s = portatore();
+    s.area = 'torre-anello-4';
+    s.quality['profondita.torre-anello-4'] = 18;
+    s.sospeso = 'torre-4-il-lettore-senza-volto';
+    s.sospesiPrima = ['torre-4-il-lettore-nel-battito'];
+    ritirati(s, c);
+    expect(s.area).toBe('superficie-fratturata');
+    expect(s.sospeso).toBeUndefined();
+    expect(s.sospesiPrima).toBeUndefined();
+    // gli stati salvati prima della correzione si puliscono al caricamento
+    s.sospeso = 'torre-4-il-lettore-senza-volto';
+    scartaSeguitiRimasti(s, c);
+    expect(s.sospeso).toBeUndefined();
+  });
+
+  it('un seguito di spedizione aperto da fuori resta in attesa', () => {
+    const s = portatore();
+    s.sospeso = 'circolo-occhi-dorati';
+    cambiaArea(s, 'circolo-fenditura', c);
+    cambiaArea(s, 'superficie-fratturata', c);
+    expect(s.sospeso).toBe('circolo-occhi-dorati');
+  });
 });

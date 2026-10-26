@@ -66,6 +66,43 @@ export function cambiaArea(s: Stato, nuova: string, c: TContenuti): void {
     delete s.seguitiDa;
   }
   s.area = nuova;
+  scartaSeguitiRimasti(s, c);
+}
+
+// per ogni seguito, le aree delle scene che lo aprono
+const apertiDa = new WeakMap<TContenuti, Map<string, Set<string | undefined>>>();
+
+/** Un seguito della spedizione: sta nella sua area e lo aprono solo scene della stessa area. */
+function seguitoDiSpedizione(c: TContenuti, id: string): string | undefined {
+  let m = apertiDa.get(c);
+  if (!m) {
+    m = new Map();
+    for (const st of c.storylet) for (const o of st.opzioni) for (const e of [o.esito, o.successo, o.fallimento, o.vittoria, o.sconfitta]) {
+      if (e?.segue) m.set(e.segue, (m.get(e.segue) ?? new Set()).add(st.area));
+    }
+    apertiDa.set(c, m);
+  }
+  const area = c.storylet.find((st) => st.id === id)?.area;
+  if (!area || !c.aree.find((a) => a.id === area)?.spedizione) return undefined;
+  return [...(m.get(id) ?? [])].every((a) => a === area) ? area : undefined;
+}
+
+/**
+ * Chi esce da una spedizione lascia lì i suoi seguiti: la seconda fase di un boss da cui si è scappati non si
+ * gioca dalla Superficie, e alla prossima discesa si ricomincia. Vale anche per gli stati salvati prima.
+ */
+export function scartaSeguitiRimasti(s: Stato, c: TContenuti): void {
+  const fuori = (id: string) => { const a = seguitoDiSpedizione(c, id); return !!a && a !== s.area; };
+  if (s.sospesiPrima) {
+    s.sospesiPrima = s.sospesiPrima.filter((id) => !fuori(id));
+    if (!s.sospesiPrima.length) delete s.sospesiPrima;
+  }
+  if (s.sospeso && fuori(s.sospeso)) {
+    delete s.sospeso;
+    const sotto = s.sospesiPrima?.pop();
+    if (sotto) s.sospeso = sotto;
+    if (s.sospesiPrima && !s.sospesiPrima.length) delete s.sospesiPrima;
+  }
 }
 
 /**

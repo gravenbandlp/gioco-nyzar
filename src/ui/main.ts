@@ -7,7 +7,7 @@ import {
   nuovoPersonaggio, aggiornaTempo, msAlProssimoRintocco, msAllaProssimaCarta, pesca, scarta, requisitiSoddisfatti, scortaPiena, limitaScorte, type Stato,
 } from '../motore/personaggio';
 import { scegli, concludiCombattimento, concludiZekar, lateraliDi, puoEntrare, muovi, compra, vendi, vendibili, correggi, secondaScelta } from '../motore/azioni';
-import { ritirati, profondita } from '../motore/spedizioni';
+import { ritirati, profondita, scartaSeguitiRimasti } from '../motore/spedizioni';
 import { forseNotato } from '../motore/inquietudine';
 import { avviaInquietudine, aggiornaInquietudine } from './inquietudine';
 import { annota, strappa } from '../motore/diario';
@@ -140,6 +140,7 @@ function carica(s: Partial<Salvataggio>): void {
     stato = s.stato;
     stato.repertorio ??= [];
     migraOggetti(stato, c);
+    scartaSeguitiRimasti(stato, c);
     limitaScorte(stato, c);
     vista = s.vista ?? { tipo: 'area' };
     scheda = s.scheda ?? 'storia';
