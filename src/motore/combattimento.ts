@@ -5,6 +5,7 @@ import type { TContenuti, TIncantesimo, TNemico, TScontro, TModifica } from './c
 import { abilitaEffettiva, type Stato } from './personaggio';
 import { baseArma, baseArmatura, dadiDifesa, dadiIniziativa, energiaExtra, haProprieta, repertiAttivi } from './oggetti';
 import { sommaMutazioni, tormentoDissonanza } from './crisi';
+import { usura } from './spedizioni';
 
 /** Consumabili usabili in combattimento e il loro effetto. */
 export const CONSUMABILI: Record<string, { pf?: number; energia?: number }> = {
@@ -77,6 +78,7 @@ export interface Combattente {
   portata?: boolean;
   spietata?: boolean; // le asce: un colpo a segno fa almeno 2 danni
   dissonanza?: number; // Tormento dato da una Dissonanza (½, di più con certe mutazioni)
+  usura?: boolean; // nel campanile rovescio i PF persi in uno scontro vinto restano come Ferite
   incantesimi?: TIncantesimo[]; // quelli che un nemico sa lanciare (il repertorio del giocatore sta nello scontro)
 }
 
@@ -113,6 +115,7 @@ export interface StatoCombattimento {
   costi: Record<string, number>; // Dissonanza, prezzi delle formule, cariche e guasti: applicati alla fine
   reperti?: RepertoInCombattimento[];
   eventi?: Evento[]; // assenti nei salvataggi di prima del 5 ottobre 2026
+  pfInizio?: number; // i PF con cui hai cominciato, per l'usura
 }
 
 export const inPiedi = (c: Combattente) => c.pf > 0 && !c.fuggito;
@@ -139,6 +142,7 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
   const eff = (a: string) => abilitaEffettiva(s, a, c);
   const energia = s.attributi.mentale + (s.abilita['magia'] ?? 0) + energiaExtra(s, c) + sommaMutazioni(s, c, 'energia');
   const pf = Math.max(1, 5 + s.attributi.fisico + (s.abilita['resistenza'] ?? 0) + sommaMutazioni(s, c, 'pf'));
+  const u = usura(s, c);
   const maniNude = !arma || arma.id === 'mani-nude' ? sommaMutazioni(s, c, 'dannoManiNude') : 0;
   return {
     id: 'pg',
@@ -148,13 +152,13 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
     attacco: s.attributi.fisico + eff(abilArma) + (ogArma?.dadi ?? 0) + (arma?.proprieta.includes('Bilanciata') ? 1 : 0),
     // Portata (lance e archi): tieni il nemico lontano, un dado in più in difesa
     difesa: s.attributi.fisico + eff('acrobazia') + dadiDifesa(s, c) + (arma?.proprieta.includes('Portata') ? 1 : 0),
-    difesaMentale: s.attributi.mentale + eff('resilienza'),
-    difesaFisica: s.attributi.fisico + eff('resistenza'),
+    difesaMentale: Math.max(0, s.attributi.mentale + eff('resilienza') - (u?.mentale ?? 0)),
+    difesaFisica: Math.max(0, s.attributi.fisico + eff('resistenza') - (u?.fisica ?? 0)),
     intimidire: s.attributi.sociale + eff('intimidire'),
     magia: s.attributi.mentale + (s.abilita['magia'] ?? 0),
     energia,
     energiaMax: energia,
-    pf,
+    pf: Math.max(1, pf - (u?.pf ?? 0)),
     pfMax: pf,
     danno: (arma?.danno ?? 0) + (pa?.affilata ?? 0) + maniNude,
     riduzione: (armatura?.riduzione ?? 0) + (ogArm?.proprieta.robusta ?? 0) + sommaMutazioni(s, c, 'riduzione'),
@@ -176,6 +180,7 @@ export function combattenteDaStato(s: Stato, c: TContenuti): Combattente {
     portata: !!arma?.proprieta.includes('Portata'),
     spietata: !!arma?.proprieta.includes('Spietata'),
     dissonanza: tormentoDissonanza(s, c),
+    ...(u ? { usura: true } : {}),
   };
 }
 
@@ -219,11 +224,24 @@ export function combattenteDaNemico(n: TNemico, indice: number, c?: TContenuti):
   };
 }
 
-function nemiciDelloScontro(sc: TScontro, c: TContenuti): Combattente[] {
+/** Chi ti legge parte da te: il suo attacco dalla tua difesa, la sua difesa dal tuo attacco, i PF dai tuoi. */
+function letto(n: TNemico, pg: Combattente): TNemico {
+  if (!n.legge) return n;
+  return {
+    ...n,
+    attacco: Math.max(n.attacco, pg.difesa + n.legge.attacco),
+    difesa: Math.max(n.difesa, pg.attacco + n.legge.difesa),
+    pf: Math.max(n.pf, Math.round(pg.pfMax * n.legge.pf)),
+    ...(n.legge.magia !== undefined ? { magia: Math.max(n.magia, pg.difesaMentale + n.legge.magia) } : {}),
+  };
+}
+
+function nemiciDelloScontro(sc: TScontro, c: TContenuti, pg: Combattente): Combattente[] {
   const conta: Record<string, number> = {};
   const lista = sc.nemici.map((id) => {
-    const n = c.nemici.find((x) => x.id === id);
-    if (!n) throw new Error(`Nemico sconosciuto: ${id}`);
+    const trovato = c.nemici.find((x) => x.id === id);
+    if (!trovato) throw new Error(`Nemico sconosciuto: ${id}`);
+    const n = letto(trovato, pg);
     conta[id] = (conta[id] ?? 0) + 1;
     const r = sc.rinforzo;
     if (!r || (r.solo && !r.solo.includes(id))) return combattenteDaNemico(n, conta[id]!, c);
@@ -243,7 +261,7 @@ export function iniziaCombattimento(
   pg: Combattente, sc: TScontro, c: TContenuti, consumabili: Record<string, number>, rng: Rng = Math.random,
   incantesimi: TIncantesimo[] = [], reperti: RepertoInCombattimento[] = [],
 ): StatoCombattimento {
-  const combattenti = [{ ...pg, effetti: [], veleni: [] }, ...nemiciDelloScontro(sc, c)];
+  const combattenti = [{ ...pg, effetti: [], veleni: [] }, ...nemiciDelloScontro(sc, c, pg)];
   const tiri = combattenti.map((x) => ({ id: x.id, s: tira(x.iniziativa, rng).successi, somma: x.sommaIniziativa, r: rng() }));
   tiri.sort((a, b) => b.s - a.s || b.somma - a.somma || b.r - a.r);
   const cs: StatoCombattimento = {
@@ -261,6 +279,7 @@ export function iniziaCombattimento(
     costi: {},
     reperti: reperti.map((r) => ({ ...r })),
     eventi: [],
+    ...(pg.usura ? { pfInizio: pg.pf } : {}),
   };
   annota(cs, `Iniziativa: ${tiri.map((t) => combattenti.find((x) => x.id === t.id)!.nome).join(' → ')}.`);
   return cs;
@@ -609,10 +628,14 @@ export function round(cs: StatoCombattimento, azione: Azione, rng: Rng = Math.ra
   if (!cs.finito && cs.round > ROUND_MAX) { cs.finito = true; cs.vinto = false; annota(cs, 'Lo scontro si trascina fino allo sfinimento.'); }
 }
 
-/** Ferite a fine combattimento (6.6). */
+/**
+ * Ferite a fine combattimento (6.6). Con l'usura i PF persi restano, una Ferita ogni due, e quelli recuperati con le
+ * bende e i tonici le tolgono: il risultato può essere negativo.
+ */
 export function feriteDopo(cs: StatoCombattimento, feriteSconfitta: number): number {
   const pg = cs.combattenti.find((x) => x.lato === 'pg')!;
   if (!cs.vinto) return feriteSconfitta;
+  if (pg.usura && cs.pfInizio !== undefined) return (cs.pfInizio - pg.pf) / 2;
   const quota = pg.pf / pg.pfMax;
   if (quota >= 0.8) return 0;
   if (quota >= 0.4) return 0.5;

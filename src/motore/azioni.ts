@@ -59,7 +59,7 @@ function vittoria(s: Stato, scontroId: string, c: TContenuti): number {
   if (!sc) throw new Error(`Scontro sconosciuto: ${scontroId}`);
   const pg = combattenteDaStato(s, c);
   const rep = repertorio(s, c);
-  const chiave = [scontroId, pg.attacco, pg.difesa, pg.difesaMentale, pg.difesaFisica, pg.pfMax, pg.danno, pg.riduzione,
+  const chiave = [scontroId, pg.attacco, pg.difesa, pg.difesaMentale, pg.difesaFisica, pg.pf, pg.pfMax, pg.danno, pg.riduzione,
     pg.ignora, pg.iniziativa, pg.magia, pg.energiaMax, pg.ultimoRespiro, pg.ostinata, pg.assetata, pg.inceppamento, pg.ricarica, pg.caricatore,
     pg.portata, pg.spietata, rep.map((i) => i.id).join('+')].join('|');
   let p = cacheVittoria.get(chiave);
@@ -252,7 +252,7 @@ export function concludiCombattimento(s: Stato, st: TStorylet, indice: number, c
   if (haDifetto(s, c, 'stancante')) costi['ferite'] = (costi['ferite'] ?? 0) + 0.5;
   if (Object.keys(costi).length) r.variazioni.push(...applicaEffetti(s, costi, c));
   const ferite = feriteDopo(cs, sc.feriteSconfitta);
-  if (ferite > 0) r.variazioni.push(...applicaEffetti(s, { ferite }, c));
+  if (ferite !== 0) r.variazioni.push(...applicaEffetti(s, { ferite }, c));
   const { arma } = baseArma(s, c); // gli oggetti magici contano come la loro arma base
   const p = anteprima(s, opz, c).combattimento?.probabilita ?? 0.5;
   // PE all'arma, e alla Magia se nello scontro hai lanciato incantesimi

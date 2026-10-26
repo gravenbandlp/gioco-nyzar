@@ -1,10 +1,13 @@
 // Il campanile rovescio (docs/piano-torre.md): lo sblocco, il grado della Maschera, le discese fra gli anelli, i pezzi
-// del set una volta sola, il sigillo del quarantunesimo piano, il rimescolamento delle stanze e il piano mostrato.
+// del set una volta sola, il sigillo del quarantunesimo piano, il rimescolamento delle stanze e il piano mostrato,
+// l'usura e il Lettore che ti legge.
 import { describe, it, expect } from 'vitest';
 import { nuovoPersonaggio, requisitiSoddisfatti, type Stato } from '../src/motore/personaggio';
 import { scegli } from '../src/motore/azioni';
 import { ricevi } from '../src/motore/oggetti';
 import { stanzeVisibili, piano } from '../src/motore/spedizioni';
+import { combattenteDaStato, feriteDopo, iniziaCombattimento, probabilitaVittoria } from '../src/motore/combattimento';
+import { rngConSeme } from '../src/motore/dadi';
 import type { TContenuti, TStorylet } from '../src/motore/contenuto';
 import { CONTENUTI as c } from '../src/dati/contenuti';
 
@@ -121,4 +124,60 @@ describe('il campanile rovescio', () => {
     expect(piano(s, conRimescola)).toBe(14);
     expect(piano(s, senza)).toBeUndefined();
   });
+
+  it('negli anelli due stanze fanno un piano', () => {
+    const s = figlio();
+    s.area = 'torre-anello-2';
+    s.quality['profondita.torre-anello-2'] = 0;
+    expect(piano(s, c)).toBe(11);
+    s.quality['profondita.torre-anello-2'] = 1;
+    expect(piano(s, c)).toBe(11);
+    s.quality['profondita.torre-anello-2'] = 17;
+    expect(piano(s, c)).toBe(19);
+    s.quality['profondita.torre-anello-2'] = 18;
+    expect(piano(s, c)).toBe(20);
+  });
+
+  it('nella torre le negative pesano negli scontri e i PF persi restano come Ferite', () => {
+    const s = figlio();
+    Object.assign(s.quality, { ferite: 2.5, tormento: 3, contaminazione: 4 });
+    const fuori = combattenteDaStato(s, c);
+    expect(fuori.pf).toBe(fuori.pfMax);
+    s.area = 'torre-anello-1';
+    const dentro = combattenteDaStato(s, c);
+    expect(dentro.pfMax).toBe(fuori.pfMax);
+    expect(dentro.pf).toBe(fuori.pfMax - 5);
+    expect(dentro.difesaMentale).toBe(fuori.difesaMentale - 1);
+    expect(dentro.difesaFisica).toBe(fuori.difesaFisica - 2);
+    const sc = c.scontri.find((x) => x.id === 'torre-i-rammendatori')!;
+    const cs = iniziaCombattimento(dentro, sc, c, {}, rngConSeme(1));
+    const pg = cs.combattenti.find((x) => x.lato === 'pg')!;
+    cs.finito = true; cs.vinto = true;
+    pg.pf -= 3;
+    expect(feriteDopo(cs, sc.feriteSconfitta)).toBe(1.5);
+    pg.pf += 5; // le bende e i tonici le tolgono
+    expect(feriteDopo(cs, sc.feriteSconfitta)).toBe(-1);
+    cs.vinto = false;
+    expect(feriteDopo(cs, sc.feriteSconfitta)).toBe(sc.feriteSconfitta);
+  });
+
+  it('il Lettore ti legge: resta difficile per chi ha poco e per chi ha tutto', () => {
+    const pg = (livello: number) => {
+      const s = figlio();
+      s.attributi.fisico = livello;
+      for (const a of ['armi-da-mischia', 'acrobazia', 'resistenza', 'resilienza']) s.abilita[a] = livello;
+      s.arma = 'campana-il-battente'; s.armatura = 'campana-piastre-del-campanaro';
+      s.quality['oggetto.campana-il-battente'] = 1; s.quality['oggetto.campana-piastre-del-campanaro'] = 1;
+      return combattenteDaStato(s, c);
+    };
+    const debole = pg(3), forte = pg(5);
+    const sc = c.scontri.find((x) => x.id === 'torre-il-lettore-alla-porta')!;
+    const lettore = (p: typeof debole) => iniziaCombattimento(p, sc, c, {}, rngConSeme(1)).combattenti.find((x) => x.lato === 'nemico')!;
+    expect(lettore(forte).attacco - lettore(debole).attacco).toBe(forte.difesa - debole.difesa);
+    expect(lettore(forte).difesa - lettore(debole).difesa).toBe(forte.attacco - debole.attacco);
+    expect(lettore(forte).pf).toBeGreaterThan(lettore(debole).pf);
+    const pd = probabilitaVittoria(debole, sc, c, 400, 3), pf = probabilitaVittoria(forte, sc, c, 400, 3);
+    expect(Math.abs(pd - pf)).toBeLessThan(0.2);
+    expect(pf).toBeLessThan(0.7);
+  }, 20000);
 });

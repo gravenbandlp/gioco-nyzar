@@ -12,7 +12,7 @@ import { anteprima, puoEntrare, correggibile, secondaSceltaDisponibile, listino,
 import { incantesimiConosciuti, repertorio, limiteRepertorio } from '../motore/magia';
 import { NIENTE_ARMA, NIENTE_ARMATURA, oggetto, possiede, indossato, perchéNonIndossabile } from '../motore/oggetti';
 import { crisiAttiva, opzioniVisibili, mutazioniDi, hash } from '../motore/crisi';
-import { areaAttuale, areaChiusa, piano, profondita, stanzeVisibili } from '../motore/spedizioni';
+import { areaAttuale, areaChiusa, piano, profondita, stanzeVisibili, usura } from '../motore/spedizioni';
 import { nelDiario } from '../motore/diario';
 import { descrizioneDi } from '../motore/inquietudine';
 import {
@@ -423,6 +423,10 @@ function testataSpedizione(x: Contesto): string {
   // la barra serve solo se qualcosa qui dipende dalla profondità (nel pozzo dell'Ira, per esempio, no)
   const misura = storyletDisponibili(s, c).some((st) => st.area === a.id && st.requisiti.some((r) => r.startsWith(`profondita.${a.id}`)));
   const n = piano(s, c);
+  // l'usura del campanile rovescio: quello che le negative tolgono negli scontri
+  const u = usura(s, c);
+  const pesi = u ? [u.pf && `${u.pf} PF`, u.mentale && `${u.mentale} ${u.mentale === 1 ? 'dado' : 'dadi'} di difesa mentale`,
+    u.fisica && `${u.fisica} ${u.fisica === 1 ? 'dado' : 'dadi'} di difesa fisica`].filter(Boolean) : [];
   return `<section class="spedizione">
     ${misura ? `<div class="profondita">
       <span class="etichetta">${n === undefined ? 'Profondità' : `Piano ${n}`}</span>
@@ -430,6 +434,7 @@ function testataSpedizione(x: Contesto): string {
       <b>${mezzi(p)} / ${sped.soglia}</b>
     </div>` : ''}
     <button type="button" class="bottone" data-az="ritirata" title="Si perde la profondità raggiunta">Torna verso ${h(ritorno)}</button>
+    ${u ? `<p class="usura">${pesi.length ? `Negli scontri l'usura ti toglie ${pesi.join(', ')}.` : 'Negli scontri le Ferite ti toglieranno PF e i PF persi resteranno.'}</p>` : ''}
   </section>`;
 }
 

@@ -3,7 +3,9 @@
 //   Uzgreth, cuoio rinforzato), su cui stanno le quest di fazione;
 // - fine contenuti: chi ha finito una quest di fazione e i villaggi (Fisico 4, Armi da mischia 4, Spadone di Uzgreth,
 //   cotta di maglia), su cui stanno la Campana Sepolta e i boss dell'ultimo atto dei villaggi;
-// - fine Campana: lo stesso con il Battente e le piastre del Campanaro, su cui sta il campanile rovescio.
+// - fine Campana: lo stesso con il Battente e le piastre del Campanaro;
+// - torre: Fisico 5, Armi da mischia 5 e Acrobazia 3 con gli stessi oggetti, su cui sta il campanile rovescio dal 26
+//   ottobre 2026 (con il profilo di prima un punto in più bastava a vincerlo quasi sempre).
 // Uso: npx tsx scripts/simula-fine.ts [prefisso dello scontro ...]   (senza argomenti: tutti gli scontri)
 import { caricaContenuti } from './build-contenuti';
 import { nuovoPersonaggio, type Stato } from '../src/motore/personaggio';
@@ -12,11 +14,11 @@ import { combattenteDaStato, probabilitaVittoria, etichettaCombattimento } from 
 const { contenuti: c, errori } = caricaContenuti({ tavole: false });
 if (errori.length) { console.error(errori.join('\n')); process.exit(1); }
 
-function profilo(fisico: number, abilita: number, arma: string, armatura: string): Stato {
+function profilo(fisico: number, abilita: number, arma: string, armatura: string, secondarie = abilita - 3): Stato {
   const s = nuovoPersonaggio('Prova', c.origini.find((o) => o.id === 'figlio-della-citta-bassa')!, 0, 'citta-bassa');
   s.attributi.fisico = fisico;
-  s.attributi.mentale = 2;
-  for (const a of ['acrobazia', 'resistenza', 'atletica', 'percezione', 'resilienza']) s.abilita[a] = Math.max(s.abilita[a] ?? 0, abilita - 3);
+  s.attributi.mentale = secondarie > 1 ? 3 : 2;
+  for (const a of ['acrobazia', 'resistenza', 'atletica', 'percezione', 'resilienza']) s.abilita[a] = Math.max(s.abilita[a] ?? 0, secondarie);
   s.abilita['armi-da-mischia'] = abilita;
   s.arma = arma;
   s.armatura = armatura;
@@ -30,6 +32,7 @@ const profili = {
   'fine contenuti': profilo(4, 4, 'spadone-di-uzgreth', 'cotta-di-maglia'),
   // chi ha finito la Campana e scende nel campanile rovescio (docs/piano-torre.md)
   'fine Campana': profilo(4, 4, 'campana-il-battente', 'campana-piastre-del-campanaro'),
+  torre: profilo(5, 5, 'campana-il-battente', 'campana-piastre-del-campanaro', 3),
 };
 
 const prefissi = process.argv.slice(2);

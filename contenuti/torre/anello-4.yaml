@@ -1,16 +1,20 @@
 # Il campanile rovescio, anello 4: il battito, piani 31-40 (docs/piano-torre.md, blocco 4). Ci si scende dalla scala
 # della canna (sblocco.yaml, con torre.anello >= 3) o dalla terza porta tonda sotto l'ultima campana (anello-3-fondo.yaml).
 # La ritirata e la sconfitta riportano alla Superficie e azzerano la profondità.
-# - area `torre-anello-4`: soglia 9, tre stanze visibili, `rimescola: torre.discese`, `piani: 30`; venti stanze ripetibili:
-#   piani 31-33 (profondità 0-2): il pavimento che pulsa, le sentinelle, la porta che legge, le vene della canna, i
-#     piani di sopra, la scala che respira, le lapidi dei Portatori;
-#   piani 34-36 (profondità 3-5): il pulsante, la nicchia del battito lento (il ristoro, solo a profondità 4-5), il libro
-#     di metallo, gli specchi neri, il ponte sul battito, le catene del fondo, le sentinelle al varco;
-#   piani 37-39 (profondità 6-8, anello-4-fondo.yaml): la sala delle quattro Maschere, il battito che manca, la pagina
-#     bianca, la luce del sigillo, il Lettore lontano, l'ultimo giro.
+# - area `torre-anello-4`: soglia 18, tre stanze visibili, due stanze per piano, `rimescola: torre.discese`,
+#   `piani: 30`; ventinove stanze ripetibili:
+#   piani 31-33 (profondità 0-5): il pavimento che pulsa, le sentinelle, la porta che legge, le vene della canna, i
+#     piani di sopra, la scala che respira, le lapidi dei Portatori, la polvere che disegna, la cupola sul pavimento (il
+#     pulsante), il nastro che conta;
+#   piani 34-36 (profondità 6-11): il pulsante, la nicchia del battito lento (il ristoro, solo a profondità 8-11), il
+#     libro di metallo, gli specchi neri, il ponte sul battito, le catene del fondo, le sentinelle al varco, le nicchie
+#     vuote, la serratura che prova, il pavimento di cristallo;
+#   piani 37-39 (profondità 12-17, anello-4-fondo.yaml): la sala delle quattro Maschere, il battito che manca, la pagina
+#     bianca, la luce del sigillo, il Lettore lontano, l'ultimo giro, il cambio della guardia (le sentinelle), le
+#     piastre cadute, i gradini alti.
 #   Qui pesano tutte le negative; ogni stanza ha una prova Difficile, una Molto difficile o un combattimento, e una via
 #   senza prova da 2 o 3 rintocchi con una negativa. Nelle stanze solo PE.
-# - il cuore a profondità 9, il quarantesimo piano (anello-4-fondo.yaml): il Lettore in tre fasi, poi il leggio con Il
+# - il cuore a profondità 18, il quarantesimo piano (anello-4-fondo.yaml): il Lettore in tre fasi, poi il leggio con Il
 #   Manto del Battito e il frammento del sigillo (una volta sola), PE e lyssan; torre.anello almeno 4; la prima volta il
 #   sigillo del quarantunesimo piano (sblocco.yaml).
 # Il Lettore è il guardiano che legge le Maschere ai sigilli; la prosa lo tratta come chi legge una pagina, e il giocatore
@@ -23,7 +27,7 @@ aree:
     immagine: ambientazione/mito-salvaguardia-precursori
     nome: Il battito
     sommario: "Dal trentunesimo al quarantesimo piano il campanile scende verso il battito che si sente dalla cima. Qui le pareti pulsano."
-    spedizione: { ritorno: superficie-fratturata, soglia: 9, stanze: 3, rimescola: torre.discese, piani: 30 }
+    spedizione: { ritorno: superficie-fratturata, soglia: 18, stanze: 3, rimescola: torre.discese, piani: 30, stanzePerPiano: 2, usura: true }
     testo: |
       Sotto il trentesimo piano la fonderia finisce, e la canna torna stretta e buia come in cima. La
       fuliggine arriva fino al primo giro di scala e lì smette. Le pareti qui non sono più di pietra. Sono di
@@ -39,7 +43,7 @@ colonna:
   - { contesto: area, id: torre-anello-4, musica: a-hundred-deaths, ambiente: temple-quiet }
 
 storylet:
-  # ================================================================ piani 31-33 (profondità 0-2)
+  # ================================================================ piani 31-33 (profondità 0-5)
   # ------------------------------------------------------------ il pavimento che pulsa
   - id: torre-4-il-pavimento-che-pulsa
     immagine: icone/heart-organ
@@ -48,7 +52,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       Il pavimento di questo piano è dello stesso metallo grigio delle pareti, in un pezzo solo e senza una
       giuntura. A ogni battito si solleva di un palmo e poi ricade, e quando ricade l'aria che spinge ti
@@ -72,8 +76,8 @@ storylet:
         fallimento:
           titolo: Fuori tempo
           testo: |
-            Un passo cade sul battito, e il pavimento ti lancia in aria. Ricadi sul fianco e scivoli fino alla parete da cui
-            eri partit{o|a}.
+            Un passo cade sul battito, e il pavimento ti lancia in aria. Ricadi sul fianco e scivoli fino alla
+            parete da cui eri partit{o|a}.
           effetti: { ferite: 1 }
       - testo: "Restare fermi finché il battito non rallenta"
         descrizione: "Ogni tanto il battito rallenta e si calma. Bisogna aspettarlo senza farsi prendere dalla fretta."
@@ -81,14 +85,15 @@ storylet:
         successo:
           titolo: Il battito lento
           testo: |
-            Resti ferm{o|a} sulla soglia finché il battito non rallenta e il pavimento si solleva appena. Attraversi il piano
-            camminando, come una strada qualunque.
+            Resti ferm{o|a} sulla soglia finché il battito non rallenta e il pavimento si solleva appena.
+            Attraversi il piano camminando, come una strada qualunque.
           pe: { resilienza: 3 }
           effetti: { profondita.torre-anello-4: 1 }
         fallimento:
           titolo: La fretta
           testo: |
-            Il battito non rallenta, e a forza di aspettarlo ti entra in testa e ti fa battere il cuore allo stesso ritmo.
+            Il battito non rallenta, e a forza di aspettarlo ti entra in testa e ti fa battere il cuore allo
+            stesso ritmo.
           effetti: { tormento: 1 }
       - testo: "Attraversare carponi"
         descrizione: "A quattro zampe il pavimento non ti lancia. Ti sbatte, a ogni battito, ma non ti lancia."
@@ -109,7 +114,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       Ai lati della porta del piano stanno due figure di metallo grigio, alte quanto un uomo e magre come
       lance. Le braccia finiscono in due lame lunghe e sottili, con le punte appoggiate a terra. Sotto ogni
@@ -190,7 +195,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       La porta di questo piano è piccola e rotonda, e per passarla devi chinarti. Al centro c'è un occhio di
       cristallo grande come un pugno, incassato in una ghiera di metallo senza viti e senza saldature. Quando
@@ -215,8 +220,8 @@ storylet:
         fallimento:
           titolo: Un ricordo di troppo
           testo: |
-            A metà lettura torna un ricordo che avevi dimenticato apposta, e ti volti per non vederlo. L'occhio ricomincia da
-            capo.
+            A metà lettura torna un ricordo che avevi dimenticato apposta, e ti volti per non vederlo.
+            L'occhio ricomincia da capo.
           effetti: { tormento: 1.5 }
       - testo: "Coprire l'occhio e forzare la porta"
         descrizione: "Una mano sul cristallo e l'altra sul bordo della porta. Senza l'occhio, è una porta come le altre."
@@ -232,7 +237,8 @@ storylet:
         fallimento:
           titolo: L'occhio sotto la giubba
           testo: |
-            L'occhio ti vede anche attraverso la giubba, e la porta ti respinge con un colpo che ti sale fino alla spalla.
+            L'occhio ti vede anche attraverso la giubba, e la porta ti respinge con un colpo che ti sale fino
+            alla spalla.
           effetti: { ferite: 1 }
       - testo: "Leggere l'occhio a tua volta"
         descrizione: "Se ti legge, si può leggere anche lui. Basta guardarlo con la stessa attenzione."
@@ -254,7 +260,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       Lungo le pareti del piano corrono tubi di vetro grossi come un braccio, fissati al metallo con fascette
       che sembrano cresciute insieme alla parete. Dentro c'è un liquido grigio e denso che scende verso il
@@ -279,7 +285,8 @@ storylet:
         fallimento:
           titolo: Un piede nella pozza
           testo: |
-            Un piede finisce in una pozza, e la Marea ti sale lungo lo stivale fino al ginocchio, fredda come acqua di pozzo.
+            Un piede finisce in una pozza, e la Marea ti sale lungo lo stivale fino al ginocchio, fredda come
+            acqua di pozzo.
           effetti: { contaminazione: 1 }
       - testo: "Chiudere le vene crepate"
         descrizione: "Le vene hanno delle valvole alla base. Chiuse quelle crepate, le pozze smettono di crescere."
@@ -316,7 +323,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       Apri la porta del piano e dall'altra parte c'è la scala delle corde, con le corde di metallo che vibrano
       nel vuoto. La richiudi e la riapri, e c'è la cassa dell'Uditore, muta. La porta è una lastra di metallo
@@ -359,7 +366,8 @@ storylet:
         fallimento:
           titolo: La luce che inganna
           testo: |
-            Segui la luce, e ti ritrovi sul pianerottolo della fonderia con il calore in faccia. Ci metti un pezzo a tornare.
+            Segui la luce, e ti ritrovi sul pianerottolo della fonderia con il calore in faccia. Ci metti un
+            pezzo a tornare.
           effetti: { ferite: 0.5, tormento: 0.5 }
       - testo: "Passare dalla porta qualunque cosa ci sia dall'altra parte"
         descrizione: "Se il campanile ti rimanda su, tocca riscendere a piedi, e le gambe pagano."
@@ -380,7 +388,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       Per un giro intero i gradini sono fatti dello stesso metallo grigio delle pareti, e a ogni battito si
       allargano e si stringono come costole. Quando si stringono fra uno e l'altro si apre una fessura sul
@@ -405,7 +413,8 @@ storylet:
         fallimento:
           titolo: Il piede nella fessura
           testo: |
-            Un piede finisce nella fessura quando si chiude, e lo schiocco ti stringe la caviglia come una tagliola.
+            Un piede finisce nella fessura quando si chiude, e lo schiocco ti stringe la caviglia come una
+            tagliola.
           effetti: { ferite: 1.5 }
       - testo: "Bloccare le costole con una sbarra"
         descrizione: "Una sbarra di ferro fra due gradini, e la scala non si stringe più. Il metallo grigio è forte."
@@ -442,7 +451,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 <= 2]
+    requisiti: [profondita.torre-anello-4 <= 5]
     testo: |
       Lungo la parete della scala sono infisse delle lapidi di metallo in colonna, e su ogni lapide è inciso
       un segno a forma di maschera e una riga di scrittura dei Precursori. Ogni lapide è fissata con quattro
@@ -485,7 +494,8 @@ storylet:
         fallimento:
           titolo: Il nome che non esce
           testo: |
-            Davanti all'ultima lapide il nome non ti esce, e resti lì con la mano sul metallo freddo finché non riesci a muoverti.
+            Davanti all'ultima lapide il nome non ti esce, e resti lì con la mano sul metallo freddo finché
+            non riesci a muoverti.
           effetti: { tormento: 0.5 }
       - testo: "Scendere senza guardarle"
         descrizione: "Sono tante, e parlano di gente che non c'è più. Lo sguardo sui gradini."
@@ -516,7 +526,221 @@ storylet:
             abbia appena inciso un segno nuovo.
           effetti: { profondita.torre-anello-4: 1, tormento: 1 }
 
-  # ================================================================ piani 34-36 (profondità 3-5)
+  # ------------------------------------------------------------ la polvere che disegna
+  - id: torre-4-la-polvere-che-disegna
+    immagine: icone/sound-waves
+    titolo: La polvere che disegna
+    sommario: "Sul pavimento la polvere si dispone in figure regolari a ogni battito, e vicino alla soglia le figure si piegano verso chi entra."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 <= 5]
+    testo: |
+      Il pavimento di questo piano è una lastra di metallo grigio coperta da un velo di polvere fine. A ogni
+      battito la lastra vibra e la polvere corre a raccogliersi in cerchi concentrici tagliati da raggi, come la
+      sabbia che i fonditori spargono su una piastra di bronzo per sentire se suona giusta. Fra un battito e
+      l'altro le figure restano ferme e nitide. Dove la polvere si è tolta il metallo ronza sotto le suole, e
+      il ronzio ti sale negli stinchi fino alle ginocchia.
+
+      Ti dici che è la lastra a fare il disegno, e che lo rifà uguale a ogni battito perché la lastra è sempre
+      la stessa. Solo vicino alla soglia, dove sei ferm{o|a}, i cerchi si deformano e si piegano verso i tuoi
+      piedi.
+
+      {percezione Difficile} Dove la polvere si raccoglie la lastra sta ferma. Le linee sono larghe quanto un
+      piede, e una arriva fino alla porta.
+    opzioni:
+      - testo: "Camminare sulle linee della polvere"
+        descrizione: "Dove la polvere si raccoglie la lastra non vibra. Bisogna leggere il disegno prima del battito successivo."
+        prova: { attributo: mentale, abilita: percezione, difficolta: Molto difficile }
+        successo:
+          titolo: Sulle linee
+          testo: |
+            Metti i piedi soltanto dove la polvere si è raccolta, e sotto le suole la lastra resta muta. A
+            ogni battito il disegno si rifà uguale, e la tua strada con lui. Arrivi alla porta senza che il
+            ronzio ti abbia toccato le gambe, e quando ti volti i cerchi vicino alla porta sono piegati verso
+            di te.
+          pe: { percezione: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il ronzio nelle ossa
+          testo: |
+            Sbagli linea al secondo battito, e la lastra ti fa vibrare le ossa delle gambe finché le ginocchia
+            non si piegano.
+          effetti: { ferite: 1 }
+      - testo: "Attraversare dritto, a passo lungo"
+        descrizione: "Il ronzio sale nelle gambe e le intorpidisce. Bisogna arrivare alla porta prima che le ginocchia cedano."
+        prova: { attributo: fisico, abilita: resistenza, difficolta: Difficile }
+        successo:
+          titolo: A passo lungo
+          testo: |
+            Attraversi la lastra dritt{o|a} e a passo lungo, e il ronzio ti sale nelle gambe un battito dopo
+            l'altro. A metà piano non senti più i piedi e li guardi per sapere dove li metti. Arrivi alla porta
+            con le ginocchia rigide, e il formicolio ti dura per due giri di scala.
+          pe: { resistenza: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Le ginocchia che cedono
+          testo: |
+            A metà piano le ginocchia ti cedono e cadi lungo sulla lastra che ronza. Mentre ti rialzi la
+            polvere ti si è già raccolta intorno in un cerchio.
+          effetti: { ferite: 0.5, tormento: 0.5 }
+      - testo: "Attraversare sulle punte, di corsa"
+        descrizione: "Pochi passi e svelti, toccando la lastra il meno possibile. Il ronzio arriva lo stesso."
+        costo: 2
+        esito:
+          titolo: Sulle punte
+          testo: |
+            Attraversi il piano di corsa sulle punte, e ogni volta che un piede tocca il metallo il ronzio ti
+            arriva nei denti. Alle tue spalle la polvere torna sulle orme e le cancella. Arrivi alla porta con
+            un fischio nelle orecchie che non smette per tutta la scala.
+          effetti: { profondita.torre-anello-4: 1, tormento: 1 }
+
+  # ------------------------------------------------------------ la cupola sul pavimento
+  - id: torre-4-la-cupola-sul-pavimento
+    immagine: icone/ringing-bell
+    titolo: La cupola sul pavimento
+    sommario: "In mezzo al piano c'è una cupola di metallo grande come un carro. A ogni battito si solleva di un dito, e da sotto esce un velo grigio."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 <= 5]
+    testo: |
+      In mezzo al piano c'è una cupola di metallo grigio grande come un carro, appoggiata sul pavimento come
+      un coperchio su una pentola. A ogni battito si solleva di un dito e ricade con un colpo sordo. Quando si
+      solleva, dalla fessura scivola fuori un velo di Marea Grigia che lambisce il pavimento e torna sotto
+      prima che la cupola ricada. La porta di sotto è dall'altra parte, e fra la cupola e il bordo della canna
+      il passaggio è largo quanto due persone.
+
+      Il bordo della cupola ha battuto sullo stesso cerchio tanto a lungo da scavarci un solco profondo un
+      dito. Mentre lo guardi il colpo successivo arriva più forte, e la fessura si apre di due dita.
+
+      {natura Difficile} Sotto c'è una massa di Marea raccolta, come quella del pulsante. Una massa così sente i
+      passi attraverso il metallo.
+    opzioni:
+      - testo: "Sollevare la cupola e affrontare la massa"
+        descrizione: "Sotto la cupola c'è una massa di Marea che colpisce a ogni battito. Meglio affrontarla adesso che averla alle spalle."
+        combattimento: torre-il-pulsante
+        vittoria:
+          titolo: Il coperchio vuoto
+          testo: |
+            L'ultimo colpo arriva fra due battiti, e la massa si affloscia e cola nel solco intorno alla
+            cupola. La cupola ricade con un colpo vuoto e non si solleva più. Passi accanto al solco pieno di
+            grigio, che resta fermo anche quando il battito ti arriva nei piedi.
+          pe: { armi-da-mischia: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        sconfitta:
+          titolo: Sotto il bordo
+          testo: |
+            La massa ti prende per una caviglia e ti trascina verso la fessura, e la cupola ricade a un palmo
+            dalla tua faccia. Ti liberi strisciando e risali la scala con la Marea che ti cola dagli stivali.
+      - testo: "Inchiodare la cupola a terra"
+        descrizione: "Un cuneo di ferro nel solco a ogni battito. Con la cupola ferma a terra la massa resta sotto."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: I cunei
+          testo: |
+            Pianti cunei di ferro nel solco tutto intorno al bordo, uno a ogni battito, e la cupola si
+            solleva sempre meno finché non si alza più. Da sotto arrivano colpi contro il metallo, a tempo con
+            il battito. Passi alla porta mentre i cunei tremano nel solco.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il cuneo che salta
+          testo: |
+            La cupola si solleva più forte di quanto pensavi, e il cuneo ti salta di mano con un velo grigio
+            dietro.
+          effetti: { contaminazione: 1 }
+      - testo: "Passare piano, senza far vibrare il metallo"
+        descrizione: "La massa sente i passi attraverso il pavimento. Un passo leggero alla volta, e la cupola resta bassa."
+        prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
+        successo:
+          titolo: Il passo leggero
+          testo: |
+            Passi accanto alla cupola mettendo giù il piede di punta e poi di tacco, così piano che il metallo
+            non risponde. La fessura si apre di un dito a ogni battito e mai di più. Alla porta ti accorgi di
+            avere camminato a tempo con la cupola senza averlo deciso.
+          pe: { furtivita: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il tacco sul metallo
+          testo: |
+            Un tacco batte sul metallo, e la massa esce dalla fessura e ti afferra la gamba prima di ritirarsi.
+          effetti: { ferite: 0.5, contaminazione: 1 }
+      - testo: "Passare sul bordo della canna"
+        descrizione: "Lontano dalla cupola, con le spalle al vuoto. La Marea arriva fin lì, più debole."
+        costo: 3
+        esito:
+          titolo: Sul bordo
+          testo: |
+            Passi sul bordo del piano con le spalle al vuoto della canna, e a ogni battito il velo grigio ti
+            arriva agli stivali e si ritira. Il cuoio si fa freddo e rigido dove l'ha toccato. Arrivi alla
+            porta con le punte dei piedi intorpidite.
+          effetti: { profondita.torre-anello-4: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ il nastro che conta
+  - id: torre-4-il-nastro-che-conta
+    immagine: icone/rope-coil
+    titolo: Il nastro che conta
+    sommario: "Da una scatola nella parete esce un nastro di metallo forato, un foro a ogni battito. Le sue spire riempiono il piano."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 <= 5]
+    testo: |
+      Dalla parete del piano esce un nastro di metallo largo una mano e sottile come una lama. Lo spinge fuori
+      una scatola grigia incassata nel muro e senza una vite, e a ogni battito la scatola fa un colpo secco e
+      il nastro avanza di un dito con un foro nuovo. Il nastro si è ammucchiato in spire alte fino al petto,
+      che riempiono il piano e coprono la strada verso la porta. I bordi sono affilati, e dove le spire si
+      toccano il metallo è lucido.
+
+      I fori sono tutti alla stessa distanza, come i denti di un pettine. Ti dici che la scatola conta i
+      battiti per la Salvaguardia, e che li conta da quando la canna è stata fatta. Sull'ultimo palmo di
+      nastro, quello uscito da quando sei sulla soglia, i fori sono più vicini.
+    opzioni:
+      - testo: "Passare fra le spire"
+        descrizione: "Le spire lasciano dei varchi. Bisogna passarli di fianco senza toccare i bordi."
+        prova: { attributo: fisico, abilita: [acrobazia, furtivita], difficolta: Difficile }
+        successo:
+          titolo: Fra le spire
+          testo: |
+            Passi fra le spire di fianco, con le braccia strette al corpo, e i bordi del nastro ti sfiorano la
+            giubba senza tagliarla. A ogni battito le spire si spostano di un dito e i varchi cambiano. Alla
+            porta trovi sulla giubba una fila di righe sottili, alla stessa distanza dei fori.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il bordo
+          testo: |
+            Una spira si sposta al battito, e il bordo del nastro ti apre il dorso della mano.
+          effetti: { ferite: 1 }
+      - testo: "Fermare la scatola che conta"
+        descrizione: "Se il nastro smette di uscire, le spire si allentano e si lasciano spostare. La scatola non ha viti."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Molto difficile }
+        successo:
+          titolo: Il conto fermo
+          testo: |
+            Trovi la fessura da cui esce il nastro e ci infili una lama di traverso, e al battito dopo la
+            scatola fa il suo colpo a vuoto. Le spire smettono di tendersi e si lasciano spingere da parte come
+            stoffa. Quando sei alla porta la scatola batte ancora contro la lama, sempre più svelta.
+          pe: { tecnologia: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il nastro che strappa
+          testo: |
+            Il nastro avanza lo stesso e ti strappa la lama di mano, e il colpo ti torce il polso.
+          effetti: { ferite: 1 }
+      - testo: "Aprire un varco nelle spire a forza di braccia"
+        descrizione: "Il nastro è sottile e si piega. Un varco si apre una spira alla volta, e i bordi tagliano."
+        costo: 3
+        esito:
+          titolo: Il varco
+          testo: |
+            Pieghi e spezzi il nastro una spira dopo l'altra finché non apri un varco fino alla porta, e i
+            bordi ti segnano le mani. Alle tue spalle la scatola continua a battere e spinge fuori nastro nuovo.
+            Scendendo la senti battere più svelta dei tuoi passi.
+          effetti: { profondita.torre-anello-4: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ================================================================ piani 34-36 (profondità 6-11)
   # ------------------------------------------------------------ il pulsante
   - id: torre-4-il-pulsante
     immagine: icone/heart-organ
@@ -525,7 +749,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 3, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
     testo: |
       In mezzo al piano c'è una massa di Marea Grigia grande come un toro, senza forma fissa, che a ogni
       battito si gonfia del doppio e poi si sgonfia. Quando si gonfia allunga due braccia fino alle pareti, e
@@ -559,14 +783,15 @@ storylet:
         successo:
           titolo: Fra due battiti
           testo: |
-            Parti appena la massa si sgonfia e sei alla porta quando torna a gonfiarsi. Le sue braccia sbattono contro lo
-            stipite alle tue spalle.
+            Parti appena la massa si sgonfia e sei alla porta quando torna a gonfiarsi. Le sue braccia
+            sbattono contro lo stipite alle tue spalle.
           pe: { atletica: 3 }
           effetti: { profondita.torre-anello-4: 1 }
         fallimento:
           titolo: Il battito in anticipo
           testo: |
-            La massa si gonfia in anticipo, e un braccio grigio ti prende di striscio e ti lascia addosso una scia fredda.
+            La massa si gonfia in anticipo, e un braccio grigio ti prende di striscio e ti lascia addosso una
+            scia fredda.
           effetti: { ferite: 0.5, contaminazione: 1 }
       - testo: "Reggere il colpo e camminare"
         descrizione: "Il colpo arriva comunque. Con le gambe salde e la testa bassa, si cammina anche sotto."
@@ -603,7 +828,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 4, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 8, profondita.torre-anello-4 <= 11]
     testo: |
       In una nicchia della scala il metallo delle pareti torna pietra, e il battito arriva lento e lontano,
       come quello di qualcuno che dorme nella stanza accanto. Fra il metallo e la pietra non c'è una crepa né
@@ -658,7 +883,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 3, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
     testo: |
       In mezzo al piano c'è un leggio alto quanto un uomo, e sul leggio un libro di metallo aperto, con le
       pagine sottili come foglie di stagno. Il leggio è fuso in un pezzo solo con il pavimento, e il piano
@@ -743,7 +968,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 3, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
     testo: |
       Le pareti del piano sono coperte di specchi di vetro nero, accostati bordo contro bordo senza cornice, e
       in ogni specchio ci sei tu. Il riflesso però è quello della prima volta che hai messo piede sulla scala
@@ -768,8 +993,8 @@ storylet:
         fallimento:
           titolo: La voglia di tornare
           testo: |
-            Il riflesso ti fa venire voglia di risalire tutto e tornare com'eri, e resti davanti allo specchio finché la voglia
-            non passa. Passa lentamente.
+            Il riflesso ti fa venire voglia di risalire tutto e tornare com'eri, e resti davanti allo specchio
+            finché la voglia non passa. Passa lentamente.
           effetti: { tormento: 1.5 }
       - testo: "Rompere gli specchi"
         descrizione: "Vetro nero, sottile. Si rompe, e i pezzi tagliano."
@@ -823,7 +1048,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 3, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
     testo: |
       Qui la scala attraversa la canna su un ponte di metallo grigio senza parapetto, largo appena quanto
       servono i piedi messi uno davanti all'altro. Dove il ponte si attacca alla parete non c'è un chiodo né
@@ -838,14 +1063,15 @@ storylet:
         successo:
           titolo: Fra due folate
           testo: |
-            Attraversi il ponte a scatti, fermandoti piegat{o|a} sulle ginocchia a ogni folata e ripartendo appena passa. Arrivi
-            dall'altra parte con la polvere negli occhi.
+            Attraversi il ponte a scatti, fermandoti piegat{o|a} sulle ginocchia a ogni folata e ripartendo
+            appena passa. Arrivi dall'altra parte con la polvere negli occhi.
           pe: { atletica: 3 }
           effetti: { profondita.torre-anello-4: 1 }
         fallimento:
           titolo: La folata
           testo: |
-            Una folata ti prende in piedi e ti spinge fuori dal ponte, e ti salvi aggrappandoti al bordo con le dita.
+            Una folata ti prende in piedi e ti spinge fuori dal ponte, e ti salvi aggrappandoti al bordo con
+            le dita.
           effetti: { ferite: 1, tormento: 0.5 }
       - testo: "Attraversare sdraiat{o|a} sul ponte"
         descrizione: "Pancia a terra, la folata passa sopra. È lento, e il metallo vibra sotto la faccia."
@@ -861,7 +1087,8 @@ storylet:
         fallimento:
           titolo: Il ponte che vibra
           testo: |
-            A metà il ponte vibra così forte che le mani si staccano dai bordi, e una folata ti fa scivolare indietro.
+            A metà il ponte vibra così forte che le mani si staccano dai bordi, e una folata ti fa scivolare
+            indietro.
           effetti: { ferite: 1 }
       - testo: "Aspettare che il battito rallenti e correre"
         descrizione: "Ogni tanto il battito rallenta. Allora le folate sono deboli, e il ponte si attraversa di corsa."
@@ -882,7 +1109,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 3, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
     testo: |
       Dalle pareti del piano partono catene grosse come tronchi, tese verso il fondo della canna, e a ogni
       battito si tendono di più e scricchiolano. Gli anelli sono dello stesso metallo grigio delle pareti e
@@ -900,14 +1127,15 @@ storylet:
         successo:
           titolo: Sotto il pendolo
           testo: |
-            Passi sotto la catena quando dondola lontano, e sei già sulla scala quando torna indietro e sbatte contro il
-            pianerottolo dove eri.
+            Passi sotto la catena quando dondola lontano, e sei già sulla scala quando torna indietro e sbatte
+            contro il pianerottolo dove eri.
           pe: { acrobazia: 3 }
           effetti: { profondita.torre-anello-4: 1 }
         fallimento:
           titolo: Il pendolo
           testo: |
-            La catena torna prima di quanto pensassi e ti prende sulla spalla, e ti butta contro una catena tesa.
+            La catena torna prima di quanto pensassi e ti prende sulla spalla, e ti butta contro una catena
+            tesa.
           effetti: { ferite: 1.5 }
       - testo: "Fermare la catena spezzata"
         descrizione: "Il pezzo che pende ha un gancio. Agganciato a una catena tesa, smette di dondolare."
@@ -940,7 +1168,8 @@ storylet:
         fallimento:
           titolo: La catena sbagliata
           testo: |
-            Scegli la catena sbagliata da cui stare lontano, e quella giusta ti frusta l'aria accanto all'orecchio.
+            Scegli la catena sbagliata da cui stare lontano, e quella giusta ti frusta l'aria accanto
+            all'orecchio.
           effetti: { tormento: 0.5, ferite: 0.5 }
       - testo: "Arrampicarsi sulle catene tese"
         descrizione: "Sulle catene tese, fino alla scala di sotto. Scricchiolano, e a ogni battito si tendono."
@@ -961,7 +1190,7 @@ storylet:
     luogo: Il campanile rovescio, il battito
     area: torre-anello-4
     ripetibile: true
-    requisiti: [profondita.torre-anello-4 >= 3, profondita.torre-anello-4 <= 5]
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
     testo: |
       Il varco verso la scala di sotto è stretto, tanto che una persona lo passa solo di fianco, e lo chiudono
       due sentinelle con la piastra del volto rivolta verso il basso, come in preghiera. Sono immobili. Sulle
@@ -977,14 +1206,15 @@ storylet:
         vittoria:
           titolo: Il varco libero
           testo: |
-            Le due sentinelle cadono una sull'altra nel varco, con le piastre spente, e le scavalchi per scendere.
+            Le due sentinelle cadono una sull'altra nel varco, con le piastre spente, e le scavalchi per
+            scendere.
           pe: { armi-da-mischia: 3 }
           effetti: { profondita.torre-anello-4: 1 }
         sconfitta:
           titolo: Fuori dal varco
           testo: |
-            Le lame delle sentinelle ti respingono fuori dal varco, e le due figure tornano in preghiera come se non fossi mai
-            arrivat{o|a}.
+            Le lame delle sentinelle ti respingono fuori dal varco, e le due figure tornano in preghiera come
+            se non fossi mai arrivat{o|a}.
       - testo: "Passare dal lato dell'incavo crepato"
         descrizione: "Da quella parte la sentinella vede peggio. Basta restare in quel lato, e piano."
         prova: { attributo: fisico, abilita: furtivita, difficolta: Molto difficile }
@@ -1007,8 +1237,8 @@ storylet:
         successo:
           titolo: Ferm{o|a} come pietra
           testo: |
-            Resti immobile davanti al varco finché le sentinelle non abbassano la piastra e tornano in preghiera. Passi fra loro
-            senza che alzino la testa.
+            Resti immobile davanti al varco finché le sentinelle non abbassano la piastra e tornano in
+            preghiera. Passi fra loro senza che alzino la testa.
           pe: { resilienza: 3 }
           effetti: { profondita.torre-anello-4: 1 }
         fallimento:
@@ -1026,3 +1256,200 @@ storylet:
             striscio sulle braccia. Sei sulla scala prima che si girino del tutto. I tagli sono così netti che
             cominciano a bruciare solo dieci gradini più sotto.
           effetti: { profondita.torre-anello-4: 1, ferite: 1 }
+
+  # ------------------------------------------------------------ le nicchie vuote
+  - id: torre-4-le-nicchie-vuote
+    immagine: icone/guarded-tower
+    titolo: Le nicchie vuote
+    sommario: "Le pareti del piano sono piene di nicchie vuote a forma di corpo. Dentro sono tiepide."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
+    testo: |
+      Le pareti del piano sono scavate in nicchie verticali, una accanto all'altra per tutto il giro, e ognuna
+      ha la forma di un corpo in piedi con le braccia lungo i fianchi. Hanno la sagoma alta e magra delle
+      sentinelle e sono rivestite dello stesso metallo grigio delle pareti. Dentro sono tiepide come un letto
+      appena lasciato. Ti dici che qui la Salvaguardia teneva le sue forme a riposo, e a ogni battito dalle
+      nicchie esce un soffio caldo.
+
+      In fondo al giro c'è la porta di sotto, che non ha maniglia ed è chiusa. L'ultima nicchia accanto alla
+      porta è più bassa delle altre, e la curva delle spalle è larga quanto le tue.
+
+      {tecnologia Difficile} Il fondo dell'ultima nicchia suona vuoto sotto le nocche come la porta, e dietro
+      c'è la stessa scala.
+    opzioni:
+      - testo: "Entrare nella nicchia della tua misura"
+        descrizione: "La nicchia più bassa è fatta per qualcuno della tua taglia. Bisogna entrarci e restarci finché non decide."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: La tua misura
+          testo: |
+            Entri nella nicchia e il metallo tiepido ti si chiude intorno alle spalle con la precisione di un
+            guanto. Per tre battiti resti ferm{o|a} con il viso contro la parete. Poi la parete davanti
+            ai tuoi occhi scorre di lato, e dall'altra parte c'è la scala di sotto.
+          pe: { resilienza: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La nicchia che stringe
+          testo: |
+            Il metallo ti stringe le spalle sempre di più, e ne esci a forza prima che si chiuda. Sulla pelle
+            ti restano i segni delle giunture.
+          effetti: { tormento: 1, ferite: 0.5 }
+      - testo: "Aprire la porta senza maniglia"
+        descrizione: "Una porta che si apre da sola ha un congegno da qualche parte. Bisogna trovarlo nello stipite."
+        prova: { attributo: mentale, abilita: tecnologia, difficolta: Difficile }
+        successo:
+          titolo: Il congegno
+          testo: |
+            Lungo lo stipite trovi una fila di fori minuscoli e ci passi la punta di un coltello uno dopo
+            l'altro, finché in uno qualcosa non scatta. La porta si apre di un palmo, abbastanza per passare
+            di fianco. Mentre passi, la nicchia più bassa alle tue spalle manda un soffio più caldo delle altre.
+          pe: { tecnologia: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Lo stipite
+          testo: |
+            Il congegno scatta mentre hai ancora la lama nel foro, e la porta ti chiude le dita contro lo
+            stipite.
+          effetti: { ferite: 1 }
+      - testo: "Forzare la porta a spallate"
+        descrizione: "Niente maniglia e niente congegni a vista. Il metallo cede a forza di spallate, un battito alla volta."
+        costo: 3
+        esito:
+          titolo: Le spallate
+          testo: |
+            Batti la spalla contro la porta a ogni battito, quando il metallo trema, e dopo molti colpi la
+            porta cede quanto basta per passare. La spalla ti fa male fino al gomito. Mentre ti infili nella
+            fessura le nicchie mandano il loro soffio tutte insieme, e l'ultima lo manda più a lungo.
+          effetti: { profondita.torre-anello-4: 1, ferite: 0.5, tormento: 0.5 }
+
+  # ------------------------------------------------------------ la serratura che prova
+  - id: torre-4-la-serratura-che-prova
+    immagine: icone/door-ring-handle
+    titolo: La serratura che prova
+    sommario: "Al centro di una porta tonda gira una ghiera con quattro incavi a forma di maschera. Uno è consumato dalle facce di chi ci ha provato."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
+    testo: |
+      La porta di questo piano è tonda e bassa come le porte fra un anello e l'altro, e al centro ha una
+      ghiera di metallo larga quanto un piatto da portata. Nella ghiera ci sono quattro incavi a forma di
+      maschera, e a ogni battito la ghiera gira da sola di un quarto. Tre incavi hanno il fondo opaco. Il
+      quarto ha la forma della tua Maschera ed è lucido e appena svasato, come la pietra di un lavatoio
+      consumata dai panni. Quando ci avvicini la faccia il metallo è caldo.
+
+      Sul fondo dell'incavo lucido il metallo ha preso l'impronta di un naso e di due zigomi, e non sono i
+      tuoi.
+
+      {magia Difficile} La ghiera è una serratura della Salvaguardia, sorella dei sigilli. Legge la Maschera
+      quando ci si appoggia, e intanto legge anche chi la porta.
+    opzioni:
+      - testo: "Appoggiare la faccia nell'incavo e lasciarsi leggere"
+        descrizione: "L'incavo lucido aspetta la tua Maschera. Bisogna restarci finché la ghiera non ha finito di leggere."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: La lettura
+          testo: |
+            Appoggi la faccia nell'incavo quando ti passa davanti, e il metallo ti prende la forma degli
+            zigomi. La ghiera si ferma e ti legge per molti battiti con un ronzio che ti arriva nei denti. Poi
+            scatta, e la porta si apre di un quarto di giro.
+          pe: { resilienza: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: La lettura interrotta
+          testo: |
+            La lettura dura troppo e ti stacchi prima della fine. La ghiera riprende a girare, e sulla guancia
+            ti resta un segno rosso a forma di bordo.
+          effetti: { tormento: 1 }
+      - testo: "Fermare la ghiera con le mani"
+        descrizione: "La ghiera gira di un quarto a ogni battito. Tenuta ferma con l'incavo giusto in alto, forse la porta si accontenta."
+        prova: { attributo: fisico, abilita: [atletica, tecnologia], difficolta: Difficile }
+        successo:
+          titolo: Un quarto di giro
+          testo: |
+            Afferri la ghiera per due incavi e la tieni ferma contro il battito, con l'incavo lucido in alto.
+            A ogni colpo il metallo ti tira le braccia. Al quinto battito la serratura scatta come se avesse
+            letto qualcuno, e la porta si apre.
+          pe: { atletica: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il polso storto
+          testo: |
+            La ghiera ti strappa le mani al battito successivo e ti torce un polso.
+          effetti: { ferite: 1 }
+      - testo: "Passare dal condotto di sfogo"
+        descrizione: "Accanto alla porta c'è un condotto basso da cui esce aria grigia. Ci si passa strisciando."
+        costo: 2
+        esito:
+          titolo: Il condotto di sfogo
+          testo: |
+            Strisci nel condotto accanto alla porta, nell'aria grigia che ne esce a ogni battito e che sa di
+            ferro bagnato. Il condotto è liscio e senza appigli, e scende in curva fino alla scala di sotto.
+            Quando ne esci hai la lingua grigia e le ginocchia sbucciate.
+          effetti: { profondita.torre-anello-4: 1, contaminazione: 1 }
+
+  # ------------------------------------------------------------ il pavimento di cristallo
+  - id: torre-4-il-pavimento-di-cristallo
+    immagine: icone/crystal-shine
+    titolo: Il pavimento di cristallo
+    sommario: "Il pavimento del piano è una lastra di cristallo spessa, e sotto si vede la canna che scende nella luce. Il cristallo è crepato da sotto."
+    luogo: Il campanile rovescio, il battito
+    area: torre-anello-4
+    ripetibile: true
+    requisiti: [profondita.torre-anello-4 >= 6, profondita.torre-anello-4 <= 11]
+    testo: |
+      Il pavimento di questo piano è una lastra di cristallo trasparente spessa quanto un braccio, incassata
+      in un telaio di travi grigie. Sotto la lastra la canna scende dritta, e i giri della scala si vedono uno
+      dopo l'altro nella luce azzurra, sempre più piccoli, finché non diventano un punto. A ogni battito la
+      lastra si inarca di un niente e manda un suono basso, come una botte che si assesta. Il telaio divide il
+      cristallo in spicchi, e le travi sono larghe appena quanto un piede.
+
+      Qua e là il cristallo ha delle crepe a stella. Ti chini su una per capire quanto è profonda, e ti accorgi
+      che il punto da cui partono i raggi è sulla faccia di sotto.
+    opzioni:
+      - testo: "Camminare sulle travi del telaio"
+        descrizione: "Le travi sono larghe quanto un piede e reggono di sicuro. Bisogna camminarci sopra senza guardare giù."
+        prova: { attributo: fisico, abilita: [acrobazia, atletica], difficolta: Difficile }
+        successo:
+          titolo: Sulle travi
+          testo: |
+            Cammini sulle travi grigie un piede davanti all'altro, con lo sguardo sulla porta e la luce che ti
+            sale dal basso intorno alle caviglie. A ogni battito la trave ti vibra sotto la suola. Arrivi alla
+            porta senza avere messo un piede sul cristallo.
+          pe: { acrobazia: 3 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il piede sul cristallo
+          testo: |
+            Un piede scivola dalla trave e batte sul cristallo, e lo scricchiolio che risponde dura tre
+            battiti. Lo stinco ha preso lo spigolo della trave.
+          effetti: { ferite: 0.5, tormento: 1 }
+      - testo: "Attraversare sul cristallo guardando giù"
+        descrizione: "Il cristallo è spesso un braccio e regge. Bisogna solo camminarci sopra con la canna sotto i piedi."
+        prova: { attributo: mentale, abilita: resilienza, difficolta: Molto difficile }
+        successo:
+          titolo: Sopra la canna
+          testo: |
+            Cammini dritt{o|a} sul cristallo e guardi giù, dove i giri della scala si stringono fino a un punto
+            di luce. A metà la lastra si inarca sotto di te, e tu fai il passo dopo. Contando i giri sotto i
+            tuoi piedi arrivi a nove, e il decimo è troppo piccolo per vederlo.
+          pe: { resilienza: 5 }
+          effetti: { profondita.torre-anello-4: 1 }
+        fallimento:
+          titolo: Il punto di luce
+          testo: |
+            A metà guardi troppo a lungo il punto di luce in fondo, e ti ritrovi in ginocchio sul cristallo
+            con le mani aperte e le gambe che non vogliono più andare avanti.
+          effetti: { tormento: 1.5 }
+      - testo: "Attraversare carponi sulle travi"
+        descrizione: "Mani e ginocchia sulle travi, con il cristallo sotto la pancia. Lento, e la canna resta sotto gli occhi."
+        costo: 3
+        esito:
+          titolo: Carponi sul telaio
+          testo: |
+            Attraversi il telaio carponi con le mani e le ginocchia sulle travi e il cristallo sotto la
+            pancia. Il battito ti arriva su per i polsi dalla trave. A metà piano passi sopra una crepa a
+            stella, e il cristallo sotto di te si inarca più del solito.
+          effetti: { profondita.torre-anello-4: 1, tormento: 1 }

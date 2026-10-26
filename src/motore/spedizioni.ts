@@ -43,7 +43,18 @@ export function stanzeVisibili(s: Stato, c: TContenuti): TStorylet[] {
 /** Il piano a cui sei, per le spedizioni che contano i piani (`piani`); altrimenti undefined. */
 export function piano(s: Stato, c: TContenuti): number | undefined {
   const a = areaAttuale(s, c);
-  return a?.spedizione?.piani === undefined ? undefined : a.spedizione.piani + profondita(s, a.id) + 1;
+  if (a?.spedizione?.piani === undefined) return undefined;
+  return a.spedizione.piani + Math.floor(profondita(s, a.id) / (a.spedizione.stanzePerPiano ?? 1)) + 1;
+}
+
+/**
+ * L'usura del campanile rovescio (docs/piano-torre.md): ogni Ferita sono 2 PF in meno all'inizio di uno scontro, ogni
+ * due punti di Tormento un dado in meno alla difesa mentale e ogni due di Contaminazione uno alla difesa fisica.
+ */
+export function usura(s: Stato, c: TContenuti): { pf: number; mentale: number; fisica: number } | undefined {
+  if (!areaAttuale(s, c)?.spedizione?.usura) return undefined;
+  const q = (k: string) => s.quality[k] ?? 0;
+  return { pf: Math.round(q('ferite') * 2), mentale: Math.floor(q('tormento') / 2), fisica: Math.floor(q('contaminazione') / 2) };
 }
 
 /** Cambia area; se si lascia una spedizione la sua profondità torna a zero. */

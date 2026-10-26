@@ -169,6 +169,31 @@ batte un superboss in due tentativi, il megaboss in tre o quattro; ogni sconfitt
       campanile finito, per chi torna a farmare PE e lyssan; `docs/storie.md` rigenerata. Il bilanciamento si è fatto
       anello per anello.
 
+## Più lunga e più difficile (26 ottobre 2026)
+
+Luca ha finito i 40 piani con Daeran il Rosso, un personaggio «pompato»: ci ha messo troppo poco e vinceva quasi sempre,
+anche contro il Lettore. Il motivo: la torre era tarata sul profilo «fine Campana» (Fisico 4, Armi da mischia 4), e con
+i dadi a pool basta un punto in più in Fisico e in Armi per passare dal 30 al 95% contro il Lettore. Deciso con Luca:
+
+- **Due stanze per piano.** Gli anelli hanno soglia 18 e `stanzePerPiano: 2` (l'intestazione mostra «Piano N» ogni due
+  stanze). Le fasce sono raddoppiate: profondità 0-5 (piani 1-3), 6-11 (4-6, il ristoro a 8-11), 12-17 (7-9), il cuore
+  a 18. Per non lasciare una porta sola a fine fascia ogni anello ha nove stanze nuove, tre per fascia (36 in tutto,
+  due combattimenti per anello con i nemici che c'erano). Una discesa completa sono circa 76 scene invece di 40.
+- **L'usura, solo nella torre** (`usura: true` sull'area, `usura()` in `src/motore/spedizioni.ts`): negli scontri ogni
+  Ferita sono 2 PF in meno, ogni due punti di Tormento un dado in meno alla difesa mentale e ogni due di Contaminazione
+  uno alla difesa fisica. I PF persi in uno scontro vinto restano come Ferite, una ogni due PF; quelli recuperati con
+  bende e tonici le tolgono. Così le fasi di un boss si combattono con i PF che restano, e la scorta (5 bende, 5 tonici,
+  5 unguenti) diventa la vera difficoltà. L'intestazione della spedizione dice quanto toglie l'usura.
+- **Il Lettore ti legge** (`legge` sul nemico): attacco dalla tua difesa, difesa dal tuo attacco, PF dai tuoi PF massimi
+  e, nel battito, magia dalla tua difesa mentale. Da solo vince circa il 50, 50 e 40% delle volte con chiunque, dal 4/4
+  al personaggio con tutto a 5. Contano solo danno, riduzione e Ultimo respiro.
+- **Gli altri nemici** ritarati sul profilo «torre» (Fisico 5, Armi da mischia 5, Acrobazia 3, il Battente e le piastre):
+  gregari fra il 60 e il 65%, ogni fase dei superboss fra il 45 e il 50% da sola. Con l'usura, arrivando con tre tonici,
+  tre bende e due Ferite, le due fasi di fila si vincono fra il 25 e il 35% (Tessitrice 34, Uditore 25, Colata 27; le due
+  fasi di combattimento del Lettore 25). Con la scorta piena e senza Ferite fra il 45 e il 65%.
+- **Effetto da sapere:** il profilo «fine Campana» (4/4) ora perde quasi ogni combattimento della torre fuori dal
+  Lettore. Le stanze hanno sempre prove e la via senza prova, ma i cuori chiedono un personaggio portato al massimo.
+
 ## Da decidere con Luca
 
 - I nomi dei tre superboss e del megaboss. Il set non dà bonus per i pezzi indossati insieme (Luca, 24 ottobre 2026).

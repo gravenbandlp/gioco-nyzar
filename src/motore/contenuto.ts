@@ -113,6 +113,10 @@ export const Area = z.object({
     rimescola: Id.optional(),
     // il piano prima della prima stanza: l'intestazione mostra «Piano N» (profondità più questo più uno)
     piani: z.number().int().min(0).optional(),
+    // quante stanze fanno un piano (il campanile rovescio: due, dal 26 ottobre 2026)
+    stanzePerPiano: z.number().int().min(1).default(1),
+    // l'usura del campanile rovescio: le negative pesano negli scontri e i PF persi restano (docs/piano-torre.md)
+    usura: z.boolean().default(false),
   }).optional(),
 });
 
@@ -161,6 +165,11 @@ export const Nemico = z.object({
   magia: z.number().int().min(0).default(0),
   energia: z.number().int().min(0).default(0),
   incantesimi: z.array(Id).default([]),
+  // chi ti legge (il Lettore del campanile rovescio): attacco e difesa partono dai tuoi dadi più questi valori, i PF
+  // sono i tuoi PF massimi per `pf`, così lo scontro resta difficile per chiunque. Le statistiche scritte sopra valgono
+  // solo come minimo
+  // (la magia, se c'è `magia`, dalla tua difesa mentale)
+  legge: z.object({ attacco: z.number().int(), difesa: z.number().int(), pf: z.number().positive(), magia: z.number().int().optional() }).optional(),
 });
 
 export const Scontro = z.object({
