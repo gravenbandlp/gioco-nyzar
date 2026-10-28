@@ -3,7 +3,7 @@
 import type { TContenuti, TStorylet, TFrammento, TLuogo, TNegozio } from '../motore/contenuto';
 import {
   ATTRIBUTI, ABILITA, NEGATIVE, MAX_NEGATIVA, RINTOCCHI_MAX, CODA_MAX, MANO_MAX, NOMI,
-  SOGLIE_PE,
+  SOGLIE_PE, ICONE_ABILITA, ETICHETTE_DIFFICOLTA,
 } from '../motore/regole';
 import {
   msAlProssimoRintocco, msAllaProssimaCarta, storyletDisponibili, requisitiSoddisfatti, requisitiMancanti, parseRequisito, scortaPiena, type Stato,
@@ -648,9 +648,15 @@ function vistaStorylet(x: Contesto, id: string): string {
     if (a.prova) {
       const attr = o.prova!.attributo;
       const liv = a.prova.pool - s.attributi[attr];
-      sfida = `<div class="sfida">
-        <span class="icona-sfida" aria-hidden="true">${dado(Math.max(1, Math.min(6, a.prova.richiesti + 2)))}</span>
-        <div><p><b>Prova ${h(a.prova.difficolta.toLowerCase())}.</b> ${h(NOMI[attr]!)} ${s.attributi[attr]} e ${h(NOMI[a.prova.abilita] ?? a.prova.abilita)} ${liv}: ${a.prova.pool} dadi, ${a.prova.richiesti === 1 ? 'serve 1 successo' : `servono ${a.prova.richiesti} successi`}.</p>
+      // la prova come una tessera: l'icona dell'abilità messa alla prova e la difficoltà a tacche (sei gradi)
+      const iconaAbilita = ICONE_ABILITA[a.prova.abilita];
+      const grado = ETICHETTE_DIFFICOLTA.indexOf(a.prova.difficolta as (typeof ETICHETTE_DIFFICOLTA)[number]) + 1;
+      const tacche = grado > 0
+        ? `<span class="tacche-prova" aria-hidden="true">${ETICHETTE_DIFFICOLTA.map((_, k) => `<i${k < grado ? ' class="piena"' : ''}></i>`).join('')}</span>`
+        : '';
+      sfida = `<div class="sfida prova">
+        <span class="icona-sfida" aria-hidden="true">${iconaAbilita ? tavola(`icone/${iconaAbilita}`, { classe: 'icona' }) : dado(Math.max(1, Math.min(6, a.prova.richiesti + 2)))}</span>
+        <div><p class="testa-prova"><b>Prova ${h(a.prova.difficolta.toLowerCase())}</b>${tacche}</p><p>${h(NOMI[attr]!)} ${s.attributi[attr]} e ${h(NOMI[a.prova.abilita] ?? a.prova.abilita)} ${liv}: ${a.prova.pool} dadi, ${a.prova.richiesti === 1 ? 'serve 1 successo' : `servono ${a.prova.richiesti} successi`}.</p>
         <p class="probabilita">${percentuale(a.prova.probabilita)} di riuscita</p></div>
       </div>`;
     }

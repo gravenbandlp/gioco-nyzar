@@ -27,6 +27,16 @@ export const NOMI: Record<string, string> = {
   rintocchi: 'Rintocchi',
 };
 
+/** L'icona di ogni abilità (game-icons.net, CC BY 3.0), mostrata sulle prove delle scelte. */
+export const ICONE_ABILITA: Record<string, string> = {
+  rissa: 'punch', 'armi-da-mischia': 'crossed-swords', 'armi-da-distanza': 'high-shot', resistenza: 'muscle-up',
+  atletica: 'run', acrobazia: 'acrobatic', furtivita: 'cloak-dagger', cavalcare: 'horse-head',
+  'conoscenze-della-strada': 'street-light', galateo: 'wine-glass', persuasione: 'conversation', intimidire: 'shouting',
+  ingannare: 'domino-mask', empatia: 'shaking-hands', espressivita: 'lyre', 'addestrare-animali': 'sitting-dog',
+  accademiche: 'bookshelf', percezione: 'magnifying-glass', 'politica-ed-economia': 'scales', tecnologia: 'gears',
+  magia: 'magic-swirl', medicina: 'medical-pack', natura: 'oak-leaf', resilienza: 'meditation',
+};
+
 export const MAX_GIOCATORE = 5;
 
 // Prove: successi richiesti per etichetta (4.)

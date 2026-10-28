@@ -7,7 +7,7 @@ import { join, relative } from 'node:path';
 import { createRequire } from 'node:module';
 import { parse } from 'yaml';
 import { Contenuti, COSTI_PROPRIETA, DIFETTI, OVUNQUE, type TContenuti } from '../src/motore/contenuto';
-import { ATTRIBUTI, TUTTE_LE_ABILITA } from '../src/motore/regole';
+import { ATTRIBUTI, TUTTE_LE_ABILITA, ICONE_ABILITA } from '../src/motore/regole';
 import { parseRequisito } from '../src/motore/personaggio';
 import { erroriVoci } from '../src/motore/voci';
 import { erroriGenere } from '../src/motore/genere';
@@ -30,6 +30,8 @@ export const ICONE_INTERFACCIA = [
   'icone/scroll-quill', 'icone/stairs',
   // la barra di navigazione in basso, sul telefono (src/ui/viste.ts, VOCI_NAV)
   'icone/open-book', 'icone/cowled', 'icone/knapsack', 'icone/shop', 'icone/treasure-map', 'icone/hamburger-menu', 'icone/scroll-unfurled',
+  // le abilità sulle prove delle scelte (src/ui/viste.ts, vistaStorylet)
+  ...Object.values(ICONE_ABILITA).map((n) => `icone/${n}`),
 ];
 export function iconeCitate(c: TContenuti): { icone: Record<string, string>; errori: string[] } {
   const icone: Record<string, string> = {}; const errori: string[] = [];

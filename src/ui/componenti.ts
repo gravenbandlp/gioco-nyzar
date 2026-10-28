@@ -159,15 +159,15 @@ export function pallini(v: number, max = 5): string {
 
 export function barraPE(s: Stato, chiave: string): string {
   const { pe, soglia } = progressoPE(s, chiave);
-  if (!soglia) return '<span class="barra pe piena" title="Livello massimo"><i style="width:100%"></i></span>';
+  if (!soglia) return '<span class="barra pe piena" title="Livello massimo"><i style="transform:scaleX(1)"></i></span>';
   const q = Math.min(1, pe / soglia);
-  return `<span class="barra pe" title="${mezzi(Math.round(pe * 4) / 4)} / ${soglia} PE verso il livello successivo"><i style="width:${(q * 100).toFixed(1)}%"></i></span>`;
+  return `<span class="barra pe" title="${mezzi(Math.round(pe * 4) / 4)} / ${soglia} PE verso il livello successivo"><i style="transform:scaleX(${q.toFixed(3)})"></i></span>`;
 }
 
 /** Barra di una statistica negativa (0–8). Oltre la soglia di pericolo diventa rossa. */
 export function barraNegativa(v: number): string {
   const cls = v >= MAX_NEGATIVA ? ' crisi' : v >= SOGLIA_PERICOLO ? ' pericolo' : '';
-  return `<span class="barra neg${cls}"><i style="width:${((v / MAX_NEGATIVA) * 100).toFixed(1)}%"></i></span>`;
+  return `<span class="barra neg${cls}"><i style="transform:scaleX(${Math.min(1, v / MAX_NEGATIVA).toFixed(3)})"></i></span>`;
 }
 
 /** Barra "da → a" degli esiti, come in Fallen London: il tratto guadagnato è evidenziato. */
